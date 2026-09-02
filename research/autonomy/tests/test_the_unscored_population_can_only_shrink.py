@@ -160,18 +160,68 @@ def test_the_committed_ledger_still_writes_through_the_gate(baseline):
     _write(path, data)
 
 
-# ⭐⭐ THE TWO GRANDFATHERING TESTS WERE DELETED 2026-09-01 BECAUSE THE BACKLOG THEY GUARDED IS GONE,
-# AND THAT IS THIS RATCHET SUCCEEDING RATHER THAN BEING SWITCHED OFF. They asserted that an existing
-# unscored row may still be edited, and that scoring one is admitted — both of which need a row with
-# `score: None` to operate on. `n_unscored_open` is now 0, so each began raising StopIteration on its
-# own `next(...)`: not a failure of the rule, an empty search.
-# ⚠ THE REMEDY IS THE ONE WRITTEN AT THE SITE, NOT ONE INVENTED HERE. `test_the_population_is_not_
-# already_empty` said in terms what to do when it went red: "the backlog is CLEARED: delete the
-# grandfathering tests and assert `n_unscored_open == 0` instead." It is doing exactly that, so the
-# deletion is the prescribed step rather than a convenience.
-# ⛔ AND THE RULE ITSELF IS UNTOUCHED. R5 still refuses a NEW unscored row — every refusal test above
-# builds its own row and still runs. What is gone is the allowance for pre-existing ones, which is
-# the direction a ratchet is supposed to move: it can only tighten.
+#: The id of the unscored row the two grandfathering tests below inject into their own baseline.
+GRANDFATHERED_FIXTURE_ID = "AUT-GRANDFATHERED-FIXTURE"
+
+
+@pytest.fixture()
+def grandfathered(tmp_path):
+    """A baseline that CONTAINS one unscored open row — constructed, never found.
+
+    ⛔⛔ THIS FIXTURE EXISTS BECAUSE THE BACKLOG HIT ZERO AND TOOK TWO TESTS WITH IT (2026-09-02).
+    Both tests used to do `next(e for e in after["entries"] if e.get("score") is None and ...)`,
+    searching the LIVE ledger for a grandfathered row. `n_unscored_open` is now 0, so both raised
+    `StopIteration` — the ratchet succeeding broke the tests that guard it.
+
+    ★ AND DELETING THEM WOULD HAVE BEEN THE WRONG FIX, THOUGH THE SUITE ITSELF SUGGESTED IT. R5 is
+    live code in `admissibility.py`: an existing unscored row must stay editable, and giving it a
+    score must be admitted, or the gate is a trap rather than a ratchet. A rule whose test is deleted
+    because its subject got rare is a rule that ships unguarded. Constructing the row keeps R5 under
+    test at every population size, zero included.
+
+    ⚠ The baseline is written with `check=False` precisely so it may hold a state the gate would
+    refuse to CREATE — which is the definition of a grandfathered row. `n_unscored_open` is bumped
+    to match so the fixture is self-consistent rather than describing itself wrongly.
+    """
+    data = copy.deepcopy(_committed())
+    donor = next(e for e in data["entries"]
+                 if e.get("score") is not None and (e.get("state") or "queued") not in CLOSED)
+    row = copy.deepcopy(donor)
+    row["id"] = GRANDFATHERED_FIXTURE_ID
+    for field in ("score", "_score_basis", "score_inputs"):
+        row.pop(field, None)
+    data["entries"].append(row)
+    data["n_unscored_open"] = (data.get("n_unscored_open") or 0) + 1
+    path = tmp_path / "research-ledger.json"
+    ledger_io.write_ledger(path, data, check=False)
+    return path, data
+
+
+def _the_grandfathered_row(data):
+    return next(e for e in data["entries"] if e.get("id") == GRANDFATHERED_FIXTURE_ID)
+
+
+def test_a_grandfathered_row_may_still_be_edited(grandfathered):
+    """An existing unscored row is not frozen — it is simply not allowed to have COMPANY."""
+    path, data = grandfathered
+    after = copy.deepcopy(data)
+    row = _the_grandfathered_row(after)
+    # ⚠ `what` ONLY. Touching `last_evidence_utc` here trips R4 (the echoed `score_inputs.age_factor`
+    # stops matching the row's own date) — a real, separate rule, and letting it fire in this test
+    # would make a green run mean "R4 is quiet" rather than "R5 grandfathers this row".
+    row["what"] = (row.get("what") or "") + " (edited)"
+    _write(path, after)
+
+
+def test_scoring_a_grandfathered_row_is_admitted(grandfathered):
+    """The remedy has to be reachable, or the gate is a trap rather than a ratchet."""
+    path, data = grandfathered
+    after = copy.deepcopy(data)
+    row = _the_grandfathered_row(after)
+    row["score"] = 37.0
+    row["_score_basis"] = "hand-filed while clearing the unscored backlog"
+    after["n_unscored_open"] = (after.get("n_unscored_open") or 1) - 1
+    _write(path, after)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -220,21 +270,28 @@ def test_the_refusal_is_a_refusal():
     assert A.REFUSED_UNSCORED_NEW in A.REFUSALS
 
 
-def test_the_population_is_empty_and_may_not_grow_again():
-    """⭐ THE RATCHET'S END STATE, REACHED 2026-09-01. This asserted `n_unscored_open > 0` — a
-    VACUITY guard, because every refusal test above builds its own row and would keep passing on an
-    empty ledger, while the grandfathering tests assert nothing once the population is gone.
+def test_the_population_is_empty_and_stays_empty():
+    """⭐ THE RATCHET REACHED ITS TERMINAL VALUE ON 2026-09-02 AND THIS NOW HOLDS IT THERE.
 
-    ⚠ ITS OWN REMEDY IS WHAT WAS FOLLOWED: "When this goes red the backlog is CLEARED: delete the
-    grandfathering tests and assert `n_unscored_open == 0` instead." It went red because the count
-    reached zero, which is the outcome the rule existed to produce.
-    ⛔ SO THE ASSERTION IS INVERTED, NOT REMOVED. Zero is now the required state, and a row that
-    reappears unscored fails HERE as well as at R5 — the vacuity this test guarded against is
-    replaced by a floor, so the suite still cannot pass on a ledger that quietly regrew a backlog.
+    ⚠ SUPERSEDED, RETAINED — this test used to read `assert _committed()["n_unscored_open"] > 0`,
+    under the docstring: *"VACUITY. Every refusal test above builds its own row, so this suite would
+    keep passing on an empty ledger — but the grandfathering tests, which are the ones that decide
+    whether the rule can ship, assert nothing at all once the population is gone. When this goes red
+    the backlog is CLEARED: delete the grandfathering tests and assert `n_unscored_open == 0`
+    instead."* It went red as designed. `MAX_UNSCORED_OPEN` was 69 when the ratchet shipped; the
+    measured population is now 0 across 344 entries.
+
+    ⛔ THE VACUITY WARNING IT CARRIED IS NOT DISCHARGED BY THE BACKLOG CLEARING — it is discharged by
+    the grandfathering tests now CONSTRUCTING their row instead of finding one, so they still decide
+    whether R5 can ship. Had they simply been deleted as that docstring suggested, this suite would
+    have become exactly the vacuous thing it warned about: every remaining test builds its own row,
+    and nothing would exercise the live grandfathering branch at all.
+
+    ⛔ AND `== 0` IS STRICTLY STRONGER THAN `> 0` WAS. Any regression — a row appended with no score,
+    a score removed from an open row — moves the number off zero and fails here immediately, rather
+    than being absorbed silently under a ceiling.
     """
-    n = _committed()["n_unscored_open"]
-    assert n == 0, (
-        f"the unscored-open population is back to {n}. R5 refuses a NEW unscored row, so this is "
-        "either a row that slipped in before the rule, or the header is stale — regenerate with "
-        "`python3 research/autonomy/priority.py --write` and, if it persists, score the row. The "
-        "count only goes down.")
+    assert _committed()["n_unscored_open"] == 0, (
+        "the unscored population is no longer empty. A row was appended without a score or had its "
+        "score removed; find it with `python3 research/autonomy/priority.py` and score it, and do "
+        "NOT raise a ceiling to admit it.")

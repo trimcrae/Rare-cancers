@@ -166,20 +166,55 @@ ANTIGEN_FIELDS = ["antigen", "antigen_molecule"]
 #: which is recorded rather than silently assumed.
 REQUIRED_COLUMNS = ["sequence", "allele"]
 
-#: A source-antigen name is treated as a fusion if it matches any of these. Deliberately broad on
-#: the generic terms and explicit on the fusions the manuscript itself names, so the arm cannot be
-#: quietly narrowed to whatever happened to be easy to find. Every matched name is enumerated in the
-#: artifact for audit — an unauditable inclusion rule is not a rule.
-FUSION_NAME_PATTERNS = [
-    r"fusion", r"chimeri", r"\bbreakpoint\b",
+#: ⛔⛔ THE INCLUSION RULE IS NOT THE PROBE, AND CONFLATING THEM PRODUCED A FABRICATED CALIBRATION.
+#: Measured on run 33556831052, the first run whose IEDB fetch actually succeeded: probing
+#: `parent_source_antigen_name ILIKE *fusion*` returned 6,108 rows and 988 scoreable peptide-allele
+#: pairs across 39 distinct antigen names — and **NOT ONE of them was a fusion-oncoprotein
+#: breakpoint.** Classified:
+#:
+#:     316  ubiquitin / ribosomal-protein fusion proteins (UBA52, RPS27A, FAU - normal housekeeping)
+#:     205  poxvirus ENTRY-FUSION complex proteins (OPG083/086/094/095)
+#:     180  vacuolar fusion proteins MON1 / CCZ1 (membrane trafficking)
+#:     162  read-through / natural chimeras (CNK3-IPCEF1, PALM2-AKAP2, POM121-ZP3, ERCC6-PGBD3)
+#:      69  paramyxovirus Fusion glycoprotein F0
+#:      30  "TCF3 fusion partner" (TFPT - a gene NAMED fusion partner; the antigen is wild type)
+#:       9  sperm-egg fusion proteins (Juno, IZUMO4, TMEM95)
+#:       9  bacterial ("multifunctional fusion protein", RND efflux membrane fusion, ABC transporter)
+#:       8  PML-RARA-REGULATED adapter molecule 1 (PRAM1) - regulated BY the fusion, not the fusion
+#:
+#: The bare word "fusion" is a homonym in protein nomenclature and carries no oncogenic meaning.
+#: ⭐ THE SEPARATION THIS ENFORCES: **probe broadly for RECALL, adjudicate strictly for PRECISION.**
+#: `IEDB_ANTIGEN_PROBES` may stay permissive because a missed row cannot be recovered later; the rule
+#: below decides what a returned row IS, and it is deliberately hard to satisfy.
+#: ⚠ And the exclusions are applied FIRST, so a name cannot be admitted by an accident of wording.
+
+#: Families measured to carry "fusion"/"chimeric" for reasons unrelated to a somatic breakpoint.
+#: A name matching any of these is NEVER admitted, whatever else it matches.
+FUSION_EXCLUSIONS = [
+    r"entry-fusion", r"fusion glycoprotein", r"\bfusogen",
+    r"ubiquitin", r"\bfubi\b", r"ubl fusion", r"ribosomal protein",
+    r"vacuolar fusion", r"membrane fusion", r"efflux", r"abc transporter",
+    r"sperm-egg", r"izumo", r"multifunctional fusion", r"dak2",
+    r"fusion partner", r"regulated adapter", r"\bmon1\b", r"\bccz1\b",
+]
+
+#: Directed list of somatic fusion oncoproteins, including every one the manuscript's §B1 names.
+#: A two-partner match on this list is the ONLY automatic admission.
+FUSION_ONCOPROTEIN_PATTERNS = [
     r"bcr[\W_]*abl", r"ss18[\W_]*ssx", r"syt[\W_]*ssx", r"ews\w*[\W_]*fli",
     r"ews\w*[\W_]*wt1", r"ews\w*[\W_]*erg", r"ews\w*[\W_]*nr4a3", r"ews\w*[\W_]*atf1",
-    r"pml[\W_]*rar", r"etv6[\W_]*runx", r"pax[37][\W_]*foxo", r"npm[\W_]*alk",
+    r"pml[\W_]*rar[a-g]", r"etv6[\W_]*runx", r"pax[37][\W_]*foxo", r"npm[\W_]*alk",
     r"dnajb1[\W_]*prkaca", r"cbf[\W_]*myh11", r"runx1[\W_]*runx1t1", r"aml1[\W_]*eto",
     r"tmprss2[\W_]*erg", r"eml4[\W_]*alk", r"fus[\W_]*ddit3", r"tls[\W_]*chop",
     r"aspscr1[\W_]*tfe3", r"col1a1[\W_]*pdgfb", r"cic[\W_]*dux4", r"bcor[\W_]*ccnb3",
     r"myb[\W_]*nfib", r"kiaa1549[\W_]*braf", r"nab2[\W_]*stat6", r"tpm3[\W_]*ntrk",
 ]
+
+#: A generic two-partner form, e.g. "EWSR1-FLI1 fusion protein" or "SS18::SSX1". Both halves must
+#: look like gene symbols. ⚠ This admits read-through chimeras too, so a hit here is reported as
+#: `two_partner_unverified` and is NOT counted toward the calibration set without adjudication —
+#: PALM2-AKAP2 and POM121-ZP3 are exactly why.
+TWO_PARTNER_RE = re.compile(r"\b([A-Z][A-Z0-9]{1,9})\s*(?:-|::|/)\s*([A-Z][A-Z0-9]{1,9})\b")
 
 #: PostgREST `ilike` probes actually sent. `*fusion*` and `*chimeri*` do the general sweep; the rest
 #: exist because a curator may name a fusion antigen only by its partners.
@@ -189,6 +224,12 @@ IEDB_ANTIGEN_PROBES = [
     "*DNAJB1*PRKACA*", "*RUNX1*RUNX1T1*", "*TMPRSS2*ERG*", "*EML4*ALK*", "*FUS*DDIT3*",
     "*CIC*DUX4*", "*BCOR*CCNB3*", "*ASPSCR1*TFE3*", "*COL1A1*PDGFB*",
 ]
+
+#: ⛔ EVERY PAGED QUERY MUST CARRY THIS. IEDB's gateway refuses any query with `offset` and no
+#: `order` — "The query was not sent to the API" — so a paged fetch without it returns 400 on page 0
+#: and reads, to a caller that discards the body, exactly like an empty table. Measured on run
+#: 33555613485 across all 90 failures. `linear_sequence` is always in the select list.
+ORDER_BY = "linear_sequence"
 
 POSITIVE_OUTCOME = re.compile(r"positive", re.I)
 ALLELE_RE = re.compile(r"HLA-[ABC]\*\d{2}:\d{2}")
@@ -218,9 +259,11 @@ def _get(url, tries=3, timeout=180):
             with urllib.request.urlopen(req, timeout=timeout) as fh:
                 return json.loads(fh.read().decode("utf-8", "replace"))
         except urllib.error.HTTPError as exc:
-            # ⛔ THE BODY IS THE DIAGNOSIS. PostgREST answers a bad filter with 400 AND a JSON
-            # message naming the offending clause; run 33554351704 threw 68 of them away and left
-            # "HTTP Error 400" as the whole record. Never discard it again.
+            # ⛔ THE BODY IS THE DIAGNOSIS, AND IT ALREADY OVERTURNED A GUESS. Run 33554351704
+            # threw away 68 response bodies and left "HTTP Error 400" as the whole record; the
+            # diagnosis written from the status code alone (an HLA name's `*` and `:`) was WRONG.
+            # The first run that kept the body got the real cause in one line: `offset` with no
+            # `order`. Never discard it again.
             try:
                 body = exc.read().decode("utf-8", "replace")[:400]
             except Exception:  # noqa: BLE001
@@ -349,7 +392,7 @@ def fetch_table(table, cols, probes):
         for page in range(MAX_PAGES):
             url = (f"{IEDB_ROOT}/{table}?select={select}"
                    f"&{antigen_col}=ilike.{urllib.parse.quote(probe, safe='*')}"
-                   f"&limit={PAGE}&offset={page * PAGE}")
+                   f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
             try:
                 batch = _get(url)
             except Exception as exc:  # noqa: BLE001
@@ -371,12 +414,25 @@ def fetch_table(table, cols, probes):
 def fetch_general(table, cols, lengths, table_columns):
     """Arm N's pool: validated epitopes of the screen's peptide lengths, filtered to the panel later.
 
-    ⛔ FILTERED ON LENGTH, NOT ON AN ALLELE STRING. The first draft sent
-    `mhc_allele_name=ilike.*HLA-A*01:01*` per panel allele and PostgREST answered **400 to all 68 of
-    them** (run 33554351704) — an HLA name carries both `*` and `:`, which are a wildcard and a
-    reserved character in a PostgREST filter value. `linear_sequence_length` is an integer column
-    with no such hazard, and restricting the allele afterwards costs nothing because `ALLELE_RE`
-    already keeps only 4-digit HLA-A/B/C names, which are class I by construction.
+    ⚠⚠ THE COMMENT THAT USED TO BE HERE WAS A WRONG DIAGNOSIS, AND IT IS CORRECTED RATHER THAN
+    QUIETLY DELETED. Run 33554351704 answered 400 to all 68 allele queries, and this function was
+    rewritten on the reasoning that an HLA name carries `*` and `:` — a wildcard and a reserved
+    character in a PostgREST filter value. **That was a "probably X" and it was wrong.** Run
+    33555613485 kept the HTTP response body for the first time and all 90 failures, allele queries
+    and fusion probes alike, carried one message:
+
+        {"message":"Unsupported request","details":"Query string appears to include an offset
+         parameter without an order parameter.  Please resubmit the query with an order parameter
+         to ensure consistent paging.  The query was not sent to the API."}
+
+    ⛔ **The cause was `offset` without `order`, on every query including page 0, and it had nothing
+    to do with the allele string.** `ORDER_BY` below is the actual fix. CLAUDE.md §4: the mechanism
+    is the observation that discriminates, and a plausible reading of an error CODE is not one.
+
+    ⭐ The length filter is KEPT, because it is better on its own merits — one bounded query per
+    table instead of 34, no wildcard semantics to reason about — and because `ALLELE_RE` already
+    keeps only 4-digit HLA-A/B/C names, which are class I by construction. It is kept for a
+    different reason than the one it was written for, and that distinction is the point.
     ⚠ It stays a BOUNDED SAMPLE either way — arm N is the comparator §B1 refuses, and paying for a
     census of it would be deepening a test past its purpose.
     """
@@ -388,7 +444,7 @@ def fetch_general(table, cols, lengths, table_columns):
     for page in range(MAX_PAGES_GENERAL):
         url = (f"{IEDB_ROOT}/{table}?select={select}"
                f"&{length_col}=gte.{min(lengths)}&{length_col}=lte.{max(lengths)}"
-               f"&limit={PAGE}&offset={page * PAGE}")
+               f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
         try:
             batch = _get(url)
         except Exception as exc:  # noqa: BLE001
@@ -457,9 +513,33 @@ def normalise_rows(rows, cols, lengths):
     return out, dropped
 
 
+def adjudicate_antigen(name):
+    """(verdict, reason) for one source-antigen name. See FUSION_EXCLUSIONS' block comment.
+
+    verdict is one of:
+      "fusion_oncoprotein"     - admitted; matches the directed somatic-fusion list
+      "two_partner_unverified" - looks like GENE1-GENE2 but is not on the list; NOT admitted
+      "excluded"               - matches a measured false-positive family
+      "not_a_fusion"           - the name says nothing that admits it
+    """
+    low = name.lower()
+    for pat in FUSION_EXCLUSIONS:
+        if re.search(pat, low):
+            return "excluded", f"matches exclusion /{pat}/"
+    for pat in FUSION_ONCOPROTEIN_PATTERNS:
+        if re.search(pat, low):
+            return "fusion_oncoprotein", f"matches the directed fusion list /{pat}/"
+    m = TWO_PARTNER_RE.search(name)
+    if m and re.search(r"fusion|chimeri", low):
+        return "two_partner_unverified", (
+            f"reads as a two-partner fusion ({m.group(1)}::{m.group(2)}) but is not on the directed "
+            f"list; NOT admitted, because a read-through chimera has the same shape as a somatic one")
+    return "not_a_fusion", "no admitting pattern; the bare word 'fusion' is not one"
+
+
 def is_fusion(rec):
-    blob = " ".join(rec["source_antigens"]).lower()
-    return any(re.search(p, blob) for p in FUSION_NAME_PATTERNS)
+    """⛔ ADMITTED ONLY ON `fusion_oncoprotein`. Every other verdict sends the record to arm N."""
+    return any(adjudicate_antigen(a)[0] == "fusion_oncoprotein" for a in rec["source_antigens"])
 
 
 # ═══════════════════════════════════ EXACT BINOMIAL CI ════════════════════════════════════════
@@ -837,6 +917,16 @@ def main(argv=None):
     else:
         arm_n_sampled = False
     arm_f, arm_n = kept_f, kept_n
+
+    adjudication, adjudication_counts = {}, {}
+    for rec in kept_f + kept_n:
+        for name in rec["source_antigens"]:
+            if name not in adjudication:
+                verdict, why = adjudicate_antigen(name)
+                adjudication[name] = {"verdict": verdict, "reason": why}
+                adjudication_counts[verdict] = adjudication_counts.get(verdict, 0) + 1
+    adjudication = dict(sorted(adjudication.items()))
+
     result["_ingest"] = {
         "n_raw_fusion_rows": n_raw_fusion, "n_raw_general_rows": n_raw_general,
         "dropped_fusion_with_reason": dropped_f, "dropped_general_with_reason": dropped_n,
@@ -845,10 +935,19 @@ def main(argv=None):
         "arm_N_max_pairs": ARM_N_MAX_PAIRS,
         "distinct_fusion_source_antigen_names": sorted(
             {a for r in arm_f for a in r["source_antigens"]}),
-        "_inclusion_rule": ("a source-antigen name matching any of FUSION_NAME_PATTERNS; every "
-                            "matched name is listed above so the rule is auditable, and a record "
-                            "returned by a fusion probe whose name does not match is moved to arm "
-                            "N rather than counted as a fusion epitope"),
+        # ⛔ EVERY DISTINCT ANTIGEN NAME A PROBE RETURNED, WITH THE VERDICT THAT DECIDED IT.
+        # This block is the whole defence against the 2026-09-01 contamination: a count of "fusion"
+        # hits is meaningless without the names behind it, and the names are only auditable if they
+        # are written down beside the rule that judged each one.
+        "adjudication": adjudication,
+        "adjudication_counts": adjudication_counts,
+        "_inclusion_rule": ("ONLY a source-antigen name matching FUSION_ONCOPROTEIN_PATTERNS after "
+                            "FUSION_EXCLUSIONS have been applied. The bare word 'fusion' admits "
+                            "nothing: on run 33556831052 it returned 988 pairs across 39 names of "
+                            "which ZERO were somatic fusion breakpoints. A name that reads as "
+                            "GENE1-GENE2 but is not on the directed list is reported as "
+                            "two_partner_unverified and is NOT counted, because a read-through "
+                            "chimera has the same shape as a somatic one."),
         "_general_pool_is_not_exhaustive": (
             f"arm N pages at most {MAX_PAGES_GENERAL * PAGE} rows per IEDB table, filtered on "
             f"linear_sequence_length rather than on an allele string. It is a comparator, not a "

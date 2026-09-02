@@ -1,0 +1,133 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-BIOMARKER-DEP",
+ "document": "research/manuscripts/dependency/emc-biomarker-selected-classes.md",
+ "reviewed_commit": "20d33f3478fa34940552d26ea8ae05cdd7a23ad2",
+ "blind": true,
+ "seat": "citations-and-instruments",
+ "lens": "Every PMID fetched and matched against the sentence citing it, and every quoted number traced back to the script and artifact that produced it, asking what the code actually does and which decision rules it applies that the paper never states.",
+ "utc": "2026-09-01T00:00:00Z",
+ "what_i_read": [
+  "research/manuscripts/dependency/emc-biomarker-selected-classes.md",
+  "research/modalities/emc-expression-panels.json (13.2 MB, gene_reads + panels)",
+  "research/modalities/census-route-expression-grading.json",
+  "research/modalities/census_route_expression_grading.py",
+  "research/modalities/emc_expression_panels.py",
+  "research/modalities/depmap-sarcoma-dependency.json",
+  "research/literature/biomarker-class-definitions-2026-08-09.json (the citation anchor)",
+  "research/modalities/depmap_sarcoma_dependency.py",
+  "PubMed records for all nine cited PMIDs (mcp__PubMed__get_article_metadata)",
+  "PMC5840045 full text (PMID 28122247) via mcp__PubMed__get_full_text_article"
+ ],
+ "central_claim": "Five therapeutic classes that are prescribed on a molecular state rather than a histology were graded against two public EMC expression series and a sarcoma CRISPR panel; four selecting states are absent, the fifth is unresolvable by this instrument, and the paper's methodological point is that the four negatives differ in strength and must be reported separately rather than summed.",
+ "verdict": "supported_with_reservations",
+ "recommendation": "major_revision",
+ "blockers": [
+  {
+   "summary": "The producing artifact was CORRECTED on 2026-08-09 to record that POLQ itself is a weak read, and the paper drafted from that artifact drops the correction entirely — while telling a reader that this same observation should inform whether to spend a sequencing run on the disease.",
+   "evidence": "research/modalities/census-route-expression-grading.json, routes['RT-POLQ'], two fields the paper had in front of it. `observed`, verbatim: \"The route's own primary gene is a weaker reading than its module: it is readable on only ONE platform, is barely higher there, and sits in the bottom quarter of that array's distribution — so the module carries this observation and the single gene does not.\" And a field named `⚠_correction_2026_08_09`, verbatim: \"...it was found by reading the panel again while drafting the paper that would have quoted it.\" The underlying reads confirm both halves: gene_reads.POLQ on GSE4303-GPL3290 is 'no probe on this platform maps to the symbol'; on GSE24369 it is welch t=0.309, delta +0.0446, EMC mean_array_percentile 0.2066, and the panel's own verdict string bands it '|t| < 2 — flat'. §2.4 of the manuscript names POLQ nowhere. It says instead: \"⭐ The alt-EJ half IS present, concordantly. The alt-EJ module is higher in EMC on both platforms (t = 2.42 and 2.23), every readable member is higher on both\", and closes \"because a reader deciding whether to spend a sequencing run on this disease should have it.\" The GPL3290 module score of 2.226 is computed over 3/4 genes with POLQ excluded, so on that platform the drug target contributes nothing at all and on the other it contributes t=0.31. The three genes carrying the elevation — LIG3, PARP1, XRCC1 — are single-strand-break and base-excision-repair factors, and the paper's specificity control (nhej_contrast: PRKDC, XRCC6, XRCC5, LIG4) discriminates against NHEJ but not against a general SSB/BER effect, so the sentence \"the elevation is specific rather than a general repair-transcription effect\" claims more than the control supports.",
+   "what_edit_would_break_it": "Restore the artifact's own caveat into §2.4 in one sentence — POLQ is unreadable on GPL3290 and flat at t = 0.31 and the 21st array percentile on GPL6244, so the module and not the target gene carries this observation — and narrow the specificity claim to 'specific against NHEJ', noting that three of the four module members are SSB/BER factors for which no contrast was read. With those two changes the observation stands and the reader can price it."
+  }
+ ],
+ "p1s": [
+  {
+   "summary": "§2.1 attributes 'the closest published setting to this disease' to the wrong member of a cited pair. PMID 28122247 is a cell-line metabolomics study in two leiomyosarcoma lines plus a melanoma line and NCI-60 lines; PMID 27735949 is the 700-sample, 45-histology sarcoma survey. The same swap is baked into the anchor artifact, so fixing the manuscript alone leaves the pair inconsistent.",
+   "evidence": "Paper, §2.1: \"the argument and its sarcoma-specific evidence are in PMID 27735949 and PMID 28122247, the latter being the closest published setting to this disease.\" PMC5840045 full text (PMID 28122247, Kremer et al., Cell Rep 2017), Results, verbatim: \"we continuously cultured three cell lines that lack functional expression of ASS1 in the presence of ADI-PEG20 for at least 3 months. This included two leiomyosarcoma cell lines (SKLMS1 and SKUT1) and a melanoma cell line (SKMEL2)... A melanoma line was included to investigate whether the metabolic alterations identified were a sarcoma-specific phenomenon or a general characteristic\"; the panel is then extended to \"NCI-60 cell line (including breast, colon, lung, glioblastoma, and head and neck cancer cell lines), a patient-derived xenograft breast cancer cell line, and an osteosarcoma cell line\", and the in vivo work is SKMEL2 melanoma xenografts. Its PubMed MeSH list contains no 'Sarcoma' term. PMID 27735949 (Bean et al., Cell Death Dis 2016) is titled '...in ASS1-deficient sarcomas', abstract verbatim: \"Seven hundred samples comprising 45 separate histologies were examined. We found that almost 90% were arginine auxotrophs\", and carries the MeSH term 'Sarcoma'. research/literature/biomarker-class-definitions-2026-08-09.json carries the same inversion: the 28122247 record's why_this_citation reads \"Arginine deprivation studied in SARCOMA specifically... it is the closest published setting to the disease this paper is about\", while 27735949's reads only \"The ASS1-deficiency selection argument in sarcoma\".",
+   "what_edit_would_break_it": "Change 'the latter' to 'the former' in §2.1 AND correct the two why_this_citation fields in the anchor artifact in the same commit. While there, use the 90%/700-sample/45-histology figure: it is the fact that makes this negative strong, because it says the comparator arm is expected to be ASS1-low, and the paper currently omits it."
+  },
+  {
+   "summary": "§2.3 attributes to \"the rest of PRC2\" a statistic computed over ALL of PRC2 including EZH2 — the gene the sentence explicitly excludes — and on GPL3290 EZH2 is the largest positive contributor to the number quoted.",
+   "evidence": "Paper: \"EZH2 is mildly higher on both platforms and the rest of PRC2 is flat (*t* = −0.22 and 1.71)\". Those two values are `panels.chromatin_prc2_baf.groups.prc2_core.per_platform[*].score.t` = -0.216 (GPL6244) and 1.714 (GPL3290) in research/modalities/emc-expression-panels.json. `genes_requested` for prc2_core is ['EZH2','EED','SUZ12','RBBP4'] — EZH2 is IN the group. On GPL3290 SUZ12 is unreadable, so the group is EZH2+EED+RBBP4, and the per-gene Welch reads are EZH2 t=+2.839 (delta +0.6291), EED t=-2.350 (delta -0.2528), RBBP4 t=+1.392. The actual 'rest of PRC2' on that platform is EED down at t=-2.350 and RBBP4 up at t=+1.392 — not the flat 1.71 the sentence claims. No group score for 'PRC2 excluding EZH2' exists in any artifact.",
+   "what_edit_would_break_it": "Either recompute a genuine EZH2-excluded PRC2 group score in emc_expression_panels.py and quote that, or reword to 'the PRC2 core group as a whole is flat (t = −0.22 and 1.71), with EZH2 itself the largest positive member on GPL3290 (t = 2.84) and EED the largest negative (t = −2.35)'."
+  },
+  {
+   "summary": "§2.2's \"quiet, not live\" p53 reading is carried by a single gene, ZMAT3; on GPL3290 three of the six group members read the opposite way and one of them clears the instrument's own called band.",
+   "evidence": "Group `p53_mdm2_axis.p53_transcriptional_output`, genes_requested ['CDKN1A','BBC3','ZMAT3','SESN1','RPS27L','GADD45A']. Per-gene Welch t on GPL3290: CDKN1A -0.206, BBC3 +2.138, ZMAT3 -6.704, SESN1 -1.151, RPS27L +2.406, GADD45A +3.340. Three of six are HIGHER in EMC, and GADD45A at t=+3.340 sits in the panel's own '|t| >= 3' called band — the only p53 target on that platform to do so in the up direction. The group score of t=-1.126 exists only because ZMAT3 at t=-6.704 outweighs them. GPL6244 is the same shape: ZMAT3 t=-4.204 against CDKN1A -0.277, SESN1 -0.991, RPS27L +0.048, GADD45A -1.673 (BBC3 unreadable, 5/6). The paper reports only the group t values and the word 'quiet'.",
+   "what_edit_would_break_it": "Add one clause to §2.2 stating that the group difference is dominated by ZMAT3 on both platforms and that on GPL3290 three of six targets, including GADD45A at t = +3.34, read higher — which is a further reason the negative is weak, not a reason to drop it."
+  },
+  {
+   "summary": "§2.5's \"All five druggable guardians together are LOWER\" conceals that two of the five are HIGHER in EMC on GPL6244, one of them at t = +2.91 — in the class the paper says stays open and whose priming argument the group direction is used to support.",
+   "evidence": "Group `apoptotic_dependency.anti_apoptotic_the_druggable_ones`, genes_requested ['BCL2','MCL1','BCL2L1','BCL2L2','BCL2A1']. GPL6244 per-gene Welch: BCL2 t=-3.703 (delta -0.8085), MCL1 t=-1.930, BCL2L1 t=-2.809, BCL2L2 t=+2.908 (delta +0.1231), BCL2A1 t=+0.506. So the GPL6244 group t of -4.568 is carried by BCL2, and BCL-W (BCL2L2) moves against the group in the panel's own '|t| 2-3' band. The paper reports the group figure plus 'MCL1 and BCL2L1 individually included' and never mentions BCL2L2 or BCL2A1.",
+   "what_edit_would_break_it": "State the within-group split: BCL2 carries the GPL6244 contrast, and BCL2L2 reads higher there (t = +2.91). The 'low guardians, high sensitiser' priming reading then has to be stated as holding for BCL2/BCL2L1/MCL1 rather than for all five."
+  },
+  {
+   "summary": "§2.5 asserts MCL1 individually LOWER on both platforms as part of a reading it calls \"negative and clean\", but the producing artifact's own banding rule calls the GPL6244 MCL1 read FLAT.",
+   "evidence": "gene_reads.MCL1 GPL6244 verdict string, verbatim: \"LOWER in EMC by 0.2664 SD units of the array (|t| < 2 — flat, t=-1.93, df=6.3, n_EMC=6, n_comparator=29)\". The instrument bands |t| < 2 as flat (emc_expression_panels.py); the paper reads the sign and drops the band.",
+   "what_edit_would_break_it": "Say 'MCL1 lower on both platforms though flat on GPL6244 by the panel's own |t| < 2 banding (t = −1.93), and lower at t = −2.90 on GPL3290'."
+  },
+  {
+   "summary": "The instrument applies three undisclosed decision rules — a |t| banding that defines the paper's own word 'flat', a minimum-3-genes / 0.5-coverage floor below which no group score is emitted, and per-group readable-gene denominators — and the paper's Methods paragraph states none of them.",
+   "evidence": "emc_expression_panels.py: MIN_GENES_FOR_A_PANEL_SCORE = 3 (line 1227) and the UNDERPOWERED branch at lines 1998-2000 emit 'NO SCORE EMITTED' below the floor — a real exclusion, exercised in this very panel (chromatin_prc2_baf.ncbaf_the_portfolios_own_hypothesis, GPL3290, 2/4 readable). Every group verdict string carries a band label ('|t| < 2 — flat', '|t| 2-3', '|t| >= 3'), which is the source of the paper's 'flat' in §2.2, §2.3 and §2.4. Every group verdict also carries an n readable/n requested denominator that the paper never prints: p53 output 5/6 on GPL6244, prc2_core 3/4 on GPL3290, alt_ej_module 3/4 on GPL3290, homologous_recombination 4/5 on GPL3290. §1 of the paper states only 'z-score against each array's own probe distribution; groups scored as the mean EMC-minus-comparator difference in standard-deviation units, with Welch t and no multiplicity correction'.",
+   "what_edit_would_break_it": "Two sentences in §1: state the |t| bands that define 'flat', state the 3-gene/0.5-coverage floor below which a group emits no score, and carry the readable/requested denominator next to each quoted t (it fits inside the existing parentheses)."
+  },
+  {
+   "summary": "§2.4 is a paper about Polymerase-θ inhibition that never reports POLQ's own read — unreadable on one platform, flat and at the 21st array percentile on the other — while the module elevation it does report is carried by PARP1, XRCC1 and LIG3, which are single-strand-break/BER factors that the NHEJ contrast does not control for.",
+   "evidence": "gene_reads.POLQ: GPL3290 'no probe on this platform maps to the symbol'; GPL6244 welch t=0.309, delta_a_minus_b=+0.0446, EMC mean_array_percentile 0.2066, verdict banded '|t| < 2 — flat'. alt_ej_module genes_requested ['POLQ','LIG3','PARP1','XRCC1'], 3/4 readable on GPL3290 — so the GPL3290 t of 2.226 is computed WITHOUT POLQ. The paper's specificity control is nhej_contrast ['PRKDC','XRCC6','XRCC5','LIG4'], which discriminates alt-EJ from NHEJ but not from base-excision/SSB repair, the pathway three of the four module members belong to.",
+   "what_edit_would_break_it": "Report POLQ's own read in §2.4 (unreadable on GPL3290; flat at t = 0.31 and the 21st array percentile on GPL6244) and narrow the specificity claim to 'specific against NHEJ' rather than 'not a general repair-transcription effect'."
+  },
+  {
+   "summary": "The identity of each comparator arm — the thing every reading in the paper is relative to — is recorded in the producing artifact and withheld from the paper, and one arm is GIST, a lineage a reader would not assume from 'comparator sarcomas'.",
+   "evidence": "emc-expression-panels.json `_limits`, verbatim: \"DIFFERENT COMPARATOR ARMS. GSE24369's comparators are LGFMS / desmoid / fibrosarcoma; GSE4303-GPL3290's are DFSP and GIST. A gene can move in one and not the other because the comparator changed, not because EMC did.\" The paper's §1 table names only the GSE24369 arm and only obliquely ('29 comparator sarcomas, itself including a FET-rearranged histology' — supported: platforms.GSE24369.why_this_platform records LGFMS is FUS::CREB3L2). §5 says 'differing comparator arms' without naming them. Every t in §2.1-2.5 is a contrast against arms the reader is never shown.",
+   "what_edit_would_break_it": "Put the two arms in the §1 table: LGFMS / desmoid / fibrosarcoma for GPL6244, DFSP / GIST for GPL3290."
+  },
+  {
+   "summary": "Which tumours count as EMC and which as comparator is decided by string-matching a GEO annotation field, and the paper's headline n = 16 rests on that classifier without disclosing it.",
+   "evidence": "emc-expression-panels.json `_limits`, verbatim: \"SAMPLE CLASSIFICATION IS STRING MATCHING on the verbatim GEO annotation, reused from `emc_atr_vulnerability._classify_sample`. Every annotation is reproduced in `platforms.<file>.sample_annotations_verbatim` so a mis-bucketed sample is auditable offline rather than costing another run.\" The paper's front matter states '16 EMC tumours' and §1 states 6 and 10 with no method for the assignment.",
+   "what_edit_would_break_it": "One clause in §1 saying group assignment is by string match on the verbatim GEO sample annotation, with the annotations reproduced in the panel artifact."
+  },
+  {
+   "summary": "The paper prints bare t values as evidence while the producing artifact states in terms that a |t| threshold in these verdicts is not a test, and the paper omits the one fact that answers its own repeated multiple-testing caveat — that the gene sets were pre-specified.",
+   "evidence": "emc-expression-panels.json `_limits`, verbatim: \"NO MULTIPLE-TESTING CORRECTION anywhere in this artifact, by design: the reads were specified in advance and are reported with their t and df so a reader can apply their own. A |t| threshold in a verdict sentence is a readability aid, not a test.\" The paper raises 'uncorrected for multiple testing' three times (§1, §3, §5) as a limitation and never states the pre-specification that mitigates it, and prints t without df anywhere, so a reader cannot apply their own correction as the artifact intends.",
+   "what_edit_would_break_it": "State that the gene sets were pre-specified rather than selected on the data, and carry df beside each t (all are in the artifact's score blocks: 7.2, 13.8, 10.0, 7.3, 7.0, 9.6, 13.0, 13.9, 6.8, 9.6, 6.5, 11.2, 14.0, 9.8)."
+  },
+  {
+   "summary": "§1's reason for there being no EMC dependency observation is the weaker and contested one; the decisive reason is in the producing script and is omitted.",
+   "evidence": "Paper: \"⛔ That panel contains no EMC line — the one line carrying the disease's label is recorded as not harbouring the fusion.\" research/modalities/depmap_sarcoma_dependency.py, line ~47, verbatim: \"There is no EMC line in DepMap: the one 'EMC' line on the curated record does not carry the fusion AND HAS NO CRISPR DATA AT ALL.\" The second clause settles the question on its own and is not contestable. The first is: research/modalities/hemcss-label-priorart.json states of that fusion-negative call, verbatim, \"That is suggestive and consistent, not definitive, and must be stated as such\", and separately records that fusion-negative EMC is a recognised clinical entity ('EMCs... harbor in > 90% of the cases an NR4A3 rearrangement'), so fusion-negativity would not by itself disqualify a line from being EMC.",
+   "what_edit_would_break_it": "Give the decisive reason: the one line carrying the label has no CRISPR data at all, and is separately recorded as not carrying the fusion."
+  }
+ ],
+ "p2s": [
+  {
+   "summary": "§1's table states 10 vs 6 for GSE4303 as if fixed, but per-gene sample counts vary below it and the paper never says so.",
+   "evidence": "gene_reads on GPL3290: PALB2 n_comparator=4, PMAIP1 n_comparator=5, BBC3 n_comparator=5, BCL2A1 n_comparator=5; ARID1A n_EMC=9, EED n_EMC=9, BRCA2 n_EMC=9. NOXA's headline 1.74 SD figure is computed against five comparators, not six."
+  },
+  {
+   "summary": "§2.1 quotes ASS1's favourable array percentile from one platform and omits the other, where EMC's own level is middling.",
+   "evidence": "gene_reads.ASS1 EMC mean_array_percentile 0.9152 on GPL6244 (quoted as '92nd percentile') and 0.4053 on GPL3290 (41st, not quoted). The GPL3290 contrast is genuinely large (t=4.513, delta +1.5503) because the comparators sit at the 5th percentile, so the negative holds — but only the flattering percentile is printed."
+  },
+  {
+   "summary": "§2.3's floor claim is a per-subunit statement supported by a group-mean statistic, and half of that statistic comes from a platform on which the artifact says absolute level is uninterpretable.",
+   "evidence": "'no SWI/SNF tumour-suppressor subunit reads anywhere near a floor (*t* = −1.02 and −0.08)' — those are swi_snf_tumour_suppressors group scores. A group mean cannot exclude one subunit at a floor. The per-gene reads happen to support the claim on GPL6244 (SMARCB1 77th, SMARCA4 82nd, ARID1A 83rd, PBRM1 55th percentile) but on GPL3290 gene_reads records value_kind = 'two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)', and ARID1A sits at the 18th percentile there."
+  },
+  {
+   "summary": "The sarcoma dependency denominator is dropped, and the artifact carries two different ones.",
+   "evidence": "Paper §2.5: 'MCL1 and BCL2L1 are dependencies in the large majority of sarcoma lines' with no n. depmap-sarcoma-dependency.json: top-level n_sarcoma_models = 176, but every gene row carries n_sarcoma = 91, and MCL1 sarcoma_frac_dependent = 0.835, BCL2L1 = 0.758 are fractions of the 91. depmap_sarcoma_dependency.py states the distinction explicitly ('91 SCREENED sarcoma lines (of 176 sarcoma models in the release)') and notes the PRMT5 manuscript reports its dependency with that denominator; this paper reports neither."
+  },
+  {
+   "summary": "Percentile figures are drawn from the platform where they mean something and quoted next to a platform where the artifact says they do not.",
+   "evidence": "emc-expression-panels.json `_limits`, verbatim: \"on GPL3290 an ABSOLUTE level means 'relative to the pool' and only the EMC-vs-comparator contrast is interpretable. An `array_percentile` on GPL3290 is a percentile of log-RATIOS, which is not the same statement as 'expressed'.\" The paper's only two absolute-level statements are ASS1's 92nd percentile (GPL6244, legitimate) and the floor claim in §2.3, which is attached to a GPL3290 t and therefore cannot be an absolute-level claim on that platform at all."
+  },
+  {
+   "summary": "Probe-level disagreement is averaged away and never mentioned; several load-bearing genes rest on a single probe.",
+   "evidence": "`_limits`: 'A symbol with several probes is collapsed by mean... Probe-level disagreement is not surfaced.' gene_reads shows n_probes_mapping = 1 for MCL1, BCL2L1, PMAIP1, POLQ and EZH2 on GPL6244, and ASS1 on GPL6244 is also a single probe (8158671) — the paper's strongest negative."
+  }
+ ],
+ "_verdict_note": "supported_with_reservations rather than not_supported_as_written: I could not break a single number. Every t, delta and percentile the paper prints matches the producing artifact to the digit (p53 output -2.203/-1.126; alt-EJ 2.423/2.226; HR -0.573/1.035; NHEJ -0.192/0.158; PRC2 -0.216/1.714; SWI/SNF -1.024/-0.083; guardians -4.568/-2.538; NOXA delta 1.7441; ASS1 percentile 0.9152), the four negatives are graded in the direction the artifact grades them, and eight of nine citations support their sentences exactly with zero retractions. The paper's central claim survives. What does not survive is the disclosure layer: within-group structure is suppressed in three of the five classes (ZMAT3 carries p53, BCL2 carries the guardians with BCL2L2 moving against them, PRC2's statistic silently includes the gene its sentence excludes), three instrument decision rules are never stated, and in §2.4 a caveat the producing artifact was explicitly CORRECTED to add was dropped on the way into prose — which is why that one is a blocker and not a P1. Not needs_revision/minor: a blocker plus seven P1s, several of them one-of-a-pair defects touching the artifacts as well as the manuscript, is a major revision.",
+ "citation_sweep": {
+  "n_identifiers_in_paper": 9,
+  "all_resolve": true,
+  "retractions_found": 0,
+  "retraction_method": "PubMed article_types checked for every PMID; none carries 'Retracted Publication' and no erratum type is present",
+  "exact_title_or_abstract_support": {
+   "8440237": "CLEAN. Barak et al., EMBO J 1993, title 'mdm2 expression is induced by wild type p53 activity' — the paper's sentence is the title.",
+   "33035459": "CLEAN. Gounder et al., Lancet Oncol 2020, the registrational tazemetostat epithelioid-sarcoma cohort, indication selected on 'documented loss of INI1 expression by immunohistochemical analysis or biallelic SMARCB1 alterations'. Supports the paper's sentence exactly, INCLUDING that the assay is IHC, which is the paper's own stated reason the negative is weak.",
+   "25642963": "CLEAN. Ceccaldi et al., Nature 2015, title 'Homologous-recombination-deficient tumours are dependent on Pol-theta-mediated repair'.",
+   "25642960": "CLEAN. Mateos-Gomez et al., Nature 2015, title 'Mammalian polymerase theta promotes alternative NHEJ and suppresses recombination'.",
+   "34179826": "CLEAN. Zhou et al., Nat Cancer 2021, 'A first-in-class Polymerase Theta Inhibitor selectively targets Homologous-Recombination-Deficient Tumors' (novobiocin). Supports 'the first-in-class inhibitor selects on the HR-deficient half'.",
+   "17692808": "CLEAN. Deng et al., Cancer Cell 2007, the original BH3-profiling paper.",
+   "22230093": "CLEAN. Del Gaizo Moore & Letai, Cancer Lett 2012, title contains 'measuring integrated function of the mitochondrial apoptotic pathway' — verbatim support for 'reads integrated pathway function rather than protein level'.",
+   "27735949": "CLEAN as a source, MISLABELLED by the sentence's ordinal — see p1s. Bean et al., Cell Death Dis 2016, 700 samples across 45 sarcoma histologies, ~90% arginine-auxotrophic with ASS1 lost or reduced.",
+   "28122247": "RESOLVES AND IS UNRETRACTED, but does not support the comparative attached to it — see p1s."
+  }
+ }
+}

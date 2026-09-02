@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-SURGICAL-QUALITY — The first operation — margin status, unplanned excision and treatment setting
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-26
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence low · verified 2026-09-02
 
 **Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ THE LARGEST PUBLISHED SURVIVAL ASSOCIATION IN THIS DISEASE IS AN OPERATION, AND NO ROUTE ON THIS BOARD COVERED IT. In SEER locoregional EMC, surgery carried HR 0.27 (95% CI 0.16-0.47) univariate and HR 0.36 (0.19-0.69) in the adjusted sensitivity analysis (PMID 32856598). ⚠ The same analysis returns INFERIOR hazards for chemotherapy (1.90) and radiotherapy (1.45), which is textbook confounding by indication and must never be read as harm.
 
@@ -27,7 +27,7 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_SURGICAL_QUALITY["○ RT-SURGICAL-QUALITY"]:::fam
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_SURGICAL_QUALITY
   TECH_RECONSTRUCTED_IPD(["TECH-RECONSTRUCTED-IPD<br/>expected 2026H2"]):::tech
   TECH_RECONSTRUCTED_IPD -.-> BLK_NO_CURATED_CLINICAL_DATA
@@ -90,7 +90,9 @@ The margin distribution is curated, guarded and cross-checked, and Chiusole prin
 
 **The paper would claim:** In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.
 
-**It is not written because:** Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.
+**It is not written because:** ⚠ Superseded, retained (rule 1.2): "Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result." ⛔ BOTH HALVES ARE FALSE AS OF 2026-09-01. Six extraction artifacts exist and none of them consumes a reconstruction: 196 operated patients with a margin (research/modalities/emc-surgical-quality.json), 271 patients' primary site (emc-site-curation.json), 45 printed Cox coefficients (emc-prognostic-coefficients.json) and four printed time-to-event statistics (emc-recurrence-timing.json). RT-IPD-SURVIVAL has produced exactly one admissible curve — 11 patients, progression-free survival in advanced disease — which is the wrong shape for this paper and always was.
+
+⭐ THE REAL REASON IT IS UNWRITTEN IS A JUDGEMENT, NOT A GAP. The paper's strongest quantitative claim — that margin decides local recurrence — is the printed conclusion of the abstract of its own largest source (PMID 40885991: "Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs"). The third clause of what_it_would_claim, whether the diagnosis was known before the operation, is unstudiable in EMC from the reachable record: treatment setting is reported by no reachable series. And the working title's second half — "what the literature has been looking at instead" — is an argument with no measurement behind it. ⭐ The one free step that would change this is a term census over the 554-record corpus already committed at literature/emc-care-delivery-and-classification/ on the literature-cache branch, which is now filed as BLK-NO-FIELD-ATTENTION-MEASUREMENT.
 
 ## Strategic timing — the wait equation
 
@@ -114,7 +116,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. ⛔ Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.
+⛔ The publish decision is ANSWERED — no. The margin finding restates the printed conclusion of its own largest source's abstract (PMID 40885991: "Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs"), so it fails the consequence test trimcrae applied to DOC-EMC-ICDO-9231-CLASSIFICATION on 2026-08-23. **The next action is to fold the denominator sensitivity — 25.0 / 22.4 / 40.9 / 35.0 % over 156 / 134 / 22 / 40 (`research/modalities/emc-surgical-quality.json`) — into a short internal record, not a paper.** ⛔ Do NOT re-curate for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications rather than of the curation. ⚠ Superseded, retained: "Decide whether an EMC margin note is worth writing from what is now in hand…" — that decision is taken here rather than left open.
 
 *Cost:* $0
 

@@ -6260,7 +6260,7 @@
     "kind": "route",
     "title": "POLθ inhibition (microhomology-mediated end joining)",
     "grade": {
-      "value": "⛔ NOT SUPPORTED — THE COMBINATION IS ABSENT (2026-08-09, corrected the same day). The class needs alt-EJ UP together with homologous recombination DOWN. ⚠ CORRECTION: this grade first said neither half was present, and that was wrong. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms, concordantly, with every readable member higher on both, and the NHEJ contrast is flat — so the elevation is specific rather than a general repair-transcription effect. What is absent is the OTHER half: the homologous-recombination arm is flat to mildly higher rather than down. ⚠ And the absent half is the one this instrument is least able to measure, because an HR defect is usually a mutation and can sit behind normal transcript. That makes this a weaker negative than the group scores alone suggest. ⚠ The route's own primary gene is readable on one platform only and sits in the bottom quarter of that array — the module carries the observation, not the single gene.",
+      "value": "⛔ NOT SUPPORTED — THE COMBINATION IS ABSENT (2026-08-09, corrected the same day). The class needs alt-EJ UP together with homologous recombination DOWN. ⚠ CORRECTION: this grade first said neither half was present, and that was wrong. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms, concordantly, with every readable member higher on both, and the NHEJ contrast is flat — so the elevation is specific AGAINST NHEJ. ⚠ It is not shown to be specific more broadly, and on GPL3290 not at all: the homologous-recombination module rises MORE there than the alt-EJ module (+0.2658 against +0.2578 SD), and only GPL6244 separates them (+0.087 against -0.0438). ⚠ Three of the module's four members (LIG3, PARP1, XRCC1) are single-strand-break and base-excision-repair factors, and no contrast against that pathway was read. What is absent is the OTHER half: the homologous-recombination arm is flat to mildly higher rather than down. ⚠ And the absent half is the one this instrument is least able to measure, because an HR defect is usually a mutation and can sit behind normal transcript. That makes this a weaker negative than the group scores alone suggest. ⚠ The route's own primary gene is readable on one platform only and sits in the bottom quarter of that array — the module carries the observation, not the single gene.",
       "owner": {
         "file": "research/modalities/census-route-expression-grading.json"
       }
@@ -7642,7 +7642,7 @@
     "kind": "route",
     "title": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
     "grade": {
-      "value": "⭐ RE-GRADED 2026-08-26 — THE CONTRADICTION THIS ROUTE IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 and Masunaga 2025 were read as disagreeing about whether radiotherapy does anything in EMC. Bishop reports the ADVERSE exposure (surgery alone) at HR 12.7 (1.4-115.3), p = 0.02 for local control; inverted, that is a radiotherapy effect of 0.079 (0.0087-0.71). Masunaga reports the PROTECTIVE exposure at 0.50 (0.11-2.25), p = 0.365. Both protective, intervals overlapping across 0.11-0.71. What separates them is which side of p = 0.05 each landed on, across 5 and 16 local events respectively. ⛔ THAT IS NOT EVIDENCE RADIOTHERAPY WORKS — it is evidence the reachable literature is underpowered and CONSISTENT, and that the route's motivating conflict was an artifact of dichotomising p-values.\n\n⚠ AND MASUNAGA'S CONFOUNDING RUNS AGAINST RADIOTHERAPY, WHICH MAKES ITS NULL WEAKER STILL: the paper states radiotherapy is given to patients with close margins, and its irradiated arm carried R1/R2 margins at 41.7 % against 18.2 %. Its treated group was at higher baseline risk of the very event measured, so 0.50 understates any protection.\n\n⭐ THE PARTICLE QUESTION IS ANSWERED. Brachytherapy (Takagawa, HDR interstitial, read directly) and proton beam (Honda, via a review) have each been reported ONCE in this histology; carbon ion appears nowhere in it across a 354-paper open-access corpus including a 2025 comprehensive EMC review. Arms exist; registries of them do not.\n\n⚠ Superseded, retained: \"◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). … No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.\" The endpoint-mixture caution stands. The rest is corrected: dose and modality ARE published — Bishop a median 50 Gy over 50-65 with arms of 23 preoperative / 10 postoperative / 8 surgery alone, Masunaga 40-50 Gy neoadjuvant and 50-66 Gy adjuvant in 2 Gy fractions — and margin data is curated in ART-SURGICAL-QUALITY. The regression is still unbuildable, but because nobody publishes dose PER PATIENT, which is a much narrower gap than 'no dose data anywhere'.",
+      "value": "⭐ RE-GRADED 2026-08-26 — THE CONTRADICTION THIS ROUTE IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 and Masunaga 2025 were read as disagreeing about whether radiotherapy does anything in EMC. Bishop reports the ADVERSE exposure (surgery alone) at HR 12.7 (1.4-115.3), p = 0.02 for local control; inverted, that is a radiotherapy effect of 0.079 (0.0087-0.71). Masunaga reports the PROTECTIVE exposure at 0.50 (0.11-2.25), p = 0.365. Both protective, intervals overlapping across 0.11-0.71. What separates them is which side of p = 0.05 each landed on, across 5 and 16 local events respectively. ⛔ THAT IS NOT EVIDENCE RADIOTHERAPY WORKS — it is evidence the reachable literature is underpowered and CONSISTENT, and that the route's motivating conflict was an artifact of dichotomising p-values.\n\n⚠ AND MASUNAGA'S CONFOUNDING RUNS AGAINST RADIOTHERAPY, WHICH MAKES ITS NULL WEAKER STILL: the paper states radiotherapy is given to patients with close margins, and its irradiated arm carried R1/R2 margins at 41.7 % against 18.2 %. Its treated group was at higher baseline risk of the very event measured, so 0.50 understates any protection.\n\n⭐ THE PARTICLE QUESTION IS ANSWERED AND ITS ANSWER WAS CORRECTED ON 2026-09-01 — CARBON ION HAS BEEN DELIVERED IN THIS HISTOLOGY AND REPORTED. Brachytherapy (Takagawa, HDR interstitial, read directly) and proton beam (Honda, via a review) have each been reported ONCE. Carbon ion is reported too: among the 8 of 171 registry patients who were localized at diagnosis and did not undergo surgery, 2 received carbon ion therapy, 1 proton beam and 1 conventional radiotherapy (Masunaga 2025, PMID 40885991, PMC12398172, quoted verbatim and pinned by blob sha 79a8c197243ff4202a713d437def379c5f499a68 in `research/modalities/emc-radiotherapy-contradiction.json` → `carbon_ion`). ⛔ NO OUTCOME ATTACHES TO ANY OF THEM — the series excludes all eight non-operated patients from its prognostic analysis, so this is an existence proof that an arm was delivered and nothing more. It states and implies nothing about efficacy, safety, tolerability or appropriateness, and it is not a utilisation rate: 2 of 8 and 2 of 171 answer different questions and no rate is derived from either. ⭐ THE ROUTE'S CONCLUSION IS UNCHANGED AND SLIGHTLY STRENGTHENED — arms exist for all three modalities; registries of them do not. How often carbon ion is used in this histology is UNKNOWN: neither corpus has been recounted since the correction and the particle registries themselves are not open.\n\n⚠ Superseded, retained (rule 1.2): \"carbon ion appears nowhere in it across a 354-paper open-access corpus including a 2025 comprehensive EMC review.\" ⛔ THAT WAS A FALSE ABSENCE, AND ITS OWN CORPUS REFUTES IT. `literature/emc-radiotherapy-2026-08-26/PMC12398172.txt` sits inside the named corpus and carries the sentence; the identical blob also sits at `literature/emc-care-delivery-and-classification/PMC12398172.txt`, so this is one file in two corpora rather than two corpora each missing a paper. The verdict was a term count over ONE document — the 2025 review — scoped to all 354 texts. ⛔ The mechanism mattered more than the value: `found_in_this_histology` was a typed boolean literal and the generator's guard bound to the ANSWER (`is not False`), so it failed the build on the correction rather than on the error. Both were replaced on 2026-09-01 — the value is now derived from pinned corpus quotes and the guard (`emc_radiotherapy_contradiction.py::_check_corpus_derivation`) binds to the evidence, with a ratchet that goes red if a recorded correction loses its quotes.\n\n⚠ Superseded, retained: \"◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). … No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.\" The endpoint-mixture caution stands. The rest is corrected: dose and modality ARE published — Bishop a median 50 Gy over 50-65 with arms of 23 preoperative / 10 postoperative / 8 surgery alone, Masunaga 40-50 Gy neoadjuvant and 50-66 Gy adjuvant in 2 Gy fractions — and margin data is curated in ART-SURGICAL-QUALITY. The regression is still unbuildable, but because nobody publishes dose PER PATIENT, which is a much narrower gap than 'no dose data anywhere'.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7680,7 +7680,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-09-02"
     },
     "rationale": "This repository's own record contains a live contradiction about whether radiotherapy does anything in this disease — two registries and the largest series disagree. Every prior treatment of that question has been about whether to give radiotherapy. No prior sweep considered that the answer might be dose quality, dose geometry or radiosensitisation, and the one striking combination response in the literature is itself a radiotherapy combination that was previously recorded only as a confound.",
     "supporting_evidence": [
@@ -7693,7 +7693,7 @@
     "remaining_unknowns": [
       "Whether the recurrence heterogeneity is dose-related at all, which needs PER-PATIENT dose against PER-PATIENT outcome. Both series publish dose at the arm level and neither publishes it per patient, so the dose-response regression remains unbuildable — for a narrower reason than the route previously recorded.",
       "Whether a properly powered test of radiotherapy in EMC is possible at all from published data. The two reachable estimates carry 5 and 16 local events; a difference the size of either point estimate would need far more events than the whole reachable literature contains.",
-      "⚠ Superseded, retained: \"Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.\" SEARCHED AND ANSWERED at $0: brachytherapy and proton beam each appear once, as case reports; carbon ion appears not at all in this histology across a 354-paper open-access corpus. ⛔ That is a reading of the open-access literature, not of the particle registries themselves, which are not open — carbon-ion treatment of EMC may exist unpublished or paywalled.",
+      "⚠ Superseded TWICE, both retained. (1) \"Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.\" SEARCHED AND ANSWERED at $0. (2) The answer that search recorded — \"brachytherapy and proton beam each appear once, as case reports; carbon ion appears not at all in this histology across a 354-paper open-access corpus\" — ⛔ WAS HALF FALSE AND WAS CORRECTED 2026-09-01. All three arms are reported: brachytherapy and proton beam as single case reports, and carbon ion in 2 of the 8 non-operated localized patients of a 171-patient national-registry series (Masunaga 2025, PMID 40885991), a file that sits inside the very corpus the absence was scoped to. No outcome is printed for any of them. ⛔ What still stands unchanged is the LIMIT on the reading: this is the open-access literature, not the particle registries themselves, which are not open — so how often carbon ion is used in EMC remains UNKNOWN and further use may exist unpublished or paywalled.",
       "⚠ Superseded, retained: \"How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them.\" SEPARATED: Masunaga's local-recurrence model contains both, and margin is significant (4.76, 1.72-13.15) where radiotherapy is not (0.50, 0.11-2.25); stepwise selection retained margin alone."
     ],
     "required_validation": [
@@ -7725,7 +7725,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. ⚠ Superseded, retained: \"Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.\"",
+      "best_next_action": "⛔ ANSWERED — already written. The consistency finding is in `research/manuscripts/care-delivery/emc-radioresistance-reappraisal.md` (live, 2026-08-07) over three series with Cochran's Q, which is strictly more than this row proposes. The genuinely new half — the particle census — was REFUTED on 2026-09-01: `carbon_ion.found_in_this_histology` is now `true`, 2 patients in Masunaga 2025, with no outcome printed for any of the eight non-operated patients. **That refutation is now propagated into this route's `grade.value` and `remaining_unknowns`, which is what this action asked for; nothing further is outstanding on it.** ⚠ Superseded, retained: \"⛔ Do NOT re-run the particle search or re-litigate the contradiction … Whether that is worth writing up is a judgement call about what we publish.\"",
       "cost": "$0"
     }
   },
@@ -8222,9 +8222,9 @@
       "work_state": "future",
       "authorization": "free",
       "status": "ready",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-09-02"
     },
     "rationale": "In soft-tissue sarcoma generally the completeness of the first resection is the largest modifiable survival determinant; in EMC, where nothing systemic has a demonstrated survival benefit, it is close to the only one. The terms this route is made of — R0/R1 margin, unplanned excision, re-excision, referral centre, volume-outcome — appear nowhere in this repository except inside the titles of papers it cites.",
     "supporting_evidence": [
@@ -8269,7 +8269,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. ⛔ Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.",
+      "best_next_action": "⛔ The publish decision is ANSWERED — no. The margin finding restates the printed conclusion of its own largest source's abstract (PMID 40885991: \"Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs\"), so it fails the consequence test trimcrae applied to DOC-EMC-ICDO-9231-CLASSIFICATION on 2026-08-23. **The next action is to fold the denominator sensitivity — 25.0 / 22.4 / 40.9 / 35.0 % over 156 / 134 / 22 / 40 (`research/modalities/emc-surgical-quality.json`) — into a short internal record, not a paper.** ⛔ Do NOT re-curate for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications rather than of the curation. ⚠ Superseded, retained: \"Decide whether an EMC margin note is worth writing from what is now in hand…\" — that decision is taken here rather than left open.",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8418,9 +8418,9 @@
       "work_state": "future",
       "authorization": "free",
       "status": "ready",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-09-02"
     },
     "rationale": "EMC recurs beyond the windows most surveillance protocols run to. If surveillance ends before the disease does, a resectable recurrence is found unresectable — and unlike almost everything else on this board, the question is a modelling question with committed inputs rather than a bench question. MOD-WATCHFUL-WAITING is graded `in_clinical_use` by the census, which is exactly why no route existed.",
     "supporting_evidence": [
@@ -8460,7 +8460,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "⛔ Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is now recorded. The honest options are to write the observation up as a short note (a judgement call about what we publish, not a technical one) or to leave the route open against a series that prints a time-to-recurrence curve WITH numbers at risk. ⚠ Superseded, retained: \"Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model.\"",
+      "best_next_action": "⛔ Do NOT wait on RT-IPD-SURVIVAL — it produced one admissible curve (11 patients, progression-free survival in advanced disease) and that is the wrong shape. **The next action is to record the within-cohort censoring observation — an upper quartile of time from surgery to local recurrence of 63.5 months against the same cohort's median follow-up of 38 months (`emc-recurrence-timing.json`) — in one paragraph, with its three limits attached: an interquartile range that sits inside the follow-up window is what censoring produces; three CDF points cannot be differentiated into a hazard, so no schedule follows; and lead-time bias is untouched.** Leave the route open against a series printing a time-to-recurrence curve WITH numbers at risk. ⚠ Superseded, retained: \"The honest options are to write the observation up as a short note … or to leave the route open…\" — the first option is taken.",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8472,7 +8472,7 @@
     "kind": "route",
     "title": "Pulmonary metastasectomy as a decision rather than a modality",
     "grade": {
-      "value": "⭐ THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT. A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*. EMC is indolent, lung-dominant and measured in decades — the profile for which pulmonary metastasectomy is standard sarcoma practice — and nobody has asked the question in this histology. ⚠ 'Not found in an open-access corpus' is not 'does not exist'; a closed-access series could.",
+      "value": "⭐ THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT — BUT IT IS A NARROWER ABSENCE THAN THIS ROUTE RECORDED UNTIL 2026-09-01. What is absent is a COMPARATIVE study: no reachable series studies metastasectomy as an intervention against a comparator, and the one comparison that exists is uninformative (Bishop 2019, salvage surgery p = 0.15 at n = 13). Local therapy of metastases is meanwhile ALREADY BEING GIVEN in all three curated series — 8 of 29 patients presenting with distant metastases in Masunaga; 8 lung metastasectomies and 2 radiofrequency ablations, counted as procedures rather than patients, among Chiusole's 59 patients of whom 26 were metastatic; 5 of the 13 who recurred distantly in Bishop (`research/modalities/emc-site-curation.json`). EMC is indolent, lung-dominant and measured in decades — the profile for which pulmonary metastasectomy is standard sarcoma practice — and no EMC cohort has been studied to find out whether the operation changes any outcome in this disease. ⚠ Every count above is a count of what was DONE, with no comparator and no outcome attached; nothing follows from any of them about benefit, harm, tolerability or appropriateness.\n\n⚠ Superseded, retained (rule 1.2): \"A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*… nobody has asked the question in this histology.\" ⛔ REFUTED 2026-09-01 BY A FILE INSIDE THAT CORPUS. `literature/emc-care-delivery-and-classification/PMC12398172.txt` (Masunaga 2025, PMID 40885991, blob 79a8c197243ff4202a713d437def379c5f499a68) reads: \"Eight patients (27.6%) underwent metastasectomy, including six, one, and one who underwent lung, bone, and lymph node resections, respectively.\" The \"ZERO records\" string was a typed literal in the generator and no gate compared it against the corpus; it is now derived (`emc_care_delivery_evidence.py::absence_result`) and reads ⛔ NOT ZERO. ⚠ The corpus has still NOT been swept, so how many of the 554 records match is UNKNOWN — 1 is a measured lower bound, not a count.",
       "owner": {
         "file": "systems/graph/routes.json"
       }
@@ -8508,9 +8508,9 @@
       "work_state": "future",
       "authorization": "free",
       "status": "ready",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-09-02"
     },
     "rationale": "The census bundles metastasectomy into MOD-SURGERY and grades the row `in_clinical_use`, which is how a decision with real open questions — lesion count, disease-free-interval threshold, repeat versus first resection — became invisible as a research object. The portfolio has RT-LUNG-DIRECTED for perfusion, inhaled delivery and ablation, and nothing for resection.",
     "supporting_evidence": [
@@ -8554,7 +8554,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: \"Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.\" The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.",
+      "best_next_action": "⛔ ANSWERED — do NOT write the proposed note. \"Roughly a quarter\" is not computable: the three counts sit in non-summable strata (8 of 29 presenting metastatic; 8 lung metastasectomies plus 2 radiofrequency ablations counted as PROCEDURES rather than patients, among 59 with 26 metastatic; 5 of 13 who recurred distantly), and POLICY-evidence §2.1 and §2.3 forbid the pooling that sentence assumes. \"No comparator anywhere in the literature\" is also refuted — Bishop reports salvage surgery p = 0.15 at n = 13, which is a comparison that establishes nothing rather than an absent one. **The honest statement is that the only comparison in the reachable literature is uninformative.** ⛔ Lesion burden stays closed: no reachable series prints per-patient lesion counts. ⚠ Superseded, retained: \"What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing…\" — both halves of that sentence are refuted above.",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8602,9 +8602,9 @@
       "work_state": "future",
       "authorization": "free",
       "status": "ready",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-09-02"
     },
     "rationale": "Risk stratification is the mechanism by which every other route in this family becomes actionable — surveillance intensity, margin ambition and metastasectomy selection are all decisions about which patients, not whether. It falls out of the reconstructed dataset rather than needing an input of its own.",
     "supporting_evidence": [
@@ -8651,7 +8651,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.",
+      "best_next_action": "⛔ ANSWERED — publish nothing standalone. Of 12 cross-cohort comparisons, 0 have both intervals excluding 1 (`emc-prognostic-coefficients.json → cross_cohort_summary`); the cohorts are consistent, not corroborating, and `absolute_risk_computable` is false and guarded. The ordering's one survivor is surgical margin, which is RT-SURGICAL-QUALITY's finding measured a second way — so it is a paragraph of that record, not its own note. ⛔ Do NOT re-attempt the reconstruction path for these covariates: neither cohort prints a numbers-at-risk row under any of its 7 stratified survival curves (masunaga 3, chiusole 4, every one refused in `emc-km-admissibility-2026-08-27.json`). ⚠ Superseded, retained: \"Decide what an ordering-only prognostic statement is worth publishing as.\"",
       "cost": "$0"
     },
     "closure_kind": "open"

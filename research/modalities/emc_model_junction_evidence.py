@@ -432,9 +432,16 @@ def main(argv=None):
                 "'EWS/CHN' OR TAF15 OR fusion) returns hitCount 12, and not one abstract names the "
                 "line at all — so the sweep bounds the abstract layer only, and is reported as "
                 "that rather than as a proven absence.",
+                # ⛔ THE NUMBER IS GONE ON PURPOSE. This string hard-coded "an 18-locus STR
+                # profile", which was a count of the 18 LINES in the Cellosaurus `ST` block — one
+                # of them a `Source(s):` header and one a second allele call for a locus already
+                # listed. Hard-coding the corrected count here would be the same defect one value
+                # later, and this module does not read the record that holds it. The count has one
+                # home: `emc-atr-vulnerability-inputs.json#part_a.cellosaurus.record.ST`.
                 "⚠ It is NOT an STR misidentification call. Cellosaurus records no `CC Problematic "
-                "cell line:` line and carries an 18-locus STR profile from three independent "
-                "sources, so this is a molecular-identity question about a real, profiled line.",
+                "cell line:` line and carries an STR profile from three independent sources "
+                "(enumerated in emc-atr-vulnerability-inputs.json -> part_a.cellosaurus.record.ST), "
+                "so this is a molecular-identity question about a real, profiled line.",
             ],
             "⛔_consequence_for_this_reagent_programme": (
                 "Every reagent in this repository is a junction-spanning gapmer, and a gapmer needs "

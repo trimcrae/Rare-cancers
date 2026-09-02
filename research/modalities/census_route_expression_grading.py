@@ -541,8 +541,14 @@ def build():
                     "and every readable member of it is higher on both. ⛔ The homologous-recombination "
                     "arm is flat to mildly HIGHER rather than down, so the combination the class needs "
                     "— alt-EJ up WITH HR down — is not present. The NHEJ contrast is flat on both, "
-                    "which is what makes the alt-EJ signal specific rather than a general "
-                    "repair-transcription effect. ⚠ The route's own primary gene is a weaker reading "
+                    "so the elevation is specific AGAINST NHEJ. ⚠ It is not shown to be specific "
+                    "more broadly, and on GPL3290 it is not shown to be specific at all: the "
+                    "homologous-recombination module rises MORE there than the alt-EJ module "
+                    "(+0.2658 against +0.2578 SD), so the two move together on that platform and "
+                    "only GPL6244 separates them (+0.087 against -0.0438). ⚠ Three of the "
+                    "module's four members are single-strand-break and base-excision-repair "
+                    "factors (LIG3, PARP1, XRCC1), and no contrast against that pathway was read. "
+                    "⚠ The route's own primary gene is a weaker reading "
                     "than its module: it is readable on only ONE platform, is barely higher there, and "
                     "sits in the bottom quarter of that array's distribution — so the module carries "
                     "this observation and the single gene does not.",
@@ -581,11 +587,32 @@ def build():
     def pct(sym, plat):
         return round(gene(p, sym)[plat]["emc_array_percentile"] * 100)
 
+    def gt(panel_name, group_name, plat):
+        """A group's Welch t as the panel scored it. Same dot-free re-exposure, same reason."""
+        return p["panels"][panel_name]["groups"][group_name]["per_platform"][plat]["score"]["t"]
+
     pin = {
         "mat2a_percentile_gpl6244": pct("MAT2A", GPL6244),
         "mat2a_percentile_gpl3290": pct("MAT2A", GPL3290),
         "prmt5_percentile_gpl6244": pct("PRMT5", GPL6244),
         "prmt5_percentile_gpl3290": pct("PRMT5", GPL3290),
+        # ⭐ Added 2026-09-02 for research/manuscripts/dependency/emc-biomarker-selected-classes.md,
+        # which quoted ten machine-written figures with no drift guard on any of them while its
+        # sibling PRMT5 preprint was guarded above. Blind round on 20d33f347, finding S4.
+        # ⚠ Two-platform pairs are pinned SEPARATELY: the linter passes a line if ANY number on it
+        # matches, so pinning one member of a pair leaves the other free to drift on the same line.
+        "biomarker_ass1_percentile_gpl6244": pct("ASS1", GPL6244),
+        "biomarker_noxa_delta_gpl3290": gene(p, "PMAIP1")[GPL3290]["delta_emc_minus_comparator"],
+        "biomarker_p53_output_t_gpl6244": gt("p53_mdm2_axis", "p53_transcriptional_output", GPL6244),
+        "biomarker_p53_output_t_gpl3290": gt("p53_mdm2_axis", "p53_transcriptional_output", GPL3290),
+        "biomarker_prc2_core_t_gpl6244": gt("chromatin_prc2_baf", "prc2_core", GPL6244),
+        "biomarker_prc2_core_t_gpl3290": gt("chromatin_prc2_baf", "prc2_core", GPL3290),
+        "biomarker_guardians_t_gpl6244": gt("apoptotic_dependency",
+                                            "anti_apoptotic_the_druggable_ones", GPL6244),
+        "biomarker_guardians_t_gpl3290": gt("apoptotic_dependency",
+                                            "anti_apoptotic_the_druggable_ones", GPL3290),
+        "biomarker_alt_ej_t_gpl6244": gt("ddr_mmej", "alt_ej_module", GPL6244),
+        "biomarker_alt_ej_t_gpl3290": gt("ddr_mmej", "alt_ej_module", GPL3290),
     }
 
     return {

@@ -106,7 +106,17 @@ ART, INPUTS, QUANT_INPUTS = paths_for(SERIES)
 # The mechanism paper route 1 rests on. Fetched here for ONE reason: Q3 asks whether a 2026 sarcoma
 # ATR programme is selecting on a biomarker that paper argues AGAINST, and that comparison has to be
 # made against the paper's own words rather than against this repo's summary of them.
-MECHANISM_PMID = "37205599"
+#
+# ⛔ TWO IDENTIFIERS, ON PURPOSE — a hardening round found the prose citing the published version
+# while this instrument had only ever fetched the preprint, so §8.2's block quotations were preprint
+# text presented under a *Cancer Research* citation. The published version rewords every one of them
+# ("ES" -> "Ewing sarcoma", "EWSR1-FLI1" -> "EWSR1::FLI1"), so the wording is not interchangeable.
+# The version of record is what the module now asks for FIRST; the preprint is kept as a named
+# fallback rather than silently substituted, and `_version_read` in the artifact says which one the
+# quoted sentences actually came from. ⛔ Do not collapse these back into one constant: a single
+# constant is what let the prose and the instrument point at different documents.
+MECHANISM_PMID = "41811428"            # version of record: Cancer Res 2026;86:2660-2677
+MECHANISM_PREPRINT_PMID = "37205599"   # bioRxiv preprint, first author Menon (order changed on publication)
 
 UA = {"User-Agent": "rare-cancers/1.0", "Accept": "text/plain, application/json, */*"}
 
@@ -296,18 +306,26 @@ def fetch(series=SERIES):
              f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmc}/fullTextXML")
 
     # 5 · The mechanism paper, for Q3. Its own words about HR deficiency are the comparison.
-    grab(f"europepmc_{MECHANISM_PMID}",
-         "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
-         f"?query=EXT_ID:{MECHANISM_PMID}%20AND%20SRC:MED&resultType=core&format=json")
-    mech = inp.get(f"europepmc_{MECHANISM_PMID}")
-    pmcid = None
-    if mech:
-        m = re.search(r'"pmcid":"(PMC\d+)"', mech)
-        pmcid = m.group(1) if m else None
-    inp["mechanism_pmcid"] = pmcid
-    if pmcid:
-        grab("mechanism_fulltext_xml",
-             f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML")
+    #     Both identifiers are fetched and both are kept: the published version is what §8.2 cites,
+    #     the preprint is what earlier runs read, and only storing both makes the difference visible.
+    for _pmid in (MECHANISM_PMID, MECHANISM_PREPRINT_PMID):
+        grab(f"europepmc_{_pmid}",
+             "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+             f"?query=EXT_ID:{_pmid}%20AND%20SRC:MED&resultType=core&format=json")
+        mech = inp.get(f"europepmc_{_pmid}")
+        pmcid = None
+        if mech:
+            m = re.search(r'"pmcid":"(PMC\d+)"', mech)
+            pmcid = m.group(1) if m else None
+        inp[f"mechanism_pmcid_{_pmid}"] = pmcid
+        if pmcid:
+            grab(f"mechanism_fulltext_xml_{_pmid}",
+                 f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML")
+    # Back-compat aliases for the keys earlier caches were written with, so a committed inputs file
+    # from before this change still derives offline rather than reporting a fetch that did happen as
+    # absent. ⛔ An absent reading is not a reading of absence (CLAUDE.md §4).
+    inp.setdefault("mechanism_pmcid", inp.get(f"mechanism_pmcid_{MECHANISM_PMID}")
+                   or inp.get(f"mechanism_pmcid_{MECHANISM_PREPRINT_PMID}"))
 
     return inp
 
@@ -1197,28 +1215,59 @@ HR_SENTENCE_RE = re.compile(
 
 
 def _mechanism_hr_stance(inp):
-    """Verbatim sentences from PMID 37205599 that mention HR/BRCA/PARP. Quoted, never summarised —
-    Q3 turns on what that paper actually claims, and a paraphrase of a paraphrase is how a framing
-    drifts."""
-    out = {"pmid": MECHANISM_PMID,
+    """Verbatim sentences from route 1's mechanism paper that mention HR/BRCA/PARP. Quoted, never
+    summarised — Q3 turns on what that paper actually claims, and a paraphrase of a paraphrase is how
+    a framing drifts.
+
+    ⛔ WHICH VERSION WAS READ IS PART OF THE RESULT, NOT A DETAIL. The published version and the
+    bioRxiv preprint carry the same substance in different words, so a quotation attributed to one
+    while taken from the other is a false quotation even when the science is identical. The version
+    of record is preferred; the preprint is used only as a NAMED fallback, and `_version_read` says
+    which one the stored sentences came from.
+    """
+    out = {"pmid_of_record": MECHANISM_PMID,
+           "preprint_pmid": MECHANISM_PREPRINT_PMID,
            "_role": "route 1's mechanism source; fetched to compare biomarker framings, not re-graded here"}
-    raw = inp.get(f"europepmc_{MECHANISM_PMID}")
-    if raw:
+
+    # Metadata: try the version of record first, then the preprint. Record which one answered.
+    meta_pmid = None
+    for cand in (MECHANISM_PMID, MECHANISM_PREPRINT_PMID):
+        raw = inp.get(f"europepmc_{cand}")
+        if not raw:
+            continue
         try:
             hit = (json.loads(raw).get("resultList", {}).get("result") or [{}])[0]
-            out["title"] = hit.get("title")
-            out["doi"] = hit.get("doi")
-            out["journal"] = (hit.get("journalInfo") or {}).get("journal", {}).get("title")
-            out["year"] = hit.get("pubYear")
-            abstract = hit.get("abstractText") or ""
-            out["abstract_sentences_mentioning_HR_or_BRCA_or_PARP"] = [
-                m.group(0).strip() for m in HR_SENTENCE_RE.finditer(abstract)]
         except Exception as e:      # noqa: BLE001
             out["record"] = f"parse error {type(e).__name__}: {e}"
-    else:
+            continue
+        if not hit:
+            continue
+        meta_pmid = cand
+        out["pmid"] = cand
+        out["title"] = hit.get("title")
+        out["doi"] = hit.get("doi")
+        out["journal"] = (hit.get("journalInfo") or {}).get("journal", {}).get("title")
+        out["year"] = hit.get("pubYear")
+        abstract = hit.get("abstractText") or ""
+        out["abstract_sentences_mentioning_HR_or_BRCA_or_PARP"] = [
+            m.group(0).strip() for m in HR_SENTENCE_RE.finditer(abstract)]
+        break
+    if meta_pmid is None:
         out["record"] = "CANNOT_DETERMINE — Europe PMC record for the mechanism paper not fetched"
 
-    xml = inp.get("mechanism_fulltext_xml")
+    # Full text: same preference order. `mechanism_fulltext_xml` with no suffix is the key earlier
+    # caches used, and it is always the PREPRINT — that is the defect this field now makes visible.
+    xml, xml_pmid = None, None
+    for cand, keys in ((MECHANISM_PMID, (f"mechanism_fulltext_xml_{MECHANISM_PMID}",)),
+                       (MECHANISM_PREPRINT_PMID, (f"mechanism_fulltext_xml_{MECHANISM_PREPRINT_PMID}",
+                                                  "mechanism_fulltext_xml"))):
+        for k in keys:
+            if inp.get(k):
+                xml, xml_pmid = inp[k], cand
+                break
+        if xml:
+            break
+
     if xml:
         text = re.sub(r"<[^>]+>", " ", xml)
         text = re.sub(r"\s+", " ", text)
@@ -1229,12 +1278,25 @@ def _mechanism_hr_stance(inp):
             if k not in seen:
                 seen.add(k)
                 uniq.append(s)
-        out["fulltext_pmcid"] = inp.get("mechanism_pmcid")
-        out["fulltext_sentences_mentioning_HR_or_BRCA_or_PARP"] = uniq[:40]
+        out["fulltext_pmcid"] = (inp.get(f"mechanism_pmcid_{xml_pmid}")
+                                 or inp.get("mechanism_pmcid"))
+        # ⛔ STORE ALL OF THEM. This list was truncated at 40 while `n_such_sentences` reported the
+        # untruncated count, so a sentence could be quoted from a document the artifact did not hold.
+        # Both numbers are emitted so the truncation, if it ever returns, is visible rather than
+        # inferable.
+        out["fulltext_sentences_mentioning_HR_or_BRCA_or_PARP"] = uniq
         out["n_such_sentences"] = len(uniq)
+        out["n_such_sentences_stored"] = len(uniq)
+        out["_version_read"] = (
+            "VERSION OF RECORD" if xml_pmid == MECHANISM_PMID else
+            "⚠ PREPRINT — the quoted sentences below are the bioRxiv preprint's wording, NOT the "
+            "published version's. The published version rewords them.")
+        out["_version_read_pmid"] = xml_pmid
     else:
         out["fulltext"] = ("CANNOT_DETERMINE — no open-access full text was fetched; the abstract "
                            "sentences above are all that was read")
+        out["_version_read"] = "NONE — no full text in the cache"
+        out["_version_read_pmid"] = None
     return out
 
 

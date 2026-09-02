@@ -193,7 +193,7 @@ than after.
 | MDM2 antagonism | excluded — the p53 transcriptional output is lower on both, not the live axis the class needs |
 | MCL-1 / BCL-xL | excluded at the abundance level — all five druggable guardians are lower on both platforms |
 | EZH2 / PRC2 | excluded — neither selecting shape present |
-| POLθ | excluded — neither half of the required combination |
+| POLθ | excluded — the required *combination* is absent, because the homologous-recombination half is not there. ⚠ **Not because neither half is:** the alt-EJ half is present on both platforms. *Superseded, retained: "neither half of the required combination" — the verdict is unchanged, the reason given was wrong (`census-route-expression-grading.json` → `RT-POLQ.⚠_correction_2026_08_09`)* |
 
 ⛔ **The starred example in the first version of this section was the MCL-1 row, and the lookup went
 against it.** *Superseded, retained: "The MCL-1 row is the sharpest of these because the evidence is
@@ -293,7 +293,7 @@ not restated here:
 
 | route | verdict |
 |---|---|
-| hypoxia-activated prodrugs | **supported** — and the only one supported concordantly on both platforms |
+| hypoxia-activated prodrugs | ⛔ **withdrawn** — the confound audit restricts the signature to one of the two platforms, and [`emc-hypoxia-reading.md`](../microenv/emc-hypoxia-reading.md) §5, which owns that audit, declines to license this class from the signal at all. *Superseded, retained: "**supported** — and the only one supported concordantly on both platforms"* |
 | arginine deprivation | **against** — the selecting biomarker is not low in this disease on either platform |
 | matrix biosynthesis | **against as stated** — the sulfate-donor module is lower, not higher, than in comparator sarcomas |
 | RET | **split** — the receptor holds; the module that switches it on is depleted on both platforms |

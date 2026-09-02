@@ -52,7 +52,7 @@ flowchart LR
   RT_SURVEILLANCE["○ RT-SURVEILLANCE"]:::fam
   ST_CARE_DELIVERY --> RT_SURVEILLANCE
 
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_IPD_SURVIVAL
   BLK_NO_CURATED_CLINICAL_DATA --> RT_METASTASECTOMY
   BLK_NO_CURATED_CLINICAL_DATA --> RT_RISK_MODEL
@@ -76,11 +76,11 @@ flowchart LR
 |---|---|---|---|---|---|
 | **[RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md)**<br/>The diagnosis itself — code contamination and a name that misleads | ✓ closed | computed | `internal_note` | [PUB-EMC-CLASSIFICATION](L3-publications.md) ◐ *contributing* | ⛔ NOTHING. CLOSED 2026-08-23 — 'this is not a paper. Document what we have, merge to main, and drop it.' The r |
 | **[RT-IPD-SURVIVAL](L2-rt-ipd-survival.md)**<br/>Patient-level survival reconstructed from published Kaplan-Meier curves | ○ ready | computed | `internal_note` | [PUB-IPD-SURVIVAL](L3-publications.md) ○ *contributing* | Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or r |
-| **[RT-METASTASECTOMY](L2-rt-metastasectomy.md)**<br/>Pulmonary metastasectomy as a decision rather than a modality | ○ ready | concept | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is l |
+| **[RT-METASTASECTOMY](L2-rt-metastasectomy.md)**<br/>Pulmonary metastasectomy as a decision rather than a modality | ○ ready | computed | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ ANSWERED — do NOT write the proposed note. "Roughly a quarter" is not computable: the three counts sit in no |
 | **[RT-POPULATION-REGISTRY](L2-rt-population-registry.md)**<br/>Population cancer-registry microdata (SEER, NCDB) | ○ blocked | concept | `internal_note` | [PUB-EMC-CLASSIFICATION](L3-publications.md) ◐ *contributing* | The denominator is now understood, which is what this route was waiting for — and the answer makes the topogra |
-| **[RT-RISK-MODEL](L2-rt-risk-model.md)**<br/>A prognostic risk model for EMC | ○ ready | concept | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PR |
-| **[RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md)**<br/>The first operation — margin status, unplanned excision and treatment setting | ○ ready | concept | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an  |
-| **[RT-SURVEILLANCE](L2-rt-surveillance.md)**<br/>Surveillance duration and interval as the intervention | ○ ready | concept | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is no |
+| **[RT-RISK-MODEL](L2-rt-risk-model.md)**<br/>A prognostic risk model for EMC | ○ ready | computed | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ ANSWERED — publish nothing standalone. Of 12 cross-cohort comparisons, 0 have both intervals excluding 1 (`e |
+| **[RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md)**<br/>The first operation — margin status, unplanned excision and treatment setting | ○ ready | computed | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ The publish decision is ANSWERED — no. The margin finding restates the printed conclusion of its own largest |
+| **[RT-SURVEILLANCE](L2-rt-surveillance.md)**<br/>Surveillance duration and interval as the intervention | ○ ready | computed | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | ⛔ Do NOT wait on RT-IPD-SURVIVAL — it produced one admissible curve (11 patients, progression-free survival in |
 ## Best next action
 
 Digitize the Kaplan-Meier curves and numbers-at-risk tables of the open-access EMC series already cited here and run them through research/modalities/emc_ipd_survival.py — the instrument is built and its known-answer control passes; only the curves are missing.

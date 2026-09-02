@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-RISK-MODEL — A prognostic risk model for EMC
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-26
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence low · verified 2026-09-02
 
 **Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ RE-GRADED 2026-08-26 — THE COEFFICIENTS DO NOT HAVE TO BE ESTIMATED, THEY ARE ALREADY PRINTED. This route was written as though a model had to be FITTED, which made it wait on reconstructed patient-level data. The two largest reachable open-access EMC series each print FITTED COX MODELS with hazard ratios, 95 % intervals and per-level patient counts — 7 models and 45 estimable coefficients across four endpoints, in emc-prognostic-coefficients.json. So the prognostic ORDERING is reachable today at $0.  ⛔ WHAT IS STRUCTURALLY UNREACHABLE FROM PRINT IS THE HALF A RISK MODEL IS FOR: neither paper prints a baseline hazard, or a reference-group curve with a numbers-at-risk row that one could be recovered from. Coefficients alone rank patients by risk and can never price any patient's risk — no survival probability, no nomogram, no n-year risk, and no validation, since discrimination and calibration both need patient-level outcomes. A model published from this is an ordering and must say so.  ⚠ AND THE TWO COHORTS ARE CONSISTENT RATHER THAN CORROBORATING. 11 of 12 cross-cohort comparisons agree in direction and all 12 pairs of intervals overlap, but 9 of the 12 are between intervals that BOTH include 1, and in NOT ONE does both cohorts' interval exclude 1. Only surgical margin holds its direction across four endpoints and two cohorts while reaching significance in the larger one. The single directional disagreement — sex on local recurrence — is between two null results and is not a contradiction.  No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. ⚠ Any model FITTED on a few hundred reconstructed patients would be badly overfit unless held to a handful of predictors with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling for that path.  ⚠ Superseded, retained: "INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last." The downgrade is still true OF THE RECONSTRUCTION PATH and is confirmed harder — neither of the two cohorts here prints a numbers-at-risk row under ANY of its 7 stratified curves, so none of them is reconstructable at all. What is superseded is the inference that the route therefore waits: it does not consume the reconstruction for its coefficients.
 
@@ -27,7 +27,7 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_RISK_MODEL["○ RT-RISK-MODEL"]:::fam
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_RISK_MODEL
   TECH_RECONSTRUCTED_IPD(["TECH-RECONSTRUCTED-IPD<br/>expected 2026H2"]):::tech
   TECH_RECONSTRUCTED_IPD -.-> BLK_NO_CURATED_CLINICAL_DATA
@@ -90,7 +90,9 @@ The coefficients are transcribed, guarded and reproducible, but a prognostic ORD
 
 **The paper would claim:** In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.
 
-**It is not written because:** Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.
+**It is not written because:** ⚠ Superseded, retained (rule 1.2): "Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result." ⛔ BOTH HALVES ARE FALSE AS OF 2026-09-01. Six extraction artifacts exist and none of them consumes a reconstruction: 196 operated patients with a margin (research/modalities/emc-surgical-quality.json), 271 patients' primary site (emc-site-curation.json), 45 printed Cox coefficients (emc-prognostic-coefficients.json) and four printed time-to-event statistics (emc-recurrence-timing.json). RT-IPD-SURVIVAL has produced exactly one admissible curve — 11 patients, progression-free survival in advanced disease — which is the wrong shape for this paper and always was.
+
+⭐ THE REAL REASON IT IS UNWRITTEN IS A JUDGEMENT, NOT A GAP. The paper's strongest quantitative claim — that margin decides local recurrence — is the printed conclusion of the abstract of its own largest source (PMID 40885991: "Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs"). The third clause of what_it_would_claim, whether the diagnosis was known before the operation, is unstudiable in EMC from the reachable record: treatment setting is reported by no reachable series. And the working title's second half — "what the literature has been looking at instead" — is an argument with no measurement behind it. ⭐ The one free step that would change this is a term census over the 554-record corpus already committed at literature/emc-care-delivery-and-classification/ on the literature-cache branch, which is now filed as BLK-NO-FIELD-ATTENTION-MEASUREMENT.
 
 ## Strategic timing — the wait equation
 
@@ -114,7 +116,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.
+⛔ ANSWERED — publish nothing standalone. Of 12 cross-cohort comparisons, 0 have both intervals excluding 1 (`emc-prognostic-coefficients.json → cross_cohort_summary`); the cohorts are consistent, not corroborating, and `absolute_risk_computable` is false and guarded. The ordering's one survivor is surgical margin, which is RT-SURGICAL-QUALITY's finding measured a second way — so it is a paragraph of that record, not its own note. ⛔ Do NOT re-attempt the reconstruction path for these covariates: neither cohort prints a numbers-at-risk row under any of its 7 stratified survival curves (masunaga 3, chiusole 4, every one refused in `emc-km-admissibility-2026-08-27.json`). ⚠ Superseded, retained: "Decide what an ordering-only prognostic statement is worth publishing as."
 
 *Cost:* $0
 

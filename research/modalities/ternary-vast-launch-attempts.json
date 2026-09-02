@@ -95,122 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-08-27T09:41:25Z",
-      "et": "5:41 AM ET",
-      "outcome": "refused-on-price",
-      "what_that_means": "the board was read and NOTHING on it was within the buy line \u2014 the guard working, nothing rented, nothing billing, next tick re-checks",
-      "stage": "rent (steps.rent.outcome=success)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33059489043",
-      "gate_ratio_vs_basis": 1.543,
-      "gate_mean_usd_per_ns": 0.005264,
-      "gate_projected_usd": 11.29,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.543x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.175x basis",
-      "gate_board_depth": {
-        "offers_returned": 87,
-        "qualifying": 87,
-        "priceable": 51,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0,
-      "reason": "task=5aks; job status success"
-    },
-    {
-      "utc": "2026-08-27T09:44:33Z",
-      "et": "5:44 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "triangle-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33059372884",
-      "gate_ratio_vs_basis": 1.598,
-      "gate_mean_usd_per_ns": 0.005452,
-      "gate_projected_usd": 9.09,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.598x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.693x basis",
-      "gate_board_depth": {
-        "offers_returned": 91,
-        "qualifying": 30,
-        "priceable": 30,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "board cleared both ceilings; dispatching task=triangle"
-    },
-    {
-      "utc": "2026-08-27T09:46:29Z",
-      "et": "5:46 AM ET",
-      "outcome": "failed",
-      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
-      "stage": "rent (steps.rent.outcome=skipped)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33059947364",
-      "gate_ratio_vs_basis": 1.54,
-      "gate_mean_usd_per_ns": 0.005253,
-      "gate_projected_usd": 8.76,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.54x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.693x basis",
-      "gate_board_depth": {
-        "offers_returned": 92,
-        "qualifying": 31,
-        "priceable": 31,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0,
-      "reason": "task=triangle; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
-    },
-    {
-      "utc": "2026-08-27T20:25:50Z",
-      "et": "4:25 PM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "triangle-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33113145216",
-      "gate_ratio_vs_basis": 1.745,
-      "gate_mean_usd_per_ns": 0.005954,
-      "gate_projected_usd": 9.93,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.745x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $17.79); over the $/ns drift line (the buy line) at 3.126x basis",
-      "gate_board_depth": {
-        "offers_returned": 87,
-        "qualifying": 35,
-        "priceable": 35,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "board cleared both ceilings; dispatching task=triangle"
-    },
-    {
-      "utc": "2026-08-27T20:27:30Z",
-      "et": "4:27 PM ET",
-      "outcome": "failed",
-      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
-      "stage": "rent (steps.rent.outcome=skipped)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33113285888",
-      "gate_ratio_vs_basis": 1.714,
-      "gate_mean_usd_per_ns": 0.005848,
-      "gate_projected_usd": 9.75,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.714x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $15.92); over the $/ns drift line (the buy line) at 2.799x basis",
-      "gate_board_depth": {
-        "offers_returned": 88,
-        "qualifying": 34,
-        "priceable": 34,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0,
-      "reason": "task=triangle; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
-    },
-    {
       "utc": "2026-08-28T05:23:05Z",
       "et": "1:23 AM ET",
       "outcome": "dispatched",
@@ -1373,12 +1257,126 @@
       "n_requested": 4,
       "n_rented": 0,
       "reason": "task=5aks; job status success"
+    },
+    {
+      "utc": "2026-09-02T04:30:19Z",
+      "et": "12:30 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33590952599",
+      "gate_ratio_vs_basis": 1.499,
+      "gate_mean_usd_per_ns": 0.005115,
+      "gate_projected_usd": 10.97,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.499x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.488x basis",
+      "gate_board_depth": {
+        "offers_returned": 89,
+        "qualifying": 89,
+        "priceable": 55,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
+    },
+    {
+      "utc": "2026-09-02T04:30:23Z",
+      "et": "12:30 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "triangle-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33590954265",
+      "gate_ratio_vs_basis": 1.848,
+      "gate_mean_usd_per_ns": 0.006306,
+      "gate_projected_usd": 10.52,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.848x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $18.0); over the $/ns drift line (the buy line) at 3.164x basis",
+      "gate_board_depth": {
+        "offers_returned": 89,
+        "qualifying": 34,
+        "priceable": 34,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=triangle"
+    },
+    {
+      "utc": "2026-09-02T04:30:25Z",
+      "et": "12:30 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "5aks-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33590956011",
+      "gate_ratio_vs_basis": 1.812,
+      "gate_mean_usd_per_ns": 0.006182,
+      "gate_projected_usd": 13.26,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.812x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.683x basis",
+      "gate_board_depth": {
+        "offers_returned": 89,
+        "qualifying": 89,
+        "priceable": 55,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=5aks"
+    },
+    {
+      "utc": "2026-09-02T04:31:55Z",
+      "et": "12:31 AM ET",
+      "outcome": "failed",
+      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
+      "stage": "rent (steps.rent.outcome=skipped)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33591057034",
+      "gate_ratio_vs_basis": 1.577,
+      "gate_mean_usd_per_ns": 0.005379,
+      "gate_projected_usd": 11.53,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.577x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.62x basis",
+      "gate_board_depth": {
+        "offers_returned": 89,
+        "qualifying": 89,
+        "priceable": 54,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0,
+      "reason": "task=edge-reps; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
+    },
+    {
+      "utc": "2026-09-02T04:32:59Z",
+      "et": "12:32 AM ET",
+      "outcome": "refused-on-price",
+      "what_that_means": "the board was read and NOTHING on it was within the buy line \u2014 the guard working, nothing rented, nothing billing, next tick re-checks",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33591066452",
+      "gate_ratio_vs_basis": 1.624,
+      "gate_mean_usd_per_ns": 0.005542,
+      "gate_projected_usd": 11.88,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.624x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.831x basis",
+      "gate_board_depth": {
+        "offers_returned": 87,
+        "qualifying": 87,
+        "priceable": 53,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0,
+      "reason": "task=5aks; job status success"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 5500,
-    "through_utc": "2026-08-27T09:40:20Z"
+    "n_total": 5506,
+    "through_utc": "2026-08-27T20:27:30Z"
   }
 }

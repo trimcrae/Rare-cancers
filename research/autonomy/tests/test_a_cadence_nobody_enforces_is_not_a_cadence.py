@@ -163,32 +163,45 @@ def test_a_clean_cycle_may_not_decrement_through_the_hold_floor():
     """⛔ THE WHOLE REASON THE HOLD EXISTS. `backoff_level` is a FAILURE counter that a clean cycle
     LOWERS, so a level raised for budget reasons is undone by the first cycle that goes well.
 
-    ⚠ THE FLOOR IS NOW SET EXPLICITLY RATHER THAN READ OFF THE LIVE HOLD, AND THAT IS THE FIX FOR A
-    REAL FAILURE (2026-09-01). This read `live_state()["budget_hold"]["floor_backoff_level"] - 1`.
-    The sprint that evening set a hold pinning a CEILING instead of a floor — width 12, 4 h cadence,
-    `backoff_level: 0` — so `floor_backoff_level` became 0, the expression evaluated to **-1**, and
-    the row correctly answered LEVEL-UNREADABLE because a negative backoff level is not a posture.
-    ★ THE TEST WAS ASSERTING THE WRONG THING FOR THE RIGHT REASON: it wanted "one below the floor",
-    and with no floor there is nothing below. Building the state here makes the property — a level
-    under an active floor is a breach — independent of whatever shape the live hold happens to have,
-    which is what a unit test of that property should have done from the start.
-    ⛔ THE LIVE-STATE READ IS KEPT FOR THE ROWS THAT ARE ABOUT THE LIVE HOLD (the two above and the
-    two below); it is only wrong where the test needs a shape the live file does not currently hold.
+    ⛔⛔ THE FIXTURE IS CONSTRUCTED, NOT DERIVED, AND THAT IS THE POINT (2026-09-02). This test used
+    to read `st["backoff_level"] = st["budget_hold"]["floor_backoff_level"] - 1` off the LIVE state.
+    When the sprint set `floor_backoff_level: 0` that expression became `-1`, which
+    `c_budget_recovering` refuses as `LEVEL-UNREADABLE` before any floor comparison — correctly, at
+    its own `level < 0` guard. So the test went red with the behaviour untouched.
+    ★★ AND THE FALSE RED IS THE LESS DANGEROUS HALF. A test that derives its fixture from a live
+    artifact does not fail when the behaviour breaks; it fails, or PASSES, according to where the
+    artifact happens to sit. A differently-shaped live state would have let this assert green while
+    exercising nothing. The floor property is a property of the code, so the posture that exercises
+    it is built here.
     """
     st = copy.deepcopy(live_state())
     st["budget_hold"]["floor_backoff_level"] = 2
     st["backoff_level"] = 1
-    # ⚠ THE STAMP IS REQUIRED OR AN EARLIER BRANCH ANSWERS FIRST. A raised `backoff_level` with no
-    # `backoff_since_utc` is BACKOFF-AGE-UNKNOWN — the row's condition is a DURATION, so an unstamped
-    # level is unmeasured rather than breaching. It is set RECENT on purpose: an old stamp would
-    # answer STUCK and this test would pass for the wrong reason, which is the failure mode the
-    # sibling test below exists to catch.
-    st["backoff_since_utc"] = datetime.datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    # ⛔ THE DURATION IS READ BEFORE THE FLOOR IS, so this line is load-bearing. A raised level with
+    # no `backoff_since_utc` returns BACKOFF-AGE-UNKNOWN and never reaches the floor comparison —
+    # measured, and it is how the first draft of this very fix failed: a fixture that exercises a
+    # different branch from the one the test's name claims.
+    st["backoff_since_utc"] = "2026-09-01T00:00:00Z"
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
     assert not row["ok"] and row["verdict"] == "HOLD-FLOOR-BREACHED", (
-        f"a level of 1 under a declared floor of 2 read {row['verdict']!r}. The floor is the one "
-        "thing a clean cycle must not decrement through; if this row stops saying so, a budget hold "
-        "is undone by the first cycle that goes well.")
+        "a level below the hold's declared floor must be refused; got "
+        f"{row['verdict']!r}")
+
+
+def test_a_negative_backoff_level_is_unreadable_rather_than_below_every_floor():
+    """⭐ THE BRANCH THAT MASKED THE TEST ABOVE, NOW PINNED DELIBERATELY.
+
+    A negative `backoff_level` is not "further below the floor" — it is not a reading at all, and
+    `c_budget_recovering` must say UNMEASURED rather than manufacture a floor breach from it. This
+    case was being exercised by accident, as the reason the floor test failed; an accident is not a
+    test, so it gets one.
+    """
+    st = copy.deepcopy(live_state())
+    st["budget_hold"]["floor_backoff_level"] = 2
+    st["backoff_level"] = -1
+    row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
+    assert not row["ok"] and row["verdict"] == "LEVEL-UNREADABLE", (
+        f"a negative level must be UNMEASURED, not a floor breach; got {row['verdict']!r}")
 
 
 def test_the_hold_expires_into_a_review_never_into_full_cadence():
@@ -211,20 +224,16 @@ def test_a_held_backoff_is_not_reported_as_stuck():
 def test_without_a_hold_the_old_stuck_reading_is_unchanged():
     """The extension must not have bought its green by weakening the row for everyone.
 
-    ⚠ `backoff_level` IS SET EXPLICITLY HERE FOR THE SAME REASON AS THE FLOOR TEST ABOVE. This
-    popped the hold and set an old `backoff_since_utc`, then expected STUCK — but STUCK is a
-    statement about a backoff that has lasted, and the live file now carries `backoff_level: 0`,
-    which is a MEASURED green ("the loop is not in backoff") rather than a stuck one. The row was
-    right and the fixture had gone stale under it.
-    ⛔ THE PROPERTY IS UNCHANGED AND STILL ASSERTED: with no hold to excuse it, a backoff that has
-    been raised for weeks is STUCK. Only the level it is raised to is now stated rather than
-    inherited from a file another session edits.
+    ⛔ `backoff_level` IS SET HERE RATHER THAN INHERITED (2026-09-02, same defect as the floor test).
+    The stuck reading is about a RAISED backoff that has not come down, so the fixture must carry
+    one. Inheriting the live level meant that whenever the loop was healthy — level 0, which is the
+    state this repository is in most of the time — the row was correctly green and the test read
+    that green as a failure to be STUCK.
     """
     st = copy.deepcopy(live_state())
     st.pop("budget_hold")
-    st["backoff_level"] = 2
+    st["backoff_level"] = 1
     st["backoff_since_utc"] = "2026-08-01T00:00:00Z"
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
     assert not row["ok"] and row["verdict"] == "STUCK", (
-        f"a month-old backoff at level 2 with no hold read {row['verdict']!r}; the hold extension "
-        "must not have bought its green by weakening this row for everyone.")
+        f"a backoff raised since 2026-08-01 and never lowered is STUCK; got {row['verdict']!r}")

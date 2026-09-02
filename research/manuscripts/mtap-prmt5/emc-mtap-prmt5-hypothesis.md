@@ -171,7 +171,7 @@ invisible to it.
 
 ### 2.1 Expression series and per-gene scoring
 
-Two public archival series contain this histology and are the only readable EMC expression data.
+Two public archival series carry this histology in a form this array-based reader can score as a group of tumours. That is a statement about the instrument, not about what exists: the readability record names five GEO series with EMC-titled samples, and the other three — GSE28866 (4 EMC), GSE43632 (1), GSE80126 (1) — are unread here because no platform of theirs mapped probes to gene symbols, which is an absent reading and never a reading of absence.
 
 | series | platform | EMC tumours | comparator arm |
 |---|---|---:|---|

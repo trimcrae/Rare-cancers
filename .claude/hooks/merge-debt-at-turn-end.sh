@@ -101,11 +101,25 @@
 # ⚠ AND IN A SHALLOW CLONE THE CENSUS UNDER-REPORTS. This checkout is shallow (`is-shallow-repository`
 # = true), grafted at 2026-08-04. `--max-parents=0` therefore returns the GRAFT boundary, not the true
 # root, so HALF B really asks "does this ref contain main's earliest LOCALLY KNOWN commit?" — and a
-# branch that forked below the graft cannot be classified at all. 141 of the refs this clone calls
-# "no common ancestor" have tips BELOW the graft: they are UNMEASURED, not merged, and calling them
-# "pre-rewrite history" is a claim this clone cannot support. The error direction is FALSE SILENCE,
-# so the printed count is a LOWER BOUND and says so. All 37 reported today have tips from 2026-08-06
-# onward, well above the graft, so the reading is sound for every branch it names.
+# branch that forked below the graft is invisible to THIS query. Those refs are UNMEASURED BY HALF B,
+# not merged, and calling them "pre-rewrite history" is a claim this clone cannot support. The error
+# direction is FALSE SILENCE, so the printed count is a LOWER BOUND and says so. Every branch HALF B
+# names has a tip well above the graft, so the reading is sound for each one it reports.
+#
+# ⛔⛔ SUPERSEDED, RETAINED (2026-09-02): this comment used to end "a branch forked below the graft
+# CANNOT BE CLASSIFIED AT ALL", and the printed warning told the reader the same thing. That was
+# false, and it was the expensive kind of false — it told a reader not to look at 147 refs.
+# ★ ANCESTRY IS DEAD FOR THEM; CONTENT IS NOT. A TREE DIFF NEEDS NO MERGE-BASE. `git cat-file -e
+# <ref>:<path>` and `git diff <ref> -- <path>` answer "does main have this content" with no common
+# ancestor whatsoever, and pre-graft refs share merge-bases with EACH OTHER, so fork points are
+# recoverable even where they are unrecoverable against main. A census on that method reached
+# UNMEASURED = 0 across all 185 unmerged refs: research/autonomy/sprint-2026-09-01/S38-BRANCH-CENSUS.md.
+# ⛔ AND WHAT IT FOUND IS WHY THE SILENCE MATTERED: 40 refs carry live work, among them 39 files of a
+# body of work STRATEGY.md still calls a "backup route", and 138 files exist on some branch and on no
+# other. It also found 15 refs that are LIVE CI INFRASTRUCTURE rather than debt — main's own
+# workflows write to them — so a future tightening here must not treat every unmerged ref as a defect.
+# ⚠ HALF B STILL REPORTS ITS OWN 38 AND NOT THE 185. The ancestry reading is the stronger one where
+# it applies, and collapsing the two would lose that. The dropped count is now printed BESIDE it.
 # =====================================================================================================
 
 set -uo pipefail
@@ -170,11 +184,17 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────────────────────────
 B_REFS=""; B_N=0; B_COMMITS=0
 ROOT=$(git rev-list --max-parents=0 origin/main 2>/dev/null | tail -1)
+# ⛔ COUNT WHAT THIS QUERY THROWS AWAY. Every unmerged ref, minus the ones HALF B can reach by
+# ancestry, is the set the hook used to drop in silence. Printing it is the whole 2026-09-02 fix:
+# a number a reader can act on, instead of a sentence saying the refs were beyond reach.
+B_ALL=$(git for-each-ref --no-merged=origin/main --format='x' refs/remotes/origin 2>/dev/null | grep -c . || echo 0)
+B_DROPPED=0
 if [ -n "$ROOT" ]; then
   B_REFS=$(git for-each-ref --no-merged=origin/main --contains="$ROOT" \
              --sort=-committerdate --format='%(refname:short)' refs/remotes/origin 2>/dev/null)
   if [ -n "$B_REFS" ]; then
     B_N=$(printf '%s\n' "$B_REFS" | grep -c .)
+    B_DROPPED=$(( B_ALL - B_N ))
     # shellcheck disable=SC2086 — deliberate word splitting: these are ref names, one per line.
     B_COMMITS=$(git rev-list --count $B_REFS --not origin/main 2>/dev/null || echo 0)
   fi
@@ -273,8 +293,11 @@ fi
     echo "⚠ THE NUMBER IS A LOWER BOUND, TWICE OVER, AND NEITHER IS FIXABLE FROM A STOP HOOK:"
     echo "   • refs are as of the last fetch ($FETCH_AGE); anything pushed since is invisible here."
     if [ "$(git rev-parse --is-shallow-repository 2>/dev/null)" = "true" ]; then
-      echo "   • this clone is SHALLOW, so a branch forked below the graft cannot be classified at all"
-      echo "     and is counted as neither merged nor stranded. UNMEASURED, not clean."
+      echo "   • this clone is SHALLOW and grafted, so ${B_DROPPED:-?} further ref(s) do not contain"
+      echo "     main's earliest known commit and are invisible to THIS query — counted as neither"
+      echo "     merged nor stranded. UNMEASURED BY ANCESTRY, not clean, and NOT unclassifiable:"
+      echo "     a tree diff needs no common ancestor. All of them were read on 2026-09-02 —"
+      echo "     research/autonomy/sprint-2026-09-01/S38-BRANCH-CENSUS.md (UNMEASURED = 0 of 185)."
     fi
     echo
   fi

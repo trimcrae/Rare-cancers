@@ -118,6 +118,27 @@ Path-by-path. Empty if nothing changed, and say why.
 Proposed `what` / `kind` / `state` for each. You may not write them yourself.
 ```
 
+### 3a · ⛔⛔ AND WRITE YOUR FIRST REAL FINDING EARLY, NOT WELL. A SEAT KILLED AT MINUTE THREE MUST STILL LEAVE SOMETHING ON DISK.
+
+⚠ *Added 2026-09-01, ~23:30Z, after rule 3 was found to have a floor.* Seven agents returned
+`HTTP 429 · session limit` within one second. Four seats that had run to completion lost nothing —
+rule 3 worked. **Six seats that were one to three tool calls in lost everything**, and two of them
+had produced a record skeleton carrying `verdict: in_progress` and **zero findings**: a file that
+reads, to anyone scanning `review-seats/`, exactly like a seat that looked and found nothing.
+
+★ **So rule 3's "as you go" has a start condition it never stated.** A findings file that exists
+but is empty is not a partial deposit, it is a false one. **Write the FIRST thing you actually
+establish — a number you read, a claim you checked, a file that is not what the paper says it is —
+before your tenth tool call, and append every subsequent one as you get it.** A single verified
+sentence on disk beats a perfect report that never lands.
+
+⛔ **And do not pre-create the skeleton.** Create the file at the moment you have the first finding
+to put in it. An empty record with a verdict field is worse than no record, for the same reason a
+`false` provenance flag is worse than no flag: the next reader believes it.
+
+Accounting, and why the width dial did not prevent this:
+`DRIVER-04-the-session-limit.md`.
+
 ### 4 · ⛔ REFUTE BY DEFAULT.
 
 Your ledger row is a **claim somebody else made**, often days ago, and this repository's most
