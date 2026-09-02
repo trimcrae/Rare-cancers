@@ -111,6 +111,17 @@ def _vast_rental_hold_neutralised_for_mechanics(monkeypatch):
 # measured against this stub.
 @pytest.fixture(autouse=True)
 def _gpu_ban_neutralised_for_mechanics(monkeypatch):
+    # ⚠ THE PATH IS INSERTED HERE RATHER THAN INHERITED. `gpu_backend` and `sagemaker_submit` both put
+    # `research/autonomy` on `sys.path` when they import, so in practice the bare `import gpu_ban` below
+    # already resolves by the time any fixture runs — but that makes this fixture's REACHABILITY a side
+    # effect of somebody else's import, and its `except: return` would turn a broken assumption into a
+    # SILENT no-op rather than an error. Measured 2026-09-02 with a positive control: disabling this
+    # fixture reddens 9 tests across test_vast_start_refusal.py and test_gpu_backend.py, so it is
+    # load-bearing and must not be allowed to fail quietly.
+    import os as _os
+    import sys as _sys
+    _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                                      "..", "autonomy"))
     try:
         import gpu_ban
     except Exception:  # noqa: BLE001 — nothing imported the gate in this sandbox; nothing to neutralise
