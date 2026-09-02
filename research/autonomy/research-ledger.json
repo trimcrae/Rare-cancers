@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 180,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 163,
+    "queued": 162,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -3014,9 +3014,9 @@
         "_route_was": "RT-AUTONOMY",
         "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "s29-line-citations",
+      "claimed_utc": "2026-09-02T18:51:54Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3041,6 +3041,10 @@
         {
           "utc": "2026-08-28T20:34:34Z",
           "fingerprint_at_dispatch": "2026-08-27|None"
+        },
+        {
+          "utc": "2026-09-02T18:51:54Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
         }
       ],
       "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
