@@ -528,3 +528,98 @@ def test_the_empty_report_does_not_read_as_a_green_tick(ledger_repo, capsys):
     out = capsys.readouterr().out
     assert "✅" not in out and "all clear" not in out
     assert "a reading, not a green tick" in out
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE VERDICT MUST STATE THE EVIDENCE IT WAS GATED ON, NOT A DIFFERENT FIELD (2026-09-02).
+#
+# `Clocks.terminal` refuses a verdict on `not self.tried` and never reads `attempts`. For three
+# months the sentence it printed named ONLY `attempts`, so a row two seats had claimed and released
+# without advancing rendered as "despite 0 recorded attempt(s)" — which reads as *nobody tried*,
+# the exact reading the `tried` gate exists to refuse.
+#
+# ⚠ MEASURED, not hypothesised. AUT-011, AUT-007, AUT-008, AUT-045 and AUT-016 were claimed by
+# SEAT-s4-ba841eee / SEAT-s5-ba841eee at 2026-08-28 22:44–22:45 UTC and released with `owner: null`
+# at 23:59:53 having advanced nothing; `attempts` stayed 0 because only a LEASE EXPIRY bumps it
+# (priority-weights.json `claim_lease.periods` = 2), not a clean claim-and-release. Receipt
+# CYC-0091-1a2c0a85 recorded the resulting confusion verbatim — "each queued, 0 recorded attempts
+# ... despite being marked `tried`" — and a later reader took those rows as evidence that this
+# module MANUFACTURES human-blocked rows out of untouched ones. It does not: the classification was
+# correct and only the sentence was wrong.
+# ---------------------------------------------------------------------------------------------
+
+def test_a_row_tried_only_by_a_claim_does_not_render_as_untried():
+    """⛔ THE REGRESSION, STATED AS THE STRING A READER ACTUALLY SEES.
+
+    A row claimed once and released clean is `tried` with `attempts == 0`. The verdict must say a
+    seat took it. It must NOT contain a phrase that reads as nobody having tried.
+    """
+    claimed = _row(owner="SEAT-s5", state="in_progress")
+    released = _row(owner=None, state="queued")
+    clocks = S.compute_clocks(_versions((0, [_row()]), (1, [claimed]), (2, [released])))
+    clock = clocks["AUT-X"]
+    assert clock.tried is True and clock.attempts == 0, (
+        "fixture drift: this test is only meaningful for a row that is tried with zero attempts")
+    assert clock.claims == 1, "a claim edge was not counted"
+
+    verdict = clock.terminal(T0 + datetime.timedelta(hours=200), threshold_h=24.0)
+    assert verdict is not None, "a tried row past the threshold must still be terminal"
+    why = verdict["why"]
+    assert "0 recorded attempt" not in why, (
+        "the verdict says '0 recorded attempt(s)' about a row it declared terminal BECAUSE it was "
+        "tried — the one field `terminal()` does not gate on, printed as if it were the reason:\n"
+        f"  {why}")
+    assert "claim(s) by an automated seat" in why, (
+        f"the verdict does not name the evidence it was actually gated on:\n  {why}")
+
+
+def test_a_claim_is_counted_once_per_claim_and_not_once_per_commit():
+    """⛔ AN EDGE, NOT A LEVEL. `owner` stays set for a whole lease, so counting the level would
+    report one claim as many and turn a re-scored row into a busy one."""
+    held = _row(owner="SEAT-s5", state="in_progress")
+    clocks = S.compute_clocks(_versions(
+        (0, [_row()]), (1, [held]), (2, [held]), (3, [held]),
+        (4, [_row(owner=None)]), (5, [_row(owner="SEAT-s9", state="in_progress")])))
+    assert clocks["AUT-X"].claims == 2, (
+        "two distinct claims spanning five commits must count 2, not the number of commits they span")
+
+
+def test_a_retried_row_still_reports_its_retries():
+    """★ THE FIX MUST NOT DROP INFORMATION. A retry count is real; it simply stopped being the only
+    thing printed."""
+    clocks = S.compute_clocks(_versions((0, [_row()]), (1, [_row(attempts=3)])))
+    verdict = clocks["AUT-X"].terminal(T0 + datetime.timedelta(hours=200), threshold_h=24.0)
+    assert "3 recorded attempt(s)" in verdict["why"], verdict["why"]
+
+
+def test_no_terminal_verdict_anywhere_can_read_as_untried():
+    """⛔ THE CLASS, ASSERTED SEPARATELY FROM THE INSTANCE (`paper-hardening`'s one-of-a-pair rule).
+    Whatever combination of claims and attempts produced a verdict, the sentence may never contain a
+    zero count as its whole justification."""
+    for claims, attempts in ((1, 0), (0, 1), (2, 3), (5, 0), (0, 9)):
+        phrase = S._tried_via(claims, attempts)
+        assert "0 " not in phrase and phrase, (
+            f"claims={claims} attempts={attempts} rendered a zero count: {phrase!r}")
+    fallback = S._tried_via(0, 0)
+    assert "should not have been declared terminal" in fallback, (
+        "an untried row is unreachable through terminal(), but if a future edit lets one through "
+        "the message must say so rather than invent a count")
+
+
+def test_a_row_already_held_in_the_oldest_visible_version_counts_that_claim():
+    """⛔ THE MUTATION THAT SURVIVED THE FIRST PASS (M3, 2026-09-02), AND IT IS THE SHALLOW-CLONE CASE.
+
+    `compute_clocks` seeds a row the first time it appears. On a shallow clone that first appearance
+    is the horizon, and a row can already be HELD there — the claim that reached it happened before
+    git can see. Seeding `claims=0` in that branch loses it silently, and the row then renders as
+    though only its retries had ever touched it, which is the same false reading in a rarer shape.
+    Every other test here starts from an unclaimed row, so none of them covers this line.
+    """
+    clocks = S.compute_clocks(_versions(
+        (0, [_row(owner="SEAT-held-at-horizon", state="in_progress")]),
+        (1, [_row(owner=None)])), shallow=True)
+    clock = clocks["AUT-X"]
+    assert clock.tried is True and clock.attempts == 0
+    assert clock.claims == 1, (
+        "a row already held in the oldest version git can see was seeded with no claim, so its "
+        "verdict would name no evidence at all")
