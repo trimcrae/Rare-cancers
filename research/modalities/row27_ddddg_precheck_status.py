@@ -171,6 +171,49 @@ def checkpoint_durability(path=WORKFLOW_FILE):
     out["has_restore_step"] = bool(re.search(r"download-artifact|actions/cache", text))
     out["restore_survives_across_dispatches"] = bool(
         out["has_restore_step"] and re.search(r"restore-keys", text))
+    # ⛔⛔ AND A RESTORE IS HALF A MECHANISM. THIS DETECTOR PRINTED A GREEN VERDICT OVER THE MISSING
+    # HALF FOR 26 DAYS (measured 2026-09-02, and it is the second checker in this repository to put
+    # a tick over the failure it existed to find). `actions/cache@v4` restores in its MAIN step and
+    # saves in a POST step whose condition is `post-if: "success()"` — read from the action's own
+    # `action.yml` at the v4 ref, not remembered. A job killed by `timeout-minutes` is CANCELLED,
+    # which is not success, and the only runs that reach a checkpoint worth keeping are exactly the
+    # runs that time out. So the composite action's save can never fire on this workflow's one
+    # failure mode, and every re-dispatch restored an empty cache while this function said the
+    # checkpoint was durable.
+    # ★ The split API is what makes it real: `actions/cache/save@v4` is a MAIN step with no
+    # `post-if`, so `if: always()` on it means what it says.
+    out["uses_composite_cache_action"] = bool(re.search(r"uses:\s*actions/cache@", text))
+    saves = re.findall(r"(?s)- name:[^\n]*\n(.{0,400}?uses:\s*actions/cache/save@)", text)
+    out["has_save_step"] = bool(saves)
+    out["save_is_unconditional"] = bool(saves) and all(
+        re.search(r"^\s*if:\s*always\(\)\s*$", blk, re.M) for blk in saves)
+    out["save_can_fire_after_a_timeout"] = bool(
+        out["has_save_step"] and out["save_is_unconditional"]
+        and not out["uses_composite_cache_action"])
+    out["_why_the_save_half_is_checked"] = (
+        "actions/cache@v4 declares `post-if: \"success()\"` in its own action.yml, so its save "
+        "step cannot run on a job killed by timeout-minutes — and a timeout is the only way this "
+        "workflow ever produces a checkpoint worth keeping. A restore without a reachable save is "
+        "a mechanism that reads as fixed and banks nothing.")
+    # ⚠ AND `always()` IS ITSELF UNREACHABLE AFTER A JOB-LEVEL TIMEOUT: a cancelled job runs no
+    # further steps of any condition. So the save is only reachable if the WORK steps carry their
+    # own `timeout-minutes` and expire before the job does.
+    out["search_steps_have_their_own_timeout"] = bool(
+        re.search(r"timeout-minutes:\s*\d+\s*\n\s*run:.*ddddg_known_answer_search", text)
+        or re.search(r"(?s)timeout-minutes:\s*\d+.{0,200}?ddddg_known_answer_search", text))
+    if out["writes_checkpoints"] and out["has_restore_step"] \
+            and not out["save_can_fire_after_a_timeout"]:
+        out["verdict"] = (
+            "⛔ THE RESTORE IS PRESENT AND THE SAVE CANNOT FIRE, WHICH IS THE SAME OUTCOME WITH A "
+            "GREEN LOOK. actions/cache@v4 saves in a post step gated on success(); a job killed by "
+            "timeout-minutes is cancelled, and a timeout is how this workflow's checkpoints are "
+            "produced. Use actions/cache/save@v4 with `if: always()`, placed AFTER the search "
+            "steps, and give every search step its own timeout below the job's so the job is never "
+            "cancelled and `always()` is reachable.")
+        out["_consequence_for_the_row"] = (
+            "row 27 still cannot accumulate across dispatches. Every attempt buys the same first "
+            "hours and discards them.")
+        return out
     if out["writes_checkpoints"] and not out["has_restore_step"]:
         out["verdict"] = (
             "⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED. The job writes per-stage checkpoints and "
@@ -195,12 +238,19 @@ def checkpoint_durability(path=WORKFLOW_FILE):
         # against a 350-minute ceiling) is what justified the fix, and a discharged finding whose
         # evidence is erased cannot be re-checked if the fix is ever reverted.
         out["verdict"] = (
-            "✅ CHECKPOINTS ARE WRITTEN AND RESTORED, and the restore carries `restore-keys` so it "
-            "resumes across DISPATCHES rather than only across re-runs of one run. ⚠ Superseded, "
-            "retained: '⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED … the next dispatch restarts at "
-            "stage 1.' That was true when measured — three c01b dispatches died at the 120-minute "
-            "ceiling with zero cumulative progress — and the fix is the cache step plus per-target "
-            "checkpointing inside `run_c01b`, which had no checkpointing at all.")
+            "✅ CHECKPOINTS ARE WRITTEN, RESTORED, AND SAVED ON A PATH A TIMEOUT CAN REACH. The "
+            "restore carries `restore-keys` so it resumes across DISPATCHES rather than only "
+            "across re-runs of one run; the save is `actions/cache/save@v4` — a MAIN step, so its "
+            "`if: always()` is honoured — placed after the search; and every search step carries "
+            "its own `timeout-minutes` below the job's, without which a job-level timeout cancels "
+            "the job and no `always()` step runs at all. "
+            "⚠ Superseded, retained: '⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED … the next "
+            "dispatch restarts at stage 1.' True when measured — three c01b dispatches died at the "
+            "120-minute ceiling with zero cumulative progress. "
+            "⚠ Superseded, retained: '✅ CHECKPOINTS ARE WRITTEN AND RESTORED … the fix is the "
+            "cache step.' That reading was GREEN OVER A HOLE for 26 days: the restore was there "
+            "and `actions/cache@v4` saves in a post step gated on `success()`, which a timed-out "
+            "job never is.")
         out["_consequence_for_the_row"] = (
             "row 27 can now accumulate across dispatches, so a dispatch is worth taking again. ⛔ It "
             "is NOT closed: an accumulating search still has to finish, and until one run reports "

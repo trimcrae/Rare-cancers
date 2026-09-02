@@ -1190,7 +1190,7 @@
     "supporting_evidence": [],
     "remaining_unknowns": [
       "Whether the target cysteine is actually engageable: the exposure criterion that says it is fails on the one family member with literature support.",
-      "Whether the reach geometry survives a criterion that passes its control — the current negative may be an artifact of the failing one."
+      "Measured 2026-09-02 (S56): it does not survive as a RESULT. Filtering competitors by a reactivity-weighted criterion takes the monovalent corridor board from 0/30 open to 16/30 — but a size-matched decoy null over all 680 three-competitor subsets has median 20 open, and 65.0% of random subsets of the same size open at least as many cells as the criterion's. The reopening is ATTRITION (17 competitors reduced to 3), not selection."
     ],
     "required_validation": [
       {
@@ -1228,8 +1228,8 @@
       ]
     },
     "next": {
-      "best_next_action": "Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
-      "cost": "$0",
+      "best_next_action": "DONE 2026-09-02 (S56) and it did not clear the axis. The criterion is built (`nr4a3_monovalent_reach.reactivity_weighted_criterion`, three variants) and the enumeration re-ran under it. Next: fetch an external cysteine-reactivity dataset carrying confirmed unreactive cysteines, so the criterion can be calibrated on something that can refute it. That is a networked read, not a local one.",
+      "cost": "$0 (CI fetch)",
       "blocked_on": []
     },
     "_blocked_on_correction": "2026-09-02 (s24-debt, verifying S54 proposal 1 against the primary sources rather than applying it on trust). Superseded, retained (rule 1.2): [\"BLK-REACH-CATEGORICAL\"]. That field said a $0 act was blocked by the thing the act retires: this route's next.best_next_action and systems/graph/blockers.json -> BLK-REACH-CATEGORICAL.retired_by_action are the same sentence, and the blocker prices it $0 itself. required_validation[0].feasible_today is already true and timing.recommendation is pursue_now. The blocker is kind scientific_uncertainty — not a bench, not a person, not a dataset. state.status is UNCHANGED at blocked, and required_validation[0].blocked_by still names the blocker: what moved is only the claim that the NEXT ACTION cannot be started."

@@ -66,7 +66,7 @@ A cysteine present in NR4A3 and absent from both paralogues would give categoric
 ## Remaining unknowns
 
 - Whether the target cysteine is actually engageable: the exposure criterion that says it is fails on the one family member with literature support.
-- Whether the reach geometry survives a criterion that passes its control — the current negative may be an artifact of the failing one.
+- Measured 2026-09-02 (S56): it does not survive as a RESULT. Filtering competitors by a reactivity-weighted criterion takes the monovalent corridor board from 0/30 open to 16/30 — but a size-matched decoy null over all 680 three-competitor subsets has median 20 open, and 65.0% of random subsets of the same size open at least as many cells as the criterion's. The reopening is ATTRITION (17 competitors reduced to 3), not selection.
 
 ## Required validation
 
@@ -145,9 +145,9 @@ The blocking criterion is small enough to BUILD rather than wait for — a react
 
 ## Best next action
 
-Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.
+DONE 2026-09-02 (S56) and it did not clear the axis. The criterion is built (`nr4a3_monovalent_reach.reactivity_weighted_criterion`, three variants) and the enumeration re-ran under it. Next: fetch an external cysteine-reactivity dataset carrying confirmed unreactive cysteines, so the criterion can be calibrated on something that can refute it. That is a networked read, not a local one.
 
-*Cost:* $0
+*Cost:* $0 (CI fetch)
 
 ## What this route rests on — drill down
 

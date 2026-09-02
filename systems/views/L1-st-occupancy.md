@@ -81,7 +81,7 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-ASYMMETRIC](L2-rt-asymmetric.md)**<br/>Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort | ✓ ready | computed | `reproducible_workflow` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | BUILD THE DETECTOR. The corpus-wide sweep was done by hand on 2026-08-07: 1,354 paralogue-pair mentions triage |
-| **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re- |
+| **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | DONE 2026-09-02 (S56) and it did not clear the axis. The criterion is built (`nr4a3_monovalent_reach.reactivit |
 | **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | computed | `internal_note` | [PUB-MONOVALENT](L3-publications.md) ◐ *primary* | Trace whether the covalent sub-form's negative actually inherits the defective exposure criterion C7. ⚠ RE-TES |
 | **[RT-NR2F1](L2-rt-nr2f1.md)**<br/>Orphan nuclear-receptor agonism against dormancy escape | ○ blocked | scoped | `internal_note` | [PUB-NR-OUTSIDE-NR4A3](L3-publications.md) ◔ *primary* | Check whether the fourth public cohort carries the receptor at all. |
 ## What this family buys the portfolio — blockers it RETIRES

@@ -12,8 +12,8 @@
     "created_at": "2026-08-07T11:52:33Z",
     "event": "workflow_dispatch",
     "head_branch": "main",
-    "badge_conclusion": null,
-    "status": "in_progress",
+    "badge_conclusion": "cancelled",
+    "status": "completed",
     "jobs": [
      {
       "name": "selftest",
@@ -30,16 +30,16 @@
      },
      {
       "name": "c01a",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "cancelled",
       "started_at": "2026-08-07T11:53:07Z",
-      "completed_at": null,
+      "completed_at": "2026-08-07T17:48:08Z",
       "zero_duration": false,
-      "duration_s": null,
-      "duration_h": null,
-      "ran_but_did_not_complete": false,
+      "duration_s": 21301.0,
+      "duration_h": 5.92,
+      "ran_but_did_not_complete": true,
       "did_substantive_work": false,
-      "currently_running": true
+      "currently_running": false
      },
      {
       "name": "c01b",
@@ -781,13 +781,16 @@
     ]
    },
    "runs_in_which_each_search_is_RUNNING_now": {
-    "c01a": [
-     31175836588
-    ],
+    "c01a": [],
     "c01b": []
    },
    "runs_in_which_each_search_RAN_BUT_DID_NOT_COMPLETE": {
     "c01a": [
+     {
+      "run_id": 31175836588,
+      "conclusion": "cancelled",
+      "duration_h": 5.92
+     },
      {
       "run_id": 30777101599,
       "conclusion": "cancelled",
@@ -840,7 +843,7 @@
    "\u26d4_correction_to_row_27s_own_text": "Row 27 says 'NEITHER SEARCH HAS EVER RUN'. The stronger claim it can support is that NEITHER HAS EVER COMPLETED \u2014 which is the load-bearing half and is still true, no artifact having ever been produced. But `runs_in_which_each_search_RAN_BUT_DID_NOT_COMPLETE` shows real wall time was burned on both before cancellation, and `longest_observed_run_h` is the number that actually bears on the plan: it is the measured lower bound on how long the search NEEDS, and it must be compared against the job's own timeout before dispatching again. A search whose runtime exceeds its timeout cannot complete however many times it is dispatched, and that is a different blocker from the one row 27 diagnosed.",
    "n_runs_seen": 13,
    "n_badge_success": 3,
-   "n_badge_cancelled": 9,
+   "n_badge_cancelled": 10,
    "runs_in_which_each_search_did_substantive_work": {
     "c01a": [],
     "c01b": []
@@ -851,21 +854,21 @@
  "timeout_verdict": {
   "per_job": {
    "c01b": {
-    "declared_timeout_minutes": 120,
-    "declared_timeout_h": 2.0,
+    "declared_timeout_minutes": 300,
+    "declared_timeout_h": 5.0,
     "longest_observed_run_h": 2.01,
     "longest_observed_run_min": 120.6,
-    "overshoot_min": 0.6,
+    "overshoot_min": -179.4,
     "_overshoot_is_runner_teardown": "a job killed by `timeout-minutes` records a few minutes MORE than its limit, because the runner still tears the job down after the kill. An overshoot of a few minutes is the signature of a timeout; a duration far BELOW the limit is not.",
-    "reached_its_own_timeout": true,
-    "reading": "\u26d4 HIT THE CEILING. The longest observed run reached this job's declared timeout-minutes, so the API's `cancelled` is a TIMEOUT, not an operator cancellation. Re-dispatching as committed cannot produce an artifact \u2014 the search does not fit in the time it is given."
+    "reached_its_own_timeout": false,
+    "reading": "did not reach its declared timeout; cancellation was not a timeout"
    },
    "c01a": {
-    "declared_timeout_minutes": 350,
-    "declared_timeout_h": 5.83,
+    "declared_timeout_minutes": 40,
+    "declared_timeout_h": 0.67,
     "longest_observed_run_h": 5.92,
     "longest_observed_run_min": 355.2,
-    "overshoot_min": 5.2,
+    "overshoot_min": 315.2,
     "_overshoot_is_runner_teardown": "a job killed by `timeout-minutes` records a few minutes MORE than its limit, because the runner still tears the job down after the kill. An overshoot of a few minutes is the signature of a timeout; a duration far BELOW the limit is not.",
     "reached_its_own_timeout": true,
     "reading": "\u26d4 HIT THE CEILING. The longest observed run reached this job's declared timeout-minutes, so the API's `cancelled` is a TIMEOUT, not an operator cancellation. Re-dispatching as committed cannot produce an artifact \u2014 the search does not fit in the time it is given."
@@ -878,11 +881,18 @@
  "checkpoint_durability": {
   "_source": ".github/workflows/nr4a2-bound-ddddg-search.yml",
   "writes_checkpoints": true,
-  "has_restore_step": false,
+  "has_restore_step": true,
   "checkpoints_committed_anywhere": false,
   "error": null,
-  "verdict": "\u26d4 CHECKPOINTS ARE WRITTEN AND NEVER RESTORED. The job writes per-stage checkpoints and uploads them only as a post-hoc run artifact; nothing reads them back at the start of the next run, and `_ddddg_ckpt/` is committed on no ref. So a timeout loses the whole scan and the next dispatch restarts at stage 1 \u2014 the exact loss CLAUDE.md \u00a76's checkpoint rule exists to prevent.",
-  "_consequence_for_the_row": "row 27 cannot be closed by dispatching. Its next action is to make the search survive: restore the checkpoint at job start, raise the timeout, or shard the scan. All three are engineering, which costs nothing."
+  "restore_survives_across_dispatches": true,
+  "uses_composite_cache_action": false,
+  "has_save_step": true,
+  "save_is_unconditional": true,
+  "save_can_fire_after_a_timeout": true,
+  "_why_the_save_half_is_checked": "actions/cache@v4 declares `post-if: \"success()\"` in its own action.yml, so its save step cannot run on a job killed by timeout-minutes \u2014 and a timeout is the only way this workflow ever produces a checkpoint worth keeping. A restore without a reachable save is a mechanism that reads as fixed and banks nothing.",
+  "search_steps_have_their_own_timeout": true,
+  "verdict": "\u2705 CHECKPOINTS ARE WRITTEN, RESTORED, AND SAVED ON A PATH A TIMEOUT CAN REACH. The restore carries `restore-keys` so it resumes across DISPATCHES rather than only across re-runs of one run; the save is `actions/cache/save@v4` \u2014 a MAIN step, so its `if: always()` is honoured \u2014 placed after the search; and every search step carries its own `timeout-minutes` below the job's, without which a job-level timeout cancels the job and no `always()` step runs at all. \u26a0 Superseded, retained: '\u26d4 CHECKPOINTS ARE WRITTEN AND NEVER RESTORED \u2026 the next dispatch restarts at stage 1.' True when measured \u2014 three c01b dispatches died at the 120-minute ceiling with zero cumulative progress. \u26a0 Superseded, retained: '\u2705 CHECKPOINTS ARE WRITTEN AND RESTORED \u2026 the fix is the cache step.' That reading was GREEN OVER A HOLE for 26 days: the restore was there and `actions/cache@v4` saves in a post step gated on `success()`, which a timed-out job never is.",
+  "_consequence_for_the_row": "row 27 can now accumulate across dispatches, so a dispatch is worth taking again. \u26d4 It is NOT closed: an accumulating search still has to finish, and until one run reports coverage the gate reads UNDETERMINED, because a search-shaped null over an unfinished scan is an absent reading and not a reading of absence."
  },
  "artifact_status": [
   {

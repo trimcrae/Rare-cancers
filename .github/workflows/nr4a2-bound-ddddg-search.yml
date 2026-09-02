@@ -131,7 +131,15 @@ jobs:
     needs: selftest
     if: ${{ inputs.task == 'all' || inputs.task == 'c01b' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # ⛔ 120 -> 340, AND THE NUMBER IS ARGUED RATHER THAN NUDGED. c01b ran 120.6 minutes against a
+    # declared 120 on two independent runs, landing on 7215 s TWICE to the second, which no operator
+    # cancellation produces. That measurement is a LOWER BOUND and nothing else: it says the search
+    # needs more than 120 minutes and says nothing about how much more, so a raise sized to "a bit
+    # over what we saw" would be a guess dressed as a fix. GitHub-hosted runners cap a job at 360
+    # minutes and the value can only be lowered, so 340 is the largest honest setting with room for
+    # setup, the checkpoint save and the upload. ⚠ IT IS STILL NOT A CLAIM THAT THE SEARCH FITS —
+    # that is what the cumulative checkpoint above is for.
+    timeout-minutes: 340
     steps:
       - uses: actions/checkout@v4
         with:
@@ -139,7 +147,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (fixed 2026-08-07).
+      # ⛔⛔ THE 2026-08-07 FIX WAS ONE HALF OF A PAIR, AND THE MISSING HALF IS THE ONE THAT MATTERS
+      # (measured 2026-09-02). `actions/cache@v4` restores in its MAIN step and saves in a POST
+      # step, and that post step's condition is `post-if: "success()"` — read from the action's own
+      # `action.yml` at the v4 ref, not remembered. A job killed by `timeout-minutes` is CANCELLED,
+      # which is not success, so the save never runs. The only runs that reach a checkpoint worth
+      # keeping are exactly the runs that time out. ⇒ THE RESTORE HAD NOTHING TO RESTORE, BY
+      # CONSTRUCTION, and would have gone on reading empty forever while the workflow looked fixed.
+      # ⚠ AND IT HAD NEVER RUN AT ALL: the restore landed in 0f274369b at 2026-08-07T14:37:22Z and
+      # the workflow's LAST dispatch (run 31175836588) was created 2026-08-07T11:52:33Z — 2 h 45 min
+      # earlier. Thirteen runs, zero of them carrying a cache step.
+      # ★ THE FIX IS THE SPLIT API. `actions/cache/restore@v4` and `actions/cache/save@v4` are both
+      # MAIN steps — neither has a `post-if` — so `if: always()` on the save means what it says.
+      # ⛔ AND `always()` IS ONLY REACHABLE IF THE JOB IS NOT CANCELLED, which is why every search
+      # step below now carries its OWN `timeout-minutes` summing well under the job's. A step that
+      # overruns FAILS; the job lives, and the save runs. A job-level timeout cancels everything and
+      # no `always()` step of any kind executes — which is precisely how three months of dispatches
+      # produced zero cumulative progress.
+      # ⚠ THE RUN-ARTIFACT UPLOAD IS NOT REDUNDANT WITH THE CACHE AND IS NOT A SECOND HOME. The
+      # cache is the RESUME mechanism (automatic, keyed, evictable); the artifact is the RETRIEVABLE
+      # copy for a human when the cache is evicted. Committing `_ddddg_ckpt/` to a ref was the third
+      # option and is refused: it is megabytes of intermediate ChEMBL payloads with no reader, and
+      # this repository already pays for committed intermediates nobody reads.
+      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (partial fix 2026-08-07).
       # `_ddddg_ckpt/` is produced after every stage and every target, and the comment above c01a
       # says a timeout therefore "delivers a partial scan rather than nothing". That was an asserted
       # property, not a real one: no `actions/cache`, no `download-artifact`, and the directory is
@@ -152,7 +182,7 @@ jobs:
       # primary key carries run_id so each run saves its own entry, and the prefix key finds the most
       # recent previous one. Without the prefix the cache would hit only on a re-run of the same run.
       - name: Restore the search checkpoint (this is what makes a timeout cumulative)
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: research/modalities/_ddddg_ckpt
           key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
@@ -165,10 +195,33 @@ jobs:
           pip install pytest rdkit biopython
           python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
       - name: C01b — does a measured congeneric pair exist across CREBBP and BRD4?
+        # ⛔ COMFORTABLY BELOW THE JOB'S 340. A step that overruns fails and leaves the job alive to
+        # reach the checkpoint save; a JOB that overruns is cancelled and reaches nothing.
+        timeout-minutes: 300
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01b
+      # ⛔ THE HALF THAT WAS MISSING. A MAIN step, so `always()` is honoured; the key carries
+      # `run_id` so every run banks its own entry and the prefix `restore-keys` above finds the most
+      # recent one on the next dispatch. Without this the restore is decorative.
+      - name: Save the search checkpoint, whatever happened above
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: research/modalities/_ddddg_ckpt
+          key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
+
+      - name: Upload the whole checkpoint directory, so an evicted cache is not a lost scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddddg-checkpoint-${{ inputs.task }}-${{ github.run_id }}
+          path: research/modalities/_ddddg_ckpt
+          if-no-files-found: warn
+
       - name: Routed roadmap edits must still apply to the live map
+        if: always()
         run: cd research/modalities && python3 verify_map_edits.py ddddg-crebbp-brd4-precheck.json
       - name: Publish
+        if: always()
         env:
           PUBLISH_IF_CHANGED: "1"
           PUBLISH_FAIL_HARD: "1"
@@ -201,7 +254,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (fixed 2026-08-07).
+      # ⛔⛔ THE 2026-08-07 FIX WAS ONE HALF OF A PAIR, AND THE MISSING HALF IS THE ONE THAT MATTERS
+      # (measured 2026-09-02). `actions/cache@v4` restores in its MAIN step and saves in a POST
+      # step, and that post step's condition is `post-if: "success()"` — read from the action's own
+      # `action.yml` at the v4 ref, not remembered. A job killed by `timeout-minutes` is CANCELLED,
+      # which is not success, so the save never runs. The only runs that reach a checkpoint worth
+      # keeping are exactly the runs that time out. ⇒ THE RESTORE HAD NOTHING TO RESTORE, BY
+      # CONSTRUCTION, and would have gone on reading empty forever while the workflow looked fixed.
+      # ⚠ AND IT HAD NEVER RUN AT ALL: the restore landed in 0f274369b at 2026-08-07T14:37:22Z and
+      # the workflow's LAST dispatch (run 31175836588) was created 2026-08-07T11:52:33Z — 2 h 45 min
+      # earlier. Thirteen runs, zero of them carrying a cache step.
+      # ★ THE FIX IS THE SPLIT API. `actions/cache/restore@v4` and `actions/cache/save@v4` are both
+      # MAIN steps — neither has a `post-if` — so `if: always()` on the save means what it says.
+      # ⛔ AND `always()` IS ONLY REACHABLE IF THE JOB IS NOT CANCELLED, which is why every search
+      # step below now carries its OWN `timeout-minutes` summing well under the job's. A step that
+      # overruns FAILS; the job lives, and the save runs. A job-level timeout cancels everything and
+      # no `always()` step of any kind executes — which is precisely how three months of dispatches
+      # produced zero cumulative progress.
+      # ⚠ THE RUN-ARTIFACT UPLOAD IS NOT REDUNDANT WITH THE CACHE AND IS NOT A SECOND HOME. The
+      # cache is the RESUME mechanism (automatic, keyed, evictable); the artifact is the RETRIEVABLE
+      # copy for a human when the cache is evicted. Committing `_ddddg_ckpt/` to a ref was the third
+      # option and is refused: it is megabytes of intermediate ChEMBL payloads with no reader, and
+      # this repository already pays for committed intermediates nobody reads.
+      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (partial fix 2026-08-07).
       # `_ddddg_ckpt/` is produced after every stage and every target, and the comment above c01a
       # says a timeout therefore "delivers a partial scan rather than nothing". That was an asserted
       # property, not a real one: no `actions/cache`, no `download-artifact`, and the directory is
@@ -214,7 +289,7 @@ jobs:
       # primary key carries run_id so each run saves its own entry, and the prefix key finds the most
       # recent previous one. Without the prefix the cache would hit only on a re-run of the same run.
       - name: Restore the search checkpoint (this is what makes a timeout cumulative)
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: research/modalities/_ddddg_ckpt
           key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
@@ -227,30 +302,54 @@ jobs:
           pip install pytest rdkit biopython
           python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
       - name: Stage 1 — the universe of human single-protein ChEMBL targets, with sequences
+        timeout-minutes: 30
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage universe
       - name: Stage 2 — per-target counts of binding activities carrying a pchembl value
+        timeout-minutes: 60
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage counts
       - name: Stage 3 — homologous pairs, k-mer prefiltered then CONFIRMED by real alignment
+        timeout-minutes: 30
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage pairs
       - name: Stage 4 — activities for every target in a qualifying pair (checkpointed per target)
+        timeout-minutes: 100
         if: always()
         run: |
           cd research/modalities
           python3 ddddg_known_answer_search.py c01a --stage activities \
             ${{ inputs.max_targets != '0' && format('--max-targets {0}', inputs.max_targets) || '' }}
       - name: Stage 5 — congeneric candidates and their ΔΔΔG
+        timeout-minutes: 60
         if: always()
         run: |
           cd research/modalities
           python3 ddddg_known_answer_search.py c01a --stage candidates \
             ${{ inputs.max_pairs != '0' && format('--max-pairs {0}', inputs.max_pairs) || '' }}
       - name: Stage 6 — RCSB structures on both arms, then the pre-registered gate
+        timeout-minutes: 40
         if: always()
         run: |
           cd research/modalities
           python3 ddddg_known_answer_search.py c01a --stage verdict \
             ${{ inputs.max_pairs != '0' && format('--max-pairs {0}', inputs.max_pairs) || '' }} \
             ${{ inputs.max_targets != '0' && format('--max-targets {0}', inputs.max_targets) || '' }}
+      # ⛔ THE HALF THAT WAS MISSING. A MAIN step, so `always()` is honoured; the key carries
+      # `run_id` so every run banks its own entry and the prefix `restore-keys` above finds the most
+      # recent one on the next dispatch. Without this the restore is decorative.
+      - name: Save the search checkpoint, whatever happened above
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: research/modalities/_ddddg_ckpt
+          key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
+
+      - name: Upload the whole checkpoint directory, so an evicted cache is not a lost scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddddg-checkpoint-${{ inputs.task }}-${{ github.run_id }}
+          path: research/modalities/_ddddg_ckpt
+          if-no-files-found: warn
+
       - name: Routed roadmap edits must still apply to the live map
         if: always()
         run: cd research/modalities && python3 verify_map_edits.py ddddg-benchmark-scan.json

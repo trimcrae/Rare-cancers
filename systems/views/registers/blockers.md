@@ -321,7 +321,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 - **held by (2):** RT-COVALENT-PROBE, RT-MONOVALENT
 - **retired by route (0):** —
 - **retired by technology:** TECH-EXPOSURE-CRITERION
-- **⭐ retired by an action we can take:** Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.
+- **⭐ retired by an action we can take:** Re-run the reach enumeration under a reactivity criterion calibrated on an EXTERNAL cysteine-reactivity dataset carrying at least one confirmed NEGATIVE, and report the result as a rank until one exists. ⛔ The in-family calibration is exhausted: with one positive (NR4A1 C551) and no confirmed negatives, 'passes its own positive control' is satisfiable by construction — the floor can always be placed at the control — so no criterion built from this comparison set alone can fail it. Performed and measured 2026-09-02 (S56).
 - **when it could lift:**
 
   | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
