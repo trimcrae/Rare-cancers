@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 174,
-    "in_progress": 9,
+    "in_progress": 10,
     "parked": 30,
-    "queued": 162,
+    "queued": 161,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -2404,9 +2404,10 @@
         "publication": "PUB-ASO",
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "seat:s33-regression (CYC-0090-d7df5340 blind seat, width 1)",
-      "claimed_utc": "2026-09-02T12:25:46Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "_lease_released_by": "CYC-0091-91c8e949, 2026-09-02T13:31Z. The holder was 'seat:s33-regression (CYC-0090-d7df5340 blind seat, width 1)' — a blind seat of CYC-0090-d7df5340, whose receipt research/autonomy/receipts/CYC-0090-d7df5340.json is committed on the trunk. A cycle that has filed its receipt has ended and its seats end with it, so the lease was held by a worker that provably cannot be running; its one completed record is preserved at research/autonomy/round33-seats/. ⚠ RELEASED BY HAND RATHER THAN AGED OUT, and that is the part worth recording: priority.release_stale_claims expires a claim after cycle_interval_hours × weights.claim_lease.periods, which at the restored 24 h cadence is days away, while this row is the queue's top item and the only thing that closes publish_bar clause 1 for PUB-ASO. Taking another worker's lease is exactly the act that should leave evidence rather than be done silently.",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2418,7 +2419,7 @@
       "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464.json — round 26, 1 blocker and 5 P1s, all applied",
       "id": "AUT-PROP-057-d7df5340",
       "kind": "harden",
-      "what": "ROUND 33 OF PUB-ASO — six blind seats on 7d51f2051e95, to close publish_bar clause 1.\n⛔⛔ THE PAPER HAS NOT CHANGED SINCE ROUND 32 AND THAT IS THE WHOLE POINT OF THIS ROW. Measured 2026-09-02: the deliverable digest is a6f7158552096aea and the article's sha256 is afd60b9ef7f3c1ee at BOTH round 32's pin (4ae4e99293b5) and at 7d51f2051e95. Round 32 was clean — five blind seats, ZERO blockers, 7 P1s — on exactly these bytes. Clause 1 fails at the new pin for one reason: the commit sha moved.\n★ SO THIS ROUND RE-DERIVES A FACT FIVE SEATS ALREADY ESTABLISHED, AND IS RUN ANYWAY. AUT-PD-205-d7df5340 carries the fix — bind clauses 1 and 6 to the deliverable digest instead of the sha — and `publish_bar.py` is a GOVERNED path that the cycle blocked by clause 1 may not edit (architecture §10.4). CLAUDE.md §3's test is 'is there ANY action I could take that resolves this without weakening a bar?', and there is: run the seats, however tedious.\n⛔ SIX, NOT FIVE. `clause_1_hardening_converged` refuses a declaring round narrower than the widest earlier round on record, and `_look_history('PUB-ASO')` returns 6 for four earlier commits. Round 32 fielded five and would be refused on width alone.\n⛔ AND ONE AT A TIME. `budget_hold.declared_posture.max_subagent_width` is 1 at the restored pre-sprint posture. trimcrae's 2026-08-30 grant — 'Pursue the goal of getting ASO v2 submission ready regardless of weekly budget' — lifts the SPEND ceiling for this goal and says nothing about the width dial, which the 107-agent incident makes a ROBUSTNESS dial as well as a budget one (40 completed, 67 errored, the synthesis lost). Reading a spend grant as a width grant is the loosening this row declines to make.\n★ LENSES: arithmetic, citations-and-archive, hostile-referee, regression, statistics, and scope-and-language (R1-R5: no implied selectivity, efficacy, safety, therapeutic window or clinical readiness). Seats write their records to the session scratchpad, never into the tree, because a PREFLIGHT_FULL run is gating the same commit for clause 2 and reads the working tree.",
+      "what": "ROUND 34 OF PUB-ASO — six blind seats on ONE pinned commit, to close publish_bar clause 1.\n⚠ RENUMBERED 33 -> 34 BY CYC-0091-91c8e949, AND THE PIN THIS ROW USED TO NAME (7d51f2051e95) IS GONE WITH IT. Round 33 was dispatched and interrupted: one seat finished, against a THIRD commit (bc37414076b4) rather than the pin this row declared, and its record is preserved at research/autonomy/round33-seats/ — outside the directory clause 1 globs, because a partial round filed where the bar counts it would be counted. No round-33 record was ever filed, so the next round to be filed is numbered 34 and its `last_round` says so. ⛔ THE ONE COMPLETED SEAT IS NOT REUSED AND ITS `reviewed_commit` IS NOT RE-POINTED: a seat record is a claim about what a reviewer read, and editing the sha to fit a bar falsifies it.\n⛔⛔ THE PAPER HAS NOT CHANGED SINCE ROUND 32 AND THAT IS THE WHOLE POINT OF THIS ROW. Measured 2026-09-02: the deliverable digest is a6f7158552096aea and the article's sha256 is afd60b9ef7f3c1ee at BOTH round 32's pin (4ae4e99293b5) and at 7d51f2051e95. Round 32 was clean — five blind seats, ZERO blockers, 7 P1s — on exactly these bytes. Clause 1 fails at the new pin for one reason: the commit sha moved.\n★ SO THIS ROUND RE-DERIVES A FACT FIVE SEATS ALREADY ESTABLISHED, AND IS RUN ANYWAY. AUT-PD-205-d7df5340 carries the fix — bind clauses 1 and 6 to the deliverable digest instead of the sha — and `publish_bar.py` is a GOVERNED path that the cycle blocked by clause 1 may not edit (architecture §10.4). CLAUDE.md §3's test is 'is there ANY action I could take that resolves this without weakening a bar?', and there is: run the seats, however tedious.\n⛔ SIX, NOT FIVE. `clause_1_hardening_converged` refuses a declaring round narrower than the widest earlier round on record, and `_look_history('PUB-ASO')` returns 6 for four earlier commits. Round 32 fielded five and would be refused on width alone.\n⛔ AND ONE AT A TIME. `budget_hold.declared_posture.max_subagent_width` is 1 at the restored pre-sprint posture. trimcrae's 2026-08-30 grant — 'Pursue the goal of getting ASO v2 submission ready regardless of weekly budget' — lifts the SPEND ceiling for this goal and says nothing about the width dial, which the 107-agent incident makes a ROBUSTNESS dial as well as a budget one (40 completed, 67 errored, the synthesis lost). Reading a spend grant as a width grant is the loosening this row declines to make.\n★ LENSES: arithmetic, citations-and-archive, hostile-referee, regression, statistics, and scope-and-language (R1-R5: no implied selectivity, efficacy, safety, therapeutic window or clinical readiness). Seats write their records to the session scratchpad, never into the tree, because a PREFLIGHT_FULL run is gating the same commit for clause 2 and reads the working tree.",
       "_score_basis": "EXPLICIT. Just above AUT-PD-205-d7df5340 (138.0), which is the row this one exists BECAUSE of: the digest re-anchoring would make this round unnecessary and cannot be landed by the cycle it unblocks, so the honest path is to pay for the round. It is the last clause-1 obstacle on the only paper with a public DOI.",
       "closes_clause": {
         "paper": "PUB-ASO",
@@ -7265,41 +7266,6 @@
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
     },
     {
-      "id": "AUT-PD-068",
-      "what": "⛔ THE LOOP'S CLONE IS SHALLOW, AND IT CENSORS EVERY GIT-DERIVED INSTRUMENT. Measured 2026-08-28 by seat s35-outofideas: both stuck_clock.py and the new out_of_ideas.py are horizon-limited by it, so a route older than the horizon reads `unmeasurable` rather than measured — an absent reading, not a reading of absence (CLAUDE.md §4). Previously recorded in the same shape by the AUT-PD-052..059 sweep ('the shallow clone censors both git-derived instruments'), which is the second sighting. ★ FIX: `git fetch --unshallow` in the loop's working environment, then re-run `stuck_clock --check` and `out_of_ideas --check` and record what changed. It is one $0 command and it clears every censored reading in both modules. ⚠ Left to the driver because unshallowing mutates shared repository state while sibling seats hold worktrees off it.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "owner": "1a2c0a85-5c59-53bd-a279-404198c91c13",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "score": 93.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier S = latent, cosmetic or a proposal awaiting a decision, 64-94. `git fetch --unshallow` in the loop's working environment: ONE $0 COMMAND that clears every censored reading in stuck_clock.py and out_of_ideas.py, both of which currently report `unmeasurable` for anything past the shallow horizon. Left to a driver because it mutates shared repository state while seats hold worktrees.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T13:21:24Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T13:21:24Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-065",
       "what": "⛔ A SEAT-PROMPT CONVENTION THAT LIVES ONLY IN A SKILL BINDS ONLY WHEN THE SKILL IS LOADED — the same reachability gap CLAUDE.md §6 already records for research-loop §3's session shapes, where `\"name\":\"Skill\"` appeared 0 times in the transcript of the session that broke the rule. AUT-PD-055's fix is a convention stated in research-loop §3; a driver who dispatches seats without loading that skill gives prompts that omit it, and nothing measures the omission. ★ PROPOSAL: have the cycle receipt record that dispatched seats were given the seat-discipline lines (worktree, seat-scoped logs outside it, EXIT= markers, no ledger edits), and have health.py read that field — the same shape as `fanout_is_governed`, pointed at seat-prompt CONTENT rather than width. ⚠ Design it so an absent field reads UNMEASURED, never green.",
       "serves": {
@@ -7562,6 +7528,42 @@
       },
       "score": 85.9,
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
+    },
+    {
+      "id": "AUT-PD-068",
+      "what": "⛔ THE LOOP'S CLONE IS SHALLOW, AND IT CENSORS EVERY GIT-DERIVED INSTRUMENT. Measured 2026-08-28 by seat s35-outofideas: both stuck_clock.py and the new out_of_ideas.py are horizon-limited by it, so a route older than the horizon reads `unmeasurable` rather than measured — an absent reading, not a reading of absence (CLAUDE.md §4). Previously recorded in the same shape by the AUT-PD-052..059 sweep ('the shallow clone censors both git-derived instruments'), which is the second sighting. ★ FIX: `git fetch --unshallow` in the loop's working environment, then re-run `stuck_clock --check` and `out_of_ideas --check` and record what changed. It is one $0 command and it clears every censored reading in both modules. ⚠ Left to the driver because unshallowing mutates shared repository state while sibling seats hold worktrees off it.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "kind": "fetch",
+      "state": "in_progress",
+      "owner": "1a2c0a85-5c59-53bd-a279-404198c91c13",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02",
+        "fruitless_attempts": 1
+      },
+      "score": 85.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier S = latent, cosmetic or a proposal awaiting a decision, 64-94. `git fetch --unshallow` in the loop's working environment: ONE $0 COMMAND that clears every censored reading in stuck_clock.py and out_of_ideas.py, both of which currently report `unmeasurable` for anything past the shallow horizon. Left to a driver because it mutates shared repository state while seats hold worktrees.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": "2026-09-02T13:21:24Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T13:21:24Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-081",
