@@ -292,7 +292,7 @@
     "known_answer_control": {
       "description": "NR4A1 C551 — the one NR4A-family covalent site with literature support",
       "state": "fails",
-      "note": "⛔ KNOWN-DEFECTIVE. Fails its own positive control; anything adjudicated by this cutoff inherits a demonstrated false negative. What survives is a threshold-free RANK"
+      "note": "⛔ KNOWN-DEFECTIVE. Fails its own positive control; anything adjudicated by this cutoff inherits a demonstrated false negative. What survives is a threshold-free RANK ⛔ AND IT MUST NEVER BE USED AS A COMPETITOR FILTER: applied to the family's 18 cysteines it admits 2, both of them in NR4A3 (C397 RSA 0.395, C420 0.311), and scores every cysteine of BOTH paralogues — including all three corridor closers — as not exposed. Filtering the reach enumeration by it would open the window at C397 almost everywhere by declaring the entire comparison set unreactive with a cutoff already known to produce a false negative. Measured 2026-09-02 (S56) from research/modalities/nr4a3-thiol-environment.json."
     },
     "closure_kind": "instrument_limit",
     "revival_trigger": [
