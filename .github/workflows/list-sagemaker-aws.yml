@@ -14,10 +14,6 @@ name: List in-progress SageMaker jobs (AWS, read-only)
 on:
   workflow_dispatch:
     inputs:
-      region:
-        description: "AWS region"
-        default: "us-east-2"
-        required: false
       s3_prefix:
         description: "optional: list this S3 prefix (under the default bucket) and return, instead of jobs"
         default: ""
@@ -77,7 +73,18 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          # ⛔ NOT A DISPATCH INPUT, AND THE REASON IS A HARD LIMIT RATHER THAN A PREFERENCE.
+          # GitHub caps `workflow_dispatch` at TEN inputs; this workflow declared ELEVEN, so it could
+          # not be dispatched at all and `test_workflow_dispatch_input_cap` was red on clean main.
+          # ★ REGION IS THE ONE THAT COULD LEAVE WITHOUT COSTING ANYTHING. The other ten are either
+          # selectors that decide WHICH resources a run touches or interlocks that decide WHETHER it
+          # may delete them (`shutdown_apply`, `purge_confirm`, `purge_include_tooling`) — and
+          # collapsing two interlocks into one to satisfy a lint would weaken a guard on a
+          # resource-DELETING path for a linter's convenience. Region selects nothing and guards
+          # nothing; it is configuration with a default.
+          # ⚠ CONFIGURABILITY IS KEPT, NOT DROPPED: set the repository variable SAGEMAKER_REGION to
+          # override. A hardcoded constant would have been the smaller diff and the worse answer.
+          AWS_DEFAULT_REGION: ${{ vars.SAGEMAKER_REGION || 'us-east-2' }}
           S3_PREFIX: ${{ inputs.s3_prefix }}
           MODE: ${{ inputs.mode }}
           JOB_NAME: ${{ inputs.job_name }}
