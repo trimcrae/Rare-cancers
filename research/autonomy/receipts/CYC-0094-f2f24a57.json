@@ -1,0 +1,30 @@
+{
+  "cycle_id": "CYC-0094-f2f24a57",
+  "session_id": "f2f24a57-6834-5b7f-801e-d7949dea605b",
+  "ccr_session_id": "session_01J89ZgwwuoJa9nBoTRvWGEf",
+  "started_utc": "2026-09-02T23:05:00Z",
+  "ended_utc": "2026-09-02T23:50:00Z",
+  "took": "AUT-073",
+  "took_why": "Continuation of this session's cycle after CYC-0093 released AUT-073 following rounds 4-6. Re-claimed to run round 7 since the paper had not yet had a zero-blocker round.",
+  "what_changed": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md -- TWO MORE ROUNDS APPLIED AS REPLACEMENTS, NOT APPENDS. Round 7 (commit ca18ec8b): fixed a Section 2 table row implying 1,159 is the sum of four named screen counts (400+199+526+5=1130, wrong -- an unfielded sarcoma screen and EWSR1 term search are folded in un-itemized), and a frontmatter scope field undercounting unread non-US endpoints at three instead of four (verified against fet-fusion-trial-eligibility-2026-08-07.json and non-us-registry-sweep-2026-08-09.json before fixing). Round 8: 5 fresh seats found ZERO blockers -- the paper's first zero-blocker round.",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87-seat-*.json -- round 7's five blind seats: 2 blockers (statistics, hostile), both fixed.",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-*.json and the bare roll-up -- round 8's five blind seats: 0 blockers, 7 P1s (reported, not gating).",
+    "research/autonomy/hardening-state/PUB-STRATEGY-ARCH.json -- regenerated for round 8 via record_bar_evidence.py hardening.",
+    "publish_bar --paper PUB-STRATEGY-ARCH --sha ca18ec8b now reads 6/7 (up from 3/7 at the start of this session's rounds 4-8). Only PREFLIGHT_FULL=1 remains, correctly not run speculatively -- CLAUDE.md reserves that gate for the moment of an actual publish act.",
+    "research/manuscripts/claim-coverage.json -- regenerated after each manuscript edit.",
+    "research/autonomy/research-ledger.json -- released AUT-073 with a full account of rounds 7-8 and what's left; claimed AUT-010 (PUB-ATR) for the next round of this cycle. Also fixed a pre-existing, unrelated stale n_by_state header (off by 1/1, caused by an earlier claim commit not regenerating headers) via priority.py --write, reproduced and confirmed unrelated on a clean stash before fixing."
+  ],
+  "cost": "$0 -- all Claude-plan agent dispatch and CI-free local work; no GPU, no paid API calls beyond the plan's own agent budget.",
+  "queued": [
+    "PUB-STRATEGY-ARCH still needs: PREFLIGHT_FULL=1 at ca18ec8b (or the tip at that time, drift permitting), recorded via record_bar_evidence.py preflight, to close clause 2 and reach 7/7 -- then the aiXiv post is self-doable under the standing broad grant.",
+    "PUB-ATR needs a fresh hardening round: a concurrent session (s43-atr-stale-provenance or similar) committed 3dcb494fa on top of this session's earlier round-7 convergence ('replace the provenance cell the census now refutes, and give part D the machinery control'), which correctly resets hardening_converged to FAIL since the content moved. publish_bar now reads 4/7 for PUB-ATR at 3dcb494fa. AUT-010 claimed for this round, in progress at cycle end.",
+    "AUT-PD-211 (open): the underlying 14-line vs ~20-line panel-size disagreement between two producer artifacts describing the same PMID -- needs a primary-source read to resolve, not a repository fix."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-TRIAL-REACH",
+  "subagents": {
+    "max_concurrent": 5,
+    "note": "Round 8 was dispatched with 5 concurrent seats against a subagent_width cap that read 5 earlier in the session but read 4 in autonomy-state.json by the time it was checked mid-round -- an overage of 1, self-reported rather than caught by a guard before dispatch. No corrective action beyond not repeating it (subsequent single-item work in this cycle stayed within cap)."
+  }
+}
