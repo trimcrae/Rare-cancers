@@ -169,6 +169,7 @@ def _fixtures() -> list[tuple[str, dict]]:
             S.CYCLE_ID_KEY: rid,
             S.ROUTE_ADVANCED_KEY: "none",
             S.CCR_ID_KEY: "session_01ContractCheckFixture",
+            S.ENDED_KEY: "2026-09-02T15:13:00Z",
             S.BLOCK_KEY: {S.WIDTH_KEY: width},
         })
 
@@ -176,6 +177,11 @@ def _fixtures() -> list[tuple[str, dict]]:
         receipt(S.FIRST_GOVERNED_CYCLE, 0),            # governed, below the CCR cutoff
         receipt(S.FIRST_CCR_GOVERNED_CYCLE, 0),        # the first CCR-governed cycle, no fan-out
         receipt(S.FIRST_CCR_GOVERNED_CYCLE + 5, 3),    # CCR-governed, with a fan-out recorded
+        # ⭐ BOTH SIDES OF THE CLOCK CUTOFF. Without a fixture at or above it, direction A cannot
+        # discover that `ended_utc` is required at all -- every fixture would sit below the branch
+        # and removing the field would change no verdict, so the contract could drop the name with
+        # this checker reporting a clean pass. The three fixtures above are the "below" side.
+        receipt(S.FIRST_CLOCK_GOVERNED_CYCLE, 0),      # the first clock-governed cycle
     ]
 
 

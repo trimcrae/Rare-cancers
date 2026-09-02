@@ -68,6 +68,7 @@ refuses it.
 from __future__ import annotations
 
 import argparse
+import datetime as _dt
 import glob
 import json
 import os
@@ -170,6 +171,62 @@ DRIFTED_KEYS = {
 #: spelling it, and a governed receipt missing it fails the same `--check` gate `WIDTH_KEY` does.
 ROUTE_ADVANCED_KEY = "route_advanced"
 
+#: ⛔⛔ THE RECEIPT'S CLOCK, AND THE FIFTH TIME THIS REPOSITORY HAS LOST A FIELD NAME AGREED IN PROSE
+#: (AUT-PD-013's fan-out key, AUT-PROP-013's ids, AUT-PD-037's serialization, AUT-PD-146's
+#: `ccr_session_id`, and now this). ⚠ MEASURED 2026-09-02: `health.py:c_cycle_delivering` reported
+#: `LATE — the last receipt is 103.5 h old` while TWELVE receipts had been delivered inside the
+#: window it called empty, the newest 2.7 h old. Every receipt from CYC-0084 onward carries
+#: `started_utc` and none of the five end-time spellings health.py reads, so `_receipt_ts_raw`
+#: returned None for all of them, they sorted to the FRONT on the `(ts or "", file)` key, and
+#: `receipts[-1]` resolved to the newest receipt still using the OLD name.
+#: ⭐ AND IT WAS OMISSION, NOT A REDESIGN. Four observations, each of which a deliberate switchover
+#: would have to contradict:
+#:   1. `SKILL.md` -- the contract that tells a cycle what to put in its receipt -- has NEVER named a
+#:      receipt clock, in any of its 25 versions before this one (`git log --follow`, grepped for
+#:      every spelling `health.py` reads: 0 hits in all 25). There was no design to change.
+#:   2. The spellings are NOT MONOTONE IN TIME, which is the discriminating observation: `utc` runs
+#:      CYC-0071..0083, `started_utc` appears EARLIER at CYC-0074-5a21085f, `utc` returns at
+#:      CYC-0084-e2d78138 (committed 09:20:27Z) and `started_utc` follows six minutes later at
+#:      CYC-0084-6b009680 (09:26:22Z). A redesign has a switchover; this alternates inside one hour.
+#:   3. CYC-0085-6b009680 carries NO time key at all, and CYC-0070-ba841eee carries BOTH
+#:      `started_utc` AND `finished_utc`. Neither is a thing a session implementing a decision does.
+#:   4. The commit that landed the first post-0084 `started_utc` receipt (b01f1843, "AUT-PD-167")
+#:      touches `receipt_schema.py`, `health.py`, `contract_check.py` and `SKILL.md` ZERO times --
+#:      it is a panel-attribution science commit that happened to carry a receipt.
+#: So this was each session copying whichever prior receipt it happened to open, exactly as
+#: AUT-PD-013 recorded for the fan-out key. There is no design intent to defer to, and because the
+#: contract never spoke, the name is a decision this constant now makes rather than restates.
+#:
+#: ⛔ WHY `ended_utc` AND NOT `started_utc`, ARGUED RATHER THAN ASSUMED. The condition this feeds
+#: asks "is a fired cycle actually DELIVERING a receipt?" and its own docstring draws the line: "a
+#: fired Routine is not a delivered one". The START is ALREADY MEASURED, by a different instrument,
+#: for a different purpose -- `cadence.py --stamp` writes `last_cycle_started_utc` at §2 step 1
+#: precisely so a cycle that dies mid-flight still counts as a fire. Blessing `started_utc` here
+#: would give the start time a second, worse home (CLAUDE.md §1: one fact, one place).
+#: ⚠ AND THE SIZE OF THE ERROR IT WOULD BAKE IN IS MEASURED, NOT ASSERTED. Over all 30 committed
+#: receipts carrying `started_utc`, against the author-date of the commit that ADDED each one --
+#: the only delivery time the repository actually records -- the lag is: median 0.53 h, mean 0.76 h,
+#: MAX 7.97 h (CYC-0090-d7df5340, started 13:57:08Z, delivered 21:55:23Z). Against the 8 h deadline
+#: of a 4 h cycle interval, one cycle's own duration nearly exhausts the whole budget, so a loop
+#: delivering exactly on time would report LATE on the strength of having taken a while.
+#: ⛔⛔ AND THE ERROR IS NOT EVEN ONE-SIDED, WHICH IS WHAT DISQUALIFIES IT OUTRIGHT. Three of the 30
+#: are NEGATIVE -- CYC-0012 -0.49 h, CYC-0010 -0.32 h, CYC-0007 -0.20 h -- receipts whose typed
+#: `started_utc` is LATER than the commit that delivered them. So it is not a conservative lower
+#: bound that merely reads pessimistic; it is a hand-typed field that errs in BOTH directions, and
+#: the direction that matters is the one that would make a stale loop look fresher than it is. That
+#: is fabricated freshness, the same defect this whole change exists to remove, one size down.
+ENDED_KEY = "ended_utc"
+
+#: ⭐ FIRST CYCLE REQUIRED TO CARRY `ended_utc`. CYC-0091 is the newest receipt on the trunk as this
+#: lands. ⛔ SET THREE ORDINALS AHEAD FOR THE REASON `FIRST_CCR_GOVERNED_CYCLE` IS SET TWO, and it is
+#: not slack: a cutoff at the next ordinal fails the preflight of a cycle ALREADY IN FLIGHT that
+#: cannot know this field exists -- breaking another session's commit to enforce a field invented
+#: while it was working. A driver session is committing in the shared tree as this is written, so
+#: CYC-0092 and CYC-0093 may both already be in flight; 94 is the first that cannot be.
+#: ⛔ Do NOT lower this to "catch" the 15 clockless receipts: they are immutable committed history,
+#: and grading history is what latched `cycles_are_sized` and killed the loop on 2026-08-27.
+FIRST_CLOCK_GOVERNED_CYCLE = 94
+
 _CYCLE_NUM = re.compile(r"CYC-(\d+)")
 
 
@@ -202,6 +259,26 @@ def route_advanced_of(receipt: dict) -> str | None:
     """
     v = receipt.get(ROUTE_ADVANCED_KEY)
     return v.strip() if isinstance(v, str) and v.strip() else None
+
+
+def ended_at_of(receipt: dict) -> str | None:
+    """The receipt's end stamp as written, or None when it is absent OR unparseable.
+
+    ⛔ THE TWO FAILURES ARE COLLAPSED ON PURPOSE, AND THAT IS THE LESSON OF THIS FIELD RATHER THAN
+    A SHORTCUT. A clock the reader cannot parse is exactly as invisible to `health.py` as one that
+    is not there -- both make `_receipt_ts_raw` useless and both let a stale receipt be aged in
+    place of the real newest. Grading `"tuesday"` as present-and-therefore-fine would rebuild the
+    defect this constant exists to end, one validation short.
+    """
+    v = receipt.get(ENDED_KEY)
+    if not (isinstance(v, str) and v.strip()):
+        return None
+    raw = v.strip()
+    try:
+        t = _dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return raw if t.tzinfo is not None and t.utcoffset() == _dt.timedelta(0) else None
 
 
 def drift_in(receipt: dict) -> dict:
@@ -252,6 +329,17 @@ def problems(receipt: dict, path: str) -> list[str]:
                     "session is never archived and is reported as one that may have died holding "
                     "uncommitted work. ⛔ This is NOT a duplicate of `session_id`, which is the "
                     "harness UUID and must stay that.")
+
+    if n is not None and n >= FIRST_CLOCK_GOVERNED_CYCLE and ended_at_of(receipt) is None:
+        out.append(
+            f"{rid}: no readable `{ENDED_KEY}` -- an absent, non-string, empty or unparseable "
+            "value, or one that is not UTC. It must be an ISO-8601 UTC instant "
+            "(`2026-09-02T15:13:00Z`), written when the cycle ENDS. ⛔ It is not interchangeable "
+            f"with `started_utc`: `health.py:c_cycle_delivering` asks whether a fired cycle "
+            "DELIVERED, and a start stamp dates the firing, which `cadence.py` already owns. "
+            "⚠ A receipt without it cannot be aged at all, so health.py falls back to the newest "
+            "receipt it CAN date -- which is how a loop delivering every 2.7 h reported `LATE, the "
+            "last receipt is 103.5 h old` for seven consecutive board runs.")
 
     block = receipt.get(BLOCK_KEY)
     if not isinstance(block, dict):
