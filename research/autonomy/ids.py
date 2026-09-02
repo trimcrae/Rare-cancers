@@ -39,6 +39,70 @@ that moves every 2-5 minutes, so one cycle was renumbered TWICE for one $0 findi
 files and a commit message each time. `next_entry_id()` now takes the same discriminator, from the
 same place, and two sessions can both be the Nth filing without sharing a name.
 
+⛔⛔ AND THE SESSION IS NOT THE ALLOCATOR (AUT-085, 2026-09-02). A SUBAGENT INHERITS ITS PARENT'S
+`CLAUDE_CODE_SESSION_ID` VERBATIM, and a five-wide fan-out of seats each filing a ledger row is this
+repository's standing work pattern (CLAUDE.md §1, `subagent_width`). Measured, not reasoned: the
+driver read `e71cf460`, a subagent it dispatched read `e71cf460`, and two concurrent subprocesses
+carrying that one session id were both handed `AUT-PD-205-e71cf460` off the committed ledger. Among
+seats of one session the discriminator was a constant, so `next_entry_id` degraded to
+`max(committed) + 1` — the exact derivation AUT-PD-171 was closed for removing, one level down.
+
+⭐ SO THE DISCRIMINATOR HAS TWO HALVES, `<session>-<process>`, AND THEY ANSWER DIFFERENT QUESTIONS.
+The session half says WHICH SESSION produced the row and is unchanged, so `AUT-085-e71cf460` and
+`AUT-085-e71cf460-3f19c2b1` still share a greppable prefix. The process half says WHICH ALLOCATOR,
+and it is taken from the kernel because the harness exports nothing that separates one seat from its
+sibling — measured 2026-09-02 over the whole environment: `CLAUDE_PID` is the shared harness process
+(every seat's shell is a direct child of it), `CLAUDE_CODE_MESSAGING_SOCKET` names that same pid, and
+`CLAUDE_CODE_CHILD_SESSION` is the literal `1`, a flag that separates child from parent and never
+child from child.
+
+⚠ AND THE PROCESS HALF OVER-SEPARATES, WHICH IS THE SAFE DIRECTION AND IS SAID OUT LOUD. It names a
+MINT, not a seat: a seat runs each of its commands in a fresh process, so two rows filed by one seat
+carry two process halves. Uniqueness is preserved (that is the whole requirement); what is lost is
+re-derivation — ⛔ AN ID IS MINTED ONCE AND WRITTEN DOWN, and re-running `next_entry_id` in a new
+process to "check" a row's id returns a DIFFERENT name for the same row. Nothing on the trunk
+re-derives (the three other mentions of `next_entry_id` are hint strings in `priority.py`,
+`push_guard.py` and `prepush_ledger_guard.py`); a human doing it by hand is the hazard.
+
+⛔⛔ AND A DISCRIMINATOR CANNOT SEPARATE A CALLER FROM ITSELF — MEASURED THE SAME HOUR, AND IT IS
+THE STRONGER FINDING (AUT-086/087/088, 2026-09-02). Three ledger rows were built in ONE list
+comprehension, each calling `next_entry_id("AUT", entries)`, none appended until the comprehension
+finished. All three were handed `AUT-086-e71cf460`. ⛔ NO CONCURRENCY WAS INVOLVED AT ALL: the
+ordinal is `max(ordinals in the list passed in) + 1`, and the list had not grown, so the second call
+re-derived the first call's answer. No token of any kind fixes this — a session id, a subagent id and
+a pid are all CONSTANT within one process, which is precisely what makes them useful for the other
+two cases.
+
+★★ SO THERE ARE THREE FAILURE MODES AND TWO MECHANISMS, AND NEITHER MECHANISM SUBSTITUTES FOR THE
+OTHER. Writing them down in one place because each was found separately, months apart, by paying for
+it:
+
+  1. ONE PROCESS, MINTED TWICE BEFORE APPENDING   -> `_ISSUED`, an in-process record of every name
+     this process has handed out. AUT-086, measured 2026-09-02.
+  2. TWO CONCURRENT SEATS OF ONE SESSION          -> the PROCESS half of the discriminator.
+     AUT-085, measured 2026-09-02.
+  3. TWO SESSIONS ON ONE COMMITTED LEDGER         -> the SESSION half. AUT-PD-171, five measured
+     occurrences 2026-08-29.
+
+⛔ A fix for 2 and 3 that stops at the token leaves 1 open, and 1 is the only one this ledger has
+actually RECORDED a duplicate for. A fix for 1 alone leaves 2 and 3 open, because `_ISSUED` dies
+with the process and two processes share nothing.
+
+⛔⛔ THE PRICE, PAID DELIBERATELY AND STATED AT FULL STRENGTH: `next_entry_id` IS NO LONGER A
+FUNCTION OF ITS ARGUMENTS. It is an ALLOCATOR — every call is a new name, and calling it twice
+"to check" a row's id returns a DIFFERENT id rather than the one you wrote down. Requirement 1 and
+re-derivability are the same property with opposite signs, and the allocator cannot tell "re-derive
+the row I already named" from "name a second row" because the two calls are byte-identical. So the
+tie is broken by what the record has actually cost: three duplicated ids on this ledger, against
+zero recorded need for re-derivation and no caller on the trunk that does it (the three other
+mentions of `next_entry_id` are hint strings in `priority.py`, `push_guard.py` and
+`prepush_ledger_guard.py`). ⭐ MINT ONCE PER ROW AND WRITE THE RESULT DOWN.
+⚠ The ANTI-CLOCK guarantee that in-process idempotence used to carry is not lost, only moved to
+where it belongs: `allocator_discriminator()` IS stable across calls, and
+`test_the_discriminator_is_the_session_and_the_process_and_not_the_moment` pins it there.
+⚠ Ordinals may now have GAPS — a mint that is discarded still burns its name. That is harmless: an
+ordinal was never a count of anything, and two concurrent sessions have shared one since AUT-PD-171.
+
 ⚠ WHAT THIS DELIBERATELY DOES NOT DO: renumber history. Receipts already on the trunk keep their
 bare `CYC-NNNN` ids — a receipt is immutable committed history, `receipt_schema.cycle_number()`
 parses both shapes, and rewriting them to look collision-proof would be a fiction about what the
@@ -47,6 +111,7 @@ record actually was.
 
 from __future__ import annotations
 
+import hashlib
 import os
 import pathlib
 import re
@@ -142,9 +207,13 @@ SESSION_ENV = "CLAUDE_CODE_SESSION_ID"
 #: ⚠ A PREFIX MAY ITSELF CONTAIN HYPHENS — `AUT`, `AUT-PD`, `AUT-PROP`, `AUT-BIX` are all live on
 #: the committed ledger — so the prefix is lazy and the ordinal is the first all-digit segment. The
 #: separator stays optional to match the derivation this replaces, which accepted `AUT169` too.
+#: ⭐ THE SECOND SEGMENT IS OPTIONAL AND THAT IS WHAT KEEPS COMMITTED HISTORY READABLE (AUT-085).
+#: Five discriminated ids were on the ledger when the process half was added -- `AUT-PD-204-d7df5340`
+#: and `AUT-08{2,3,4,5}-e71cf460` -- and all five still parse to exactly the tuple they parsed to
+#: before. ⛔ A schema change that orphans a committed id is a worse bug than the collision it fixes.
 ENTRY_ID = re.compile(
     r"^(?P<prefix>[A-Za-z][A-Za-z-]*?)-?(?P<ordinal>\d+)"
-    r"(?:-(?P<discriminator>[0-9a-z]{4,16}))?$")
+    r"(?:-(?P<discriminator>[0-9a-z]{4,16}(?:-[0-9a-z]{4,16})?))?$")
 
 
 def parse_entry_id(entry_id: str) -> tuple[str, int, str | None] | None:
@@ -187,6 +256,119 @@ def session_discriminator(session_id: str | None = None) -> str:
     return discriminator(r.value)
 
 
+def process_identity() -> tuple[int, str, str]:
+    """The OS's answer to *which process is this* — `(pid, start ticks, boot id)`.
+
+    ⛔ ONLY THE PID IS LOAD-BEARING, AND THE OTHER TWO ARE ANTI-REUSE RATHER THAN ANTI-CONCURRENCY.
+    The kernel guarantees exactly one thing, and it is exactly the thing this module needs: no two
+    processes ALIVE AT ONCE in a pid namespace share a pid. Two seats of a fan-out minting against
+    one committed ledger are two live processes, so the pid separates them by construction — the
+    same standard the session half meets, an identity a process already holds and never has to
+    negotiate for.
+
+    ⚠ THE PID IS REUSED OVER TIME AND THE PRESSURE HERE IS MEASURED, NOT ASSUMED. `pid_max` in this
+    container is **32 768**, not the 4 194 304 of a modern host, and this session went from pid 498
+    at 23:25 to pid 11 020 at 08:19 — ~1 180 pids/hour, so a wraparound is ~28 h of one session's
+    activity away. ⭐ The start time (`/proc/<pid>/stat` field 22, ticks since boot) makes a reused
+    pid a different identity, and the boot id makes a reused (pid, start) pair a different identity
+    across a restart — after a reboot the tick counter restarts too, so the pair alone CAN repeat.
+    ⚠ Stated at its true weight: this is the marginal half of the fix. Two mints 28 h apart in one
+    session would almost certainly hold different ORDINALS anyway, because the ledger moves. It is
+    here because it costs nothing, not because it is what the item measured.
+
+    ⛔ THE START TIME IS A TIE-BREAKER AND IS NEVER THE SOURCE OF UNIQUENESS — that distinction is
+    the whole of why this does not re-introduce what `discriminator()` refuses. A clock as a SOURCE
+    collides when two allocators start in the same tick, and it also makes two calls describing ONE
+    row return two names; here the pid already separates every concurrent allocator, and the start
+    time only distinguishes processes the kernel has already guaranteed are NOT concurrent. It is
+    read once per process and never advances, which is what
+    `test_the_process_half_is_the_process_and_not_the_moment` pins.
+
+    ⚠ BOTH `/proc` READS ARE BEST-EFFORT AND THE EMPTY STRING IS NOT A DEGRADED DISCRIMINATOR. If
+    `/proc` is unreadable the identity is `(pid, "", "")`, which still separates every concurrent
+    allocator — the guarantee is not weakened, only the anti-reuse margin. There is no branch on
+    which this returns an identity WITHOUT a pid, and `process_discriminator` refuses one anyway.
+    """
+    pid = os.getpid()
+    try:
+        with open(f"/proc/{pid}/stat", encoding="utf-8") as fh:
+            stat = fh.read()
+        # ⚠ SPLIT AFTER THE LAST `)`, NEVER ON WHITESPACE: field 2 is the executable name in
+        # parentheses and may itself contain spaces and parens. After `) ` the fields resume at
+        # field 3, so field 22 (starttime) is index 19.
+        start = stat[stat.rindex(")") + 2:].split()[19]
+    except (OSError, ValueError, IndexError):
+        start = ""
+    try:
+        with open("/proc/sys/kernel/random/boot_id", encoding="utf-8") as fh:
+            boot = fh.read().strip()
+    except OSError:
+        boot = ""
+    return pid, start, boot
+
+
+def process_discriminator(identity: tuple[int, str, str] | None = None) -> str:
+    """The allocator's contribution to an id two seats of ONE session must not have to negotiate.
+
+    ⛔ NOT A CLOCK AND NOT A COUNTER, for the reasons `discriminator()` gives, and ⛔ NOT
+    `CLAUDE_CODE_CHILD_SESSION`: the value observed on 2026-09-02 is the literal `1`. It is a flag,
+    so it separates a child from its parent and never a child from its sibling — building on it
+    would look like a fix and leave a five-wide fan-out sharing one discriminator.
+
+    ⛔ AN IDENTITY WITHOUT A PID IS REFUSED RATHER THAN HASHED. This guard is REACHABLE — a caller
+    passing an override is the path — which is the bar the first draft of `write_receipt` failed:
+    a guard nobody can trigger measures nothing, and its test fails with DID NOT RAISE.
+    """
+    ident = process_identity() if identity is None else tuple(identity)
+    pid = ident[0] if ident else None
+    if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+        raise ValueError(
+            f"cannot discriminate an allocator: the process identity {ident!r} has no usable pid. "
+            "⛔ Do NOT fall back to a clock, a counter or an empty string here: the pid is the only "
+            "component the kernel guarantees is unique among concurrent allocators, and a "
+            "discriminator that silently drops it re-introduces AUT-085 while looking fixed.")
+    payload = "\x00".join(str(part) for part in ident)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:DISCRIMINATOR_LEN]
+
+
+def allocator_discriminator(session_id: str | None = None,
+                            identity: tuple[int, str, str] | None = None) -> str:
+    """`<session>-<process>` — the two questions a ledger id has to answer, kept separate.
+
+    ⭐ THE SESSION HALF IS KEPT, NOT REPLACED, AND THAT WAS THE CHOICE (AUT-085). Replacing it with
+    the process half alone would have been shorter and would have satisfied uniqueness, and it would
+    have thrown away the only provenance the id carries: `e71cf460` is greppable back to a session,
+    a process hash is greppable back to nothing. A reader asking *which session filed this* must not
+    have to consult a second artifact to find out.
+
+    ⚠ AND THE ORDER IS NOT COSMETIC. Session first means every id this session mints still begins
+    `AUT-085-e71cf460`, so the committed rows and their successors sort and grep together; process
+    first would have scattered one session's rows across the id space for no gain.
+    """
+    return f"{session_discriminator(session_id)}-{process_discriminator(identity)}"
+
+
+#: ⛔⛔ EVERY NAME THIS PROCESS HAS HANDED OUT. The whole of the fix for failure mode 1 above, and
+#: it is deliberately keyed on the FULL id rather than on `(prefix, ordinal)`: the invariant is that
+#: no NAME is issued twice, and two sessions minting in one process (which is what this module's own
+#: tests do) legitimately share an ordinal — keying on the ordinal would push the second session off
+#: 204 and break the "both survive saying so" property that is the point of the discriminator.
+#: ⚠ Process-scoped by construction, which is the honest limit: it cannot see another process, which
+#: is exactly why the discriminator exists and is not made redundant by this.
+_ISSUED: set[str] = set()
+
+
+def forget_issued_ids() -> None:
+    """⛔ TESTS ONLY. Clearing this re-opens AUT-086 for anything that mints afterwards.
+
+    It exists because pytest runs many independent scenarios in ONE process, so without a reset each
+    test would inherit the previous test's ordinals — and a test that has to reason about what an
+    earlier test minted is a test nobody can read. ⛔ There is no legitimate call site in a cycle:
+    a cycle that "forgets" a name it already wrote into a row is the defect, not the workaround.
+    """
+    _ISSUED.clear()
+
+
 def next_entry_id(prefix: str, entries: list[dict], session_id: str | None = None) -> str:
     """The next ledger id under `prefix`, carrying this session's discriminator so that two
     concurrent filings cannot be handed one name.
@@ -206,19 +388,37 @@ def next_entry_id(prefix: str, entries: list[dict], session_id: str | None = Non
     when they started; what the record needs is for both to survive saying so, not for one to be
     renamed into a lie about its place. What must never be shared is the NAME.
 
+    ⛔⛔ AND THE DISCRIMINATOR IS THE ALLOCATOR, NOT THE SESSION (AUT-085, 2026-09-02). The session
+    half alone was a CONSTANT across every seat of a fan-out — a subagent inherits
+    `CLAUDE_CODE_SESSION_ID` verbatim — so among the seats that actually file rows here this
+    function was still `max(committed) + 1`. Reproduced before it was changed: two concurrent
+    subprocesses, one committed ledger, one session id, both handed `AUT-PD-205-e71cf460`. See
+    `allocator_discriminator`.
+
     ⛔ THE ORDINAL COUNTS DISCRIMINATED IDS TOO, and this is the one-of-a-pair defect this fix could
     trivially have shipped: widening the mint without widening the scan freezes the ordinal at the
     last bare id forever, so every later session — INCLUDING THIS ONE, on its second row — reuses
     it. `test_ids_cannot_collide` pins both halves.
     """
-    disc = session_discriminator(session_id)
+    disc = allocator_discriminator(session_id)
     used = []
     for e in entries or []:
         parsed = parse_entry_id(str(e.get("id", "")))
         if parsed and parsed[0] == prefix:
             used.append(parsed[1])
     width = 3
-    return f"{prefix}-{max(used, default=0) + 1:0{width}d}-{disc}"
+    n = max(used, default=0) + 1
+    # ⛔⛔ FAILURE MODE 1 (AUT-086): `used` comes from a list the caller has not appended to yet, so
+    # without this loop the second mint in one comprehension re-derives the first one's answer. The
+    # loop advances past names THIS PROCESS has already issued — never past names it merely read,
+    # which `used` already covers.
+    # ⚠ It terminates: `n` only increases and `_ISSUED` is finite.
+    candidate = f"{prefix}-{n:0{width}d}-{disc}"
+    while candidate in _ISSUED:
+        n += 1
+        candidate = f"{prefix}-{n:0{width}d}-{disc}"
+    _ISSUED.add(candidate)
+    return candidate
 
 
 def duplicate_ids(entries: list[dict]) -> dict[str, int]:

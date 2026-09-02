@@ -114,6 +114,20 @@ TARGETS = [
     # the live ones, and the comment above records what happened when a measurement was frozen into
     # this file and went on reading as current.
     "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+    # ⭐ THE TRIAL-REACHABILITY SHORT REPORT, ADDED 2026-09-02. `PUB-STRATEGY-ARCH`, state `drafted`,
+    # `target_venue: preprint`, `unit: short_report` — a submission text since 2026-08-09 that this
+    # gate had never read, which is the SAME absent-guard shape the 2026-08-09 comment above records
+    # for the other three endpoints. Measured on entry, before the rewrite: 33 ERROR — bold 54 runs
+    # over 1,718 words = 31.4/1000 against a limit of 12.0, em-dash 12.2/1000 against 6.0, 14 glyph,
+    # 11 bold-midsentence, 6 heading-style. Clean on entry to this list at 0 ERROR.
+    # ⛔ THE CONVERSION CHANGED NO CLAIM, AND THAT WAS THE BINDING CONSTRAINT RATHER THAN THE COUNTS.
+    # Every ⚠ and ⛔ in that paper carried a caveat or a refusal, so deleting the glyph without
+    # rewriting the sentence would have deleted the flag: the warnings are now carried by the prose
+    # ("The large screens are fields-limited and carry no eligibility text, so they can identify a
+    # candidate and can never confirm one"). Sentence-level diff with emphasis and dash punctuation
+    # normalised: every hunk is punctuation, a heading or a connective. Record:
+    # `research/autonomy/sprint-2026-09-01/S48-ELIGIBILITY-REGISTER.md`.
+    "research/manuscripts/care-delivery/emc-trial-reachability.md",
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT

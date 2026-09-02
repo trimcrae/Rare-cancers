@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22229096",
-  "git_revision": "fd11a624e643c7813ea19df951ecbce56ed75b42",
+  "git_revision": "a7c4b45e0e2667913310e8eb114f59698fa6480d",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "0649deca6facdc764a0f781770c68175dcfeeb578e5895831714d3d9cac070d2",
+  "archive_content_digest": "815e688aa1ffa81b9f16cc6e8f1fbb252076ba7f71fe99229a8db61f87000e8a",
   "n_files": 515,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 53196078,
-  "total_mib": 50.732,
+  "total_bytes": 53197459,
+  "total_mib": 50.733,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 408,
-        "bytes": 45607523
+        "bytes": 45607589
       },
       ".py": {
         "n_files": 76,
-        "bytes": 3357425
+        "bytes": 3358740
       },
       ".md": {
         "n_files": 12,
@@ -1708,16 +1708,16 @@
     },
     {
       "path": "research/manuscripts/lint_style.py",
-      "bytes": 29600,
-      "sha256": "490c60e5429f51ebb7c2c57e55cd52d98e37ff382742021b7f3b2115cce596d2",
+      "bytes": 30915,
+      "sha256": "da6128a219630d9b12b298cfc2f55be4851fbeabcc586dfbd56ac8ba8b7fcbc5",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 153776,
-      "sha256": "ead340ae12e74bf85e61763ae4d0a513234e01b35674e648107dd5bd76182af4",
+      "bytes": 153842,
+      "sha256": "966efbe20322fc28137cb82fbf2bdad292db06954eba2f8c4ce26a5747fa82d3",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."

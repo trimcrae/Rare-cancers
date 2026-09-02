@@ -37,6 +37,18 @@ SESSION_A = "6be7fd5a-28ea-50e3-8f4a-32e755af962a"
 SESSION_B = "c1bc9340-1111-2222-3333-444455556666"
 
 
+@pytest.fixture(autouse=True)
+def _forget_issued_ids():
+    """⚠ `ids._ISSUED` IS PROCESS-SCOPED AND PYTEST IS ONE PROCESS. Without this, every test in this
+    file would inherit the ordinals the previous test minted, and an assertion about `AUT-PD-204`
+    would depend on how many tests ran before it — which is a test nobody can read and a red build
+    nobody can diagnose. ⛔ It resets BEFORE each test and never during one: the requirement-1 tests
+    below depend on the memory accumulating within a single test body."""
+    I.forget_issued_ids()
+    yield
+    I.forget_issued_ids()
+
+
 # ---------------------------------------------------------------------------------------------
 # ⛔⛔ THE REGRESSION: two sessions, identical committed state, no negotiation.
 # ---------------------------------------------------------------------------------------------
@@ -176,7 +188,12 @@ def test_both_sessions_still_claim_the_same_entry_ordinal():
     a = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_A))
     b = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_B))
     assert a[:2] == b[:2] == ("AUT-PD", 204)
-    assert a[2] != b[2] and a[2] == I.discriminator(SESSION_A)
+    # ⚠ TIGHTENED FOR AUT-085, NOT LOOSENED: the discriminator is now `<session>-<process>`, so this
+    # asserts the session half is STILL exactly `discriminator(SESSION_A)` AND that a process half
+    # follows it. The old one-sided equality would now pass a fix that dropped the session half.
+    assert a[2] != b[2]
+    assert a[2].startswith(I.discriminator(SESSION_A) + "-")
+    assert b[2].startswith(I.discriminator(SESSION_B) + "-")
 
 
 def test_the_ordinal_advances_past_a_discriminated_id():
@@ -227,17 +244,31 @@ def test_the_session_is_read_from_the_environment_when_it_is_not_passed(monkeypa
     the writer/reader gap this repository has now lost four times (AUT-PD-146)."""
     monkeypatch.setenv(I.SESSION_ENV, SESSION_B)
     got = I.next_entry_id("AUT-PD", [{"id": "AUT-PD-203"}])
-    assert got == f"AUT-PD-204-{I.discriminator(SESSION_B)}"
+    # ⚠ TIGHTENED FOR AUT-085 (see above): prefix, ordinal and the SESSION half are all still pinned
+    # exactly; the process half is pinned by shape because it is a property of the running process.
+    assert got.startswith(f"AUT-PD-204-{I.discriminator(SESSION_B)}-")
+    assert I.parse_entry_id(got)[:2] == ("AUT-PD", 204)
 
 
-def test_the_discriminator_is_the_session_and_not_the_moment():
-    """⛔ A CLOCK WOULD PASS EVERY OTHER TEST IN THIS FILE AND BE WRONG. Two calls by ONE session
-    against ONE state describe one intended row, so they must name it identically; a timestamp or a
-    counter would hand back two different ids for the same row and re-introduce, inside a single
-    session, the ambiguity the discriminator exists to remove."""
-    entries = [{"id": "AUT-PD-203"}]
-    assert (I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
-            == I.next_entry_id("AUT-PD", entries, session_id=SESSION_A))
+def test_the_discriminator_is_the_session_and_the_process_and_not_the_moment():
+    """⛔ A CLOCK WOULD PASS ALMOST EVERY OTHER TEST IN THIS FILE AND BE WRONG, and this is where
+    that is caught now.
+
+    ⚠ SUPERSEDED, RETAINED (CLAUDE.md rule 1.2). This test used to assert the anti-clock property
+    THROUGH `next_entry_id` — *"Two calls by ONE session against ONE state describe one intended
+    row, so they must name it identically"* — and on 2026-09-02 that assertion became FALSE ON
+    PURPOSE: AUT-086 measured three rows minted in one comprehension all receiving
+    `AUT-086-e71cf460`, so the allocator must now advance on every call. ⛔ The old sentence was not
+    wrong about clocks; it was reading the anti-clock property off the wrong function. It lives here
+    instead, on the DISCRIMINATOR, where a clock would actually enter — and the two properties are
+    now independent rather than in tension: the discriminator is stable, the ordinal advances."""
+    import time
+    first = I.allocator_discriminator(session_id=SESSION_A)
+    time.sleep(0.01)
+    assert I.allocator_discriminator(session_id=SESSION_A) == first, (
+        "the discriminator moved between two calls in one process — it is reading a clock, and a "
+        "clock collides whenever two allocators start in the same tick")
+    assert first == f"{I.discriminator(SESSION_A)}-{I.process_discriminator()}"
 
 
 def test_entry_ids_are_allocated_over_the_whole_ledger_not_by_eye():
@@ -266,6 +297,20 @@ def test_every_id_on_the_committed_ledger_still_parses():
     assert I.parse_entry_id("AUT-PD-169") == ("AUT-PD", 169, None)
     assert I.parse_entry_id("AUT-PD-169-6b009680") == ("AUT-PD", 169, "6b009680")
     assert I.parse_entry_id("not-an-id") is None
+    # ⛔ AUT-085 WIDENED `ENTRY_ID` AND THESE FIVE IDS WERE ALREADY COMMITTED WHEN IT DID. A schema
+    # change that orphans a committed id is a worse bug than the collision it fixes, so each is
+    # pinned to the EXACT tuple it parsed to before the widening — a `require_parseable` reader
+    # (`ledger_schema.id_problems`) rejects the row outright if any of them stops matching.
+    for rid, want in (("AUT-PD-204-d7df5340", ("AUT-PD", 204, "d7df5340")),
+                      ("AUT-082-e71cf460", ("AUT", 82, "e71cf460")),
+                      ("AUT-083-e71cf460", ("AUT", 83, "e71cf460")),
+                      ("AUT-084-e71cf460", ("AUT", 84, "e71cf460")),
+                      ("AUT-085-e71cf460", ("AUT", 85, "e71cf460")),
+                      ("AUT-086-e71cf460", ("AUT", 86, "e71cf460")),
+                      ("AUT-087-e71cf460", ("AUT", 87, "e71cf460")),
+                      ("AUT-088-e71cf460", ("AUT", 88, "e71cf460"))):
+        assert I.parse_entry_id(rid) == want, f"{rid} was committed and no longer parses as it did"
+    assert I.parse_entry_id("AUT-085-e71cf460-1f6aab97") == ("AUT", 85, "e71cf460-1f6aab97")
 
 
 def test_two_concurrent_filings_merge_without_a_renumber(monkeypatch):
@@ -309,3 +354,190 @@ def test_the_receipts_on_the_trunk_are_left_as_they_were():
     assert names, "no receipts found; this test would pass vacuously"
     ordinals = I.receipt_ordinals(RECEIPTS)
     assert len(ordinals) == len(names), "a receipt filename stopped carrying a readable ordinal"
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ AUT-085 / AUT-086 — THREE FAILURE MODES, TWO MECHANISMS, AND NEITHER SUBSTITUTES FOR THE
+# OTHER. `ids.__doc__` carries the table; these are its assertions.
+#   1  one process, minted twice before appending  -> `_ISSUED`   (AUT-086, three ids in one row set)
+#   2  two concurrent seats of one session         -> process half (AUT-085, subagent inherits the
+#                                                                   parent's CLAUDE_CODE_SESSION_ID)
+#   3  two sessions on one committed ledger        -> session half (AUT-PD-171, five occurrences)
+# ---------------------------------------------------------------------------------------------
+
+def test_three_mints_in_one_comprehension_get_three_names():
+    """⛔⛔ REQUIREMENT 1, IN THE EXACT SHAPE THAT PRODUCED IT, AND IT IS THE ONLY ONE OF THE THREE
+    THIS LEDGER HAS RECORDED A REAL DUPLICATE FOR. On 2026-09-02 three rows were built in one list
+    comprehension, each calling `ids.next_entry_id("AUT", entries)`, none appended until the
+    comprehension finished — and all three were handed `AUT-086-e71cf460`. `duplicate_ids` returned
+    `{'AUT-086-e71cf460': 3}`.
+    ⛔ NO CONCURRENCY IS INVOLVED, WHICH IS WHY NO TOKEN FIXES IT: a session id, a subagent id and a
+    pid are all CONSTANT within one process. The ordinal is derived from a list that has not grown,
+    so the second call re-derives the first call's answer."""
+    entries = [{"id": "AUT-085"}]
+    rows = [{"id": I.next_entry_id("AUT", entries)} for _ in range(3)]
+    assert I.duplicate_ids(rows) == {}, (
+        "a caller that minted three ids before appending any of them was handed one name more than "
+        "once — 'append first' is a convention, and this is what conventions are worth")
+    assert [I.parse_entry_id(r["id"])[1] for r in rows] == [86, 87, 88], (
+        "the allocator must ADVANCE on each call, not merely differ: two rows filed in one batch "
+        "have to sort in the order they were created")
+
+
+def test_the_allocator_advances_even_when_the_caller_never_appends():
+    """⭐ THE SAME REQUIREMENT AT THE UNIT LEVEL, and it pins that the advance comes from the
+    ALLOCATOR'S OWN MEMORY rather than from anything the caller did. `entries` is never mutated
+    here — asserted, because a fix that worked by appending to the caller's list would pass the
+    test above while corrupting a real ledger with placeholder rows."""
+    entries = [{"id": "AUT-PD-203"}]
+    before = list(entries)
+    got = [I.next_entry_id("AUT-PD", entries, session_id=SESSION_A) for _ in range(4)]
+    assert len(set(got)) == 4, f"the allocator repeated itself within one process: {got}"
+    assert [I.parse_entry_id(g)[1] for g in got] == [204, 205, 206, 207]
+    assert entries == before, "the allocator mutated the caller's list to make itself safe"
+
+
+def test_the_memory_is_the_name_and_not_the_ordinal():
+    """⚠ THE KEYING IS LOAD-BEARING AND THE OBVIOUS ALTERNATIVE BREAKS A DELIBERATE PROPERTY.
+    `_ISSUED` holds full ids, so two SESSIONS minting in one process still both claim ordinal 204 —
+    which is the whole "both survive saying so" trade the discriminator exists to make. Keyed on
+    `(prefix, ordinal)` instead, the second session would be pushed to 205 and renamed into a lie
+    about its place, silently, with every test above still green."""
+    entries = [{"id": "AUT-PD-203"}]
+    a = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_A))
+    b = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_B))
+    assert a[1] == b[1] == 204, (
+        "a second SESSION was pushed off the ordinal it legitimately shares — the in-process memory "
+        "is keyed on the ordinal rather than on the name")
+
+
+def test_two_subagents_of_one_session_get_different_entry_ids():
+    """⛔⛔ REQUIREMENT 2, REPRODUCED WITH REAL PROCESSES BECAUSE THAT IS WHAT THE DEFECT IS.
+    Measured 2026-09-02: the driver read discriminator `e71cf460`; a subagent it dispatched read
+    `e71cf460`. A subagent inherits `CLAUDE_CODE_SESSION_ID` verbatim, so among the seats of a
+    five-wide fan-out — this repository's standing work pattern — the session half is a CONSTANT and
+    `next_entry_id` degraded to `max(committed) + 1`, the derivation AUT-PD-171 was closed for
+    removing.
+    ⚠ TWO REAL SUBPROCESSES, NOT A MONKEYPATCH: `_ISSUED` would mask this defect inside one process,
+    so a same-process test of it would pass no matter what the discriminator did."""
+    import subprocess
+    src = (
+        "import json,os,sys;sys.path.insert(0,%r);import ids;"
+        "print(ids.next_entry_id('AUT-PD',[{'id':'AUT-PD-203'}]))" % os.path.dirname(HERE))
+    env = dict(os.environ, CLAUDE_CODE_SESSION_ID=SESSION_A, CLAUDE_CODE_CHILD_SESSION="1")
+    procs = [subprocess.Popen([sys.executable, "-c", src], env=env, stdout=subprocess.PIPE,
+                              text=True) for _ in range(2)]
+    got = [pr.communicate()[0].strip() for pr in procs]
+    assert all(got), f"a seat produced no id at all: {got!r}"
+    assert got[0] != got[1], (
+        f"two concurrent seats of ONE session were both handed {got[0]} — the discriminator "
+        "separates sessions and not the allocators inside one")
+    for g in got:
+        assert g.startswith(f"AUT-PD-204-{I.discriminator(SESSION_A)}-"), (
+            f"{g} lost the session half; an id must still say WHICH SESSION produced it")
+
+
+def test_the_process_half_separates_two_allocators_carrying_one_session():
+    """⭐ THE SAME REQUIREMENT AT THE UNIT LEVEL, with the two process identities named explicitly so
+    the failure message says which component stopped mattering."""
+    one = I.process_discriminator((4321, "3190737", "79f70063-bdfd-49cf-879d-2fe32e5758c1"))
+    two = I.process_discriminator((4322, "3190737", "79f70063-bdfd-49cf-879d-2fe32e5758c1"))
+    assert one != two, "two live pids produced one discriminator — the pid is not being read"
+    reused_pid = I.process_discriminator((4321, "9999999", "79f70063-bdfd-49cf-879d-2fe32e5758c1"))
+    assert reused_pid != one, (
+        "a REUSED pid produced the same discriminator. `pid_max` in this container is 32768 and this "
+        "session burned ~1180 pids/hour, so a wraparound is ~28h of one session away — the start "
+        "time is what makes a reused pid a different identity")
+    rebooted = I.process_discriminator((4321, "3190737", "00000000-0000-0000-0000-000000000000"))
+    assert rebooted != one, (
+        "a (pid, start) pair repeated after a restart produced the same discriminator — the tick "
+        "counter restarts at boot, so the pair alone CAN repeat and the boot id is what separates it")
+
+
+def test_the_process_identity_is_the_running_process():
+    """⚠ A POPULATED FIELD IS NOT A MEASURED ONE (CLAUDE.md §4). `process_identity()` must read the
+    real `/proc` entry rather than return a plausible-looking constant, so the pid is checked against
+    `os.getpid()` and the start time against an independent parse of the same file."""
+    pid, start, boot = I.process_identity()
+    assert pid == os.getpid()
+    with open(f"/proc/{pid}/stat", encoding="utf-8") as fh:
+        fields = fh.read().split()
+    assert start == fields[21], (
+        f"the start time {start!r} is not field 22 of /proc/{pid}/stat ({fields[21]!r})")
+    assert start.isdigit() and int(start) > 0
+    assert len(boot) == 36, f"the boot id is not a UUID: {boot!r}"
+
+
+def test_the_process_half_is_refused_rather_than_invented():
+    """⛔ THE SAME REFUSAL `discriminator()` MAKES, AT THE NEW COMPONENT — because a component that
+    silently degrades to a constant re-introduces the whole defect while LOOKING fixed, which is the
+    one outcome worse than the bug.
+    ⚠ AND THIS GUARD IS REACHABLE, which is the bar the first draft of `write_receipt` failed: its
+    unreachable `os.path.exists` check failed its own test with DID NOT RAISE. A caller passing an
+    override is the path."""
+    for bad in ((), (None, "1", "b"), ("4321", "1", "b"), (0, "1", "b"), (-1, "1", "b"),
+                (True, "1", "b")):
+        with pytest.raises(ValueError):
+            I.process_discriminator(bad)
+
+
+def test_the_child_flag_is_not_an_identity(monkeypatch):
+    """⛔ `CLAUDE_CODE_CHILD_SESSION` WAS OBSERVED AS THE LITERAL `1` AND MUST NOT BE BUILT ON. It
+    separates a child from its parent and never a child from its sibling, so an allocator reading it
+    would hand one discriminator to every seat of a fan-out and look fixed doing it.
+    ⚠ Measured over the whole environment on 2026-09-02: nothing the harness exports separates one
+    seat from another. `CLAUDE_PID` is the shared harness process — every seat's shell is a direct
+    child of it — and `CLAUDE_CODE_MESSAGING_SOCKET` names that same pid."""
+    a = I.process_discriminator((4321, "1", "b"))
+    b = I.process_discriminator((4322, "1", "b"))
+    assert a != b, "two seats differing only in pid must not share a discriminator"
+    for flag in ("1", "0", ""):
+        monkeypatch.setenv("CLAUDE_CODE_CHILD_SESSION", flag)
+        assert I.process_discriminator((4321, "1", "b")) == a, (
+            "the discriminator moved when only the child FLAG changed — it is reading a flag as an "
+            "identity, and a flag is the same for every seat")
+
+
+def test_the_session_half_is_kept_and_not_replaced():
+    """⭐ THE SHAPE DECISION, PINNED. `<session>-<process>`, session first: the process half could
+    have replaced the session half and satisfied uniqueness on its own, and it would have thrown
+    away the only provenance an id carries. `e71cf460` greps back to a session; a process hash greps
+    back to nothing.
+    ⚠ Order is not cosmetic either — session first keeps every row this session mints sorting and
+    grepping together with the ones already committed under `AUT-085-e71cf460`."""
+    got = I.allocator_discriminator(session_id=SESSION_A)
+    head, _, tail = got.partition("-")
+    assert head == I.discriminator(SESSION_A), "the session half is gone; the id lost its provenance"
+    assert tail == I.process_discriminator()
+    assert len(head) == I.DISCRIMINATOR_LEN and len(tail) == I.DISCRIMINATOR_LEN
+    minted = I.next_entry_id("AUT", [{"id": "AUT-085"}], session_id=SESSION_A)
+    assert minted.startswith(f"AUT-086-{I.discriminator(SESSION_A)}-")
+
+
+def test_the_ordinal_advances_past_a_two_segment_discriminated_id():
+    """⛔ THE ONE-OF-A-PAIR DEFECT AT THE NEW SHAPE — the same one `test_the_ordinal_advances_past_a
+    _discriminated_id` pins for the old one. Widening the MINT without widening the SCAN freezes the
+    ordinal at the last id the scan can still read, so the allocator re-issues it forever."""
+    entries = [{"id": "AUT-PD-203-e71cf460-1f6aab97"}]
+    got = I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
+    assert I.parse_entry_id(got)[1] == 204, (
+        f"{got}: the scan cannot read a two-segment discriminated id, so the ordinal froze")
+
+
+def test_the_receipt_half_of_the_pair_is_unfixed_and_fails_loud(tmp_path):
+    """⚠ THE PAIR, STATED HONESTLY RATHER THAN QUIETLY FIXED OR QUIETLY IGNORED. `next_receipt`
+    takes the SESSION only, so two seats of one session compute the same receipt PATH — the same
+    defect AUT-085 names for entry ids. It is left alone here because its blast radius is other
+    people's files (`RECEIPT_ID`, `session_reaper`, `receipt_schema`, `health`) and because it fails
+    LOUD where the entry-id half failed SILENT: `write_receipt` opens with mode `x`, so the second
+    seat gets `FileExistsError` instead of overwriting the first.
+    ⛔ This test pins the loudness. If mode `x` is ever relaxed, the receipt half becomes a silent
+    overwrite and this goes red — which is the only reason it is safe to leave unfixed."""
+    seat_a, path_a = I.next_receipt(str(tmp_path), SESSION_A)
+    seat_b, path_b = I.next_receipt(str(tmp_path), SESSION_A)
+    assert (seat_a, path_a) == (seat_b, path_b), (
+        "the receipt half gained a per-allocator discriminator without this test being updated — "
+        "good news, but the pair is then FIXED and this test is describing history, not the trunk")
+    # ⭐ The loudness itself is pinned by `test_the_write_refuses_an_existing_path_even_when_the_
+    # allocator_is_wrong` at the top of this file, which drives `write_receipt` at a path that
+    # already exists. This test's whole content is that the two seats agree on that path.

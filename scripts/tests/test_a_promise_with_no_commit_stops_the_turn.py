@@ -18,6 +18,7 @@ fitted to the recollection.
 """
 import json
 import os
+import shutil
 import subprocess
 
 import pytest
@@ -25,7 +26,17 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 HOOK = os.path.join(REPO, ".claude", "hooks", "promised-work-at-turn-end.sh")
-STATE = os.path.join(REPO, ".git", "emc-hooks", "promised-work-last-head")
+# ⛔⛔ NOT `os.path.join(REPO, ".git", ...)`. In a linked worktree `.git` is a ~50-byte file holding
+# `gitdir: <path>`, so joining under it raises NotADirectoryError — which is exactly how this defect
+# was found on 2026-09-02: a default preflight run inside the pristine worktree that the ASO
+# archive-manifest ordering REQUIRES took all 14 tests in this file red, while the byte-identical
+# file passed 14/14 in the ordinary checkout. The hook had the same hardcoded path and, having an
+# `|| exit 0` on its `mkdir -p`, failed SILENTLY there rather than loudly here.
+# ★ The test must derive the path the same way the hook now does, or it stops being a test of the
+# hook and becomes a test of one checkout layout.
+_GITDIR = subprocess.run(["git", "-C", REPO, "rev-parse", "--absolute-git-dir"],
+                         capture_output=True, text=True).stdout.strip() or os.path.join(REPO, ".git")
+STATE = os.path.join(_GITDIR, "emc-hooks", "promised-work-last-head")
 
 REFUSES = 2  # the harness convention: exit 2 + stderr blocks the stop
 
@@ -198,3 +209,69 @@ def test_a_first_run_with_no_baseline_says_nothing(tmp_path):
     assert r.returncode == 0
     with open(STATE, "w") as fh:  # leave the baseline as we found it for the rest of the suite
         fh.write(_head())
+
+
+def test_the_hook_still_fires_inside_a_linked_worktree(tmp_path):
+    """⛔⛔ THE SHAPE THAT DISABLED THIS GUARD IS ONE THIS REPOSITORY MANDATES.
+
+    ⚠ MEASURED 2026-09-02. `aso_archive_manifest.py --check-archive` refuses outright unless
+    `git_tree_is_clean_apart_from_this_manifest` holds, so the manifest can only be regenerated in a
+    pristine detached worktree — the ordering was applied five times in one session. In a linked
+    worktree `.git` is a file, `mkdir -p "${REPO}/.git/emc-hooks"` fails with ENOTDIR, and the
+    hook's own `|| exit 0` converted that into a clean exit 0.
+    ★ SO THE GUARD WAS OFF IN PRECISELY THE PLACE THE REPOSITORY SENDS SESSIONS, and it said
+    nothing: rc=0, no stderr, indistinguishable from a turn that had nothing to answer for. That is
+    this file's header sentence — "a guard that cannot run is not a guard that passed" — recurring
+    inside the hook written to record it, for the third time.
+    ⛔ THIS TEST IS THE ONLY THING THAT BINDS THE FIX. Every other test in this file runs in the
+    ordinary checkout, where `--absolute-git-dir` and `${REPO}/.git` are the same string, so all 14
+    pass against the broken code. Reverting the hook to the hardcoded path must take THIS test red
+    and nothing else — that asymmetry is the point of it.
+    """
+    wt = tmp_path / "wt"
+    made = subprocess.run(["git", "-C", REPO, "worktree", "add", "--detach", str(wt), "HEAD"],
+                          capture_output=True, text=True)
+    if made.returncode != 0:
+        pytest.skip(f"could not create a linked worktree here: {made.stderr[:200]}")
+    try:
+        assert os.path.isfile(wt / ".git"), (
+            "this test is worthless unless .git really is a FILE here — that is the condition under "
+            "test, and a worktree that gave us a directory would pass for the wrong reason")
+        # ⭐ THE FILE UNDER TEST IS THE WORKING-TREE ONE, COPIED IN — not the worktree's own
+        # checkout of it. A pre-commit gate that graded the COMMITTED hook would pass a broken fix
+        # and fail a correct one, which is not a hypothetical: run as-is, this test first came back
+        # `rc=0, stderr=''` against the hook as committed at HEAD. That silent exit IS the defect,
+        # observed rather than argued, and it is the mutation evidence for this test — the
+        # pre-fix code is the mutant, taken from history instead of synthesised.
+        hook = wt / ".claude" / "hooks" / "promised-work-at-turn-end.sh"
+        assert hook.exists(), "the worktree checkout does not carry the hook"
+        shutil.copyfile(HOOK, hook)
+        gitdir = subprocess.run(["git", "-C", str(wt), "rev-parse", "--absolute-git-dir"],
+                                capture_output=True, text=True).stdout.strip()
+        assert gitdir and os.path.isdir(gitdir)
+        state_dir = os.path.join(gitdir, "emc-hooks")
+        os.makedirs(state_dir, exist_ok=True)
+        head = subprocess.run(["git", "-C", str(wt), "rev-parse", "HEAD"],
+                              capture_output=True, text=True).stdout.strip()
+        with open(os.path.join(state_dir, "promised-work-last-head"), "w") as fh:
+            fh.write(head)
+        transcript = tmp_path / "t.jsonl"
+        transcript.write_text(json.dumps({
+            "type": "assistant",
+            "message": {"role": "assistant", "content": [{
+                "type": "text",
+                "text": "Next: regenerate the chain, gate, commit, mint and publish a new archive "
+                        "version."}]},
+        }) + "\n", encoding="utf-8")
+        r = subprocess.run(["bash", str(hook)],
+                           input=json.dumps({"transcript_path": str(transcript)}),
+                           capture_output=True, text=True,
+                           env={k: v for k, v in os.environ.items() if k != "CLAUDE_PROJECT_DIR"})
+        assert r.returncode == REFUSES, (
+            "the hook did not refuse a stall inside a linked worktree, where `.git` is a file — "
+            f"rc={r.returncode}, stderr={r.stderr[:300]!r}. rc=0 with empty stderr is the silent "
+            "ENOTDIR exit this test exists to catch.")
+        assert "PROMISED WORK" in r.stderr
+    finally:
+        subprocess.run(["git", "-C", REPO, "worktree", "remove", "--force", str(wt)],
+                       capture_output=True, text=True)

@@ -76,7 +76,28 @@ done
 [ -n "$REPO" ] || exit 0
 cd "$REPO" 2>/dev/null || exit 0
 
-STATE_DIR="${REPO}/.git/emc-hooks"
+# ⛔⛔ `${REPO}/.git` IS A FILE, NOT A DIRECTORY, IN EVERY LINKED WORKTREE — AND THIS HOOK ALREADY
+# KNEW THAT ELEVEN LINES ABOVE. The repo-finding loop tries `[ -d "$cand/.git" ]` and FALLS BACK to
+# `git -C "$cand" rev-parse --git-dir` precisely because the directory test fails in a worktree; the
+# state path then hardcoded the very form the loop had just worked around.
+# ⚠ MEASURED 2026-09-02, and the failure was SILENT ON THE HOOK SIDE: `mkdir -p` on a path whose
+# parent is a 51-byte `gitdir:` pointer fails with ENOTDIR, and the `|| exit 0` two lines down turned
+# that into a clean exit 0. So in any linked worktree this guard did not fire, did not warn, and
+# reported nothing — "a guard that cannot run is not a guard that passed", which is the sentence
+# written in this file's own header about a DIFFERENT instance of this same failure.
+# ★ IT SURFACED FROM THE TEST SIDE, WHICH HAD NO `|| exit 0` TO HIDE IT: a default preflight run
+# inside the pristine worktree that the archive-manifest ordering REQUIRES took 14 of this file's
+# tests red with `NotADirectoryError: .../mm2/.git/emc-hooks`, while the byte-identical file passed
+# 14/14 in the ordinary checkout. That worktree is not an exotic setup — regenerating the ASO archive
+# manifest can only be done in one, so the shape that disables this hook is a shape this repository
+# mandates.
+# ⭐ `--absolute-git-dir` IS PER-WORKTREE AND THAT IS THE CORRECT SCOPE, not `--git-common-dir`. The
+# state file holds the PREVIOUS HEAD, and HEAD is per-worktree: sharing one baseline across worktrees
+# would make a commit in one look like a stall in the other. In an ordinary checkout it resolves to
+# `<repo>/.git`, so the path is byte-identical to the one it replaces and no baseline is lost.
+_GITDIR=$(git rev-parse --absolute-git-dir 2>/dev/null) || _GITDIR=""
+[ -n "$_GITDIR" ] || _GITDIR="${REPO}/.git"
+STATE_DIR="${_GITDIR}/emc-hooks"
 mkdir -p "$STATE_DIR" 2>/dev/null || exit 0
 LAST_HEAD_FILE="${STATE_DIR}/promised-work-last-head"
 

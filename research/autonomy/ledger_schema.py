@@ -55,8 +55,21 @@ edit distance does not reach the ledger row's own worked example -- `owned_by` i
      every dated one-off note (`_CORRECTION_2026_09_01`, `_PARKED_2026_09_01`) a maintenance tax on
      the gate for no protection at all.
   4. A WRONG VALUE UNDER A RIGHT NAME, in general. `value_problems()` covers the two fields where a
-     wrong value reads as green (`requires_trimcrae`, `state`) and `id_problems()` covers the id
-     SHAPE; nothing else is value-checked.
+     wrong value reads as green (`requires_trimcrae`, `state`), `id_problems()` covers the id
+     SHAPE, and `reference_problems()` covers the three JOIN KEYS in `serves` (2026-09-02, S51);
+     nothing else is value-checked.
+     ⛔⛔ THE JOIN-KEY HALF WAS ADDED BECAUSE THE GAP WAS MEASURED, NOT FORESEEN. On 2026-09-02,
+     **178 of 361 rows named a `serves.route` that exists in no route of
+     `systems/graph/routes.json`** (`RT-AUTONOMY` 176, `RT-LOOP` 1, `RT-DEGRADER-TERNARY` 1) and
+     **30 named a `serves.strategy` absent from `systems/graph/strategies.json`** (`ST-RNA` 26,
+     `ST-DEGRADER` 2, `ST-PROCESS` 1, `ST-EVIDENCE` 1). Every one read as green everywhere: the
+     name was right, the value pointed at nothing, and `apply_route_inheritance` simply never fired
+     -- so the route half of those rows' score was worth zero points and nothing said so.
+     ⚠ AND THE PROOF THAT A REPAIR WITHOUT A GUARD DOES NOT HOLD IS IN THE HISTORY OF THIS EXACT
+     FIELD. AUT-PD-177 repaired 18 rows on 2026-08-29; at its commit `6e093294b` the unresolvable
+     set was `{RT-AUTONOMY: 162, RT-LOOP: 1}` -- `RT-DEGRADER-TERNARY` was at ZERO. It is back
+     today on `AUT-PD-179`, a row filed after that commit, and `RT-AUTONOMY` grew 162 -> 176 in
+     four days. Nothing refused either.
 
 ⭐ AND THE SAME DEFECT HAS A VALUE-SHAPED HALF, ADDED THE DAY THE ID FORMAT MOVED (2026-09-01).
 `ids.next_entry_id` now mints `AUT-PD-204-6b009680`, a session discriminator appended because two
@@ -248,7 +261,8 @@ GOVERNED_SUBFIELDS: dict[str, dict[str, str]] = {
 
 #: Descriptive sub-keys, exactly as `DESCRIPTIVE_FIELDS` above and for the same reason.
 DESCRIPTIVE_SUBFIELDS: dict[str, frozenset[str]] = {
-    "serves": frozenset({"_route_was", "_route_remap_note"}),
+    "serves": frozenset({"_route_was", "_route_remap_note",
+                         "_strategy_was", "_strategy_remap_note"}),
     "score_inputs": frozenset(),
 }
 
@@ -462,6 +476,117 @@ def value_problems(entry: dict, row_id: str | None = None) -> list[str]:
     return out
 
 
+#: ⛔ THE THREE `serves` SUB-KEYS THAT ARE JOIN KEYS INTO `systems/graph`, and the file each joins
+#: to. `GOVERNED_SUBFIELDS` above already DOCUMENTS them as joins ("priority.py's join to
+#: systems/graph/routes.json"); this is the same fact made checkable, which is the difference
+#: CLAUDE.md §6 records as "RECORDED IS NOT ENFORCED".
+GRAPH_DIR = os.path.normpath(os.path.join(HERE, "..", "..", "systems", "graph"))
+SERVES_JOINS: dict[str, str] = {
+    "route": "routes.json",
+    "publication": "publications.json",
+    "strategy": "strategies.json",
+}
+
+#: What actually breaks, per join, so a refusal names the reader it fools rather than saying
+#: "unknown id" -- the same contract `_refusal` keeps for field names.
+WHY_GREEN: dict[str, str] = {
+    "route": ("priority.apply_route_inheritance and priority.route_score_floor look the value up, "
+              "find nothing and raise nothing, so the row never inherits its route's floor and "
+              "every route-keyed reader (health.by_route, out_of_ideas, `--explain`, `--table`) "
+              "files it under a bucket that is not a route."),
+    "publication": ("priority.py joins this to the graph's publication endpoints to decide whether "
+                    "the standing aiXiv grant covers the row's act; an endpoint it cannot find is "
+                    "read as 'no grant', silently, and systems_check.py's L3 map loses the row."),
+    "strategy": ("nothing computes from it today, which is exactly why a wrong value here is "
+                 "invisible: it is the label a human reads when deciding what a row is FOR, and a "
+                 "label naming no strategy is a claim about the architecture that the architecture "
+                 "does not make."),
+}
+
+_GRAPH_CACHE: dict[str, tuple[tuple[int, int], frozenset[str]]] = {}
+
+
+def graph_ids(filename: str, graph_dir: str | None = None) -> frozenset[str]:
+    """The `id`s in one `systems/graph` file. Raises OSError/ValueError -- the caller fails closed.
+
+    ⚠ CACHED ON (mtime_ns, size) BECAUSE `check_write` RUNS ON EVERY LEDGER WRITE and the graph is
+    read three times per row otherwise. Keyed on the stat rather than on the path alone so a test
+    that rewrites a graph file in place is not served a stale answer -- the failure mode of a cache
+    in a gate is that the gate stops measuring the tree it is judging.
+    """
+    path = os.path.join(graph_dir or GRAPH_DIR, filename)
+    st = os.stat(path)
+    stamp = (st.st_mtime_ns, st.st_size)
+    hit = _GRAPH_CACHE.get(path)
+    if hit is not None and hit[0] == stamp:
+        return hit[1]
+    with open(path, encoding="utf-8") as fh:
+        rows = json.load(fh)
+    ids = frozenset(r["id"] for r in rows if isinstance(r, dict) and r.get("id"))
+    _GRAPH_CACHE[path] = (stamp, ids)
+    return ids
+
+
+def reference_problems(entry: dict, row_id: str | None = None,
+                       graph_dir: str | None = None) -> list[str]:
+    """Every `serves` join key in one entry that names an id no `systems/graph` file holds.
+
+    ⛔⛔ WHY A DANGLING JOIN KEY IS THE FAILURE THAT READS AS GREEN. `serves.route` is not
+    descriptive prose -- `priority.apply_route_inheritance` and `priority.route_score_floor` look
+    the value UP, and both are filtered to `_derived` rows, so a route the graph does not contain
+    has no derived sibling, acquires no floor, and the lookup returns nothing. There is no error
+    path: the row keeps whatever number a human typed, ranks below every row the ranker judged, and
+    every route-keyed reader (`health.py`'s `by_route`, `out_of_ideas.py`, `priority --explain`,
+    `--table`) files it under a bucket that corresponds to no route. Measured 2026-09-02: the route
+    half of 176 rows' score was worth exactly zero points and no instrument said so.
+
+    ⛔ AND IT IS A ONE-TYPO ATTACK SURFACE THAT WAS DEMONSTRATED IN THE WILD THE SAME NIGHT. A
+    session wrote `RT-TXN-DEPENDENCY` -- a route existing nowhere -- into a `serves` block from
+    memory; `priority.py` stored it silently and ranked the row last. CLAUDE.md §7: never write a
+    route id from memory. This is that rule with a gate behind it.
+
+    ⭐ FAILS CLOSED. An unreadable or malformed graph file is reported as a problem rather than
+    treated as "no constraint" -- a checker that answers "fine" when it could not read its own
+    reference data is the `⚠ AN ABSENT READING IS NOT A READING OF ABSENCE` defect (CLAUDE.md §4),
+    and this repository has already paid for it once in `fanout_is_governed`.
+
+    ⚠ `graph_dir` IS INJECTABLE ONLY SO THE MECHANISM CAN BE TESTED against a constructed graph,
+    exactly as `live_aliases_in(aliases=...)` is and for the same reason. ⛔ IT IS NOT A WAY TO
+    NARROW THE CHECK IN PRODUCTION: every real caller omits it and gets the committed graph.
+    """
+    rid = row_id or entry.get("id") or "(row with no id)"
+    serves = entry.get("serves")
+    if not isinstance(serves, dict):
+        return []
+    out = []
+    for key, filename in SERVES_JOINS.items():
+        value = serves.get(key)
+        # ⚠ `None` IS A LEGITIMATE VALUE AND IS NOT CHECKED. 25 committed rows serve no route at
+        # all, and "this row serves no route" is exactly what a loop-upkeep row honestly says. The
+        # defect is a value that LOOKS like a join key and joins to nothing -- never an absence.
+        if not value:
+            continue
+        if not isinstance(value, str):
+            out.append(f"{rid}: `serves.{key}` = {value!r} is not a string, so the join into "
+                       f"systems/graph/{filename} cannot even be attempted.")
+            continue
+        try:
+            known = graph_ids(filename, graph_dir)
+        except (OSError, ValueError) as exc:
+            out.append(f"{rid}: cannot read systems/graph/{filename} ({exc}) -- failing closed "
+                       f"rather than passing `serves.{key}` unchecked.")
+            continue
+        if value not in known:
+            out.append(
+                f"{rid}: `serves.{key}` = {value!r} names no id in systems/graph/{filename} "
+                f"({len(known)} ids). ⛔ THIS READS AS GREEN EVERYWHERE: {WHY_GREEN[key]} "
+                f"⛔ THE FIX IS NOT TO ADD THE ID TO THE GRAPH: that manufactures a {key} to "
+                f"satisfy a pointer. Either name the real id, or set `serves.{key}` to `null` and "
+                f"record the old string in `serves._{key}_was` with a `serves._{key}_remap_note` "
+                f"saying why (the convention AUT-PD-177 established).")
+    return out
+
+
 def header_problems(ledger: dict) -> list[str]:
     """The ledger header's typed totals against the rows they count (CLAUDE.md §1: a total is
     DERIVED, never typed). `priority.py --write` derives all five; a hand-added row that skips that
@@ -506,6 +631,7 @@ def problems(ledger: dict) -> list[str]:
         out.extend(id_problems(entry))
         out.extend(field_problems(entry))
         out.extend(value_problems(entry))
+        out.extend(reference_problems(entry))
     out.extend(header_problems(ledger))
     return out
 
@@ -541,7 +667,7 @@ class SchemaViolation(ValueError):
 def check_write(path: str, data: dict) -> None:
     """The `write_ledger` binding. Raises `SchemaViolation`; never writes anything.
 
-    ⚠ FIELD AND VALUE PROBLEMS ONLY, NOT `header_problems`. A writer that is mid-way through adding
+    ⚠ FIELD, VALUE AND REFERENCE PROBLEMS ONLY, NOT `header_problems`. A writer that is mid-way through adding
     rows has not re-derived the header yet and must not be refused for it -- `priority.py --write`
     is what fixes that, and it is itself a writer. The header check is the ledger-wide gate's, which
     runs on the committed file where the totals are supposed to be true.
@@ -552,6 +678,7 @@ def check_write(path: str, data: dict) -> None:
             found.extend(id_problems(entry, require_parseable=False))
             found.extend(field_problems(entry))
             found.extend(value_problems(entry))
+            found.extend(reference_problems(entry))
     if found:
         raise SchemaViolation(
             f"refusing to write {os.path.basename(path)}: {len(found)} field-name/value problem(s)\n"
@@ -576,7 +703,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"   drifted-but-committed `{alias}` (= `{LIVE_ALIASES[alias]}`) on {len(rows)} row(s), "
               f"invisible to that field's reader, grandfathered and reported: {', '.join(rows)}")
     n_rows = len(ledger.get("entries") or [])
-    print(f"   {n_rows} row(s), {len(GOVERNED_FIELDS)} governed field name(s), {len(found)} problem(s)")
+    print(f"   {n_rows} row(s), {len(GOVERNED_FIELDS)} governed field name(s), "
+          f"{len(SERVES_JOINS)} graph join(s), {len(found)} problem(s)")
     return 1 if (args.check and found) else 0
 
 

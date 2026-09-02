@@ -4,7 +4,8 @@ title: "What the EMC care-delivery evidence actually supports — five route dec
 level: L3
 kind: memo
 status: live
-canonical_for: ["the 2026-09-01 decision on ledger rows AUT-042, AUT-057, AUT-058, AUT-064 and AUT-065"]
+canonical_for: ["the 2026-09-01 decision on ledger rows AUT-042, AUT-057, AUT-058, AUT-064 and AUT-065",
+                "the internal records those decisions leave behind for AUT-064 (margin denominator sensitivity) and AUT-065 (the EMC follow-up-window observation), written 2026-09-02"]
 purpose: >
   Answer the five parked care-delivery and locoregional judgement calls with a recommendation each,
   by reading the artifact that holds the data every row says is in hand and reporting where the row
@@ -17,7 +18,7 @@ scope: >
   wet-laboratory work, and is not clinical advice.
 audience: [maintainers, autonomous research agents, external reviewers]
 date: 2026-09-01
-last_verified: 2026-09-01
+last_verified: 2026-09-02
 ---
 
 # What the EMC care-delivery evidence actually supports
@@ -364,3 +365,100 @@ a shortcut.
 - **No correction was applied.** The two artifacts refuted in §2, the two publication records
   discussed in §1 and §4, and the two route grades that inherit the absences all sit outside this
   seat's owned paths and are left for the driver to sequence.
+
+---
+
+## 6 · The two internal records those decisions leave behind
+
+> ⛔ **NEITHER OF THESE IS A PAPER, AND NEITHER BECOMES ONE HERE.** AUT-064 and AUT-065 each carry a
+> decision *not* to publish standalone, taken on evidence and recorded in §3.1 and §3.3. §6.1 and
+> §6.2 are the internal record that decision leaves behind — the thing a later session reads instead
+> of re-deriving it. Nothing in this section is added to a submission text, to
+> `systems/graph/publications.json`, or to any venue. Every figure is quoted from a committed
+> artifact and named by the key it was read from; this section computes nothing.
+
+### 6.1 AUT-064 — denominator sensitivity in the EMC positive-margin rate
+
+**One quantity, four denominators, and the spread is the result.** A positive margin is R1 or R2
+under the definition both series print — R1 macroscopically negative but microscopically positive,
+R2 macroscopically positive. The proportion of operated patients carrying one, from
+[`emc-surgical-quality.json`](../../modalities/emc-surgical-quality.json):
+
+| denominator | the patients it counts | positive margin | key it was read from |
+|---|---|---|---|
+| **156** | every operated patient in the national-registry series (171 registered less 15 never operated) | **25.0 %** — 39/156, Wilson 18.9–32.3 % | `masunaga2025_rates.positive_margin_among_all_operated` |
+| **134** | the operated subset localized at diagnosis | 22.4 % — 30/134, 16.2–30.2 % | `…positive_margin_among_operated_localized_at_diagnosis` |
+| **22** | the operated subset already metastatic at diagnosis | **40.9 %** — 9/22, 23.3–61.3 % | `…positive_margin_among_operated_metastatic_at_diagnosis` |
+| **40** | the two-centre series' patients whose margin field was recorded at all | 35.0 % — 14/40, 22.1–50.5 % | `chiusole2020_rates.positive_margin_among_those_with_the_field_recorded` |
+
+**The record is that a reader shown one of those four figures without the other three has been
+misled, and which way depends on which figure they were shown.** The largest gap sits inside a
+single paper and a single table: 22.4 % against 40.9 %, eighteen points, on patients who differ only
+in whether they were already metastatic when they presented. A "positive-margin rate for EMC" is
+therefore not a quantity this literature has, and **no pooled rate is computed here or anywhere in
+the artifact** — the two series share neither era, setting nor denominator convention, and
+POLICY-evidence refuses the merge.
+
+⚠ **Two cautions travel with the table.** The metastatic row rests on 22 operated patients and its
+interval runs from 23.3 % to 61.3 %, so what that row carries is a direction and not a point
+estimate. And none of the four is a measure of surgical performance: the artifact's
+`⚠_this_is_not_a_quality_metric` records that a positive margin in a metastatic patient is
+frequently a deliberate choice — debulking, symptom control, an operation whose goal was never
+clearance — and **neither publication prints the intent of any operation**, so the intent-free
+reading is the only one available and it is an observational description of what was done.
+
+**Why this is a record rather than a note aimed anywhere.** The headline a margin note would carry
+restates the resection-completeness conclusion the larger source already prints in its own abstract
+(PMID 40885991), so it fails the consequence test applied to DOC-EMC-ICDO-9231-CLASSIFICATION on
+2026-08-23. What that abstract does *not* contain is the denominator sensitivity above, and that is
+the whole of what this section adds. §3.1 holds the reasoning; the two closures it checked —
+treatment setting and unplanned excision, absent because of what the publications report rather than
+because of a gap in curation — stay closed, and re-curating either paper cannot produce them.
+
+### 6.2 AUT-065 — what the length of the follow-up window does to EMC recurrence timing
+
+In the 134 patients of the national-registry series who were localized at diagnosis and underwent
+surgery, 16 local recurrences (11.9 %) were observed at a median of 15 months from surgery with an
+interquartile range of 4.5 to 63.5 months, while the same cohort's median follow-up is 38 months
+(IQR 23–71); the upper quartile of the recurrence times therefore lies 25.5 months beyond the median
+follow-up, so a quarter of the local recurrences this series observed happened later than half its
+patients were watched, and death from tumour behaves the same way with an upper quartile of 69
+months against the same 38. Both numbers come from one paper, one cohort and one clock, which holds
+era, country, setting and imaging generation constant by construction and leaves none of them
+available as an explanation. (Read from
+[`emc-recurrence-timing.json`](../../modalities/emc-recurrence-timing.json): `⭐_the_finding`,
+`cohorts[masunaga2025]` and `events_beyond_the_observation_window`.)
+
+⛔ **Three limits are attached to that paragraph and it must not be quoted without them.**
+
+1. **An interquartile range that sits inside the follow-up window is what censoring produces, not
+   evidence against it.** Quartiles are computed over the events that were observable, so truncation
+   pulls them inward. The inference runs one way only — an IQR that escapes the window is
+   remarkable, because late events survived into a sample biased against them, while an IQR that
+   fits tells you nothing either way. The distant-metastasis row of the same cohort, IQR 10–31
+   months against 38, is therefore **not** a row saying censoring is absent there.
+2. **Three points on a cumulative distribution cannot be differentiated into a hazard, so nothing
+   about scheduling follows.** A median and an interquartile range establish a long right tail and
+   cannot give its shape. **No surveillance interval, duration or intensity is derived here, and
+   none may be derived from this.**
+3. **Lead-time bias is untouched.** Moving the date on which a recurrence is detected need not move
+   the date of death, nothing here addresses that, and no reachable EMC series reports what fraction
+   of late recurrences were resectable.
+
+⚠ **Two imprecisions are carried rather than hidden.** The event is measured from surgery and the
+follow-up from diagnosis, so the comparison is off by the diagnosis-to-surgery interval, which the
+paper does not print — it moves the comparison in the conservative direction, since counting from
+diagnosis would place a recurrence later still. And the follow-up row is printed over all 171
+registered patients rather than over these 134, which the artifact flags at
+`cohorts[masunaga2025].followup_printed_in`.
+
+⛔ **63.5 months is a statement about an observation window, not about anyone's outcome.** This
+paragraph reports an artefact of how long patients were watched. It says nothing about survival,
+nothing about whether watching longer would change any outcome, and nothing that recommends any
+course of care.
+
+⭐ **What the route waits for is now named.** RT-SURVEILLANCE stays open against a series printing a
+time-to-recurrence curve *with a numbers-at-risk row*, which is what a state-transition model would
+need and what no reachable series prints. RT-IPD-SURVIVAL is not that source and is not waited on:
+its one admissible curve is 11 patients of progression-free survival in advanced disease, the wrong
+shape for a question about recurrence after resection of localized disease (§3.3).

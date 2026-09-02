@@ -79,6 +79,20 @@ GOVERNED = (
     "**/test_*.py",
     "**/tests/**",
     ".claude/skills/**",
+    # ⭐⭐ AND `.claude/hooks/**`, ADDED 2026-09-02 — THE ONE-OF-A-PAIR SHAPE AGAIN, IN THE SAME
+    # TUPLE THAT ALREADY RECORDS IT TWICE. `.claude/skills/**` was governed and `.claude/hooks/**`
+    # was not, so a SKILL — instructions a session may or may not load — could not be changed
+    # quietly, while a STOP HOOK, which the harness runs whether or not anyone remembers to, could.
+    # The hooks are the only bars in this repository that fire without being invoked; CLAUDE.md §7
+    # calls `merge-debt-at-turn-end.sh` the enforcement of a rule that "lived in prose and was
+    # measured by nothing", and §3 says the same of `escalation-debt-at-turn-end.sh`. A bar changed
+    # by the session it fires at is exactly what this file exists to catch, and two sessions have
+    # now declared hook edits here VOLUNTARILY (S35-DRIFTGUARD, and the merge-debt edit of
+    # 2026-09-02) on the reasoning that the guard should have required it. It now does.
+    # ⛔ THIS IS A TIGHTENING AND ONLY A TIGHTENING: it adds one glob and removes none, so the very
+    # edit that introduced it — two hooks patched the same hour, in the session those hooks fire at
+    # — is itself governed and declared in amendments.jsonl with its self_serving_check answered.
+    ".claude/hooks/**",
 )
 
 

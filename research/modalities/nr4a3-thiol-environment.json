@@ -7,7 +7,7 @@
  ],
  "⛔⛔_what_this_can_never_license": "A favourable thiol pKa is NOT evidence that a covalent bond forms. Reactivity is necessary and never sufficient: adduct formation in a cell additionally requires delivery to the site, residence time, an attack geometry, survival against a proteome of competing nucleophiles, and a tolerated concentration. None of that is modelled here, and none of it would be modelled by a pKa either. ⛔ This applies to every downstream use of this artifact, including a future run that does compute a pKa.",
  "⛔_the_handle_is_still_a_LABEL": "Everywhere this program calls C397 a covalent handle, that is a CATEGORICAL sequence/geometry statement — a paralogue-unique cysteine within tether reach — and NOT a measured reactivity. This file does not change that. It reports the structural determinants a reactivity would depend on; it does not report a reactivity.",
- "_generated_utc": "2026-08-07T12:58:33Z",
+ "_generated_utc": "2026-08-28T22:52:44Z",
  "_method": {
   "structures": "the matched opened LBD models already in the repo, one static conformer each",
   "model_uniprot_offsets": "DERIVED by exact substring match (nr4a_reciprocal_census.model_offset)",
@@ -36,9 +36,9 @@
     "what": "a curated database of EXPERIMENTALLY MEASURED protein pKa values (wild type + mutants)",
     "url": "http://compbio.clemson.edu/pkad",
     "discovered_via": "web search → the database publication's availability statement",
-    "http_status": 403,
+    "http_status": 404,
     "bytes": 0,
-    "error": "HTTPError 403",
+    "error": "HTTPError 404",
     "status": "UNREACHABLE"
    },
    {
@@ -46,9 +46,9 @@
     "what": "the same database over https",
     "url": "https://compbio.clemson.edu/pkad/",
     "discovered_via": "web search → the database publication's availability statement",
-    "http_status": null,
+    "http_status": 404,
     "bytes": 0,
-    "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "error": "HTTPError 404",
     "status": "UNREACHABLE"
    },
    {
@@ -56,14 +56,14 @@
     "what": "the database's open-access article record, which states the per-residue-type entry counts",
     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6389863/",
     "discovered_via": "web search",
-    "http_status": null,
-    "bytes": 0,
-    "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
-    "status": "UNREACHABLE"
+    "http_status": 200,
+    "bytes": 154073,
+    "error": null,
+    "status": "OK"
    }
   ],
-  "n_reachable_in_this_run": 0,
-  "verdict": "REFERENCE_DATABASE_EXISTS_BUT_UNREAD",
+  "n_reachable_in_this_run": 1,
+  "verdict": "REFERENCE_READ",
   "⚠": "`UNREACHABLE` is a statement about THIS RUN'S NETWORK, never about the database. An absent reading is not a reading of absence — route these through CI before concluding anything from their silence."
  },
  "★_part_B_determinants": {
