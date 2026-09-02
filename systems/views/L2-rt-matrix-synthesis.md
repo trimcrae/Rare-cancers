@@ -61,7 +61,7 @@ The matrix has been treated here as a barrier and, once, as an address. This is 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | ⛔ TAKEN 2026-08-09 and returned against the premise — the expression lookup that grades this route's premise. It is what produced the grade above, and it is recorded here as taken so the row stops reading as an open feasible-today step (AUT-PD-086). | ⛔ none built | yes | — |
-| A measurement of the matrix compartment in EMC tissue | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| A measurement of the matrix compartment in EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THIS SEAT GRADES IT STRICTER THAN S32 DID, DELIBERATELY. The transcript half is already recorded as taken in this route's own `required_validation[0]`, and `reads.read_2_CS_GAG_PAPS.readability_verdict.state` is PARTIALLY TAKEN on both platforms. ⛔ The compartment half is not a transcript question, and the read says so: `what_it_cannot_settle` — "A SULFATION PATTERN HAS NO GENE … only a stain or a binding assay can say that". S32 recorded this entry as UNBLOCKED; on the read's own words the residual is a tissue measurement, so BLK-NO-WET-LAB stays and the entry stays open. The fourth cohort adds CHSY1, CSGALNACT2, VCAN and BGN in twelve more tumours and no CHST11, CHST3 or PAPSS probe. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-MATRIX-SYNTHESIS. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 

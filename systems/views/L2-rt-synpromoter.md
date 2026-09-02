@@ -63,7 +63,7 @@ Registered with its refutation attached. The technique depends on the fusion cre
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A direct read of the fusion's DNA-binding specificity in EMC | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-VECTOR-DELIVERY |
+| A direct read of the fusion's DNA-binding specificity in EMC  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ BLK-NO-EMC-DATA IS CORRECT ON THIS ENTRY AND STAYS — a second recorded disagreement with S32. A direct read of the fusion's DNA-binding specificity in EMC is a ChIP experiment in a system expressing the fusion; that is functional-genomics data, and a deposited peak set would satisfy the entry without a lab. BLK-NO-WET-LAB is added for the arm where we would have to run it. NR4A3 has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-SYNPROMOTER. | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-VECTOR-DELIVERY, BLK-NO-WET-LAB |
 
 ## Blockers
 

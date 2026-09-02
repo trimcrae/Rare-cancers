@@ -12,6 +12,21 @@
   "Not a patient count: 12 runs are 12 tumours, and a tumour is not an outcome."
  ],
  "⛔ _what_a_false_row_is_not": "NOT a reading of absence. It means no probe in this deposit was matched to that gene by this quantifier — emc-fourth-cohort-quant.json → probe_map.'⚠ unassigned_means' and '⛔ gene_counts_units'. The gene may be on the panel and unmatched, or off it.",
+ "⭐ the_rule_this_adjudication_applies": {
+  "statement": "BLK-NO-EMC-DATA covers a required_validation entry ONLY IF a public or deposited EMC FUNCTIONAL-GENOMICS dataset — a perturbation, dependency or drug-response screen — would satisfy it. An entry asking for an expression or tissue profile, a protein, a stain, an imaging or dosimetry value, a copy number, an immunopeptidome, a T-cell assay, or a clinical, outcome or registry read is NOT its to hold.",
+  "derived_from": "systems/graph/blockers.json → BLK-NO-EMC-DATA",
+  "the_blocker_in_its_own_words": [
+   "name: EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)",
+   "statement_about: data availability — the repo-wide rate-limiter, not any one route",
+   "retired_by_action refuses, unprompted, both this fourth cohort ('a tumour expression panel is not a dependency screen, so nothing here touches it') and a methylation reference set as retirements."
+  ],
+  "⛔ what_this_rule_never_does": "Removing this blocker from an entry does not make the entry satisfied, does not promote, re-grade or unblock a route, and does not change any grade, state or readiness field. Where a route's residual is a bench, a clinic or a reachable-set gap, the entry gains the blocker that names it and stays feasible_today: false.",
+  "applied_by": "AUT-PD-116, seat s31-emc-data-blocks, 2026-09-02",
+  "the_prior_adjudications_this_builds_on": [
+   "research/modalities/emc-blk-no-emc-data-route-retest.json (S32, 19 entries / 16 routes)",
+   "research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md (9 entries / 7 routes)"
+  ]
+ },
  "cohort": {
   "bioproject": "PRJNA1357027",
   "sra_study": "SRP640302",

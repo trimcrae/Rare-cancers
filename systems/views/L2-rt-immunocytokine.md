@@ -66,7 +66,7 @@ The one antibody format whose address is not a tumour-cell antigen: it targets a
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | The expression lookup that grades this route's premise | ⛔ none built | yes | — |
-| A measurement of the matrix compartment in EMC tissue | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| A measurement of the matrix compartment in EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN AT GENE LEVEL (this route's own `required_validation[0]`), and the ISOFORM half — which is the whole route — is open. ⭐ THE QUESTION THIS ROUTE'S OWN `next` ASKED IS ANSWERED HERE, AT $0, AND THE ANSWER IS NO: the fourth cohort cannot resolve the oncofetal fibronectin and tenascin domains. TNC has no assigned probe at all; FN1 has exactly one across the 1,645 probes common to every run; gene counts are summed over the probes assigned to a gene (`emc-fourth-cohort-quant.json → "⛔ gene_counts_units"`); and the committed probe table carries `probe_sequence` and `assigned_gene` and no transcript or exon identity, so no domain-inclusion call is derivable from it. An isoform-resolved read still needs transcript-resolved sequencing or the vendor probe manifest, neither of which is on disk. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-IMMUNOCYTOKINE. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -120,7 +120,7 @@ The decisive observation needs isoform-level data, and the only plausible source
 
 ## Best next action
 
-Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.
+Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all. ⛔ ANSWERED 2026-09-02 (AUT-PD-116) AND THE ANSWER IS NO. The fourth cohort cannot resolve fibronectin or tenascin isoforms: TNC has no assigned probe, FN1 has exactly one, gene counts are summed over a gene's probes, and the committed probe table carries no transcript or exon identity. ⚠ Superseded, retained: "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all." An isoform-resolved read needs transcript-resolved sequencing or the vendor probe manifest.
 
 *Cost:* $0
 

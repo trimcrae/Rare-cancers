@@ -64,7 +64,7 @@ Trabectedin is approved and used in sarcoma, and the argument for it here is mec
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A larger EMC series, or a measured effect on the fusion's transcriptional output | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A larger EMC series, or a measured effect on the fusion's transcriptional output  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED ON EITHER DISJUNCT, AND THE TWO DISJUNCTS HAVE DIFFERENT BLOCKERS — which is why one string could not carry it. "A larger EMC series" is a clinical reachable-set gap and belongs to BLK-NO-CURATED-CLINICAL-DATA, whose own statement is explicitly about the reachable set of publications. "A measured effect on the fusion's transcriptional output" is a perturbation in an EMC model: BLK-NO-WET-LAB if we ran it, and BLK-NO-EMC-DATA if a deposited dataset supplied it — so that blocker is kept on this entry for the second disjunct only. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-TRABECTEDIN. | ⛔ none built | **no** | BLK-NO-CURATED-CLINICAL-DATA, BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 
 ## Blockers
 

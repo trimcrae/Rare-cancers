@@ -1783,9 +1783,11 @@
     ],
     "required_validation": [
       {
-        "what": "A larger EMC series, or a measured effect on the fusion's transcriptional output",
+        "what": "A larger EMC series, or a measured effect on the fusion's transcriptional output\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED ON EITHER DISJUNCT, AND THE TWO DISJUNCTS HAVE DIFFERENT BLOCKERS — which is why one string could not carry it. \"A larger EMC series\" is a clinical reachable-set gap and belongs to BLK-NO-CURATED-CLINICAL-DATA, whose own statement is explicitly about the reachable set of publications. \"A measured effect on the fusion's transcriptional output\" is a perturbation in an EMC model: BLK-NO-WET-LAB if we ran it, and BLK-NO-EMC-DATA if a deposited dataset supplied it — so that blocker is kept on this entry for the second disjunct only. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-TRABECTEDIN.",
         "feasible_today": false,
         "blocked_by": [
+          "BLK-NO-CURATED-CLINICAL-DATA",
+          "BLK-NO-WET-LAB",
           "BLK-NO-EMC-DATA"
         ]
       }
@@ -2049,7 +2051,13 @@
       "last_verified": "2026-08-05"
     },
     "rationale": "A theranostic gives imaging and therapy from one vector, and the imaging half is a cheap decisive test: a negative scan kills the route immediately and inexpensively. EMC has neuroendocrine-adjacent features that make the receptor worth checking.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The EMC-tissue transcript half of required_validation[0]: gene_reads.SSTR2 is readable on GPL6244 in 6 EMC tumours, which says the gene is transcribed and says nothing about receptor density, protein or imaging avidity.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "Whether EMC expresses the receptor at all — this has never been measured.",
       "Whether expression is high enough for therapeutic rather than merely diagnostic use.",
@@ -2057,10 +2065,9 @@
     ],
     "required_validation": [
       {
-        "what": "A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue",
+        "what": "A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THE TAKEN HALF IS THE EXPRESSION DISJUNCT. `ART-EMC-EXPRESSION-PANELS` reads SSTR2 on EMC tumour tissue: `gene_reads.SSTR2.GSE24369_series_matrix.txt.gz.readable` is true on GPL6244 (not readable on GPL3290), and `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.SSTR2` carries the contrast and its verdict. ⛔ THE IMAGING DISJUNCT IS UNTAKEN and is what this entry now waits on — a receptor scan in a patient is a bench and a clinic, so BLK-NO-WET-LAB is the whole of the residual. ⛔ A transcript read is not a receptor density, a protein or an imaging avidity: the artifact's `_what_this_cannot_conclude` refuses all three. SSTR2 has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-SSTR2.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA",
           "BLK-NO-WET-LAB"
         ]
       },
@@ -2097,7 +2104,7 @@
       "best_next_action": "Keep on the ask list. Frame it as a cheap decisive negative rather than as a promising lead — that is the honest framing and the one most likely to get it run.",
       "cost": "$0",
       "blocked_on": [
-        "BLK-NO-EMC-DATA"
+        "BLK-NO-WET-LAB"
       ]
     }
   },
@@ -2194,6 +2201,11 @@
         "ref": "ART-SURFACE-EXPRESSION",
         "what_it_supports": "the selectivity premise was measured on cell-line surrogates and failed",
         "strength": "surrogate"
+      },
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The EMC-tissue transcript reading behind required_validation[0]: gene_reads.CD276 and reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.CD276. It does not reach selectivity, which is a protein and tumour-versus-normal axis this artifact does not measure.",
+        "strength": "direct"
       }
     ],
     "remaining_unknowns": [
@@ -2201,10 +2213,10 @@
     ],
     "required_validation": [
       {
-        "what": "Selectivity measured on real EMC tissue rather than surrogates",
+        "what": "Selectivity measured on real EMC tissue rather than surrogates\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THE HALF THAT IS NOT TAKEN IS THE WORD IN THE REQUIREMENT. The transcript read exists — `gene_reads.CD276.GSE24369_series_matrix.txt.gz.readable` true on GPL6244 only, with the contrast in `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.CD276` — but SELECTIVITY is a protein and tumour-versus-normal axis, and `_what_this_cannot_conclude` states that this artifact's every contrast is EMC versus other SARCOMAS and that the tumour-versus-normal axis is not measured anywhere in the file. The residual is a measurement, not missing data. CD276 and NCAM1 have no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-B7H3.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -2314,18 +2326,24 @@
       "last_verified": "2026-08-05"
     },
     "rationale": "A surface target avoids the intracellular-antigen problem entirely and CAR-T is a mature modality. The whole route reduces to whether EMC presents a surface antigen that healthy tissue does not.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The antigen search this route's required_validation[0] asked for: reads.read_8_SURFACE_ANTIGEN.cross_platform_board, 100 genes, of which five are concordantly up on both platforms and none clears the route's stated requirement of a SELECTIVE SURFACE antigen.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "Whether any sufficiently selective surface antigen exists on EMC.",
       "Whether the myxoid stroma admits T cells at all."
     ],
     "required_validation": [
       {
-        "what": "A selective surface antigen confirmed on EMC tissue",
+        "what": "A selective surface antigen confirmed on EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). THE SEARCH THIS ENTRY WAITED ON HAS RUN, AND IT RETURNED NO QUALIFYING ANTIGEN. `reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.CONCORDANT_UP_ON_BOTH` holds five of the board's 100 genes (ALCAM, BGN, CD44, GPC1, VCAN); only ALCAM carries a RESTRICTED normal-tissue prior in `research/modalities/emc-surface-normal-window.json`, and the route's own owning manuscript demotes ALCAM on the exposure axis. ⛔ SO THE REQUIREMENT — a SELECTIVE SURFACE antigen — IS NOT SATISFIED, `readiness.missing` stays true and is not edited, and nothing here promotes this route. The fourth cohort adds BGN, CD44 and VCAN in twelve more tumours and no ALCAM or GPC1 probe. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-CART-SURFACE.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA",
-          "BLK-ANTIGEN-COLD"
+          "BLK-ANTIGEN-COLD",
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -2348,7 +2366,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep registered. The antigen search re-runs automatically when EMC expression data lands.",
+      "best_next_action": "Keep registered. The antigen search re-runs automatically when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): the data landed and the search RAN — reads.read_8_SURFACE_ANTIGEN.cross_platform_board returned five of 100 genes concordantly up on both platforms, of which only ALCAM carries a RESTRICTED normal-tissue prior and the owning manuscript demotes ALCAM on the exposure axis. ⚠ Superseded, retained: \"The antigen search re-runs automatically when EMC expression data lands.\" A completed search recorded as a standing promise makes a finished negative read as pending upside. ⛔ readiness.missing stays true: no qualifying antigen was found.",
       "cost": "$0"
     }
   },
@@ -2566,11 +2584,11 @@
         "blocked_by": []
       },
       {
-        "what": "Measured presentation on EMC tissue",
+        "what": "Measured presentation on EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND AUT-PD-116'S OWN HEADLINE NAMING IT ANSWERED IS REFUTED HERE. Presentation is a peptide-HLA quantity and no such quantity exists anywhere in `ART-EMC-EXPRESSION-PANELS`. What is read is strictly narrower — the antigen-presentation MACHINERY transcripts in `reads.read_19_IMMUNE_TME` (`readability_verdict.state` PARTIALLY TAKEN) and `gene_reads` for HLA-A/HLA-B/HLA-C — and that read's own `what_it_cannot_settle` refuses infiltrate, location and function. Immunopeptidomics is a bench measurement, so BLK-NO-WET-LAB is the residual. None of HLA-A, HLA-B, HLA-C, B2M, TAP1 or TAP2 has an assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-JUNCTION-NEOANTIGEN.",
         "feasible_today": false,
         "blocked_by": [
           "BLK-ANTIGEN-COLD",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -3077,6 +3095,11 @@
         "ref": "ART-CTA-EXPRESSION",
         "what_it_supports": "EMC is cancer-testis-antigen-low on the available measured data",
         "strength": "surrogate"
+      },
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The EMC expression series required_validation[0] asked for, and the reason its antigens are still unread: cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM lists CTAG1B, MAGEA3 and SSX2.",
+        "strength": "direct"
       }
     ],
     "remaining_unknowns": [
@@ -3084,11 +3107,9 @@
     ],
     "required_validation": [
       {
-        "what": "A real EMC expression series",
-        "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-EMC-DATA"
-        ]
+        "what": "A real EMC expression series\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). SATISFIED AS WRITTEN — and this is the one entry in the population that is. Three EMC tumour series are now read: the two arrays in `ART-EMC-EXPRESSION-PANELS` (`platforms`, licensed by `reads.control`) and the fourth cohort. ⛔ AND THE ANSWER THE SERIES WAS WANTED FOR IS STILL UNREAD: CTAG1B, MAGEA3 and SSX2 all sit in `reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM`, and none of the three has an assigned probe in the fourth cohort's committed gene table. That is an instrument state on three instruments and NEVER a negative about the tumour, so this entry's satisfaction is a fact about the RECORD and moves nothing about the route's science. ⚠ `readiness.missing` still reads \"a real EMC expression series\" and now disagrees with this entry; that field belongs to the route's grade owner and is left visibly disagreeing rather than papered over. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-TCRT-CTA.",
+        "feasible_today": true,
+        "blocked_by": []
       }
     ],
     "readiness": {
@@ -3110,7 +3131,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): three EMC tumour series are now read and the re-grade this field promised cannot be taken from any of them — CTAG1B, MAGEA3 and SSX2 are unreadable on both arrays and have no assigned probe in the fourth cohort. ⚠ Superseded, retained: \"Keep registered for automatic re-grade when EMC expression data lands.\" The live next step is a CTA-covering instrument, not another cohort.",
       "cost": "$0"
     }
   },
@@ -3410,25 +3431,29 @@
       "last_verified": "2026-08-05"
     },
     "rationale": "EMC is a stroma-rich myxoid tumour, and a stromal target RELOCATES the question — from what the tumour cells express, to whether stromal delivery reaches them, which is remaining_unknown 2 and is unanswered in a disease where the cellular antigen search has repeatedly come back empty.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The EMC-tissue transcript half of required_validation[0]: gene_reads.FAP is readable on both platforms and the board places FAP in FLAT_ON_BOTH against comparator sarcomas. It reaches no protein, IHC or imaging value.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question.",
       "Whether a stromal-targeted radioligand delivers enough dose to the tumour cells."
     ],
     "required_validation": [
       {
-        "what": "An expression or imaging readout on EMC tissue",
+        "what": "An expression or imaging readout on EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND ON BOTH PLATFORMS. `gene_reads.FAP` is readable in both series, the contrast is in `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.FAP`, and the board places FAP in `cross_platform_board.by_state.FLAT_ON_BOTH` — flat against comparator sarcomas, not elevated, which is the direction that matters for a radioligand address. ⛔ THE IMAGING HALF IS UNTAKEN and no FAP protein, IHC or imaging value in EMC has been reported; CYC-0074's 2026-08-29 ruling that even a successful extraction leaves the protein gap open STANDS. FAP has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-FAP-RLT.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA",
           "BLK-NO-WET-LAB"
         ]
       },
       {
-        "what": "Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio",
+        "what": "Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED AND NOT ANSWERABLE FROM EXPRESSION. A bystander/crossfire dose and a tumour-to-normal uptake ratio are dosimetry quantities; no transcript read of any cohort reaches them, and the residual is a bench and an imaging study. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-FAP-RLT.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA",
           "BLK-NO-WET-LAB"
         ]
       }
@@ -3452,7 +3477,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): the expression data landed and the FAP read is taken on both platforms (gene_reads.FAP; FLAT_ON_BOTH against comparator sarcomas). ⚠ Superseded, retained: \"Keep registered for automatic re-grade when EMC expression data lands.\" What remains is the PROTEIN and imaging gap, which CYC-0074 ruled on 2026-08-29 stays open even after a successful extraction.",
       "cost": "$0"
     },
     "_tissue_evidence_ceiling_2026_09_01": "⛔ THE ONLY EMC TISSUE EVER FAP-STAINED IN THE LITERATURE IS ONE CASE, AND ITS SCORES WILL NOT BE OBTAINED. Measured 2026-08-29 from PMID 38964294 / PMC11797935 (Umakoshi et al.): Table 1 gives extraskeletal myxoid chondrosarcoma as 1 of 133 enrolled cases, and the paper's only subtype-level FAP analyses are well-differentiated liposarcoma and undifferentiated pleomorphic sarcoma (Table 5). That one case's intratumoral and marginal FAP scores are unpublished and no per-case data is deposited.\n★ THE ONE WAY PAST IT WAS AN EMAIL TO THE CORRESPONDING AUTHOR, and it was put to trimcrae on 2026-09-01 with its cost and its stakes. His answer, verbatim: \"Not worth an email.\" Ledger row AUT-081, closed, `notified_utc` stamped.\n⛔ SO THIS IS A CEILING ON THE TISSUE EVIDENCE, FIXED BY DECISION RATHER THAN PENDING — do not re-propose the ask. ⚠ IT IS NOT A CLOSURE OF THE ROUTE: `missing: [\"any measurement in EMC\"]` and the automatic re-grade on an EMC expression drop are untouched, because expression is a different measurement from a stain. Grade, status and readiness are unchanged by this note."
@@ -4715,11 +4740,12 @@
     ],
     "required_validation": [
       {
-        "what": "A direct read of the fusion's DNA-binding specificity in EMC",
+        "what": "A direct read of the fusion's DNA-binding specificity in EMC\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ BLK-NO-EMC-DATA IS CORRECT ON THIS ENTRY AND STAYS — a second recorded disagreement with S32. A direct read of the fusion's DNA-binding specificity in EMC is a ChIP experiment in a system expressing the fusion; that is functional-genomics data, and a deposited peak set would satisfy the entry without a lab. BLK-NO-WET-LAB is added for the arm where we would have to run it. NR4A3 has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-SYNPROMOTER.",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-EMC-DATA",
-          "BLK-VECTOR-DELIVERY"
+          "BLK-VECTOR-DELIVERY",
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -5366,7 +5392,7 @@
         "blocked_by": []
       },
       {
-        "what": "Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched",
+        "what": "Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ BLK-NO-EMC-DATA IS CORRECT ON THIS ENTRY AND STAYS — a disagreement with S32's \"wrong blocker\" verdict, recorded rather than silently applied. Fusion knockdown or degradation in an EMC model read out by RNA-seq IS functional-genomics data, so a deposited EMC perturbation dataset would satisfy this entry without a lab, which is exactly the class the blocker's `retired_by_action` says would retire it. BLK-NO-WET-LAB holds it shut anyway, so keeping the blocker costs the route nothing. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-FUSION-OUTPUT.",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB",
@@ -5374,11 +5400,9 @@
         ]
       },
       {
-        "what": "Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture",
+        "what": "Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND NO BLOCKER RECORD FITS IT — the residual is stated here instead of mis-filed, following the `BLK-NO-CURATED-CLINICAL-DATA` precedent in which two routes ended the same correction with no blocker at all. Neither array series carries a fusion-partner label: `sample_annotations_verbatim` contains EWSR1, TAF15 and \"fusion\" zero times in both. ⭐ NEW 2026-09-02 AND IT DOES NOT CLOSE THIS: the fourth cohort carries a per-run EWSR1 break-apart FISH call (`emc-fourth-cohort-quant.json → per_run.<run>.ewsr1_break_apart_fish`, 8 rearranged / 4 not). ⛔ A break-apart call is REARRANGED-VERSUS-NOT, not a partner identity — it does not separate an EWSR1 arm from a TAF15 arm, and an EWSR1-negative case is not thereby a TAF15 case. TAF15 has an assigned probe in that cohort; EWSR1 and NR4A3 do not. What this entry needs is a cohort with PARTNER calls. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-FUSION-OUTPUT.",
         "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-EMC-DATA"
-        ]
+        "blocked_by": []
       }
     ],
     "readiness": {
@@ -5651,7 +5675,7 @@
         "blocked_by": []
       },
       {
-        "what": "A measurement in a fusion-positive EMC model",
+        "what": "A measurement in a fusion-positive EMC model\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ BLK-NO-EMC-DATA IS CORRECT ON THIS ENTRY AND STAYS — a third recorded disagreement with S32. \"A measurement in a fusion-positive EMC model\" is the shortage this blocker's `name` describes (one DepMap line, no CRISPR), and a deposited EMC dependency or drug-response matrix would satisfy it. ⚠ The transcript half is separately TAKEN — `reads.read_13_TXN_CDK.readability_verdict.state` — and its own `what_it_cannot_settle` states the gap this entry exists to close: \"DEPENDENCY IS NOT ABUNDANCE … a flat read does NOT exclude the class; only a dependency screen would\". No CDK7, CDK9, CDK12 or CDK13 probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-TXN-CDK.",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB",
@@ -5858,11 +5882,9 @@
         ]
       },
       {
-        "what": "A gene-level copy-number read of the locus in any EMC cohort",
+        "what": "A gene-level copy-number read of the locus in any EMC cohort\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND THE ARTIFACT SAYS SO IN ITS OWN WORDS — AUT-PD-116's headline names this route as answered and `reads.read_9_MTAP_PRMT5.what_it_cannot_settle` refuses it: \"⛔ A TRANSCRIPT IS NOT A COPY NUMBER … expression can TRIAGE this question but cannot answer it\". `readability_verdict.state` is PARTIALLY TAKEN. The fourth cohort adds nothing — no MTAP, PRMT5, MAT2A or CDKN2A probe, and it would be expression either way. ⭐ THE LIVE LEAD, RAISED NOT TAKEN: a targeted 9p21 read from the twelve EMC IDATs in GSE140686 (`research/modalities/emc-data-level-sweep.json → arms.pan_sarcoma_methylation_deposit`); feasibility is UNKNOWN — nothing in this repository has ever derived copy number from a methylation array — and trimcrae ruled on 2026-08-24 that this cohort is not a priority paper. No blocker record names a copy-number gap, so this entry carries none. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-MTAP-PRMT5.",
         "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-EMC-DATA"
-        ]
+        "blocked_by": []
       }
     ],
     "readiness": {
@@ -7021,11 +7043,10 @@
         "blocked_by": []
       },
       {
-        "what": "A measurement of the matrix compartment in EMC tissue",
+        "what": "A measurement of the matrix compartment in EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THIS SEAT GRADES IT STRICTER THAN S32 DID, DELIBERATELY. The transcript half is already recorded as taken in this route's own `required_validation[0]`, and `reads.read_2_CS_GAG_PAPS.readability_verdict.state` is PARTIALLY TAKEN on both platforms. ⛔ The compartment half is not a transcript question, and the read says so: `what_it_cannot_settle` — \"A SULFATION PATTERN HAS NO GENE … only a stain or a binding assay can say that\". S32 recorded this entry as UNBLOCKED; on the read's own words the residual is a tissue measurement, so BLK-NO-WET-LAB stays and the entry stays open. The fourth cohort adds CHSY1, CSGALNACT2, VCAN and BGN in twelve more tumours and no CHST11, CHST3 or PAPSS probe. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-MATRIX-SYNTHESIS.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-WET-LAB",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -7115,11 +7136,10 @@
         "blocked_by": []
       },
       {
-        "what": "A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise",
+        "what": "A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND THE READ REFUSES IT VERBATIM — `reads.read_2_CS_GAG_PAPS.what_it_cannot_settle`: \"A SULFATION PATTERN HAS NO GENE. Transcript levels of sulfotransferases are a proxy for the CAPACITY to make an epitope, never a measurement of the epitope.\" A stain or a binding assay is a bench, so BLK-NO-WET-LAB is the whole residual. ⚠ In the fourth cohort CSPG4 has an assigned probe and CHST11 and CHST3 — the 4-O-sulfotransferase arm the placental-type epitope depends on — do not. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-MATRIX-ADDRESS.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-WET-LAB",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -7209,11 +7229,10 @@
         "blocked_by": []
       },
       {
-        "what": "A measurement of the matrix compartment in EMC tissue",
+        "what": "A measurement of the matrix compartment in EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN AT GENE LEVEL (this route's own `required_validation[0]`), and the ISOFORM half — which is the whole route — is open. ⭐ THE QUESTION THIS ROUTE'S OWN `next` ASKED IS ANSWERED HERE, AT $0, AND THE ANSWER IS NO: the fourth cohort cannot resolve the oncofetal fibronectin and tenascin domains. TNC has no assigned probe at all; FN1 has exactly one across the 1,645 probes common to every run; gene counts are summed over the probes assigned to a gene (`emc-fourth-cohort-quant.json → \"⛔ gene_counts_units\"`); and the committed probe table carries `probe_sequence` and `assigned_gene` and no transcript or exon identity, so no domain-inclusion call is derivable from it. An isoform-resolved read still needs transcript-resolved sequencing or the vendor probe manifest, neither of which is on disk. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-IMMUNOCYTOKINE.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-WET-LAB",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -7233,7 +7252,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.",
+      "best_next_action": "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all. ⛔ ANSWERED 2026-09-02 (AUT-PD-116) AND THE ANSWER IS NO. The fourth cohort cannot resolve fibronectin or tenascin isoforms: TNC has no assigned probe, FN1 has exactly one, gene counts are summed over a gene's probes, and the committed probe table carries no transcript or exon identity. ⚠ Superseded, retained: \"Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.\" An isoform-resolved read needs transcript-resolved sequencing or the vendor probe manifest.",
       "cost": "$0"
     }
   },
@@ -7303,11 +7322,10 @@
         "blocked_by": []
       },
       {
-        "what": "A measurement of the matrix compartment in EMC tissue",
+        "what": "A measurement of the matrix compartment in EMC tissue\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ THIS ENTRY'S TEXT IS A COPY AND DOES NOT DESCRIBE THIS ROUTE. The identical string sits on `RT-MATRIX-SYNTHESIS[1]` and `RT-IMMUNOCYTOKINE[1]`, and this route's premise is HYPOXIA. Its real reading is `reads.read_5_HYPOXIA` (`readability_verdict.state` TAKEN on both platforms), audited by `research/modalities/emc-hypoxia-confounds.json`, with the grade withdrawn by `research/manuscripts/.../emc-hypoxia-reading.md` §5 — which owns the requirement text, so the replacement wording is that memo's to write and this seat leaves the string verbatim and flagged rather than rewriting a requirement it does not own. Of the hypoxia genes only VEGFA has an assigned probe in the fourth cohort; CA9, SLC2A1, LDHA, HIF1A, EGLN3, ADM and P4HA1 do not. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-HYPOXIA-PRODRUG.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-WET-LAB",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -8821,18 +8839,18 @@
         "blocked_by": []
       },
       {
-        "what": "Immunopeptidomics on EMC tissue or a patient-derived line",
+        "what": "Immunopeptidomics on EMC tissue or a patient-derived line\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED. Immunopeptidomics on tissue or a patient-derived line is a bench measurement, not a shortage of deposited functional-genomics data, so BLK-NO-WET-LAB is the residual. The presentation-machinery transcripts in `reads.read_19_IMMUNE_TME` are a strictly narrower reading and are not a peptide-HLA quantity. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-VACCINE-COMBINATION.",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       },
       {
-        "what": "T-cell reactivity against identified peptide-HLA complexes",
+        "what": "T-cell reactivity against identified peptide-HLA complexes\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED. T-cell reactivity against a peptide-HLA complex is an immunological assay in a lab; no expression cohort of any size reaches it. BLK-ANTIGEN-COLD is kept because it is a statement about the antigen this assay would test. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-VACCINE-COMBINATION.",
         "feasible_today": false,
         "blocked_by": [
           "BLK-ANTIGEN-COLD",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],

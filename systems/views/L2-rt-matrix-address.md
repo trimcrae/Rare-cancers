@@ -68,7 +68,7 @@ A registered lane with no route, and the best-argued matrix address the 2026-08-
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | ⛔ TAKEN 2026-08-09 and returned no support — the chondroitin-sulfate biosynthesis and sulfotransferase read that this route nominated as its own grading observation | ⛔ none built | yes | — |
-| A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND THE READ REFUSES IT VERBATIM — `reads.read_2_CS_GAG_PAPS.what_it_cannot_settle`: "A SULFATION PATTERN HAS NO GENE. Transcript levels of sulfotransferases are a proxy for the CAPACITY to make an epitope, never a measurement of the epitope." A stain or a binding assay is a bench, so BLK-NO-WET-LAB is the whole residual. ⚠ In the fourth cohort CSPG4 has an assigned probe and CHST11 and CHST3 — the 4-O-sulfotransferase arm the placental-type epitope depends on — do not. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-MATRIX-ADDRESS. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 

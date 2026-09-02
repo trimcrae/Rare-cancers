@@ -62,7 +62,7 @@ The junction is tumour-exclusive at the sequence level, and the committed analys
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | ⛔ TAKEN 2026-08-07 and re-verified 2026-08-28 — regeneration of the predictions against the corrected exon index. Every downstream artifact is on the transcript model too, and vaccine-construct.json and coverage-curve.json reproduce byte-for-byte when their generators are re-run offline. Nothing free remains in this row. | ⛔ none built | yes | — |
-| Measured presentation on EMC tissue | ⛔ none built | **no** | BLK-ANTIGEN-COLD, BLK-NO-EMC-DATA |
+| Measured presentation on EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED, AND AUT-PD-116'S OWN HEADLINE NAMING IT ANSWERED IS REFUTED HERE. Presentation is a peptide-HLA quantity and no such quantity exists anywhere in `ART-EMC-EXPRESSION-PANELS`. What is read is strictly narrower — the antigen-presentation MACHINERY transcripts in `reads.read_19_IMMUNE_TME` (`readability_verdict.state` PARTIALLY TAKEN) and `gene_reads` for HLA-A/HLA-B/HLA-C — and that read's own `what_it_cannot_settle` refuses infiltrate, location and function. Immunopeptidomics is a bench measurement, so BLK-NO-WET-LAB is the residual. None of HLA-A, HLA-B, HLA-C, B2M, TAP1 or TAP2 has an assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-JUNCTION-NEOANTIGEN. | ⛔ none built | **no** | BLK-ANTIGEN-COLD, BLK-NO-WET-LAB |
 
 ## Blockers
 

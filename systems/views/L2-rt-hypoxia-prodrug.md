@@ -62,7 +62,7 @@ This repository has already accepted that a hypovascular matrix-dominated tumour
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | The expression lookup that grades this route's premise | ⛔ none built | yes | — |
-| A measurement of the matrix compartment in EMC tissue | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| A measurement of the matrix compartment in EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ THIS ENTRY'S TEXT IS A COPY AND DOES NOT DESCRIBE THIS ROUTE. The identical string sits on `RT-MATRIX-SYNTHESIS[1]` and `RT-IMMUNOCYTOKINE[1]`, and this route's premise is HYPOXIA. Its real reading is `reads.read_5_HYPOXIA` (`readability_verdict.state` TAKEN on both platforms), audited by `research/modalities/emc-hypoxia-confounds.json`, with the grade withdrawn by `research/manuscripts/.../emc-hypoxia-reading.md` §5 — which owns the requirement text, so the replacement wording is that memo's to write and this seat leaves the string verbatim and flagged rather than rewriting a requirement it does not own. Of the hypoxia genes only VEGFA has an assigned probe in the fourth cohort; CA9, SLC2A1, LDHA, HIF1A, EGLN3, ADM and P4HA1 do not. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-HYPOXIA-PRODRUG. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 

@@ -58,6 +58,7 @@ B7-H3 is a broadly expressed tumour antigen with clinical-stage agents already a
 | ref | supports | strength |
 |---|---|---|
 | `ART-SURFACE-EXPRESSION` | the selectivity premise was measured on cell-line surrogates and failed | `surrogate` |
+| `ART-EMC-EXPRESSION-PANELS` | The EMC-tissue transcript reading behind required_validation[0]: gene_reads.CD276 and reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.CD276. It does not reach selectivity, which is a protein and tumour-versus-normal axis this artifact does not measure. | `direct` |
 
 ## Remaining unknowns
 
@@ -67,7 +68,7 @@ B7-H3 is a broadly expressed tumour antigen with clinical-stage agents already a
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| Selectivity measured on real EMC tissue rather than surrogates | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| Selectivity measured on real EMC tissue rather than surrogates  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THE HALF THAT IS NOT TAKEN IS THE WORD IN THE REQUIREMENT. The transcript read exists — `gene_reads.CD276.GSE24369_series_matrix.txt.gz.readable` true on GPL6244 only, with the contrast in `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.CD276` — but SELECTIVITY is a protein and tumour-versus-normal axis, and `_what_this_cannot_conclude` states that this artifact's every contrast is EMC versus other SARCOMAS and that the tumour-versus-normal axis is not measured anywhere in the file. The residual is a measurement, not missing data. CD276 and NCAM1 have no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-B7H3. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 

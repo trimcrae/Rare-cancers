@@ -65,7 +65,7 @@ The driver acts by transactivating target promoters, and transcriptional CDK dep
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | A class-inheritance argument over the transcriptional CDKs using the sarcoma dependency prior already committed here | ⛔ none built | yes | — |
-| A measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| A measurement in a fusion-positive EMC model  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). ⛔ BLK-NO-EMC-DATA IS CORRECT ON THIS ENTRY AND STAYS — a third recorded disagreement with S32. "A measurement in a fusion-positive EMC model" is the shortage this blocker's `name` describes (one DepMap line, no CRISPR), and a deposited EMC dependency or drug-response matrix would satisfy it. ⚠ The transcript half is separately TAKEN — `reads.read_13_TXN_CDK.readability_verdict.state` — and its own `what_it_cannot_settle` states the gap this entry exists to close: "DEPENDENCY IS NOT ABUNDANCE … a flat read does NOT exclude the class; only a dependency screen would". No CDK7, CDK9, CDK12 or CDK13 probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-TXN-CDK. | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 
 ## Blockers
 

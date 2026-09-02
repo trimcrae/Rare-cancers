@@ -57,6 +57,12 @@ flowchart LR
 
 EMC is a stroma-rich myxoid tumour, and a stromal target RELOCATES the question — from what the tumour cells express, to whether stromal delivery reaches them, which is remaining_unknown 2 and is unanswered in a disease where the cellular antigen search has repeatedly come back empty.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-EMC-EXPRESSION-PANELS` | The EMC-tissue transcript half of required_validation[0]: gene_reads.FAP is readable on both platforms and the board places FAP in FLAT_ON_BOTH against comparator sarcomas. It reaches no protein, IHC or imaging value. | `direct` |
+
 ## Remaining unknowns
 
 - Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question.
@@ -66,8 +72,8 @@ EMC is a stroma-rich myxoid tumour, and a stromal target RELOCATES the question 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An expression or imaging readout on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
-| Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
+| An expression or imaging readout on EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND ON BOTH PLATFORMS. `gene_reads.FAP` is readable in both series, the contrast is in `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.FAP`, and the board places FAP in `cross_platform_board.by_state.FLAT_ON_BOTH` — flat against comparator sarcomas, not elevated, which is the direction that matters for a radioligand address. ⛔ THE IMAGING HALF IS UNTAKEN and no FAP protein, IHC or imaging value in EMC has been reported; CYC-0074's 2026-08-29 ruling that even a successful extraction leaves the protein gap open STANDS. FAP has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-FAP-RLT. | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED AND NOT ANSWERABLE FROM EXPRESSION. A bystander/crossfire dose and a tumour-to-normal uptake ratio are dosimetry quantities; no transcript read of any cohort reaches them, and the residual is a bench and an imaging study. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-FAP-RLT. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -133,7 +139,7 @@ Emerging and unmeasured. It is worth a row because the stromal angle is genuinel
 
 ## Best next action
 
-Keep registered for automatic re-grade when EMC expression data lands.
+Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): the expression data landed and the FAP read is taken on both platforms (gene_reads.FAP; FLAT_ON_BOTH against comparator sarcomas). ⚠ Superseded, retained: "Keep registered for automatic re-grade when EMC expression data lands." What remains is the PROTEIN and imaging gap, which CYC-0074 ruled on 2026-08-29 stays open even after a successful extraction.
 
 *Cost:* $0
 

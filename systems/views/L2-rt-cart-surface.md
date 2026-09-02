@@ -53,6 +53,12 @@ flowchart LR
 
 A surface target avoids the intracellular-antigen problem entirely and CAR-T is a mature modality. The whole route reduces to whether EMC presents a surface antigen that healthy tissue does not.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-EMC-EXPRESSION-PANELS` | The antigen search this route's required_validation[0] asked for: reads.read_8_SURFACE_ANTIGEN.cross_platform_board, 100 genes, of which five are concordantly up on both platforms and none clears the route's stated requirement of a SELECTIVE SURFACE antigen. | `direct` |
+
 ## Remaining unknowns
 
 - Whether any sufficiently selective surface antigen exists on EMC.
@@ -62,7 +68,7 @@ A surface target avoids the intracellular-antigen problem entirely and CAR-T is 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A selective surface antigen confirmed on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-ANTIGEN-COLD |
+| A selective surface antigen confirmed on EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). THE SEARCH THIS ENTRY WAITED ON HAS RUN, AND IT RETURNED NO QUALIFYING ANTIGEN. `reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.CONCORDANT_UP_ON_BOTH` holds five of the board's 100 genes (ALCAM, BGN, CD44, GPC1, VCAN); only ALCAM carries a RESTRICTED normal-tissue prior in `research/modalities/emc-surface-normal-window.json`, and the route's own owning manuscript demotes ALCAM on the exposure axis. ⛔ SO THE REQUIREMENT — a SELECTIVE SURFACE antigen — IS NOT SATISFIED, `readiness.missing` stays true and is not edited, and nothing here promotes this route. The fourth cohort adds BGN, CD44 and VCAN in twelve more tumours and no ALCAM or GPC1 probe. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-CART-SURFACE. | ⛔ none built | **no** | BLK-ANTIGEN-COLD, BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -133,7 +139,7 @@ Two independent blockers, both about the tumour rather than the modality, and ot
 
 ## Best next action
 
-Keep registered. The antigen search re-runs automatically when EMC expression data lands.
+Keep registered. The antigen search re-runs automatically when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): the data landed and the search RAN — reads.read_8_SURFACE_ANTIGEN.cross_platform_board returned five of 100 genes concordantly up on both platforms, of which only ALCAM carries a RESTRICTED normal-tissue prior and the owning manuscript demotes ALCAM on the exposure axis. ⚠ Superseded, retained: "The antigen search re-runs automatically when EMC expression data lands." A completed search recorded as a standing promise makes a finished negative read as pending upside. ⛔ readiness.missing stays true: no qualifying antigen was found.
 
 *Cost:* $0
 

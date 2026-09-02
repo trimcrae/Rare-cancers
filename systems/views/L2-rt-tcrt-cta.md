@@ -56,6 +56,7 @@ The synovial-sarcoma precedent shows the approach works in a translocation sarco
 | ref | supports | strength |
 |---|---|---|
 | `ART-CTA-EXPRESSION` | EMC is cancer-testis-antigen-low on the available measured data | `surrogate` |
+| `ART-EMC-EXPRESSION-PANELS` | The EMC expression series required_validation[0] asked for, and the reason its antigens are still unread: cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM lists CTAG1B, MAGEA3 and SSX2. | `direct` |
 
 ## Remaining unknowns
 
@@ -65,7 +66,7 @@ The synovial-sarcoma precedent shows the approach works in a translocation sarco
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A real EMC expression series | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A real EMC expression series  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). SATISFIED AS WRITTEN — and this is the one entry in the population that is. Three EMC tumour series are now read: the two arrays in `ART-EMC-EXPRESSION-PANELS` (`platforms`, licensed by `reads.control`) and the fourth cohort. ⛔ AND THE ANSWER THE SERIES WAS WANTED FOR IS STILL UNREAD: CTAG1B, MAGEA3 and SSX2 all sit in `reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM`, and none of the three has an assigned probe in the fourth cohort's committed gene table. That is an instrument state on three instruments and NEVER a negative about the tumour, so this entry's satisfaction is a fact about the RECORD and moves nothing about the route's science. ⚠ `readiness.missing` still reads "a real EMC expression series" and now disagrees with this entry; that field belongs to the route's grade owner and is left visibly disagreeing rather than papered over. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-TCRT-CTA. | ⛔ none built | yes | — |
 
 ## Blockers
 
@@ -134,7 +135,7 @@ The gating fact was resolved and came back mostly negative. Only better data reo
 
 ## Best next action
 
-Keep registered for automatic re-grade when EMC expression data lands.
+Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): three EMC tumour series are now read and the re-grade this field promised cannot be taken from any of them — CTAG1B, MAGEA3 and SSX2 are unreadable on both arrays and have no assigned probe in the fourth cohort. ⚠ Superseded, retained: "Keep registered for automatic re-grade when EMC expression data lands." The live next step is a CTA-covering instrument, not another cohort.
 
 *Cost:* $0
 

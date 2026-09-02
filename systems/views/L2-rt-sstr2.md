@@ -57,6 +57,12 @@ flowchart LR
 
 A theranostic gives imaging and therapy from one vector, and the imaging half is a cheap decisive test: a negative scan kills the route immediately and inexpensively. EMC has neuroendocrine-adjacent features that make the receptor worth checking.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-EMC-EXPRESSION-PANELS` | The EMC-tissue transcript half of required_validation[0]: gene_reads.SSTR2 is readable on GPL6244 in 6 EMC tumours, which says the gene is transcribed and says nothing about receptor density, protein or imaging avidity. | `direct` |
+
 ## Remaining unknowns
 
 - Whether EMC expresses the receptor at all — this has never been measured.
@@ -67,7 +73,7 @@ A theranostic gives imaging and therapy from one vector, and the imaging half is
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
+| A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). HALF TAKEN, AND THE TAKEN HALF IS THE EXPRESSION DISJUNCT. `ART-EMC-EXPRESSION-PANELS` reads SSTR2 on EMC tumour tissue: `gene_reads.SSTR2.GSE24369_series_matrix.txt.gz.readable` is true on GPL6244 (not readable on GPL3290), and `reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.SSTR2` carries the contrast and its verdict. ⛔ THE IMAGING DISJUNCT IS UNTAKEN and is what this entry now waits on — a receptor scan in a patient is a bench and a clinic, so BLK-NO-WET-LAB is the whole of the residual. ⛔ A transcript read is not a receptor density, a protein or an imaging avidity: the artifact's `_what_this_cannot_conclude` refuses all three. SSTR2 has no assigned probe in the fourth cohort. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-SSTR2. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 | Tumour-to-normal uptake ratio and dosimetry on an SSTR2-avid EMC lesion | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers

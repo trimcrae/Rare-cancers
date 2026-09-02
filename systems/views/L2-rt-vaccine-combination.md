@@ -68,8 +68,8 @@ The priming-directed classes were excluded for this disease on the ground that a
 |---|---|---|---|
 | Proteome-wide novelty of the junction peptides | ⛔ none built | yes | — |
 | Anchor-versus-contact-position analysis of the seam residues | ⛔ none built | yes | — |
-| Immunopeptidomics on EMC tissue or a patient-derived line | ⛔ none built | **no** | BLK-NO-EMC-DATA |
-| T-cell reactivity against identified peptide-HLA complexes | ⛔ none built | **no** | BLK-ANTIGEN-COLD, BLK-NO-EMC-DATA |
+| Immunopeptidomics on EMC tissue or a patient-derived line  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED. Immunopeptidomics on tissue or a patient-derived line is a bench measurement, not a shortage of deposited functional-genomics data, so BLK-NO-WET-LAB is the residual. The presentation-machinery transcripts in `reads.read_19_IMMUNE_TME` are a strictly narrower reading and are not a peptide-HLA quantity. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-VACCINE-COMBINATION. | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| T-cell reactivity against identified peptide-HLA complexes  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). NOT ANSWERED. T-cell reactivity against a peptide-HLA complex is an immunological assay in a lab; no expression cohort of any size reaches it. BLK-ANTIGEN-COLD is kept because it is a statement about the antigen this assay would test. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its "⭐ the_rule_this_adjudication_applies" field, its cohort block, and per_route.RT-VACCINE-COMBINATION. | ⛔ none built | **no** | BLK-ANTIGEN-COLD, BLK-NO-WET-LAB |
 
 ## Blockers
 
