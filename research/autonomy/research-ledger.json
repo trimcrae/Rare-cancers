@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 192,
+    "process_defect": 193,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -25,7 +25,7 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 179,
+    "done": 180,
     "in_progress": 9,
     "parked": 30,
     "queued": 164,
@@ -13288,7 +13288,7 @@
     {
       "id": "AUT-116-11f2347b-0e8b6426",
       "kind": "fetch",
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -13296,7 +13296,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-02",
       "filed_by": "s23-live-research",
       "requires_trimcrae": false,
@@ -13305,7 +13305,7 @@
         "publication": "PUB-DEGRADER",
         "strategy": "ST-OCCUPANCY"
       },
-      "what": "★ THE ONE STEP THAT WOULD MAKE THE REACH CRITERION FALSIFIABLE, AND IT IS A $0 DISPATCH NOBODY HAS TAKEN. `cys-chemoproteomics-precheck.json` records its own gap in its own words: `part_2_does_it_COVER_the_NR4A_family` = 'NOT ANSWERED IN THIS RUN', because every primary measurement table returned 403 at the dev sandbox's egress proxy, and it names the two that need a runner — `primary_natbiotech_2020_S4` and `primary_natbiotech_2020_S7` — in `★_verdict.sources_needing_CI`. ⛔ A 403 HERE IS A TUNNEL FACT, NOT A WORLD FACT. ★ WHY IT MATTERS NOW: the whole reactivity-weighted calibration is unfalsifiable for want of a single CONFIRMED UNREACTIVE cysteine — one positive (NR4A1 C551), zero negatives, so the admission floor can always be placed at the control and 'passes its own positive control' is a bar nothing can fail. A site-level chemoproteomics table that DETECTED an NR4A cysteine and found it not liganded is exactly that negative. ★ THE ACT: dispatch `.github/workflows/covalent-axis-prechecks.yml` (IC-3 arm) on a branch; $0, free `ubuntu-latest`, no GPU. ⛔ AND THE EXPECTED ANSWER IS STILL NO: the aggregate covers 24% of the human cysteineome and detection is biased toward abundant proteins, which a nuclear receptor LBD is not — so `n_cysteines_in_aggregate` is a BASE RATE and not a probability for C397. A miss is a real reading and must be reported as one, not as a reason to try a fourth source.",
+      "what": "★ THE ONE STEP THAT WOULD MAKE THE REACH CRITERION FALSIFIABLE, AND IT IS A $0 DISPATCH NOBODY HAS TAKEN. `cys-chemoproteomics-precheck.json` records its own gap in its own words: `part_2_does_it_COVER_the_NR4A_family` = 'NOT ANSWERED IN THIS RUN', because every primary measurement table returned 403 at the dev sandbox's egress proxy, and it names the two that need a runner — `primary_natbiotech_2020_S4` and `primary_natbiotech_2020_S7` — in `★_verdict.sources_needing_CI`. ⛔ A 403 HERE IS A TUNNEL FACT, NOT A WORLD FACT. ★ WHY IT MATTERS NOW: the whole reactivity-weighted calibration is unfalsifiable for want of a single CONFIRMED UNREACTIVE cysteine — one positive (NR4A1 C551), zero negatives, so the admission floor can always be placed at the control and 'passes its own positive control' is a bar nothing can fail. A site-level chemoproteomics table that DETECTED an NR4A cysteine and found it not liganded is exactly that negative. ★ THE ACT: dispatch `.github/workflows/covalent-axis-prechecks.yml` (IC-3 arm) on a branch; $0, free `ubuntu-latest`, no GPU. ⛔ AND THE EXPECTED ANSWER IS STILL NO: the aggregate covers 24% of the human cysteineome and detection is biased toward abundant proteins, which a nuclear receptor LBD is not — so `n_cysteines_in_aggregate` is a BASE RATE and not a probability for C397. A miss is a real reading and must be reported as one, not as a reason to try a fourth source.\n\n⛔ THE $0 CI FETCH WAS TAKEN AND IT DID NOT DELIVER THE MISSING NEGATIVE — RUN 33663051186, artifact `_generated_utc` 2026-09-02T17:46:00Z, on a free `ubuntu-latest` runner with unrestricted egress. 6 of 8 sources returned HTTP 200, including TWO primary measurement tables (Backus 2021 JACS SI2; the Nature 2016 covalent-ligand-discovery supplementary) and the aggregate's PMC article record. `accessions_seen` is EMPTY: none of Q92570 (NR4A3), P22736 (NR4A1) or P43354 (NR4A2) appears in the tables that were read. ⇒ `STOP_NO_REFERENCE` now stands on a RUNNER rather than on a sandbox 403, for every source that could be read.\n⛔ AND THE TWO THAT STILL CANNOT BE READ ARE A PUBLISHER BLOCK, NOT A TUNNEL FACT — which is the finding that changes what to do next. `primary_natbiotech_2020_S4` and `_S7` returned HTTP 403 from `static-content.springer.com`, the SAME host that served the Nature 2016 file 200 in the same run. A runner does not lift it and a second dispatch will not either; only a licensed copy or the authors would.\n★ WHAT THIS MEANS FOR `BLK-REACH-CATEGORICAL`: the blocker's restated retiring action asks for a criterion calibrated on an external dataset carrying at least one confirmed NEGATIVE. The reachable public cysteine-chemoproteomics data does not cover this family at all, so it cannot supply one. The blocker stays open and the in-family calibration stays exhausted.\n⚠ AND A SENTENCE IN THE ARTIFACT IS NOW STALE: `part_2 ... why` still reads \"403 Forbidden at the dev sandbox's egress proxy — a documented property of this sandbox\", which is written unconditionally by the generator and is FALSE of this run. The cause is the publisher. A message that names the wrong cause is the defect class this repository keeps paying for; the fix is in `cys_chemoproteomics_precheck.py`, which must report the observed host and status rather than a remembered explanation.",
       "score": 48.0,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-COVALENT-PROBE (48.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-COVALENT-PROBE"
@@ -13333,6 +13333,31 @@
       "what": "✅ AUT-016's NEXT ACTION WAS ALREADY DONE AND ITS RESULT WAS NEVER CARRIED INTO THE GRAPH — APPLIED IN THIS COMMIT. The row read 'Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank.' All of that exists: `nr4a3_monovalent_reach.reactivity_weighted_criterion`, three variants, run, with the boards in `nr4a3-monovalent-reach.json` -> `reactivity_weighted_rerun` and the reasoning in `research/autonomy/sprint-2026-09-01/S56-REACH-CRITERION.md`. What had not happened is the graph edit: S56 wrote five proposals to `S56-proposed-reach-criterion.json` and deliberately did not apply them.\n★ THE CRITERION (primary, RWA-3): mean within-set percentile over three determinants read off the committed static models — relative solvent accessibility, H-bond-capable donors within 4 A of SG, and net formal charge within 8 A. Equal weights, fixed signs, zero fitted parameters; directions read from `nr4a3-thiol-environment.json` rather than minted here.\n⛔ POSITIVE CONTROL: **NOT A PASS.** NR4A1 C551 is recovered BY CONSTRUCTION — the admission floor IS the control's own score, because with one positive and zero confirmed negatives no threshold can be fitted. `test_control_recovery_is_by_construction_for_ANY_scores_so_it_is_not_evidence` pins that for any score vector whatsoever. A condition that cannot be failed cannot be cleared into evidence, so `BLK-REACH-CATEGORICAL` is NOT retired.\n★ THE RANK, which is what the retirement condition asks to be reported. Of 18 family cysteines: C397 ranks 2nd under RWA-3 (0.7745) and 2nd under RWA-3S (0.7451), and 4th under RWA-4 (0.6691) where it is NOT admitted at all. On the corridor board the target is not first in 10 of 30 cells and tied-first in 3-4 more, and NR4A1 C551 — the control itself — is the closer in 26-30 of 30.\n⛔ TWO PRE-REGISTERED REJECTION CONDITIONS FIRED. R2: the variants disagree on whether the target clears the floor. R6: the criterion's 16 open corridor cells sit at or below the median (20.0) of an EXHAUSTIVE size-matched null over all 680 three-competitor subsets, and 65.0% of random subsets open at least as many — so the 0/30 -> 16/30 reopening is ATTRITION (17 competitors cut to 3), not selection. The module's own answer is REFUSED and no window is reported.\n★ APPLIED HERE: S56's P1 (restate `BLK-REACH-CATEGORICAL.retired_by_action` to require an EXTERNAL dataset carrying a confirmed negative), P2 (`RT-COVALENT-PROBE.next` — the $0 act is done, `blocked_on` cleared), P3 (the second `remaining_unknown` replaced by the measured answer), P4 (V17 must never be used as a competitor filter: it admits 2 of 18, both in NR4A3, and would open the window almost everywhere with a cutoff already known to give a false negative on the family's one literature-anchored site), P6 (a stale test count, 18 -> 31, measured). P5 proposed no change. `systems/views/` regenerated in the same commit.\n⛔ THIS TEST CAN REFUTE A ROUTE AND CANNOT LICENSE ONE. Nothing here is a reactivity, a pKa, an adduct, a rate, or a selectivity claim beyond three proteins, and RT-COVALENT-PROBE's grade is unchanged: it gains no support and loses none. What it loses is a $0 next action that was never going to work.",
       "score": 48.0,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-COVALENT-PROBE (48.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-COVALENT-PROBE"
+    },
+    {
+      "id": "AUT-118-11f2347b-468eb686",
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "s23-live-research",
+      "requires_trimcrae": false,
+      "serves": {
+        "route": "RT-COVALENT-PROBE",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-OCCUPANCY"
+      },
+      "what": "⛔ `cys_chemoproteomics_precheck.py` WRITES A REMEMBERED CAUSE FOR AN OBSERVED FAILURE, AND ON A RUNNER THAT CAUSE IS FALSE. Its `part_2 ... why` string says every unreachable source returned 403 \"at the dev sandbox's egress proxy — a documented property of this sandbox\". Measured 2026-09-02 in run 33663051186, on `ubuntu-latest` with unrestricted egress: six sources returned 200 and exactly two returned 403, both from `static-content.springer.com` — the same host that served a different article's supplementary file 200 in the same run. The cause is a per-article publisher block. ⚠ THE VERDICT IS UNAFFECTED and the per-source records are correct; what is wrong is the SENTENCE a reader takes the reason from, and it points at the one remedy that has now been tried and does not work (\"dispatch this from a runner\"). ★ THE FIX: derive that string from the sources actually recorded — the observed host, status and count — instead of asserting a cause. $0, pure logic, and it needs a guard that fails when the string names a cause no source record supports.",
+      "score": -46.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-COVALENT-PROBE (-46.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-COVALENT-PROBE"
     }
   ]
