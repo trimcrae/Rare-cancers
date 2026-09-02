@@ -280,6 +280,16 @@ def expected_score(row: dict, weights: dict):
         if factor is None:
             return None, f"`age_factor` is {age!r}, not a number"
         base = round(base + weights["terms"]["age"]["weight"] * factor, 1)
+    # ⛔ ORDER IS THE CONTRACT, NOT A PREFERENCE. `priority.py` applies this immediately after the
+    # age term and before the penalties; this function must mirror that sequence, because the
+    # committed numbers are the product of the rounding at each step and a different order produces
+    # a different last digit on rows nobody touched.
+    recurring = inputs.get("recurring_cost_factor")
+    if recurring:
+        factor = _num(recurring)
+        if factor is None:
+            return None, f"`recurring_cost_factor` is {recurring!r}, not a number"
+        base = round(base + weights["terms"]["recurring_cost"]["weight"] * factor, 1)
     fruitless = inputs.get("fruitless_attempts")
     if fruitless:
         n = _num(fruitless)
@@ -306,6 +316,11 @@ def verdict(row: dict, weights: dict, today=None):
 
     if isinstance(inputs, dict) and "age_factor" in inputs:
         stale = _stale_age(row, inputs, weights, today)
+        if stale:
+            return REFUSED_STALE_INPUT, stale
+
+    if isinstance(inputs, dict) and "recurring_cost_factor" in inputs:
+        stale = _stale_recurring_cost(row, inputs, weights, today)
         if stale:
             return REFUSED_STALE_INPUT, stale
 
@@ -373,6 +388,48 @@ def _stale_age(row: dict, inputs: dict, weights: dict, today=None):
 # The delta half: R3. This is what the write path enforces.
 # ---------------------------------------------------------------------------------------------
 
+def _stale_recurring_cost(row: dict, inputs: dict, weights: dict, today=None):
+    """R4, for the accrued-debt term. Empty string when the echoed value is the one in force.
+
+    ⛔⛔ THIS IS THE ONLY THING STANDING BETWEEN THE TERM AND ITS OBVIOUS ABUSE. Every other input
+    in a `score_inputs` block is a flag or a graph-derived value; `recurring_cost_factor` is worth
+    up to 90 points and is computed from a magnitude a filer types. Without a recomputation, a row
+    could carry a hand-written `recurring_cost_factor: 1.0` with no `recurring_cost` block at all
+    and take the queue — the score-typing this whole module exists to refuse, at the largest weight
+    in the file after `live`.
+    ⭐ SO IT IS RECOMPUTED FROM THE ROW'S OWN BLOCK, against the basis date the row itself records
+    (AUT-PD-198: a term that is a function of the calendar must be graded against its own stated
+    basis, or the trunk goes red at UTC midnight by construction rather than by anybody's mistake).
+    A row whose block is missing or unreadable recomputes to 0.0, so a non-zero echo over a missing
+    block is exactly what this catches.
+    ⚠ Scoped to open rows for `_stale_age`'s reason: a closed row's echo is frozen BY DESIGN and
+    grading it stale would red a finished row on a rule about live ones.
+    """
+    if (row.get("state") or "queued") in CLOSED_STATES:
+        return ""
+    echoed = _num(inputs.get("recurring_cost_factor"))
+    if echoed is None:
+        return (f"`recurring_cost_factor` is {inputs.get('recurring_cost_factor')!r}, not a number")
+    as_of = inputs.get("recurring_cost_as_of")
+    basis = None
+    if isinstance(as_of, str) and as_of.strip():
+        try:
+            basis = _dt.date.fromisoformat(as_of.strip()[:10])
+        except ValueError:
+            return (f"`score_inputs.recurring_cost_as_of` is {as_of!r}, which is not an ISO date — "
+                    "the echoed debt has no basis to be checked against")
+    else:
+        return ("`score_inputs.recurring_cost_factor` is echoed with no `recurring_cost_as_of` "
+                "beside it, so there is no date to recompute it against. A term worth up to 90 "
+                "points may not be unfalsifiable.")
+    live, _echo = _priority().recurring_cost_factor(row, weights, today=basis or today)
+    if abs(live - echoed) > 1e-9:
+        return (f"`score_inputs.recurring_cost_factor` is {echoed}, but recomputing it from this "
+                f"row's own `recurring_cost` block against its stated basis {basis} gives {live}. "
+                "Either the block was edited without re-scoring, or the factor was typed.")
+    return ""
+
+
 def _explained_delta(before: dict, after: dict, weights: dict) -> float:
     """How much of a score move the row's own echoed terms account for."""
     terms = weights["terms"]
@@ -396,6 +453,17 @@ def _explained_delta(before: dict, after: dict, weights: dict) -> float:
     # immediately above, which is the same kind of term.
     delta += terms["blocked_on_human"]["weight"] * (bool(a.get("blocked_on_human"))
                                                      - bool(b.get("blocked_on_human")))
+    # ⛔⛔ THE SAME EVENT, A THIRD TIME, AND THIS LINE IS WHY IT DID NOT HAPPEN AGAIN. Wiring a term
+    # into `priority.py`'s pipeline without teaching THIS function about it makes the first row it
+    # moves `refused_accumulated` — measured for `apply_fruitless_attempts` (AUT-PD-041) and again
+    # for `apply_requires_trimcrae` (AUT-PD-127). `apply_recurring_cost` moves hand-filed rows by up
+    # to 90 points, so it would have refused every ledger write the moment one row accrued a debt,
+    # deadlocking the loop exactly as AUT-PD-152 did.
+    # ⛔ AND THE TERM IS DEFAULTED PER-ROW, NOT PER-LEDGER: a row with no `recurring_cost` block
+    # reads 0.0 on both sides and contributes nothing, so this is invisible to every row that does
+    # not use it.
+    delta += terms["recurring_cost"]["weight"] * ((_num(a.get("recurring_cost_factor")) or 0.0)
+                                                  - (_num(b.get("recurring_cost_factor")) or 0.0))
     return delta
 
 

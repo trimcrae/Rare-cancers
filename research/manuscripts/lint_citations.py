@@ -241,10 +241,36 @@ def _redact_failed_fetches(node):
     """
     if _is_fetch_record(node) and not _fetch_succeeded(node):
         return {"url": None, "status": node.get("status")}
+    # ⭐⭐ THE UNCHANGED CASE RETURNS THE NODE ITSELF, AND THAT IS A COST FIX WITH A CORRECTNESS
+    # OBLIGATION ATTACHED (measured 2026-09-02). This function ran 13 004 074 times in one gate-6
+    # run and rebuilt every dict and list it walked, whether or not anything in it needed redacting
+    # — 17.6 s of a 101.6 s profiled run, second only to the duplicate corpus scan beside it. Almost
+    # nothing in this corpus is a failed fetch, so almost every one of those rebuilds allocated a
+    # copy identical to its input.
+    # ⛔ THE OBLIGATION: THE CALLER MUST NOT MUTATE WHAT IT GETS BACK. Before this, the return was
+    # always a fresh structure and a caller could scribble on it; now it may BE the parsed document.
+    # The one caller (`_scan`) passes the result straight to `json.dumps` and drops both, so the
+    # output is byte-identical either way — asserted by
+    # `research/manuscripts/tests/test_the_citation_scan_is_not_run_twice.py`, which pins the
+    # equality against a fully-rebuilt reference rather than trusting this comment.
     if isinstance(node, dict):
-        return {k: _redact_failed_fetches(v) for k, v in node.items()}
+        out = None
+        for k, v in node.items():
+            r = _redact_failed_fetches(v)
+            if r is not v:
+                if out is None:
+                    out = dict(node)
+                out[k] = r
+        return node if out is None else out
     if isinstance(node, list):
-        return [_redact_failed_fetches(v) for v in node]
+        out = None
+        for i, v in enumerate(node):
+            r = _redact_failed_fetches(v)
+            if r is not v:
+                if out is None:
+                    out = list(node)
+                out[i] = r
+        return node if out is None else out
     return node
 
 
@@ -411,7 +437,12 @@ def check():
         "lint_citation_types", os.path.join(HERE, "lint_citation_types.py"))
     _types = importlib.util.module_from_spec(_spec)
     _spec.loader.exec_module(_types)
-    return max(rc, _types.check())
+    # ⭐ `prose` IS HANDED OVER RATHER THAN RECOMPUTED — see that function's own docstring for the
+    # measurement (21 s of every commit; the type guard walked the identical corpus a second time).
+    # ⛔ IT MUST BE `prose` AS `survey()` RETURNED IT, UNFILTERED: the sweep's coverage claim is that
+    # it sees every prose identifier in the repository, and a narrowed dict would shrink the sweep
+    # while its printed total went on describing the whole tree.
+    return max(rc, _types.check(prose=prose))
 
 
 def baseline():

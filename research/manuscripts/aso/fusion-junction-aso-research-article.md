@@ -638,9 +638,9 @@ six base pairs, which is the only cut with an enzymological referent, since a co
 length presents exactly those six as RNA:DNA hybrid and the rest as locked-wing pairs; thirteen is
 the longest run any arm returns.
 
-**The cut ladder.** Every cut the instrument can reach, from the catalytic gap's own six base pairs to the thirteen that is the longest run any arm returns: the observed arm, its Wilson interval, the strongest null ensemble at that cut and the scramble null beside it, the signed excess of observed over strongest null, the junction-level reading, and how many designs pair wild-type *NR4A3* specifically. This is the paper's central negative and is set here, in the argument that reads it, rather than with the numbered tables: the excess over the strongest null changes sign four times down the column, so no cut in the range is a boundary the data picks out. Derived, like every table here, from the released artefacts; the adopted cut of ten is one row of it and is adopted, not measured.
+**The cut ladder.** Every cut the instrument can reach, from the catalytic gap's own six base pairs to the thirteen that is the longest run any arm returns: the observed arm, its Wilson interval, the strongest null ensemble at that cut and the mononucleotide scramble null beside it, the signed excess of observed over strongest null, the junction-level reading, and how many designs pair wild-type *NR4A3* specifically. This is the paper's central negative and is set here, in the argument that reads it, rather than with the numbered tables: the excess over the strongest null changes sign four times down the column, so no cut in the range is a boundary the data picks out. Derived, like every table here, from the released artefacts; the adopted cut of ten is one row of it and is adopted, not measured.
 
-| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
+| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % (mononucleotide) | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 6 | 181 | 95.3 | 91.2–97.5 | 98.2 (exon-terminus, novel acceptor) | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
 | 7 | 175 | 92.1 | 87.4–95.2 | 91.4 (exon-terminus) | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |
@@ -1279,12 +1279,13 @@ mature transcript, the patient's own un-rearranged *NR4A3* allele carries the sa
 intron, and three designs the mature-parent screen clears or cannot read — the pre-mRNA screen
 returned all three, as §2.6 reports — pair their whole catalytic gap there.
 The four reports of parental sparing cited here were all made on molecules already
-synthesised, and three of the four went further than cells: an shRNA to the *FGFR3* side of
+synthesised, and all four went further than cells: an shRNA to the *FGFR3* side of
 *FGFR3::TACC3* improved survival in glioma-bearing
 mice,<sup>13</sup><!--PMID:33241214--> a *PML::RARα*-specific siRNA prevented disease in NOD/SCID
-mice,<sup>15</sup><!--PMID:21846246--> and liposomal siRNAs against *TMPRSS2::ERG* treated mice
-bearing orthotopic and subcutaneous xenografts.<sup>16</sup><!--PMID:23052253--> Only the
-fourth<sup>14</sup><!--PMID:36265509--> describes no in vivo model in its retrieved record. That
+mice,<sup>15</sup><!--PMID:21846246--> liposomal siRNAs against *TMPRSS2::ERG* treated mice
+bearing orthotopic and subcutaneous xenografts,<sup>16</sup><!--PMID:23052253--> and junction
+siRNAs against *BRD4::NUTM1* attenuated tumour size in a
+xenograft.<sup>14</sup><!--PMID:36265509--> That
 raises rather than lowers the bar the comparison above has to clear, and the point stands
 unchanged: every one of those readouts required the molecule to exist first, and the comparison
 above is available before anything is synthesised. Whether other groups apply an equivalent comparison before
@@ -1709,8 +1710,8 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
   ordered must itself be put
   through the mature-parent screen before it is made, because on this paper's own null 10.0% of
   dinucleotide-preserving scrambles pair a parent's whole catalytic gap at the ten-base-pair
-  criterion and 3.9% do so against wild-type *NR4A3* (§2.5), which is the one transcript a control
-  must not engage. The mononucleotide arm's corresponding 6.2%
+  criterion and 4.0% pair wild-type *NR4A3* specifically (§2.5), which is the one transcript a
+  control must not engage. The mononucleotide arm's corresponding 6.2%
   is a mean over 190 windows, and the per-window rates should not be read as window properties:
   each rests on 200 draws, so its standard error is 1.7 percentage points, and the observed spread of
   2.0% to 15.0% is close to what 190 windows of 200 draws from a single common rate would produce.
@@ -1727,9 +1728,9 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
   catalytic gap over ten base pairs or more, wild-type *NR4A3* above all, since a control that
   engages the transcript the modality exists to spare is not a control. What a passed scramble is
   then clean at has to be said with it: it is clean at ten and not below it. Read at seven, the same
-  null returns 74.3% of scrambles pairing a wild-type parent's whole catalytic gap and 23.9% doing
-  so against wild-type *NR4A3*, so passing this rule certifies the criterion applied throughout this
-  paper and does not certify that the control spares the parents;
+  dinucleotide-preserving null returns 85.4% of scrambles pairing a wild-type parent's whole
+  catalytic gap, and 47.9% pairing wild-type *NR4A3* specifically, so passing this rule certifies the criterion applied
+  throughout this paper and does not certify that the control spares the parents;
 - a fusion-negative isogenic comparator, since wild-type *NR4A3* may be too weakly expressed in an
   EMC line for the selectivity readout to be defined at all.
 

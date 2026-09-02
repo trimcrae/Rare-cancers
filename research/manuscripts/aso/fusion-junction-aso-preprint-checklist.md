@@ -442,11 +442,113 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
-### 3-vi · ⛔ OPEN — the published archive is BEHIND the paper again, by two deposited files, and this one is self-inflicted
+### 3-vii · ⛔ OPEN — the published archive is BEHIND the paper again, because round 30 improved the paper after it was published
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 13 DEPOSITED PATHS AND THE FOURTH VERSION IS AN
-OPEN DRAFT THE SCRIPT ABANDONED MID-CORRECTION.** Full evidence and the resume order:
-**`AUT-PD-197`**.
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER.**
+`10.5281/zenodo.22229096` is published, resolves, and is no longer what this repository would
+archive. Round 30's five blockers were all repaired after the publish, and four of the repairs
+touch DEPOSITED files.
+
+⛔⛔ **THE SIZE BELOW IS GENERATED, AND THE REASON IS THAT THE TYPED ONE WENT STALE INSIDE ONE
+COMMIT.** This section read *"15 paths changed, 0 added, 0 removed"*, which was exactly true when it
+was written at `19f9d2b41` and false at `05c1cac1e` — a commit about the COMMIT LOOP that happened
+to touch three files which are also deposited (`lint_citations.py`, `pinned-figures.json` and a
+`.docx` build stamp). Round 31's citations-and-archive seat found it; nothing else could have.
+★ The count is a function of 515 deposited paths, so **any commit anywhere in this repository can
+move it, including one whose author has no idea this archive exists.** That is not a number a human
+can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never typed*.
+`aso_deposit_drift.py` owns everything between the markers and `--check` runs in the commit loop.
+
+<!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->
+
+⛔ **18 paths changed, 0 added, 0 removed** against the published record's own manifest at `4fd4698daec0`.
+
+<details><summary>every deposited path that differs</summary>
+
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-research-article.md`
+* `research/manuscripts/aso/fusion-junction-aso-sequences.csv`
+* `research/manuscripts/aso/fusion-junction-aso-sequences.fasta`
+* `research/manuscripts/aso/fusion-junction-aso-supplementary-information.md`
+* `research/manuscripts/aso/lit-targets-aso-round7-precedents.json`
+* `research/manuscripts/aso_archive_manifest.py`
+* `research/manuscripts/aso_sequence_manifest.py`
+* `research/manuscripts/lint_citations.py`
+* `research/manuscripts/pinned-figures.json`
+
+</details>
+
+<!-- END GENERATED deposit-drift -->
+
+**What moved in round 30, and why each of those is a correction rather than churn** — this list is
+the round-30 subset and is deliberately NOT the whole of the generated count above, because the rest
+is incidental traffic in files that happen to be deposited:
+* `fusion-junction-aso-sequences.csv` / `.fasta` — the two `predicted_tm_*` columns are now
+  documented as **not** the melting temperature of the reagent a laboratory would order. They are
+  nearest-neighbour predictions for an unmodified duplex; the article reports no absolute melting
+  point for exactly that reason. This is the file the Declarations tell a lab to order from.
+* `fusion-junction-aso-research-article.md` — three repairs: an argmax printed under a membership
+  predicate (23.9% where the words asked for 38.8%), the same substitution at a second site, and a
+  false statement that a cited paper described no in vivo model when it reports tumour-size
+  attenuation in a xenograft.
+* `fusion-junction-aso-supplementary-information.md` — it described itself as being stripped from a
+  deposited PDF that is not built.
+* `lit-targets-aso-round7-precedents.json` — `reached_animal_model` was `false` for a paper whose
+  abstract, stored verbatim in this same repository, says otherwise.
+* `aso_archive_manifest.py` — a promise row promising a Supporting Information PDF that is not
+  built, plus the new `gaps` entry that makes a drifted promise fail the build.
+* `aso_sequence_manifest.py`, the four journal PDFs and their build stamps — regenerations of the
+  above.
+
+⚠ **NOTHING PUBLISHED IS FALSE IN A WAY A READER ACTS ON WRONGLY EXCEPT THE Tm COLUMNS**, and that
+one is why this is declared rather than left to the next cycle: the published CSV carries absolute
+melting temperatures under a chemistry block a reader would take them to describe.
+
+★ **THE ORDER, AND IT IS THE ONE THIS SECTION ALREADY LEARNED:** a new version is drafted and
+published only after a hardening round on the exact commit returns **no blockers**. Round 30 found
+five. Round 31 reviews these repairs; if it comes back clean, that commit is what gets deposited —
+publishing before then is what spent a version yesterday and again today.
+⛔ **So this item stays OPEN until round 31 returns clean.** It is not an instruction to publish now.
+
+---
+
+### 3-vi · ✅ CLOSED — the fourth archive version is PUBLISHED and was read back — `10.5281/zenodo.22229096`
+
+✅ **PUBLISHED 2026-09-01 AND READ BACK FROM ZENODO, NOT FROM THE SCRIPT.** Actions run 33560898366
+(`record=verify`), verbatim: *"record 22229096 — 10.5281/zenodo.22229096"*, *"state : done
+(submitted=True)"*, *"published : 2026-09-01"*, *"files : 1 / emc-aso-archive.zip 8808345 bytes"*,
+and the verdict *"PUBLISHED. The DOI both papers cite resolves to this record."* The publish itself
+(run 33560736487) recorded the digest check passing at the irreversible moment: *"digest :
+ff4da79f8acf… (matches the manifest)"*.
+
+⭐ **AND IT CARRIES THE MANUSCRIPT THAT CITES IT**, which is the whole point and what the version it
+supersedes did not do. 22182180 held an archive built before the DOI repoint, so a reader following
+the citation reached a paper pointing at a different version. That was round 29's fourth blocker,
+filed independently by the hostile-referee and citations seats, and this closes it.
+
+⚠ **IT TOOK THREE DISPATCHES AND THE TWO THAT DID NOT PUBLISH ARE THE ONES WORTH KEEPING.** Run
+33560379054 refused at the verify step — *"manifest does not describe this tree: 0 missing, 1
+changed"* — **before touching Zenodo**, because a parallel session changed a DEPOSITED file
+(`research/data/emc-clinical-registry.json`, commit ca9c6da22) between the refresh and the publish.
+★ **THE RULE THAT FOLLOWS: refresh-then-publish is only valid while no deposited file moves between
+the two**, and two sessions writing one trunk can break that at any moment. Re-hash the manifest's
+own 515 declared paths immediately before dispatching the publish; a diff stat cannot tell a
+deposited path from a neighbouring one. The gate being computed rather than promised is what made
+the cost a re-run instead of a wrong archive frozen under a DOI for ever.
+
+⚠ **SUPERSEDED, RETAINED (rule 1.2)** — this section read *"⛔ OPEN — the published archive is BEHIND
+the paper again"* and carried the orphaned-draft account and the resume order. The orphan
+(deposition 22229096, stranded when a 504 killed the run that opened it) was recovered by listing
+the account's depositions and matching `conceptrecid`, refreshed twice, and published. `AUT-PD-197`
+holds the full history.
 
 * **An orphaned draft exists: deposition `22229096`.** Run 33498033370's `newversion` POST succeeded
   and the next GET returned `504`, so the script died before deleting the files that draft inherits

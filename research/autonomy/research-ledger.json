@@ -13,7 +13,7 @@
     "fix": 22,
     "harden": 26,
     "negative": 32,
-    "process": 7,
+    "process": 8,
     "process_defect": 175,
     "proposal": 17,
     "regrade": 9,
@@ -25,7 +25,7 @@
     "done": 155,
     "in_progress": 8,
     "parked": 30,
-    "queued": 151,
+    "queued": 152,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -503,7 +503,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 2,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-01",
       "score": 190.9,
       "score_inputs": {
@@ -525,9 +525,7 @@
       "claimed_utc": null,
       "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
       "notified_utc": "2026-09-01T14:40:19Z",
-      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) plus one PREFLIGHT_FULL=1 are working against the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~21:30Z.\n★ WHY A PINNED COMMIT AND NOT THE WORKING TREE: publish_bar clauses 1 (hardening_converged), 2 (preflight_full_green) and 6 (independent_adversarial_seat) are each bound to an EXACT sha. A census on 2026-09-01 measured every publication at or below 4/7 and concluded 'not one is at 7/7' — that is true of every paper at every ordinary commit, by construction, because those three clauses cannot be satisfied except by work aimed at one sha. This round is that work.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. Seats are instructed to report zero honestly, and a round that returns blockers is a round that did its job.",
-      "lease_released": "claim by SPRINT-2026-09-01/PUB-ATR-ROUND@20d33f3478fa released after 8.4 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone."
     },
     {
       "id": "AUT-PD-035",
@@ -948,7 +946,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/CARE-DELIVERY-REGRADE",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -971,11 +969,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T01:35:00Z",
-      "requires_trimcrae_why": "⭐ CORRECTED 2026-09-02. The previous text quoted a sentence from this row's own `what` that no longer exists — the row was re-derived from routes.json after the care-delivery re-grade, and the publish question it named is ANSWERED in research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md, the live memo that is canonical_for the 2026-09-01 decision on this row. Its verdict: DO NOT WRITE the note this row proposed — its sentence has no computable denominator (three non-summable strata of 29, 26 and 13) and its premise is refuted. ⛔ NOT AN ESCALATION: a decision not to write something is not his to take.",
+      "requires_trimcrae_why": "the row's own words: 'What is left is a judgement call: whether an EMC note … is worth writing'. The curation half is explicitly closed ('Do NOT re-curate'), so ONLY the publish decision remains, and that is his.",
       "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A RUNNING WORKER, NOT FOR THE DRIVER SESSION. A read-only subagent is establishing, field by field, whether BLK-NO-CURATED-CLINICAL-DATA still says something true.\n★ THE QUESTION IT IS ANSWERING. The blocker's `statement_about` is 'a curation gap in this repository, not a gap in the literature', and its `retired_by_action` calls the retiring act FREE — go extract six fields. But these five rows each record, in their own text, that some of those fields were LOOKED FOR AND MEASURED ABSENT from the publications: lesion burden 'is not printed', treatment setting and unplanned excision were 'measured absent, and the absence is a property of the publications, not of the curation', RT-IPD-SURVIVAL 'has produced data and the data is the wrong shape', and the baseline hazard is 'not obtainable from any reachable source'. If that holds, no amount of the free extraction the blocker prescribes can ever retire it for those fields, and PUB-CARE-DELIVERY has been parked on a condition that cannot arrive.\n⚠ THE WORKER IS EXPLICITLY ABLE TO COME BACK NEGATIVE. 'The literature does not contain this' is itself a strong claim (CLAUDE.md §4), so it must show the looking was done, and it is instructed to answer that these rows should stay parked if that is what the evidence supports. A re-grade that can only conclude one thing is not a re-grade."
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-057",
@@ -990,7 +986,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/CARE-DELIVERY-REGRADE",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1013,11 +1009,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T01:35:00Z",
-      "requires_trimcrae_why": "⭐ CORRECTED 2026-09-02. The previous text quoted a sentence from this row's own `what` that no longer exists — the row was re-derived from routes.json after the care-delivery re-grade, and the publish question it named is ANSWERED in research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md, the live memo that is canonical_for the 2026-09-01 decision on this row. Its verdict: WRITE IT, MERGED INTO AUT-064. Alone the ordering is a null with one survivor (0 of 12 cross-cohort comparisons have both intervals excluding 1); beside the margin rate it is the same finding measured a second way. ⛔ NOT AN ESCALATION: a paragraph inside another internal record needs nobody.",
+      "requires_trimcrae_why": "'Decide what an ordering-only prognostic statement is worth publishing as' — the coefficients are in hand and the missing baseline hazard is unobtainable, so the technical work is done and the residue is a publication judgement.",
       "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A RUNNING WORKER, NOT FOR THE DRIVER SESSION. A read-only subagent is establishing, field by field, whether BLK-NO-CURATED-CLINICAL-DATA still says something true.\n★ THE QUESTION IT IS ANSWERING. The blocker's `statement_about` is 'a curation gap in this repository, not a gap in the literature', and its `retired_by_action` calls the retiring act FREE — go extract six fields. But these five rows each record, in their own text, that some of those fields were LOOKED FOR AND MEASURED ABSENT from the publications: lesion burden 'is not printed', treatment setting and unplanned excision were 'measured absent, and the absence is a property of the publications, not of the curation', RT-IPD-SURVIVAL 'has produced data and the data is the wrong shape', and the baseline hazard is 'not obtainable from any reachable source'. If that holds, no amount of the free extraction the blocker prescribes can ever retire it for those fields, and PUB-CARE-DELIVERY has been parked on a condition that cannot arrive.\n⚠ THE WORKER IS EXPLICITLY ABLE TO COME BACK NEGATIVE. 'The literature does not contain this' is itself a strong claim (CLAUDE.md §4), so it must show the looking was done, and it is instructed to answer that these rows should stay parked if that is what the evidence supports. A re-grade that can only conclude one thing is not a re-grade."
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-058",
@@ -1032,7 +1026,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/CARE-DELIVERY-REGRADE",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1055,11 +1049,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-LOCOREGIONAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T01:35:00Z",
-      "requires_trimcrae_why": "⭐ CORRECTED 2026-09-02. The previous text quoted a sentence from this row's own `what` that no longer exists — the row was re-derived from routes.json after the care-delivery re-grade, and the publish question it named is ANSWERED in research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md, the live memo that is canonical_for the 2026-09-01 decision on this row. Its verdict: REFUTED — the consistency finding is already written (emc-radioresistance-reappraisal.md, live 2026-08-07) and the one genuinely new half, the particle census, was itself refuted on 2026-09-01. The propagation of that refutation into the route's grade landed 2026-09-02. ⛔ NOT AN ESCALATION: nothing is outstanding.",
+      "requires_trimcrae_why": "the row's own deliverable is 'whether that is worth writing up is a judgement call about what we publish' — a portfolio decision, §2's 'genuine goal-changing decision'. ⚠ THE WRITE-UP HALF IS SELF-DOABLE and is not blocked by this; file it separately if wanted rather than letting the decision hold the prose hostage.",
       "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-LOCOREGIONAL).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-LOCOREGIONAL` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A RUNNING WORKER, NOT FOR THE DRIVER SESSION. A read-only subagent is establishing, field by field, whether BLK-NO-CURATED-CLINICAL-DATA still says something true.\n★ THE QUESTION IT IS ANSWERING. The blocker's `statement_about` is 'a curation gap in this repository, not a gap in the literature', and its `retired_by_action` calls the retiring act FREE — go extract six fields. But these five rows each record, in their own text, that some of those fields were LOOKED FOR AND MEASURED ABSENT from the publications: lesion burden 'is not printed', treatment setting and unplanned excision were 'measured absent, and the absence is a property of the publications, not of the curation', RT-IPD-SURVIVAL 'has produced data and the data is the wrong shape', and the baseline hazard is 'not obtainable from any reachable source'. If that holds, no amount of the free extraction the blocker prescribes can ever retire it for those fields, and PUB-CARE-DELIVERY has been parked on a condition that cannot arrive.\n⚠ THE WORKER IS EXPLICITLY ABLE TO COME BACK NEGATIVE. 'The literature does not contain this' is itself a strong claim (CLAUDE.md §4), so it must show the looking was done, and it is instructed to answer that these rows should stay parked if that is what the evidence supports. A re-grade that can only conclude one thing is not a re-grade."
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-LOCOREGIONAL).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-LOCOREGIONAL` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-064",
@@ -1074,7 +1066,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/CARE-DELIVERY-REGRADE",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1097,11 +1089,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T01:35:00Z",
-      "requires_trimcrae_why": "⭐ CORRECTED 2026-09-02. The previous text quoted a sentence from this row's own `what` that no longer exists — the row was re-derived from routes.json after the care-delivery re-grade, and the publish question it named is ANSWERED in research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md, the live memo that is canonical_for the 2026-09-01 decision on this row. Its verdict: WRITE IT — as a denominator result, not a rate, and not as a paper. The margin headline restates the printed conclusion of its own largest source's abstract (PMID 40885991), so what is left is an internal record with four explicit denominators. ⛔ NOT AN ESCALATION: writing an internal record needs nobody.",
+      "requires_trimcrae_why": "'Decide whether an EMC margin note is worth writing from what is now in hand' — the rate and its honest denominator range already exist across two cohorts. What remains is whether it becomes a paper.",
       "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A RUNNING WORKER, NOT FOR THE DRIVER SESSION. A read-only subagent is establishing, field by field, whether BLK-NO-CURATED-CLINICAL-DATA still says something true.\n★ THE QUESTION IT IS ANSWERING. The blocker's `statement_about` is 'a curation gap in this repository, not a gap in the literature', and its `retired_by_action` calls the retiring act FREE — go extract six fields. But these five rows each record, in their own text, that some of those fields were LOOKED FOR AND MEASURED ABSENT from the publications: lesion burden 'is not printed', treatment setting and unplanned excision were 'measured absent, and the absence is a property of the publications, not of the curation', RT-IPD-SURVIVAL 'has produced data and the data is the wrong shape', and the baseline hazard is 'not obtainable from any reachable source'. If that holds, no amount of the free extraction the blocker prescribes can ever retire it for those fields, and PUB-CARE-DELIVERY has been parked on a condition that cannot arrive.\n⚠ THE WORKER IS EXPLICITLY ABLE TO COME BACK NEGATIVE. 'The literature does not contain this' is itself a strong claim (CLAUDE.md §4), so it must show the looking was done, and it is instructed to answer that these rows should stay parked if that is what the evidence supports. A re-grade that can only conclude one thing is not a re-grade."
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-065",
@@ -1116,7 +1106,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/CARE-DELIVERY-REGRADE",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1139,11 +1129,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T01:35:00Z",
-      "requires_trimcrae_why": "⭐ CORRECTED 2026-09-02. The previous text quoted a sentence from this row's own `what` that no longer exists — the row was re-derived from routes.json after the care-delivery re-grade, and the publish question it named is ANSWERED in research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md, the live memo that is canonical_for the 2026-09-01 decision on this row. Its verdict: WRITE IT, ONE PARAGRAPH — the within-cohort censoring observation (upper quartile 63.5 months against the same cohort's median follow-up of 38) is confound-free and needs no model. ⛔ NOT AN ESCALATION: one paragraph with its three limits attached needs nobody.",
+      "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his.",
       "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A RUNNING WORKER, NOT FOR THE DRIVER SESSION. A read-only subagent is establishing, field by field, whether BLK-NO-CURATED-CLINICAL-DATA still says something true.\n★ THE QUESTION IT IS ANSWERING. The blocker's `statement_about` is 'a curation gap in this repository, not a gap in the literature', and its `retired_by_action` calls the retiring act FREE — go extract six fields. But these five rows each record, in their own text, that some of those fields were LOOKED FOR AND MEASURED ABSENT from the publications: lesion burden 'is not printed', treatment setting and unplanned excision were 'measured absent, and the absence is a property of the publications, not of the curation', RT-IPD-SURVIVAL 'has produced data and the data is the wrong shape', and the baseline hazard is 'not obtainable from any reachable source'. If that holds, no amount of the free extraction the blocker prescribes can ever retire it for those fields, and PUB-CARE-DELIVERY has been parked on a condition that cannot arrive.\n⚠ THE WORKER IS EXPLICITLY ABLE TO COME BACK NEGATIVE. 'The literature does not contain this' is itself a strong claim (CLAUDE.md §4), so it must show the looking was done, and it is instructed to answer that these rows should stay parked if that is what the evidence supports. A re-grade that can only conclude one thing is not a re-grade."
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-PROP-033",
@@ -3125,7 +3113,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0072-2e57571a",
       "depends_on_evidence": [
@@ -3147,8 +3135,7 @@
       "score": 134.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. VERIFIED LIVE AT HEAD, NOT INHERITED FROM THE ROW: all four seat branches are still unmerged four days on — seat/s1-aut-pd-130 e0847032, seat/s3-unscreened-endpoints 88ac1c7c, seat/s4-aut-045 c8944f76, seat/s5-retest-blocks da4247dc, each `git merge-base --is-ancestor <sha> origin/main` false. CLAUDE.md §7 calls branch drift a data-loss bug; seat/s4 touches systems/graph/routes.json.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'anchored'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them.",
-      "lease_released": "claim by SPRINT-2026-09-01/S34-STRANDED released after 9.7 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
     },
     {
       "id": "AUT-PD-165",
@@ -4729,6 +4716,31 @@
       "outcome": "Fixed. 19 rows remapped off three route ids absent from systems/graph (RT-ASO-JUNCTION -> RT-ASO x17, RT-FUSION-PARTNER -> RT-PARTNER-STRAT, RT-DEGRADER-TERNARY -> RT-DEGRADER), each keeping `_route_was`. The four rows that could never be scored now inherit 71.71 / 70.86 / 70.86 / 35.71 — three are ASO v2 manuscript and gate work, one is degrader-paper work. Open unscored population 73 -> 69 and MAX_UNSCORED_OPEN re-pinned DOWN to 69 in the same commit, as this row specified, because test_the_ratchet_is_not_vacuous allows at most 2 of slack. Amendment declared and amendment_guard PERMITTED. ⚠ Not fixed and named for a successor: AUT-PROP-026 scores -2595.0, unrankable in practice but invisible to both the ratchet and scores_are_reachable because it IS scored."
     },
     {
+      "id": "AUT-PD-204-d7df5340",
+      "state": "queued",
+      "kind": "process",
+      "cost_class": "free",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "what": "ROUND 31'S NINE P1s, REPORTED RATHER THAN FIXED — and one of them has now been raised in THREE CONSECUTIVE ROUNDS by the statistics seat, which is the pattern this repository keeps paying for. ⛔ publish_bar clause 1 is 'no blockers; P1s REPORTED', so none of these blocks v2 and none was applied during round 31's repair pass — deliberately, because every manuscript edit this session made produced a blocker and widening a convergence round's scope is how round 32 gets a new one. ★ THE RECURRING ONE, AND IT IS THE ONE TO TAKE FIRST: the article states 'an assumed replicate standard deviation of 0.35 on the natural-log scale' and never says of WHAT. Selectivity is a ratio, so 0.35 is either the SD of the log ratio or of one arm's log IC50. Under the module's reading power at six replicates is 81.28%; under the per-arm reading (sigma 0.495) the SAME module gives 53.13%. 'About 80%' becomes 'about 50%', and that figure is what sets the prescribed replicate count. The referent is absent from aso_falsification_power.py's docstring too, and no test ties the article's literal 0.35 to its SIGMA — the guard binds only the five OUTPUT figures. Fix is three words plus a binding, and it has survived three rounds because each round correctly refused to widen its own scope. ★ THE OTHER EIGHT, each a bound a reader is not given rather than a claim that is wrong: Table 1's 'ΔTm floor' rests on an unstated monotonic-LNA-stabilisation premise (the only adopted premise in the paper that is not labelled); two literature-negative claims say 'in the literature retrieved' with no search strategy in the deliverable, though 5,153 records back them in the deposit; the alignment screen's blind spot is computable and unstated (at word size 7, 15 of 120 two-mismatch configurations of a 16-mer cannot be seeded — 12.5% — and the companion carries the correct bound verbatim while this deliverable dropped it); the censoring bound is default-depth while the clean count is deep-depth; the Wilson interval carrying the null comparison assumes independence its own artifact disclaims in terms (the statistics seat checked the direction: ICC 0.106, a deff-adjusted interval, a 4,000-replicate cluster bootstrap and a 176-sequence de-duplication all leave the pattern and the four sign changes intact — presentation, not substance); the ladder table's scramble column named no arm (FIXED in round 31's repair, since it was the blocker's source); and the round-31 guard-coverage p1s, both closed by that same repair. ⚠ FULL TEXT, WITH EVIDENCE AND `what_edit_would_break_it` FOR EACH, IS IN THE FIVE SEAT RECORDS AT research/autonomy/review-seats/PUB-ASO-7ae3cb518f0e264a2bfd29e20b4b31e5ba949a36-seat-*.json and summarised in hardening-state/PUB-ASO.json. Do not re-derive them; they were re-derived from the artifacts once already.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "filed_by": "CYC-0090-d7df5340",
+      "last_evidence_utc": "2026-09-02",
+      "score": 120.0,
+      "score_inputs": {},
+      "_score_basis": "Above the loop-machinery rows (97-125) and below the paper rows that close a publish_bar clause (198-201), because that is exactly what it is: real manuscript quality that blocks no clause. ⚠ NOT given a `recurring_cost` block, and the restraint is deliberate — a P1 costs nothing per cycle, so claiming otherwise in the first week of that term's existence would be the term's own author gaming it. What it has instead is a recurrence count in the text above, which is the honest signal.",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "Manuscript improvements on a paper he has already named for submission; none is outward-facing and none changes what the paper claims.",
+      "retry_budget": 3
+    },
+    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -5644,8 +5656,8 @@
       },
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use.",
       "score": 111.8,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "⛔ NOT trimcrae's act. The row reads as outward-facing to a keyword scan because it QUOTES a Zenodo permission; the WORK is to delete a retired permission assertion from autonomy-state.json so a cycle stops believing it over publication-authority.json. That is a repository edit gated by preflight and nothing else.\n★ And the row's own evidence settles the authority in the OPPOSITE direction from the scan's guess: it was opened BECAUSE trimcrae asked 'Aren't you supposed to post to zenodo on your own when needed'. The escalation this row exists to prevent was itself the defect, so declaring this row `true` would re-commit the very mistake it records."
+      "_requires_trimcrae_why": "⛔ NOT trimcrae's act. The row reads as outward-facing to a keyword scan because it QUOTES a Zenodo permission; the WORK is to delete a retired permission assertion from autonomy-state.json so a cycle stops believing it over publication-authority.json. That is a repository edit gated by preflight and nothing else.\n★ And the row's own evidence settles the authority in the OPPOSITE direction from the scan's guess: it was opened BECAUSE trimcrae asked 'Aren't you supposed to post to zenodo on your own when needed'. The escalation this row exists to prevent was itself the defect, so declaring this row `true` would re-commit the very mistake it records.",
+      "requires_trimcrae": false
     },
     {
       "id": "AUT-PD-001",
@@ -6357,8 +6369,8 @@
       },
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use.",
       "score": 101.8,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "⛔ NOT trimcrae's act. Reads as outward-facing only because it describes `push` and `rebase`. The work is to stop `git_revision` being stamped at a local HEAD that a pre-push rebase then orphans — a change to how an artifact records its own provenance, verified by reproducing the orphaning in a throwaway clone. No manuscript leaves the repository, no identifier is minted, and nothing is sent to anyone."
+      "_requires_trimcrae_why": "⛔ NOT trimcrae's act. Reads as outward-facing only because it describes `push` and `rebase`. The work is to stop `git_revision` being stamped at a local HEAD that a pre-push rebase then orphans — a change to how an artifact records its own provenance, verified by reproducing the orphaning in a throwaway clone. No manuscript leaves the repository, no identifier is minted, and nothing is sent to anyone.",
+      "requires_trimcrae": false
     },
     {
       "id": "AUT-PD-092",
@@ -7813,7 +7825,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 0,
       "last_evidence_utc": "2026-08-19",
       "score": 71.0,
       "score_inputs": {
@@ -7833,8 +7845,7 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-VACCINE-PATH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
-      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them.",
-      "lease_released": "claim by SPRINT-2026-09-01/S24-CALIBRATION released after 9.7 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
     },
     {
       "id": "AUT-PD-069",
@@ -7950,6 +7961,45 @@
       "score": 70.0,
       "score_inputs": {},
       "_id_note": "⚠ ALLOCATED AS AUT-PD-198 AND RENUMBERED TO 199 IN THE SAME CYCLE, BEFORE EITHER WAS COMMITTED. `zenodo_deposit.py` and its test file already cite AUT-PD-199, and priority.py / admissibility.py — already on the trunk — cite AUT-PD-198 for a DIFFERENT defect. The allocator offered 198 because no row had ever claimed it: the midnight fix was committed citing an id nobody filed. Both rows now exist and both references resolve."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0090-d7df5340/round31-seats",
+      "claimed_utc": "2026-09-02T03:01:39Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-055",
+      "kind": "harden",
+      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
+      "score_inputs": {
+        "fruitless_attempts": 0
+      },
+      "score": 70.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ASO",
+      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-01T20:20:31Z",
+          "fingerprint_at_dispatch": "2026-08-31|None"
+        }
+      ]
     },
     {
       "serves": {
@@ -8256,48 +8306,6 @@
       "attempts": 1,
       "last_evidence_utc": "2026-08-31",
       "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PROP-055",
-      "kind": "harden",
-      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
-      "score_inputs": {
-        "age_factor": 0.1429,
-        "age_factor_as_of": "2026-09-02",
-        "fruitless_attempts": 1
-      },
-      "score": 63.8,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ASO",
-      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not.",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-01T20:20:31Z",
-          "fingerprint_at_dispatch": "2026-08-31|None"
-        }
-      ],
-      "lease_released": "claim by CYC-0090-d7df5340 released after 9.6 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-31",
-      "filed_by": "CYC-0090-d7df5340",
       "id": "AUT-PROP-056",
       "kind": "fix",
       "what": "MINT THE preflight_full_green RECEIPT FOR PUB-ASO'S POSTED COMMIT — the one blocking clause with no ledger row behind it, which is what continuity.py --clauses reports verbatim.\n* WHAT IT NEEDS: a PREFLIGHT_FULL=1 run on the commit being posted, its log committed under research/autonomy/preflight-logs/<sha>.log, and a receipt at research/autonomy/preflight-receipts/<sha>.json naming that log with a matching sha256. record_bar_evidence.py preflight writes it. Clause 2 RE-DERIVES the exit code from the committed log rather than reading it off the receipt, so the log must carry the FULL-mode banner and terminate in its own EXIT= marker.\nWHY NOT ALREADY DONE, AND WHY MINTING ONE EARLY IS WASTE: CYC-0090 ran PREFLIGHT_FULL=1 to EXIT=0 on 8572b5a6b (8178 modalities + 1592 manuscripts + 846 pure-logic, PREFLIGHT OK) — but that run authorised the ZENODO PUBLISH, and clause 2 binds the receipt to the commit being POSTED. Round 28's repairs would move the tree past 8572b5a6b, so a receipt minted for it is superseded before it is read. THE RIGHT MOMENT IS THE SAME COMMIT ROUND 28 SEATS READ: one FULL run, one receipt, and clauses 1, 2 and 6 all bind to that sha together. Take this WITH the round-28 row, not before.",
@@ -8319,7 +8327,7 @@
           "fingerprint_at_dispatch": "2026-08-31|None"
         }
       ],
-      "lease_released": "claim by CYC-0090-d7df5340 released after 9.6 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "lease_released": "claim by CYC-0090-d7df5340 released after 10.0 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "serves": {
@@ -9594,7 +9602,7 @@
         "TECH-EMC-EXPRESSION-DATA"
       ],
       "parked_by_graph_status": "parked",
-      "owner": "SPRINT-2026-09-01/PUB-BIOMARKER-DEP-ROUND@20d33f3478fa",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -9618,9 +9626,7 @@
         "age_factor_as_of": "2026-09-02"
       },
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T23:52:00Z",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) are reviewing the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~23:40Z as wave 2.\n★ WAVE 2 DIFFERS FROM WAVE 1 IN ONE WAY THAT MATTERS: each seat writes its findings to the SCRATCHPAD, not to research/autonomy/review-seats/. Wave 1's seats were killed mid-flight by an account session limit and two of them had left record skeletons in the repository carrying `verdict: in_progress` and zero findings — a file that reads exactly like a seat that looked and found nothing. The driver installs a wave-2 record only once it carries a real verdict.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. A round that returns blockers did its job."
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-018",
@@ -9715,7 +9721,7 @@
         "TECH-EMC-MODEL-ACCESS"
       ],
       "parked_by_graph_status": "parked",
-      "owner": "SPRINT-2026-09-01/PUB-BIOMARKER-DEP-ROUND@20d33f3478fa",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -9739,9 +9745,7 @@
         "age_factor_as_of": "2026-09-02"
       },
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T23:52:00Z",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) are reviewing the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~23:40Z as wave 2.\n★ WAVE 2 DIFFERS FROM WAVE 1 IN ONE WAY THAT MATTERS: each seat writes its findings to the SCRATCHPAD, not to research/autonomy/review-seats/. Wave 1's seats were killed mid-flight by an account session limit and two of them had left record skeletons in the repository carrying `verdict: in_progress` and zero findings — a file that reads exactly like a seat that looked and found nothing. The driver installs a wave-2 record only once it carries a real verdict.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. A round that returns blockers did its job."
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-026",
@@ -9961,7 +9965,7 @@
         "TECH-EMC-EXPRESSION-DATA"
       ],
       "parked_by_graph_status": "parked",
-      "owner": "SPRINT-2026-09-01/PUB-BIOMARKER-DEP-ROUND@20d33f3478fa",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -9985,9 +9989,7 @@
         "age_factor_as_of": "2026-09-02"
       },
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T23:52:00Z",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) are reviewing the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~23:40Z as wave 2.\n★ WAVE 2 DIFFERS FROM WAVE 1 IN ONE WAY THAT MATTERS: each seat writes its findings to the SCRATCHPAD, not to research/autonomy/review-seats/. Wave 1's seats were killed mid-flight by an account session limit and two of them had left record skeletons in the repository carrying `verdict: in_progress` and zero findings — a file that reads exactly like a seat that looked and found nothing. The driver installs a wave-2 record only once it carries a real verdict.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. A round that returns blockers did its job."
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-047",
@@ -10043,7 +10045,7 @@
         "TECH-EMC-EXPRESSION-DATA"
       ],
       "parked_by_graph_status": "parked",
-      "owner": "SPRINT-2026-09-01/PUB-BIOMARKER-DEP-ROUND@20d33f3478fa",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -10067,9 +10069,7 @@
         "age_factor_as_of": "2026-09-02"
       },
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T23:52:00Z",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) are reviewing the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~23:40Z as wave 2.\n★ WAVE 2 DIFFERS FROM WAVE 1 IN ONE WAY THAT MATTERS: each seat writes its findings to the SCRATCHPAD, not to research/autonomy/review-seats/. Wave 1's seats were killed mid-flight by an account session limit and two of them had left record skeletons in the repository carrying `verdict: in_progress` and zero findings — a file that reads exactly like a seat that looked and found nothing. The driver installs a wave-2 record only once it carries a real verdict.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. A round that returns blockers did its job."
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-056",

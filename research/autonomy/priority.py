@@ -521,7 +521,13 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
 # Fields the GRAPH owns: regenerated from systems/graph every re-score, and an edit to them here
 # would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
 SESSION_OWNED = ("owner", "claimed_utc", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
-                 "prerequisite_of")
+                 "prerequisite_of",
+                 # ⛔ THE MEASUREMENT A FILER SUPPLIES, AND IT MUST SURVIVE A RE-SCORE. `build_entries`
+                 # reads only systems/graph, so a re-derived row carries no `recurring_cost` block; if
+                 # merge() did not carry it forward, every `priority.py --write` would silently delete
+                 # the debt and the term would reset to zero on the next cycle — the term quietly
+                 # measuring nothing, which is this repository's standing failure mode.
+                 "recurring_cost")
 # States a session sets. `queued`/`blocked`/`parked` are re-derived from the graph; these are not.
 # ⛔ AND THAT ORDERING IS THE AUT-PD-051 GUARANTEE: a session that finished a row wrote `done`
 # here, and `merge()` lets that WIN over the graph's re-derived `parked`, so a re-score can never
@@ -636,6 +642,125 @@ def age_factor(row: dict, weights: dict, today=None) -> float:
     if days <= 0:
         return 0.0
     return min(days / float(sat), 1.0)
+
+
+def recurring_cost_factor(row: dict, weights: dict, today=None) -> tuple[float, dict]:
+    """`(factor, echo)` — how much wall clock this row has ALREADY cost, saturated into [0, 1].
+
+    ⛔⛔ THIS EXISTS BECAUSE THE LOOP FILED THE SAME DEFECT SIX TIMES AND NEVER TOOK IT ONCE.
+    AUT-PD-155, -162, -164, -172, -174 and -183 each measured that the commit gate had grown 11x;
+    on 2026-09-02 all six were still `queued` with `attempts: 0` and trimcrae asked for the fix by
+    hand. ★ THE ROWS' OWN `_score_basis` RECORDS WHY, and it is not that anybody missed it.
+    AUT-PD-164: *"It costs every cycle real wall-clock on every commit, which is the complaint
+    trimcrae has already made twice about this loop, but it breaks nothing — so it ranks"* below.
+    Every filer saw one instance, judged it against things that break, and was right about the
+    instance. **Nobody multiplied.** The product was 2.7 hours by the time it was fixed.
+
+    ⭐⭐ SO THE MULTIPLICATION IS DONE HERE AND THE FILER NEVER TYPES A SCORE. The row supplies a
+    MEASUREMENT — `recurring_cost.minutes_per_cycle`, with `since_utc` for when the loop started
+    paying it and `measured_by` naming the evidence — and this function derives the debt. A row
+    that costs the loop time therefore scores HIGHER the longer it sits, because it is genuinely
+    spending more the longer it sits. It is the only term in the scorer whose input is a debt
+    already incurred rather than a value hoped for.
+
+    ⚠ UNREADABLE BUYS NOTHING, the direction every cap in this loop fails. A missing block, a
+    non-numeric magnitude, a `since_utc` that is not an ISO date or that lies in the future — each
+    returns 0.0 with a reason in the echo, never a guess. A filer who wants the term must supply
+    something checkable.
+
+    ⛔ AND THE MAGNITUDE IS CLAMPED, VISIBLY. It is the one filer-supplied number in this file that
+    is a magnitude rather than a flag, so `recurring_cost_minutes_cap` bounds it and the clamp is
+    reported in the echo rather than applied silently — a silent clamp is a number that disagrees
+    with its own basis, which is what R4 exists to catch.
+    """
+    import datetime as _dt
+    echo: dict = {}
+    sat = ((weights.get("recurring_cost_saturates_hours") or {}).get("value"))
+    per_day = ((weights.get("recurring_cost_cycles_per_day") or {}).get("value"))
+    cap = ((weights.get("recurring_cost_minutes_cap") or {}).get("value"))
+    if not isinstance(sat, (int, float)) or sat <= 0:
+        return 0.0, echo
+    if not isinstance(per_day, (int, float)) or per_day <= 0:
+        return 0.0, echo
+
+    block = row.get("recurring_cost")
+    if not isinstance(block, dict):
+        return 0.0, echo
+
+    minutes = block.get("minutes_per_cycle")
+    if not isinstance(minutes, (int, float)) or isinstance(minutes, bool) or minutes <= 0:
+        return 0.0, echo
+    if isinstance(cap, (int, float)) and minutes > cap:
+        echo["recurring_cost_clamped_from"] = float(minutes)
+        minutes = float(cap)
+
+    raw = block.get("since_utc")
+    if not isinstance(raw, str) or not raw.strip():
+        return 0.0, echo
+    try:
+        since = _dt.date.fromisoformat(raw.strip()[:10])
+    except ValueError:
+        return 0.0, echo
+
+    now = today or _dt.date.today()
+    days = (now - since).days
+    if days <= 0:
+        # ⚠ A row filed today has paid nothing yet, and a `since_utc` in the FUTURE is not a
+        # negative debt — it is an unreadable one. Both are 0.0, never a subtraction.
+        return 0.0, echo
+
+    accrued_hours = (minutes * per_day * days) / 60.0
+    factor = min(accrued_hours / float(sat), 1.0)
+    echo["recurring_cost_hours"] = round(accrued_hours, 2)
+    return round(factor, 4), echo
+
+
+def apply_recurring_cost(entries: list[dict], weights: dict, today=None) -> list[dict]:
+    """Add the accrued-debt term to every OPEN row, echoing its inputs beside the score.
+
+    ⛔ THE SHAPE IS `apply_age_factor`'S, DELIBERATELY AND LINE FOR LINE, because that function
+    already paid for every mistake this one could repeat: the additive-instead-of-delta ratchet that
+    climbed a row 158.0 → 165.2 over eight commits while nothing about its evidence changed
+    (AUT-PROP-036), the `setdefault` on a row carrying `"score_inputs": null` that took the whole
+    loop down (AUT-PD-152), and the missing basis stamp that reddened the trunk at UTC midnight
+    every day (AUT-PD-198). Each is handled here the same way it is handled there.
+
+    ⛔ OPEN ROWS ONLY. A finished row's debt stopped accruing when it was fixed; ageing it would
+    raise the score of work that is already done.
+    """
+    import datetime as _dt
+    w = ((weights.get("terms") or {}).get("recurring_cost") or {}).get("weight")
+    if not isinstance(w, (int, float)):
+        return entries
+    stamp = (today or _dt.date.today()).isoformat()
+    for e in entries:
+        if (e.get("state") or "queued") in CLOSED_STATES:
+            continue
+        f, echo = recurring_cost_factor(e, weights, today=today)
+        si = e.get("score_inputs")
+        si = si if isinstance(si, dict) else None
+        prev = si.get("recurring_cost_factor") if si is not None else None
+        prev = float(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0.0
+        if not f and not prev:
+            continue
+        if f:
+            if si is None:
+                si = {}
+                e["score_inputs"] = si
+            si["recurring_cost_factor"] = f
+            # ⭐ THE BASIS DATE, FOR AUT-PD-198'S REASON: this term is a function of the calendar,
+            # so without the date it was computed against, `admissibility` recomputing it against
+            # TODAY refuses every row the moment the clock rolls over.
+            si["recurring_cost_as_of"] = stamp
+            for key, value in echo.items():
+                si[key] = value
+        elif si is not None:
+            for key in ("recurring_cost_factor", "recurring_cost_as_of",
+                        "recurring_cost_hours", "recurring_cost_clamped_from"):
+                si.pop(key, None)
+        if isinstance(e.get("score"), (int, float)):
+            e["score"] = round(e["score"] + w * (f - prev), 1)
+    return entries
 
 
 def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dict]:
@@ -1354,6 +1479,10 @@ def build_ledger() -> dict:
     # nothing for a fortnight because no code read it; the census lane's exempt flag; the watchdog
     # wired to an env var that does not exist). Its own test asserts this call site exists.
     entries = apply_age_factor(entries, weights)
+    # ⛔ AFTER the age term and BEFORE the penalties, matching `expected_score`'s order in
+    # admissibility.py. The two must agree or R2 refuses every row this term touches —
+    # AUT-PD-127 records `apply_requires_trimcrae` going red on exactly that mismatch.
+    entries = apply_recurring_cost(entries, weights)
     entries = apply_session_penalties(entries, weights)
     # ⛔ AUT-PD-014, DELIBERATELY PLACED AFTER `apply_session_penalties` AND NOT ALONGSIDE
     # `apply_age_factor` ABOVE IT, EVEN THOUGH BOTH ARE PER-ROW DECAY TERMS. AUT-PD-063 (immediately

@@ -161,6 +161,21 @@ PROMISES = [
     {
         "id": "noncanonical_acceptor_screens",
         "promise": "the screens behind the non-canonical acceptor table",
+        # ⚠ THE LABEL IS NOT A QUOTATION AND THE WORDING CHECK WAS READING IT AS ONE — the fourth
+        # instance of the 2026-08-19 class, found on 2026-09-02 the moment `gaps` started reporting
+        # this flag. The paper writes "non-canonical-acceptor" with a hyphen; the label above writes
+        # it without. So the probe missed on punctuation and reported a promise the paper very much
+        # still makes, which is a RED ON TRUE INPUT — worse than the reverse, because the first
+        # thing anyone does to a guard that cries wolf is loosen it (`paper-hardening`, the red-on-true-
+        # input rule).
+        # ⛔ THE WRONG FIX IS `verbatim: False`, and this module already says so: that silences the
+        # flag on a row whose promise IS quotable. The right one is a probe that is an actual
+        # fragment of the paper, which is what `quote` is for.
+        # ⚠ AND THE HYPHEN IS NOT NORMALISED AWAY IN THE MATCHER ON PURPOSE. "non-canonical acceptor"
+        # and "non-canonical-acceptor" are different strings, and a matcher that folds punctuation
+        # would also fold the difference between a compound modifier and two separate words — which
+        # is exactly the kind of quiet widening that makes a guard vacuous.
+        "quote": "the non-canonical-acceptor designs reported beside that panel",
         "contributes": ("The four screen artifacts and the design/alignment panels that "
                         "`aso_noncoding_acceptor_screened_table.py` joins into "
                         "`aso-noncoding-acceptor-screened-table.json` — the deposited table's own "
@@ -775,13 +790,36 @@ PROMISES = [
         # ONLY way a reader can tell a current PDF from one built before the last edit — mtimes are
         # not evidence, because the regeneration chain rewrites unchanged files. A deposit carrying
         # the PDFs without the stamps ships an assertion with its falsifier removed.
-        # ⚠ NO STAMP EXISTS FOR THE SUPPORTING-INFORMATION PDF, and the glob will pick one up the
-        # day the builder writes one. That gap is reported in `gaps` rather than papered over here.
-        "promise": "Two renderings of this manuscript travel with it and their text is the same",
+        # ⛔⛔ THIS ROW PROMISED A SUPPORTING-INFORMATION PDF THAT IS NOT BUILT, AND THE PROMISE WAS
+        # PUBLISHED. Round 30's regression seat, 2026-09-02: the research article's claim that "two
+        # renderings travel with it" was deleted as false in 879284f57 — and this row, which the
+        # deposit script writes INTO the published zip, kept saying it. So the archive at
+        # 10.5281/zenodo.22229096 carried a manifest promising a document it does not hold, beside a
+        # paper stating that document is not built.
+        # ★ IT IS THE ONE-OF-A-PAIR CLASS AGAIN (`paper-hardening`, the one-of-a-pair section): the
+        # repair was bound to the
+        # occurrence in the manuscript rather than to the CLAIM, which had three homes — the paper,
+        # this promise, and the SI's own description of itself. Two of the three were missed.
+        # ⚠ AND THE INSTRUMENT FOR EXACTLY THIS EXISTS AND NOTHING READS IT: `_promise_still_in_
+        # manuscript` flipped true→false when the sentence was deleted, and the manifest was then
+        # regenerated, committed, zipped and PUBLISHED with that flag red — `gaps` reports only
+        # `promises_resolving_to_no_file`, so a promise whose sentence has left the paper is
+        # computed, recorded, and read by no one. Filed rather than fixed inline.
+        # ⚠ Superseded, retained (rule 1.2): "Two renderings of this manuscript travel with it and
+        # their text is the same", and a `contributes` naming "the Supporting Information rendered
+        # from the same builder".
+        # ⭐ THE PROMISE TEXT IS THE PAPER'S OWN SENTENCE, VERBATIM, AND THAT IS WHAT MAKES THE
+        # `_promise_still_in_manuscript` FLAG MEAN ANYTHING. A paraphrase — however true — is a
+        # sentence the manuscript does not contain, so the flag reads False and the row promises
+        # something no reader of the paper was ever told. Measured on the first attempt at this
+        # repair: a reworded promise flipped the flag red exactly as a deleted one does.
+        "promise": "The PDFs in the archive are renderings of the condensed journal article, which "
+                   "is a different paper with its own title, abstract and reference list",
         "contributes": ("The built documents a depositor uploads: the version of record in "
-                        "submission format, the typeset preview of the same text, the Supporting "
-                        "Information rendered from the same builder, and the build stamps that "
-                        "record the SHA-256 of every source each PDF was rendered from."),
+                        "submission format, the typeset previews of the same text, and the build "
+                        "stamps that record the SHA-256 of every source each PDF was rendered "
+                        "from. ⚠ The Supporting Information travels as markdown only — no PDF of "
+                        "it is built, which is what the research article now states."),
         # ⛔⛔ AND THEN IT MISSED THE SECOND PAPER ENTIRELY (round 15 seat 4, 2026-08-22). These
         # globs said `-research-article*`, written the day before the condensed journal article was
         # registered — so the deposit carried that article's tables, its references and its
@@ -1360,11 +1398,28 @@ def build():
     content_digest = digest.hexdigest()
 
     unmapped = [r["id"] for r in promise_rows if r["⛔_UNMAPPED"]]
+    # ⛔⛔ A PROMISE WHOSE SENTENCE HAS LEFT THE PAPER IS A GAP, AND UNTIL 2026-09-02 IT WAS COMPUTED
+    # AND READ BY NOBODY. `_promise_still_in_manuscript` is derived for every row; `gaps` reported
+    # only `promises_resolving_to_no_file`, so the flag could go red and nothing anywhere failed.
+    # ⚠ MEASURED, and it reached a PUBLISHED record: round 29 deleted the research article's false
+    # claim that two renderings travel with the deposit, this flag flipped true→false on the
+    # `deposited_documents` row, and the manifest was then regenerated, committed, zipped and
+    # published at 10.5281/zenodo.22229096 still promising a Supporting Information PDF that is not
+    # built. Round 30's regression seat found it; the flag had known for three commits.
+    # ★ THE TWO GAPS ARE DIFFERENT QUESTIONS AND BOTH BELONG HERE: `promises_resolving_to_no_file`
+    # asks "does the archive HOLD what this row promises?", and this one asks "does the PAPER still
+    # MAKE the promise this row is keeping?". A row can pass either and fail the other.
+    # ⛔ `n/a` IS NOT FALSE. Rows whose promise is derived from released code rather than quoted from
+    # the manuscript record a string beginning "n/a"; only an explicit False counts, so a row that
+    # never claimed to be quotable is not reported as drifted.
+    promises_not_in_manuscript = [r["id"] for r in promise_rows
+                                  if r.get("_promise_still_in_manuscript") is False]
     gaps = {
         "_what": ("Every question a reviewer would put to the availability statement, answered "
                   "from the artifacts rather than from a note. An empty list here is a reading, "
                   "not a reassurance."),
         "promises_resolving_to_no_file": unmapped,
+        "promises_whose_sentence_is_no_longer_in_the_manuscript": promises_not_in_manuscript,
         "screen_coverage": coverage,
         "import_closure": {
             "_what": ("Modules pulled in because released code imports them rather than because a "
@@ -1921,6 +1976,7 @@ def main(argv):
     # ⛔ A COVERAGE CHECK THAT COULD NOT RUN EXITS NON-ZERO. The manifest is still written — a
     # partial manifest is useful — but "I could not look" must never be reported as "nothing found".
     unchecked = not art["gaps"]["screen_coverage"].get("ok", False)
+    drifted = art["gaps"].get("promises_whose_sentence_is_no_longer_in_the_manuscript") or []
     unmapped = art["gaps"]["promises_resolving_to_no_file"]
     print(f"wrote {os.path.relpath(OUT, REPO)}: {art['n_files']} files, "
           f"{art['total_mib']} MiB", file=sys.stderr)
@@ -1942,9 +1998,15 @@ def main(argv):
             print(_durability, file=sys.stderr)
     if unmapped:
         print(f"⛔ UNMAPPED PROMISES: {unmapped}", file=sys.stderr)
+    if drifted:
+        # ⛔ NON-ZERO EXIT, because a promise the paper no longer makes is what got PUBLISHED once.
+        print(f"⛔ PROMISES WHOSE SENTENCE HAS LEFT THE MANUSCRIPT: {drifted}\n"
+              "   Either the row's `promise` is stale prose to correct, or the paper dropped a "
+              "commitment the archive still keeps. Both are decisions; neither is a regeneration.",
+              file=sys.stderr)
     if unchecked:
         print("⛔ screen-coverage classifier did not run — gaps are UNKNOWN", file=sys.stderr)
-    return 1 if (unmapped or unchecked) else 0
+    return 1 if (unmapped or unchecked or drifted) else 0
 
 
 if __name__ == "__main__":

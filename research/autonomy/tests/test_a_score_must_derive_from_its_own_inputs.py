@@ -257,6 +257,7 @@ def test_the_scoring_pipeline_is_a_fixed_point_of_itself():
     def _again(state):
         entries = priority.merge(priority.build_entries(w), state)
         entries = priority.apply_age_factor(entries, w)
+        entries = priority.apply_recurring_cost(entries, w)
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
         entries = priority.apply_requires_trimcrae(entries, w)
@@ -277,6 +278,7 @@ def test_a_third_application_still_moves_nothing():
     for _ in range(3):
         entries = priority.merge(priority.build_entries(w), state)
         entries = priority.apply_age_factor(entries, w)
+        entries = priority.apply_recurring_cost(entries, w)
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
         entries = priority.apply_requires_trimcrae(entries, w)
