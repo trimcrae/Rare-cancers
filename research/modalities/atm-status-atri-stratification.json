@@ -19,7 +19,7 @@
   "OmicsCNGene.csv",
   "OmicsSomaticMutations.csv"
  ],
- "depmap_fetched_utc": "2026-09-02T20:15:53Z",
+ "depmap_fetched_utc": "2026-09-02T20:27:39Z",
  "gdsc_source": {
   "_from": "research/modalities/emc-atr-vulnerability-inputs.json -> part_d.gdsc_residual_ln_ic50_by_drug",
   "_note": "READ, NOT RECOMPUTED. These are the identical residuals part D correlates, so a difference between this module and part D can never be a difference in the drug-response numbers.",
@@ -86,7 +86,37 @@
      "note": "the pre-23Q2 spelling of VariantInfo."
     }
    ],
-   "nonconserving_call_column": null,
+   "truncating_call_column": "VariantInfo",
+   "truncating_call_candidate_audit": [
+    {
+     "column": "VariantInfo",
+     "present_in_release": true,
+     "note": "protein-truncating by consequence term",
+     "value_distribution_over_this_gene": {
+      "missense_variant": 136,
+      "stop_gained": 23,
+      "frameshift_variant": 18,
+      "splice_donor_variant": 4,
+      "splice_acceptor_variant": 4,
+      "missense_variant&splice_region_variant": 3
+     },
+     "n_rows_called": 49,
+     "USED": true
+    },
+    {
+     "column": "Variant_annotation",
+     "present_in_release": false,
+     "note": "protein-truncating by consequence term"
+    }
+   ],
+   "truncating_call_value_distribution_over_this_gene": {
+    "missense_variant": 136,
+    "stop_gained": 23,
+    "frameshift_variant": 18,
+    "splice_donor_variant": 4,
+    "splice_acceptor_variant": 4,
+    "missense_variant&splice_region_variant": 3
+   },
    "n_rows_for_this_gene_in_mutation_file": 188,
    "n_models_sequenced": 1929,
    "n_models_with_cn_call": 1929,
@@ -99,7 +129,7 @@
    "cn_used": true,
    "n_models_damaging_mutation": 51,
    "n_models_deep_deletion": 1,
-   "n_models_nonconserving_or_worse": 0,
+   "n_models_protein_truncating": 44,
    "join": {
     "n_gdsc_models": 965,
     "n_gdsc_models_with_any_depmap_call": 956,
@@ -686,86 +716,226 @@
       }
      }
     },
-    "nonconserving_or_worse": {
-     "n_null_arm": 1,
-     "n_intact_arm": 955,
+    "protein_truncating_by_consequence": {
+     "n_null_arm": 22,
+     "n_intact_arm": 934,
      "by_drug": {
       "azd6738": {
-       "n_null_arm": 1,
-       "n_intact_arm": 946,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 925,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -2.5516,
-       "median_intact": -1.2609,
+       "median_null": -1.5436,
+       "median_intact": -1.2578,
+       "mean_null": -1.5519,
+       "mean_intact": -1.1824,
+       "sd_null": 1.225,
+       "sd_intact": 0.9973,
+       "delta_median_null_minus_intact": -0.2858,
+       "mannwhitney": {
+        "u": 8232.0,
+        "n_null": 22,
+        "n_intact": 925,
+        "z": -1.5324,
+        "p_two_sided": 0.126,
+        "cliffs_delta": -0.191
+       },
+       "hodges_lehmann": {
+        "shift": -0.3844,
+        "ci_low": -0.884,
+        "ci_high": 0.1164,
+        "conf": 0.95,
+        "n_pairs": 20350
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.38675
       },
       "bortezomib": {
-       "n_null_arm": 1,
-       "n_intact_arm": 945,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 924,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -8.0111,
-       "median_intact": -7.9986,
+       "median_null": -7.982,
+       "median_intact": -7.9996,
+       "mean_null": -7.9595,
+       "mean_intact": -7.9985,
+       "sd_null": 0.9845,
+       "sd_intact": 0.8828,
+       "delta_median_null_minus_intact": 0.0176,
+       "mannwhitney": {
+        "u": 10414.0,
+        "n_null": 22,
+        "n_intact": 924,
+        "z": 0.1974,
+        "p_two_sided": 0.844,
+        "cliffs_delta": 0.0246
+       },
+       "hodges_lehmann": {
+        "shift": 0.0357,
+        "ci_low": -0.3381,
+        "ci_high": 0.4093,
+        "conf": 0.95,
+        "n_pairs": 20328
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.844
       },
       "mk-1775": {
-       "n_null_arm": 1,
-       "n_intact_arm": 955,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 934,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -4.9692,
+       "median_null": -3.0661,
        "median_intact": -2.75,
+       "mean_null": -2.9051,
+       "mean_intact": -2.6007,
+       "sd_null": 1.0952,
+       "sd_intact": 0.958,
+       "delta_median_null_minus_intact": -0.3161,
+       "mannwhitney": {
+        "u": 8706.0,
+        "n_null": 22,
+        "n_intact": 934,
+        "z": -1.2249,
+        "p_two_sided": 0.221,
+        "cliffs_delta": -0.1526
+       },
+       "hodges_lehmann": {
+        "shift": -0.2855,
+        "ci_low": -0.7425,
+        "ci_high": 0.1797,
+        "conf": 0.95,
+        "n_pairs": 20548
+       },
+       "_status": "read",
        "group": "near_neighbour_DDR",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.38675
       },
       "olaparib": {
-       "n_null_arm": 1,
-       "n_intact_arm": 955,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 934,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": 1.1955,
-       "median_intact": 1.0383,
+       "median_null": 1.1696,
+       "median_intact": 1.0327,
+       "mean_null": 1.0432,
+       "mean_intact": 0.9743,
+       "sd_null": 0.7759,
+       "sd_intact": 0.8892,
+       "delta_median_null_minus_intact": 0.1369,
+       "mannwhitney": {
+        "u": 11061.0,
+        "n_null": 22,
+        "n_intact": 934,
+        "z": 0.6148,
+        "p_two_sided": 0.539,
+        "cliffs_delta": 0.0766
+       },
+       "hodges_lehmann": {
+        "shift": 0.0994,
+        "ci_low": -0.2369,
+        "ci_high": 0.4309,
+        "conf": 0.95,
+        "n_pairs": 20548
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.7546
       },
       "paclitaxel": {
-       "n_null_arm": 1,
-       "n_intact_arm": 946,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 925,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -7.5928,
-       "median_intact": -6.4884,
+       "median_null": -6.8159,
+       "median_intact": -6.4895,
+       "mean_null": -6.4289,
+       "mean_intact": -6.3494,
+       "sd_null": 1.1866,
+       "sd_intact": 1.2038,
+       "delta_median_null_minus_intact": -0.3264,
+       "mannwhitney": {
+        "u": 9662.5,
+        "n_null": 22,
+        "n_intact": 925,
+        "z": -0.4042,
+        "p_two_sided": 0.686,
+        "cliffs_delta": -0.0504
+       },
+       "hodges_lehmann": {
+        "shift": -0.0919,
+        "ci_low": -0.6074,
+        "ci_high": 0.3686,
+        "conf": 0.95,
+        "n_pairs": 20350
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.800333
       },
       "talazoparib": {
-       "n_null_arm": 1,
-       "n_intact_arm": 944,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 22,
+       "n_intact_arm": 923,
+       "min_detectable_cliffs_delta_80pct_power": 0.3491,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -1.3752,
-       "median_intact": -0.1282,
+       "median_null": -0.0924,
+       "median_intact": -0.1285,
+       "mean_null": 0.0521,
+       "mean_intact": -0.4997,
+       "sd_null": 1.6561,
+       "sd_intact": 1.7715,
+       "delta_median_null_minus_intact": 0.0361,
+       "mannwhitney": {
+        "u": 11845.0,
+        "n_null": 22,
+        "n_intact": 923,
+        "z": 1.3373,
+        "p_two_sided": 0.181,
+        "cliffs_delta": 0.1667
+       },
+       "hodges_lehmann": {
+        "shift": 0.4945,
+        "ci_low": -0.2275,
+        "ci_high": 1.187,
+        "conf": 0.95,
+        "n_pairs": 20306
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.38675
       },
       "ve-822": {
-       "n_null_arm": 1,
-       "n_intact_arm": 883,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 18,
+       "n_intact_arm": 866,
+       "min_detectable_cliffs_delta_80pct_power": 0.3854,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 1 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": -1.632,
-       "median_intact": -0.0674,
+       "median_null": -0.6863,
+       "median_intact": -0.0592,
+       "mean_null": -0.5825,
+       "mean_intact": -0.1134,
+       "sd_null": 1.4587,
+       "sd_intact": 1.289,
+       "delta_median_null_minus_intact": -0.6271,
+       "mannwhitney": {
+        "u": 6270.5,
+        "n_null": 18,
+        "n_intact": 866,
+        "z": -1.4209,
+        "p_two_sided": 0.155,
+        "cliffs_delta": -0.1955
+       },
+       "hodges_lehmann": {
+        "shift": -0.482,
+        "ci_low": -1.2021,
+        "ci_high": 0.1963,
+        "conf": 0.95,
+        "n_pairs": 15588
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.38675
       }
      }
     }
@@ -813,7 +983,41 @@
      "note": "the pre-23Q2 spelling of VariantInfo."
     }
    ],
-   "nonconserving_call_column": null,
+   "truncating_call_column": "VariantInfo",
+   "truncating_call_candidate_audit": [
+    {
+     "column": "VariantInfo",
+     "present_in_release": true,
+     "note": "protein-truncating by consequence term",
+     "value_distribution_over_this_gene": {
+      "missense_variant": 83,
+      "stop_gained": 9,
+      "splice_acceptor_variant": 2,
+      "splice_donor_variant": 2,
+      "frameshift_variant": 16,
+      "start_lost": 1,
+      "missense_variant&splice_region_variant": 1,
+      "protein_altering_variant": 1
+     },
+     "n_rows_called": 30,
+     "USED": true
+    },
+    {
+     "column": "Variant_annotation",
+     "present_in_release": false,
+     "note": "protein-truncating by consequence term"
+    }
+   ],
+   "truncating_call_value_distribution_over_this_gene": {
+    "missense_variant": 83,
+    "stop_gained": 9,
+    "splice_acceptor_variant": 2,
+    "splice_donor_variant": 2,
+    "frameshift_variant": 16,
+    "start_lost": 1,
+    "missense_variant&splice_region_variant": 1,
+    "protein_altering_variant": 1
+   },
    "n_rows_for_this_gene_in_mutation_file": 115,
    "n_models_sequenced": 1929,
    "n_models_with_cn_call": 1929,
@@ -826,7 +1030,7 @@
    "cn_used": true,
    "n_models_damaging_mutation": 33,
    "n_models_deep_deletion": 0,
-   "n_models_nonconserving_or_worse": 0,
+   "n_models_protein_truncating": 29,
    "join": {
     "n_gdsc_models": 965,
     "n_gdsc_models_with_any_depmap_call": 956,
@@ -1397,86 +1601,226 @@
       }
      }
     },
-    "nonconserving_or_worse": {
-     "n_null_arm": 0,
-     "n_intact_arm": 956,
+    "protein_truncating_by_consequence": {
+     "n_null_arm": 14,
+     "n_intact_arm": 942,
      "by_drug": {
       "azd6738": {
-       "n_null_arm": 0,
-       "n_intact_arm": 947,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 933,
+       "min_detectable_cliffs_delta_80pct_power": 0.4358,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
+       "median_null": -1.2481,
        "median_intact": -1.2623,
+       "mean_null": -1.0843,
+       "mean_intact": -1.1926,
+       "sd_null": 0.8748,
+       "sd_intact": 1.006,
+       "delta_median_null_minus_intact": 0.0142,
+       "mannwhitney": {
+        "u": 7001.0,
+        "n_null": 14,
+        "n_intact": 933,
+        "z": 0.4627,
+        "p_two_sided": 0.644,
+        "cliffs_delta": 0.072
+       },
+       "hodges_lehmann": {
+        "shift": 0.1174,
+        "ci_low": -0.407,
+        "ci_high": 0.64,
+        "conf": 0.95,
+        "n_pairs": 13062
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "bortezomib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 946,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 932,
+       "min_detectable_cliffs_delta_80pct_power": 0.4358,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
+       "median_null": -7.9652,
        "median_intact": -7.9996,
+       "mean_null": -8.0962,
+       "mean_intact": -7.9961,
+       "sd_null": 1.0222,
+       "sd_intact": 0.8831,
+       "delta_median_null_minus_intact": 0.0344,
+       "mannwhitney": {
+        "u": 6382.0,
+        "n_null": 14,
+        "n_intact": 932,
+        "z": -0.1399,
+        "p_two_sided": 0.889,
+        "cliffs_delta": -0.0218
+       },
+       "hodges_lehmann": {
+        "shift": -0.0325,
+        "ci_low": -0.4931,
+        "ci_high": 0.3998,
+        "conf": 0.95,
+        "n_pairs": 13048
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "mk-1775": {
-       "n_null_arm": 0,
-       "n_intact_arm": 956,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 942,
+       "min_detectable_cliffs_delta_80pct_power": 0.4357,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -2.7507,
+       "median_null": -2.6237,
+       "median_intact": -2.7565,
+       "mean_null": -2.8138,
+       "mean_intact": -2.6046,
+       "sd_null": 0.5785,
+       "sd_intact": 0.9662,
+       "delta_median_null_minus_intact": 0.1328,
+       "mannwhitney": {
+        "u": 6097.0,
+        "n_null": 14,
+        "n_intact": 942,
+        "z": -0.4846,
+        "p_two_sided": 0.628,
+        "cliffs_delta": -0.0754
+       },
+       "hodges_lehmann": {
+        "shift": -0.1033,
+        "ci_low": -0.5516,
+        "ci_high": 0.3168,
+        "conf": 0.95,
+        "n_pairs": 13188
+       },
+       "_status": "read",
        "group": "near_neighbour_DDR",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "olaparib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 956,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 942,
+       "min_detectable_cliffs_delta_80pct_power": 0.4357,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
+       "median_null": 1.0135,
        "median_intact": 1.0385,
+       "mean_null": 1.0215,
+       "mean_intact": 0.9752,
+       "sd_null": 0.7184,
+       "sd_intact": 0.889,
+       "delta_median_null_minus_intact": -0.025,
+       "mannwhitney": {
+        "u": 6830.5,
+        "n_null": 14,
+        "n_intact": 942,
+        "z": 0.2306,
+        "p_two_sided": 0.818,
+        "cliffs_delta": 0.0359
+       },
+       "hodges_lehmann": {
+        "shift": 0.0453,
+        "ci_low": -0.3793,
+        "ci_high": 0.4734,
+        "conf": 0.95,
+        "n_pairs": 13188
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "paclitaxel": {
-       "n_null_arm": 0,
-       "n_intact_arm": 947,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 933,
+       "min_detectable_cliffs_delta_80pct_power": 0.4358,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -6.4895,
+       "median_null": -6.2919,
+       "median_intact": -6.4947,
+       "mean_null": -6.5636,
+       "mean_intact": -6.348,
+       "sd_null": 1.0022,
+       "sd_intact": 1.2058,
+       "delta_median_null_minus_intact": 0.2028,
+       "mannwhitney": {
+        "u": 5911.0,
+        "n_null": 14,
+        "n_intact": 933,
+        "z": -0.6103,
+        "p_two_sided": 0.542,
+        "cliffs_delta": -0.0949
+       },
+       "hodges_lehmann": {
+        "shift": -0.1894,
+        "ci_low": -0.8354,
+        "ci_high": 0.4412,
+        "conf": 0.95,
+        "n_pairs": 13062
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "talazoparib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 945,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 14,
+       "n_intact_arm": 931,
+       "min_detectable_cliffs_delta_80pct_power": 0.4358,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -0.1285,
+       "median_null": -0.3624,
+       "median_intact": -0.1279,
+       "mean_null": -0.0851,
+       "mean_intact": -0.4929,
+       "sd_null": 1.2503,
+       "sd_intact": 1.7765,
+       "delta_median_null_minus_intact": -0.2345,
+       "mannwhitney": {
+        "u": 6997.0,
+        "n_null": 14,
+        "n_intact": 931,
+        "z": 0.4735,
+        "p_two_sided": 0.636,
+        "cliffs_delta": 0.0737
+       },
+       "hodges_lehmann": {
+        "shift": 0.1877,
+        "ci_low": -0.5785,
+        "ci_high": 1.0197,
+        "conf": 0.95,
+        "n_pairs": 13034
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       },
       "ve-822": {
-       "n_null_arm": 0,
-       "n_intact_arm": 884,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 12,
+       "n_intact_arm": 872,
+       "min_detectable_cliffs_delta_80pct_power": 0.4704,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
+       "median_null": 0.0516,
        "median_intact": -0.0683,
+       "mean_null": 0.0214,
+       "mean_intact": -0.125,
+       "sd_null": 1.3979,
+       "sd_intact": 1.2927,
+       "delta_median_null_minus_intact": 0.1199,
+       "mannwhitney": {
+        "u": 5605.0,
+        "n_null": 12,
+        "n_intact": 872,
+        "z": 0.4246,
+        "p_two_sided": 0.672,
+        "cliffs_delta": 0.0713
+       },
+       "hodges_lehmann": {
+        "shift": 0.1599,
+        "ci_low": -0.6616,
+        "ci_high": 0.9742,
+        "conf": 0.95,
+        "n_pairs": 10464
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.889
       }
      }
     }
@@ -1521,7 +1865,35 @@
      "note": "the pre-23Q2 spelling of VariantInfo."
     }
    ],
-   "nonconserving_call_column": null,
+   "truncating_call_column": "VariantInfo",
+   "truncating_call_candidate_audit": [
+    {
+     "column": "VariantInfo",
+     "present_in_release": true,
+     "note": "protein-truncating by consequence term",
+     "value_distribution_over_this_gene": {
+      "missense_variant": 121,
+      "frameshift_variant": 43,
+      "stop_gained": 21,
+      "splice_donor_variant": 3,
+      "missense_variant&splice_region_variant": 1
+     },
+     "n_rows_called": 67,
+     "USED": true
+    },
+    {
+     "column": "Variant_annotation",
+     "present_in_release": false,
+     "note": "protein-truncating by consequence term"
+    }
+   ],
+   "truncating_call_value_distribution_over_this_gene": {
+    "missense_variant": 121,
+    "frameshift_variant": 43,
+    "stop_gained": 21,
+    "splice_donor_variant": 3,
+    "missense_variant&splice_region_variant": 1
+   },
    "n_rows_for_this_gene_in_mutation_file": 189,
    "n_models_sequenced": 1929,
    "n_models_with_cn_call": 1929,
@@ -1534,7 +1906,7 @@
    "cn_used": true,
    "n_models_damaging_mutation": 58,
    "n_models_deep_deletion": 0,
-   "n_models_nonconserving_or_worse": 0,
+   "n_models_protein_truncating": 57,
    "join": {
     "n_gdsc_models": 965,
     "n_gdsc_models_with_any_depmap_call": 956,
@@ -2132,86 +2504,226 @@
       }
      }
     },
-    "nonconserving_or_worse": {
-     "n_null_arm": 0,
-     "n_intact_arm": 956,
+    "protein_truncating_by_consequence": {
+     "n_null_arm": 36,
+     "n_intact_arm": 920,
      "by_drug": {
       "azd6738": {
-       "n_null_arm": 0,
-       "n_intact_arm": 947,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 35,
+       "n_intact_arm": 912,
+       "min_detectable_cliffs_delta_80pct_power": 0.2788,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -1.2623,
+       "median_null": -1.3123,
+       "median_intact": -1.2588,
+       "mean_null": -1.1349,
+       "mean_intact": -1.1932,
+       "sd_null": 0.9584,
+       "sd_intact": 1.0061,
+       "delta_median_null_minus_intact": -0.0535,
+       "mannwhitney": {
+        "u": 16584.0,
+        "n_null": 35,
+        "n_intact": 912,
+        "z": 0.393,
+        "p_two_sided": 0.695,
+        "cliffs_delta": 0.0391
+       },
+       "hodges_lehmann": {
+        "shift": 0.0647,
+        "ci_low": -0.2768,
+        "ci_high": 0.4085,
+        "conf": 0.95,
+        "n_pairs": 31920
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.695
       },
       "bortezomib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 946,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 35,
+       "n_intact_arm": 911,
+       "min_detectable_cliffs_delta_80pct_power": 0.2788,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -7.9996,
+       "median_null": -7.8139,
+       "median_intact": -8.0064,
+       "mean_null": -7.8664,
+       "mean_intact": -8.0026,
+       "sd_null": 0.7427,
+       "sd_intact": 0.8897,
+       "delta_median_null_minus_intact": 0.1925,
+       "mannwhitney": {
+        "u": 17746.5,
+        "n_null": 35,
+        "n_intact": 911,
+        "z": 1.1373,
+        "p_two_sided": 0.256,
+        "cliffs_delta": 0.1132
+       },
+       "hodges_lehmann": {
+        "shift": 0.1571,
+        "ci_low": -0.1138,
+        "ci_high": 0.4241,
+        "conf": 0.95,
+        "n_pairs": 31885
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.4858
       },
       "mk-1775": {
-       "n_null_arm": 0,
-       "n_intact_arm": 956,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 36,
+       "n_intact_arm": 920,
+       "min_detectable_cliffs_delta_80pct_power": 0.275,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -2.7507,
+       "median_null": -2.7915,
+       "median_intact": -2.75,
+       "mean_null": -2.7494,
+       "mean_intact": -2.6022,
+       "sd_null": 0.6715,
+       "sd_intact": 0.9713,
+       "delta_median_null_minus_intact": -0.0415,
+       "mannwhitney": {
+        "u": 15898.5,
+        "n_null": 36,
+        "n_intact": 920,
+        "z": -0.407,
+        "p_two_sided": 0.684,
+        "cliffs_delta": -0.0399
+       },
+       "hodges_lehmann": {
+        "shift": -0.0554,
+        "ci_low": -0.3388,
+        "ci_high": 0.2083,
+        "conf": 0.95,
+        "n_pairs": 33120
+       },
+       "_status": "read",
        "group": "near_neighbour_DDR",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.695
       },
       "olaparib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 956,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 36,
+       "n_intact_arm": 920,
+       "min_detectable_cliffs_delta_80pct_power": 0.275,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": 1.0385,
+       "median_null": 1.2031,
+       "median_intact": 1.0162,
+       "mean_null": 1.159,
+       "mean_intact": 0.9687,
+       "sd_null": 0.7358,
+       "sd_intact": 0.8914,
+       "delta_median_null_minus_intact": 0.1869,
+       "mannwhitney": {
+        "u": 18698.0,
+        "n_null": 36,
+        "n_intact": 920,
+        "z": 1.3155,
+        "p_two_sided": 0.188,
+        "cliffs_delta": 0.1291
+       },
+       "hodges_lehmann": {
+        "shift": 0.1727,
+        "ci_low": -0.0831,
+        "ci_high": 0.436,
+        "conf": 0.95,
+        "n_pairs": 33120
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.4858
       },
       "paclitaxel": {
-       "n_null_arm": 0,
-       "n_intact_arm": 947,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 35,
+       "n_intact_arm": 912,
+       "min_detectable_cliffs_delta_80pct_power": 0.2788,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -6.4895,
+       "median_null": -6.3971,
+       "median_intact": -6.4961,
+       "mean_null": -6.1136,
+       "mean_intact": -6.3603,
+       "sd_null": 1.122,
+       "sd_intact": 1.2055,
+       "delta_median_null_minus_intact": 0.099,
+       "mannwhitney": {
+        "u": 17875.0,
+        "n_null": 35,
+        "n_intact": 912,
+        "z": 1.2059,
+        "p_two_sided": 0.228,
+        "cliffs_delta": 0.12
+       },
+       "hodges_lehmann": {
+        "shift": 0.2322,
+        "ci_low": -0.1548,
+        "ci_high": 0.64,
+        "conf": 0.95,
+        "n_pairs": 31920
+       },
+       "_status": "read",
        "group": "non_DDR_controls",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.4858
       },
       "talazoparib": {
-       "n_null_arm": 0,
-       "n_intact_arm": 945,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 35,
+       "n_intact_arm": 910,
+       "min_detectable_cliffs_delta_80pct_power": 0.2788,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
-       "median_intact": -0.1285,
+       "median_null": -0.0079,
+       "median_intact": -0.1293,
+       "mean_null": -0.0631,
+       "mean_intact": -0.5032,
+       "sd_null": 1.3487,
+       "sd_intact": 1.7828,
+       "delta_median_null_minus_intact": 0.1214,
+       "mannwhitney": {
+        "u": 17524.0,
+        "n_null": 35,
+        "n_intact": 910,
+        "z": 1.0091,
+        "p_two_sided": 0.313,
+        "cliffs_delta": 0.1004
+       },
+       "hodges_lehmann": {
+        "shift": 0.2636,
+        "ci_low": -0.2497,
+        "ci_high": 0.7922,
+        "conf": 0.95,
+        "n_pairs": 31850
+       },
+       "_status": "read",
        "group": "PARP_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.4858
       },
       "ve-822": {
-       "n_null_arm": 0,
-       "n_intact_arm": 884,
-       "min_detectable_cliffs_delta_80pct_power": null,
+       "n_null_arm": 32,
+       "n_intact_arm": 852,
+       "min_detectable_cliffs_delta_80pct_power": 0.2914,
        "_mde_note": "normal approximation to the Mann-Whitney null, two-sided alpha 0.05, 80% power. A rough screen for what these arm sizes could resolve, not an exact power calculation.",
-       "_status": "REFUSED \u2014 the null arm holds 0 model(s), below the pre-declared floor of 10. The n is the result; no contrast is read.",
-       "median_null": null,
+       "median_null": -0.1729,
        "median_intact": -0.0683,
+       "mean_null": 0.0863,
+       "mean_intact": -0.1308,
+       "sd_null": 1.3573,
+       "sd_intact": 1.2911,
+       "delta_median_null_minus_intact": -0.1046,
+       "mannwhitney": {
+        "u": 14966.0,
+        "n_null": 32,
+        "n_intact": 852,
+        "z": 0.9408,
+        "p_two_sided": 0.347,
+        "cliffs_delta": 0.0979
+       },
+       "hodges_lehmann": {
+        "shift": 0.2259,
+        "ci_low": -0.2548,
+        "ci_high": 0.7004,
+        "conf": 0.95,
+        "n_pairs": 27264
+       },
+       "_status": "read",
        "group": "ATR_inhibitors",
-       "p_two_sided_bh_adjusted": null
+       "p_two_sided_bh_adjusted": 0.4858
       }
      }
     }
@@ -2386,6 +2898,56 @@
     "cliffs_delta": 0.0953,
     "p_two_sided": 0.332,
     "min_detectable_cliffs_delta": 0.275
+   }
+  }
+ },
+ "post_hoc_sign_pattern": {
+  "_status": "POST HOC \u2014 NOT PRE-REGISTERED, CLEARS NO BAR, ENTERS NO VERDICT",
+  "_why_reported": "reporting only the verdict would hide that the replication-checkpoint drugs and the controls do not behave alike. A sign is the weakest thing a contrast can report and it is reported as such.",
+  "_why_it_is_not_evidence": "the seven drugs share the same models and the same line-median correction, so their signs are not independent draws; no contrast below clears its own 95% CI; and a pattern picked out after seeing it carries no multiplicity control.",
+  "by_group": {
+   "ATR_inhibitors": {
+    "azd6738": {
+     "hl_shift": -0.3041,
+     "sign": "more sensitive",
+     "p_two_sided": 0.189
+    },
+    "ve-822": {
+     "hl_shift": -0.52,
+     "sign": "more sensitive",
+     "p_two_sided": 0.0929
+    }
+   },
+   "near_neighbour_DDR": {
+    "mk-1775": {
+     "hl_shift": -0.3279,
+     "sign": "more sensitive",
+     "p_two_sided": 0.133
+    }
+   },
+   "PARP_inhibitors": {
+    "olaparib": {
+     "hl_shift": 0.1343,
+     "sign": "more resistant",
+     "p_two_sided": 0.409
+    },
+    "talazoparib": {
+     "hl_shift": 0.5453,
+     "sign": "more resistant",
+     "p_two_sided": 0.106
+    }
+   },
+   "non_DDR_controls": {
+    "paclitaxel": {
+     "hl_shift": -0.1624,
+     "sign": "more sensitive",
+     "p_two_sided": 0.477
+    },
+    "bortezomib": {
+     "hl_shift": 0.0193,
+     "sign": "more resistant",
+     "p_two_sided": 0.908
+    }
    }
   }
  },
