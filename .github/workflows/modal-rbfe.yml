@@ -63,6 +63,10 @@ jobs:
           # mode=bench: GPU ns/$ benchmark (Modal-only; no AWS/S3). MODAL_GPU carries the comma-separated list.
           if [ "$MODE" = "bench" ]; then
             if [ -z "$MODAL_TOKEN_ID" ]; then echo "::error::MODAL_TOKEN_ID/SECRET missing."; exit 1; fi
+            # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+            # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+            # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+            python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "modal-rbfe: Modal GPU bench" || exit 3
             modal run research/modalities/modal_gpu_bench.py --gpus "$MODAL_GPU"
             exit 0
           fi
@@ -97,4 +101,8 @@ jobs:
             exit 0
           fi
           [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits (GPU=${MODAL_GPU})."
+          # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+          # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+          # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+          python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "modal-rbfe: Modal RBFE" || exit 3
           modal run research/modalities/nr4a3_rbfe_modal.py --mode "$MODE" --leg "$LEG" --n-windows "$NW"

@@ -198,16 +198,19 @@
     "id": "BLK-SELECTIVITY-CONTROL-UNAUTHORIZED",
     "name": "The program's only binary selectivity known-answer control is built and staged and has never been run",
     "kind": "requires_authorization",
-    "statement_about": "a decision, not a capability and not the target -- nothing failed and nothing is missing",
+    "statement_about": "a standing human instruction, not a capability, not the target and no longer an absent decision -- nothing failed, nothing is missing, and the price is committed. The decision was TAKEN on 2026-09-02 and it was NO.",
     "owner": {
       "file": "research/manuscripts/nr4a3-program-map.md",
       "anchor": "#31--the-instrument-table"
     },
     "evidence": [
       "The instrument is registered with no result key: built and staged, never completed.",
-      "It is the highest-fan-out item in the portfolio that costs a conversation rather than a capability."
+      "It is PRICED, and has been since 2026-08-05 -- research/modalities/abfe-selectivity-benchmark-cost.json is the one home of that figure and it is not restated anywhere (CLAUDE.md rule 1).",
+      "What holds it is research/autonomy/autonomy-state.json -> gpu_spend_prohibited: trimcrae, 2026-09-02, \"You shouldn't be doing any GPU runs as part of this automation.\" That is a CATEGORY ban on GPU work by this automation, not a budget, so no price and no ceiling clears it.",
+      "⛔ DO NOT READ THIS ROW AS 'cheap and approved but deferred'. That reading is what happened: a cycle found the committed price, compared it against CLAUDE.md §2's ≲$50 self-doable ceiling, concluded the standing autonomy rule already authorised the buy, and dispatched a seat to gate and then rent. Every written rule it applied, it applied correctly. trimcrae interrupted; $0 was spent.",
+      "⚠ SUPERSEDED, RETAINED (CLAUDE.md rule 1.2): this row read \"It is the highest-fan-out item in the portfolio that costs a conversation rather than a capability\", and was scored elsewhere as \"unpriced -- no rung\". Both were false by 2026-08-05, when the cost artifact landed, and the second half of the first is false now: the conversation has happened."
     ],
-    "retired_by_action": "Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that would tell the program whether its central quantitative claim is measurable at all."
+    "retired_by_action": "NOT 'ask for the decision' -- it was asked and answered. This retires only if trimcrae lifts the standing no-GPU instruction by setting `active: false` in research/autonomy/autonomy-state.json -> gpu_spend_prohibited, which research/autonomy/gpu_ban.py reads and every GPU-billing path in this repository is gated on. Until then the correct next action on this row is NONE: re-deriving the price, re-scoring the rung or re-arguing the leverage all reach the same refusal, and a session that does so has rediscovered the 2026-09-02 mistake rather than found new work."
   },
   {
     "id": "BLK-TCIP-INTERFACE-FLOOR",
