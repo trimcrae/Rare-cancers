@@ -102,27 +102,26 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -- . || true
           git clean -fd research/modalities || true
-          git fetch origin "$BR"
-          git checkout -B "$BR" "origin/$BR"
           mkdir -p research/modalities
+          paths=""
           for p in "$RUNNER_TEMP"/res/*; do
             [ -e "$p" ] || continue
             cp "$p" "research/modalities/$(basename "$p")"
-            git add -f "research/modalities/$(basename "$p")" || true
+            paths="$paths research/modalities/$(basename "$p")"
           done
-          git commit -m "ATM-status x ATR-inhibitor stratification of the GDSC2 residuals (CI)" \
-            || { echo "no changes"; exit 0; }
-          # `main` and busy branches take CI commits constantly, so rebase-and-retry rather than
-          # fail the publish and leave the artifacts only on modalities-cache.
-          for i in 1 2 3 4 5; do
-            git push origin "HEAD:$BR" && exit 0
-            echo "push $i rejected; rebasing onto origin/$BR"
-            git fetch origin "$BR" && git rebase "origin/$BR" || git rebase --abort || true
-            sleep 5
-          done
-          echo "could not publish to $BR after 5 attempts" >&2
-          exit 1
-
+          [ -n "$paths" ] || { echo "nothing produced; nothing to publish"; exit 0; }
+          # ⛔ THROUGH `publish_artifacts.sh`, NOT A HAND-ROLLED COMMIT-AND-PUSH. The first version of
+          # this step hand-rolled `git commit` plus a `git rebase` retry loop, and
+          # `tests/test_no_hand_rolled_publish.py` refused it — correctly. That exact shape has
+          # silently failed to publish on three lanes (runs 30701290485, 30710853581, 30714482049):
+          # one conflict leaves the repo mid-rebase, every later retry dies on that wreckage rather
+          # than on anything new, and the step still reports SUCCESS. A green step that published
+          # nothing is worse than a red one.
+          export PUBLISH_FAIL_HARD=1
+          # shellcheck disable=SC2086
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "ATM-status x ATR-inhibitor stratification of the GDSC2 residuals (CI)" \
+            $paths
       - name: Publish results to modalities-cache branch
         if: always()
         timeout-minutes: 10
@@ -132,23 +131,24 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -- . || true
           git clean -fd research/modalities || true
-          git fetch origin modalities-cache || true
-          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
-            git checkout -B modalities-cache origin/modalities-cache
-          else
-            git checkout --orphan modalities-cache
-            git rm -rf . >/dev/null 2>&1 || true
-          fi
           mkdir -p research/modalities
+          paths=""
           for p in "$RUNNER_TEMP"/res/*; do
             [ -e "$p" ] || continue
             cp "$p" "research/modalities/$(basename "$p")"
-            git add -f "research/modalities/$(basename "$p")" || true
+            paths="$paths research/modalities/$(basename "$p")"
           done
-          git commit -m "ATM-status x ATR-inhibitor stratification (CI)" || { echo "no changes"; exit 0; }
-          for i in 1 2 3 4 5; do
-            git push origin HEAD:modalities-cache && exit 0
-            git fetch origin modalities-cache && git rebase origin/modalities-cache || git rebase --abort || true
-            sleep 5
-          done
-          exit 1
+          [ -n "$paths" ] || { echo "nothing produced; nothing to publish"; exit 0; }
+          # Same primitive, same reason.
+          # ⚠ ONE CAPABILITY IS GENUINELY LOST HERE AND IT IS RECORDED RATHER THAN GLOSSED: the
+          # hand-rolled step created `modalities-cache` as an ORPHAN when it did not exist, and
+          # `publish_artifacts.sh` does NOT — line 172 is `if ! git fetch -q origin "$BRANCH"`,
+          # so an absent branch fails the fetch and every retry repeats it until the attempts run
+          # out. Checked rather than assumed: `git ls-remote --heads origin modalities-cache`
+          # returns the ref today, so this lane publishes. If that branch is ever deleted this
+          # step fails loudly instead of silently recreating it, which is the safer of the two.
+          export PUBLISH_FAIL_HARD=1
+          # shellcheck disable=SC2086
+          bash research/compute/publish_artifacts.sh modalities-cache \
+            "ATM-status x ATR-inhibitor stratification (CI)" \
+            $paths

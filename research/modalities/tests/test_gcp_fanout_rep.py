@@ -934,7 +934,37 @@ def test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence():
     txt = _wf()
     # Anchor on the YAML KEY (two-space indent, own line), not the bare word — the file's own header
     # discusses `schedule:` crons at length and a loose split lands in the prose instead of the block.
-    sched = txt.split("\n  schedule:\n")[1].split("\npermissions:")[0]
+    #
+    # ⛔⛔ THE CRON WAS REMOVED ON 2026-09-02 AND THIS TEST HAD NO BRANCH FOR THAT, so it raised
+    # IndexError on the split and took PREFLIGHT_FULL red for EVERY paper — clause 2 is repository-wide,
+    # so one workflow edit blocked three manuscripts. trimcrae, verbatim: "You shouldn't be doing any GPU
+    # runs as part of this automation." This lane provisions GCP GPUs, so a cron that dispatches it is
+    # exactly what the ban forbids and deleting it was correct.
+    # ★ THE TEST NOW COVERS BOTH STATES AND IS STRICTER THAN THE ONE IT REPLACES, which is what lets it
+    # change while it is red (`amendment_guard`'s concern): with no cron the file must SAY the ban is why,
+    # so the schedule cannot quietly return and the ban cannot quietly lapse here; with a cron the three
+    # backstop statements are required exactly as before. Neither branch can be satisfied by silence.
+    if "\n  schedule:\n" not in txt:
+        assert "gpu_spend_prohibited" in txt, (
+            "the `schedule:` cron is gone but this workflow does not name `gpu_spend_prohibited` as the "
+            "reason. A lane that provisions GPUs must say why it no longer ticks, or the next reader "
+            "restores the cron as an oversight and the ban lapses without anyone deciding to lift it")
+        return
+    # ⛔⛔ AND THE BLOCK IS BOUNDED BY THE NEXT KEY AT ITS OWN INDENT, NOT BY `permissions:`.
+    # ⚠ MEASURED 2026-09-02 BY MUTATION-TESTING THIS TEST: splitting on `\npermissions:` (line 78)
+    # made the "schedule block" span lines 38-78, which is the whole `on:` mapping — and all four
+    # asserted strings live in comments at lines 47, 49 and 76, OUTSIDE any schedule block. A bare
+    # `schedule:` with a naked cron and no backstop statement therefore PASSED. Four mutations, one
+    # caught. Bounding the block to its own entries takes it to four of four, and the assertions below
+    # are unchanged — what changed is that they are now read against the schedule and not against the
+    # file. A guard that reads the wrong region is worse than none: it reports on text nobody edited.
+    body = txt.split("\n  schedule:\n", 1)[1]
+    lines = []
+    for line in body.split("\n"):
+        if line.strip() and not line.startswith("    ") and not line.startswith("  #"):
+            break          # a key at `on:`'s own indent, or a top-level key: the block has ended
+        lines.append(line)
+    sched = "\n".join(lines)
     assert "REQUEST, NOT A CADENCE" in sched
     assert "step1-fanout-supervisor.yml" in sched
     assert "fleet-supervision-alarm.yml" in sched
