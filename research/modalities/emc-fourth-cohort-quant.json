@@ -1,0 +1,292 @@
+{
+ "_title": "PRJNA1357027 / SRP640302 \u2014 the fourth EMC cohort, read and quantified",
+ "_generated_by": "research/modalities/emc_fourth_cohort_quant.py",
+ "_generated_utc": "2026-09-02T17:42:53Z",
+ "_inputs_generated_utc": "2026-09-02T17:42:52Z",
+ "_cost": "$0 \u2014 CPU only on a GitHub-hosted runner; reads are streamed, never stored",
+ "_what_this_is_not": [
+  "Not a differential-expression result \u2014 see why_no_differential_expression.",
+  "Not a patient count: runs are not samples and samples are not people.",
+  "Not a confirmation of any named commercial probe panel or of its gene content.",
+  "Not an efficacy, potency, safety, therapeutic-window or clinical claim."
+ ],
+ "bioproject": "PRJNA1357027",
+ "sra_study": "SRP640302",
+ "depositor_assay_description": [
+  "TempO-Seq whole human transcriptome assay using BioSpyder reagents"
+ ],
+ "\u26a0 depositor_description_is_one_source": "The assay description above is the depositors' own words in their own deposit. It is not an independent measurement, and the read-structure numbers below are.",
+ "probe_gate": {
+  "passed": true,
+  "checks": [
+   {
+    "check": "reads_are_one_fixed_length",
+    "passed": true,
+    "measured": 1.0,
+    "required": ">= 0.9"
+   },
+   {
+    "check": "a_panel_sized_sequence_set_covers_80pct_of_reads",
+    "passed": true,
+    "measured": 9594,
+    "required": "1000..200000"
+   },
+   {
+    "check": "a_small_sequence_set_carries_most_reads",
+    "passed": true,
+    "measured": 0.857869,
+    "required": ">= 0.5"
+   }
+  ],
+  "meaning": "PASS = the reads are one fixed length and a panel-sized set of distinct sequences carries most of them, which is what a templated-ligation probe assay looks like and what makes probe-count matching the right quantification. It is NOT a confirmation of any named commercial panel or of its gene content.",
+  "gated_on_run": "SRR35940646",
+  "gated_on_bytes": 181958574,
+  "deposit_total_fastq_bytes": 2704945123
+ },
+ "n_runs_in_deposit": 12,
+ "n_runs_read": 12,
+ "per_run": {
+  "SRR35940646": {
+   "state": "READ",
+   "sample_alias": "Si19",
+   "n_reads_read": 5582928,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 43138,
+   "n_sequences_covering_80pct": 9594,
+   "n_sequences_persisted": 39456,
+   "support_floor_reads": 11.2,
+   "fraction_reads_in_retained": 0.857869,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940647": {
+   "state": "READ",
+   "sample_alias": "Si17",
+   "n_reads_read": 6443809,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 36888,
+   "n_sequences_covering_80pct": 6251,
+   "n_sequences_persisted": 33051,
+   "support_floor_reads": 12.9,
+   "fraction_reads_in_retained": 0.809968,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940648": {
+   "state": "READ",
+   "sample_alias": "Si16",
+   "n_reads_read": 7694782,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 40044,
+   "n_sequences_covering_80pct": 6714,
+   "n_sequences_persisted": 36305,
+   "support_floor_reads": 15.4,
+   "fraction_reads_in_retained": 0.824663,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1-"
+  },
+  "SRR35940649": {
+   "state": "READ",
+   "sample_alias": "Si15",
+   "n_reads_read": 5859174,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 42544,
+   "n_sequences_covering_80pct": 10546,
+   "n_sequences_persisted": 38799,
+   "support_floor_reads": 11.7,
+   "fraction_reads_in_retained": 0.853814,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940650": {
+   "state": "READ",
+   "sample_alias": "Si14",
+   "n_reads_read": 6991852,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 41802,
+   "n_sequences_covering_80pct": 7523,
+   "n_sequences_persisted": 37965,
+   "support_floor_reads": 14.0,
+   "fraction_reads_in_retained": 0.831549,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940651": {
+   "state": "READ",
+   "sample_alias": "Si10",
+   "n_reads_read": 6698387,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 37710,
+   "n_sequences_covering_80pct": 8642,
+   "n_sequences_persisted": 34006,
+   "support_floor_reads": 13.4,
+   "fraction_reads_in_retained": 0.878736,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940652": {
+   "state": "READ",
+   "sample_alias": "Si09",
+   "n_reads_read": 6479407,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 36963,
+   "n_sequences_covering_80pct": 7543,
+   "n_sequences_persisted": 33133,
+   "support_floor_reads": 13.0,
+   "fraction_reads_in_retained": 0.883661,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940653": {
+   "state": "READ",
+   "sample_alias": "Si05",
+   "n_reads_read": 8734357,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 38538,
+   "n_sequences_covering_80pct": 10209,
+   "n_sequences_persisted": 34833,
+   "support_floor_reads": 17.5,
+   "fraction_reads_in_retained": 0.877673,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940654": {
+   "state": "READ",
+   "sample_alias": "Si22",
+   "n_reads_read": 5419081,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 22414,
+   "n_sequences_covering_80pct": 4846,
+   "n_sequences_persisted": 19019,
+   "support_floor_reads": 10.8,
+   "fraction_reads_in_retained": 0.797018,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1-"
+  },
+  "SRR35940655": {
+   "state": "READ",
+   "sample_alias": "Si20",
+   "n_reads_read": 7523900,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 24088,
+   "n_sequences_covering_80pct": 5213,
+   "n_sequences_persisted": 20712,
+   "support_floor_reads": 15.0,
+   "fraction_reads_in_retained": 0.789913,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1+"
+  },
+  "SRR35940656": {
+   "state": "READ",
+   "sample_alias": "Si02",
+   "n_reads_read": 7636050,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 41433,
+   "n_sequences_covering_80pct": 11492,
+   "n_sequences_persisted": 37764,
+   "support_floor_reads": 15.3,
+   "fraction_reads_in_retained": 0.865217,
+   "prognosis": "B",
+   "ewsr1_break_apart_fish": "EWSR1-"
+  },
+  "SRR35940657": {
+   "state": "READ",
+   "sample_alias": "Si01",
+   "n_reads_read": 6060188,
+   "stopped_because": "eof",
+   "modal_read_length_nt": 50,
+   "modal_length_fraction": 1.0,
+   "n_retained_sequences": 38992,
+   "n_sequences_covering_80pct": 11269,
+   "n_sequences_persisted": 35436,
+   "support_floor_reads": 12.1,
+   "fraction_reads_in_retained": 0.867761,
+   "prognosis": "G",
+   "ewsr1_break_apart_fish": "EWSR1-"
+  }
+ },
+ "probe_map": {
+  "state": "read",
+  "sources": [
+   {
+    "kind": "cdna",
+    "url": "https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz",
+    "state": "read",
+    "n_transcripts": 465769,
+    "n_bases_scanned": 1276790359
+   },
+   {
+    "kind": "ncrna",
+    "url": "https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/ncrna/Homo_sapiens.GRCh38.ncrna.fa.gz",
+    "state": "read",
+    "n_transcripts": 203778,
+    "n_bases_scanned": 201604096
+   }
+  ],
+  "read_length_nt": 50,
+  "per_core_length": {
+   "50": {
+    "core_length_nt": 50,
+    "n_probes_matched": 976,
+    "fraction_of_probes_matched": 0.593313
+   },
+   "42": {
+    "core_length_nt": 42,
+    "n_probes_matched": 976,
+    "fraction_of_probes_matched": 0.593313
+   },
+   "34": {
+    "core_length_nt": 34,
+    "n_probes_matched": 983,
+    "fraction_of_probes_matched": 0.597568
+   }
+  },
+  "best_core_length_nt": 34,
+  "n_probes_offered": 1645,
+  "n_probes_assigned_to_one_gene": 906,
+  "n_probes_matching_several_genes": 77,
+  "n_probes_unassigned": 662,
+  "\u26a0 unassigned_means": "no verbatim match to a human cDNA or ncRNA transcript at any core length tried. That is a statement about this matcher, NOT about the probe: a probe spanning a junction the sequence set does not contain, or carrying non-target bases, is unassigned here and is still a real probe.",
+  "wall_s": 574.6,
+  "n_probes_in_every_read_run": 1645,
+  "n_runs_intersected": 12
+ },
+ "n_probes_common_to_every_read_run": 1645,
+ "n_genes_with_at_least_one_assigned_probe": 862,
+ "gene_counts_written_to": "emc-fourth-cohort-gene-counts.tsv",
+ "why_no_differential_expression": "\u26d4 NO DIFFERENTIAL-EXPRESSION RESULT IS COMPUTED OR REPORTED FROM THIS COHORT, AND THAT IS THE FINDING RATHER THAN A GAP. The deposit is twelve tumours split six good-prognosis versus six poor-prognosis. Six against six is a comparison whose per-gene variance is estimated from five degrees of freedom per arm, over ~20,000 genes, with no replicate structure, one sequencing batch, FFPE input of widely differing collection years (1997-2020 in the archive record) and no covariate the metadata makes adjustable. A ranked gene list from that design would be dominated by which of the twelve specimens degraded least. The counts are published here so that anyone can join them to a hypothesis formed elsewhere; a confident differential-expression claim is not available at this n and this module does not make one.",
+ "sample_labels": {
+  "state": "read",
+  "source": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=sra&rettype=full&retmode=xml&id=41372932%2C41372931%2C41372930%2C41372929%2C41372928%2C41372927%2C41372926%2C41372925%2C41372924%2C41372923%2C41372922%2C41372921",
+  "\u26a0 prognosis_key": "`Prognosis` B/G is the depositors' key. The deposit itself defines neither letter; the split is 6/6 in the archive record, and any outcome meaning must be taken from the depositors' publication, not from this artifact."
+ },
+ "probe_counts_written_to": "emc-fourth-cohort-probe-counts.tsv",
+ "probe_counts_sha256": "c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc",
+ "probe_counts_n_rows": 213007,
+ "\u26d4 a_zero_in_the_probe_table": "means the sequence was not among the counts PERSISTED for that run \u2014 it may have been observed below the persistence cap. It is not a measurement of zero reads.",
+ "gene_counts_sha256": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+ "gene_counts_n_rows": 862,
+ "\u26d4 gene_counts_units": "RAW READS PER GENE, summed over the probes assigned to that gene, per run. Not normalised, not length-corrected, not library-size corrected, and understated by at most `support_floor_reads` per probe \u2014 the lossy-counting guarantee, per run. A gene with no assigned probe is ABSENT FROM THIS TABLE, which is a statement about the panel and the matcher, never about the tumour."
+}
