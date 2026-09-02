@@ -1,0 +1,46 @@
+{
+  "actions": [
+    {
+      "action": "ecr-put-lifecycle-expire-all",
+      "applied": false,
+      "error": "AccessDeniedException",
+      "gb": 9.657,
+      "repo": "nr4a3-abfe",
+      "target": "nr4a3-abfe (us-east-2, 9.657 GB)"
+    },
+    {
+      "action": "ecr-put-lifecycle-expire-all",
+      "applied": false,
+      "error": "AccessDeniedException",
+      "gb": 9.158,
+      "repo": "nr4a3-fep",
+      "target": "nr4a3-fep (us-east-2, 9.158 GB)"
+    },
+    {
+      "action": "delete-log-group",
+      "applied": false,
+      "error": "AccessDeniedException",
+      "log_group": "/aws/sagemaker/TrainingJobs",
+      "target": "/aws/sagemaker/TrainingJobs (us-east-2, 0.0289 GB)"
+    },
+    {
+      "action": "delete-log-group",
+      "applied": false,
+      "error": "AccessDeniedException",
+      "log_group": "/aws/sagemaker/ProcessingJobs",
+      "target": "/aws/sagemaker/ProcessingJobs (us-east-2, 0.0023 GB)"
+    }
+  ],
+  "applied": true,
+  "census_generated_utc": "2026-08-13T01:46:39+00:00",
+  "failed_targets": [],
+  "generated_utc": "2026-08-13T01:46:50+00:00",
+  "n_actions": 4,
+  "n_applied": 0,
+  "n_failed": 4,
+  "n_refused": 0,
+  "targets": [
+    "ecr_lifecycle_expire",
+    "log_delete"
+  ]
+}

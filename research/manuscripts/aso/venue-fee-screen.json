@@ -1,0 +1,631 @@
+{
+ "_what": "A fee screen of the journals that have actually published this paper's shape, scope-filtered to plausible homes for a fusion-junction ASO design paper.",
+ "_why": "trimcrae, 2026-08-25: 'we need to find out what journals are free… just the good fits'. The shortlist and its exclusions are both written down so the filter can be argued with.",
+ "⛔_no_mandatory_APC_is_not_free": "SUBSCRIPTION_OR_HYBRID means no article-processing charge, NOT $0. Nucleic Acid Therapeutics is subscription, has no APC, and charges $90 per typeset page plus colour — read at primary source 2026-08-23. Page and colour charges are per-journal, live only on author-guideline pages that 403 to the proxy and to CI alike, and appear in no structured source. Every row below carries that unknown.",
+ "⚠_these_are_databases_not_publisher_pages": "OpenAlex and DOAJ are bibliographic databases. They are the best machine-readable evidence available and they are not the journal's own fee page. A row is a lead to confirm in a browser before submitting, not a fee quotation.",
+ "⛔_a_wrong_identifier_answers_confidently": "The first run of this screen took the first ISSN in each NLM record. Those records list related and continuing titles too, so Nucleic Acids Research resolved to 0261-3166 — a different journal — and the screen reported 'no mandatory APC' for a fully open-access journal that charges one. Rows are now keyed on ISSNLinking and accepted only when MedlineTA matches the abbreviation exactly; anything unmatched is UNRESOLVED rather than defaulted.",
+ "_sources": [
+  "NLM Catalog via E-utilities",
+  "api.openalex.org",
+  "doaj.org/api"
+ ],
+ "excluded_from_the_shortlist": {
+  "bioRxiv": "a preprint server, not a journal — and it declined this author as unaffiliated",
+  "Res Sq": "a preprint server, not a journal",
+  "Methods Mol Biol": "a protocols book series, not a journal taking primary research",
+  "Nature": "no realistic path for a single-author, wet-lab-free rare-disease design paper",
+  "Nat Commun": "same tier judgement as Nature",
+  "Proc Natl Acad Sci U S A": "same tier judgement; also needs a member communicator route",
+  "Cell Rep": "same tier judgement",
+  "J Clin Invest": "same tier judgement, and it wants clinical or in-vivo data",
+  "J Am Chem Soc": "same tier judgement, and the framing is not chemical",
+  "Angew Chem Int Ed Engl": "same tier judgement, and the framing is not chemical",
+  "Am J Hum Genet": "human genetics; this paper reports no new genetic observation",
+  "PLoS Genet": "human genetics, same reason",
+  "Genome Med": "human genomics, same reason",
+  "Hum Mutat": "variant curation, wrong subject",
+  "Mol Genet Genomic Med": "clinical genetics, wrong subject",
+  "Dev Biol": "developmental biology; its ASO papers are morpholinos in embryos",
+  "Endocrinology": "wrong organ scope",
+  "J Neurochem": "the ASO literature here is neurological, wrong disease scope",
+  "Curr Neuropharmacol": "wrong disease scope",
+  "Brain Commun": "wrong disease scope",
+  "Front Cardiovasc Med": "wrong disease scope",
+  "J Cell Mol Med": "broad but its census hits are not design work",
+  "CPT Pharmacometrics Syst Pharmacol": "pharmacokinetic modelling, a different kind of dry paper",
+  "J Pharmacokinet Pharmacodyn": "same as CPT",
+  "Pharm Res": "formulation and PK, wrong subject",
+  "J Biol Chem": "moved to full open access with a mandatory APC; excluded on fee, not scope",
+  "J Biomol Struct Dyn": "structure-simulation journal; the paper models no structure"
+ },
+ "journals": [
+  {
+   "journal_abbrev": "Nucleic Acids Res",
+   "why_shortlisted": "highest count of any journal in the census",
+   "computation_only_papers_in_census": 22,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Nucleic Acids Res",
+   "nlm_unique_id": "0411011",
+   "issns_in_record": [
+    "0261-3166",
+    "0301-5610",
+    "0305-1048",
+    "0952-3472",
+    "1362-4962",
+    "2632-8674"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Online variant title: NAR online.",
+    "Has supplement: Nucleotide sequences.",
+    "Place of publication varies.",
+    "Online version requires subscription to access full text of articles. However, visitors can browse but will not be able to access all features.",
+    "Online full text articles available in FTP postscript files, or PDF and HTML files.",
+    "Supplement accompanies some volumes."
+   ],
+   "openalex_display_name": "Nucleic Acids Symposium Series",
+   "publisher": "Oxford University Press",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "0261-3166",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Nucleic Acid Ther",
+   "why_shortlisted": "the modality journal, and the current plan of record",
+   "computation_only_papers_in_census": 7,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Nucleic Acid Ther",
+   "nlm_unique_id": "101562758",
+   "issns_in_record": [
+    "1545-4576",
+    "2159-3337",
+    "2159-3345"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Also issued online.",
+    "Oligonucleotides 2003214918 52538543 1545-4576"
+   ],
+   "openalex_display_name": "Oligonucleotides",
+   "publisher": "Mary Ann Liebert, Inc.",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "1545-4576",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "RNA",
+   "why_shortlisted": "RNA biology; a junction-pairing screen is an RNA result",
+   "computation_only_papers_in_census": 6,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "RNA",
+   "nlm_unique_id": "9509184",
+   "issns_in_record": [
+    "1355-8382",
+    "1469-9001"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Place of publication varies.",
+    "Also issued online.",
+    "Official publication of the RNA Society."
+   ],
+   "openalex_display_name": "RNA",
+   "publisher": "Cold Spring Harbor Laboratory Press",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "1355-8382",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Mol Ther",
+   "why_shortlisted": "gene and oligonucleotide therapy, parent journal of MTNA",
+   "computation_only_papers_in_census": 6,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Mol Ther",
+   "nlm_unique_id": "100890581",
+   "issns_in_record": [
+    "1525-0016",
+    "1525-0024"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Also issued online."
+   ],
+   "openalex_display_name": "Molecular Therapy",
+   "publisher": "Elsevier BV",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": 4500,
+   "issn_used": "1525-0016",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Oligonucleotides",
+   "why_shortlisted": "apparent former title of Nucleic Acid Ther — verified below, not assumed",
+   "computation_only_papers_in_census": 5,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Oligonucleotides",
+   "nlm_unique_id": "101188415",
+   "issns_in_record": [
+    "1087-2906",
+    "1545-4576",
+    "1557-8526",
+    "2159-3337"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Latest issue consulted: Vol. 21, no. 2 (Apr. 2011).",
+    "Also issued online.",
+    "Antisense &amp; nucleic acid drug development 96646751 34246031 1087-2906",
+    "Nucleic acid therapeutics 2011204301 695028805 2159-3337"
+   ],
+   "openalex_display_name": "Antisense and Nucleic Acid Drug Development",
+   "publisher": "Mary Ann Liebert, Inc.",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "1087-2906",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Biochem Biophys Res Commun",
+   "why_shortlisted": "broad, takes short computational reports",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Biochem Biophys Res Commun",
+   "nlm_unique_id": "0372516",
+   "issns_in_record": [
+    "0006-291X",
+    "1090-2104",
+    "1522-4724"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Includes indexes cumulative for vols. published each year, 1982?- .",
+    "Also issued online.",
+    "Molecular cell biology research communications 40198246 sn 98001332 1522-4724"
+   ],
+   "openalex_display_name": "Biochemical and Biophysical Research Communications",
+   "publisher": "Elsevier BV",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": 3110,
+   "issn_used": "0006-291X",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "J Chem Inf Model",
+   "why_shortlisted": "the degrader paper's venue; $0 route already established here",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "J Chem Inf Model",
+   "nlm_unique_id": "101230060",
+   "issns_in_record": [
+    "0095-2338",
+    "1549-9596",
+    "1549-960X"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Also issued online.",
+    "Journal of chemical information and computer sciences 75643870 2241471 0095-2338"
+   ],
+   "openalex_display_name": "Journal of Chemical Information and Computer Sciences",
+   "publisher": "American Chemical Society",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "0095-2338",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Bioinformatics",
+   "why_shortlisted": "the screen is a method; a methods framing has a home here",
+   "computation_only_papers_in_census": 3,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Bioinformatics",
+   "nlm_unique_id": "9808944",
+   "issns_in_record": [
+    "0266-7061",
+    "1367-4803",
+    "1367-4811",
+    "1460-2059",
+    "1553-0833"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Also issued online.",
+    "Absorbed: International Conference On Intelligent Systems for Molecular Biology proceedings.",
+    "Computer applications in the biosciences 98640740 11875762 8511758 0266-7061",
+    "International Conference on Intelligent Systems for Molecular Biology. Proceedings 96655090 34094202 9509125 1553-0833"
+   ],
+   "openalex_display_name": "Computer applications in the biosciences",
+   "publisher": "Oxford University Press",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "0266-7061",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Antisense Nucleic Acid Drug Dev",
+   "why_shortlisted": "apparent earlier title of the same journal",
+   "computation_only_papers_in_census": 2,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Antisense Nucleic Acid Drug Dev",
+   "nlm_unique_id": "9606142",
+   "issns_in_record": [
+    "1050-5261",
+    "1087-2906",
+    "1545-4576"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Also available online.",
+    "Antisense research and development 91660238 1050-5261",
+    "Oligonucleotides 52538543 2003214918 1545-4576"
+   ],
+   "openalex_display_name": "Antisense Research and Development",
+   "publisher": "Mary Ann Liebert, Inc.",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "1050-5261",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Biochem J",
+   "why_shortlisted": "broad biochemistry, hybrid publisher",
+   "computation_only_papers_in_census": 2,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Biochem J",
+   "nlm_unique_id": "2984726R",
+   "issns_in_record": [
+    "0006-2936",
+    "0264-6021",
+    "0306-3275",
+    "0306-3283",
+    "1356-739X",
+    "1470-8728"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Online version called also: Biochemical journal online.",
+    "Vols. 36- include Proceedings of the Biochemical Society.",
+    "In vols. for 1973-1983 odd numbered vols. cover Molecular aspects, even numbered vols. cover Cellular aspects. These vols. are published concurrently with one no. of each vol. issued each month, e.g., v. 131, no. 1 (Jan. 1973) covers Molecular aspects, and v. 132, no. 1 (Jan. 1973) covers Cellular aspects.",
+    "Also issued online.",
+    "Microfilm. v. 1 (1906)-20 (1926), v. 98 (1966)-105 (1967), v. 107 (1968)-112 (1969), v. 114 (1969)-119 (1970) + Index v. 11 (1917)-20 (1926). 30 microfilm reels : negative ; 35 mm.",
+    "Issued by the Bio-chemical Dept., Johnston Laboratories, University of Liverpool, 1906-12; by the Biochemical Society, 1913-"
+   ],
+   "openalex_display_name": "Biochemical Journal",
+   "publisher": "Portland Press",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": null,
+   "issn_used": "0006-2936",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Genes Cells",
+   "why_shortlisted": "broad molecular biology, hybrid publisher",
+   "computation_only_papers_in_census": 2,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Genes Cells",
+   "nlm_unique_id": "9607379",
+   "issns_in_record": [
+    "1356-9597",
+    "1365-2443"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from cover.",
+    "Print issues ceased with v. 19, no. 12 (Dec. 2014).",
+    "Also issued online."
+   ],
+   "openalex_display_name": "Genes to Cells",
+   "publisher": "Wiley",
+   "is_oa": false,
+   "is_in_doaj": false,
+   "apc_usd": 3800,
+   "issn_used": "1356-9597",
+   "in_doaj": false,
+   "verdict": "SUBSCRIPTION_OR_HYBRID",
+   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+  },
+  {
+   "journal_abbrev": "Mol Ther Nucleic Acids",
+   "why_shortlisted": "second-highest count; nucleic-acid therapeutics, exact scope",
+   "computation_only_papers_in_census": 16,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Mol Ther Nucleic Acids",
+   "nlm_unique_id": "101581621",
+   "issns_in_record": [
+    "2162-2531"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Official journal of: American Society of Gene &amp; Cell Therapy."
+   ],
+   "openalex_display_name": "Molecular Therapy — Nucleic Acids",
+   "publisher": "Cell Press",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 3900,
+   "issn_used": "2162-2531",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "3900 USD"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "Int J Mol Sci",
+   "why_shortlisted": "publishes exactly this shape; fee model needs stating",
+   "computation_only_papers_in_census": 6,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Int J Mol Sci",
+   "nlm_unique_id": "101092791",
+   "issns_in_record": [
+    "1422-0067"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from volume table of contents screen (viewed Apr. 6, 2001).",
+    "Also issued on CD-ROM yearly.",
+    "Mode of access: World Wide Web."
+   ],
+   "openalex_display_name": "International Journal of Molecular Sciences",
+   "publisher": "Multidisciplinary Digital Publishing Institute",
+   "is_oa": true,
+   "is_in_doaj": false,
+   "apc_usd": 3499,
+   "issn_used": "1422-0067",
+   "in_doaj": false,
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "Sci Rep",
+   "why_shortlisted": "generalist that takes computation-only work",
+   "computation_only_papers_in_census": 6,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Sci Rep",
+   "nlm_unique_id": "101563288",
+   "issns_in_record": [
+    "2045-2322"
+   ],
+   "full_title": "",
+   "title_history_notes": [],
+   "openalex_display_name": "Scientific Reports",
+   "publisher": "Nature Portfolio",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 2690,
+   "issn_used": "2045-2322",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "2490 EUR",
+    "2850 USD",
+    "2290 GBP"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "NAR Genom Bioinform",
+   "why_shortlisted": "nucleic-acid methods, plausible for a screening paper",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "NAR Genom Bioinform",
+   "nlm_unique_id": "101756213",
+   "issns_in_record": [
+    "0305-1048",
+    "2631-9268"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Related publication to: Nucleic acids research.",
+    "Complemented by (work): Nucleic acids research 0305-1048 (DLC) 74641038 (OCoLC)1791693 (DNLM)0411011.",
+    "Nucleic acids research 74641038 1791693 0411011 0305-1048"
+   ],
+   "openalex_display_name": "Nucleic Acids Research",
+   "publisher": "Oxford University Press",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 3992,
+   "issn_used": "0305-1048",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "4192 USD"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "RNA Biol",
+   "why_shortlisted": "same reasoning as RNA",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "RNA Biol",
+   "nlm_unique_id": "101235328",
+   "issns_in_record": [
+    "1547-6286",
+    "1555-8584"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Description based on: Vol.1, issue 2 (July/Aug. 2004); title from cover.",
+    "Also issued online."
+   ],
+   "openalex_display_name": "RNA Biology",
+   "publisher": "Taylor & Francis",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 3175,
+   "issn_used": "1547-6286",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "3650 USD",
+    "2920 GBP",
+    "3505 EUR",
+    "5085 AUD"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "BMC Bioinformatics",
+   "why_shortlisted": "same reasoning as Bioinformatics",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "BMC Bioinformatics",
+   "nlm_unique_id": "100965194",
+   "issns_in_record": [
+    "1471-2105"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from BioMed Central archive screen (viewed Dec. 17, 2001).",
+    "Articles added consecutively to the current annual v.",
+    "Mode of access: Internet."
+   ],
+   "openalex_display_name": "BMC Bioinformatics",
+   "publisher": "BioMed Central",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 2990,
+   "issn_used": "1471-2105",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "2590 EUR",
+    "3090 USD",
+    "2290 GBP"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "PLoS One",
+   "why_shortlisted": "generalist that takes computation-only work",
+   "computation_only_papers_in_census": 4,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "PLoS One",
+   "nlm_unique_id": "101285081",
+   "issns_in_record": [
+    "1932-6203"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Description based on vol. 1(1) (2006); title from journal home page (publisher's Web site, viewed Apr. 8, 2008).",
+    "Latest issue consulted: 4(6) (2009) (viewed June 12, 2009).",
+    "Articles added consecutively to current issue.",
+    "Content on clinical trials included also in: PLoS hub for clinical trials (DLC) 2008222319 (OCoLC)228234657.",
+    "PLoS hub for clinical trials 2008222319 228234657"
+   ],
+   "openalex_display_name": "PLoS ONE",
+   "publisher": "Public Library of Science",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 2382,
+   "issn_used": "1932-6203",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "2477 USD"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "Biomedicines",
+   "why_shortlisted": "same as IJMS — appears in the census, fee model needs stating",
+   "computation_only_papers_in_census": 3,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Biomedicines",
+   "nlm_unique_id": "101691304",
+   "issns_in_record": [
+    "2227-9059"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Volume 1 complete in one issue.",
+    "Numbering from table of contents page."
+   ],
+   "openalex_display_name": "Biomedicines",
+   "publisher": "Multidisciplinary Digital Publishing Institute",
+   "is_oa": true,
+   "is_in_doaj": true,
+   "apc_usd": 3137,
+   "issn_used": "2227-9059",
+   "in_doaj": true,
+   "doaj_has_apc": true,
+   "doaj_apc": [
+    "2600 CHF"
+   ],
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  },
+  {
+   "journal_abbrev": "Genes (Basel)",
+   "why_shortlisted": "two ASO-design papers in the census design-language list",
+   "computation_only_papers_in_census": 1,
+   "lookup": "matched on MedlineTA",
+   "medline_ta": "Genes (Basel)",
+   "nlm_unique_id": "101551097",
+   "issns_in_record": [
+    "2073-4425"
+   ],
+   "full_title": "",
+   "title_history_notes": [
+    "Title from journal home page (viewed Jan. 13, 2011).",
+    "Some articles in v. 2010 published electronically in 2009.",
+    "Mode of access: World Wide Web."
+   ],
+   "openalex_display_name": "Genes",
+   "publisher": "Multidisciplinary Digital Publishing Institute",
+   "is_oa": true,
+   "is_in_doaj": false,
+   "apc_usd": 3137,
+   "issn_used": "2073-4425",
+   "in_doaj": false,
+   "verdict": "GOLD_OA_APC",
+   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+  }
+ ]
+}

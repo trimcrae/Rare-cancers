@@ -101,6 +101,20 @@ jobs:
       - name: Install PDF text extractor
         run: python3 -m pip install --quiet pypdf
 
+      # ── BATCH CITATION PROBE (query begins `PROBE:`) ────────────────────────────────────
+      # Europe PMC + ClinicalTrials.gov over the query set in scripts/lit_probe_queries.json,
+      # printed to THIS LOG and committed nowhere; a session reads it back with
+      # mcp__github__get_job_logs. Recovered from origin/claude/lit-probe-immuno-architectures
+      # on 2026-09-02: `scripts/lit_probe_queries.json` was already on main and NOTHING READ IT —
+      # its only consumer, scripts/lit_batch_probe.py, existed on two stranded branches and on no
+      # path of main.
+      # ⚠ Superseded, retained (rule 1.2): the branch also keyed `concurrency.group` per-ref, so a
+      # read-only probe queued behind sibling sweeps would not be cancelled. `main` already solves
+      # that, and more finely — the group is keyed per ref AND per slug/targets/query above.
+      - name: Batch citation probe (read-only, log-only)
+        if: ${{ startsWith(inputs.query, 'PROBE:') }}
+        run: python3 scripts/lit_batch_probe.py
+
       # ⛔ THE SEARCH THIS WORKFLOW HAS ALWAYS CLAIMED TO DO WAS NEVER WIRED UP (found 2026-08-05).
       # This file's own header says it "Pulls open-access research papers ... using the Europe PMC API
       # via scripts/fetch-paper.mjs". That script exists, has exactly the `sync "<query>"` command the
@@ -430,7 +444,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures')
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures') && !startsWith(inputs.query, 'PROBE:')
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -456,7 +470,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures')
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures') && !startsWith(inputs.query, 'PROBE:')
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}

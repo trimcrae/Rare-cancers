@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census, gcc_scope_census, aso_shape_census, venue_fee_screen, fusion_frame_trap]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -395,6 +395,39 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "EWSR1::NR4A3 junction-model audit (Ensembl exon structure, CI)" \
             research/modalities/nr4a3-exon-audit.json
+
+  # FUSION FRAME-TRAP GENERALITY — does the EMC "untranslated acceptor sequence gets translated" trap
+  # occur anywhere else? Needs Ensembl REST (canonical transcript exon structure for ~60 fusion partner
+  # genes) and Europe PMC (the abstracts every breakpoint is quoted from), both 403'd at CONNECT by the
+  # dev sandbox. $0 CPU, pure stdlib, no pip.
+  # ⚠ Superseded, retained (rule 1.2): "THE `fusion_frame_trap` CHOICE OPTION EXISTS ONLY ON THIS BRANCH.
+  # That is dispatchable: the input SCHEMA is read from the dispatched ref, measured 2026-08-08
+  # (CLAUDE.md §6). The FILE must be on main, and it is." Both the option and the file are on `main` as of
+  # the 2026-09-02 stranded-branch recovery, so the dispatch needs no branch ref.
+  fusion_frame_trap:
+    if: ${{ github.event.inputs.task == 'fusion_frame_trap' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch Ensembl transcript models + the Europe PMC breakpoint corpus
+        run: python research/modalities/fusion_frame_trap.py --refresh
+      - name: Commit the inputs back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "Fusion frame-trap inputs (Ensembl canonical transcripts + Europe PMC corpus, CI)" \
+            research/modalities/fusion-frame-trap-inputs.json \
+            research/modalities/fusion-frame-trap.json
 
   # RUNG-5a part 1 — E3 ARM STAGING. Discovers, verifies and composes each recruiter arm (ligand-bound
   # substrate receptor + derived ligand exit vector + cullin-scaffold RING position bridged into the receptor
@@ -2787,3 +2820,124 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "NAT scope census: computation-only papers in the journal's own record (CI)" \
             research/manuscripts/aso/nat-scope-census.json
+
+  # ⭐ THE SAME QUESTION, ASKED OF THE ALTERNATIVE VENUE (trimcrae, 2026-08-25: "Is GCC a better fit
+  # than NAT for the EMC ASO paper?"). NAT's doubt was "does an oligonucleotide journal take a dry
+  # paper"; a cancer-genetics journal raises the mirror doubt — does it take a therapeutic-design
+  # paper at all — so this run adds topic tallies for the disease, the fusion and the modality.
+  # Same script, same screen, $0 CPU.
+  gcc_scope_census:
+    if: ${{ github.event.inputs.task == 'gcc_scope_census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Census every GCC article for computation-only work and for topical precedent"
+        run: |
+          python research/manuscripts/nat_scope_census.py \
+            --journal "Genes Chromosomes Cancer" \
+            --out research/manuscripts/aso/gcc-scope-census.json \
+            --topics emc='extraskeletal myxoid chondrosarcoma' \
+            --topics nr4a3='NR4A3|NOR-?1|CHN\b' \
+            --topics oligo='antisense|oligonucleotide|gapmer|siRNA|RNA interference|RNAi\b' \
+            --topics therapeutic_design='therapeutic target|drug design|treatment strategy|targeted therapy'
+      - name: Upload the census as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gcc-scope-census
+          path: research/manuscripts/aso/gcc-scope-census.json
+          if-no-files-found: warn
+      - name: Commit the census back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "GCC scope census: computation-only and topical precedent in the journal's own record (CI)" \
+            research/manuscripts/aso/gcc-scope-census.json
+
+  # ⭐ HAS ANY JOURNAL ANYWHERE PUBLISHED A DESIGN-ONLY ASO PAPER? (trimcrae, 2026-08-25). Not a
+  # venue question — a question about whether this paper's SHAPE exists in the literature at all, so
+  # the journal scoping comes off and the same wet/dry screen runs over the whole antisense corpus,
+  # tallying which journals the computation-only records landed in. A null here would matter more
+  # than any venue comparison, because it would say the shape itself is the risk. $0 CPU.
+  aso_shape_census:
+    if: ${{ github.event.inputs.task == 'aso_shape_census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Census the whole antisense corpus for papers that report no experiment"
+        run: |
+          python research/manuscripts/nat_scope_census.py \
+            --term '"antisense oligonucleotide"[tiab] OR "antisense oligonucleotides"[tiab] OR gapmer[tiab] OR gapmers[tiab] OR "splice-switching oligonucleotide"[tiab] OR "splice-switching oligonucleotides"[tiab]' \
+            --out research/manuscripts/aso/aso-design-only-census.json \
+            --topics fusion='fusion transcript|fusion junction|fusion oncogene|chimeric transcript|breakpoint' \
+            --topics design_language='we designed|were designed|design of|candidate (?:oligonucleotide|ASO|gapmer)|rational design' \
+            --topics offtarget='off-target|offtarget|specificity screen|hybridization-dependent'
+      - name: Upload the census as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aso-design-only-census
+          path: research/manuscripts/aso/aso-design-only-census.json
+          if-no-files-found: warn
+      - name: Commit the census back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ASO shape census: does a design-only antisense paper exist anywhere (CI)" \
+            research/manuscripts/aso/aso-design-only-census.json
+
+  # ⭐ WHICH OF THE JOURNALS THAT PUBLISH THIS SHAPE ARE FREE? (trimcrae, 2026-08-25: "we need to
+  # find out what journals are free… Don't look at all 183 though, just the good fits.") Structured
+  # sources only — NLM Catalog, OpenAlex, DOAJ — because every per-journal author-guideline page
+  # 403s to the proxy and to a runner alike. That is also why the screen can report the absence of
+  # an APC and never the absence of a page charge. $0 CPU.
+  venue_fee_screen:
+    if: ${{ github.event.inputs.task == 'venue_fee_screen' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Screen the shortlisted venues for a $0 author route"
+        run: python research/manuscripts/venue_fee_screen.py
+      - name: Upload the screen as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: venue-fee-screen
+          path: research/manuscripts/aso/venue-fee-screen.json
+          if-no-files-found: warn
+      - name: Commit the screen back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            'Venue fee screen: which shape-publishing journals have a no-fee route (CI)' \
+            research/manuscripts/aso/venue-fee-screen.json
