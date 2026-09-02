@@ -1,0 +1,44 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2a656c9223afed4e0fea7c2c912a3521e72c0f74",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic against committed artifacts",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "e9781eddad6914a5bbc3c240fd0406d22469b85482af1692b9b8634bd31d1fc4",
+  "opened_utc": "2026-09-02T22:08:44Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Patients with an ultra-rare fusion-driven sarcoma (extraskeletal myxoid chondrosarcoma) are eligible for recruiting trials that a condition search on their own diagnosis does not return, because eligibility is written on the molecular lesion while the conditions field a histology search reads is written on the disease name; the obvious fix, a keyword map, is worse than no map because two adjudicated candidates would have passed an automated screen and both refuse the disease.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Every registry figure in this paper is correct at the pin and none of it is bound by pinned-figures.json, so a future edit to either the paper or its source JSON can diverge silently with no guard to catch it.",
+      "evidence": "research/manuscripts/pinned-figures.json lists this document at targets[] (it is a pinned-figures TARGET), but its artifact_figures array (99 entries) contains zero entries referencing 'reachability', 'fet-fusion-trial', 'emc-trial-reachability-adjudication', 'non-us-registry-sweep' or 'emc-hypoxia-therapeutic-status'. I independently re-derived every load-bearing number by hand and all are correct: unique_studies_indexed=1159, fusion/basket/sarcoma screens 400/199/526 (research/literature/fet-fusion-trial-eligibility-2026-08-07.json:retrieval, :task_2_widened_search.instruments); the twelve-lost/five-recovered/seven-remaining transport-damage arithmetic (transport_integrity.silently_damaged_records + unparseable_records union = 12 distinct NCT ids; exactly NCT05836571, NCT07695311, NCT07188532, NCT05275426, NCT06094101 recur elsewhere in the same file); the '23 studies against a reported total of 23' clean re-run (research/modalities/emc-hypoxia-therapeutic-status.json: every_registered_EMC_trial._n_total_reported=23, len(studies)=23, none of NCT05918640/NCT06571734/NCT04151342/NCT05722886/NCT03767075 present, and NCT00720174/NCT01189253/NCT05355753 present with statuses COMPLETED/TERMINATED/TERMINATED exactly as the prose states); estimated_enrollment 73 and 5500 for NCT06571734/NCT04151342; the 7-vs-10 listed-conditions count for NCT06571734 across the two dates; the 42-condition, age-1-to-30-at-biopsy claim for NCT06239272; the nine-further-registry-records count (1 DETERMINE master + 7 arms incl. one NOT_YET_RECRUITING + 1 Basket-of-Baskets, all with emc_in_listed_conditions=false); the 5-study NR4A3 term search with exactly one cancer study (cholangiocarcinoma); and the ISRCTN chondrosarcoma (2 trials) / sarcoma-AND-fusion (1 trial) counts (non-us-registry-sweep-2026-08-09.json total_count fields). None of these numbers is protected by an artifact_figures binding, so nothing in the commit gates would flag it if a future edit to either side drifted.",
+      "fix": "Add artifact_figures entries in pinned-figures.json binding at minimum the scalars that most directly carry the paper's conclusions: retrieval.unique_studies_indexed=1159, every_registered_EMC_trial._n_total_reported=23 (and the absence of the five admitting NCT ids from its studies list), the two estimated_enrollment values, and the adjudication summary's candidates_adjudicated/admits/refused tallies."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "research/literature/emc-clinical-sweep-targets.json",
+    "research/literature/emc-clinical-sweep-c3.json",
+    "research/literature/emc-clinical-sweep-c4.json",
+    "research/manuscripts/modality-census/lit-targets-frontier-capability-2026-08-07.json",
+    "research/modalities/emc-hypoxia-therapeutic-status.json",
+    "research/manuscripts/pinned-figures.json",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-78d345d35b467dca41adcb479666257080f149bb-seat-regression.json"
+  ],
+  "objections_i_raised_and_the_paper_already_answers": [
+    "That round 3's fixed adjudication denominator ('counts of the five records ... three here and the two refusals in §4') might not sum: it does, 3+2=5, and it agrees with §5's independent 'Of the five records adjudicated ... four were re-fetched ... and NCT05918640 was confirmed separately' (research/literature/emc-trial-reachability-adjudication-2026-08-09.json summary: candidates_adjudicated=4, 1 admits-interventional + 1 admits-observational + 2 refused, plus NCT05918640 from the other file = 5).",
+    "That round 3's fixed URL-manifest description in §7 might still omit a file: it does not. All four manifests (emc-clinical-sweep-targets.json, -c3.json, -c4.json, and lit-targets-frontier-capability-2026-08-07.json for the unfielded sarcoma screen) are named in full, and I confirmed ct_sarcoma_2026_new (the URL behind NCT06988475's eligibility text) lives specifically in the frontier-capability file.",
+    "That the '23 studies against a reported total of 23' clean re-run claim in §2 might be unsupported by any cited artifact, since neither fet-fusion-trial-eligibility-2026-08-07.json nor the adjudication file nor the non-US sweep contains the string '23' anywhere: it is supported, by research/modalities/emc-hypoxia-therapeutic-status.json, which §7 already cites (for a different fact, the three dropped statuses) two sentences after naming the other three files — I independently re-derived _n_total_reported=23, len(studies)=23, and the presence/absence pattern by hand rather than trusting the prior seat's note.",
+    "That the NCT06571734 'recorded ten' claim for the 2026-08-07 fielded screen might be invented to explain away a discrepancy: it is not — task_2_widened_search.candidates_requiring_eligibility_text_verification[0].listed_conditions for NCT06571734 has exactly 10 entries on 2026-08-07, and the adjudication file's re-fetch on 2026-08-09 has exactly 7, a genuine and correctly-reported discrepancy the paper honestly labels 'unexplained' rather than rationalizing."
+  ],
+  "notes": "This is round 4 of hardening, and round 3's own repair (documented in the round-3 regression seat's record, which I read for context but did not grade) already fixed the adjudication denominator and the URL-manifest omission I was asked to re-verify — both hold at this pin. I additionally independently re-derived the '23 studies' figure from its actual source field, which none of the three files named earlier in §2's prose actually carries (it lives in a fourth file cited two sentences later in §7, for an ostensibly different purpose) — this is fragile framing (the reader has to hunt across §7's list to find which of four files backs which sentence in §2) but the number itself is exactly right, so it does not clear the BLOCKER bar. Every other printed count, percentage-free ratio, denominator and status flag I checked reproduces exactly from its committed source. No arithmetic BLOCKER survives at this pin.",
+  "closed_utc": "2026-09-02T22:15:00Z"
+}

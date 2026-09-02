@@ -1,0 +1,38 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2a656c9223afed4e0fea7c2c912a3521e72c0f74",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression on round 3's own repairs",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "e9781eddad6914a5bbc3c240fd0406d22469b85482af1692b9b8634bd31d1fc4",
+  "opened_utc": "2026-09-02T22:07:28Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "For an ultra-rare fusion-driven sarcoma with no realistic path to a randomised trial, trial reachability (whether an eligible patient can find a listed, admitting trial) is itself a measurable research question, and public-registry evidence shows at least two recruiting interventional trials admit this disease on molecular eligibility criteria while never naming it in their listed conditions.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "None of the seven round-3 repair sites (adjudication denominator, URL-manifest list, API-base description, transport mechanism, ISRCTN two-query result, condition-search re-run history, screen-field description) is protected by any automated check tying the manuscript's transcribed numbers/claims to the JSON deposits they cite. This paper has already had the exact same defect class (a correct repair silently drifting from its artifact) recur in three consecutive hardening rounds -- round 3's own commit message states six of its seven fixed defects were introduced by round 2's repairs. Nothing currently distinguishes this round's fixes from the ones that broke last time; only manual git-log-S archaeology caught them.",
+      "evidence": "Round-3 commit f00503d5 commit message: 'SIX of the seven are introduced_by prior_repair -- 8c574fca8 and a94e0784c, round 2's own apply commits... Third consecutive round of the AUT-PD-207 defect class on this paper.' Checked research/manuscripts/pinned-figures.json at the pin: its 'targets' array does not include research/manuscripts/care-delivery/emc-trial-reachability.md, so lint_consistency.py's pinned-figure machinery does not cover any of this paper's numbers (42 listed conditions for NCT06239272, 23/23 in the histology condition search, 1159 unique studies indexed, 400/199/526 screen sizes, the five-record adjudication denominator, the four URL-manifest paths). I re-derived every one of these by hand against research/literature/fet-fusion-trial-eligibility-2026-08-07.json, research/literature/emc-trial-reachability-adjudication-2026-08-09.json, research/literature/non-us-registry-sweep-2026-08-09.json and research/modalities/emc-hypoxia-therapeutic-status.json (all confirmed correct at this pin), but nothing in the repo does this automatically.",
+      "fix": "Add a small script (in the spirit of lint_consistency.py / mutation-tested guards elsewhere in this repo) that asserts the paper's key artifact-derived figures against the four cited JSON deposits -- e.g. the 42-condition count and RECRUITING status for NCT06239272, the 23/23 total for the extraskeletal-myxoid-chondrosarcoma condition search plus its exact NCT membership, the 1159 unique-studies count, the {2 admit / 1 observational / 2 refuse} adjudication summary, and the ISRCTN two-query result counts (2 and 1). Wire it into the paper-scoped preflight tier so a future wording edit near any of these numbers is checked against the source artifact rather than trusted."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 2a656c9223afed4e0fea7c2c912a3521e72c0f74)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at pin)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at pin)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json (at pin)",
+    "research/modalities/emc-hypoxia-therapeutic-status.json (at pin)",
+    "research/literature/emc-clinical-sweep-targets.json (existence check at pin)",
+    "research/literature/emc-clinical-sweep-c3.json (existence check at pin)",
+    "research/literature/emc-clinical-sweep-c4.json (existence check at pin)",
+    "research/manuscripts/modality-census/lit-targets-frontier-capability-2026-08-07.json (existence check at pin)",
+    "research/manuscripts/pinned-figures.json (at pin, to check coverage)",
+    "scripts/lit_fetch_urls.py (git log/git show for the 6b5fbc23 stripper-fix commit, to verify §2's transport-mechanism description)",
+    "research/manuscripts/lint_readability.py (ran --check against the pinned document content to verify the 60-word sentence ceiling)",
+    "git log/git show f00503d5 (the round-3 apply commit and its full diff, to identify the seven repair sites precisely)"
+  ]
+}

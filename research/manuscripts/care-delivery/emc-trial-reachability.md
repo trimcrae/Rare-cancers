@@ -240,11 +240,13 @@ where the number of options is small enough that each one carries weight.
 1. Sponsors whose eligibility is molecular should list the histologies that criterion admits in the
    conditions field. Listing the molecular class alone does not close the gap: NCT06571734 already
    lists *translocation-associated soft tissue sarcoma*, and a condition search on the histology
-   still does not return it. Where the criterion names a class, the histology list already exists in
-   the protocol and is simply not in the field that search reads. Where it names a gene family it
-   does not exist: enumerating every histology an EWSR1, FUS or TAF15 criterion admits is an
-   editorial act, not a transcription. NCT07188532 shows the cost, listing *round cell sarcoma with
-   EWSR1-non-ETS fusion* while §4 adjudicates it as refusing this disease.
+   still does not return it. Where the criterion names a class, a defined histology list may already
+   exist in the protocol, simply sitting outside the field that search reads — though whether this
+   particular protocol enumerates one, rather than leaving the class term to the investigators' own
+   judgment, is not something the registry record settles (§5). Where the criterion instead names a
+   gene family, no such list exists to transcribe: enumerating every histology an EWSR1, FUS or TAF15
+   criterion admits is an editorial act, not a transcription. NCT07188532 shows the cost, listing
+   *round cell sarcoma with EWSR1-non-ETS fusion* while §4 adjudicates it as refusing this disease.
 2. Registries could index eligibility text, not only conditions.
 3. Anyone building a matching tool should read criteria rather than match strings. Section 4 is the
    demonstration, with two worked examples that a string matcher gets wrong.

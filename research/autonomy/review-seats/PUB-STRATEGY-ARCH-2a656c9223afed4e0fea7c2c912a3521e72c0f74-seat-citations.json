@@ -1,0 +1,38 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2a656c9223afed4e0fea7c2c912a3521e72c0f74",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations, build and gates",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "e9781eddad6914a5bbc3c240fd0406d22469b85482af1692b9b8634bd31d1fc4",
+  "opened_utc": "2026-09-02T22:06:51Z",
+  "verdict": "supported",
+  "central_claim": "At least two recruiting interventional trials (NCT05918640, NCT06571734) admit patients with extraskeletal myxoid chondrosarcoma through molecular eligibility criteria while never listing the histology in their registry conditions field, so a histology-based condition search does not find them, and the naive fix of a keyword map would also carry two adjudicated false positives that will refuse the patient -- so eligibility text must be read one trial at a time.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Section 2's claim that 'five of them [twelve lost records] recoverable from another payload in the same file' cannot be verified from the committed artifact alone -- the JSON records which payload/query lost or silently damaged which NCT id, but does not itself carry a second, intact copy of any of the twelve to point to as the recovery source. The count of 12 lost records is exactly reproducible from transport_integrity.silently_damaged_records + unparseable_records (verified: 12 unique NCT ids), but the 'five recoverable' sub-claim rests on information (a clean duplicate payload) that is not present in research/literature/fet-fusion-trial-eligibility-2026-08-07.json as committed.",
+      "evidence": "research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> transport_integrity.silently_damaged_records (NCT05836571, NCT01189253, NCT04094610) and .unparseable_records (payloads ct_nct02180867_arst1321, ct_emc_all, ct_ewsr1_term, ct_myxoid_chondrosarcoma, ct_sarcoma_2026_new, covering NCT02180867, NCT00720174, NCT05355753, NCT07695311, NCT07188532, NCT05275426, NCT02736565, NCT01189253, NCT05697874, NCT06094101) union to exactly 12 unique NCT ids, matching the paper's count precisely. No field in the file names which 5 of the 12 have a surviving duplicate elsewhere, so a reader auditing the artifact cannot independently confirm that sub-clause.",
+      "fix": "Either cite the specific payload slug/field that recovers each of the five, or soften to 'at least some were recoverable' if the exact five cannot be enumerated from the committed record."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (git show at pinned commit 2a656c9223afed4e0fea7c2c912a3521e72c0f74; verified byte-identical to the live working tree via diff)",
+    "research/manuscripts/lint_citations.py (ran against live working tree; exit 0, no error or advisory specific to this document)",
+    "research/manuscripts/lint_claims.py (ran against this document, live working tree and a copy of the pinned text; both exit 0, 0 ERROR, 1 WARN [R4-confirms on 'confirmed', line 225] -- WARN-severity by rule design, does not fail clause_3's exit-code gate)",
+    "research/autonomy/publish_bar.py (clause_1_hardening_converged, clause_3_claim_ceiling_honoured, clause_4_identifiers_resolvable, clause_6_independent_adversarial_seat, clause_7_readable_enough_to_review, _tree_at, authority_permits)",
+    "systems/graph/publications.json (PUB-STRATEGY-ARCH record, lines ~482-495: document.file matches the reviewed document exactly, no drift)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (spot-checked NCT05918640, NCT06239272, NCT03767075, NCT06571734, NCT04151342, NCT07188532 records; verified transport_integrity two_failure_modes, silently_damaged_records, unparseable_records union = 12 unique ids matching the paper's count; verified PMID 32967265 fetch record and verbatim text supporting the abstract's fusion-partner-frequency claim; verified retrieval.unique_studies_indexed = 1159 matching the paper's Sources table)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (readme and structure; confirmed NCT03767075 is not covered here, correctly reported in the paper as coming from the 2026-08-07 file instead)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json (verified all six endpoint outcomes -- ISRCTN 200/read, WHO ICTRP 404/wrong-URL, EU CTIS 403, ANZCTR 403, jRCT SSL handshake failure, ClinicalTrials.gov 200 positive control -- and both ISRCTN07742377 and ISRCTN60791336 exclusion-language claims, and the query_chondrosarcoma/query_sarcoma_and_fusion counts, all matching the paper's Section 4.1 verbatim)",
+    "research/literature/emc-clinical-sweep-targets.json, emc-clinical-sweep-c3.json, emc-clinical-sweep-c4.json, research/manuscripts/modality-census/lit-targets-frontier-capability-2026-08-07.json (existence and readme content at pin; confirmed as URL manifests referenced correctly in Section 7)",
+    "research/modalities/emc-hypoxia-therapeutic-status.json (existence at pin, cited correctly in Section 7 as the source for the three closed-study statuses)",
+    "scripts/lit_fetch_urls.py (existence at pin, cited correctly in Section 7 as the location of the stripper fix)",
+    "research/manuscripts/citation-provenance-ledger.json (checked for the eight trial identifiers and PMID 32967265; none required a ledger entry because all are directly anchored in tracked .json fetch products)",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-f78666ce3715775c81c0b0b824a1f5bf3abb200c-seat-citations.json and PUB-STRATEGY-ARCH-2401803d2c6104a31da26f737827f1ca4cfa8d20-seat-citations.json (prior-round blockers, e.g. the NCT06239272 'for an adult patient' inversion and the transport-defect coverage gap, cross-checked against the pinned text and confirmed fixed)"
+  ]
+}

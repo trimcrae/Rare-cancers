@@ -1,0 +1,31 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2a656c9223afed4e0fea7c2c912a3521e72c0f74",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and methodology",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "e9781eddad6914a5bbc3c240fd0406d22469b85482af1692b9b8634bd31d1fc4",
+  "opened_utc": "2026-09-02T22:05:53Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Registry condition-search fields can fail to surface interventional trials that a rare, molecularly-defined disease is actually eligible for under posted criteria, and a naive keyword-built reachability map is worse than no map because it also surfaces trials that will refuse the patient -- demonstrated by manually reading eligibility text one trial at a time across two registries.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The abstract asserts a secular trend in oncology trial design ('increasingly written the other way') that this paper's own methodology -- a two-registry, effectively single-timepoint screen -- cannot measure and does not cite evidence for.",
+      "evidence": "Abstract, 'The problem' paragraph: 'Trial eligibility is increasingly written the other way, on a fusion family, a molecular class, or a translocation, while the registry's listed conditions... continue to name the diseases the sponsor had in mind.' No citation is given, and Section 2's methods (registry-wide screens on 2026-08-07, per-trial re-reads on 2026-08-09) describe a snapshot audit, not a longitudinal comparison capable of establishing directionality/trend over time. This is the only trend-shaped claim in the document (checked via search for 'increasing|trend|significan|correlat|percent|proportion|likelihood|probability'; no other instances found).",
+      "fix": "Either cite external evidence for the secular trend (e.g., a review of molecular vs. histologic eligibility design in oncology trials) or reword to a claim this paper's own data supports, e.g. 'Trial eligibility is sometimes written the other way' or 'In the cases below, eligibility is written on the molecular lesion while conditions are written on the histology' -- dropping the implied trend/rate language."
+    },
+    {
+      "summary": "The headline pool size ('1,159 unique studies indexed') in Section 2's methods table does not arithmetically reconcile with the screen counts disclosed in the same table and elsewhere in the document, and the one screen that plausibly explains the gap is never given its own count anywhere in the paper -- so a reader cannot audit the total.",
+      "evidence": "Section 2 table, row 1: 'fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed' (2026-08-07). Summing the disclosed counts: 400 + 199 + 526 = 1,125; adding the driver-gene term search's count (reported in Section 3 as 'returns five studies') gives 1,130. Since a 'unique' (deduplicated) total can only be less than or equal to the raw sum of its contributing screens, a stated unique total of 1,159 exceeding the raw disclosed sum of 1,130 is not reconcilable from the numbers given. Section 2's prose and Section 5 ('the unfielded sarcoma screen combines the two [free-text and condition fields]') both indicate a fourth screen -- an 'unfielded sarcoma screen' -- contributed records, but its own size/count is never stated anywhere in the document, so the discrepancy is plausibly explained but not actually shown.",
+      "fix": "State the unfielded sarcoma screen's own record count in the Section 2 table (or in Section 5's floors discussion) so the 1,159 total can be reconstructed by the reader from disclosed numbers, e.g. 'fusion (400) + basket (199) + sarcoma-condition (526) + sarcoma-unfielded (N) + driver-gene term (5), deduplicated to 1,159 unique studies.'"
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 2a656c9223afed4e0fea7c2c912a3521e72c0f74, via git show)"
+  ]
+}

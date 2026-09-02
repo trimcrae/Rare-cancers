@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2a656c9223afed4e0fea7c2c912a3521e72c0f74",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "e9781eddad6914a5bbc3c240fd0406d22469b85482af1692b9b8634bd31d1fc4",
+  "opened_utc": "2026-09-02T22:10:10Z",
+  "verdict": "needs_revision",
+  "referee_recommendation": "minor_revisions",
+  "central_claim": "Because clinical-trial eligibility for this ultra-rare fusion-driven sarcoma is increasingly written on the molecular lesion while a registry's searchable 'listed conditions' field still names the disease by histology, patients can be genuinely eligible for recruiting interventional trials that a diagnosis search on their own histology will never surface — shown by individually reading eligibility text on ClinicalTrials.gov and the one non-US registry (ISRCTN) that answered, with a companion finding that a naive keyword-based reachability map would also generate dangerous false positives (trials that look like matches on title/condition text but explicitly refuse the disease).",
+  "blockers": [
+    {
+      "summary": "Section 6's remedy for the 'class' case asserts as settled fact that the enumerated histology list already exists in the trial's protocol and merely needs transcribing — directly contradicting Section 5's own hedge that this exact question (for the exact same trial, NCT06571734) is undeterminable from the record and is 'precisely the question only they can answer'.",
+      "evidence": "§6 (Remedies), point 1: \"NCT06571734 already lists *translocation-associated soft tissue sarcoma*, and a condition search on the histology still does not return it. Where the criterion names a class, the histology list already exists in the protocol and is simply not in the field that search reads.\" This is stated with zero hedge, and it grounds the paper's stated rationale that fixing the class case is merely 'a transcription, not an editorial act' (contrasted against the gene-family case). But §5 (Limitations), on this identical trial, says: \"Whether the investigators of the translocation cohort read their own term as a general class or as the histologies they listed is precisely the question only they can answer\" — i.e. whether NCT06571734's protocol contains any determinate list that includes this disease at all is explicitly stated to be unknown and undeterminable from the registry record. The adjudication data file (research/literature/emc-trial-reachability-adjudication-2026-08-09.json) backs §5, not §6: its own note on this trial reads \"'Translocation-associated soft tissue sarcoma' is not further enumerated in the retrieved criteria, so whether the investigators read it as a general class or as the three histologies they listed is NOT determinable from the registry record.\" A reader taking §6 at face value would conclude the fix for class-defined trials is a known, mechanical, zero-risk transcription of an existing list — which the paper's own evidence, two sections earlier, says it cannot establish.",
+      "fix": "Soften §6 point 1 to match §5's hedge — e.g. replace 'the histology list already exists in the protocol and is simply not in the field that search reads' with something like 'a class term implies a defined membership somewhere in the protocol or in the classification it invokes, even where this paper cannot determine whether that membership was intended to include this disease (§5)' — or explicitly flag the transcription/editorial-act distinction as itself unconfirmed for the one class-based example actually adjudicated."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "One of the two 'counter-finding' trials in §4 — the paper's own 'finding that matters more than the count' — is never given a trial identifier anywhere in the manuscript, unlike its twin, which breaks the paper's own verifiability standard and leaves the claim un-anchored against future edits to the underlying data files.",
+      "evidence": "§4's first bullet: \"one is titled for fusion-positive sarcoma and then restricts eligibility to three named histologies: fusion-framed and histology-limited, the exact inverse of the mechanism above\" — no NCT id given, here or anywhere else in the document. Cross-checking the adjudication file (research/literature/emc-trial-reachability-adjudication-2026-08-09.json) shows this is NCT06094101 ('Personalized Vaccination in Fusion+ Sarcoma Patients (PerVision)'), but nothing in the manuscript text or its §7 Data availability section names it. Contrast the second bullet in the same list ('the other contains the literal adjective extra-skeletal while meaning extraskeletal Ewing sarcoma'), which IS anchored — §6 point 1 explicitly names it: \"NCT07188532 shows the cost, listing round cell sarcoma with EWSR1-non-ETS fusion while §4 adjudicates it as refusing this disease.\" The asymmetry means half of the paper's flagship methodological demonstration is unverifiable from the prose alone; a reader must independently pattern-match the unlabeled description against the JSON's four adjudication records to confirm it.",
+      "fix": "Name NCT06094101 in §4's first bullet (or in §6), the same way NCT07188532 is named for the second bullet."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 2a656c9223afed4e0fea7c2c912a3521e72c0f74, sha256 verified)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "research/modalities/emc-hypoxia-therapeutic-status.json"
+  ]
+}
