@@ -58,3 +58,34 @@ table is the cheap independent check on top of that reading, not a substitute fo
 ⛔ **REFS THAT MUST NEVER BE DELETED, recorded here because the temptation recurs:** the
 `*-cache` refs, `email-outbox`, and `figure-renders`. `main`'s own workflows write to them, so
 they are not stranded work — they are live infrastructure that merely never merges.
+
+---
+
+## ⛔ THE DELETIONS COULD NOT BE MADE — AND THE BLOCK IS THE ENVIRONMENT, NOT THE READING
+
+The seven refs above are read, verified and safe to delete. **They were not deleted**, because
+this session cannot delete a remote ref at all. Measured 2026-09-02, two independent paths:
+
+1. **`git push origin --delete <ref>` → `RPC failed; HTTP 403`**, `send-pack: unexpected
+   disconnect`, on every one of the seven. ⭐ **The discriminating observation: an ordinary
+   `git push origin main` to the SAME remote succeeded seconds earlier**, and the pre-push ledger
+   guard ran and passed on the delete attempt too — so this is not credentials, not the network,
+   and not a broken remote. It is the delete RPC specifically.
+2. **The GitHub MCP server exposes no branch-delete tool.** It carries `create_branch`,
+   `list_branches`, `update_pull_request_branch` and `delete_file`; there is no ref deletion.
+
+The agent proxy's own README settles the class: *"organization policy denials (403/407) — report
+them instead."* This is a policy denial, so it is reported rather than routed around.
+
+★ **WHAT THIS MEANS FOR THE MERGE-DEBT HOOK, said plainly so the next session does not re-litigate
+it.** The hook is explicit that recording a branch does NOT silence it — *"Only merging or
+deleting the branch does."* These seven can be neither: merging them adds nothing (that is the
+finding above), and deleting them is refused by the environment. **So the hook will keep listing
+them, correctly, forever, and that is not a defect in the hook.** It is the one case its remedy
+list does not cover: read, superseded, and undeletable.
+
+⛔ **DO NOT retry the deletion, and do NOT "fix" this by weakening the hook** — a guard narrowed to
+stop reporting work it cannot clear is worse than one that cries wolf, because the next genuinely
+stranded branch would land in the same silence. The remedy belongs to trimcrae, who can delete
+these refs from the GitHub UI in under a minute; until then the honest state is
+read-and-undeletable, which is what this file records.
