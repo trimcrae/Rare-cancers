@@ -1,0 +1,104 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "78d345d35b467dca41adcb479666257080f149bb",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "2a4c7bddda6834268427127c5d0b2940c74475df5bd16bef1cd7765fdb84aa8f",
+  "opened_utc": "2026-09-02T19:44:14Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency mechanism is assessed for internal consistency in public data and for transfer to EMC; the assessment grades WEAK, reports parts C and D as negative results about the hypothesis's computational support, records that the DepMap line labelled EMC is not fusion-positive on the curated record, and claims that every number it prints is produced by emc_atr_vulnerability.py and lives in its committed JSON artifact.",
+  "blockers": [
+    {
+      "summary": "SS2.1 misdescribes PMID 34413129, the sole primary source Cellosaurus cites for the caution that carries the paper's 'most consequential finding'. The paper says the study's full text 'names H-EMC-SS ONCE, in a Materials-and-Methods cell-line list, and states no per-line fusion result', and that the caution is 'not a finding quoted from it'. Two committed producer artifacts say the opposite, quoting the same sentence verbatim.",
+      "evidence": "Line 240 of the manuscript. Contradicted by research/modalities/hemcss-label-priorart.json -> papers_on_this_line.the_one_published_observation, whose `verbatim_quote` is 'Although extraskeletal myxoid chondrosarcoma (EMC) cancers such as H-EMC-SS typically have EWSR1-NR4A3 fusions, we did not detect a EWSR1 -translocation in this line.', whose `location` is 'Figure 2A legend. Verified verbatim in the fetched full text (S9).', whose `_verdict_ESTABLISHED` reads 'Exactly one published sentence reports this line's fusion status, and it is incidental', and whose `significance` reads 'The observation is in print. \"Nobody has ever reported this\" would be FALSE.' Independently corroborated by research/modalities/emc-model-junction-evidence.json -> '(the only purchasable EMC line...)'.'(the primary source read here...)'.where_the_negative_appears = 'the Figure 2A legend only, as a parenthetical: [same sentence] ... There is no results sentence, figure, table or supplementary file reporting the assay for this line', and its sibling field lists among what the paper does NOT say 'a per-line result for H-EMC-SS, ANYWHERE OUTSIDE THE FIGURE LEGEND' - i.e. it explicitly affirms there is one inside it. Both artifacts are current at the pin (last touched ad87aa4c7, 2026-09-02), and the quoted legend sentence itself contains the words 'extraskeletal myxoid chondrosarcoma', which the source of the manuscript's wording (research/manuscripts/emc-systems-map.json -> objects[18].read_by[97].why_unaffected, a round-4 seat's recorded read) asserts 'do not appear at all'. The committed record is internally contradictory on this point and the manuscript prints only the side that two producer artifacts refute.",
+      "fix": "Replace SS2.1's characterisation with what the producer artifacts record: the cited paper does carry one per-line statement, in the Figure 2A legend, quoted verbatim - 'we did not detect a EWSR1-translocation in this line' - so the caution IS traceable to a printed finding. Keep the real bound, which those same artifacts state: no assay, probe, primer, replicate count or per-line result appears anywhere outside that legend, and the Methods PCR/FISH sentence is panel-wide, so the source is thin rather than absent. Then resolve the contradiction with emc-systems-map.json -> objects[18].read_by[97] rather than leaving two committed accounts of the same full text on the trunk."
+    },
+    {
+      "summary": "'Two decades apart' is printed twice for the gap between the two EMC series whose agreement is the paper's part-B result. The committed artifact dates them five years apart, and the paper's own SS7 dates them 2005 and 2011.",
+      "evidence": "Manuscript line 134 ('on two independent series two decades and two array technologies apart') and line 550 ('Two independent series, two decades apart, two array technologies, and two different comparator sets'). Contradicted by research/modalities/emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_seeds[0].evidence = 'GEO series title: ... (36 samples, 2006/03/15)' (GSE4303) and series_seeds[1].evidence = 'GSM600934-GSM600939 ... (42 samples, 2011/05/02)' (GSE24369); the same dates appear as `pdat` in dataset_search.geo.series. Gap = 5 years 1.5 months. The manuscript's own SS7 (lines 863-864) says 'an annotation bridge for a 2005 array' and 'a second, better-annotated series had been sitting in GEO since 2011' - so the same quantity is stated two ways in two sections, and the two-decade version is the one carrying the concordance argument ('That concordance is what makes this a result rather than a single series' quirk').",
+      "fix": "Say what the artifact says: five years apart, on two array technologies (two-colour cDNA vs Affymetrix Gene 1.0 ST) and two different comparator sets. 'Two calendar decades' would also be defensible if that was the intent, but 'two decades apart' is not."
+    },
+    {
+      "summary": "SS3.2a and the Appendix both state that GPL3290 're-queried 2 accessions out of 65,180'. The committed artifact says 915, and says NCBI was never queried for GPL3290 at all - which is what SS3.4 of the same paper says. No committed version of the artifact has ever carried 2 in that field.",
+      "evidence": "Manuscript line 443 ('the 16-sample GPL3290 platform - the one that matters - re-queried 2 accessions out of 65,180') and line 1076 (Appendix, correction column: 're-queried 2 of 65,180'). At the pin, research/modalities/emc-atr-vulnerability.json -> part_b_emc_tumour_signature.per_platform['GSE4303-GPL3290_series_matrix.txt.gz'].probe_mapping_diagnostic gives `n_accessions_newly_queried: 915`, `n_distinct_accessions: 65180`, no `ncbi_n_accessions_queried` key at all, and `ncbi_global_budget_exhausted: 'the cross-platform accession-bridge budget (1500s) was spent on earlier platforms, so NCBI was not queried for this one. ABSENT READING - it says nothing about whether these accessions link to a gene.'` I walked every commit that touched this artifact: the field has read 27271 (137564c3c), 915 (816cbeaac, 75d5c1197, 95444e834, 61797d4c7, ad87aa4c7, 11d5de12d) and 1 (49a861681) - never 2. The only 2s on GPL3290 are `n_accessions_from_committed_cache: 2` and `n_accessions_from_cross_platform_cache: 2`. The paper's SS3.4 (line 489) states the opposite of line 443 for the same platform: 'For GPL3290 ... NCBI was never queried'.",
+      "fix": "Take the number from the field it is meant to come from. Either drop the count (the defect it illustrates - failed queries recorded as tried - is provable from the module's history without it), or state the artifact's own numbers: 915 accessions marked as newly queried for GPL3290 while `ncbi_global_budget_exhausted` records that NCBI was never actually asked. Fix line 1076 with it, since the Appendix currently asserts 2 as the corrected value."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "SS3.2's route table reports 'GEO's curated .annot for these platforms | HTTP 404' where the antecedent is 'the seven platforms' of GSE4303. The committed artifact records no .annot attempt for any of the seven; the only .annot 404s in it belong to three different platforms in three other series. The claim's real support is a source comment about a run whose log nothing in the repository reads.",
+      "evidence": "Manuscript line 420. In research/modalities/emc-atr-vulnerability.json, `probe_mapping_diagnostic.attempts` for each of GSE4303-GPL2937/2938/3254/3288/3289/3290/3335 is a single entry, the acc.cgi fetch - no .annot URL and no 404. The three `HTTP Error 404: Not Found` records in the artifact are at per_platform.GSE28866(GPL10999).attempts[0], GSE43632(GPL11054).attempts[1] and GSE80126(GPL16791).attempts[0]. The mechanism is in research/modalities/emc_atr_vulnerability.py lines 1461-1473: acc.cgi is tried first and the loop stops once a table with an accession column is found, so .annot is never reached for the seven. The row's only support is the source comment on line 1472, 'on run 30856488704 the .annot.gz probe 404'd for every platform' - a run log, not a committed field.",
+      "fix": "Either scope the row to the platforms whose 404 the artifact actually carries (GPL10999 / GPL11054 / GPL16791), or cite the module comment and run id explicitly so a reader knows the observation is not re-derivable from the artifact. As written, a re-derivation from emc-atr-vulnerability.json cannot reproduce it and nothing goes red if it stops being true."
+    },
+    {
+      "summary": "SS3.2a bullet 1 says 'The committed artifact records `ncbi_aborted: \"too many errors after 4500 accessions\"` with `ncbi_accessions_linked_to_a_gene: 0`'. The artifact at the pin records neither field anywhere; both belong to commit 12e44660c, which only the Appendix names.",
+      "evidence": "Manuscript lines 431-433. `grep -c ncbi_aborted` over research/modalities/emc-atr-vulnerability.json at the pin returns 0, and no per-platform diagnostic carries `ncbi_accessions_linked_to_a_gene: 0`. `git show 12e44660c:research/modalities/emc-atr-vulnerability.json` does carry `ncbi_aborted\": \"too many errors after 4500 accessions\"`, and the Appendix attributes it to that commit. The prose in SS3.2a is present-tense and unqualified, so the pointer is stale in the live text while correct in the Appendix.",
+      "fix": "Add the commit id to SS3.2a's sentence, as the Appendix row already does: 'the artifact as committed at 12e44660c recorded ...'. Nothing currently keeps the two in step."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+    "research/modalities/emc-atr-vulnerability.json",
+    "research/modalities/emc-atr-vulnerability-inputs.json",
+    "research/modalities/emc_atr_vulnerability.py",
+    "research/modalities/fet-ddr-axis-scan.json",
+    "research/modalities/emc-fet-idr-census.json",
+    "research/modalities/emc-fet-construct-designs.json",
+    "research/modalities/atr-hrd-sarcoma-series.json",
+    "research/modalities/atr-hrd-sarcoma-series-inputs.json",
+    "research/modalities/emc-sra-study.json",
+    "research/modalities/depmap_sarcoma_dependency.py",
+    "research/modalities/hemcss-label-priorart.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/emc_model_junction_evidence.py",
+    "research/manuscripts/emc-systems-map.json",
+    "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
+    "research/modalities/emc-atr-vulnerability.json@12e44660c (historical, named in the Appendix)",
+    "research/modalities/emc-atr-vulnerability.json@ce630e2b4 (historical, named in the Appendix)",
+    "research/modalities/emc-atr-vulnerability.json@137564c3c,816cbeaac,75d5c1197,49a861681,95444e834,61797d4c7 (history of one field)"
+  ],
+  "p2s": [
+    {
+      "summary": "SS3.4: 'adipogenesis (+0.218) is exceeded by three DDR sets raw and by more after adjustment.' Exactly three DDR sets exceed it both raw and adjusted, and the margins are the same to four decimal places.",
+      "evidence": "From contrast_EMC_vs_all_comparator_sarcoma on GPL3290: adipogenesis +0.2183, exceeded by ATR_CHK1 0.2451, S_phase 0.3111, checkpoint 0.2564 (three). After adjustment: adipogenesis +0.0353, exceeded by ATR_CHK1 0.0622, S_phase 0.1282, checkpoint 0.0735 - still three, and the margins move from 0.0268/0.0928/0.0381 to 0.0269/0.0929/0.0382. 'By more' is true only by 0.0001 and false if read as a count."
+    },
+    {
+      "summary": "SS5: 'Almost every expression predictor lands in the same -0.15 to -0.17 band' and then lists stalled fork -0.148, which is outside the band it is offered as an instance of.",
+      "evidence": "Mean rho across the two ATR inhibitors: stalled_fork_response -0.1484 (azd6738 -0.0729, ve-822 -0.2239). The other four listed values are inside: S_phase -0.1669, checkpoint -0.1545, ATR_CHK1 -0.1575, proliferation_MYC -0.1711."
+    },
+    {
+      "summary": "Appendix parenthetical '(paclitaxel -0.13 to -0.19 against bortezomib +0.13 to +0.26)' does not bound paclitaxel's actual values; the live SS5 text ('|rho| 0.13-0.26') does.",
+      "evidence": "Over the three expression predictor rows, paclitaxel is -0.1922 (ATM), -0.1462 (replication stress), -0.1413 (held-out FET) - a range of -0.141 to -0.192. No value is -0.13, and -0.1922 lies outside the stated -0.19 end. Bortezomib +0.1256 to +0.2645 rounds to the stated +0.13 to +0.26."
+    },
+    {
+      "summary": "SS3.1's '27 classified samples in total' is correct, but the enumeration in the same sentence accounts for only 22.",
+      "evidence": "series_readability.GSE4303.class_counts = {unclassified 9, MFH_UPS 4, DFSP 8, EMC 10, GIST 5} -> 27 classified. The sentence names 10 EMC + 3 GIST + 3 DFSP on GPL3290, 4 MFH/UPS on GPL3254 and 2 GIST on GPL3335 = 22; GPL3288's 2 DFSP and GPL3289's 3 DFSP go unnamed."
+    },
+    {
+      "summary": "SS0's status row for the structural precondition ('PRECONDITION_MET for type 2; NOT_MET for types 1 and 5') omits the fourth construct, which also reads PRECONDITION_MET, while the row answers the question 'Does the mechanism's structural precondition hold for EMC's fusions?'",
+      "evidence": "research/modalities/emc-fet-construct-designs.json constructs[3] = 'TAF15::NR4A3 - TAF15 exon 6 :: NR4A3 exon 3', five_prime_FET_half.census_precondition_verdict = 'PRECONDITION_MET - retains the FET N-terminus, retains no RG dipeptide' (0 of 31 RG retained, TAF15(1-161) against a ceiling of 174). The omission under-reports rather than over-claims."
+    },
+    {
+      "summary": "SS1's search-record row 'GEO DataSets | 5 (the disease under four names, plus the fusion under six)' - the six fusion strings are exact, but only three distinct disease-name strings appear across the five committed queries.",
+      "evidence": "dataset_search.geo.queries: 'extraskeletal myxoid chondrosarcoma' (queries 1 and 2), 'NR4A3 fusion' (query 1), 'myxoid chondrosarcoma' (query 4), and a gene-alias query (NR4A3 OR NOR1 OR CHN) AND sarcoma (query 5). Query 3 carries exactly six fusion aliases, matching 'under six'."
+    }
+  ],
+  "objections_i_raised_and_the_paper_already_answers": [
+    "27,196 vs 27,195 mapped probes on GPL3290 - the Appendix already carries the off-by-one against n_probes_mapped_to_symbols: 27196.",
+    "The BioStudies broad NR4A3 count - the Appendix already corrects 10,332 to 10,331, and biostudies.total_per_query['NR4A3 sarcoma'] is 10331.",
+    "'25 EMC-titled SAMPLE records' - the Appendix already corrects this; 25 is len(dataset_search.geo.samples) and exactly 11 carry is_emc_titled: true, which I re-counted.",
+    "'An 18-locus STR profile' - the Appendix already corrects it to 16 distinct markers over 18 ST lines; I re-counted the Cellosaurus ST block (18 lines, one Source(s) header, D13S317 listed twice) and got 15 STR loci plus amelogenin.",
+    "GSE24369's 93.2 % / 20,324 and the transposed S-phase/checkpoint values - the Appendix already carries all of them; the current values (98.2 %, 20,629, S-phase +0.044, checkpoint +0.045, ATM -0.004 pooled / -0.001 FET arm) re-derive exactly.",
+    "ATM's failing mark in the drug-specificity column looked like a second independent strike - SS5 and the Appendix already disclose that it is the undisclosed |rho| > 0.1 floor, and I confirmed the arithmetic: |rho| 0.0903 is 2.71x the control mean 0.0333 where the rule asks 1.5x (bar 0.0500), missing the floor by 0.0097.",
+    "The near-zero non-DDR control column looked like a null - SS5 already states it is a signed mean over two opposite-sign drugs and prints every per-drug value, and I confirmed that the module's own |rho| version gives 0.014 / 0.183 / 0.159 / 0.203 and that expr::proliferation_MYC is graded atri_specific: true.",
+    "The passing dependency row's margin looked overstated - SS5 already computes it: 1.15 x 0.1711 = 0.1968, +0.2123 clears by 0.0155, which is 0.41x the ~0.038 standard error at n ~ 700 (1/sqrt(697) = 0.0379). All re-derived."
+  ],
+  "notes": "I re-derived every printed number in the main body against the committed artifacts at the pin - all of parts A, B, C and D, the structural census and construct designs, the fet-ddr-axis-scan group differences the headline imports, the whole of SS8, and the four fixed cuts quoted in SS1 (which I also checked have never changed across the module's git history, as SS1 claims). The quantitative spine is sound and unusually well kept: the SS3.4 contrast tables, the SS4 per-gene and coordination blocks, the SS5 predictor and seven-drug tables, the SS8.1 cohort arithmetic and the SS8.3 identity check all reproduce exactly, including the derived ratios (7.0x, 15x, 11x, 2.7-7.1x), the derived percentages (95.4 %, 73.5 %, 98.2 %, 58.2 %, 24.3/27.0/34.0 %), the gene-set overlap recomputation against the 398-gene proliferation union, and the class-count totals (27 classified GSE4303 samples, 29 and 6 comparators, 62 + 6 = 68). The three blockers are not arithmetic failures of that spine: one is a source characterisation that two producer artifacts refute, one is a temporal gap overstated by a factor of four in the two places it is printed, and one is a count that no committed version of its own artifact has ever carried. None of them moves a tier, a verdict or a predicate, which is why the verdict is supported_with_reservations rather than not_supported_as_written. The one structural worry I would flag beyond my lens: the paper's SS7 promises 'nothing is hand-typed here that the artifact does not carry', and all three blockers plus both P1s are instances of exactly that - prose about a past state, a source or a run log that no committed field pins.",
+  "closed_utc": "2026-09-02T20:07:58Z"
+}

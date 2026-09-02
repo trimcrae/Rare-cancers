@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 182,
-    "in_progress": 10,
+    "in_progress": 12,
     "parked": 30,
-    "queued": 165,
+    "queued": 163,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -13554,6 +13554,39 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-PD-209-11f2347b-8be8c63b",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "It serves the loop's ability to run at all. A seat that cannot write is a seat that produces nothing, and the failure is silent."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-02",
+      "score": 133.0,
+      "_score_basis": "HAND-SET, as the ledger's `_role` requires of a session-added row. Placed at the TOP of the open process_defect band (129-137) rather than in the middle, because unlike every other row in that band this one had already stopped the session that filed it: a gate run returned exit 1 with a ZERO-BYTE log, which is indistinguishable from a broken gate. It is still below live research (CLAUDE.md §0).",
+      "what": "⛔⛔ EVERY SPAWNED SEAT CREATES A ~586 MB GIT WORKTREE AND NOTHING HAS EVER REMOVED ONE. Measured 2026-09-02: 36 dead worktrees held ~21 GB, the session's writable allowance hit 100% with 33 MB free, and `./scripts/preflight.sh` exited 1 having written a ZERO-BYTE log.\n★ THE FAILURE MODE IS THE POINT, NOT THE DISK. An out-of-space gate does not say it is out of space. It exits non-zero with no output, which reads exactly like a broken gate or a broken repository, and the correct first move -- read the whole log and batch the fixes (CLAUDE.md §6) -- returns NOTHING to work with. The discriminating observation was `df -h`, and nothing in the commit loop, the skills or the hooks points at it.\n⚠ AND THE ENVIRONMENT'S OWN NOTE SAYS `df` MISLEADS HERE: 'Avail at 0 with low Used means the allowance is spent, not that the machine is broken' -- 38 G used of 252 G, reported as 100%. So even the right command needs the right reading.\n★ THE ARITHMETIC IS UNFORGIVING AND IT IS NOT A ONE-OFF. A worktree is a full checkout of this repository. The session-shape rule in `research-loop` §3 prescribes parallel subagents as the NORMAL shape, and CLAUDE.md §1 sets `subagent_width` at 64. Sixty-four seats at 586 MB is 37 GB of working copies for a repository whose `.git` is 1.7 GB. **The governed width and the disk allowance have never been reconciled, and the width is the number the architecture already records as having failed catastrophically once.**\n⛔ NOTHING WAS LOST THIS TIME AND THAT WAS LUCK. All 36 removed worktrees were clean with nothing unpushed -- checked before deleting, one at a time. A seat that had died holding uncommitted work would have had it deleted by the cleanup that freed the disk, and the session doing the cleanup is under pressure precisely because it cannot write.",
+      "next_action": "Make worktree lifetime someone's job. Options to argue rather than assume: have the seat prompt template end with `git worktree remove`, which fails the moment a seat dies; a reaper that removes worktrees whose branch is merged and whose tree is clean, modelled on `session_reaper.py` and sharing its refusal to clear anything holding uncommitted work; or stop giving read-only seats a worktree at all -- the five blind seats in this same round read the pinned commit with `git show` and used ZERO disk, which is the cheapest fix and covers the largest population. ⛔ Whatever is chosen must ALSO make an out-of-space gate say so: a preflight that exits 1 with an empty log is the actual cost here, and a two-line disk check at the top of `preflight.sh` is cheaper than any of the above. ⚠ Mind `scripts/tier-budgets.json` before adding a test; a disk precondition is not a test.",
+      "evidence": [
+        "df -h / : 252G size, 38G used, 33M avail, 100% -- 2026-09-02 during this session",
+        "du -sh scratchpad : 28G before cleanup, 7.4G after removing 36 worktrees",
+        "scratchpad/drv-preflight-seats2.log : 0 bytes, exit 1",
+        "git worktree list : 36 worktrees under the session scratchpad, ~586 MB each",
+        "CLAUDE.md §1 subagent_width, read from research/autonomy/autonomy-state.json = 64"
+      ]
     }
   ]
 }
