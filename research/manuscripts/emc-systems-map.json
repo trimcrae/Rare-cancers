@@ -835,7 +835,7 @@
           "why": "shares type 2's 5′ cut only, and omits type 2's 59 UTR-encoded residues"
         }
       ],
-      "notes": "⚠ THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files — see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix."
+      "notes": "⚠ THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files — see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix. ⚠ THE `emc_canonical_EWSR1_NR4A3` ALIAS IS HISTORICAL AS OF 2026-09-02 (AUT-PD-208): emc-fet-idr-census.json no longer writes that key. It now carries every reported EWSR1::NR4A3 type under `emc_EWSR1_NR4A3_reported_types`, keyed by the sourced registry's ids, so the exon-7 record sits under `EWSR1_NR4A3_type2` and asserts nothing about which type is commonest. The alias is kept so the retired name stays searchable."
     },
     {
       "id": "OBJ-NR4A3-WT",
@@ -5042,10 +5042,10 @@
     {
       "id": "CLM-IDR-EMC",
       "document": "research/manuscripts/program/emc-post-degrader-options.md",
-      "locator": "route 1's RGG-retention table row for EWSR1::NR4A3",
+      "locator": "route 1's RGG-retention table row for EWSR1::NR4A3 (the reported type-2 row — 1–264, 0 of 30)",
       "artifact": "ART-IDR-CENSUS",
-      "field": "/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained",
-      "note": "⛔ THE FAILURE-4 CLAIM. On `main` this document prints the full table and the artifact is a stub, so the number reads as current and is unsupported by anything on that ref."
+      "field": "/emc_EWSR1_NR4A3_reported_types/EWSR1_NR4A3_type2/rg_dipeptides_retained",
+      "note": "⛔ THE FAILURE-4 CLAIM. On `main` this document prints the full table and the artifact is a stub, so the number reads as current and is unsupported by anything on that ref. ⚠ REPOINTED 2026-09-02 (AUT-PD-208): the field was `/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained`, a key the census no longer writes because it named the exon-7 cut — reported TYPE 2, the second-commonest — 'canonical'. The pointer now names type 2 explicitly, which is the row the document actually prints (EWSR1 1–264, 0 of 30). ⛔ THE DOCUMENT'S ROW IS ITSELF STALE AND THE REPOINT DOES NOT FIX IT: it labels that row 'EMC, canonical', and the census now carries the commonest reported type (type 1, EWSR1 1–431, 8 of 30) alongside it."
     },
     {
       "id": "CLM-IDR-CONTROLS",
@@ -5058,10 +5058,10 @@
     {
       "id": "CLM-IDR-COMPARATIVE",
       "document": "research/IDEAS.md",
-      "locator": "the ATR route row's 'structural precondition is COMPUTED and it holds' sentence",
+      "locator": "the ATR route row's 'the structural precondition is COMPUTED, and it SPLITS BY FUSION TYPE' sentence",
       "artifact": "ART-IDR-CENSUS",
       "field": "/emc_vs_measured_fusions_comparative/rows",
-      "note": "The comparative rows are the claim's actual support — EMC loses at least as much RGG content as each measured fusion."
+      "note": "The comparative rows are the claim's actual support. ⛔ AND AS OF 2026-09-02 (AUT-PD-208) THEY NO LONGER SUPPORT THE SENTENCE AS WRITTEN. The rows used to cover one EMC record; they now cover every reported EWSR1::NR4A3 type, and the answer splits — type 2 loses at least as much RGG content as all four measured comparator types, type 1 (the commonest) as one of four, type 5 as none. `holds_for_every_reported_emc_type` is false, and the single `holds_against_every_measured_type` boolean this note was written against is gone. The document's 'the structural precondition is COMPUTED and it holds' still reads as one verdict for EMC."
     },
     {
       "id": "CLM-CONSTRUCT-FRAME",

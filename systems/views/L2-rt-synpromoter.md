@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-SYNPROMOTER — Fusion-driven synthetic promoter → suicide gene
 
-**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ closed · scoped · confidence moderate · verified 2026-08-05
+**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ parked · scoped · confidence moderate · verified 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md#route-14---the-fusion-driven-synthetic-promoter-and-the-precise-reason-emc-is-a-harder-case-than-ewing)): Tier 3 — vector delivery, AND EMC lacks the neomorphic DNA-binding element the technique depends on
 
@@ -73,9 +73,7 @@ Registered with its refutation attached. The technique depends on the fusion cre
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | `TECH-VECTOR-DELIVERY` |
 
-## Blockers this route never FACES
-
-*This route is closed. It does not answer these blockers — its architecture never encounters them, so nothing here is a hedge the portfolio can spend.*
+## Blockers this route RETIRES
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer

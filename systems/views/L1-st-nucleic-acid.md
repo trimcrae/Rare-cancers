@@ -77,7 +77,7 @@ flowchart LR
 | **[RT-ASO-ASK](L2-rt-aso-ask.md)**<br/>Junction knockdown + parental sparing in EMC lines (the ask behind the ASO) | ○ blocked | scoped | `experimental_proposal` | [PUB-ASO](L3-publications.md) ◉ *contributing* | Send the ask alongside the preprint. The proposal is ready; the missing input is a person. |
 | **[RT-CRISPR-CAS13](L2-rt-crispr-cas13.md)**<br/>CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Keep registered. Watch vector delivery, not the nuclease. |
 | **[RT-RIBOZYME](L2-rt-ribozyme.md)**<br/>Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Keep registered at low priority. |
-| **[RT-SYNPROMOTER](L2-rt-synpromoter.md)**<br/>Fusion-driven synthetic promoter → suicide gene | ○ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Keep registered with the premise stated. If an EMC dataset lands, re-read the binding specificity before re-cl |
+| **[RT-SYNPROMOTER](L2-rt-synpromoter.md)**<br/>Fusion-driven synthetic promoter → suicide gene | ○ parked | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Keep registered with the premise stated. If an EMC dataset lands, re-read the binding specificity before re-cl |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NOT-FUSION-SELECTIVE** (`fundamental_biological_limit`) — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)

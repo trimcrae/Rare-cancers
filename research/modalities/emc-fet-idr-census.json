@@ -185,39 +185,188 @@
   "positive_controls_pass": true,
   "_control_rule": "AT LEAST ONE reported type of EACH measured fusion must read PRECONDITION_MET. They are the fusions the mechanism was measured on, so if the criterion cannot admit their architecture nothing else here may be quoted. \u26a0 The rule is 'any type', not 'all types', because a fusion's breakpoint varies between patients and this repo has no exon audit fixing which type the source's constructs used \u2014 a stricter rule would be answering a question the inputs cannot answer.",
   "_what_the_controls_calibrate": "If some reported type of a MEASURED fusion retains RG dipeptides and the mechanism was still observed, then 'loses the C-terminal RGG repeats' is satisfied by losing the BULK rather than literally all of them \u2014 which makes fraction_of_wildtype_RG_retained the quantity to compare EMC against, and the strict zero-RG verdict a CONSERVATIVE reading. Both are reported so the distinction is visible.",
-  "emc_canonical_EWSR1_NR4A3": {
-    "fet": "EWSR1",
-    "last_fet_residue_retained": 264,
-    "rgg_free_ceiling": 299,
-    "margin_to_ceiling": 35,
-    "rg_dipeptides_retained": 0,
-    "rg_dipeptides_total_in_wildtype": 30,
-    "fraction_of_wildtype_RG_retained": 0.0,
-    "rgg_boxes_touched": 0,
-    "retained_segment_composition": {
-      "span": [
-        1,
-        264
+  "emc_EWSR1_NR4A3_reported_types": {
+    "EWSR1_NR4A3_type1": {
+      "fet": "EWSR1",
+      "last_fet_residue_retained": 431,
+      "rgg_free_ceiling": 299,
+      "margin_to_ceiling": -132,
+      "rg_dipeptides_retained": 8,
+      "rg_dipeptides_total_in_wildtype": 30,
+      "fraction_of_wildtype_RG_retained": 0.267,
+      "rgg_boxes_touched": 1,
+      "retained_segment_composition": {
+        "span": [
+          1,
+          431
+        ],
+        "length": 431,
+        "sygq_fraction": 0.473
+      },
+      "precondition_met": false,
+      "verdict": "NOT_MET \u2014 the retained segment carries 8 RG dipeptide(s)",
+      "label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+      "reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+      "ewsr1_transcript_exon": 12,
+      "breakpoint_provenance": "EWSR1 transcript exon 12, cumulative coding nt 1294",
+      "breakpoint_sources": [
+        {
+          "id": "PMC3335514",
+          "quote": "The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript."
+        },
+        {
+          "id": "PMC4055444",
+          "quote": "The most frequent are: type 1, for the fusion between exons 12 of EWS and 3 of CHN, and type 5, between exons 13 of EWS and 3 of CHN."
+        },
+        {
+          "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+          "quote": "EWSR1 exon 12 forward ... and NR4A3 reverse A exon 3 ... for the type 1 EWSR1-NR4A3 fusion (109 base pair product)"
+        },
+        {
+          "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+          "quote": "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)"
+        }
       ],
-      "length": 264,
-      "sygq_fraction": 0.561
+      "registry_five_prime_residues_fully_encoded": 431,
+      "agrees_with_the_sourced_registry": true,
+      "registry_ensembl_matches_uniprot": true
     },
-    "precondition_met": true,
-    "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
-    "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793"
+    "EWSR1_NR4A3_type2": {
+      "fet": "EWSR1",
+      "last_fet_residue_retained": 264,
+      "rgg_free_ceiling": 299,
+      "margin_to_ceiling": 35,
+      "rg_dipeptides_retained": 0,
+      "rg_dipeptides_total_in_wildtype": 30,
+      "fraction_of_wildtype_RG_retained": 0.0,
+      "rgg_boxes_touched": 0,
+      "retained_segment_composition": {
+        "span": [
+          1,
+          264
+        ],
+        "length": 264,
+        "sygq_fraction": 0.561
+      },
+      "precondition_met": true,
+      "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+      "label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+      "reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+      "ewsr1_transcript_exon": 7,
+      "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793",
+      "breakpoint_sources": [
+        {
+          "id": "PMC3335514",
+          "quote": "exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript"
+        },
+        {
+          "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+          "quote": "EWSR1 exon 7 forward ... and NR4A3 reverse B exon 2 ... for the type 2 fusion (201 base pair product)"
+        }
+      ],
+      "registry_five_prime_residues_fully_encoded": 264,
+      "agrees_with_the_sourced_registry": true,
+      "registry_ensembl_matches_uniprot": true
+    },
+    "EWSR1_NR4A3_type5": {
+      "fet": "EWSR1",
+      "last_fet_residue_retained": 472,
+      "rgg_free_ceiling": 299,
+      "margin_to_ceiling": -173,
+      "rg_dipeptides_retained": 11,
+      "rg_dipeptides_total_in_wildtype": 30,
+      "fraction_of_wildtype_RG_retained": 0.367,
+      "rgg_boxes_touched": 2,
+      "retained_segment_composition": {
+        "span": [
+          1,
+          472
+        ],
+        "length": 472,
+        "sygq_fraction": 0.456
+      },
+      "precondition_met": false,
+      "verdict": "NOT_MET \u2014 the retained segment carries 11 RG dipeptide(s)",
+      "label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+      "reported_rank": "a minority reported type",
+      "ewsr1_transcript_exon": 13,
+      "breakpoint_provenance": "EWSR1 transcript exon 13, cumulative coding nt 1417",
+      "breakpoint_sources": [
+        {
+          "id": "PMC4055444",
+          "quote": "type 5, between exons 13 of EWS and 3 of CHN"
+        },
+        {
+          "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+          "quote": "The most frequent EWS/CHN transcript (10 tumors), was fusion of exon 12 of EWS with exon 3 of CHN (type 1), followed by fusion of exon 13 of EWS with exon 3 of CHN (two cases; type 5)."
+        }
+      ],
+      "registry_five_prime_residues_fully_encoded": 472,
+      "agrees_with_the_sourced_registry": true,
+      "registry_ensembl_matches_uniprot": true
+    }
+  },
+  "_why_this_key_is_not_called_canonical": "\u26d4 SUPERSEDED KEY, RETAINED HERE SO IT STAYS SEARCHABLE: this block was one record keyed `emc_canonical_EWSR1_NR4A3`. It held the exon-7 cut \u2014 EWSR1(1-264), reported TYPE 2, the SECOND-commonest EMC transcript \u2014 under a name asserting it is the canonical one, while the commonest reported type (EWSR1 e12, residue 431) was absent from the artifact entirely. The label drift was flagged in this module's docstring on 2026-08-03 and corrected in the prose that quotes it; the DATA is corrected here. \u26a0 Nothing measured was withdrawn \u2014 the 264-residue arithmetic is unchanged and is still the right comparator for EWSR1::FLI1 type 1. What changed is the name and the coverage. One home for the superseded figure: research/manuscripts/dependency/emc-atr-collaborator-package.md, appendix.",
+  "_reported_types_covered": {
+    "_how_they_got_here": "READ from the sourced junction registry (emc_fet_construct_designs.py::BREAKPOINTS -> emc-fet-construct-designs.json), which carries the literature quote licensing each exon number. \u26d4 No breakpoint is typed in this module, and a partner with no sourced transcript junction gets a sweep rather than an invented point.",
+    "ids": [
+      "EWSR1_NR4A3_type1",
+      "EWSR1_NR4A3_type2",
+      "EWSR1_NR4A3_type5"
+    ],
+    "registry_read_status": null
   },
   "emc_retained_half_vs_measured_fusions": {
-    "EWSR1::FLI1 (Ewing, type 1)": {
-      "emc_retained_len": 264,
-      "comparator_retained_len": 264,
-      "identical_over_shared_prefix": true,
-      "byte_identical": true
+    "EWSR1_NR4A3_type1": {
+      "label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+      "vs_measured_fusions": {
+        "EWSR1::FLI1 (Ewing, type 1)": {
+          "emc_retained_len": 431,
+          "comparator_retained_len": 264,
+          "identical_over_shared_prefix": true,
+          "byte_identical": false
+        },
+        "EWSR1::ATF1 (clear cell, type 1)": {
+          "emc_retained_len": 431,
+          "comparator_retained_len": 324,
+          "identical_over_shared_prefix": true,
+          "byte_identical": false
+        }
+      }
     },
-    "EWSR1::ATF1 (clear cell, type 1)": {
-      "emc_retained_len": 264,
-      "comparator_retained_len": 324,
-      "identical_over_shared_prefix": true,
-      "byte_identical": false
+    "EWSR1_NR4A3_type2": {
+      "label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+      "vs_measured_fusions": {
+        "EWSR1::FLI1 (Ewing, type 1)": {
+          "emc_retained_len": 264,
+          "comparator_retained_len": 264,
+          "identical_over_shared_prefix": true,
+          "byte_identical": true
+        },
+        "EWSR1::ATF1 (clear cell, type 1)": {
+          "emc_retained_len": 264,
+          "comparator_retained_len": 324,
+          "identical_over_shared_prefix": true,
+          "byte_identical": false
+        }
+      }
+    },
+    "EWSR1_NR4A3_type5": {
+      "label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+      "vs_measured_fusions": {
+        "EWSR1::FLI1 (Ewing, type 1)": {
+          "emc_retained_len": 472,
+          "comparator_retained_len": 264,
+          "identical_over_shared_prefix": true,
+          "byte_identical": false
+        },
+        "EWSR1::ATF1 (clear cell, type 1)": {
+          "emc_retained_len": 472,
+          "comparator_retained_len": 324,
+          "identical_over_shared_prefix": true,
+          "byte_identical": false
+        }
+      }
     }
   },
   "emc_TAF15_and_FUS_breakpoint_sweep": {
@@ -237,7 +386,49 @@
       "n_grid_points": 51,
       "n_meeting_precondition": 8,
       "fraction_of_grid_meeting_precondition": 0.157,
-      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument."
+      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument.",
+      "sourced_breakpoint": {
+        "label": "TAF15::NR4A3 \u2014 TAF15 exon 6 :: NR4A3 exon 3",
+        "reported_rank": "the only reported TAF15::NR4A3 coding junction",
+        "five_prime_last_exon_retained_transcript_rank": 6,
+        "breakpoint_sources": [
+          {
+            "id": "PMC3335514",
+            "quote": "In the TAF15-NR4A3 fusion transcript, exon 6 of TAF15 is fused exclusively to exon 3 of NR4A3"
+          },
+          {
+            "id": "PMC4055444",
+            "quote": "The chimeric gene RBP56/CHN is always formed by fusion between exons 6 of RBP56 and 3 of CHN."
+          },
+          {
+            "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+            "quote": "In tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN."
+          },
+          {
+            "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+            "quote": "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion"
+          }
+        ],
+        "_provenance": "residue index read from emc-fet-construct-designs.json, which derives it from the Ensembl exon map; this module holds no exon audit for TAF15 and derives nothing of its own here",
+        "fet": "TAF15",
+        "last_fet_residue_retained": 161,
+        "rgg_free_ceiling": 174,
+        "margin_to_ceiling": 13,
+        "rg_dipeptides_retained": 0,
+        "rg_dipeptides_total_in_wildtype": 31,
+        "fraction_of_wildtype_RG_retained": 0.0,
+        "rgg_boxes_touched": 0,
+        "retained_segment_composition": {
+          "span": [
+            1,
+            161
+          ],
+          "length": 161,
+          "sygq_fraction": 0.727
+        },
+        "precondition_met": true,
+        "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide"
+      }
     },
     "FUS": {
       "_what": "the precondition as a FUNCTION of breakpoint \u2014 no breakpoint is assumed",
@@ -255,47 +446,244 @@
       "n_grid_points": 44,
       "n_meeting_precondition": 12,
       "fraction_of_grid_meeting_precondition": 0.273,
-      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument."
+      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument.",
+      "sourced_breakpoint": {
+        "_status": "no transcript-level FUS junction is sourced in this repo's literature cache, so no point is pinned on the sweep \u2014 the sweep IS the answer for this fusion"
+      }
     }
   },
   "emc_vs_measured_fusions_comparative": {
-    "_claim_under_test": "EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED",
+    "_claim_under_test": "for EACH reported EWSR1::NR4A3 transcript type, that type loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED",
+    "_why_per_type": "\u26d4 this was one boolean over one record keyed `emc_canonical_EWSR1_NR4A3`, which held the exon-7 cut \u2014 reported TYPE 2, the second-commonest \u2014 so the flag answered for the type the artifact happened to carry and read as though it answered for EMC. The reported types do not agree with each other, so there is no honest single flag to print.",
     "rows": [
       {
+        "emc_fusion_type": "EWSR1_NR4A3_type1",
+        "emc_label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+        "emc_reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 12,
+        "emc_last_fet_residue_retained": 431,
+        "emc_RG_retained_fraction": 0.267,
         "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
         "ewsr1_transcript_exon": 7,
         "comparator_RG_retained_fraction": 0.0,
-        "emc_RG_retained_fraction": 0.0,
-        "emc_loses_at_least_as_much": true
+        "emc_loses_at_least_as_much": false
       },
       {
+        "emc_fusion_type": "EWSR1_NR4A3_type1",
+        "emc_label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+        "emc_reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 12,
+        "emc_last_fet_residue_retained": 431,
+        "emc_RG_retained_fraction": 0.267,
         "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
         "ewsr1_transcript_exon": 8,
         "comparator_RG_retained_fraction": 0.233,
-        "emc_RG_retained_fraction": 0.0,
-        "emc_loses_at_least_as_much": true
+        "emc_loses_at_least_as_much": false
       },
       {
+        "emc_fusion_type": "EWSR1_NR4A3_type1",
+        "emc_label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+        "emc_reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 12,
+        "emc_last_fet_residue_retained": 431,
+        "emc_RG_retained_fraction": 0.267,
         "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
         "ewsr1_transcript_exon": 7,
         "comparator_RG_retained_fraction": 0.0,
-        "emc_RG_retained_fraction": 0.0,
-        "emc_loses_at_least_as_much": true
+        "emc_loses_at_least_as_much": false
       },
       {
+        "emc_fusion_type": "EWSR1_NR4A3_type1",
+        "emc_label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+        "emc_reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 12,
+        "emc_last_fet_residue_retained": 431,
+        "emc_RG_retained_fraction": 0.267,
         "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
         "ewsr1_transcript_exon": 10,
         "comparator_RG_retained_fraction": 0.267,
-        "emc_RG_retained_fraction": 0.0,
         "emc_loses_at_least_as_much": true
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type2",
+        "emc_label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+        "emc_reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 7,
+        "emc_last_fet_residue_retained": 264,
+        "emc_RG_retained_fraction": 0.0,
+        "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type2",
+        "emc_label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+        "emc_reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 7,
+        "emc_last_fet_residue_retained": 264,
+        "emc_RG_retained_fraction": 0.0,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 8,
+        "comparator_RG_retained_fraction": 0.233,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type2",
+        "emc_label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+        "emc_reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 7,
+        "emc_last_fet_residue_retained": 264,
+        "emc_RG_retained_fraction": 0.0,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type2",
+        "emc_label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+        "emc_reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+        "emc_ewsr1_transcript_exon": 7,
+        "emc_last_fet_residue_retained": 264,
+        "emc_RG_retained_fraction": 0.0,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 10,
+        "comparator_RG_retained_fraction": 0.267,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type5",
+        "emc_label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+        "emc_reported_rank": "a minority reported type",
+        "emc_ewsr1_transcript_exon": 13,
+        "emc_last_fet_residue_retained": 472,
+        "emc_RG_retained_fraction": 0.367,
+        "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": false
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type5",
+        "emc_label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+        "emc_reported_rank": "a minority reported type",
+        "emc_ewsr1_transcript_exon": 13,
+        "emc_last_fet_residue_retained": 472,
+        "emc_RG_retained_fraction": 0.367,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 8,
+        "comparator_RG_retained_fraction": 0.233,
+        "emc_loses_at_least_as_much": false
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type5",
+        "emc_label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+        "emc_reported_rank": "a minority reported type",
+        "emc_ewsr1_transcript_exon": 13,
+        "emc_last_fet_residue_retained": 472,
+        "emc_RG_retained_fraction": 0.367,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": false
+      },
+      {
+        "emc_fusion_type": "EWSR1_NR4A3_type5",
+        "emc_label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+        "emc_reported_rank": "a minority reported type",
+        "emc_ewsr1_transcript_exon": 13,
+        "emc_last_fet_residue_retained": 472,
+        "emc_RG_retained_fraction": 0.367,
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 10,
+        "comparator_RG_retained_fraction": 0.267,
+        "emc_loses_at_least_as_much": false
       }
     ],
-    "holds_against_every_measured_type": true,
-    "_why_this_and_not_an_absolute_bar": "the controls show the absolute bar is conservative \u2014 a measured fusion violates it \u2014 so a comparison is what the evidence supports and it needs no threshold that could be tuned"
+    "per_emc_type": {
+      "EWSR1_NR4A3_type1": {
+        "label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+        "reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+        "emc_RG_retained_fraction": 0.267,
+        "n_measured_types_it_holds_against": 1,
+        "n_measured_types": 4,
+        "holds_against_every_measured_type": false,
+        "measured_types_it_does_not_hold_against": [
+          {
+            "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
+            "ewsr1_transcript_exon": 7,
+            "comparator_RG_retained_fraction": 0.0
+          },
+          {
+            "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+            "ewsr1_transcript_exon": 8,
+            "comparator_RG_retained_fraction": 0.233
+          },
+          {
+            "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+            "ewsr1_transcript_exon": 7,
+            "comparator_RG_retained_fraction": 0.0
+          }
+        ]
+      },
+      "EWSR1_NR4A3_type2": {
+        "label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+        "reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+        "emc_RG_retained_fraction": 0.0,
+        "n_measured_types_it_holds_against": 4,
+        "n_measured_types": 4,
+        "holds_against_every_measured_type": true,
+        "measured_types_it_does_not_hold_against": []
+      },
+      "EWSR1_NR4A3_type5": {
+        "label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+        "reported_rank": "a minority reported type",
+        "emc_RG_retained_fraction": 0.367,
+        "n_measured_types_it_holds_against": 0,
+        "n_measured_types": 4,
+        "holds_against_every_measured_type": false,
+        "measured_types_it_does_not_hold_against": [
+          {
+            "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
+            "ewsr1_transcript_exon": 7,
+            "comparator_RG_retained_fraction": 0.0
+          },
+          {
+            "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+            "ewsr1_transcript_exon": 8,
+            "comparator_RG_retained_fraction": 0.233
+          },
+          {
+            "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+            "ewsr1_transcript_exon": 7,
+            "comparator_RG_retained_fraction": 0.0
+          },
+          {
+            "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+            "ewsr1_transcript_exon": 10,
+            "comparator_RG_retained_fraction": 0.267
+          }
+        ]
+      }
+    },
+    "holds_for_every_reported_emc_type": false,
+    "reported_types_it_holds_for": [
+      "EWSR1_NR4A3_type2"
+    ],
+    "reported_types_it_fails_for": [
+      "EWSR1_NR4A3_type1",
+      "EWSR1_NR4A3_type5"
+    ],
+    "_reading": "the claim holds for the reported types in `reported_types_it_holds_for` and FAILS for those in `reported_types_it_fails_for`. \u26d4 A failure here is not evidence that the mechanism is absent: it says the comparison the controls license does not reach that type, so that type's answer rests on nothing this module computed. What each failing type still has is its position on the same axis, reported in `per_emc_type` \u2014 read it there and not as a verdict.",
+    "_why_this_and_not_an_absolute_bar": "the controls show the absolute bar is conservative \u2014 a measured fusion violates it \u2014 so a comparison is what the evidence supports and it needs no threshold that could be tuned",
+    "_what_was_NOT_changed_to_get_this_answer": "the criterion. `precondition_met` is still `rg_dipeptides_retained == 0`, the comparison is still `emc_frac <= comparator_frac`, and the control rule is still 'at least one reported type of each measured fusion must read PRECONDITION_MET'. Loosening any of them to admit more EMC types would be the cycle rewriting the bar that inconveniences it; the split is the result."
   },
   "_limits": [
     "This is a SEQUENCE argument about a structural precondition. It cannot show that any NR4A3 fusion is actually recruited to double-strand breaks or actually suppresses ATM \u2014 those are the wet-lab measurements the route asks for.",
     "The RGG and IDR definitions are operational. A different threshold could move a box boundary; the controls exist so that a definition which cannot recover the measured fusions' architecture is caught rather than trusted.",
-    "TAF15 and FUS breakpoints are swept, not known. A sweep answers 'for which breakpoints does this hold', never 'this is the breakpoint'."
+    "FUS::NR4A3's breakpoint is swept, not known \u2014 no exon-level junction for it is sourced in this repo's literature cache. A sweep answers 'for which breakpoints does this hold', never 'this is the breakpoint'. TAF15::NR4A3 keeps its sweep and additionally carries the one point the literature does pin ('exclusively', 'always').",
+    "The EWSR1::NR4A3 coverage is exactly the reported types the sourced registry carries \u2014 types 1, 2 and 5. A reported type the registry does not carry is absent here, and its absence is a statement about this repo's literature cache, not about the disease.",
+    "The comparative answer SPLITS across those types and is reported per type. A reader wanting one number for EMC will not find one, because the reported types disagree and this module will not average them into a verdict."
   ]
 }

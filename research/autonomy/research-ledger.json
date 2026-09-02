@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 185,
-    "in_progress": 11,
+    "done": 186,
+    "in_progress": 9,
     "parked": 30,
-    "queued": 167,
+    "queued": 168,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1531,24 +1531,24 @@
     {
       "id": "AUT-PD-208-11f2347b-8e081d15",
       "kind": "process_defect",
-      "what": "⛔ THE STRUCTURAL CENSUS ARTIFACT STILL CALLS EMC'S SECOND-COMMONEST FUSION 'canonical' AND RUNS ITS WHOLE COMPARATIVE VERDICT ON IT — THE CORRECTION REACHED THE PROSE AND NOT THE ARTIFACT (PUB-ATR round 4; hostile seat P1[0] and consistency seat P1[4], independently).\n★ THE STATE, MEASURED. `emc-fet-idr-census.json` holds exactly ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`, and it is EWSR1(1-264) / 0 of 30 RG / precondition_met true — i.e. TYPE 2. `grep -c 431` over the whole file returns 0, so the COMMONEST fusion is not in it at all. Its `emc_vs_measured_fusions_comparative._claim_under_test` — \"EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED\" — carries `holds_against_every_measured_type: true` at emc_RG_retained_fraction 0.0 on all four rows. Substituting type 1's 0.267 (from emc-fet-construct-designs.json) against the two comparator rows at 0.0 makes `emc_loses_at_least_as_much` FALSE on two of four, so the flag would invert.\n★ THE MANUSCRIPT IS NOW CORRECT AND THE ARTIFACT IS NOT, WHICH IS THE WRONG WAY ROUND. This round's repair states in the paper which artifact carries which fusion and that the comparative claim is computed for type 2 only. THE FIX IS IN THE PRODUCER: rekey off 'canonical', add types 1 and 5, and report the comparative block PER TYPE. ⛔ Do NOT loosen the census criterion to make type 1 pass — the committed `_what_the_controls_calibrate` note is already the honest resolution (EWSR1::ATF1 exon 10, a MEASURED fusion, retains the same 8 of 30 and also reads NOT_MET, so the strict verdict is conservative and the retained FRACTION is the quantity to compare).\n★ AND THE SAME REGENERATION CLOSES A SECOND GAP IN THE SAME ARTIFACT (hostile seat P1[2]). `_control_rule` says the positive controls are \"the fusions the mechanism was measured on\" and carries TWO — EWSR1::FLI1 and EWSR1::ATF1, both EWSR1. The source measured it on FOUR across four diseases: those two plus EWSR1::WT1 (DSRCT) and FUS::CHOP (myxoid liposarcoma), the last a FUS fusion, verbatim in atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml. So the census's operational definitions — EWSR1's 30 RG dipeptides, the residue-299 RGG-free ceiling — are NEVER calibrated against a non-EWSR1 FET protein, while EMC's own minority partners include TAF15 and FUS and this document sweeps them. ⚠ The manuscript now DISCLOSES both halves (banner); what is open is the artifact. ⛔ Adding the two controls is a test of the definition, not a formality: if the precondition's definitions cannot recover FUS::CHOP's architecture, they do not generalise across the family they are being applied to, and that is a finding.",
+      "what": "⛔ REMAINING HALF ONLY — THE POSITIVE CONTROLS ARE STILL BOTH EWSR1, AND THAT IS BLOCKED ON A BREAKPOINT NO COMMITTED SOURCE CARRIES. `emc-fet-idr-census.json` -> `positive_controls` holds TWO entries, EWSR1::FLI1 and EWSR1::ATF1, while `atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml` names FOUR measured fusions across four diseases — those two plus EWSR1::WT1 (DSRCT) and FUS::CHOP (myxoid liposarcoma), the last a FUS fusion. So the census's operational definitions (EWSR1's 30 RG dipeptides, the residue-299 RGG-free ceiling) are never calibrated against a non-EWSR1 FET protein, while EMC's own minority partners include TAF15 and FUS.\n⛔ WHAT IT WAITS ON, MEASURED 2026-09-02 (s34-census-rekey): NO exon-level junction for EWSR1::WT1 or FUS::DDIT3 exists anywhere in this repository — `grep -rn` over research/modalities for an exon-resolution WT1 or DDIT3/CHOP junction statement returns nothing, and `emc_fet_construct_designs.py::BREAKPOINTS` carries none. Adding those two controls therefore needs a $0 literature fetch (PMC full text for the two junctions, with the quote), NOT a regeneration. Inventing a breakpoint to get the control is refused. ⛔ Adding them is a test of the definition, not a formality: if the precondition's definitions cannot recover FUS::CHOP's architecture, they do not generalise across the family they are applied to, and that is a finding.\n✅ DONE 2026-09-02 (s34-census-rekey) — THE REKEY HALF, IN THE PRODUCER. `emc_fet_idr_census.py` no longer writes `emc_canonical_EWSR1_NR4A3`. It writes `emc_EWSR1_NR4A3_reported_types`, a map over EVERY reported EWSR1::NR4A3 type, keyed by the sourced registry's own ids, and it READS which types exist and at which exon each breaks from `emc-fet-construct-designs.json` (projected from `emc_fet_construct_designs.py::BREAKPOINTS`, which carries the literature quote licensing each exon number) — so no breakpoint is typed in the census and both artifacts move from one home. Each type's residue index is derived here from `nr4a3-exon-audit.json` and cross-checked against the registry's own arithmetic (`agrees_with_the_sourced_registry`: true for all three).\n✅ THE ARTIFACT NOW READS: type 1 (e12::e3, commonest) EWSR1(1-431), 8 of 30 RG, fraction 0.267, NOT_MET; type 2 (e7::e2, second) EWSR1(1-264), 0 of 30, 0.000, PRECONDITION_MET; type 5 (e13::e3, minority) EWSR1(1-472), 11 of 30, 0.367, NOT_MET. `431` and `472` now occur in the file. The TAF15::NR4A3 sweep additionally carries the one point the literature pins (TAF15 e6::NR4A3 e3, TAF15(1-161), 0 of 31, PRECONDITION_MET); FUS::NR4A3 stays a pure sweep because no exon-level FUS junction is sourced.\n✅ AND THE COMPARATIVE BLOCK IS PER TYPE, WITH NO FLAG STANDING FOR ALL OF THEM. `holds_against_every_measured_type` (one boolean, computed on the single exon-7 record) is GONE. `emc_vs_measured_fusions_comparative.rows` is now 12 rows (3 EMC types x 4 measured comparator types), `per_emc_type` rolls each up, and `holds_for_every_reported_emc_type` is FALSE. Per type, against the four measured comparator types: type 2 holds 4 of 4; type 1 holds 1 of 4 (only EWSR1::ATF1 e10 at 0.267, which it TIES; it fails against FLI1 e7 0.0, ATF1 e7 0.0 and ATF1 e8 0.233 — three of four, not the two the filing predicted); type 5 holds 0 of 4.\n⛔ NOTHING WAS LOOSENED TO REACH THAT. `precondition_met` is still `rg_dipeptides_retained == 0`, the comparison is still `emc_fraction <= comparator_fraction`, and `_control_rule` is unchanged. The split IS the result.\n★ MANUSCRIPT CONSEQUENCE, at commit 78d345d35b467dca41adcb479666257080f149bb of research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (NOT edited — it is pinned under a live blind round; a later apply pass says this): LINE 119, the provenance cell, is now wrong in four places — \"[`emc_fet_idr_census.py`] holds **one** EMC record, keyed `emc_canonical_EWSR1_NR4A3`; it is **type 2**, and `431` does not occur in that file\" (it holds three, the key is gone, 431 occurs); \"**Types 1 and 5, and every `NOT_MET`, come from** [`emc_fet_construct_designs.py`]\" (they are now in both artifacts); and \"⛔ **So the census's comparative claim — EMC loses at least as much RGG content as every measured fusion — is computed for type 2 and for no other**, and type 1's 0.267 against EWSR1::FLI1's 0.0 would invert it\" (it is computed for all three, and the inversion is measured rather than hypothetical: 4/4, 1/4, 0/4). LINE 40's sole citation of the split verdict to \"[`emc-fet-construct-designs.json`]\" is now incomplete rather than wrong. ✅ LINE 150's row — \"`PRECONDITION_MET` for type 2; `NOT_MET` for types 1 and 5 ... [`emc_fet_idr_census.py`]\" — cited the census for a fact the census did not carry, and is now TRUE as written. ✅ LINES 29-32 — \"The structural census carries only the first two as positive controls and both are EWSR1 ... never calibrated against a non-EWSR1 FET protein\" — STANDS VERBATIM; that is the half this row still holds open.\n★ ALSO APPLIED (not pinned, so corrected in place): research/manuscripts/program/emc-post-degrader-options.md route 1 (the \"EMC, canonical\" table row relabelled to reported type 2, the byte-identity headline, the \"EMC loses at least as much RGG content as every fusion in which ATM suppression has been measured\" sentence superseded-and-retained with the per-type table beside it, and the §closing checklist item 5), and research/IDEAS.md's ATR route \"DONE - the structural precondition is COMPUTED and it holds\" cell. No number was changed in either; the labels and the scope were.",
       "serves": {
         "route": "RT-ATR-ASSESS",
         "publication": "PUB-ATR",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "s34-census-rekey",
-      "claimed_utc": "2026-09-02T19:51:43Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-02",
       "filed_by": "AUT-010",
-      "depends_on_evidence": "research/modalities/emc-fet-idr-census.json -> emc_canonical_EWSR1_NR4A3 (last_fet_residue_retained 264) and emc_vs_measured_fusions_comparative.holds_against_every_measured_type true; research/modalities/emc-fet-construct-designs.json -> constructs[] carries types 1/2/5 with census_precondition_verdict NOT_MET / PRECONDITION_MET / NOT_MET. Positive-control half: research/modalities/emc-fet-idr-census.json -> positive_controls holds 2 entries, both EWSR1; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml names 4 measured fusions across 4 diseases.",
+      "depends_on_evidence": "research/modalities/emc-fet-idr-census.json -> emc_EWSR1_NR4A3_reported_types carries types 1/2/5 (431 / 264 / 472; 8 / 0 / 11 of 30) and emc_vs_measured_fusions_comparative.per_emc_type + holds_for_every_reported_emc_type=false; research/modalities/emc-fet-construct-designs.json -> constructs[].breakpoint_sources is the one home of every reported exon junction the census reads. OPEN HALF: research/modalities/emc-fet-idr-census.json -> positive_controls still holds 2 entries, both EWSR1; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml names 4 measured fusions across 4 diseases; no exon-level EWSR1::WT1 or FUS::DDIT3 junction is committed anywhere in this repository.",
       "prerequisite_of": null,
       "closes_clause": null,
       "requires_trimcrae": false,
@@ -4105,6 +4105,43 @@
       ]
     },
     {
+      "id": "AUT-PD-088",
+      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.\n\n★ RESOLVED 2026-09-02 by s38-closed-vs-parked. THE SWEEP WAS A CENSUS, NOT A SPOT-CHECK: all 77 routes tested in both directions. §4.1's literal test (`closed` carrying a `TECH-*`) has EXACTLY TWO hits -- RT-SYNPROMOTER and RT-RXR. The other direction (`parked` carrying no `TECH-*`) has ZERO. RT-6MP carries a `TR-*` and no `TECH-*`, so it passes §4.1's letter and fails its sense.\n⭐ THE DECISIVE EVIDENCE IS NOT §4.1's PROSE -- IT IS THE ENFORCED CLOSURE MODEL. All three routes are `closure_kind: premise_false`, which `research/manuscripts/emc-systems-map.json._closure_model` declares `permanent: false, needs_trigger: true` ('a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes'). The map and the graph therefore DISAGREED, and the map is the half with a checker. So the STATE field was wrong in all three; the triggers are not stale, they are required by the model that governs them.\n⭐ INDEPENDENT CORROBORATION FROM A FIELD NOT TOUCHED: `state.work_state`. research-object.schema.json says '`dead` requires positive evidence of impossibility; a method that merely failed is `parked`'. The three routes that ARE correctly closed (RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-DBD -- definitional / arithmetic_over_fixed_fact) are all `work_state: dead`. RT-SYNPROMOTER is `future`; RT-RXR and RT-6MP are `complete`. NONE of the three moved is `dead`. The graph already said they were not dead.\nCHANGED: `state.status` closed -> parked on RT-SYNPROMOTER, RT-RXR, RT-6MP; and `timing.recommendation` closed -> monitor on RT-RXR and RT-6MP, because a `closed` timing recommendation asserts the route 'must appear on no watch list' (RT-EWSR1-PROTEIN's own words) which contradicts `parked`. RANKING-NEUTRAL: `priority.py` reads `recommendation` only as `== 'pursue_now'`, so `closed` and `monitor` score identically. VERIFIED BY FIELD-BY-FIELD DIFF over all 77 routes: 5 field changes, 0 touching `grade`/`readiness`/`blockers_inherited`, 3 routes touched.\n★ WHAT THE CHANGE ACTUALLY BUYS: `priority.py::_kind` returns `regrade` for a route that is `parked` AND carries a `revival_trigger`, and returns it for no `closed` route -- so these three now enter the re-test schedule (emc-autonomy-architecture.md §8.2). It does NOT queue them as work: `parked` and `closed` are both in `NOT_TAKEABLE_STATUSES`, and `is_live` reads `work_state`+`closure_kind`, not `status`, so it is unchanged.\n⛔ LIVE READINGS TAKEN 2026-09-02 (rung 0 WebSearch, per ci-escape-hatches §0) RATHER THAN REMEMBERED -- NO TRIGGER HAS FIRED, so no route is live that was not live before:\n (a) RT-RXR / TECH-RXR-HETERODIMER-REPORT: NOT LANDED. The 2026 eLife paper 'Towards a unified molecular mechanism for ligand-dependent activation of NR4A-RXR heterodimers' works on Nurr1-RXRalpha (NR4A2) and Nur77-RXRgamma (NR4A1); it does not report NR4A3/NOR-1 heterodimerising with RXR. The published negative -- NOR-1 unable to form RXR heterodimers, which is what distinguishes it from NGFI-B and Nurr1 -- stands. `current_state: absent` is now CONFIRMED rather than assumed. ⚠ But the field is actively working this axis and the paper's own stated aim is to test whether the mechanism is shared ACROSS NR4A-RXR heterodimers, which makes the trigger more watch-worthy, not less -- the argument for `parked` over `closed`. ⚠ The TECH carries 4 UNGRADED scan signals; none is a heterodimer report (checked).\n (b) RT-6MP / TR-NR4A3-DIRECTION-OF-EFFECT: NOT LANDED. No report links 6-MP to the direction of effect on the EWSR1::NR4A3 fusion. The gain-of-function prior the closure rests on is corroborated (the fusion is a potent transcriptional activator), but that is the PRIOR, not the demonstration the trigger names.\n (c) RT-SYNPROMOTER / TECH-VECTOR-DELIVERY: NOT LANDED -- the vector-delivery literature is still hepatic and ex vivo; no solid-tumour platform at the coverage this route assumes. `current_state: absent` confirmed. TECH-EMC-EXPRESSION-DATA: still `early_signals`; a 2026 16-case EMC molecular study exists but whether it deposited data publicly is UNKNOWN and is left to the scan's human grader -- systems_check [X4] states the scan deliberately cannot change `current_state` itself.\n★ GUARD ADDED so this cannot regress silently: `systems_check.check_closed_carries_no_reopening_trigger` emits ERROR `[T8]` when a `closed` route names ANY reopening condition, `TECH-*` or `TR-*`. It is STRICTER than §4.1 (which names only `TECH-*`, because it predates the `TR-*` registry minted 2026-08-06) and so cannot contradict it. MUTATION-TESTED 4/4: reverting each of the three routes to `closed` fires [T8] naming that route (RT-6MP on the `TR-*` alone, which is the half §4.1's wording would have missed); RT-DBD reverted to `closed` correctly does NOT fire. routes.json restored byte-identical (sha256 273fa9d3e450ae79aea219b11843f20a49dd50db1fdc6637583c7ceecd824393).\n⚠ NO COMMITTED UNIT TEST FOR THE GUARD, AND THAT IS A BUDGET DECISION NOT AN OVERSIGHT: the guard lives in systems_check (cheapest tier, 0 test functions) but a pytest for it would land in `systems/tests`, which is in the `commit-loop` tier at 1393/1400 -- 7 functions of headroom. CLAUDE.md §6: raising a ceiling is the last of the three answers. A session with headroom should add one.\n⛔ THREE FINDINGS RECORDED RATHER THAN ACTED ON (out of this row's scope):\n 1. RT-DIAGNOSTIC-PATHWAY is `closed` with `closure_kind: premise_false` (non-permanent, needs_trigger) and NO trigger of any kind, and its `timing.recommendation` is still `pursue_now` -- stale, never updated when trimcrae closed it 2026-08-23 ('this is not a paper... drop it'). It carries no TECH-* so it does not violate §4.1 and was LEFT ALONE. Its closure is a scope decision, which no capability revives, so the likely defect is `closure_kind`, whose owner should rule. It is also the one graph-closed route ABSENT from emc-systems-map.json (40 routes vs the graph's 77), so its mismatch is unchecked from both directions.\n 2. RT-6MP is now parked on a `TR-*` with NO `TECH-*` mirror, and TR-NR4A3-DIRECTION-OF-EFFECT has `on_watch_list: false` and no `scan_trigger` -- so NOTHING SCANS FOR IT. RT-RXR's equivalent published-measurement condition does have a TECH-* mirror with a scan trigger. A parked route whose trigger nothing watches is this row's own defect one layer down. Minting the technology needs a forecast, so it is a graph change for the registry's owner, not a check.\n 3. CONVENTIONS.md §4.1 still names only `TECH-*`. The guard is stricter so nothing is misled, but the doc could be updated to name the `TR-*` register too. NOT done here deliberately: editing the convention in the same commit that enforces it is the shape `amendment_guard` refuses.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "score": 129.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:03:55Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-031",
       "kind": "process_defect",
       "process_defect": true,
@@ -5161,44 +5198,6 @@
       "score": 121.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. One fact, two sources, both in the released deposit: the seven-to-ten hybridised-nucleotide RNase-H1 range is attributed to PMID 35664704 in the artifact and to PMID 24981949 in the journal article. lint_citations structurally cannot see it — both resolve; the defect is that two works are credited for one number.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
-    },
-    {
-      "id": "AUT-PD-088",
-      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s38-closed-vs-parked",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02",
-        "fruitless_attempts": 1
-      },
-      "score": 121.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T20:03:55Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T20:03:55Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-168",
@@ -10337,7 +10336,7 @@
       "parked_on": [
         "TR-NR4A3-DIRECTION-OF-EFFECT"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -11051,7 +11050,7 @@
         "TECH-VECTOR-DELIVERY",
         "TR-VECTOR-TUMOUR-DELIVERY"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -11690,7 +11689,7 @@
         "TECH-RXR-HETERODIMER-REPORT",
         "TR-NR4A3-RXR-HETERODIMER-REPORT"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
