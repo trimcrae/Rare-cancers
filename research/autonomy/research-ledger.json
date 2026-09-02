@@ -32,8 +32,8 @@
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 24,
-  "n_unscored_open": 1,
+  "n_unscored": 23,
+  "n_unscored_open": 0,
   "entries": [
     {
       "serves": {
@@ -13157,7 +13157,21 @@
       "retry_budget": 3,
       "score_inputs": {
         "blocked_on_human": true
-      }
+      },
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_strategy_was": "ST-AUTONOMY",
+        "_strategy_remap_note": "⛔ `ST-AUTONOMY` NAMES NO ID IN systems/graph/strategies.json (13 ids) — the driver invented it when filing this row, and `priority.py` refused it. Nulled per the AUT-PD-177 convention rather than added to the graph, because adding it would manufacture a strategy to satisfy a pointer, which is a claim about the architecture the architecture does not make.\n★ AND NULL IS THE HONEST VALUE HERE, not a placeholder: this proposal serves no route, no paper and no strategy. It is a governance change about how bars are DECLARED, so its beneficiary is the loop's own integrity. Inventing a served id to make it rank would be the scoring equivalent of the defect the proposal describes."
+      },
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "_score_basis": "HAND-SET, AS THE LEDGER'S `_role` REQUIRES OF A SESSION-ADDED ROW: 'AN ENTRY A SESSION ADDS MUST CARRY A `score` AND A `_score_basis` … a row with no score is pinned BELOW every scored row by the sort and no ranking term can reach it — including the anti-starvation age factor.' This row served no route, paper or strategy, so `apply_route_inheritance` had no floor to inherit and the scorer returned None.\n★ 95.0 IS DELIBERATELY LOW AND THE REASONING IS THE POINT. It sits below every open process_defect (125-137) and far below live research (the eligibility map at 160.0, the ATR assessment at 190.9), because CLAUDE.md §0 is explicit that live routes outrank the loop's own housekeeping. A proposal about how bars get declared advances no EMC route and reaches no patient. Ranking it near the top would be this repository's most-named failure — the loop documenting itself instead of doing research — committed by the very row that complains about ungoverned rules.\n⛔ IT IS FILED SO IT IS NOT LOST, NOT SO IT IS TAKEN NEXT. It also `requires_trimcrae`, so a high score would only surface it faster to a queue that cannot act on it.",
+      "_score_basis_provenance": "Set by the driver 2026-09-02 after `test_an_unscored_row_is_ranked_by_nothing` and `test_the_unscored_population_can_only_shrink` went red on this row. ⛔ THE FAILURE WAS MISATTRIBUTED FIRST: a seat reported the three red tests as pre-existing trunk debt reproducing on clean `origin/main`, which was true only because this row had already been pushed to main when it looked. All 23 other unscored rows are `done`; the guard is about the OPEN population, and this row took it from 0 to 1. Checking cost one command and stopped a false 'not mine'.",
+      "score": 95.0
     },
     {
       "id": "AUT-113-11f2347b-f050ad8a",
