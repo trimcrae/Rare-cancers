@@ -134,9 +134,25 @@ DAMAGING_CALL_CANDIDATES = [
     ("Variant_annotation", {"damaging"},
      "the pre-23Q2 spelling of VariantInfo."),
 ]
-# A LOOSER call, reported as a sensitivity arm only. Never the primary.
-NONCONSERVING_CANDIDATES = [
-    ("VariantInfo", {"damaging", "other non-conserving"}),
+# ⭐ A SECOND, INDEPENDENT DEFINITION — PROTEIN-TRUNCATING BY CONSEQUENCE TERM. Sensitivity arm
+# only, never the primary.
+# ⛔ ITS VALUE SET SPANS TWO VOCABULARIES BECAUSE DEPMAP CHANGED ONE UNDER THE SAME COLUMN NAME, AND
+# THIS MODULE'S OWN AUDIT IS WHAT CAUGHT IT. In 24Q4 `VariantInfo` holds VEP sequence-ontology
+# consequence terms — measured from the fetched file: `missense_variant` 136, `stop_gained` 23,
+# `frameshift_variant` 18, `splice_donor_variant` 4, `splice_acceptor_variant` 4 over ATM's 188 rows.
+# Older releases shipped SEVERITY CLASSES (`damaging`, `other non-conserving`) under that same
+# column. The first draft asked only for the severity classes, so this arm matched NOTHING and
+# collapsed to n=1 — which reads as "ATM has no non-conserving variants" when the truth is "the
+# value vocabulary moved". ⚠ That is the `_pick_damaging_column` audit doing its job on the very
+# release it was written for, and it is why the audit is written to the artifact rather than
+# consulted once and discarded.
+# ⭐ WHY THIS ARM IS WORTH HAVING AT ALL: the primary arm trusts DepMap's `LikelyLoF` model, and a
+# null that rests on one vendor's classifier is weaker than one that also holds under a definition
+# anybody can recompute from a consequence term.
+TRUNCATING_CANDIDATES = [
+    ("VariantInfo", {"stop_gained", "frameshift_variant", "splice_donor_variant",
+                     "splice_acceptor_variant", "start_lost", "stop_lost",
+                     "damaging", "other non-conserving"}),
     ("Variant_annotation", {"damaging", "other non-conserving"}),
 ]
 
@@ -587,9 +603,9 @@ def _arm_definition(inp, gene):
     col, accepted, note, dist, audit = _pick_damaging_column(
         mut.get("columns"), rows, DAMAGING_CALL_CANDIDATES)
     damaged = _damaged_models(rows, col, accepted)
-    lcol, laccepted, _lnote, _ldist, _laudit = _pick_damaging_column(
+    lcol, laccepted, _lnote, ldist, laudit = _pick_damaging_column(
         mut.get("columns"), rows,
-        [(c, a, "looser non-conserving call") for c, a in NONCONSERVING_CANDIDATES])
+        [(c, a, "protein-truncating by consequence term") for c, a in TRUNCATING_CANDIDATES])
     loose = _damaged_models(rows, lcol, laccepted)
 
     scale = _detect_cn_scale(cn.get("panel_median_sample"))
@@ -604,7 +620,9 @@ def _arm_definition(inp, gene):
         "damaging_call_note": note,
         "damaging_call_value_distribution_over_this_gene": dist,
         "damaging_call_candidate_audit": audit,
-        "nonconserving_call_column": lcol,
+        "truncating_call_column": lcol,
+        "truncating_call_candidate_audit": laudit,
+        "truncating_call_value_distribution_over_this_gene": ldist,
         "n_rows_for_this_gene_in_mutation_file": len(rows),
         "n_models_sequenced": len(seq_models),
         "n_models_with_cn_call": len(cn_models),
@@ -613,7 +631,7 @@ def _arm_definition(inp, gene):
         "cn_used": cut is not None,
         "n_models_damaging_mutation": len(damaged),
         "n_models_deep_deletion": len(deleted),
-        "n_models_nonconserving_or_worse": len(loose),
+        "n_models_protein_truncating": len(loose),
         "_sets": {"damaged": damaged, "deleted": deleted, "loose": loose,
                   "sequenced": seq_models, "cn_profiled": cn_models},
     }
@@ -765,7 +783,7 @@ def derive(inp):
             "primary_damaging_mutation_or_deep_deletion": null_primary,
             "damaging_mutation_only": sets["damaged"] & gdsc_models,
             "deep_deletion_only": sets["deleted"] & gdsc_models,
-            "nonconserving_or_worse": (sets["loose"] | sets["deleted"]) & gdsc_models,
+            "protein_truncating_by_consequence": (sets["loose"] | sets["deleted"]) & gdsc_models,
         }
         d["_arm_variants_note"] = ("the PRIMARY arm is pre-declared; the others are a sensitivity "
                                    "analysis and no verdict is read from them")
@@ -860,6 +878,37 @@ def _verdict(art):
     for gene in ("BRCA1", "BRCA2"):
         mach[gene] = _summary(_grab(gene, PARP_DRUGS))
     v["machinery_control_BRCA_vs_PARP"] = mach
+    # ⭐ THE SIGN PATTERN, REPORTED BECAUSE OMITTING IT WOULD UNDERSTATE THE DATA.
+    # "Nothing clears its CI" is the verdict, and it is the honest one — but a reader who is only
+    # told that would not learn that the three replication-checkpoint drugs and the two non-DDR
+    # controls behave differently from each other. CLAUDE.md §4 asks for a result at its TRUE weight
+    # in BOTH directions: understating a pattern is the same defect as overstating one.
+    # ⛔ IT IS POST HOC, IT WAS NOT PRE-REGISTERED, AND IT CLEARS NO BAR. The seven drugs are not
+    # independent (they are the same 956 lines, and the residual is line-median-corrected across
+    # them), no multiplicity control is applied to a pattern chosen after seeing it, and a sign is
+    # the weakest thing a contrast can report. It enters no verdict and no `detected` list.
+    signs = {}
+    for group, drugs in (("ATR_inhibitors", ATRI_DRUGS), ("near_neighbour_DDR", NEAR_NEIGHBOUR_DDR),
+                         ("PARP_inhibitors", PARP_DRUGS), ("non_DDR_controls", NON_DDR_CONTROLS)):
+        got = {}
+        for d, r in _grab("ATM", drugs):
+            hl = (r.get("hodges_lehmann") or {}).get("shift")
+            if r.get("_status") == "read" and hl is not None:
+                got[d] = {"hl_shift": hl,
+                          "sign": "more sensitive" if hl < 0 else "more resistant",
+                          "p_two_sided": (r.get("mannwhitney") or {}).get("p_two_sided")}
+        signs[group] = got
+    v["post_hoc_sign_pattern"] = {
+        "_status": "POST HOC — NOT PRE-REGISTERED, CLEARS NO BAR, ENTERS NO VERDICT",
+        "_why_reported": "reporting only the verdict would hide that the replication-checkpoint "
+                         "drugs and the controls do not behave alike. A sign is the weakest thing a "
+                         "contrast can report and it is reported as such.",
+        "_why_it_is_not_evidence": "the seven drugs share the same models and the same "
+                                   "line-median correction, so their signs are not independent "
+                                   "draws; no contrast below clears its own 95% CI; and a pattern "
+                                   "picked out after seeing it carries no multiplicity control.",
+        "by_group": signs,
+    }
     v["_machinery_control_note"] = (
         "The best-established genotype-drug association in cell-line pharmacology, run through the "
         "IDENTICAL pipeline. It is not a claim of this repository and not a result about EMC; it "

@@ -112,6 +112,17 @@
     "note": "The computed half of the ATR route, assembled as one module."
   },
   {
+    "id": "ART-ATM-STATUS-ATRI",
+    "path": "research/modalities/atm-status-atri-stratification.json",
+    "produced_by": "research/modalities/atm_status_atri_stratification.py",
+    "workflow": ".github/workflows/atm-status-stratification.yml",
+    "published_to": [
+      "main",
+      "modalities-cache"
+    ],
+    "note": "ATM GENETIC status against the SAME GDSC2 residuals ART-ATR-VULNERABILITY's part D correlates against a transcript score. The field-standard ATR-inhibitor-sensitivity stratifier, which that assessment neither used nor named. ⛔ Its finding is about the INSTRUMENT: neither the ATM/ATR-inhibitor contrast (n=25 vs 931) nor the BRCA/PARP-inhibitor machinery control (BRCA2 n=37 vs 919) clears its 95% CI, so the residual space is not shown to resolve any genotype-drug association and part D's ATM null is uninformative rather than negative. Residuals are READ from emc-atr-vulnerability-inputs.json, never recomputed."
+  },
+  {
     "id": "ART-PUBLISHED-WARHEAD-REGISTRY",
     "path": "research/modalities/published-warhead-registry.json",
     "produced_by": null,
