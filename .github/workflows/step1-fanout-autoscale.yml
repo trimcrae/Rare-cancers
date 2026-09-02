@@ -35,8 +35,19 @@ name: STEP 1 fan-out — progress check + terminus-gated fan-out
 # input with an explicit default, and it is the ONLY thing that sets GIT_BRANCH.
 
 on:
-  schedule:
-    - cron: "38 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
+  # ⛔⛔ SCHEDULE DISABLED 2026-09-02 — THIS WORKFLOW LAUNCHES AND AUTOSCALES VAST GPU RENTALS, AND THE
+  # AUTOMATION MAY NOT SPEND ON GPUs. trimcrae, 2026-09-02, verbatim: "You shouldn't be doing any GPU
+  # runs as part of this automation." Scoped at `research/autonomy/autonomy-state.json` ->
+  # `gpu_spend_prohibited` (`active: true`, `ceiling_usd: 0`). A CATEGORY ban, not a budget.
+  # `workflow_dispatch` below is retained for deliberate human use. Restoring the cron requires
+  # trimcrae lifting the ban — it is not an edit the loop may make for itself.
+  # ⚠ The reapers, watchdogs and alarms are deliberately still scheduled: they STOP billing rather
+  # than start it, and disabling them with the launchers would strand any live host un-reaped.
+  # ⚠ The measured-throttling note below is RETAINED because it is a real measurement about GitHub's
+  # scheduled-event delivery and stays true if this cron is ever restored.
+  #
+  # schedule:
+  #   - cron: "38 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
                              # REMEMBERED NUMBER HERE. GitHub throttles schedules on busy repos. MEASURED
                              # delivery of THIS workflow on 2026-07-27: 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM
                              # ET -> gaps of 220, 208, 205 and 141 MINUTES, against a nominal 20. So a

@@ -43,7 +43,7 @@ on:
       zone:      { description: "GCE zone — us-central1 ONLY, quota exists nowhere else (CLAUDE.md §6)", default: "us-central1-a", required: false }
       provisioning: { description: "standard (on-demand; the GCP default per the _gcp_cost_frame ruling — wall clock is the scarce thing here, not money) | spot", default: "standard", required: false }
       force:     { description: "1 = provision even if the unit's ddg.json is already in GCS (overwrites)", default: "0", required: false }
-  schedule:
+  # schedule:   # ⛔ key commented with its cron below — see the 2026-09-02 GPU ban note
     # ⚠ A REQUEST, NOT A CADENCE (CLAUDE.md §6) — GitHub throttles this repo's schedules to a small
     # fraction of what the cron asks for, and the gaps actually delivered are MEASURED by
     # fleet-supervision-alarm.yml, which is their one home. Do not read `*/10` as "every ten minutes".
@@ -61,7 +61,19 @@ on:
     # supervision tick running the whole time. A scheduled tick now runs `autofeed` and may provision;
     # what stops it running away is `gcp_fanout_rep.feed_decision`, which refuses on a live instance
     # (GPUS_ALL_REGIONS = 1), on a unit that already has a ddg.json, and on the no-progress breaker.
-    - cron: "44 * * * *"
+    # ⛔⛔ DISABLED 2026-09-02 — THIS LANE PROVISIONS GCE GPU INSTANCES AND THE AUTOMATION MAY NOT
+    # SPEND ON GPUs. trimcrae, 2026-09-02, verbatim: "You shouldn't be doing any GPU runs as part of
+    # this automation." Scoped at `research/autonomy/autonomy-state.json` -> `gpu_spend_prohibited`
+    # (`active: true`, `ceiling_usd: 0`). A CATEGORY ban, not a budget — free trial credit is still
+    # a GPU run, so "it is on GCP credit" does not exempt this lane.
+    # ⛔ AND THE UNATTENDED DEFAULT HERE IS A LAUNCH, NOT A REAP: the note below records that a
+    # `schedule:` event carries no inputs, so the `autofeed` default IS what every unattended tick
+    # did — i.e. this cron was the lane's launch side, not a housekeeping tick.
+    # ⚠ `feed_decision`'s refusals (live instance, existing ddg.json, no-progress breaker) are NOT a
+    # substitute for this: they bound runaway provisioning, they do not implement a ban.
+    # `workflow_dispatch` is retained for deliberate human use. Restoring this cron requires trimcrae
+    # lifting the ban; it is not an edit the loop may make for itself.
+    # - cron: "44 * * * *"
 
 permissions:
   id-token: write
