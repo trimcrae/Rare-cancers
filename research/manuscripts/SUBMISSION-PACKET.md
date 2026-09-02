@@ -26,7 +26,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5213 (no limit found) |
+| Word count, main text | 5276 (no limit found) |
 | Abstract | 249 words (limit 250) |
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |

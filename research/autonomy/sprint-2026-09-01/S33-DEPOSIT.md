@@ -15,7 +15,9 @@ last_verified: 2026-09-01
 
 **Item(s):** `AUT-PD-083`, `AUT-PD-084`
 **Owned paths:** `research/autonomy/sprint-2026-09-01/S33-DEPOSIT.md`; analysis script
-`<scratchpad>/s33_pmid_title_coverage.py` (read-only, writes nothing, contents reproduced in §4)
+`<scratchpad>/s33_pmid_title_coverage.py` — a scratchpad one-off that does not exist in this
+repository and was not committed; read-only, writes nothing, contents reproduced verbatim in §4 so a
+reader can rebuild it
 **Read at:** `git rev-parse HEAD` = `b6397c5666efbf7d6755dfaedabc6a4bef24a8ee`
 **Started/Finished (UTC):** 2026-09-01T19:48Z / 2026-09-01T19:58Z
 
@@ -167,7 +169,8 @@ article simply does not name one of its inputs.
 The row: *"the journal article has NO committed PMID→title artifact … so any tool resolving that
 manuscript's citations gets an empty record — PMID 39912803 did."*
 
-Measured tonight with `<scratchpad>/s33_pmid_title_coverage.py`, which extracts every PMID from
+Measured tonight with `<scratchpad>/s33_pmid_title_coverage.py` (does not exist in this repository;
+its source is in §4), which extracts every PMID from
 `fusion-junction-aso-journal-references.md` and every inline `<!--PMID:…-->` from
 `fusion-junction-aso-journal-article.md`, then scans every JSON under `research/` outside
 `research/autonomy/` for an object keyed by that PMID carrying a non-empty `title`:
@@ -350,7 +353,8 @@ cannot reach it. Filed in §7.
 9. `lit-targets-aso-gap-length.json` records[4] and records[0] read at HEAD **and at the published
    revision** → the two verbatim quotes in §3.
 10. `grep -c 35664704` on the article and its reference list → 0 and 0.
-11. `s33_pmid_title_coverage.py` → 24/24 reference PMIDs resolve to a committed title; 0 missing.
+11. `s33_pmid_title_coverage.py` (does not exist in this repository — source in §4) → 24/24
+    reference PMIDs resolve to a committed title; 0 missing.
 12. `fusion-junction-aso-claim-audit-verdicts.json` sample[24] → `record_source` present,
     `resolved_from_committed_record: true`.
 13. Manuscript sentences that could depend on either defect read at HEAD (article lines 88–90, 219–220,

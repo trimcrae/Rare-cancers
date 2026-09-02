@@ -5,13 +5,110 @@
   "reviewed_commit": "20d33f3478fa34940552d26ea8ae05cdd7a23ad2",
   "blind": true,
   "seat": "regression",
-  "lens": "IN PROGRESS",
-  "utc": "IN PROGRESS",
-  "what_i_read": [],
-  "central_claim": "IN PROGRESS",
-  "verdict": "IN PROGRESS",
-  "recommendation": "IN PROGRESS",
-  "blockers": [],
-  "p1s": [],
-  "p2s": []
+  "lens": "Whether anything previously corrected in this paper has come undone, and whether each correction still holds in EVERY home the corrected fact occupies — live prose, tables, the appendix, the frontmatter, the producing artifacts, and the sibling documents the correction register itself names. Every correction was traced to the artifact commit that produced the superseded value, so a surviving old number is identified by provenance rather than by resemblance.",
+  "utc": "2026-09-01T21:26:13Z",
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (at the pin, and at c1bc934 for the byte diff)",
+    "research/manuscripts/dependency/emc-atr-collaborator-package.md (at the pin and at c1bc934 — untouched by the round-1 fix commit)",
+    "research/autonomy/review-seats/PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506.json (hostile referee)",
+    "research/autonomy/review-seats/PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-arithmetic.json",
+    "research/autonomy/review-seats/PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-citations.json",
+    "research/autonomy/review-seats/PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-consistency.json",
+    "research/autonomy/review-seats/PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-statistics.json",
+    "research/autonomy/hardening-state/PUB-ATR.json",
+    "commit e3e6abb8d (the round-1 fix commit) — full message and full diff of the manuscript",
+    "research/modalities/emc-atr-vulnerability.json (at the pin, and at 6 historical commits: 61797d4c7, 95444e834, 49a861681, 75d5c1197, 816cbeaac, ce630e2b4)",
+    "research/modalities/atr-hrd-sarcoma-series.json (at the pin — series field, emc_model_identity_check, instrument_controls, reference_index_groups, verdict)",
+    "research/modalities/emc-fet-construct-designs.json (at the pin — per-construct rg_dipeptides_retained)",
+    "research/modalities/emc_fet_idr_census.py (at the pin — the 2026-08-03 label-drift POINTER block, lines 55-68)",
+    "research/modalities/atr_hrd_sarcoma_series.py (at the pin — the single-slot identity guard) and its commit history since e3e6abb8d",
+    "research/manuscripts/program/emc-post-degrader-options.md (at the pin — canonical-fusion rows and both PMID sites)",
+    "research/manuscripts/program/target-route-options.md (at the pin — the junction sections)",
+    "research/manuscripts/pinned-figures.json (at the pin — checked for any of the corrected values)"
+  ],
+  "central_claim": "The paper argues that EMC's inheritance of the published FET-fusion / ATM-suppression / compensatory-ATR-dependency vulnerability is, on public data alone, supported only at a pre-registered WEAK tier: the structural precondition is a sequence argument that survives, while the dependency, drug-response and tumour-signature strands are null or unreadable, and a competing HRD-selected sarcoma ATR programme actively weakens the route.",
+  "verdict": "needs_revision",
+  "recommendation": "major_revision",
+  "blockers": [
+    {
+      "summary": "PARTIAL CORRECTION, ONE PARAGRAPH WIDE. Round 1 corrected §3.4's GSE24369 probe count from '20,324 (93.2 %)' to '20,629 (98.2 %)'. Two sentences later, in the same paragraph and drawn from the SAME probe_mapping_diagnostic block of the SAME platform in the SAME artifact, the superseded run's values still stand: 'the repaired NCBI chain's own counts are concordant with both §3.2a diagnoses: 4,303 accessions queried -> 4,303 resolved to a nuccore UID (100 %) -> 59 linked to a gene.' The committed artifact at the pin gives ncbi_accessions_resolved_to_a_uid = 4103 (95.4 %, not 4,303 and not 100 %) and ncbi_accessions_linked_to_a_gene = 3163 (not 59) — a factor of 54 on the second number. The provenance is exact, not inferred: artifact commit ce630e2b4 recorded queried 4303 / uid 4303 / gene 59 / mapped 20324 / rate 0.932, i.e. the identical snapshot that produced the '20,324 (93.2 %)' the arithmetic seat corrected. Half of that snapshot was replaced and half was left in place. AND THE SURVIVING HALF CARRIES AN INTERPRETATION THE CORRECTED VALUE REVERSES: the very next clause reads 'the *gene-link* yield is genuinely low because these are ESTs, which is precisely why UniGene — not `elink` — is the right resource for them.' At 3,163 of 4,303 the gene-link yield is 73.5 %, which is not low, so the stated reason for the method choice is refuted by the artifact the sentence cites. The '(100 %)' is false precision in the same breath: the same block still records five elink IncompleteRead / HTTP 502 errors. Nothing in the appendix covers this — row 839 registers only the probe count and the contrast values, and stops at '§3.4'.",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md lines 396-399 at the pin ('4,303 accessions queried -> 4,303 resolved to a nuccore UID (100 %) -> 59 linked to a gene. The UID step works now and returned zero before; the *gene-link* yield is genuinely low because these are ESTs...'); research/modalities/emc-atr-vulnerability.json#part_b_emc_tumour_signature.per_platform['GSE24369_series_matrix.txt.gz'].probe_mapping_diagnostic at the pin: ncbi_n_accessions_queried 4303, ncbi_accessions_resolved_to_a_uid 4103, ncbi_accessions_linked_to_a_gene 3163, ncbi_genes_named 2653, ncbi_mapped 3163, ncbi_errors (5 entries, elink IncompleteRead/502); the same fields at ce630e2b4: uid 4303, gene 59, n_probes_mapped_to_symbols 20324, accession_resolution_rate 0.932 — the superseded snapshot; the corrected sentence two lines above at line 395 already reads '662 to 27,196' and the table at line 387 already reads '20,629 (98.2 %)'.",
+      "what_edit_would_break_it": "Nothing had to break it — it was never fixed. It survives because the arithmetic seat re-derived the numbers the manuscript's TABLE prints and the appendix registers, and this sentence's numbers appear in neither. No lint binds prose numbers to emc-atr-vulnerability.json fields (round-1 arithmetic P1, still open), so the discriminating observation is the artifact's own git history: any pair of numbers in this paragraph that reproduces at ce630e2b4 but not at the pin is an unpropagated half of the same correction."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The correction register itself is wrong about where the correction lives, in both directions. The canonical-fusion correction (superseded 2026-08-03) is now correctly applied in this paper — line 81 and appendix row 837 both state type 1 = EWSR1 e12::NR4A3 e3, EWSR1(1-431), 8/30 RG as the commonest, and type 2 = EWSR1 e7::NR4A3 e2, EWSR1(1-264), 0/30 as the byte-identical-to-Ewing one — but (a) the companion's Appendix A row still lists the correction's users as emc_fet_idr_census.py, emc-post-degrader-options.md route 1 and target-route-options.md §1.3, and still omits this document, which used the identical superseded phrase and has now been corrected (round-1 consistency P1, unactioned); and (b) emc_fet_idr_census.py's own POINTER block still asserts 'One home for the correction and the superseded value: emc-atr-collaborator-package.md (§2.2 + appendix)', which the round-1 fix made false — there are now two. A register that names the wrong files is the instrument the next drift will be checked against.",
+      "evidence": "research/manuscripts/dependency/emc-atr-collaborator-package.md line 543 at the pin ('Used by emc_fet_idr_census.py (emc_canonical_EWSR1_NR4A3), by emc-post-degrader-options.md route 1, and by target-route-options.md §1.3 | ... | those three files, and §2.2 of this document before this revision'); research/modalities/emc_fet_idr_census.py lines 61-68 at the pin; commit e3e6abb8d touched neither file (its diff is 8 files: the manuscript, 5 seat records, hardening-state, research-ledger).",
+      "what_edit_would_break_it": "Already broken by the round-1 fix itself: propagating a correction into a new file without adding that file to the correction's home list is what made the register incomplete. The check that would catch it is the one round 1 filed and did not build — a test that a superseded-value row's 'used by' list matches a repository-wide grep for the superseded phrase."
+    },
+    {
+      "summary": "The canonical-fusion correction is STILL UNAPPLIED in two of the three files the register names, and in one of them it was APPENDED rather than substituted, so that document now says both things. emc-post-degrader-options.md carries a blockquote correction at lines 291-292 ('the commonest reported EMC fusion is EWSR1 exon 12 :: NR4A3 exon 3, not exon 7') sitting directly above a table whose live row 307 still reads '**EWSR1::NR4A3 (EMC, canonical)** | **1-264** | **0 of 30**', with line 312's headline '**EMC's canonical fusion retains a segment that is BYTE-IDENTICAL to the Ewing...**' and line 1053 unchanged beneath it. target-route-options.md lines 150-152 go further and label the superseded pairing as the fix: 'The corrected canonical junction reproduces model A exactly... EWSR1 exon 7 :: NR4A3 exon 3' — precisely the e7::e3 combination the register says 'pairs the 5' side of one reported type with the 3' side of another and is not itself a reported type' (repeated at line 793). This bears on THIS paper because the paper links to emc-post-degrader-options.md six times and to target-route-options.md once, and its own frontmatter grants the former precedence: 'Route rationale and ranking: emc-post-degrader-options.md route 1, which wins on any disagreement about the plan.' A reader following the paper's own precedence pointer out of the corrected line 81 lands on the uncorrected label. The paper's text is right; the network it points into is not.",
+      "evidence": "research/manuscripts/program/emc-post-degrader-options.md at the pin, lines 291-292 (appended correction), 307 (table row, uncorrected), 312 (headline, uncorrected), 1053; research/manuscripts/program/target-route-options.md at the pin, lines 150-152 and 793; research/manuscripts/dependency/emc-atr-vulnerability-assessment.md frontmatter block, line 43 ('which wins on any disagreement about the plan'), and 6 links to ../program/emc-post-degrader-options.md, 1 to ../program/target-route-options.md.",
+      "what_edit_would_break_it": "It is the append-instead-of-replace failure in its pure form: the corrective note and the corrected claim coexist, each grammatical, and every gate passes because a blockquote naming the right fusion is present in the file. Only a check that the superseded STRING is absent — not that the correct string is present — separates the two."
+    },
+    {
+      "summary": "The appendix's own home-lists for the two probe-count corrections point at the wrong section and are incomplete, so an auditor re-verifying propagation through the appendix checks the wrong places. Row 840 ('27,195 probes') gives its homes as '§3.4, §6.3, this appendix' — but the third live site is line 574, inside §6.1 ('Tier: WEAK', lines 546-575); §6.3 begins at line 589 and contains no probe count. Row 839 ('20,324 (93.2 %)') gives its home as '§3.4' alone, though 20,324 also stood at line 574 in §6.1. Both corrections WERE applied at line 574 (it reads '27,196 and 20,629 mapped probes rather than from 662'), so this is a defect in the register rather than in the text — but it is the same defect class as the blocker above, one step removed.",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md at the pin: appendix rows 839 and 840; live sites at lines 387, 388, 395, 574, and appendix row 833's 'current' column; section headers at 544 (## 6), 546 (### 6.1), 576 (### 6.2), 589 (### 6.3). Commit e3e6abb8d's message says the probe count was 'fixed at all four sites' — the four sites are 388, 395, 574 and 833, and the appendix names only three of them, one wrongly.",
+      "what_edit_would_break_it": "A regeneration or a section renumbering; the pointer is prose and nothing validates a bare §N reference against the target section's content (the same guard gap round 1 filed against line 439)."
+    },
+    {
+      "summary": "CARRIED FORWARD, NOT A NEW FINDING: round 1's consistency P1 on line 439 is unapplied at the pin. '§5's limit applies with full force here: the mechanism is a protein recruitment and phosphorylation event at a double-strand break, and no expression matrix can show it' — that limitation is stated in §6.1, not in §5 (Part D, the GDSC2 correlations), and the paper's own headline at line 86 cites it correctly as '(§6.1)'. Recorded here only so the round-2 driver can see it survived a fix commit rather than treat it as newly introduced.",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md lines 439-441 vs line 491 (§5 head, 'PART D ... Verdict: SENSITIVITY_DOES_NOT_TRACK_MECHANISM') and lines 566-570 / 86 (§6.1's recruitment-and-phosphorylation limit); the round-1 fix commit e3e6abb8d changed 31 lines, none of them near 439."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The FET-arm ATM value is printed as '-0.001' from an artifact delta of -0.0005, while the same sentence-group prints -0.0001 as '-0.000' — two rounding conventions for a half-digit in one paragraph. The correction itself is right (the sign flip from +0.002 to negative is the load-bearing part and it is applied); only the convention is inconsistent. Non-load-bearing: the enclosing bound '|Δ| <= 0.045 with |t| <= 0.71' was not touched by the correction and remains true at the pin (max DDR |Δ| 0.0445, max DDR |t| 0.709).",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md lines 428-431; research/modalities/emc-atr-vulnerability.json#...['GSE24369_series_matrix.txt.gz'].contrast_EMC_vs_FET_comparators.ATM_signalling_DSB_repair {delta -0.0005, t -0.033} and .contrast_EMC_vs_all_comparator_sarcoma.replication_stress {delta -0.0001}."
+    },
+    {
+      "summary": "The PMID correction is stated twice — inline at §8.2 ('the preprint carried PMID 37205599, since superseded, per emc-atr-collaborator-package.md Appendix A') and again as appendix row 838 — so the dead identifier appears in live prose, which CLAUDE.md rule 1.2 ('corrections go in an appendix, not inline') reads against. It is a REPLACEMENT and not an append — the live citation is Gracilla et al., Cancer Research 2026;86:2660-2677, PMID 41811428, and 37205599 survives only inside an explicit 'since superseded' clause — and §3.0a uses the same inline '(Superseded, retained: ... — Appendix.)' pattern, so this is a house convention in this document rather than a slip. Worth a decision rather than a fix.",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md lines 697-701 and appendix row 838; the same pattern at lines 284-285 (§3.0a)."
+    },
+    {
+      "summary": "The frontmatter was not touched by the round-1 fix commit and remains 'date: 2026-08-05', 'last_verified: unverified', '_backfilled: true' on a document whose §8 and appendix carry 2026-08-27 work. Round-1 hostile-referee P2, still open. 'unverified' is at least honest rather than falsely populated.",
+      "evidence": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md lines 1-14; commit e3e6abb8d's manuscript diff touches lines 81, 387-388, 395, 428-431, 574, 697-701 and the appendix only."
+    }
+  ],
+  "regression_enumeration": {
+    "_what": "Every correction attached to this paper, and every home of the corrected fact, checked at the pin. The paper's content at c1bc934 hashes to 15bd409f80e7dd95d9c9e829df3b2dd737e8940f21e9883b834b72e510094daf — byte-identical to the digest round 1 pinned — and exactly one commit (e3e6abb8d) separates that from the pin, so the complete change set is a 31-line diff and no correction can have been undone outside it.",
+    "corrections_checked": [
+      {
+        "correction": "canonical-fusion label (superseded 2026-08-03): 'canonical' belongs to the exon-12 cut (type 1, EWSR1(1-431), 8/30 RG), not the exon-7 cut (type 2, EWSR1(1-264), 0/30 RG)",
+        "homes_in_this_paper": ["line 81 (§0 'what still stands' table) — CORRECTED, states both types and calls type 1 'a weaker, non-identical match'", "appendix row 837 — registers the superseded form", "line 112 (§0 status table) — neutral, the check-mark marks the question as answered by a named module, not the answer's polarity", "lines 750-751 (§8.3) — independently consistent: 'EWSR1 exons 1-12 joined to NR4A3 exon 3'"],
+        "verified_against": "emc-fet-construct-designs.json constructs[0] (EWSR1(1-431), rg_dipeptides_retained 8, total 30) and constructs[1] (0/30); emc-atr-collaborator-package.md Table 4 line 363 and line 157's identical 'bracketing' framing",
+        "status": "HOLDS in this paper, in every home. Unapplied in two sibling files the register names — see p1s."
+      },
+      {
+        "correction": "PMID 37205599 (bioRxiv preprint, stopped resolving 2026-08-07 -> 2026-08-09) -> PMID 41811428 (Gracilla et al., Cancer Research 2026;86:2660-2677)",
+        "homes_in_this_paper": ["§8.2 line 698 — CORRECTED", "appendix row 838"],
+        "other_homes": ["emc-atr-collaborator-package.md Appendix A + reference 1 — already correct", "emc-post-degrader-options.md lines 267 and 499 — round-1 follow-up (AUT-PROP-010), NOW CLOSED: both carry 41811428 at the pin and 37205599 does not appear in that file at all"],
+        "status": "HOLDS everywhere. No occurrence of 37205599 survives outside an explicit 'superseded' clause."
+      },
+      {
+        "correction": "§8's entire competing-biomarker evidence base: the single-slot artifact had been clobbered to GSE28866 and was re-fetched to GSE299349 (Actions run 33039862314 -> commit a8caba9)",
+        "status": "HOLDS. atr-hrd-sarcoma-series.json at the pin has series = GSE299349 and reproduces every §8.3 number: NR4A3 13.332 TPM rank 4/68 (13.33, rank 4), panel median 1.896 (7.0x), LMS04 39.507 / SS10 28.789 / LMS12 17.031, NR4A1 196.784 vs NR4A2 0.0 (15x), family fraction 0.0634 rank 29/68 against median 0.0524, ACTB 4423.63 / GAPDH 2574.69 / ALB 0.4742 / INS 0.0, 68 files read with 0 failures, index split 67 x 188,597 rows vs 1 x 162,218, and the verdict string LABEL_WEAKLY_CORROBORATED_AND_THE_COMPARISON_IS_CONFOUNDED verbatim. The recurrence hazard round 1 filed as its highest-priority follow-up was also CLOSED: atr_hrd_sarcoma_series.py now carries a single-slot identity guard (AUT-PROP-009 at 1404d17ae, re-bound over a registry at 68b8737e8 after 4 of 8 mutations passed silently, path-per-series at df529936a)."
+      },
+      {
+        "correction": "GSE24369 §3.4 arithmetic: 20,324 -> 20,629 probes, 93.2 % -> 98.2 %, ATM sign +0.001/+0.002 -> -0.004/-0.001, S-phase and checkpoint transposed, MYC t 3.29 -> 3.34, oxphos t 5.91 -> 5.92, checkpoint-FET +0.102/1.72 -> +0.103/1.74",
+        "homes_checked": ["line 387 table — corrected", "line 428-431 prose — corrected, every value re-derived and matching the artifact", "line 574 (§6.1) — corrected", "appendix row 839", "lines 396-399, SAME PARAGRAPH — NOT CORRECTED, see the blocker"],
+        "status": "PARTIALLY HOLDS. Corrected values verified: pooled ATM -0.0041 t -0.269, ATR-CHK1 +0.0109, replication stress -0.0001, stalled fork -0.0088, S-phase +0.044 t 0.67, checkpoint +0.0445 t 0.709, MYC +0.0844 t 3.342, oxphos +0.1131 t 5.918, adipogenesis +0.0473 t 2.114, FET-arm checkpoint +0.1034 t 1.735 (largest DDR term in that arm) and ATM -0.0005 t -0.033. The NCBI-chain sentence in the same paragraph was left at the superseded run's values."
+      },
+      {
+        "correction": "GSE4303 GPL3290 probe count 27,195 -> 27,196 (n_probes_mapped_to_symbols)",
+        "homes_checked": ["line 388 table", "line 395 prose", "line 574 (§6.1)", "appendix row 833's 'current' column"],
+        "status": "HOLDS at all four sites; 27,195 survives only in appendix row 840's superseded column. Cross-checked against the artifact: n_probes_mapped_to_symbols 27196, accession_resolution_rate 0.582, n_probes_with_an_accession 41614, n_distinct_accessions 65180, curated 630, UniGene 37279 — all as printed."
+      },
+      {
+        "correction": "GSE299349 'a lead, unread... flagged rather than used' -> READ (appendix row 835, homes §3.0a and §6.3)",
+        "status": "HOLDS, and as a REPLACEMENT not an append: §3.0a line 280-285 carries the live claim ('It has since been READ') with the old sentence quoted only inside an explicit '(Superseded, retained: ... — Appendix.)' marker, and §6.3 line 595 strikes the accession through and states the outcome."
+      },
+      {
+        "correction": "NOT_ASSESSABLE / SIGNATURE_NOT_READABLE -> WEAK (appendix row, homes §3.4 and §6.1); 'three EMC samples per platform' -> 10 on GPL3290; NO_DDR_SIGNATURE_IN_EMC_TUMOURS withdrawn; 'the one self-doable step left' -> taken; 'EMC is nearly absent from public functional genomics'",
+        "status": "HOLD. Each row's live text carries only the current value; the superseded phrasing appears nowhere outside the appendix. class_counts for GPL3290 confirm EMC 10, GIST 3, DFSP 3."
+      }
+    ],
+    "hedge_direction_pass": "All 31 changed lines compared against their pre-correction form. No qualifier, null, limitation or negation was lost, and one caveat was gained: line 81 replaced an unqualified structural claim with one that names the commonest fusion as 'a weaker, non-identical match to the measured construct'. Every surviving hedge re-verified against the artifact rather than against its earlier wording: '|Δ| <= 0.045 with |t| <= 0.71' still binds (0.0445, 0.709); 'the largest DDR term ... is the DNA-damage checkpoint' still holds in the FET arm (0.1034 vs S-phase 0.0878); 'Four things ... still stand' still matches a four-row table; the §8.3 verdict, its '_sensitivity_bound' and the 'must NOT be read symmetrically' clause are reproduced from the artifact verbatim. The unchanged GSE4303 contrast table (9 concepts x raw and proliferation-adjusted) was re-derived in full against the artifact and is correct, so the correction did not leave a half-updated table beside it. pinned-figures.json contains none of the corrected values, so rule 1.2's same-commit registration requirement was not engaged."
+  }
 }

@@ -45,7 +45,7 @@ flowchart LR
   RT_RT_INTENSIFY["✓ RT-RT-INTENSIFY"]:::fam
   ST_LOCOREGIONAL --> RT_RT_INTENSIFY
 
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_LIMB_PERFUSION
   BLK_NO_CURATED_CLINICAL_DATA --> RT_LUNG_DIRECTED
   BLK_NO_CURATED_CLINICAL_DATA --> RT_RT_INTENSIFY
@@ -66,7 +66,7 @@ flowchart LR
 | **[RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md)**<br/>Isolated limb perfusion for extremity disease | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Decide which junctional sites a perfusion service would actually accept, and state the eligible fraction under |
 | **[RT-LUNG-DIRECTED](L2-rt-lung-directed.md)**<br/>Lung-directed local therapy (regional perfusion, inhaled delivery, ablation) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | State the lung-confined fraction as the UPPER BOUND it is — two exclusive partitions over different strata (27 |
 | **[RT-MDT-LUNG](L2-rt-mdt-lung.md)**<br/>Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT) | ✓ ready | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for ever |
-| **[RT-RT-INTENSIFY](L2-rt-rt-intensify.md)**<br/>Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | ⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CO |
+| **[RT-RT-INTENSIFY](L2-rt-rt-intensify.md)**<br/>Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | ⛔ ANSWERED — already written. The consistency finding is in `research/manuscripts/care-delivery/emc-radioresis |
 ## Best next action
 
 Extract primary site, metastatic site and metastatic burden from the cohorts already curated in the clinical registry, and size the eligible fraction for each route here.

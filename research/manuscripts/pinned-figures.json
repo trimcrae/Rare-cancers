@@ -40,6 +40,7 @@
   "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md",
   "research/manuscripts/degrader/nr4a3-degrader-paper.md",
   "research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+  "research/manuscripts/dependency/emc-biomarker-selected-classes.md",
   "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md",
   "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
   "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
@@ -1350,6 +1351,136 @@
     "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
    ],
    "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write"
+  },
+  {
+   "id": "biomarker_ass1_percentile_gpl6244",
+   "description": "§2.1's strongest negative. ASS1 is the selecting feature of the arginine-deprivation class and the class needs it LOW; the paper's answer is that EMC sits near the top of the array. If this percentile drifts, the paper's cleanest exclusion drifts with it.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_ass1_percentile_gpl6244",
+   "format": "{:.0f}",
+   "tolerance": 0.51,
+   "context": "percentile of that array's own distribution",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_noxa_delta_gpl3290",
+   "description": "§2.5's NOXA elevation on GPL3290 — the single observation that keeps the BH3-mimetic class open. Narrowed to one platform by the 20d33f347 blind round; the GPL6244 read is flat and is quoted as such two lines below.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_noxa_delta_gpl3290",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "neutralises MCL-1 .* higher in EMC by",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_p53_output_t_gpl6244",
+   "description": "§2.2, GPL6244 leg of the p53-transcriptional-output group score. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_p53_output_t_gpl6244",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "p53 transcriptional output group is LOWER",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_p53_output_t_gpl3290",
+   "description": "§2.2, GPL3290 leg of the same group score. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_p53_output_t_gpl3290",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "p53 transcriptional output group is LOWER",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_prc2_core_t_gpl6244",
+   "description": "§2.3, GPL6244 leg of the PRC2-core group score — half of the EZH2 class's second selecting shape. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_prc2_core_t_gpl6244",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "the rest of PRC2 is flat",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_prc2_core_t_gpl3290",
+   "description": "§2.3, GPL3290 leg of the PRC2-core group score. Its line is the NEXT one, because the pair wraps.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_prc2_core_t_gpl3290",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "no SWI/SNF tumour-suppressor subunit reads anywhere near a floor",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_guardians_t_gpl6244",
+   "description": "§2.5, GPL6244 leg of the five druggable anti-apoptotic guardians — the abundance negative. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_guardians_t_gpl6244",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "MCL1 and BCL2L1 individually",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_guardians_t_gpl3290",
+   "description": "§2.5, GPL3290 leg of the same group score. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_guardians_t_gpl3290",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "MCL1 and BCL2L1 individually",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_alt_ej_t_gpl6244",
+   "description": "§2.4, GPL6244 leg of the alt-EJ module — the paper's one positive cross-platform reading, and the figure the modality census's POLθ row inherits. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_alt_ej_t_gpl6244",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "every readable member is higher on both",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+  },
+  {
+   "id": "biomarker_alt_ej_t_gpl3290",
+   "description": "§2.4, GPL3290 leg of the alt-EJ module. ⚠ Scored over 3 of 4 genes: POLQ has no probe on that platform, which §2.4 now states. ⚠ Its platform twin is pinned separately: the linter passes a line if ANY number on it matches, so pinning one member of a two-platform pair leaves the other free to drift.",
+   "artifact": "research/modalities/census-route-expression-grading.json",
+   "key": "pinned_figures_quoted_by_the_preprint.biomarker_alt_ej_t_gpl3290",
+   "format": "{:.2f}",
+   "tolerance": 0.006,
+   "context": "every readable member is higher on both",
+   "must_appear_in": [
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md"
+   ],
+   "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts every figure from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
   }
  ],
  "table_completeness": [

@@ -161,11 +161,47 @@ def test_a_posture_key_nothing_reads_is_red_not_silently_skipped():
 
 def test_a_clean_cycle_may_not_decrement_through_the_hold_floor():
     """⛔ THE WHOLE REASON THE HOLD EXISTS. `backoff_level` is a FAILURE counter that a clean cycle
-    LOWERS, so a level raised for budget reasons is undone by the first cycle that goes well."""
+    LOWERS, so a level raised for budget reasons is undone by the first cycle that goes well.
+
+    ⛔⛔ THE FIXTURE IS CONSTRUCTED, NOT DERIVED, AND THAT IS THE POINT (2026-09-02). This test used
+    to read `st["backoff_level"] = st["budget_hold"]["floor_backoff_level"] - 1` off the LIVE state.
+    When the sprint set `floor_backoff_level: 0` that expression became `-1`, which
+    `c_budget_recovering` refuses as `LEVEL-UNREADABLE` before any floor comparison — correctly, at
+    its own `level < 0` guard. So the test went red with the behaviour untouched.
+    ★★ AND THE FALSE RED IS THE LESS DANGEROUS HALF. A test that derives its fixture from a live
+    artifact does not fail when the behaviour breaks; it fails, or PASSES, according to where the
+    artifact happens to sit. A differently-shaped live state would have let this assert green while
+    exercising nothing. The floor property is a property of the code, so the posture that exercises
+    it is built here.
+    """
     st = copy.deepcopy(live_state())
-    st["backoff_level"] = st["budget_hold"]["floor_backoff_level"] - 1
+    st["budget_hold"]["floor_backoff_level"] = 2
+    st["backoff_level"] = 1
+    # ⛔ THE DURATION IS READ BEFORE THE FLOOR IS, so this line is load-bearing. A raised level with
+    # no `backoff_since_utc` returns BACKOFF-AGE-UNKNOWN and never reaches the floor comparison —
+    # measured, and it is how the first draft of this very fix failed: a fixture that exercises a
+    # different branch from the one the test's name claims.
+    st["backoff_since_utc"] = "2026-09-01T00:00:00Z"
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
-    assert not row["ok"] and row["verdict"] == "HOLD-FLOOR-BREACHED"
+    assert not row["ok"] and row["verdict"] == "HOLD-FLOOR-BREACHED", (
+        "a level below the hold's declared floor must be refused; got "
+        f"{row['verdict']!r}")
+
+
+def test_a_negative_backoff_level_is_unreadable_rather_than_below_every_floor():
+    """⭐ THE BRANCH THAT MASKED THE TEST ABOVE, NOW PINNED DELIBERATELY.
+
+    A negative `backoff_level` is not "further below the floor" — it is not a reading at all, and
+    `c_budget_recovering` must say UNMEASURED rather than manufacture a floor breach from it. This
+    case was being exercised by accident, as the reason the floor test failed; an accident is not a
+    test, so it gets one.
+    """
+    st = copy.deepcopy(live_state())
+    st["budget_hold"]["floor_backoff_level"] = 2
+    st["backoff_level"] = -1
+    row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
+    assert not row["ok"] and row["verdict"] == "LEVEL-UNREADABLE", (
+        f"a negative level must be UNMEASURED, not a floor breach; got {row['verdict']!r}")
 
 
 def test_the_hold_expires_into_a_review_never_into_full_cadence():
@@ -186,9 +222,18 @@ def test_a_held_backoff_is_not_reported_as_stuck():
 
 
 def test_without_a_hold_the_old_stuck_reading_is_unchanged():
-    """The extension must not have bought its green by weakening the row for everyone."""
+    """The extension must not have bought its green by weakening the row for everyone.
+
+    ⛔ `backoff_level` IS SET HERE RATHER THAN INHERITED (2026-09-02, same defect as the floor test).
+    The stuck reading is about a RAISED backoff that has not come down, so the fixture must carry
+    one. Inheriting the live level meant that whenever the loop was healthy — level 0, which is the
+    state this repository is in most of the time — the row was correctly green and the test read
+    that green as a failure to be STUCK.
+    """
     st = copy.deepcopy(live_state())
     st.pop("budget_hold")
+    st["backoff_level"] = 1
     st["backoff_since_utc"] = "2026-08-01T00:00:00Z"
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
-    assert not row["ok"] and row["verdict"] == "STUCK"
+    assert not row["ok"] and row["verdict"] == "STUCK", (
+        f"a backoff raised since 2026-08-01 and never lowered is STUCK; got {row['verdict']!r}")

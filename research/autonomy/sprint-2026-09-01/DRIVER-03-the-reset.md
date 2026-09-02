@@ -82,6 +82,33 @@ disk. The seat that lost the most work put it best:
 completely different route. The rule written to survive a subagent dying also survived the driver
 attacking the tree.
 
+## ⭐ A fourth consequence, found 2026-09-01 ~23:30Z: the RECOVERY commit turned the trunk red
+
+The commit that recorded this incident and restored the destroyed work — `ca9c6da22` — also carried
+a change to `research/data/emc-clinical-registry.json`, and did **not** regenerate
+`research/manuscripts/aso/fusion-junction-aso-archive-manifest.json`, which hashes that file. The two
+previous commits to touch the registry (`f8cba4bb2`, `7c989d476`) both regenerated it in the same
+commit; this one did not.
+
+From that moment every CI run on every branch failed the same gate:
+
+    python3 research/manuscripts/aso_archive_manifest.py --check-archive
+    STALE: the archive inventory would change — re-run without --check
+
+⛔ **And the failure did not name the registry, or the reset, or `ca9c6da22`.** It named a manifest.
+So a red `tests (modalities)` run on a branch about IEDB threshold calibration was, in fact, the
+`git reset --hard` still being paid for two hours and several branches downstream — and nothing in
+the failure text could have told a reader that. **The same defect as the reflog line with no actor
+and the status code with no body: an error whose explanation is discarded produces a confident wrong
+diagnosis, because the reader still has to explain what happened.**
+
+⚠ **The regeneration is also not straightforwardly available during a sprint.** The manifest stamps
+`git_tree_is_clean_apart_from_this_manifest` from a whole-tree `git status --porcelain`, and a
+`false` value is a hard refusal that gates **both** check modes — so a manifest regenerated while any
+seat holds a file dirty would turn the gate red permanently instead of clearing it. The fix is to
+generate it in a **pristine detached worktree at HEAD** and copy the result in, which is what was
+done here. That is now the only correct way to regenerate it while a wave is running.
+
 ## One thing this does not claim
 
 The driver has no way to know whether anything else was lost. Two seats detected their own losses and

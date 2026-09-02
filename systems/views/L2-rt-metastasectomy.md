@@ -18,16 +18,16 @@ last_verified: 2026-08-05
 
 # RT-METASTASECTOMY — Pulmonary metastasectomy as a decision rather than a modality
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-26
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence low · verified 2026-09-02
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT. A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*. EMC is indolent, lung-dominant and measured in decades — the profile for which pulmonary metastasectomy is standard sarcoma practice — and nobody has asked the question in this histology. ⚠ 'Not found in an open-access corpus' is not 'does not exist'; a closed-access series could.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT — BUT IT IS A NARROWER ABSENCE THAN THIS ROUTE RECORDED UNTIL 2026-09-01. What is absent is a COMPARATIVE study: no reachable series studies metastasectomy as an intervention against a comparator, and the one comparison that exists is uninformative (Bishop 2019, salvage surgery p = 0.15 at n = 13). Local therapy of metastases is meanwhile ALREADY BEING GIVEN in all three curated series — 8 of 29 patients presenting with distant metastases in Masunaga; 8 lung metastasectomies and 2 radiofrequency ablations, counted as procedures rather than patients, among Chiusole's 59 patients of whom 26 were metastatic; 5 of the 13 who recurred distantly in Bishop (`research/modalities/emc-site-curation.json`). EMC is indolent, lung-dominant and measured in decades — the profile for which pulmonary metastasectomy is standard sarcoma practice — and no EMC cohort has been studied to find out whether the operation changes any outcome in this disease. ⚠ Every count above is a count of what was DONE, with no comparator and no outcome attached; nothing follows from any of them about benefit, harm, tolerability or appropriateness.  ⚠ Superseded, retained (rule 1.2): "A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*… nobody has asked the question in this histology." ⛔ REFUTED 2026-09-01 BY A FILE INSIDE THAT CORPUS. `literature/emc-care-delivery-and-classification/PMC12398172.txt` (Masunaga 2025, PMID 40885991, blob 79a8c197243ff4202a713d437def379c5f499a68) reads: "Eight patients (27.6%) underwent metastasectomy, including six, one, and one who underwent lung, bone, and lymph node resections, respectively." The "ZERO records" string was a typed literal in the generator and no gate compared it against the corpus; it is now derived (`emc_care_delivery_evidence.py::absence_result`) and reads ⛔ NOT ZERO. ⚠ The corpus has still NOT been swept, so how many of the 554 records match is UNKNOWN — 1 is a measured lower bound, not a count.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
   RT_METASTASECTOMY["○ RT-METASTASECTOMY"]:::fam
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_METASTASECTOMY
   TECH_RECONSTRUCTED_IPD(["TECH-RECONSTRUCTED-IPD<br/>expected 2026H2"]):::tech
   TECH_RECONSTRUCTED_IPD -.-> BLK_NO_CURATED_CLINICAL_DATA
@@ -89,7 +89,9 @@ The route now has an EMC-specific number where it had none: local therapy of met
 
 **The paper would claim:** In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.
 
-**It is not written because:** Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.
+**It is not written because:** ⚠ Superseded, retained (rule 1.2): "Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result." ⛔ BOTH HALVES ARE FALSE AS OF 2026-09-01. Six extraction artifacts exist and none of them consumes a reconstruction: 196 operated patients with a margin (research/modalities/emc-surgical-quality.json), 271 patients' primary site (emc-site-curation.json), 45 printed Cox coefficients (emc-prognostic-coefficients.json) and four printed time-to-event statistics (emc-recurrence-timing.json). RT-IPD-SURVIVAL has produced exactly one admissible curve — 11 patients, progression-free survival in advanced disease — which is the wrong shape for this paper and always was.
+
+⭐ THE REAL REASON IT IS UNWRITTEN IS A JUDGEMENT, NOT A GAP. The paper's strongest quantitative claim — that margin decides local recurrence — is the printed conclusion of the abstract of its own largest source (PMID 40885991: "Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs"). The third clause of what_it_would_claim, whether the diagnosis was known before the operation, is unstudiable in EMC from the reachable record: treatment setting is reported by no reachable series. And the working title's second half — "what the literature has been looking at instead" — is an argument with no measurement behind it. ⭐ The one free step that would change this is a term census over the 554-record corpus already committed at literature/emc-care-delivery-and-classification/ on the literature-cache branch, which is now filed as BLK-NO-FIELD-ATTENTION-MEASUREMENT.
 
 ## Strategic timing — the wait equation
 
@@ -113,7 +115,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: "Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction." The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.
+⛔ ANSWERED — do NOT write the proposed note. "Roughly a quarter" is not computable: the three counts sit in non-summable strata (8 of 29 presenting metastatic; 8 lung metastasectomies plus 2 radiofrequency ablations counted as PROCEDURES rather than patients, among 59 with 26 metastatic; 5 of 13 who recurred distantly), and POLICY-evidence §2.1 and §2.3 forbid the pooling that sentence assumes. "No comparator anywhere in the literature" is also refuted — Bishop reports salvage surgery p = 0.15 at n = 13, which is a comparison that establishes nothing rather than an absent one. **The honest statement is that the only comparison in the reachable literature is uninformative.** ⛔ Lesion burden stays closed: no reachable series prints per-patient lesion counts. ⚠ Superseded, retained: "What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing…" — both halves of that sentence are refuted above.
 
 *Cost:* $0
 

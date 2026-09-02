@@ -236,6 +236,6 @@ appear in the register above and nowhere in this diagram.
 - **authorization:** —
 - **verified by:** ⛔ nothing — the dTAG degradation test, in the EMC-program paper
 - **why there is no instrument:** `out_of_scope` — Its own claim_ceiling says 'not a blocker of this paper … the claimed contribution is the target's computational druggability/selectivity, not EMC efficacy'. The dTAG degradation test belongs to the EMC-program paper, not this one.
-- **⛔ claim ceiling today:** not a blocker of this paper. :2508: *"This paper's claimed contribution is the target's computational druggability/selectivity, not EMC efficacy"*
+- **⛔ claim ceiling today:** not a blocker of this paper. :2611: *"This paper's claimed contribution is the target's computational druggability/selectivity, not EMC efficacy"*
 
 [← L0](../L0-ecosystem.md) · [instrument register](instruments.md)

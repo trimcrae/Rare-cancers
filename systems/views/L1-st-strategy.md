@@ -43,7 +43,7 @@ flowchart LR
   RT_TRIAL_REACH["✓ RT-TRIAL-REACH"]:::fam
   ST_STRATEGY --> RT_TRIAL_REACH
 
-  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — Three of these six clinica…"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA --> RT_SEQUENCING
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;

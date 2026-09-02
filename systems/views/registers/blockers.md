@@ -27,7 +27,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | kind | n | permanent |
 |---|---:|---|
 | `fundamental_biological_limit` | 2 | **yes** |
-| `insufficient_data` | 4 | no |
+| `insufficient_data` | 5 | no |
 | `no_known_assay` | 2 | no |
 | `requires_authorization` | 2 | no |
 | `requires_better_simulation_accuracy` | 1 | no |
@@ -46,7 +46,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 38 | 7 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 16 | 7 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
-| **BLK-NO-CURATED-CLINICAL-DATA**<br/>The clinical facts these routes need are IN the published record and have never been extra | `insufficient_data` | 9 | 3 | cross-family | 0 | `TECH-RECONSTRUCTED-IPD` |
+| **BLK-NO-CURATED-CLINICAL-DATA**<br/>Three of these six clinical fields are absent from the reachable publications, not merely  | `insufficient_data` | 9 | 3 | cross-family | 0 | `TECH-RECONSTRUCTED-IPD` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 5 | 3 | cross-family | 0 | `TECH-VIRTUAL-CELL` |
 | **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 10 | 2 | cross-family | 0 | **permanent — nothing** |
@@ -63,6 +63,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-REGISTRY-DUA**<br/>Population cancer-registry microdata (SEER, NCDB) needs a signed data-use agreement | `requires_authorization` | 1 | 1 | single-family | 0 | An action only trimcrae can take: register for SEER research data and sign the agreement. ⚠ DO NOT DO THIS FIRST. The pr… |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED**<br/>The program's only binary selectivity known-answer control is built and staged and has nev | `requires_authorization` | 1 | 1 | single-family | 0 | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that… |
 | **BLK-TCIP-INTERFACE-FLOOR**<br/>How much induced interface a transcriptional CIP needs is unsized, and the degrader-derive | `insufficient_data` | 1 | 1 | single-family | 0 | Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interf… |
+| **BLK-NO-FIELD-ATTENTION-MEASUREMENT**<br/>The paper's second half — what the literature has been looking at INSTEAD — rests on a cor | `insufficient_data` | 0 | 0 | holds nothing | 0 | ⭐ FREE AND TAKEABLE TODAY, AND — unlike the blocker it replaces on this paper — IT CAN ACTUALLY BE RETIRED BY THE ACT IT… |
 
 ## When each blocker could lift
 
@@ -92,6 +93,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-VECTOR-DELIVERY** | 3 | single-family | **2030** | `low` | `speculative` | `TECH-VECTOR-DELIVERY` |
 | **BLK-UNSIZED-REQUIREMENT** | 3 | cross-family | *not forecast — an action, not an advance* | — | — | — |
 | **BLK-TCIP-INTERFACE-FLOOR** | 1 | single-family | *not forecast — an action, not an advance* | — | — | — |
+| **BLK-NO-FIELD-ATTENTION-MEASUREMENT** | 0 | holds nothing | *not forecast — an action, not an advance* | — | — | — |
 | **BLK-NOT-FUSION-SELECTIVE** | 14 | portfolio-wide | *never* | — | — | — |
 | **BLK-ANTIGEN-COLD** | 10 | cross-family | *never* | — | — | — |
 | **BLK-REGISTRY-DUA** | 1 | single-family | *on request* | — | — | — |
@@ -165,21 +167,25 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 ### BLK-NO-CURATED-CLINICAL-DATA
 
-**The clinical facts these routes need are IN the published record and have never been extracted into the registry**
+**Three of these six clinical fields are absent from the reachable publications, not merely un-extracted — and the other three are now extracted**
 
 - **kind:** `insufficient_data`
-- **a statement about:** a curation gap in this repository, not a gap in the literature
+- **a statement about:** Partly a curation gap and partly a reporting gap in the reachable literature, and the two halves have been separated by measurement. Of the six fields this blocker names, three (margin status, primary site, metastatic site) are now extracted into research/modalities/ and one (time-to-metastasis) is extracted as a printed aggregate. The remaining three are absent from the reachable open-access publications rather than from this repository's curation: per-patient lesion burden and per-patient time-to-metastasis are printed by no reachable series; treatment setting is unreported by one large series and held constant by construction in the other; and numbers-at-risk rows are absent beneath 3 of the 5 figure sets that were retrieved and read, including both large EMC cohorts. ⛔ THIS IS A STATEMENT ABOUT THE REACHABLE SET, whose edge is enumerated in research/literature/emc-km-reachability-census-2026-08-25.json — 5 retrieved, 3 free to read but not retrieved by any automated route this program will build, 6 closed and 2 unresolved. It is not a claim that no such data exists anywhere.
 - **held by (9):** RT-IPD-SURVIVAL, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-METASTASECTOMY, RT-RISK-MODEL, RT-RT-INTENSIFY, RT-SEQUENCING, RT-SURGICAL-QUALITY, RT-SURVEILLANCE
 - **retired by route (0):** —
 - **retired by technology:** TECH-RECONSTRUCTED-IPD
-- **⭐ retired by an action we can take:** ⭐ AN ACTION WE CAN TAKE, AND IT IS FREE. Extract the missing fields from the open-access series already cited here: margin status, primary anatomical site, metastatic site and burden, time-to-metastasis, treatment setting, and the Kaplan-Meier curves plus numbers-at-risk tables that research/modalities/emc_ipd_survival.py inverts into patient-level data.
+- **⭐ retired by an action we can take:** ⛔ SUPERSEDED 2026-09-02, AND THE OLD TEXT IS THE POINT. It read: "⭐ AN ACTION WE CAN TAKE, AND IT IS FREE. Extract the missing fields from the open-access series already cited here: margin status, primary anatomical site, metastatic site and burden, time-to-metastasis, treatment setting, and the Kaplan-Meier curves plus numbers-at-risk tables that research/modalities/emc_ipd_survival.py inverts into patient-level data." Three of the six fields it names cannot be retired by any extraction, free or otherwise, because the fact is not on the page. A blocker whose stated retiring action cannot retire it reads as actionable forever — CLAUDE.md §0's "'Blocked' is a claim that needs evidence, and it is usually wrong", arriving from the other side.
+
+⭐ PER FIELD, WITH ITS ARTIFACT. Margin status — RETIRED, research/modalities/emc-surgical-quality.json, 196 operated patients. Primary anatomical site — RETIRED, research/modalities/emc-site-curation.json, 271 patients. Metastatic site — RETIRED as a curation (the pooled lung-confined fraction is refused on POLICY-evidence §2.1/§2.3, which is a pooling rule and not a shortage of effort). Time-to-metastasis — RETIRED as a printed aggregate, research/modalities/emc-recurrence-timing.json; NOT retirable per patient. ⛔ Metastatic lesion burden — NOT RETIRABLE: no reachable series prints per-patient lesion counts, unchanged by the two series added on 2026-08-27. ⛔ Treatment setting — NOT RETIRABLE: one large series is silent and the other holds the exposure constant by construction, so it is unanswerable in principle from these two cohorts rather than merely unprinted. ⛔ Numbers-at-risk rows — NOT RETIRABLE: research/literature/emc-km-admissibility-2026-08-27.json refuses masunaga2025, chiusole2020 and martinbroto2020immunosarc1 for no risk row, against 2 series admitted (16 patients between them) and 11 unreachable, out of 16 candidates.
+
+⚠ SCOPE NOTE, 2026-09-02. The narrative below still says FOUR routes gained this blocker. NINE inherit it today — the original four plus RT-IPD-SURVIVAL, RT-SURGICAL-QUALITY, RT-SURVEILLANCE, RT-METASTASECTOMY and RT-RISK-MODEL. The five care-delivery and IPD routes were added without this record being updated. ⭐ THEY STILL INHERIT IT CORRECTLY, and on the NOT-RETIRABLE half: each one's own readiness.missing names a fact that no reachable publication prints — per-patient dose, treatment setting, a hazard function, per-patient lesion counts, a baseline hazard. What changed is WHY they are held, not WHETHER.
 
 ⛔ THIS BLOCKER REPLACED A MISATTRIBUTION, AND THE CORRECTION WAS NOT UNIFORM — WHICH IS THE POINT. Six routes across ST-LOCOREGIONAL and ST-STRATEGY inherited BLK-NO-EMC-DATA, whose own record scopes it to FUNCTIONAL-GENOMICS data (one DepMap line, no CRISPR). None of the six needs a dependency screen, so all six lost it. Only FOUR gained this one: RT-LIMB-PERFUSION, RT-LUNG-DIRECTED and RT-RT-INTENSIFY, whose `readiness.missing` names site, burden or per-patient dose curation verbatim, and RT-SEQUENCING, whose timing rationale reads 'Only individual-patient data could change this, and it is not obtainable here'.
 
 ⭐ RT-SCHEDULING AND RT-TRIAL-REACH GAINED NOTHING AND ARE NOW UNBLOCKED OUTRIGHT. RT-SCHEDULING's `readiness.missing` says 'nothing to start — the inputs are committed', and RT-TRIAL-REACH's names non-US registry coverage needing an authenticated endpoint, which is an access condition and not a curation gap. Giving either of them a curation blocker would have swapped one mis-scoped blocker for another and left them reading as blocked when they are not. ⚠ RT-SCHEDULING still carries `status: blocked` from its own grade owner (research/manuscripts/endpoint/emc-systemic-therapy-pooling.json); that status was NOT edited here, because a route's grade belongs to its owner and this change belongs to the blocker model. It now shows a blocked route with no blocker, which is a real disagreement for that owner to settle rather than one to paper over.
 
 Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filing a free curation task behind a technology forecast to 2029 is how work that could be done today reads as work that cannot.
-- **evidence:** research/modalities/emc-care-delivery-evidence.json / research/data/emc-clinical-registry.json
+- **evidence:** research/modalities/emc-care-delivery-evidence.json / research/data/emc-clinical-registry.json / research/modalities/emc-surgical-quality.json / research/modalities/emc-site-curation.json / research/modalities/emc-recurrence-timing.json / research/modalities/emc-prognostic-coefficients.json / research/literature/emc-km-admissibility-2026-08-27.json / research/literature/emc-km-reachability-census-2026-08-25.json
 - **when it could lift:**
 
   | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
@@ -431,5 +437,22 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 - **evidence:** research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk / research/modalities/nr4a3-tcip-reach.json / research/manuscripts/degrader/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today
 - **when it could lift:** **not forecast** — retired by an action we can take, not by an advance we wait for. The action is the row above.
 - **owner:** `research/manuscripts/degrader/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today`
+
+### BLK-NO-FIELD-ATTENTION-MEASUREMENT
+
+**The paper's second half — what the literature has been looking at INSTEAD — rests on a corpus-wide term census nobody has run**
+
+- **kind:** `insufficient_data`
+- **a statement about:** a measurement this program has not taken, over a corpus it already holds. ⛔ Not a data gap and not an access gap: the 554 records are committed and reachable at $0.
+- **held by (0):** —
+- **retired by route (0):** —
+- **⭐ retired by an action we can take:** ⭐ FREE AND TAKEABLE TODAY, AND — unlike the blocker it replaces on this paper — IT CAN ACTUALLY BE RETIRED BY THE ACT IT NAMES. Run a term census over the 554 records at literature/emc-care-delivery-and-classification/ on the literature-cache branch, through the same GitHub contents API route that produced the 2026-09-01 metastasectomy refutation, and report how the corpus divides between systemic-agent, surgical, margin and follow-up subject matter.
+
+⛔ WHY THIS EXISTS. PUB-CARE-DELIVERY's working title is "What decides survival in extraskeletal myxoid chondrosarcoma, and what the literature has been looking at instead". The first half now has four quantitative artifacts behind it. The second half has NO measurement of any kind anywhere in this repository — it is an argument, and the paper cannot make it until somebody counts. research/modalities/emc_care_delivery_evidence.py::absence_result says so in its own words about the same corpus: the file "holds no term-census receipt over the named corpus, so the number of matching records is UNKNOWN".
+
+⚠ WHAT THIS BLOCKER IS NOT. It does not hold any ROUTE, and systems_check [B3] will say so — that is honest rather than mis-scoped. It holds the PAPER, which is a set the publication register keeps deliberately distinct from the set its routes inherit. The five contributing routes are held by something else entirely (BLK-NO-CURATED-CLINICAL-DATA's not-retirable half), and their next actions are internal records rather than this paper.
+- **evidence:** research/modalities/emc-care-delivery-evidence.json / research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md / research/manuscripts/care-delivery/emc-absence-claims-refuted.json
+- **when it could lift:** **not forecast** — retired by an action we can take, not by an advance we wait for. The action is the row above.
+- **owner:** `research/modalities/emc-care-delivery-evidence.json`
 
 [← L0](../L0-ecosystem.md)

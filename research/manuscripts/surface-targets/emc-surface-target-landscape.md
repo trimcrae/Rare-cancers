@@ -755,8 +755,9 @@ something this programme can perform. So this establishes that **the public reco
 label the manuscript applied; it does **not** establish what the line is instead, that the original
 characterisation was wrong, or that the line is not EMC. A line can be misidentified, can drift in
 culture, or can be a genuine fusion-negative tumour of the same histology, which is a real category since
-a minority of EMC carries no identified FET partner. Cellosaurus also records an 18-locus STR profile
-cross-referenced to DepMap `ACH-001519`, COSMIC-CLP `907290` and RIKEN `RCB0508`: the line is a real,
+a minority of EMC carries no identified FET partner. Cellosaurus also records an STR profile of 16 markers — 15 STR
+loci plus amelogenin — cross-referenced to DepMap `ACH-001519`, COSMIC-CLP `907290` and RIKEN
+`RCB0508`: the line is a real,
 profiled entity, and the open question is what it is rather than whether it exists.
 
 **What was withdrawn.**
