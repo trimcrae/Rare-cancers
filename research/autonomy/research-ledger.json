@@ -17,7 +17,7 @@
     "negative": 32,
     "process": 8,
     "process_defect": 192,
-    "proposal": 17,
+    "proposal": 18,
     "recover": 2,
     "regrade": 15,
     "verify": 2,
@@ -26,14 +26,14 @@
   "n_by_state": {
     "blocked": 2,
     "done": 177,
-    "in_progress": 8,
+    "in_progress": 9,
     "parked": 30,
     "queued": 161,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 23,
-  "n_unscored_open": 0,
+  "n_unscored": 24,
+  "n_unscored_open": 1,
   "entries": [
     {
       "serves": {
@@ -516,13 +516,13 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-02/PUB-ATR-ROUND3@0448a27a61fe",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-09-01",
       "score": 190.9,
       "score_inputs": {
@@ -541,11 +541,12 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T06:40:00Z",
+      "claimed_utc": null,
       "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
       "notified_utc": "2026-09-01T14:40:19Z",
       "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED AT DISPATCH FOR A RUNNING ROUND, NOT FOR THE DRIVER. Five blind adversarial seats are reviewing the pinned commit 0448a27a61fee7dd972834c444a953ef7b6464bf.\n★ WHY THIS ROUND EXISTS: publish_bar reads PUB-ATR at 4/7 and two of the three open clauses are this round — 'hardening converged' fails because the last recorded round reviewed a DIFFERENT commit ('a review of a different tree is not a review of this one'), and 'a blind adversarial seat finds the claim supported' has no record at this sha. The third, a PREFLIGHT_FULL receipt, is blocked by S40-COVERAGE-INFLATION and is not this round's to clear.\n⚠ AUTHORITY IS NOT A BLOCKER HERE: publish_bar reports 'authority: OK — granted trimcrae 2026-08-26, \"Broad: any paper meeting the bar\"'. The paper is held by the BAR, not by a person."
+      "_claimed_by_a_running_round": "⛔ CLAIMED AT DISPATCH FOR A RUNNING ROUND, NOT FOR THE DRIVER. Five blind adversarial seats are reviewing the pinned commit 0448a27a61fee7dd972834c444a953ef7b6464bf.\n★ WHY THIS ROUND EXISTS: publish_bar reads PUB-ATR at 4/7 and two of the three open clauses are this round — 'hardening converged' fails because the last recorded round reviewed a DIFFERENT commit ('a review of a different tree is not a review of this one'), and 'a blind adversarial seat finds the claim supported' has no record at this sha. The third, a PREFLIGHT_FULL receipt, is blocked by S40-COVERAGE-INFLATION and is not this round's to clear.\n⚠ AUTHORITY IS NOT A BLOCKER HERE: publish_bar reports 'authority: OK — granted trimcrae 2026-08-26, \"Broad: any paper meeting the bar\"'. The paper is held by the BAR, not by a person.",
+      "lease_released": "claim by SPRINT-2026-09-02/PUB-ATR-ROUND3@0448a27a61fe released after 10.3 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-035",
@@ -1810,46 +1811,6 @@
       "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
     },
     {
-      "id": "AUT-073",
-      "_derived": true,
-      "what": "Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient without any new science, and its absence finding about the driver gene is a reportable fact about how the registry indexes rare disease.",
-      "serves": {
-        "route": "RT-TRIAL-REACH",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "score": 160.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null,
-      "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act.",
-      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-STRATEGY-ARCH` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were."
-    },
-    {
       "id": "AUT-PD-026",
       "kind": "process_defect",
       "process_defect": true,
@@ -2099,6 +2060,52 @@
         {
           "utc": "2026-08-28T19:20:00Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
+      "id": "AUT-073",
+      "_derived": true,
+      "what": "Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient without any new science, and its absence finding about the driver gene is a reportable fact about how the registry indexes rare disease.",
+      "serves": {
+        "route": "RT-TRIAL-REACH",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s22-hardening",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "score": 152.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act.",
+      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-STRATEGY-ARCH` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
         }
       ]
     },
@@ -2485,52 +2492,6 @@
         "⚠ FILED FIRST AS AUT-PD-178 AND RENUMBERED: CYC-0086-4ce79c2a committed a different AUT-PD-178 ('a finished ledger row was claimable, and claiming it reopened the work') in 5c50402a0 while this one was being gated. That is AUT-PD-171 recurring — SECOND occurrence in a single session, both against `ids.next_entry_id`, and this time the loser was found by a rebase conflict rather than by reading a sibling's summary. ⛔ The commit message of the commit that lands this row still says AUT-PD-178, because it was written before the collision was visible; THIS row is the id."
       ],
       "what": "⛔⛔ THE `background_reads` BLOCK THIS REPOSITORY PUBLISHED WAS NOT A BACKGROUND — IT WAS THE CONFOUNDED POOL WITH A NEW NAME AND A `sampling_frame` STRING ASSERTING OTHERWISE. Measured 2026-08-29 on the run that produced it: 100.0% of the drawn genes were the curated roster plus the signature members, on both matrices, not one gene outside. ⛔ AND IT WAS WELL-FORMED — populated, seeded, reproducible, with `n_requested=3000, n_drawn=2284` reading exactly like a sample that met a smaller-than-expected frame rather than a wrong one. CLAUDE.md §4: a plausible-looking record is more dangerous than an empty one, and presence is never evidence of provenance. Had the next cycle pinned the read and regenerated, it would have reported a verdict 'measured against the array background' that was measured against the same pool AUT-PD-167 condemned — the identical failure one level deeper, and this time with a field name vouching for it. ⭐ FIXED IN TWO PLACES, DELIBERATELY. (1) PRODUCER: the draw moved into `_read_target`, beside `_genome_wide_null`, where the full probe matrix is still in memory; `_background_reads` now only GATHERS and its docstring says it must never draw. (2) CONSUMER: `ndrg1_panel_attribution.build` refuses a background whose genes are contained in the panels plus the roster, checked against data the consumer already holds rather than against the block's own `n_frame` or `sampling_frame` — because a producer with the wrong frame reports both of those just as confidently. ★ THE CONSUMER GUARD IS THE LOAD-BEARING HALF: the producer bug is fixed once, but the class returns whenever anyone regenerates that artifact with a different parser."
-    },
-    {
-      "id": "AUT-025",
-      "_derived": true,
-      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
-      "serves": {
-        "route": "RT-FAP-RLT",
-        "publication": "PUB-SURFACE-TARGETS",
-        "strategy": "ST-RADIOLIGAND"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "score": 143.4,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 0.2857,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:00:28Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-057",
@@ -3157,6 +3118,56 @@
       "claimed_utc": null
     },
     {
+      "id": "AUT-025",
+      "_derived": true,
+      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s23-live-research",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "score": 135.4,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 0.2857,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-033",
       "kind": "process_defect",
       "process_defect": true,
@@ -3219,49 +3230,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PD-151",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0072-2e57571a",
-      "depends_on_evidence": [
-        "git ls-remote --heads origin 'refs/heads/seat/*' (4 branches), 2026-08-28T23:35Z",
-        "git merge-base --is-ancestor <sha> origin/main -> false for all four",
-        "per-branch ledger diff vs trunk: 1 id collision (AUT-PD-141 on seat/s3), 0 on the others",
-        "get_session(session_01SVfJ6HmD2f5u4Z2TPwfTCG) -> SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z"
-      ],
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "internal merges of already-pushed branches; nothing outward-facing",
-      "what": "⛔⛔ FOUR SEATS' FINISHED WORK IS SITTING ON PUSHED BRANCHES THAT NO ROW NAMED AND NOTHING WILL MERGE. Found 2026-08-28T23:35Z (CYC-0072-2e57571a) while releasing the dead leases of AUT-PD-150. Their driver, `session_01SVfJ6HmD2f5u4Z2TPwfTCG`, was ARCHIVED at 23:17:54Z with its own last summary reading 'landing loop attempt 2/4; gate re-gating on b94d4bc1c; 4 seats finishing' — so it died IN the landing loop, after the seats had pushed and before any of them merged. Verified by `git merge-base --is-ancestor <sha> origin/main` for each: all four false. ⭐ THE BRANCHES, WITH WHAT THEY CARRY: (1) `seat/s1-aut-pd-130` @ e0847032 — AUT-PD-130, the census/guard-corpus pairing the predecessor's handoff called 'cheap and not done'; touches claim_coverage.py, a new pairing test, preflight.sh, tests.yml, regenerate_aso_chain.sh, the ASO archive manifest. (2) `seat/s3-unscreened-endpoints` @ 88ac1c78 — lint_style.TARGETS vs systems/graph/publications.json, with a new test; ⛔ SEE THE COLLISION BELOW, this one has NO row of its own on the trunk. (3) `seat/s4-aut-045` @ c8944f76 — AUT-045 re-test, touches systems/graph/routes.json and two views. (4) `seat/s5-retest-blocks` @ da4247dc — IC-3 and IC-12 prechecks, two new research/modalities artifacts. ⛔⛔ AND MERGING (2) NAIVELY DESTROYS A LIVE ROW. Its ledger marks `AUT-PD-141` done for 'the register and readability screens are scoped by a hand-typed list, and 18 of 25 publication endpoints are outside it'. The TRUNK's `AUT-PD-141` is a DIFFERENT row — 'a rebase silently invalidates the archive manifest's provenance'. Two subjects, one id, and a clean auto-merge would silently overwrite one with the other. This is AUT-PD-144's mechanism (`ids.next_entry_id` is max+1 over a snapshot five concurrent sessions have already moved) landing on a branch instead of at a push. The seat's work must be renumbered to a fresh id at merge, and the trunk's AUT-PD-141 left alone. Checked on all four branches; s1, s4 and s5 are collision-free — their ledgers are merely 8-11 rows behind and must be rebased, never taken whole. ⚠ SIZE, SAID HONESTLY: this is FOUR merges each needing its own gate run, not one cycle's work. Whoever takes it should land them one at a time, and may split this row. Nothing here is a claim that the four branches are CORRECT — none has been reviewed by this cycle; the claim is only that they exist, that they are unmerged, and that they were about to be lost.",
-      "dispatch_log": [],
-      "evidence": "",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "score": 134.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. VERIFIED LIVE AT HEAD, NOT INHERITED FROM THE ROW: all four seat branches are still unmerged four days on — seat/s1-aut-pd-130 e0847032, seat/s3-unscreened-endpoints 88ac1c7c, seat/s4-aut-045 c8944f76, seat/s5-retest-blocks da4247dc, each `git merge-base --is-ancestor <sha> origin/main` false. CLAUDE.md §7 calls branch drift a data-loss bug; seat/s4 touches systems/graph/routes.json.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'anchored'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
     },
     {
       "id": "AUT-PD-160",
@@ -4213,6 +4181,55 @@
       "score": 126.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three route records `ready`/`pursue_now` while their own next action is a CONCLUSION — RT-CARFILZOMIB (still the top-scoring ready row at 172.0), RT-PANNR4A-EXVIVO, RT-TRABECTEDIN. These are the residue the status-driven queue fix cannot catch by construction.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
+    },
+    {
+      "id": "AUT-PD-151",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "state": "in_progress",
+      "owner": "s24-debt",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0072-2e57571a",
+      "depends_on_evidence": [
+        "git ls-remote --heads origin 'refs/heads/seat/*' (4 branches), 2026-08-28T23:35Z",
+        "git merge-base --is-ancestor <sha> origin/main -> false for all four",
+        "per-branch ledger diff vs trunk: 1 id collision (AUT-PD-141 on seat/s3), 0 on the others",
+        "get_session(session_01SVfJ6HmD2f5u4Z2TPwfTCG) -> SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z"
+      ],
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "internal merges of already-pushed branches; nothing outward-facing",
+      "what": "⛔⛔ FOUR SEATS' FINISHED WORK IS SITTING ON PUSHED BRANCHES THAT NO ROW NAMED AND NOTHING WILL MERGE. Found 2026-08-28T23:35Z (CYC-0072-2e57571a) while releasing the dead leases of AUT-PD-150. Their driver, `session_01SVfJ6HmD2f5u4Z2TPwfTCG`, was ARCHIVED at 23:17:54Z with its own last summary reading 'landing loop attempt 2/4; gate re-gating on b94d4bc1c; 4 seats finishing' — so it died IN the landing loop, after the seats had pushed and before any of them merged. Verified by `git merge-base --is-ancestor <sha> origin/main` for each: all four false. ⭐ THE BRANCHES, WITH WHAT THEY CARRY: (1) `seat/s1-aut-pd-130` @ e0847032 — AUT-PD-130, the census/guard-corpus pairing the predecessor's handoff called 'cheap and not done'; touches claim_coverage.py, a new pairing test, preflight.sh, tests.yml, regenerate_aso_chain.sh, the ASO archive manifest. (2) `seat/s3-unscreened-endpoints` @ 88ac1c78 — lint_style.TARGETS vs systems/graph/publications.json, with a new test; ⛔ SEE THE COLLISION BELOW, this one has NO row of its own on the trunk. (3) `seat/s4-aut-045` @ c8944f76 — AUT-045 re-test, touches systems/graph/routes.json and two views. (4) `seat/s5-retest-blocks` @ da4247dc — IC-3 and IC-12 prechecks, two new research/modalities artifacts. ⛔⛔ AND MERGING (2) NAIVELY DESTROYS A LIVE ROW. Its ledger marks `AUT-PD-141` done for 'the register and readability screens are scoped by a hand-typed list, and 18 of 25 publication endpoints are outside it'. The TRUNK's `AUT-PD-141` is a DIFFERENT row — 'a rebase silently invalidates the archive manifest's provenance'. Two subjects, one id, and a clean auto-merge would silently overwrite one with the other. This is AUT-PD-144's mechanism (`ids.next_entry_id` is max+1 over a snapshot five concurrent sessions have already moved) landing on a branch instead of at a push. The seat's work must be renumbered to a fresh id at merge, and the trunk's AUT-PD-141 left alone. Checked on all four branches; s1, s4 and s5 are collision-free — their ledgers are merely 8-11 rows behind and must be rebased, never taken whole. ⚠ SIZE, SAID HONESTLY: this is FOUR merges each needing its own gate run, not one cycle's work. Whoever takes it should land them one at a time, and may split this row. Nothing here is a claim that the four branches are CORRECT — none has been reviewed by this cycle; the claim is only that they exist, that they are unmerged, and that they were about to be lost.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02",
+        "fruitless_attempts": 1
+      },
+      "score": 126.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. VERIFIED LIVE AT HEAD, NOT INHERITED FROM THE ROW: all four seat branches are still unmerged four days on — seat/s1-aut-pd-130 e0847032, seat/s3-unscreened-endpoints 88ac1c7c, seat/s4-aut-045 c8944f76, seat/s5-retest-blocks da4247dc, each `git merge-base --is-ancestor <sha> origin/main` false. CLAUDE.md §7 calls branch drift a data-loss bug; seat/s4 touches systems/graph/routes.json.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'anchored'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
     },
     {
       "id": "AUT-PD-192",
@@ -7809,69 +7826,6 @@
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
     },
     {
-      "id": "AUT-011",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask with the assessment. It is the strongest taker-fit in the portfolio.",
-      "serves": {
-        "route": "RT-ATR-PANEL",
-        "publication": "PUB-ATR-PANEL-ASK",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-NO-WET-LAB"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 76.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "prebuilt_bench",
-        "patient_path_scaled": 0.7,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:03Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s5-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s5-retest-blocks",
-        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
-        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
       "id": "AUT-PD-006",
       "kind": "fix",
       "serves": {
@@ -8359,69 +8313,6 @@
       "score_inputs": {}
     },
     {
-      "id": "AUT-007",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-DELIVERY']. Original next action: Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-NUCLEIC-ACID"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-DELIVERY"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-13",
-      "score": 70.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": true,
-        "endpoint_reachable": true,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:10Z",
-          "fingerprint_at_dispatch": "2026-08-13|None"
-        }
-      ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s5-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s5-retest-blocks",
-        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
-        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
       "serves": {
         "route": "RT-ASO",
         "publication": "PUB-ASO",
@@ -8565,6 +8456,73 @@
       "claimed_utc": null
     },
     {
+      "id": "AUT-011",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask with the assessment. It is the strongest taker-fit in the portfolio.",
+      "serves": {
+        "route": "RT-ATR-PANEL",
+        "publication": "PUB-ATR-PANEL-ASK",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s24-debt",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-WET-LAB"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 68.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "prebuilt_bench",
+        "patient_path_scaled": 0.7,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 2,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:03Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ],
+      "lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
+    },
+    {
       "id": "AUT-PD-078",
       "what": "LATENT, CHEAP TO CLOSE: a self-referential `prerequisite_of` (a row naming itself) is not idempotent under the committed `_resolve` — it gains +bonus on every re-score, resolving once per call from its own base. No such row exists today and the ranker terminates, so nothing is wrong right now; it is filed because the point of the idempotence work that landed this cycle is that a re-score must be a fixed point, and a latent non-fixed-point is one bad ledger edit away from being live. Found by seat s63-prereqscore while proving the chain terminates.",
       "serves": {
@@ -8665,132 +8623,6 @@
       }
     },
     {
-      "id": "AUT-008",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
-      "serves": {
-        "route": "RT-ASO-ASK",
-        "publication": "PUB-ASO",
-        "strategy": "ST-NUCLEIC-ACID"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-NO-WET-LAB"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 64.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:13Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s5-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s5-retest-blocks",
-        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
-        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
-      "id": "AUT-045",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-UNSIZED-REQUIREMENT']. Original next action: Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
-      "serves": {
-        "route": "RT-MONOVALENT",
-        "publication": "PUB-MONOVALENT",
-        "strategy": "ST-OCCUPANCY"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-UNSIZED-REQUIREMENT"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
-      "score": 64.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:44:38Z",
-          "fingerprint_at_dispatch": "2026-08-06|None"
-        }
-      ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s4-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s4-aut-045",
-        "sha": "c8944f76ea391f4be033adcb2268108e4fd8b478",
-        "detail": "1 commit, 2026-08-28T23:09:04Z. Touches systems/graph/routes.json, systems/views/L1-st-occupancy.md and systems/views/L2-rt-monovalent.md.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
       "serves": {
         "route": "RT-ASO",
         "publication": "PUB-ASO",
@@ -8833,6 +8665,73 @@
         }
       ],
       "lease_released": "claim by CYC-0090-d7df5340 released after 10.0 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+    },
+    {
+      "id": "AUT-007",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-DELIVERY']. Original next action: Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-NUCLEIC-ACID"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s24-debt",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-DELIVERY"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-13",
+      "score": 62.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": true,
+        "endpoint_reachable": true,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 2,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:10Z",
+          "fingerprint_at_dispatch": "2026-08-13|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-13|None"
+        }
+      ],
+      "lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "serves": {
@@ -8994,6 +8893,73 @@
       "_resolution": "DONE, AND THE TWO HALVES WERE IN OPPOSITE STATES. ⭐ THE RE-RUN WAS ALREADY COMPLETE and had been since 2026-08-06, the same date this row's own last_evidence carried: nr4a3-tcip-reach.json holds a ★_named_effector block computed from bcl6's and brd4_bd1's own cells (BCL6 BTB homodimer 7LWG, 243 res; BRD4 BD1 4ZC9, 127 res), both admitting at the 12-atom gate with a shortest linker of 6 backbone atoms, and nr4a3-tcip-reach.md §1b plus the route memo §7b already carry the named-effector restatement with the line on what may NOT be upgraded. Nothing was re-sampled: the enumeration costs 8805 s and re-running it would have re-derived numbers that had not moved.\n⛔ THE DOCUMENT HALF WAS NOT DONE, AND THE ARTIFACT'S OWN map_edits_required SAID SO: 4 of 9 edits PENDING. Applied here, verbatim from the described proposals: systems/graph/artifacts.json's ART-TCIP-REACH note (which still asserted 'no effector arm is staged in this repository', now false) and a new ART-TCIP-EFFECTOR-ARMS record; systems/graph/routes.json's RT-TCIP.artifacts, readiness.why_not_higher and closure_note. research/manuscripts/emc-systems-map.json reprojected, because systems_check polices legacy/graph agreement on closure_note and artifacts. Views regenerated. ⛔ NO blocker, grade or closure_kind moved: staging a body is an INPUT, not a result.\n⚠ ONE JUDGEMENT CALL, RECORDED BECAUSE IT DEVIATES FROM THE DESCRIBED EDIT: dropping the one entry in readiness.missing would have left it EMPTY, which asserts 'nothing missing' — stronger than the evidence supports, since the paired SIZE comparison is still computed on the four E3 bodies alone. It was REPLACED with that remaining limit rather than emptied.\n⛔ AND THE 4 PENDING ROWS WERE NOT ALL REAL WORK — the state machine was misreporting, which is filed and fixed as part of this row (see AUT-PD-139 in the receipt's diagnostic). One of the four had been applied weeks earlier in better wording than proposed."
     },
     {
+      "id": "AUT-008",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
+      "serves": {
+        "route": "RT-ASO-ASK",
+        "publication": "PUB-ASO",
+        "strategy": "ST-NUCLEIC-ACID"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s24-debt",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-WET-LAB"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 56.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 2,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:13Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ],
+      "lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
+    },
+    {
       "id": "AUT-009",
       "_derived": true,
       "what": "BUILD THE DETECTOR. The corpus-wide sweep was done by hand on 2026-08-07: 1,354 paralogue-pair mentions triaged, 16 symmetric statements of the REQUIREMENT / BRIEF / DESIGN TARGET rewritten to carry the asymmetry (requirement R7 and its graph record, RT-DEGRADER purpose, the degrader design spec, the treatment roadmap, the selectivity architecture, the paper heading and SI safety note, three companion fusion papers, the indication stack, the outreach template and two module docstrings), each retaining its superseded text inline. Symmetric MEASUREMENTS were left alone and are correct. ⛔ THE VALIDATION STAYS OPEN BECAUSE A HAND SWEEP DECAYS: nothing mechanical detects the next symmetric restatement, so the next $0 step is a narrow checker for the retired design-target phrasings ('NR4A1/2-sparing', 'spare/sparing NR4A1 and NR4A2', 'selective over NR4A1/NR4A2' used as a bar rather than a measurement) that exempts superseded-retained quotations. Two corrections the sweep also forced, both in the SOFT half and both pointing at §2.4: the NR4A2 bound is no longer 'unbounded in both directions' (MGI, 2026-08-03) and the PK/CNS-exclusion lever is closed (HPA 47/51 co-expression), so three documents that still sourced NR4A2 safety from exposure were corrected. Nothing here raises any selectivity claim: every paralogue-selectivity statement in the repository remains an unvalidated prediction.",
@@ -9068,6 +9034,73 @@
         "fruitless_attempts": 0
       },
       "lease_released": "✅ STATE CORRECTED 2026-08-28, AND IT WAS FOUND BY THE NEW queue_view.py ON ITS FIRST REAL RUN. This row's own `what` opens '⛔ NOTHING. CLOSED 2026-08-23' and names its record — research/modalities/emc-icdo-contamination.json, which landed on the trunk 2026-08-27 in 1fd33bbbb. The PROSE said closed and the STATE said `queued`, and the state is the field continuity.py reads, so this row has been offered as ready work for five days. ⭐ Exactly the AUT-PD-051 shape: nothing records that a row is FINISHED except a human remembering to write it in the right field."
+    },
+    {
+      "id": "AUT-045",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-UNSIZED-REQUIREMENT']. Original next action: Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
+      "serves": {
+        "route": "RT-MONOVALENT",
+        "publication": "PUB-MONOVALENT",
+        "strategy": "ST-OCCUPANCY"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s24-debt",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-UNSIZED-REQUIREMENT"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-06",
+      "score": 56.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 2,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:44:38Z",
+          "fingerprint_at_dispatch": "2026-08-06|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-06|None"
+        }
+      ],
+      "lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s4-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s4-aut-045",
+        "sha": "c8944f76ea391f4be033adcb2268108e4fd8b478",
+        "detail": "1 commit, 2026-08-28T23:09:04Z. Touches systems/graph/routes.json, systems/views/L1-st-occupancy.md and systems/views/L2-rt-monovalent.md.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-PD-062",
@@ -9625,69 +9658,6 @@
       "claimed_utc": null
     },
     {
-      "id": "AUT-016",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-REACH-CATEGORICAL']. Original next action: Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
-      "serves": {
-        "route": "RT-COVALENT-PROBE",
-        "publication": "PUB-DEGRADER",
-        "strategy": "ST-OCCUPANCY"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-REACH-CATEGORICAL"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 48.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:16Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s5-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s5-retest-blocks",
-        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
-        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
       "id": "AUT-022",
       "_derived": true,
       "what": "Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun.",
@@ -10009,6 +9979,73 @@
       "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1.",
       "_renamed_from": "AUT-PD-179",
       "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-179 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
+    },
+    {
+      "id": "AUT-016",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-REACH-CATEGORICAL']. Original next action: Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
+      "serves": {
+        "route": "RT-COVALENT-PROBE",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-OCCUPANCY"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s23-live-research",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-REACH-CATEGORICAL"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 40.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 2,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-09-02T16:55:04Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:16Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ],
+      "lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-PD-005",
@@ -12344,15 +12381,15 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "s24-debt",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": "publish_bar",
       "blocked_evidence": "MEASURED 2026-09-01 by CYC-0090-d7df5340, not inferred: `publish_bar --paper PUB-FUSION-OUTPUT` reads 3/7, open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review.\n⛔ Every open clause there is the loop's own work, so the act this row names is not takeable and putting it to trimcrae would spend his attention on a question he cannot answer (CLAUDE.md §3). ★ All nine publications behind the unsent `requires_trimcrae` rows were measured the same day and not one is at 7/7. ⚠ A dated reading: when this bar reaches 7/7 the act becomes takeable and the row is his again — clear both fields and send it.",
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-09-01",
-      "score": -79.1,
+      "score": -87.1,
       "score_inputs": {
         "live": false,
         "patient_path": "none",
@@ -12363,15 +12400,21 @@
         "blocker_leverage": 0,
         "cost_class": "free",
         "blocked_on_human": true,
-        "fruitless_attempts": 0,
+        "fruitless_attempts": 1,
         "age_factor": 0.0714,
         "age_factor_as_of": "2026-09-02",
         "blocked_with_evidence": true
       },
+      "claimed_utc": "2026-09-02T16:55:04Z",
       "requires_trimcrae": true,
       "requires_trimcrae_why": "a journal submission, and the row itself says the residue is author-only furniture (ORCID, cover letter). D4: always his call.",
       "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-FUSION-OUTPUT` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
-      "claimed_utc": null
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-09-01|MEASURED 2026-09-01 by CYC-0090-d7df5340, not inferred: `publish_bar --paper PUB-FUSION-OUTPUT` reads 3/7, open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review.\n⛔ Every open clause there is the loop's own work, so the act this row names is not takeable and putting it to trimcrae would spend his attention on a question he cannot answer (CLAUDE.md §3). ★ All nine publications behind the unsent `requires_trimcrae` rows were measured the same day and not one is at 7/7. ⚠ A dated reading: when this bar reaches 7/7 the act becomes takeable and the row is his again — clear both fields and send it."
+        }
+      ]
     },
     {
       "serves": {
@@ -13089,6 +13132,32 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-PROP-058-11f2347b-3f863124",
+      "kind": "proposal",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "It governs HOW RULES GET ADDED to this repository, so a cycle adopting it for itself is the shape `amendment_guard` exists to refuse. The proposal is written; the adoption is his.",
+      "notified_utc": null,
+      "what": "⛔⛔ THREE PROTECTIONS IN THIS REPOSITORY WERE RECORDED AND ENFORCED BY NOTHING, AND THE THIRD WAS BEING VIOLATED WHILE IT WAS BEING WRITTEN DOWN. PROPOSE: no bar, cap or prohibition may be declared without, in the SAME COMMIT, either the code that reads it or an explicit UNENFORCED marker naming what is holding the line instead.\n★ THE THREE, EACH MEASURED RATHER THAN RECALLED:\n(1) `subagent_width` — a governed number `grep -rn` proved no code read: two hits, the JSON defining it and one test asserting it equals 5. Compliance was luck. Recorded in CLAUDE.md §1.\n(2) `max_versions_per_paper: 3` — measured 2026-09-02: three hits, none of them a reader, and `authority_permits('PUB-VACCINE-PATH','aixiv','new_version')` returns ok=True for a paper already carrying ELEVEN posted versions. The cap exists because eleven versions of one paper never moved its rating above 6 and trended DOWN; an uncapped loop would have put ten near-identical versions under trimcrae's ORCID.\n(3) `gpu_spend_prohibited` — trimcrae, 2026-09-02: 'You shouldn't be doing any GPU runs as part of this automation.' It was written into `autonomy-state.json` at 16:20Z. Between 15:55Z and 16:15Z the ternary Vast lane had already made FOUR launch attempts, and it kept dispatching afterwards from a supervisor loop that a cron removal does not stop.\n⭐ THE COMMON SHAPE, AND IT IS NOT FORGETFULNESS: in all three the rule was CORRECT, VISIBLE and WELL-ARGUED, and something else was the only thing actually holding the line — in (3) a price gate, which refused two attempts and let an unrelated fault kill the other two. ⛔ A ROUTINE THAT HAPPENS TO REFUSE IS NOT A CONTROL. Nothing billed, and $0 was the outcome of a gate doing an adjacent job, not of the ban working.\n★ WHY A NEW RULE RATHER THAN MORE CARE: CLAUDE.md ALREADY says 'RECORDED IS NOT ENFORCED' and cites (1) by name. That sentence was in front of every session that then shipped (2) and (3). A rule this repository has already written, and violated twice more since, is not a rule that needs restating — it needs a gate, which is the proposal's own argument turned on itself.",
+      "next_action": "Add a preflight check that walks the declared bars/caps/prohibitions in `autonomy-state.json` and `publication-authority.json` and, for each, asserts either a reader exists or an `_UNENFORCED` field names what is holding the line and why. ⛔ It must fail CLOSED on a declaration it cannot classify — an unclassifiable bar is the exact state all three of these were in. Mind `scripts/tier-budgets.json`: this belongs in the cheapest tier that runs on every commit, and adding it is a budget decision, not a free one.",
+      "evidence": [
+        "CLAUDE.md §1 (subagent_width, and health.py:fanout_is_governed added to measure it)",
+        "research/autonomy/publication-authority.json scope.max_versions_per_paper",
+        "research/autonomy/autonomy-state.json gpu_spend_prohibited._ENFORCEMENT_IS_NOT_THIS_FIELD",
+        "research/modalities/ternary-vast-launch-attempts.json — four attempts 15:55:42Z-16:15:44Z on 2026-09-02",
+        "commit disabling the GPU launch triggers, 2026-09-02"
+      ],
+      "route": null,
+      "last_evidence_utc": "2026-09-02",
+      "retry_budget": 3,
+      "score_inputs": {
+        "blocked_on_human": true
+      }
     }
   ]
 }

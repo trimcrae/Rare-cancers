@@ -1,0 +1,87 @@
+{
+  "account": "646605541856",
+  "arn": "arn:aws:iam::646605541856:user/nr4a3-ci-submitter",
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "capabilities": [
+    {
+      "allowed": true,
+      "capability": "s3:PutObject"
+    },
+    {
+      "allowed": true,
+      "capability": "s3:CopyObject in-place -> STANDARD_IA"
+    },
+    {
+      "allowed": true,
+      "capability": "s3:CopyObject in-place -> GLACIER_IR"
+    },
+    {
+      "allowed": true,
+      "capability": "s3:CopyObject in-place -> DEEP_ARCHIVE"
+    },
+    {
+      "allowed": true,
+      "capability": "s3:DeleteObject (probe cleanup)"
+    },
+    {
+      "allowed": false,
+      "capability": "s3:GetBucketVersioning",
+      "denied": true,
+      "error": "AccessDenied"
+    },
+    {
+      "allowed": false,
+      "capability": "s3:GetLifecycleConfiguration",
+      "denied": true,
+      "error": "AccessDenied"
+    },
+    {
+      "allowed": false,
+      "capability": "s3:ListBucketMultipartUploads",
+      "denied": true,
+      "error": "AccessDenied"
+    },
+    {
+      "allowed": false,
+      "capability": "s3:GetBucketTagging",
+      "denied": true,
+      "error": "AccessDenied"
+    },
+    {
+      "allowed": false,
+      "capability": "s3:ListBucketVersions",
+      "denied": true,
+      "error": "AccessDenied"
+    },
+    {
+      "allowed": false,
+      "capability": "ce:GetCostAndUsage",
+      "denied": true,
+      "error": "AccessDeniedException"
+    },
+    {
+      "allowed": false,
+      "capability": "ec2:DescribeVolumes",
+      "denied": false,
+      "error": "UnauthorizedOperation"
+    },
+    {
+      "allowed": false,
+      "capability": "ec2:DescribeRegions",
+      "denied": false,
+      "error": "UnauthorizedOperation"
+    },
+    {
+      "allowed": null,
+      "capability": "s3:PutLifecycleConfiguration",
+      "skipped": "PROBE_LIFECYCLE=1 not set"
+    }
+  ],
+  "generated_utc": "2026-08-12T23:33:57+00:00",
+  "routes_open": {
+    "delete_objects": true,
+    "lifecycle_rule_to_glacier": null,
+    "per_object_copy_to_glacier": true,
+    "read_the_actual_bill": false
+  }
+}

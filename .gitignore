@@ -62,3 +62,11 @@ profiler-output/
 # than ignored, so a `git add -A` fired while a build was mid-flight would have committed one as if
 # it were a deliverable. Ignored so that cannot happen.
 *.build.html
+
+# ⛔ THE SAME DEFECT AS THE RULE ABOVE, AND IT ACTUALLY FIRED ON 2026-08-25.
+# `research/modalities/tests/test_aso_independent_verification.py:171` writes `_corrupt-atlas.json`
+# beside itself to prove its own negative control fails, and removes it in a `finally`. A modalities
+# run was killed between the write and the `finally` — deliberately, because the tree had moved under
+# it — so the temp file survived, and the next `git add -A` committed a test fixture to the branch as
+# though it were an artifact. Ignored so no interrupted suite can do that again.
+research/modalities/tests/_corrupt-atlas.json

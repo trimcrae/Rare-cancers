@@ -481,8 +481,8 @@ alone for that reason.
 
 | gene | class | GPL6244 Δ mean z (exact p, BH q) | GPL3290 Δ mean z (exact p, BH q) |
 |---|---|---|---|
-| **ENO3** | A · fusion | **+0.8075** (7.3 × 10⁻⁵, q 0.00044) | **+3.8113** (1.3 × 10⁻⁴, q 0.00063) |
-| **PPARG** | A · fusion | +0.3071 (0.049, q 0.097) | +2.4809 (3.3 × 10⁻⁴, q 0.00083) — **circular, §3.8** |
+| **ENO3** | A · fusion | **+0.8075** (7.3 × 10⁻⁵, q 0.00044) | **+3.8113** (≤ 1.3 × 10⁻⁴, q 0.00063) |
+| **PPARG** | A · fusion | +0.3071 (0.049, q 0.097) | +2.4809 (≤ 3.3 × 10⁻⁴, q 0.00083) — **circular, §3.8** |
 | **SEMA3C** | A · fusion | +0.7298 (0.194, q 0.233) | +0.6228 (0.165, q 0.165) |
 
 All three genes are positive-signed on both platforms — six of six readings, no reversal **against the
@@ -494,7 +494,9 @@ what a coordinated programme predicts *and* what three individually EMC-associat
 the three are not equally supported once the self-contained null is applied. Under exact sample-label
 permutation, ***ENO3* is significant on both platforms after multiple-testing correction**, *PPARG* on
 GPL3290 only — which §3.8 shows is the circular platform — and ***SEMA3C* does not reach significance
-on either.** Clearing the size-matched null says a gene's delta is extreme relative to *other genes on
+on either.** **Both GPL3290 values above are written `≤` because each is the smallest its
+enumeration can report** — one labelling of 8,008 for *ENO3* and one of 3,003 for *PPARG* — so
+neither is a measured extremity below its design floor. Clearing the size-matched null says a gene's delta is extreme relative to *other genes on
 the platform*; it is not the same statement as the two arms differing for that gene. No row in the
 panel changed sign in any leave-one-out fit, and none changed sign on the rank re-read, so nothing
 here rests on one tumour or on the z-scoring convention.

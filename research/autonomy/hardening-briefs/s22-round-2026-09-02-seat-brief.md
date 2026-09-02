@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 id: DOC-S22-ROUND-2026-09-02-SEAT-BRIEF
 title: "Blind adversarial seat brief - the 2026-09-02 hardening round over three papers"
 level: L3
@@ -13,6 +14,31 @@ scope: >
   L3. One hardening round, pin f78666ce3715775c81c0b0b824a1f5bf3abb200c, three publication
   endpoints. It states what a seat may read, how it must grade, and the standard of evidence; it
   reports no result of its own.
+=======
+id: DOC-S22-SEAT-BRIEF-2026-09-02
+title: Blind adversarial seat brief — the 2026-09-02 hardening round, three papers on one pin
+level: L3
+kind: memo
+status: live
+canonical_for:
+  - the instructions the 2026-09-02 round's blind seats were dispatched against
+purpose: >
+  The brief handed to every blind adversarial seat in the 2026-09-02 hardening round, retained so
+  that each seat record in research/autonomy/review-seats/ can be read against what its seat was
+  actually asked to do. A seat verdict is only interpretable alongside its brief.
+scope: >
+  One round, one pinned commit (f78666ce3715775c81c0b0b824a1f5bf3abb200c), three publication
+  endpoints — PUB-FUSION-OUTPUT, PUB-STRATEGY-ARCH and PUB-NEOANTIGEN. It owns nothing but its own
+  instructions; every verdict lives in the seat records, and the bar's decision lives in
+  publish_bar.py.
+  ⚠ THE ROUND THIS BRIEFS WAS CUT SHORT AND THE BRIEF IS A RECORD, NOT A LIVE INSTRUCTION. It
+  dispatched fifteen seats as fifteen independent CCR sessions; trimcrae stopped that ("Way too many
+  independent sessions are running simultaneously right now"), the STRATEGY-ARCH and NEOANTIGEN seats
+  were archived and NEOANTIGEN was dropped from the round. `status` is `live` rather than
+  `superseded` because nothing replaced it — a supersession with no successor is unfalsifiable, which
+  is what D7 refuses. A later round writes its own brief; this one stays readable so each seat record
+  can be read against what its seat was actually asked to do.
+>>>>>>> origin/main
 audience: [maintainers, autonomous research agents]
 date: 2026-09-02
 last_verified: 2026-09-02
