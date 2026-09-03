@@ -497,45 +497,6 @@
       "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
     },
     {
-      "id": "AUT-221",
-      "_derived": true,
-      "what": "Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly.",
-      "serves": {
-        "route": "RT-RESPIRATORY-FAILURE",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 196.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
-    },
-    {
       "id": "AUT-222",
       "_derived": true,
       "what": "Count treatment-attributed deaths in the terminal-event corpus and set them beside the curated response data for the same agents.",
@@ -698,6 +659,52 @@
       "claim_workers": null,
       "_claim_workers_why": "⛔ ONE LEASE, FIVE CONCURRENT AGENTS. `subagent_width`'s unit is CONCURRENT AGENTS (autonomy-state.json `_subagent_width_means`), and this row's owner covers a five-seat fan-out. Without this field `continuity.py` counts distinct OWNER STRINGS and reports 1 worker against a cap of 5 — under-counting by four and permitting a sixth dispatch. ⚠ Measured 2026-08-27 against ListAgents, which showed five running while the check said one. This is the THIRD unit error of the day in the same family: leases-vs-workers, then workers-vs-AGENTS.",
       "lease_released": "✅ CLOSED 2026-08-27. The unread survey was read AND re-run at five times the width, because trimcrae rejected it as a survey of the field: \"I'm not buying this is real survey of the field if you think that the only people doing auto-research are doing it on ML benchmarks.\" He was right, and the reason is METHODOLOGICAL rather than careless — the first scan searched GitHub for AI-scientist repositories, which samples code that turns a topic into a paper and CANNOT see a loop whose bottleneck is physical, a pre-LLM robot scientist, the living-evidence world, a commercial platform that publishes nothing, or a venue-level publication gate. ⭐ THE TWO HEADLINES THAT DID NOT SURVIVE: (1) \"not solved for our shape\" is half wrong — a long-lived loop with a persistent queue, resource governance, stall detection, human authority and provenance is solved in three other domains, two of them running for DECADES; (2) \"ahead on governance\" is a sampling artifact, and the honest verdict is UNAWARE, not ahead — level on principle, behind on anti-gaming/claim-strength/provenance, and genuinely unusual on exactly one thing (an author-side artifact-computed bar) for the DEFLATIONARY reason that almost nobody posts unattended. Result: research/method-watch-autonomy-prior-art-2.md. Ten $0 actions filed below as AUT-PROP-029 … AUT-PROP-038, ordered."
+    },
+    {
+      "id": "AUT-221",
+      "_derived": true,
+      "what": "Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly.",
+      "serves": {
+        "route": "RT-RESPIRATORY-FAILURE",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-0099-fd57fe96",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-09",
+      "score": 188.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-03"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-03T13:13:59Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:13:59Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "id": "AUT-046",
@@ -8403,6 +8410,39 @@
       "score_inputs": {}
     },
     {
+      "id": "AUT-PD-218-37419c4c-49e1861a",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "The scorer's own claim mechanism, not any one route."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": 95.0,
+      "_score_basis": "HAND-SET. Not a live route and not blocking anything, but it silently defeats a status reader (not a safety mechanism -- claim.py's own decide() keys on `owner`, unaffected) -- similar class to AUT-PD-013's `fruitless_attempts` gap, scored in that band.",
+      "what": "claim.py's stamp_claim() sets a claimed row's `state` to `in_progress`, but priority.py's merge() only preserves a DERIVED row's prior state across a re-score when it is in SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (research/autonomy/priority.py). \"in_progress\" is not in that set, so the very next `priority.py --write` after a claim silently reverts a derived row's `state` back to whatever build_entries() computes from the graph (usually \"queued\") while `owner`/`claimed_utc` correctly survive via SESSION_OWNED. Measured directly: claimed AUT-218 via claim.py (state written as \"in_progress\", verified in the pushed commit), then ran `priority.py --write` once with no other change, and the committed row read `state: queued`, `owner: CYC-0098-37419c4c` -- owner and state disagreeing about whether the row is taken.",
+      "next_action": "Add \"in_progress\" to SESSION_STATES in research/autonomy/priority.py (one line), and add a regression test claiming a DERIVED row (not a hand-filed one -- the existing session-state tests may only cover hand-filed rows) then re-running build_ledger()/merge() and asserting state stays \"in_progress\". priority.py is governed (amendment_guard.py); declare the edit. ⛔ NOT A SAFETY GAP: claim.py's decide() keys on `owner`, never on `state`, so two sessions cannot both take the row -- this is a display/audit-trail inconsistency, not a race.",
+      "evidence": [
+        "research/autonomy/claim.py:480 sets e[\"state\"] = \"in_progress\" in stamp_claim()",
+        "research/autonomy/priority.py SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (in_progress absent)",
+        "research/autonomy/priority.py merge(): `if old_entry.get(\"state\") in SESSION_STATES: entry[\"state\"] = old_entry[\"state\"]` -- the only path that would have preserved it",
+        "Reproduced 2026-09-03: claimed AUT-218 (state in_progress on the pushed claim commit), ran `priority.py --write` with no other change, committed row read state=queued, owner=CYC-0098-37419c4c"
+      ],
+      "retry_budget": 3
+    },
+    {
       "id": "AUT-PD-068",
       "what": "✅ DONE 2026-09-02 by CYC-0091. `git fetch --unshallow origin` run in the loop's working environment: `git rev-parse --is-shallow-repository` went true -> false, history depth 27,513 commits (was shallow-truncated). Re-ran both censored instruments against the now-deep clone: `stuck_clock.py --check --json` reports `shallow_clone: false` and **0 censored rows** (203 rows total), surfacing 5 previously-unmeasurable rows as genuinely `stalled_needs_human` (AUT-011, AUT-007, AUT-008, AUT-045, AUT-016 -- each stuck since 2026-09-01T15:15:07Z with 0 recorded attempts despite being marked tried). `out_of_ideas.py --check --json` likewise reports `shallow_clone: false`, 0 censored routes across 78 routes, and surfaces RT-ASO as `out_of_ideas` (needs_attention: true, 5 empty rounds since last improvement 2026-09-01T19:27:19Z). Fed the fresh stuck_clock verdict to `health.py --stall-verdict ... --write`: `stalls_are_named` moved from NO-STALL-VERDICT (unmeasured) to a real STALLED-ROWS verdict naming the 5 rows above. `gates_green` remains unmeasured (needs a CI-side writer, out of this item's scope). Original fix confirmed correct: the censorship was real and this one $0 command cleared it. The 5 newly-surfaced `stalled_needs_human` rows and RT-ASO's `out_of_ideas` verdict are left queued for a future cycle's decision (re-scope/hand-over/close) -- this item's scope was the unshallow and the re-measurement, not resolving what it revealed.",
       "serves": {
@@ -14572,39 +14612,6 @@
       ],
       "retry_budget": 3,
       "filed_by": "interactive-session-11f2347b"
-    },
-    {
-      "id": "AUT-PD-218-37419c4c-49e1861a",
-      "kind": "process_defect",
-      "state": "queued",
-      "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
-      "attempts": 0,
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "cost_points_at": "research/compute/pricing.md",
-      "route": null,
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_why": "The scorer's own claim mechanism, not any one route."
-      },
-      "requires_trimcrae": false,
-      "notified_utc": null,
-      "last_evidence_utc": "2026-09-03",
-      "score": 95.0,
-      "_score_basis": "HAND-SET. Not a live route and not blocking anything, but it silently defeats a status reader (not a safety mechanism -- claim.py's own decide() keys on `owner`, unaffected) -- similar class to AUT-PD-013's `fruitless_attempts` gap, scored in that band.",
-      "what": "claim.py's stamp_claim() sets a claimed row's `state` to `in_progress`, but priority.py's merge() only preserves a DERIVED row's prior state across a re-score when it is in SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (research/autonomy/priority.py). \"in_progress\" is not in that set, so the very next `priority.py --write` after a claim silently reverts a derived row's `state` back to whatever build_entries() computes from the graph (usually \"queued\") while `owner`/`claimed_utc` correctly survive via SESSION_OWNED. Measured directly: claimed AUT-218 via claim.py (state written as \"in_progress\", verified in the pushed commit), then ran `priority.py --write` once with no other change, and the committed row read `state: queued`, `owner: CYC-0098-37419c4c` -- owner and state disagreeing about whether the row is taken.",
-      "next_action": "Add \"in_progress\" to SESSION_STATES in research/autonomy/priority.py (one line), and add a regression test claiming a DERIVED row (not a hand-filed one -- the existing session-state tests may only cover hand-filed rows) then re-running build_ledger()/merge() and asserting state stays \"in_progress\". priority.py is governed (amendment_guard.py); declare the edit. ⛔ NOT A SAFETY GAP: claim.py's decide() keys on `owner`, never on `state`, so two sessions cannot both take the row -- this is a display/audit-trail inconsistency, not a race.",
-      "evidence": [
-        "research/autonomy/claim.py:480 sets e[\"state\"] = \"in_progress\" in stamp_claim()",
-        "research/autonomy/priority.py SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (in_progress absent)",
-        "research/autonomy/priority.py merge(): `if old_entry.get(\"state\") in SESSION_STATES: entry[\"state\"] = old_entry[\"state\"]` -- the only path that would have preserved it",
-        "Reproduced 2026-09-03: claimed AUT-218 (state in_progress on the pushed claim commit), ran `priority.py --write` with no other change, committed row read state=queued, owner=CYC-0098-37419c4c"
-      ],
-      "retry_budget": 3
     }
   ]
 }
