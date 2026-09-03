@@ -1,6 +1,6 @@
 {
   "_what": "Caution markers per 1000 words, per submission text, at the moment this was pinned. A readability pass may raise it; a FALL is what --check refuses.",
-  "_why": "A revision that reads better because a hedge, a null or a limitation quietly left is worse than the dense original \u2014 it is now readable AND overstated, and on a posted paper it is overstated under a DOI.",
+  "_why": "A revision that reads better because a hedge, a null or a limitation quietly left is worse than the dense original — it is now readable AND overstated, and on a posted paper it is overstated under a DOI.",
   "_regenerate": "python3 research/manuscripts/lint_readability.py --write-baseline, and say in the commit message which qualification changed and why.",
   "caution_per_1000w": {
     "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md": 11.8,
@@ -13,6 +13,10 @@
     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md": 7.8,
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md": 9.0,
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": 11.2,
-    "research/manuscripts/neoantigen/emc-vaccine-development-path.md": 11.2
+    "research/manuscripts/neoantigen/emc-vaccine-development-path.md": 11.2,
+    "research/manuscripts/care-delivery/emc-trial-reachability.md": 12.8
+  },
+  "_why_each_entry_exists": {
+    "research/manuscripts/care-delivery/emc-trial-reachability.md": "⛔ PINNED 2026-09-02 BECAUSE ITS ABSENCE MADE CLAUSE 7 PASS ON A CHECK IT NEVER RAN. `publish_bar.clause_7` reads `was = baseline.get(doc)` and then guards the caution-drop test with `if was is not None`, so a paper with no entry skipped that half entirely and returned PASS. The clause was honest about it — its evidence line printed '(no baseline pinned)' — but the half that catches a readability pass BUYING clarity with a hedge, a null or a limitation simply did not run. ★ THIS PAPER WAS ONE CLAUSE FROM POSTABLE WHEN THAT WAS NOTICED, which is why it is pinned before the last clause is closed rather than after: 7/7 on a bar with a vacuous clause is the 'status that looks like a measurement' defect at the one door that opens outward. ⚠ 12.8 IS THE MEASURED VALUE AT THIS COMMIT, not a target and not a floor anyone chose. It can only cause a future FAIL, never a future PASS, so pinning it is a strengthening — and it is pinned at the value the paper actually has so that the first thing it catches is a real regression rather than an arbitrary bar. Raising it later to clear a run would be exactly what `amendment_guard` refuses."
   }
 }
