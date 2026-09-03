@@ -461,10 +461,11 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
 
 <!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->
 
-⛔ **26 deposited paths differ** from the published record: **25 changed, 1 added, 0 removed** against its own manifest at `4fd4698daec0`.
+⛔ **27 deposited paths differ** from the published record: **26 changed, 1 added, 0 removed** against its own manifest at `4fd4698daec0`.
 
 <details><summary>every deposited path that differs</summary>
 
+* `research/data/emc-clinical-registry.json`
 * `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json`
 * `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf`
 * `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json`
