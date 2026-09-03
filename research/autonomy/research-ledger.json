@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 192,
-    "in_progress": 10,
+    "done": 193,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 169,
+    "queued": 167,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -4225,16 +4225,16 @@
         "_route_was": "RT-AUTONOMY",
         "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
-      "state": "in_progress",
-      "owner": "CYC-0098-fd57fe96",
-      "claimed_utc": "2026-09-03T12:58:03Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
+      "last_evidence_utc": "2026-09-03",
       "filed_by": "CYC-0085-6b009680",
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a docstring rule and, if anyone wants it enforced, a check inside the generator; nothing outward-facing",
@@ -4256,7 +4256,8 @@
           "utc": "2026-09-03T12:58:03Z",
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
-      ]
+      ],
+      "_already_fixed_2026_09_03_CYC_0098_fd57fe96": "✅ ALREADY FIXED BY A SEPARATE, STRONGER MECHANISM — STALE ROW, CLOSED RATHER THAN RE-DONE. This row asked for two sentences of documentation (module header + --check-archive refusal message) about the rebase-durability ordering rule. Commit 062a48ae1c42bc71ec790d13d0565cc86be618ce (2026-09-01, \"sprint wave 1 lands\") landed a STRICTER fix for the same defect, filed under the SAME incident label this row cites (\"AUT-PD-141 / -175 / -195\", see aso_archive_manifest.py:1687): a real programmatic check rather than prose. MEASURED, not assumed: `_revision_durability()`/`_revision_durability_report()`/`_REVISION_DURABILITY_FIX` and a `--check-revision-published` CLI mode exist at aso_archive_manifest.py:1728-1931, wired into scripts/regenerate_aso_chain.sh:432-441 as a reported (non-gating, by deliberate design given this module's cry-wolf history) step; `pytest research/manuscripts/tests/test_the_manifest_revision_is_a_commit_a_reader_can_resolve.py` passes (1 passed, 0.13s); and running `python3 research/manuscripts/aso_archive_manifest.py --check-revision-published` against the current tree returns exit 0, \"git_revision d379e48cf8d5 is on a remote-tracking ref; a rebase cannot rewrite it\". ⛔ WHY THIS SUPERSEDES RATHER THAN MERELY OVERLAPS: the ask was static prose a reader might not reach; what shipped instead SURFACES the same ordering rule at the moment it is actionable (on every regeneration_aso_chain.sh run) and additionally lets a caller ask the machine rather than trust a human read the docs. The module-header/refusal-message placement this row asked for is superseded, not merely satisfied elsewhere: a static doc would now duplicate the mechanism's own message (CLAUDE.md §1, one fact one place) rather than add coverage. ⚠ Found via a $0 git log -S / grep read before doing any edit, per CLAUDE.md §4 — no work was duplicated."
     },
     {
       "id": "AUT-PD-170",
