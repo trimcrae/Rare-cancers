@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 187,
-    "in_progress": 11,
+    "done": 188,
+    "in_progress": 10,
     "parked": 30,
     "queued": 170,
     "superseded": 1
@@ -5589,22 +5589,22 @@
     },
     {
       "id": "AUT-PD-212-f2f24a57-3128847a",
-      "what": "⛔ PREFLIGHT_FULL=1 IS RED ON CLEAN `origin/main` (0bc8c774, tree matched HEAD exactly, no `+dirty`), WHICH BLOCKS CLAUSE 2 FOR EVERY PAPER, NOT JUST PUB-ATR. 5 modalities-suite failures, none touched by this cycle's PUB-ATR work: (1) `test_aso_premrna_offtarget.py::test_the_refseq_scan_counts_nucleotides_and_not_only_records` — `KeyError: 'scanned_nt'`, the module's output dict no longer carries a key this test asserts on; a real code/test mismatch, not an env gap. (2) `test_gcp_fanout_rep.py::test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence` — `IndexError` splitting on a literal `'\\n  schedule:\\n'` block that no longer matches some workflow YAML's current formatting. (3)+(4) `test_no_hand_rolled_publish.py::test_no_new_hand_rolled_publish[atm-status-stratification.yml:run0/run1]` — a NEW workflow (from the ATM-stratification route, not filed by this cycle) hand-rolls commit+push instead of `research/compute/publish_artifacts.sh`, which the test's own message says has silently failed to publish on three other lanes (mid-rebase hang, false SUCCESS). (5) `test_workflow_dispatch_input_cap.py::test_no_workflow_exceeds_the_dispatch_input_cap[list-sagemaker-aws.yml]` — ALREADY TRACKED as AUT-PD-210 (queued), not re-filed here. None of (1)-(4) investigated further by this cycle: repo-gates/CLAUDE.md §6 — a defect surfaced by an unrelated task is a separate task to raise, not to absorb, and (1)/(2)/(3)/(4) each need domain context (ASO offtarget scan internals, the GCP fanout workflow's current YAML, and the ATM-stratification route's own publish step) this cycle does not have.",
+      "what": "⛔ PREFLIGHT_FULL=1 IS RED ON CLEAN `origin/main` (0bc8c774, tree matched HEAD exactly, no `+dirty`), WHICH BLOCKS CLAUSE 2 FOR EVERY PAPER, NOT JUST PUB-ATR. 5 modalities-suite failures, none touched by this cycle's PUB-ATR work: (1) `test_aso_premrna_offtarget.py::test_the_refseq_scan_counts_nucleotides_and_not_only_records` — `KeyError: 'scanned_nt'`, the module's output dict no longer carries a key this test asserts on; a real code/test mismatch, not an env gap. (2) `test_gcp_fanout_rep.py::test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence` — `IndexError` splitting on a literal `'\\n  schedule:\\n'` block that no longer matches some workflow YAML's current formatting. (3)+(4) `test_no_hand_rolled_publish.py::test_no_new_hand_rolled_publish[atm-status-stratification.yml:run0/run1]` — a NEW workflow (from the ATM-stratification route, not filed by this cycle) hand-rolls commit+push instead of `research/compute/publish_artifacts.sh`, which the test's own message says has silently failed to publish on three other lanes (mid-rebase hang, false SUCCESS). (5) `test_workflow_dispatch_input_cap.py::test_no_workflow_exceeds_the_dispatch_input_cap[list-sagemaker-aws.yml]` — ALREADY TRACKED as AUT-PD-210 (queued), not re-filed here. None of (1)-(4) investigated further by this cycle: repo-gates/CLAUDE.md §6 — a defect surfaced by an unrelated task is a separate task to raise, not to absorb, and (1)/(2)/(3)/(4) each need domain context (ASO offtarget scan internals, the GCP fanout workflow's current YAML, and the ATM-stratification route's own publish step) this cycle does not have. ✅ RESOLVED 2026-09-03, VERIFIED NOT ASSUMED. All four named failures were already fixed by a concurrent session before this cycle reached them: (1) the offtarget-scan KeyError, fixed in d379e48c ('Count the nucleotides the off-target scan actually reads'); (2) the gcp-fanout cron IndexError and (3)/(4) the ATM-workflow hand-rolled publish, both fixed in 193c5cab ('Clear two of the five PREFLIGHT_FULL failures'); the archive-manifest side-effect of (1) was resolved in 91b12219. Re-ran the three named unit tests directly against current HEAD (90833c38) — all pass. The blocking claim (clause 2, PREFLIGHT_FULL green on clean origin/main) is independently confirmed by the committed receipt research/autonomy/preflight-receipts/bd429b496ac3db4ddb1121610ede7ad0f23c0fb3.json: mode FULL, exit 0, utc 2026-09-03T00:19:16Z, and that sha is an ancestor of current HEAD. Clause 2 is therefore open for every paper again, not just PUB-STRATEGY-ARCH (which used this receipt to close its own bar at commit 90833c38). Nothing left for this row: (5), the sagemaker dispatch-cap failure, was already out of scope here and stays tracked as AUT-PD-210.",
       "serves": {
         "route": null,
         "publication": null,
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "CYC-scheduled-20260903T001835Z",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-03",
       "requires_trimcrae": false,
       "filed_by": "CYC-round7-atr-preflight-full",
       "_why_filed": "publish_bar.clause_2_preflight_full_green demands the UNSCOPED FULL banner (repo-gates: 'a paper-scoped run cannot mint a clause-2 receipt'), so PUB-ATR's last open clause cannot pass until origin/main's own FULL run is green — a blocker on this route, not a defect in it. Also blocks every OTHER paper's clause 2, so its priority should reflect that width once scored, not PUB-ATR's own value.",
