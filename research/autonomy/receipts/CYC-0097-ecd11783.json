@@ -1,0 +1,22 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0097-ecd11783",
+  "session_id": "ecd11783-b2f5-57d5-8577-36c3bb494020",
+  "ccr_session_id": "session_01Rxk7re82z2UhL7nzSCJvuJ",
+  "started_utc": "2026-09-03T00:19:18Z",
+  "ended_utc": "2026-09-03T01:45:00Z",
+  "took": "AUT-PD-213-11f2347b-844001e5 -- publish_bar returned MAY POST (7/7) for PUB-STRATEGY-ARCH although no PDF could be built for it. Score 168.0, top of the queue after cycle 1's fix closed AUT-PD-212. Second cycle in this session; session_cap.py reported MUST NOT STOP at 1 receipt against a cap of 2.",
+  "what_changed": "Added clause_8_deliverable_is_buildable to publish_bar.CLAUSES: fails closed unless build_submission_pdf.PAPERS (read from the tree AT the pinned sha via _tree_at, like clauses 3/4/5) carries an entry whose manuscript matches the publication's document.file, derived from PAPERS' own field rather than a hand-kept list. Verified against live repo state: PUB-ASO and PUB-VACCINE-PATH pass (already registered); PUB-STRATEGY-ARCH, PUB-ATR and PUB-MODALITY-CENSUS now correctly fail -- the latter two are new, honest findings on live hardening targets this session does not own (AUT-010, AUT-PROP-061/062/063), not a regression. 4 new test functions (5 cases via one parametrize) in systems/tests/test_autonomy_publish_bar.py, merged down from an initial 5 functions to land exactly at the commit-loop tier's 1400/1400 budget rather than going over at 1401. Mutation-tested 5/5 on the live file (no concurrent subagent in this session), restored byte-identical before commit each time. Declared in amendments.jsonl for both governed paths (publish_bar.py, the test file) with self_serving_check answered -- this session was not blocked by publish_bar and has no post pending, so the change could not be self-serving in the sense amendment_guard exists to catch. Deliberately NOT done: registering PUB-STRATEGY-ARCH, PUB-ATR or PUB-MODALITY-CENSUS in build_submission_pdf.PAPERS -- separate, per-paper typesetting decisions the row's own next_action already distinguished from the structural fix.",
+  "cost": "$0 -- free, no GPU, no CI dispatch.",
+  "now_queued": "Nothing newly filed. Two live rows (AUT-010 for PUB-ATR, AUT-PROP-061/062/063 for PUB-MODALITY-CENSUS) will now see clause 8 correctly FAIL until someone registers their manuscripts in build_submission_pdf.PAPERS -- surfaced by this fix, not created by it, and left for whichever cycle next works those rows.",
+  "blocked_by": [],
+  "subagents": {
+    "max_concurrent": 0
+  },
+  "route_advanced": "none",
+  "_route_advanced_why": "This row serves no route (serves.route: null) -- it is the publish permission itself, guarding the one irreversible act in the repository. Fixing it protects every route with a paper pending an aiXiv post rather than crediting one.",
+  "handoff": {
+    "attempted": false,
+    "mechanism_unavailable": "This scheduled-Routine session's tool surface carries no create_session (nor Task) tool -- confirmed by ToolSearch, which returned no match for 'create_session' -- so handoff.py's prompt could not be handed to a new session even after being built. session_cap.py's own docstring names exactly this case as the safe, correct terminal state: 'the loop does not need the handoff to survive... the cron IS the successor.' This is the session's 2nd receipt against a cap of 2, so this is expected to be its last cycle."
+  }
+}
