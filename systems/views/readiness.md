@@ -52,11 +52,13 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | ST-IMMUNO | `internal_note` | a selective surface antigen |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | ST-DEPENDENCY | `internal_note` | a client-binding measurement, which is not an expression question |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | ST-MORTALITY-MECHANISM | `internal_note` | the background-mortality comparison, which is fetched but not yet folded in |
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `internal_note` | nothing — the route is CLOSED. The measurement landed and the endpoint was closed as not-a-paper. |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a sarcoma-class dependency prior for the kinase, which is queued and $0; a measurement in a cell carrying the fusion, which needs a model |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | ST-RADIOLIGAND | `internal_note` | any measurement in EMC |
@@ -64,6 +66,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | nothing at the arithmetic level — the pooled fraction was computed and is a negative |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) | ST-MORTALITY-MECHANISM | `internal_note` | the retrieved effect sizes and the bias assessment they have to be read through |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series. |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
@@ -81,6 +84,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |
 | [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | ST-CARE-DELIVERY | `internal_note` | a signed data-use agreement, which only trimcrae can obtain |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a readout that separates PPARγ receptor output from adipogenic/lineage composition — the target-gene activity readout itself is DONE (research/manuscripts/fusion-output/nr4a3-fusio |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | the primary paper's full text, which is paywalled and unreachable at $0; a phospho-receptor measurement in EMC tissue, which nobody has published |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
@@ -97,9 +101,11 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger EMC series — the located record is 5 patients across two series with 0 objective responses; the second series (Palmerini 2022, PMID 36568164) as a curated registry row, an |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `internal_note` | non-US registry coverage, which needs an authenticated endpoint this programme does not have |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 
 [← L0](L0-ecosystem.md)

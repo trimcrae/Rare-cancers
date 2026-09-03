@@ -1,0 +1,173 @@
+{
+  "_readme": "Hand-assigned classification of every death described in the open-access EMC literature that the terminal-event probe retrieved. THE UNIT IS A PATIENT OR A REPORTED PATIENT GROUP, NEVER A SENTENCE -- several papers describe one death in three sentences, and counting sentences would triple that patient. Each row names the sentence indices in research/literature/emc-mortality-probe.json that support it, and research/manuscripts/emc_terminal_events.py FAILS if a quoted sentence no longer matches the artifact verbatim, so a re-run of the probe cannot silently leave a stale label behind.",
+
+  "_how_labels_were_assigned": "By reading the sentence and its paper's title and context. Not by regex: the probe's own design note says it classifies nothing, and a pattern that assigned 'respiratory failure' from the words 'respiratory failure' would also assign it to a sentence saying no such death occurred. Where a paper does not state a mechanism, the label is mechanism_unstated -- which is the single most common outcome and is the paper's headline finding, not a gap in this table.",
+
+  "_inclusion": "Papers whose TITLE names extraskeletal myxoid chondrosarcoma, chordoid sarcoma or NR4A3. The probe enumerated 600 open-access papers matching EMC anywhere in indexed text, and 162 of those carried a death-cue sentence -- but only 34 are actually ABOUT this disease. The rest match because EMC appears in a differential diagnosis or a citation, and their deaths are other diseases' patients. Restricting to the 34 is the conservative choice and it is stated rather than silently applied.",
+
+  "_labels": {
+    "emc_progressive_disease": "Death attributed to progressive EMC, mechanism not further specified than tumour progression.",
+    "respiratory_failure": "Death where respiratory or pulmonary failure is explicitly named as the terminal event.",
+    "locoregional_complication": "Death from local or regional tumour dissemination rather than distant metastasis.",
+    "visceral_metastasis_complication": "Death from the consequences of metastasis to a named non-pulmonary organ.",
+    "treatment_related": "Death from a complication of treatment, including postoperative death.",
+    "competing_non_cancer": "Death from a cause unrelated to any malignancy.",
+    "second_malignancy": "Death from a different cancer in a patient with EMC.",
+    "mechanism_unstated": "A death the paper records without naming any mechanism beyond 'of disease' or 'died'.",
+    "not_a_patient_death": "The sentence contains a death cue but describes no patient death here -- a methods definition, a survival-analysis convention, another disease's cohort, or a negative statement."
+  },
+
+  "individual_events": [
+    {
+      "pmid": "35910216", "sentence_indices": [0, 1], "n_patients": 1,
+      "label": "respiratory_failure",
+      "quote": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
+      "note": "The clearest respiratory death in the corpus. The same patient is described again in the paper's discussion as dying of respiratory failure; both sentences are one patient and are counted once."
+    },
+    {
+      "pmid": "29977924", "sentence_indices": [0], "n_patients": 1,
+      "label": "respiratory_failure",
+      "quote": "One patient died due to lung metastases.",
+      "note": "Attributed to lung metastases as the cause of death. ⚠ Read as a respiratory death on the paper's own attribution; it does not name the physiological terminal event, so this is the weaker of the two respiratory rows."
+    },
+    {
+      "pmid": "41799218", "sentence_indices": [0], "n_patients": 1,
+      "label": "respiratory_failure",
+      "quote": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
+      "note": "⚠ Respiratory failure, but by an unusual route: EMC tumour emboli caused an acute ischaemic stroke treated by thrombectomy, and death followed 15 days later. Counted as respiratory because that is what the paper names, but the initiating event was embolic, not pulmonary tumour burden. A mechanism table that hid this would misrepresent it."
+    },
+    {
+      "pmid": "28638563", "sentence_indices": [0, 1, 2, 5], "n_patients": 1,
+      "label": "locoregional_complication",
+      "quote": "The patient received adjuvant radiotherapy but died after 1 year of follow-up due to complications of locoregional tumor dissemination to the skull base.",
+      "note": "Paediatric masticator-space EMC with a compromised superior margin. Four sentences, one patient. Death from local dissemination at an anatomically unforgiving site, not from distant metastasis."
+    },
+    {
+      "pmid": "35665108", "sentence_indices": [1], "n_patients": 1,
+      "label": "locoregional_complication",
+      "quote": "Only 1 out of the 11 patients who underwent PR died from local recurrence and spinal metastasis of primary intracranial EMC at 36 mo after surgery[ 9 ].",
+      "note": "Primary intracranial EMC, a rare presentation where local control governs outcome."
+    },
+    {
+      "pmid": "35665108", "sentence_indices": [0], "n_patients": 2,
+      "label": "competing_non_cancer",
+      "quote": "In our research of the 16 primary intracranial EMC cases available in the literature, 3 did not have any information on the prognosis of patients, and in 2 cases, the patients died from non-EMC-related factors after surgery.",
+      "note": "Two of sixteen collected intracranial cases died of causes the reviewers judged unrelated to EMC. ⚠ The paper does not name those causes, so the label records what it asserts and no more."
+    },
+    {
+      "pmid": "36097623", "sentence_indices": [0], "n_patients": 1,
+      "label": "emc_progressive_disease",
+      "quote": "The patient subsequently underwent radiation to the brain and failed systemic treatment with chemotherapy and immunotherapy, with the development of further metastases ultimately resulting in death.",
+      "note": "Multi-site progression including brain metastases. No single terminal mechanism named."
+    },
+    {
+      "pmid": "23213584", "sentence_indices": [0], "n_patients": 1,
+      "label": "visceral_metastasis_complication",
+      "quote": "Due to persistent anemia and gastrointestinal bleeding, the patient case was presented to the multidisciplinary tumor board, and it was recommended to proceed with palliative small bowel tumor resection.",
+      "note": "⚠ Not a death sentence. Small-bowel metastasis causing obstruction and bleeding, retained because it documents a mechanism of harm from non-pulmonary visceral metastasis that no other row carries. Counted in the mechanism table only as a complication, never as a death."
+    },
+    {
+      "pmid": "23115670", "sentence_indices": [0], "n_patients": 2,
+      "label": "treatment_related",
+      "quote": "Of the remaining five patients, two showed tumor recurrences and two died due to postoperative complications 2 , 14 , 15 , 17) .",
+      "note": "Intracranial EMC literature review. Two postoperative deaths -- treatment-caused, in a series where the operation is at the skull base."
+    },
+    {
+      "pmid": "32963861", "sentence_indices": [1, 2], "n_patients": 1,
+      "label": "second_malignancy",
+      "quote": "The patient was followed for 126 months, after which he died from complications of unresectable colon cancer.",
+      "note": "⭐ The single most informative row in the corpus. Metastatic EMC, alive at 126 months, dead of an unrelated colon cancer. A patient who lived more than a decade with metastatic sarcoma and was killed by a different disease."
+    },
+    {
+      "pmid": "35251555", "sentence_indices": [3, 7], "n_patients": 2,
+      "label": "second_malignancy",
+      "quote": "Two patients with EMC died during follow-up from concurrent malignancies ( Table 2 ).",
+      "note": "The same two patients are described again as dying 'from concurrent malignancies within the first few months after diagnosis'. One event, counted once."
+    },
+    {
+      "pmid": "35251555", "sentence_indices": [4], "n_patients": 2,
+      "label": "mechanism_unstated",
+      "quote": "Both patients that presented with metastatic disease to the lungs died within 17 months ( Table 2 ).",
+      "note": "Lung-metastatic at presentation, dead within 17 months, no mechanism given. ⚠ It is tempting to read these as respiratory deaths and the paper does not say so."
+    },
+    {
+      "pmid": "35775709", "sentence_indices": [0], "n_patients": 3,
+      "label": "mixed_see_note",
+      "quote": "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.",
+      "note": "One sentence, three patients, three different stories: congestive heart disease in a patient with lung and skin metastases (attribution genuinely ambiguous), hepatic metastasis (EMC progression), and cerebral haemorrhage explicitly WITHOUT tumour recurrence at 9.5 years (a competing death). Split in the tally as 1 ambiguous, 1 visceral_metastasis_complication, 1 competing_non_cancer.",
+      "split": {"ambiguous": 1, "visceral_metastasis_complication": 1, "competing_non_cancer": 1}
+    },
+    {
+      "pmid": "22569967", "sentence_indices": [0, 1], "n_patients": 2,
+      "label": "mechanism_unstated",
+      "quote": "Two patients died of disease 8 months after the initial diagnosis.",
+      "note": "'Died of disease' -- the canonical form of the corpus's dominant non-answer."
+    },
+    {
+      "pmid": "25177237", "sentence_indices": [0, 2, 4, 5, 6, 7, 8], "n_patients": 3,
+      "label": "mechanism_unstated",
+      "quote": "Three patients died during the time-frame of the study, 1 was lost to follow up, and 9 are still alive.",
+      "note": "Seven sentences describing the same three deaths, none naming a mechanism. The clearest single illustration of why sentence counting would have been wrong."
+    },
+    {
+      "pmid": "36326382", "sentence_indices": [0, 2], "n_patients": 7,
+      "label": "emc_progressive_disease",
+      "quote": "While recurrence developed in 5 (38.5%) of the patients during follow-up, lung metastasis (46.2%) was detected in 6 patients, and 7 patients (53.8%) died due to the disease and complications related to the disease.",
+      "note": "Seven deaths attributed to disease and its complications collectively. No per-patient mechanism, so this cannot enter a mechanism table -- only a cause-attribution one."
+    },
+    {
+      "pmid": "32612944", "sentence_indices": [1], "n_patients": 20,
+      "label": "mechanism_unstated",
+      "quote": "With a median follow-up time of 72 months, 20 patients have died.",
+      "note": "The largest single block of deaths in the corpus, and all-cause: the paper does not split them by cause at all."
+    },
+    {
+      "pmid": "21941486", "sentence_indices": [1], "n_patients": 1,
+      "label": "mechanism_unstated",
+      "quote": "The patient consequently deteriorated clinically and was referred for palliative radiation and transitioned to supportive care.",
+      "note": "Transition to supportive care recorded; the death itself and its mechanism are not described."
+    }
+  ],
+
+  "aggregate_cause_splits": [
+    {
+      "pmid": "40885991", "series": "Masunaga 2025, Japanese national registry",
+      "stratum": "no (neo)adjuvant chemotherapy, n=128",
+      "emc_deaths": 8, "other_cause_deaths": 4,
+      "quote": "Of the 128 patients who did not receive (neo)adjuvant chemotherapy, 88 (68.8%) were tumor-free survivors, 28 (21.9%) survived with tumors, eight (6.3%) died from tumors, and four (3.1%) died from other causes.",
+      "note": "⚠ Overlaps the localised stratum already used in emc-mortality-decomposition-inputs.json. Recorded for completeness and EXCLUDED from any pooled total, because pooling overlapping strata from one registry double-counts patients."
+    },
+    {
+      "pmid": "40885991", "series": "Masunaga 2025, Japanese national registry",
+      "stratum": "advanced-stage chemotherapy, n=16",
+      "emc_deaths": 5, "other_cause_deaths": 1,
+      "quote": "Among the 16 patients who received advanced-stage chemotherapy, one (6.3%) survived tumor-free, nine (56.3%) survived with tumors, five (31.3%) died of the tumors, and one (6.3%) died of other causes.",
+      "note": "Also overlapping; excluded from pooling for the same reason."
+    },
+    {
+      "pmid": "40885991", "series": "Masunaga 2025, Japanese national registry",
+      "stratum": "no advanced-stage chemotherapy, n=13",
+      "emc_deaths": 4, "other_cause_deaths": 0,
+      "quote": "Among the 13 patients who did not receive advanced-stage chemotherapy, nine (69.2%) survived with tumors, and four (30.8%) died of tumors.",
+      "note": "Also overlapping; excluded from pooling."
+    }
+  ],
+
+  "prognostic_findings": [
+    {
+      "pmid": "40885991",
+      "finding": "distant_metastasis_drives_death_local_recurrence_does_not",
+      "quote": "The results showed that the risk factors for death due to tumors were tumor location on the trunk (odds ratio (OR) 8.52 [95% CI: 1.50–48.36]; p = 0.016) and the occurrence of distant metastasis (OR 26.26 [95% CI: 2.99–231.04]; p = 0.003; Table S1 ).",
+      "corroborating_quote": "No association was found between local recurrence and tumor mortality.",
+      "note": "⭐ Directly relevant to what a treatment should target. EMC's much-quoted 30-50% local recurrence rate is NOT associated with dying of the disease in this registry's multivariate model; distant metastasis is, with a very wide confidence interval on a small event count."
+    }
+  ],
+
+  "not_a_patient_death_examples": [
+    {"pmid": "40885991", "quote": "Disease-specific survival was defined as the interval between diagnosis and death from the disease or the last follow-up.", "why": "a methods definition"},
+    {"pmid": "27418251", "quote": "No subjects withdrew from the study due to toxicity, and no deaths were assessed as drug-related.", "why": "an explicit negative -- retained by the recall-first filter exactly as designed"},
+    {"pmid": "24345066", "quote": "OS, failure was death due to any cause.", "why": "an endpoint definition"},
+    {"pmid": "26125202", "quote": "In a study of metastatic neoplasms in the breast by Sneig et al., 11 out of 20 patients died soon after the breast metastases were diagnosed [ 13 ].", "why": "another disease's cohort, cited in discussion"},
+    {"pmid": "35494187", "quote": "A previous case series of 17 patients, who received palliative EBRT for sarcoma using 39 Gy in 13 fractions showed durable pain control in 80% of cases, with less toxicity [ 17 ].", "why": "a general sarcoma radiotherapy series, not EMC deaths"}
+  ]
+}

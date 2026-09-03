@@ -1,0 +1,219 @@
+{
+ "_readme": "Relative survival for EMC. Estimates mortality in excess of the general population, which is disease-attributable mortality obtained WITHOUT assigning a cause of death to anyone -- the method that answers the defect documented in emc-terminal-events.json, where fewer than a third of deaths in the published record carry a named mechanism. ⚠ Applied to PUBLISHED SUMMARY SURVIVAL with a cohort median age and sex ratio, not to patient-level data, so the expected-survival term is that of a synthetic cohort rather than a true Ederer II match. That approximation is this analysis's largest weakness. ⛔ Excess mortality is not cause of death: it includes deaths from the disease, from its treatment, and any elevation in other-cause mortality among people who have it.",
+ "generated_by": "research/manuscripts/emc_relative_survival.py",
+ "method": "Ederer II convention, applied to summary survival at fixed horizons",
+ "life_table": {
+  "source": "WHO Global Health Observatory, indicator LIFE_0000000029, USA",
+  "indicator": "nMx - age-specific death rate between ages x and x+n",
+  "start_age": 55,
+  "male_fraction": 0.66,
+  "⛔_rate_not_probability": "nMx is an age-specific death RATE. Survival over a band of width w is exp(-m*w). An earlier fetch treated it as a five-year probability and understated background mortality roughly fourfold, which would have attributed almost every death to EMC."
+ },
+ "series": [
+  {
+   "observed_all_cause_survival": 0.9,
+   "expected_background_survival": 0.952,
+   "relative_survival": 0.9454,
+   "excess_mortality_pct": 5.5,
+   "all_cause_mortality_pct": 10.0,
+   "competing_mortality_pct": 4.5,
+   "competing_share_of_deaths_pct": 45.4,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "meisKindblom1999",
+   "label": "Meis-Kindblom 1999 pathology series",
+   "n": 117,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.7,
+   "expected_background_survival": 0.8867,
+   "relative_survival": 0.7895,
+   "excess_mortality_pct": 21.1,
+   "all_cause_mortality_pct": 30.0,
+   "competing_mortality_pct": 8.9,
+   "competing_share_of_deaths_pct": 29.8,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "meisKindblom1999",
+   "label": "Meis-Kindblom 1999 pathology series",
+   "n": 117,
+   "horizon_years": 10.0,
+   "status": "OK"
+  },
+  {
+   "series": "meisKindblom1999",
+   "label": "Meis-Kindblom 1999 pathology series",
+   "horizon_years": 15.0,
+   "status": "HORIZON_EXCEEDS_LIFE_TABLE",
+   "why": "15.0 years from the cohort's start age needs bands beyond those retrieved; no expected survival is asserted rather than extrapolating the last rate forward."
+  },
+  {
+   "observed_all_cause_survival": 0.82,
+   "expected_background_survival": 0.952,
+   "relative_survival": 0.8614,
+   "excess_mortality_pct": 13.9,
+   "all_cause_mortality_pct": 18.0,
+   "competing_mortality_pct": 4.1,
+   "competing_share_of_deaths_pct": 23.0,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "drilon2008",
+   "label": "Drilon 2008 two-referral-centre series",
+   "n": 87,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.65,
+   "expected_background_survival": 0.8867,
+   "relative_survival": 0.7331,
+   "excess_mortality_pct": 26.7,
+   "all_cause_mortality_pct": 35.0,
+   "competing_mortality_pct": 8.3,
+   "competing_share_of_deaths_pct": 23.7,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "drilon2008",
+   "label": "Drilon 2008 two-referral-centre series",
+   "n": 87,
+   "horizon_years": 10.0,
+   "status": "OK"
+  },
+  {
+   "series": "drilon2008",
+   "label": "Drilon 2008 two-referral-centre series",
+   "horizon_years": 15.0,
+   "status": "HORIZON_EXCEEDS_LIFE_TABLE",
+   "why": "15.0 years from the cohort's start age needs bands beyond those retrieved; no expected survival is asserted rather than extrapolating the last rate forward."
+  },
+  {
+   "observed_all_cause_survival": 1.0,
+   "expected_background_survival": 0.952,
+   "relative_survival": 1.0505,
+   "excess_mortality_pct": -5.0,
+   "all_cause_mortality_pct": 0.0,
+   "competing_mortality_pct": 5.0,
+   "competing_share_of_deaths_pct": null,
+   "relative_survival_above_one": true,
+   "note_if_above_one": "Relative survival above 1 means the cohort out-lived the general population, which for a cancer cohort signals selection -- referral centres see fitter patients -- rather than a protective disease. Reported, never clipped.",
+   "series": "japan2003",
+   "label": "Japanese multi-institutional series",
+   "n": 42,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.88,
+   "expected_background_survival": 0.8867,
+   "relative_survival": 0.9925,
+   "excess_mortality_pct": 0.8,
+   "all_cause_mortality_pct": 12.0,
+   "competing_mortality_pct": 11.2,
+   "competing_share_of_deaths_pct": 93.7,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "japan2003",
+   "label": "Japanese multi-institutional series",
+   "n": 42,
+   "horizon_years": 10.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.76,
+   "expected_background_survival": 0.952,
+   "relative_survival": 0.7983,
+   "excess_mortality_pct": 20.2,
+   "all_cause_mortality_pct": 24.0,
+   "competing_mortality_pct": 3.8,
+   "competing_share_of_deaths_pct": 16.0,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "seer270_2022",
+   "label": "SEER 2004-2015 population series",
+   "n": 270,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.79,
+   "expected_background_survival": 0.952,
+   "relative_survival": 0.8299,
+   "excess_mortality_pct": 17.0,
+   "all_cause_mortality_pct": 21.0,
+   "competing_mortality_pct": 4.0,
+   "competing_share_of_deaths_pct": 19.0,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "uMich2023",
+   "label": "University of Michigan series",
+   "n": 44,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.71,
+   "expected_background_survival": 0.952,
+   "relative_survival": 0.7458,
+   "excess_mortality_pct": 25.4,
+   "all_cause_mortality_pct": 29.0,
+   "competing_mortality_pct": 3.6,
+   "competing_share_of_deaths_pct": 12.4,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "china2016",
+   "label": "Chinese series",
+   "n": 40,
+   "horizon_years": 5.0,
+   "status": "OK"
+  },
+  {
+   "observed_all_cause_survival": 0.6,
+   "expected_background_survival": 0.9253,
+   "relative_survival": 0.6485,
+   "excess_mortality_pct": 35.2,
+   "all_cause_mortality_pct": 40.0,
+   "competing_mortality_pct": 4.8,
+   "competing_share_of_deaths_pct": 12.1,
+   "relative_survival_above_one": false,
+   "note_if_above_one": null,
+   "series": "china2016",
+   "label": "Chinese series",
+   "n": 40,
+   "horizon_years": 7.0,
+   "status": "OK"
+  }
+ ],
+ "convergence": {
+  "⭐_why_this_matters": "Relative survival and the cause-split are INDEPENDENT. One never touches a cause of death; the other is built entirely out of causes of death. Agreement between them is evidence neither could produce alone, and disagreement would tell us the cause attribution in the source papers is unreliable -- which is a publishable finding either way.",
+  "relative_survival_competing_share_pct_range": [
+   12.1,
+   45.4
+  ],
+  "relative_survival_competing_share_pct_median": 23.0,
+  "relative_survival_series_pooled": 8,
+  "relative_survival_series_excluded": [
+   {
+    "series": "japan2003",
+    "horizon_years": 10.0,
+    "relative_survival": 0.9925,
+    "competing_share_it_would_have_contributed": 93.7,
+    "why": "relative survival >= 0.99: the competing share divides a near-zero excess by a small all-cause mortality and is numerically unstable, not informative"
+   }
+  ],
+  "cause_split_competing_share_pct": [
+   30.8,
+   10.0
+  ],
+  "cause_split_overall_competing_share_pct": null,
+  "reading": "Compare the median of the relative-survival series against the cause-split. They share no input: one is published all-cause survival divided by a national life table, the other is counts of patients a registry assigned a cause to. Neither can be derived from the other, so agreement is convergent evidence and disagreement would indicate the cause attribution in the source papers is unreliable."
+ },
+ "limits": [
+  "Expected survival is computed for a synthetic cohort at the median age and sex ratio, not matched to each patient -- the Ederer II approximation, and the largest weakness here.",
+  "The life table is a single country and year (US, 2021) applied to cohorts from Japan, Sweden, China, Italy and the United States across five decades. Background mortality differs across all of those.",
+  "Published summary survival is read at horizons the original papers chose to report, so the horizons are not a design.",
+  "Excess mortality attributes to the disease any elevation in other-cause mortality among its patients, including treatment-caused death, which is a category the cause-split counts separately.",
+  "A referral-centre cohort is fitter than the general population, which biases expected survival DOWNWARD relative to the truth and therefore biases excess mortality UPWARD -- against this analysis's own conclusion."
+ ]
+}

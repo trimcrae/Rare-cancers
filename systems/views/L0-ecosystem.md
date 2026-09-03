@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**13 strategy families · 77 routes · 21 blockers · 28 technology dependencies.**
+**14 strategy families · 83 routes · 21 blockers · 28 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -32,7 +32,7 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 
 ```mermaid
 flowchart LR
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 7 families"}}:::blk
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 8 families"}}:::blk
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 7 families"}}:::blk
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
   BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — 3 families"}}:::blk
@@ -47,6 +47,7 @@ flowchart LR
   ST_IMMUNO["ST-IMMUNO ✓ · 10 routes"]:::fam
   ST_CARE_DELIVERY["ST-CARE-DELIVERY ○ · 7 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
+  ST_MORTALITY_MECHANISM["ST-MORTALITY-MECHANISM ◐ · 6 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
   ST_DISSEMINATION["ST-DISSEMINATION ○ · 4 routes"]:::fam
   ST_LOCOREGIONAL["ST-LOCOREGIONAL ○ · 4 routes"]:::fam
@@ -59,6 +60,7 @@ flowchart LR
   BLK_NO_EMC_DATA --> ST_DEPENDENCY
   BLK_NO_EMC_DATA --> ST_IMMUNO
   BLK_NO_EMC_DATA --> ST_MICROENV
+  BLK_NO_EMC_DATA --> ST_MORTALITY_MECHANISM
   BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
   BLK_NO_EMC_DATA --> ST_OCCUPANCY
   BLK_NO_EMC_DATA --> ST_RADIOLIGAND
@@ -118,6 +120,7 @@ flowchart LR
 | **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 4 | ○ ready · concept | hedge |
 | **[ST-STRATEGY](L1-st-strategy.md)**<br/>Treatment strategy, scheduling and reachability | For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been… | 3 | ○ ready · concept | cheap_option |
 | **[ST-CARE-DELIVERY](L1-st-care-delivery.md)**<br/>Care delivery, diagnosis and the determinants of survival | Every other family here asks what to GIVE an EMC patient. None asks what determines how long an EMC patient lives now — and in a disease where no syst… | 7 | ○ ready · concept | cheap_option |
+| **[ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md)**<br/>Mortality-mechanism-directed and supportive care | Every other family here tries to stop the tumour from killing the patient. This one starts from the death certificate instead of the driver, and asks … | 6 | ◐ active · computed | cheap_option |
 
 ## Where the portfolio ends
 
@@ -129,7 +132,7 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 |---|---:|---:|
 | ○ `unwritten` | 3 | 10 |
 | ◔ `outlined` | 4 | 14 |
-| ◐ `drafted` | 24 | 51 |
+| ◐ `drafted` | 25 | 57 |
 | ◉ `posted_preprint` | 1 | 2 |
 
 ## What holds the portfolio down
@@ -140,7 +143,7 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 38 | 7 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 42 | 8 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 16 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 10 | 2 | *permanent — nothing* |

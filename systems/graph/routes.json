@@ -8882,5 +8882,516 @@
       "best_next_action": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
       "cost": "$0"
     }
+  },
+  {
+    "id": "RT-COMPETING-MORTALITY",
+    "display_name": "Competing (non-EMC) mortality in a decade-scale cohort",
+    "level": "L2",
+    "kind": "route",
+    "title": "Competing (non-EMC) mortality in a decade-scale cohort",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "The arithmetic that bounds every other route in the portfolio: what a perfect antitumour therapy could add, and what it could not touch."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "What fraction of deaths after an EMC diagnosis is not caused by EMC, and is any of that fraction modifiable?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The curated cohorts report ten-year all-cause survival of 65-70% against a ten-year disease-specific survival near 85%. Within the one series that measures both on the same patients, 39.4% of deaths at ten years were not EMC deaths. A cohort diagnosed in its fifties and sixties and surviving five to seven years even after metastasis accrues an ordinary person's cardiovascular and second-cancer risk for a very long time, and no route on this board is aimed at any of it.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the observed all-cause minus disease-specific gap is the size this cohort's age and sex explain, or is instead an artifact of pairing figures from studies that were never comparable.",
+      "What the competing deaths actually are, which no EMC series reports -- the disease-specific classification tells you only that they were not EMC.",
+      "Whether an EMC cohort's non-cancer mortality resembles the general population's at all, given it is selected for being fit enough to reach and survive a sarcoma diagnosis."
+    ],
+    "required_validation": [
+      {
+        "what": "A background-mortality comparison against a published life table, which decides whether the gap is ordinary or is a study-comparability artifact",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A cause-of-death breakdown for the non-EMC deaths, which requires registry death-certificate linkage nobody here can perform",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the background-mortality comparison, which is fetched but not yet folded in"
+      ],
+      "why_not_higher": "The competing share is computed and reproducible, but until the background check runs it cannot be distinguished from a study-comparability artifact, and an internal note is the strongest honest output."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The decomposition already runs and the check that validates it costs nothing, so there is no version of this that is worth deferring.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Close the background-mortality check with the fetched life table and state whether the decomposition survives it.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RESPIRATORY-FAILURE",
+    "display_name": "Progressive pulmonary metastatic burden and respiratory failure",
+    "level": "L2",
+    "kind": "route",
+    "title": "Progressive pulmonary metastatic burden and respiratory failure",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "The mechanism half of the paper: what the terminal event actually is, quoted from the record rather than inferred from the metastatic pattern."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the dominant mechanism of EMC death progressive respiratory failure from lung metastases, and is any part of that course symptom-treatable?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "Distant spread in this disease is mostly to lung, and patients survive years with it, so the terminal event is reached slowly rather than suddenly. That matters for what could help: a mechanism approached over years is the one least amenable to acute rescue and most exposed to cumulative symptom-directed management -- oxygen, effusion control, airway and breathlessness management. The mechanism is asserted everywhere in the clinical prose and tabulated nowhere.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether respiratory failure is in fact the most common terminal event, which requires reading the published case record rather than assuming it from the metastatic pattern.",
+      "Whether any symptom-directed management of that course changes survival as opposed to changing symptoms, which has never been measured in this disease.",
+      "How much of the terminal course is respiratory at all, given that case reports over-represent dramatic events and under-report ordinary decline."
+    ],
+    "required_validation": [
+      {
+        "what": "A classified terminal-event corpus drawn from the open-access EMC literature, with each mechanism resolving to a quoted sentence",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A prospective symptom-directed intervention in EMC patients, which needs a clinic",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [],
+      "why_not_higher": "Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The retrieval is already running and the classification after it costs only reading, so this is the cheapest unanswered question in the family.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-TREATMENT-HARM",
+    "display_name": "De-escalating cytotoxic therapy that has no measured EMC response",
+    "level": "L2",
+    "kind": "route",
+    "title": "De-escalating cytotoxic therapy that has no measured EMC response",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "The uncomfortable half of the argument: that part of the mortality this portfolio is trying to reduce may be iatrogenic, and that the cheapest intervention is to stop."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is some mortality after an EMC diagnosis caused by treatment rather than by tumour, and would withholding that treatment prolong survival?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "This is the only route in the portfolio whose intervention is subtraction. The curated record reports that chemotherapy produced no objective responses in one long-term series, with a median progression-free survival of about five months, while the toxicities of that same therapy -- anthracycline cardiotoxicity over a decade-scale survivorship, and neutropenic sepsis acutely -- are real and well characterised. A treatment with no measured benefit in this histology and a measurable hazard is a candidate for removal on survival grounds, not merely on quality-of-life grounds.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "What fraction of deaths in the published EMC record is attributable to treatment rather than to disease, which nobody has counted.",
+      "Whether the absence of objective responses in the curated series generalises, given how small every EMC cohort is and how strongly they are selected.",
+      "Whether anthracycline exposure in this specific long-surviving population produces the late cardiac mortality the class is known for, which would need cardio-oncology follow-up nobody has published for this histology."
+    ],
+    "required_validation": [
+      {
+        "what": "A count of treatment-attributed deaths in the retrieved terminal-event corpus, separated from disease deaths",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Late cardiac outcome data in anthracycline-exposed EMC survivors, which requires a clinical cohort",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [],
+      "why_not_higher": "Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The counting needs only the corpus already being retrieved, and a route whose intervention is subtraction has no cost to model and no supply chain to wait for.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Count treatment-attributed deaths in the terminal-event corpus and set them beside the curated response data for the same agents.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-EARLY-PALLIATIVE",
+    "display_name": "Early specialist palliative care and structured symptom monitoring",
+    "level": "L2",
+    "kind": "route",
+    "title": "Early specialist palliative care and structured symptom monitoring",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "The intervention arm of the paper: the only non-antitumour class with randomised survival evidence, and an honest account of how far it can be carried to this disease."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Do the non-antitumour interventions that have shown overall-survival benefit in randomised oncology trials transfer to a disease with this natural history?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "This is the only route on the board whose class of intervention has randomised evidence of an overall-survival benefit in cancer at all. The trials were run in populations with far shorter survival than EMC's, which cuts both ways: a longer survivorship is a longer window for the intervention to act in, and it is also a population the trials never studied. The transfer is the whole question, and stating it as a transfer rather than as a result is the discipline this route needs.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether an overall-survival effect measured in short-survival populations transfers to a disease measured in decades, which no trial has tested.",
+      "Whether any such trial has ever enrolled a sarcoma population, let alone this histology -- an absence that has to be established with a real search rather than assumed.",
+      "What mechanism a survival effect would even act through here, given that the leading candidate mechanisms in the original trials were earlier symptom detection and less aggressive end-of-life chemotherapy."
+    ],
+    "required_validation": [
+      {
+        "what": "A retrieved, cited set of the randomised trials in this class with their measured effect sizes and populations",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A trial in sarcoma or in this histology, which needs a clinical network",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [],
+      "why_not_higher": "Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The evidence is published and the retrieval is already dispatched, so the only cost is reading it carefully enough not to overstate the transfer.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read the retrieved trial set and record each effect size against the population it was measured in, marking every transfer as a transfer.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-VTE-PROPHYLAXIS",
+    "display_name": "Venous thromboembolism in a lung-metastatic sarcoma population",
+    "level": "L2",
+    "kind": "route",
+    "title": "Venous thromboembolism in a lung-metastatic sarcoma population",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "A mechanism that is plausible, acute and probably small -- carried because a portfolio that only registers the mechanisms it expects to find is not a census."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is thromboembolism a non-trivial mechanism of death in EMC, and does prophylaxis change survival rather than only event rates?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A patient carrying pulmonary metastases for years is exposed to a thrombotic hazard for that whole period, and pulmonary embolism is one of the few mechanisms by which an indolent disease can kill abruptly. The route is registered with its own most likely negative attached: the randomised prophylaxis trials in ambulatory cancer reduced thromboembolic events, and reducing events is not the same as prolonging life. That distinction is the route's central question rather than a caveat on it.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether thromboembolism appears as a terminal event in the EMC record at all, which the corpus can answer and nobody has asked.",
+      "Whether prophylaxis moves overall survival as opposed to event rates -- the published trials are the place to check, and the expected answer is no.",
+      "Whether a sarcoma population carries the thrombotic risk that would make any of this worth acting on, which is a class-level question this disease has no data for."
+    ],
+    "required_validation": [
+      {
+        "what": "Terminal thromboembolic events counted in the retrieved corpus",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A survival endpoint from the ambulatory-prophylaxis trials, read rather than assumed",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An EMC-specific thrombotic risk estimate, which requires a clinical cohort",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [],
+      "why_not_higher": "Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Both observations come out of retrievals already dispatched, and a route whose expected answer is negative is cheapest to settle immediately rather than to carry.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Count thromboembolic terminal events in the corpus and read the prophylaxis trials for a survival endpoint rather than an event endpoint.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-HOST-FACTOR",
+    "display_name": "Treating modifiable host conditions as de-facto EMC survival therapy",
+    "level": "L2",
+    "kind": "route",
+    "title": "Treating modifiable host conditions as de-facto EMC survival therapy",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 (trimcrae). The only route in the portfolio whose intervention already exists, is already approved, and needs no EMC-specific evidence to act.",
+      "owner": {
+        "file": "research/manuscripts/emc-mortality-mechanisms.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MORTALITY-MECHANISM",
+    "publication": {
+      "endpoint": "PUB-MORTALITY-MECHANISM",
+      "role": "contributing",
+      "contribution": "The constructive half of the paper: having bounded what antitumour therapy could achieve, name the interventions that act on the remainder and are already sitting in a pharmacy."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "If a common, independently treatable condition raises the chance of death after an EMC diagnosis, is the drug for that condition a de-facto EMC survival drug for the patients who have it?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The argument does not need obesity, smoking or hypertension to affect the sarcoma at all, and that is what makes it strong. Roughly two of every five deaths within a decade of an EMC diagnosis are not EMC deaths; in that compartment the patient is an ordinary person of their age and sex, the deaths are ordinary deaths, and general-population evidence applies with the weakest transfer assumption anywhere in this portfolio. ⭐ That inverts this programme's usual problem: every antitumour route here is blocked on EMC-specific evidence nobody can obtain without a wet lab, while this one is blocked on population evidence that already exists in abundance. The honest consequence also cuts the claim down -- acting on that compartment alone bounds the benefit to a modest number of percentage points, to a defined subgroup, and it is not a cancer treatment.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "The prevalence of every candidate host factor in an EMC population, which no EMC series records -- so every prevalence must be imported from a general population and is an assumption.",
+      "Whether any host factor changes EMC-SPECIFIC mortality, which has never been measured in this disease and is only weakly and confoundedly addressed in sarcoma.",
+      "Whether the measured associations survive the biases that routinely reverse their sign -- reverse causation, the obesity paradox, collider bias, immortal-time and healthy-user effects -- which is the difference between a defensible recommendation and a harmful one.",
+      "Whether deliberately inducing weight loss is SAFE in this population, which the idea as posed assumes and which is not obvious: unintentional weight loss is itself an adverse prognostic sign in cancer, sarcopenia is a measured adverse prognostic factor in sarcoma, and a GLP-1 agonist reduces lean mass alongside fat. An intervention that improves compartment B while worsening compartment A would be invisible to any analysis that reported one blended number.",
+      "Whether a host factor reaches EMC-specific mortality INDIRECTLY through treatment rather than through tumour biology -- surgical complication rates, radiotherapy planning and cytotoxic dosing are all body-habitus dependent -- which would place a real effect in compartment A by a mechanism the compartment-B argument does not cover."
+    ],
+    "required_validation": [
+      {
+        "what": "A retrieved, cited set of effect sizes for each candidate factor on all-cause mortality, with the population each was measured in",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A bias assessment per factor, built from the causal-inference literature rather than asserted",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Host-factor prevalence and outcome data in an actual EMC cohort, which requires clinical records nobody here can reach",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the retrieved effect sizes and the bias assessment they have to be read through"
+      ],
+      "why_not_higher": "The model is built and the retrieval is dispatched, but no effect size has been read yet, and this is precisely the route where writing a number from memory would produce a confident clinical recommendation with nothing behind it."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The retrieval is free, the interventions are already approved and in use, and nothing about this route waits on a capability that does not exist.",
+      "cost_trend": "falling",
+      "six_month_delta": "The GLP-1 outcome literature is expanding quickly, so the compartment-B evidence base is one of the few in this repository that improves without anyone here doing anything."
+    },
+    "next": {
+      "best_next_action": "Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.",
+      "cost": "$0"
+    },
+    "limitations": [
+      "This route can only ever act on the share of deaths that are not EMC deaths; it is not a cancer treatment and must never be presented as one.",
+      "No EMC series records any host factor, so every prevalence and every effect here is transferred from another population and none is a measurement in this disease.",
+      "Nothing in this route asserts efficacy, safety, a therapeutic window or clinical readiness, and nothing in it is advice for any individual patient."
+    ]
   }
 ]

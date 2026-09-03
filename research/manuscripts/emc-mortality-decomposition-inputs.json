@@ -1,0 +1,195 @@
+{
+  "_readme": "Inputs to research/manuscripts/emc_mortality_decomposition.py. Every survival figure here is a READING of research/data/emc-clinical-registry.json, which is its one home (CLAUDE.md rule 1) -- this file does not own a single clinical number. `registry_verbatim` is the exact string the value was read out of, and the script FAILS if that string is no longer present in the registry at the stated path, so a registry correction cannot silently leave a stale figure in the decomposition. The registry stores several of these as free text ('82/65/58% (5/10/15-yr OS)'), which is why the extraction is declared here explicitly rather than parsed by a regex that would quietly mis-read a reformatted string.",
+  "series": [
+    {
+      "key": "meisKindblom1999",
+      "label": "Meis-Kindblom 1999 pathology series",
+      "n": 117,
+      "registry_path": "registry.cohorts[label='Long-term outcome series (Meis-Kindblom)']",
+      "registry_verbatim": "5/10/15-yr survival 90/70/60%",
+      "overall_survival": {
+        "5": 0.9,
+        "10": 0.7,
+        "15": 0.6
+      },
+      "survival_kind": "all_cause",
+      "disease_death": {
+        "events": 18,
+        "denom": 99
+      },
+      "median_followup_months": 108,
+      "pairing": "within_series",
+      "pairing_note": "The only series in the registry that reports BOTH a long-horizon all-cause survival curve and a disease-specific death count on the same patients. The two are not on the same estimator -- 70% is a survival-curve reading at 10 years, 18/99 is a crude proportion over a median 108-month follow-up -- so the within-series decomposition below is approximate and is reported as such. It is still the only decomposition that does not cross populations."
+    },
+    {
+      "key": "drilon2008",
+      "label": "Drilon 2008 two-referral-centre series",
+      "n": 87,
+      "registry_path": "registry.cohorts[label='Two-referral-center long-term series (Drilon)']",
+      "registry_verbatim": "82/65/58% (5/10/15-yr OS)",
+      "overall_survival": {
+        "5": 0.82,
+        "10": 0.65,
+        "15": 0.58
+      },
+      "survival_kind": "all_cause",
+      "disease_death": null,
+      "pairing": "cross_series",
+      "pairing_note": "All-cause only. Contributes the all-cause side of the cross-series pairing; it reports no disease-specific figure, so nothing is inferred about ITS cause split."
+    },
+    {
+      "key": "japan2003",
+      "label": "Japanese multi-institutional series",
+      "n": 42,
+      "registry_path": "registry.cohorts[label='Japanese multi-institutional series']",
+      "registry_verbatim": "100/88% (5/10-yr OS)",
+      "overall_survival": {
+        "5": 1.0,
+        "10": 0.88
+      },
+      "survival_kind": "all_cause",
+      "disease_death": null,
+      "pairing": "cross_series",
+      "pairing_note": "The most favourable all-cause curve in the registry and the reason the cross-series band has a wide upper edge. A 5-year all-cause survival of 100% in 42 patients means this cohort had neither an EMC death nor a background death in five years, which is a strong selection signal, not a natural-history reading."
+    },
+    {
+      "key": "seer270_2022",
+      "label": "SEER 2004-2015 population series",
+      "n": 270,
+      "registry_path": "registry.cohorts[label='SEER overall-survival series']",
+      "registry_verbatim": "76% (5-yr OS)",
+      "overall_survival": {
+        "5": 0.76
+      },
+      "survival_kind": "all_cause",
+      "disease_death": null,
+      "pairing": "cross_series",
+      "pairing_note": "The largest EMC survival dataset and the least selected, so its 5-year all-cause figure is the one a population claim should lean on. SEER records survival but not recurrence."
+    },
+    {
+      "key": "uMich2023",
+      "label": "University of Michigan series",
+      "n": 44,
+      "registry_path": "registry.cohorts[label='Single-institution series (U Michigan)']",
+      "registry_verbatim": "79% (5-yr OS)",
+      "overall_survival": {
+        "5": 0.79
+      },
+      "survival_kind": "all_cause",
+      "disease_death": null,
+      "pairing": "cross_series"
+    },
+    {
+      "key": "china2016",
+      "label": "Chinese series",
+      "n": 40,
+      "registry_path": "registry.cohorts[label='Chinese series']",
+      "registry_verbatim": "71/60% (5/7-yr OS)",
+      "overall_survival": {
+        "5": 0.71,
+        "7": 0.6
+      },
+      "survival_kind": "all_cause",
+      "disease_death": null,
+      "pairing": "cross_series"
+    },
+    {
+      "key": "masunaga2025_localized",
+      "label": "Japanese national registry, localised surgical",
+      "n": 134,
+      "registry_path": "registry.cohorts[label='Localised at diagnosis, surgically treated']",
+      "registry_verbatim": "eight (6.3%) died from tumors, and four (3.1%) died from other causes",
+      "registry_field": "fiveYearDSS",
+      "disease_specific_survival": {
+        "5": 0.913
+      },
+      "survival_kind": "disease_specific",
+      "disease_death": {
+        "events": 9,
+        "denom": 134
+      },
+      "median_followup_months": 38,
+      "pairing": "cross_series",
+      "pairing_note": "⭐ The cleanest pairing in this file. Both cause counts come from the same patients under the same ascertainment, so the competing share is a ratio of two counts rather than a subtraction of percentages from different studies. Localised stratum: 9 tumour deaths (8 in the no-chemotherapy arm plus 1 in the chemotherapy arm) and 4 other-cause deaths, over a median 38 months.",
+      "other_cause_death": {
+        "events": 4,
+        "denom": 134
+      }
+    },
+    {
+      "key": "masunaga2025_metastatic",
+      "label": "Japanese national registry, metastatic at diagnosis",
+      "n": 29,
+      "registry_path": "registry.cohorts[label='Metastatic at diagnosis']",
+      "registry_verbatim": "five (31.3%) died of the tumors, and one (6.3%) died of other causes",
+      "registry_field": "fiveYearDSS",
+      "disease_specific_survival": {
+        "5": 0.758
+      },
+      "survival_kind": "disease_specific",
+      "disease_death": {
+        "events": 9,
+        "denom": 29
+      },
+      "median_followup_months": 41,
+      "pairing": "cross_series",
+      "pairing_note": "Same study, advanced stratum: 9 tumour deaths (5 in the advanced-chemotherapy arm plus 4 in the arm that did not receive it) and 1 other-cause death. ⚠ The competing share is much lower here than in the localised stratum, and that is exactly what it should be -- these patients are dying of EMC faster, so the disease outruns their other causes.",
+      "other_cause_death": {
+        "events": 1,
+        "denom": 29
+      }
+    },
+    {
+      "key": "bishop2019",
+      "label": "MD Anderson localised series",
+      "n": 41,
+      "registry_path": "registry.cohorts[label='Localised, single-institution series']",
+      "registry_verbatim": "85% (10-yr DSS)",
+      "disease_specific_survival": {
+        "10": 0.85
+      },
+      "survival_kind": "disease_specific",
+      "median_followup_months": 94,
+      "pairing": "cross_series",
+      "pairing_note": "The registry's only 10-year disease-specific figure, and therefore the disease-specific side of the headline 10-year decomposition. Localised at diagnosis, single institution."
+    }
+  ],
+  "pooled_reference": {
+    "measure": "10-year disease-specific survival",
+    "value": 0.85,
+    "registry_path": "outcomes.published[measure='10-year disease-specific survival']",
+    "registry_verbatim": "approximately 85%",
+    "note": "The registry's pooled 10-year disease-specific figure, independent of Bishop 2019's single-institution 85% and numerically equal to it. Agreement between a pooled estimate and one institution's series is reassuring but is not two independent measurements -- the pooled figure may include that series."
+  },
+  "background_mortality": {
+    "_readme": "Closed 2026-08-09. The question this answers is whether the observed non-EMC deaths are the SIZE an ordinary cohort of this age and sex produces anyway. A figure far ABOVE background would mean the decomposition is a study-comparability artifact rather than a reading of how patients die, and would make every competing-share number in this file unquotable. ⚠ The check is ONE-SIDED by construction: a general-population table over-states background mortality for a cohort fit enough to reach and survive a sarcoma diagnosis, so it can refute 'this gap is background' and cannot prove it.",
+    "cohort_age_median": 55,
+    "cohort_age_basis": "registry overview.typicalPatient: 'Most often diagnosed in adults in their 50s-60s'",
+    "cohort_sex_ratio_male": 0.66,
+    "cohort_sex_basis": "registry overview.typicalPatient: 'Slight male predominance (~2:1 in several series)'",
+    "life_table_source": "WHO Global Health Observatory, indicator LIFE_0000000029, USA, 2021",
+    "life_table_indicator_name_as_published": "nMx - age-specific death rate between ages x and x+n",
+    "life_table_artifact": "research/literature/emc-host-factor-probe.json",
+    "blended_annual_rate_55_59": 0.009856,
+    "blended_annual_rate_derivation": "0.66 x male nMx(55-59) 0.011437434 + 0.34 x female nMx(55-59) 0.006786214. ⛔ nMx is a RATE, not a probability -- the first implementation of this fetch used it as a five-year probability and published a ten-year mortality four times too low. The indicator name above is now read from the API rather than recalled.",
+    "ten_year_background_mortality": 0.1133,
+    "horizon_matched_checks": [
+      {
+        "stratum": "localised",
+        "followup_years": 3.17,
+        "observed_other_cause": [
+          4,
+          134
+        ]
+      },
+      {
+        "stratum": "metastatic",
+        "followup_years": 3.42,
+        "observed_other_cause": [
+          1,
+          29
+        ]
+      }
+    ]
+  }
+}

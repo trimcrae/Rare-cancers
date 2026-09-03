@@ -161,8 +161,20 @@ this one leads with an **ATR-inhibitor row** added 2026-08-03 that §3 does not 
 route's grade, THIS file owns it. Superseded, retained: "This table **mirrors** the one in the active
 manuscript" — a mirror claim is checkable and this one stopped being true the day the ATR row landed.)*
 
+> **★★ AND READ [`emc-mortality-mechanisms.md`](../emc-mortality-mechanisms.md) (2026-08-09) BEFORE
+> READING THE CEILING OFF THIS TABLE.** Every row below fights the tumour, and this table's two axes
+> silently assume that is the only thing worth doing. It is not: a decomposition of the registry's own
+> cited figures says that within the one series measuring both on the same patients, **39.4 % of deaths
+> at ten years were not EMC deaths**, so **a therapy preventing EVERY EMC death would raise ten-year
+> overall survival by roughly 15–18 points, not to 100 %**. ⛔ **That is a ceiling on this entire
+> table taken together**, and roughly two of every five deaths in the first decade already sit outside
+> it. That memo registers the family aimed at them (`ST-MORTALITY-MECHANISM`, five routes). It
+> **refutes nothing here and reprioritises nothing here** — it bounds what the whole page can be worth,
+> which is a different statement and a stronger one.
+
 | Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
 |---|---|---|
+| **Mortality-mechanism-directed / supportive care** ([memo](../emc-mortality-mechanisms.md)) | **Now, for the part that is ordinary medicine** — the interventions exist and are in daily clinical use; what does not exist is any EMC-specific evidence that they move survival in *this* disease | ⭑ **Not tumour-directed** — a fourth level, added 2026-08-09. It does not engage the tumour at any point, which is the *mechanism* of the route rather than a weak score on the existing scale |
 | **ATR inhibitor (FET-rearrangement synthetic lethality)** | **Confirm-gated** — investigational compounds exist and are catalogue reagents; needs an EMC-line dose–response ([prereg](../../modalities/emc-atri-prereg.md)) | **Targeted (indirect)** — a *collateral* vulnerability the fusion itself creates (FET N-terminal IDR → impaired ATM activation at DSBs → the ATR axis becomes load-bearing). Not the fusion, but caused by it |
 | Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | **Generic** — anti-angiogenic + checkpoint; disease-agnostic |
 | Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
@@ -181,7 +193,17 @@ manuscript" — a mirror claim is checkable and this one stopped being true the 
 > **Axis B levels (defined, not scored):** **Driver-directed** = acts on the EWSR1::NR4A3 fusion
 > product/transcript itself · **Targeted (indirect)** = engages EMC's fusion-driven biology at a point
 > *other* than the fusion (surface antigen, stroma, a transactivated node, a dependency, or fusion-TF
-> displacement) · **Generic** = a disease-agnostic mechanism. This categorical *directedness* is an
+> displacement) · **Generic** = a disease-agnostic mechanism *that still acts on the tumour* ·
+> ⭑ **Not tumour-directed** = does not engage the tumour at all, and acts on a mechanism of death
+> instead (added 2026-08-09).
+> ⚠ **THE FOURTH LEVEL IS NOT A WEAKER "GENERIC" AND MUST NOT BE COLLAPSED INTO IT.** Every one of the
+> first three describes *how* a route reaches the tumour, so all three presuppose that it does; a route
+> that never touches the tumour has no position on that scale, and forcing it into `generic` was what
+> made the whole category invisible to this table. The two axes are also non-comparable for such a
+> route in a way worth stating: an antitumour row's Axis A asks *how close is this to a patient*,
+> while for this row the agents are already in daily clinical use and what is missing is EMC-specific
+> evidence that they change anything **in this disease** — a different kind of gap that happens to
+> render in the same column. This categorical *directedness* is an
 > objective property of the mechanism; we use it rather than a numeric "impact" score we cannot measure
 > for untested agents. **Axis A** is likewise four defined states (available now / confirm-gated /
 > to build / down-weighted). Read a route from **both** cells — an antigen route is "targeted" on B yet

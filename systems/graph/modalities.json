@@ -385,13 +385,14 @@
     "group": "hormonal_nuclear_receptor",
     "verdict": "excluded",
     "prior_coverage": "never_searched",
-    "rationale": "Used across oncology for supportive and anti-oedema indications rather than as antitumour therapy in solid sarcoma, and no EMC-directed antitumour rationale exists.",
+    "rationale": "Used across oncology for supportive and anti-oedema indications rather than as antitumour therapy in solid sarcoma, and no EMC-directed antitumour rationale exists. The antitumour half of that verdict stands. The supportive half is OUT OF THIS CENSUS'S SCOPE rather than ruled on: this register grades antitumour activity, so an intervention with no antitumour claim is filtered by the grading criterion before any evidence about it is consulted. Symptom-directed use is assessed by ST-MORTALITY-MECHANISM, registered 2026-08-09.",
     "exemplar": "dexamethasone",
     "provenance": {
       "owner": {
         "file": "systems/graph/modalities.json"
       }
-    }
+    },
+    "zero_dollar_next_step": "Assess it under the mortality-mechanism family instead, where an anti-oedema or symptom-control indication has an axis it can actually score on."
   },
   {
     "id": "MOD-RETINOID",
@@ -3896,15 +3897,17 @@
     "kind": "modality_class",
     "band": "drug_mechanism",
     "group": "host_directed_and_repurposed",
-    "verdict": "not_applicable",
+    "verdict": "on_board",
     "prior_coverage": "never_searched",
-    "rationale": "A supportive-care indication addressing thrombotic risk, with no antitumour claim to assess.",
+    "rationale": "Thromboembolism is a mechanism of death rather than a tumour target, and a patient carrying pulmonary metastases for years is exposed to it for that whole period. Covered since 2026-08-09 by RT-VTE-PROPHYLAXIS, whose own most likely answer is attached to it: the ambulatory-prophylaxis trials reduced events, and reducing events is not the same as prolonging life. Superseded, retained: \"A supportive-care indication addressing thrombotic risk, with no antitumour claim to assess.\" That reading was correct on the census's antitumour axis and said nothing about this disease; what changed is that the board gained a family aimed at mechanisms of death, so the class is now covered rather than out of scope.",
     "exemplar": "low-molecular-weight heparin",
     "provenance": {
       "owner": {
         "file": "systems/graph/modalities.json"
       }
-    }
+    },
+    "route": "RT-VTE-PROPHYLAXIS",
+    "zero_dollar_next_step": "Count terminal thromboembolic events in the retrieved EMC terminal-event corpus, and read the ambulatory-prophylaxis trials for a survival endpoint rather than an event endpoint."
   },
   {
     "id": "MOD-NANOPARTICLE",

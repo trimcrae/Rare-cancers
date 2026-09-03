@@ -395,7 +395,12 @@
         "studyPeriod": [
           2002,
           2022
-        ]
+        ],
+        "otherCauseDeath": {
+          "events": 4,
+          "denom": 134
+        },
+        "otherCauseDeathNote": "Deaths from causes OTHER than EMC, reported by the same study on the same patients. Extracted 2026-08-09 from the paper's own full text via the mortality probe: \"Of the 128 patients who did not receive (neo)adjuvant chemotherapy, 88 (68.8%) were tumor-free survivors, 28 (21.9%) survived with tumors, eight (6.3%) died from tumors, and four (3.1%) died from other causes.\" The chemotherapy arm of this stratum (n=6) reports one tumour death and no other-cause death, so the stratum total is 4/134. Recorded because a disease-specific death count alone cannot say what share of a cohort's mortality the disease actually caused, which is the question research/manuscripts/emc-mortality-mechanisms.md exists to answer."
       },
       {
         "label": "Metastatic at diagnosis",
@@ -418,7 +423,12 @@
         "studyPeriod": [
           2002,
           2022
-        ]
+        ],
+        "otherCauseDeath": {
+          "events": 1,
+          "denom": 29
+        },
+        "otherCauseDeathNote": "Deaths from causes OTHER than EMC, same study, same patients. Extracted 2026-08-09 from full text: \"Among the 16 patients who received advanced-stage chemotherapy, one (6.3%) survived tumor-free, nine (56.3%) survived with tumors, five (31.3%) died of the tumors, and one (6.3%) died of other causes.\" The 13 patients not receiving advanced-stage chemotherapy report four tumour deaths and no other-cause death, so the stratum total is 1/29."
       },
       {
         "label": "Long-term outcome series (Meis-Kindblom)",
@@ -892,7 +902,10 @@
         "registration": "NCT03277924",
         "n": 24,
         "population": "adults with advanced, progressing, measurable, centrally confirmed EMC; 9 centres in Spain, Italy and the UK",
-        "studyPeriod": [2020, 2024],
+        "studyPeriod": [
+          2020,
+          2024
+        ],
         "accessed": "2026-08-07",
         "retrievalNote": "ascopubs.org returned HTTP 403 on /doi/, /doi/full/ and /doi/abs/, and https://doi.org/ returned 403 by redirect; Europe PMC returns hitCount 0 for this DOI and PubMed indexes no IMMUNOSARC EMC record. The abstract text was retrieved independently from api.crossref.org (JATS) and api.semanticscholar.org (Graph API) and the two agree token-for-token apart from one HTML entity. ClinicalTrials.gov has no posted results for NCT03277924 (hasResults: false).",
         "verified": true
@@ -913,7 +926,10 @@
         "registration": "NCT02066285",
         "n": 26,
         "population": "adults with NR4A3-translocated metastatic or unresectable EMC with RECIST progression in the previous 6 months; 11 sites of the Spanish, Italian and French sarcoma groups",
-        "studyPeriod": [2014, 2017],
+        "studyPeriod": [
+          2014,
+          2017
+        ],
         "accessed": "2026-08-07",
         "verified": true
       },
@@ -976,7 +992,10 @@
         "registration": "NCT03277924",
         "n": 68,
         "population": "adults with selected subtypes of advanced soft tissue sarcoma",
-        "studyPeriod": [2017, 2019],
+        "studyPeriod": [
+          2017,
+          2019
+        ],
         "accessed": "2026-08-07",
         "verified": true
       },
@@ -1230,7 +1249,10 @@
         "orrEvents": 2,
         "orr": 9,
         "medianPfsMonths": 13.2,
-        "medianPfsCi": [5.7, 20.7],
+        "medianPfsCi": [
+          5.7,
+          20.7
+        ],
         "result": "Phase 2 EMC cohort of the IMMUNOSARC II master trial (GEIS/ISG/UCL, NCT03277924), accrued May 2020-July 2024 at 9 centres in Spain, Italy and the UK. Primary endpoint 6-month PFS: 16/23 progression-free (reported as 77%). Best response 2 partial responses, 18 stable, 2 progressive. 12-month OS 90% (95% CI 77-100). CONFERENCE ABSTRACT - no full paper is indexed and ClinicalTrials.gov has no posted results.",
         "sourceId": "immunosarc2emc2025",
         "provenance": "primary",
@@ -1245,7 +1267,10 @@
         "orrEvents": 4,
         "orr": 18,
         "medianPfsMonths": 19,
-        "medianPfsCi": [11, 27],
+        "medianPfsCi": [
+          11,
+          27
+        ],
         "result": "Single-arm phase 2 (NCT02066285), Spanish/Italian/French sarcoma groups, accrued 2014-2017, central molecular confirmation of NR4A3 translocation. 4 objective responses, 16 stable, 2 progressive. 24-month OS 90%; exploratory signal of greater benefit with EWSR1::NR4A3.",
         "sourceId": "stacchiotti2019pazopanib",
         "provenance": "primary"
@@ -1283,7 +1308,10 @@
         "orrEvents": 4,
         "orr": 40,
         "medianPfsMonths": 8,
-        "medianPfsRange": [2, 10],
+        "medianPfsRange": [
+          2,
+          10
+        ],
         "result": "Retrospective series treated from 2001 within the Italian Rare Cancer Network; all 11 metastatic, 10/11 front-line, 10/11 anthracycline combined with ifosfamide. Best response by RECIST: 4 partial responses, 3 stable, 3 progressive. Median PFS 8 months (range 2-10).",
         "sourceId": "stacchiotti2013anthracycline",
         "provenance": "primary"

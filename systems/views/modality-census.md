@@ -39,11 +39,11 @@ are live** (`candidate` or `parked_capability`).
 |---|---:|---:|
 | ⭑ `candidate` | 20 | 6 |
 | ⏸ `parked_capability` | 9 | 8 |
-| ✓ `on_board` | 41 | 0 |
+| ✓ `on_board` | 42 | 1 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
 | ✕ `excluded` | 95 | 86 |
-| — `not_applicable` | 11 | 11 |
+| — `not_applicable` | 10 | 10 |
 
 ### By band
 
@@ -356,7 +356,7 @@ carries the cheapest observation that would move it.
 
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
-| **MOD-ANTICOAGULANT**<br/>Anticoagulants and antiplatelet agents | low-molecular-weight heparin | — `not_applicable` | ⭑ **new** | A supportive-care indication addressing thrombotic risk, with no antitumour claim to assess. |
+| **MOD-ANTICOAGULANT**<br/>Anticoagulants and antiplatelet agents | low-molecular-weight heparin | ✓ `on_board` | ⭑ **new** | [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) — Venous thromboembolism in a lung-metastatic sarcoma … |
 | **MOD-BONE-TARGETED**<br/>Bisphosphonates and RANKL inhibitors | denosumab | ✕ `excluded` | ⭑ **new** | Selected by skeletal metastasis, which is not EMC's dominant pattern; despite the name, this tumour is extraskeletal and disseminates to lung. |
 | **MOD-COX2-ASPIRIN**<br/>COX-2 inhibitors and aspirin | celecoxib | ✕ `excluded` | ⭑ **new** | Its rationale is inflammation-driven tumour promotion, and EMC's microenvironment is sparse and non-inflamed. |
 | **MOD-HERV-DARK-ANTIGEN**<br/>Endogenous retroviral and repeat-derived antigens | HERV-derived epitopes | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/program/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |

@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**32 endpoints for 77 routes · 29 with a document · 3 unwritten.**
+**33 endpoints for 83 routes · 30 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -52,6 +52,7 @@ last_verified: 2026-08-06
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/modality-census/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
+| **PUB-MORTALITY-MECHANISM**<br/>[What kills patients with extraskeletal myxoid chondrosarcoma, and the s…](../../research/manuscripts/emc-mortality-mechanisms-paper.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-MTAP-PRMT5**<br/>[The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-…](../../research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
@@ -285,6 +286,21 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 | route | role | what it contributes |
 |---|---|---|
 | [RT-MONOVALENT](L2-rt-monovalent.md) — Monovalent LBD pocket modulation — a molecule that o | `primary` | The whole memo: that occupancy without recruitment is a separate question nobody has asked, and what a sized selectivity requirement for it would have to look like. |
+
+### PUB-MORTALITY-MECHANISM — What kills patients with extraskeletal myxoid chondrosarcoma, and the survival available to tumour-directed therapy: a cause-of-death and relative-survival analysis of the published record
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mortality-mechanisms-paper.md`](../../research/manuscripts/emc-mortality-mechanisms-paper.md)**
+
+In extraskeletal myxoid chondrosarcoma the published record does not state a mechanism for most recorded deaths; where it does, competing causes and second malignancies are the largest identifiable category and respiratory failure is not dominant. Between a fifth and a third of deaths after diagnosis are not attributed to the tumour -- a figure relative survival and registry cause attribution agree on despite sharing no input -- so the survival available to all antitumour therapy taken together is bounded at 6.7 percentage points in localised disease against 31.0 in metastatic disease.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) — Competing (non-EMC) mortality in a decade-scale coho | `contributing` | The arithmetic that bounds every other route in the portfolio: what a perfect antitumour therapy could add, and what it could not touch. |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) — Early specialist palliative care and structured symp | `contributing` | The intervention arm of the paper: the only non-antitumour class with randomised survival evidence, and an honest account of how far it can be carried to this disease. |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) — Treating modifiable host conditions as de-facto EMC  | `contributing` | The constructive half of the paper: having bounded what antitumour therapy could achieve, name the interventions that act on the remainder and are already sitting in a pharmacy. |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) — Progressive pulmonary metastatic burden and respirat | `contributing` | The mechanism half of the paper: what the terminal event actually is, quoted from the record rather than inferred from the metastatic pattern. |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) — De-escalating cytotoxic therapy that has no measured | `contributing` | The uncomfortable half of the argument: that part of the mortality this portfolio is trying to reduce may be iatrogenic, and that the cheapest intervention is to stop. |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) — Venous thromboembolism in a lung-metastatic sarcoma  | `contributing` | A mechanism that is plausible, acute and probably small -- carried because a portfolio that only registers the mechanisms it expects to find is not a census. |
 
 ### PUB-MTAP-PRMT5 — The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests
 
@@ -596,6 +612,12 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-MODALITY-CENSUS** ◐ | `preprint` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-MTAP-PRMT5** ◐ | `preprint` | `primary` |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `primary` |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `contributing` |

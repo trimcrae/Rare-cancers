@@ -472,5 +472,40 @@
         "BLK-NO-CURATED-CLINICAL-DATA"
       ]
     }
+  },
+  {
+    "id": "ST-MORTALITY-MECHANISM",
+    "title": "Mortality-mechanism-directed and supportive care",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "When an EMC patient dies, what is the proximate mechanism -- and is any of it treatable without treating the cancer?",
+    "thesis": "Every other family here tries to stop the tumour from killing the patient. This one starts from the death certificate instead of the driver, and asks which mechanisms actually appear on it. For a disease measured in decades that reordering is not rhetorical: a therapy preventing every EMC death would raise ten-year overall survival by a bounded number of percentage points, and the deaths outside that bound are the ones nothing on this board is pointed at. The bet is that some of them are addressable by medicine that already exists and needs no discovery.",
+    "portfolio_role": "cheap_option",
+    "state": {
+      "work_state": "in_work",
+      "authorization": "free",
+      "status": "active",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09",
+      "running_job": "the mechanism-of-death probe and the competing-mortality decomposition"
+    },
+    "purpose_note": "Registered 2026-08-09 on trimcrae's question. ⛔ ITS ABSENCE UNTIL NOW WAS STRUCTURAL, NOT A JUDGEMENT. The modality census grades every class on antitumour activity, so a supportive indication cannot score at all: MOD-ANTICOAGULANT is recorded `not_applicable` because it is \"a supportive-care indication addressing thrombotic risk, with no antitumour claim to assess\", and MOD-GLUCOCORTICOID is `excluded` as \"supportive ... rather than as antitumour therapy\". Both readings are correct on the census's own axis and neither is a finding about this disease. That is exactly the considered-and-dismissed versus never-pointed-at distinction the census exists to make, failing on the one question its grading criterion cannot express.",
+    "limitations": [
+      "The competing-mortality figure is arithmetic on published summary percentages from heterogeneous studies, not a competing-risks model, and most pairings cross populations.",
+      "Every supportive-care effect size available to this family was measured in some other cancer; no EMC-specific supportive-care outcome data exists at all.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness, and a mechanism being common is not evidence that treating it changes survival."
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Read the retrieved terminal-event corpus and classify each quoted sentence, so the mechanism breakdown rests on sources a reader can check rather than on a plausible story about an indolent tumour.",
+      "cost": "$0",
+      "blocked_on": []
+    }
   }
 ]
