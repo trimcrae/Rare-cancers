@@ -2,16 +2,17 @@
   "_what": "THE ALARM BOARD, AS A FILE. Every supervision verdict, when it was measured, how long it has been that way, and when this file should be considered dead. Written by alarm_state.py.",
   "_read_this_when": "you want to know whether anything is wrong and whether anything is still watching \u2014 WITHOUT running anything, and without having been told.",
   "_this_channel_is_PULL_ONLY": "trimcrae, 2026-07-31: 'You should not be emailing me.' Nothing here sends, opens an issue, comments, or fails a run. A red run and a GitHub issue are both PUSH channels that email the repo owner; this file exists so neither is needed. If you are reading this, the channel worked.",
-  "_generated_utc": "2026-09-02T14:29:47Z",
-  "_generated_et": "10:29 AM ET Sep 2, 2026",
+  "_generated_utc": "2026-09-03T04:41:54Z",
+  "_generated_et": "12:41 AM ET Sep 3, 2026",
   "_expected_tick_min": 16.0,
   "_stale_window_basis": "read from work-ledger.json `_expected_tick_min` = 16 min, which is its one home (derived there from step1-fanout-supervisor.yml's tick_every_min x watch_every_ticks). Not typed here.",
-  "_stale_after_utc": "2026-09-02T15:17:47Z",
-  "_stale_after_et": "11:17 AM ET Sep 2, 2026",
+  "_stale_after_utc": "2026-09-03T05:29:54Z",
+  "_stale_after_et": "1:29 AM ET Sep 3, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS WATCHING and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a supervision chain that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed ticks at 16 min. Restart it: `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "ok": false,
   "n_conditions": 9,
   "needs_attention": [
+    "fleet-supervision",
     "lane:nrv04-retro"
   ],
   "unmeasured": [
@@ -20,24 +21,49 @@
   "_unmeasured_means": "a verdict that could not be reached, NOT a lane that is fine. Listed apart from needs_attention because the fix is different: make it readable first.",
   "conditions": [
     {
-      "key": "lane:nrv04-retro",
-      "source": "lane_staleness_watch.py",
-      "label": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast)",
-      "verdict": "TICK-NOT-MEASURING",
+      "key": "fleet-supervision",
+      "source": "fleet_supervision_alarm.py",
+      "label": "is anything measuring the step-1 fleet?",
+      "verdict": "FAILING",
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "the lane's own state looks fine, but its tick is not measuring it: [NO-ARTIFACT] the progress artifact is missing or carries no `_generated_utc`, so supervision cannot be established at all.",
+      "detail": "a run of step1-fanout-autoscale.yml started 12:47 PM ET Sep 2, 2026 and FAILED, and the artifact is still stamped 10:27 AM ET Sep 2, 2026 \u2014 the tick ran and measured nothing, so the fleet is unsupervised no matter how recently the cron fired. The tick's CODE is broken: read that run's FIRST red step.",
+      "payload": {
+        "artifact_generated_et": "10:27 AM ET Sep 2, 2026",
+        "artifact_age_min": 854.3,
+        "live_instances": 0,
+        "realised_usd_so_far": 0.0,
+        "last_completed_run_et": "12:47 PM ET Sep 2, 2026",
+        "last_completed_conclusion": "failure",
+        "scheduled_delivery_gaps_min": []
+      },
+      "last_seen_utc": "2026-09-03T04:41:54Z",
+      "last_change_utc": "2026-09-03T04:41:54Z",
+      "bad_since_utc": "2026-09-03T04:41:54Z",
+      "consecutive_bad_runs": 1,
+      "bad_for_min": 0.0,
+      "bad_since_et": "12:41 AM ET Sep 3, 2026"
+    },
+    {
+      "key": "lane:nrv04-retro",
+      "source": "lane_staleness_watch.py",
+      "label": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast)",
+      "verdict": "IDLE-UNEXPECTED",
+      "ok": false,
+      "unmeasured": false,
+      "needs_attention": true,
+      "detail": "NO HOSTS, 16 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 854 min (threshold 45 min; last: the lane's own tick wrote its in-flight-board fragment at 10:27 AM ET Sep 2, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT finished. Someone has to dispatch its next step.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 2.0,
+        "evidence_age_min": 854.1,
         "supervision": "NO-ARTIFACT"
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
-      "last_change_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
+      "last_change_utc": "2026-09-03T04:41:54Z",
       "bad_since_utc": "2026-08-26T19:20:48Z",
-      "consecutive_bad_runs": 28,
-      "bad_for_min": 9789.0,
+      "consecutive_bad_runs": 29,
+      "bad_for_min": 10641.1,
       "bad_since_et": "3:20 PM ET Aug 26, 2026"
     },
     {
@@ -51,41 +77,16 @@
       "detail": "the lane claims a price hold but carries NO market snapshot to prove the market was consulted. \u00a76 requires that declining to buy is never silent, because a fleet that never launched looks identical to one that finished \u2014 an unevidenced hold is exactly that ambiguity, so it is graded UNKNOWN rather than accepted.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 2.1,
-        "census_flat_for_min": 9790.5,
-        "supervision": "FRESH"
+        "evidence_age_min": 854.2,
+        "census_flat_for_min": 10642.6,
+        "supervision": "FAILING"
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-08-26T19:19:15Z",
       "bad_since_utc": "2026-08-26T19:19:15Z",
-      "consecutive_bad_runs": 29,
-      "bad_for_min": 9790.5,
+      "consecutive_bad_runs": 30,
+      "bad_for_min": 10642.7,
       "bad_since_et": "3:19 PM ET Aug 26, 2026"
-    },
-    {
-      "key": "fleet-supervision",
-      "source": "fleet_supervision_alarm.py",
-      "label": "is anything measuring the step-1 fleet?",
-      "verdict": "FRESH",
-      "ok": true,
-      "unmeasured": false,
-      "needs_attention": false,
-      "detail": "the last completed run (10:27 AM ET Sep 2, 2026) refreshed the artifact to 10:27 AM ET Sep 2, 2026, 2 min ago \u2014 the fleet really was measured.",
-      "payload": {
-        "artifact_generated_et": "10:27 AM ET Sep 2, 2026",
-        "artifact_age_min": 2.2,
-        "live_instances": 0,
-        "realised_usd_so_far": 0.0,
-        "last_completed_run_et": "10:27 AM ET Sep 2, 2026",
-        "last_completed_conclusion": "failure",
-        "scheduled_delivery_gaps_min": []
-      },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
-      "last_change_utc": "2026-09-01T18:30:59Z",
-      "bad_since_utc": null,
-      "consecutive_bad_runs": 0,
-      "bad_for_min": null,
-      "bad_since_et": null
     },
     {
       "key": "lane:closure-triangle",
@@ -98,9 +99,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.6
+        "evidence_age_min": 766.1
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -119,7 +120,7 @@
       "payload": {
         "provider": "gcp"
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -137,9 +138,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 1.0
+        "evidence_age_min": 707.9
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-08-02T06:14:35Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -157,9 +158,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 45370.8
+        "evidence_age_min": 46222.9
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-08-02T03:47:33Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -177,9 +178,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 2.0
+        "evidence_age_min": 854.0
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-08-02T02:43:24Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -197,9 +198,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 1.0
+        "evidence_age_min": 759.6
       },
-      "last_seen_utc": "2026-09-02T14:29:47Z",
+      "last_seen_utc": "2026-09-03T04:41:54Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
