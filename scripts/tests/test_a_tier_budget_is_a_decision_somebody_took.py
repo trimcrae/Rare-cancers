@@ -52,11 +52,25 @@ def test_every_tier_is_within_its_budget_today():
     assert r.returncode == 0, r.stdout + r.stderr
 
 
-def test_the_counter_actually_counts(tmp_path, monkeypatch):
+def test_the_counter_counts_and_a_shadowed_test_is_not_a_test(tmp_path, monkeypatch):
     """⛔ A GUARD THAT RETURNS ZERO IS GREEN FOREVER. Point the counter at a directory whose test
     functions are known and require the arithmetic, so a counter that broke — an import change, a
     naming convention shift, a walk that stopped recursing — fails here rather than reporting a
-    comfortable number nobody re-derives."""
+    comfortable number nobody re-derives.
+
+    ⛔⛔ AND THE SECOND HALF IS THE SAME CLAIM, WHICH IS WHY IT IS THE SAME TEST RATHER THAN A NEW
+    ONE. A test function whose name is already bound in its namespace does not fail — Python
+    replaces it and pytest never sees it — so the counter's number stops being a number of tests
+    that RUN. Measured 2026-09-03: `systems/tests/test_autonomy_health.py` held 77 `def test_` and
+    `pytest --collect-only -q` reported 75; the two that died were the anti-defeat and
+    one-fact-one-place guards on `cycles_are_sized`, shadowed by identically-named tests of
+    `fanout_is_governed` a hundred lines below. ★ Both were still being PAID FOR out of a ceiling
+    standing at 1400/1400.
+    ⚠ Folded in deliberately, and said out loud: the commit-loop tier was AT its ceiling when this
+    was written, and `tier-budgets.json` names raising it as the last of three answers — so a guard
+    that is genuinely a property of this counter's own number goes where that number is checked,
+    not into a new function bought by moving a bar. It is one claim: the count is a count of tests.
+    """
     import importlib.util
     spec = importlib.util.spec_from_file_location("tier_budget", TOOL)
     mod = importlib.util.module_from_spec(spec)
@@ -68,8 +82,23 @@ def test_the_counter_actually_counts(tmp_path, monkeypatch):
     (d / "test_b.py").write_text("async def test_three():\n    pass\n", encoding="utf-8")
     (d / "not_a_test.py").write_text("def test_ignored():\n    pass\n", encoding="utf-8")
     monkeypatch.setattr(mod, "ROOT", str(tmp_path))
-    files, functions = mod.count_dir("tests")
-    assert (files, functions) == (2, 3), (files, functions)
+    files, functions, shadowed = mod.count_dir("tests")
+    assert (files, functions, shadowed) == (2, 3, []), (files, functions, shadowed)
+
+    # The mutation: one name, twice, in one module — and it must be NAMED, not merely counted.
+    (d / "test_b.py").write_text("def test_three():\n    pass\n\n\ndef test_three():\n    pass\n",
+                                 encoding="utf-8")
+    files, functions, shadowed = mod.count_dir("tests")
+    assert functions == 4, "the source still defines four; the budget pays for all of them"
+    assert [(n, ls) for _, n, ls in shadowed] == [("test_three", [1, 5])], shadowed
+
+    # ⛔ AND DETECTION IS NOT REFUSAL. `--check` must EXIT NON-ZERO on a shadow even when every tier
+    # is comfortably under its ceiling, or this is a report nobody acts on.
+    monkeypatch.setattr(mod, "measure", lambda: [
+        {"tier": "t", "directories": ["tests"], "files": 1, "test_functions": 4, "budget": 9999,
+         "over": False, "why": "", "shadowed": [{"file": "tests/test_b.py", "name": "test_three",
+                                                 "lines": [1, 5]}]}])
+    assert mod.main(["--check"]) == 1, "a shadowed test was detected and then tolerated"
 
 
 def test_an_unparseable_file_does_not_buy_headroom(tmp_path, monkeypatch):
@@ -83,7 +112,7 @@ def test_an_unparseable_file_does_not_buy_headroom(tmp_path, monkeypatch):
     d.mkdir()
     (d / "test_broken.py").write_text("def (\n", encoding="utf-8")
     monkeypatch.setattr(mod, "ROOT", str(tmp_path))
-    assert mod.count_dir("tests") == (1, 1)
+    assert mod.count_dir("tests") == (1, 1, [])
 
 
 def test_every_tests_directory_in_the_repository_is_inside_some_budget(doc):

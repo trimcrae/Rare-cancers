@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 205,
+    "process_defect": 206,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -25,14 +25,14 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 190,
+    "done": 192,
     "in_progress": 10,
     "parked": 30,
-    "queued": 170,
+    "queued": 169,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 24,
+  "n_unscored": 25,
   "n_unscored_open": 0,
   "entries": [
     {
@@ -1382,11 +1382,11 @@
     {
       "id": "AUT-PD-215-11f2347b-33d8c28b",
       "kind": "process_defect",
-      "state": "queued",
+      "state": "done",
       "cost_class": "free",
       "owner": null,
       "claimed_utc": null,
-      "attempts": 0,
+      "attempts": 1,
       "blocked_by": null,
       "blocked_evidence": null,
       "cost_points_at": "research/compute/pricing.md",
@@ -1408,9 +1408,13 @@
         "priority.build_entries() on origin/main: 77 derived rows, AUT-073 -> RT-TRIAL-REACH",
         "same call with the mortality branch merged: 83 derived rows, AUT-073 -> RT-TCR-IMMTAC",
         "systems/tests/test_a_standing_grant_is_not_a_decision_for_trimcrae.py — 3 failures, passes clean on origin/main",
-        "research/autonomy/research-ledger.json AUT-073 serves.publication == PUB-STRATEGY-ARCH (unchanged by the merge)"
+        "research/autonomy/research-ledger.json AUT-073 serves.publication == PUB-STRATEGY-ARCH (unchanged by the merge)",
+        "after: build_entries() refuses RT-AAA-SYNTHETIC-REPRO naming --extend; post-extend 0 of 77 ids moved",
+        "systems/tests/test_autonomy_priority.py 19 passed — two guards rewritten from the repair to the property",
+        "python3 research/autonomy/derived_ids.py --check: 77 route→id bindings, frozen and agreeing with the ledger"
       ],
-      "retry_budget": 3
+      "retry_budget": 3,
+      "resolution": "⭐ FIXED, AND THE REPRODUCTION RAN BEFORE AND AFTER THE SAME WAY — `priority._load` patched in process, no tracked file touched.\n   BEFORE: routes 77 -> 78, ids whose meaning CHANGED: 76 of 77; AUT-073 RT-TRIAL-REACH -> RT-TRABECTEDIN-PPARG.\n   AFTER : the unbound route is REFUSED by name (the error carries the route id and `--extend`); after `--extend` binds it, ids whose meaning CHANGED: 0 of 77, AUT-073 unmoved, 78 rows.\n★ THE BINDING IS DATA NOW, NOT A DERIVATION: `research/autonomy/derived-ledger-ids.json` holds all 77 route -> AUT-NNN bindings, generated from the committed ledger's `_derived` rows at 0bd5de4c4, so not one binding is new. `build_entries()` looks its id up there; an unbound route RAISES rather than taking a number that may already mean something else.\n⛔ AND `merge()` HAD ALREADY CLAIMED TO FIX THIS SINCE 2026-08-26 — 'Ids are now assigned once per route and persisted here'. That sentence was TRUE of anything read through `merge()` and false of the mint underneath, and because it sat in the docstring of the repairing function, every later reader took the problem as closed. A REPAIR LAYERED OVER A BROKEN DERIVATION IS A DERIVATION THAT IS STILL BROKEN FOR EVERYONE WHO DOES NOT GO THROUGH THE LAYER. It is retained as superseded text there rather than deleted, because the sentence is the incident.\n⚠ WHY NOT THE HASH/SLUG THIS ROW PROPOSED: `ids.ENTRY_ID` requires a decimal ordinal and is the shared reader for merge, duplicate_ids, push_guard and prepush_ledger_guard — a slug would change the grammar in five readers at once, and a hash folded into the ordinal space collides, with collision-probing reintroducing the dependence on which other routes exist. A frozen lookup table IS a function of the route id, which is what the row actually asked for. The ordinal a NEW route gets is still allocated (`max(used) + 1`) and that is said out loud in the module: what makes it safe is not the allocator but that the answer is COMMITTED and never recomputed.\n★ ENFORCED, NOT RECORDED: `derived_ids.py --check` is a preflight FAST gate — deliberately not a test, because the commit-loop test tier is opt-in (`PREFLIGHT_TESTS=1`) and this fires on the commit that ADDS A ROUTE. It proves the migration over the WHOLE set (every `_derived` ledger row must agree with the map), not by spot-checking AUT-073."
     },
     {
       "id": "AUT-PD-034",
@@ -1664,12 +1668,17 @@
       "score": 171.0,
       "_score_basis": "RAISED from 126.0 to 171.0 on 2026-09-03 after the branches were actually READ. The original score treated this as branch housekeeping. One of the two is a complete research line at risk of loss, which CLAUDE.md §0 ranks as live work rather than tidying.",
       "what": "⛔ THREE BRANCHES HOLD 69 FILES THAT EXIST NOWHERE ON `main`, AND THE EARLIER 'path-scoped recovery' DID NOT ABSORB THEM. Measured 2026-09-03 by asking, for every path that differs, whether `git cat-file -e origin/main:<path>` resolves:\n  • origin/claude/preprint-host-unaffiliated-srzofd (tip 06171eeee909): 5 path(s) ABSENT from main\n  • origin/claude/best-paper-submission-tqa0cn (tip e673afb88c9c): 31 path(s) ABSENT from main\n  • origin/claude/emc-symptom-treatment-742257 (tip 59bb15cbe9b6): 33 path(s) ABSENT from main\n⚠ THIS CORRECTS THE READING I ACTED ON EARLIER TONIGHT. S37-BRANCH-DEBT graded two of these 'merged (path-scoped)', and I nearly recorded all three as superseded with a no-op `-s ours` merge — which would have written a FALSE verdict into history and cleared them from the turn-end hook, destroying the only signal that anything remained. Partial recovery is not absorption, and the hook cannot tell the two apart because neither makes the branch an ancestor.",
-      "next_action": "TWO DIFFERENT JOBS, and conflating them is what has kept both undone.\n(1) `claude/emc-symptom-treatment-742257` — RECOVER IT. Merge the strategy family, six routes, five modules, four tests, five probes, nine artifacts and two manuscripts, then grade `PUB-MORTALITY-MECHANISM` against the four fields main requires. The grading is a portfolio judgement and should be made deliberately, not inferred to unblock a merge.\n(2) `claude/best-paper-submission-tqa0cn` — READ IT. Nothing is absent; the question is whether 21 relocated files where the branch is longer represent repairs or losses. Per-file diff, five papers.\n⛔ Neither may be `-s ours`'d. (1) would discard a live research line; (2) would bury ~40,000 words behind a verdict with no reading under it.",
+      "next_action": "TWO DIFFERENT JOBS, and conflating them is what has kept both undone.\n(1) `claude/emc-symptom-treatment-742257` — RECOVER IT. Merge the strategy family, six routes, five modules, four tests, five probes, nine artifacts and two manuscripts, then grade `PUB-MORTALITY-MECHANISM` against the four fields main requires. The grading is a portfolio judgement and should be made deliberately, not inferred to unblock a merge.\n(2) `claude/best-paper-submission-tqa0cn` — READ IT. Nothing is absent; the question is whether 21 relocated files where the branch is longer represent repairs or losses. Per-file diff, five papers.\n⛔ Neither may be `-s ours`'d. (1) would discard a live research line; (2) would bury ~40,000 words behind a verdict with no reading under it.\n⭐ THE IDENTITY BLOCKER ON (1) IS CLEARED — AUT-PD-215 closed 2026-09-03. Adding the six mortality routes no longer repoints any AUT-NNN: `build_entries()` reads its ids out of `research/autonomy/derived-ledger-ids.json`, so the merge's remaining step is `python3 research/autonomy/derived_ids.py --extend` (it binds RT-COMPETING-MORTALITY, RT-EARLY-PALLIATIVE, RT-HOST-FACTOR, RT-RESPIRATORY-FAILURE, RT-TREATMENT-HARM and RT-VTE-PROPHYLAXIS to fresh ordinals above every one in use) committed WITH the routes. ⛔ A commit that adds a route without it now fails preflight by design — that gate is the whole fix, not a formality to route around. ⚠ (2) is unchanged and is still a READING, not a merge.\n\n★★ THE FIFTH READING SETTLES (2) AND IT SPLITS THE BRANCH IN TWO, WHICH IS WHY THE FIRST FOUR OSCILLATED — THEY WERE ASKING ONE QUESTION OF TWO DIFFERENT POPULATIONS.\n   (2a) ⛔ THE MANUSCRIPT PROSE: MAIN IS AHEAD BY DELIBERATE EDIT, AND MERGING WOULD REGRESS IT. `git log --since=2026-08-09 origin/main` on the two files where the branch scored zero shows the reason in the messages, not an accident: `emc-atr-collaborator-package.md` has TEN commits since the branch diverged (`0dce79be0` 'Stage only what the run produced: a glob republished stale copies over live results'; `0d967c49b` 'De-Claude the prose: about 180 sentences across six files, no caveat weakened'; `1e983ea8b` AI-disclosure per publisher), and `emc-mtap-prmt5-hypothesis-SI.md` has four (`d79a8002c` 'Withdraw a causal claim I could not support, and replace it with the measurement that refutes it'). ★ SO THE EARLIER PROBE'S '31 OF 36 SAMPLED SENTENCES EXIST NOWHERE ON MAIN' WAS TRUE AND MEANT THE OPPOSITE OF WHAT IT LOOKED LIKE: those sentences are the 2026-08-10 text that three weeks of deliberate revision replaced. An absence cannot distinguish text somebody cut from text nobody noticed was gone — a commit message can, and these do.\n   (2b) ⭐⭐ AND THE BRANCH'S REAL VALUE IS 46 FILES THAT ARE PURE ADDITIONS — `git diff --diff-filter=A origin/main...origin/claude/best-paper-submission-tqa0cn`. NOT PROSE: it is the EVIDENCE LAYER OF A HARDENING ROUND ON FIVE PAPERS, WITH ITS PRODUCERS AND ITS TESTS. Fourteen peer-review and review-response records dated 2026-08-10 (PRMT5 decline ×5, PRMT5 hypothesis ×2, ATR package ×3, surface-target ×2, fusion-output ×2, repurposing ×2); nine producing scripts and three test modules; seven computed artifacts (emc-tissue-read-statistics 4,687 lines, nr4a3-fusion-targets-review-sensitivity 1,999, emc-mtap-locus-persample 1,955, emc-prmt5-multiplicity, emc-prmt5-effect-sizes, emc-fet-frame-and-composition); five literature retrievals including the 2026-08-10 prior-art fulltext screen; and seven figure files including two rendered PDF/PNG pairs with their provenance JSON.\n⛔ AND THE REVIEW RECORDS ARE NOT DUPLICATED ANYWHERE ON MAIN IN ANY FORMAT — CHECKED, NOT ASSUMED. `research/manuscripts/` on main holds ZERO files matching peer-review / review-response / decline-review. Main's review record lives in `research/autonomy/review-seats/*.json`, a later and different schema, and it covers eight papers: PUB-ASO, PUB-ATR, PUB-BIOMARKER-DEP, PUB-FUSION-OUTPUT, PUB-FUSION-PARTNER, PUB-MODALITY-CENSUS, PUB-NEOANTIGEN, PUB-STRATEGY-ARCH. ⭐ SO THE BRANCH'S SIX PAPERS SPLIT AGAIN: PUB-ATR and PUB-FUSION-OUTPUT carry LATER seats on main (2026-08-27 and 2026-09-02), so their 2026-08-10 markdown is superseded in currency and is still the only record that the 2026-08-10 round happened at all; the PRMT5 decline, the PRMT5 hypothesis, the surface-target landscape and the repurposing hypotheses have NO review record on main in any format, of any date.\n★ THAT MAKES THE RECOVERY SAFE BY CONSTRUCTION AND NOT A JUDGEMENT CALL AT ALL: 46 additions touch nothing main holds, so checking them out path-scoped cannot regress a single byte of the revised prose. ⛔ The framing that stalled this branch for three weeks — 'read five papers per-file, then merge or `-s ours`' — asked for an editorial verdict on a population that needs none. The verdict is needed ONLY for (2a), and (2a)'s answer is `-s ours`.\n⚠ The 46 land as UNGATED ARTIFACTS: three test modules and nine scripts arrive with them, so the recovery commit runs PREFLIGHT_TESTS=1 and PREFLIGHT_MODALITIES=1, and any review record that cites a manuscript line number is a record OF THE 2026-08-10 TEXT and must say so where it lands — main's prose has moved under it.\n   (1) ⭐ AND THE MORTALITY BRANCH'S OWN HEADLINE WAS CORRECTED ON THE BRANCH: `4d61197b3` 'the retrieval corrects the headline: competing share 39.4% -> 21.7%, and the ceiling splits by stratum'. `PUB-MORTALITY-MECHANISM` now claims the survival available to ALL antitumour therapy together is bounded at 6.7 percentage points in localised disease against 31.0 in metastatic. ⛔ DO NOT QUOTE 39.4% — it is superseded by the branch's own retrieval. The four fields main requires and the branch entry lacks are `outcome_potential`, `outcome_potential_why`, `patient_path` and `unit`; the branch graph carries 74 routes (main's 77 minus 9 added after divergence, plus the 6 mortality routes) and a dry run of `derived_ids.extend` against it binds RT-COMPETING-MORTALITY..RT-VTE-PROPHYLAXIS to AUT-218..AUT-223 with 0 check failures.",
       "evidence": [
         "origin/claude/preprint-host-unaffiliated-srzofd tip 06171eeee909, 5 paths absent from origin/main (2026-09-03)",
         "origin/claude/best-paper-submission-tqa0cn tip e673afb88c9c, 31 paths absent from origin/main (2026-09-03)",
         "origin/claude/emc-symptom-treatment-742257 tip 59bb15cbe9b6, 33 paths absent from origin/main (2026-09-03)",
-        "research/autonomy/sprint-2026-09-01/S37-BRANCH-DEBT.md"
+        "research/autonomy/sprint-2026-09-01/S37-BRANCH-DEBT.md",
+        "git diff --diff-filter=A origin/main...origin/claude/best-paper-submission-tqa0cn: 46 files, ADDITIONS ONLY",
+        "git log --since=2026-08-09 origin/main -- emc-mtap-prmt5-hypothesis-SI.md: 4 commits incl. d79a8002c 'Withdraw a causal claim I could not support'",
+        "git log --since=2026-08-09 origin/main -- emc-atr-collaborator-package.md: 10 commits incl. 0dce79be0 'Stage only what the run produced: a glob republished stale copies over live results'",
+        "branch routes.json holds 74 routes: main's 77 minus 9 added after divergence, plus the 6 mortality routes",
+        "derived_ids.extend dry run on the branch graph: binds RT-COMPETING-MORTALITY..RT-VTE-PROPHYLAXIS to AUT-218..AUT-223, check failures 0"
       ],
       "retry_budget": 3,
       "_one_of_three_resolved_2026_09_03": "★ `claude/preprint-host-unaffiliated-srzofd` (tip 3a9c4e5) IS RESOLVED — superseded, recorded with a no-op `-s ours` merge that changes zero bytes, and the reading this row demanded before any such merge now exists. All five of its absent paths are BUILD ARTIFACTS (3 PDFs, 2 build-stamps) for fusion-junction-aso-research-article.md, and the stamps make staleness decidable rather than a judgement: three of the four sources each names no longer match main, including fusion-junction-aso-sequences.csv, the orderable-oligo artifact. Merging them would have added stale renderings of a paper under review — the exact hazard `aixiv-submission` §4b records at full cost. Nothing is lost: a build artifact is reproducible from its sources by construction.\n⛔ THE OTHER TWO REMAIN UNREAD AND THE PROHIBITION STILL BINDS FOR THEM: `claude/best-paper-submission-tqa0cn` (31 absent paths) and `claude/emc-symptom-treatment-742257` (33, plus four portfolio judgements S37 correctly declined). 64 files, none read. ⚠ Do not generalise from this one — it resolved because its content was rebuildable, which is a property of THIS branch and not of the other two.",
@@ -14264,6 +14273,40 @@
         "strategy": null
       },
       "_score_basis": "loop-instrument defect (gate/hook conflict), found and closed (filed) in the same turn"
+    },
+    {
+      "id": "AUT-PD-217-11f2347b-f275b6d2",
+      "kind": "process_defect",
+      "state": "done",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 1,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "It is the loop's own instruments. Two of the guards on `cycles_are_sized` — the row CLAUDE.md §6 added because the session-shape rule was governed by nothing — were themselves governing nothing."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": null,
+      "_score_basis": "Filed and closed in one commit; never queued, so never scored.",
+      "what": "⛔⛔ TWO TEST FUNCTIONS IN `systems/tests/test_autonomy_health.py` HAD NOT RUN FOR A WEEK, AND NOTHING ANYWHERE SAID SO. Found 2026-09-03 while looking for a slot under the commit-loop tier ceiling, which stood at exactly 1400/1400.\n★ THE MEASUREMENT, NOT AN INFERENCE: `ast` finds 77 `def test_` in that file; `pytest --collect-only -q` reports 75.\n   test_an_unreadable_state_or_absent_cap_is_unmeasured_not_green   lines 896 AND 999\n   test_the_cap_is_read_from_state_and_never_typed_in_the_checker   lines 903 AND 1004\nThe pair at 896/903 test `c_cycles_are_sized`; the pair at 999/1004 test `c_fanout_is_governed`. They are DIFFERENT tests of DIFFERENT conditions that happen to share a name, and Python binds a module-level name once — so the later definition silently replaced the earlier and the cycles-are-sized pair ceased to exist.\n⛔ A SHADOWED TEST DOES NOT FAIL, IT STOPS EXISTING: nothing red, nothing reported skipped, no coverage number moves. And it is still PAID FOR — the tier budget counts source functions, so the ceiling was full of two guards measuring nothing.\n⚠ WHICH TWO DIED MATTERS: the anti-defeat guard ('an unreadable state or absent cap is UNMEASURED, not green') and the one-fact-one-place guard ('the cap is read from state and never typed in the checker') — both on `cycles_are_sized`, the row CLAUDE.md §6 added precisely because the session-shape rule was measured by nothing.",
+      "next_action": "Closed in the same commit.",
+      "resolution": "Renamed the cycles-are-sized pair after their subject (`..._cycle_cap_...`); the file now collects 77 and passes 77. ★ AND THE CLASS IS GATED RATHER THAN THE INSTANCE: `scripts/tier_budget.py` already parses every test file to count it, so it now also reports any test name bound twice in one namespace (module body or class body) and `--check` EXITS NON-ZERO on one even when every tier is under its ceiling — detection without refusal is a report nobody acts on. It runs in the DEFAULT preflight tier, so it fires on the commit that creates the collision.\n⚠ The guard is folded into `test_the_counter_counts_and_a_shadowed_test_is_not_a_test` rather than added as a new function, and that is said out loud in its docstring: the tier was AT its ceiling, `tier-budgets.json` names raising it as the LAST of three answers, and whether the counter's number is a number of tests that RUN is a property of that counter's own arithmetic — the same claim the test already made.",
+      "evidence": [
+        "ast 77 `def test_` vs pytest --collect-only 75, systems/tests/test_autonomy_health.py @ 0bd5de4c4",
+        "after the rename: 77 passed in 13.79s",
+        "scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py 7 passed — mutation asserts --check exits 1"
+      ],
+      "retry_budget": 3,
+      "filed_by": "interactive-session-11f2347b"
     }
   ]
 }

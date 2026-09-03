@@ -1487,6 +1487,38 @@ else
   rc=1
 fi
 
+# ⛔⛔ AN `AUT-NNN` NAMES ONE ROUTE FOREVER, AND UNTIL 2026-09-03 IT NAMED WHICHEVER ROUTE LANDED IN
+# ITS SLOT (AUT-PD-215). `priority.build_entries()` minted a derived row's id as `AUT-{index+1}` over
+# routes sorted by id, so the id was a POSITION. Reproduced against the live graph before anything
+# changed: adding ONE route whose id sorts early moved 76 of 77 ids and took AUT-073 -- the
+# escalation trimcrae answered on 2026-09-01 -- from RT-TRIAL-REACH to RT-TRABECTEDIN-PPARG.
+# ⛔⛔ APPENDED LAST, AND THAT IS NOT COSMETIC — IT IS THIS DEFECT'S OWN LESSON APPLIED TO A
+# SECOND RECORD. Drafted at position 13 (beside the other autonomy-record gates, where it reads
+# best), it pushed the modalities, manuscripts and pure-logic test gates from 13/14/15 to
+# 14/15/16 -- and those three ordinals are written into `research/autonomy/ids.py`,
+# `research/autonomy/priority.py`, four prose documents and committed ledger rows. That is a
+# positional id silently coming to mean something else, which is the exact defect this gate
+# exists to stop, one register over. `systems_check`'s P1 rule caught it in the same run.
+# ⭐ THE GATE IS HERE RATHER THAN IN A TEST FOR ONE MEASURED REASON: the commit-loop test tier is
+# OPT-IN (`PREFLIGHT_TESTS=1`) and this fires on the commit that ADDS A ROUTE, which is the only
+# moment the binding can go wrong. A guard that runs on a flag nobody set on the commit that breaks
+# it is a guard that reports the damage afterwards. It costs nothing (pure stdlib, three small JSON
+# reads) and it fails closed: an unbound route, a duplicated id, or a ledger row disagreeing with
+# the frozen map all red the commit and name `derived_ids.py --extend` as the remedy.
+# ⚠ A BINDING WHOSE ROUTE HAS LEFT THE GRAPH IS REPORTED, NOT FAILED -- receipts still name that id,
+# so deleting the binding loses the meaning by the other door.
+echo "== every route's derived ledger id is frozen, not counted =="
+if derived_out="$(python3 research/autonomy/derived_ids.py --check 2>&1)"; then
+  echo "$derived_out" | sed 's/^/   /'
+  echo "   OK"
+else
+  echo "$derived_out" | sed 's/^/   /'
+  echo "   FAILED -- a derived AUT-NNN does not name the route the record was written against."
+  echo "            Run 'python3 research/autonomy/derived_ids.py --extend' for an unbound route;"
+  echo "            do NOT hand-edit a binding that already exists."
+  rc=1
+fi
+
 # The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
 _preflight_summary_reached=1
 

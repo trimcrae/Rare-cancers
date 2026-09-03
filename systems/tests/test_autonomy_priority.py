@@ -236,31 +236,90 @@ def test_blocked_evidence_is_never_discarded(priority):
     assert row["blocked_evidence"] == "observed 2026-08-26: 404 at source"
 
 
-def test_an_entry_id_is_stable_when_the_graph_grows(priority):
-    """⭐ THE QUIETER HALF OF THE BUG. Ids were `AUT-{index+1}` over sorted routes, so adding ONE
-    route renumbered everything after it — and `AUT-049` written into a receipt would afterwards
-    name a different route. That is a silent rewrite of the historical record."""
-    generated = priority.build_entries()
-    target = generated[10]
-    route, original_id = target["serves"]["route"], target["id"]
-    # Simulate a prior ledger in which this route already holds a very different id.
-    existing = {"entries": [dict(target, id="AUT-777")]}
-    merged = priority.merge(priority.build_entries(), existing)
-    row = [e for e in merged if e["serves"].get("route") == route][0]
-    assert row["id"] == "AUT-777", (
-        f"the id was reassigned from AUT-777 to {row['id']} — receipts naming the old id now point "
-        "at whatever route landed in that slot"
+def test_adding_a_route_to_the_graph_changes_no_existing_id(priority, tmp_path):
+    """⛔⛔ THE PROPERTY, TESTED DIRECTLY, BECAUSE TESTING THE REPAIR IS WHAT MISSED IT FOR A WEEK.
+
+    ⚠ SUPERSEDED, RETAINED (CLAUDE.md rule 1.2). This test used to hand `merge()` a prior ledger in
+    which one route held `AUT-777`, and assert the merged row kept it. That passed throughout, and
+    the bug was live the whole time: it measured whether `merge()` DONATES a remembered id, not
+    whether growing the graph moves one. `build_entries()` is what mints, three modules call it raw,
+    and a fresh ledger has no prior row to donate anything — so the guard was one caller deep in the
+    same way the code was.
+
+    ⭐ Measured on the live graph, 2026-09-03 (AUT-PD-215), before any code changed: adding ONE route
+    whose id sorts early moved 76 of 77 ids and took AUT-073 — the escalation trimcrae answered on
+    2026-09-01 — from RT-TRIAL-REACH to RT-TRABECTEDIN-PPARG. This asserts the whole set, not a spot
+    check, because 76 of 77 moving is what "a spot check would probably notice" looks like when the
+    one that did not move is the one you happened to pick.
+    """
+    import copy, json, shutil, sys
+    sys.path.insert(0, str(REPO / "research" / "autonomy"))
+    import derived_ids
+
+    real_load = priority._load
+    routes = copy.deepcopy(real_load("routes.json"))
+    before = {e["id"]: e["serves"]["route"] for e in priority.build_entries()}
+    assert before.get("AUT-073"), "fixture is degenerate — no AUT-073 to move"
+
+    extra = copy.deepcopy(routes[0])
+    extra["id"] = "RT-AAA-A-ROUTE-THAT-SORTS-FIRST"
+    grown = routes + [extra]
+
+    map_path, ledger_path = tmp_path / "map.json", tmp_path / "ledger.json"
+    routes_path = tmp_path / "routes.json"
+    shutil.copy(REPO / "research" / "autonomy" / "derived-ledger-ids.json", map_path)
+    shutil.copy(REPO / "research" / "autonomy" / "research-ledger.json", ledger_path)
+    routes_path.write_text(json.dumps(grown))
+
+    added = derived_ids.extend(map_path=map_path, ledger_path=ledger_path, routes_path=routes_path)
+    assert [r for r, _ in added] == ["RT-AAA-A-ROUTE-THAT-SORTS-FIRST"]
+
+    table = derived_ids.bindings(map_path)
+    real_bindings = derived_ids.bindings
+    priority._load = lambda name: grown if name == "routes.json" else real_load(name)
+    derived_ids.bindings = lambda path=None: table
+    try:
+        after = {e["id"]: e["serves"]["route"] for e in priority.build_entries()}
+    finally:
+        priority._load = real_load
+        derived_ids.bindings = real_bindings
+
+    moved = sorted(i for i in before if before[i] != after.get(i))
+    assert not moved, (
+        f"{len(moved)} of {len(before)} ids came to name a different route when ONE route was added "
+        f"— e.g. {moved[:3]}. Every receipt, commit message and cross-reference citing one of those "
+        f"now means something else, and nothing anywhere goes red."
     )
-    assert original_id != "AUT-777", "fixture is degenerate"
+    assert len(after) == len(before) + 1, "the new route got no row of its own"
 
 
-def test_a_new_route_gets_an_unused_id_rather_than_colliding(priority):
-    generated = priority.build_entries()
-    existing = {"entries": [{"id": "AUT-900", "serves": {"route": None}, "kind": "process_defect"}]}
-    merged = priority.merge(priority.build_entries(), existing)
-    ids = [e["id"] for e in merged]
-    assert len(ids) == len(set(ids)), "id collision after a merge"
-    assert "AUT-900" in ids
+def test_a_route_with_no_frozen_binding_is_refused_rather_than_minted_an_id(priority):
+    """⛔ THE MINT IS THE DEFECT, SO THERE MUST BE NO FALLBACK MINT.
+
+    ⚠ SUPERSEDED, RETAINED (rule 1.2): this asserted that a new route got an UNUSED id rather than
+    colliding — the right question about the wrong mechanism. A number that is merely unused is
+    still one nobody decided, and the id it does not collide with today is the one it silently
+    becomes tomorrow. An unbound route now fails loudly and names `--extend`, because the remedy
+    has to be reachable from the error or the next session invents a number instead.
+    """
+    import copy
+    real_load = priority._load
+    grown = copy.deepcopy(real_load("routes.json"))
+    orphan = copy.deepcopy(grown[0])
+    orphan["id"] = "RT-ZZZ-BOUND-TO-NOTHING"
+    grown.append(orphan)
+    priority._load = lambda name: grown if name == "routes.json" else real_load(name)
+    try:
+        with pytest.raises(KeyError) as caught:
+            priority.build_entries()
+    finally:
+        priority._load = real_load
+    message = str(caught.value)
+    assert "RT-ZZZ-BOUND-TO-NOTHING" in message, "the refusal does not say which route"
+    assert "--extend" in message, (
+        "the refusal does not name the remedy, so the next session mints a number by hand — which "
+        "is the defect wearing a different hat"
+    )
 
 
 def test_the_merge_is_load_bearing_and_not_decorative(priority):
@@ -354,15 +413,20 @@ def test_a_hand_filed_row_never_steals_a_derived_rows_id(priority):
     Two rows legitimately serve one route — the work and the thing blocking it — so a route is not
     an identity."""
     generated = priority.build_entries()
-    route = generated[0]["serves"]["route"]
+    route, frozen_id = generated[0]["serves"]["route"], generated[0]["id"]
+    # ⚠ THE PRIOR DERIVED ROW CARRIES ITS REAL ID, NOT AN INVENTED ONE. This fixture used to give it
+    # `AUT-500`, which since AUT-PD-215 is itself a defect — the frozen map and the ledger
+    # disagreeing about what an id means — and `merge()` now refuses it by name. The subject of this
+    # test was never the derived row's number; it is that a hand-filed row serving the same route
+    # neither donates its id nor disappears.
     existing = {"entries": [
-        dict(generated[0], id="AUT-500"),                                    # the derived row
+        dict(generated[0]),                                                   # the derived row
         {"id": "AUT-PROP-777", "serves": {"route": route}, "kind": "harden",  # a hand-filed row
          "what": "unblock it", "state": "queued", "filed_by": "CYC-TEST"},
     ]}
     merged = priority.merge(priority.build_entries(), existing)
     derived_row = [e for e in merged if e["serves"].get("route") == route and e.get("_derived")][0]
-    assert derived_row["id"] == "AUT-500", (
+    assert derived_row["id"] == frozen_id, (
         f"the derived row took id {derived_row['id']} from the hand-filed one"
     )
     assert any(e["id"] == "AUT-PROP-777" for e in merged), "the hand-filed row was lost"

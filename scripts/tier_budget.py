@@ -46,12 +46,42 @@ ROOT = os.path.dirname(HERE)
 BUDGETS = os.path.join(HERE, "tier-budgets.json")
 
 
+def _shadowed(tree):
+    """Test names defined twice in one namespace — module body, or one class body.
+
+    ⛔⛔ A SHADOWED TEST DOES NOT FAIL, IT CEASES TO EXIST. Python binds a module-level name once, so
+    the second `def test_x` silently replaces the first and pytest never sees it. Nothing goes red,
+    nothing is reported skipped, and no coverage number moves — the guard is simply gone.
+    ⚠ MEASURED 2026-09-03, not reasoned: `systems/tests/test_autonomy_health.py` held 77 `def test_`
+    and `pytest --collect-only -q` reported 75. The two that died were the anti-defeat guard and the
+    one-fact-one-place guard on `cycles_are_sized` — the row CLAUDE.md §6 added precisely because
+    the session-shape rule was governed by nothing — killed by a name collision with the
+    `fanout_is_governed` pair a hundred lines below, which guard a different condition entirely.
+    ★ THE CHECK BELONGS HERE BECAUSE IT IS THIS TOOL'S OWN NUMBER THAT IS OTHERWISE A LIE. The
+    budget counts what the repository ASKS FOR; a shadowed function is paid for out of the ceiling
+    and measures nothing, so the tier was standing at 1400/1400 with two of them inside it. This
+    file's `_what_this_does_not_measure` says the budget says nothing about whether a test is GOOD,
+    and that still holds — whether a test RUNS is a different question, and it is the one that makes
+    the count true.
+    """
+    out = []
+    for scope in [tree] + [n for n in tree.body if isinstance(n, ast.ClassDef)]:
+        seen = {}
+        for node in scope.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) \
+                    and node.name.startswith("test_"):
+                seen.setdefault(node.name, []).append(node.lineno)
+        out += [(name, lines) for name, lines in seen.items() if len(lines) > 1]
+    return out
+
+
 def count_dir(rel):
-    """(files, test functions) under a tests directory, by AST. (0, 0) if it is not there."""
+    """(files, test functions, shadowed) under a tests directory, by AST. Zeros if it is not there."""
     path = os.path.join(ROOT, rel)
     if not os.path.isdir(path):
-        return 0, 0
+        return 0, 0, []
     files = functions = 0
+    shadowed = []
     for entry in sorted(os.listdir(path)):
         if not (entry.startswith("test_") and entry.endswith(".py")):
             continue
@@ -68,7 +98,8 @@ def count_dir(rel):
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) \
                     and node.name.startswith("test_"):
                 functions += 1
-    return files, functions
+        shadowed += [(os.path.join(rel, entry), name, lines) for name, lines in _shadowed(tree)]
+    return files, functions, shadowed
 
 
 def measure():
@@ -77,10 +108,12 @@ def measure():
     rows = []
     for name, spec in sorted(doc["tiers"].items()):
         files = functions = 0
+        shadowed = []
         for rel in spec["directories"]:
-            f, n = count_dir(rel)
+            f, n, sh = count_dir(rel)
             files += f
             functions += n
+            shadowed += sh
         rows.append({
             "tier": name,
             "directories": spec["directories"],
@@ -88,6 +121,7 @@ def measure():
             "test_functions": functions,
             "budget": spec["max_test_functions"],
             "over": functions > spec["max_test_functions"],
+            "shadowed": [{"file": f, "name": n, "lines": l} for f, n, l in shadowed],
             "why": spec.get("why", ""),
         })
     return rows
@@ -103,9 +137,23 @@ def main(argv=None):
         print(json.dumps(rows, indent=2))
     else:
         for r in rows:
-            mark = "OVER " if r["over"] else "ok   "
+            mark = "SHADOW" if r["shadowed"] else ("OVER " if r["over"] else "ok   ")
             print("   %s %-22s %5d/%-5d test function(s) in %d file(s)"
                   % (mark, r["tier"], r["test_functions"], r["budget"], r["files"]))
+            for sh in r["shadowed"]:
+                print("         %s: %s defined at lines %s — only the LAST one runs"
+                      % (sh["file"], sh["name"], sh["lines"]))
+    shadowed = [r for r in rows if r["shadowed"]]
+    if shadowed and a.check:
+        print("", file=sys.stderr)
+        for r in shadowed:
+            for sh in r["shadowed"]:
+                print("::error::%s defines %s at lines %s. Python binds the name once, so every "
+                      "definition but the last is REPLACED — it does not fail, it stops existing, "
+                      "and it is still paid for out of tier %r's ceiling. Rename it after the thing "
+                      "it actually guards."
+                      % (sh["file"], sh["name"], sh["lines"], r["tier"]), file=sys.stderr)
+        return 1
     over = [r for r in rows if r["over"]]
     if over and a.check:
         print("", file=sys.stderr)

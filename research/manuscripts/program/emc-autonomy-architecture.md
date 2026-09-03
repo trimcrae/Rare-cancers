@@ -187,7 +187,7 @@ Deliberately mirrors `work-ledger.json` so the two can share the staleness and r
 
 ```
 entries[]:
-  id                  AUT-### — stable, never reused
+  id                  AUT-### — looked up in derived-ledger-ids.json, never counted   ← §3.2a
   what                one sentence, falsifiable, in the imperative
   serves              {route: RT-*, requirement: R*, publication: PUB-*}   ← the join to systems/graph
   kind                experiment | analysis | write | harden | fetch | regrade | venue | negative
@@ -205,6 +205,53 @@ entries[]:
   score               written by the scorer, never by hand
   score_inputs        the field values the score was computed from  ← auditable
 ```
+
+### 3.2a · Where a derived row's id comes from — and why it is DATA
+
+⛔⛔ **`AUT-###` READ "stable, never reused" HERE FOR A WEEK WHILE IT WAS NEITHER.** `build_entries()`
+minted it as `AUT-{index + 1:03d}` over `sorted(routes, key=id)`, so the id was a POSITION in a scan
+and not an identity at all. Reproduced against the live graph on 2026-09-03 (AUT-PD-215), before any
+code changed, by patching `priority._load` in process so no tracked file moved:
+
+```
+routes 77 -> 78   derived rows 77 -> 78
+AUT-073: RT-TRIAL-REACH -> RT-TRABECTEDIN-PPARG
+ids whose meaning CHANGED: 76 of 77
+```
+
+⛔ **WHAT THAT BREAKS IS THE RECORD, NOT A BUILD.** `AUT-073` is the escalation trimcrae answered on
+2026-09-01; after a six-route merge the string names a different route, and so does every AUT-NNN in
+every commit message, receipt, `_stranded_work` note and cross-reference here — **with nothing red
+anywhere.** One `systems/tests` module happens to hard-code what AUT-073 is, and that accident was
+the entire detection.
+
+⭐ **AND `merge()` HAD ALREADY CLAIMED TO FIX IT.** Its docstring said *"Ids are now assigned once per
+route and persisted here"* from 2026-08-26, which was true of anything read THROUGH `merge()` and
+false of the mint underneath it. ★ **A repair layered over a broken derivation is a derivation that
+is still broken for everyone who does not go through the layer** — and a docstring saying otherwise
+is worse than none, because it answers the question a reader came to ask.
+
+★★ **SO THE BINDING IS DATA.** `research/autonomy/derived-ledger-ids.json` maps every route id to the
+one `AUT-NNN` it has ever had; `build_entries()` looks its id up there and **an unbound route RAISES**
+rather than taking a number that may already mean something else. `merge()` no longer allocates at
+all — it verifies that the id it was handed is the one the ledger already carried, and refuses by
+name when the two disagree.
+
+⚠ **The ordinal a NEW route gets is still allocated** (`derived_ids.py --extend`, `max(used) + 1`
+across every prefix) **and that is said out loud rather than dressed up as a derivation.** What makes
+it safe is not the allocator but that the answer is COMMITTED and never recomputed: an ordinal moves
+exactly once, from unassigned to assigned. A hash or a slug was considered and rejected —
+`ids.ENTRY_ID` requires a decimal ordinal and is the shared reader for `merge`, `duplicate_ids`,
+`push_guard` and `prepush_ledger_guard`, so a slug changes the grammar in five readers at once, and a
+hash folded into the ordinal space collides, with collision-probing reintroducing the dependence on
+which other routes exist.
+
+★ **Enforced in the DEFAULT preflight tier** by `python3 research/autonomy/derived_ids.py --check`,
+not by a test: the commit-loop test tier is opt-in (`PREFLIGHT_TESTS=1`) and this must fire on the
+commit that ADDS A ROUTE, which is the only moment the binding can go wrong. It proves the migration
+over the whole set — every `_derived` ledger row must agree with the map — rather than spot-checking
+one id. A binding whose route has left the graph is KEPT and reported: receipts still name it, and
+deleting it loses the meaning by the other door.
 
 ### 3.2 · The scorer — `research/autonomy/priority.py`
 

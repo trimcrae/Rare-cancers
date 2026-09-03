@@ -893,14 +893,27 @@ def test_no_stamped_receipt_at_all_is_unmeasured_not_green(health):
     assert row["needs_attention"] is False
 
 
-def test_an_unreadable_state_or_absent_cap_is_unmeasured_not_green(health):
+# ⛔⛔ THESE TWO ARE NAMED FOR THE CYCLE CAP BECAUSE FOR A WEEK THEY WERE NOT NAMED AT ALL, AND SO
+# NEITHER OF THEM RAN. They were `test_an_unreadable_state_or_absent_cap_is_unmeasured_not_green`
+# and `test_the_cap_is_read_from_state_and_never_typed_in_the_checker` — byte-identical names to the
+# `c_fanout_is_governed` pair ~100 lines below, which are DIFFERENT tests about a DIFFERENT
+# condition. Python binds a module-level name once, so the later definition silently replaced this
+# one and pytest collected 75 tests from a file holding 77 function definitions.
+# ⚠ MEASURED 2026-09-03 rather than reasoned: `ast` finds 77 `def test_`, `pytest --collect-only -q`
+# reports 75. Nothing was red, nothing was skipped, and no report anywhere said a guard was missing
+# — a shadowed test does not fail, it ceases to exist. ⛔ AND THE TIER BUDGET COUNTS THE SOURCE, so
+# both were being PAID FOR out of a ceiling that stood at 1400/1400 while measuring nothing.
+# ★ The two that died are the anti-defeat guard and the one-fact-one-place guard on
+# `cycles_are_sized`, which is the row CLAUDE.md §6 added specifically because the session-shape
+# rule was governed by nothing.
+def test_an_unreadable_state_or_absent_cycle_cap_is_unmeasured_not_green(health):
     assert health.c_cycles_are_sized([_sess_receipt("C", "s")], None, "boom")["unmeasured"] is True
     assert health.c_cycles_are_sized([_sess_receipt("C", "s")], {}, None)["unmeasured"] is True
     assert health.c_cycles_are_sized([_sess_receipt("C", "s")], {"max_cycles_per_session": 0},
                                      None)["unmeasured"] is True
 
 
-def test_the_cap_is_read_from_state_and_never_typed_in_the_checker(health):
+def test_the_cycle_cap_is_read_from_state_and_never_typed_in_the_checker(health):
     """One fact, one place. A cap hardcoded here could not be raised under backoff, and would
     disagree with the file the architecture names as its owner."""
     src = HEALTH_PY.read_text()

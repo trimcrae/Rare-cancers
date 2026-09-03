@@ -43,6 +43,7 @@ from typing import Any
 # ⚠ sys.path, not a package import: this directory is a flat set of scripts run as `python3
 # research/autonomy/<tool>.py` from the repo root, and every sibling here resolves the same way.
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import derived_ids  # noqa: E402
 import ids  # noqa: E402
 import ledger_io  # noqa: E402
 
@@ -321,8 +322,17 @@ def build_entries(weights: dict | None = None) -> list[dict]:
     endpoints = {p["id"]: p for p in _load("publications.json")}
     leverage = _blocker_leverage(routes)
 
+    # ⛔⛔ THE ID IS LOOKED UP, NEVER COUNTED (AUT-PD-215, measured 2026-09-03). This loop used to
+    # mint `AUT-{index + 1:03d}`, which is a POSITION rather than an identity: adding one route
+    # whose id sorted early moved 76 of the 77 ids and took AUT-073 — the escalation trimcrae
+    # answered on 2026-09-01 — from RT-TRIAL-REACH to RT-TRABECTEDIN-PPARG, with nothing red.
+    # `merge()` had claimed this was fixed since 2026-08-26 and was one caller deep: it repairs ids
+    # for whoever reads the ledger THROUGH it, while three test modules and every direct caller read
+    # the mint underneath. The binding now lives in `derived-ledger-ids.json`, and an unbound route
+    # RAISES rather than taking a number that may already mean something else.
+    id_table = derived_ids.bindings()
     entries: list[dict] = []
-    for index, route in enumerate(sorted(routes, key=lambda r: r["id"])):
+    for route in sorted(routes, key=lambda r: r["id"]):
         state = route.get("state") or {}
         endpoint = endpoints.get((route.get("publication") or {}).get("endpoint"))
         kind = _kind(route, endpoint)
@@ -377,7 +387,7 @@ def build_entries(weights: dict | None = None) -> list[dict]:
 
         entries.append(
             {
-                "id": f"AUT-{index + 1:03d}",
+                "id": derived_ids.id_for_route(route["id"], id_table),
                 "_derived": True,  # written by the scorer from systems/graph; see merge()
                 "what": (route.get("next") or {}).get("best_next_action")
                 or f"Decide the next action for {route['id']} — the graph records none.",
@@ -864,8 +874,20 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
 
     ⭐ AND THE IDS WERE POSITIONAL, which is the quieter half. `AUT-{index+1}` over sorted routes
     means adding ONE route to the graph renumbers everything after it, so `AUT-049` written into a
-    receipt would later name a DIFFERENT route — a silent rewrite of the historical record. Ids are
-    now assigned once per route and persisted here.
+    receipt would later name a DIFFERENT route — a silent rewrite of the historical record.
+
+    ⛔⛔ SUPERSEDED, RETAINED (CLAUDE.md rule 1.2), AND THIS SENTENCE IS WHY THE DEFECT SURVIVED A
+    WEEK: *"Ids are now assigned once per route and persisted here."* It was TRUE of anything read
+    through `merge()` and false of the mint underneath, and because it sat in the docstring of the
+    function that does the repairing, every later reader — including three `systems/tests` modules
+    that call `build_entries()` raw — took the whole problem as closed. Measured 2026-09-03
+    (AUT-PD-215): one added route moved 76 of 77 ids and took AUT-073 from RT-TRIAL-REACH to
+    RT-TRABECTEDIN-PPARG. ★ A REPAIR LAYERED OVER A BROKEN DERIVATION IS A DERIVATION THAT IS STILL
+    BROKEN FOR EVERYONE WHO DOES NOT GO THROUGH THE LAYER — and a docstring saying otherwise is
+    worse than none, because it answers the question a reader came to ask.
+    ⭐ The binding is now DATA: `derived-ledger-ids.json`, read by `build_entries()`, checked against
+    the graph and the ledger on every commit by `derived_ids.py --check`. This function no longer
+    assigns an id at all; it verifies that the one it was handed is the one the ledger already had.
     """
     if not existing or not isinstance(existing.get("entries"), list):
         return generated
@@ -878,34 +900,33 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     # it — so the route is not an identity.
     by_route = {e["serves"]["route"]: e for e in prior
                 if e.get("_derived") and isinstance(e.get("serves"), dict) and e["serves"].get("route")}
-    # ⛔⛔ THE ORDINAL IS PARSED BY `ids.parse_entry_id`, NOT BY SPLITTING ON THE LAST DASH.
-    # This read `int(id.rsplit("-", 1)[-1])` inside a bare `except ValueError: pass`, which was
-    # correct for exactly as long as every ledger id ended in its ordinal. It stopped being correct
-    # on 2026-09-01, when `ids.next_entry_id` began appending a session discriminator to stop two
-    # concurrent sessions minting the same id (AUT-PD-171): `AUT-PD-204-6b009680` splits to
-    # `6b009680`, `int()` raises, and the `except` swallows it — so a discriminated row is INVISIBLE
-    # to `used`, and the derived `AUT-NNN` counter stops de-conflicting against it.
-    # ⚠ THE FAILURE MODE IS SILENT AND THE `except` IS WHY: nothing goes red, the id set is simply
-    # short, and the next derived row is minted onto a number a hand-filed row already holds — where
-    # `merge()`'s duplicate check finds it, one step too late to say what caused it. Found by the
-    # seat that made the change, in the file it does not own, and handed over rather than reached
-    # into. One regex, in `ids`, read by allocator and readers alike.
-    used = set()
-    for e in prior:
-        parsed = ids.parse_entry_id(str(e.get("id", "")))
-        if parsed is not None:
-            used.add(parsed[1])
-    next_id = max(used) + 1 if used else 1
-
+    # ⛔⛔ THIS FUNCTION NO LONGER MINTS AN ID, AND ITS REMOVAL IS THE POINT (AUT-PD-215, 2026-09-03).
+    # It used to hand a route with no prior row `AUT-{max(used) + 1:03d}` — an allocator sitting on
+    # top of `build_entries`'s positional mint, repairing ids for whoever read the ledger THROUGH
+    # `merge()` while the mint underneath stayed wrong for every direct caller. `build_entries` now
+    # reads the binding out of `derived-ledger-ids.json`, so by the time an entry reaches here it
+    # already carries the only id its route has ever had, and there is nothing left to allocate.
+    # ⚠ THE `used`/`next_id` BOOKKEEPING WENT WITH IT, INCLUDING ITS OWN HARD-WON LESSON: the
+    # ordinal must be read by `ids.parse_entry_id` and never by splitting on the last dash, because
+    # a discriminated id (`AUT-PD-204-6b009680`) makes `int()` raise inside a bare `except` and the
+    # row silently stops de-conflicting (AUT-PD-171). That lesson is not lost — it moved to the
+    # allocator that still exists, `derived_ids._all_used_ordinals`, which parses the same way for
+    # the same reason. ⛔ Do not reintroduce a mint here: two allocators for one id space is how the
+    # id AUT-PROP-004 held got taken over by a different row.
     for entry in generated:
         old_entry = by_route.get(entry["serves"]["route"])
         if old_entry is None:
-            while next_id in used:
-                next_id += 1
-            entry["id"] = f"AUT-{next_id:03d}"
-            used.add(next_id)
-            continue
-        entry["id"] = old_entry["id"]  # stable across graph growth
+            continue  # a newly bound route: the frozen map already named it
+        if old_entry["id"] != entry["id"]:
+            # ⛔ LOUD, BECAUSE ONE OF THE TWO IS A SILENT REWRITE OF WHAT AN ALREADY-WRITTEN ID
+            # MEANS, and picking the louder one is how this defect stayed invisible for a week.
+            raise ValueError(
+                f"{entry['serves']['route']} is bound to {entry['id']} in "
+                f"research/autonomy/derived-ledger-ids.json but the ledger's derived row for it is "
+                f"{old_entry['id']}. An AUT-NNN names one route forever; resolve which of the two "
+                f"the record was actually written against before re-scoring "
+                f"(`python3 research/autonomy/derived_ids.py --check` reports every such row)."
+            )
         for key in SESSION_OWNED:
             if old_entry.get(key) not in (None, 0):
                 entry[key] = old_entry[key]

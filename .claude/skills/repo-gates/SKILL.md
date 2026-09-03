@@ -182,7 +182,7 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Eighteen gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Nineteen gates, in this order:** (1) the consistency
   linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) citation provenance AND publication type — `research/manuscripts/lint_citations.py`, which since
@@ -226,6 +226,26 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   tier stopped earning its place?", and is declared like any other bar change.
   **APPENDED LAST, AGAIN FOR THE ORDINAL REASON** — inserting it beside the other test rows, where
   it belongs by subject, would have renumbered gate 17 and every reference to it. 
+  **(19)** every route's derived ledger id is frozen, not counted
+  (`research/autonomy/derived_ids.py --check` over `research/autonomy/derived-ledger-ids.json`) —
+  ⛔⛔ **AN `AUT-NNN` NAMES ONE ROUTE FOREVER, AND UNTIL 2026-09-03 IT NAMED WHICHEVER ROUTE LANDED
+  IN ITS SLOT (AUT-PD-215).** `priority.build_entries()` minted a derived row's id as
+  `AUT-{index + 1:03d}` over routes sorted by id, so the id was a POSITION. Reproduced against the
+  live graph before any code changed: adding **one** route whose id sorts early moved **76 of 77**
+  ids and took `AUT-073` — the escalation trimcrae answered on 2026-09-01 — from `RT-TRIAL-REACH` to
+  `RT-TRABECTEDIN-PPARG`, with nothing red anywhere. ★ **It is a gate rather than a test because the
+  commit-loop test tier is opt-in** (`PREFLIGHT_TESTS=1`) **and this has to fire on the commit that
+  ADDS A ROUTE**, the only moment the binding can go wrong; a guard behind a flag nobody set reports
+  the damage instead of preventing it. It costs ~0 s (three small JSON reads), fails closed on an
+  unbound route, a duplicated id or a ledger row disagreeing with the frozen map, and names
+  `derived_ids.py --extend` as the remedy. A binding whose route has left the graph is reported and
+  KEPT — receipts still name that id.
+  **APPENDED LAST, AND THE DRAFT THAT WAS NOT IS THIS ENTRY'S OWN LESSON.** Placed at 13 beside the
+  other autonomy-record gates, where it reads best, it pushed the modalities, manuscripts and
+  pure-logic test gates from 13/14/15 to 14/15/16 — the three ordinals written into
+  `research/autonomy/ids.py`, `research/autonomy/priority.py`, four prose documents and committed
+  ledger rows. **That is a positional id silently coming to mean something else: the exact defect
+  this gate exists to stop, one register over.** `[P1]` caught it in the same run that ran the fix.
   Its exit code cannot be masked.
 **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
