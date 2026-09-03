@@ -612,7 +612,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-MODALITY-CENSUS** ◐ | `preprint` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
-| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `preprint` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
 | [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
 | [RT-HOST-FACTOR](L2-rt-host-factor.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |
 | [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◐ | `preprint` | `contributing` |

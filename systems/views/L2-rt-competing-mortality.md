@@ -43,11 +43,10 @@ flowchart LR
 
 ## Scientific rationale
 
-The curated cohorts report ten-year all-cause survival of 65-70% against a ten-year disease-specific survival near 85%. Within the one series that measures both on the same patients, 39.4% of deaths at ten years were not EMC deaths. A cohort diagnosed in its fifties and sixties and surviving five to seven years even after metastasis accrues an ordinary person's cardiovascular and second-cancer risk for a very long time, and no route on this board is aimed at any of it.
+The curated cohorts report ten-year all-cause survival of 65-70% against a ten-year disease-specific survival near 85%. Within the one series that measures both on the same patients, a registry cause-of-death split gives a competing share of 21.7% of deaths at ten years (relative survival independently gives 23.0%; an earlier retrieval read this as 39.4% and is superseded, per the paper's own Appendix A.1). A cohort diagnosed in its fifties and sixties and surviving five to seven years even after metastasis accrues an ordinary person's cardiovascular and second-cancer risk for a very long time, and no route on this board is aimed at any of it.
 
 ## Remaining unknowns
 
-- Whether the observed all-cause minus disease-specific gap is the size this cohort's age and sex explain, or is instead an artifact of pairing figures from studies that were never comparable.
 - What the competing deaths actually are, which no EMC series reports -- the disease-specific classification tells you only that they were not EMC.
 - Whether an EMC cohort's non-cancer mortality resembles the general population's at all, given it is selected for being fit enough to reach and survive a sarcoma diagnosis.
 
@@ -66,12 +65,9 @@ The curated cohorts report ten-year all-cause survival of 65-70% against a ten-y
 
 ## Readiness — what this could become today
 
-**`internal_note`**
+**`preprint`**
 
-The competing share is computed and reproducible, but until the background check runs it cannot be distinguished from a study-comparability artifact, and an internal note is the strongest honest output.
-
-**Missing:**
-- the background-mortality comparison, which is fetched but not yet folded in
+The background check is folded in and consistent with background mortality (per-stratum ratios 0.97 and 1.04, both including 1 in a wide CI on 4 and 1 events respectively), and the result is written into the paper's own S3.6 -- 'It did not refute it.' What keeps this below journal_submission is not this route's own validation but that PUB-MORTALITY-MECHANISM as a whole has not been through this repository's hardening rounds yet; the second required_validation item (a cause-of-death breakdown) stays genuinely blocked on BLK-NO-EMC-DATA.
 
 ## Where this route ends — the paper
 
@@ -103,7 +99,7 @@ The decomposition already runs and the check that validates it costs nothing, so
 
 ## Best next action
 
-Close the background-mortality check with the fetched life table and state whether the decomposition survives it.
+CORRECTED 2026-09-03: this field was stale, carried over from before the branch that registered this route closed the check it describes. The background-mortality check is CLOSED, not open -- both the whole-cohort 10-year check (ratio 1.77) and the per-stratum horizon-matched check (ratios 0.97, 1.04) are run and folded into research/manuscripts/emc-mortality-decomposition.json, and the paper quotes the per-stratum result in S3.6 ('It did not refute it'). Nothing route-specific remains actionable today; the second required_validation item (cause-of-death breakdown) is blocked on BLK-NO-EMC-DATA, and the paper's remaining path is PUB-MORTALITY-MECHANISM's own hardening/publish_bar route, not a per-route action.
 
 *Cost:* $0
 

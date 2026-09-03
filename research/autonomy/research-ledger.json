@@ -9,26 +9,26 @@
     "build": 1,
     "code": 1,
     "decide": 1,
-    "experiment": 32,
+    "experiment": 31,
     "fetch": 24,
     "fix": 23,
     "harden": 30,
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 206,
+    "process_defect": 207,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
     "verify": 2,
-    "write": 6
+    "write": 7
   },
   "n_by_state": {
     "blocked": 2,
     "done": 194,
     "in_progress": 10,
     "parked": 30,
-    "queued": 173,
+    "queued": 174,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -64,6 +64,52 @@
       "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
       "score": 204.53,
       "closes_clause": null
+    },
+    {
+      "id": "AUT-218",
+      "_derived": true,
+      "what": "CORRECTED 2026-09-03: this field was stale, carried over from before the branch that registered this route closed the check it describes. The background-mortality check is CLOSED, not open -- both the whole-cohort 10-year check (ratio 1.77) and the per-stratum horizon-matched check (ratios 0.97, 1.04) are run and folded into research/manuscripts/emc-mortality-decomposition.json, and the paper quotes the per-stratum result in S3.6 ('It did not refute it'). Nothing route-specific remains actionable today; the second required_validation item (cause-of-death breakdown) is blocked on BLK-NO-EMC-DATA, and the paper's remaining path is PUB-MORTALITY-MECHANISM's own hardening/publish_bar route, not a per-route action.",
+      "serves": {
+        "route": "RT-COMPETING-MORTALITY",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-0098-37419c4c",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-09",
+      "score": 203.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-03"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-03T13:10:29Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:10:29Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "serves": {
@@ -449,52 +495,6 @@
       "depends_on_evidence": "round-10 guard audit MISCOVERED D and G; test_aso_deposition_doi_is_one_fact.py ARTICLE=ARTICLES[0], test_universal_claims_are_scoped_to_what_was_measured.py ARTICLE=research-article",
       "_score_basis": "one-of-a-pair defects; the eighth and ninth instances of a class this repo has found seven times",
       "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
-    },
-    {
-      "id": "AUT-218",
-      "_derived": true,
-      "what": "Close the background-mortality check with the fetched life table and state whether the decomposition survives it.",
-      "serves": {
-        "route": "RT-COMPETING-MORTALITY",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0098-37419c4c",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 196.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-03T13:10:29Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T13:10:29Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
     },
     {
       "id": "AUT-221",
@@ -14572,6 +14572,39 @@
       ],
       "retry_budget": 3,
       "filed_by": "interactive-session-11f2347b"
+    },
+    {
+      "id": "AUT-PD-218-37419c4c-49e1861a",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "The scorer's own claim mechanism, not any one route."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": 95.0,
+      "_score_basis": "HAND-SET. Not a live route and not blocking anything, but it silently defeats a status reader (not a safety mechanism -- claim.py's own decide() keys on `owner`, unaffected) -- similar class to AUT-PD-013's `fruitless_attempts` gap, scored in that band.",
+      "what": "claim.py's stamp_claim() sets a claimed row's `state` to `in_progress`, but priority.py's merge() only preserves a DERIVED row's prior state across a re-score when it is in SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (research/autonomy/priority.py). \"in_progress\" is not in that set, so the very next `priority.py --write` after a claim silently reverts a derived row's `state` back to whatever build_entries() computes from the graph (usually \"queued\") while `owner`/`claimed_utc` correctly survive via SESSION_OWNED. Measured directly: claimed AUT-218 via claim.py (state written as \"in_progress\", verified in the pushed commit), then ran `priority.py --write` once with no other change, and the committed row read `state: queued`, `owner: CYC-0098-37419c4c` -- owner and state disagreeing about whether the row is taken.",
+      "next_action": "Add \"in_progress\" to SESSION_STATES in research/autonomy/priority.py (one line), and add a regression test claiming a DERIVED row (not a hand-filed one -- the existing session-state tests may only cover hand-filed rows) then re-running build_ledger()/merge() and asserting state stays \"in_progress\". priority.py is governed (amendment_guard.py); declare the edit. ⛔ NOT A SAFETY GAP: claim.py's decide() keys on `owner`, never on `state`, so two sessions cannot both take the row -- this is a display/audit-trail inconsistency, not a race.",
+      "evidence": [
+        "research/autonomy/claim.py:480 sets e[\"state\"] = \"in_progress\" in stamp_claim()",
+        "research/autonomy/priority.py SESSION_STATES = {\"running\", \"done\", \"abandoned\"} (in_progress absent)",
+        "research/autonomy/priority.py merge(): `if old_entry.get(\"state\") in SESSION_STATES: entry[\"state\"] = old_entry[\"state\"]` -- the only path that would have preserved it",
+        "Reproduced 2026-09-03: claimed AUT-218 (state in_progress on the pushed claim commit), ran `priority.py --write` with no other change, committed row read state=queued, owner=CYC-0098-37419c4c"
+      ],
+      "retry_budget": 3
     }
   ]
 }

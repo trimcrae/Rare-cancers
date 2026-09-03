@@ -34,6 +34,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missi |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | ST-MORTALITY-MECHANISM | `preprint` | — |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `preprint` | nothing for the preprint — it is written and every figure resolves to a committed artifact |
@@ -52,7 +53,6 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | ST-IMMUNO | `internal_note` | a selective surface antigen |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | ST-DEPENDENCY | `internal_note` | a client-binding measurement, which is not an expression question |
-| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | ST-MORTALITY-MECHANISM | `internal_note` | the background-mortality comparison, which is fetched but not yet folded in |
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
