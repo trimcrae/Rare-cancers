@@ -1,0 +1,46 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-MODALITY-CENSUS",
+  "pub_id": "PUB-MODALITY-CENSUS",
+  "reviewed_commit": "ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/modality-census/cancer-modality-census.md",
+  "document_sha256": "b0aca1924b1ffa341dbf45bae6d9e891acd09f4fb70c0571fbc09e046e2e32fe",
+  "opened_utc": "2026-09-03T00:13:15Z",
+  "verdict": "needs_revision",
+  "referee_recommendation": "major_revisions",
+  "central_claim": "A census that enumerates all 217 oncology modality classes and grades each against extraskeletal myxoid chondrosarcoma finds 112 classes this repository's prior sweeps never pointed at, closes 84 of those on inspection, and leaves 31 live candidate routes worth registering and pursuing.",
+  "blockers": [
+    {
+      "summary": "The document contradicts itself on the count of `already_rejected` classes: 33 in its own §2 table versus 31 in its own §5 prose, for the identical field, with no note that the two numbers differ. The source-of-truth register confirms 33 is correct and 31 is simply wrong.",
+      "evidence": "§2 table (line 63): '| ✕ `already_rejected` — a prior document settled it | 33 | 0 |'. §5 (line 353): 'Thirty-one rows carry `already_rejected` with a resolvable pointer into the owning document.' Verified against `systems/graph/modalities.json` at the pinned commit: `Counter(r['verdict'] for r in d)['already_rejected'] == 33`, matching §2 and refuting §5.",
+      "fix": "Change §5's 'Thirty-one rows carry `already_rejected`' to 'Thirty-three rows carry `already_rejected`', or better, derive the sentence from the same table §2 already renders rather than typing it a second time (this repository's own §1 rule: a total is derived, never typed)."
+    },
+    {
+      "summary": "The document's headline candidate/excluded counts (§2: 31 candidate, 84 excluded) and its 'live residue' narrative in §3 do not match the document's own designated source of truth, `systems/graph/modalities.json`, at the exact pinned commit. The register shows only 20 rows carrying verdict `candidate`, not 31, and 11 of the classes registered as routes are already marked `excluded` — including four the manuscript's own §3 prose presents with no hedge at all as live, promising, unresolved candidates. The scope statement explicitly tells the reader modalities.json is authoritative ('it does not own the census rows, which live in systems/graph/modalities.json'), so this is checkable and fails.",
+      "evidence": "Computed from the pinned `systems/graph/modalities.json` (217 rows): verdict counts are on_board 41, excluded 95, already_rejected 33, candidate 20, not_applicable 11, parked_capability 9, in_clinical_use 8 — not the 41/84/33/31/9/11/8 the manuscript's §2 table states. Of the 11 excluded-but-registered-as-route rows, four are undisclosed anywhere in the manuscript prose as closed: (1) MOD-TRANSCRIPTIONAL-CDK — §3.1 calls this 'The largest single gap the census found, and it is in the place it should least have been,' with no flag that the row's own rationale in modalities.json reads '⛔ RE-GRADED 2026-08-09, the same day it was registered: the cheapest observation this class was registered to await was taken, and it went against the premise' — and the cited grading artifact `research/modalities/census-route-expression-grading.json` (routes.RT-TXN-CDK) records the actual observation: a 91-line pan-sarcoma dependency screen found CDK7 and CDK9 are dependencies in 100% of screened lines (mean gene effect -1.85, -1.46), i.e. pan-essential, so 'the elevation seen in EMC buys no window' — precisely the 'window rather than an effect' question §3.1's own caveat raises, already answered negatively, same day, and never mentioned. (2) MOD-ALK-ROS1 — §3.3 lists ALK/ROS1 among 'Kinase leads with EMC-specific evidence that nobody followed,' while modalities.json marks it 'excluded' ('RE-GRADED 2026-08-09... two of its three hits belong to a DIFFERENT single class, which is already on the board'). (3) MOD-SERM-SERD (the §3.7 hormone-responsive partner) — presented positively ('a reported instance of exactly that with durable benefit') while modalities.json shows it 'excluded' on reach grounds (the partner is reported in a single EMC patient world-wide). (4) MOD-SEQUENCING — presented in §3.6 as a live 'reachability route' while modalities.json shows it 'excluded' on evidence-base grounds (no randomised evidence exists, every pooled denominator is under sixty patients). All four rationale fields are dated 'RE-GRADED 2026-08-09' — the same date this document's own front matter lists as `date` and `last_verified` — so this is not later drift accrued after publication; the closure was already true on the day the document claims to have been checked. The document has a working mechanism for exactly this kind of correction (the ⛔/⚠ 'Superseded, retained' callouts used for the 127→112 correction and the MCL-1 example in §3.2a); it was simply not applied to these four rows, nor to the headline §2 table.",
+      "fix": "Regenerate §2's summary table and §3's 'Thirty-one classes survive' framing directly from `systems/graph/modalities.json` rather than a stale manual count, and add the same ⛔/⚠ 'Superseded, retained' treatment already used elsewhere in this document to the Transcriptional CDK, ALK/ROS1, hormone-partner and Sequencing entries, each carrying the specific closing evidence (the pan-essentiality screen for CDK, the hit re-attribution for ALK/ROS1, the reach denominator for the hormone partner, the evidence-base refusal for Sequencing)."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "Two source-of-truth artifacts the manuscript points readers to disagree with each other about RET, independent of the manuscript's own prose: `systems/graph/modalities.json` marks MOD-RET verdict `excluded`, but the grading artifact it cites, `census-route-expression-grading.json`, gives RT-RET verdict 'SPLIT — receptor supported, ligand-dependent activation route weakened' with `route_action: 'keep, with the co-receptor reading carried as a stated caveat'` — i.e. the grading artifact says keep the route, the register says exclude the class.",
+      "evidence": "modalities.json: `{\"id\": \"MOD-RET\", \"verdict\": \"excluded\", ...}`. census-route-expression-grading.json → routes.RT-RET: `\"verdict\": \"SPLIT — receptor supported, ligand-dependent activation route weakened.\"`, `\"route_action\": \"keep, with the co-receptor reading carried as a stated caveat\"`. The manuscript's own §3.8 table lands closer to the grading artifact ('RET | split') than to the register's flat 'excluded', which is itself consistent with neither source cleanly.",
+      "fix": "Reconcile the verdict field on MOD-RET with the route_action the grading artifact actually recorded (a kept-with-caveat route reads as `candidate`, not `excluded`), so a reader who follows the manuscript's own citation chain does not find the two authorities contradicting each other."
+    },
+    {
+      "summary": "Minor arithmetic drift of one row between the manuscript's corrected headline figures and the source register: the manuscript states 112 never-searched classes (87 in `drug_mechanism`), the register computes 111 (86 in `drug_mechanism`).",
+      "evidence": "§2: '⭑ 112 of 217 classes had never been pointed at by any prior sweep here' and the band table's `drug_mechanism | 162 | 87 | 53%` row. Computed from the pinned modalities.json: total `prior_coverage == 'never_searched'` is 111, and the `drug_mechanism` band's share is 86, not 87 — one row's `prior_coverage` field differs from what the manuscript's corrected table states.",
+      "fix": "Re-derive the never-searched total and band breakdown from the register at commit time rather than carrying a manually corrected figure, and re-verify the single row causing the +1 discrepancy in `drug_mechanism`."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/modality-census/cancer-modality-census.md @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (full text, via git show; sha256 verified)",
+    "systems/graph/modalities.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (all 217 rows, via git show; parsed and cross-tabulated by verdict, band, prior_coverage, and presence of a `route` key)",
+    "research/modalities/census-novelty-audit.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (structure only)",
+    "research/modalities/census-route-expression-grading.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (summary buckets and full per-route detail for RT-TXN-CDK, RT-RET, RT-ALK-HIT)"
+  ]
+}
