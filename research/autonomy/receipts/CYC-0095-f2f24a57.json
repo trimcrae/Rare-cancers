@@ -1,0 +1,28 @@
+{
+  "cycle_id": "CYC-0095-f2f24a57",
+  "session_id": "f2f24a57-6834-5b7f-801e-d7949dea605b",
+  "ccr_session_id": "session_01J89ZgwwuoJa9nBoTRvWGEf",
+  "started_utc": "2026-09-02T23:38:00Z",
+  "ended_utc": "2026-09-03T00:05:00Z",
+  "took": "AUT-010",
+  "took_why": "Claimed immediately after CYC-0094 released AUT-073, using free subagent capacity (0/4 concurrent seats running). publish_bar --paper PUB-ATR read 4/7 because a concurrent session's commit (3dcb494fa) moved the paper's content after this session's earlier round-7 convergence, resetting hardening_converged to FAIL.",
+  "what_changed": [
+    "research/autonomy/review-seats/PUB-ATR-3dcb494fabb8649dff48774033a776b29b48dfb7-seat-*.json -- a fresh round of 5 blind seats against the moved commit: regression, arithmetic, statistics, citations all 0 blockers; hostile found 1 real blocker.",
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md -- fixed the hostile-referee's blocker as a replacement (commit 5887e90ba): Section 5's machinery-control paragraph overclaimed 'every null part D reports ... bounds less than this document has been claiming' when the cited BRCA2/PARP control only tested the ATM-genotype-stratified reading; the replication-stress and held-out-FET rows use a different instrument and are still narrated at full strength a few paragraphs later. Verified against the manuscript directly (both passages are in the same Section 5) before narrowing the claim's scope.",
+    "research/manuscripts/claim-coverage.json -- regenerated after the manuscript edit.",
+    "research/autonomy/research-ledger.json -- released AUT-010 with a full account of the round and what's left (a fresh round of 5 seats on 5887e90ba to reach convergence).",
+    "Two merge/duplicate incidents handled during this round: (1) a concurrent session (b0e7700ec) independently classified the same two O4 disputed-identity entries this session was about to add for the same two seat files -- caught via merge conflict, this session's duplicate discarded, theirs kept; (2) two further unrelated concurrent commits (an AWS workflow dispatch-input-cap fix, a PUB-STRATEGY-ARCH readability-baseline pin) merged cleanly via fast-forward, no conflicts."
+  ],
+  "cost": "$0 -- all Claude-plan agent dispatch and CI-free local work; no GPU, no paid API calls beyond the plan's own agent budget.",
+  "queued": [
+    "PUB-ATR needs a fresh round of 5 blind seats on commit 5887e90ba to reach the zero-blocker convergence publish_bar's hardening_converged clause requires. AUT-010 released, unclaimed.",
+    "PUB-STRATEGY-ARCH (converged this cycle, CYC-0094) still needs PREFLIGHT_FULL=1 at ca18ec8b (or the tip at that time) to close its one remaining clause and reach 7/7.",
+    "AUT-PD-211 (open, unrelated to this cycle): the 14-line vs ~20-line panel-size disagreement between two producer artifacts -- needs a primary-source read, not a repository fix."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-ATR-ASSESS",
+  "subagents": {
+    "max_concurrent": 4,
+    "note": "Stayed within the subagent_width=4 cap for this round's 5 seats by dispatching 4 concurrently and the 5th as soon as one slot freed, correcting the prior cycle's overage (CYC-0094 dispatched 5 concurrently against the same cap)."
+  }
+}
