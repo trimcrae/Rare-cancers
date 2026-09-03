@@ -633,14 +633,14 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "CYC-0099-fd57fe96",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
-      "blocked_evidence": null,
+      "blocked_evidence": "Two dispatched workers (a8b6a55d1b31d1252, a5c6969e3df548c9a) attempted this item; the first produced a draft touching research/manuscripts/emc-mortality-mechanisms.md (213 lines) and research/manuscripts/citation-provenance-ledger.json (~6,098 lines changed, roughly half the file, for what should be a small addition) but never reached a verified, gated commit after ~25 min of runtime and repeated confused non-terminal responses. Releasing the claim rather than force an unverified citation-ledger diff to main (medical-integrity golden rule). Neither worker's draft was committed anywhere; nothing is lost, the item is simply unattempted again.",
       "retry_budget": 2,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
+      "last_evidence_utc": "2026-09-03",
       "score": 188.0,
       "score_inputs": {
         "live": true,
@@ -658,7 +658,7 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-03T13:13:59Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-09-03T13:13:59Z",
