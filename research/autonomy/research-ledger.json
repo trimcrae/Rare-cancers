@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 194,
+    "done": 195,
     "in_progress": 10,
     "parked": 30,
-    "queued": 174,
+    "queued": 173,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -64,52 +64,6 @@
       "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
       "score": 204.53,
       "closes_clause": null
-    },
-    {
-      "id": "AUT-218",
-      "_derived": true,
-      "what": "CORRECTED 2026-09-03: this field was stale, carried over from before the branch that registered this route closed the check it describes. The background-mortality check is CLOSED, not open -- both the whole-cohort 10-year check (ratio 1.77) and the per-stratum horizon-matched check (ratios 0.97, 1.04) are run and folded into research/manuscripts/emc-mortality-decomposition.json, and the paper quotes the per-stratum result in S3.6 ('It did not refute it'). Nothing route-specific remains actionable today; the second required_validation item (cause-of-death breakdown) is blocked on BLK-NO-EMC-DATA, and the paper's remaining path is PUB-MORTALITY-MECHANISM's own hardening/publish_bar route, not a per-route action.",
-      "serves": {
-        "route": "RT-COMPETING-MORTALITY",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0098-37419c4c",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 203.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-03T13:10:29Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T13:10:29Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
     },
     {
       "serves": {
@@ -355,6 +309,51 @@
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "_derived": false,
       "score_inputs": {}
+    },
+    {
+      "id": "AUT-218",
+      "_derived": true,
+      "what": "CORRECTED 2026-09-03: this field was stale, carried over from before the branch that registered this route closed the check it describes. The background-mortality check is CLOSED, not open -- both the whole-cohort 10-year check (ratio 1.77) and the per-stratum horizon-matched check (ratios 0.97, 1.04) are run and folded into research/manuscripts/emc-mortality-decomposition.json, and the paper quotes the per-stratum result in S3.6 ('It did not refute it'). Nothing route-specific remains actionable today; the second required_validation item (cause-of-death breakdown) is blocked on BLK-NO-EMC-DATA, and the paper's remaining path is PUB-MORTALITY-MECHANISM's own hardening/publish_bar route, not a per-route action.",
+      "serves": {
+        "route": "RT-COMPETING-MORTALITY",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "write",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-09",
+      "score": 199.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:10:29Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ],
+      "resolution": "FIXED 2026-09-03. The route's next.best_next_action was stale: both the whole-cohort background check (ratio 1.77) and the per-stratum horizon-matched check (ratios 0.97, 1.04) were already run and committed in research/manuscripts/emc-mortality-decomposition.json, and the paper already quotes the per-stratum result in its own S3.6 ('It did not refute it'). Corrected systems/graph/routes.json: readiness bumped internal_note -> preprint (matching PUB-MORTALITY-MECHANISM's actual target_venue/state), next.best_next_action rewritten to say the check is closed and name what's actually blocked (cause-of-death breakdown, BLK-NO-EMC-DATA), and the rationale's superseded 39.4% competing-share figure corrected to the paper's own 21.7%/23.0% (Appendix A.1). Views regenerated (systems_check.py --write-views), 0 ERROR. Also filed AUT-PD-218 as a separate finding: claiming a DERIVED row sets state=in_progress but priority.py's merge() does not preserve that state across a re-score (SESSION_STATES lacks 'in_progress'), so it silently reverts to 'queued' while owner survives -- not a safety gap (claim.py's decide() keys on owner), but a display inconsistency."
     },
     {
       "id": "AUT-PD-186",
