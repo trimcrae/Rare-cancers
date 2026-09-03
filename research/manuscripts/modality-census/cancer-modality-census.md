@@ -61,17 +61,28 @@ pointer, is [`systems/views/modality-census.md`](../../../systems/views/modality
 | ✓ `on_board` — a route already covers it | 41 | 0 |
 | ● `in_clinical_use` — the incumbent arsenal | 8 | 0 |
 | ✕ `already_rejected` — a prior document settled it | 33 | 0 |
-| ✕ `excluded` — this census closes it | 84 | 83 |
-| ⭑ `candidate` | 31 | 9 |
-| ⏸ `parked_capability` | 9 | 9 |
+| ✕ `excluded` — this census closes it | 95 | 86 |
+| ⭑ `candidate` | 20 | 6 |
+| ⏸ `parked_capability` | 9 | 8 |
 | — `not_applicable` | 11 | 11 |
 
-**⭑ 112 of 217 classes had never been pointed at by any prior sweep here, and 18 of those are live.**
+**⭑ 111 of 217 classes had never been pointed at by any prior sweep here, and 14 of those are live.**
 
 ⛔ **THAT NUMBER WAS 127 WHEN THIS DOCUMENT WAS FIRST WRITTEN, AND THE FIRST VERSION WAS WRONG.**
 The correction is in [§2.1](#21--the-headline-was-overstated-and-the-field-is-checkable-in-one-direction-only)
 and matters more than the number does. *Superseded, retained: "127 of 215 classes had never been
 pointed at by any prior sweep here, and 32 of those are live."*
+
+⛔ **AND THE TABLE WENT STALE A SECOND TIME, FOR A DIFFERENT REASON.** This document's own scope note
+says it does not own the census rows, which live in
+[`systems/graph/modalities.json`](../../../systems/graph/modalities.json) and render to
+[`systems/views/modality-census.md`](../../../systems/views/modality-census.md) — but the table above
+was typed once and never regenerated against that registry. Eleven classes registered as `candidate`
+when this document was written were re-graded to `excluded` on 2026-08-09, most as their cheapest next
+observation was taken (§3.1, §3.2a, §3.3, §3.4, §3.6, §3.7, §3.8 each name the ones that bear on their
+own theme). The table above is re-derived from the registry as it now stands, not retyped.
+*Superseded, retained: "112 of 217 classes had never been pointed at by any prior sweep here, and 18 of
+those are live," with the table reading `excluded 84/83`, `candidate 31/9`, `parked_capability 9/9`.*
 
 Two readings of that number are wrong and worth heading off. It is **not** a claim that 127 opportunities
 were missed — 84 of them are closed by this census on first inspection, which is what a denominator is
@@ -84,7 +95,7 @@ here to a validation of the method:
 
 | band | classes | never searched | share |
 |---|---:|---:|---:|
-| `drug_mechanism` | 162 | 87 | 53 % |
+| `drug_mechanism` | 162 | 86 | 53 % |
 | `delivery_and_conjugate` | 26 | 18 | 69 % |
 | `physical_locoregional` | 15 | 3 | 20 % |
 | `strategy_and_architecture` | 14 | 4 | 28 % |
@@ -123,34 +134,44 @@ reading the audit that audits it. Both errors are corrected; the grade now carri
 
 The audit that found them is [`census-novelty-audit.json`](../../modalities/census-novelty-audit.json),
 and it is deliberately noisy — a term match is not coverage, so it surfaces questions and decides
-nothing. ⚠ **It flagged 73 rows and only the 23 candidate rows were adjudicated**, because those are
+nothing. ⚠ **It flagged 73 rows and only the 20 candidate rows were adjudicated**, because those are
 the ones anyone would act on. The remaining flags are recorded as unreviewed rather than silently
-cleared, so the count of 112 should be read as *an upper bound that has been tightened once*, not as a
+cleared, so the count of 111 should be read as *an upper bound that has been tightened once*, not as a
 settled figure.
 
 ⚠ **And the incumbent arsenal is 8 classes.** That is the answer to the framing that produced this work
 — *"a pretty small arsenal"* — stated as a count rather than an impression: multi-kinase antiangiogenic
-inhibitors, anthracyclines, alkylators, a minor-groove binder, a KIT inhibitor used once under a
-biomarker restriction, interferon in case reports, radiotherapy, and surgery. Of those, one class carries
-the disease's only meaningful systemic response record.
+inhibitors, anthracyclines, alkylators, observation and deferred intervention, a KIT inhibitor used once
+under a biomarker restriction, interferon in case reports, radiotherapy, and surgery. Of those, one class
+carries the disease's only meaningful systemic response record.
 
 ## 3 · The live residue
 
-Thirty-one classes survive. They group into seven themes, and every one of them is registered as a route
-so that it inherits blockers, names an endpoint and can be argued with.
+Twenty classes survive. They group into seven themes, and every one of them is registered as a route
+so that it inherits blockers, names an endpoint and can be argued with. *Superseded, retained:
+"Thirty-one classes survive" — six of the eleven that dropped out are named individually below, where
+each theme reports what its own cheapest observation found; the rest are the already-excluded members
+of the §3.2 biomarker theme (§3.2a) and hypoxia-activated prodrugs (§3.8), both of which already carried
+their own corrections before this table did.*
 
 ### 3.1 · Transcriptional and proteostatic dependency
 
-The largest single gap the census found, and it is in the place it should least have been.
-
-**Transcriptional CDK inhibition.** The driver is a transcriptional oncoprotein whose entire mechanism is
+⛔ **Transcriptional CDK inhibition is closed, and it is the theme's cautionary case rather than its
+gap.** *Superseded, retained: "The largest single gap the census found, and it is in the place it
+should least have been... The driver is a transcriptional oncoprotein whose entire mechanism is
 transactivation, and transcriptional CDK dependency is the best-established vulnerability of
-fusion-driven sarcomas as a class. ⚠ *Superseded, retained: "No route, no prior sweep and no
-technique-class table here has ever named it."* That was false and the audit in §2.1 caught it — a live
-manuscript here names BET readers together with CDK7 and CDK9 as a transcriptional-dependency tier, and
-explicitly as mechanism-anchored but **not** fusion-selective. What survives is narrower and still worth
-a route: the class was named as a tier, never assessed against any EMC data, and never given one. ⚠ It
-is also broadly cytotoxic, so what is being asked about is a window rather than an effect.
+fusion-driven sarcomas as a class... What survives is narrower and still worth a route: the class was
+named as a tier, never assessed against any EMC data, and never given one."* The class's own cheapest
+observation — a pan-sarcoma DepMap dependency screen — arrived the same day it was registered and went
+against it: across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 100% of them, which is
+the definition of pan-essential. EMC's transcript-level elevation of the transcriptional CDK machinery
+(the most concordant elevation the whole census found, on both readable platforms) is real, but it buys
+no window against normal tissue, because every sarcoma line needs these genes regardless of fusion
+status. This closes the class on the evidence available here — transcript-level and small — as a
+de-prioritisation with a stated basis, not a proof of impossibility
+([`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) →
+`routes.RT-TXN-CDK`). ⚠ **The cytotoxicity concern the first version of this row already raised turned
+out to be exactly the mechanism that closed it**, not a separate caveat sitting beside a surviving route.
 
 **Chaperone dependency.** A chimeric protein is a folding problem — two domains that never evolved to sit
 together — and chaperone dependence is the general consequence. That is a way to lower fusion protein
@@ -206,19 +227,42 @@ effectors. The observation stands; the MCL-1-dominance reading of it does not.
 
 ### 3.3 · Kinase leads with EMC-specific evidence that nobody followed
 
-Four classes where an observation in this disease already exists and has simply been left. Three were
+Two classes where an observation in this disease already exists and has simply been left. Both were
 surfaced by the 2026-08-07 sweep as lanes and never became routes; registering them is the follow-on that
-sweep itself named.
+sweep itself named. *Superseded, retained: "Four classes... Three were surfaced by the 2026-08-07 sweep
+as lanes"* — RET and ALK/ROS1, the other two, took their cheapest observation on 2026-08-09 and it
+closed each of them; see below.
 
-- **RET** — the only kinase reported as both expressed and activated in this disease, from independent
-  groups, with selective inhibitors approved elsewhere, unfollowed for over a decade.
 - **SGK1** — positive across a full small series of tumours with an internal negative control, published
   two decades ago, never followed by anyone.
 - **DNA-PK** — curated interaction evidence on the driver protein itself, and it needs neither a pocket
   ligand nor a ternary complex.
-- **ALK / ROS1** — an inhibitor of this class was among the low-IC50 hits of a drug screen run on a
-  patient-derived line of this disease. ⚠ The hit does not establish which target produced it, because
-  that agent inhibits several kinases, and the first step separates the observation from the hypothesis.
+
+⛔ **RET is closed, on the credibility of the founding claim rather than on a negative measurement.**
+*Superseded, retained: "RET — the only kinase reported as both expressed and activated in this disease,
+from independent groups, with selective inhibitors approved elsewhere, unfollowed for over a decade."*
+Re-reading the source shows the activation claim is a single sentence in a paywalled abstract, about "a
+limited set" of at most ten tumours, with no recoverable denominator and no assay attribution — and the
+approved selective agents are approved on a molecular state this disease is not reported to be in.
+⚠ **This is a separate finding from what §3.8's expression pass reports, and the two are not in
+tension.** That pass reads the RECEPTOR itself higher in EMC on both platforms (the lane's premise holds
+there) but its ligand/co-receptor module lower on both — a SPLIT reading that, on its own, recommended
+keeping the class with the co-receptor result carried as a caveat. What closes the class instead is the
+founding clinical claim that RET is *activated* in this disease, which does not survive being re-read at
+the source regardless of what the expression data show. Nothing here says the receptor is inactive in
+EMC; it says nobody has measured it, which is a different and more useful statement
+([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-RET`).
+
+⛔ **ALK / ROS1 is closed, because the screen hit it was raised from belongs to a different class.**
+*Superseded, retained: "ALK / ROS1 — an inhibitor of this class was among the low-IC50 hits of a drug
+screen run on a patient-derived line of this disease. The hit does not establish which target produced
+it, because that agent inhibits several kinases, and the first step separates the observation from the
+hypothesis."* That first step has now been taken: re-reading the screen shows two of its three hits
+belong to a different single class already on the board, and ALK and ROS1 themselves cannot be read on
+either expression platform here, so the hit is unattributable to this class in principle. ⚠ The
+unreadability is an instrument statement, not a negative reading of either kinase — what closes the row
+is that the screen's own weight sits elsewhere
+([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-ALK-ROS1`).
 
 ### 3.4 · The matrix as an address
 
@@ -230,11 +274,16 @@ surfaceome screen ranks tumour-cell monoculture transcripts, so it cannot see gl
 compartment in it at all. Its conclusion that no selective surface antigen exists is therefore a statement
 about classic protein antigens and is narrower than it reads.
 
-⭐ **One of the four is a question nobody appears to have asked in this disease at all.** The matrix has
-been considered as a barrier, and once as an address. The third option is to stop the tumour building
-it — the gel is a manufactured product with a named biosynthetic pathway. ⚠ That pathway is shared with
-normal chondrogenesis, so selectivity is the open question rather than an assumption, and the relevant
-expression read is **already committed here** and has never been graded for this purpose.
+⛔ **The third option — stop the tumour building the matrix — was asked and closed the same day it was
+registered.** *Superseded, retained: "One of the four is a question nobody appears to have asked in this
+disease at all... The third option is to stop the tumour building it — the gel is a manufactured product
+with a named biosynthetic pathway... the relevant expression read is already committed here and has
+never been graded for this purpose."* It has now been graded: §3.8 below reports the result — the
+sulfate-donor module is lower, not higher, than in comparator sarcomas, which is the opposite of the
+selectivity the class needed. ⚠ **That pathway is shared with normal chondrogenesis, so this was always
+a question about a window rather than a presence, and the window reads the wrong way**
+([`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) →
+`routes.RT-MATRIX-SYNTHESIS`).
 
 ### 3.5 · Locoregional and radiation
 
@@ -261,9 +310,17 @@ carries to the Auger-emitter and radioimmunoconjugate rows as well.
 
 ### 3.6 · Strategy and reachability
 
-Not new agents — changes to what a patient receives. Scheduling (adaptive and metronomic), sequencing,
-and the two reachability routes: eligibility defined by fusion family rather than histology, and the
-access pathways by which a published hypothesis becomes a treated patient.
+Not new agents — changes to what a patient receives. Scheduling (adaptive and metronomic) and the two
+reachability routes: eligibility defined by fusion family rather than histology, and the access pathways
+by which a published hypothesis becomes a treated patient. *Superseded, retained: "Scheduling..., sequencing,
+and the two reachability routes"* — **sequencing is closed**, on evidence base rather than plausibility.
+Optimal treatment sequencing is a real clinical question in this disease, and the published record
+cannot answer any form of it: no randomised evidence exists for any systemic therapy, every pooled
+denominator is under sixty patients worldwide, and the between-cohort response range is wide enough that
+this repository's own pooling refuses to emit a single all-regimen figure. ⛔ **The refusal is the
+contribution** — this closes the class as an analysis target while making the negative itself
+publishable
+([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-SEQUENCING`).
 
 ⭐ **The last of those closes a gap in the portfolio's own logic.** Every route here names publication as
 its endpoint, on the correct reasoning that with no wet lab and no clinic the published record is the only
@@ -273,11 +330,17 @@ portfolio had an endpoint and no next step after it.
 
 ### 3.7 · Nuclear receptors outside NR4A3
 
-Two lanes from the 2026-08-07 sweep, neither of which became a route. A hormone-responsive 5′ partner can
-import a druggable transcriptional input the driver does not otherwise have, and there is a reported
-instance of exactly that with durable benefit. Separately, an orphan nuclear receptor implicated in
-dormancy has a published tool compound — which is the known-answer control the program's own receptor
-never had, and the reason this lane is worth more than its biology alone suggests.
+One lane from the 2026-08-07 sweep, still open: an orphan nuclear receptor implicated in dormancy has a
+published tool compound — which is the known-answer control the program's own receptor never had, and
+the reason this lane is worth more than its biology alone suggests. *Superseded, retained: "Two lanes...
+A hormone-responsive 5′ partner can import a druggable transcriptional input the driver does not
+otherwise have, and there is a reported instance of exactly that with durable benefit."* ⛔ **That
+second lane is closed, on reach rather than on mechanism.** The class needs a hormone-responsive 5′
+fusion partner to import the hormonal input, and the partner-frequency arithmetic says one is reported
+in a single EMC patient in the world literature, and in none of the partner-genotyped cases the cited
+cohorts cover. The mechanism survives; what fails is the number of patients it could reach, which for an
+ultra-rare disease is the whole question — a de-prioritisation with a stated basis, not a proof
+([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-SERM-SERD`).
 
 ### 3.8 · The first grading pass, and what it cost
 
@@ -303,9 +366,13 @@ not restated here:
 ⭐ **Two of these are worth more than a positive would have been.** The RET result qualifies the lane
 this census and the 2026-08-07 sweep both ranked highest: canonical signalling through that receptor
 needs a ligand and a co-receptor, and relative to comparator sarcomas this disease has less of both.
-That does not close the lane — ligand-independent activation exists, and bulk tumour transcript cannot
-exclude a paracrine supply — but it moves the claim the lane may make from *activated* to *expressed*,
-which is a different and much weaker sentence than the one it was registered on.
+That does not close the lane on THIS reading alone — ligand-independent activation exists, and bulk
+tumour transcript cannot exclude a paracrine supply — but it moves the claim the lane may make from
+*activated* to *expressed*, which is a different and much weaker sentence than the one it was registered
+on. ⚠ **The lane is closed anyway, on a separate and later finding (§3.3): the founding clinical claim
+that RET is activated in this disease does not survive being re-read at its source, regardless of what
+this expression pass shows.** The two findings answer different questions and neither one alone would
+have closed the class.
 
 ⚠ **And one returned nothing, which is recorded as nothing.** The dormancy receptor has no probe on
 either platform. An unreadable gene is not an absent gene, and the pass reports it as unread rather
@@ -350,7 +417,7 @@ reasoning**. That is a deliberate constraint rather than brevity: a second home 
 argument that drifts, and this repository has measured that failure enough times to build checkers
 against it.
 
-Thirty-one rows carry `already_rejected` with a resolvable pointer into the owning document. The pointer
+Thirty-three rows carry `already_rejected` with a resolvable pointer into the owning document. The pointer
 is checked by the same machinery that checks every other pointer in the model, and a test asserts that
 each of the three prior searches is reached by at least one row — so a ruling cannot fall out of the
 record silently and reappear later as a fresh idea.

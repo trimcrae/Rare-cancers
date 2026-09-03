@@ -193,13 +193,16 @@ def test_deliverable_is_buildable_fails_for_a_document_no_papers_entry_names(bar
     assert "PAPERS" in clause["evidence"]
 
 
-def test_deliverable_is_buildable_is_unverifiable_with_no_document(bar):
-    clause = bar.clause_8_deliverable_is_buildable("PUB-DOES-NOT-EXIST", _committed_head())
-    assert clause["verdict"] == bar.UNVERIFIABLE
-
-
-def test_deliverable_is_buildable_fails_closed_on_an_unresolvable_sha(bar):
-    clause = bar.clause_8_deliverable_is_buildable("PUB-ASO", "0" * 40)
+#: ⭐ ONE FUNCTION, TWO CASES -- `scripts/tier-budgets.json` counts test FUNCTIONS, not parametrized
+#: instances, and `systems/tests` sits in the tight commit-loop tier. Two UNVERIFIABLE checks that
+#: shared nothing but their assertion were two functions; merged, they are one, at no loss of
+#: coverage (the mutation that dropped either branch in publish_bar.py is still caught).
+@pytest.mark.parametrize("pub_id,sha", [
+    ("PUB-DOES-NOT-EXIST", None),  # no document.file at all
+    ("PUB-ASO", "0" * 40),         # a real document, but a sha that resolves to nothing
+], ids=["no-document", "unresolvable-sha"])
+def test_deliverable_is_buildable_fails_closed_when_it_cannot_be_verified(bar, pub_id, sha):
+    clause = bar.clause_8_deliverable_is_buildable(pub_id, sha or _committed_head())
     assert clause["verdict"] == bar.UNVERIFIABLE
 
 
