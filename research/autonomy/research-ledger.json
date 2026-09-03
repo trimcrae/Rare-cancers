@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 195,
+    "done": 196,
     "in_progress": 10,
     "parked": 30,
-    "queued": 173,
+    "queued": 172,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -496,52 +496,6 @@
       "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
     },
     {
-      "id": "AUT-222",
-      "_derived": true,
-      "what": "Count treatment-attributed deaths in the terminal-event corpus and set them beside the curated response data for the same agents.",
-      "serves": {
-        "route": "RT-TREATMENT-HARM",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0098-37419c4c",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 196.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-03T13:23:53Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T13:23:53Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-223",
       "_derived": true,
       "what": "Count thromboembolic terminal events in the corpus and read the prophylaxis trials for a survival endpoint rather than an event endpoint.",
@@ -923,6 +877,51 @@
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-IPD-SURVIVAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "requires_trimcrae_why": "digitization and an admit/refuse judgement against a documented quality floor; nothing leaves the repo"
+    },
+    {
+      "id": "AUT-222",
+      "_derived": true,
+      "what": "CORRECTED 2026-09-03: the count against the terminal-event corpus is DONE (see readiness.why_not_higher) and found no chemotherapy-attributed deaths to set beside Drilon 2008 -- the 2 treatment-related deaths in the corpus are surgical, a different agent than this route's rationale. Nothing more is actionable today: the route's central claim rests on Drilon's toxicity-without-response finding standing on its own, and the one validation that could move it (late cardiac outcome data) is blocked on a clinical cohort this programme does not have.",
+      "serves": {
+        "route": "RT-TREATMENT-HARM",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-09",
+      "score": 184.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:23:53Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ],
+      "resolution": "DONE 2026-09-03, WITH A NEGATIVE RESULT FOR THE ROUTE'S OWN HYPOTHESIS. The count was already computed (research/manuscripts/emc_terminal_events.py: 52 classified deaths, 2 treatment_related) and matches the paper's own Table 1 exactly -- but both treatment-related deaths are POSTOPERATIVE (skull-base resection of intracranial EMC, PMID 23115670), not anthracycline cardiotoxicity or neutropenic sepsis, which is what this route's chemotherapy-subtraction rationale is actually about. So the corpus count neither corroborates nor refutes RT-TREATMENT-HARM's central claim -- that still rests entirely on Drilon 2008 (PMID 18951519, n=21, no objective responses, median PFS 5.2 months) standing on its own, independent of any EMC-specific death record. Recorded this precisely in systems/graph/routes.json's RT-TREATMENT-HARM entry (readiness.why_not_higher, next.best_next_action, rationale now cites Drilon by PMID) rather than either silently closing the item or forcing a false corroboration. Regenerated views (systems_check.py --write-views, 0 ERROR)."
     },
     {
       "id": "AUT-PD-036",
