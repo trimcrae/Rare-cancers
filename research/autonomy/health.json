@@ -3,12 +3,12 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-09-03T00:18:26Z",
-  "_generated_et": "8:18 PM ET Sep 2, 2026",
+  "_generated_utc": "2026-09-03T04:40:47Z",
+  "_generated_et": "12:40 AM ET Sep 3, 2026",
   "_cycle_interval_h": 8.0,
   "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 8 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-09-04T00:18:26Z",
-  "_stale_after_et": "8:18 PM ET Sep 3, 2026",
+  "_stale_after_utc": "2026-09-04T04:40:47Z",
+  "_stale_after_et": "12:40 AM ET Sep 4, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 8 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": false,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
@@ -35,25 +35,21 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "session f2f24a57-6834-5b7f-801e- ran 4 cycles (CYC-0092-f2f24a57, CYC-0093-f2f24a57, CYC-0094-f2f24a57, CYC-0095-f2f24a57) against a cap of 2 AND STARTED NO SUCCESSOR. \u00a73 of the cycle contract: a full hardening cycle is a SPAWNED session, not more work in the current one. Context is the resource that runs out silently \u2014 nothing announces it, and the cycle that overruns it is the one that cannot tell. \u2b50 THE REMEDY IS ONE ACT: build the successor's prompt with `python3 research/autonomy/handoff.py --json` and create the session, then record its id in this cycle's receipt under `handoff.child_session_id`. A loop that needs a human to start its next session is not automated; it just has a longer fuse.",
+      "detail": "session f2f24a57-6834-5b7f-801e- ran 4 cycles (CYC-0093-f2f24a57, CYC-0094-f2f24a57, CYC-0095-f2f24a57, CYC-0097-f2f24a57) against a cap of 2 AND STARTED NO SUCCESSOR. \u00a73 of the cycle contract: a full hardening cycle is a SPAWNED session, not more work in the current one. Context is the resource that runs out silently \u2014 nothing announces it, and the cycle that overruns it is the one that cannot tell. \u2b50 THE REMEDY IS ONE ACT: build the successor's prompt with `python3 research/autonomy/handoff.py --json` and create the session, then record its id in this cycle's receipt under `handoff.child_session_id`. A loop that needs a human to start its next session is not automated; it just has a longer fuse.",
       "payload": {
         "cap": 2,
         "sessions": {
-          "381d0696-dff4-528d-8468-0fe7b27e4fb4": 1,
-          "e2d78138-9fd8-5e49-8421-dce8f2857c0c": 1,
-          "f2f24a57-6834-5b7f-801e-d7949dea605b": 4
+          "f2f24a57-6834-5b7f-801e-d7949dea605b": 4,
+          "ecd11783-b2f5-57d5-8577-36c3bb494020": 2
         },
-        "handed_off": [
-          "381d0696-dff4-528d-8468-0fe7b27e4fb4"
-        ],
         "worst": 4
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": "2026-09-03T00:18:26Z",
-      "consecutive_bad_runs": 1,
-      "consecutive_red_runs": 1,
-      "bad_for_h": 0.0,
+      "consecutive_bad_runs": 2,
+      "consecutive_red_runs": 2,
+      "bad_for_h": 4.37,
       "bad_since_et": "8:18 PM ET Sep 2, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -61,11 +57,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 1,
+        "n": 2,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 0.0,
+        "bad_for_h": 4.37,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -77,25 +73,25 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "CYC-0092-f2f24a57 dispatched 5 concurrent subagents against a cap of 4. Width is the dial \u00a79 records as having failed catastrophically: a 107-agent fan-out lost 67 agents and its synthesis to the weekly limit. Lower it, or move `backoff_level` \u2014 never widen the cap to fit what was already spent.",
+      "detail": "CYC-0093-f2f24a57 dispatched 5 concurrent subagents against a cap of 4. Width is the dial \u00a79 records as having failed catastrophically: a 107-agent fan-out lost 67 agents and its synthesis to the weekly limit. Lower it, or move `backoff_level` \u2014 never widen the cap to fit what was already spent.",
       "payload": {
         "cap": 4,
         "measured": {
-          "CYC-0083-381d0696": 0,
-          "CYC-0084-e2d78138": 0,
-          "CYC-0092-f2f24a57": 5,
           "CYC-0093-f2f24a57": 5,
           "CYC-0094-f2f24a57": 5,
-          "CYC-0095-f2f24a57": 4
+          "CYC-0095-f2f24a57": 4,
+          "CYC-0097-f2f24a57": 4,
+          "CYC-0096-ecd11783": 0,
+          "CYC-0097-ecd11783": 0
         },
         "worst": 5
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": "2026-09-03T00:18:26Z",
-      "consecutive_bad_runs": 1,
-      "consecutive_red_runs": 1,
-      "bad_for_h": 0.0,
+      "consecutive_bad_runs": 2,
+      "consecutive_red_runs": 2,
+      "bad_for_h": 4.37,
       "bad_since_et": "8:18 PM ET Sep 2, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -103,11 +99,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 1,
+        "n": 2,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 0.0,
+        "bad_for_h": 4.37,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -121,7 +117,7 @@
       "needs_attention": true,
       "detail": "7 row(s) are `stalled_needs_human`: AUT-COV-001 (since 2026-08-30T14:58:04Z), AUT-049 (since 2026-08-30T23:27:08Z), AUT-079 (since 2026-08-31T12:49:57Z), AUT-PD-170 (since 2026-08-31T12:49:57Z), AUT-PD-141 (since 2026-08-31T13:39:38Z), AUT-PROP-018 (since 2026-09-01T12:08:42Z), AUT-PROP-019 (since 2026-09-01T12:08:42Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
       "payload": {
-        "open_rows": 211,
+        "open_rows": 212,
         "terminal_ids": [
           "AUT-COV-001",
           "AUT-049",
@@ -134,12 +130,12 @@
         "shallow_clone": false,
         "history_horizon_utc": "2026-08-26 15:15"
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-01T16:42:38Z",
       "bad_since_utc": "2026-09-01T16:42:38Z",
-      "consecutive_bad_runs": 8,
-      "consecutive_red_runs": 8,
-      "bad_for_h": 31.6,
+      "consecutive_bad_runs": 9,
+      "consecutive_red_runs": 9,
+      "bad_for_h": 35.97,
       "bad_since_et": "12:42 PM ET Sep 1, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -147,11 +143,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 8,
+        "n": 9,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 31.6,
+        "bad_for_h": 35.97,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -163,15 +159,15 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last receipt (CYC-0095-f2f24a57.json) landed 0.2 h ago, inside the 16.0 h deadline.",
+      "detail": "the last receipt (CYC-0097-ecd11783.json) landed 2.9 h ago, inside the 16.0 h deadline.",
       "payload": {
-        "receipts_seen": 117,
-        "latest_receipt": "CYC-0095-f2f24a57.json",
-        "latest_receipt_et": "8:05 PM ET Sep 2, 2026",
-        "age_h": 0.22,
+        "receipts_seen": 120,
+        "latest_receipt": "CYC-0097-ecd11783.json",
+        "latest_receipt_et": "9:45 PM ET Sep 2, 2026",
+        "age_h": 2.93,
         "deadline_h": 16.0
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -200,21 +196,21 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "3 of the last 3 cycles moved a live route (RT-TRIAL-REACH, RT-TRIAL-REACH, RT-ATR-ASSESS).",
+      "detail": "1 of the last 3 cycles moved a live route (RT-MODALITY-CENSUS).",
       "payload": {
         "window": [
-          "CYC-0093-f2f24a57.json",
-          "CYC-0094-f2f24a57.json",
-          "CYC-0095-f2f24a57.json"
+          "CYC-0097-f2f24a57.json",
+          "CYC-0096-ecd11783.json",
+          "CYC-0097-ecd11783.json"
         ],
         "route_advanced": [
-          "RT-TRIAL-REACH",
-          "RT-TRIAL-REACH",
-          "RT-ATR-ASSESS"
+          "RT-MODALITY-CENSUS",
+          "none",
+          "none"
         ],
-        "receipts_seen": 117
+        "receipts_seen": 120
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -245,10 +241,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
       "payload": {
-        "entries": 399,
+        "entries": 403,
         "running": 0
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -279,10 +275,10 @@
       "needs_attention": false,
       "detail": "all 2 blocked entr(ies) record what was observed to establish the block.",
       "payload": {
-        "entries": 399,
+        "entries": 403,
         "blocked": 2
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -311,14 +307,13 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "166 of 399 entr(ies) are takeable now.",
+      "detail": "168 of 403 entr(ies) are takeable now.",
       "payload": {
-        "entries": 399,
-        "takeable": 166,
+        "entries": 403,
+        "takeable": 168,
         "owned": [
           "AUT-PD-208-11f2347b-8e081d15",
           "AUT-025",
-          "AUT-044",
           "AUT-016"
         ],
         "retry_budget_spent": [
@@ -327,7 +322,7 @@
           "AUT-073"
         ]
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -356,12 +351,12 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "every one of 211 open row(s) carries a score.",
+      "detail": "every one of 212 open row(s) carries a score.",
       "payload": {
-        "open": 211,
+        "open": 212,
         "unrankable": 0
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-01T21:04:31Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -394,7 +389,7 @@
       "payload": {
         "backoff_level": 0
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-09-02T16:43:57Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -419,16 +414,19 @@
       "key": "gates_green",
       "label": "is `main` green, so a cycle can even commit?",
       "source": "--gates-verdict (written by the workflow that can read Actions)",
-      "verdict": "GREEN",
+      "verdict": "RED-BUT-FRESH",
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the trunk is green: tests.yml concluded `success` on main at 2026-09-03T00:17:02Z.",
+      "detail": "the trunk is RED: tests.yml concluded 'failure' on main (run https://github.com/trimcrae/Rare-cancers/actions/runs/33704164382). Red for 3.1 h, inside the 24 h grace \u2014 the next cycle is expected to fix it, and this row goes red if it does not.",
       "payload": {
-        "ref": "tests.yml @ bd429b496ac3"
+        "red_since_et": "9:34 PM ET Sep 2, 2026",
+        "held_h": 3.11,
+        "grace_h": 24.0,
+        "ref": "tests.yml @ 495d04e215e0"
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
-      "last_change_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
+      "last_change_utc": "2026-09-03T04:40:47Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
       "consecutive_red_runs": 0,
@@ -461,7 +459,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-09-03T00:18:26Z",
+      "last_seen_utc": "2026-09-03T04:40:47Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
