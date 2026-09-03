@@ -63,7 +63,41 @@ permissions:
   actions: write          # the only thing it needs: dispatching the tick
 
 jobs:
+  # ⛔⛔ THE SUPERVISOR IS THE THING THAT WAS ACTUALLY RUNNING, so it gets the gate too.
+  # ⚠ MEASURED 2026-09-03: this workflow holds a cadence for up to 5.5 h and dispatches a GPU launch
+  # tick every ~8 min. Run 146 started 05:45 UTC; the chain is UNBROKEN back to at least 2026-08-23,
+  # each run dispatched as the previous one ended, by github-actions[bot]. 26,098 runs of the lane it
+  # feeds. It predates the ban entirely, which is why disabling the lane's `schedule:` on 2026-09-02
+  # did nothing: the dispatcher was never a cron.
+  # ★ GATING THE LANE ALONE WOULD LEAVE THIS TICKING — 8-minute dispatches into a refusing workflow,
+  # burning CI and writing a launch-attempt commit each time. The cadence stops here.
+  gpu-ban:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse while the no-GPU ban is active
+        run: |
+          python3 - <<'GATE'
+          import json, sys
+          try:
+              state = json.load(open("research/autonomy/autonomy-state.json"))
+          except Exception as exc:
+              sys.exit(f"REFUSED: autonomy-state.json is unreadable ({exc}). Fails CLOSED.")
+          ban = state.get("gpu_spend_prohibited")
+          if not isinstance(ban, dict):
+              sys.exit("REFUSED: gpu_spend_prohibited is missing or not an object. Fails CLOSED.")
+          active = ban.get("active")
+          if active is not True and active is not False:
+              sys.exit(f"REFUSED: gpu_spend_prohibited.active is {active!r}. Fails CLOSED.")
+          if active:
+              sys.exit("REFUSED BY STANDING INSTRUCTION. trimcrae, 2026-09-02: \"You shouldn't be "
+                       "doing any GPU runs as part of this automation.\" This supervisor exists only "
+                       "to dispatch GPU launches, so it has no permitted mode while the ban holds.")
+          print("gpu_spend_prohibited.active is false — the ban does not refuse this run.")
+          GATE
+
   supervise:
+    needs: gpu-ban
     runs-on: ubuntu-latest
     timeout-minutes: 355          # under the 360 ceiling, so the loop exits cleanly rather than being killed
     steps:

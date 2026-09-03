@@ -169,7 +169,51 @@ permissions:
 # put two instances on one unit, writing the same S3 keys, doing the same work, billing twice.
 
 jobs:
+  # ⛔⛔ THE NO-GPU BAN, AS A JOB THAT RUNS RATHER THAN A COMMENT THAT DOES NOT.
+  # ⚠ MEASURED 2026-09-03: between 05:49 and 11:00 UTC this workflow made 78 launch attempts,
+  # dispatched by a supervisor chain running unbroken since ~2026-08-23. NOT ONE was refused by the
+  # ban. No rental was created — the Python rent path IS gated, `_vast_request` raises
+  # GPUSpendProhibited on PUT/POST to /asks/ — but every attempt reached it only after the PRICE
+  # gate had CLEARED (`gate_hold: false`, "bid tier clears at 1.725x basis"), and then died on an
+  # unrelated task failure. That is AUT-PROP-058 exactly: a routine that happens to refuse is not a
+  # control, and $0 was the outcome of an adjacent gate rather than of the ban working.
+  # ⛔ THIS FILE ALREADY "CARRIED" THE BAN AS PROSE (see the block above `on:`), written 2026-09-02
+  # by the same session that removed the triggers. Removing a `schedule:` does not stop a
+  # `workflow_dispatch`, and a comment stops nothing at all.
+  # ★ ONE JOB IS ENOUGH, AND THAT IS CHECKED RATHER THAN HOPED: every one of this workflow's 27
+  # jobs chains to `resolve` (verified by walking the `needs` graph — 0 jobs escape), so gating
+  # `resolve` gates the lane. A per-job guard on 26 jobs would be 26 chances to miss one.
+  gpu-ban:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse while the no-GPU ban is active
+        run: |
+          python3 - <<'GATE'
+          import json, sys
+          try:
+              state = json.load(open("research/autonomy/autonomy-state.json"))
+          except Exception as exc:
+              sys.exit(f"REFUSED: autonomy-state.json is unreadable ({exc}). Fails CLOSED — an "
+                       "unreadable ban is not permission.")
+          ban = state.get("gpu_spend_prohibited")
+          if not isinstance(ban, dict):
+              sys.exit("REFUSED: gpu_spend_prohibited is missing or is not an object. Fails CLOSED.")
+          active = ban.get("active")
+          if active is not True and active is not False:
+              sys.exit(f"REFUSED: gpu_spend_prohibited.active is {active!r} — neither true nor "
+                       "false. An unclassifiable declaration fails CLOSED.")
+          if active:
+              sys.exit("REFUSED BY STANDING INSTRUCTION. trimcrae, 2026-09-02: \"You shouldn't be "
+                       "doing any GPU runs as part of this automation.\" A CATEGORY ban, not a "
+                       "budget: no price clears it, and a CLEARS verdict from the $/ns buy line is "
+                       "not an answer to it. Only a person may lift it, by setting active:false in "
+                       "research/autonomy/autonomy-state.json.")
+          print("gpu_spend_prohibited.active is false — the ban does not refuse this run.")
+          GATE
+
   resolve:
+    needs: gpu-ban
     runs-on: ubuntu-latest
     outputs:
       task: ${{ steps.pick.outputs.task }}
