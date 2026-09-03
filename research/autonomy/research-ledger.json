@@ -1813,10 +1813,10 @@
     {
       "id": "AUT-PD-213-11f2347b-844001e5",
       "kind": "process_defect",
-      "state": "queued",
+      "state": "in_progress",
       "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "CYC-scheduled-20260903T003026Z",
+      "claimed_utc": "2026-09-03T00:30:26Z",
       "attempts": 0,
       "blocked_by": null,
       "blocked_evidence": null,
@@ -1841,7 +1841,13 @@
         "scripts/aixiv_review.py submit requires --pdf",
         ".claude/skills/aixiv-submission/SKILL.md §4b (read the built PDF before posting)"
       ],
-      "retry_budget": 3
+      "retry_budget": 3,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T00:30:26Z",
+          "fingerprint_at_dispatch": "2026-09-03|None"
+        }
+      ]
     },
     {
       "id": "AUT-010",
