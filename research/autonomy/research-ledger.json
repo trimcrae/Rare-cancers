@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 204,
+    "process_defect": 205,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -25,14 +25,14 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 189,
+    "done": 190,
     "in_progress": 10,
     "parked": 30,
     "queued": 170,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 23,
+  "n_unscored": 24,
   "n_unscored_open": 0,
   "entries": [
     {
@@ -14244,6 +14244,29 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-PD-216-a368933b-f81ae102",
+      "kind": "process_defect",
+      "state": "done",
+      "what": "⛔⛔ THE READY-WORK STOP HOOK AND THE CADENCE GATE GIVE OPPOSITE ANSWERS FOR THE SAME SCHEDULED FIRE, AND NEITHER FILE KNOWS THE OTHER EXISTS. Measured 2026-09-03 by a scheduled-Routine session: `cadence.py --check` exited 3 (\"TOO SOON — 3.9 h since the last cycle ... against a declared 8 h cadence\") and the research-loop skill's own §1 table instructs, verbatim, \"Exit immediately. Write no receipt, take no item, claim nothing.\" The session did exactly that and ended its turn with a one-line explanation and route_advanced: none.\n⭐ `.claude/hooks/ready-work-at-turn-end.sh` then fired on that exact Stop and refused it: 154 free, unclaimed, unblocked ledger rows were sitting idle and nothing was observably running, so it demanded one of (1a) a worker running that should be claimed, (1b) a spawned session, (2) a genuine external block, or (3) start one — and it explicitly pre-empts the exact reasoning the session had just used: \"A SCHEDULED ROUTINE IS NOT AN ANSWER ... naming a future scheduler is a deferral with a citation, not continuation.\"\n⛔ THE CONFLICT IS REAL, NOT A MISREADING ON EITHER SIDE. `cadence.py`'s own docstring says its whole purpose is to make \"a fire that arrives too soon exit[] in two tool calls instead of running a cycle\" — i.e. this session's exact behaviour is the DESIGNED response to a too-frequent cron (`13 */4 * * *` against a declared 8-24h cadence). The Stop hook has no branch for \"this stop IS the cadence gate working\" — it only sees ready work and nothing running, which is indistinguishable, from its vantage point, from a session that simply declined to look.\n★ NOT FIXED HERE: which side should yield is a design call (teach the hook to read cadence.py's exit code / a receipt-free cadence-skip marker before it fires, vs. teach cadence.py that a Stop-hook demand outranks the throttle) and changing either file from inside the cycle the tension blocked is exactly the self-serving edit §6's `amendment_guard` exists to catch. Filed for the record rather than resolved by fiat.\n⚠ What this session actually did: answered the hook honestly (cadence-gated skip, evidenced by the exit-3 output), filed this entry as the $0 administrative act CLAUDE.md §6 sanctions for friction (\"Improvement comes from RECEIPTS, never introspection. Hit friction → file a process_defect entry with the evidence\"), and did NOT start a new cycle against the cadence throttle.",
+      "filed_by": "ROUTINE-a368933b-f114-5ee9-b8a2-c8d50063da68",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 1,
+      "retry_budget": 3,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "last_evidence_utc": "2026-09-03",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "score_inputs": {},
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "_score_basis": "loop-instrument defect (gate/hook conflict), found and closed (filed) in the same turn"
     }
   ]
 }
