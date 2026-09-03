@@ -95,30 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-09-02T15:54:32Z",
-      "et": "11:54 AM ET",
-      "outcome": "failed",
-      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
-      "stage": "rent (steps.rent.outcome=skipped)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33651329251",
-      "gate_ratio_vs_basis": 1.871,
-      "gate_mean_usd_per_ns": 0.006384,
-      "gate_projected_usd": 13.69,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.871x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.367x basis",
-      "gate_board_depth": {
-        "offers_returned": 59,
-        "qualifying": 59,
-        "priceable": 30,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0,
-      "reason": "task=edge-reps; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
-    },
-    {
       "utc": "2026-09-02T15:55:42Z",
       "et": "11:55 AM ET",
       "outcome": "failed",
@@ -1431,12 +1407,36 @@
       "n_requested": 4,
       "n_rented": 0,
       "reason": "task=edge-reps; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
+    },
+    {
+      "utc": "2026-09-03T08:51:46Z",
+      "et": "4:51 AM ET",
+      "outcome": "submit-failed",
+      "what_that_means": "the board was read but the provider refused the rentals \u2014 a FAULT",
+      "stage": "rent (steps.rent.outcome=failure)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33735328055",
+      "gate_ratio_vs_basis": 1.601,
+      "gate_mean_usd_per_ns": 0.005462,
+      "gate_projected_usd": 11.71,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.601x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.566x basis",
+      "gate_board_depth": {
+        "offers_returned": 66,
+        "qualifying": 66,
+        "priceable": 35,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0,
+      "reason": "task=5aks; job status failure"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 5589,
-    "through_utc": "2026-09-02T15:52:56Z"
+    "n_total": 5590,
+    "through_utc": "2026-09-02T15:54:32Z"
   }
 }
