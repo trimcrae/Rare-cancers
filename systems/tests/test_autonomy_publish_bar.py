@@ -73,8 +73,8 @@ def test_every_clause_reports_pass_fail_or_unverifiable_and_nothing_else(bar):
     assert [c["clause"] for c in result["clauses"]] == [
         "hardening_converged", "preflight_full_green", "claim_ceiling_honoured",
         "identifiers_resolvable", "endpoint_declared", "independent_adversarial_seat",
-        "readable_enough_to_review",
-    ], ("the bar's clauses changed. That is allowed -- it is how the seventh arrived -- but it is "
+        "readable_enough_to_review", "deliverable_is_buildable",
+    ], ("the bar's clauses changed. That is allowed -- it is how the eighth arrived -- but it is "
         "never a silent change: update this list deliberately, and NEVER drop one to make a red "
         "build green (CLAUDE.md §3: a bar clause may not be loosened by the cycle it blocked).")
     for clause in result["clauses"]:
@@ -157,6 +157,60 @@ def test_all_six_clauses_passing_is_what_it_takes(bar, tmp_path, monkeypatch):
     assert bar.clause_1_hardening_converged("PUB-X", sha)["ok"]
     assert bar.clause_2_preflight_full_green("PUB-X", sha)["ok"]
     assert bar.clause_6_independent_adversarial_seat("PUB-X", sha)["ok"]
+
+
+# ---------------------------------------------------------------- clause 8: is there anything to post
+
+#: `_tree_at`'s fast path only skips materialising a worktree when HEAD is exactly this sha AND the
+#: working tree is clean; a dirty tree (the ordinary case while editing) still resolves correctly —
+#: `git worktree add --detach` checks out the last COMMIT, never uncommitted changes — so these tests
+#: read the real committed `build_submission_pdf.py`, not whatever is on disk right now.
+def _committed_head(repo=REPO):
+    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, capture_output=True,
+                          text=True, check=True).stdout.strip()
+
+
+def test_deliverable_is_buildable_passes_for_a_registered_manuscript(bar):
+    """`build_submission_pdf.PAPERS['aso-journal']['manuscript']` names
+    `aso/fusion-junction-aso-journal-article.md`, which is PUB-ASO's own `document.file` with the
+    `research/manuscripts/` prefix stripped -- verified directly against the committed renderer
+    rather than assumed stable."""
+    clause = bar.clause_8_deliverable_is_buildable("PUB-ASO", _committed_head())
+    assert clause["verdict"] == bar.PASS, clause["evidence"]
+
+
+def test_deliverable_is_buildable_fails_for_a_document_no_papers_entry_names(bar, monkeypatch):
+    """AUT-PD-213: `publish_bar` returned MAY POST (7/7) for PUB-STRATEGY-ARCH although nothing
+    could render its PDF. A document under `research/manuscripts/` that plainly matches no
+    `PAPERS` entry reproduces the exact gap without depending on which real papers happen to be
+    registered today -- PUB-STRATEGY-ARCH itself may be registered later, which would make a test
+    pinned to its id pass for the wrong reason."""
+    monkeypatch.setattr(
+        bar, "_endpoint",
+        lambda pub: {"document": {"file": "research/manuscripts/does/not-exist-in-papers.md"}})
+    clause = bar.clause_8_deliverable_is_buildable("PUB-X", _committed_head())
+    assert clause["verdict"] == bar.FAIL
+    assert "PAPERS" in clause["evidence"]
+
+
+def test_deliverable_is_buildable_is_unverifiable_with_no_document(bar):
+    clause = bar.clause_8_deliverable_is_buildable("PUB-DOES-NOT-EXIST", _committed_head())
+    assert clause["verdict"] == bar.UNVERIFIABLE
+
+
+def test_deliverable_is_buildable_fails_closed_on_an_unresolvable_sha(bar):
+    clause = bar.clause_8_deliverable_is_buildable("PUB-ASO", "0" * 40)
+    assert clause["verdict"] == bar.UNVERIFIABLE
+
+
+def test_a_document_outside_research_manuscripts_cannot_match_any_papers_entry(bar, monkeypatch):
+    """Every `PAPERS` entry's `manuscript` is relative to `research/manuscripts/`; a document path
+    that is not under that prefix cannot match one by construction, and this must be FAIL (the
+    manuscript is a real, readable document with no renderer) rather than UNVERIFIABLE (which
+    would read as 'go get more evidence' for a state no evidence can change)."""
+    monkeypatch.setattr(bar, "_endpoint", lambda pub: {"document": {"file": "README.md"}})
+    clause = bar.clause_8_deliverable_is_buildable("PUB-X", _committed_head())
+    assert clause["verdict"] == bar.FAIL
 
 
 # ---------------------------------------------------------------- the authority edges

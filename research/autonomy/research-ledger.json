@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 188,
+    "done": 189,
     "in_progress": 10,
     "parked": 30,
-    "queued": 170,
+    "queued": 169,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1811,45 +1811,6 @@
       "lease_released": "✅ RUN 2026-08-28. `priority.py --write`: 182 entries in, 182 out, none lost, 11 clamped. 84 rows moved and AUT-046 — fully aged at factor 1.0 — rose 187.0 -> 199.0 to the top of the queue, which is the starved-row rescue the term exists for. ⭐ THE ANTI-STARVATION TERM IS NOW LIVE RATHER THAN DORMANT; before this the code was committed and every score was still the pre-age one. ⚠ AND THE STATED REASON FOR DEFERRING IT DID NOT SURVIVE EXAMINATION: 'another session is mid-cycle' was true — CYC-0047-schedule held AUT-PROP-040, claimed 18 minutes earlier — but the regeneration PRESERVED that lease (merge() carries owner across a re-score, verified after the write), and the ledger conflict it risks is one this session had already resolved three times with a lease-preserving union. A deferral is only honest while the thing deferred is actually unsafe. ⭐ INDEPENDENTLY CORROBORATED BY THE OTHER SIDE OF THAT SAME LEASE (CYC-0047/CYC-0048): its own repeated `priority.py --write` runs that same window (after round-12 ledger edits, an id-rename, and a rebase) all succeeded with no collision, and it read AUT-046 at 199.0 before marking this row done from its own vantage — two sessions, the same live term, one fact."
     },
     {
-      "id": "AUT-PD-213-11f2347b-844001e5",
-      "kind": "process_defect",
-      "state": "in_progress",
-      "cost_class": "free",
-      "owner": "CYC-scheduled-20260903T003026Z",
-      "claimed_utc": "2026-09-03T00:30:26Z",
-      "attempts": 0,
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "cost_points_at": "research/compute/pricing.md",
-      "route": null,
-      "serves": {
-        "route": null,
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": null,
-        "_why": "The bar authorised an outward act for a paper with no artifact to perform it with."
-      },
-      "requires_trimcrae": false,
-      "notified_utc": null,
-      "last_evidence_utc": "2026-09-03",
-      "score": 168.0,
-      "_score_basis": "HAND-SET, just under the live-research band and above ordinary process defects. It is loop machinery, which CLAUDE.md §0 ranks behind live routes, but it is the machinery that guards the one IRREVERSIBLE act in this repository and it currently returns a permission it cannot support.",
-      "what": "⛔⛔ `publish_bar` RETURNED **MAY POST (7/7)** FOR A PAPER THAT HAS NO POSTABLE ARTIFACT AND NO WAY TO BUILD ONE. Measured 2026-09-03 on PUB-STRATEGY-ARCH at bd429b496ac3.\n★ THE MECHANISM. `build_submission_pdf.PAPERS` holds THREE entries — aso-journal, fusion-output, vaccine-path — and `care-delivery/emc-trial-reachability.md` is not among them. `scripts/aixiv_review.py submit` requires `--pdf <path>`. So no PDF exists, none can be built, and the submission the bar authorises cannot be performed.\n⭐ WHY THE BAR CANNOT SEE THIS: `deliverable_digest` derives its set from the publication's own `document` plus files whose names EXTEND ITS STEM. When no rendering exists, that set is the manuscript alone — and every clause is satisfiable over a manuscript alone. The digest is doing exactly what its docstring says; nothing anywhere asks whether the thing being authorised EXISTS.\n⚠ AND IT DISABLES THE SKILL'S MOST IMPORTANT SAFETY STEP. `aixiv-submission` §4b: read the built PDF before posting, because every gate in this repository reads the `.md` and NOTHING reads the rendered output. Two defects rode FOUR published versions of the vaccine paper through that gap, one of them a false ordering instruction naming a different molecule on every page. For this paper that check is not merely skipped, it is unreachable.\n★ SIXTH INSTANCE OF ONE DEFECT CLASS IN ONE SESSION — a status that looks like a measurement (subagent_width, max_versions_per_paper, gpu_spend_prohibited, the unnamed-backend exemption, clause 7's absent baseline, and now this). It is the most consequential of the six because MAY POST is the verdict that authorises an act no later commit can undo.",
-      "next_action": "Decide, and argue it rather than assume it: should `publish_bar` refuse when the publication's deliverable set contains no rendered artifact — an eighth clause, or a precondition on clause 5 — or is the missing-renderer state better caught where the post is attempted? ⛔ Whichever, it must FAIL CLOSED on a deliverable set it cannot resolve, which is the property all six instances of this class lacked. Registering this paper in `build_submission_pdf.PAPERS` is the OTHER half and does not substitute: it fixes one paper and leaves the bar still unable to tell. ⚠ Mind the tier budget (commit-loop 1396/1400).",
-      "evidence": [
-        "publish_bar --paper PUB-STRATEGY-ARCH --sha bd429b496ac3 -> MAY POST (7/7)",
-        "build_submission_pdf.PAPERS: 3 entries, trial-reachability absent",
-        "scripts/aixiv_review.py submit requires --pdf",
-        ".claude/skills/aixiv-submission/SKILL.md §4b (read the built PDF before posting)"
-      ],
-      "retry_budget": 3,
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T00:30:26Z",
-          "fingerprint_at_dispatch": "2026-09-03|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-010",
       "_derived": true,
       "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
@@ -2053,6 +2014,48 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
+    },
+    {
+      "id": "AUT-PD-213-11f2347b-844001e5",
+      "kind": "process_defect",
+      "state": "done",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": "2026-09-03T00:30:26Z",
+      "attempts": 1,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": null,
+        "_why": "The bar authorised an outward act for a paper with no artifact to perform it with."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": 160.0,
+      "_score_basis": "HAND-SET, just under the live-research band and above ordinary process defects. It is loop machinery, which CLAUDE.md §0 ranks behind live routes, but it is the machinery that guards the one IRREVERSIBLE act in this repository and it currently returns a permission it cannot support.",
+      "what": "⛔⛔ `publish_bar` RETURNED **MAY POST (7/7)** FOR A PAPER THAT HAS NO POSTABLE ARTIFACT AND NO WAY TO BUILD ONE. Measured 2026-09-03 on PUB-STRATEGY-ARCH at bd429b496ac3.\n★ THE MECHANISM. `build_submission_pdf.PAPERS` holds THREE entries — aso-journal, fusion-output, vaccine-path — and `care-delivery/emc-trial-reachability.md` is not among them. `scripts/aixiv_review.py submit` requires `--pdf <path>`. So no PDF exists, none can be built, and the submission the bar authorises cannot be performed.\n⭐ WHY THE BAR CANNOT SEE THIS: `deliverable_digest` derives its set from the publication's own `document` plus files whose names EXTEND ITS STEM. When no rendering exists, that set is the manuscript alone — and every clause is satisfiable over a manuscript alone. The digest is doing exactly what its docstring says; nothing anywhere asks whether the thing being authorised EXISTS.\n⚠ AND IT DISABLES THE SKILL'S MOST IMPORTANT SAFETY STEP. `aixiv-submission` §4b: read the built PDF before posting, because every gate in this repository reads the `.md` and NOTHING reads the rendered output. Two defects rode FOUR published versions of the vaccine paper through that gap, one of them a false ordering instruction naming a different molecule on every page. For this paper that check is not merely skipped, it is unreachable.\n★ SIXTH INSTANCE OF ONE DEFECT CLASS IN ONE SESSION — a status that looks like a measurement (subagent_width, max_versions_per_paper, gpu_spend_prohibited, the unnamed-backend exemption, clause 7's absent baseline, and now this). It is the most consequential of the six because MAY POST is the verdict that authorises an act no later commit can undo. ✅ FIXED 2026-09-03. Added clause_8_deliverable_is_buildable to publish_bar.CLAUSES: it fails closed unless build_submission_pdf.PAPERS (read at the pinned sha via _tree_at, like clauses 3/4/5) carries an entry whose manuscript matches the publication document.file, derived rather than typed per-paper. Verified against live repo state: PUB-ASO and PUB-VACCINE-PATH now PASS (already registered); PUB-STRATEGY-ARCH, PUB-ATR and PUB-MODALITY-CENSUS now correctly FAIL -- a real, honest new finding for the latter two, not a regression (both are mid-hardening toward a post and share the identical gap this row found). Mutation-tested 5/5 on the live file, restored byte-identical before commit. Declared in amendments.jsonl (both governed paths: publish_bar.py and the test file) with self_serving_check answered -- this cycle was not blocked by publish_bar and has no post pending. Registering PUB-STRATEGY-ARCH (or PUB-ATR / PUB-MODALITY-CENSUS) in build_submission_pdf.PAPERS is deliberately NOT done here -- separate per-paper typesetting work, as the row's own next_action said.",
+      "next_action": "CLOSED for the structural fix. Left open as follow-on, NOT filed as new rows here: registering care-delivery/emc-trial-reachability.md, dependency/emc-atr-vulnerability-assessment.md and modality-census/cancer-modality-census.md in build_submission_pdf.PAPERS, each a per-paper typesetting decision. AUT-010 and AUT-PROP-061/062/063 (which target PUB-ATR and PUB-MODALITY-CENSUS respectively) will now see clause 8 FAIL until their papers are registered -- this is the row surfacing that dependency, not a new blocker on their work.",
+      "evidence": [
+        "publish_bar --paper PUB-STRATEGY-ARCH --sha bd429b496ac3 -> MAY POST (7/7)",
+        "build_submission_pdf.PAPERS: 3 entries, trial-reachability absent",
+        "scripts/aixiv_review.py submit requires --pdf",
+        ".claude/skills/aixiv-submission/SKILL.md §4b (read the built PDF before posting)"
+      ],
+      "retry_budget": 2,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T00:30:26Z",
+          "fingerprint_at_dispatch": "2026-09-03|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-026",

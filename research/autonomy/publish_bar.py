@@ -966,6 +966,81 @@ def clause_6_independent_adversarial_seat(pub_id: str, sha: str) -> dict:
                    f"blind seat on {sha[:12]}: supported, bound to {doc}")
 
 
+def _renderer_registered_for(pub_id: str, sha: str, root: pathlib.Path) -> tuple[bool | None, str]:
+    """Is there a `build_submission_pdf.PAPERS` entry that renders this publication's document, AS
+    OF `sha`? `(None, why)` when it cannot be determined; otherwise `(bool, detail)`.
+
+    ⛔ READ FROM THE MATERIALISED TREE, NOT THE LIVE MODULE. A paper registered in `PAPERS` after
+    `sha` was posted would make a past post look retroactively sound, which is the same class of
+    error `_tree_at` was built to close for clauses 3, 4 and 5.
+
+    ⭐ DERIVED, NEVER A HAND-KEPT LIST OF WHICH PAPERS ARE BUILDABLE (CLAUDE.md §1). `PAPERS` values
+    already carry the one fact this needs — `manuscript`, a path relative to `research/manuscripts/`
+    — so the comparison is against that field itself, not a copy of it kept here.
+    """
+    endpoint = _endpoint(pub_id)
+    doc = ((endpoint or {}).get("document") or {}).get("file")
+    if not doc:
+        return None, f"{pub_id} has no document.file in publications.json"
+    script = root / "research" / "manuscripts" / "build_submission_pdf.py"
+    if not script.exists():
+        return None, f"build_submission_pdf.py does not exist at {sha[:12]}"
+    probe = (
+        "import importlib.util, json, sys\n"
+        f"spec = importlib.util.spec_from_file_location('_probe_papers', {str(script)!r})\n"
+        "m = importlib.util.module_from_spec(spec)\n"
+        "spec.loader.exec_module(m)\n"
+        "print(json.dumps([v.get('manuscript') for v in m.PAPERS.values()]))\n"
+    )
+    try:
+        proc = subprocess.run([sys.executable, "-c", probe],
+                              capture_output=True, text=True, timeout=60, cwd=str(root))
+    except Exception as exc:
+        return None, f"could not read build_submission_pdf.PAPERS ({type(exc).__name__})"
+    if proc.returncode != 0:
+        tail = (proc.stderr or proc.stdout or "").strip().splitlines()
+        return None, f"build_submission_pdf.py failed to import at {sha[:12]}: {tail[-1] if tail else '—'}"
+    try:
+        manuscripts = json.loads(proc.stdout.strip())
+    except Exception:
+        return None, "build_submission_pdf.PAPERS did not print valid JSON"
+    prefix = "research/manuscripts/"
+    if not doc.startswith(prefix):
+        return False, f"{doc} is not under {prefix}, so no PAPERS entry names it"
+    rel = doc[len(prefix):]
+    return (rel in manuscripts), rel
+
+
+def clause_8_deliverable_is_buildable(pub_id: str, sha: str) -> dict:
+    """⛔⛔ THE CLAUSE THAT DID NOT EXIST WHEN `publish_bar` RETURNED MAY POST (7/7) FOR A PAPER WITH
+    NO POSTABLE ARTIFACT (AUT-PD-213). Every other clause grades the MANUSCRIPT; `scripts/aixiv_review.py
+    submit` requires `--pdf`, and nothing until now asked whether that PDF can be produced at all.
+    `deliverable_digest`'s set is the manuscript alone when no rendering exists, so every earlier
+    clause is fully satisfiable over a document nobody could ever post — the bar authorising an act
+    it has no way to perform.
+
+    ⛔ FAILS CLOSED, exactly like every other clause here: no document, no renderer script, an
+    unregistered manuscript, or a crashed import are all FAIL/UNVERIFIABLE, never a silent pass.
+    Registering a paper's typesetting in `build_submission_pdf.PAPERS` is a separate, per-paper
+    decision (geometry, house style, journal vs. preprint layout) that this clause does not make —
+    it only refuses to certify an artifact that cannot exist.
+    """
+    label = "the deliverable has a registered renderer"
+    with _tree_at(sha) as (root, err):
+        if root is None:
+            return _clause("deliverable_is_buildable", label, UNVERIFIABLE, err)
+        registered, detail = _renderer_registered_for(pub_id, sha, root)
+        if registered is None:
+            return _clause("deliverable_is_buildable", label, UNVERIFIABLE, detail)
+        if not registered:
+            return _clause("deliverable_is_buildable", label, FAIL,
+                           f"no entry in build_submission_pdf.PAPERS builds {detail!r} at "
+                           f"{sha[:12]} — the manuscript exists but nothing can render the artifact "
+                           "a submit act needs; register it in PAPERS before this bar may pass")
+        return _clause("deliverable_is_buildable", label, PASS,
+                       f"build_submission_pdf.PAPERS builds {detail!r} at {sha[:12]}")
+
+
 CLAUSES = (
     clause_1_hardening_converged,
     clause_2_preflight_full_green,
@@ -974,6 +1049,7 @@ CLAUSES = (
     clause_5_endpoint_declared,
     clause_6_independent_adversarial_seat,
     clause_7_readable_enough_to_review,
+    clause_8_deliverable_is_buildable,
 )
 
 
