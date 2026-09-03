@@ -1685,7 +1685,8 @@
         "_what_is_still_open": "The merge itself: 32 files, plus graph entries for ST-MORTALITY-MECHANISM and six routes that main's systems/graph/*.json do not carry, plus a views regeneration. Mechanical, and gated by preflight."
       },
       "_the_merge_was_attempted_2026_09_03_and_here_is_its_shape": "★ ATTEMPTED AND ABORTED DELIBERATELY, WITH THE INVENTORY TAKEN. The 32 new files stage CLEANLY — the research line itself merges without argument. What conflicts is four weeks of divergence on files BOTH sides changed: 17 paths, in three classes.\n(1) GENERATED, resolve by taking main and regenerating — systems/views/{L0-ecosystem, L3-publications, modality-census, readiness, registers/blockers}.md and two more. A hand-edit of a generated view fails the build, so these are not judgement calls.\n(2) GRAPH, needs a UNION not a side — systems/graph/publications.json (main's 32 rows plus PUB-MORTALITY-MECHANISM, whose four fields are graded in the sibling field on this row) and systems/graph/strategies.json (main's families plus ST-MORTALITY-MECHANISM). Taking either side whole loses the other's work.\n(3) REAL SOURCE, needs reading — research/IDEAS.md, research/manuscripts/lint_style.py, .github/workflows/fetch-literature.yml, research/manuscripts/program/emc-treatment-strategy.md, and five figure PDFs plus figure-provenance.json.\n⛔ WHY IT WAS NOT PUSHED THROUGH AT 1:30 AM AT THE END OF A LONG SESSION: class (3) is where a merge REGRESSES main, which is the gapmer hazard — a branch that would have rolled the ASO submission back eight days, caught tonight only because somebody diffed before merging. This same session came within one command of destroying a concurrent session's ledger rows with `git checkout --theirs` during a rebase, and separately had a rebase silently flatten a `-s ours` merge. Three near-misses on git semantics in one night is the measurement that says do this one rested.\n⭐ AND THE HARD PART IS ALREADY DONE AND COMMITTED: the two judgement fields are graded with their rejected alternatives argued. What remains is 17 conflicts of known class, with no open question in any of them.",
-      "_THE_FINDING_ITSELF_recorded_here_because_a_branch_is_read_by_nobody": "⛔⛔ THE STRANDED LINE'S ORGANISING RESULT IS A CEILING ON EVERY OTHER ROUTE IN THE PORTFOLIO, AND `main` HAS NEVER CARRIED IT. Quoted from the branch's IDEAS.md row, which returns ZERO matches on main:\n★ Decomposing the registry's cited figures within Meis-Kindblom 1999 — the only series measuring disease-specific and overall survival on the SAME patients — **39.4 % of deaths at 10 years were not EMC deaths**. So a therapy preventing EVERY EMC death raises 10-year OS from ~67 % to ~85 %, NOT to 100 %.\n⚠ Hedges carried at full strength from the source, not trimmed: cross-series competing share 50–57 % with 4 of 6 pairings coherent; the 5-year pairing BREAKS DOWN and is not quoted; and the one directional bias runs AGAINST the conclusion — censoring other-cause deaths inflates disease-specific mortality, so the competing share is an UNDER-estimate.\n★ WHY THIS IS RECORDED IN THE LEDGER AND NOT LEFT ON THE BRANCH: a cycle re-scores the LEDGER, and a branch is read by nobody. The number bounds what every antitumour route on the board can be worth, including the degrader, the ASO, the ATR line and the surface-target work — and for four weeks every one of those has been ranked without it.\n⚠ IT ORIGINATED AS TRIMCRAE'S OWN QUESTION, quoted in the row: 'for an indolent cancer, what is the actual mechanism of death, and is any of it symptom-treatable?' The lane's absence beforehand was STRUCTURAL rather than a judgement — the modality census grades every class on ANTITUMOUR activity, so supportive classes read `not_applicable` for having 'no antitumour claim to assess'. Correct on that census's axis, and not a finding about EMC.\n⛔ AND THE ROW CANNOT BE PORTED ALONE: it cites `manuscripts/emc-mortality-mechanisms.md` and `ST-MORTALITY-MECHANISM`, neither of which exists on main, so porting the prose without the merge would ship dangling references straight into a link gate. The finding is recorded here so it is VISIBLE to the queue before the merge lands, not as a substitute for it."
+      "_THE_FINDING_ITSELF_recorded_here_because_a_branch_is_read_by_nobody": "⛔⛔ THE STRANDED LINE'S ORGANISING RESULT IS A CEILING ON EVERY OTHER ROUTE IN THE PORTFOLIO, AND `main` HAS NEVER CARRIED IT. Quoted from the branch's IDEAS.md row, which returns ZERO matches on main:\n★ Decomposing the registry's cited figures within Meis-Kindblom 1999 — the only series measuring disease-specific and overall survival on the SAME patients — **39.4 % of deaths at 10 years were not EMC deaths**. So a therapy preventing EVERY EMC death raises 10-year OS from ~67 % to ~85 %, NOT to 100 %.\n⚠ Hedges carried at full strength from the source, not trimmed: cross-series competing share 50–57 % with 4 of 6 pairings coherent; the 5-year pairing BREAKS DOWN and is not quoted; and the one directional bias runs AGAINST the conclusion — censoring other-cause deaths inflates disease-specific mortality, so the competing share is an UNDER-estimate.\n★ WHY THIS IS RECORDED IN THE LEDGER AND NOT LEFT ON THE BRANCH: a cycle re-scores the LEDGER, and a branch is read by nobody. The number bounds what every antitumour route on the board can be worth, including the degrader, the ASO, the ATR line and the surface-target work — and for four weeks every one of those has been ranked without it.\n⚠ IT ORIGINATED AS TRIMCRAE'S OWN QUESTION, quoted in the row: 'for an indolent cancer, what is the actual mechanism of death, and is any of it symptom-treatable?' The lane's absence beforehand was STRUCTURAL rather than a judgement — the modality census grades every class on ANTITUMOUR activity, so supportive classes read `not_applicable` for having 'no antitumour claim to assess'. Correct on that census's axis, and not a finding about EMC.\n⛔ AND THE ROW CANNOT BE PORTED ALONE: it cites `manuscripts/emc-mortality-mechanisms.md` and `ST-MORTALITY-MECHANISM`, neither of which exists on main, so porting the prose without the merge would ship dangling references straight into a link gate. The finding is recorded here so it is VISIBLE to the queue before the merge lands, not as a substitute for it.",
+      "_best_paper_branch_resolved_2026_09_03": "⛔ MY OWN 'up to 40,000 words in the direction where loss is possible' WAS A MEASUREMENT ARTIFACT, and this is the third time this week the same artifact has produced a false alarm about a branch.\n★ THE TEST THAT SETTLES IT, on the clearest case. `CLAUDE.md` is 11,703 words on the branch and 8,445 on main — 'branch longer', by the per-file comparison. But main EXTRACTED that content: CLAUDE-history.md holds 2,415 words and .claude/skills/*.md hold 38,979, for 49,839 against the branch's 11,703. Main carries more than FOUR TIMES the content, reorganised.\n⚠ THE BRANCH IS FROM 2026-08-10, BEFORE THAT EXTRACTION, which is why a file-by-file read makes an actively-maintained trunk look like it is shedding text. The same shape produced my earlier '31 paths absent from main' (a directory rename — all 31 present by basename). A per-file diff cannot see content MOVING BETWEEN files, and every one of this branch's 'branch longer' rows is consistent with the same reorganisation.\n⛔ WHAT IS STILL NOT ESTABLISHED, said plainly rather than rounded to 'fine': this is a MECHANISM, demonstrated on one file, not a per-file audit of the remaining 258. It removes the reason to think content was lost; it does not prove none was. The honest state is UNRESOLVED with the alarm withdrawn, and the cheap next step is the same total-across-destinations check applied to the other 'branch longer' rows rather than a read of five papers."
     },
     {
       "id": "AUT-PD-013",
@@ -3288,13 +3289,13 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "s23-live-research",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-29",
       "score": 136.3,
       "score_inputs": {
@@ -3313,7 +3314,7 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T16:55:04Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-29T01:00:28Z",
@@ -3323,7 +3324,8 @@
           "utc": "2026-09-02T16:55:04Z",
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
-      ]
+      ],
+      "lease_released": "claim by s23-live-research released after 18.5 h, past the 16 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-059",
@@ -13411,7 +13413,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "s23-live-research",
+      "owner": null,
       "cost_class": "cheap",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -13419,7 +13421,7 @@
       ],
       "blocked_evidence": "RE-TESTED 2026-09-02 (s24-debt). systems/graph/blockers.json -> BLK-REACH-CATEGORICAL is kind 'scientific_uncertainty' — not a bench, not a person, not a dataset — and its retired_by_action is 'Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.' That is the same sentence as this row's own action and as RT-COVALENT-PROBE.next.best_next_action, and RT-COVALENT-PROBE carries next.cost '$0', required_validation[0].feasible_today true and timing.recommendation pursue_now. ⭐ So the row is takeable by the loop today at $0. RT-COVALENT-PROBE.next.blocked_on was corrected in the same commit as this note (it claimed the $0 act was blocked by the thing the act retires). ⚠ Not taken here: this row is held by another seat (owner s23-live-research) and this seat's remit is the branch/ledger debt, not the reach enumeration.",
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-09-02",
       "score": -57.1,
       "score_inputs": {
@@ -13437,7 +13439,7 @@
         "age_factor_as_of": "2026-09-03",
         "blocked_with_evidence": true
       },
-      "claimed_utc": "2026-09-02T16:55:04Z",
+      "claimed_utc": null,
       "clamp": "blocked_without_evidence_becomes_a_check",
       "dispatch_log": [
         {
@@ -13449,14 +13451,7 @@
           "fingerprint_at_dispatch": "2026-08-05|None"
         }
       ],
-      "lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s5-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
+      "lease_released": "claim by s23-live-research released after 18.5 h, past the 16 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
       "_stranded_work": {
         "branch": "seat/s5-retest-blocks",
         "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
