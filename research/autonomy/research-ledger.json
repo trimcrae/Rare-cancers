@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 203,
+    "process_defect": 204,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -28,7 +28,7 @@
     "done": 189,
     "in_progress": 10,
     "parked": 30,
-    "queued": 169,
+    "queued": 170,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1378,6 +1378,39 @@
       "claim_workers": 1,
       "_claim_workers_why": "one subagent in an isolated worktree",
       "lease_released": "claim by serialization-worktree-seat released after 8.2 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+    },
+    {
+      "id": "AUT-PD-215-11f2347b-33d8c28b",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "It is the ledger's own identity space. Every route, paper and receipt that cites an AUT-NNN depends on it."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": 176.0,
+      "_score_basis": "HAND-SET ABOVE THE STRANDED-BRANCH ROW IT BLOCKS (171.0). That row cannot be worked until this one is: merging the mortality line ADDS SIX ROUTES, and adding any route is what triggers this defect. It also outranks ordinary process defects because it silently falsifies the historical record rather than failing a gate.",
+      "what": "⛔⛔ DERIVED LEDGER ROW IDS ARE POSITIONAL OVER THE ROUTE LIST, SO ADDING ANY ROUTE SILENTLY REPOINTS EVERY AUT-NNN AFTER IT. Measured 2026-09-03 while merging the mortality research line.\n★ THE EVIDENCE, from `priority.build_entries()` run against both trees:\n   AUT-073  trunk -> RT-TRIAL-REACH   |  with six routes added -> RT-TCR-IMMTAC\n   AUT-074  trunk -> RT-TXN-CDK       |                        -> RT-TCRT-CTA\n   AUT-075  trunk -> RT-UBIQ-SELECTIVE|                        -> RT-TRABECTEDIN\nDerived rows went 77 -> 83. The six new route ids (RT-COMPETING-MORTALITY, RT-EARLY-PALLIATIVE, RT-HOST-FACTOR, RT-RESPIRATORY-FAILURE, RT-TREATMENT-HARM, RT-VTE-PROPHYLAXIS) sort early alphabetically, so everything after them shifted by six.\n⛔ WHAT THAT BREAKS IS THE RECORD, NOT A BUILD. `systems/tests/test_a_standing_grant_is_not_a_decision_for_trimcrae.py` asserts AUT-073 serves PUB-STRATEGY-ARCH because AUT-073 IS the escalation trimcrae answered on 2026-09-01 with 'This was not a good use of escalation'. After the shift that id names a different route, so the test fails — and the test failing is the LUCKY case. Every commit message, receipt, `_stranded_work` note and cross-reference in this repository that cites an AUT-NNN would silently come to mean something else, with nothing red anywhere.\n⭐ THE MERGE THAT FOUND IT IS BACKED OUT AND NOTHING WAS PUSHED. It was otherwise complete: 0 graph errors, both probes wired with their exclusion guards, three test-skips repaired. It cannot land until identity is stable, because landing it would rewrite the ledger's identity space as a side effect of adding six routes.\n⚠ AND THE HAND-FILED ROW LOSES. `research-ledger.json` carries an AUT-073 whose serves.publication is PUB-STRATEGY-ARCH, byte-identical to the trunk's; `build_entries` overrides it with the derived value. So the file on disk says one thing and the ranked queue says another.",
+      "next_action": "Give derived rows a STABLE id — derive it from the route id (a hash or a slug) rather than from position in a sorted scan, and keep a frozen map of the existing AUT-NNN -> route bindings so nothing already written changes meaning. ⛔ Do NOT fix this by pinning the route list's order: that preserves today's ids and leaves the next route addition to break them again, which is the same defect with a longer fuse. ⚠ A migration must prove the OLD ids still resolve to the SAME routes — assert it over the whole set, not by spot-checking AUT-073.",
+      "evidence": [
+        "priority.build_entries() on origin/main: 77 derived rows, AUT-073 -> RT-TRIAL-REACH",
+        "same call with the mortality branch merged: 83 derived rows, AUT-073 -> RT-TCR-IMMTAC",
+        "systems/tests/test_a_standing_grant_is_not_a_decision_for_trimcrae.py — 3 failures, passes clean on origin/main",
+        "research/autonomy/research-ledger.json AUT-073 serves.publication == PUB-STRATEGY-ARCH (unchanged by the merge)"
+      ],
+      "retry_budget": 3
     },
     {
       "id": "AUT-PD-034",
