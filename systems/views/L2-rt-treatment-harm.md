@@ -43,13 +43,12 @@ flowchart LR
 
 ## Scientific rationale
 
-This is the only route in the portfolio whose intervention is subtraction. The curated record reports that chemotherapy produced no objective responses in one long-term series, with a median progression-free survival of about five months, while the toxicities of that same therapy -- anthracycline cardiotoxicity over a decade-scale survivorship, and neutropenic sepsis acutely -- are real and well characterised. A treatment with no measured benefit in this histology and a measurable hazard is a candidate for removal on survival grounds, not merely on quality-of-life grounds.
+This is the only route in the portfolio whose intervention is subtraction. The curated record reports that chemotherapy produced no objective responses in one long-term series (Drilon 2008, PMID 18951519, n=21, median progression-free survival 5.2 months), while the toxicities of that same therapy -- anthracycline cardiotoxicity over a decade-scale survivorship, and neutropenic sepsis acutely -- are real and well characterised. A treatment with no measured benefit in this histology and a measurable hazard is a candidate for removal on survival grounds, not merely on quality-of-life grounds.
 
 ## Remaining unknowns
 
-- What fraction of deaths in the published EMC record is attributable to treatment rather than to disease, which nobody has counted.
-- Whether the absence of objective responses in the curated series generalises, given how small every EMC cohort is and how strongly they are selected.
 - Whether anthracycline exposure in this specific long-surviving population produces the late cardiac mortality the class is known for, which would need cardio-oncology follow-up nobody has published for this histology.
+- Whether the absence of objective responses in the curated series generalises, given how small every EMC cohort is and how strongly they are selected.
 
 ## Required validation
 
@@ -68,7 +67,10 @@ This is the only route in the portfolio whose intervention is subtraction. The c
 
 **`internal_note`**
 
-Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation.
+CORRECTED 2026-09-03: the count is done, and it does not do the corroborating work the rationale hoped for. Of the 52 classified deaths in research/manuscripts/emc-terminal-events.json, 2 are treatment_related, and both are postoperative deaths from skull-base resection of intracranial EMC (PMID 23115670) -- not anthracycline cardiotoxicity or neutropenic sepsis. The corpus therefore neither corroborates nor refutes this route's specific chemotherapy-subtraction argument, which still rests entirely on Drilon 2008's toxicity-without-response finding rather than on any EMC-specific death record; it DOES surface a second, distinct treatment-harm question (surgical mortality in skull-base intracranial EMC) that this route was not scoped to ask. Registered at concept maturity because the remaining validation (late cardiac outcome data) needs a clinical cohort nobody here has.
+
+**Evidence required:**
+- Late cardiac outcome data in anthracycline-exposed EMC survivors -- the one thing that would actually test this route's central claim, and it is the same item already listed in required_validation, blocked on BLK-NO-EMC-DATA and BLK-NO-WET-LAB.
 
 ## Where this route ends — the paper
 
@@ -100,7 +102,7 @@ The counting needs only the corpus already being retrieved, and a route whose in
 
 ## Best next action
 
-Count treatment-attributed deaths in the terminal-event corpus and set them beside the curated response data for the same agents.
+CORRECTED 2026-09-03: the count against the terminal-event corpus is DONE (see readiness.why_not_higher) and found no chemotherapy-attributed deaths to set beside Drilon 2008 -- the 2 treatment-related deaths in the corpus are surgical, a different agent than this route's rationale. Nothing more is actionable today: the route's central claim rests on Drilon's toxicity-without-response finding standing on its own, and the one validation that could move it (late cardiac outcome data) is blocked on a clinical cohort this programme does not have.
 
 *Cost:* $0
 
