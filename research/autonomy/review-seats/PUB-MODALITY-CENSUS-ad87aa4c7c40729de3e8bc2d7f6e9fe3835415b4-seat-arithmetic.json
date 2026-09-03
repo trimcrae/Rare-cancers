@@ -1,0 +1,47 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-MODALITY-CENSUS",
+  "pub_id": "PUB-MODALITY-CENSUS",
+  "reviewed_commit": "ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic (recompute every number)",
+  "document": "research/manuscripts/modality-census/cancer-modality-census.md",
+  "document_sha256": "b0aca1924b1ffa341dbf45bae6d9e891acd09f4fb70c0571fbc09e046e2e32fe",
+  "opened_utc": "2026-09-03T00:12:50Z",
+  "verdict": "needs_revision",
+  "referee_recommendation": "major_revisions",
+  "central_claim": "Of 217 enumerated cancer-treatment modality classes, 112 had never been pointed at by any prior search in this repository, 18 of those are still live, and thirty-one classes survive triage as candidate routes.",
+  "blockers": [
+    {
+      "summary": "The §2 headline verdict-count table and the '112 ... 18 of those are live' claim do not match the document's own cited canonical source (systems/graph/modalities.json, rendered to systems/views/modality-census.md) at this exact pinned commit. The two internal tables (§2 verdict table and §2 band table) DO agree with each other (both sum to 217/112, as the prompt asked to check), but that internal agreement is itself evidence they were both computed from a stale snapshot -- neither matches the live registry.",
+      "evidence": "Pinned-commit registry (`git show ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4:systems/graph/modalities.json`, 217 rows) tabulates by `verdict`/`prior_coverage` to: on_board 41/0, in_clinical_use 8/0, already_rejected 33/0, excluded 95 (86 never_searched), candidate 20 (6 never_searched), parked_capability 9 (8 never_searched), not_applicable 11/11 -- total never_searched = 111, and 'live' (candidate+parked_capability, never_searched) = 6+8 = 14. The GENERATED view the document itself points readers to for 'every row's verdict and pointer' -- `git show ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4:systems/views/modality-census.md` -- prints the identical numbers verbatim: '## ⭑ 111 classes no prior search here had pointed at ... **14 of the 111 are live**' and a table with candidate 20/6, parked_capability 9/8, excluded 95/86. The document's own §2 table instead reads candidate 31/9, excluded 84/83, parked_capability 9/9, summing to 112 never_searched and '18 of those are live'. Every discrepant cell traces to exactly 11 rows that carry a `route` field (i.e. were registered as candidate routes) but now carry `verdict: excluded` in the pinned registry -- MOD-HYPOXIA-PRODRUG, MOD-SERM-SERD, MOD-RET, MOD-ALK-ROS1, MOD-TRANSCRIPTIONAL-CDK, MOD-POLQ, MOD-EZH2, MOD-ARGININE-DEPRIVATION, MOD-MDM2-P53, MOD-CS-BIOSYNTHESIS, MOD-SEQUENCING -- an exact 84->95 / 31->20 shift (+11/-11). Several of these are discussed in the document's own §3 as though still live: §3.1 presents 'Transcriptional CDK inhibition' as ungraded ('never assessed against any EMC data, and never given one'), while the registry's own rationale for MOD-TRANSCRIPTIONAL-CDK says '⛔ RE-GRADED 2026-08-09 ... it went against the premise ... see RT-TXN-CDK', and MOD-SEQUENCING is listed among §3.6's 'live residue' themes while its registry verdict is `excluded`. The band table has the same defect on a smaller scale: doc says drug_mechanism 162/87 (53%), registry/view say 162/86 (53%) -- one row off by exactly the same single unit that separates the doc's 112 total from the registry's 111.",
+      "fix": "Regenerate §2's verdict table and band table (and the '112 ... 18 of those are live' headline sentence) from the current systems/graph/modalities.json / systems/views/modality-census.md at commit time, rather than hand-typing them (per CLAUDE.md §1: 'A total is DERIVED, never typed'). Correct current figures per the pinned registry: on_board 41/0, in_clinical_use 8/0, already_rejected 33/0, excluded 95/86, candidate 20/6, parked_capability 9/8, not_applicable 11/11, totals 217/111, live=14. Band table: drug_mechanism 162/86, delivery_and_conjugate 26/18, physical_locoregional 15/3, strategy_and_architecture 14/4 (totals 217/111). §3's 'Thirty-one classes survive' framing and its per-theme lists need the same reconciliation -- several named 'live' classes (transcriptional CDK, matrix biosynthesis, RET, arginine deprivation, MDM2, EZH2, POLθ, sequencing, ALK/ROS1, SERM/SERD, hypoxia-activated prodrugs) are `excluded` in the registry the census owns, per its own §3.2a/§3.8 grading results -- the count of surviving candidates should be re-derived as 20, not 31, or §3 needs to explicitly state it is describing the pre-grading triage set rather than the current live set."
+    },
+    {
+      "summary": "§5 states 'Thirty-one rows carry `already_rejected`', directly contradicting §2's own table in the SAME document, which reports already_rejected = 33 -- with no superseded/correction marker covering this sentence.",
+      "evidence": "Line 63: '| ✕ `already_rejected` — a prior document settled it | 33 | 0 |'. Line 353: 'Thirty-one rows carry `already_rejected` with a resolvable pointer into the owning document.' These are the same category, described 5000 words apart in the same file, with two different counts and no correction annotation on either. The pinned-commit registry confirms 33 is correct: `git show ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4:systems/graph/modalities.json` has exactly 33 rows with `verdict == 'already_rejected'`, and all 33 carry a resolvable `prior_ref` pointer (0 without one) -- so there is no legitimate 31-row subset (e.g. '31 of 33 have pointers') that would make §5's sentence true as a narrower claim; it reads, and can only be read, as a total count, and the total is wrong.",
+      "fix": "Change §5's 'Thirty-one rows' to 'Thirty-three rows', matching §2's table and the registry. If §2's own table also needs revision (per blocker 1), re-derive both from the same generation step so the two never drift independently again."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "§2.1 claims 'only the 23 candidate rows were adjudicated' out of the 73 novelty-audit flags, but the audit artifact itself (census-novelty-audit.json) records 20 candidate-verdict rows among its 73 findings, not 23, and every one of the 73 findings' `adjudication` field reads verbatim 'UNREVIEWED — a term match is not a coverage claim' with no field recording which rows were in fact adjudicated.",
+      "evidence": "`git show ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4:research/modalities/census-novelty-audit.json` has `findings` as a dict of 73 entries; tabulating each entry's `verdict` field gives {excluded: 41, candidate: 20, parked_capability: 8, not_applicable: 4}, and every entry's `adjudication` field is the identical unreviewed string -- the artifact carries no per-row record of which 23 (or 20) were actually adjudicated. This is weaker evidence than the two blockers above (the artifact may simply not track resolution status, with the real adjudication trail living in modalities.json's rationale fields instead), so it is filed as fragile rather than definitely wrong -- but as written, '23' cannot be verified against any source artifact and the nearest checkable count in that artifact is 20.",
+      "fix": "Either cite the actual source for '23' (e.g. a specific field or commit that records which rows were adjudicated and how many were candidates at that time), or correct the count to whatever the current audit/registry state supports, and add a note if the number is expected to drift as grading continues (as §2.1 already does for the '112' headline)."
+    },
+    {
+      "summary": "The §2 band table's 'share' percentages are computed by truncation, not round-to-nearest, and this convention is never stated -- fragile if a reader (or a future regeneration script) assumes standard rounding.",
+      "evidence": "87/162 = 53.70% (rounds to 54%, table shows 53%); 4/14 = 28.57% (rounds to 29%, table shows 28%); 18/26 = 69.23% (69% either way); 3/15 = 20.00% exact. All four cells are consistent with floor()/truncation and none with round-half-up, but the method is undocumented.",
+      "fix": "State the rounding convention in a footnote, or switch to standard rounding and update the two affected cells (53%→54%, 28%→29%) -- moot if the whole table is regenerated per blocker 1, since the correct underlying counts (86/162=53.09%, 4/14=28.57%) round to the same 53%/29% either way once the numerator is fixed."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/modality-census/cancer-modality-census.md @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (full text, sha256 verified b0aca192...)",
+    "systems/graph/modalities.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (217-row registry, tabulated programmatically by verdict/prior_coverage/band)",
+    "systems/views/modality-census.md @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (generated view the document itself cites as the canonical register)",
+    "research/modalities/census-novelty-audit.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (73 flagged rows, tabulated by verdict and adjudication field)",
+    "research/modalities/census-route-expression-grading.json @ ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4 (16 route verdicts, cross-checked against §3.2a/§3.8 and against modalities.json verdicts)"
+  ]
+}
