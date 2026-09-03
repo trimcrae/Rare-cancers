@@ -1,0 +1,19 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0096-ecd11783",
+  "session_id": "ecd11783-b2f5-57d5-8577-36c3bb494020",
+  "ccr_session_id": "session_01Rxk7re82z2UhL7nzSCJvuJ",
+  "started_utc": "2026-09-03T00:18:31Z",
+  "ended_utc": "2026-09-03T01:05:00Z",
+  "took": "AUT-PD-212-f2f24a57-3128847a -- PREFLIGHT_FULL=1 red on clean origin/main, blocking publish_bar clause 2 for every paper. Picked over the higher-scored AUT-010 (166.9, PUB-ATR publish) because AUT-010's own remaining clauses are gated on this exact repo-wide blocker.",
+  "what_changed": "Investigated the four named unit-test failures directly rather than trusting the row's 'needs domain context' framing (CLAUDE.md §0: blocked is a claim that needs evidence). All four turned out to already be fixed by a concurrent session (session_01T2hQCSumHgafEc9EPtJKtw) between when the row was filed and this cycle: offtarget-scan KeyError fixed in d379e48c, gcp-fanout cron IndexError and the ATM-workflow hand-rolled publish both fixed in 193c5cab, the archive-manifest side effect in 91b12219. Re-ran the three named unit tests directly against current HEAD (all pass) rather than trusting the commit messages alone, and independently confirmed clause 2 is open again via the committed receipt research/autonomy/preflight-receipts/bd429b496ac3db4ddb1121610ede7ad0f23c0fb3.json (mode FULL, exit 0, 2026-09-03T00:19:16Z, an ancestor of current HEAD). Updated the ledger row to done and released the claim. (5), the sagemaker dispatch-cap failure, stays out of scope, tracked separately as AUT-PD-210.",
+  "cost": "$0 -- free, no GPU, no CI dispatch; a short-lived local PREFLIGHT_MODALITIES run was started to independently verify and then stopped once the committed FULL-run receipt was found to already answer the same question.",
+  "session_id_note": "cycle ran as a scheduled Routine fire on branch claude/quirky-johnson-mylbiw; per CLAUDE.md §7 lane 1, the ledger/state pushes went straight to origin/main via HEAD:main, not the branch.",
+  "now_queued": "Nothing newly queued by this cycle. AUT-010 (PUB-ATR publish, score 166.9) is next in line and is no longer blocked on this row, but still needs a fresh round of blind seats before its own hardening_converged clause can pass -- that is a separate cycle's work, not filed here since it was already an open row.",
+  "blocked_by": [],
+  "subagents": {
+    "max_concurrent": 0
+  },
+  "route_advanced": "none",
+  "_route_advanced_why": "This row serves no route (serves.route: null) -- it is a repo-wide process_defect blocking every paper's publish_bar clause 2. Fixing it advances every route with a paper pending that clause (PUB-ATR, PUB-MODALITY-CENSUS among them) rather than any single one, so 'none' is the honest value per the contract rather than picking one route to credit."
+}
