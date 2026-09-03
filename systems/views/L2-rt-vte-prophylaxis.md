@@ -43,12 +43,11 @@ flowchart LR
 
 ## Scientific rationale
 
-A patient carrying pulmonary metastases for years is exposed to a thrombotic hazard for that whole period, and pulmonary embolism is one of the few mechanisms by which an indolent disease can kill abruptly. The route is registered with its own most likely negative attached: the randomised prophylaxis trials in ambulatory cancer reduced thromboembolic events, and reducing events is not the same as prolonging life. That distinction is the route's central question rather than a caveat on it.
+A patient carrying pulmonary metastases for years is exposed to a thrombotic hazard for that whole period, and pulmonary embolism is one of the few mechanisms by which an indolent disease can kill abruptly. The route is registered with its own most likely negative attached: the randomised prophylaxis trials in ambulatory cancer reduced thromboembolic events, and reducing events is not the same as prolonging life. That distinction is the route's central question rather than a caveat on it. ⭑ CORPUS COUNT DONE 2026-09-03: of 162 death-cue sentences in research/literature/emc-mortality-probe.json (34 EMC-titled papers), exactly ONE mentions embolism at all -- PMID 41799218, tumor emboli associated with cardiac metastasis causing an ischaemic stroke, already classified as respiratory_failure in research/manuscripts/emc-terminal-events.json and already discussed in the paper's S3.3. TUMOR embolism (cancer cells) is mechanistically distinct from VENOUS thromboembolism (a blood clot, DVT/PE); thromboprophylaxis targets the latter and would not have prevented the former. Zero true VTE deaths appear in the retrieved corpus.
 
 ## Remaining unknowns
 
-- Whether thromboembolism appears as a terminal event in the EMC record at all, which the corpus can answer and nobody has asked.
-- Whether prophylaxis moves overall survival as opposed to event rates -- the published trials are the place to check, and the expected answer is no.
+- Whether prophylaxis moves overall survival as opposed to event rates -- the published trials are the place to check, and the expected answer is no. NOT YET READ: this needs a literature fetch (a named ambulatory-cancer VTE-prophylaxis trial's own survival endpoint, e.g. via .github/workflows/fetch-literature.yml), not a citation recalled from training data -- CLAUDE.md's golden rule against writing an identifier from recollection applies exactly here.
 - Whether a sarcoma population carries the thrombotic risk that would make any of this worth acting on, which is a class-level question this disease has no data for.
 
 ## Required validation
@@ -69,7 +68,10 @@ A patient carrying pulmonary metastases for years is exposed to a thrombotic haz
 
 **`internal_note`**
 
-Registered 2026-08-09 at concept maturity; the honest output today is the question and its cheapest next observation.
+The corpus half is answered (zero true VTE deaths; the one embolism death is tumour embolism, a different mechanism, already counted under respiratory_failure). The trial-literature half is still open and must not be filled from recollection -- CLAUDE.md's golden rule against fabricated citations applies, and this route's own registration already predicted a negative here.
+
+**Missing:**
+- a fetched, cited survival endpoint from the ambulatory-cancer VTE-prophylaxis trial literature (required_validation item 2)
 
 ## Where this route ends — the paper
 
@@ -101,7 +103,7 @@ Both observations come out of retrievals already dispatched, and a route whose e
 
 ## Best next action
 
-Count thromboembolic terminal events in the corpus and read the prophylaxis trials for a survival endpoint rather than an event endpoint.
+CORRECTED 2026-09-03: the corpus count is DONE (see supporting_evidence) -- zero true VTE deaths, one tumour-embolism death already counted elsewhere. What remains is required_validation item 2 alone: fetch and read a named ambulatory-cancer VTE-prophylaxis trial's own overall-survival result (dispatch a literature fetch; do not cite from recollection).
 
 *Cost:* $0
 

@@ -10,7 +10,7 @@
     "code": 1,
     "decide": 1,
     "experiment": 31,
-    "fetch": 24,
+    "fetch": 25,
     "fix": 23,
     "harden": 30,
     "measure": 1,
@@ -25,7 +25,7 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 196,
+    "done": 197,
     "in_progress": 10,
     "parked": 30,
     "queued": 172,
@@ -496,52 +496,6 @@
       "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
     },
     {
-      "id": "AUT-223",
-      "_derived": true,
-      "what": "Count thromboembolic terminal events in the corpus and read the prophylaxis trials for a survival endpoint rather than an event endpoint.",
-      "serves": {
-        "route": "RT-VTE-PROPHYLAXIS",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0098-37419c4c",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 196.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-03T13:35:12Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T13:35:12Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-015",
       "kind": "process_defect",
       "process_defect": true,
@@ -626,52 +580,6 @@
       "claim_workers": null,
       "_claim_workers_why": "⛔ ONE LEASE, FIVE CONCURRENT AGENTS. `subagent_width`'s unit is CONCURRENT AGENTS (autonomy-state.json `_subagent_width_means`), and this row's owner covers a five-seat fan-out. Without this field `continuity.py` counts distinct OWNER STRINGS and reports 1 worker against a cap of 5 — under-counting by four and permitting a sixth dispatch. ⚠ Measured 2026-08-27 against ListAgents, which showed five running while the check said one. This is the THIRD unit error of the day in the same family: leases-vs-workers, then workers-vs-AGENTS.",
       "lease_released": "✅ CLOSED 2026-08-27. The unread survey was read AND re-run at five times the width, because trimcrae rejected it as a survey of the field: \"I'm not buying this is real survey of the field if you think that the only people doing auto-research are doing it on ML benchmarks.\" He was right, and the reason is METHODOLOGICAL rather than careless — the first scan searched GitHub for AI-scientist repositories, which samples code that turns a topic into a paper and CANNOT see a loop whose bottleneck is physical, a pre-LLM robot scientist, the living-evidence world, a commercial platform that publishes nothing, or a venue-level publication gate. ⭐ THE TWO HEADLINES THAT DID NOT SURVIVE: (1) \"not solved for our shape\" is half wrong — a long-lived loop with a persistent queue, resource governance, stall detection, human authority and provenance is solved in three other domains, two of them running for DECADES; (2) \"ahead on governance\" is a sampling artifact, and the honest verdict is UNAWARE, not ahead — level on principle, behind on anti-gaming/claim-strength/provenance, and genuinely unusual on exactly one thing (an author-side artifact-computed bar) for the DEFLATIONARY reason that almost nobody posts unattended. Result: research/method-watch-autonomy-prior-art-2.md. Ten $0 actions filed below as AUT-PROP-029 … AUT-PROP-038, ordered."
-    },
-    {
-      "id": "AUT-221",
-      "_derived": true,
-      "what": "Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly.",
-      "serves": {
-        "route": "RT-RESPIRATORY-FAILURE",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": "Two dispatched workers (a8b6a55d1b31d1252, a5c6969e3df548c9a) attempted this item; the first produced a draft touching research/manuscripts/emc-mortality-mechanisms.md (213 lines) and research/manuscripts/citation-provenance-ledger.json (~6,098 lines changed, roughly half the file, for what should be a small addition) but never reached a verified, gated commit after ~25 min of runtime and repeated confused non-terminal responses. Releasing the claim rather than force an unverified citation-ledger diff to main (medical-integrity golden rule). Neither worker's draft was committed anywhere; nothing is lost, the item is simply unattempted again.",
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-03",
-      "score": 188.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-03"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-09-03T13:13:59Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
     },
     {
       "id": "AUT-046",
@@ -929,6 +837,51 @@
         }
       ],
       "resolution": "DONE 2026-09-03, WITH A NEGATIVE RESULT FOR THE ROUTE'S OWN HYPOTHESIS. The count was already computed (research/manuscripts/emc_terminal_events.py: 52 classified deaths, 2 treatment_related) and matches the paper's own Table 1 exactly -- but both treatment-related deaths are POSTOPERATIVE (skull-base resection of intracranial EMC, PMID 23115670), not anthracycline cardiotoxicity or neutropenic sepsis, which is what this route's chemotherapy-subtraction rationale is actually about. So the corpus count neither corroborates nor refutes RT-TREATMENT-HARM's central claim -- that still rests entirely on Drilon 2008 (PMID 18951519, n=21, no objective responses, median PFS 5.2 months) standing on its own, independent of any EMC-specific death record. Recorded this precisely in systems/graph/routes.json's RT-TREATMENT-HARM entry (readiness.why_not_higher, next.best_next_action, rationale now cites Drilon by PMID) rather than either silently closing the item or forcing a false corroboration. Regenerated views (systems_check.py --write-views, 0 ERROR)."
+    },
+    {
+      "id": "AUT-223",
+      "_derived": true,
+      "what": "CORRECTED 2026-09-03: the corpus count is DONE (see supporting_evidence) -- zero true VTE deaths, one tumour-embolism death already counted elsewhere. What remains is required_validation item 2 alone: fetch and read a named ambulatory-cancer VTE-prophylaxis trial's own overall-survival result (dispatch a literature fetch; do not cite from recollection).",
+      "serves": {
+        "route": "RT-VTE-PROPHYLAXIS",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-09",
+      "score": 184.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:35:12Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ],
+      "resolution": "DONE 2026-09-03, HALF OF A COMBINED ITEM CLOSED, HALF SPLIT OUT. This row's `what` combined two sub-tasks; only the corpus count is a $0 read, so it is what got done here. Searched all 162 death-cue sentences in research/literature/emc-mortality-probe.json (34 EMC-titled papers) for embolism/thrombosis/clot/DVT mentions: exactly one hit, PMID 41799218, 'tumor emboli associated with cardiac metastasis' causing an ischaemic stroke -- already classified as respiratory_failure in research/manuscripts/emc-terminal-events.json and already discussed in the paper's S3.3. Tumor embolism (cancer cells) is mechanistically distinct from venous thromboembolism (a blood clot); thromboprophylaxis targets the latter and would not have prevented the former. Zero true VTE deaths in the retrieved corpus. Recorded in systems/graph/routes.json's RT-VTE-PROPHYLAXIS rationale and readiness. The second sub-task -- reading a named ambulatory-cancer VTE-prophylaxis trial's own survival endpoint -- was NOT done here: it needs a literature fetch, and CLAUDE.md's golden rule against writing an identifier from recollection forbids citing a specific trial PMID from training-data recall. Split out as AUT-PROP-064."
     },
     {
       "id": "AUT-PD-036",
@@ -1903,6 +1856,37 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
+    },
+    {
+      "id": "AUT-PROP-064-37419c4c-e4d65505",
+      "kind": "fetch",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": "RT-VTE-PROPHYLAXIS",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM",
+        "_why": "The literature-fetch half of AUT-223, split out because it is a dispatch-and-read action rather than a $0 corpus read, and could not be done from recollection without risking a fabricated citation."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-03",
+      "score": 172.0,
+      "_score_basis": "Same band as the route's other still-open sibling items (AUT-219/220 at 172.0) -- a real required_validation item on a live route, one dispatch away from an answer.",
+      "what": "RT-VTE-PROPHYLAXIS's second required_validation item: read a named, real, ambulatory-cancer venous-thromboembolism-prophylaxis randomised trial's OWN overall-survival result (not its event-rate result) and record whether prophylaxis moved survival or only event rates. The route's own registration already predicts a negative (event reduction without a survival gain), and this item exists to confirm or correct that prediction against a real, cited trial rather than carry it as an assumption.",
+      "next_action": "Dispatch .github/workflows/fetch-literature.yml with a targeted query for ambulatory-cancer VTE thromboprophylaxis randomised trials (the CASSINI/AVERT/SAVE-ONCO class) and their overall-survival endpoint reporting. Read the retrieved full text for the actual OS result (most report none, or a non-significant trend) rather than assuming it. ⛔ DO NOT type a specific trial name, PMID or result from training-data recall -- CLAUDE.md's golden rule against a fabricated identifier applies exactly here, and the whole reason this was split out of AUT-223 rather than closed alongside it is that recollection is not evidence. Write the fetched, cited answer into RT-VTE-PROPHYLAXIS's rationale/supporting_evidence and close required_validation item 2.",
+      "evidence": [
+        "AUT-223's resolution, 2026-09-03: the corpus half is done (zero true VTE deaths in the retrieved terminal-event corpus); this is the remaining half.",
+        "systems/graph/routes.json RT-VTE-PROPHYLAXIS required_validation[1]: 'A survival endpoint from the ambulatory-prophylaxis trials, read rather than assumed', feasible_today: true, blocked_by: []"
+      ],
+      "retry_budget": 3
     },
     {
       "id": "AUT-PD-013",
@@ -8453,6 +8437,51 @@
         "Reproduced 2026-09-03: claimed AUT-218 (state in_progress on the pushed claim commit), ran `priority.py --write` with no other change, committed row read state=queued, owner=CYC-0098-37419c4c"
       ],
       "retry_budget": 3
+    },
+    {
+      "id": "AUT-221",
+      "_derived": true,
+      "what": "Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly.",
+      "serves": {
+        "route": "RT-RESPIRATORY-FAILURE",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": "Two dispatched workers (a8b6a55d1b31d1252, a5c6969e3df548c9a) attempted this item; the first produced a draft touching research/manuscripts/emc-mortality-mechanisms.md (213 lines) and research/manuscripts/citation-provenance-ledger.json (~6,098 lines changed, roughly half the file, for what should be a small addition) but never reached a verified, gated commit after ~25 min of runtime and repeated confused non-terminal responses. Releasing the claim rather than force an unverified citation-ledger diff to main (medical-integrity golden rule). Neither worker's draft was committed anywhere; nothing is lost, the item is simply unattempted again.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-03",
+      "score": 94.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0,
+        "blocked_with_evidence": true
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-03T13:13:59Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-068",
