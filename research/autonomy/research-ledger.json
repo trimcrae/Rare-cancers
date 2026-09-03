@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 193,
-    "in_progress": 11,
+    "done": 194,
+    "in_progress": 10,
     "parked": 30,
     "queued": 173,
     "superseded": 1
@@ -2229,7 +2229,7 @@
     {
       "id": "AUT-PD-214-11f2347b-844001e5",
       "kind": "process_defect",
-      "state": "in_progress",
+      "state": "done",
       "cost_class": "free",
       "owner": "CYC-0098-37419c4c",
       "claimed_utc": "2026-09-03T12:31:30Z",
@@ -2294,7 +2294,8 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "resolution": "⭐ BOTH BRANCHES CLEARED 2026-09-03; `git rev-list --count origin/main..<ref>` reads 0 for each.\n   (2) `best-paper-submission-tqa0cn` merged `-s ours` at aa94212a0 with the by-id reading in the message: 376 markdown documents, exactly one id absent from main's 518, and that one the 2026-08-05 pre-journal draft of a paper main carries in journal form with twelve red-team rounds on top. Nothing discarded — the ref keeps its history and the merge records that the content was READ and found superseded.\n   (1) `emc-symptom-treatment-742257` merged at c817acb3b: the mortality paper, its memo, the ST-MORTALITY-MECHANISM family, six route views, four probes, five scripts, five artifacts and four test modules. Seventeen conflicts, each resolved by taking main's newer side and adding the branch's new rows programmatically rather than by editing markers. `PUB-MORTALITY-MECHANISM` graded live_positive / no_bench_needed / full_paper with the reservation written into `outcome_potential_why`. `derived_ids.py --extend` bound the six routes to AUT-218..AUT-223 and moved none of the other 77 — the gate landed that morning, and this was the first real route addition since.\n⛔ THE BRANCH'S OWN SUPERSEDED HEADLINE WAS NOT IMPORTED: IDEAS.md still carried 39.4 % after `4d61197b3` corrected the competing share to 21.7 %; merged with the corrected figures and the single-series reading retained as superseded text.\n★ THE LESSON IS THE METHOD, AND IT IS WORTH MORE THAN THE MERGE: four readings of one branch were wrong before one was right, every one of them a PATH measurement against a repository that had reorganised its manuscript directories. Difference the front-matter `id:` sets; for files with no id, compare basename plus blob. `systems_check`'s [D6] rule is the one that caught it, because it is the only reader here that keys on identity."
     },
     {
       "id": "AUT-PD-054",
