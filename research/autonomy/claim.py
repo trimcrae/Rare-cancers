@@ -515,10 +515,20 @@ def claim_only_text(trunk: dict, entry_id: str, me: str, when: str) -> str:
     need to: `apply_claim` puts the identical one-row stamp through `write_ledger` on the same
     attempt, so the gate still sees this claim exactly once. What must never drift is the FORMAT, and
     that is why this calls `ledger_io` rather than `json.dumps` (AUT-PD-037).
+    ⛔⛔ AND THE HEADER TOTALS ARE DERIVED HERE TOO (measured 2026-09-04, CYC-0104): a claim always
+    moves a row between `queued` and `in_progress`, so `n_by_state` is stale in EVERY claim commit
+    unless this function re-derives it. `write_ledger` (used by `apply_claim` for the on-disk copy)
+    already does this via `ledger_schema.derive_headers`; this path serializes with `dumps_ledger`
+    directly and was the one place in the claim flow that skipped it — so the commit `claim.py`
+    pushes to `main` carried a stale header every single time, exactly the tests.yml failure
+    CYC-0103 fixed on the PREVIOUS claim commit, reproduced immediately by the NEXT one (4db762d6).
     """
+    import ledger_schema  # noqa: PLC0415 — see write_ledger's own note on why this is deferred
+
     d = copy.deepcopy(trunk)
     if not stamp_claim(d, entry_id, me, when):
         raise KeyError(f"{entry_id} is not on the trunk")
+    ledger_schema.derive_headers(d)
     return ledger_io.dumps_ledger(d)
 
 
