@@ -596,7 +596,7 @@ def hydrogen_mass_da(atom_indices, masses, edges):
                            "unrepartitioned hydrogens"))
 
 
-def _mass_da(m):
+def _mass_da(m, unit_cache=None):
     """Particle mass in daltons, from an openmm Quantity or a plain number. Duck-typed on purpose: it is what
     lets the identification above be exercised end-to-end by a unit test with a fake System, on a runner with no
     openmm — which is the only way to prove the metric RESPONDS to a displaced ligand rather than merely
@@ -604,14 +604,21 @@ def _mass_da(m):
     v = getattr(m, "value_in_unit", None)
     if v is None:
         return float(m)
-    try:
-        from openmm import unit as ommunit
-    except Exception:  # noqa: BLE001  (older path, then no-openmm fake)
+    # One identification can contain thousands of quantities. In a runner without OpenMM,
+    # unsuccessful imports are not cached by Python and used to scan sys.path twice per atom.
+    # The caller's cache lasts for this batch only; subsequent identifications resolve afresh.
+    if unit_cache is None:
+        unit_cache = {}
+    if "dalton" not in unit_cache:
         try:
-            from simtk import unit as ommunit  # type: ignore
-        except Exception:  # noqa: BLE001
-            return float(v(None))
-    return float(v(ommunit.dalton))
+            from openmm import unit as ommunit
+        except Exception:  # noqa: BLE001  (older path, then no-openmm fake)
+            try:
+                from simtk import unit as ommunit  # type: ignore
+            except Exception:  # noqa: BLE001
+                ommunit = None
+        unit_cache["dalton"] = ommunit.dalton if ommunit is not None else None
+    return float(v(unit_cache["dalton"]))
 
 
 def _system_edges(system):
@@ -733,7 +740,8 @@ def _ligand_atoms(reporter):
         return out
     n_atoms = int(system.getNumParticles())
     out["n_particles"] = n_atoms
-    masses = [_mass_da(system.getParticleMass(i)) for i in range(n_atoms)]
+    mass_unit_cache = {}
+    masses = [_mass_da(system.getParticleMass(i), mass_unit_cache) for i in range(n_atoms)]
     edges, prov = _system_edges(system)
     out["bond_provenance"] = prov
     out["n_edges"] = len(edges)

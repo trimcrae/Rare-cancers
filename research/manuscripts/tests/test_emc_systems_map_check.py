@@ -451,9 +451,15 @@ def test_all_three_classifications_are_actually_used(m):
 
 # --- the derived view may not drift from its source -------------------------------------------
 
-def test_the_committed_view_matches_what_the_registry_generates(m):
+@pytest.mark.parametrize("path_sep", ["/", "\\"])
+def test_the_committed_view_matches_what_the_registry_generates(m, monkeypatch, path_sep):
+    native_relpath = os.path.relpath
+    with monkeypatch.context() as paths:
+        paths.setattr(chk.os, "sep", path_sep)
+        paths.setattr(chk.os.path, "relpath", lambda *args: native_relpath(*args).replace("\\", "/").replace("/", path_sep))
+        rendered = chk.render_view(m)
     with open(chk.VIEW_PATH) as fh:
-        assert fh.read() == chk.render_view(m), (
+        assert fh.read() == rendered, (
             "research/manuscripts/emc-systems-map.md is DERIVED. Regenerate it with "
             "`python3 research/manuscripts/emc_systems_map_check.py --write-view`; never edit it."
         )

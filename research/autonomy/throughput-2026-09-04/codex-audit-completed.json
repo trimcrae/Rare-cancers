@@ -1,0 +1,66 @@
+{
+  "schema": "emc-local-research-run/1",
+  "run_id": "20260904T212855Z-a951b581d0",
+  "started_utc": "2026-09-04T21:28:55.841028Z",
+  "resource": "paper:PUB-ASO",
+  "model": "gpt-6-astra",
+  "auth": "saved-chatgpt",
+  "coordination": "one-local-clone-only",
+  "mode": "read-only",
+  "legacy_and_remote_writers_stopped_acknowledged": false,
+  "base_commit": "c309b6f6e42ab6adb684c995dc9af2b6caa08fe5",
+  "worktree": ".cache/research-runs/20260904T212855Z-a951b581d0/worktree",
+  "limits": {
+    "timeout_seconds": 300,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "low"
+  },
+  "task_sha256": "cbba77633b2cbfefc2c76d74e9a4f07bfc5dac0cd88313f483f26848a4fe5e74",
+  "protocol_sha256": "5c4bcd1f2ed6ad1d2cfa8fd69becc848f7f38a2b5b714d55580a728a0b31831e",
+  "rounds": [
+    {
+      "round": 1,
+      "started_utc": "2026-09-04T21:29:09.333548Z",
+      "status": "completed",
+      "stdout": "round-1.jsonl",
+      "stderr": "round-1.stderr",
+      "session_id": "01a06e53-52da-78c3-8e2a-174c5e998cae",
+      "usage": [
+        {
+          "input_tokens": 241109,
+          "cached_input_tokens": 195200,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1242,
+          "reasoning_output_tokens": 41
+        }
+      ],
+      "errors": 0,
+      "exit_code": 0,
+      "finished_utc": "2026-09-04T21:30:32.834213Z",
+      "outcome": {
+        "status": "completed",
+        "summary": "Read-only inventory complete. Core declarations and submission files are present; portal-specific choices remain for the human author. This does not establish publication readiness.",
+        "artifacts": [
+          "research/manuscripts/aso/fusion-junction-aso-journal-article.md:373\u2013415 contains acknowledgments, sole-author contributions, financial-interest disclosure, ethics, participation/publication consent, funding, AI-use disclosure, data availability, and the earlier withdrawal/correction disclosure. No missing core declaration was identified within this end matter.",
+          "research/manuscripts/aso/nat-revision-checklist-2026-08-25.md records ORCID and running title as present, and cover-letter disclosures covering the archive, extended report, withdrawn version, and AI use as completed. These are checklist reports, not independently verified cover-letter or title-page contents.",
+          "research/manuscripts/SUBMISSION-PACKET.md lists existing human-upload materials: research/manuscripts/aso/fusion-junction-aso-cover-letter.md; research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx; research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx; research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf; research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf; research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx; research/manuscripts/figures/submission/aso-multipartner-seam.eps and .tif; research/manuscripts/aso/fusion-junction-aso-sequences.csv. These paths appeared in local listings; generated-file contents and freshness were not checked.",
+          "Upload-specific fields remain unresolved in research/manuscripts/SUBMISSION-PACKET.md: the portal must determine the anonymization route and file designations. The CSV designation is recorded as \u201cSupplemental Material - For Review Only\u201d. The preprint DOI field can be populated from the Qeios DOI recorded in research/autonomy/publication-authority.json: 10.32388/VL3LJR. Reviewer nominations, if requested, require the author's conflict assessment; no mandatory NAT reviewer requirement was established by these local documents.",
+          "research/manuscripts/aso/nat-revision-checklist-2026-08-25.md leaves actual experiment preregistration as the author's decision (B6). This is not identified as a missing submission declaration; laboratory outreach was explicitly removed as a submission gate.",
+          "research/autonomy/publication-authority.json grants no standing journal-submission authority, excludes PUB-ASO from automatic aiXiv posting, and retains Qeios posting under the author's control. Next action: the human author confirms current NAT upload requirements and completes the applicable portal fields."
+        ],
+        "checks": [
+          "Used six local read/search commands; no project files edited.",
+          "Read journal-manuscript end matter, NAT revision checklist, publication authority, and NAT upload inventory.",
+          "An additional preprint-checklist read produced truncated output; it was not used to establish current NAT requirements.",
+          "No scientific-claim review, tests, network access, account access, submission, or delegation performed."
+        ],
+        "blockers": []
+      }
+    }
+  ],
+  "status": "completed",
+  "automatic_publication": false,
+  "finished_utc": "2026-09-04T21:30:32.984186Z",
+  "elapsed_seconds": 97.141
+}

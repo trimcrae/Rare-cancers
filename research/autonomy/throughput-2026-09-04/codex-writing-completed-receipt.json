@@ -1,0 +1,67 @@
+{
+  "schema": "emc-local-research-run/1",
+  "run_id": "20260904T223902Z-8460640638",
+  "started_utc": "2026-09-04T22:39:02.540543Z",
+  "resource": "paper:PUB-ASO",
+  "model": "gpt-6-astra",
+  "auth": "saved-chatgpt",
+  "coordination": "one-local-clone-only",
+  "mode": "workspace-write",
+  "legacy_and_remote_writers_stopped_acknowledged": true,
+  "base_commit": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+  "worktree": ".cache/research-runs/20260904T223902Z-8460640638/worktree",
+  "limits": {
+    "timeout_seconds": 600,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "low"
+  },
+  "task_sha256": "8e25deda10250de3d3f1ab96abcaafe7820ebeb14066f547c9c8d8b4df687846",
+  "protocol_sha256": "35f1015663e227eaa7cd1ac4ccf03a36e5b305966856840a536c1d1777553762",
+  "rounds": [
+    {
+      "round": 1,
+      "started_utc": "2026-09-04T22:39:15.414547Z",
+      "status": "completed",
+      "stdout": "round-1.jsonl",
+      "stderr": "round-1.stderr",
+      "session_id": "01a06e93-813a-7712-8d61-7e4d3a970239",
+      "usage": [
+        {
+          "input_tokens": 170313,
+          "cached_input_tokens": 136064,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4057,
+          "reasoning_output_tokens": 113
+        }
+      ],
+      "errors": 0,
+      "exit_code": 0,
+      "finished_utc": "2026-09-04T22:42:04.765459Z",
+      "outcome": {
+        "status": "completed",
+        "summary": "Removed the early approval gate and corrected execution metadata to the supplied configuration and actual checkout. Only the two assigned files changed; no upload variants were generated.",
+        "artifacts": [
+          "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md",
+          "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json"
+        ],
+        "checks": [
+          "JSON parses; all 25 inventoried paths and raw SHA256 hashes match.",
+          "README has 617 words, including unchanged required front matter.",
+          "Scientific/provenance facts and missing-variant nulls preserved.",
+          "Exactly two assigned paths changed.",
+          "Corrected line endings after a whitespace-check failure; recheck passed."
+        ],
+        "blockers": [],
+        "follow_up": [
+          "Generate and verify unsubmitted draft Word and anonymous upload variants without prior author approval.",
+          "Reconcile archive/version evidence and obtain author declarations, fee decisions and explicit submission approval for the final concrete package. Submission readiness is not established."
+        ]
+      }
+    }
+  ],
+  "status": "completed",
+  "automatic_publication": false,
+  "finished_utc": "2026-09-04T22:42:04.766640Z",
+  "elapsed_seconds": 182.219
+}

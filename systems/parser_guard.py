@@ -99,7 +99,7 @@ def check_map_edit_sources(fail):
         fail("map_edit_anchors", f"cannot import: {type(e).__name__}: {e}",
              "routed map edits stop being anchor-checked at all")
         return
-    srcs = [os.path.relpath(p, REPO) for p in mea._map_sources()]
+    srcs = [os.path.relpath(p, REPO).replace(os.sep, "/") for p in mea._map_sources()]
     if MAP not in srcs:
         fail("map_edit_anchors", f"the roadmap {MAP} is not among the map sources {srcs}",
              "every roadmap-anchored edit would resolve to NOT_FOUND and read as relocatable")

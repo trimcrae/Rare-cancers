@@ -1,6 +1,8 @@
 name: tests (modalities)
 
-# Runs the pure-Python unit tests for the research/modalities compute scripts on every push/PR.
+# Runs the complete test population on main pushes, pull requests and manual dispatches.
+# Work branches are checked by their PR or after integration, avoiding the duplicate full run
+# for a branch push immediately followed by its merge. No test is removed or path-filtered.
 # These tests gate the parsing/mapping logic that the fpocket off-by-one bug lived in — no GPU/AWS
 # needed. Keep this green before dispatching any SageMaker experiment.
 #
@@ -12,6 +14,7 @@ name: tests (modalities)
 
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -122,6 +125,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: .github/workflows/tests.yml
       - run: pip install $PIP_PACKAGES
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
@@ -429,6 +434,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: .github/workflows/tests.yml
       - run: pip install $PIP_PACKAGES
       # --continue-on-collection-errors, because ONE unimportable file must not be able to hide the other
       # ~2000 results. Twice on 2026-07-26 a module-scope failure in a single test file (a sys.exit(0) in an

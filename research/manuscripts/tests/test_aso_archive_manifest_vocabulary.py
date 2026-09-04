@@ -29,6 +29,22 @@ sys.path.insert(0, os.path.join(REPO, "research", "modalities"))
 
 import aso_archive_manifest as m  # noqa: E402
 
+@pytest.mark.parametrize("path_sep", ["/", "\\"])
+def test_archive_inventory_matches_git_paths_on_either_platform(tmp_path, monkeypatch, path_sep):
+    """Native separators must not silently drop tracked files from the deposit."""
+    folder = tmp_path / "nested"
+    folder.mkdir()
+    for name in ("kept.json", "untracked.json", "kept-graded.json"):
+        (folder / name).write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(m, "REPO", str(tmp_path))
+    native_relpath = os.path.relpath
+    with monkeypatch.context() as paths:
+        paths.setattr(m.os, "sep", path_sep)
+        paths.setattr(m.os.path, "relpath", lambda *args: native_relpath(*args).replace("\\", "/").replace("/", path_sep))
+        result = m._resolve(["nested/*.json"], tracked={"nested/kept.json", "nested/kept-graded.json"})
+    assert result == ["nested/kept.json"]
+
+
 #: Every field in the manifest whose name promises junctions.
 JUNCTION_FIELDS = ("junctions_with_a_design_panel_but_no_screen",
                    "junctions_screened_by_blast_arm_only",

@@ -1,0 +1,20 @@
+{
+  "status": "completed",
+  "summary": "Created exactly three unsubmitted NAT support files. No manuscript/science bytes changed outside submission/. Nothing submitted or running.",
+  "artifacts": [
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md",
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json",
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md"
+  ],
+  "checks": [
+    "JSON parses; all 25 inventoried paths resolve and SHA256 hashes match.",
+    "Author, preprint and declaration details trace to named local sources.",
+    "Both Markdown files have required front matter, unique IDs and explicit draft labels; README is 569 words including YAML.",
+    "Git comparison confirms no tracked changes; exactly three new files exist under submission/.",
+    "Timestamp verification initially failed due to PowerShell date conversion; corrected comparison passed.",
+    "No Word/PDF generation, preflight or science suites performed."
+  ],
+  "blockers": [
+    "Before submission: author must accept the source, confirm declarations and preprint history, resolve archive/ordering-record decisions, and approve final files and costs. Candidate upload variants still require generation and validation."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "emc-codex-handover/1",
+  "date": "2026-09-04",
+  "legacy_driver": {
+    "status": "disabled",
+    "evidence": "User confirmed in the current Codex conversation: I disabled the Claude driver routine for you"
+  },
+  "ownership_audit": {
+    "revision": "fd5c58d5abd5dd3d5eeacb657d4ebab90f015981",
+    "research_ledger_entries": 415,
+    "non_null_owners": 0,
+    "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
+  },
+  "coordinator": "This Codex thread; one local clone",
+  "priority": "paper:PUB-ASO",
+  "writing_run": {
+    "status": "completed",
+    "run_id": "20260904T223902Z-8460640638",
+    "source_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+    "elapsed_seconds": 182.219,
+    "receipt": "research/autonomy/throughput-2026-09-04/codex-writing-completed-receipt.json",
+    "task": "Focused repair of ASO submission support instructions and manifest",
+    "coordinator_verified_file_hashes": 25,
+    "publication_authorized_by_this_record": false,
+    "next_action": "Generate and verify unsubmitted draft Word and anonymous upload variants without prior author approval."
+  },
+  "schedule": {
+    "status": "ACTIVE",
+    "automation_id": "emc-research-coordinator",
+    "kind": "thread heartbeat",
+    "interval_minutes": 120,
+    "first_scheduled_run": "not yet observed",
+    "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
+    "requires": "Local machine and Codex application available"
+  },
+  "integration": {
+    "status": "verified_for_main_integration",
+    "target_branch": "main",
+    "work_branch": "codex/research-throughput-2026-09-04",
+    "normal_check": "passed",
+    "seconds": 68.703,
+    "evidence": "research/autonomy/throughput-2026-09-04/handover-preflight-result.json",
+    "checked_base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+    "reconciled_main": "23ec976050b843e3f75e8cc475c12e8dba1c13eb",
+    "full_scientific_suite": "not run locally for this patch; hosted full CI remains separate"
+  },
+  "initial_writing_attempt": {
+    "status": "failed_outcome_contract",
+    "receipt": "research/autonomy/throughput-2026-09-04/codex-writing-initial-receipt.json",
+    "original_outcome_preserved": true
+  },
+  "runner_tests": {
+    "passed": 15,
+    "seconds": 9.196,
+    "scope": "Standard-library runner tests, including task blockers, follow-up and actual Python executable context"
+  }
+}

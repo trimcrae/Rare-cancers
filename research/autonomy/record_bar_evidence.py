@@ -178,15 +178,24 @@ def record_hardening(paper: str, sha: str, round_no: int, note: str | None) -> i
         "seats": names,
         "blockers": blockers,
         "p1s": p1s,
-        "converged": bool(names) and not blockers and not p1s,
+        # Informational review outcome, not permission to publish. P1 maintenance
+        # findings have not blocked clause 1 since 2026-08-29. Keeping the retired
+        # rule here sent an already-reviewed ASO paper back for more review.
+        "converged": bool(names) and not blockers and all(
+            seat.get("status") != "open"
+            and isinstance(seat.get("blockers"), list)
+            and isinstance(seat.get("p1s"), list)
+            for seat in seats
+        ),
     }
     if note:
         record["note"] = note
     path = HARDENING_DIR / f"{paper}.json"
-    path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n")
+    path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8", newline="\n")
     verdict = "converged" if record["converged"] else "NOT converged"
     print(f"wrote {_rel(path)}: round {round_no} on {sha[:12]} — {verdict} "
-          f"({len(names)} blind seat(s), {len(blockers)} blocker(s), {len(p1s)} P1(s))")
+          f"({len(names)} blind review record(s), {len(blockers)} blocker(s), {len(p1s)} P1(s))")
     return 0
 
 

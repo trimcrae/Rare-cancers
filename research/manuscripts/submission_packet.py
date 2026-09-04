@@ -240,7 +240,7 @@ def _companion(stem, suffixes):
         return ""
     for name in sorted(os.listdir(d)):
         if name.startswith(base) and any(name.endswith(s) for s in suffixes):
-            return os.path.join(os.path.dirname(stem), name)
+            return os.path.join(os.path.dirname(stem), name).replace(os.sep, "/")
     return ""
 
 

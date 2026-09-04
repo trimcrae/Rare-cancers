@@ -232,6 +232,42 @@ def test_ligand_atoms_end_to_end_through_the_real_function():
     assert got["protein_chain_sizes"] == [1500] * 4
 
 
+@pytest.mark.parametrize("available", ["openmm", "simtk", None])
+def test_mass_units_are_resolved_once_per_identification(monkeypatch, available):
+    """Preserve modern/legacy/fake quantity conversion without failed imports per atom."""
+    import builtins
+    from types import SimpleNamespace
+
+    real_import = builtins.__import__
+    attempts = []
+    unit = object()
+
+    def import_unit(name, *args, **kwargs):
+        if name in ("openmm", "simtk"):
+            attempts.append(name)
+            if name == available:
+                return SimpleNamespace(unit=SimpleNamespace(dalton=unit))
+            raise ModuleNotFoundError(name)
+        return real_import(name, *args, **kwargs)
+
+    def value_in_unit(self, got):
+        assert got is (unit if available else None)
+        return self._v
+
+    monkeypatch.setattr(builtins, "__import__", import_unit)
+    monkeypatch.setattr(_FakeQuantity, "value_in_unit", value_in_unit)
+    n, bonds, cons, masses, ligs = _build_assembly(n_chains=1, chain_size=1200, n_waters=0)
+    reporter = _FakeReporter(_FakeSystem(n, bonds, cons, masses), list(range(n)), {})
+    expected_imports = ["openmm"] if available == "openmm" else ["openmm", "simtk"]
+    for repeat in (1, 2):
+        got = tfc._ligand_atoms(reporter)
+        assert sorted(got["ligand_atom_indices"]) == sorted(ligs[0])
+        assert got["n_ligand_heavy_atoms"] == len(ligs[0]) // 2
+        assert attempts == expected_imports * repeat
+    assert tfc._mass_da(12.011) == 12.011
+    assert attempts == expected_imports * 2  # Plain numbers need no optional dependency.
+
+
 # ------------------------------------------------------------------ the RMSD itself
 
 def _coords(n, seed=0):

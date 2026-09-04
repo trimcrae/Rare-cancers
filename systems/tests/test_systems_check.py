@@ -39,13 +39,18 @@ def test_repo_state_is_clean(graph):
     assert f.errors == [], "\n".join(f.errors)
 
 
-def test_views_match_the_graph(graph):
+@pytest.mark.parametrize("path_sep", ["/", "\\"])
+def test_views_match_the_graph(graph, monkeypatch, path_sep):
     """A generated view that has been hand-edited, or has drifted, is a defect.
 
     This is the whole reason the views are generated: prose drifts and cannot be checked.
     """
     f = sc.Findings()
-    sc.check_views(graph, f)
+    native_relpath = os.path.relpath
+    with monkeypatch.context() as paths:
+        paths.setattr(sc.os, "sep", path_sep)
+        paths.setattr(sc.os.path, "relpath", lambda *args: native_relpath(*args).replace("\\", "/").replace("/", path_sep))
+        sc.check_views(graph, f)
     assert f.errors == [], "\n".join(f.errors) + "\n\nRun: python3 systems/systems_check.py --write-views"
 
 
@@ -158,8 +163,14 @@ def test_slugify_matches_github_for_a_heading_with_glyphs():
 
 # ───────────────────────── the fail-red guard ─────────────────────────
 
-def test_parser_guard_passes_on_the_committed_tree():
-    assert pg.main([]) == 0
+@pytest.mark.parametrize("path_sep", ["/", "\\"])
+def test_parser_guard_passes_on_the_committed_tree(monkeypatch, path_sep):
+    native_relpath = os.path.relpath
+    with monkeypatch.context() as paths:
+        paths.setattr(pg.os, "sep", path_sep)
+        paths.setattr(pg.os.path, "relpath", lambda *args: native_relpath(*args).replace("\\", "/").replace("/", path_sep))
+        result = pg.main([])
+    assert result == 0
 
 
 def test_parser_guard_catches_a_renamed_plan_heading(tmp_path, monkeypatch):
@@ -1417,7 +1428,7 @@ def test_the_github_directory_is_not_skipped_as_if_it_were_dot_git():
         "`.github` must be walked — it holds the workflows that name lanes and produce artifacts"
     assert not sc._is_transient(".github")
     for d in (".git", ".git/objects", "node_modules", "research/modalities/.pytest_cache",
-              "a/b/__pycache__", ".venv/lib"):
+              "a/b/__pycache__", ".venv/lib", ".worktrees/ci/research", ".cache/research-runs"):
         assert sc._is_transient(d), f"{d} is machinery and must be skipped at ANY depth"
 
 

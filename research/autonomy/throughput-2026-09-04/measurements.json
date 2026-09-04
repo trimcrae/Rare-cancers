@@ -1,0 +1,146 @@
+{
+  "recorded_date": "2026-09-04",
+  "evidence_origin": "Measurements observed earlier in this agent tool output, transcribed here without rerunning; original benchmark stdout was not saved.",
+  "ci_before": {
+    "run": "https://github.com/trimcrae/Rare-cancers/actions/runs/33903448963",
+    "sha": "9da4e2e1",
+    "pytest_step_seconds": 1079,
+    "pytest_summary": "11948 passed, 56 skipped in 1076.87s",
+    "pytest_job_seconds": 1125,
+    "pip_seconds": 21,
+    "duplicate_branch_run": "https://github.com/trimcrae/Rare-cancers/actions/runs/33903446351",
+    "duplicate_branch_wall_seconds": 1221
+  },
+  "local_ligand_benchmark": {
+    "particles": 7032,
+    "heavy_ligand_atoms": 60,
+    "baseline_seconds": 4.429282,
+    "patched_seconds": 0.022028,
+    "full_result_dictionaries_equal": true,
+    "method": "Loaded original production module from git show HEAD:research/modalities/ternary_fep_convergence.py into a separate module. AST-extracted _build_assembly and fake mass/force/system definitions from test_ternary_ligand_identification.py; constructed its default assembly. Timed the real _ligand_atoms function in baseline and patched modules on the same fixture; compared complete results. The working tree was not mutated for the benchmark. Missing OpenMM/simtk imports repeat per particle before fix, resolve once per call afterward.",
+    "limitation": "Single local measurement of ligand identification. Not an end-to-end CI runtime forecast."
+  },
+  "local_import_profile": {
+    "quantities": 1000,
+    "baseline_total_seconds": 2.446,
+    "failed_imports": 2000,
+    "seconds_in_failed_imports": 2.413,
+    "patched_total_seconds": 0.002,
+    "patched_failed_imports": 2
+  },
+  "initial_focused_tests": {
+    "passed": 72,
+    "seconds": 23.1,
+    "warnings": 3,
+    "command": "python -X utf8 -m pytest -q research/modalities/tests/test_ternary_ligand_identification.py scripts/tests/test_affected_tests.py scripts/tests/test_preflight_suite_gating.py research/autonomy/tests/test_main_keeps_a_per_commit_verdict.py research/modalities/tests/test_workflows_parse.py research/manuscripts/tests/test_no_guard_can_silently_not_run.py",
+    "environment": "PYTHONPATH=.cache/python-deps; actual Python, Git Bash sh.exe, and Node runtime directory on subprocess PATH",
+    "log": "Tool output only; no original stdout log retained."
+  },
+  "portability_tests": {
+    "passed": 91,
+    "skipped": 1,
+    "seconds": 20.75,
+    "log": "portability-tests.log",
+    "command_source": ".cache/preflight_portability_details.py"
+  },
+  "normal_native_preflight_before_portability": {
+    "exit": 1,
+    "seconds": 217.641,
+    "log": ".cache/preflight-native-2026-09-04.log",
+    "full_science_suite": false
+  },
+  "systems_check_before_after": {
+    "before_errors": 706,
+    "after_errors": 6,
+    "before_seconds": 99.625,
+    "after_seconds": 26.906,
+    "remaining": "Missing purpose/audience in newly authored protocol/runner docs; root has since added these fields. These timings were separate targeted invocations with parallel diagnostic checks, not controlled benchmarks."
+  },
+  "final_archive_portability_tests": {
+    "passed": 27,
+    "seconds": 2.82,
+    "log": "archive-portability-tests.log"
+  },
+  "runner_tests_after_windows_setting": {
+    "passed": 14,
+    "seconds": 11.463
+  },
+  "review_recorder_and_contract_tests": {
+    "passed": 29,
+    "seconds": 1.29
+  },
+  "recorded_utc": "2026-09-04T21:51:13.292290Z",
+  "final_normal_preflight": {
+    "exit": 0,
+    "seconds": 71.844,
+    "scope": "Normal preflight: document and artifact linters; no pytest or full scientific suite in this run.",
+    "base_revision": "1a2d667d77405070d794b1383961bacf3ad2951f",
+    "tracked_delta": [
+      "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+      "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md"
+    ],
+    "artifact_sha256": {
+      "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json": "55c0ff41981626f13921f4fcd91230a0516aa08e11dc550047260b752f6b5e69",
+      "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md": "7c65e2241794348f6c1b702d05e09b70f2d5ada999342150c1c47a2c6f54e2f6"
+    },
+    "log": "normal-preflight.log",
+    "status": "passed",
+    "full_science_suite": false,
+    "published_drift": {
+      "changed": 27,
+      "added": 1,
+      "removed": 0
+    },
+    "manifest_inventory_files": 516
+  },
+  "active_entry_and_skill_words": {
+    "before": 34532,
+    "after": 3019,
+    "reduction_percent": 91.3,
+    "paths": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".claude/skills/paper-hardening/SKILL.md",
+      ".claude/skills/repo-gates/SKILL.md",
+      ".claude/skills/research-loop/SKILL.md"
+    ],
+    "separate_protocol_words": 1378
+  },
+  "codex_handover_normal_preflight": {
+    "status": "passed",
+    "exit": 0,
+    "seconds": 68.703,
+    "scope": "Normal document and artifact gates; no pytest or full scientific suite in this run",
+    "base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+    "reconciled_main": "23ec976050b843e3f75e8cc475c12e8dba1c13eb",
+    "working_tree_dirty": true,
+    "checked_file_sha256": {
+      "scripts/research_run.py": "fcdd6e45b34f09a34fdaee91ce6e36e6d2e7bc7c512888d9e98138cd2c8ef320",
+      "scripts/tests/test_research_run.py": "f3b89f525f6e49ce87312f5f71344e7ca684e329e66f71b93f13a5de8d6edc11",
+      "research/autonomy/OPERATING_PROTOCOL.md": "35f1015663e227eaa7cd1ac4ccf03a36e5b305966856840a536c1d1777553762",
+      "research/autonomy/CODEX_RUNNER.md": "bcae69cfaaf8f88d8c2dac49c997f06b5899c1a984d3af560ac661578d30a1b9",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md": "832e30c280b6e07d6ebd926832419ba99c0d68d9854ee5b03d511c39c428fe33",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md": "5c3e8b694f411a68839798a090004a7dd18be469ab4b866827a0e4e6e2632ef8",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json": "34e128a9697af9f66056c36f706550d8ecd7553e24fa6107e905bd0c93d881ed"
+    },
+    "log": "handover-preflight.log",
+    "preceding_failure": {
+      "seconds": 78.938,
+      "reason": "Two new document audience fields used author, which is not an allowed metadata enum value. Corrected to existing enum values and refreshed affected inventory hashes.",
+      "log": "handover-preflight-failed.log"
+    },
+    "release_or_publication_receipt": false
+  },
+  "codex_writing": {
+    "initial_run_status": "failed_outcome_contract",
+    "initial_run_seconds": 320.562,
+    "focused_repair_status": "completed",
+    "focused_repair_seconds": 182.219,
+    "coordinator_verified_inventory_hashes": 25,
+    "runner_tests_passed": 15,
+    "runner_tests_seconds": 9.196,
+    "automation_id": "emc-research-coordinator",
+    "scheduled_interval_minutes": 120,
+    "first_scheduled_run_observed": false
+  }
+}

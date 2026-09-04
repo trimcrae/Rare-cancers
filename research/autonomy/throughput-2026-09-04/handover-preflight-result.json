@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "exit": 0,
+  "seconds": 68.703,
+  "scope": "Normal document and artifact gates; no pytest or full scientific suite in this run",
+  "base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+  "reconciled_main": "23ec976050b843e3f75e8cc475c12e8dba1c13eb",
+  "working_tree_dirty": true,
+  "checked_file_sha256": {
+    "scripts/research_run.py": "fcdd6e45b34f09a34fdaee91ce6e36e6d2e7bc7c512888d9e98138cd2c8ef320",
+    "scripts/tests/test_research_run.py": "f3b89f525f6e49ce87312f5f71344e7ca684e329e66f71b93f13a5de8d6edc11",
+    "research/autonomy/OPERATING_PROTOCOL.md": "35f1015663e227eaa7cd1ac4ccf03a36e5b305966856840a536c1d1777553762",
+    "research/autonomy/CODEX_RUNNER.md": "bcae69cfaaf8f88d8c2dac49c997f06b5899c1a984d3af560ac661578d30a1b9",
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md": "832e30c280b6e07d6ebd926832419ba99c0d68d9854ee5b03d511c39c428fe33",
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md": "5c3e8b694f411a68839798a090004a7dd18be469ab4b866827a0e4e6e2632ef8",
+    "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json": "34e128a9697af9f66056c36f706550d8ecd7553e24fa6107e905bd0c93d881ed"
+  },
+  "log": "handover-preflight.log",
+  "preceding_failure": {
+    "seconds": 78.938,
+    "reason": "Two new document audience fields used author, which is not an allowed metadata enum value. Corrected to existing enum values and refreshed affected inventory hashes.",
+    "log": "handover-preflight-failed.log"
+  },
+  "release_or_publication_receipt": false
+}

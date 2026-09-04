@@ -24,6 +24,8 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
+import subprocess
 
 import pytest
 
@@ -198,3 +200,71 @@ def test_the_verdict_can_distinguish_a_modalities_only_run():
         "the catch-all no longer states that an unnamed suite has not passed. That sentence is the "
         "whole defence against a green PREFLIGHT OK being read as 'the tests pass' — the "
         "'reports while measuring nothing' defect this file exists for.")
+
+
+@pytest.mark.parametrize("full,skip,code", [("1", "1", 2), ("1", "0", 0), ("0", "1", 0)])
+def test_full_cannot_skip_manuscript_tests(full, skip, code):
+    """Execute the actual flag check; a contradictory publication run stops before setup."""
+    shell = shutil.which("bash") or shutil.which("sh")
+    assert shell, "Bash is required to exercise the preflight flag contract"
+    with open(PREFLIGHT, encoding="utf-8") as fh:
+        src = fh.read()
+    start = src.index('# A FULL run must not claim')
+    end = src.index('\nfi', start) + len('\nfi')
+    result = subprocess.run([shell, "-c", src[start:end]], capture_output=True, text=True,
+                            env={**os.environ, "PREFLIGHT_FULL": full, "SKIP_TESTS": skip})
+    assert result.returncode == code, result.stderr
+
+
+@pytest.mark.parametrize("paper,rc,stamps", [("PUB-ASO", "0", False), ("", "0", True),
+                                           ("", "1", False)])
+def test_only_an_unscoped_green_run_certifies_the_selector(tmp_path, paper, rc, stamps):
+    """Run the real summary branch with a recorder spy, without touching live evidence."""
+    shell = shutil.which("bash") or shutil.which("sh")
+    assert shell, "Bash is required to exercise the preflight summary contract"
+    with open(PREFLIGHT, encoding="utf-8") as fh:
+        src = fh.read()
+    summary = src[src.index("_preflight_summary_reached=1"):]
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    (scripts / "record_selector_validation.py").write_text("# recorder stand-in\n", encoding="utf-8")
+    stamp = tmp_path / "called.txt"
+    # The shell function intercepts the recorder only in this subprocess. All branch selection
+    # and printed banners come from the real preflight source, not a reimplementation.
+    preamble = 'python3() { printf "%s\\n" "$*" >> "$STAMP_LOG"; };\n'
+    result = subprocess.run([shell, "-c", preamble + summary], cwd=tmp_path,
+                            capture_output=True, text=True,
+                            env={**os.environ, "PREFLIGHT_FULL": "1", "PREFLIGHT_PAPER": paper,
+                                 "rc": rc, "STAMP_LOG": str(stamp)})
+    assert result.returncode == int(rc), result.stderr
+    assert stamp.exists() is stamps
+    assert ("PREFLIGHT OK (FULL:" in result.stdout) is stamps
+    if paper:
+        assert "PREFLIGHT OK (PAPER=PUB-ASO:" in result.stdout
+
+
+@pytest.mark.parametrize("kernel,bootstrap", [("Linux", True), ("MINGW64_NT-10.0", False),
+                                             ("MSYS_NT-10.0", False), ("CYGWIN_NT-10.0", False)])
+def test_linux_bootstrap_is_not_run_by_a_windows_shell(tmp_path, kernel, bootstrap):
+    """Exercise platform dispatch with a recording installer, not a dependency/probe fake."""
+    shell = shutil.which("bash") or shutil.which("sh")
+    assert shell, "Bash is required to exercise preflight's platform dispatch"
+    with open(PREFLIGHT, encoding="utf-8") as fh:
+        src = fh.read()
+    start = src.index("# Legacy Linux bootstrap")
+    block = src[start:src.index("\nesac", start) + len("\nesac")]
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    installer = scripts / "dev-setup.sh"
+    installer.write_text('#!/usr/bin/env sh\nprintf "%s" "$*" > "$CALLED_LOG"\n', encoding="utf-8")
+    installer.chmod(0o755)
+    called = tmp_path / "called.txt"
+    result = subprocess.run([shell, "-c", 'uname() { echo "$TEST_KERNEL"; };\n' + block],
+                            cwd=tmp_path, capture_output=True, text=True,
+                            env={**os.environ, "TEST_KERNEL": kernel, "CALLED_LOG": str(called)})
+    assert result.returncode == 0, result.stderr
+    assert called.exists() is bootstrap
+    if bootstrap:
+        assert called.read_text() == "--if-needed"
+    else:
+        assert "skipping Linux dev-setup" in result.stdout

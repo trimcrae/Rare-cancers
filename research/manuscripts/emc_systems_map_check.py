@@ -957,7 +957,7 @@ def _md_escape(s):
 def _link(file_, anchor=None):
     if not file_:
         return "—"
-    rel = os.path.relpath(os.path.join(REPO, file_), os.path.dirname(VIEW_PATH))
+    rel = os.path.relpath(os.path.join(REPO, file_), os.path.dirname(VIEW_PATH)).replace(os.sep, "/")
     frag = ""
     if anchor:
         frag = anchor if str(anchor).startswith("#") else "#" + str(anchor)
