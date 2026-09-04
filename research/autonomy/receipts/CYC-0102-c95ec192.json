@@ -14,5 +14,11 @@
     "max_concurrent": 0
   },
   "route_advanced": "RT-EARLY-PALLIATIVE",
-  "_route_advanced_why": "The route's feasible-today required_validation item (a retrieved, cited trial set with effect sizes) is now genuinely answered with three independently replicating RCTs across three health systems, and its rationale/readiness/next were rewritten to reflect that -- a real state change on a live route under ST-MORTALITY-MECHANISM / PUB-MORTALITY-MECHANISM, moving it from 'concept, awaiting retrieval' to 'trial evidence in hand, transfer question stated as the open item'."
+  "_route_advanced_why": "The route's feasible-today required_validation item (a retrieved, cited trial set with effect sizes) is now genuinely answered with three independently replicating RCTs across three health systems, and its rationale/readiness/next were rewritten to reflect that -- a real state change on a live route under ST-MORTALITY-MECHANISM / PUB-MORTALITY-MECHANISM, moving it from 'concept, awaiting retrieval' to 'trial evidence in hand, transfer question stated as the open item'.",
+  "handoff": {
+    "attempted": true,
+    "mechanism": "research/autonomy/handoff.py --json --reason 'session_cap reached (2/2 receipts, CYC-0101+CYC-0102); create_session not in this scheduled Routine's tool surface'",
+    "result": "REFUSED by handoff.py's own cadence check: 0.7 h since autonomy-state.json's last_cycle_started_utc against the declared 8 h cadence, next eligible 4:17 AM ET Sep 4. handoff.py's own remedy text: 'end this session without a successor. The Routine fires again on its own schedule and a fresh session re-reads the ledger -- that is the whole recovery mechanism, and nothing is lost by not spawning.' Also confirmed create_session is absent from this scheduled Routine's tool surface (ToolSearch for 'create_session' and 'create_session claude-code-remote' returned no match) and ListAgents reports no other reachable session -- so a real successor could not have been built from here even had the cadence gate cleared.",
+    "child_session_id": null
+  }
 }
