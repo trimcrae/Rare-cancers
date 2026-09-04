@@ -3,8 +3,8 @@
  "generated_by": "scripts/lit_host_factor_probe.py",
  "the_idea_under_test": "If a common, independently treatable condition raises the chance of death after an EMC diagnosis, the drug for that condition is a de-facto EMC survival drug for the patients who have it. The claim is strongest where the deaths it prevents are NOT cancer deaths, because that is where evidence from the general population applies with the weakest assumption.",
  "summary": {
-  "n_queries": 28,
-  "n_zero": 4,
+  "n_queries": 30,
+  "n_zero": 1,
   "n_failed": 0,
   "emc_host_factor_hitCount": 203,
   "background_mortality_status": "OK",
@@ -5687,26 +5687,529 @@
     }
    ]
   },
-  "bp_treatment_all_cause_mortality_rct": {
-   "query": "(antihypertensive OR \"blood pressure lowering\" OR \"blood pressure reduction\") AND (\"all-cause mortality\" OR \"total mortality\") AND (PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\") AND sort_cited:y",
-   "a_hit_would_mean": "randomised or pooled evidence that treating blood pressure lowers all-cause death",
-   "hitCount": 0,
-   "retrieved": 0,
-   "hits": []
+  "bp_treatment_all_cause_mortality_cited": {
+   "query": "(antihypertensive OR \"blood pressure lowering\" OR \"blood pressure reduction\") AND (\"all-cause mortality\" OR \"total mortality\") AND (randomised OR randomized OR \"meta-analysis\" OR trials) AND sort_cited:y",
+   "a_hit_would_mean": "the most-cited randomised or pooled evidence that treating blood pressure lowers all-cause death",
+   "hitCount": 59,
+   "retrieved": 25,
+   "hits": [
+    {
+     "pmid": "33501848",
+     "pmcid": "PMC13036842",
+     "doi": "10.1161/cir.0000000000000950",
+     "title": "Heart Disease and Stroke Statistics-2021 Update: A Report From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2021",
+     "citedBy": 4406,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "36695182",
+     "pmcid": "PMC12135016",
+     "doi": "10.1161/cir.0000000000001123",
+     "title": "Heart Disease and Stroke Statistics-2023 Update: A Report From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2023",
+     "citedBy": 3744,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "38264914",
+     "pmcid": "PMC12146881",
+     "doi": "10.1161/cir.0000000000001209",
+     "title": "2024 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2024",
+     "citedBy": 2246,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "39866113",
+     "pmcid": "PMC12256702",
+     "doi": "10.1161/cir.0000000000001303",
+     "title": "2025 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2025",
+     "citedBy": 806,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "16365341",
+     "pmcid": "PMC1876394",
+     "doi": "10.1136/hrt.2005.079988",
+     "title": "JBS 2: Joint British Societies' guidelines on prevention of cardiovascular disease in clinical practice.",
+     "journal": "Heart (British Cardiac Society)",
+     "year": "2005",
+     "citedBy": 488,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "18480116",
+     "pmcid": "PMC2386598",
+     "doi": "10.1136/bmj.39548.738368.be",
+     "title": "Effects of different regimens to lower blood pressure on major cardiovascular events in older and younger adults: meta-analysis of randomised trials.",
+     "journal": "BMJ (Clinical research ed.)",
+     "year": "2008",
+     "citedBy": 482,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "24092942",
+     "pmcid": "PMC3789583",
+     "doi": "10.1136/bmj.f5680",
+     "title": "Blood pressure lowering and major cardiovascular events in people with and without chronic kidney disease: meta-analysis of randomised controlled trials.",
+     "journal": "BMJ (Clinical research ed.)",
+     "year": "2013",
+     "citedBy": 176,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "29667175",
+     "pmcid": "PMC6513559",
+     "doi": "10.1002/14651858.cd001841.pub3",
+     "title": "First-line drugs for hypertension.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2018",
+     "citedBy": 137,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "19821318",
+     "pmcid": "PMC7163274",
+     "doi": "10.1002/14651858.cd004034.pub3",
+     "title": "Blood pressure lowering in patients without prior cerebrovascular disease for prevention of cognitive impairment and dementia.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2009",
+     "citedBy": 128,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "10193438",
+     "pmcid": "PMC1766497",
+     "doi": null,
+     "title": "Joint British recommendations on prevention of coronary heart disease in clinical practice. British Cardiac Society, British Hyperlipidaemia Association, British Hypertension Society, endorsed by the British Diabetic Association.",
+     "journal": "Heart (British Cardiac Society)",
+     "year": "1998",
+     "citedBy": 123,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "20485689",
+     "pmcid": "PMC2886555",
+     "doi": "10.1016/s0828-282x(10)70379-2",
+     "title": "The 2010 Canadian Hypertension Education Program recommendations for the management of hypertension: part 2 - therapy.",
+     "journal": "The Canadian journal of cardiology",
+     "year": "2010",
+     "citedBy": 91,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "14974027",
+     "pmcid": "PMC12160996",
+     "doi": "10.1002/14651858.cd003656.pub2",
+     "title": "Advice to reduce dietary salt for prevention of cardiovascular disease.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2004",
+     "citedBy": 84,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "30024023",
+     "pmcid": "PMC6513249",
+     "doi": "10.1002/14651858.cd007858.pub2",
+     "title": "Blood pressure-lowering treatment for preventing recurrent stroke, major vascular events, and dementia in patients with a history of stroke or transient ischaemic attack.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2018",
+     "citedBy": 67,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "26942184",
+     "pmcid": "PMC4763852",
+     "doi": "10.3389/fcvm.2016.00003",
+     "title": "Timeline of History of Hypertension Treatment.",
+     "journal": "Frontiers in cardiovascular medicine",
+     "year": "2016",
+     "citedBy": 58,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "10420860",
+     "pmcid": "PMC1232645",
+     "doi": null,
+     "title": "Systematic review of antihypertensive therapies: does the evidence assist in choosing a first-line drug?",
+     "journal": "CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne",
+     "year": "1999",
+     "citedBy": 55,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "26934541",
+     "pmcid": "PMC7154764",
+     "doi": "10.1002/14651858.cd008274.pub3",
+     "title": "Long-term effects of weight-reducing diets in people with hypertension.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2016",
+     "citedBy": 50,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "21735439",
+     "pmcid": "PMC4160847",
+     "doi": "10.1002/14651858.cd009217",
+     "title": "Reduced dietary salt for the prevention of cardiovascular disease.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2011",
+     "citedBy": 50,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "35944931",
+     "pmcid": "PMC9363242",
+     "doi": "10.1002/14651858.cd015207",
+     "title": "Replacing salt with low-sodium salt substitutes (LSSS) for cardiovascular health in adults, children and pregnant women.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2022",
+     "citedBy": 41,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "33555049",
+     "pmcid": "PMC8093137",
+     "doi": "10.1002/14651858.cd008274.pub4",
+     "title": "Long-term effects of weight-reducing diets in people with hypertension.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2021",
+     "citedBy": 28,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "36398903",
+     "pmcid": "PMC9673465",
+     "doi": "10.1002/14651858.cd010315.pub5",
+     "title": "Blood pressure targets for the treatment of people with hypertension and cardiovascular disease.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2022",
+     "citedBy": 27,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "34028812",
+     "pmcid": "PMC8142793",
+     "doi": "10.1002/14651858.cd004034.pub4",
+     "title": "Pharmacological treatment of hypertension in people without prior cerebrovascular disease for the prevention of cognitive impairment and dementia.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2021",
+     "citedBy": 27,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "32905623",
+     "pmcid": "PMC8094921",
+     "doi": "10.1002/14651858.cd010315.pub4",
+     "title": "Blood pressure targets for the treatment of people with hypertension and cardiovascular disease.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2020",
+     "citedBy": 27,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "28379619",
+     "pmcid": "PMC6478238",
+     "doi": "10.1002/14651858.cd007066.pub3",
+     "title": "Blood pressure lowering efficacy of renin inhibitors for primary hypertension.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2017",
+     "citedBy": 27,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "27770180",
+     "pmcid": "PMC7096100",
+     "doi": "10.1007/bf03375463",
+     "title": "40<sup>th</sup> EASD Annual Meeting of the European Association for the Study of Diabetes : Munich, Germany, 5-9 September 2004.",
+     "journal": "Diabetologia",
+     "year": "2004",
+     "citedBy": 27,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "35000192",
+     "pmcid": "PMC8742884",
+     "doi": "10.1002/14651858.cd003654.pub6",
+     "title": "Calcium channel blockers versus other classes of drugs for hypertension.",
+     "journal": "The Cochrane database of systematic reviews",
+     "year": "2022",
+     "citedBy": 26,
+     "isOpenAccess": "N"
+    }
+   ]
   },
-  "glycaemic_control_metformin_all_cause_mortality_rct": {
-   "query": "(metformin OR \"intensive glycemic control\" OR \"intensive glycaemic control\" OR \"glucose lowering\") AND (\"all-cause mortality\" OR \"total mortality\") AND (PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\") AND sort_cited:y",
-   "a_hit_would_mean": "randomised or pooled evidence on glucose-lowering treatment and all-cause death",
-   "hitCount": 0,
-   "retrieved": 0,
-   "hits": []
+  "glycaemic_control_metformin_all_cause_mortality_cited": {
+   "query": "(metformin OR \"intensive glycemic control\" OR \"intensive glycaemic control\" OR \"glucose lowering\") AND (\"all-cause mortality\" OR \"total mortality\") AND (randomised OR randomized OR \"meta-analysis\" OR trials) AND sort_cited:y",
+   "a_hit_would_mean": "the most-cited randomised or pooled evidence on glucose-lowering treatment and all-cause death",
+   "hitCount": 4,
+   "retrieved": 4,
+   "hits": [
+    {
+     "pmid": "32699774",
+     "pmcid": "PMC7328526",
+     "doi": "10.4103/ijem.ijem_225_20",
+     "title": "RSSDI-ESI Clinical Practice Recommendations for the Management of Type 2 Diabetes Mellitus 2020.",
+     "journal": "Indian journal of endocrinology and metabolism",
+     "year": "2020",
+     "citedBy": 97,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "28795195",
+     "pmcid": "PMC7095843",
+     "doi": "10.1007/s00125-017-4350-z",
+     "title": "53 &lt;sup&gt;rd&lt;/sup&gt; EASD Annual Meeting of the European Association for the Study of Diabetes : Lisbon, Portugal, 11 - 15 September 2017.",
+     "journal": "Diabetologia",
+     "year": "2017",
+     "citedBy": 17,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC9534592",
+     "doi": null,
+     "title": "RSSDI Clinical Practice Recommendations for the Management of Type 2 Diabetes Mellitus 2022",
+     "journal": "International journal of diabetes in developing countries",
+     "year": "2022",
+     "citedBy": 3,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC7371966",
+     "doi": null,
+     "title": "RSSDI-ESI Clinical Practice Recommendations for the Management of Type 2 Diabetes Mellitus 2020",
+     "journal": "International journal of diabetes in developing countries",
+     "year": "2020",
+     "citedBy": 0,
+     "isOpenAccess": "Y"
+    }
+   ]
   },
-  "glp1_obesity_cvot_primary_trial": {
-   "query": "(semaglutide OR tirzepatide OR liraglutide) AND (obesity OR overweight) AND (\"cardiovascular outcomes\" OR \"all-cause mortality\" OR \"cardiovascular death\") AND PUB_TYPE:\"Randomized Controlled Trial\" AND sort_cited:y",
-   "a_hit_would_mean": "the primary obesity cardiovascular-outcome trials of incretin therapy",
-   "hitCount": 0,
-   "retrieved": 0,
-   "hits": []
+  "glp1_obesity_cvot_primary_trial_cited": {
+   "query": "(semaglutide OR tirzepatide OR liraglutide) AND (obesity OR overweight) AND (\"cardiovascular outcomes\" OR \"all-cause mortality\" OR \"cardiovascular death\") AND (randomised OR randomized OR trial) AND sort_cited:y",
+   "a_hit_would_mean": "the primary obesity cardiovascular-outcome trials of incretin therapy, most-cited first",
+   "hitCount": 21,
+   "retrieved": 21,
+   "hits": [
+    {
+     "pmid": "36695182",
+     "pmcid": "PMC12135016",
+     "doi": "10.1161/cir.0000000000001123",
+     "title": "Heart Disease and Stroke Statistics-2023 Update: A Report From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2023",
+     "citedBy": 3744,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "38264914",
+     "pmcid": "PMC12146881",
+     "doi": "10.1161/cir.0000000000001209",
+     "title": "2024 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2024",
+     "citedBy": 2246,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "39866113",
+     "pmcid": "PMC12256702",
+     "doi": "10.1161/cir.0000000000001303",
+     "title": "2025 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2025",
+     "citedBy": 806,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "37024129",
+     "pmcid": "PMC10077111",
+     "doi": "10.1136/bmj-2022-074068",
+     "title": "Benefits and harms of drug treatment for type 2 diabetes: systematic review and network meta-analysis of randomised controlled trials.",
+     "journal": "BMJ (Clinical research ed.)",
+     "year": "2023",
+     "citedBy": 204,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "39200816",
+     "pmcid": "PMC11355214",
+     "doi": "10.3390/jcm13164674",
+     "title": "Cardiovascular Protective Properties of GLP-1 Receptor Agonists: More than Just Diabetic and Weight Loss Drugs.",
+     "journal": "Journal of clinical medicine",
+     "year": "2024",
+     "citedBy": 38,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "37542009",
+     "pmcid": "PMC10473999",
+     "doi": "10.1007/s00125-023-05973-w",
+     "title": "Incretins and cardiovascular disease: to the heart of type 2 diabetes?",
+     "journal": "Diabetologia",
+     "year": "2023",
+     "citedBy": 29,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "34468792",
+     "pmcid": "PMC8408311",
+     "doi": "10.1007/s00125-021-05519-y",
+     "title": "57<sup>th</sup> EASD Annual Meeting of the European Association for the Study of Diabetes.",
+     "journal": "Diabetologia",
+     "year": "2021",
+     "citedBy": 12,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "32840677",
+     "pmcid": "PMC7445463",
+     "doi": "10.1007/s00125-020-05221-5",
+     "title": "56<sup>th</sup> EASD Annual Meeting of the European Association for the Study of Diabetes : 21-25 September 2020.",
+     "journal": "Diabetologia",
+     "year": "2020",
+     "citedBy": 9,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "37086110",
+     "pmcid": "PMC10124979",
+     "doi": "10.1080/07853890.2023.2203517",
+     "title": "Recent advances in the treatment of patients with obesity and chronic kidney disease.",
+     "journal": "Annals of medicine",
+     "year": "2023",
+     "citedBy": 8,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41283266",
+     "pmcid": "PMC12642005",
+     "doi": "10.3390/medsci13040265",
+     "title": "Semaglutide from Bench to Bedside: The Experimental Journey Towards a Transformative Therapy for Diabetes, Obesity and Metabolic Liver Disorders.",
+     "journal": "Medical sciences (Basel, Switzerland)",
+     "year": "2025",
+     "citedBy": 7,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "35975210",
+     "pmcid": "PMC9354511",
+     "doi": "10.17925/ee.2022.18.1.43",
+     "title": "Glucagon-like Peptide-1 Receptor Analogues for the Treatment of Obesity.",
+     "journal": "TouchREVIEWS in endocrinology",
+     "year": "2022",
+     "citedBy": 6,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "35920845",
+     "pmcid": "PMC9362525",
+     "doi": "10.1007/s00125-022-05755-w",
+     "title": "58<sup>th</sup> EASD Annual Meeting of the European Association for the Study of Diabetes : Stockholm, Sweden, 19 - 23 September 2022.",
+     "journal": "Diabetologia",
+     "year": "2022",
+     "citedBy": 6,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41065947",
+     "pmcid": "PMC12511252",
+     "doi": "10.1007/s11883-025-01350-7",
+     "title": "Current Perspectives on GLP-1 Agonists in Contemporary Clinical Practice from Science and Mechanistic Foundations To Optimal Translation.",
+     "journal": "Current atherosclerosis reports",
+     "year": "2025",
+     "citedBy": 5,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "37808605",
+     "pmcid": "PMC10552354",
+     "doi": "10.7759/cureus.46510",
+     "title": "An Update on Semaglutide Research: A Bibliometric Analysis and a Literature Review.",
+     "journal": "Cureus",
+     "year": "2023",
+     "citedBy": 5,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC9534592",
+     "doi": null,
+     "title": "RSSDI Clinical Practice Recommendations for the Management of Type 2 Diabetes Mellitus 2022",
+     "journal": "International journal of diabetes in developing countries",
+     "year": "2022",
+     "citedBy": 3,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41479840",
+     "pmcid": "PMC12754405",
+     "doi": "10.5527/wjn.v14.i4.109457",
+     "title": "Cardio-kidney-metabolic protective effects of semaglutide across the spectrum of chronic kidney disease.",
+     "journal": "World journal of nephrology",
+     "year": "2025",
+     "citedBy": 1,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41297910",
+     "pmcid": "PMC13129745",
+     "doi": "10.3350/cmh.2025.0744",
+     "title": "Engineered nutrient-stimulated hormonal multi-agonists for precision targeting of obesity and metabolic disorders.",
+     "journal": "Clinical and molecular hepatology",
+     "year": "2026",
+     "citedBy": 1,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC13390741",
+     "doi": null,
+     "title": "ICE2026/JES2026 Abstract Book",
+     "journal": "Endocrine journal",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41767293",
+     "pmcid": "PMC12948155",
+     "doi": "10.4103/jmh.jmh_302_25",
+     "title": "Clinical Practice Guidelines for Menopause: An Executive Summary and Recommendations: Indian Menopause Society 2026.",
+     "journal": "Journal of mid-life health",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "41371743",
+     "pmcid": "PMC12699605",
+     "doi": "10.1136/bmjopen-2024-098205",
+     "title": "Effects of glucagon-like peptide-1 analogues on hard binary outcomes for patients at increased risk of cardiovascular events: a protocol for a systematic review with network meta-analysis and Trial Sequential Analysis.",
+     "journal": "BMJ open",
+     "year": "2025",
+     "citedBy": 0,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "40976663",
+     "pmcid": "PMC12458674",
+     "doi": "10.1136/bmjopen-2025-103668",
+     "title": "Cardiovascular effects of incretin-based drugs in patients with and without a history of heart failure: a protocol for a systematic review, meta-analysis and trial sequential analysis of randomised controlled trials.",
+     "journal": "BMJ open",
+     "year": "2025",
+     "citedBy": 0,
+     "isOpenAccess": "Y"
+    }
+   ]
   },
   "statin_primary_prevention_pooled_trials": {
    "query": "(statin OR statins) AND \"primary prevention\" AND (\"all-cause mortality\" OR \"vascular mortality\") AND (PUB_TYPE:\"Meta-Analysis\" OR \"individual participant data\" OR \"trialists\") AND sort_cited:y",
@@ -5766,47 +6269,80 @@
     }
    ]
   },
-  "smoking_cessation_mortality_trial_or_cohort_cited": {
-   "query": "(\"smoking cessation\" OR \"quit smoking\" OR \"stopped smoking\") AND (\"all-cause mortality\" OR survival) AND (PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Meta-Analysis\" OR \"prospective cohort\") AND sort_cited:y",
+  "smoking_cessation_mortality_cited": {
+   "query": "(\"smoking cessation\" OR \"quit smoking\" OR \"stopped smoking\") AND (\"all-cause mortality\" OR survival) AND (randomised OR randomized OR \"meta-analysis\" OR \"prospective cohort\") AND sort_cited:y",
    "a_hit_would_mean": "the most-cited cessation-and-mortality evidence, trial or cohort, in any population",
-   "hitCount": 0,
-   "retrieved": 0,
-   "hits": []
-  },
-  "sarcoma_host_factor_survival_cited": {
-   "query": "(sarcoma OR \"soft tissue sarcoma\") AND (obesity OR \"body mass index\" OR diabetes OR smoking OR comorbidity OR sarcopenia) AND (survival OR mortality) AND sort_cited:y",
-   "a_hit_would_mean": "the most-cited sarcoma host-factor survival analyses, so compartment A is read from its best evidence rather than its newest",
-   "hitCount": 40,
-   "retrieved": 25,
+   "hitCount": 17,
+   "retrieved": 17,
    "hits": [
     {
-     "pmid": "21046382",
-     "pmcid": "PMC7103103",
-     "doi": "10.1007/s00268-010-0825-5",
-     "title": "Patterns of injury and violence in Yaoundé Cameroon: an analysis of hospital data.",
-     "journal": "World journal of surgery",
-     "year": "2011",
-     "citedBy": 28,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "30240102",
-     "pmcid": "PMC7167781",
-     "doi": "10.1002/pbc.27455",
-     "title": "Abstracts from the 50th Congress of the International Society of Paediatric Oncology (SIOP) Kyoto, Japan November 16-19, 2018.",
-     "journal": "Pediatric blood & cancer",
-     "year": "2018",
-     "citedBy": 9,
+     "pmid": "33501848",
+     "pmcid": "PMC13036842",
+     "doi": "10.1161/cir.0000000000000950",
+     "title": "Heart Disease and Stroke Statistics-2021 Update: A Report From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2021",
+     "citedBy": 4406,
      "isOpenAccess": "N"
     },
     {
-     "pmid": "32377971",
-     "pmcid": "PMC7201111",
-     "doi": "10.1186/s13244-020-00851-0",
-     "title": "ECR 2020 Book of Abstracts : Vienna, Austria. 15 March 2020.",
-     "journal": "Insights into imaging",
-     "year": "2020",
-     "citedBy": 8,
+     "pmid": "36695182",
+     "pmcid": "PMC12135016",
+     "doi": "10.1161/cir.0000000000001123",
+     "title": "Heart Disease and Stroke Statistics-2023 Update: A Report From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2023",
+     "citedBy": 3744,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "38264914",
+     "pmcid": "PMC12146881",
+     "doi": "10.1161/cir.0000000000001209",
+     "title": "2024 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2024",
+     "citedBy": 2246,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "39866113",
+     "pmcid": "PMC12256702",
+     "doi": "10.1161/cir.0000000000001303",
+     "title": "2025 Heart Disease and Stroke Statistics: A Report of US and Global Data From the American Heart Association.",
+     "journal": "Circulation",
+     "year": "2025",
+     "citedBy": 806,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "16365341",
+     "pmcid": "PMC1876394",
+     "doi": "10.1136/hrt.2005.079988",
+     "title": "JBS 2: Joint British Societies' guidelines on prevention of cardiovascular disease in clinical practice.",
+     "journal": "Heart (British Cardiac Society)",
+     "year": "2005",
+     "citedBy": 488,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "12775785",
+     "pmcid": "PMC1732492",
+     "doi": "10.1136/jech.57.6.412",
+     "title": "Smoking reduction, smoking cessation, and incidence of fatal and non-fatal myocardial infarction in Denmark 1976-1998: a pooled cohort study.",
+     "journal": "Journal of epidemiology and community health",
+     "year": "2003",
+     "citedBy": 66,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "36269525",
+     "pmcid": "PMC9823038",
+     "doi": "10.1007/s10549-022-06759-1",
+     "title": "A systematic review of multimodal prehabilitation in breast cancer.",
+     "journal": "Breast cancer research and treatment",
+     "year": "2023",
+     "citedBy": 64,
      "isOpenAccess": "Y"
     },
     {
@@ -5820,212 +6356,615 @@
      "isOpenAccess": "Y"
     },
     {
-     "pmid": "32945931",
-     "pmcid": "PMC7498986",
-     "doi": "10.1007/s00259-020-04988-4",
-     "title": "European Association of Nuclear Medicine October 22 - 30, 2020 Virtual.",
-     "journal": "European journal of nuclear medicine and molecular imaging",
-     "year": "2020",
+     "pmid": "28156288",
+     "pmcid": "PMC6080057",
+     "doi": "10.3402/ijch.v72i0.22447",
+     "title": "Proceedings of the 15th International Congress on Circumpolar Health.",
+     "journal": "International journal of circumpolar health",
+     "year": "2013",
      "citedBy": 6,
      "isOpenAccess": "Y"
     },
     {
-     "pmid": "30806851",
-     "pmcid": "PMC6396437",
-     "doi": "10.1186/s13244-019-0713-y",
-     "title": "ECR 2019: Book of Abstracts : Vienna, Austria. February 27 - March 3, 2019.",
-     "journal": "Insights into imaging",
-     "year": "2019",
-     "citedBy": 5,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "31385003",
-     "pmcid": "PMC7103159",
-     "doi": "10.1007/s00270-019-02282-x",
-     "title": "CIRSE 2019 Abstracts.",
-     "journal": "Cardiovascular and interventional radiology",
-     "year": "2019",
-     "citedBy": 4,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "29682691",
-     "pmcid": "PMC7088387",
-     "doi": "10.1007/s00520-018-4193-2",
-     "title": "Abstracts of the MASCC/ISOO Annual Meeting 2018.",
-     "journal": "Supportive care in cancer : official journal of the Multinational Association of Supportive Care in Cancer",
-     "year": "2018",
-     "citedBy": 4,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "40986224",
-     "pmcid": "PMC12457634",
-     "doi": "10.1007/s40520-025-03119-z",
-     "title": "World Congress on Osteoporosis, Osteoarthritis and Musculoskeletal Diseases (WCO-IOF-ESCEO 2025).",
-     "journal": "Aging clinical and experimental research",
-     "year": "2025",
-     "citedBy": 3,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "34121147",
-     "pmcid": "PMC8200283",
-     "doi": "10.1186/s13244-021-01014-5",
-     "title": "ECR 2021 Book of Abstracts.",
-     "journal": "Insights into imaging",
-     "year": "2021",
-     "citedBy": 3,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "30411205",
-     "pmcid": "PMC7103899",
-     "doi": "10.1007/s12664-018-0911-4",
-     "title": "Indian Society of Gastroenterology.",
-     "journal": "Indian journal of gastroenterology : official journal of the Indian Society of Gastroenterology",
+     "pmid": "30480150",
+     "pmcid": "PMC6232832",
+     "doi": "10.1093/geroni/igy023",
+     "title": "Program Abstracts from the GSA 2018 Annual Scientific Meeting \"The Purposes of Longer Lives\".",
+     "journal": "Innovation in aging",
      "year": "2018",
      "citedBy": 3,
-     "isOpenAccess": "Y"
+     "isOpenAccess": "N"
     },
     {
-     "pmid": "27650181",
-     "pmcid": "PMC7103113",
-     "doi": "10.1007/s00259-016-3484-4",
-     "title": "EANM'16.",
-     "journal": "European journal of nuclear medicine and molecular imaging",
-     "year": "2016",
-     "citedBy": 3,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "36585546",
-     "pmcid": "PMC9803397",
-     "doi": "10.1186/s13244-022-01337-x",
-     "title": "ECR 2022 Book of Abstracts.",
-     "journal": "Insights into imaging",
-     "year": "2022",
-     "citedBy": 2,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "34585268",
-     "pmcid": "PMC9388969",
-     "doi": "10.1007/s00259-021-05356-6",
-     "title": "The false myth of \"iodine allergy\" also in nuclear medicine.",
-     "journal": "European journal of nuclear medicine and molecular imaging",
-     "year": "2021",
-     "citedBy": 2,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "30238331",
-     "pmcid": "PMC7103138",
-     "doi": "10.1007/s00270-018-2021-1",
-     "title": "CIRSE 2018.",
-     "journal": "Cardiovascular and interventional radiology",
-     "year": "2018",
-     "citedBy": 2,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "29450851",
-     "pmcid": "PMC5913042",
-     "doi": "10.1007/s13244-018-0603-8",
-     "title": "ECR 2018 - BOOK OF ABSTRACTS.",
-     "journal": "Insights into imaging",
-     "year": "2018",
-     "citedBy": 2,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "28211023",
-     "pmcid": "PMC5321634",
-     "doi": "10.1007/s13244-017-0546-5",
-     "title": "ECR 2017 - BOOK OF ABSTRACTS.",
-     "journal": "Insights into imaging",
-     "year": "2017",
-     "citedBy": 2,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "26334180",
-     "pmcid": "PMC7103110",
-     "doi": "10.1007/s00270-015-1173-5",
-     "title": "CIRSE 2015.",
-     "journal": "Cardiovascular and interventional radiology",
+     "pmid": "25769533",
+     "pmcid": "PMC7104428",
+     "doi": "10.1177/1933719115579631",
+     "title": "Abstracts of the 62nd Annual Scientific Meeting, March 26-28, 2015, San Francisco, California.",
+     "journal": "Reproductive sciences (Thousand Oaks, Calif.)",
      "year": "2015",
      "citedBy": 2,
      "isOpenAccess": "Y"
     },
     {
-     "pmid": "22356212",
-     "pmcid": "PMC4503268",
-     "doi": "10.1111/j.1477-2574.2012.00437.x",
-     "title": "Abstracts of the Twelfth Annual Americas Hepato-Pancreato-Biliary Congress. March 7-11, 2012. Miami Beach, Florida, USA.",
-     "journal": "HPB : the official journal of the International Hepato Pancreato Biliary Association",
+     "pmid": "34904212",
+     "pmcid": "PMC8668269",
+     "doi": "10.1007/s11845-021-02845-3",
+     "title": "Abstracts from the Irish Thoracic Society Annual Scientific Meeting 2021.",
+     "journal": "Irish journal of medical science",
+     "year": "2021",
+     "citedBy": 1,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "19350330",
+     "pmcid": "PMC2670986",
+     "doi": "10.1007/s11606-009-0963-3",
+     "title": "Abstracts of the Society of General Internal Medicine 32nd Annual Meeting. Miami Beach, Florida, USA. May 13 -16, 2009.",
+     "journal": "Journal of general internal medicine",
+     "year": "2009",
+     "citedBy": 1,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC11391898",
+     "doi": null,
+     "title": "ESOC 2023 Abstract Book",
+     "journal": "European stroke journal",
+     "year": "2023",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": null,
+     "pmcid": "PMC6547927",
+     "doi": null,
+     "title": "6th World Conference of the IPCRG — Breathing New Life 25th-28th April 2012, Edinburgh",
+     "journal": "Primary care respiratory journal : journal of the General Practice Airways Group",
      "year": "2012",
-     "citedBy": 2,
-     "isOpenAccess": "N"
-    },
-    {
-     "pmid": "40901339",
-     "pmcid": "PMC12401225",
-     "doi": "10.22540/jfsf-10-163",
-     "title": "The Influence of Muscle Morphology on Oncological Outcomes: A Review.",
-     "journal": "Journal of frailty, sarcopenia and falls",
-     "year": "2025",
-     "citedBy": 1,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "32124119",
-     "pmcid": "PMC7222983",
-     "doi": "10.1245/s10434-020-08278-z",
-     "title": "Society of Surgical Oncology SSO 2020 - International Conference on Surgical Cancer Care.",
-     "journal": "Annals of surgical oncology",
-     "year": "2020",
-     "citedBy": 1,
-     "isOpenAccess": "Y"
-    },
-    {
-     "pmid": "27005369",
-     "pmcid": "PMC7169131",
-     "doi": "10.1111/resp.12754_23",
-     "title": "Respiratory Infectious Diseases 2 Oral Presentations.",
-     "journal": "Respirology (Carlton, Vic.)",
-     "year": "2016",
-     "citedBy": 1,
+     "citedBy": 0,
      "isOpenAccess": "N"
     },
     {
      "pmid": null,
-     "pmcid": "PMC13323440",
+     "pmcid": "PMC4192729",
      "doi": null,
-     "title": "ECR 2026 Book of Abstracts",
-     "journal": "Insights into imaging",
-     "year": "2026",
+     "title": "38th Annual Meeting of the European Thyroid Association",
+     "journal": "European thyroid journal",
+     "year": "2014",
      "citedBy": 0,
-     "isOpenAccess": "Y"
+     "isOpenAccess": "N"
     },
     {
      "pmid": null,
-     "pmcid": "PMC13191186",
+     "pmcid": "PMC4060398",
      "doi": null,
-     "title": "E-Posters",
-     "journal": "Global Spine Journal",
+     "title": "19th Congress of the European Hematology Association, Milan, Italy, June 12–15, 2014",
+     "journal": "Haematologica",
+     "year": "2014",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    }
+   ]
+  },
+  "sarcoma_host_factor_survival_cited": {
+   "query": "TITLE:sarcoma AND (obesity OR \"body mass index\" OR diabetes OR smoking OR comorbidity OR sarcopenia) AND (survival OR mortality) AND sort_cited:y",
+   "a_hit_would_mean": "the most-cited sarcoma host-factor survival analyses, title-restricted so citation sorting cannot surface unrelated high-citation records",
+   "hitCount": 0,
+   "retrieved": 0,
+   "hits": []
+  },
+  "pub_type_rct_titlecase_control": {
+   "query": "\"blood pressure\" AND PUB_TYPE:\"Randomized Controlled Trial\"",
+   "a_hit_would_mean": "CONTROL, not evidence: a non-zero count means Europe PMC accepts this spelling of the publication-type filter; zero means it does not",
+   "hitCount": 71557,
+   "retrieved": 25,
+   "hits": [
+    {
+     "pmid": "42678121",
+     "pmcid": null,
+     "doi": "10.1080/08037051.2026.2717787",
+     "title": "Characteristics of post-exercise responders versus non-responders following aerobic or isometric exercise in physically inactive adults of African and South Asian descent with high-normal blood pressure or grade I hypertension.",
+     "journal": "Blood pressure",
      "year": "2026",
      "citedBy": 0,
-     "isOpenAccess": "Y"
+     "isOpenAccess": "N"
     },
     {
-     "pmid": null,
-     "pmcid": "PMC12496564",
+     "pmid": "42643911",
+     "pmcid": null,
+     "doi": "10.2147/dddt.s630786",
+     "title": "Effect of Remimazolam and Propofol on Intraoperative Blood Pressure Variability in Patients Undergoing Endovascular Embolization of Intracranial Aneurysms.",
+     "journal": "Drug design, development and therapy",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42594122",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0345032",
+     "title": "Achieving the triple endpoint of body weight reduction thresholds, systolic blood pressure reduction ≥5 mmHg and non-HDL cholesterol &lt;130 mg/dL with tirzepatide in people with obesity: A post hoc analysis from the SURMOUNT trials.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42615787",
+     "pmcid": null,
+     "doi": "10.36660/abc.20260462",
+     "title": "Effects of Acupuncture on Arterial Hypertension and Endothelial Dysfunction: The AHEaD Trial.",
+     "journal": "Arquivos brasileiros de cardiologia",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42471008",
+     "pmcid": null,
+     "doi": "10.1080/08037051.2026.2705014",
+     "title": "Lifestyle modifications in individuals with blood pressure beyond treatment target despite pharmacological treatment: design and baseline characteristics of the MeDiPA randomised controlled trial.",
+     "journal": "Blood pressure",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42621533",
+     "pmcid": null,
+     "doi": "10.2147/cia.s608528",
+     "title": "The Effective Dose of Remifentanil Combined with Remimazolam in Inhibiting Tracheal Intubation Responses in Elderly Patients: An Up-Down Dose-Finding Study.",
+     "journal": "Clinical interventions in aging",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42436627",
+     "pmcid": null,
+     "doi": "10.36721/pjps.2026.39.9.253.1",
+     "title": "Bioactive phytochemicals of jasmine oil and their role in managing hypertension: A combined clinical and &lt;i&gt;in-silico&lt;/i&gt; study.",
+     "journal": "Pakistan journal of pharmaceutical sciences",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42566217",
+     "pmcid": null,
+     "doi": "10.1001/jamanetworkopen.2026.26970",
+     "title": "Care Navigation, Self-Measured Blood Pressure, and Health Coaching for Postpartum Care: A Randomized Clinical Trial.",
+     "journal": "JAMA network open",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42447284",
+     "pmcid": null,
+     "doi": "10.2337/db26-0267",
+     "title": "Effects of Pharmacological GIP Infusion on Insulin, Glucagon, and Cardiovascular Responses During Hyperglycemia in Type 2 Diabetes.",
+     "journal": "Diabetes",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42601914",
+     "pmcid": null,
+     "doi": "10.3389/fendo.2026.1906084",
+     "title": "Living alone, long-term cardiometabolic stability, and medication management in adults with type 2 diabetes: a secondary analysis of the ACCORD trial.",
+     "journal": "Frontiers in endocrinology",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42574854",
+     "pmcid": null,
+     "doi": "10.1016/j.actpsy.2026.107613",
+     "title": "Short-term effects of foot reflexology on pain, anxiety, and physiological responses in women with shoulder and neck pain: A randomized controlled trial.",
+     "journal": "Acta psychologica",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42679373",
+     "pmcid": null,
+     "doi": "10.61882/ijkd.20.4.9579",
+     "title": "Effect of Melatonin Supplementation on Glycemic and Lipid Profiles in Kidney Transplant Recipients: A Clinical Trial.",
+     "journal": "Iranian journal of kidney diseases",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42521787",
+     "pmcid": null,
+     "doi": "10.1038/s41371-026-01192-z",
+     "title": "Isometric handgrip training improves resting and absolute blood pressure during stress in hypertensive women: randomized controlled trial.",
+     "journal": "Journal of human hypertension",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42601750",
+     "pmcid": null,
+     "doi": "10.1097/md.0000000000050179",
+     "title": "The pandemic legacy face mask: hidden barrier or insignificant factor in exercise performance?: A randomized crossover trial.",
+     "journal": "Medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42345116",
+     "pmcid": null,
+     "doi": "10.1161/hypertensionaha.126.27140",
+     "title": "Blood Pressure Variability and Outcomes Across Antihypertensive Regimens.",
+     "journal": "Hypertension (Dallas, Tex. : 1979)",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42578528",
+     "pmcid": null,
+     "doi": "10.1111/aas.70315",
+     "title": "Blood Pressure Targets During General Anaesthesia in High-Risk Patients-A Randomised Clinical Feasibility Trial.",
+     "journal": "Acta anaesthesiologica Scandinavica",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42361088",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0350802",
+     "title": "Acute effects of intermittent hypoxia-hyperoxia exposure on cardiovascular autonomic function and blood pressure in sedentary older adults: A pilot randomized controlled trial.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42495732",
+     "pmcid": null,
+     "doi": "10.1161/strokeaha.126.056127",
+     "title": "Acute Kidney Injury After Intensive Blood Pressure Lowering Following Successful Endovascular Thrombectomy.",
+     "journal": "Stroke",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42419415",
+     "pmcid": null,
+     "doi": "10.1016/j.ctim.2026.103405",
+     "title": "Effects of automated massage chair therapy on mental health and physical health: A comprehensive study.",
+     "journal": "Complementary therapies in medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "41650327",
+     "pmcid": null,
      "doi": null,
-     "title": "UEG Week 2025 Moderated Posters",
-     "journal": "United European gastroenterology journal",
-     "year": "2025",
+     "title": "Immediate Effects of Asthma Bath on Pulmonary Function Tests and Vital Signs in Healthy Individuals: A Randomized Controlled Trial.",
+     "journal": "Advances in mind-body medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42295834",
+     "pmcid": null,
+     "doi": "10.1152/ajpregu.00119.2026",
+     "title": "Acute exercise reduces intranasal insulin-mediated elevations in blood pressure in aging adults with cardiometabolic risk.",
+     "journal": "American journal of physiology. Regulatory, integrative and comparative physiology",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42417876",
+     "pmcid": null,
+     "doi": "10.1007/s00431-026-07241-6",
+     "title": "Effects of classical music on physiological parameters and anxiety in adolescents during transthoracic echocardiography: a randomized controlled trial.",
+     "journal": "European journal of pediatrics",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42661175",
+     "pmcid": null,
+     "doi": "10.1186/s12884-026-09646-5",
+     "title": "Impact of lipid-based nutritional supplementation on cardio metabolic risk factors in underweight pre-eclamptic primigravidas: A randomized controlled trial.",
+     "journal": "BMC pregnancy and childbirth",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42566360",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0355192",
+     "title": "Effectiveness of web-based educational videos on enhancing diabetes knowledge and empowerment among type 2 diabetes patients in primary care: A randomized controlled trial.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42302394",
+     "pmcid": null,
+     "doi": "10.1093/ajh/hpag056",
+     "title": "Blood pressure parameters and cognitive decline and dementia after stroke or transient ischemic attack: results from the PROGRESS trial.",
+     "journal": "American journal of hypertension",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    }
+   ]
+  },
+  "pub_type_rct_lowercase_control": {
+   "query": "\"blood pressure\" AND PUB_TYPE:\"randomized controlled trial\"",
+   "a_hit_would_mean": "CONTROL, not evidence: the same filter in lowercase; whichever of the two controls is non-zero is the spelling future probes must use",
+   "hitCount": 71557,
+   "retrieved": 25,
+   "hits": [
+    {
+     "pmid": "42678121",
+     "pmcid": null,
+     "doi": "10.1080/08037051.2026.2717787",
+     "title": "Characteristics of post-exercise responders versus non-responders following aerobic or isometric exercise in physically inactive adults of African and South Asian descent with high-normal blood pressure or grade I hypertension.",
+     "journal": "Blood pressure",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42643911",
+     "pmcid": null,
+     "doi": "10.2147/dddt.s630786",
+     "title": "Effect of Remimazolam and Propofol on Intraoperative Blood Pressure Variability in Patients Undergoing Endovascular Embolization of Intracranial Aneurysms.",
+     "journal": "Drug design, development and therapy",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42594122",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0345032",
+     "title": "Achieving the triple endpoint of body weight reduction thresholds, systolic blood pressure reduction ≥5 mmHg and non-HDL cholesterol &lt;130 mg/dL with tirzepatide in people with obesity: A post hoc analysis from the SURMOUNT trials.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42615787",
+     "pmcid": null,
+     "doi": "10.36660/abc.20260462",
+     "title": "Effects of Acupuncture on Arterial Hypertension and Endothelial Dysfunction: The AHEaD Trial.",
+     "journal": "Arquivos brasileiros de cardiologia",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42471008",
+     "pmcid": null,
+     "doi": "10.1080/08037051.2026.2705014",
+     "title": "Lifestyle modifications in individuals with blood pressure beyond treatment target despite pharmacological treatment: design and baseline characteristics of the MeDiPA randomised controlled trial.",
+     "journal": "Blood pressure",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42621533",
+     "pmcid": null,
+     "doi": "10.2147/cia.s608528",
+     "title": "The Effective Dose of Remifentanil Combined with Remimazolam in Inhibiting Tracheal Intubation Responses in Elderly Patients: An Up-Down Dose-Finding Study.",
+     "journal": "Clinical interventions in aging",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42436627",
+     "pmcid": null,
+     "doi": "10.36721/pjps.2026.39.9.253.1",
+     "title": "Bioactive phytochemicals of jasmine oil and their role in managing hypertension: A combined clinical and &lt;i&gt;in-silico&lt;/i&gt; study.",
+     "journal": "Pakistan journal of pharmaceutical sciences",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42566217",
+     "pmcid": null,
+     "doi": "10.1001/jamanetworkopen.2026.26970",
+     "title": "Care Navigation, Self-Measured Blood Pressure, and Health Coaching for Postpartum Care: A Randomized Clinical Trial.",
+     "journal": "JAMA network open",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42447284",
+     "pmcid": null,
+     "doi": "10.2337/db26-0267",
+     "title": "Effects of Pharmacological GIP Infusion on Insulin, Glucagon, and Cardiovascular Responses During Hyperglycemia in Type 2 Diabetes.",
+     "journal": "Diabetes",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42601914",
+     "pmcid": null,
+     "doi": "10.3389/fendo.2026.1906084",
+     "title": "Living alone, long-term cardiometabolic stability, and medication management in adults with type 2 diabetes: a secondary analysis of the ACCORD trial.",
+     "journal": "Frontiers in endocrinology",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42574854",
+     "pmcid": null,
+     "doi": "10.1016/j.actpsy.2026.107613",
+     "title": "Short-term effects of foot reflexology on pain, anxiety, and physiological responses in women with shoulder and neck pain: A randomized controlled trial.",
+     "journal": "Acta psychologica",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42679373",
+     "pmcid": null,
+     "doi": "10.61882/ijkd.20.4.9579",
+     "title": "Effect of Melatonin Supplementation on Glycemic and Lipid Profiles in Kidney Transplant Recipients: A Clinical Trial.",
+     "journal": "Iranian journal of kidney diseases",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42521787",
+     "pmcid": null,
+     "doi": "10.1038/s41371-026-01192-z",
+     "title": "Isometric handgrip training improves resting and absolute blood pressure during stress in hypertensive women: randomized controlled trial.",
+     "journal": "Journal of human hypertension",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42601750",
+     "pmcid": null,
+     "doi": "10.1097/md.0000000000050179",
+     "title": "The pandemic legacy face mask: hidden barrier or insignificant factor in exercise performance?: A randomized crossover trial.",
+     "journal": "Medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42345116",
+     "pmcid": null,
+     "doi": "10.1161/hypertensionaha.126.27140",
+     "title": "Blood Pressure Variability and Outcomes Across Antihypertensive Regimens.",
+     "journal": "Hypertension (Dallas, Tex. : 1979)",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42578528",
+     "pmcid": null,
+     "doi": "10.1111/aas.70315",
+     "title": "Blood Pressure Targets During General Anaesthesia in High-Risk Patients-A Randomised Clinical Feasibility Trial.",
+     "journal": "Acta anaesthesiologica Scandinavica",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42361088",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0350802",
+     "title": "Acute effects of intermittent hypoxia-hyperoxia exposure on cardiovascular autonomic function and blood pressure in sedentary older adults: A pilot randomized controlled trial.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42495732",
+     "pmcid": null,
+     "doi": "10.1161/strokeaha.126.056127",
+     "title": "Acute Kidney Injury After Intensive Blood Pressure Lowering Following Successful Endovascular Thrombectomy.",
+     "journal": "Stroke",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42419415",
+     "pmcid": null,
+     "doi": "10.1016/j.ctim.2026.103405",
+     "title": "Effects of automated massage chair therapy on mental health and physical health: A comprehensive study.",
+     "journal": "Complementary therapies in medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "41650327",
+     "pmcid": null,
+     "doi": null,
+     "title": "Immediate Effects of Asthma Bath on Pulmonary Function Tests and Vital Signs in Healthy Individuals: A Randomized Controlled Trial.",
+     "journal": "Advances in mind-body medicine",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42295834",
+     "pmcid": null,
+     "doi": "10.1152/ajpregu.00119.2026",
+     "title": "Acute exercise reduces intranasal insulin-mediated elevations in blood pressure in aging adults with cardiometabolic risk.",
+     "journal": "American journal of physiology. Regulatory, integrative and comparative physiology",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42417876",
+     "pmcid": null,
+     "doi": "10.1007/s00431-026-07241-6",
+     "title": "Effects of classical music on physiological parameters and anxiety in adolescents during transthoracic echocardiography: a randomized controlled trial.",
+     "journal": "European journal of pediatrics",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42661175",
+     "pmcid": null,
+     "doi": "10.1186/s12884-026-09646-5",
+     "title": "Impact of lipid-based nutritional supplementation on cardio metabolic risk factors in underweight pre-eclamptic primigravidas: A randomized controlled trial.",
+     "journal": "BMC pregnancy and childbirth",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42566360",
+     "pmcid": null,
+     "doi": "10.1371/journal.pone.0355192",
+     "title": "Effectiveness of web-based educational videos on enhancing diabetes knowledge and empowerment among type 2 diabetes patients in primary care: A randomized controlled trial.",
+     "journal": "PloS one",
+     "year": "2026",
+     "citedBy": 0,
+     "isOpenAccess": "N"
+    },
+    {
+     "pmid": "42302394",
+     "pmcid": null,
+     "doi": "10.1093/ajh/hpag056",
+     "title": "Blood pressure parameters and cognitive decline and dementia after stroke or transient ischemic attack: results from the PROGRESS trial.",
+     "journal": "American journal of hypertension",
+     "year": "2026",
      "citedBy": 0,
      "isOpenAccess": "N"
     }
