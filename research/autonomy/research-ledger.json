@@ -2291,7 +2291,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-09-04",
       "requires_trimcrae": false,
       "claimed_utc": null,
@@ -2318,6 +2318,11 @@
           "utc": "2026-09-04T17:58:00Z",
           "cycle": "CYC-0106-e41d184e",
           "what": "DELIVERY READ FROM THE ARTIFACT of run 33902213247 (main 4e0647bfa1): n_queries 28, n_failed 0, but four of the six block-E queries returned hitCount 0 and the sarcoma query returned unrelated high-citation records. DIAGNOSTIC: every zero query carried PUB_TYPE:\"Randomized Controlled Trial\"; the one block-E query without it (statin, PUB_TYPE:\"Meta-Analysis\" + free text) returned 5, topped by the cholesterol-trialists' pooled analyses. Zero for blood-pressure treatment vs all-cause mortality is not an absence, so the filter term is the cause. europepmc.org, ebi.ac.uk, ropensci and CRAN are all egress-blocked from the sandbox, so the spelling could not be read from documentation. Block E rewritten to free-text trial terms plus TITLE:sarcoma, with two control queries that differ only in the filter's spelling so the next artifact records which one Europe PMC accepts. Re-dispatched (run id in the next entry)."
+        },
+        {
+          "utc": "2026-09-04T17:58:30Z",
+          "cycle": "CYC-0106-e41d184e",
+          "what": "Run 33902748042 (main 1d18d4fa2a) read from the artifact: n_queries 30, n_zero 1. ⛔ THE PREVIOUS ENTRY'S DIAGNOSIS IS REFUTED, RETAINED: both control rows -- \"blood pressure\" AND PUB_TYPE:\"Randomized Controlled Trial\" in title case and in lowercase -- returned hitCount 71,557, so the publication-type filter's spelling was never the cause. What the run shows instead: every query still written `... AND sort_cited:y` returned dozens of hits on topics with thousands (blood-pressure treatment vs all-cause mortality 59, GLP-1 obesity outcomes 21, cessation 17, statins 5, glucose 4), topped by AHA statistics reports rather than trials, and the TITLE:sarcoma query returned 0. The common factor is the sort flag joined with AND, which Europe PMC documents as a bare space-separated suffix. Block E rewritten to that form, with three controls that differ only in how the flag is joined (AND / bare suffix / absent) so the next artifact records the mechanism. Third dispatch; run id in the next entry. Retry budget 3, attempts 2."
         }
       ]
     },
