@@ -30,8 +30,20 @@
           "by": "CYC-0090-d7df5340",
           "passed": 4,
           "of": 7,
-          "open": ["hardening_converged", "preflight_full_green", "independent_adversarial_seat"],
+          "open": [
+            "hardening_converged",
+            "preflight_full_green",
+            "independent_adversarial_seat"
+          ],
           "_note": "All three bind to the commit being posted, and the manuscript moved after round 28's repairs, so all three are open against the current HEAD. ⭐ THE STRUCTURAL FINDING THIS READING EXISTS TO CARRY: the deposit flow required a manuscript edit (a new version DOI) AFTER the round that closes the clauses, so a clean round could not converge. Checklist §3-vi now orders it reserve → repoint → PIN → round + PREFLIGHT_FULL → refresh → publish, which is the first ordering under which this goal can reach full marks."
+        },
+        {
+          "utc": "2026-09-04T11:15:00Z",
+          "by": "interactive session, on trimcrae's report that v2 is live",
+          "passed": 8,
+          "of": 8,
+          "open": [],
+          "_note": "⭐ FULL MARKS AT THE REVIEWED PIN, AND THE EVENT THIS READING EXISTS TO CARRY IS THAT THE POST HAS HAPPENED. `goal_progress.py` computes 8/8 at `3d5c709b69bc32a00a7776bf47303771d17d87f5` (round 34, 0 blockers, 7 P1s reported and not gating). The same tool reads 7/8 at HEAD 31540d962ad1, open on `preflight_full_green` alone — no PREFLIGHT_FULL receipt exists for that commit — and the manuscript is byte-identical between the two, so that is the clause-binds-to-a-commit effect the 2026-09-01 reading already named, not movement in the paper.\n⛔ AND THE GOAL'S SUBJECT IS NOW BEHIND IT: Qeios v2 went live 2026-09-04T10:29:02Z as `VL3LJR.2`, posted by trimcrae, verified at primary source — `systems/graph/publications.json` → `PUB-ASO.posted` owns the identifiers. This goal says 'submission-ready for its v2 preprint post', and that post is done, so what the loop should now be working toward for this paper is an open question rather than a derivation. ⛔ `state` is deliberately LEFT `open`: closing it would drop the only goal this file tracks (`_scope_2026_09_01`: 'For now, the loop should just track the goal of the ASO paper'), and choosing its successor is trimcrae's, not a cycle's. Escalated the same day it was read."
         }
       ]
     }

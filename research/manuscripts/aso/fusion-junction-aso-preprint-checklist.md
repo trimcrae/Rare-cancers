@@ -377,17 +377,41 @@ compartment this paper does NOT screen, §7 and the availability statement say w
 tables live. ⚠ **The test to apply is whether a reader could ACT on the paper without the other
 one**, not whether the phrase "extended report" appears.
 
-### 3-iii · ⛔ STILL OPEN ON OUR SIDE — `publish_bar` is at 4/7 for PUB-ASO
+### 3-iii · ✅ CLOSED — the bar reached full marks at the reviewed pin, and v2 is posted
 
-The three open clauses — `hardening_converged`, `preflight_full_green`,
-`independent_adversarial_seat` — are each bound to the sha of the commit that gets posted, so **every
-commit invalidates all three.** They are closed by one hardening round run against one PINNED commit
-with nothing landing after it, which is the last thing standing between here and the post.
+⛔ **DO NOT READ A CLAUSE COUNT OUT OF THIS SECTION. `publish_bar` owns it and it is bound to a
+commit**, so any number typed here is stale as soon as HEAD moves:
+`python3 research/autonomy/publish_bar.py --paper PUB-ASO --sha <commit> --json`, and
+`python3 research/autonomy/goal_progress.py --check`, which asks it about the `reviewed_commit` in
+`research/autonomy/hardening-state/PUB-ASO.json` rather than about HEAD.
+
+★ **WHY THIS CLOSED RATHER THAN BEING OVERTAKEN.** Round 34 reviewed a pinned commit and returned no
+blockers, and the bar computes full marks at that pin. HEAD sits one clause short — the
+`preflight_full_green` receipt is written for the commit it was run on, and every later commit is a
+commit it was not run on — while the manuscript is byte-identical between the two. **That gap is the
+binding, not the paper**, and reading it as an open finding is the mistake this paragraph exists to
+prevent.
+
+⛔ **THE POST ITSELF HAPPENED ON 2026-09-04 AND IT WAS HIS.** Qeios v2 is live and was read back at
+primary source on an Actions runner; `systems/graph/publications.json` → `PUB-ASO.posted` owns every
+identifier and the date, and the cached payload sits on the `literature-cache` branch at
+`literature/qeios-aso-v2-posted-2026-09-04/`.
+★ **`publish_bar` gates what the LOOP ships and has never had authority over his own venue** — the
+two agreeing here is the ordering working, not the bar being enforced on him.
+⚠ *Superseded, retained (rule 1.2): this section read "⛔ STILL OPEN ON OUR SIDE — `publish_bar` is
+at 4/7 for PUB-ASO", with the three clauses named and "one hardening round run against one PINNED
+commit with nothing landing after it, which is the last thing standing between here and the post."
+That was the 2026-09-01 reading and the round it asked for is the round that closed it. The typed
+4/7 is exactly the second home for a number the tool owns that the paragraph above now refuses.*
 
 ⛔ **THE QEIOS POST ITSELF IS TRIMCRAE'S AND ONLY HIS.** PUB-ASO is excluded by name from the
-standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version history under his
-ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
-cites `10.5281/zenodo.22166420`, and that DOI resolves.
+standing aiXiv grant and carries a public DOI with a version history under his ORCID — the
+identifiers have one home, and it is `PUB-ASO.posted`, not this file.
+⚠ *Superseded, retained (rule 1.2): "✅ The ordering constraint that made this two acts is now
+satisfied: v2's Data availability cites `10.5281/zenodo.22166420`, and that DOI resolves." The
+ordering constraint WAS satisfied and the identifier had gone stale by two archive versions: the v2
+that was actually posted cites `10.5281/zenodo.22229096`, read out of the posted body itself rather
+than out of this sentence.*
 
 ### 3-iv · ✅ CLOSED — the corrected archive version is published, and it was read back
 
@@ -520,6 +544,20 @@ is incidental traffic in files that happen to be deposited:
 ⚠ **NOTHING PUBLISHED IS FALSE IN A WAY A READER ACTS ON WRONGLY EXCEPT THE Tm COLUMNS**, and that
 one is why this is declared rather than left to the next cycle: the published CSV carries absolute
 melting temperatures under a chemistry block a reader would take them to describe.
+
+⛔⛔ **AND SINCE 2026-09-04 THIS DRIFT IS CITED FROM A PUBLIC PAPER RATHER THAN A PENDING ONE.**
+Qeios v2 is posted (§3-iii), and its Data availability sends every reader of it to
+`10.5281/zenodo.22229096` — the published record the generated block above counts the deposited
+paths away from. **What changed is the audience, not the size:** the same drift, now reachable from
+a citable article instead of from a draft nobody outside this repository had.
+✅ **The one item that could mislead a laboratory is answered inside the posted text itself.** The
+published CSV's `predicted_tm_*` columns are the hazard named above, and the posted v2 states in
+Materials and Methods that the melting temperatures are nearest-neighbour values for an unmodified
+DNA:RNA hybrid at 250 nM strand, and that no absolute melting point is reported because the reagent
+is not that molecule. That was read out of the posted body, not inferred from the draft — so a
+reader who follows the citation carries the caveat with them from the paper that sent them.
+⛔ **That mitigates it and does not close it.** The ordering below is unchanged, and posting v2 does
+not license publishing an archive version ahead of it.
 
 ★ **THE ORDER, AND IT IS THE ONE THIS SECTION ALREADY LEARNED:** a new version is drafted and
 published only after a hardening round on the exact commit returns **no blockers**. Round 30 found

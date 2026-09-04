@@ -105,7 +105,9 @@ the venue it was submitted to.
 WAS MET ON 2026-08-27 AND NOBODY NOTICED FOR THREE DAYS.** `systems/graph/publications.json` records
 PUB-ASO as `state: posted_preprint` — Qeios, `10.32388/VL3LJR`, `published_at_utc`
 `2026-08-27T12:00:45Z`, `document.file` this journal article, read back at primary source from the
-Qeios API on a runner because the sandbox proxy blocks qeios.com. So the letter told an editor this
+Qeios API on a runner because the sandbox proxy blocks qeios.com. ⚠ *That sentence describes what
+the record held on 2026-08-30 and is retained for the incident it explains; `PUB-ASO.posted` now
+describes v2, and it stays the one home for those identifiers.* So the letter told an editor this
 article had never been posted while it was public under the author's own ORCID.
 ⚠ *Superseded, retained (rule 1.2): "The preprint bracket is GONE rather than waiting, because the
 paragraph it sat in now states the true position: no preprint is posted, and the author is holding
@@ -281,9 +283,10 @@ the complete bounds on each claim are deposited in the archive cited in the manu
 availability statement, and I mention it here so the relationship is on the record
 rather than discovered later: the archive is a data and code deposit rather than a manuscript, it
 is under consideration nowhere, and the manuscript submitted
-here is not published or under consideration elsewhere. This condensed article was
-posted as a preprint on Qeios on 2026-08-27, doi:10.32388/VL3LJR, and I will supply that identifier
-in the designated field; I will inform the editorial office if a further version is posted. I am the sole author, an unaffiliated
+here is not published or under consideration elsewhere. This condensed article is
+posted as a preprint on Qeios under doi:10.32388/VL3LJR — first posted 2026-08-27, and currently at
+Preprint v2, posted 2026-09-04 — and I will supply that identifier in the designated field; I will
+inform the editorial office if a further version is posted. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a
@@ -294,6 +297,15 @@ are transcribed from the publications cited for them, and I take full responsibi
 Retired 2026-08-15 — it is not true of the clinical statistics, which are read out of cited
 publications. The manuscript's Declarations were corrected in the same round and this line was not,
 which is why the two now say the same thing rather than one of them being right.*
+
+⚠ *Superseded, retained (rule 1.2): "This condensed article was posted as a preprint on Qeios on
+2026-08-27, doi:10.32388/VL3LJR." Both halves were true and the sentence went stale on 2026-09-04
+when v2 was posted. ⛔ §3ab of the preprint checklist says this letter is NOT kept current — so this
+is a correction to a sentence that had become false, not maintenance, and the letter still gets
+written properly against a real journal's requirements before it is sent. The DOI stays the base one
+because it is version-agnostic and lands an editor on whatever version is current; the v2 version DOI
+`10.32388/VL3LJR.2` does resolve (`PUB-ASO.posted._evidence` owns that reading) and would go stale at
+a v3.*
 
 **Colour reproduction is not requested in the print edition.** The figure is supplied in colour and
 may appear in colour online at no charge; it is designed to carry every distinction it makes without
