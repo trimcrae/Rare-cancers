@@ -583,5 +583,88 @@
         "role": "assertion"
       }
     ]
+  },
+  {
+    "id": "EV-TEMEL-2010",
+    "canonical": {
+      "pmid": "20818875",
+      "doi": "10.1056/nejmoa1000678",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20818875/"
+    },
+    "citation": "Temel JS, Greer JA, Muzikansky A, Gallagher ER, Admane S, Jackson VA, Dahlin CM, Blinderman CD, Jacobsen J, Pirl WF, Billings JA, Lynch TJ. Early palliative care for patients with metastatic non-small-cell lung cancer. N Engl J Med 2010;363(8):733-742. PMID 20818875 · doi 10.1056/nejmoa1000678.",
+    "what_it_supports": "THE FOUNDING TRIAL of RT-EARLY-PALLIATIVE's premise. Newly diagnosed metastatic NSCLC (n=151), randomized to early palliative care integrated with standard oncologic care vs standard care alone. Despite less aggressive end-of-life care in the intervention arm (33% vs 54%, p=0.05), median OVERALL SURVIVAL was LONGER with early palliative care: 11.6 vs 8.9 months, p=0.02. Also improved quality of life (FACT-L 98.0 vs 91.5, p=0.03) and fewer depressive symptoms (16% vs 38%, p=0.01). Population is metastatic NSCLC, median survival on the order of months -- a far shorter natural history than EMC's; any application to EMC is a TRANSFER, not a direct finding.",
+    "aliases": ["Temel 2010", "Temel et al. 2010", "the Massachusetts General early palliative care trial"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33823172816, Europe PMC search, control PMID matched), published to literature-cache (literature/early-palliative-care-survival-rct/). Not open access; abstract read directly (the effect sizes above are quoted from the fetched abstract, not recalled). Read for RT-EARLY-PALLIATIVE required_validation item 1 (AUT-219).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Temel 2010",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-PACO-2024",
+    "canonical": {
+      "pmid": "38558247",
+      "pmcid": "PMC11449095",
+      "doi": "10.1093/oncolo/oyae050",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38558247/"
+    },
+    "citation": "Allende S, Turcott JG, Verástegui E, Rodríguez-Mayoral O, Flores-Estrada D, Pérez Camargo DA, Ramos-Ramírez M, Martínez-Hernández JN, Oñate-Ocaña LF, Pina PS, Cardona AF, Arrieta O. Early Incorporation to Palliative Care (EPC) in Patients With Advanced Non-Small Cell Lung Cancer: The PACO Randomized Clinical Trial. Oncologist 2024;29(9):e1207-e1216. PMID 38558247 · PMC11449095 · doi 10.1093/oncolo/oyae050.",
+    "what_it_supports": "AN INDEPENDENT REPLICATION of EV-TEMEL-2010's survival finding, in a different (Mexican/LMIC) setting -- the transfer question RT-EARLY-PALLIATIVE's rationale asks about most directly answered for a second, geographically distinct population. Advanced NSCLC (n=146), EPC vs standard oncologic care (SOC), primary endpoint overall survival. Median OS 18.1 months (EPC) vs 10.5 months (SOC), HR 1.5 [95% CI 1.04-2.3], p=.030 -- longer survival with EPC. The benefit concentrated in patients with good baseline performance status/quality of life (post hoc subgroup: ECOG 0-1, HR 1.6 [1.03-2.5], p=.037; GQoL>70, p=.048); no significant difference in the poor-performance-status/low-QoL subgroup. Still NSCLC, still a months-scale survival population -- the transfer to EMC's decade-scale natural history is unaddressed by this trial and remains open.",
+    "aliases": ["PACO trial", "Allende 2024"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33823172816, Europe PMC search), published to literature-cache (literature/early-palliative-care-survival-rct/PMC11449095.txt). Open access; full text read directly. Read for RT-EARLY-PALLIATIVE required_validation item 1 (AUT-219).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "PACO trial",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-CHEN-2023-CEPC",
+    "canonical": {
+      "pmid": "37781179",
+      "pmcid": "PMC10539600",
+      "doi": "10.3389/fonc.2023.1184961",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37781179/"
+    },
+    "citation": "Chen M, Yu H, Yang L, Yang H, Cao H, Lei L, Ma L, Liu S, Tian L, Wang S. Combined early palliative care for non-small-cell lung cancer patients: a randomized controlled trial in Chongqing, China. Front Oncol 2023;13:1184961. PMID 37781179 · PMC10539600 · doi 10.3389/fonc.2023.1184961.",
+    "what_it_supports": "A THIRD INDEPENDENT REPLICATION, in China -- a third geographically and health-system-distinct population from EV-TEMEL-2010 (US) and EV-PACO-2024 (Mexico). NSCLC (n=140), combined early palliative care (CEPC, a multidisciplinary-team model) vs standard care (SC), primary endpoint overall survival. Reported HR 0.19 [95% CI 0.04-0.85], p=0.029, favoring CEPC -- direction unambiguous (HR<1) though the paper's own median-months figures (20.4 vs 24.6, p=0.042) as printed in the abstract read inconsistently against the stated conclusion ('CEPC patients had significantly longer OS'); quoted verbatim rather than resolved, since the inconsistency is in the source, not in this reading of it. Also reports improved QoL, fewer depressive symptoms, better nutritional status and pain management with CEPC. Still NSCLC; same transferability caveat as EV-TEMEL-2010 and EV-PACO-2024.",
+    "aliases": ["Chen 2023", "the Chongqing CEPC trial"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33823172816, Europe PMC search), published to literature-cache (literature/early-palliative-care-survival-rct/PMC10539600.txt). Open access; full text read directly. Read for RT-EARLY-PALLIATIVE required_validation item 1 (AUT-219).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Chen 2023",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-KOCHOVSKA-2020",
+    "canonical": {
+      "pmid": "32953543",
+      "pmcid": "PMC7481603",
+      "doi": "10.21037/tlcr.2019.12.18",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32953543/"
+    },
+    "citation": "Kochovska S, Ferreira DH, Luckett T, Phillips JL, Currow DC. Earlier multidisciplinary palliative care intervention for people with lung cancer: a systematic review and meta-analysis. Transl Lung Cancer Res 2020;9(6):2721-2735. PMID 32953543 · PMC7481603 · doi 10.21037/tlcr.2019.12.18.",
+    "what_it_supports": "The evidence-base context as of 2020, BEFORE the PACO and Chongqing replications existed: at that point survival data for early palliative care came from only TWO studies, one lung-cancer-specific (EV-TEMEL-2010) and one in a mixed advanced-cancer population comparing EARLY (30-60 days) vs DELAYED (3 months) palliative care referral -- not early-vs-none -- which found longer 1-year survival with earlier referral (63% vs 48%, difference 15%, p=0.038). ⚠ THIS IS A DIFFERENT COMPARISON THAN TEMEL'S (timing-within-palliative-care, not presence-vs-absence) and must not be conflated with it. Quality-of-life and symptom outcomes were mixed/non-significant across most of the other studies reviewed. Establishes that, as of 2020, the survival claim rested on a thin base (2 studies) -- the two subsequent RCTs (EV-PACO-2024, EV-CHEN-2023-CEPC) materially strengthen it.",
+    "aliases": ["Kochovska 2020", "the 2020 lung-cancer palliative-care meta-analysis"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33823172816, Europe PMC search), published to literature-cache (literature/early-palliative-care-survival-rct/PMC7481603.txt). Open access; full text read directly. Read for RT-EARLY-PALLIATIVE required_validation item 1 (AUT-219).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Kochovska 2020",
+        "role": "assertion"
+      }
+    ]
   }
 ]

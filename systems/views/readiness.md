@@ -58,7 +58,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `internal_note` | nothing — the route is CLOSED. The measurement landed and the endpoint was closed as not-a-paper. |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a sarcoma-class dependency prior for the kinase, which is queued and $0; a measurement in a cell carrying the fusion, which needs a model |
-| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | ST-MORTALITY-MECHANISM | `internal_note` | a dedicated sarcoma-scoped search to more rigorously confirm the absence noted above (item 2's remaining_unknowns), and the sarcoma-specific trial itself (required_validation item  |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | ST-RADIOLIGAND | `internal_note` | any measurement in EMC |

@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 198,
-    "in_progress": 11,
+    "in_progress": 10,
     "parked": 30,
-    "queued": 172,
+    "queued": 173,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1780,52 +1780,6 @@
       "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §5 (SEARCH-grade; confirm the policy text before citing it in prose). THE FINDING: arXiv now applies a ONE-YEAR BAN where there is 'incontrovertible evidence' of unverified LLM output, and its named triggers are exactly what an unattended loop produces — hallucinated references, residual model meta-comments, and unremoved placeholder text. §5 is explicit that this is 'a closed, cheap, offline checklist' and that it 'now attaches a sanction to trimcrae's name': `lint_citations.py` covers the first item PARTIALLY (citation existence, not hallucinated claims about a real citation's content); the other two are, in the document's own words, 'just grep' and are not built anywhere in this repository.\n\nVERIFIED: no existing linter checks for either trigger. `research/manuscripts/lint_style.py` has a 'meta-commentary' rule (lines ~162, ~176) but it is about PROSE STRUCTURE ('for that reason', 'reason this exists') — a style concern, not the arXiv sense of 'residual model meta-comments' (leftover LLM chatter like 'Sure, here is the revised version:', 'As an AI language model I cannot...', an un-stripped markdown code fence, a truncated 'I'll continue in the next message'). Nothing greps for placeholder markers (TODO/TBD/XXX/FIXME/[insert]/Lorem ipsum) in manuscript or SI prose either.\n\nTASK: build a preflight-gated checker (new script, or a new rule set inside an existing manuscript-prose linter) that greps SUBMISSION-FACING prose specifically — manuscripts, SI, deposit artifacts, not the whole repository, since code legitimately carries TODOs — for (a) a curated list of residual-LLM-meta-comment phrasings and (b) a curated list of placeholder-text markers, and fails the build on a hit exactly as `lint_citations`/`lint_claims` already do for their own closed lists. This closes the last two of arXiv's three named sanction triggers at effectively zero engineering cost (CLAUDE.md §5: engineering effort is free)."
     },
     {
-      "id": "AUT-219",
-      "_derived": true,
-      "what": "Read the retrieved trial set and record each effect size against the population it was measured in, marking every transfer as a transfer.",
-      "serves": {
-        "route": "RT-EARLY-PALLIATIVE",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0102-c95ec192",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 172.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-04"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-04T00:45:53Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-04T00:45:53Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-220",
       "_derived": true,
       "what": "Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.",
@@ -2428,6 +2382,50 @@
       "score_inputs": {
         "fruitless_attempts": 1
       }
+    },
+    {
+      "id": "AUT-219",
+      "_derived": true,
+      "what": "CORRECTED 2026-09-04: the trial set is read (see supporting_evidence) -- three independent RCTs (US, Mexico, China) all show an OS benefit for early/combined palliative care in NSCLC. Next step is writing up PUB-MORTALITY-MECHANISM's intervention-arm section stating the class-level finding plainly and the transfer to EMC as explicitly unproven, not further retrieval.",
+      "serves": {
+        "route": "RT-EARLY-PALLIATIVE",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-04",
+      "score": 160.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-04T00:45:53Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-026",
