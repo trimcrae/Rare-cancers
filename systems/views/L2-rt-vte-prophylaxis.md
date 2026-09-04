@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-VTE-PROPHYLAXIS — Venous thromboembolism in a lung-metastatic sarcoma population
 
-**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
+**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ○ ready · concept · confidence low · verified 2026-09-04
 
 **Grade** (owned by [`research/manuscripts/emc-mortality-mechanisms.md`](../../research/manuscripts/emc-mortality-mechanisms.md)): ⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.
 
@@ -43,12 +43,20 @@ flowchart LR
 
 ## Scientific rationale
 
-A patient carrying pulmonary metastases for years is exposed to a thrombotic hazard for that whole period, and pulmonary embolism is one of the few mechanisms by which an indolent disease can kill abruptly. The route is registered with its own most likely negative attached: the randomised prophylaxis trials in ambulatory cancer reduced thromboembolic events, and reducing events is not the same as prolonging life. That distinction is the route's central question rather than a caveat on it. ⭑ CORPUS COUNT DONE 2026-09-03: of 162 death-cue sentences in research/literature/emc-mortality-probe.json (34 EMC-titled papers), exactly ONE mentions embolism at all -- PMID 41799218, tumor emboli associated with cardiac metastasis causing an ischaemic stroke, already classified as respiratory_failure in research/manuscripts/emc-terminal-events.json and already discussed in the paper's S3.3. TUMOR embolism (cancer cells) is mechanistically distinct from VENOUS thromboembolism (a blood clot, DVT/PE); thromboprophylaxis targets the latter and would not have prevented the former. Zero true VTE deaths appear in the retrieved corpus.
+A patient carrying pulmonary metastases for years is exposed to a thrombotic hazard for that whole period, and pulmonary embolism is one of the few mechanisms by which an indolent disease can kill abruptly. The route is registered with its own most likely negative attached: the randomised prophylaxis trials in ambulatory cancer reduced thromboembolic events, and reducing events is not the same as prolonging life. That distinction is the route's central question rather than a caveat on it. ⭑ CORPUS COUNT DONE 2026-09-03: of 162 death-cue sentences in research/literature/emc-mortality-probe.json (34 EMC-titled papers), exactly ONE mentions embolism at all -- PMID 41799218, tumor emboli associated with cardiac metastasis causing an ischaemic stroke, already classified as respiratory_failure in research/manuscripts/emc-terminal-events.json and already discussed in the paper's S3.3. TUMOR embolism (cancer cells) is mechanistically distinct from VENOUS thromboembolism (a blood clot, DVT/PE); thromboprophylaxis targets the latter and would not have prevented the former. Zero true VTE deaths appear in the retrieved corpus. ⭑ TRIAL-LITERATURE HALF DONE 2026-09-04 (AUT-PROP-064, fetch-literature.yml run 33821316750, Europe PMC): the route's registered prediction is CONFIRMED. AVERT (apixaban; EV-CARRIER-2019) reduced VTE events (4.2% vs 10.2%, HR 0.41) with MORE major bleeding (3.5% vs 1.8%, HR 2.00) and, per the published secondary source that states it explicitly (EV-SONG-2019, read in full text), 'no difference in non-major bleeding or mortality.' CASSINI (rivaroxaban; EV-KHORANA-2019) did not significantly reduce its composite VTE-or-VTE-death endpoint over the full 180-day trial period (6.0% vs 8.8%, HR 0.66, 95% CI 0.40-1.09, p=0.10) -- only during the on-treatment intervention window (HR 0.40). Neither trial's own report demonstrates an overall-survival benefit; AVERT's apixaban arm trended toward MORE bleeding-related harm. This is general ambulatory-cancer trial evidence, not sarcoma-specific -- it answers whether prophylaxis-as-a-class moves survival (no) rather than whether an EMC/sarcoma population carries the underlying thrombotic risk (still open, required_validation item 3).
+
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `EV-CARRIER-2019` | AVERT: apixaban reduces VTE events (4.2% vs 10.2%, HR 0.41) but increases major bleeding (3.5% vs 1.8%, HR 2.00); the trial's own abstract reports no all-cause mortality figure. | `class_inherited` |
+| `EV-KHORANA-2019` | CASSINI: rivaroxaban's composite VTE-or-VTE-death endpoint was not significantly reduced over the full 180-day trial period (HR 0.66, p=0.10) -- only during the on-treatment window (HR 0.40). | `class_inherited` |
+| `EV-SONG-2019` | The explicit statement, read in full text, that AVERT showed 'no difference in non-major bleeding or mortality' between apixaban and placebo -- the direct answer to required_validation item 2. | `class_inherited` |
 
 ## Remaining unknowns
 
-- Whether prophylaxis moves overall survival as opposed to event rates -- the published trials are the place to check, and the expected answer is no. NOT YET READ: this needs a literature fetch (a named ambulatory-cancer VTE-prophylaxis trial's own survival endpoint, e.g. via .github/workflows/fetch-literature.yml), not a citation recalled from training data -- CLAUDE.md's golden rule against writing an identifier from recollection applies exactly here.
 - Whether a sarcoma population carries the thrombotic risk that would make any of this worth acting on, which is a class-level question this disease has no data for.
+- Whether a sarcoma-specific or EMC-specific prophylaxis trial exists at all (unlikely, given disease rarity) -- if none does, this route's ceiling is a transferred/class-inherited argument, never a direct one, however the general trial literature reads.
 
 ## Required validation
 
@@ -68,10 +76,10 @@ A patient carrying pulmonary metastases for years is exposed to a thrombotic haz
 
 **`internal_note`**
 
-The corpus half is answered (zero true VTE deaths; the one embolism death is tumour embolism, a different mechanism, already counted under respiratory_failure). The trial-literature half is still open and must not be filled from recollection -- CLAUDE.md's golden rule against fabricated citations applies, and this route's own registration already predicted a negative here.
+Both the corpus half (zero true VTE deaths; the one embolism death is tumour embolism, already counted under respiratory_failure) and the trial-literature half (no survival benefit shown in AVERT or CASSINI) are now answered and both confirm the route's registered negative. What remains -- an EMC-specific thrombotic risk base rate -- is blocked on BLK-NO-EMC-DATA, the same clinical-data gap every EMC-specific claim in this repository is blocked on.
 
 **Missing:**
-- a fetched, cited survival endpoint from the ambulatory-cancer VTE-prophylaxis trial literature (required_validation item 2)
+- an EMC/sarcoma-specific thrombotic risk estimate (required_validation item 3), which needs a clinical cohort this disease does not have
 
 ## Where this route ends — the paper
 
@@ -87,7 +95,7 @@ The corpus half is answered (zero true VTE deaths; the one embolism death is tum
 
 **Recommendation: `pursue_now`**
 
-Both observations come out of retrievals already dispatched, and a route whose expected answer is negative is cheapest to settle immediately rather than to carry.
+The two feasible-today validations are both done and both confirm the negative; the remaining item is blocked on clinical data this disease does not have, so this route's next state is closure with its negative written up, not further dispatch.
 
 | horizon | effect |
 |---|---|
@@ -103,8 +111,14 @@ Both observations come out of retrievals already dispatched, and a route whose e
 
 ## Best next action
 
-CORRECTED 2026-09-03: the corpus count is DONE (see supporting_evidence) -- zero true VTE deaths, one tumour-embolism death already counted elsewhere. What remains is required_validation item 2 alone: fetch and read a named ambulatory-cancer VTE-prophylaxis trial's own overall-survival result (dispatch a literature fetch; do not cite from recollection).
+CORRECTED 2026-09-04: both feasible-today required_validation items are DONE (see supporting_evidence) -- zero true VTE deaths in the EMC corpus, and no overall-survival benefit in either the AVERT or CASSINI ambulatory-cancer prophylaxis trial. The route's registered prediction held. What remains is item 3 (an EMC-specific thrombotic risk base rate), blocked on BLK-NO-EMC-DATA -- not dispatchable. Next step is writing this up as PUB-MORTALITY-MECHANISM's negative contribution on thromboembolism, not further retrieval.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 evidence:** [EV-CARRIER-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-KHORANA-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-SONG-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · [← L0](L0-ecosystem.md)

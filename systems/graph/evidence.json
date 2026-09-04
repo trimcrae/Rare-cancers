@@ -522,5 +522,66 @@
     "misattributed_as": [],
     "provenance_flag": "RETRIEVED 2026-08-29 from PubMed through the PubMed MCP connector; the queries, the verbatim Table 2 EMC row, the overlap question and every screened record's disposition are in research/literature/trabectedin-emc-clinical-2026-08-29.json. FULL TEXT WAS RETRIEVED (PMC9780071), so the per-histology table above is read rather than inferred — unlike EV-MAKI-2005 and EV-BOKLAN-2025, which are abstract-only.",
     "cited_in": []
+  },
+  {
+    "id": "EV-CARRIER-2019",
+    "canonical": {
+      "pmid": "30511879",
+      "doi": "10.1056/nejmoa1814468",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30511879/"
+    },
+    "citation": "Carrier M, Abou-Nassar K, Mallick R, Tagalakis V, Shivakumar S, Schattner A, Kuruvilla P, Hill D, Spadafora S, Marquis K, Trinkaus M, Tomiak A, Lee AYY, Gross PL, Lazo-Langner A, El-Maraghi R, Goss G, Le Gal G, Stewart D, Ramsay T, Rodger M, Witham D, Wells PS; AVERT Investigators. Apixaban to Prevent Venous Thromboembolism in Patients with Cancer. N Engl J Med 2019;380(8):711-719. PMID 30511879 · doi 10.1056/nejmoa1814468.",
+    "what_it_supports": "The AVERT trial (ambulatory cancer, Khorana score ≥2, apixaban vs placebo, n=563 modified ITT): VTE occurred in 4.2% (apixaban) vs 10.2% (placebo), HR 0.41, 95% CI 0.26-0.65, p<0.001 -- an EVENT-RATE reduction. Major bleeding was HIGHER on apixaban (3.5% vs 1.8%, HR 2.00). ⛔ The abstract itself reports no all-cause mortality comparison; that figure is not in this record's own text and is not asserted from it -- see EV-SONG-2019 for the published secondary source that states the mortality result explicitly.",
+    "aliases": ["Carrier 2019", "AVERT trial", "AVERT"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33821316750, Europe PMC search), published to literature-cache. Not open access -- Europe PMC returned metadata/abstract only, no full text; the PMID/DOI and abstract are the fetched record, not a recollection. Read for RT-VTE-PROPHYLAXIS required_validation item 2 (AUT-PROP-064).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Carrier 2019",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-KHORANA-2019",
+    "canonical": {
+      "pmid": "30786186",
+      "doi": "10.1056/nejmoa1814630",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30786186/"
+    },
+    "citation": "Khorana AA, Soff GA, Kakkar AK, Vadhan-Raj S, Riess H, Wun T, Streiff MB, Garcia DA, Liebman HA, Belani CP, O'Reilly EM, Patel JN, Yimer HA, Wildgoose P, Burton P, Vijapurkar U, Kaul S, Eikelboom J, McBane R, Bauer KA, Kuderer NM, Lyman GH; CASSINI Investigators. Rivaroxaban for Thromboprophylaxis in High-Risk Ambulatory Patients with Cancer. N Engl J Med 2019;380(8):720-728. PMID 30786186 · doi 10.1056/nejmoa1814630.",
+    "what_it_supports": "The CASSINI trial (ambulatory cancer, Khorana score ≥2, rivaroxaban vs placebo, n=841 randomized): the primary composite endpoint (proximal DVT, PE, symptomatic distal/upper-limb DVT, OR DEATH FROM VENOUS THROMBOEMBOLISM) did NOT differ significantly over the full 180-day trial period -- 6.0% vs 8.8%, HR 0.66, 95% CI 0.40-1.09, p=0.10. It DID differ during the on-treatment intervention period only (2.6% vs 6.4%, HR 0.40). The trial's own conclusion, quoted: 'treatment with rivaroxaban did not result in a significantly lower incidence of venous thromboembolism or death due to venous thromboembolism in the 180-day trial period.' This is the closest primary-source statement to an event-rate-vs-death distinction available from the abstract; it is a VTE-related-death composite, not an all-cause overall-survival analysis.",
+    "aliases": ["Khorana 2019", "CASSINI trial", "CASSINI"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33821316750, Europe PMC search), published to literature-cache. Not open access -- Europe PMC returned metadata/abstract only, no full text. Read for RT-VTE-PROPHYLAXIS required_validation item 2 (AUT-PROP-064).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Khorana 2019",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-SONG-2019",
+    "canonical": {
+      "pmid": "31417269",
+      "pmcid": "PMC6593743",
+      "doi": "10.2147/vhrm.s132556",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31417269/"
+    },
+    "citation": "Song AB, Rosovsky RP, Connors JM, Al-Samkari H. Direct oral anticoagulants for treatment and prevention of venous thromboembolism in cancer patients. Vasc Health Risk Manag 2019;15:175-186. PMID 31417269 · PMC6593743 · doi 10.2147/vhrm.s132556.",
+    "what_it_supports": "⭑ THE EXPLICIT ALL-CAUSE-MORTALITY STATEMENT for the AVERT trial that the AVERT primary report's own abstract (EV-CARRIER-2019) does not carry. Full text (open access, read directly): summarizing AVERT's results (VTE 4.2% vs 10.2%, HR 0.41; major bleeding 3.5% vs 1.8%, HR 2.00), the review states verbatim: 'There was no difference in non-major bleeding or mortality.' Also summarizes CASSINI (primary endpoint reduced on-treatment, 2.62% vs 6.41%, HR 0.40, p=0.007; not significant over the full 180-day observation period), consistent with EV-KHORANA-2019.",
+    "aliases": ["Song 2019", "Song et al. 2019"],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-09-04 via .github/workflows/fetch-literature.yml (run 33821316750, Europe PMC search), published to literature-cache (literature/vte-prophylaxis-ambulatory-cancer-survival/PMC6593743.txt). Open access; full text read directly, not abstract-only. Read for RT-VTE-PROPHYLAXIS required_validation item 2 (AUT-PROP-064).",
+    "cited_in": [
+      {
+        "file": "systems/graph/routes.json",
+        "as": "Song 2019",
+        "role": "assertion"
+      }
+    ]
   }
 ]

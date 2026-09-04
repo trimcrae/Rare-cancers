@@ -106,6 +106,6 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |
-| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | ST-MORTALITY-MECHANISM | `internal_note` | a fetched, cited survival endpoint from the ambulatory-cancer VTE-prophylaxis trial literature (required_validation item 2) |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | ST-MORTALITY-MECHANISM | `internal_note` | an EMC/sarcoma-specific thrombotic risk estimate (required_validation item 3), which needs a clinical cohort this disease does not have |
 
 [← L0](L0-ecosystem.md)
