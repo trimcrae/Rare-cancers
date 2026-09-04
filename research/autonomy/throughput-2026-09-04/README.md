@@ -73,11 +73,18 @@ Checks performed, with overlap between groups:
 - Candidate PDF: six pages, all input hashes match, six printed manuscript sequences present,
   all pages visually inspected; detailed checks are in the candidate bundle.
 
-The initial native normal preflight failed in 217.641 seconds. Its portability defects have
-been repaired. A source checkpoint is needed before regenerating the archive manifest so that
-the generator can truthfully name committed source bytes. Final normal preflight is pending that
-regeneration. This is a draft implementation checkpoint, not a green integration or publication
-receipt. No full scientific test suite has been run for this patch.
+The final normal preflight **passed in 71.844 seconds**; see the [complete log](normal-preflight.log)
+and [checked snapshot and artifact hashes](normal-preflight-result.json). It checked document and
+artifact gates against source commit `1a2d667d77405070d794b1383961bacf3ad2951f` plus the two regenerated
+ASO records. The manifest truthfully names that clean source commit; its 516-file inventory, DOI
+and scientific gaps are unchanged. Comparison with the actual published revision reports
+27 changed files, one added and none removed. The initial native run failed in 217.641 seconds;
+these runs establish the portability repair, not a controlled speed benchmark.
+
+This result is a normal document/artifact check, not a FULL or publication receipt. Focused tests
+are listed above; no full scientific test suite has been run for this patch. Changes are saved on
+`codex/research-throughput-2026-09-04`; active `main` is unchanged. Writing cutover remains pending
+confirmation that the legacy Claude driver has stopped. No preprint or journal submission occurred.
 
 OpenAI's current [Astra guidance](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra)
 supports testing smaller instruction sets, explicit delegation and bounded verification; its

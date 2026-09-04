@@ -40,7 +40,7 @@
     "passed": 91,
     "skipped": 1,
     "seconds": 20.75,
-    "log": ".cache/preflight-native-portability-tests-detail.log",
+    "log": "portability-tests.log",
     "command_source": ".cache/preflight_portability_details.py"
   },
   "normal_native_preflight_before_portability": {
@@ -71,8 +71,27 @@
   },
   "recorded_utc": "2026-09-04T21:51:13.292290Z",
   "final_normal_preflight": {
-    "status": "pending source checkpoint and archive regeneration",
-    "full_science_suite": false
+    "exit": 0,
+    "seconds": 71.844,
+    "scope": "Normal preflight: document and artifact linters; no pytest or full scientific suite in this run.",
+    "base_revision": "1a2d667d77405070d794b1383961bacf3ad2951f",
+    "tracked_delta": [
+      "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+      "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md"
+    ],
+    "artifact_sha256": {
+      "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json": "55c0ff41981626f13921f4fcd91230a0516aa08e11dc550047260b752f6b5e69",
+      "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md": "7c65e2241794348f6c1b702d05e09b70f2d5ada999342150c1c47a2c6f54e2f6"
+    },
+    "log": "normal-preflight.log",
+    "status": "passed",
+    "full_science_suite": false,
+    "published_drift": {
+      "changed": 27,
+      "added": 1,
+      "removed": 0
+    },
+    "manifest_inventory_files": 516
   },
   "active_entry_and_skill_words": {
     "before": 34532,
