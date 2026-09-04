@@ -160,6 +160,41 @@ QUERIES: list[tuple[str, str, str]] = [
      '("healthy user" OR "healthy adherer" OR "confounding by indication") AND '
      '(pharmacoepidemiology OR "observational study")',
      "why statin and metformin survival associations are usually overstated"),
+    # --- (E) the two absent factors, and the PRIMARY trials -------------------
+    # Added 2026-09-04 (AUT-224, CYC-0106). The first run of this probe returned
+    # relevance-ranked 2025-2026 syntheses, so emc-host-factor-inputs.json could
+    # enter no landmark trial and nothing at all for diabetes or hypertension. These
+    # queries restrict by publication type and sort by citation count so that the
+    # primary randomised evidence surfaces instead of the newest review of it. No
+    # trial is named: a hit is what anchors, never a title typed from memory.
+    ("bp_treatment_all_cause_mortality_rct",
+     '(antihypertensive OR "blood pressure lowering" OR "blood pressure reduction") AND '
+     '("all-cause mortality" OR "total mortality") AND '
+     '(PUB_TYPE:"Meta-Analysis" OR PUB_TYPE:"Randomized Controlled Trial") AND sort_cited:y',
+     "randomised or pooled evidence that treating blood pressure lowers all-cause death"),
+    ("glycaemic_control_metformin_all_cause_mortality_rct",
+     '(metformin OR "intensive glycemic control" OR "intensive glycaemic control" OR "glucose lowering") AND '
+     '("all-cause mortality" OR "total mortality") AND '
+     '(PUB_TYPE:"Meta-Analysis" OR PUB_TYPE:"Randomized Controlled Trial") AND sort_cited:y',
+     "randomised or pooled evidence on glucose-lowering treatment and all-cause death"),
+    ("glp1_obesity_cvot_primary_trial",
+     '(semaglutide OR tirzepatide OR liraglutide) AND (obesity OR overweight) AND '
+     '("cardiovascular outcomes" OR "all-cause mortality" OR "cardiovascular death") AND '
+     'PUB_TYPE:"Randomized Controlled Trial" AND sort_cited:y',
+     "the primary obesity cardiovascular-outcome trials of incretin therapy"),
+    ("statin_primary_prevention_pooled_trials",
+     '(statin OR statins) AND "primary prevention" AND ("all-cause mortality" OR "vascular mortality") AND '
+     '(PUB_TYPE:"Meta-Analysis" OR "individual participant data" OR "trialists") AND sort_cited:y',
+     "the pooled primary-prevention statin trial evidence on death, not events"),
+    ("smoking_cessation_mortality_trial_or_cohort_cited",
+     '("smoking cessation" OR "quit smoking" OR "stopped smoking") AND '
+     '("all-cause mortality" OR survival) AND '
+     '(PUB_TYPE:"Randomized Controlled Trial" OR PUB_TYPE:"Meta-Analysis" OR "prospective cohort") AND sort_cited:y',
+     "the most-cited cessation-and-mortality evidence, trial or cohort, in any population"),
+    ("sarcoma_host_factor_survival_cited",
+     '(sarcoma OR "soft tissue sarcoma") AND (obesity OR "body mass index" OR diabetes OR smoking OR '
+     'comorbidity OR sarcopenia) AND (survival OR mortality) AND sort_cited:y',
+     "the most-cited sarcoma host-factor survival analyses, so compartment A is read from its best evidence rather than its newest"),
 ]
 
 PAGE_SIZE = 25
@@ -379,12 +414,14 @@ def main() -> int:
             "Modifiable host factors and EMC survival. A citation index only -- no full text, "
             "no classification, no conclusion. Each entry records the query verbatim, what a "
             "hit would mean, the total hitCount and the top hits, so a claim can carry a real "
-            "PMID and an absence can carry a real zero. THE QUERIES ARE IN FOUR BLOCKS AND THE "
+            "PMID and an absence can carry a real zero. THE QUERIES ARE IN FIVE BLOCKS AND THE "
             "BLOCKS ARE NOT INTERCHANGEABLE: (0) whether EMC's own record contains any host "
             "factor at all, (A) host factors versus cancer-specific outcome in sarcoma -- thin "
             "and confounded, (B) modifiable factors versus NON-cancer mortality -- where the "
             "patients are ordinary people and the evidence transfers far better, and (C) the "
-            "causal-inference hazards that make a naive reading of block A actively harmful. "
+            "causal-inference hazards that make a naive reading of block A actively harmful, and (E) "
+            "the two factors the first run could not enter (blood pressure, glucose) plus the PRIMARY "
+            "trials behind blocks A and B, restricted by publication type and sorted by citation count. "
             "Nothing here asserts that any intervention changes any outcome in EMC."
         ),
         "generated_by": "scripts/lit_host_factor_probe.py",
