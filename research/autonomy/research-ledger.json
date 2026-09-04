@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 199,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 172,
+    "queued": 171,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -2180,10 +2180,10 @@
         "strategy": "ST-MORTALITY-MECHANISM"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "CYC-0105-e41d184e",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2208,10 +2208,14 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null,
+      "claimed_utc": "2026-09-04T17:32:16Z",
       "dispatch_log": [
         {
           "utc": "2026-09-04T01:02:52Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        },
+        {
+          "utc": "2026-09-04T17:32:16Z",
           "fingerprint_at_dispatch": "2026-08-09|None"
         }
       ],
