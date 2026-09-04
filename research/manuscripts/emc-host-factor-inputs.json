@@ -1,0 +1,202 @@
+{
+ "_readme": "INPUTS to research/manuscripts/emc_host_factor_model.py -- every effect size here was TRANSCRIBED from the abstract of a paper whose PMID appears in research/literature/emc-host-factor-probe.json (the committed retrieval; the model refuses any PMID absent from it). Abstracts were read through the PubMed MCP connector on 2026-09-04 (AUT-220, CYC-0105-e41d184e). Nothing here was written from recollection. A relative-risk reduction is 1 - HR (or 1 - RR) taken from the abstract's point estimate and 95% CI, so `_lo` is the CI's upper limit and `_hi` its lower limit. Prevalences are IMPORTED from general-population surveys and are assumptions, not EMC measurements; their sources were retrieved live through the same connector and are recorded in `prevalence_basis` verbatim, but they are NOT in the probe and are not effect sizes, so they anchor nothing and must not be cited as EMC data.",
+ "entered_utc": "2026-09-04",
+ "entered_by": "CYC-0105-e41d184e (AUT-220)",
+ "retrieval_read": "research/literature/emc-host-factor-probe.json -- top-25 hits of 22 queries; the 15 hits whose titles named a trial, cohort or meta-analysis were read at abstract level",
+ "factors": [
+  {
+   "id": "HF-OBESITY",
+   "factor": "obesity (BMI >= 30)",
+   "intervention": "GLP-1 receptor agonist / incretin-based therapy",
+   "prevalence_in_cohort": 0.403,
+   "prevalence_basis": "US adults, NHANES August 2021-August 2023: obesity prevalence 40.3%, no significant sex difference, higher at ages 40-59 (NCHS Data Brief 508, PMID 39808758, doi 10.15620/cdc/159281; read via PubMed 2026-09-04). Imported -- no EMC series records BMI.",
+   "biases": [
+    "reverse_causation",
+    "obesity_paradox",
+    "collider_bias",
+    "transportability"
+   ],
+   "evidence": [
+    {
+     "compartment": "B",
+     "status": "retrieved",
+     "pmid": "42292722",
+     "measured_in": "adults with heart failure in 14 randomised comparisons of GLP-1 RA vs placebo (six dedicated HF trials, eight CVOT heart-failure subgroups; 18,184 patients). The abstract states the all-cause mortality benefit was driven by the CVOT subgroups while dedicated HF trials showed directional harm, and grades it LOW certainty.",
+     "endpoint": "all-cause mortality",
+     "hazard_ratio": 0.86,
+     "ci95": [
+      0.79,
+      0.95
+     ],
+     "relative_risk_reduction_lo": 0.05,
+     "relative_risk_reduction_hi": 0.21,
+     "verbatim": "GLP-1 RAs reduced all-cause mortality (ACM; HR 0.86, 95% CI 0.79-0.95; P=0.008; low certainty according to GRADE)"
+    },
+    {
+     "compartment": "B_corroborating",
+     "status": "retrieved",
+     "pmid": "42219271",
+     "note": "Network meta-analysis of 15 RCTs, 97,173 adults with type 2 diabetes: 'in pairwise placebo-controlled analyses, GLP-1-based therapies significantly reduced all-cause mortality, cardiovascular mortality and MACE'. No hazard ratio in the abstract, so it corroborates the direction and is not modelled."
+    },
+    {
+     "compartment": "bias_registry_support",
+     "status": "retrieved",
+     "pmid": "40726433",
+     "note": "UK Biobank, 85,926 patients with CVD, 5,432 CVD deaths over 13.6 years: BMI in the overweight/class-I range associated with LOWER mortality, but body-fat % and WHRadjBMI trend linearly upward and obesity polygenic scores show no protection -- 'previously reported obesity paradox in observational studies may be a result of confounding or other biases'. This is why the obesity row must not be modelled from a BMI-survival association."
+    },
+    {
+     "compartment": "bias_registry_support",
+     "status": "retrieved",
+     "pmid": "42192361",
+     "note": "Six ageing cohorts in 25 countries, n=89,745, 16,593 deaths: BMI weakly INVERSELY associated with all-cause mortality (HR per SD 0.96, 0.93-0.98), attenuating after early deaths were excluded -- the reverse-causation signature the registry names."
+    },
+    {
+     "compartment": "A",
+     "status": "unretrieved",
+     "note": "No hit in the sarcoma_obesity_survival top 25 was an analysis of adiposity against sarcoma-specific death; the EMC query returned case reports only (see the working note). Nothing is claimed."
+    }
+   ]
+  },
+  {
+   "id": "HF-SMOKING",
+   "factor": "current cigarette smoking",
+   "intervention": "smoking cessation (behavioural and pharmacological support)",
+   "prevalence_in_cohort": 0.112,
+   "prevalence_basis": "US adults aged 45-64, NHIS 2023: current exclusive cigarette smoking 11.2% (95% CI 10.4-12.1); all adults 7.9% (7.5-8.4) (MMWR 74(7):118-121, PMID 40048400, doi 10.15585/mmwr.mm7407a3; full text read via PubMed Central 2026-09-04). The 45-64 band is used because the background-mortality check in the probe starts the cohort at age 55. Imported -- no EMC series records smoking.",
+   "biases": [
+    "immortal_time",
+    "healthy_user",
+    "confounding_by_indication",
+    "transportability"
+   ],
+   "evidence": [
+    {
+     "compartment": "B",
+     "status": "retrieved",
+     "pmid": "41300991",
+     "measured_in": "patients with lung cancer who quit smoking at diagnosis, meta-analysis of non-randomised studies appraised with RoBANS 2 (searched to September 2024). The endpoint is OVERALL survival in a smoking-caused cancer, so the estimate mixes cancer and non-cancer death and transfers to EMC's compartment B only as a direction and an order of magnitude.",
+     "endpoint": "overall survival (all-cause mortality)",
+     "hazard_ratio": 0.74,
+     "ci95": [
+      0.68,
+      0.81
+     ],
+     "relative_risk_reduction_lo": 0.19,
+     "relative_risk_reduction_hi": 0.32,
+     "verbatim": "Quitting smoking at diagnosis was associated with a 26% reduction in mortality risk (adjusted HR [aHR] 0.74, 95% CI 0.68-0.81)"
+    },
+    {
+     "compartment": "B_corroborating",
+     "status": "association_only",
+     "pmid": "42340948",
+     "hazard_ratio_lo": 1.51,
+     "hazard_ratio_hi": 1.81,
+     "note": "Korean NHIS-NSC cohort, 659,494 participants: a pack-year-to-age ratio >= 1 carried an adjusted HR of 1.65 (1.51-1.81) for all-cause mortality. An exposure association, not a cessation effect; recorded for direction only."
+    },
+    {
+     "compartment": "A",
+     "status": "unretrieved",
+     "note": "The sarcoma_smoking_outcome top 25 contained reconstruction and radiotherapy papers and no smoking-versus-sarcoma-death estimate. Nothing is claimed."
+    }
+   ]
+  },
+  {
+   "id": "HF-CV-RISK",
+   "factor": "statin-eligible atherosclerotic cardiovascular risk (primary prevention)",
+   "intervention": "statin therapy",
+   "prevalence_in_cohort": 0.468,
+   "prevalence_basis": "US adults aged 40-75 without ASCVD, NHANES 2017-2020: 46.8% (95% CI 43.0-50.5) eligible for primary-prevention statin therapy under the 2018 AHA/ACC guideline, 31.8% under the 2022 USPSTF recommendation (PMID 36038004, doi 10.1016/j.pcad.2022.08.007). Under the 2026 guideline 56.6% of adults 30-79 are eligible and 17.8% already take a statin (PMID 42475062, doi 10.1001/jama.2026.11246). Both read via PubMed 2026-09-04. Imported; the already-treated fraction is not subtracted, so this prevalence overstates the untreated eligible share.",
+   "endpoint_caveat": "The compartment-B effect size is for CARDIOVASCULAR death, not all-cause death. Compartment B contains every non-EMC death, so applying this reduction to the whole compartment overstates it by the non-cardiovascular fraction of those deaths, which the mortality decomposition does not carry. Read the modelled band as an upper-bound shape, not an estimate.",
+   "biases": [
+    "transportability",
+    "competing_risks_misestimation",
+    "healthy_user"
+   ],
+   "evidence": [
+    {
+     "compartment": "B",
+     "status": "retrieved",
+     "pmid": "42068528",
+     "measured_in": "randomised primary-prevention statin trials pooled in a systematic review with meta-regression (searched to 20 January 2026); adults without established cardiovascular disease.",
+     "endpoint": "cardiovascular death",
+     "risk_ratio": 0.81,
+     "ci95": [
+      0.71,
+      0.95
+     ],
+     "relative_risk_reduction_lo": 0.05,
+     "relative_risk_reduction_hi": 0.29,
+     "verbatim": "statin treatment was associated with a reduced risk of MACE (RR, 0.73[95% CI, 0.67 to 0.80]) ... and cardiovascular death (RR, 0.81[95% CI, 0.71 to 0.95], P = 0.008)"
+    },
+    {
+     "compartment": "A",
+     "status": "association_only",
+     "pmid": "42324568",
+     "hazard_ratio_lo": 0.47,
+     "hazard_ratio_hi": 0.87,
+     "measured_in": "321 sarcoma patients pooled from seven phase II immunotherapy trials (median follow-up 47.4 months); time-dependent and baseline concomitant-medication analyses.",
+     "endpoint": "progression-free survival (baseline statin use: aHR 0.64, 0.47-0.87); the same abstract reports NO association with overall survival",
+     "note": "The only sarcoma-specific statin signal in the retrieval, and it is on PFS, not death; baseline opioid use was associated with shorter OS (aHR 1.71, 1.12-2.61), which is a severity marker, not a target. Recorded at zero."
+    }
+   ]
+  },
+  {
+   "id": "HF-SARCOPENIA",
+   "factor": "sarcopenia / low skeletal muscle mass (CT-defined)",
+   "intervention": "resistance exercise and nutritional support (no drug; no trial effect on mortality retrieved)",
+   "prevalence_in_cohort": 0.195,
+   "prevalence_basis": "Lower bound of the sarcopenia prevalence range (19.5%-83.6%) reported across the 48 studies of solid cancers treated with immunotherapy in PMID 41977025 (in the probe). The lower bound is used deliberately, so the cohort band is conservative. No sarcoma-specific or EMC prevalence was retrieved.",
+   "biases": [
+    "reverse_causation",
+    "collider_bias",
+    "competing_risks_misestimation",
+    "transportability"
+   ],
+   "evidence": [
+    {
+     "compartment": "A",
+     "status": "association_only",
+     "pmid": "40459648",
+     "hazard_ratio_lo": 1.09,
+     "hazard_ratio_hi": 3.34,
+     "measured_in": "1,699 sarcoma patients across 18 studies (liposarcoma the commonest histotype; chemotherapy in 89% of studies); seven studies pooled for overall survival. The abstract itself concludes the impact on OS 'still remains uncertain'.",
+     "endpoint": "overall survival (pooled HR 1.91, 95% CI 1.09-3.34); relapse-free survival not significant (HR 1.16, 0.85-1.59)",
+     "note": "The single sarcoma-specific host-factor estimate in the retrieval. It is an ASSOCIATION between having low muscle and dying, in a population where the tumour and its chemotherapy cause the muscle loss -- the reverse-causation case in its purest form. Recorded at zero."
+    },
+    {
+     "compartment": "B",
+     "status": "association_only",
+     "pmid": "41055780",
+     "hazard_ratio_lo": 1.16,
+     "hazard_ratio_hi": 1.53,
+     "measured_in": "prospective general-population cohorts pooled in a systematic review (searched to February 2024); dynapenic obesity defined by BMI versus normal BMI.",
+     "endpoint": "all-cause mortality (HR 1.33, 95% CI 1.16-1.53; 1.73 for the abdominal-obesity definition)",
+     "note": "An exposure association in the general population, not an intervention effect. No trial of exercise or nutrition on mortality appeared in the retrieval's top hits. Recorded at zero."
+    },
+    {
+     "compartment": "A_corroborating",
+     "status": "association_only",
+     "pmid": "41977025",
+     "hazard_ratio_lo": 1.35,
+     "hazard_ratio_hi": 1.85,
+     "note": "42 studies of solid cancers on immunotherapy: sarcopenia HR 1.58 (1.35-1.85) for OS. Same direction as the sarcoma-specific pooled estimate; same bias exposure."
+    }
+   ]
+  }
+ ],
+ "not_entered": [
+  {
+   "factor": "type 2 diabetes / metformin",
+   "why": "The sarcoma_diabetes_metformin top 25 (27,157 hits) surfaced no sarcoma or general-population mortality estimate for glycaemic control or metformin -- the first hit is a pancreatic-cancer proteomics paper. Needs a targeted re-query, not an assumption."
+  },
+  {
+   "factor": "hypertension",
+   "why": "No query in the probe targets blood-pressure treatment and mortality; the probe was written around adiposity, smoking, lipids and comorbidity. Needs a new query in scripts/lit_host_factor_probe.py."
+  },
+  {
+   "factor": "physical inactivity / deconditioning as an intervention",
+   "why": "Retrieved only as sarcopenia associations (entered above at zero). No exercise-intervention mortality trial appeared in the top hits."
+  }
+ ],
+ "what_the_retrieval_did_not_contain": "The probe's hits are relevance-ranked recent papers, so the landmark trials this argument is usually built on (the obesity cardiovascular-outcome trials, the statin trialists' pooled analyses, the Cochrane cessation reviews) are NOT in it and could not be entered without a fetch. Every entry above is therefore a 2025-2026 synthesis or cohort, which is a weaker anchor than the primary trials and should be read as such."
+}

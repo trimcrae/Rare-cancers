@@ -10,7 +10,7 @@
     "code": 1,
     "decide": 1,
     "experiment": 31,
-    "fetch": 25,
+    "fetch": 26,
     "fix": 23,
     "harden": 30,
     "measure": 1,
@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 199,
-    "in_progress": 11,
+    "in_progress": 10,
     "parked": 30,
-    "queued": 171,
+    "queued": 173,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -2171,57 +2171,6 @@
       "resolution": "DONE 2026-09-04. Dispatched .github/workflows/fetch-literature.yml (run 33821316750, Europe PMC query, control PMID 30511879 matched) rather than citing from recollection. Retrieved corpus (950 files, published to literature-cache/literature/vte-prophylaxis-ambulatory-cancer-survival/) confirmed AVERT (Carrier et al., NEJM 2019, PMID 30511879): apixaban reduced VTE events (4.2% vs 10.2%, HR 0.41) but increased major bleeding (HR 2.00); a published secondary source read in full text (Song et al. 2019, PMC6593743, PMID 31417269) states explicitly 'no difference in non-major bleeding or mortality'. CASSINI (Khorana et al., NEJM 2019, PMID 30786186): the composite VTE-or-VTE-death endpoint was NOT significantly reduced over the full 180-day trial period (HR 0.66, 95% CI 0.40-1.09, p=0.10) -- only during the on-treatment window (HR 0.40). The route's registered prediction (event reduction without a survival gain) is CONFIRMED, not merely carried as an assumption. Three new evidence entries registered: EV-CARRIER-2019, EV-KHORANA-2019, EV-SONG-2019 (systems/graph/evidence.json). Written into RT-VTE-PROPHYLAXIS's rationale/supporting_evidence/required_validation/readiness/next (systems/graph/routes.json); required_validation item 2 is answered. Item 3 (EMC-specific thrombotic risk base rate) remains blocked on BLK-NO-EMC-DATA."
     },
     {
-      "id": "AUT-220",
-      "_derived": true,
-      "what": "Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.",
-      "serves": {
-        "route": "RT-HOST-FACTOR",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0105-e41d184e",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-09",
-      "score": 164.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-04"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-04T17:32:16Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-04T01:02:52Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        },
-        {
-          "utc": "2026-09-04T17:32:16Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ],
-      "lease_released": "claim by interactive-11f2347b-hostfactor released after 16.4 h, past the 16 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
-    },
-    {
       "id": "AUT-PD-214-11f2347b-844001e5",
       "kind": "process_defect",
       "state": "done",
@@ -2325,6 +2274,38 @@
       "lease_released": "✅ HALF DONE AND THE OTHER HALF DECIDED, 2026-08-28. ⭐ WIRED: queue_view's already-landed check now runs in `.claude/hooks/ready-work-at-turn-end.sh`, beside the stalled-holder check and before the ready-work demand, so a row whose deliverable is already on the trunk is named at the turn end that would otherwise offer it. That is the direct guard for AUT-PD-051, which happened TWICE on 2026-08-28. Silent when it finds nothing (verified: 0 lines on a clean queue), and a test asserts the hook calls it — mutation-tested by pointing the hook at a missing file, which goes red. ⛔ NOT WIRED, AND THIS IS THE DECISION RATHER THAN AN OMISSION: learning_rate.py stays a REPORT. Its verdict is a portfolio judgement — 'you have only been working on yourself for a window' — and a gate that blocks a commit on that is a different and larger risk than one that names it: it would block the very self-maintenance cycles that fix the loop, which the module's own docstring says are real work. Its home is a digest or a human's read, not a gate. ⚠ Revisit if the distribution stays concentrated across several windows; one window is not a trajectory."
     },
     {
+      "id": "AUT-224-e41d184e-847095ea",
+      "what": "FETCH: extend scripts/lit_host_factor_probe.py with (a) a blood-pressure treatment and all-cause mortality query, (b) a glycaemic control / metformin and all-cause mortality query, and (c) title-anchored queries for the primary trials the host-factor argument rests on (the obesity cardiovascular-outcome trials, the statin trialists' pooled analyses, the Cochrane cessation reviews), then dispatch fetch-literature.yml so the PMIDs land in research/literature/emc-host-factor-probe.json. Filed by CYC-0105-e41d184e because emc-host-factor-inputs.json could enter only 2025-2026 syntheses and nothing for diabetes or hypertension -- the probe's top-25 relevance hits did not contain the landmark trials. A fetch item: dispatch-and-exit against Actions, no Claude budget.",
+      "serves": {
+        "route": "RT-HOST-FACTOR",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-04",
+      "requires_trimcrae": false,
+      "claimed_utc": null,
+      "closes_clause": null,
+      "filed_by": "CYC-0105-e41d184e",
+      "prerequisite_of": "AUT-220",
+      "_prerequisite_of_why": "AUT-220's successor action (write the compartment-B band into PUB-MORTALITY-MECHANISM) should rest on the primary trials and on a diabetes/hypertension reading, neither of which the current probe returned.",
+      "depends_on_evidence": [
+        "research/manuscripts/emc-host-factor-inputs.json `not_entered` and `what_the_retrieval_did_not_contain`, 2026-09-04"
+      ],
+      "score": 160.5,
+      "_score_basis": "inherited from AUT-220 (+0.5) — it is the work that unblocks it"
+    },
+    {
       "id": "AUT-PD-032",
       "kind": "process_defect",
       "process_defect": true,
@@ -2395,6 +2376,56 @@
       "score_inputs": {
         "fruitless_attempts": 1
       }
+    },
+    {
+      "id": "AUT-220",
+      "_derived": true,
+      "what": "MODELLED 2026-09-04 (AUT-220): research/manuscripts/emc-host-factor-inputs.json carries four factors (obesity, smoking, statin-eligible cardiovascular risk, sarcopenia) with effect sizes transcribed from probe-anchored abstracts, and emc-host-factor-model.json is the run. Compartment B is modelled for three of them; every sarcoma-specific estimate (sarcopenia OS HR, statin PFS HR) is an association and is recorded at ZERO. Diabetes and hypertension are NOT entered -- the retrieval's top hits held no usable estimate. Next: (1) re-query the probe for those two and for the primary trials (the hits are 2025-2026 syntheses, not the landmark RCTs); (2) write the compartment-B band into PUB-MORTALITY-MECHANISM as its own bounded section, with the endpoint caveat on the statin row.",
+      "serves": {
+        "route": "RT-HOST-FACTOR",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-04",
+      "score": 160.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-04T01:02:52Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        },
+        {
+          "utc": "2026-09-04T17:32:16Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ],
+      "lease_released": "claim by interactive-11f2347b-hostfactor released after 16.4 h, past the 16 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "_attempts_reset_why": "CYC-0105-e41d184e (2026-09-04): the item's action as filed -- read the retrieval, enter effect sizes, run the model -- is DONE (emc-host-factor-inputs.json + emc-host-factor-model.json). The row is derived from RT-HOST-FACTOR.next, which now names the successor action (re-query + paper section), so the prior fruitless attempt count no longer describes this row."
     },
     {
       "id": "AUT-PD-026",

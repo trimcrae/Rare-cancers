@@ -170,3 +170,39 @@ def test_an_anchored_pmid_passes():
 def test_an_unretrieved_evidence_row_anchors_nothing():
     ev = _ev("A", 0.0, 0.0, pmid=None, status="unretrieved")
     assert M.check_anchors({"factors": [_factor(evidence=[ev])]}, _probe([])) == []
+
+
+# ---------------------------------------------------------------------------
+# An association is not an intervention effect (AUT-220, 2026-09-04)
+# ---------------------------------------------------------------------------
+def _assoc(compartment, lo, hi, pmid="12345678"):
+    return {"compartment": compartment, "status": "association_only", "pmid": pmid,
+            "hazard_ratio_lo": lo, "hazard_ratio_hi": hi,
+            "measured_in": "sarcoma patients, CT-defined sarcopenia", "endpoint": "overall survival"}
+
+
+def test_an_association_only_row_claims_nothing_but_keeps_the_estimate_visible():
+    out = M.model_factor(_factor(evidence=[_assoc("A", 1.09, 3.34)]), 0.4)
+    a = out["compartments"]["A"]
+    assert a["status"] == "ASSOCIATION_ONLY"
+    assert a["association_hazard_ratio_range"] == [1.09, 3.34]
+    assert a["relative_risk_reduction_range"] == [0.0, 0.0]
+    assert a["cohort_share_of_deaths_averted_range"] == [0.0, 0.0]
+    assert a["exposed_patient_share_of_deaths_averted_range"] == [0.0, 0.0]
+
+
+def test_a_corroborating_row_outside_both_compartments_is_anchored_but_never_modelled():
+    ev = [_ev("B", 0.05, 0.21, pmid="11111111"),
+          {"compartment": "B_corroborating", "status": "retrieved", "pmid": "22222222",
+           "note": "class-level pairwise reduction reported without a hazard ratio"}]
+    out = M.model_factor(_factor(evidence=ev), 0.4)
+    assert out["compartments"]["B"]["pmid"] == "11111111"
+    assert set(out["compartments"]) == {"A", "B"}
+    probe = {"queries": {"q": {"hits": [{"pmid": "11111111"}]}}}
+    problems = M.check_anchors({"factors": [_factor(evidence=ev)]}, probe)
+    assert any("22222222" in p for p in problems), "a corroborating PMID must still be anchor-checked"
+
+
+def test_an_endpoint_caveat_is_carried_onto_the_modelled_row():
+    out = M.model_factor(_factor(endpoint_caveat="cardiovascular death only", evidence=[_ev("B", 0.05, 0.29)]), 0.4)
+    assert out["endpoint_caveat"] == "cardiovascular death only"

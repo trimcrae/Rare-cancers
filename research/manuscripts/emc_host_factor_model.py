@@ -151,6 +151,8 @@ def model_factor(row: dict, competing_share: float) -> dict:
         ],
         "compartments": {},
     }
+    if row.get("endpoint_caveat"):
+        out["endpoint_caveat"] = row["endpoint_caveat"]
     if not row.get("biases"):
         out["bias_declaration_missing"] = (
             "No biases declared. That is not a clean bill of health -- it means this row has "
@@ -168,6 +170,29 @@ def model_factor(row: dict, competing_share: float) -> dict:
                 "reading": (
                     "Nothing is claimed for this compartment. For compartment A that is the "
                     "expected and honest state: no EMC-specific evidence exists."),
+            }
+            continue
+        if ev.get("status") == "association_only":
+            # ⛔ AN ASSOCIATION IS NOT AN INTERVENTION EFFECT. A hazard ratio for HAVING the
+            # factor says nothing about what REMOVING it would do -- the bias registry above
+            # lists five ways the two differ in sign. It is recorded so the reader can see the
+            # sarcoma-specific evidence exists, and it is modelled at ZERO so that nothing
+            # downstream can quote it as a benefit.
+            out["compartments"][comp] = {
+                "share_of_all_deaths": round(share, 4),
+                "status": "ASSOCIATION_ONLY",
+                "pmid": ev["pmid"],
+                "measured_in": ev.get("measured_in"),
+                "endpoint": ev.get("endpoint"),
+                "association_hazard_ratio_range": [ev["hazard_ratio_lo"], ev["hazard_ratio_hi"]],
+                "relative_risk_reduction_range": [0.0, 0.0],
+                "transfer_note": t_note,
+                "exposed_patient_share_of_deaths_averted_range": [0.0, 0.0],
+                "cohort_share_of_deaths_averted_range": [0.0, 0.0],
+                "reading": (
+                    "An association between carrying the factor and dying is recorded here, and "
+                    "NOTHING is claimed from it: the estimate is not an intervention effect, and "
+                    "reverse causation alone can produce it with the sign intact."),
             }
             continue
         rrr_lo, rrr_hi = ev["relative_risk_reduction_lo"], ev["relative_risk_reduction_hi"]
@@ -259,6 +284,7 @@ def main() -> int:
             for k, v in COMPARTMENT_TRANSFER.items()
         },
         "factors": rows,
+        "factors_not_entered": spec.get("not_entered", []),
         "limits": [
             "Prevalence of every host factor in an EMC cohort is UNKNOWN -- no EMC series records one -- so every prevalence here is imported from a general population and is an assumption, not a measurement.",
             "A share of deaths averted is not a gain in life expectancy; converting the two needs a time horizon and a competing-risks structure this model does not have.",

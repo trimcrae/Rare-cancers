@@ -44,8 +44,10 @@ risk and descriptive rare-cancer work as primary research, which is exactly what
 Cancers (fast open access, active sarcoma special issues) and Frontiers in Oncology, Sarcoma section.
 Not JNCI: the sibling manuscript on response endpoints already targets it.
 STATUS: the two-compartment host-factor arithmetic and the supportive-care effect transfer are NOT
-in this paper. Both are scaffolded in the repository and neither has a retrieved effect size yet, so
-they would be a second paper's worth of claims resting on nothing. Section 4.3 states the
+in this paper. The host-factor model has now run on retrieved effect sizes (2026-09-04,
+research/manuscripts/emc-host-factor-model.json: three factors modelled in compartment B, every
+sarcoma-specific estimate recorded at zero as association-only); the supportive-care transfer still
+has none. Writing the host-factor band in is a queued item, not a done one. Section 4.3 states the
 implication qualitatively and stops there, which is the honest boundary. -->
 
 ## Abstract

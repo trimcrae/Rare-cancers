@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-HOST-FACTOR — Treating modifiable host conditions as de-facto EMC survival therapy
 
-**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
+**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ○ ready · scoped · confidence low · verified 2026-09-04
 
 **Grade** (owned by [`research/manuscripts/emc-mortality-mechanisms.md`](../../research/manuscripts/emc-mortality-mechanisms.md)): ⭑ Registered 2026-08-09 (trimcrae). The only route in the portfolio whose intervention already exists, is already approved, and needs no EMC-specific evidence to act.
 
@@ -69,7 +69,7 @@ The model is built and the retrieval is dispatched, but no effect size has been 
 
 **Recommendation: `pursue_now`**
 
-The retrieval is free, the interventions are already approved and in use, and nothing about this route waits on a capability that does not exist.
+The model has run on retrieved effect sizes; what remains free is a targeted re-query and the paper section. The EMC-cohort validation stays blocked on BLK-NO-EMC-DATA.
 
 | horizon | effect |
 |---|---|
@@ -90,7 +90,7 @@ The retrieval is free, the interventions are already approved and in use, and no
 
 ## Best next action
 
-Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.
+MODELLED 2026-09-04 (AUT-220): research/manuscripts/emc-host-factor-inputs.json carries four factors (obesity, smoking, statin-eligible cardiovascular risk, sarcopenia) with effect sizes transcribed from probe-anchored abstracts, and emc-host-factor-model.json is the run. Compartment B is modelled for three of them; every sarcoma-specific estimate (sarcopenia OS HR, statin PFS HR) is an association and is recorded at ZERO. Diabetes and hypertension are NOT entered -- the retrieval's top hits held no usable estimate. Next: (1) re-query the probe for those two and for the primary trials (the hits are 2025-2026 syntheses, not the landmark RCTs); (2) write the compartment-B band into PUB-MORTALITY-MECHANISM as its own bounded section, with the endpoint caveat on the statin row.
 
 *Cost:* $0
 
