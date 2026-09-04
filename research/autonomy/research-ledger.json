@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 199,
-    "in_progress": 11,
+    "done": 200,
+    "in_progress": 10,
     "parked": 30,
     "queued": 172,
     "superseded": 1
@@ -2282,7 +2282,7 @@
         "strategy": "ST-MORTALITY-MECHANISM"
       },
       "kind": "fetch",
-      "state": "in_progress",
+      "state": "done",
       "parked_on": null,
       "parked_by_graph_status": null,
       "owner": null,
@@ -2323,8 +2323,14 @@
           "utc": "2026-09-04T17:58:30Z",
           "cycle": "CYC-0106-e41d184e",
           "what": "Run 33902748042 (main 1d18d4fa2a) read from the artifact: n_queries 30, n_zero 1. ⛔ THE PREVIOUS ENTRY'S DIAGNOSIS IS REFUTED, RETAINED: both control rows -- \"blood pressure\" AND PUB_TYPE:\"Randomized Controlled Trial\" in title case and in lowercase -- returned hitCount 71,557, so the publication-type filter's spelling was never the cause. What the run shows instead: every query still written `... AND sort_cited:y` returned dozens of hits on topics with thousands (blood-pressure treatment vs all-cause mortality 59, GLP-1 obesity outcomes 21, cessation 17, statins 5, glucose 4), topped by AHA statistics reports rather than trials, and the TITLE:sarcoma query returned 0. The common factor is the sort flag joined with AND, which Europe PMC documents as a bare space-separated suffix. Block E rewritten to that form, with three controls that differ only in how the flag is joined (AND / bare suffix / absent) so the next artifact records the mechanism. Third dispatch; run id in the next entry. Retry budget 3, attempts 2."
+        },
+        {
+          "utc": "2026-09-04T18:00:00Z",
+          "cycle": "CYC-0106-e41d184e",
+          "what": "DELIVERED, read from the artifact of run 33903125473 (main 9d9079842f): n_queries 31, n_zero 0, n_failed 0. Block E now anchors, among others, PMID 37952131 (semaglutide cardiovascular outcomes in obesity without diabetes, cited 2357), 21067804 and 22607822 (the cholesterol-trialists' pooled analyses), 23440795 (Cochrane statins for primary prevention), 18539917 (intensive glucose lowering in type 2 diabetes). ⛔ THE SECOND DIAGNOSIS IS ALSO REFUTED, RETAINED: the three join-form controls (AND / bare suffix / absent) all return 73,180 with identical citation-sorted hits, so how the sort flag is joined is not the mechanism either. Run 2's dozens-of-hits counts against run 3's thousands differ only in the flag's placement after a parenthesised OR group, which no control isolated: the mechanism is UNKNOWN and is left as such. What the delivery is NOT: the blood-pressure and cessation queries are topped by high-citation statistics reports and methods papers rather than trials, and TITLE:sarcoma surfaces Kaposi sarcoma; the successor (AUT-220's derived action) reads past the first page and may need a TITLE restriction on those two. Closed as done: the item asked for the fetch, and the fetch is on main."
         }
-      ]
+      ],
+      "done_evidence": "research/literature/emc-host-factor-probe.json at main 9d9079842f: keys bp_treatment_all_cause_mortality_cited (15601), glycaemic_control_metformin_all_cause_mortality_cited (10353), glp1_obesity_cvot_primary_trial_cited (175), statin_primary_prevention_pooled_trials (712), smoking_cessation_mortality_cited (16694), sarcoma_host_factor_survival_cited (1242), all with 25 retrieved hits."
     },
     {
       "id": "AUT-PD-032",
