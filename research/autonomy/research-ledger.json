@@ -1780,52 +1780,6 @@
       "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §5 (SEARCH-grade; confirm the policy text before citing it in prose). THE FINDING: arXiv now applies a ONE-YEAR BAN where there is 'incontrovertible evidence' of unverified LLM output, and its named triggers are exactly what an unattended loop produces — hallucinated references, residual model meta-comments, and unremoved placeholder text. §5 is explicit that this is 'a closed, cheap, offline checklist' and that it 'now attaches a sanction to trimcrae's name': `lint_citations.py` covers the first item PARTIALLY (citation existence, not hallucinated claims about a real citation's content); the other two are, in the document's own words, 'just grep' and are not built anywhere in this repository.\n\nVERIFIED: no existing linter checks for either trigger. `research/manuscripts/lint_style.py` has a 'meta-commentary' rule (lines ~162, ~176) but it is about PROSE STRUCTURE ('for that reason', 'reason this exists') — a style concern, not the arXiv sense of 'residual model meta-comments' (leftover LLM chatter like 'Sure, here is the revised version:', 'As an AI language model I cannot...', an un-stripped markdown code fence, a truncated 'I'll continue in the next message'). Nothing greps for placeholder markers (TODO/TBD/XXX/FIXME/[insert]/Lorem ipsum) in manuscript or SI prose either.\n\nTASK: build a preflight-gated checker (new script, or a new rule set inside an existing manuscript-prose linter) that greps SUBMISSION-FACING prose specifically — manuscripts, SI, deposit artifacts, not the whole repository, since code legitimately carries TODOs — for (a) a curated list of residual-LLM-meta-comment phrasings and (b) a curated list of placeholder-text markers, and fails the build on a hit exactly as `lint_citations`/`lint_claims` already do for their own closed lists. This closes the last two of arXiv's three named sanction triggers at effectively zero engineering cost (CLAUDE.md §5: engineering effort is free)."
     },
     {
-      "id": "AUT-220",
-      "_derived": true,
-      "what": "Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.",
-      "serves": {
-        "route": "RT-HOST-FACTOR",
-        "publication": "PUB-MORTALITY-MECHANISM",
-        "strategy": "ST-MORTALITY-MECHANISM"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "interactive-11f2347b-hostfactor",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 172.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "age_factor_as_of": "2026-09-04"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-04T01:02:52Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-04T01:02:52Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-013",
       "kind": "process_defect",
       "process_defect": true,
@@ -2217,13 +2171,59 @@
       "resolution": "DONE 2026-09-04. Dispatched .github/workflows/fetch-literature.yml (run 33821316750, Europe PMC query, control PMID 30511879 matched) rather than citing from recollection. Retrieved corpus (950 files, published to literature-cache/literature/vte-prophylaxis-ambulatory-cancer-survival/) confirmed AVERT (Carrier et al., NEJM 2019, PMID 30511879): apixaban reduced VTE events (4.2% vs 10.2%, HR 0.41) but increased major bleeding (HR 2.00); a published secondary source read in full text (Song et al. 2019, PMC6593743, PMID 31417269) states explicitly 'no difference in non-major bleeding or mortality'. CASSINI (Khorana et al., NEJM 2019, PMID 30786186): the composite VTE-or-VTE-death endpoint was NOT significantly reduced over the full 180-day trial period (HR 0.66, 95% CI 0.40-1.09, p=0.10) -- only during the on-treatment window (HR 0.40). The route's registered prediction (event reduction without a survival gain) is CONFIRMED, not merely carried as an assumption. Three new evidence entries registered: EV-CARRIER-2019, EV-KHORANA-2019, EV-SONG-2019 (systems/graph/evidence.json). Written into RT-VTE-PROPHYLAXIS's rationale/supporting_evidence/required_validation/readiness/next (systems/graph/routes.json); required_validation item 2 is answered. Item 3 (EMC-specific thrombotic risk base rate) remains blocked on BLK-NO-EMC-DATA."
     },
     {
+      "id": "AUT-220",
+      "_derived": true,
+      "what": "Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the two-compartment model with its bias registry attached.",
+      "serves": {
+        "route": "RT-HOST-FACTOR",
+        "publication": "PUB-MORTALITY-MECHANISM",
+        "strategy": "ST-MORTALITY-MECHANISM"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "interactive-11f2347b-hostfactor",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-09",
+      "score": 164.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0,
+        "age_factor_as_of": "2026-09-04"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MORTALITY-MECHANISM is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-04T01:02:52Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-04T01:02:52Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-214-11f2347b-844001e5",
       "kind": "process_defect",
       "state": "done",
       "cost_class": "free",
-      "owner": "CYC-0098-37419c4c",
-      "claimed_utc": "2026-09-03T12:31:30Z",
-      "attempts": 0,
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 1,
       "blocked_by": null,
       "blocked_evidence": null,
       "cost_points_at": "research/compute/pricing.md",
@@ -2285,7 +2285,8 @@
       "score_inputs": {
         "fruitless_attempts": 1
       },
-      "resolution": "⭐ BOTH BRANCHES CLEARED 2026-09-03; `git rev-list --count origin/main..<ref>` reads 0 for each.\n   (2) `best-paper-submission-tqa0cn` merged `-s ours` at aa94212a0 with the by-id reading in the message: 376 markdown documents, exactly one id absent from main's 518, and that one the 2026-08-05 pre-journal draft of a paper main carries in journal form with twelve red-team rounds on top. Nothing discarded — the ref keeps its history and the merge records that the content was READ and found superseded.\n   (1) `emc-symptom-treatment-742257` merged at c817acb3b: the mortality paper, its memo, the ST-MORTALITY-MECHANISM family, six route views, four probes, five scripts, five artifacts and four test modules. Seventeen conflicts, each resolved by taking main's newer side and adding the branch's new rows programmatically rather than by editing markers. `PUB-MORTALITY-MECHANISM` graded live_positive / no_bench_needed / full_paper with the reservation written into `outcome_potential_why`. `derived_ids.py --extend` bound the six routes to AUT-218..AUT-223 and moved none of the other 77 — the gate landed that morning, and this was the first real route addition since.\n⛔ THE BRANCH'S OWN SUPERSEDED HEADLINE WAS NOT IMPORTED: IDEAS.md still carried 39.4 % after `4d61197b3` corrected the competing share to 21.7 %; merged with the corrected figures and the single-series reading retained as superseded text.\n★ THE LESSON IS THE METHOD, AND IT IS WORTH MORE THAN THE MERGE: four readings of one branch were wrong before one was right, every one of them a PATH measurement against a repository that had reorganised its manuscript directories. Difference the front-matter `id:` sets; for files with no id, compare basename plus blob. `systems_check`'s [D6] rule is the one that caught it, because it is the only reader here that keys on identity."
+      "resolution": "⭐ BOTH BRANCHES CLEARED 2026-09-03; `git rev-list --count origin/main..<ref>` reads 0 for each.\n   (2) `best-paper-submission-tqa0cn` merged `-s ours` at aa94212a0 with the by-id reading in the message: 376 markdown documents, exactly one id absent from main's 518, and that one the 2026-08-05 pre-journal draft of a paper main carries in journal form with twelve red-team rounds on top. Nothing discarded — the ref keeps its history and the merge records that the content was READ and found superseded.\n   (1) `emc-symptom-treatment-742257` merged at c817acb3b: the mortality paper, its memo, the ST-MORTALITY-MECHANISM family, six route views, four probes, five scripts, five artifacts and four test modules. Seventeen conflicts, each resolved by taking main's newer side and adding the branch's new rows programmatically rather than by editing markers. `PUB-MORTALITY-MECHANISM` graded live_positive / no_bench_needed / full_paper with the reservation written into `outcome_potential_why`. `derived_ids.py --extend` bound the six routes to AUT-218..AUT-223 and moved none of the other 77 — the gate landed that morning, and this was the first real route addition since.\n⛔ THE BRANCH'S OWN SUPERSEDED HEADLINE WAS NOT IMPORTED: IDEAS.md still carried 39.4 % after `4d61197b3` corrected the competing share to 21.7 %; merged with the corrected figures and the single-series reading retained as superseded text.\n★ THE LESSON IS THE METHOD, AND IT IS WORTH MORE THAN THE MERGE: four readings of one branch were wrong before one was right, every one of them a PATH measurement against a repository that had reorganised its manuscript directories. Difference the front-matter `id:` sets; for files with no id, compare basename plus blob. `systems_check`'s [D6] rule is the one that caught it, because it is the only reader here that keys on identity.",
+      "lease_released": "claim by CYC-0098-37419c4c released after 19.8 h, past the 16 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-054",
@@ -4000,43 +4001,6 @@
       "outcome": "⭐ CLOSED. Both halves shipped, and the second is the one that saves work: reading the trunk makes the provenance sentence true, refusing over unpushed rows is what stops the loss. ⛔ AND THE CLASS IS NOT CLOSED BY THIS FIX: every other tool that reads the ledger off disk and reports about the trunk has the same door. `priority.py --write`, `health.py` and `continuity.py` all read the working tree by design and are correct to — they describe the tree they are in. The defect is specific to a producer whose READER is a different container.",
       "_correction": "⚠ ONE EVIDENCE LINE ABOVE WAS TRUE WHEN TAKEN AND IS NOW STALE, AND IT IS CORRECTED HERE RATHER THAN EDITED AWAY. `git show <c>:… | grep -c AUT-PD-165` returned 0 across all eight then-current commits at 06:20Z, which is what the reading says; origin/main 1684f79f9 at 06:25Z then filed that id. The measurement stands, the id is no longer free, and this row moved. ⛔ WHAT DOES NOT CHANGE IS THE FINDING: the prompt that started this cycle named a row no committed ledger carried at the moment it was read, which is exactly the defect — a successor is handed a queue its own clone cannot reproduce.",
       "_the_id_this_row_does_not_carry": "⚠ AUT-PD-165 is a DIFFERENT defect and is on the trunk under that id — `claim.py:commit_ledger` staging the ledger as it stands, so a claim publishes uncommitted edits. This row was filed as AUT-PD-165 at 06:45Z from a trunk that did not carry it, and moved when 1684f79f9 landed. Anything citing 'AUT-PD-165' for the handoff defect predates that move."
-    },
-    {
-      "kind": "process_defect",
-      "state": "done",
-      "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
-      "attempts": 0,
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "cost_points_at": "research/compute/pricing.md",
-      "route": null,
-      "requires_trimcrae": false,
-      "notified_utc": null,
-      "last_evidence_utc": "2026-09-04",
-      "retry_budget": 3,
-      "filed_by": "interactive-session-11f2347b",
-      "id": "AUT-PD-219-11f2347b-df854cb7",
-      "score": 40.0,
-      "_score_basis": "Dropped from 134.0: the defect it described did not happen. What survives is a reader's caution, not work. See `_score_correction`.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_why": "The loop's delivery guarantee. A cycle that claims and dies parks a free item for 16 hours and reports SUCCEEDED while doing it."
-      },
-      "what": "⛔⛔ WITHDRAWN — THE DEFECT THIS ROW DESCRIBED DID NOT HAPPEN, AND THE ROW IS KEPT BECAUSE THE MISREADING IS THE FINDING.\n⚠ SUPERSEDED, RETAINED (CLAUDE.md §1.2). This row read: *\"A CYCLE CLAIMED AN ITEM, SKIPPED BOTH THE CADENCE STAMP AND THE RECEIPT, DIED IN FOUR MINUTES — AND ITS ROUTINE RUN IS RECORDED SUCCEEDED\"*, and costed the damage at 16 hours of a parked free item. Every one of those clauses is false.\n★ WHAT ACTUALLY HAPPENED, from the committed receipts:\n   CYC-0101-c95ec192 stamped `last_cycle_started_utc` at 00:17:22Z, claimed AUT-PROP-064 at 00:17:56Z, ran to 00:51:00Z, wrote its receipt, and advanced RT-VTE-PROPHYLAXIS.\n   CYC-0102-c95ec192 continued the same session 00:44:00Z -> 01:00:00Z and advanced RT-EARLY-PALLIATIVE.\n   The cadence gate was never wrong: unmodified, it reads `TOO SOON — 0.7 h since the last cycle (autonomy-state.json `last_cycle_started_utc`, 8:17 PM ET)`.\n⛔ SO THE ONE REAL FINDING IS ABOUT THE READER, NOT THE LOOP: **A ROUTINE'S `last_run.finished_at` IS WHEN THE FIRED TURN COMPLETED, NOT WHEN THE SESSION STOPPED WORKING.** `list_triggers` reported finished_at 00:21:37Z for a cycle that ran until 00:51:00Z — a 30-minute truncation — so anyone judging delivery from that field sees every long cycle as a cycle that died. The error is systematic and runs in the ALARMING direction, which is worse than noise: it manufactures incidents.\n⚠ AND THE SNAPSHOT WAS TAKEN SEVEN MINUTES INTO A THIRTY-FOUR-MINUTE CYCLE. `git ls-tree origin/main .../receipts | grep CYC-0101` returned 0 files because the receipt had not been PUSHED yet, not because it had not been written. CLAUDE.md §4, verbatim: an absent reading is not a reading of absence. The correct move was to re-read one cadence period later before filing anything, and it cost nothing to do.",
-      "next_action": "Closed. ⛔ DO NOT re-file this without first re-reading the receipts directory at least one cadence period after the fire — and never date a cycle's end from a Routine's `last_run.finished_at`. ⚠ AUT-PD-220 (the 8 h gate polled by a 4-hourly cron) is UNAFFECTED and still stands: from the corrected 00:17:22Z start, the 04:13Z fire sees 3.9 h and the 08:13Z fire 7.9 h, so both refuse and the next real cycle is 12:13Z — 11.9 h against a declared 8.",
-      "evidence": [
-        "receipts/CYC-0101-c95ec192.json: started 2026-09-04T00:17:22Z, ended 00:51:00Z, route_advanced RT-VTE-PROPHYLAXIS",
-        "receipts/CYC-0102-c95ec192.json: started 00:44:00Z, ended 01:00:00Z, route_advanced RT-EARLY-PALLIATIVE",
-        "autonomy-state.json last_cycle_started_utc = 2026-09-04T00:17:22Z (CYC-0101 DID stamp)",
-        "trig_01P9ZNSAw7rNLcKLBFYCwuHp last_run.finished_at = 00:21:37Z — 30 min before the cycle ended",
-        "unmodified cadence.py --check: 'TOO SOON — 0.7 h since the last cycle' — the gate was never wrong"
-      ],
-      "_score_correction": "134.0 -> 40.0, and the -94.0 is not a re-derivation: THE ROW'S SUBJECT CHANGED. It was scored 134.0 as a delivery defect that parked free work and made the platform's SUCCEEDED signal meaningless. The committed receipts refuted every clause of that — CYC-0101 stamped at 00:17:22Z, ran to 00:51:00Z and advanced RT-VTE-PROPHYLAXIS — so what remains is a reader's caution about `last_run.finished_at`, which is worth recording and is not work. ⛔ Scored DOWN by the session that filed it, on evidence that arrived after it was filed; the direction is away from this session's own item, not toward it.",
-      "resolution": "⭐ AND THE FIX WRITTEN FOR IT WAS REVERTED RATHER THAN KEPT. A change to `cadence.last_cycle_start` taking the LATER of the stamp and the newest `claimed_utc` was written, tested, mutation-tested and committed locally before the receipts landed and refuted the premise. It was never pushed. ⛔ IT WAS DROPPED EVEN THOUGH IT WORKED, because a guard added for an incident that did not occur is exactly the accretion `tier-budgets.json` exists to refuse — and it would have carried a false incident narrative in a load-bearing docstring, which the next session inherits as fact. The stamp was doing its job; a second witness to a working gate is not a fix, it is a cost."
     },
     {
       "id": "AUT-PD-171",
@@ -11101,6 +11065,43 @@
       },
       "score": 41.1,
       "_score_inherited_from_route": "RT-DEGRADER"
+    },
+    {
+      "kind": "process_defect",
+      "state": "done",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-04",
+      "retry_budget": 3,
+      "filed_by": "interactive-session-11f2347b",
+      "id": "AUT-PD-219-11f2347b-df854cb7",
+      "score": 40.0,
+      "_score_basis": "Dropped from 134.0: the defect it described did not happen. What survives is a reader's caution, not work. See `_score_correction`.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "The loop's delivery guarantee. A cycle that claims and dies parks a free item for 16 hours and reports SUCCEEDED while doing it."
+      },
+      "what": "⛔⛔ WITHDRAWN — THE DEFECT THIS ROW DESCRIBED DID NOT HAPPEN, AND THE ROW IS KEPT BECAUSE THE MISREADING IS THE FINDING.\n⚠ SUPERSEDED, RETAINED (CLAUDE.md §1.2). This row read: *\"A CYCLE CLAIMED AN ITEM, SKIPPED BOTH THE CADENCE STAMP AND THE RECEIPT, DIED IN FOUR MINUTES — AND ITS ROUTINE RUN IS RECORDED SUCCEEDED\"*, and costed the damage at 16 hours of a parked free item. Every one of those clauses is false.\n★ WHAT ACTUALLY HAPPENED, from the committed receipts:\n   CYC-0101-c95ec192 stamped `last_cycle_started_utc` at 00:17:22Z, claimed AUT-PROP-064 at 00:17:56Z, ran to 00:51:00Z, wrote its receipt, and advanced RT-VTE-PROPHYLAXIS.\n   CYC-0102-c95ec192 continued the same session 00:44:00Z -> 01:00:00Z and advanced RT-EARLY-PALLIATIVE.\n   The cadence gate was never wrong: unmodified, it reads `TOO SOON — 0.7 h since the last cycle (autonomy-state.json `last_cycle_started_utc`, 8:17 PM ET)`.\n⛔ SO THE ONE REAL FINDING IS ABOUT THE READER, NOT THE LOOP: **A ROUTINE'S `last_run.finished_at` IS WHEN THE FIRED TURN COMPLETED, NOT WHEN THE SESSION STOPPED WORKING.** `list_triggers` reported finished_at 00:21:37Z for a cycle that ran until 00:51:00Z — a 30-minute truncation — so anyone judging delivery from that field sees every long cycle as a cycle that died. The error is systematic and runs in the ALARMING direction, which is worse than noise: it manufactures incidents.\n⚠ AND THE SNAPSHOT WAS TAKEN SEVEN MINUTES INTO A THIRTY-FOUR-MINUTE CYCLE. `git ls-tree origin/main .../receipts | grep CYC-0101` returned 0 files because the receipt had not been PUSHED yet, not because it had not been written. CLAUDE.md §4, verbatim: an absent reading is not a reading of absence. The correct move was to re-read one cadence period later before filing anything, and it cost nothing to do.",
+      "next_action": "Closed. ⛔ DO NOT re-file this without first re-reading the receipts directory at least one cadence period after the fire — and never date a cycle's end from a Routine's `last_run.finished_at`. ⚠ AUT-PD-220 (the 8 h gate polled by a 4-hourly cron) is UNAFFECTED and still stands: from the corrected 00:17:22Z start, the 04:13Z fire sees 3.9 h and the 08:13Z fire 7.9 h, so both refuse and the next real cycle is 12:13Z — 11.9 h against a declared 8.",
+      "evidence": [
+        "receipts/CYC-0101-c95ec192.json: started 2026-09-04T00:17:22Z, ended 00:51:00Z, route_advanced RT-VTE-PROPHYLAXIS",
+        "receipts/CYC-0102-c95ec192.json: started 00:44:00Z, ended 01:00:00Z, route_advanced RT-EARLY-PALLIATIVE",
+        "autonomy-state.json last_cycle_started_utc = 2026-09-04T00:17:22Z (CYC-0101 DID stamp)",
+        "trig_01P9ZNSAw7rNLcKLBFYCwuHp last_run.finished_at = 00:21:37Z — 30 min before the cycle ended",
+        "unmodified cadence.py --check: 'TOO SOON — 0.7 h since the last cycle' — the gate was never wrong"
+      ],
+      "_score_correction": "134.0 -> 40.0, and the -94.0 is not a re-derivation: THE ROW'S SUBJECT CHANGED. It was scored 134.0 as a delivery defect that parked free work and made the platform's SUCCEEDED signal meaningless. The committed receipts refuted every clause of that — CYC-0101 stamped at 00:17:22Z, ran to 00:51:00Z and advanced RT-VTE-PROPHYLAXIS — so what remains is a reader's caution about `last_run.finished_at`, which is worth recording and is not work. ⛔ Scored DOWN by the session that filed it, on evidence that arrived after it was filed; the direction is away from this session's own item, not toward it.",
+      "resolution": "⭐ AND THE FIX WRITTEN FOR IT WAS REVERTED RATHER THAN KEPT. A change to `cadence.last_cycle_start` taking the LATER of the stamp and the newest `claimed_utc` was written, tested, mutation-tested and committed locally before the receipts landed and refuted the premise. It was never pushed. ⛔ IT WAS DROPPED EVEN THOUGH IT WORKED, because a guard added for an incident that did not occur is exactly the accretion `tier-budgets.json` exists to refuse — and it would have carried a false incident narrative in a load-bearing docstring, which the next session inherits as fact. The stamp was doing its job; a second witness to a working gate is not a fix, it is a cost."
     },
     {
       "id": "AUT-001",

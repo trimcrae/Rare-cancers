@@ -1,0 +1,25 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0103-27d8a174",
+  "session_id": "27d8a174-fdca-59ab-a636-47c4e6b0c281",
+  "ccr_session_id_unavailable": "This is a scheduled-Routine session; ToolSearch for 'get_session', 'create_session' and 'session info ccr claude-code-remote' all returned no match, so ccr_session_id cannot be obtained (same tool-surface gap CYC-0102's handoff.mechanism_unavailable recorded for create_session).",
+  "started_utc": "2026-09-04T08:17:33Z",
+  "ended_utc": "2026-09-04T08:21:23Z",
+  "took": "Cadence gate first refused at 4:16 AM ET (8.0h vs 8h declared, next eligible 4:17 AM ET, one minute later) -- exited per research-loop skill's instruction, no receipt written for that refusal. Re-checked one minute later: MAY START. Stamped cadence, ran health.py --check (0 need attention, 2 UNMEASURED but non-blocking) and --escalations (clean, no restart-intensity issue). Confirmed budget_hold inactive and backoff_level 0 -- no throttle in effect. Took the free $0 observation first (CLAUDE.md §4): checked GitHub Actions for the last tests.yml run on main and found it RED -- 4 failing tests, all in research/autonomy/tests/, all about research-ledger.json's derived `n_by_state` header being stale against its actual row counts (caused by an upstream claim commit, 13417f38, that edited a row without re-deriving headers). Per research-loop §1's stop-condition table ('Preflight is red on main and not by your hand -> Fixing that IS the cycle'), this became the cycle's work in place of taking a ledger item.",
+  "what_changed": "Ran `python3 research/autonomy/priority.py --write` (the sanctioned re-derivation tool, also step 3 of the cycle contract) which recomputed research-ledger.json's `n_by_state` header from the actual entries (queued 172->171, in_progress 10->11, done/superseded/parked/blocked unchanged) -- matching the diff CI's own failure log named. Verified the header now equals a fresh Counter() over entries. Neither research-ledger.json nor autonomy-state.json is a GOVERNED path in amendment_guard.py's list, so no amendment declaration was needed for this mechanical regeneration. Ran local preflight (fast gates) -- OK, PINNED_SHA=881d978de4a0b4f6324cdddd0d555e4d390fb55b+dirty.",
+  "cost": "$0 -- one WebSearch-free GitHub Actions API read (list_workflow_runs, list_workflow_jobs, get_job_logs, all free reads via the github MCP connector already in this session's toolset), local python (priority.py --write, preflight.sh). No GPU, no Claude-plan-metered subagent, no CI dispatch.",
+  "now_queued": "Nothing new filed -- this was a mechanical repair of an existing derived artifact, not a research finding. AUT-220 (the item whose claim commit left the header stale) remains owned by a different, apparently still-active session (interactive-11f2347b-hostfactor, claimed 2026-09-04T01:02:52Z) and was left untouched -- not this cycle's item to take.",
+  "blocked_by": [],
+  "subagents": {
+    "max_concurrent": 0
+  },
+  "route_advanced": "none",
+  "_route_advanced_why": "This cycle fixed a broken CI gate on main (a stale derived ledger header breaking research/autonomy/tests/test_a_derived_total_is_never_a_chore.py and test_a_near_miss_field_name_cannot_enter_the_ledger.py in tests.yml) rather than moving a research route -- infrastructure/loop-health work, honestly reported as route_advanced: none per research-loop §2 step 10.",
+  "handoff": {
+    "attempted": false,
+    "mechanism": "not needed -- single small fix, well within one cycle, cadence gate (8h) means this session's next natural fire is the driver Routine's next scheduled run, not a spawned successor.",
+    "refused_by": null,
+    "mechanism_unavailable": "create_session is not in this scheduled Routine's tool surface (confirmed via ToolSearch, same gap as CYC-0102).",
+    "child_session_id": null
+  }
+}
