@@ -1,0 +1,39 @@
+{
+  "schema": "emc-codex-handover/1",
+  "date": "2026-09-04",
+  "legacy_driver": {
+    "status": "disabled",
+    "evidence": "User confirmed in the current Codex conversation: I disabled the Claude driver routine for you"
+  },
+  "ownership_audit": {
+    "revision": "fd5c58d5abd5dd3d5eeacb657d4ebab90f015981",
+    "research_ledger_entries": 415,
+    "non_null_owners": 0,
+    "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
+  },
+  "coordinator": "This Codex thread; one local clone",
+  "priority": "paper:PUB-ASO",
+  "writing_run": {
+    "status": "failed_outcome_contract",
+    "source_revision": "8273a64f7c64c1d8493f0fe87810170e3afac2dd",
+    "task": "ASO cover-letter draft, hashed upload inventory and ordered submission steps",
+    "publication_authorized_by_this_record": false,
+    "run_id": "20260904T222418Z-142e15508c",
+    "elapsed_seconds": 320.562,
+    "receipt": "research/autonomy/throughput-2026-09-04/codex-writing-initial-receipt.json",
+    "delivered_source_files": 3,
+    "coordinator_verified_file_hashes": 25,
+    "reason": "Worker claimed completion while listing unresolved blockers.",
+    "next_action": "Clarify task blockers versus downstream publication work; one focused package repair"
+  },
+  "schedule": {
+    "status": "not_created",
+    "intended_interval_minutes": 120,
+    "prerequisite": "A completed writing run, coordinator verification and preserved output"
+  },
+  "integration": {
+    "status": "branch_checkpoint",
+    "branch": "codex/research-throughput-2026-09-04",
+    "normal_check": "pending settled package"
+  }
+}

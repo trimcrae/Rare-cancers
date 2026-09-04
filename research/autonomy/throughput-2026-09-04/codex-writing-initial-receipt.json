@@ -1,0 +1,48 @@
+{
+  "schema": "emc-local-research-run/1",
+  "run_id": "20260904T222418Z-142e15508c",
+  "started_utc": "2026-09-04T22:24:18.484527Z",
+  "resource": "paper:PUB-ASO",
+  "model": "gpt-6-astra",
+  "auth": "saved-chatgpt",
+  "coordination": "one-local-clone-only",
+  "mode": "workspace-write",
+  "legacy_and_remote_writers_stopped_acknowledged": true,
+  "base_commit": "8273a64f7c64c1d8493f0fe87810170e3afac2dd",
+  "worktree": ".cache/research-runs/20260904T222418Z-142e15508c/worktree",
+  "limits": {
+    "timeout_seconds": 600,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "medium"
+  },
+  "task_sha256": "b97da49aa6bb8ff14a86b68571a498479677536f1d7e4299774ac6448085e5f5",
+  "protocol_sha256": "35f1015663e227eaa7cd1ac4ccf03a36e5b305966856840a536c1d1777553762",
+  "rounds": [
+    {
+      "round": 1,
+      "started_utc": "2026-09-04T22:24:33.476418Z",
+      "status": "failed",
+      "stdout": "round-1.jsonl",
+      "stderr": "round-1.stderr",
+      "session_id": "01a06e86-0c7e-7531-915a-08b9030d043b",
+      "usage": [
+        {
+          "input_tokens": 453693,
+          "cached_input_tokens": 392320,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7356,
+          "reasoning_output_tokens": 248
+        }
+      ],
+      "errors": 0,
+      "exit_code": 0,
+      "finished_utc": "2026-09-04T22:29:39.046772Z"
+    }
+  ],
+  "status": "failed",
+  "automatic_publication": false,
+  "error": "Worker claimed completion while listing unresolved blockers.",
+  "finished_utc": "2026-09-04T22:29:39.046772Z",
+  "elapsed_seconds": 320.562
+}

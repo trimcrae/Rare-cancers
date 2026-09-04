@@ -44,7 +44,10 @@ Preserve useful output in the repository before treating it as durable research 
 The configuration limits elapsed time, rounds, and dispatches. A second round, when enabled,
 repairs only existing blockers through an explicit session ID. Missing output, incomplete work,
 timeouts, authentication failure, and blocked tools produce distinct non-success outcomes.
-`completed` means the assigned task completed; it is never a publication verdict. Usage is
+`completed` means the assigned task completed; it is never a publication verdict. The outcome's
+`blockers` list concerns that assigned deliverable only; later publication requirements belong
+in `follow_up`. Completion with a real task blocker is still refused. The worker receives the
+actual model, effort, time and dispatch limits rather than guessing execution metadata. Usage is
 recorded when Codex emits it; token counts do not imply a known remaining subscription allowance.
 
 Environment variables for API-key/custom-provider access are refused, and the command pins
@@ -61,9 +64,13 @@ On Windows, the runner explicitly selects the documented `windows.sandbox="eleva
 implementation while retaining its chosen filesystem sandbox and approval policy. The first
 audit was blocked before reading files when that setting was omitted. With it set, the
 2026-09-04 ASO inventory completed in 97.141 seconds using saved ChatGPT authentication, six
-local read/search commands and one model dispatch. This verifies the read-only path; a real
-autonomous writing run and the legacy scheduler handover remain outstanding. Detailed results
-and limitations are in `throughput-2026-09-04/README.md`.
+local read/search commands and one model dispatch. The user subsequently confirmed disabling
+the Claude driver. A read-only ownership audit found no assigned manuscript owners. The first
+writing run produced three ASO submission support files and passed their integrity checks, but
+its final receipt was refused because it placed downstream journal requirements in task blockers.
+That failed receipt is preserved. The follow-up distinction above addresses the observed contract
+ambiguity; it does not change publication acceptance. Current handover and scheduling status are
+in `codex-handover.json`; detailed results are in `throughput-2026-09-04/README.md`.
 
 References: [authentication](https://learn.chatgpt.com/docs/auth),
 [non-interactive execution](https://learn.chatgpt.com/docs/non-interactive-mode),

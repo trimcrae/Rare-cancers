@@ -35,13 +35,17 @@ DEFAULTS = {"timeout_seconds": 1800, "max_rounds": 1, "max_dispatches": 1,
 OUTCOME_SCHEMA = {
     "type": "object", "additionalProperties": False,
     "properties": {
-        "status": {"type": "string", "enum": ["completed", "blocked", "needs_revision"]},
+        "status": {"type": "string", "enum": ["completed", "blocked", "needs_revision"],
+                   "description": "Whether the assigned deliverable is complete, not whether later publication work is complete."},
         "summary": {"type": "string"},
         "artifacts": {"type": "array", "items": {"type": "string"}},
         "checks": {"type": "array", "items": {"type": "string"}},
-        "blockers": {"type": "array", "items": {"type": "string"}},
+        "blockers": {"type": "array", "items": {"type": "string"},
+                     "description": "Unresolved issues preventing completion of this assigned task. Must be empty when status is completed."},
+        "follow_up": {"type": "array", "items": {"type": "string"},
+                      "description": "Work outside this task, such as later author approval, upload variants, or publication steps. These do not prevent task completion."},
     },
-    "required": ["status", "summary", "artifacts", "checks", "blockers"],
+    "required": ["status", "summary", "artifacts", "checks", "blockers", "follow_up"],
 }
 
 
@@ -236,7 +240,7 @@ def read_outcome(path):
         raise Refused("Worker returned an unknown outcome status.")
     if not isinstance(result["summary"], str):
         raise Refused("Worker summary must be text.")
-    for field in ("artifacts", "checks", "blockers"):
+    for field in ("artifacts", "checks", "blockers", "follow_up"):
         if not isinstance(result[field], list) or any(not isinstance(x, str) for x in result[field]):
             raise Refused(f"Worker {field} must be a list of strings.")
     if result["status"] == "completed" and result["blockers"]:
@@ -297,6 +301,10 @@ No internet access from shell commands; use available read-only research tools i
 Stop after the concrete deliverable and relevant checks. Do not start a new paper,
 self-improvement project, full-repository review, or repeated subjective scoring loop.
 A completed outcome means this task is complete, never that a paper is publication-ready.
+Use blockers only for unresolved issues preventing the assigned deliverable from being complete.
+Put downstream work outside this assignment in follow_up, including later publication approvals
+or upload preparation when those are not this task. Completed requires an empty blockers list;
+a completed task can still have follow_up items. Never relabel an actual task blocker as follow_up.
 Return the required structured outcome; record only checks actually performed.
 
 OPERATING PROTOCOL:
@@ -305,6 +313,23 @@ OPERATING PROTOCOL:
 TASK:
 {task}
 """
+
+
+def dispatch_prompt(prompt, config, read_only, number, remaining):
+    context = {"model": MODEL, "reasoning_effort": config["reasoning_effort"],
+               "timeout_seconds": config["timeout_seconds"],
+               "remaining_seconds_at_dispatch": round(remaining, 3),
+               "dispatch_number": number, "max_rounds": config["max_rounds"],
+               "max_dispatches": config["max_dispatches"],
+               "effective_dispatch_limit": 1 if read_only else min(config["max_rounds"], config["max_dispatches"]),
+               "sandbox": "read-only" if read_only else "workspace-write",
+               "authentication": "saved-chatgpt"}
+    return ("Runner-supplied execution context:\n" + json.dumps(context) + "\n\n"
+            "Use these actual configured values when reporting model, reasoning effort, and run limits. "
+            "timeout_seconds is the total run budget, not measured elapsed time. "
+            "remaining_seconds_at_dispatch is a dispatch-time reading, not a live clock. "
+            "Do not infer other runtime metadata or subscription capacity; report unknown values as unknown.\n\n"
+            + prompt)
 
 
 def launch(root, cache, codex, config, task, resource, env, read_only=False):
@@ -356,7 +381,8 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
                 receipt["status"] = "running"
                 write_json(receipt_path, receipt)
                 code = run_process(command_for(codex, worktree, schema, outcome_path, config, session, read_only),
-                                   prompt, worktree, stdout, stderr, remaining, env)
+                                   dispatch_prompt(prompt, config, read_only, number, remaining),
+                                   worktree, stdout, stderr, remaining, env)
                 record.update(event_summary(stdout))
                 record.update({"exit_code": code, "finished_utc": utc_now()})
                 if code or record["errors"]:
@@ -374,8 +400,9 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
                 if not session:
                     raise Refused("Revision requested without an explicit resumable session ID.")
                 prompt = ("Resolve only these existing blockers, then rerun affected checks. "
-                          "Do not add a fresh review or broaden scope. All original task limits apply.\n"
-                          + json.dumps(outcome))
+                          "Do not add a fresh review, act on downstream follow_up, or broaden scope. "
+                          "All original task limits and outcome field meanings apply.\n"
+                          + json.dumps({"summary": outcome["summary"], "blockers": outcome["blockers"]}))
             if receipt["status"] == "needs_revision":
                 receipt["status"] = "budget_exhausted"
         except subprocess.TimeoutExpired:

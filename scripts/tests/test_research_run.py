@@ -130,9 +130,10 @@ class RunnerTests(unittest.TestCase):
         cache = R.repository(repo)[1]
         fake = self.directory / "fake_worker.py"
         fake.write_text("import json,sys\nfrom pathlib import Path\n"
-                        "sys.stdin.read()\n"
+                        "Path(sys.argv[1]).with_suffix('.prompt.txt').write_text(sys.stdin.read())\n"
                         "outcome={'status':sys.argv[2],'summary':'fixture','artifacts':[],"
-                        "'checks':[],'blockers':[] if sys.argv[2]=='completed' else ['fixture blocker']}\n"
+                        "'checks':[],'blockers':[] if sys.argv[2]=='completed' else ['fixture blocker'],"
+                        "'follow_up':['Obtain author approvals before a later journal submission.']}\n"
                         "Path(sys.argv[1]).write_text(json.dumps(outcome))\n"
                         "print(json.dumps({'type':'thread.started','thread_id':'explicit-fixture-id'}))\n"
                         "print(json.dumps({'type':'turn.completed','usage':{'input_tokens':1}}))\n")
@@ -151,10 +152,22 @@ class RunnerTests(unittest.TestCase):
         return receipt, sessions
 
     def test_bounded_success_retains_worktree_and_receipt(self):
-        receipt, _ = self.fake_launch(["completed"])
+        receipt, _ = self.fake_launch(["completed"],
+                                      {**R.DEFAULTS, "timeout_seconds": 600, "reasoning_effort": "medium"})
         self.assertEqual(receipt["status"], "completed")
         self.assertTrue(Path(receipt["worktree"]).is_dir())
         self.assertEqual(receipt["rounds"][0]["usage"], [{"input_tokens": 1}])
+        self.assertEqual(receipt["rounds"][0]["outcome"]["blockers"], [])
+        self.assertTrue(receipt["rounds"][0]["outcome"]["follow_up"])
+        prompt = (Path(receipt["worktree"]) / ".cache/research-run/outcome-1.prompt.txt").read_text()
+        context = json.loads(prompt.splitlines()[1])
+        self.assertEqual(context["model"], receipt["model"])
+        for key in ("reasoning_effort", "timeout_seconds", "max_rounds", "max_dispatches"):
+            self.assertEqual(context[key], receipt["limits"][key])
+        self.assertEqual(context["dispatch_number"], 1)
+        self.assertEqual(context["effective_dispatch_limit"], 1)
+        self.assertGreater(context["remaining_seconds_at_dispatch"], 0)
+        self.assertLessEqual(context["remaining_seconds_at_dispatch"], context["timeout_seconds"])
 
     def test_dispatch_budget_stops_incomplete_task_without_claiming_readiness(self):
         receipt, sessions = self.fake_launch(["needs_revision"],
@@ -167,6 +180,10 @@ class RunnerTests(unittest.TestCase):
                                              {**R.DEFAULTS, "max_rounds": 2, "max_dispatches": 2})
         self.assertEqual(receipt["status"], "completed")
         self.assertEqual(sessions, [None, "explicit-fixture-id"])
+        prompt = (Path(receipt["worktree"]) / ".cache/research-run/outcome-2.prompt.txt").read_text()
+        self.assertEqual(json.loads(prompt.splitlines()[1])["dispatch_number"], 2)
+        self.assertIn("fixture blocker", prompt)
+        self.assertNotIn("Obtain author approvals", prompt)
 
     def test_read_only_audit_is_bounded_and_does_not_claim_cutover(self):
         receipt, sessions = self.fake_launch(["needs_revision"],
@@ -181,9 +198,21 @@ class RunnerTests(unittest.TestCase):
     def test_completed_with_blockers_is_rejected(self):
         path = self.directory / "outcome.json"
         path.write_text(json.dumps({"status": "completed", "summary": "test", "artifacts": [],
-                                    "checks": [], "blockers": ["unresolved"]}))
-        with self.assertRaises(R.Refused):
+                                    "checks": [], "blockers": ["Assigned manifest still has invalid hashes."],
+                                    "follow_up": ["Obtain author approvals before journal submission."]}))
+        with self.assertRaisesRegex(R.Refused, "completion while listing unresolved blockers"):
             R.read_outcome(path)
+
+    def test_follow_up_is_required_and_must_be_a_list_of_strings(self):
+        path = self.directory / "outcome.json"
+        outcome = {"status": "completed", "summary": "test", "artifacts": [], "checks": [], "blockers": []}
+        path.write_text(json.dumps(outcome))
+        with self.assertRaisesRegex(R.Refused, "required structured outcome"):
+            R.read_outcome(path)
+        for value in ("Later journal work", [None]):
+            path.write_text(json.dumps({**outcome, "follow_up": value}))
+            with self.assertRaisesRegex(R.Refused, "follow_up must be a list of strings"):
+                R.read_outcome(path)
 
     def test_limits_cannot_be_unbounded_or_wrong_types(self):
         for key, value in (("max_rounds", 3), ("max_dispatches", 0),
