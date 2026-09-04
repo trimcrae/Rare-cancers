@@ -18,7 +18,8 @@
   "handoff": {
     "attempted": true,
     "mechanism": "research/autonomy/handoff.py --json --reason 'session_cap reached (2/2 receipts, CYC-0101+CYC-0102); create_session not in this scheduled Routine's tool surface'",
-    "result": "REFUSED by handoff.py's own cadence check: 0.7 h since autonomy-state.json's last_cycle_started_utc against the declared 8 h cadence, next eligible 4:17 AM ET Sep 4. handoff.py's own remedy text: 'end this session without a successor. The Routine fires again on its own schedule and a fresh session re-reads the ledger -- that is the whole recovery mechanism, and nothing is lost by not spawning.' Also confirmed create_session is absent from this scheduled Routine's tool surface (ToolSearch for 'create_session' and 'create_session claude-code-remote' returned no match) and ListAgents reports no other reachable session -- so a real successor could not have been built from here even had the cadence gate cleared.",
+    "refused_by": "handoff.py's own cadence check: 0.7 h since autonomy-state.json's last_cycle_started_utc against the declared 8 h cadence, next eligible 4:17 AM ET Sep 4. handoff.py's own remedy text: 'end this session without a successor. The Routine fires again on its own schedule and a fresh session re-reads the ledger -- that is the whole recovery mechanism, and nothing is lost by not spawning.'",
+    "mechanism_unavailable": "Also confirmed create_session is absent from this scheduled Routine's tool surface (ToolSearch for 'create_session' and 'create_session claude-code-remote' returned no match) and ListAgents reports no other reachable session -- so a real successor could not have been built from here even had the cadence gate cleared.",
     "child_session_id": null
   }
 }
