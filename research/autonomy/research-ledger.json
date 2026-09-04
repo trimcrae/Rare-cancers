@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 198,
+    "done": 199,
     "in_progress": 10,
     "parked": 30,
-    "queued": 173,
+    "queued": 172,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -3996,7 +3996,7 @@
     },
     {
       "kind": "process_defect",
-      "state": "queued",
+      "state": "done",
       "cost_class": "free",
       "owner": null,
       "claimed_utc": null,
@@ -4011,22 +4011,25 @@
       "retry_budget": 3,
       "filed_by": "interactive-session-11f2347b",
       "id": "AUT-PD-219-11f2347b-df854cb7",
-      "score": 134.0,
-      "_score_basis": "Above ordinary process defects (128-134) because it PARKS FREE WORK — 16 h for AUT-PROP-064 here — and because it makes the platform's `SUCCEEDED` signal mean nothing about delivery. Below the live-route rows: it is self-limiting, the lease does expire, and no evidence is lost.",
+      "score": 40.0,
+      "_score_basis": "Dropped from 134.0: the defect it described did not happen. What survives is a reader's caution, not work. See `_score_correction`.",
       "serves": {
         "route": null,
         "publication": null,
         "strategy": null,
         "_why": "The loop's delivery guarantee. A cycle that claims and dies parks a free item for 16 hours and reports SUCCEEDED while doing it."
       },
-      "what": "⛔⛔ A CYCLE CLAIMED AN ITEM, SKIPPED BOTH THE CADENCE STAMP AND THE RECEIPT, DIED IN FOUR MINUTES — AND ITS ROUTINE RUN IS RECORDED `SUCCEEDED`. Measured 2026-09-04 when trimcrae asked whether the loop had actually run.\n★ THE EVIDENCE, ALL OF IT $0:\n   driver Routine trig_01P9ZNSAw7rNLcKLBFYCwuHp fired 2026-09-04T00:14:29Z, run cse_01KgLtkcBQzHHojhiPmLNeHJ, finished 00:21:37Z, status ROUTINE_RUN_STATUS_SUCCEEDED.\n   9eb48f261 `claim AUT-PROP-064-37419c4c-e4d65505 for CYC-0101-c95ec192` at 00:17:56Z.\n   `git ls-tree origin/main research/autonomy/receipts/ | grep CYC-0101` -> 0 files.\n   the ONLY cadence stamp in 24 h is a1b8dec0c, for start 13:07:29Z — CYC-0101 never stamped, so `cadence.py --check` still measures from the cycle SEVEN HOURS BEFORE it.\n⛔ SO STEP 4 OF THE CYCLE CONTRACT RAN WHILE STEPS 1 AND 10 DID NOT, and the platform's own success signal cannot tell the difference. `last_run.status: SUCCEEDED` means the session exited cleanly, not that a cycle delivered — reading it as delivery is the same class of error as reading an absent measurement as a measurement of absence (CLAUDE.md §4).\n⚠ THE COST IS 16 HOURS OF A FREE ITEM: `claim_lease.periods` is 2 and the period is 8 h, so AUT-PROP-064 — a $0 read of one named trial's own overall-survival result — is parked until ~2026-09-04T16:17Z by a session that was already dead at 00:21:37Z. `health.py`'s `cycle_delivering` row reads receipts and would eventually notice, but not before the lease expires on its own, so nothing acts on it in between.",
-      "next_action": "Two candidate fixes, and the cheap one is probably right. (a) MAKE THE CLAIM CARRY THE STAMP: step 1 stamps and step 4 claims, so a cycle reaching step 4 has provably passed step 1 — unless it skipped it, which is what happened. If `claim.py` wrote the stamp itself, claiming and stamping could not come apart. (b) AGE A LEASE BY THE HOLDER'S LIVENESS, NOT ONLY BY THE CLOCK: `holder_liveness.py` and `session_reaper.py` already join a receipt to a session row via `ccr_session_id`, and a lease whose holder's Routine run has FINISHED is releasable immediately rather than in 16 hours.\n⛔ Do NOT 'fix' this by shortening the lease: 16 h is two periods on purpose, and a shorter one would start stealing items from cycles that are genuinely still working.",
+      "what": "⛔⛔ WITHDRAWN — THE DEFECT THIS ROW DESCRIBED DID NOT HAPPEN, AND THE ROW IS KEPT BECAUSE THE MISREADING IS THE FINDING.\n⚠ SUPERSEDED, RETAINED (CLAUDE.md §1.2). This row read: *\"A CYCLE CLAIMED AN ITEM, SKIPPED BOTH THE CADENCE STAMP AND THE RECEIPT, DIED IN FOUR MINUTES — AND ITS ROUTINE RUN IS RECORDED SUCCEEDED\"*, and costed the damage at 16 hours of a parked free item. Every one of those clauses is false.\n★ WHAT ACTUALLY HAPPENED, from the committed receipts:\n   CYC-0101-c95ec192 stamped `last_cycle_started_utc` at 00:17:22Z, claimed AUT-PROP-064 at 00:17:56Z, ran to 00:51:00Z, wrote its receipt, and advanced RT-VTE-PROPHYLAXIS.\n   CYC-0102-c95ec192 continued the same session 00:44:00Z -> 01:00:00Z and advanced RT-EARLY-PALLIATIVE.\n   The cadence gate was never wrong: unmodified, it reads `TOO SOON — 0.7 h since the last cycle (autonomy-state.json `last_cycle_started_utc`, 8:17 PM ET)`.\n⛔ SO THE ONE REAL FINDING IS ABOUT THE READER, NOT THE LOOP: **A ROUTINE'S `last_run.finished_at` IS WHEN THE FIRED TURN COMPLETED, NOT WHEN THE SESSION STOPPED WORKING.** `list_triggers` reported finished_at 00:21:37Z for a cycle that ran until 00:51:00Z — a 30-minute truncation — so anyone judging delivery from that field sees every long cycle as a cycle that died. The error is systematic and runs in the ALARMING direction, which is worse than noise: it manufactures incidents.\n⚠ AND THE SNAPSHOT WAS TAKEN SEVEN MINUTES INTO A THIRTY-FOUR-MINUTE CYCLE. `git ls-tree origin/main .../receipts | grep CYC-0101` returned 0 files because the receipt had not been PUSHED yet, not because it had not been written. CLAUDE.md §4, verbatim: an absent reading is not a reading of absence. The correct move was to re-read one cadence period later before filing anything, and it cost nothing to do.",
+      "next_action": "Closed. ⛔ DO NOT re-file this without first re-reading the receipts directory at least one cadence period after the fire — and never date a cycle's end from a Routine's `last_run.finished_at`. ⚠ AUT-PD-220 (the 8 h gate polled by a 4-hourly cron) is UNAFFECTED and still stands: from the corrected 00:17:22Z start, the 04:13Z fire sees 3.9 h and the 08:13Z fire 7.9 h, so both refuse and the next real cycle is 12:13Z — 11.9 h against a declared 8.",
       "evidence": [
-        "trig_01P9ZNSAw7rNLcKLBFYCwuHp last_run: fired 2026-09-04T00:14:29Z, finished 00:21:37Z, SUCCEEDED",
-        "9eb48f261 claim at 00:17:56Z; no CYC-0101 receipt on origin/main",
-        "a1b8dec0c is the only autonomy-state.json commit in 24h (stamp for 13:07:29Z)",
-        "priority-weights.json claim_lease.periods = 2, cycle_interval_hours = 8 -> a 16 h park"
-      ]
+        "receipts/CYC-0101-c95ec192.json: started 2026-09-04T00:17:22Z, ended 00:51:00Z, route_advanced RT-VTE-PROPHYLAXIS",
+        "receipts/CYC-0102-c95ec192.json: started 00:44:00Z, ended 01:00:00Z, route_advanced RT-EARLY-PALLIATIVE",
+        "autonomy-state.json last_cycle_started_utc = 2026-09-04T00:17:22Z (CYC-0101 DID stamp)",
+        "trig_01P9ZNSAw7rNLcKLBFYCwuHp last_run.finished_at = 00:21:37Z — 30 min before the cycle ended",
+        "unmodified cadence.py --check: 'TOO SOON — 0.7 h since the last cycle' — the gate was never wrong"
+      ],
+      "_score_correction": "134.0 -> 40.0, and the -94.0 is not a re-derivation: THE ROW'S SUBJECT CHANGED. It was scored 134.0 as a delivery defect that parked free work and made the platform's SUCCEEDED signal meaningless. The committed receipts refuted every clause of that — CYC-0101 stamped at 00:17:22Z, ran to 00:51:00Z and advanced RT-VTE-PROPHYLAXIS — so what remains is a reader's caution about `last_run.finished_at`, which is worth recording and is not work. ⛔ Scored DOWN by the session that filed it, on evidence that arrived after it was filed; the direction is away from this session's own item, not toward it.",
+      "resolution": "⭐ AND THE FIX WRITTEN FOR IT WAS REVERTED RATHER THAN KEPT. A change to `cadence.last_cycle_start` taking the LATER of the stamp and the newest `claimed_utc` was written, tested, mutation-tested and committed locally before the receipts landed and refuted the premise. It was never pushed. ⛔ IT WAS DROPPED EVEN THOUGH IT WORKED, because a guard added for an incident that did not occur is exactly the accretion `tier-budgets.json` exists to refuse — and it would have carried a false incident narrative in a load-bearing docstring, which the next session inherits as fact. The stamp was doing its job; a second witness to a working gate is not a fix, it is a cost."
     },
     {
       "id": "AUT-PD-171",
