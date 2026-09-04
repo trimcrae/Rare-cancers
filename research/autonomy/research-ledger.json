@@ -2291,7 +2291,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-04",
       "requires_trimcrae": false,
       "claimed_utc": null,
@@ -2313,6 +2313,11 @@
           "utc": "2026-09-04T17:45:43Z",
           "cycle": "CYC-0106-e41d184e",
           "what": "scripts/lit_host_factor_probe.py block E committed to main at feb7d7dee6; fetch-literature.yml dispatched on ref main with slug host-factor-probe, run 33902213247 (https://github.com/trimcrae/Rare-cancers/actions/runs/33902213247). The workflow commits research/literature/emc-host-factor-probe.json back to main itself. DELIVERY IS READ FROM THAT ARTIFACT (block E keys present in queries), never from the run record; the row stays queued until a cycle reads it."
+        },
+        {
+          "utc": "2026-09-04T17:58:00Z",
+          "cycle": "CYC-0106-e41d184e",
+          "what": "DELIVERY READ FROM THE ARTIFACT of run 33902213247 (main 4e0647bfa1): n_queries 28, n_failed 0, but four of the six block-E queries returned hitCount 0 and the sarcoma query returned unrelated high-citation records. DIAGNOSTIC: every zero query carried PUB_TYPE:\"Randomized Controlled Trial\"; the one block-E query without it (statin, PUB_TYPE:\"Meta-Analysis\" + free text) returned 5, topped by the cholesterol-trialists' pooled analyses. Zero for blood-pressure treatment vs all-cause mortality is not an absence, so the filter term is the cause. europepmc.org, ebi.ac.uk, ropensci and CRAN are all egress-blocked from the sandbox, so the spelling could not be read from documentation. Block E rewritten to free-text trial terms plus TITLE:sarcoma, with two control queries that differ only in the filter's spelling so the next artifact records which one Europe PMC accepts. Re-dispatched (run id in the next entry)."
         }
       ]
     },

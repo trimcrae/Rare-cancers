@@ -163,38 +163,53 @@ QUERIES: list[tuple[str, str, str]] = [
     # --- (E) the two absent factors, and the PRIMARY trials -------------------
     # Added 2026-09-04 (AUT-224, CYC-0106). The first run of this probe returned
     # relevance-ranked 2025-2026 syntheses, so emc-host-factor-inputs.json could
-    # enter no landmark trial and nothing at all for diabetes or hypertension. These
-    # queries restrict by publication type and sort by citation count so that the
-    # primary randomised evidence surfaces instead of the newest review of it. No
-    # trial is named: a hit is what anchors, never a title typed from memory.
-    ("bp_treatment_all_cause_mortality_rct",
+    # enter no landmark trial and nothing at all for diabetes or hypertension.
+    # These queries sort by citation count so the primary randomised evidence
+    # surfaces instead of the newest review of it. No trial is named: a hit is
+    # what anchors, never a title typed from memory.
+    # ⚠ REWRITTEN THE SAME DAY (run 33902213247): the first version filtered with
+    # PUB_TYPE:"Randomized Controlled Trial" and every query carrying that term
+    # returned hitCount 0 -- including blood-pressure treatment versus all-cause
+    # mortality, a literature where zero is impossible -- while the one query that
+    # used PUB_TYPE:"Meta-Analysis" plus free text returned 5. So the design term
+    # is FREE TEXT (randomised / randomized / trial / meta-analysis), which cannot
+    # zero a query, and the two `_control` rows below differ ONLY in the spelling
+    # of the suspect filter so the artifact records which spelling Europe PMC
+    # accepts. The sandbox cannot reach europepmc.org to ask, so the probe asks.
+    ("bp_treatment_all_cause_mortality_cited",
      '(antihypertensive OR "blood pressure lowering" OR "blood pressure reduction") AND '
      '("all-cause mortality" OR "total mortality") AND '
-     '(PUB_TYPE:"Meta-Analysis" OR PUB_TYPE:"Randomized Controlled Trial") AND sort_cited:y',
-     "randomised or pooled evidence that treating blood pressure lowers all-cause death"),
-    ("glycaemic_control_metformin_all_cause_mortality_rct",
+     '(randomised OR randomized OR "meta-analysis" OR trials) AND sort_cited:y',
+     "the most-cited randomised or pooled evidence that treating blood pressure lowers all-cause death"),
+    ("glycaemic_control_metformin_all_cause_mortality_cited",
      '(metformin OR "intensive glycemic control" OR "intensive glycaemic control" OR "glucose lowering") AND '
      '("all-cause mortality" OR "total mortality") AND '
-     '(PUB_TYPE:"Meta-Analysis" OR PUB_TYPE:"Randomized Controlled Trial") AND sort_cited:y',
-     "randomised or pooled evidence on glucose-lowering treatment and all-cause death"),
-    ("glp1_obesity_cvot_primary_trial",
+     '(randomised OR randomized OR "meta-analysis" OR trials) AND sort_cited:y',
+     "the most-cited randomised or pooled evidence on glucose-lowering treatment and all-cause death"),
+    ("glp1_obesity_cvot_primary_trial_cited",
      '(semaglutide OR tirzepatide OR liraglutide) AND (obesity OR overweight) AND '
      '("cardiovascular outcomes" OR "all-cause mortality" OR "cardiovascular death") AND '
-     'PUB_TYPE:"Randomized Controlled Trial" AND sort_cited:y',
-     "the primary obesity cardiovascular-outcome trials of incretin therapy"),
+     '(randomised OR randomized OR trial) AND sort_cited:y',
+     "the primary obesity cardiovascular-outcome trials of incretin therapy, most-cited first"),
     ("statin_primary_prevention_pooled_trials",
      '(statin OR statins) AND "primary prevention" AND ("all-cause mortality" OR "vascular mortality") AND '
      '(PUB_TYPE:"Meta-Analysis" OR "individual participant data" OR "trialists") AND sort_cited:y',
      "the pooled primary-prevention statin trial evidence on death, not events"),
-    ("smoking_cessation_mortality_trial_or_cohort_cited",
+    ("smoking_cessation_mortality_cited",
      '("smoking cessation" OR "quit smoking" OR "stopped smoking") AND '
      '("all-cause mortality" OR survival) AND '
-     '(PUB_TYPE:"Randomized Controlled Trial" OR PUB_TYPE:"Meta-Analysis" OR "prospective cohort") AND sort_cited:y',
+     '(randomised OR randomized OR "meta-analysis" OR "prospective cohort") AND sort_cited:y',
      "the most-cited cessation-and-mortality evidence, trial or cohort, in any population"),
     ("sarcoma_host_factor_survival_cited",
-     '(sarcoma OR "soft tissue sarcoma") AND (obesity OR "body mass index" OR diabetes OR smoking OR '
+     'TITLE:sarcoma AND (obesity OR "body mass index" OR diabetes OR smoking OR '
      'comorbidity OR sarcopenia) AND (survival OR mortality) AND sort_cited:y',
-     "the most-cited sarcoma host-factor survival analyses, so compartment A is read from its best evidence rather than its newest"),
+     "the most-cited sarcoma host-factor survival analyses, title-restricted so citation sorting cannot surface unrelated high-citation records"),
+    ("pub_type_rct_titlecase_control",
+     '"blood pressure" AND PUB_TYPE:"Randomized Controlled Trial"',
+     "CONTROL, not evidence: a non-zero count means Europe PMC accepts this spelling of the publication-type filter; zero means it does not"),
+    ("pub_type_rct_lowercase_control",
+     '"blood pressure" AND PUB_TYPE:"randomized controlled trial"',
+     "CONTROL, not evidence: the same filter in lowercase; whichever of the two controls is non-zero is the spelling future probes must use"),
 ]
 
 PAGE_SIZE = 25
