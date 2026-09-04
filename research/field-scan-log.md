@@ -296,3 +296,85 @@ or free/academic credit program found.
 + degrader methodology; non-degrader routes). clinicaltrials.gov direct fetch and some publisher docs sites
 remained egress-blocked mid-scan and are flagged UNKNOWN rather than guessed. No fabricated papers, trials,
 releases, or prices.*
+
+---
+
+## 2026-09-04 (Fri) — AUTOMATED weekly field-scan (delta vs 2026-08-28, ~1 week)
+
+**This week's takeaway: quiet for NR4A3/EMC itself, but a real tooling delta.** No new NR4A3/EMC-specific
+paper, ligand, structure or trial, and no new co-folding/ternary/selectivity method beyond what is already
+tracked. The one substantive finding is on the frontier-model watch: **Claude Fable 5.1 / Mythos 5.1 shipped
+2026-09-01**, and Fable 5.1 is the first model found to out-measure Opus 5 on every published category,
+including a science-reasoning benchmark that roughly doubled — worth checking whether these research sessions
+are actually running on it.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **No new co-folding/ternary/affinity/selectivity method found.** DeepTernary, FKSFold, Boltz-2 (still
+  v2.2.1 open-weight) and Protenix (still v2, April 2026) are unchanged from the 2026-08-24/28 entries. A
+  curated molecular-glue literature database surfaced this scan (a reference resource, not a new predictive
+  method) — not capture-worthy on its own and not cited further here.
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial found this period.** General NR4A1/
+  NR4A2/NR4A3 family literature (a dual-ligand commentary, an immunity review) turned up but adds nothing
+  NR4A3- or EMC-specific.
+- **⚠ Disambiguation, not a finding for us:** this week's chondrosarcoma clinical-trial news — the **CHONQUER**
+  Phase III trial (first patient enrolled 2026-09-01, TIBSOVO vs placebo) and **ozekibart (INBRX-109)**'s BLA
+  acceptance (PDUFA April 2027) — are both for **IDH1-mutated *conventional* (skeletal) chondrosarcoma**, a
+  genetically and clinically distinct disease from extraskeletal myxoid chondrosarcoma (EMC/EWSR1::NR4A3).
+  Flagged only so neither gets miscited as EMC-relevant; neither is. https://www.globenewswire.com/news-release/2026/09/01/3354489/0/en/chondrosarcoma-clinical-trial-pipeline-emerging-therapies-and-key-developments-shaping-the-treatment-landscape-delveinsight.html
+  · https://www.clinicaltrialsarena.com/news/inhibrx-biosciences-ozekibart-chondrosarcoma-phase-ii/
+
+### 3) Degrader methodology
+- **Quiet.** No new PROTAC/molecular-glue cooperativity or ternary-prediction paper crosses the window beyond
+  what 2026-08-24/28 already logged (the Riepenhausen AF3-vs-Boltz-2 benchmark, DegradeQuery).
+
+### 4) NON-DEGRADER ROUTES
+- **No new fusion-junction vaccine, TCR-T, or immunotherapy trial/readout specific to a FET-fusion sarcoma
+  found this period.** PerVision, SarVac and FusionVAC22_01 (all already tracked) remain the live precedents;
+  general TCR-T/neoantigen reviews surfaced but add no new EMC-relevant data point.
+- **No new AOC/oligonucleotide-delivery technology candidate found this period.** The two AOC design-principles
+  reviews already tracked (J Hematol Oncol, Gene Therapy) continue to be the freshest synthesis; no new
+  delivery platform or EMC-enriched surface antigen found.
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases.** **No change this period.** OpenFE stays v1.12.0 (2026-06-29), OpenMM 8.6.0
+(2026-08-19), RDKit 2026.03.6 (2026-08-28, already captured), Boltz still v2.2.1 open-weight (2025-09-08).
+No new gufe/openmmtools/Kartograf/LOMAP2/openff-toolkit/openff-nagl release found this window.
+
+**(b) Frontier-model access — REAL DELTA, captured below.** **Claude Fable 5.1 and Claude Mythos 5.1 released
+2026-09-01.** Fable 5.1 "finishes ahead of Opus 5 on every category Anthropic published," and specifically
+roughly doubles the agentic-scientific-research benchmark Terminal-Bench-Science 0.1 (52.6% vs Fable 5's
+24.7%); biology safeguards fire ~85% less often on benign medical/biology questions — fewer false-positive
+refusals for legitimate research work like this program's. **Mythos 5.1** is the identical model with lighter
+safeguards, gated to vetted organizations via a new Life Sciences Verification Program (US-only) — not a lane
+this program has access to. Fable 5.1 itself is the generally-available tier. ⚠ **UNKNOWN this scan whether
+these research sessions are actually running on Fable 5.1 or still falling back to Opus 5** — worth checking
+`/status` rather than assuming, since the whole point of tracking this row is using the best available tier.
+https://www.anthropic.com/claude/fable
+
+**(c) Phone-drivable coding agents.** **Codex Remote is now GA on all ChatGPT plans** — from the ChatGPT
+mobile app, users can start/continue work on a connected Mac or Windows host, review progress and approve
+actions from the phone; pairing now uses authenticated one-to-one QR codes. A new DigitalOcean Droplet
+Workspace plugin lets Codex provision and connect to a cloud host directly. Incremental relative to the
+2026-08-28 entry (Codex mobile control already existed); the comparison to driving Claude Code from the
+Claude mobile app is unchanged. https://openai.com/index/work-with-codex-from-anywhere/
+
+**(d) Compute-cost / GPU-market.** No material price move found this period on Vast.ai/RunPod/Modal/GCP/AWS
+spot pricing — Vast.ai remains the cheapest marketplace floor. RTX 5090 remains **UNPRICEABLE for our
+OpenMM/OpenFE workload**: no $/ns benchmark found this scan either (general LLM-inference and rendering
+benchmarks exist, but nothing for memory-bandwidth-bound PME MD). No new GPU provider or free/academic credit
+program found.
+
+### Action items for the program
+1. **Check whether this session (or the research sessions generally) is running Fable 5.1 or still falling
+   back to Opus 5** — if Fable 5.1 is available and out-measures Opus 5 on science reasoning as claimed, that
+   is a free upgrade for every future research session, not just this newsletter.
+2. Fix `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged — carried from prior entries; ⚠ this run itself landed on `main` successfully via the working
+   session-based mechanism per method-watch.md, so the underlying Routine defect may be moot if that is now
+   the mechanism in use — unverified this scan).
+
+*Sources are real search hits from parallel WebSearch passes (method-watch/tooling/compute-cost; NR4A/EMC +
+degrader methodology; non-degrader routes; frontier-model/mobile-agent watch). No fabricated papers, trials,
+releases, or prices; items not independently verified beyond the search snippet are flagged as such above.*
