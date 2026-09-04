@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 199,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 173,
+    "queued": 172,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -2282,10 +2282,10 @@
         "strategy": "ST-MORTALITY-MECHANISM"
       },
       "kind": "fetch",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "CYC-0106-e41d184e",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2294,7 +2294,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-09-04",
       "requires_trimcrae": false,
-      "claimed_utc": null,
+      "claimed_utc": "2026-09-04T17:43:10Z",
       "closes_clause": null,
       "filed_by": "CYC-0105-e41d184e",
       "prerequisite_of": "AUT-220",
@@ -2303,7 +2303,13 @@
         "research/manuscripts/emc-host-factor-inputs.json `not_entered` and `what_the_retrieval_did_not_contain`, 2026-09-04"
       ],
       "score": 160.5,
-      "_score_basis": "inherited from AUT-220 (+0.5) — it is the work that unblocks it"
+      "_score_basis": "inherited from AUT-220 (+0.5) — it is the work that unblocks it",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-04T17:43:10Z",
+          "fingerprint_at_dispatch": "2026-09-04|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-032",
