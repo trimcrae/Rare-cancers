@@ -18,13 +18,28 @@ last_verified: 2026-08-05
 
 # RT-EARLY-PALLIATIVE — Early specialist palliative care and structured symptom monitoring
 
-**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ○ ready · concept · confidence low · verified 2026-09-04
+**Family:** [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) · **state:** ✓ blocked · scoped · confidence low · verified 2026-09-04
 
 **Grade** (owned by [`research/manuscripts/emc-mortality-mechanisms.md`](../../research/manuscripts/emc-mortality-mechanisms.md)): ⭑ Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.
 
 ## What has to land for this route to move
 
-*This route inherits no blocker and retires none — there is no dependency structure to draw. Its state is decided by the evidence on this page alone.*
+```mermaid
+flowchart LR
+  RT_EARLY_PALLIATIVE["✓ RT-EARLY-PALLIATIVE"]:::fam
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_EARLY_PALLIATIVE
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
 ## Scientific rationale
 
@@ -52,6 +67,12 @@ This is the only route on the board whose class of intervention has randomised e
 | A retrieved, cited set of the randomised trials in this class with their measured effect sizes and populations | ⛔ none built | yes | — |
 | A trial in sarcoma or in this histology, which needs a clinical network | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
+## Blockers
+
+| blocker | kind | what would retire it |
+|---|---|---|
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+
 ## Readiness — what this could become today
 
 **`internal_note`**
@@ -73,13 +94,16 @@ The trial-literature half is now answered with three replicating RCTs, but the r
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The retrieval and reading are both done and $0; what remains (a sarcoma-specific trial) needs a clinical network this repository does not have, so the route's next state is writing up the transfer honestly, not further dispatch.
+The retrieval, reading and write-up are all done and $0; what remains (a sarcoma-specific trial) needs a clinical network this repository does not have.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-CLOUD-WET-LAB** — A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers E *(expected 2029, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -91,7 +115,7 @@ The retrieval and reading are both done and $0; what remains (a sarcoma-specific
 
 ## Best next action
 
-CORRECTED 2026-09-04: the trial set is read (see supporting_evidence) -- three independent RCTs (US, Mexico, China) all show an OS benefit for early/combined palliative care in NSCLC. Next step is writing up PUB-MORTALITY-MECHANISM's intervention-arm section stating the class-level finding plainly and the transfer to EMC as explicitly unproven, not further retrieval.
+WRITTEN 2026-09-04 (AUT-219): PUB-MORTALITY-MECHANISM §4.3 now states the class-level finding (three replicating RCTs) and the transfer-to-EMC caveat explicitly, with the same content added to research/manuscripts/emc-mortality-mechanisms.md §3. Nothing feasible-today remains on this route: the one open item (a sarcoma-specific trial) is blocked_by BLK-NO-WET-LAB. Next action is on that blocker, not on this route.
 
 *Cost:* $0
 

@@ -53,7 +53,7 @@ last_verified: 2026-08-09
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
 | 1 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **15.0** | 1 | 0 | 0 | 0% of 3 | ◐ `drafted` |
 | 2 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **14.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
-| 3 | [**PUB-MORTALITY-MECHANISM**](../../research/manuscripts/emc-mortality-mechanisms-paper.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **12.5** | 0 | 0 | ⚠ 6 | 57% of 14 | ◐ `drafted` |
+| 3 | [**PUB-MORTALITY-MECHANISM**](../../research/manuscripts/emc-mortality-mechanisms-paper.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **12.0** | 0 | 0 | ⚠ 6 | 57% of 14 | ◐ `drafted` |
 | 4 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.0** | 2 | 0 | 0 | 50% of 6 | ◐ `drafted` |
 | 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
 | 6 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |

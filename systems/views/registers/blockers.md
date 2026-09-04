@@ -44,7 +44,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | blocker | kind | routes held | families | reach | routes that retire it | what would retire it |
 |---|---|---:|---:|---|---:|---|
 | **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 42 | 8 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 16 | 7 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 17 | 8 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
 | **BLK-NO-CURATED-CLINICAL-DATA**<br/>Three of these six clinical fields are absent from the reachable publications, not merely  | `insufficient_data` | 9 | 3 | cross-family | 0 | `TECH-RECONSTRUCTED-IPD` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
@@ -85,7 +85,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE** | 5 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-NO-WET-LAB** | 16 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB** | 17 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-R4-BINDS** | 8 | cross-family | **2029** | `low` | `speculative` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY** | 1 | single-family | **2029** | `low` | `extrapolated` | `TECH-OLIGO-DELIVERY` |
 | **BLK-ENDPOINT-MD** | 1 | single-family | **2029** | `low` | `speculative` | `TECH-E1-POWERED` |
@@ -129,7 +129,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `requires_external_collaboration`
 - **a statement about:** the operating regime, not any route's science
-- **held by (16):** RT-ALK-HIT, RT-ASO-ASK, RT-ATR-PANEL, RT-CHAPERONE, RT-COVALENT-PROBE, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-MATRIX-ADDRESS, RT-RET, RT-RIPTAC, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
+- **held by (17):** RT-ALK-HIT, RT-ASO-ASK, RT-ATR-PANEL, RT-CHAPERONE, RT-COVALENT-PROBE, RT-DNAPK, RT-EARLY-PALLIATIVE, RT-EZH2, RT-FAP-RLT, RT-MATRIX-ADDRESS, RT-RET, RT-RIPTAC, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
 - **retired by route (2):** RT-ENDPOINT-CHOICE, RT-METHODS-PAPER
 - **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
 - **⭐ retired by an action we can take:** A collaborator who holds an EMC line — unchanged, and NOT retired by money. ⭐ WHAT CHANGED 2026-08-23 IS THAT THE ASK NOW HAS A SIZE. This blocker's own statement says 'an ask needs a self-interested taker before its size matters', and the size was genuinely unknown: what-a-civilian-can-buy.md §4.4 found every CRO quote-only and recorded F1 as unevaluable. Academic core facilities publish rate cards, so it is evaluable at $0 — the portfolio's SMALLEST ask (route 1b) prices at roughly $18k, of which the catalogue compounds the route memo emphasises are about 2%. ART-WETLAB-CONTRACTING-COSTS owns the numbers. ⛔ THIS DOES NOT WEAKEN THE BLOCKER AND MUST NOT BE READ AS PROGRESS TOWARDS RETIRING IT. The gate is eligibility, not price: the three EMC lines are institution-gated by policy and held under MTA by their originating groups, and every costed experiment except R4's binding half needs them. ⚠ NOR DOES LAB AUTOMATION RETIRE IT — measured against the model, hourly labour is 60.9% of the total, and with hands entirely FREE no experiment falls below $2,000 while the cell-engineering ones do not move at all. method-watch.md's remote-robotic-wet-lab row already held the correct form of this: a cloud lab flips the EXECUTION gate, not the MATERIAL gate. What a number does buy is a better outreach ask — 'this is ~$18k of your core's time and here is the preregistration' rather than 'would you run this?'

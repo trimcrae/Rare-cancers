@@ -33,7 +33,7 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 ```mermaid
 flowchart LR
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 8 families"}}:::blk
-  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 7 families"}}:::blk
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 8 families"}}:::blk
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
   BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — 3 families"}}:::blk
   BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — 3 families"}}:::blk
@@ -67,6 +67,7 @@ flowchart LR
   BLK_NO_EMC_DATA --> ST_REPURPOSING
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_MICROENV
+  BLK_NO_WET_LAB --> ST_MORTALITY_MECHANISM
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
   BLK_NO_WET_LAB --> ST_OCCUPANCY
   BLK_NO_WET_LAB --> ST_PROXIMITY
@@ -144,7 +145,7 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | 42 | 8 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 16 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 17 | 8 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 10 | 2 | *permanent — nothing* |
 | **BLK-NO-CURATED-CLINICAL-DATA** | `insufficient_data` | 9 | 3 | `TECH-RECONSTRUCTED-IPD` |

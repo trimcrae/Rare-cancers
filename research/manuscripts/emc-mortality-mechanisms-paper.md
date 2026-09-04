@@ -316,8 +316,25 @@ Not established, and stated as a direction rather than a result: if these deaths
 general-population rates, then interventions that reduce general-population mortality would be
 expected to apply, with a weaker transportability assumption than any tumour-directed therapy
 requires, because the deaths in question are not cancer deaths. Quantifying that requires effect sizes
-this study did not retrieve, and no outcome data on supportive or host-directed care exists in this
-disease in either direction.
+this study did not retrieve, and this disease itself has no outcome data on supportive or host-directed
+care in either direction.
+
+One class of supportive intervention does have direct randomised evidence elsewhere in oncology, and
+it is the only non-antitumour intervention class with a reported overall-survival benefit in cancer at
+all: early specialist palliative care integrated alongside standard oncologic care. The finding
+replicates rather than resting on one trial. In metastatic non-small-cell lung cancer, median overall
+survival was longer with early palliative care than with standard care alone in the founding trial
+(11.6 vs 8.9 months, p=0.02, PMID 20818875), and in two independent replications conducted in
+different health systems: a Mexican trial (18.1 vs 10.5 months, HR 1.5 [95% CI 1.04-2.3], p=.030,
+PMID 38558247) and a Chinese trial (HR 0.19 [95% CI 0.04-0.85], p=0.029, PMID 37781179). An earlier
+evidence synthesis found the survival claim resting on a thin base -- two studies -- before these two
+replications existed (PMID 32953543). Every one of these trials is in non-small-cell lung cancer, a
+disease whose median survival is measured in months; EMC's natural history is measured in decades, a
+population none of these trials enrolled and a transfer no trial has tested. Whether an effect
+measured over months of survival extends over a course of years, through what mechanism, and whether
+a sarcoma-specific trial of this intervention exists at all, are left here as open questions rather
+than assumed answers: a title-level search of the corpus retrieved for this class of intervention
+found no sarcoma-specific palliative-care trial.
 
 ### 4.4 Lung-directed treatment
 

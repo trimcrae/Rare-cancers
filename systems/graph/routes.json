@@ -9145,7 +9145,9 @@
       }
     },
     "grade_pointers": [],
-    "blockers_inherited": [],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB"
+    ],
     "blockers_retired": [],
     "instruments": {
       "support": [],
@@ -9173,10 +9175,10 @@
     },
     "purpose": "Do the non-antitumour interventions that have shown overall-survival benefit in randomised oncology trials transfer to a disease with this natural history?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "ready",
-      "maturity": "concept",
+      "status": "blocked",
+      "maturity": "scoped",
       "confidence": "low",
       "last_verified": "2026-09-04"
     },
@@ -9230,12 +9232,15 @@
       "why_not_higher": "The trial-literature half is now answered with three replicating RCTs, but the route's central transfer question -- does an NSCLC-measured effect apply to EMC's decade-scale natural history -- remains open by construction: no trial has tested it, and none can without a sarcoma-specific study this repository cannot run."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The retrieval and reading are both done and $0; what remains (a sarcoma-specific trial) needs a clinical network this repository does not have, so the route's next state is writing up the transfer honestly, not further dispatch.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The retrieval, reading and write-up are all done and $0; what remains (a sarcoma-specific trial) needs a clinical network this repository does not have.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-CLOUD-WET-LAB"
+      ]
     },
     "next": {
-      "best_next_action": "CORRECTED 2026-09-04: the trial set is read (see supporting_evidence) -- three independent RCTs (US, Mexico, China) all show an OS benefit for early/combined palliative care in NSCLC. Next step is writing up PUB-MORTALITY-MECHANISM's intervention-arm section stating the class-level finding plainly and the transfer to EMC as explicitly unproven, not further retrieval.",
+      "best_next_action": "WRITTEN 2026-09-04 (AUT-219): PUB-MORTALITY-MECHANISM §4.3 now states the class-level finding (three replicating RCTs) and the transfer-to-EMC caveat explicitly, with the same content added to research/manuscripts/emc-mortality-mechanisms.md §3. Nothing feasible-today remains on this route: the one open item (a sarcoma-specific trial) is blocked_by BLK-NO-WET-LAB. Next action is on that blocker, not on this route.",
       "cost": "$0"
     }
   },

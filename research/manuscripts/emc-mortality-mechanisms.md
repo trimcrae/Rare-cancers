@@ -14,7 +14,7 @@ scope: >-
   ST-MORTALITY-MECHANISM. Owns no clinical figure — every number points at the clinical registry.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-09
-last_verified: 2026-08-09
+last_verified: 2026-09-04
 ---
 
 # What actually kills EMC patients
@@ -178,7 +178,7 @@ stated rather than netted.
 
 ---
 
-## 3 · What symptom-directed treatment would be worth — ⏳ AWAITING CITED EFFECT SIZES
+## 3 · What symptom-directed treatment would be worth — ⏳ 1 OF 8 SUB-QUESTIONS ANSWERED
 
 **⛔ NO EFFECT SIZE IS WRITTEN HERE FROM RECOLLECTION.** This memo names no trial, no percentage and
 no PMID for any intervention until the retrieval returns it. That restraint is not fastidiousness: it
@@ -188,10 +188,31 @@ claim *strength* and citation *provenance* are orthogonal, and a hedged sentence
 is a perfect sentence to a linter that reads only hedging.
 
 The probe's third query block asks the questions this section needs answered, and each has a real
-`hitCount` waiting: early specialist palliative care and overall survival; structured
-patient-reported symptom monitoring and overall survival; thromboprophylaxis in ambulatory cancer;
-sepsis-bundle mortality in neutropenic and immunocompromised patients; malignant pleural effusion
-management; cachexia intervention; exercise oncology; palliative care in **sarcoma specifically**.
+`hitCount` waiting: ✅ **early specialist palliative care and overall survival — RETRIEVED AND READ
+2026-09-04 (AUT-219)**, see below; structured patient-reported symptom monitoring and overall
+survival; thromboprophylaxis in ambulatory cancer; sepsis-bundle mortality in neutropenic and
+immunocompromised patients; malignant pleural effusion management; cachexia intervention; exercise
+oncology; palliative care in **sarcoma specifically** (searched as a byproduct of the query above —
+title-level, not a dedicated search — and found nothing; see below).
+
+**✅ Early specialist palliative care — the class-level finding, and what it does not show.** The
+class replicates across three independent randomised trials in three distinct populations: Temel et
+al. 2010 (US, metastatic NSCLC, n=151, PMID 20818875, median OS 11.6 vs 8.9 months, p=0.02), Allende
+et al. 2024/PACO (Mexico/LMIC, advanced NSCLC, n=146, PMID 38558247, median OS 18.1 vs 10.5 months,
+HR 1.5 [1.04-2.3], p=.030), and Chen et al. 2023 (China, NSCLC, n=140, PMID 37781179, HR 0.19
+[0.04-0.85], p=0.029). Kochovska et al. 2020 (PMID 32953543) shows the survival evidence base was
+thin (2 studies, one of them a timing-within-palliative-care comparison rather than early-vs-none) as
+of that date -- the two subsequent trials materially strengthen the class-level finding. ⚠ **All
+three are NSCLC, all three are months-scale survival populations. EMC's natural history runs to
+decades, and no trial has tested whether the effect transfers to a disease this indolent** -- that is
+the route's actual open question, and it is answered by none of the four papers above. A title-level
+search of the same 388-paper retrieved corpus for "sarcoma" found one hit, unrelated (visceral
+angiosarcoma epidemiology), consistent with -- not proof of -- no sarcoma-specific trial existing.
+Full detail, including the mechanism candidates the original trials proposed (earlier symptom
+detection, less aggressive end-of-life chemotherapy) and why neither is confirmed here: `RT-EARLY-
+PALLIATIVE` in `systems/graph/routes.json`, `EV-TEMEL-2010` / `EV-PACO-2024` / `EV-CHEN-2023-CEPC` /
+`EV-KOCHOVSKA-2020` in `systems/graph/evidence.json`. Written into the paper at
+`emc-mortality-mechanisms-paper.md` §4.3.
 
 **The arithmetic each retrieved effect size will feed**, once it exists:
 

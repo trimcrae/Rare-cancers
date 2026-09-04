@@ -37,7 +37,7 @@ flowchart LR
   ST_MORTALITY_MECHANISM["ST-MORTALITY-MECHANISM"]:::fam
   RT_COMPETING_MORTALITY["○ RT-COMPETING-MORTALITY"]:::fam
   ST_MORTALITY_MECHANISM --> RT_COMPETING_MORTALITY
-  RT_EARLY_PALLIATIVE["○ RT-EARLY-PALLIATIVE"]:::fam
+  RT_EARLY_PALLIATIVE["✓ RT-EARLY-PALLIATIVE"]:::fam
   ST_MORTALITY_MECHANISM --> RT_EARLY_PALLIATIVE
   RT_HOST_FACTOR["○ RT-HOST-FACTOR"]:::fam
   ST_MORTALITY_MECHANISM --> RT_HOST_FACTOR
@@ -53,6 +53,8 @@ flowchart LR
   BLK_NO_EMC_DATA --> RT_RESPIRATORY_FAILURE
   BLK_NO_EMC_DATA --> RT_TREATMENT_HARM
   BLK_NO_EMC_DATA --> RT_VTE_PROPHYLAXIS
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_EARLY_PALLIATIVE
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -68,7 +70,7 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md)**<br/>Competing (non-EMC) mortality in a decade-scale cohort | ○ ready | computed | `preprint` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | CORRECTED 2026-09-03: this field was stale, carried over from before the branch that registered this route clo |
-| **[RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md)**<br/>Early specialist palliative care and structured symptom monitoring | ○ ready | concept | `internal_note` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | CORRECTED 2026-09-04: the trial set is read (see supporting_evidence) -- three independent RCTs (US, Mexico, C |
+| **[RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md)**<br/>Early specialist palliative care and structured symptom monitoring | ✓ blocked | scoped | `internal_note` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | WRITTEN 2026-09-04 (AUT-219): PUB-MORTALITY-MECHANISM §4.3 now states the class-level finding (three replicati |
 | **[RT-HOST-FACTOR](L2-rt-host-factor.md)**<br/>Treating modifiable host conditions as de-facto EMC survival therapy | ○ ready | concept | `internal_note` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | Read the host-factor retrieval, enter each effect size against the population it was measured in, and run the  |
 | **[RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md)**<br/>Progressive pulmonary metastatic burden and respiratory failure | ○ ready | concept | `internal_note` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | Classify the retrieved death-cue sentences by mechanism and report the unstated fraction honestly. |
 | **[RT-TREATMENT-HARM](L2-rt-treatment-harm.md)**<br/>De-escalating cytotoxic therapy that has no measured EMC response | ○ ready | concept | `internal_note` | [PUB-MORTALITY-MECHANISM](L3-publications.md) ◐ *contributing* | CORRECTED 2026-09-03: the count against the terminal-event corpus is DONE (see readiness.why_not_higher) and f |
