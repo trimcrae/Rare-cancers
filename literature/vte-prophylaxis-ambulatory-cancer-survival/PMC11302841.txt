@@ -1,0 +1,189 @@
+3652diaprogresDiagnostic and Prognostic ResearchDiagn Progn ResBMCPMC1130284111302841113028413910390010.1186/s41512-024-00173-5Systematic review of methods used in prediction models with recurrent event data
+WatsonVictoria SmithCatrin Tudur BonnettLaura J 1Department of Health Data Sciences, University of Liverpool, Liverpool, UK ✉Corresponding author.
+68202481313682024© The Author(s) 2024Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Abstract
+
+## Background
+Patients who suffer from chronic conditions or diseases are susceptible to experiencing repeated events of the same type (e.g. seizures), termed ‘recurrent events’. Prediction models can be used to predict the risk of recurrence so that intervention or management can be tailored accordingly, but statistical methodology can vary. The objective of this systematic review was to identify and describe statistical approaches that have been applied for the development and validation of multivariable prediction models with recurrent event data. A secondary objective was to informally assess the characteristics and quality of analysis approaches used in the development and validation of prediction models of recurrent event data.
+
+## Methods
+Searches were run in MEDLINE using a search strategy in 2019 which included index terms and phrases related to recurrent events and prediction models. For studies to be included in the review they must have developed or validated a multivariable clinical prediction model for recurrent event outcome data, specifically modelling the recurrent events and the timing between them.
+The statistical analysis methods used to analyse the recurrent event data in the clinical prediction model were extracted to answer the primary aim of the systematic review. In addition, items such as the event rate as well as any discrimination and calibration statistics that were used to assess the model performance were extracted for the secondary aim of the review.
+
+## Results
+A total of 855 publications were identified using the developed search strategy and 301 of these are included in our systematic review. The Andersen-Gill method was identified as the most commonly applied method in the analysis of recurrent events, which was used in 152 (50.5%) studies. This was closely followed by frailty models which were used in 116 (38.5%) included studies. Of the 301 included studies, only 75 (24.9%) internally validated their model(s) and three (1.0%) validated their model(s) in an external dataset.
+
+## Conclusions
+This review identified a variety of methods which are used in practice when developing or validating prediction models for recurrent events. The variability of the approaches identified is cause for concern as it indicates possible immaturity in the field and highlights the need for more methodological research to bring greater consistency in approach of recurrent event analysis. Further work is required to ensure publications report all required information and use robust statistical methods for model development and validation.
+
+## PROSPERO registration
+CRD42019116031.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Mar 5; Accepted 2024 Jun 13; Collection date 2024.
+
+## Introduction
+A chronic condition is as a long-term medical condition, such as epilepsy and asthma. Patients with such conditions are at risk of multiple recurrences over their lifetime and often these chronic conditions or diseases have no cure [ , ]. Despite this, there may be medications and/or therapies available which can help control the chronic condition. These can improve patients’ quality of life and independence by improving their ability to perform day-to-day activities such as social activities, exercising and work. Chronic diseases contribute to the largest proportion of diseases and this is expected to rise with the aging population [ ]. The World Health Organization (WHO) reported diabetes mellitus, cardiovascular and chronic respiratory diseases, cancer and stroke as the ‘big 5’ chronic diseases worldwide [ ].
+It can be challenging for clinicians and patients to make decisions regarding starting and stopping treatments for chronic conditions as outcomes are often heterogeneous and it is necessary to balance the benefits and harms of treatments. Clinical prediction models can help inform treatment choice and guide patient counselling [ ]. They combine multiple pieces of patient information to predict a clinical outcome for people with a particular medical condition [ ].
+Many prediction models for recurrent conditions estimate which patient subgroups have higher recurrence risks, based only on limited information about prior events, such as time from diagnosis to first event. Although such models can be useful, they do not fully utilize the information that can be collected from patients on the history of all previous events, and they cannot be updated whenever a patient has a recurrence [ ]. Therefore, it is necessary to consider methods for modelling all events along a patient’s journey to better predict outcome and therefore better inform discussions between patients and clinicians regarding treatment strategies.
+
+## Aims
+The aims of this systematic review were to (i) identify and describe existing methodology being applied for the development and validation of prediction models for recurrent event outcome data, (ii) to informally assess the quality of analysis reported, including the use of model performance measures, in the development and validation of prediction models for recurrent event data.
+
+## Methods
+Full methodological details are available in the associated protocol [ ].
+
+## Search strategy
+A search strategy was developed to ensure identification of as many studies as possible relevant to the systematic review; the Ingui search filter [ ] for prediction models was combined with terms associated with statistical models for recurrent events, as recommended by a specialist librarian. The database used to identify studies was the Medical Literature Analysis and Retrieval System Online (MEDLINE). The search strategy is described in Table  in Appendix 1, and was run on 24th October 2019.
+ 
+
+## Selection criteria
+Studies chosen for inclusion in the review were carefully assessed against pre-defined inclusion criteria. The systematic review focussed on methodology used to develop and validate multivariable prediction models for recurrent events as a result of a chronic condition or disease. A recurrent event was defined as an event of the same type occurring multiple times for the same individual. For example, repeated seizures in people with epilepsy, repeated hospitalisations for people with heart conditions or recurrent urinary tract infections. Papers which applied recurrent event analysis methods to areas which were not applicable to a chronic condition or disease were not included. Examples of these include papers which analysed juvenile data for repeat offenders or motorcycle/car crashes.
+For studies to be included in the review, they must have developed or validated a multivariable prediction model for recurrent event data predicting the risk of future recurrences. Included studies had to include both the number of recurrent events and also the timing between them as part of the model. Studies which only analysed the time to the first event only using a standard Cox model for example, or studies which analysed only the number of events using a Poisson or Negative Binomial model for example were not included. Similarly, studies considering only one prognostic factor were excluded.
+
+## Study design
+No restrictions were placed on the data collection approach used in studies, for example both retrospective and prospective studies were included.
+
+## Setting and study population
+No restriction was placed on the setting the study was conducted in nor did the search strategy focus on a certain study population regarding age group or ethnicity.
+
+## Study selection
+The study selection process consisted of two independent reviewers, who first screened titles and abstracts using pre-defined screening criteria.
+Full texts were then obtained and were screened by the two independent reviewers separately against full eligibility criteria. Relevant texts were translated where deemed necessary when considering non-English texts.
+Assessments between reviewers were discussed, and any discrepancies resolved. Reviewers’ decisions and reasons for exclusion were recorded.
+
+## Data extraction
+A detailed data extraction form was developed and piloted on 10 studies before it was finalised for use throughout the systematic review. The data extraction form collected information about the statistical method used to analyse recurrent events. Characteristics such as the country the study was conducted in and the dates the study took place over were also collected, as was the medical condition under consideration, the design of the study (Randomised Controlled Trial (RCT), cohort or case–control for example), and length of follow-up. The number of patients, the number of recurrent events and the number of patients who experienced recurrent events were extracted if provided.
+Information regarding discriminatory statistics which examine the models’ ability to distinguish between those who had the event and those who did not were assessed, for example C-statistics, was extracted for each study. Similarly, information about the models’ calibration performance, which assesses the agreement between the observed probability to the predicted probability of risk, was extracted where available [ , ].
+Studies were categorised according whether the model was internally validated and/or externally validated.
+
+## Quality of analysis assessment
+As the priority of the review was to describe statistical methodology, we did not complete a full quality assessment for each study. However, we did assess the ‘analysis’ domain from the ‘Prediction study Risk Of Bias Assessment Tool’ (PROBAST) [ ] as an informal assessment of the quality of analysis. This included an assessment of how the prognostic factors to be included in the final model were chosen, and how prognostic factors were entered into the model. Missing data was also assessed, for example the overall completeness of the data and the numbers lost to follow up (LTF). Approaches for handling missing data (imputation or complete case analysis) were extracted. The source of the data was also recorded to assess potential bias, whether it be a cohort study, case–control or a RCT for example.
+
+## Results
+
+## Included studies
+By applying the search strategy, 855 papers were identified and screened (Fig.  ). Of these, 63 were excluded by title and 254 by abstract, leaving 538 to be assessed using the full-text. Of these, 237 papers were excluded after a full-text review leaving 301 papers to be included in the final review. A full list of included papers can be found in Table  in Appendix 2.
+ The 301 studies were published across a 34-year span, from 1985 to 2019. Cardiology was found to be the most frequently reported clinical area in 62 (20.6%) studies, for example studies which use these methods to analyse recurrent heart failure related admissions. Oncology studies were the second most applied area with 45 (15.0%) studies modelling tumour recurrences, such as recurrences of breast cancer [ – ], bladder cancer [ – ], rectal cancer [ – ] and oesophageal cancer [ ] amongst other cancer types [ , ]. The full list of clinical areas can be seen in Table  in Appendix 3.
+ The majority of studies, 173 (57.5%), used data from a cohort design. The remaining studies used data from RCTs (55 (18.3%)), case–control studies (12 (4.0%)) or cross-sectional studies (7 (2.3%)). Model development was the primary focus in 45 (15.0%) studies, rather than a primary objective of the paper to report analysis results of a clinical dataset.
+A detailed summary of the included studies according to the aims of the review is detailed below.
+
+## Statistical approaches to modelling recurrent events
+The most frequently reported method for analysing recurrent events was the Andersen-Gill (AG) model [ ], which was used in 152 (50.5%) of the 301 included papers (Table  ). This is an extension of the Cox model using robust standard errors to account for within subject heterogeneity between recurrence times within individuals. Frailty models [ ] were used by 116 (38.5%) studies. Frailty models for recurrent event data also compromise of a Cox model analysing time to event data, but instead of using robust standard errors to account for within subject heterogeneity, random effects are added to the model. These random effects are referred to as the frailty variable in the model [ , ]. A variety of frailty models were applied depending on distribution and these are summarised in Table  . The most frequent was the gamma frailty model in 63 (20.9%) studies.
+
+ There were 48 (15.9%) papers identified which used more than one method to analyse recurrent events.
+
+## Quality of analysis assessment
+Selected aspects of the PROBAST ‘analysis’ domain (domain 4), as described in the methods section, are now considered. The results for these can be found in Tables  , , , , , , and .
+Were there a reasonable number of participants with the outcome? (PROBAST 4.1)
+ PROBAST states that the Events per Variable (EPV) included in a model should be greater than or equal to 20 for studies to have less chance of overfitting and thus be graded as low risk of bias [ ]. The number of papers which report the EPV can be found in Table  . If the EPV was not reported, it was calculated manually where possible by using the reported person years of follow-up. If the person years of follow-up was not reported, the EPV was approximated using either the mean or median length of follow-up. The number of events per 100-person years was calculated by dividing the number of recurrent events overall in the study by the total number of person years of follow-up and multiplied by 100. Where the EPV could not be calculated, it was not clear how many predictor levels had been included in the model, or the number of events within the dataset was not specified. The median (Interquartile-range (IQR)) event rate was summarised. Results relating to this PROBAST item can be found in Table  .
+Were continuous and categorical predictions handled appropriately? (PROBAST 4.2)
+Studies which use categorisation when analysing continuous predictors are usually rated as high risk of bias in the PROBAST assessment, unless a clear clinical rationale is provided for doing so [ ]. Results relating to this PROBAST item can be found in Table  .
+Were all enrolled participants included in the analysis? (PROBAST 4.3)
+The PROBAST assessment includes determining if all enrolled participants were included in the analysis, and if a study excluded participants, the reason for this must be justified for doing so [ ]. Results relating to this PROBAST item can be found in Table  .
+Were participants with missing data handled appropriately? (PROBAST 4.4)
+The majority of studies, 227 (75.4%), did not adequately report a specific approach for handling missing data for either the outcome or covariates. Where this was reported, the type of methods used to handle missing data can be found in Table  . Some studies reported more than one method for handling missing data.
+Additionally, two (0.7%) studies created an extra category for each variable used in the analysis which had missing data to minimise the loss of observations through missing data. One (0.3%) study excluded variables if more than 10% of the data for that variable was missing and one (0.3%) study only used variables in the analysis which had fewer than 20% missing data.
+Was selection of predictors based on univariable analysis avoided? (PROBAST 4.5)
+Univariable screening, use of stepwise regression (for example, backwards or forwards elimination) when choosing predictors for inclusion in the final model are characteristics associated with high risk of bias according to PROBAST [ ]. The number of included studies which reported using these can be found in Table  .
+Were complexities in the data accounted for appropriately? (PROBAST 4.6)
+This section of the PROBAST domain was not summarised, as recurrent event data is already considered a complexity. Therefore, all included papers could be classified as accounting for complexities in the data.
+Were relevant model performance measures evaluated appropriately? (PROBAST 4.7)
+The PROBAST checklist requires internal validation and reporting of calibration and discrimination statistics for a study to be rated as a low risk of bias [ ]. Some papers used multiple measures of internal validation, where several measures for calibration and discrimination were reported. External validation was found to be used far less, in only three (1.0%) of included studies [ , , ], although notably models may have been externally validated in separate publications that were not picked up by our review. Results relating to this PROBAST item can be found in Table  .
+Were model overfitting, underfitting, and optimism in model performance accounted for? (PROBAST 4.8)
+Following internal validation, studies which account for model overfitting and optimism model are graded as low risk of bias according to PROBAST [ ]. Results relating to this PROBAST item can be found in in Table  .
+Do predictors and their assigned weights in the final model correspond to the results from the reported multivariable model? (PROBAST 4.9)
+To be graded as low risk of bias according to PROBAST [ ], studies should report all the predictors included in the final model and levels for each. Studies should also report the full results for all included predictors. Results relating to this PROBAST item can be found in Table  .
+
+## Additional information
+Few studies calculated additional statistics to assess model performance and model fit which are currently outside the scope of PROBAST. These results can be found in Table  .
+
+ 
+
+## Discussion
+This systematic review demonstrated that a wide range of statistical methods are used in practice when developing prediction models for recurrent event data. There were 11 methods identified in total to analyse recurrent events. The most commonly applied method was the Andersen-Gill model and cardiology was the most frequently reported clinical area. Many studies were rated as high risk of bias according to the analysis domain of the PROBAST assessment tool, primarily due to a lack of (internal) validation and a lack of reporting of performance measures by only reporting the effect size, 95% CI and p value in the results. Model overfitting/underfitting was also poorly examined. High risk of bias was also identified where studies did not fully report the results in the paper by not including the estimates for all predictors included in the model. How predictors were chosen for model inclusion also indicated a risk of bias through the use of univariable screening, and the dichotomised of continuous variables was also seen. Key items were also missing in some of the papers, such as the number of patients who experienced events, the total number of recurrent events, the length of follow-up or the number of predictors in the model. This resulted in the event rate or EPV being unable to be calculated for all studies, and for the ones where it could a high risk of bias was identified for some papers here also.
+To the best of our knowledge, this is the first systematic review of prediction models which focuses solely on the methodology used to analyse recurrent event data rather than a specific clinical area or study setting. The largest systematic review of prediction models to date is a review of prediction models for diagnosis and prognosis of COVID-19 [ ]. This highlighted that almost all published prediction models were poorly reported and at high risk of bias such that their reported predictive performance is likely to be optimistic. These findings are in line with our systematic review. An additional systematic review on recurrent events was conducted, but it is specific to interventions to prevent recurrent falls published in 2009 which includes papers published until 2006 [ ].
+There are limitations to this review, namely that a single database was searched, and in 2019. However, an extensive and diverse range of models was identified from MEDLINE alone which we feel reflects findings that would be obtained from additional databases and more research running of the search strategy. Statistical practice has changed very little in the last five years with regards to modelling of recurrent events. Therefore, it is unlikely that the main results would change if a more recent search had been run. In addition, only 301 papers met the pre-specified inclusion/exclusion criteria, despite no limit being placed on factors such as clinical area, study period and population. Therefore, it is also unlikely that searching of an additional database such as EMBASE would result in a substantial number of additional papers. Also, some studies did not report certain information. It may have been possible to obtain this additional information by contacting the corresponding author. However, the purpose of this review is to identify methods for modelling recurrent events and not to undertake a full quality assessment and therefore this was felt to be unnecessary for this review. A final limitation is that names of methods known prior to conducting the review to analyse recurrent events were included in the search strategy, which may have caused bias in the search results. However, to the best of our knowledge, all methods available to analyse recurrent events are included in our strategy.
+The variability of the approaches identified suggests a lack of knowledge and expertise in the field, highlighting the need for more methodological research to bring greater consistency in the approach to recurrent event analysis. Furthermore, when assessing papers for inclusion in review, there were examples identified which handled the recurrent event data inappropriately and were thus excluded. For example, deriving a binary variable which captured whether patients experienced recurrences, which was then analysed using logistic regression rather than utilising a recurrent event analysis method [ – ]. This indicates a further lack of knowledge in the field of recurrent event analysis amongst researchers, and therefore a need to provide evidence and inform researchers of methods available.
+This review identified a number of statistical methods for modelling recurrent event data. There is therefore a need to identify whether models are suited to a particular clinical scenario, or whether they can be used interchangeably. In addition, research is required regarding which summary measures can be used to differentiate between prediction models for recurrent events, for example to summarise their predictive performance. Further work is required in this area to encourage the development and validation of statistically robust prediction models, and the appropriate reporting of prediction models via the pre-existing transparent reporting of a multivariable prediction model for individual prognosis or diagnosis (TRIPOD) reporting guidelines [ ]. This will ensure that prediction models that are adopted within clinical practice are robust and appropriate to the clinical setting, including modelling all events along a patient’s journey, not just the first.
+
+## Conclusions
+This systematic review identified a wide range of statistical methods that have been applied in practice to develop and validate prediction models with recurrent event data. The Andersen-Gill model was found to be the most frequently applied. The review also identified several types of frailty models which can be used to analyse recurrent events. The results of the systematic review and the variety of methods identified highlight the need for further methodological research to bring greater consistency in the analysis methods used for recurrent event analysis.
+Very few studies performed any type of model validation and reporting of model performance statistics was rare. Further work is now required to determine which, if any, models may be better suited to analyse recurrent events under different scenarios. Additional work is also required to support authors to develop and validate robust statistical models, and report them appropriately according to the TRIPOD statement. 
+
+## Acknowledgements
+Not applicable.
+
+## Abbreviations
+AICAkaike information criterion
+AIDSAcquired immunodeficiency syndrome
+AGAndersen-Gill
+BICBayesian information criterion
+DICDeviance information criterion
+EPVEvents per variable
+HIVHuman immunodeficiency virus
+IQRInterquartile-range
+LNLawless and Nadeau marginal model
+LOCFLast Observation Carried Forward
+LSCLiang, Self and Chang
+LTFLost to follow-up
+LWALee, Wei and Amato
+LWYYLin, Wei, Ying and Yang
+MAPEMean absolute percentage error
+MEDLINEMedical Literature Analysis and Retrieval System Online
+MSEMean square error
+MSMMulti-state model
+PRISMAPreferred-Reporting Items for Systematic Reviews and Meta-Analyses
+PROBASTPrediction model Risk Of Bias ASsessment Tool
+PROSPEROInternational Prospective Register of Systematic Reviews
+PWP -GTPrentice, Williams and Peterson–Gap Time
+PWP -TTPrentice, Williams and Peterson–Total Time
+RCTRandomised controlled trial
+RMSERoot mean square error
+RMPSERoot mean square percentage error
+SGFShared gamma frailty
+STDSexually transmitted disease
+STISexually transmitted infection
+TRIPODTransparent reporting of a multivariable prediction model for individual prognosis or diagnosis
+WHOWorld Health Organization
+WLWWei, Lei and Weissfeld
+
+## Appendix 1
+Search strategy
+
+## Appendix 2
+
+## Appendix 3
+Clinical area recurrent event methods applied in
+
+## Authors’ contributions
+VW drafted the manuscript. LJB and CTS reviewed and revised the manuscript. All authors approved the final version after being reviewed, and the comments were addressed.
+
+## Funding
+Not applicable.
+
+## Availability of data and materials
+Not applicable.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+Not applicable.
