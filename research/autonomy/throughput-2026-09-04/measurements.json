@@ -1,0 +1,90 @@
+{
+  "recorded_date": "2026-09-04",
+  "evidence_origin": "Measurements observed earlier in this agent tool output, transcribed here without rerunning; original benchmark stdout was not saved.",
+  "ci_before": {
+    "run": "https://github.com/trimcrae/Rare-cancers/actions/runs/33903448963",
+    "sha": "9da4e2e1",
+    "pytest_step_seconds": 1079,
+    "pytest_summary": "11948 passed, 56 skipped in 1076.87s",
+    "pytest_job_seconds": 1125,
+    "pip_seconds": 21,
+    "duplicate_branch_run": "https://github.com/trimcrae/Rare-cancers/actions/runs/33903446351",
+    "duplicate_branch_wall_seconds": 1221
+  },
+  "local_ligand_benchmark": {
+    "particles": 7032,
+    "heavy_ligand_atoms": 60,
+    "baseline_seconds": 4.429282,
+    "patched_seconds": 0.022028,
+    "full_result_dictionaries_equal": true,
+    "method": "Loaded original production module from git show HEAD:research/modalities/ternary_fep_convergence.py into a separate module. AST-extracted _build_assembly and fake mass/force/system definitions from test_ternary_ligand_identification.py; constructed its default assembly. Timed the real _ligand_atoms function in baseline and patched modules on the same fixture; compared complete results. The working tree was not mutated for the benchmark. Missing OpenMM/simtk imports repeat per particle before fix, resolve once per call afterward.",
+    "limitation": "Single local measurement of ligand identification. Not an end-to-end CI runtime forecast."
+  },
+  "local_import_profile": {
+    "quantities": 1000,
+    "baseline_total_seconds": 2.446,
+    "failed_imports": 2000,
+    "seconds_in_failed_imports": 2.413,
+    "patched_total_seconds": 0.002,
+    "patched_failed_imports": 2
+  },
+  "initial_focused_tests": {
+    "passed": 72,
+    "seconds": 23.1,
+    "warnings": 3,
+    "command": "python -X utf8 -m pytest -q research/modalities/tests/test_ternary_ligand_identification.py scripts/tests/test_affected_tests.py scripts/tests/test_preflight_suite_gating.py research/autonomy/tests/test_main_keeps_a_per_commit_verdict.py research/modalities/tests/test_workflows_parse.py research/manuscripts/tests/test_no_guard_can_silently_not_run.py",
+    "environment": "PYTHONPATH=.cache/python-deps; actual Python, Git Bash sh.exe, and Node runtime directory on subprocess PATH",
+    "log": "Tool output only; no original stdout log retained."
+  },
+  "portability_tests": {
+    "passed": 91,
+    "skipped": 1,
+    "seconds": 20.75,
+    "log": ".cache/preflight-native-portability-tests-detail.log",
+    "command_source": ".cache/preflight_portability_details.py"
+  },
+  "normal_native_preflight_before_portability": {
+    "exit": 1,
+    "seconds": 217.641,
+    "log": ".cache/preflight-native-2026-09-04.log",
+    "full_science_suite": false
+  },
+  "systems_check_before_after": {
+    "before_errors": 706,
+    "after_errors": 6,
+    "before_seconds": 99.625,
+    "after_seconds": 26.906,
+    "remaining": "Missing purpose/audience in newly authored protocol/runner docs; root has since added these fields. These timings were separate targeted invocations with parallel diagnostic checks, not controlled benchmarks."
+  },
+  "final_archive_portability_tests": {
+    "passed": 27,
+    "seconds": 2.82,
+    "log": "archive-portability-tests.log"
+  },
+  "runner_tests_after_windows_setting": {
+    "passed": 14,
+    "seconds": 11.463
+  },
+  "review_recorder_and_contract_tests": {
+    "passed": 29,
+    "seconds": 1.29
+  },
+  "recorded_utc": "2026-09-04T21:51:13.292290Z",
+  "final_normal_preflight": {
+    "status": "pending source checkpoint and archive regeneration",
+    "full_science_suite": false
+  },
+  "active_entry_and_skill_words": {
+    "before": 34532,
+    "after": 3019,
+    "reduction_percent": 91.3,
+    "paths": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".claude/skills/paper-hardening/SKILL.md",
+      ".claude/skills/repo-gates/SKILL.md",
+      ".claude/skills/research-loop/SKILL.md"
+    ],
+    "separate_protocol_words": 1378
+  }
+}

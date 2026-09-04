@@ -7,7 +7,8 @@
   "tiers": {
     "commit-loop": {
       "directories": ["scripts/tests", "research/autonomy/tests", "systems/tests"],
-      "max_test_functions": 1400,
+      "max_test_functions": 1500,
+      "measurement_2026_09_04": "User-directed workflow redesign: add behavioral runner/isolation/timeout and review-summary checks, not new manuscript assertions. Runner tests: 14 passed (11 subtests), 9.86 s on this Windows host; recorder plus existing receipt-contract checks: 29 passed, 1.29 s. CI agent targeted checks: 72 passed, 23.10 s. These overlapping targeted timings are not a full-tier runtime measurement. Ceiling is an administrative growth alert; scientific acceptance and the other tier ceilings are unchanged.",
       "why": "The pure-logic suites. At 1,277 functions on 2026-09-02, against a ceiling that leaves ~10 % of headroom for guards a real incident demands. ⛔ THESE ARE NOW OPT-IN (PREFLIGHT_TESTS=1) and out of both the default loop and any paper tier, so the ceiling protects CI's time and the opt-in run's, not the commit loop's. It is kept tight anyway: this is the tier that grew 789 -> 1,119 without anyone deciding to, and none of it is about a manuscript."
     },
     "paper-guards": {

@@ -1,0 +1,59 @@
+{
+  "schema": "emc-local-research-run/1",
+  "run_id": "20260904T205434Z-6eb86f38f4",
+  "started_utc": "2026-09-04T20:54:34.215811Z",
+  "resource": "paper:PUB-ASO",
+  "model": "gpt-6-astra",
+  "auth": "saved-chatgpt",
+  "coordination": "one-local-clone-only",
+  "mode": "read-only",
+  "legacy_and_remote_writers_stopped_acknowledged": false,
+  "base_commit": "c309b6f6e42ab6adb684c995dc9af2b6caa08fe5",
+  "worktree": ".cache/research-runs/20260904T205434Z-6eb86f38f4/worktree",
+  "limits": {
+    "timeout_seconds": 300,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "low"
+  },
+  "task_sha256": "cbba77633b2cbfefc2c76d74e9a4f07bfc5dac0cd88313f483f26848a4fe5e74",
+  "protocol_sha256": "cb8c25b44279ec917ebea745fda0aee87c0368d5d1b8841d605f521c2fbe8b24",
+  "rounds": [
+    {
+      "round": 1,
+      "started_utc": "2026-09-04T20:54:47.921214Z",
+      "status": "blocked",
+      "stdout": "round-1.jsonl",
+      "stderr": "round-1.stderr",
+      "session_id": "01a06e33-dec4-7540-a969-3fa53b86c329",
+      "usage": [
+        {
+          "input_tokens": 64183,
+          "cached_input_tokens": 40704,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 295,
+          "reasoning_output_tokens": 11
+        }
+      ],
+      "errors": 0,
+      "exit_code": 0,
+      "finished_utc": "2026-09-04T20:55:09.056629Z",
+      "outcome": {
+        "status": "blocked",
+        "summary": "The audit could not proceed: execution policy rejected the first read-only file search. No project files were read or changed, so submission materials and missing declarations remain unverified.",
+        "artifacts": [],
+        "checks": [
+          "Attempted one local rg file-discovery command; blocked before execution.",
+          "Checked available tools for a local file-reading alternative; none was available."
+        ],
+        "blockers": [
+          "Execution policy prevents local inspection. Retry with local read access enabled to inspect the ASO end matter, NAT checklist, and research/autonomy/publication-authority.json within this worktree."
+        ]
+      }
+    }
+  ],
+  "status": "blocked",
+  "automatic_publication": false,
+  "finished_utc": "2026-09-04T20:55:09.269205Z",
+  "elapsed_seconds": 35.047
+}

@@ -238,6 +238,7 @@ def test_the_corpus_is_derived_from_four_committed_sources_and_reaches_the_compa
     one narrows the corpus loudly instead of silently — the shape `lint_claims.DEFAULT_TARGETS`
     records three times as "half the submission left the linted set and nothing said so"."""
     corpus = lsr.targets()
+    assert all("\\" not in path for path in corpus), "baseline identities use canonical repository paths"
     style = _load("lint_style")
     builder = _load("build_submission_pdf")
     metrics = json.load(open(os.path.join(MANUSCRIPTS, "submission-metrics.json"), encoding="utf-8"))

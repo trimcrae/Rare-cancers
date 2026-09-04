@@ -1,0 +1,175 @@
+{
+  "status": "unsubmitted candidate; no release authorization or independent peer review",
+  "source_revision": "c309b6f6e42ab6adb684c995dc9af2b6caa08fe5",
+  "candidate_sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
+  "original_source_sha256_lf": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "metrics": {
+    "main_words": 2241,
+    "abstract_words": 200,
+    "figures": 1,
+    "tables": 2,
+    "display_items": 3,
+    "references": 24
+  },
+  "source_checks": {
+    "title_preserved": true,
+    "six_16mer_sequences_preserved": true,
+    "citation_PMID_set_preserved": true,
+    "citation_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "original_copied_companion_hashes_before_metadata_changes": {
+      "fusion-junction-aso-journal-tables.md": "90eb1833ed77b1c021818097eec3fff71091bd85e70d82c9a8877967473f3ee2",
+      "fusion-junction-aso-journal-references.md": "7ced4f1c91232ae82c67f1b4cb145a4b7b299bfa95486cf1a4805792a6ca714a",
+      "fusion-junction-aso-sequences.csv": "2fc8ee19e9164f049aaedaafa2b2813bd0f16924da626b956f8856cc193c913d",
+      "aso-multipartner-seam.svg": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56"
+    },
+    "companion_source_comparisons": {
+      "fusion-junction-aso-journal-references.md": {
+        "canonical_sha256": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
+        "candidate_sha256": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
+        "body_equal_excluding_frontmatter_and_line_endings": true
+      },
+      "fusion-junction-aso-journal-tables.md": {
+        "canonical_sha256": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
+        "candidate_sha256": "90eb1833ed77b1c021818097eec3fff71091bd85e70d82c9a8877967473f3ee2",
+        "body_equal_excluding_frontmatter_and_line_endings": true
+      },
+      "fusion-junction-aso-sequences.csv": {
+        "canonical_sha256": "ef3d19327db5536a18866ac0de89ff4a8643a4ca66f7019877d9674aedf9c7cf",
+        "candidate_sha256": "2fc8ee19e9164f049aaedaafa2b2813bd0f16924da626b956f8856cc193c913d",
+        "body_equal_excluding_frontmatter_and_line_endings": true
+      },
+      "aso-multipartner-seam.svg": {
+        "canonical_sha256": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
+        "candidate_sha256": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
+        "body_equal_excluding_frontmatter_and_line_endings": true
+      }
+    }
+  },
+  "changed_claims": {
+    "exact_genomic_hit": {
+      "source": "research/modalities/aso-genome-offtarget.json",
+      "EWSR1_exact_sites": 1,
+      "TAF15_exact_sites": 0,
+      "EWSR1_hit": {
+        "seq": "3",
+        "start": 176354948,
+        "end": 176354963,
+        "orientation": "sense",
+        "required_transcript_strand": "+",
+        "mismatches": 0,
+        "gap_mismatches": 0,
+        "gap_fully_paired": true,
+        "softmask_fraction": 0.0,
+        "genes": [
+          "ENSG00000304430"
+        ],
+        "biotypes": [
+          "lncRNA"
+        ],
+        "gene_strands": [
+          "+"
+        ],
+        "hybridisable": true,
+        "compartment": "intronic",
+        "nt_to_nearest_splice_site": 7403
+      },
+      "source_coordinate_convention": "zero-based inclusive",
+      "one_based_inclusive": "GRCh38 chr3:176354949-176354964, plus strand",
+      "manuscript_omits_coordinates_to_avoid_ambiguity": true,
+      "source_sha256": "d0939cecf7b4b222c70fe3b8ac2ee71bfcef013cc01cf08a6e9ccdb427d8464f"
+    },
+    "framework_scope": {
+      "source": "research/manuscripts/aso/lit-targets-aso-instruments.json",
+      "scope": "in-silico half of step one; transcriptomics not performed"
+    },
+    "log_ratio_SD": {
+      "source": "research/manuscripts/aso_falsification_power.py",
+      "assumed_SD": 0.35,
+      "rerun_power_percent": {
+        "3": 30.423563968483002,
+        "6": 81.28393770317678
+      },
+      "rerun_void_SD": {
+        "3": 0.6478859464276987,
+        "6": 1.5336223120777763,
+        "10": 2.24983906494935
+      }
+    }
+  },
+  "pdf": {
+    "created": true,
+    "page_count": 6,
+    "visual_verification": true,
+    "verified_utc": "2026-09-04T21:51:13.292290Z",
+    "method": "All six Poppler 120-dpi page images inspected by the coordinator; pypdf text and source-hash checks.",
+    "observed_layout_defects": [],
+    "final_six_page_rasters_identical_to_visually_inspected_pages": true,
+    "pages": 6,
+    "all_build_source_hashes_match": true,
+    "six_source_sequences_present_in_pdf": true,
+    "exact_hit_identifier_and_AI_disclosure_present": true,
+    "pdf_sha256": "3677c46d7d6075f615ddb042fd63bee75c156ff0ceaa736fd9449a6f728e74cf",
+    "text_chars_by_page": [
+      4613,
+      4245,
+      5284,
+      5451,
+      5533,
+      5572
+    ]
+  },
+  "limits": [
+    "No complete analysis rerun or fresh whole-paper review.",
+    "Inherited substantive results compared with original; changed claims checked against cited repository artifacts.",
+    "Existing archived/source data are computational predictions, not laboratory validation.",
+    "Author review and final archive/upload reconciliation remain required."
+  ],
+  "coordinator_revision_check": {
+    "utc": "2026-09-04T21:51:13.292290Z",
+    "read_all_rendered_pages": true,
+    "genomic_hit_counts_and_compartment_checked_directly": true,
+    "scope": "Read revised claims and compressed explanations, inspected preserved results and revising-agent power rerun; not a full analysis rerun or publication verdict."
+  },
+  "metadata_only_changes": {
+    "README.md": {
+      "before_sha256": "a3696c02e13942111ce095427787ebced4ca6c907cb1f898a8216a215b270089",
+      "after_sha256": "0ba79b05ef20ce792ce1c638798f9ead86dc3768816e02906b2b149c6e1f89a1",
+      "scientific_body_unchanged": true
+    },
+    "manuscript.md": {
+      "before_sha256": "07b5010c850ba2e3a5aa9797c463b7c07f13051f0281fed8bc3249d7c7b2ab3b",
+      "after_sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
+      "scientific_body_unchanged": true
+    },
+    "fusion-junction-aso-journal-references.md": {
+      "before_sha256": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
+      "after_sha256": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
+      "scientific_body_unchanged": true
+    }
+  }
+}

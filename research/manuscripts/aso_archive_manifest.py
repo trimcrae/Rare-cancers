@@ -887,7 +887,7 @@ PROMISES = [
 
 # The manifest never lists itself: its own hash would depend on its own content, and the file could
 # then never be idempotent. It is named here so a reader can see the omission is a decision.
-SELF_EXCLUDE = {os.path.relpath(OUT, REPO)}
+SELF_EXCLUDE = {os.path.relpath(OUT, REPO).replace(os.sep, "/")}
 
 #: Distinguishes "work it out yourself" from `None`, which here means "git could not answer".
 _MISSING = object()
@@ -938,7 +938,7 @@ def _resolve(patterns, tracked=_MISSING):
         for p in glob.glob(os.path.join(REPO, pat)):
             if not os.path.isfile(p):
                 continue
-            rel = os.path.relpath(p, REPO)
+            rel = os.path.relpath(p, REPO).replace(os.sep, "/")
             if rel in SELF_EXCLUDE:
                 continue
             if not graded_row and rel.endswith("-graded.json"):
@@ -1201,7 +1201,7 @@ def _screen_coverage():
         ok, _why = screen_is_gap_resolved(screen)
         if ok:
             gap_resolved.append(base)
-            graded = os.path.relpath(s.path[:-5] + "-graded.json", REPO)
+            graded = os.path.relpath(s.path[:-5] + "-graded.json", REPO).replace(os.sep, "/")
             if not (os.path.exists(os.path.join(REPO, graded))
                     and (tracked is None or graded in tracked)):
                 ungraded.append(base)
@@ -1433,10 +1433,10 @@ def build():
             "⛔_ambiguous_and_therefore_not_added": ambiguous_imports,
         },
         "documents_with_no_build_stamp": sorted(
-            os.path.relpath(p, REPO)
+            os.path.relpath(p, REPO).replace(os.sep, "/")
             for p in glob.glob(os.path.join(ASO, "*.pdf"))
             if not os.path.exists(p[:-4] + ".build-stamp.json")
-            and os.path.relpath(p, REPO) in seen),
+            and os.path.relpath(p, REPO).replace(os.sep, "/") in seen),
         "_documents_with_no_build_stamp_why": (
             "A deposited PDF whose stamp is absent cannot be shown current: the stamp is the only "
             "record of which source documents it was rendered from, and mtimes are not evidence "
@@ -1560,7 +1560,7 @@ def build():
         # "a manifest listing every archived file with its SHA-256" — an omission that is correct
         # and unexplained reads exactly like one that is not.
         "self_entry": {
-            "path": os.path.relpath(OUT, REPO),
+            "path": os.path.relpath(OUT, REPO).replace(os.sep, "/"),
             "travels_with_the_deposit": True,
             "in_the_files_list_below": False,
             "sha256": None,

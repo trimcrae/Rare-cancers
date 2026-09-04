@@ -1422,7 +1422,7 @@ def _instruction_paths():
 #: `research/modalities/.pytest_cache/README.md` — a file pytest writes, that no human authored — and
 #: [D4] duly failed the build for its missing frontmatter. A checker that goes red because a test run
 #: left a cache behind is a checker people learn to work around.
-TRANSIENT_DIRS = {".git", ".claude", "node_modules", ".pytest_cache", "__pycache__", ".mypy_cache",
+TRANSIENT_DIRS = {".git", ".claude", ".cache", ".worktrees", "node_modules", ".pytest_cache", "__pycache__", ".mypy_cache",
                   ".ruff_cache", ".ipynb_checkpoints", ".venv", "venv", ".tox", "node_modules"}
 # ⛔ `.claude` IS LOAD-BEARING, AND IT WAS MISSING. The harness puts agent git worktrees under
 # `.claude/worktrees/`, so a session running several agents has N more copies of this repository
@@ -2961,7 +2961,7 @@ def render_l2(r, g):
             anchor = anchor if anchor.startswith("#") else "#" + anchor
         else:
             anchor = ""
-        rel_target = os.path.relpath(os.path.join(REPO, own.get("file", ".")), VIEWS)
+        rel_target = os.path.relpath(os.path.join(REPO, own.get("file", ".")), VIEWS).replace(os.sep, "/")
         out.append(f"**Grade** (owned by [`{own.get('file','?')}`]({rel_target}{anchor})): "
                    f"{esc(gv.get('value',''))}\n")
     out += ["## What has to land for this route to move\n"]
@@ -3044,7 +3044,7 @@ def render_l2(r, g):
         title, path = _pub_title(p)
         out += ["## Where this route ends — the paper\n",
                 f"**[{pr['endpoint']}](L3-publications.md)** — "
-                + (f"[{esc(title)}]({os.path.relpath(os.path.join(REPO, path), VIEWS)})" if path
+                + (f"[{esc(title)}]({os.path.relpath(os.path.join(REPO, path), VIEWS).replace(os.sep, '/')})" if path
                    else f"*{esc(title)}* (unwritten)") + "\n",
                 f"`{pr['role']}` · {PUB_GLYPH[p['state']]} `{p['state']}` · aimed at "
                 f"`{p['target_venue']}`\n",
@@ -3225,7 +3225,7 @@ def render_publications(g):
     for p in pubs:
         title, path = _pub_title(p)
         short = title if len(title) <= 72 else title[:71] + "…"
-        link = f"[{esc(short)}]({os.path.relpath(os.path.join(REPO, path), VIEWS)})" if path \
+        link = f"[{esc(short)}]({os.path.relpath(os.path.join(REPO, path), VIEWS).replace(os.sep, '/')})" if path \
             else f"*{esc(short)}*"
         gap = p.get("why_not_written") or "—"
         out.append(f"| **{p['id']}**<br/>{link} | {PUB_GLYPH[p['state']]} `{p['state']}` "
@@ -3239,7 +3239,7 @@ def render_publications(g):
         out.append(f"### {p['id']} — {esc(title)}\n")
         bits = [f"{PUB_GLYPH[p['state']]} `{p['state']}`", f"aimed at `{p['target_venue']}`"]
         if path:
-            bits.append(f"[`{path}`]({os.path.relpath(os.path.join(REPO, path), VIEWS)})")
+            bits.append(f"[`{path}`]({os.path.relpath(os.path.join(REPO, path), VIEWS).replace(os.sep, '/')})")
         if p.get("companion_of"):
             bits.append(f"ships with **{p['companion_of']}**")
         out += ["**" + " · ".join(bits) + "**\n", p["what_it_would_claim"], ""]
@@ -3865,7 +3865,7 @@ def render_modalities(g):
                     ref = m["prior_ref"]
                     lead = "already ruled" if m["verdict"] == "already_rejected" else "on the record"
                     lands = f"{lead} — [{os.path.basename(ref['file'])}](" \
-                            f"{os.path.relpath(os.path.join(REPO, ref['file']), VIEWS)}" \
+                            f"{os.path.relpath(os.path.join(REPO, ref['file']), VIEWS).replace(os.sep, '/')}" \
                             f"{'#' + ref['anchor'] if ref.get('anchor') else ''})"
                 else:
                     lands = esc(_clip(m["rationale"], 150))
@@ -4471,7 +4471,7 @@ def render_paper_strength(g):
     for i, r in enumerate(rows, 1):
         p = r["pub"]
         doc = (p.get("document") or {}).get("file")
-        name = f"[**{p['id']}**]({os.path.relpath(os.path.join(REPO, doc), VIEWS)})" if doc \
+        name = f"[**{p['id']}**]({os.path.relpath(os.path.join(REPO, doc), VIEWS).replace(os.sep, '/')})" if doc \
             else f"**{p['id']}**"
         sd = "—" if r["self_doable"] is None else f"{round(100 * r['self_doable'])}% of {r['n_validation']}"
         ung = len(r["ungraded"])

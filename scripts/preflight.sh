@@ -50,6 +50,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# A FULL run must not claim publication evidence while deliberately skipping a suite.
+if [ "${PREFLIGHT_FULL:-0}" = "1" ] && [ "${SKIP_TESTS:-0}" = "1" ]; then
+  echo "PREFLIGHT REFUSED: PREFLIGHT_FULL=1 and SKIP_TESTS=1 are incompatible." >&2
+  exit 2
+fi
+
 # ⛔⛔ EVERY GATE BELOW RUNS AGAINST A PRIVATE, EMPTY BYTECODE CACHE — BECAUSE ON 2026-08-27 THIS
 # SCRIPT REPORTED TWO FAILING TESTS THAT THE SOURCE ON DISK COULD NOT PRODUCE. `inspect.getsource`
 # showed the fixed code; the interpreter executed the OLD bytecode. The mechanism, measured rather
@@ -161,9 +167,18 @@ trap 'rm -rf "$PREFLIGHT_PYCACHE"' EXIT
 # cheap and idempotent (an import check, exit 0 if already satisfied), and `set -euo pipefail`
 # (line 49) makes a dev-setup that CANNOT repair the run interpreter abort this script rather than
 # let it report a manufactured number.
-if [ -x ./scripts/dev-setup.sh ]; then
-  ./scripts/dev-setup.sh --if-needed
-fi
+# Legacy Linux bootstrap is not a Windows dependency installer. The actual gates below
+# still run normally and fail for missing dependencies; only Linux package provisioning skips.
+case "$(uname -s 2>/dev/null || echo unknown)" in
+  MINGW*|MSYS*|CYGWIN*)
+    echo "preflight: Windows shell detected; skipping Linux dev-setup. Provision gate dependencies separately."
+    ;;
+  *)
+    if [ -x ./scripts/dev-setup.sh ]; then
+      ./scripts/dev-setup.sh --if-needed
+    fi
+    ;;
+esac
 
 # Known-failing-in-sandbox count. Raise ONLY with a recorded reason; lowering it is always safe.
 #
@@ -1545,6 +1560,11 @@ echo "PINNED_SHA=$_pinned_sha"
 # made tests opt-in. So the tier is printed in the verdict, every time.
 if [ "$rc" -ne 0 ]; then
   echo; echo "PREFLIGHT FAILED -- do not commit."
+elif [ "${PREFLIGHT_FULL:-0}" = "1" ] && [ -n "${PREFLIGHT_PAPER:-}" ]; then
+  # This tier omits governance and may narrow modalities. It must neither print the unscoped
+  # success banner nor certify the selector hashes, even if every check it actually ran passed.
+  echo; echo "PREFLIGHT OK (PAPER=$PREFLIGHT_PAPER: fast gates + manuscripts + modalities; see headings for scope)"
+  echo "             Governance suites did NOT run; no unscoped FULL evidence or selector stamp was produced."
 elif [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
   # ⛔⛔ A GREEN FULL RUN RE-STAMPS THE SELECTOR RECORD, BECAUSE THE CHORE WAS A TREADMILL.
   # `affected_tests._unvalidated_gatekeepers` compares `preflight.sh` and `affected_tests.py`

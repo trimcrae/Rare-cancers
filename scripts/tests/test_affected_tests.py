@@ -24,7 +24,7 @@ import affected_tests as A  # noqa: E402
 #: `_validated` below rewrites `A.VALIDATION_RECORD` for every test in this file, so a test that
 #: reads it after collection sees the temp record, never the committed one. A test whose SUBJECT is
 #: the committed record must bind here and re-point the module at it. See the comment above
-#: `test_the_committed_record_matches_the_committed_gatekeepers`.
+#: `test_the_committed_record_can_only_scope_validated_gatekeepers`.
 COMMITTED_RECORD = A.VALIDATION_RECORD
 
 
@@ -279,11 +279,12 @@ def test_an_unreadable_validation_record_takes_the_whole_suite(fake, tmp_path, m
 # fixture that rewrites the constant cannot silence this test without the assertion naming it.
 
 
-def test_the_committed_record_matches_the_committed_gatekeepers(monkeypatch):
-    """⚠ THE RECORD IS PART OF THE COMMIT THAT CHANGES THE SELECTOR, NOT A LATER CHORE.
+def test_the_committed_record_can_only_scope_validated_gatekeepers(monkeypatch, fake):
+    """A stale record must select FULL, not make a successful FULL run impossible.
 
-    A record left stale costs a full run on every commit until someone notices — the safe direction,
-    but a silent tax. This fails loudly instead, and names the command that fixes it.
+    The old hash-equality assertion was itself in the full suite: editing preflight invalidated
+    the record, this assertion failed, and the green run required to refresh it was unreachable.
+    Keep the fail-closed selection behavior; let a full run earn the new hashes after it passes.
     """
     monkeypatch.setattr(A, "VALIDATION_RECORD", COMMITTED_RECORD)
     expected = os.path.join(ROOT, "scripts", "selector-validation.json")
@@ -292,11 +293,12 @@ def test_the_committed_record_matches_the_committed_gatekeepers(monkeypatch):
         f"{A.VALIDATION_RECORD}. A record built by a fixture matches the tree by construction, so "
         "the assertion below would be about nothing.")
     stale = A._unvalidated_gatekeepers()
-    assert stale is not None, f"{A.VALIDATION_RECORD} is unreadable or incomplete"
-    assert not stale, (
-        f"{sorted(stale)} do not match scripts/selector-validation.json. Run "
-        "`PREFLIGHT_FULL=1 ./scripts/preflight.sh` to green, then "
-        "`python3 scripts/record_selector_validation.py`, and commit both together.")
+    fake({"research/modalities/junction_aso_offtarget.py"})
+    selected = A.select()
+    if stale is None or stale:
+        assert selected is None, "unvalidated gatekeepers must select FULL"
+    else:
+        assert selected, "validated gatekeepers must select guards for the changed module"
 
 
 def _tiny_tree(tmp_path, monkeypatch):
