@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 207,
+    "process_defect": 209,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 197,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 172,
+    "queued": 173,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -14659,6 +14659,73 @@
       ],
       "retry_budget": 3,
       "filed_by": "interactive-session-11f2347b"
+    },
+    {
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-04",
+      "retry_budget": 3,
+      "filed_by": "interactive-session-11f2347b",
+      "id": "AUT-PD-219-11f2347b-df854cb7",
+      "score": 134.0,
+      "_score_basis": "Above ordinary process defects (128-134) because it PARKS FREE WORK — 16 h for AUT-PROP-064 here — and because it makes the platform's `SUCCEEDED` signal mean nothing about delivery. Below the live-route rows: it is self-limiting, the lease does expire, and no evidence is lost.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "The loop's delivery guarantee. A cycle that claims and dies parks a free item for 16 hours and reports SUCCEEDED while doing it."
+      },
+      "what": "⛔⛔ A CYCLE CLAIMED AN ITEM, SKIPPED BOTH THE CADENCE STAMP AND THE RECEIPT, DIED IN FOUR MINUTES — AND ITS ROUTINE RUN IS RECORDED `SUCCEEDED`. Measured 2026-09-04 when trimcrae asked whether the loop had actually run.\n★ THE EVIDENCE, ALL OF IT $0:\n   driver Routine trig_01P9ZNSAw7rNLcKLBFYCwuHp fired 2026-09-04T00:14:29Z, run cse_01KgLtkcBQzHHojhiPmLNeHJ, finished 00:21:37Z, status ROUTINE_RUN_STATUS_SUCCEEDED.\n   9eb48f261 `claim AUT-PROP-064-37419c4c-e4d65505 for CYC-0101-c95ec192` at 00:17:56Z.\n   `git ls-tree origin/main research/autonomy/receipts/ | grep CYC-0101` -> 0 files.\n   the ONLY cadence stamp in 24 h is a1b8dec0c, for start 13:07:29Z — CYC-0101 never stamped, so `cadence.py --check` still measures from the cycle SEVEN HOURS BEFORE it.\n⛔ SO STEP 4 OF THE CYCLE CONTRACT RAN WHILE STEPS 1 AND 10 DID NOT, and the platform's own success signal cannot tell the difference. `last_run.status: SUCCEEDED` means the session exited cleanly, not that a cycle delivered — reading it as delivery is the same class of error as reading an absent measurement as a measurement of absence (CLAUDE.md §4).\n⚠ THE COST IS 16 HOURS OF A FREE ITEM: `claim_lease.periods` is 2 and the period is 8 h, so AUT-PROP-064 — a $0 read of one named trial's own overall-survival result — is parked until ~2026-09-04T16:17Z by a session that was already dead at 00:21:37Z. `health.py`'s `cycle_delivering` row reads receipts and would eventually notice, but not before the lease expires on its own, so nothing acts on it in between.",
+      "next_action": "Two candidate fixes, and the cheap one is probably right. (a) MAKE THE CLAIM CARRY THE STAMP: step 1 stamps and step 4 claims, so a cycle reaching step 4 has provably passed step 1 — unless it skipped it, which is what happened. If `claim.py` wrote the stamp itself, claiming and stamping could not come apart. (b) AGE A LEASE BY THE HOLDER'S LIVENESS, NOT ONLY BY THE CLOCK: `holder_liveness.py` and `session_reaper.py` already join a receipt to a session row via `ccr_session_id`, and a lease whose holder's Routine run has FINISHED is releasable immediately rather than in 16 hours.\n⛔ Do NOT 'fix' this by shortening the lease: 16 h is two periods on purpose, and a shorter one would start stealing items from cycles that are genuinely still working.",
+      "evidence": [
+        "trig_01P9ZNSAw7rNLcKLBFYCwuHp last_run: fired 2026-09-04T00:14:29Z, finished 00:21:37Z, SUCCEEDED",
+        "9eb48f261 claim at 00:17:56Z; no CYC-0101 receipt on origin/main",
+        "a1b8dec0c is the only autonomy-state.json commit in 24h (stamp for 13:07:29Z)",
+        "priority-weights.json claim_lease.periods = 2, cycle_interval_hours = 8 -> a 16 h park"
+      ]
+    },
+    {
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-04",
+      "retry_budget": 3,
+      "filed_by": "interactive-session-11f2347b",
+      "id": "AUT-PD-220-11f2347b-df854cb7",
+      "score": 118.0,
+      "_score_basis": "Below the ordinary process-defect band because it causes no outage and errs SLOW, which is the direction the active usage throttle wants. It is scored at all because the number is QUOTED — including by an agent to trimcrae on 2026-09-03 — as the loop's cadence, and a governed figure that does not describe what it governs is this repository's most-repeated defect.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "`cycle_interval_hours` is quoted as the loop's cadence and is not the delivered spacing."
+      },
+      "what": "⛔ `cycle_interval_hours: 8` IS A FLOOR, NOT THE CADENCE — THE REAL SPACING IS 8-12 HOURS, BECAUSE AN 8-HOUR GATE IS POLLED BY A 4-HOURLY CRON. Measured 2026-09-04 after trimcrae asked why nothing had moved in 11 hours.\n★ THE ARITHMETIC, FROM THE LIVE STAMP AND THE LIVE CRON (`13 */4 * * *`):\n   last cycle start 2026-09-03T13:07:29Z\n   fire 16:13Z ->  3.1 h since -> TOO SOON, refuses (correct)\n   fire 20:13Z ->  7.1 h since -> TOO SOON, refuses (correct)\n   fire 00:13Z -> 11.1 h since -> MAY START, runs\nSo the gate did exactly what it says and the DELIVERED spacing was 11.1 h against a declared 8. Every refusal above is the gate working; the defect is that the declared number is read — including by an agent, to trimcrae, on 2026-09-03 — as the interval it is not.\n⚠ THE ERROR IS ALWAYS SLOW, NEVER FAST: the wait is `ceil(8 h) to the next 4-hourly tick`, so it ranges 8-12 h and can never be under 8. Under the active usage throttle that is the safe direction, which is exactly why it could sit unnoticed.",
+      "next_action": "⛔ THE FIX IS NOT TO SPEED UP THE CRON WHILE A USAGE THROTTLE IS ACTIVE — more fires is more usage even when most of them refuse. Make the number honest instead: `cadence.py` knows the gate and can be told the poll interval, so have it report the DELIVERED range (`8 h floor, 8-12 h actual on a 4-hourly poll`) wherever the interval is quoted, and record that range beside `cycle_interval_hours` in autonomy-state.json so no reader takes 8 as the spacing. ⚠ Revisit the cron only when the throttle lifts, and note that `research-loop` §1 records `update_trigger` refusing a cron change on this Routine because it was created via `http_api` — verify that against the live API before assuming it.",
+      "evidence": [
+        "trig_01P9ZNSAw7rNLcKLBFYCwuHp cron_expression = '13 */4 * * * '",
+        "autonomy-state.json cycle_interval_hours = 8, last_cycle_started_utc = 2026-09-03T13:07:29Z",
+        "observed: CYC-0100 ended 13:39:48Z, next claim (CYC-0101) 2026-09-04T00:17:56Z — 10.6 h idle"
+      ]
     }
   ]
 }
