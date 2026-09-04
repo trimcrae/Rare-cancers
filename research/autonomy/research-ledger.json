@@ -1860,10 +1860,10 @@
     {
       "id": "AUT-PROP-064-37419c4c-e4d65505",
       "kind": "fetch",
-      "state": "queued",
+      "state": "in_progress",
       "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "CYC-0101-c95ec192",
+      "claimed_utc": "2026-09-04T00:17:56Z",
       "attempts": 0,
       "blocked_by": null,
       "blocked_evidence": null,
@@ -1886,7 +1886,13 @@
         "AUT-223's resolution, 2026-09-03: the corpus half is done (zero true VTE deaths in the retrieved terminal-event corpus); this is the remaining half.",
         "systems/graph/routes.json RT-VTE-PROPHYLAXIS required_validation[1]: 'A survival endpoint from the ambulatory-prophylaxis trials, read rather than assumed', feasible_today: true, blocked_by: []"
       ],
-      "retry_budget": 3
+      "retry_budget": 3,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-04T00:17:56Z",
+          "fingerprint_at_dispatch": "2026-09-03|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-013",
