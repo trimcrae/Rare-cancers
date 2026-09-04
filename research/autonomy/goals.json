@@ -7,7 +7,7 @@
     {
       "id": "GOAL-ASO-V2",
       "title": "PUB-ASO is submission-ready for its v2 preprint post",
-      "state": "open",
+      "state": "met",
       "set_by": "trimcrae, 2026-08-30, verbatim: \"Pursue the goal of getting ASO v2 submission ready regardless of weekly budget.\"",
       "_set_by_note": "Recorded verbatim rather than paraphrased. The same sentence is the authority for the budget exception in autonomy-state.json `budget_hold.authorised_exceptions`; this row does not restate that grant, it points at it — the grant is about SPEND and this row is about the OBJECTIVE, and they went stale together once already by being one sentence in one place.",
       "done_condition": {
@@ -45,7 +45,40 @@
           "open": [],
           "_note": "⭐ FULL MARKS AT THE REVIEWED PIN, AND THE EVENT THIS READING EXISTS TO CARRY IS THAT THE POST HAS HAPPENED. `goal_progress.py` computes 8/8 at `3d5c709b69bc32a00a7776bf47303771d17d87f5` (round 34, 0 blockers, 7 P1s reported and not gating). The same tool reads 7/8 at HEAD 31540d962ad1, open on `preflight_full_green` alone — no PREFLIGHT_FULL receipt exists for that commit — and the manuscript is byte-identical between the two, so that is the clause-binds-to-a-commit effect the 2026-09-01 reading already named, not movement in the paper.\n⛔ AND THE GOAL'S SUBJECT IS NOW BEHIND IT: Qeios v2 went live 2026-09-04T10:29:02Z as `VL3LJR.2`, posted by trimcrae, verified at primary source — `systems/graph/publications.json` → `PUB-ASO.posted` owns the identifiers. This goal says 'submission-ready for its v2 preprint post', and that post is done, so what the loop should now be working toward for this paper is an open question rather than a derivation. ⛔ `state` is deliberately LEFT `open`: closing it would drop the only goal this file tracks (`_scope_2026_09_01`: 'For now, the loop should just track the goal of the ASO paper'), and choosing its successor is trimcrae's, not a cycle's. Escalated the same day it was read."
         }
-      ]
+      ],
+      "_met": {
+        "utc": "2026-09-04T11:40:00Z",
+        "by": "interactive session, on trimcrae's report that v2 is live and his answer to the successor question",
+        "_why": "⭐ MET ON ITS OWN CONDITION AND OVERTAKEN BY ITS SUBJECT, IN THAT ORDER. `goal_progress.py` computes full marks at round 34's reviewed pin, and trimcrae posted Qeios v2 on 2026-09-04 (`systems/graph/publications.json` → `PUB-ASO.posted`). The condition was never 'posted' — `_what_done_does_not_mean` says so — so this closes on the bar, and the posting is the corroboration rather than the trigger.\n⛔ CLOSED ONLY BECAUSE A SUCCESSOR WAS NAMED IN THE SAME EXCHANGE. `_scope_2026_09_01` keeps this file at one goal, so closing without one would leave the loop tracking nothing — which is why the successor question went to him rather than being derived."
+      }
+    },
+    {
+      "id": "GOAL-ASO-SUBMIT",
+      "title": "PUB-ASO's journal submission package is complete and stays current",
+      "state": "open",
+      "set_by": "trimcrae, 2026-09-04, choosing between three successors offered after GOAL-ASO-V2 was measured met: the journal submission package — the loop assembles everything the venue asks for and stops there; submitting stays his.",
+      "_set_by_note": "⛔ RECORDED AS A CHOICE FROM A NAMED SET, NOT AS A PARAPHRASE OF A FREE SENTENCE. The other two options were 'fix the archive first' (the deposit drift in preprint checklist §3-vii) and 'go back to the wider portfolio'. He picked the package, so the archive gap stays an open item rather than the objective, and the portfolio scope stays narrowed.",
+      "done_condition": {
+        "kind": "publish_bar",
+        "paper": "PUB-ASO",
+        "requires": "every clause passes on the commit being submitted",
+        "_command": "python3 research/autonomy/publish_bar.py --paper PUB-ASO --sha <HEAD> --venue journal --json",
+        "_reads": "n_passed == n_clauses. ⛔ THE CLAUSE COUNT IS READ FROM THE TOOL, NEVER TYPED. ⚠ AND `may_post` IS EXPECTED TO BE FALSE HERE FOREVER: `authority_permits` refuses venue 'journal' by design — 'journal submission always escalates (D4); no bar reaches it' — so the clauses are the goal and the authority is his signature, not a gate to clear."
+      },
+      "_what_done_does_not_mean": "⛔ IT DOES NOT MEAN SUBMITTED, AND IT DOES NOT PICK THE JOURNAL. Which venue this goes to is his call (D4) and the package as assembled targets *Nucleic Acid Therapeutics* — that is who the cover letter is addressed to and whose limits the packet grades against. A different venue means a re-addressed letter and a re-graded packet, which is work, not a formality.",
+      "blocks_on_a_human": false,
+      "_blocks_on_a_human_note": "⛔ SET FALSE ON MEASUREMENT, AND THE MEASUREMENT SAYS MOST OF THIS GOAL IS ALREADY STANDING. Measured 2026-09-04: every file `SUBMISSION-PACKET.md` lists for the NAT envelope exists on disk (nine of nine, checked by hand and already guarded by `test_the_packet_names_every_upload_and_each_one_exists`), the cover letter is written for that journal, and the only unfilled slot in it is `[DATE]` — the day it is sent, which this repository cannot supply and must not invent, and which is carried as a baselined finding in `submission-residue-baseline.json`.\n★ SO WHAT IS ACTUALLY LEFT FOR THE LOOP IS ONE CLAUSE: `preflight_full_green` on the commit that gets submitted. A journal submission is on CLAUDE.md §6's closed list for `PREFLIGHT_FULL=1`, and the receipt binds to a commit, so it is run when the submission commit is pinned rather than speculatively against a HEAD that will move.\n⛔ AND THREE THINGS ARE HIS AND ALWAYS WERE: the send date, re-reading the venue's author guidelines at the portal (journals.sagepub.com returns 403 to the egress proxy, to a plain CI fetch and to a headless Chromium alike, so no tool here can refresh that row), and the submission itself.",
+      "readings": [
+        {
+          "utc": "2026-09-04T11:40:00Z",
+          "by": "interactive session",
+          "passed": 8,
+          "of": 8,
+          "open": [],
+          "_note": "⭐ THE TRACKER READS MET ON DAY ONE, AND THAT IS THE CORRECT STATE FOR THIS GOAL RATHER THAN A SIGN IT IS EMPTY. `goal_progress.py --check` computes 8/8 at round 34's reviewed pin 3d5c709b69bc — the same basis it used for GOAL-ASO-V2, because the clauses bind to a reviewed commit and HEAD is never one. This goal is a MAINTENANCE goal: 'complete and stays current' is satisfied now and goes OPEN the moment a clause fails, a packet file stops existing, or a round returns a blocker. A tracker that only ever reads OPEN would be measuring a build; this one measures a standing state.\n⚠ THE OTHER READING, TAKEN THE SAME MINUTE AND ON A DIFFERENT BASIS, SO NOBODY READS THEM AS ONE: at HEAD (the v2-record merge commit) with `--venue journal` the bar is 7 of 8, open on `preflight_full_green` alone — no PREFLIGHT_FULL receipt exists for that commit. The manuscript is byte-identical between HEAD and the pin, so the difference is entirely the receipt's binding. ⛔ That clause is the loop's remaining work on this goal and it is deliberately NOT run yet: the receipt binds to a commit, and running it against a HEAD that will move spends 25 minutes to learn nothing about the commit actually submitted."
+        }
+      ],
+      "_why_pub_aso_is_not_in_his_ready_to_post_queue": "⛔ DELIBERATE, AND IT IS NOT AN OVERSIGHT. Setting `next_act: journal_submission` on PUB-ASO would put a row in `ready-to-post.json`, and `ready_to_post.py` grades that row against HEAD — where the bar reads one clause short because no PREFLIGHT_FULL receipt exists for HEAD. He would get a queue entry reading NOT-READY for a paper whose blocking clause is a receipt binding, which is worse than no entry. ★ The row goes in when the submission commit is pinned and its receipt is recorded — at which point the row reads READY and means it."
     }
   ]
 }

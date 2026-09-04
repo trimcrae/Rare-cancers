@@ -99,8 +99,13 @@ same sentence with a different identifier in it, which is the argument for namin
 status is a status FOR.*
 
 ⛔ *AND THE BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
-cannot supply and must not invent.* `[DATE]`, and the extended report's status bracket, which needs
-the venue it was submitted to.
+cannot supply and must not invent.* **As of 2026-09-04 there is exactly one, and it is `[DATE]`** —
+the date the letter is actually sent, which nothing here can know.
+⚠ *Superseded, retained (rule 1.2): this line also named "the extended report's status bracket,
+which needs the venue it was submitted to." No such bracket is in the letter — a scan of the body
+finds `[DATE]` and nothing else — so the instruction sent a reader hunting for a placeholder that
+had already been cut. ⛔ That is the same defect the paragraphs below record in the other direction:
+cutting a bracket is not answering it, and neither is naming one that is gone.*
 ⛔⛔ **THE PREPRINT DISCLOSURE IS RESTORED, BECAUSE THE CONDITION THE NOTE BELOW SET FOR RESTORING IT
 WAS MET ON 2026-08-27 AND NOBODY NOTICED FOR THREE DAYS.** `systems/graph/publications.json` records
 PUB-ASO as `state: posted_preprint` — Qeios, `10.32388/VL3LJR`, `published_at_utc`
