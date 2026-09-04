@@ -1,0 +1,26 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0106-e41d184e",
+ "session_id": "e41d184e-3ec5-5289-934d-55f11f893f5c",
+ "ccr_session_id": "session_01JJVaZs2iMadSd2Nx9fSKoP",
+ "started_utc": "2026-09-04T17:43:00Z",
+ "ended_utc": "2026-09-04T17:45:43Z",
+ "took": "AUT-224-e41d184e-847095ea (fetch, free, score 160.5; filed by CYC-0105 in this same session as a prerequisite_of AUT-220). Second cycle of this session, within max_cycles_per_session 2, run under CYC-0105's cadence stamp exactly as CYC-0104 ran under CYC-0103's; chosen because a fetch item is dispatch-and-exit against Actions and costs no Claude budget, which is the shape the active usage_throttle asks for. Claimed on the trunk on attempt 1 after CYC-0105 had landed on main.",
+ "what_changed": "scripts/lit_host_factor_probe.py: block E, six queries -- blood-pressure treatment vs all-cause mortality, glucose-lowering/metformin vs all-cause mortality, the incretin obesity cardiovascular-outcome trials, the pooled primary-prevention statin trials on death, the most-cited cessation-and-mortality evidence, and the most-cited sarcoma host-factor survival analyses -- each restricted by PUB_TYPE and sorted with sort_cited:y, no trial named. _readme counts five blocks. Probe guard tests 25/25. Committed to main at feb7d7dee6. fetch-literature.yml dispatched on ref main, slug host-factor-probe: run 33902213247, in_progress at receipt time. The workflow publishes the regenerated probe JSON to main itself.",
+ "cost": "$0 -- one workflow_dispatch (GitHub-hosted runner), local python. No GPU, no subagent.",
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0
+ },
+ "now_queued": "AUT-224 stays queued with owner null and a dispatch_log entry naming the run; it closes when a cycle reads block E's keys in the committed probe artifact. AUT-220 (derived from RT-HOST-FACTOR.next) then re-enters effect sizes from the primary trials and writes the paper section.",
+ "blocked_by": [],
+ "route_advanced": "RT-HOST-FACTOR",
+ "_route_advanced_why": "The route's first required_validation item (a retrieved, cited set of effect sizes with populations) was answered by CYC-0105 from syntheses only; this cycle put the retrieval of the primary trials and the two missing factors in flight at $0. Partial by construction: a dispatch is not a delivery, and the receipt says so.",
+ "handoff": {
+  "attempted": false,
+  "mechanism": "not needed -- two cycles in this session, at the cap; the driver Routine fires at 20:13Z and the dispatched workflow commits its own artifact to main.",
+  "refused_by": null,
+  "mechanism_unavailable": "create_session was not attempted: nothing remains for a successor that the 20:13Z fire will not pick up from the ledger, and the throttle argues against spawning.",
+  "child_session_id": null
+ }
+}

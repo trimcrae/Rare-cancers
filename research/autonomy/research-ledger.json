@@ -2285,7 +2285,7 @@
       "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "CYC-0106-e41d184e",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2294,7 +2294,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-09-04",
       "requires_trimcrae": false,
-      "claimed_utc": "2026-09-04T17:43:10Z",
+      "claimed_utc": null,
       "closes_clause": null,
       "filed_by": "CYC-0105-e41d184e",
       "prerequisite_of": "AUT-220",
@@ -2308,6 +2308,11 @@
         {
           "utc": "2026-09-04T17:43:10Z",
           "fingerprint_at_dispatch": "2026-09-04|None"
+        },
+        {
+          "utc": "2026-09-04T17:45:43Z",
+          "cycle": "CYC-0106-e41d184e",
+          "what": "scripts/lit_host_factor_probe.py block E committed to main at feb7d7dee6; fetch-literature.yml dispatched on ref main with slug host-factor-probe, run 33902213247 (https://github.com/trimcrae/Rare-cancers/actions/runs/33902213247). The workflow commits research/literature/emc-host-factor-probe.json back to main itself. DELIVERY IS READ FROM THAT ARTIFACT (block E keys present in queries), never from the run record; the row stays queued until a cycle reads it."
         }
       ]
     },
