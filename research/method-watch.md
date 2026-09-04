@@ -597,3 +597,15 @@ triggers not yet integrated into the curated sections above — review + fold in
   readout is an immunology indication). A second AOC delivery-TECHNOLOGY data point alongside TAC-001 for the
   fusion-junction ASO route's dominant delivery gate — not EMC-specific, and not yet a candidate named for our
   route. https://www.biospace.com/press-releases/veraxa-biotech-and-secarna-pharmaceuticals-achieve-research-milestone-in-antibody-oligonucleotide-conjugate-aoc-alliance
+- **2026-09-01 — Claude Fable 5.1 / Claude Mythos 5.1 released — the first model found to out-measure Opus 5
+  on this program's frontier-model watch since the 2026-08-24 CLAUDE.md correction retired the "restricted"
+  framing.** Fable 5.1 "finishes ahead of Opus 5 on every category Anthropic published," including roughly
+  doubling the agentic-scientific-research benchmark Terminal-Bench-Science 0.1 (52.6% vs Fable 5's 24.7%);
+  biology safeguards fire ~85% less often on benign medical/biology questions, which matters for a program
+  that has previously hit refusals on legitimate bio-research prompts. **Mythos 5.1** is the same model with
+  lighter safeguards, gated to vetted organizations via a new Life Sciences Verification Program (US-only,
+  currently not a lane this program has access to) — Fable 5.1 itself is the generally-available tier this
+  row is actually about. ⚠ **UNKNOWN, and directly actionable: whether these research sessions are already
+  running on Fable 5.1 or still on the Opus-5 fallback** — check `/status` before assuming either way; if not
+  yet on it, this is a free capability upgrade for every future research session, not a hypothetical.
+  https://www.anthropic.com/claude/fable
