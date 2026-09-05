@@ -1,7 +1,7 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY tick \u2014 including the ticks that rent nothing \u2014 because a stale timestamp must only ever mean the tick did not run.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. A hold is a correct outcome; a SILENT hold is the bug.",
-  "utc": "2026-09-05T10:30:40Z",
+  "utc": "2026-09-05T13:51:58Z",
   "decision": "operator_hold",
   "decision_why": "\u23f8 STOOD DOWN BY OPERATOR \u2014 this lane will not rent a GPU until step1-fanout-OPERATOR-HOLD.json is deleted. Reason on record: Vast has not been used in a month and this lane is not to be driven at all (trimcrae, 2026-08-26). The escalated market hold had been asking for exactly this decision since 2026-08-06 \u2014 'price has been the BINDING constraint ... trimcrae's call now' \u2014 and the call is: stand the lane down. \u00b7 paused 2026-08-26T11:35:00Z. Banked work is untouched: the commit store is continuous, so a resume re-enters at the last COMMITTED checkpoint and nothing is lost by waiting.",
   "decision_meaning": "a person paused this lane; the hold file names who, when and why. Nothing is rented until it is deleted \u2014 and reap, collect and supervision keep running",
