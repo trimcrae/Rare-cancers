@@ -1,0 +1,79 @@
+[
+  {
+    "position": 25,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Eligibility and a named Phase II arm explicitly admit molecularly defined DSRCT. The record specifically waives pre-enrollment ALK/ROS/NTRK status confirmation for molecularly defined DSRCT.",
+    "cohort_reconciliation": "The neuroblastoma arm is explicitly closed; that closure does not apply to the separately named DSRCT arm. Cohort numbers differ across eligibility, description and arms, so identity is reconciled by disease name rather than number. Phase 1 and exploratory solid-tumor routes are broader; DIPG monotherapy is separate despite chemotherapy appearing in its intervention mapping.",
+    "extra_biomarker_requirement": "DSRCT molecular definition is required for its named cohort. ALK/ROS/NTRK positivity is not required; the explicit DSRCT testing exception is preserved. No patient molecular result is established.",
+    "protocol_uncertainty": "External protocol and live phases are unverified. Age metadata 1–25, eligibility up to 30 and design summary age at least 12 conflict; PK/age-dependent start conditions remain unresolved. Prior progression on irinotecan/temozolomide is excluded. Other clinical discrepancies, including marrow platelet-unit conversion and QT wording, are not silently repaired.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Cohort 1: Patients with molecularly defined desmoplastic small round cell tumor (DSRCT)"],
+      ["eligibilityModule/eligibilityCriteria", "Exception: Patients with molecularly defined DSRCT do not require ALK/ROS/NTRK status confirmed prior to enrollment."],
+      ["armsInterventionsModule/armGroups/1/label", "Phase II, ALK-mutated neuroblastoma Cohort (THIS IS CLOSED)"],
+      ["armsInterventionsModule/armGroups/2/label", "Phase II, Molecularly defined DSRCT Cohort"]
+    ]
+  },
+  {
+    "position": 26,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "De novo or recurrent DSRCT is explicitly included, within a locally resectable abdominal-tumor implant study. Metastatic lesions are expressly excluded.",
+    "cohort_reconciliation": "Detailed description places DSRCT in rare-tumor Cohort 3, described as uncontrolled. The general comparator arms and design summary must not be taken to establish a matched DSRCT control group. Enrollment totals and open-label versus masking/randomization wording conflict across modules and are retained.",
+    "extra_biomarker_requirement": "No additional tumor molecular inclusion gate is stated. Histology assessment and resectability/implant constraints remain necessary.",
+    "protocol_uncertainty": "Eligibility and age metadata permit at most 18 while the title/description say younger than 18. External protocol is needed to resolve the age boundary and cohort-design inconsistencies. Prior irinotecan is permitted only without documented progression during it. No local-control benefit or live slot is established.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "de novo or recurrent desmoplastic small round cell tumour."],
+      ["eligibilityModule/eligibilityCriteria", "Metastatic lesions."],
+      ["descriptionModule/detailedDescription", "Cohort 3: 20 participants with rare abdominal tumors including WT, GCT, eMRT, SS, DSRCT and FL-HCC, open label uncontrolled treatment arm to obtain additional safety and efficacy data."]
+    ]
+  },
+  {
+    "position": 27,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The disease criterion explicitly includes histologically confirmed DSRCT with a listed fusion breakpoint including EWSR1-WT1. A demonstrated HLA fit to an included immunotherapy peptide construct is a separate required gate.",
+    "cohort_reconciliation": "Monotherapy safety precedes combination enrollment. First participants are adults, followed by staged adolescent/child and combination access after safety analyses and specified IRB approvals. Metadata minimum age 2 does not establish that those stages have opened.",
+    "extra_biomarker_requirement": "Exact fusion/breakpoint confirmation plus HLA-binding fit to one of the included constructs is required. EWSR1-WT1 diagnosis alone does not establish HLA fit or peptide-construct coverage.",
+    "protocol_uncertainty": "Saved status is NOT_YET_RECRUITING. Prior VDC/IE, high-risk/relapsed/metastatic history and additional timing/clinical requirements remain applicable. Description mentions anti-CTLA-4 absent from listed arms; pembrolizumab schedules differ between arm and intervention text, and renal units are anomalous. Preserve these without inferring regimen, safety or efficacy. External protocol/construct details are unreviewed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Participants must have histologically confirmed Ewing sarcoma (ES) or desmoplastic small round cell tumor (DSRCT) and confirmation of fusion gene rearrangement and breakpoint EWSR1-FLI1, EWSR1-ERG, EWSR1-WT1"],
+      ["eligibilityModule/eligibilityCriteria", "Participants must have demonstrated HLA (human leukocyte antigens) fit with an EWSR1 gene fusion peptide contained in the EWSR1 immunotherapy, as determined by HLA-binding analysis of peptides that span the EWSR1 fusion gene breakpoint and analysis of HLA fit to one of the constructs included in EWSR1 immunotherapy."],
+      ["eligibilityModule/eligibilityCriteria", "Only after safety analysis of EWSR1 immunotherapy monotherapy will any group become eligible for combination therapy."]
+    ]
+  },
+  {
+    "position": 28,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is an explicit high-risk pediatric solid-tumor example in Part One. Part Two refers back to that disease definition and offers conditional relapsed/refractory or poor-prognosis adjuvant treatment routes.",
+    "cohort_reconciliation": "Part One is prospective biobanking during a planned open biopsy/resection; it is not itself TIL treatment. Part Two requires separate consent, satisfactory TIL product and qualifying disease state. Entry age 1–21 applies to Part One, while Part Two has no upper age bound if the original age criterion was met.",
+    "extra_biomarker_requirement": "No additional molecular assay threshold is stated. Satisfactory TIL product availability is a separate unestablished manufacturing requirement.",
+    "protocol_uncertainty": "Part One enrollment does not guarantee Part Two access. Prognosis thresholds, disease state, organ function, washouts and CNS-metastasis exclusions remain applicable. External protocol, product feasibility and live treatment availability are unverified.",
+    "task_domain": "oncology_biobanking_and_conditional_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Desmoplastic small round cell tumor"],
+      ["eligibilityModule/eligibilityCriteria", "Relapsed/refractory disease: Patients with a histologic diagnosis of high-risk pMST as defined in Part 1 inclusion"],
+      ["eligibilityModule/eligibilityCriteria", "Confirmation of satisfactory TIL cellular product availability."],
+      ["eligibilityModule/eligibilityCriteria", "There is no upper bound age limit, as long as the patient met age criteria at the time of enrollment on Part One."]
+    ]
+  },
+  {
+    "position": 29,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The positive histology list explicitly names DSRCT and the conditions agree. The parenthetical exclusion of small-round-cell undifferentiated sarcoma modifies undifferentiated sarcoma, not the separately named DSRCT inclusion.",
+    "cohort_reconciliation": "Single tislelizumab/liposomal-doxorubicin/ifosfamide arm for selected advanced/recurrent/metastatic STS. Prior advanced-disease treatment is excluded except the stated adjuvant relapse exception. No separate DSRCT molecular cohort is required.",
+    "extra_biomarker_requirement": "No PD-L1 positivity or other molecular inclusion threshold is stated; checkpoint-drug mechanism does not establish such a gate.",
+    "protocol_uncertainty": "Registry primaryPurpose is PREVENTION, while title, eligibility and treatment arm describe first-line therapy for established advanced disease. Retain both fields and this purpose discrepancy for endpoint adjudication. External protocol and live slots are unverified; translated histology wording and clinical exceptions are not silently standardized.",
+    "task_domain": "oncology_treatment_narrative_with_prevention_metadata_conflict",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients with histopathologically confirmed undifferentiated sarcoma (except small round cell undifferentiated sarcoma), synovial sarcoma, angiosarcoma, fibrosarcoma, smooth muscle sarcoma, liposarcoma (except well differentiated liposarcoma), pleomorphic rhabdomyosarcoma, malignant peripheral nerve sheath meningiomas, desmoplastic small round cell tumor"],
+      ["designModule/designInfo/primaryPurpose", "PREVENTION"],
+      ["identificationModule/briefTitle", "IO Combined With AI as First-line Treatment for Patients With Soft Tissue Sarcoma(TAIS)"]
+    ]
+  }
+]

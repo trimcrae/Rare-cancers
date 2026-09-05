@@ -1,0 +1,58 @@
+[
+  {
+    "position": 34,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcomas are explicitly named in conditions, consistent with open relapsed/refractory solid-tumor eligibility.",
+    "cohort_reconciliation": "Single combination-treatment cohort. Age at initial diagnosis must be 18 months–18 years, and enrollment age at least 3; the metadata's adult/older-adult categories do not remove the diagnosis-age restriction.",
+    "extra_biomarker_requirement": "SSTR-PET within three months must show visual score at least 2 (uptake at least liver) in the majority of lesions. Positive SSTR imaging is unestablished by SS; no homologous-recombination mutation requirement is stated for olaparib.",
+    "protocol_uncertainty": "External protocol and live slots are unverified. Olaparib dose and days differ between arm and intervention descriptions; preserve this unresolved regimen discrepancy. Prior treatment/washouts and all clinical criteria remain applicable.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/14", "Synovial Sarcomas"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with scores ≥ 2 in the majority of the tumoral lesions will be considered to have a positive SSTR-PET and will be therefore eligible for the trial."],
+      ["eligibilityModule/eligibilityCriteria", "18 months - 18 years of age at the time of the initial diagnosis."]
+    ]
+  },
+  {
+    "position": 35,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The eligibility expressly includes synovial sarcoma among high-risk histiotypes that are typically not graded. This is surveillance after curative-intent resection, not antitumor treatment.",
+    "cohort_reconciliation": "Randomized CXR versus CT surveillance shares stage III truncal/extremity resection scope and specific anatomic exclusions. The explicit ungraded-histiotype provision should not be erased by the preceding grade 2/3 shorthand or its carcinoma typo.",
+    "extra_biomarker_requirement": "No additional molecular inclusion gate is stated.",
+    "protocol_uncertainty": "Saved status is NOT_YET_RECRUITING. Size, R0/R1 resection, completed therapy and baseline chest-imaging criteria apply. External protocol and live enrollment are unverified; English language is required for the QOL component, not automatically every study activity.",
+    "task_domain": "oncology_surveillance",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients with a high-risk histiotype that is typically not graded, including adult pleomorphic rhabdomyosarcoma, synovial sarcoma, angiosarcoma, malignant peripheral nerve sheath tumor, alveolar soft part sarcoma, epithelioid sarcoma, or clear cell sarcoma are eligible"],
+      ["designModule/designInfo/primaryPurpose", "DIAGNOSTIC"]
+    ]
+  },
+  {
+    "position": 36,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Histologically confirmed relapsed/refractory synovial sarcoma is explicitly included.",
+    "cohort_reconciliation": "The combined arm covers dose escalation and expansion without a narrower stated histology limit.",
+    "extra_biomarker_requirement": "No additional molecular inclusion gate is specified in the saved criteria; drug mechanism does not establish one.",
+    "protocol_uncertainty": "Saved status is NOT_YET_RECRUITING. External protocol, prohibited-medication list, phase-specific details and live slots are unverified; ages at least 18 and all stated clinical restrictions remain applicable.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histologically confirmed relapsed/refractory SCLC, neuroendocrine cancer, malignant pleural mesothelioma, or synovial sarcoma"]
+    ]
+  },
+  {
+    "position": 37,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly included in the closed permitted-histology list; the exclusion of other subtypes does not apply to this named type.",
+    "cohort_reconciliation": "One advanced-unresectable STS treatment arm, with two additional site-specific desmoid proof-of-concept participants outside the main count. The desmoid exception does not alter SS inclusion.",
+    "extra_biomarker_requirement": "No additional molecular inclusion gate is stated; mandatory tumor/blood samples and central pathology review are distinct requirements.",
+    "protocol_uncertainty": "Ages 16–70, recent progression, prior anthracycline requirement (SFT exception only), fewer than four advanced-disease systemic lines and other clinical criteria remain applicable. The brief second-line description is less detailed than eligibility. External protocol and live slots are unverified.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "including only the following subtypes: solitary fibrous tumor (SFT), synovial sarcoma, clear cell sarcoma, extraskeletal myxoid chondrosarcoma (EMC), alveolar soft part sarcoma and myxoid liposarcoma."],
+      ["eligibilityModule/eligibilityCriteria", "Sarcoma subtypes other than the specified in the inclusion criteria."]
+    ]
+  }
+]

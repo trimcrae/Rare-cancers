@@ -1,0 +1,61 @@
+[
+  {
+    "position": 30,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Advanced SS is explicitly included in the disease criterion and the SS/MRCLS expansion arm.",
+    "cohort_reconciliation": "Dose escalation precedes disease-specific expansion; SS is within both the stated overall disease list and its named expansion. Part-specific infection exceptions and regional prior-therapy rules are not generalized.",
+    "extra_biomarker_requirement": "One of nine specified HLA-A*02 alleles is mandatory. Description says HLA-A2 and/or NY-ESO positive, whereas key eligibility explicitly requires HLA and gives no NY-ESO positivity threshold; retain the unresolved NY-ESO testing rule and do not assume expression from SS.",
+    "protocol_uncertainty": "Only key criteria are supplied; external protocol, NY-ESO testing details and live phases/slots are unverified. Prior NY-ESO-directed therapy is excluded; prior treatment and all clinical constraints remain unassessed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Advanced (metastatic or unresectable) SS"],
+      ["descriptionModule/detailedDescription", "participants with HLA-A2 and/or NY-ESO positive."],
+      ["armsInterventionsModule/armGroups/1/description", "Participants with synovial sarcoma or myxoid/round cell liposarcoma will receive DS-2243a at the recommended dose for expansion (RDE)"]
+    ]
+  },
+  {
+    "position": 31,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The description explicitly names a synovial-sarcoma cohort, consistent with broad advanced/metastatic STS eligibility and no conflicting histology exclusion.",
+    "cohort_reconciliation": "Four histologic cohorts share the pemetrexed/cisplatin arm and subsequent pemetrexed maintenance. The single treatment-arm label does not remove the named SS cohort.",
+    "extra_biomarker_requirement": "No additional molecular inclusion gate is stated.",
+    "protocol_uncertainty": "Ages at least 19, no more than two prior cytotoxic regimens and other clinical criteria apply. External protocol and live histology-cohort capacity are unverified. Narrative background efficacy is not evidence for this study's results.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["descriptionModule/briefSummary", "histological subtype-specific cohorts (leiomyosarcoma, synovial sarcoma, malignant peripheral nerve sheath tumor, and others)"],
+      ["eligibilityModule/eligibilityCriteria", "histologically confirmed, advanced/metastatic STS"]
+    ]
+  },
+  {
+    "position": 32,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly named in conditions and is consistent with the open metastatic/locally advanced neoplasia eligibility. The specific name comes from conditions, not a diagnosis-specific eligibility bullet.",
+    "cohort_reconciliation": "Dose-ranging Part A and expansion Part B share NY-ESO-directed treatment; no narrower disease conflict appears. Narrative sample sizes up to 20 and 43 conflict with estimated enrollment 3; this does not establish active expansion availability.",
+    "extra_biomarker_requirement": "ESO IHC staining encompassing more than 10% of tumor section and HLA-A*0201 or A*0206 are required. Neither is established by the SS diagnosis.",
+    "protocol_uncertainty": "External protocol, product feasibility and live part availability are unverified. Ages 18–70, prior therapy, incurability and other clinical criteria remain applicable; differing lymphodepletion descriptions are not resolved here.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/0", "Sarcoma, Synovial"],
+      ["eligibilityModule/eligibilityCriteria", "Tissue staining must encompass more than 10% of tumor section."],
+      ["eligibilityModule/eligibilityCriteria", "Have histologically or cytologically confirmed diagnosis of neoplasia"]
+    ]
+  },
+  {
+    "position": 33,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly listed in both Phase Ia and Phase Ib eligibility.",
+    "cohort_reconciliation": "Phase Ia permits up to three prior chemotherapy lines and measurable or nonmeasurable disease; Phase Ib specifies SS with one to two prior chemotherapy lines and progression, plus its assessment requirements. These stages are not interchangeable.",
+    "extra_biomarker_requirement": "The separate deleterious germline BRCA1/2-tumor route in Phase Ia is not a required SS biomarker. No additional SS molecular gate is stated.",
+    "protocol_uncertainty": "External protocol and active stage are unverified. Prior trabectedin, lurbinectedin or ecubectedin is excluded. Serum-marker assessment references to cancers absent from the Phase Ib disease list are retained as a record inconsistency, not used to broaden histology scope.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Sarcoma: liposarcoma, leiomyosarcoma, synovial sarcoma and Ewing sarcoma."],
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma: at least one but no more than two prior lines of chemotherapy."],
+      ["eligibilityModule/eligibilityCriteria", "Prior treatment with trabectedin, lurbinectedin, or ecubectedin (PM14)."]
+    ]
+  }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "position": 59,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly among chemotherapy-sensitive high-grade STS types suitable for neoadjuvant/adjuvant treatment and resection.",
+    "cohort_reconciliation": "One perioperative pathway requires multidisciplinary determination of resectability; unresectable sarcoma is excluded. This is not an unrestricted metastatic salvage study.",
+    "extra_biomarker_requirement": "No molecular entry criterion is stated. Grade, treatment sensitivity/suitability and investigator judgment are separate requirements.",
+    "protocol_uncertainty": "Radiation eligibility units differ from the stated fractionation; source references randomization despite a single-arm design. Age 18–75, organ function, recent therapy and other restrictions remain. External protocol and live availability are unverified; phase 4 coding is not evidence of indication approval.",
+    "task_domain": "oncology_perioperative_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Typically includes histological types such as synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Clinical confirmation of soft tissue sarcoma suitable for surgical resection after multidisciplinary assessment."],
+      ["eligibilityModule/eligibilityCriteria", "Unresectable sarcomas, including severe vascular, neural, or bone involvement, or cases where complete surgical resection is not safely feasible."]
+    ]
+  },
+  {
+    "position": 60,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly eligible for pulmonary surgical imaging despite the narrower osteosarcoma official title.",
+    "cohort_reconciliation": "Single Cytalux/NIR imaging pathway during planned pulmonary metastasectomy, requiring suspicious pulmonary disease and at least one nodule of 4 mm or more. This is a diagnostic adjunct study, not a systemic antitumor therapy trial.",
+    "extra_biomarker_requirement": "No positive folate-receptor assay is required in the saved criteria; mechanistic rationale does not establish receptor expression in an SS patient.",
+    "protocol_uncertainty": "Age 6–17 and weight at least 20 kg; a 12th or 18th birthday during participation is excluded. An inclusion-style male contraception sentence appears under exclusions and requires clarification rather than inferred sex exclusion. External protocol and live availability are unverified; pediatric safety/effectiveness is not established by adult-source extrapolation.",
+    "task_domain": "oncology_diagnostic_surgical_imaging",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histologically confirmed diagnosis of osteosarcoma, synovial sarcoma, hepatoblastoma, rhabdomyosarcoma, Ewing sarcoma, Wilms tumor or other non-rhabdomyosarcoma soft tissue sarcoma"],
+      ["designModule/designInfo/primaryPurpose", "DIAGNOSTIC"],
+      ["eligibilityModule/eligibilityCriteria", "Participants will be excluded if their 12th or 18th birthday would occur during study participation"]
+    ]
+  },
+  {
+    "position": 61,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly an example of eligible metastatic sarcoma in Part 1. Part 2 separately permits sarcoma under non-metastatic operative requirements.",
+    "cohort_reconciliation": "Part 1 studies metastatic sarcoma dosimetry and tissue comparison; Part 2 excludes metastatic/inoperable disease and requires surgery within sixty days with tissue collection. Part 2 exclusions cannot be applied to Part 1.",
+    "extra_biomarker_requirement": "Suspected FAP expression is required; archived/new-biopsy or surgical tissue is needed by part. No positive pre-entry IHC cutoff is specified. Imaging/IHC correlation is an outcome, not verified expression or a radiotherapeutic benefit.",
+    "protocol_uncertainty": "Age at least 15, with weight at least 55 kg for ages 15–17, plus renal/cardiac and imaging/washout criteria remain. External protocol and current part availability are unverified. Past estimated completion dates do not override saved RECRUITING status or establish present recruitment.",
+    "task_domain": "oncology_diagnostic_imaging",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with suspected FAP-expressing metastatic sarcoma."],
+      ["eligibilityModule/eligibilityCriteria", "Evidence of metastatic or advanced, inoperable disease."],
+      ["designModule/designInfo/primaryPurpose", "DIAGNOSTIC"]
+    ]
+  },
+  {
+    "position": 62,
+    "label": "broad_tumor_compatible",
+    "rationale": "The explicit SS Indication C is marked closed. The separately open Indication E permits any sarcomas or other solid tumors and is the remaining broad histologic route; it is not an active SS-specific efficacy cohort.",
+    "cohort_reconciliation": "A–D arms are marked closed, including SS C. E assesses concentration-QTc and drug interactions after standard options are exhausted or refused. The summary still says ASPS only and no SS recruitment, conflicting with open E. Broad E scope is therefore retained with unresolved availability, rather than using the historical SS title as current inclusion or treating all SS as excluded.",
+    "extra_biomarker_requirement": "No additional tumor molecular gate is stated for E; CYP/transporter probe studies are pharmacokinetic measurements, not tumor eligibility markers.",
+    "protocol_uncertainty": "External protocol is needed to reconcile ASPS-only text versus open E and the legacy other-primary-cancer exclusion. Age at least 18 and clinical restrictions remain. SS AL3818 arm is mis-mapped to dacarbazine in source; no regimen correction is invented. Saved RECRUITING does not prove SS slots. Independent adjudication should examine this scope/status conflict.",
+    "task_domain": "oncology_pharmacokinetics_and_drug_interactions",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Open Indication E: Any sarcomas or other solid tumors"],
+      ["armsInterventionsModule/armGroups/3/label", "Indication C: SS AL3818 Arm - CLOSED"],
+      ["descriptionModule/briefSummary", "THIS STUDY IS CURRENTLY RECRUITING PATIENTS WITH ALVEOLAR SOFT PART SARCOMA ONLY AND IS NO LONGER RECRUITING PATIENTS WITH SYNOVIAL SARCOMA OR LEIOMYOSARCOMA."]
+    ]
+  }
+]

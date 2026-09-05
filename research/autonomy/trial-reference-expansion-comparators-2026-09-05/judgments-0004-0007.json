@@ -1,0 +1,59 @@
+[
+  {
+    "position": 4,
+    "label": "explicit_exclusion",
+    "rationale": "The exclusion list explicitly names desmoplastic small round cell tumor among excluded pediatric-type sarcomas. Broad STS wording does not override this exclusion.",
+    "cohort_reconciliation": "The two randomized radiotherapy/surgical-timing arms and concurrent observational cohort share a study restricted to primary resectable extremity/trunk-wall STS. No separate DSRCT exception is stated.",
+    "extra_biomarker_requirement": "No molecular gate establishes a DSRCT exception.",
+    "protocol_uncertainty": "External protocol is unreviewed; the saved record is NOT_YET_RECRUITING. Anatomic, recurrence and risk restrictions also apply, but the disease-name exclusion is sufficient for this source-scope judgment.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Soft tissue sarcomas (STS) originating at different sites (i.e., retroperitoneal, abdominal, pelvic, head and neck), gynecological sarcomas, as well as gastrointestinal stromal tumors (GISTs), desmoid-type fibromatosis and pediatric-type sarcomas (i.e., extraosseous Ewing sarcoma, embryonal/alveolar rhabdomyosarcoma, desmoplastic small round cell tumor) are excluded."]
+    ]
+  },
+  {
+    "position": 5,
+    "label": "insufficient_evidence",
+    "rationale": "The record permits histologically confirmed Ewing sarcoma and conditionally Ewing-like sarcoma treated under the protocol's Ewing paradigm. It does not explicitly identify DSRCT or EWSR1-WT1. The condition-field EWSR1-non-ETS category does not establish that this diagnosis satisfies the protocol-dependent Ewing-like classification.",
+    "cohort_reconciliation": "Radiotherapy and surgical cohorts differ by tumor size and local-control strategy; none supplies a broader DSRCT-specific disease entry route. The common eligibility criterion remains controlling.",
+    "extra_biomarker_requirement": "The listed EWSR1-non-ETS condition is not a sufficient molecular inclusion rule for DSRCT; protocol-defined histology/treatment-paradigm membership is unresolved. A tumor panel is requested for tumors at least 8 cm, without a stated DSRCT-compatible result threshold.",
+    "protocol_uncertainty": "The external definition of Ewing-like and its treatment-paradigm criteria is unavailable in the reviewed modules. Retain uncertainty instead of converting a shared gene/category or absent name into inclusion or explicit exclusion.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histological confirmation of Ewing sarcoma, including both skeletal and extra-skeletal primary tumors. Patients with \"Ewing-like\" sarcoma may be eligible if patients are planned to be treated per Ewing treatment paradigms, as defined in this clinical trial"],
+      ["conditionsModule/conditions/1", "Round Cell Sarcoma With EWSR1-non-ETS Fusion"]
+    ]
+  },
+  {
+    "position": 6,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is explicitly listed among high-risk extracranial solid tumors. The relapsed/refractory and transplant-context restrictions remain separate from disease-name compatibility.",
+    "cohort_reconciliation": "One stem-cell graft/zoledronic-acid regimen proceeds through phase Ib dose finding and phase II. No separate histologic restriction removes DSRCT. However, patients with progressive solid tumor disease after relapsed/refractory treatment are excluded, so the broad relapsed/refractory inclusion is not unconditional.",
+    "extra_biomarker_requirement": "No tumor molecular inclusion gate is stated for DSRCT. An eligible haplo-identical related donor is required and is not established by diagnosis.",
+    "protocol_uncertainty": "Ages 6 months through 25, prior autologous-transplant failure/ineligibility or stated low chance of cure, donor availability, disease control and other clinical criteria require individual assessment. External protocol and live phase/slots are unverified; no efficacy or survival claim is inferred from the study rationale.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Other high-risk extracranial solid tumors: desmoplastic small round cell tumors, chordoma, malignant rhabdoid tumor, epithelioid sarcoma, myoepithelial tumor"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with progressive solid tumor disease after relapsed/refractory treatment."],
+      ["eligibilityModule/eligibilityCriteria", "Haplo-identical related donor (at least one full haplotype must be matched)."]
+    ]
+  },
+  {
+    "position": 7,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The Part 2 eligibility explicitly includes DSRCT and the detailed description assigns it to a separate stratum. Part 1 also permits broad relapsed/refractory biopsy-accessible solid tumors without standard therapy.",
+    "cohort_reconciliation": "Part 2 follows dose determination in Part 1; its target accrual is driven by FLC but separate DSRCT/HCC/non-CNS MRT strata are stated. A common treatment arm does not erase this disease-specific enrollment route or establish the current part's availability.",
+    "extra_biomarker_requirement": "No positive PD-L1 or other molecular threshold is required in the saved eligibility; these are exploratory measurements. Willingness to enroll on MAST and biopsy-accessible disease are explicit requirements.",
+    "protocol_uncertainty": "Eligibility text requires age under 30 while metadata lists maximum 30; retain the stricter textual boundary pending protocol review. Unresectability, measurable/evaluable and safely biopsy-accessible disease, marrow-toxicity cohort rules and all other clinical constraints remain unassessed. External protocol and live strata are unverified.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Biopsy accessible refractory or recurrent (relapsed)or FL-HCC, DSRCT or non-CNS MRT."],
+      ["descriptionModule/detailedDescription", "Eligible patients with hepatocellular (HCC), desmoplastic small round cell tumor (DSRCT) or non-central nervous system (CNS) malignant rhabdoid tumors (MRT) will be enrolled on separate strata but target accrual will be determined by patients with FLC."],
+      ["eligibilityModule/eligibilityCriteria", "Willingness to enroll on the St. Jude Molecular Analysis of Solid Tumors (MAST) study."]
+    ]
+  }
+]

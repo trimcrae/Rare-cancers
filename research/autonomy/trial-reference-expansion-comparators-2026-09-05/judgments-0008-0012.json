@@ -1,0 +1,73 @@
+[
+  {
+    "position": 8,
+    "label": "explicit_exclusion",
+    "rationale": "The molecular eligibility expressly excludes clear FET-non-ETS fusions and specifically names EWSR1-WT1. This is an express defining-fusion exclusion, not merely omission of the DSRCT name.",
+    "cohort_reconciliation": "Both randomized chemotherapy arms share the Ewing-sarcoma pathology and fusion restriction; no separate DSRCT arm or molecular exception is described.",
+    "extra_biomarker_requirement": "FISH/NGS evidence of Ewing-specific FET breaks is required, but an EWSR1 break alone cannot override the stated EWSR1-WT1 exclusion.",
+    "protocol_uncertainty": "External protocol is unreviewed. Saved status is NOT_YET_RECRUITING with verification July 2025; elapsed estimated start dates are not evidence recruitment began.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "This study does not impose special restrictions on fusion partner genes, but clear FET-non ETS fusions (such as EWSR1-WT1, EWSR1-NFATC2, EWSR1-PATZ1, etc.) do not meet the enrollment criteria."]
+    ]
+  },
+  {
+    "position": 9,
+    "label": "explicit_exclusion",
+    "rationale": "This is a clearly closed incompatible positive disease list: first-recurrence grade 4 glioblastoma/other grade 4 malignant glioma or molecular GBM. DSRCT is not an eligible disease class under that list. The WT-1 fusion protein is the investigational product, not a tumor-fusion inclusion rule.",
+    "cohort_reconciliation": "The safety lead-in and expansion are both within the same recurrent-GBM treatment study, with no open solid-tumor or DSRCT cohort. Gliosarcoma is expressly excluded as well.",
+    "extra_biomarker_requirement": "HLA-A*0201 is required for the admitted glioma population and is not established by DSRCT; it does not broaden the disease list.",
+    "protocol_uncertainty": "External protocol and live enrollment are unverified; label concerns the saved closed disease scope, not an individual with a second diagnosis. No WT1-expression or therapeutic-fusion match is inferred.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Have histologically confirmed World Health Organization (WHO) Grade 4 glioblastoma, other WHO grade 4 malignant glioma or molecular GBM (based on the 2021 WHO Classification) at first recurrence. Patients with gliosarcoma are NOT eligible;"],
+      ["armsInterventionsModule/interventions/0/description", "A WT-1-pHLA-IL2-Fc fusion protein, single-use vial, via intravenous (into the vein) infusion per protocol."]
+    ]
+  },
+  {
+    "position": 10,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Reference-pathology-confirmed DSRCT is explicitly admitted. High SSTR2/3/5 mRNA expression measured through specified programs is an additional unestablished gate.",
+    "cohort_reconciliation": "The single maintenance-therapy arm includes DSRCT and synovial sarcoma. Eligibility states DSRCT in any stage while design and narrative emphasize advanced/metastatic disease; retain that scope discrepancy. Recruitment in adolescents follows feasibility assessment in at least three adults, and release of that condition is unknown.",
+    "extra_biomarker_requirement": "High SSTR2/3/5 mRNA expression by RNA sequencing in MASTER or INFORM is required. The saved record does not supply a numeric high-expression cutoff or establish a patient's result.",
+    "protocol_uncertainty": "Maintenance requires stable disease/response after standard therapy, no curative option, age 13–50 and a short interval after chemotherapy, plus other criteria. External medication Table 5 and protocol are unreviewed. Overall RECRUITING does not establish adolescent enrollment availability or resolve stage wording.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Reference pathological proven diagnosis of DSRCT in any stage; or Reference pathological proven diagnosis of SySa, IRS III, metastatic or relapsed disease"],
+      ["eligibilityModule/eligibilityCriteria", "High SSTR2/3/5 mRNA expression, as determined by RNA sequencing in the DKFZ/NCT/DKTK MASTER (ClinicalTrials.gov ID: NCT05852522) or INFORM programs."],
+      ["designModule/designInfo/interventionModelDescription", "According to the staggered approach during a run-in phase feasibility is assessed in 3 (or, if necessary, more) adult patients before initiating recruitment in adolescents."]
+    ]
+  },
+  {
+    "position": 11,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Prospective Cohort 1 explicitly names DSRCT; Cohort 2 additionally permits recurrent extracranial solid tumors of any histology in second complete remission. This is maintenance scope after standard treatment, not an unrestricted active-progression study.",
+    "cohort_reconciliation": "The treatment arm contains both prospective cohorts; historical matched controls are not a current therapeutic enrollment route. Eligibility permits complete remission or minimal radiological abnormalities, whereas the arm/design descriptions summarize complete remission; preserve the more detailed eligibility and the summary discrepancy.",
+    "extra_biomarker_requirement": "No additional tumor molecular inclusion gate is stated. Histologic verification is required.",
+    "protocol_uncertainty": "Ages 1–30, remission/minimal-imaging state and prior-therapy completion conditions remain applicable. Enrollment on another upfront/relapse trial is excluded. External protocol and live cohort availability are unverified; no maintenance efficacy is inferred from the objective.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Metastatic/unresectable osteosarcoma, metastatic Ewing or Ewing-like sarcoma, high-risk rhabdomyosarcoma, metastatic non-rhabdomyosarcoma soft tissue sarcoma, desmoplastic small round cell tumor (DSRCT), malignant rhabdoid tumor."],
+      ["eligibilityModule/eligibilityCriteria", "Prospective Cohort 2: Recurrent extracranial solid tumor (any histology) in second complete remission following completion of initial relapse regimen."],
+      ["eligibilityModule/eligibilityCriteria", "Subjects must be in complete remission or with minimal radiological abnormalities."]
+    ]
+  },
+  {
+    "position": 12,
+    "label": "explicit_exclusion",
+    "rationale": "The eligibility expressly lists DSRCT among excluded soft-tissue sarcoma subtypes. The broad retroperitoneal STS inclusion does not override it.",
+    "cohort_reconciliation": "Both phase I dose finding and phase II radiation efficacy use the same P-SFRT/standard-radiation/surgery pathway. No alternative DSRCT-compatible cohort is stated.",
+    "extra_biomarker_requirement": "No molecular gate or exception alters the express disease exclusion.",
+    "protocol_uncertainty": "External protocol and live status are unverified. The source's description of standard-of-care is recorded as the registry's rationale, not independently endorsed. No patient eligibility or radiation benefit conclusion is drawn.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients who have had one of the following soft tissue sarcoma subtypes where neoadjuvant chemotherapy is established as standard-of-care:"],
+      ["eligibilityModule/eligibilityCriteria", "Desmoplastic small round cell tumor"]
+    ]
+  }
+]

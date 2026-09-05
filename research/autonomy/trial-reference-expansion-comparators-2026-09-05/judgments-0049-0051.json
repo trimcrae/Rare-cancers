@@ -1,0 +1,47 @@
+[
+  {
+    "position": 49,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Unresectable or metastatic SS is explicitly eligible for IMA203 plus mRNA-4203.",
+    "cohort_reconciliation": "SS requires at least one received or declined treatment line and ongoing systemic-treatment need. The PD-1 progression criterion applies to melanoma, not universally to SS. One listed experimental arm covers the two histologies and different dose cohorts.",
+    "extra_biomarker_requirement": "HLA-A*02:01 positivity is explicit. No antigen-expression cutoff appears in the saved modules; this does not establish that the external protocol has none.",
+    "protocol_uncertainty": "Other inclusion/exclusion criteria and LDH thresholds are deferred to protocol. Age at least 18, leukapheresis suitability and clinical exclusions remain. mRNA-4203 shares the otherNames value anzu-cel with IMA203 in the source; do not equate the interventions. Saved recruitment does not establish live availability or benefit.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Pathologically confirmed and documented cutaneous melanoma (CM) or synovial sarcoma (SS) with unresectable or metastatic disease"],
+      ["eligibilityModule/eligibilityCriteria", "HLA-A\\*02:01 positive"],
+      ["eligibilityModule/eligibilityCriteria", "SS participants must have received (or declined) at least one line of treatment (including SoC) and are still in need of further systemic therapy."]
+    ]
+  },
+  {
+    "position": 50,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly named in conditions and compatible with the HER2-positive sarcoma eligibility; no SS-specific exclusion is stated.",
+    "cohort_reconciliation": "Procurement and treatment are separate stages. Treatment additionally requires active progression/recurrence after at least one systemic therapy and a qualifying available autologous CAR-T product. Pembrolizumab and nivolumab arms share disease scope; Arm B versus Arm 2 naming is retained.",
+    "extra_biomarker_requirement": "Tumor HER2 IHC must be at least grade 1 (1–25% positive cells) and 1+ intensity. Product release separately requires at least 15% CAR expression and at least 20% target killing; these are not tumor diagnostic criteria.",
+    "protocol_uncertainty": "Age 1–25, bulky-tumor exclusion, prior-toxicity and other clinical requirements remain. External protocol and live availability are unreviewed; no treatment effect is established by the registry rationale.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/5", "Synovial Sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "For the patient to meet eligibility, tumors are required to have at least ≥ grade 1 and ≥ 1+ intensity score for HER2 staining."],
+      ["eligibilityModule/eligibilityCriteria", "Available autologous transduced cytotoxic T lymphocytes with ≥ 15% expression of HER2 CAR and killing of HER2-positive targets ≥ 20% in cytotoxicity assay"]
+    ]
+  },
+  {
+    "position": 51,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly included in histopathologic eligibility despite absence from the shorter conditions list.",
+    "cohort_reconciliation": "Single first-line advanced-disease regimen. Prior treatment for advanced STS is excluded, with the stated more-than-six-month post-adjuvant relapse and cumulative doxorubicin limit exception. Prior checkpoint/co-stimulation therapy is excluded.",
+    "extra_biomarker_requirement": "No additional SS molecular gate is stated. SMARCA4 deficiency describes a different listed histology and is not an SS requirement.",
+    "protocol_uncertainty": "Design primaryPurpose says PREVENTION whereas title, disease eligibility and regimen describe treatment of advanced disease. Preserve the source discrepancy. Age 18–75, organ function and other criteria remain; external protocol and live slots are unverified. Background response/survival claims are not validated here.",
+    "task_domain": "oncology_treatment_with_source_purpose_conflict",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Previous treatment for advanced soft tissue sarcoma, except for those who relapsed more than six months after adjuvant therapy with a cumulative dose of doxorubicin ≤300mg/m2;"],
+      ["designModule/designInfo/primaryPurpose", "PREVENTION"]
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "position": 13,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Relapsed/refractory DSRCT is explicitly included in eligibility and consistently identified in the title, description and treatment arm.",
+    "cohort_reconciliation": "Single GD2/B7H3 CAR-T regimen for NB and DSRCT; no separate histology exception is stated. Donor T cells may be collected if the subject cannot supply suitable cells.",
+    "extra_biomarker_requirement": "No positive GD2 or B7H3 assay threshold is stated as an inclusion requirement in the complete saved eligibility. The therapeutic target names do not establish expression in a patient or imply an unstated cutoff.",
+    "protocol_uncertainty": "External protocol, target-testing policy and live slots are unverified. The generic exclusion for a history of or concurrent malignancies does not explicitly say other malignancies; its literal wording conflicts with the positive index-tumor inclusion, so retain this wording ambiguity for adjudication rather than assert individual eligibility. Ages 1–50 and clinical/cell-product constraints remain applicable.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients who are diagnosed as relapsed/refractory neuroblastoma or relapsed/refractory desmoplastic small round cell tumors;"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with a history of or concurrent malignancies, except for the following conditions:"],
+      ["armsInterventionsModule/interventions/0/description", "GD2/B7H3 CAR T-cell therapy"]
+    ]
+  },
+  {
+    "position": 14,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is explicitly named in the conditions module and is consistent with the open B7-H3-positive solid-tumor scope in eligibility. The diagnosis-specific name is from conditions, not a named eligibility bullet; retain that distinction.",
+    "cohort_reconciliation": "Procurement/manufacturing and treatment have separate criteria. Both require B7-H3-positive measurable solid tumor, while treatment additionally requires relapsed/refractory disease after standard first-line therapy and a released autologous product. No narrower conflicting disease list is stated.",
+    "extra_biomarker_requirement": "B7-H3 IHC H-score at least 100 is explicitly required and is unestablished for a patient. Disease name alone does not satisfy it.",
+    "protocol_uncertainty": "Ages at most 21, different expected-survival windows for procurement/treatment, product release and exclusions including rapidly progressing disease remain applicable. External protocol and live collection/treatment availability are unverified.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/7", "Desmoplastic Small Round Cell Tumor"],
+      ["eligibilityModule/eligibilityCriteria", "B7-H3+ solid tumor with measurable disease; B7-H3 expression will be evaluated by standard immunohistochemistry (IHC) using a previously obtained biopsy; a tumor is considered B7-H3 positive with an H-score ≥100"],
+      ["eligibilityModule/eligibilityCriteria", "Evidence of relapsed or refractory disease after standard first-line therapy"]
+    ]
+  },
+  {
+    "position": 15,
+    "label": "explicit_exclusion",
+    "rationale": "An express must-not-have histology list includes DSRCT. This exclusion controls despite the broad STS title and condition terms.",
+    "cohort_reconciliation": "Both randomized radiotherapy arms share the disease exclusion and extremity-only primary-site restriction. Conditions mention trunk/extremities but actual eligibility excludes trunk primaries; no alternate compatible cohort is stated.",
+    "extra_biomarker_requirement": "No molecular exception permits DSRCT. The separate NTRK-rearranged spindle-cell exclusion is not used as the basis for this diagnosis.",
+    "protocol_uncertainty": "External protocol is unreviewed and saved status is NOT_YET_RECRUITING. Anatomic and stage restrictions remain recorded, but the explicit disease exclusion is sufficient for this scope label.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Participants must not have myxoid liposarcoma, embryonal rhabdomyosarcoma, alveolar rhabdomyosarcoma, gastrointestinal stromal tumor, osteosarcoma, neurotrophic tyrosine receptor kinase (NTRK)-rearranged spindle cell neoplasm, desmoplastic small round cell tumor, Ewing sarcoma, or sarcoma arising from bone"]
+    ]
+  },
+  {
+    "position": 16,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The study explicitly requires centrally confirmed DSRCT with documented EWSR1-WT1 translocation. Histology and its defining molecular confirmation are both stated, so the explicit-diagnosis category is used.",
+    "cohort_reconciliation": "Single phase II lurbinectedin/irinotecan cohort for locally advanced/metastatic disease in lines 2–4 after anthracycline-containing treatment. Eligibility includes recent standard-therapy intolerance as well as progression, whereas the narrative emphasizes progression.",
+    "extra_biomarker_requirement": "Documented EWSR1-WT1 is a required diagnostic confirmation. No additional unrelated molecular gate is stated, and no individual assay is established here.",
+    "protocol_uncertainty": "Age at least 15, one to three prior chemotherapy lines, disease state, prior-drug exclusions and clinical criteria remain applicable. The locally advanced definition also covers declined surgery or potential cytoreduction; the brief summary's unresectable shorthand does not fully describe it. External protocol and live slots are unverified.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histological centrally confirmed diagnosis of DSRCT with the documented presence of EWSR1-WT1 translocation."],
+      ["eligibilityModule/eligibilityCriteria", "At least one prior chemotherapy based on anthracycline (considering chemotherapy administered for primary tumour) and no more than 3 prior chemotherapy lines."],
+      ["eligibilityModule/eligibilityCriteria", "Clinical or objective disease progression after the last administration of the last standard therapy, or have stopped standard therapy due to intolerability within 6 months from enrollment."]
+    ]
+  }
+]

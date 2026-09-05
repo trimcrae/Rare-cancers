@@ -1,0 +1,62 @@
+[
+  {
+    "position": 63,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly an example of recurrent/metastatic solid tumors eligible after standard-treatment failure, relapse or intolerance.",
+    "cohort_reconciliation": "Single YK1101 dose-exploration pathway with lymphodepletion; no conflicting histology-specific cohort is listed.",
+    "extra_biomarker_requirement": "HLA-A*11:01 matching and MAGE-A4-positive IHC (+2, at least 30%) are explicit. Do not substitute the HLA-A*02:01 requirement from other TCR trials.",
+    "protocol_uncertainty": "Age 18–75, staged ECOG/organ assessments and collection/treatment washouts remain. External protocol and live slots are unknown; sparse intervention text describes lymphodepletion but does not specify the cell dose.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Including but not limited to synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Human leukocyte antigen (HLA)-A\\*11:01 matched"],
+      ["eligibilityModule/eligibilityCriteria", "immunohistochemistry(IHC)-stained MAGE-A4 positive（+2，≥30%）"]
+    ]
+  },
+  {
+    "position": 64,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly one of four eligible advanced/inoperable malignancies for ZI-MA4-1.",
+    "cohort_reconciliation": "Parts A and B share eligibility except dose; SS requires at least one prior line while other diagnoses require at least two. Expansion may include one or more indications, so eventual SS expansion is not guaranteed. Prior cellular or gene therapy is excluded.",
+    "extra_biomarker_requirement": "HLA-A*02:01 and MAGE-A4 protein above a defined threshold are required; the numerical threshold is not provided in saved modules.",
+    "protocol_uncertainty": "Age 18–75, biopsy suitability, progression and clinical restrictions remain. Other criteria are explicitly deferred to the unreviewed protocol. Saved recruitment does not establish slots or efficacy.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Participant must have received ≥2 prior lines of cancer therapy except for patient with synovial sarcoma for whom ≥1 prior lines of cancer therapy."],
+      ["eligibilityModule/eligibilityCriteria", "HLA-A\\*02:01 positive"],
+      ["eligibilityModule/eligibilityCriteria", "Tumour(s) show expression of the MAGE-A4 protein above a defined threshold"]
+    ]
+  },
+  {
+    "position": 65,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included in the closed five-subtype STS list for intratumoral PBA-0111 microdosing.",
+    "cohort_reconciliation": "One local microdose pathway shortly before already-planned surgery requires a surface-accessible viable lesion. Participation delaying surgery is excluded. TNBC receptor definitions and post-neoadjuvant progression restrictions do not apply to SS.",
+    "extra_biomarker_requirement": "No SS molecular entry gate is stated; local pharmacodynamic biomarkers are study measurements.",
+    "protocol_uncertainty": "This is BASIC_SCIENCE with subtherapeutic microdoses, not evidence of systemic treatment benefit. Age at least 18, lesion safety, washouts and other criteria remain; external appendices and actual recruitment are unreviewed. Past estimated completion is retained alongside saved RECRUITING.",
+    "task_domain": "oncology_basic_science_microdosing",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "For STS, only the following subtypes are eligible: undifferentiated pleomorphic sarcoma, alveolar soft part sarcoma, synovial sarcoma, cutaneous angiosarcoma, or myxofibrosarcoma."],
+      ["eligibilityModule/eligibilityCriteria", "Patients for whom participation on this study results in a delay of planned surgical intervention."],
+      ["designModule/designInfo/primaryPurpose", "BASIC_SCIENCE"]
+    ]
+  },
+  {
+    "position": 66,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Inoperable/advanced synovial sarcoma is explicitly a named route for PeptiCRAd-1 plus checkpoint inhibitor therapy.",
+    "cohort_reconciliation": "Cohorts differ by intratumoral versus intratumoral/subcutaneous administration, not stated histology scope. New/continued CPI suitability and relapse, refusal or intolerance of standard therapy are required. Prior PD-1/PD-L1 is allowed with six-week washout and toxicity conditions.",
+    "extra_biomarker_requirement": "The separate generic sarcoma and colorectal bullets expressly require baseline NY-ESO-1 or MAGE-A3 positivity. The named synovial/myxoid bullet has no such explicit assay clause; do not import the generic route's gate or infer guaranteed expression. External protocol may add requirements.",
+    "protocol_uncertainty": "Age at least 18, measurable injectable/biopsiable lesion and clinical criteria remain. Prior-toxicity exclusion contains confusing Grade 1 resolution wording requiring protocol clarification. Saved recruitment does not prove live slots; no efficacy or validated antigen prevalence is established.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Inoperable and/or advanced Synovial or myxoid round cell sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Inoperable and/or advanced/metastatic sarcoma, patients assessed as positive for NY-ESO-1 or MAGE-A3 expression at baseline"],
+      ["eligibilityModule/eligibilityCriteria", "Tumor lesion which is deemed feasible for biopsy and injection"]
+    ]
+  }
+]

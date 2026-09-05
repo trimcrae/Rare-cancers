@@ -1,0 +1,60 @@
+[
+  {
+    "position": 21,
+    "label": "explicit_exclusion",
+    "rationale": "This is a clearly closed incompatible disease scope: high-risk T-LBL/ALL after allogeneic transplant. WT1/fusion positivity appears in a leukemia-relapse exclusion, not a DSRCT molecular entry route.",
+    "cohort_reconciliation": "The prospective prophylaxis arm and historical controls are both T-LBL/ALL post-transplant populations. There is no open solid-tumor cohort.",
+    "extra_biomarker_requirement": "High-risk factors and TP53-directed drug selection concern the specified hematologic population. Neither WT1 positivity nor a generic positive fusion test admits DSRCT.",
+    "protocol_uncertainty": "External protocol and live availability are unverified. Registry primary purpose is PREVENTION of post-transplant relapse; this is not a DSRCT treatment opportunity.",
+    "task_domain": "hematologic_oncology_relapse_prevention",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients with allo-HSCT due to T-LBL/ALL, the donor type is not limited."],
+      ["eligibilityModule/eligibilityCriteria", "WT1 positive, fusion gene positive, or extramedullary recurrence"],
+      ["designModule/designInfo/primaryPurpose", "PREVENTION"]
+    ]
+  },
+  {
+    "position": 22,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is explicitly admitted by the relapsed/chemorefractory disease criterion and named in the platform's treatment arm despite Ewing-only conditions metadata.",
+    "cohort_reconciliation": "The platform describes subtype-specific cohorts, currently lists LX-101, and requires safety data from at least three adults before children can enroll. No assumption is made that all agents, substudies or pediatric slots are open.",
+    "extra_biomarker_requirement": "No additional tumor molecular inclusion gate is stated in the reviewed master record; future or external substudy criteria remain unknown.",
+    "protocol_uncertainty": "Saved status is NOT_YET_RECRUITING. At least two prior regimens, age at least 10 and pediatric safety-release condition apply. healthyVolunteers=true conflicts with the required relapsed/refractory sarcoma criterion; the textual disease requirement controls this label. The oddly worded Long-QT exclusion is not silently corrected. External substudy protocols are unreviewed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Must have relapsed or chemo-refractory ES, DSRCT, or SRCS."],
+      ["eligibilityModule/eligibilityCriteria", "Age ≥ 10 years (Safety data from ≥3 adult patients must exist before enrolling children)."],
+      ["armsInterventionsModule/armGroups/0/description", "Relapsed/refractory ES or DSRCT are assigned to receive one of several predetermined cohort-specific investigational therapies."]
+    ]
+  },
+  {
+    "position": 23,
+    "label": "explicit_exclusion",
+    "rationale": "A clearly closed positive list requires histologically proven epithelioid unresectable malignant pleural mesothelioma. WT1-loaded vaccination is the treatment mechanism and does not expand eligibility to DSRCT.",
+    "cohort_reconciliation": "One first-line MPM chemotherapy/immunotherapy/vaccination arm, with optional continuation of treatment. Neither stage I–IV inclusion nor continuation creates a broader histology cohort.",
+    "extra_biomarker_requirement": "WT1 antigen targeting is not an EWSR1-WT1 fusion inclusion criterion. No DSRCT-compatible molecular exception is stated.",
+    "protocol_uncertainty": "External protocol and live slots are unverified. The disease-specific restriction, not the general other-malignancy exclusion, is the basis for this diagnosis-level label. Source prognosis and safety rationale are not independently endorsed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Diagnosis with histologically proven epithelioid unresectable MPM (stage I-IV)"],
+      ["descriptionModule/briefSummary", "dendritic cells (DCs) loaded with the mesothelioma-associated tumor antigen WT1"]
+    ]
+  },
+  {
+    "position": 24,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Two intervention-specific arms explicitly name DSRCT, establishing saved disease scope even though the master eligibility and conditions are generic. Additional appendix criteria remain unknown.",
+    "cohort_reconciliation": "The DSRCT appendix compares cyclophosphamide/vinorelbine with versus without ramucirumab. Synovial-sarcoma and Ewing appendices are separate; their drugs and eligibility cannot be transferred to DSRCT. The master protocol states that individual amendments add entry criteria.",
+    "extra_biomarker_requirement": "No additional molecular criterion is stated for DSRCT in the saved master modules. Appendix-specific molecular requirements, if any, are unknown rather than assumed absent.",
+    "protocol_uncertainty": "The DSRCT intervention-specific appendix is unreviewed. Master ages 1–39, general clinical criteria and overall RECRUITING status cannot establish appendix-specific age limits, live slots or full eligibility. Expanded-access metadata refers to a separate record and does not independently establish DSRCT access.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["armsInterventionsModule/armGroups/0/description", "Ramucirumab given intravenously (IV), cyclophosphamide given orally and vinorelbine given IV in 28-day cycles for desmoplastic small round cell tumor (DSRCT) intervention-specific appendix (ISA)."],
+      ["eligibilityModule/eligibilityCriteria", "Additional criteria are specified in the protocol amendment (individual addenda) to which the participant will enroll."]
+    ]
+  }
+]

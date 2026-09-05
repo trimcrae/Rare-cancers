@@ -1,0 +1,62 @@
+[
+  {
+    "position": 67,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included in the pathological diagnoses for surgical magnesium-clip evaluation.",
+    "cohort_reconciliation": "Both groups undergo en bloc tumor resection after standard chemotherapy. The intervention compares magnesium closure clips with electrocautery/suture ligation; control NO_INTERVENTION coding does not mean no surgery.",
+    "extra_biomarker_requirement": "No molecular entry gate is stated.",
+    "protocol_uncertainty": "Inclusion and metadata ages 18–65 conflict with a trailing 18–75 sentence in exclusions. Clinical and prior-study restrictions remain. External protocol and live availability are unknown; saved status is NOT_YET_RECRUITING. No hemostatic or oncologic benefit is established.",
+    "task_domain": "oncology_surgical_device",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Diagnosis must be confirmed pathologically as osteosarcoma, synovial sarcoma, liposarcoma, or other bone and soft tissue sarcomas;"],
+      ["eligibilityModule/eligibilityCriteria", "Must have undergone standard chemotherapy and require en bloc resection;"],
+      ["statusModule/overallStatus", "NOT_YET_RECRUITING"]
+    ]
+  },
+  {
+    "position": 68,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly named in conditions and compatible with broad refractory solid-tumor eligibility, including refusal of standard treatment.",
+    "cohort_reconciliation": "SS falls within the general AOH1996 pathway. Part B NSCLC permits an EGFR TKI combination and stable disease or better on that drug for at least two months; that exception does not establish a combination route for SS.",
+    "extra_biomarker_requirement": "No positive PCNA/Myc/gammaH2AX assay is required for SS in saved criteria. Exploratory pharmacodynamic measurements and the NSCLC EGFR-TKI exception are not SS biomarker gates.",
+    "protocol_uncertainty": "Age at least 18, oral-drug tolerance, organ function and interacting-medication exclusions remain. External appendix/protocol and live cohort availability are unreviewed; only the single-agent arm is enumerated despite the combination objective.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/3", "Synovial Sarcomas"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with solid tumors failing standard therapies or patients refusing standard treatments"],
+      ["eligibilityModule/eligibilityCriteria", "Part B NSCLC combination (EGFR TKI + AOH1996) cohort: patients with stable disease or better on EGFR TKI for at least 2 months"]
+    ]
+  },
+  {
+    "position": 69,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly eligible for first-line advanced STS treatment; the excluded unsuitable histologies, including extraosseous myxoid chondrosarcoma, do not exclude SS.",
+    "cohort_reconciliation": "AI with or without MASCT-I, requiring no prior advanced-disease chemotherapy/targeted treatment or progression after six months from neoadjuvant/adjuvant completion. Cumulative anthracycline exposure, prior cell/immunotherapy and planned surgery impose additional restrictions.",
+    "extra_biomarker_requirement": "No explicit tumor antigen, fusion or HLA gate is stated for SS. Cell-product treatment does not itself establish a molecular entry criterion.",
+    "protocol_uncertainty": "Age 18–70 and apheresis-related organ/blood requirements remain. External drug/product protocol and live availability are unverified. Commercial drug descriptions do not establish efficacy of MASCT-I or the combination.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "No previous treatment with systematic chemotherapy or targeted therapy for advanced soft tissue sarcomas or whose disease progressed after 6months of the end of neoadjuvant or adjuvant therapy."],
+      ["eligibilityModule/eligibilityCriteria", "Surgery for soft tissue sarcoma is planned during the study."]
+    ]
+  },
+  {
+    "position": 70,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly named in conditions and compatible with the broad STS eligibility for definitive proton radiation.",
+    "cohort_reconciliation": "Single inoperable-STS pathway, with multidisciplinary radiation feasibility assessment. Metastatic disease is not uniformly excluded but requires expected survival greater than two years. This differs from the separate preoperative PROSARC-1 record.",
+    "extra_biomarker_requirement": "No molecular entry gate is stated. Genomic, blood and MRI biomarkers are exploratory investigations.",
+    "protocol_uncertainty": "Age at least 18, travel to Bergen/Oslo, prior tumor-site radiation, cardiac-device and recent systemic-therapy restrictions remain. External protocol and live availability are unverified. Planned local-control improvement and radiation-dose rationale are hypotheses, not comparative results.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/3", "Synovial Sarcomas"],
+      ["eligibilityModule/eligibilityCriteria", "For patients with metastatic disease a life-expectancy greater than 2 years should be expected."],
+      ["armsInterventionsModule/armGroups/0/label", "Inoperable soft tissue sarcoma"]
+    ]
+  }
+]
