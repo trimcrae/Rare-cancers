@@ -1,0 +1,52 @@
+{
+  "schema": "emc-research-cycle-outcome/1",
+  "run_id": "20260905T133448Z-6bd43b913c",
+  "task_id": "atlas-independent-normal-feasibility",
+  "kind": "science",
+  "resource": "paper:PUB-SURFACE-TARGETS",
+  "fingerprint": "fc9a56a1b62a3bc71064d1d9b60ed8acbf77f833790f29373f12f196f393ade4",
+  "input_sha256": {
+    "research/autonomy/portfolio-2026-09-05/recommendation.md": "14a7611a6924937e8858e678f95ad1ebadec2d5852a51941f673e941eb03c1b0",
+    "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+    "research/modalities/surface-address-sensitivity.json": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+    "research/modalities/geo-gse28866-brunner-series.json": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+    "research/modalities/gse28866-tumour-vs-normal.json": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+    "research/modalities/emc-surface-normal-window.json": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+    "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+    "research/modalities/emc-cohort-search.json": "f730d8d451156cf8be7282286f03fa0197aa4115f3bfe08b27b59a20b616c8d2",
+    "research/modalities/emc-fourth-cohort-quant-inputs.json": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+    "research/autonomy/cycle-outcomes/20260905T121951Z-b093a5d8bc/verification.json": "671152cd47cf5d71a48a227fe680b6b7b0748bb7da9395dc53bcf24204e4928c"
+  },
+  "artifact_sha256": {
+    "research/modalities/atlas_independent_normal_feasibility.py": "5d48243d49da627105448fb09ca1c6785cfd3e43617da04eb84937b28290de97",
+    "research/modalities/atlas-independent-normal-feasibility.json": "9f978b3ce5d9782c06c55c681b0bb9aa28a77a39ab63c497245ccfe93a2b84fb",
+    "research/modalities/atlas-independent-normal-feasibility.md": "8b3c3faa5e088bfeabb7e0dbd2732687044df21cc361410647f347e2349e0766"
+  },
+  "status": "verified",
+  "runner_status": "completed",
+  "finished_utc": "2026-09-05T13:53:28.959179Z",
+  "worker_integrity_issues": [],
+  "worker_elapsed_seconds": 821.297,
+  "time_to_verified_output_seconds": null,
+  "substantive_defects_found": 0,
+  "repair_induced_defects": 0,
+  "duplicate_candidates_suppressed": 3,
+  "usage": [
+    {
+      "input_tokens": 1129320,
+      "cached_input_tokens": 1034752,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 15861,
+      "reasoning_output_tokens": 1013
+    }
+  ],
+  "model": "gpt-6-astra",
+  "limits": {
+    "timeout_seconds": 1800,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "medium"
+  },
+  "next_action": "Record paper-level deprioritization based on limited attainable validation and weak current standalone contribution, with explicit reopening evidence; do not mistake retrieved missing cache values for unavailable primary data.",
+  "publication_evidence": false
+}

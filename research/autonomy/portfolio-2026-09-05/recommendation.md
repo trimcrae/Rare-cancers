@@ -12,6 +12,12 @@ audience: [maintainers, autonomous research agents]
 
 # Paper priorities
 
+**Update after the completed atlas investigation, 2026-09-05:** the standalone atlas is now
+deprioritized; see the [evidence and reopening criteria](atlas-decision.md). The ranking below
+records the pre-investigation judgement, not the current instruction to continue the atlas.
+The external fusion-design benchmark is the next conditional prospect; its data gate remains
+unverified. Do not automatically redispatch the completed atlas contract.
+
 **ASO remains the first existing submission to finish, with its frozen package awaiting author/external action. The strongest new paper development opportunity is an independently validated EMC therapeutic-address atlas, followed by an externally calibrated fusion-junction oligonucleotide design benchmark.** These are development prospects with unresolved evidence gates, not ready papers or authorization to drill down. Response-decision methods rank next; trial discoverability ranks below them. This replaces the expression-resource-first recommendation, which ranked useful preparation above demonstrated paper strength.
 
 User direction: a paper-level rank with evidence and reasons must precede scientific drill-down or a runner contract. Rank importance, nontrivial novelty, achievable evidence and validation, coherent publishable contribution, and utility first. Feasibility and usage govern execution; cheap preparation does not increase scientific rank. Small tasks inherit the selected paper's priority. Reconcile this list with the independent challenge in the coordinating parent task before subsequent drill-down.
