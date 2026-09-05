@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Integrate completed trial-reference pack; independently adjudicate/expand before ranking. Distinct fusion source-recovery worker is active; preserve its resource. IPD realistic benchmark retained.",
+  "priority": "Trial reference adjudication completed and coordinator-verified; expand the 149 current ordinary/molecular pairs before retrieval evaluation. IPD and partial fusion prospects retained.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T18:54:16.547669+00:00",
+  "last_updated_utc": "2026-09-05T19:30:46.590211+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -133,29 +133,29 @@
     "next_action": "Regenerate cycle plans before subsequent dispatch. Reuse completed science and continue one bounded evidence-backed question; no further process work is established by this check."
   },
   "latest_science_result": {
-    "summary": "Trial reference pack delivered49pairs/37trials; source checks and bounded semantic review passed; full independent label adjudication and expansion remain.",
-    "result": "research/autonomy/trial-reference-repair-2026-09-05/repair.md",
-    "decision": "research/autonomy/trial-reference-repair-2026-09-05/decision.md",
+    "summary": "All 49 trial reference pairs have independent frozen model judgments and source adjudication; coordinator verified the two changed labels, raw provenance and exact preservation. Expand 149 current ordinary/molecular pairs before retrieval comparison.",
+    "result": "research/autonomy/trial-reference-adjudication-2026-09-05/adjudicated-reference.json",
+    "decision": "research/autonomy/trial-reference-adjudication-2026-09-05/decision.md",
     "publication_authorized": false
   },
   "portfolio": "research/autonomy/portfolio-2026-09-05/recommendation.md",
   "budget_policy": "research/autonomy/portfolio-2026-09-05/budget.json",
   "fresh_session_workflow": {
     "authority": "Latest user steering relayed by launcher 2026-09-05: coordinator keeps full active goal; each bounded round runs in a NEW task with fresh context and its own bounded goal. Supersedes coordinator handoff after each round.",
-    "overall_goal_status": "blocked (actual app tool observation; objective remains unachieved)",
-    "worker_task": "01a072a6-0a2e-78b3-83db-0e1f8404bc15",
-    "round": "research/autonomy/trial-reference-repair-2026-09-05/round-contract.json",
-    "execution": "research/autonomy/trial-reference-repair-2026-09-05/execution.json",
-    "worker_status": "integrated; next adjudication/expansion pending",
-    "latest_round": "research/autonomy/trial-reference-repair-2026-09-05/verification.json",
-    "goal_status_observed_utc": "2026-09-05T15:20:37.017256Z",
-    "continuity": "User explicitly resumed mission with no assistant-imposed usage pacing. Existing heartbeat monitors fresh rounds. Goal API still reports blocked and refuses replacement because unfinished; mission continues through user authorization and heartbeat."
+    "overall_goal_status": "active (verified actual goal tool after user continuation)",
+    "worker_task": "01a072f6-562d-70e0-9bc0-e8f4a26dc49a",
+    "round": "research/autonomy/trial-reference-adjudication-2026-09-05/",
+    "execution": "research/autonomy/trial-reference-adjudication-2026-09-05/execution.json",
+    "worker_status": "completed_verified",
+    "latest_round": "research/autonomy/trial-reference-adjudication-2026-09-05/verification.json",
+    "goal_status_observed_utc": "2026-09-05T19:04:45.267663+00:00",
+    "continuity": "Full mission active by user goal continuation; fresh research tasks remain bounded intermediate rounds. No preprint readiness established."
   },
   "latest_research_integration": {
-    "revision": "db115e9c152fa9ee72a8a0dfa6512eda51790306",
+    "revision": "0efeaa1cbd9ee630042f60f4afa6251d4d99518b",
     "target": "local main",
-    "normal_preflight": "research\\autonomy\\trial-reference-repair-2026-09-05\\normal-preflight.json",
-    "worker_artifact_hashes_verified_after_integration": 20,
+    "normal_preflight": "research\\autonomy\\fusion-source-recovery-2026-09-05\\normal-preflight.json",
+    "worker_artifact_hashes_verified_after_integration": 28,
     "remote_synchronization": "outstanding; not attempted"
   },
   "remediation_amendment": "research/autonomy/portfolio-2026-09-05/remediation-amendment.md",
@@ -177,14 +177,15 @@
   "independent_source_recovery": {
     "worker_task": "01a072cc-fb6d-7523-a35a-c370476eb1f7",
     "execution": "research/autonomy/fusion-source-recovery-2026-09-05/execution.json",
-    "status": "completed; coordinator verified; integration pending",
+    "status": "integrated",
     "resource": "paper:external-fusion-benchmark",
     "reason": "Targeted named source recovery advances authorized science during distinct trial worker app approval wait; trial outputs and reservation remain intact.",
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T18:54:16.547669+00:00",
-    "status": "Both science workers completed; no research process running. Coordinator integrating fusion recovery. New-worker Full access mode remains to be verified.",
+    "utc": "2026-09-05T19:25:36.353815+00:00",
+    "status": "Trial adjudication completed and verified; normal preflight passed after frontmatter repair; integration commit next.",
+    "next_action": "Complete normal integration, release reservation, then dispatch fresh bounded 149-pair expansion with existing adjudicated overlap reused.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -200,6 +201,7 @@
     "observed_worker_execution": "Fusion-source worker turn_context2026-09-05T18:20:38.272Z confirms on-request, workspace-write, network_access=false.",
     "control_limitation": "create_thread and send_message_to_thread expose no permission override. Desktop mode is cached in live app memory; editing the on-disk state alone would not apply and could be overwritten. No unsupported state edit or permission bypass attempted.",
     "required_user_action": "Select Full access in the permissions menu below the NEW TASK composer to change the remembered local launch mode. Existing restricted tasks need their own mode changed.",
-    "launch_check": "Before releasing research writing after each fresh create_thread, inspect actual turn_context approval_policy and sandbox_policy/permission_profile. Require never plus danger-full-access/disabled unrestricted profile with network enabled; record actual execution evidence. Do not claim Full access merely from prompt or global config. If still restricted, retain outputs and report the concrete app limitation instead of repeatedly dispatching."
+    "launch_check": "Inspect and record actual execution permissions before research. Prefer the explicitly authorized Full access setting; do not claim it from prompt/config alone. The tool still exposes no override. If restricted, only proceed with independently useful work wholly inside the actual allowed workspace and requiring no network, deletion, installation or permission escalation. Do not halt all research merely because an unused capability is restricted; never bypass an actual pending approval.",
+    "fallback_reason": "Revalidated previous no-progress turn: no process was live, but independent adjudication from already committed source packets is fully available offline within the ordinary workspace sandbox. User requests Full access to avoid repeated prompts, not a blanket stop on permitted scientific work. Remove the coordinator-imposed hard stop; maintain honest permission status."
   }
 }
