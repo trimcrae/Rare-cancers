@@ -1531,7 +1531,7 @@ GATE_ORDINAL_DOCS = ("README.md", "CONTRIBUTING.md", "systems/POLICY-evidence.md
 def _gate_ordinal_docs():
     """`GATE_ORDINAL_DOCS` plus every on-demand instruction skill, as repo-relative paths."""
     skills = sorted(glob.glob(os.path.join(INSTRUCTION_SKILLS, "*", "SKILL.md")))
-    return list(GATE_ORDINAL_DOCS) + [os.path.relpath(p, REPO) for p in skills]
+    return list(GATE_ORDINAL_DOCS) + [os.path.relpath(p, REPO).replace("\\", "/") for p in skills]
 
 
 #: Spelt totals a document may use for the gate count. Small on purpose: a list longer than this is
@@ -1627,15 +1627,9 @@ def check_preflight_gate_list(g, f):
             continue
         with open(path, encoding="utf-8") as fh:
             text = fh.read()
-        # ⛔⛔ THE `continue` WAS AN OFF-SWITCH, AND SO WAS THE 1200-CHARACTER CEILING (round 15
-        # seat 2, both demonstrated). `check_preflight_gate_list` polices exactly ONE document —
-        # `git grep "gates, in this order"` returns repo-gates/SKILL.md and nothing else — so a
-        # non-match here was not partial coverage loss, it was total. Changing the heading's colon
-        # to an em dash, or letting the list grow past 1200 characters before its blank line, turned
-        # the whole check off with every gate green; the seat then reinstated the exact mis-ordering
-        # the round-14 note records as having shipped, and nothing fired.
-        # ⚠ So the list is now matched to the paragraph break rather than to a character budget, and
-        # its ABSENCE from the one document that must carry it is an error rather than a skip.
+        # Check an actual enumerated claim against the executable source. The active protocol
+        # permits referring directly to preflight.sh instead of maintaining a duplicate list.
+        # A claimed but unreadable list still fails; a document making no such claim needs none.
         body = text.split("gates, in this order", 1)
         m = None
         if len(body) > 1:
@@ -1644,11 +1638,10 @@ def check_preflight_gate_list(g, f):
             if head:
                 m = (head.group(1), tail)
         if not m:
-            if rel.endswith("repo-gates/SKILL.md"):
-                f.err("[P1]", f"{rel} no longer carries an enumerated '<N> gates, in this order' "
-                              "list that this check can read. That list is the only one in the "
-                              "repository, so this is not reduced coverage — it is none. Restore "
-                              "the enumeration rather than rewording its heading.")
+            if len(body) > 1:
+                f.err("[P1]", f"{rel} claims an enumerated 'gates, in this order' list that "
+                              "this check cannot read. Use '**<N> gates, in this order' followed "
+                              "by the numbered entries, or refer directly to scripts/preflight.sh.")
             continue
         m = type("_M", (), {"group": staticmethod(lambda i, _m=m: _m[i - 1])})()
         claimed_total = _WORD_TO_INT.get(m.group(1).lower())

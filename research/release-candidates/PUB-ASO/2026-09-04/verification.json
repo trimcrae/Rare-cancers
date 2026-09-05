@@ -1,76 +1,29 @@
 {
-  "status": "unsubmitted candidate; no release authorization or independent peer review",
-  "source_revision": "c309b6f6e42ab6adb684c995dc9af2b6caa08fe5",
-  "candidate_sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
-  "original_source_sha256_lf": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "schema": "aso-nat-submission-verification/2",
+  "status": "Scientific corrections and upload artifacts verified; repository release verification pending.",
+  "checked_utc": "2026-09-05T00:10:12.774772+00:00",
+  "base_revision": "4ca63da1a2f1c103c14fe84d0824970bd3572c47",
+  "candidate_sha256": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
   "metrics": {
-    "main_words": 2241,
+    "main_words": 2251,
     "abstract_words": 200,
     "figures": 1,
     "tables": 2,
     "display_items": 3,
     "references": 24
   },
-  "source_checks": {
-    "title_preserved": true,
-    "six_16mer_sequences_preserved": true,
-    "citation_PMID_set_preserved": true,
-    "citation_numbers": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24
+  "scientific_review": {
+    "method": "One independent focused review and verification of demonstrated corrections; not blind and not an external peer review.",
+    "resolved_blockers": [
+      "Unmodified-hybrid model differences were incorrectly described as lower bounds for modified chemistry.",
+      "Table caption categorically ruled out model correspondence that the manuscript treats as unresolved without nucleotide-junction confirmation."
     ],
-    "original_copied_companion_hashes_before_metadata_changes": {
-      "fusion-junction-aso-journal-tables.md": "90eb1833ed77b1c021818097eec3fff71091bd85e70d82c9a8877967473f3ee2",
-      "fusion-junction-aso-journal-references.md": "7ced4f1c91232ae82c67f1b4cb145a4b7b299bfa95486cf1a4805792a6ca714a",
-      "fusion-junction-aso-sequences.csv": "2fc8ee19e9164f049aaedaafa2b2813bd0f16924da626b956f8856cc193c913d",
-      "aso-multipartner-seam.svg": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56"
-    },
-    "companion_source_comparisons": {
-      "fusion-junction-aso-journal-references.md": {
-        "canonical_sha256": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
-        "candidate_sha256": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
-        "body_equal_excluding_frontmatter_and_line_endings": true
-      },
-      "fusion-junction-aso-journal-tables.md": {
-        "canonical_sha256": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
-        "candidate_sha256": "90eb1833ed77b1c021818097eec3fff71091bd85e70d82c9a8877967473f3ee2",
-        "body_equal_excluding_frontmatter_and_line_endings": true
-      },
-      "fusion-junction-aso-sequences.csv": {
-        "canonical_sha256": "ef3d19327db5536a18866ac0de89ff4a8643a4ca66f7019877d9674aedf9c7cf",
-        "candidate_sha256": "2fc8ee19e9164f049aaedaafa2b2813bd0f16924da626b956f8856cc193c913d",
-        "body_equal_excluding_frontmatter_and_line_endings": true
-      },
-      "aso-multipartner-seam.svg": {
-        "canonical_sha256": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
-        "candidate_sha256": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
-        "body_equal_excluding_frontmatter_and_line_endings": true
-      }
-    }
+    "remaining_identified_scientific_blockers": [],
+    "baseline_receipt": "submission/focused-science-review.json",
+    "final_disclosure_delta_receipt": "submission/disclosure-delta-review.json",
+    "prior_round_34": "Baseline only; no claim that its historical hashes approve the new upload set."
   },
-  "changed_claims": {
+  "focused_numeric_checks_from_prior_verification": {
     "exact_genomic_hit": {
       "source": "research/modalities/aso-genome-offtarget.json",
       "EWSR1_exact_sites": 1,
@@ -121,55 +74,106 @@
       }
     }
   },
-  "pdf": {
-    "created": true,
-    "page_count": 6,
-    "visual_verification": true,
-    "verified_utc": "2026-09-04T21:51:13.292290Z",
-    "method": "All six Poppler 120-dpi page images inspected by the coordinator; pypdf text and source-hash checks.",
-    "observed_layout_defects": [],
-    "final_six_page_rasters_identical_to_visually_inspected_pages": true,
-    "pages": 6,
-    "all_build_source_hashes_match": true,
-    "six_source_sequences_present_in_pdf": true,
-    "exact_hit_identifier_and_AI_disclosure_present": true,
-    "pdf_sha256": "3677c46d7d6075f615ddb042fd63bee75c156ff0ceaa736fd9449a6f728e74cf",
-    "text_chars_by_page": [
-      4613,
-      4245,
-      5284,
-      5451,
-      5533,
-      5572
-    ]
-  },
-  "limits": [
-    "No complete analysis rerun or fresh whole-paper review.",
-    "Inherited substantive results compared with original; changed claims checked against cited repository artifacts.",
-    "Existing archived/source data are computational predictions, not laboratory validation.",
-    "Author review and final archive/upload reconciliation remain required."
-  ],
-  "coordinator_revision_check": {
-    "utc": "2026-09-04T21:51:13.292290Z",
-    "read_all_rendered_pages": true,
-    "genomic_hit_counts_and_compartment_checked_directly": true,
-    "scope": "Read revised claims and compressed explanations, inspected preserved results and revising-agent power rerun; not a full analysis rerun or publication verdict."
-  },
-  "metadata_only_changes": {
-    "README.md": {
-      "before_sha256": "a3696c02e13942111ce095427787ebced4ca6c907cb1f898a8216a215b270089",
-      "after_sha256": "0ba79b05ef20ce792ce1c638798f9ead86dc3768816e02906b2b149c6e1f89a1",
-      "scientific_body_unchanged": true
+  "artifact_checks": {
+    "main_docx": "Complete assembled-body text comparison passed; both main variants contain two tables and one image. Every rendered page was inspected; the final legends-only build has identical uncompressed contents for the two manuscript files and title page.",
+    "unblinded_docx": {
+      "sha256": "7fe0033347e3825678394082157b8b60e5cc4edcdd122061d02d8d5a28d060c7",
+      "pages": 16,
+      "visual_verification": true,
+      "reviewer": "coordinator",
+      "observed_layout_defects": []
     },
-    "manuscript.md": {
-      "before_sha256": "07b5010c850ba2e3a5aa9797c463b7c07f13051f0281fed8bc3249d7c7b2ab3b",
-      "after_sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
-      "scientific_body_unchanged": true
+    "independent_artifact_receipt": "submission/artifact-qa-review.json",
+    "preview_pdf": {
+      "sha256": "56eb5b3472ef147204e7147da59f5f5b6f5000072a6cef04dc25ab4267e06ace",
+      "pages": 6,
+      "visual_verification": true,
+      "reviewer": "astra_workflow",
+      "observed_layout_defects": []
     },
-    "fusion-junction-aso-journal-references.md": {
-      "before_sha256": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
-      "after_sha256": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
-      "scientific_body_unchanged": true
+    "revision_note_pdfs": {
+      "supplementary-file-2.pdf": {
+        "sha256": "4d9123996dae11fef26d11c7a63656b5a3b87b27f5d9ad893a2b33849d5dee80",
+        "pages": 1,
+        "visual_verification": true,
+        "reviewer": "coordinator",
+        "observed_layout_defects": []
+      },
+      "supplementary-file-2-anonymized.pdf": {
+        "sha256": "37b0a0117da680007a49b1297dad36a070184a3ca413fe63f98c6f3e3931f4a0",
+        "pages": 1,
+        "visual_verification": true,
+        "reviewer": "coordinator",
+        "observed_layout_defects": []
+      }
+    },
+    "figure_1": {
+      "sha256": "09663a154157141d1cfcce468bc24869353409cc8ae6eb959a81d907d56a9f10",
+      "format": "EPS, vector CMYK, live text",
+      "source": "research/manuscripts/figures/submission/aso-multipartner-seam.eps",
+      "matches_source_exactly": true,
+      "provenance_check": "aso_figure_provenance.py --check passed: 6 artifact sources and 12 rendered files; print-formats manifest source/output hashes also matched."
+    },
+    "independent_artifact_receipt_sha256": "6dbfdc2a33ec623888465013a7c20a5d1de5b7e3ea2aba69ac2c051f608132c7",
+    "anonymous_supplement_1": {
+      "sha256": "55b7af301149b605799aea10f38a12b85e3bbb78a2a20aa6b0eec1a5ea5b361d",
+      "all_noncomment_data_lines_equal": true,
+      "known_identifier_scan": "No Tristan, McRae, ORCID, Qeios, Zenodo or Gmail strings remain; only comments changed."
     }
-  }
+  },
+  "archive": {
+    "receipt": "submission/archive-audit.json",
+    "all_515_payload_hashes_match": true,
+    "csv_data_rows": 782,
+    "csv_columns": 17,
+    "all_rows_equal": true,
+    "new_deposition": false
+  },
+  "venue": {
+    "instructions": "https://journals.sagepub.com/author-instructions/NAT",
+    "checked": "2026-09-04",
+    "type": "Original Paper",
+    "word_limit": 4000,
+    "abstract_limit": 200,
+    "display_limit": 5,
+    "word_format_preferred": true,
+    "review_mode": "Public instructions inconsistent; both main-file variants supplied.",
+    "preprints_allowed": true,
+    "charge_per_typeset_page_usd": 90,
+    "existing_budget_usd": 600,
+    "preview_page_fee_estimate_usd": 540,
+    "fee_estimate_is_not_a_quote": true
+  },
+  "repository_verification": {
+    "normal_preflight": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 143.812,
+      "scope": "Fast document and artifact gates; no pytest suites claimed.",
+      "source": "4ca63da1a2f1c103c14fe84d0824970bd3572c47+dirty",
+      "log": "submission/repository-verification/normal-preflight.log",
+      "log_sha256": "f90db01feec9e9a7da97d222c508b7871a6d6bdaf7281cdb59cdf55c08d23942"
+    },
+    "full_preflight": {
+      "status": "pending",
+      "required_command": "PREFLIGHT_FULL=1 ./scripts/preflight.sh",
+      "backend": "Opt-in Linux release-branch workflow; exact commit and complete log required."
+    }
+  },
+  "authority": {
+    "journal_submission_made": false,
+    "author_final_file_approval_obtained": false,
+    "automatic_publish_bar_claimed": false,
+    "PUB_ASO_automatic_aixiv_allowed": false
+  },
+  "remaining_author_actions": [
+    "Approve exact revision and responsibility for its content.",
+    "Confirm current concurrent journal consideration and any preprint update after Qeios v2.",
+    "Complete portal declarations and authorize actual submission; existing no-print-colour preference and $600 budget retained."
+  ],
+  "limits": [
+    "This computation-only work establishes no clinical efficacy, safety, potency or therapeutic window.",
+    "No new wet-lab work, full recomputation of archived screens or external journal peer review was performed.",
+    "Full repository verification does not by itself validate medical conclusions."
+  ]
 }

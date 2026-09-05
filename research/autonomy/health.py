@@ -369,7 +369,11 @@ def _z(ts):
 
 
 def _et(ts):
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
+    if ts is None:
+        return None
+    local = ts.astimezone(ET)
+    # Numeric fields keep the same unpadded display without POSIX-only %-I / %-d.
+    return f"{local.hour % 12 or 12}:{local:%M %p ET %b} {local.day}, {local:%Y}"
 
 
 def _parse_ts(s):

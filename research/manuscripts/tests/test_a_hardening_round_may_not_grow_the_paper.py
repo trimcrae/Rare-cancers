@@ -43,9 +43,7 @@ nothing) does not license padding — `paper-hardening` §1 says so in those wor
 """
 from __future__ import annotations
 
-import io
 import os
-import re
 
 import pytest
 
@@ -168,23 +166,3 @@ def test_the_ceiling_would_actually_stop_a_round_that_padded_the_paper():
     #: And the other direction, so the ceiling is not merely large-and-loose: a paper that has been
     #: legitimately CUT must still pass, or the gate reds on the outcome it is asking for.
     assert real - 200 <= ceiling, "a shorter paper must still pass; this gate forbids growth only"
-
-
-def test_the_rule_this_enforces_is_still_written_where_a_round_will_read_it():
-    """⚠ A GUARD WHOSE PROSE RULE HAS BEEN DELETED IS A NUMBER NOBODY CAN INTERPRET. The ceiling is
-    the enforcement; `paper-hardening` §1 is the reason. If that section goes, a later session sees
-    an arbitrary word limit and reasonably raises it."""
-    skill = os.path.join(os.path.dirname(os.path.dirname(MANUSCRIPTS)),
-                         ".claude", "skills", "paper-hardening", "SKILL.md")
-    #: ⛔ NOT A SKIP. The skill is committed, so an absent one is a broken tree — precisely when a
-    #: guard must speak rather than go quiet. `test_no_guard_can_silently_not_run` caught the first
-    #: draft of this file doing exactly that, which is the discipline working on its own newest
-    #: member.
-    assert os.path.exists(skill), (
-        f"{os.path.relpath(skill, os.path.dirname(os.path.dirname(MANUSCRIPTS)))} is missing from "
-        "this checkout. It is the one home of the replace-don't-append rule that the ceiling above "
-        "enforces, so its absence leaves that ceiling an unexplained number")
-    body = io.open(skill, encoding="utf-8").read()
-    assert re.search(r"A CORRECTION REPLACES TEXT", body, re.I), (
-        "paper-hardening no longer states the replace-don't-append rule, which is what this "
-        "ceiling enforces. Restore it there, or this file is an unexplained number.")

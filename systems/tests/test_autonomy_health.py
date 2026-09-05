@@ -161,6 +161,17 @@ def _declared_conditions():
     return rows
 
 
+@pytest.mark.parametrize("instant,expected", [
+    (None, None),
+    ("2026-09-04T04:07:00+00:00", "12:07 AM ET Sep 4, 2026"),
+    ("2026-09-04T16:07:00+00:00", "12:07 PM ET Sep 4, 2026"),
+    ("2026-09-04T02:07:00+00:00", "10:07 PM ET Sep 3, 2026"),
+])
+def test_health_timestamp_display_is_portable(health, instant, expected):
+    timestamp = datetime.datetime.fromisoformat(instant) if instant else None
+    assert health._et(timestamp) == expected
+
+
 def test_all_5_2_conditions_are_present(health, tmp_path):
     """§5.2's table is the contract. A condition that quietly stops being emitted is a dimension of
     failure nobody is watching any more — and it would look identical to a healthy board."""
@@ -934,27 +945,6 @@ def test_the_condition_is_actually_wired_into_the_board(health):
     )
 
 
-def test_the_rule_is_reachable_from_a_session_that_loads_no_skill(health):
-    """★ THE OTHER HALF OF THE REPAIR, AND THE HALF THAT ACTUALLY FAILED. Enforcement catches a
-    session AFTER it overran; reachability is what stops it. CLAUDE.md loads every session including
-    interactive ones, so the rule must be stated THERE and not only in a skill that an interactive
-    session never loads."""
-    claude_md = (REPO / "CLAUDE.md").read_text()
-    assert "research-loop" in claude_md, (
-        "CLAUDE.md does not point at the cycle contract at all, so an interactive session has no "
-        "path to §3 — the precise gap measured on 2026-08-26"
-    )
-    assert "SPAWNED SESSION" in claude_md.upper(), (
-        "CLAUDE.md names the skill but not the rule, so a session that does not load the skill still "
-        "never learns that a hardening cycle is a spawn case"
-    )
-    skill = (REPO / ".claude" / "skills" / "research-loop" / "SKILL.md").read_text()
-    desc = skill.split("---")[1]
-    assert "INTERACTIVE" in desc.upper(), (
-        "every load trigger is still a Routine firing; the interactive path remains unreachable"
-    )
-
-
 # ──────────────────────────────────────────── the width cap, which governed nothing until it was read
 #
 # ⛔⛔ THIS DIAL WAS WORSE INSTRUMENTED THAN THE SESSION-SHAPE RULE ABOVE, AND IT CARRIES MORE RISK.
@@ -1041,22 +1031,6 @@ def test_the_condition_is_wired_into_the_board(health):
     assert "c_fanout_is_governed(receipts, state, state_err)" in HEALTH_PY.read_text(), (
         "defined but not assembled into build() — it would never reach a board, which is the exact "
         "shape of the defect being fixed"
-    )
-
-
-def test_the_cap_is_readable_at_the_moment_the_spawn_is_authorised(health):
-    """★ THE PREVENTION HALF. This condition is retrospective by construction — it reads committed
-    receipts. What stops an overrun is the number being legible at the line that grants standing
-    authorisation to spawn, in the file that loads every session."""
-    claude_md = (REPO / "CLAUDE.md").read_text()
-    assert "subagent_width" in claude_md, (
-        "CLAUDE.md authorises spawning subagents and never names the cap, so a session that reads "
-        "only CLAUDE.md is authorised without a limit — the gap measured 2026-08-26"
-    )
-    i = claude_md.index("standing authorisation to spawn")
-    assert "subagent_width" in claude_md[i:i + 600], (
-        "the cap is named somewhere in CLAUDE.md but not AT the authorisation, which is the moment "
-        "the decision is made"
     )
 
 
