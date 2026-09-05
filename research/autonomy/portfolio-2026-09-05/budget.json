@@ -38,20 +38,26 @@
       "used_percent": 32,
       "resets_at": 1789158862,
       "phase": "After verified fusion-feasibility round; account-wide rounded;2points since task start,6since26restart baseline."
+    },
+    {
+      "utc": "2026-09-05T15:11:30.050366Z",
+      "used_percent": 33,
+      "resets_at": 1789158862,
+      "phase": "After second fresh-context round; account-wide rounded,7points since26percent restart baseline."
     }
   ],
-  "current_ceiling_percentage_points": 8,
+  "current_ceiling_percentage_points": 7.551,
   "observed_startup_consumption_percentage_points": 1,
   "attribution": "All observations are account-wide rounded usage, not research cost. Pre-restart observations are history and excluded from prospective pacing.",
-  "status": "Fusion round completed verified; next bounded response pilot fits remaining2points of8point prospective day ceiling.",
+  "status": "Waiting for next prospective pacing window; no active worker. Full goal remains active.",
   "max_dispatches_per_rolling_24h": null,
   "max_dispatches_per_wake": 1,
   "counted_runs": [
     "20260905T032612Z-df96afc413",
     "20260905T084620Z-b7637a0999"
   ],
-  "earliest_dispatch_utc": null,
-  "next_action": "One bounded response-recoverability pilot, then recheck budget before any further dispatch.",
+  "earliest_dispatch_utc": "2026-09-06T11:19:02.898829+00:00",
+  "next_action": "At next useful wake inspect ownership/usage and saved response decision; launch one fresh trial-discoverability pilot only when projected consumption fits reserve and pacing.",
   "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
   "paid_fallback": false,
   "reset_redemption_authorized": false,
@@ -60,5 +66,17 @@
     "used_percent": 26,
     "resets_at": 1789158862,
     "authority": "User explicitly requested substantive work now; retire two-dispatch rolling cap and historical setup-spend block. Earlier observations retained as history only."
+  },
+  "pacing": {
+    "checked_utc": "2026-09-05T15:11:30.050366Z",
+    "used_since_restart_points": 7,
+    "remaining_account_percent": 67,
+    "days_until_reset": 6.2242,
+    "daily_formula_allowance_points": 7.551,
+    "remaining_current_window_points": 0.551,
+    "next_round_planning_allowance_points": 2,
+    "basis": "Rounded account changes across two bounded rounds were2 and1points;2point allowance conservatively includes integration and other account work. Not a fixed run-count cap.",
+    "next_window_utc": "2026-09-06T11:19:02.898829+00:00",
+    "recovery_heartbeat_minutes": 360
   }
 }

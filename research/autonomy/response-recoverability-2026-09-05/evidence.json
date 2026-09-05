@@ -1,0 +1,1341 @@
+{
+  "schema": "response-recoverability-evidence/1",
+  "status": "frozen_no_go",
+  "created_at_utc": "2026-09-05T14:55:37.118899+00:00",
+  "selection_sha256": "ba3c1192a1c7bb6db870c53939b3c66e1fd7350dc3c1900c90ec0ee2b1b6d816",
+  "trials": [
+    {
+      "nct_id": "NCT00756509",
+      "snapshot": "sources/NCT00756509.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00756509",
+        "retrieved_at_utc": "2026-09-05T14:48:44.173Z",
+        "http_status": 200,
+        "payload_sha256": "8ec14d5ea3ac14474dbbf3fc80f992c74fe734d95843c3fd9746b1f96694a3f5",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2026-07-16",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 34,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Proportion of Participants With Best Overall Response at Month 6 (Core Phase) Determined According to the RECIST v1.0."
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/0",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 0,
+            "PR": 14,
+            "SD": 21,
+            "PD": 6
+          },
+          "replayed_cells": {
+            "CR": 0,
+            "PR": 14,
+            "SD": 21,
+            "PD": 6
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 41,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "41"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "The intent-to-treat (ITT) population consisted of all participants who received at least one dose of the study drug and had at least one post-baseline assessment of the primary efficacy variable (assessment according to RECIST). Participants without any post-baseline assessment of tumour were included if they were defined as progressive disease based on clinical evaluation.",
+          "time_frame": "from baseline to month 6, core phase",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/description"
+        }
+      ],
+      "audit": {
+        "classification": "Unresolved source inconsistency",
+        "finding_and_limit": "Posted outcome and participant flow both give41, enrollment34. Outcome0 includes UNK0 and explicit four-week CR/PR confirmation and SD after six weeks. Protocol version06 pp52/54 defines CR+PR+SD primary and cutoff24 for planned n39. ORR is secondary. Replacing41 by34 or applying the cutoff to ORR would be unjustified; no published decision reversal found.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00600340",
+      "snapshot": "sources/NCT00600340.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00600340",
+        "retrieved_at_utc": "2026-09-05T14:48:44.471Z",
+        "http_status": 200,
+        "payload_sha256": "4d31b727b8d1b39c452a62f4533854b9a1c6925b7d55c824056a316ab7907ada",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2019-12-30",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 564,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Overall Survival (PP Population)",
+        "Overall Survival (ITT Population)"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 10,
+            "PR": 115,
+            "SD": 127,
+            "PD": 18
+          },
+          "replayed_cells": {
+            "CR": 10,
+            "PR": 115,
+            "SD": 127,
+            "PD": 18
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 270,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "285"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "279"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Intent-to-Treat population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 2,
+            "PR": 74,
+            "SD": 138,
+            "PD": 47
+          },
+          "replayed_cells": {
+            "CR": 2,
+            "PR": 74,
+            "SD": 138,
+            "PD": 47
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 261,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "285"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "279"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Intent-to-Treat population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 10,
+            "PR": 111,
+            "SD": 117,
+            "PD": 17
+          },
+          "replayed_cells": {
+            "CR": 10,
+            "PR": 111,
+            "SD": 117,
+            "PD": 17
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 255,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "266"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "265"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Per protocol population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 2,
+            "PR": 72,
+            "SD": 130,
+            "PD": 45
+          },
+          "replayed_cells": {
+            "CR": 2,
+            "PR": 72,
+            "SD": 130,
+            "PD": 45
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 249,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "266"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "265"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Per protocol population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 16,
+            "PR": 147,
+            "SD": 89,
+            "PD": 18
+          },
+          "replayed_cells": {
+            "CR": 16,
+            "PR": 147,
+            "SD": 89,
+            "PD": 18
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 270,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "285"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "279"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "ITT population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 4,
+            "PR": 101,
+            "SD": 109,
+            "PD": 47
+          },
+          "replayed_cells": {
+            "CR": 4,
+            "PR": 101,
+            "SD": 109,
+            "PD": 47
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 261,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "285"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "279"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "ITT population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 16,
+            "PR": 141,
+            "SD": 81,
+            "PD": 17
+          },
+          "replayed_cells": {
+            "CR": 16,
+            "PR": 141,
+            "SD": 81,
+            "PD": 17
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 255,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "266"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "265"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "PP population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 4,
+            "PR": 96,
+            "SD": 104,
+            "PD": 45
+          },
+          "replayed_cells": {
+            "CR": 4,
+            "PR": 96,
+            "SD": 104,
+            "PD": 45
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 249,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "266"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "265"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "PP population",
+          "time_frame": "Up to disease progression or up to 28 days after last intake of study medication, assessed up to approximately 5 years.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6/description"
+        }
+      ],
+      "audit": {
+        "classification": "Own denominator and arm-identity loss",
+        "finding_and_limit": "Eight records represent two treatment arms across ITT/PP and confirmation. Outcome3 omits15/18 not-evaluable from four-cell sums270/261 despite registered ITT denominators285/279. Paclitaxel125/270=46.30% versus125/285=43.86%; unconfirmed163/285=57.19%. Primary publication PMID27501767 specifies OS noninferiority against HR1.33, not response. Outcomes5/6 waive confirmation; no minimum SD duration explicit in audited descriptions.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00858117",
+      "snapshot": "sources/NCT00858117.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00858117",
+        "retrieved_at_utc": "2026-09-05T14:48:44.549Z",
+        "http_status": 200,
+        "payload_sha256": "2e27416d336b808f2c28c5c676078710d613a10e628bf51b1d802dbad02e5148",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2020-11-06",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 30,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Number of Patients Treated With Alemtuzumab and Rituximab Combination With a Response (CR or PR) Assessed by NCI-WG 1996 Criteria With Lymph-adenopathy and Organomegaly Measured During Physical Examination",
+        "Number of Patients Treated With Alemtuzumab and Rituximab Combination With Response (CR or PR) Assessed by NCI-WG 1996 Criteria With Measurements of the Lymph Nodes and Spleen Size by CT Scans"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 18,
+            "PR": 12,
+            "SD": 0,
+            "PD": 0
+          },
+          "replayed_cells": {
+            "CR": 18,
+            "PR": 12,
+            "SD": 0,
+            "PD": 0
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 30,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "30"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": null,
+          "time_frame": "At week 9, and post 18 weeks of treatment, then every 3 months for a year and up every 6 months for up to 2 years",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 7,
+            "PR": 14,
+            "SD": 9,
+            "PD": 0
+          },
+          "replayed_cells": {
+            "CR": 7,
+            "PR": 14,
+            "SD": 9,
+            "PD": 0
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 30,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "30"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": null,
+          "time_frame": "At week 9, and post-18 weeks then every 3 months for a year and up every 6 months for up to 2 years",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4/description"
+        }
+      ],
+      "audit": {
+        "classification": "Own arm-identity error, legitimate definition contrast",
+        "finding_and_limit": "Same30 participants: physical-examination assessment CR18+PR12=100%; CT assessment CR7+PR14=70%. Both assessment variants are registered primary outcomes, not independent arms. No numerical decision threshold recovered. No explicit confirmation or minimum SD duration in audited best-response definitions.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00066222",
+      "snapshot": "sources/NCT00066222.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00066222",
+        "retrieved_at_utc": "2026-09-05T14:48:44.620Z",
+        "http_status": 200,
+        "payload_sha256": "da72a823aaf7a21708f2e8d55b42ee65c36dac0f446e795ae42df7267d8b6af6",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2017-12-22",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 72,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Overall Survival at 2 Years"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 29,
+            "PR": 28,
+            "SD": 7,
+            "PD": 4
+          },
+          "replayed_cells": {
+            "CR": 29,
+            "PR": 28,
+            "SD": 7,
+            "PD": 4
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 68,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "68"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Eligible patients who started study treatment and were observed for at least 2 months post-treatment",
+          "time_frame": "From the start of treatment to 2 months following the completion of chemotherapy",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/5/description"
+        }
+      ],
+      "audit": {
+        "classification": "Correct source-defined evaluable subset",
+        "finding_and_limit": "Four cells sum to registered outcome denominator68; enrollment72. Source requires eligible treated patients observed at least two months post-treatment. Difference from enrollment alone is not error. Primary is two-year OS. Observation time is not an explicit minimum SD-duration or confirmation rule.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00183820",
+      "snapshot": "sources/NCT00183820.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00183820",
+        "retrieved_at_utc": "2026-09-05T14:48:44.701Z",
+        "http_status": 200,
+        "payload_sha256": "c7e32734dcf018ec40b4067b9f3e7e2f0d4e08fbabd64a5ee401f9090ee6c407",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2026-07-01",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 30,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Tumor Response"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/0",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 2,
+            "PR": 7,
+            "SD": 15,
+            "PD": 5
+          },
+          "replayed_cells": {
+            "CR": 2,
+            "PR": 7,
+            "SD": 15,
+            "PD": 5
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 29,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "29"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "1 patient was inevaluable.",
+          "time_frame": "From start of study drug until the date of first documented progression or date of death from any cause, whichever came first, assessed every 6 weeks, through study completion, up to 9 years",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/description"
+        }
+      ],
+      "audit": {
+        "classification": "Unresolved protocol rule conflict, correctly scoped denominator",
+        "finding_and_limit": "Source says one patient inevaluable; four cells sum29 versus enrollment30. Protocol sections11.1/11.2 conflict: continuation after at least1 versus at least3 responses among10. Stage sequence unavailable; no observed wrong stop/continue decision established. PDF pp22\u201323 (printed21\u201322) visually checked. Registry RECISTv1.1 wording is not a historical protocol substitute; protocol also uses tumor markers.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT02440464",
+      "snapshot": "sources/NCT02440464.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT02440464",
+        "retrieved_at_utc": "2026-09-05T14:48:44.784Z",
+        "http_status": 200,
+        "payload_sha256": "79dec08a66528b8f775631a98d37017cdd946420bf6d9857735382eb8f6f8319",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2023-01-04",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 57,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Percentage of Participants With Progression-Free Survival"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 2,
+            "PR": 2,
+            "SD": 0,
+            "PD": 1
+          },
+          "replayed_cells": {
+            "CR": 2,
+            "PR": 2,
+            "SD": 0,
+            "PD": 1
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 5,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "21"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "22"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            "Participants in sCR/CR at Randomization",
+            "Participants Not in sCR/CR at Randomization"
+          ],
+          "population_description": "All randomized participants were included in the analysis. Participants were divided into those in sCR/CR at the time of randomization vs. those who were not in sCR/CR at the time of randomization.",
+          "time_frame": "2 years post-transplant",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 3,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "replayed_cells": {
+            "CR": 3,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 3,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "21"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "22"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            "Participants in sCR/CR at Randomization",
+            "Participants Not in sCR/CR at Randomization"
+          ],
+          "population_description": "All randomized participants were included in the analysis. Participants were divided into those in sCR/CR at the time of randomization vs. those who were not in sCR/CR at the time of randomization.",
+          "time_frame": "2 years post-transplant",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "replayed_cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 2,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "21"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "22"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            "Response to Treatment at 18 Months Post-transplant for Participants in sCR/CR at Randomization",
+            "Response to Treatment at 18 Months Post-transplant for Participants Not in sCR/CR at Randomization",
+            "Response to Treatment at 24 Months Post-transplant for Participants in sCR/CR at Randomization",
+            "Response to Treatment at 24 Months Post-transplant for Participants Not in sCR/CR at Randomization"
+          ],
+          "population_description": "All randomized participants were included in the analysis. Participants were divided into those in sCR/CR at the time of randomization vs. those who were not in sCR/CR at the time of randomization. Reasons participants were not evaluable were either they withdrew from study or missed an assessment.",
+          "time_frame": "18 months and 24 months post-transplant",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 2,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "replayed_cells": {
+            "CR": 2,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 2,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "21"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "22"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            "Response to Treatment at 18 Months Post-transplant for Participants in sCR/CR at Randomization",
+            "Response to Treatment at 18 Months Post-transplant for Participants Not in sCR/CR at Randomization",
+            "Response to Treatment at 24 Months Post-transplant for Participants in sCR/CR at Randomization",
+            "Response to Treatment at 24 Months Post-transplant for Participants Not in sCR/CR at Randomization"
+          ],
+          "population_description": "All randomized participants were included in the analysis. Participants were divided into those in sCR/CR at the time of randomization vs. those who were not in sCR/CR at the time of randomization. Reasons participants were not evaluable were either they withdrew from study or missed an assessment.",
+          "time_frame": "18 months and 24 months post-transplant",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/4/description"
+        }
+      ],
+      "audit": {
+        "classification": "Own class overwrite and category omission",
+        "finding_and_limit": "Outcome3 has two baseline-response classes; outcome4 has four baseline/time classes (18/24months). Extractor retains last class and omits sCR/VGPR and death/unevaluable. Last-class best response ixazomib is11/12 (sCR3+CR2+VGPR4+PR2), not4/5; placebo11/11, not3/3. Primary is PFS. PMID35840087 abstract says early closure prevented adequate efficacy assessment. Relative-to-pretransplant response does not establish maintenance benefit.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00298896",
+      "snapshot": "sources/NCT00298896.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00298896",
+        "retrieved_at_utc": "2026-09-05T14:48:44.929Z",
+        "http_status": 200,
+        "payload_sha256": "0038282b7d44c894ec2f6dee5f651c440d285ffb0bc5cdd5c5bc6c43c8c4a699",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2018-07-26",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 55,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Objective Response Rate"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/1",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 1,
+            "PR": 2,
+            "PD": 31,
+            "SD": 13
+          },
+          "replayed_cells": {
+            "CR": 1,
+            "PR": 2,
+            "PD": 31,
+            "SD": 13
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 47,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "47"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Efficacy Analysis Set",
+          "time_frame": "upto 6 months",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/1/description"
+        }
+      ],
+      "audit": {
+        "classification": "Ordinary matching row",
+        "finding_and_limit": "CR1+PR2+SD13+PD31=47, matching efficacy-set denominator. ORR primary; no numeric decision criterion recovered. Audited BOR description has no explicit confirmation/minimum SD-duration rule.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00301067",
+      "snapshot": "sources/NCT00301067.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00301067",
+        "retrieved_at_utc": "2026-09-05T14:48:45.007Z",
+        "http_status": 200,
+        "payload_sha256": "8b6d0867ffecdf6fa9d78baee00a1adcd1fc8d5b0e7e9c265b4b4450aa068302",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2019-06-04",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 20,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Number and Frequency of Dose Limiting Toxicities (DLTs) With High-dose Calcitriol in Combination With Temozolomide",
+        "Number of Patients With Toxicity"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/2",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 1,
+            "PD": 17
+          },
+          "replayed_cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 1,
+            "PD": 17
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 20,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "20"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "Cohort results for this outcome measure are combined as the objective was to determine the tumor response of patients with this drug combination (dose was irrelevant)",
+          "time_frame": "At baseline and every 8 weeks during treatment for a maximum of 12 cycles where one cycle equals 28 days.",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/2/description"
+        }
+      ],
+      "audit": {
+        "classification": "Valid explicitly pooled dose cohorts",
+        "finding_and_limit": "CR0+PR2+SD1+PD17=20. Source explicitly combines cohorts for this response outcome; not a single-dose arm. Primary concerns toxicity. Eight-week scan interval is not by itself confirmation/minimum SD duration.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00389805",
+      "snapshot": "sources/NCT00389805.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00389805",
+        "retrieved_at_utc": "2026-09-05T14:48:45.065Z",
+        "http_status": 200,
+        "payload_sha256": "bd81fbb1ce863ba4af8a0bb9cdc248d0612b30a4c1d0f6ba69c6fbe1ac6c3187",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2018-10-31",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 27,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Number of Patients Experiencing a Dose-limiting Toxicity (Phase I)",
+        "Number of Participants Who Experience Adverse Events (Phase I)",
+        "Number of Patients With Grade \u2265 3 Toxicity (Phase I)",
+        "Number of Patients Who Responded to Study Treatment (Phase II)"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 7,
+            "PD": 7
+          },
+          "replayed_cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 7,
+            "PD": 7
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 15,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "15"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "12"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "All patients for whom response evaluation measurements were recorded at baseline and after 2 cycles.",
+          "time_frame": "Up to 36 months",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6/description"
+        },
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6",
+          "group_id": "OG001",
+          "original_cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 6,
+            "PD": 5
+          },
+          "replayed_cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 6,
+            "PD": 5
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 12,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "15"
+                },
+                {
+                  "groupId": "OG001",
+                  "value": "12"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": "All patients for whom response evaluation measurements were recorded at baseline and after 2 cycles.",
+          "time_frame": "Up to 36 months",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/6/description"
+        }
+      ],
+      "audit": {
+        "classification": "Ordinary source-defined phase-I evaluable groups",
+        "finding_and_limit": "Two phase-I response denominators15/12 match counts; baseline and post-two-cycle measurements required. Do not relabel as phase-II outcomes. No response decision threshold or explicit minimum SD-duration/confirmation rule recovered for these rows.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    },
+    {
+      "nct_id": "NCT00601003",
+      "snapshot": "sources/NCT00601003.json",
+      "retrieval": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT00601003",
+        "retrieved_at_utc": "2026-09-05T14:48:45.125Z",
+        "http_status": 200,
+        "payload_sha256": "71fa04c46f4a4f8126c244a5405d20340fc11b755d34142124bee73dfb061b53",
+        "hash_definition": "SHA256 of original HTTP response UTF-8 text"
+      },
+      "last_update_posted": {
+        "date": "2024-08-06",
+        "type": "ACTUAL"
+      },
+      "source_enrollment": {
+        "count": 112,
+        "type": "ACTUAL"
+      },
+      "primary_outcomes": [
+        "Number of Participants With Related Adverse Events as a Measure of Safety and Tolerability",
+        "Best Radiological Response in Participants Using the RECIST Criteria"
+      ],
+      "row_checks": [
+        {
+          "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/1",
+          "group_id": "OG000",
+          "original_cells": {
+            "CR": 7,
+            "PR": 11,
+            "SD": 35,
+            "PD": 23
+          },
+          "replayed_cells": {
+            "CR": 7,
+            "PR": 11,
+            "SD": 35,
+            "PD": 23
+          },
+          "matches_original": true,
+          "stored_four_cell_sum": 76,
+          "source_units": "Participants",
+          "source_denominators": [
+            {
+              "units": "Participants",
+              "counts": [
+                {
+                  "groupId": "OG000",
+                  "value": "76"
+                }
+              ]
+            }
+          ],
+          "source_class_titles": [
+            null
+          ],
+          "population_description": null,
+          "time_frame": "2 years",
+          "definition_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/1/description"
+        }
+      ],
+      "audit": {
+        "classification": "Ordinary matching row",
+        "finding_and_limit": "CR7+PR11+SD35+PD23=76 matches outcome denominator. Response definition includes marrow/MIBG alongside imaging. Two-year window is not minimum SD duration. Numeric decision rule not recovered; listed protocol not retrieved in bounded audit.",
+        "qualifying_consequential_study_decision_discrepancy": false
+      }
+    }
+  ],
+  "extractor_replay": {
+    "path": "research/manuscripts/endpoint_corpus.py",
+    "function": "_cells_for_groups",
+    "sha256": "4ecfd24ace0d2e37e2a3e2936803b1ab409356116a950fa1dbc977477680e7f1",
+    "selected_rows": 22,
+    "all_cells_match": true,
+    "interpretation": "Current saved primary payloads reproduce every selected stored four-cell result. This demonstrates current algorithm behavior, not byte identity to unavailable historical cache."
+  },
+  "decision": "NO_GO_FOR_DISTINCT_EMPIRICAL_METHODS_PAPER",
+  "success_gate": {
+    "required": 2,
+    "demonstrated_study_decision_discrepancies": 0,
+    "distinct_method_demonstrated": false,
+    "note": "Own corpus distortions are demonstrated but not counted as erroneous original study conclusions."
+  },
+  "novelty": [
+    {
+      "id": "PMID28011448",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28011448/",
+      "read_scope": "Primary abstract, saved EuropePMC core record",
+      "overlap": "Protocol/registry/publication outcome discrepancies and registry limitations already studied."
+    },
+    {
+      "id": "PMID34950839",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34950839/",
+      "read_scope": "Primary abstract, saved EuropePMC core record",
+      "overlap": "425 two-stage oncology reports audited for design reproducibility and inference, including reanalysis."
+    },
+    {
+      "id": "PMID30257185",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30257185/",
+      "read_scope": "Primary abstract, saved EuropePMC core record",
+      "overlap": "EXACT extracts ClinicalTrials.gov numerical data and evaluates reproduction of published meta-analyses."
+    },
+    {
+      "id": "arXiv2405.01686v2",
+      "url": "https://arxiv.org/abs/2405.01686v2",
+      "read_scope": "Primary abstract browsed 2026-09-05; no local snapshot",
+      "overlap": "Granular numerical-outcome benchmark and seven-LLM comparison already exist. Complex extraction remains difficult."
+    },
+    {
+      "id": "RECIST1.1",
+      "url": "https://dctd.cancer.gov/research/ctep-trials/for-sites/recist-guidelines-v11.pdf",
+      "read_scope": "Focused guideline search extracts on confirmation/SD duration; not full review",
+      "overlap": "Protocol-specific confirmation and minimum SD duration are established issues, not new methods."
+    }
+  ],
+  "novelty_conclusion": "Focused, not exhaustive. A new taxonomy or corrected parser alone does not establish novelty; no independent annotation set, comparator baseline or general method demonstrated.",
+  "source_limits": [
+    "Original cache refs absent; compact inputs lack negative-screen IDs. No excluded-screen sensitivity or prevalence estimate.",
+    "All selected current last-update dates precede the original2026-08-09 freeze, but historical payload byte identity cannot be verified. Current extractor reproduces22 rows.",
+    "Primary document review targeted two protocols and publication abstracts, not complete trial dossiers. No stage-level or patient-level validation.",
+    "GIST source inconsistency and germ-cell interim-rule conflict remain unresolved. No guessed denominator or decision threshold.",
+    "No clinical efficacy/safety or therapeutic-window validation. Existing552-arm paper interpretation is not established; no full-corpus repair."
+  ],
+  "next_question": "Can a specific independent trial supply a protocol/SAP, stage-resolved outcomes and a published decision that disagree because of response-definition or denominator handling, beyond our extractor and established reporting-audit methods?",
+  "execution": {
+    "task_id": "01a07208-6465-7240-bbc9-c9b832c256da",
+    "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+    "base_revision": "0eb7bcb8bbce610f7ef0e7484ec49a8a9a19877c",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "execution_evidence": "Coordinator independently confirmed turn_context2026-09-05T14:45:50.318Z.",
+    "goal_created_epoch_seconds": 1788619561,
+    "duration_limit_seconds": 1800,
+    "nested_agents_tasks_runners": 0,
+    "normal_preflight": "Not run by worker; coordinator explicitly owns integration preflight.",
+    "processes_running_at_completion": 0,
+    "reservation_confirmed_at_utc": "2026-09-05T14:46:55.849000+00:00",
+    "completed_at_utc": "2026-09-05T15:07:00.587543+00:00",
+    "elapsed_since_reservation_seconds": 1204.739,
+    "elapsed_since_goal_seconds": 1259.588,
+    "model_effort_evidence": "Worker and coordinator read actual local turn_context2026-09-05T14:45:50.318Z: gpt-6-astra, medium."
+  },
+  "documents": [
+    {
+      "file": "NCT00756509-Prot.pdf",
+      "url": "https://cdn.clinicaltrials.gov/large-docs/09/NCT00756509/Prot_000.pdf",
+      "retrieved_at_utc": "2026-09-05T14:51:31.254Z",
+      "http_status": 200,
+      "sha256": "ab204efe516bf64c0f9ecdf0134cb7f2502b8a08c26ccb9703caf563dee4f4b2",
+      "bytes": 1357072
+    },
+    {
+      "file": "NCT00183820-Prot-SAP.pdf",
+      "url": "https://cdn.clinicaltrials.gov/large-docs/20/NCT00183820/Prot_SAP_000.pdf",
+      "retrieved_at_utc": "2026-09-05T14:51:31.825Z",
+      "http_status": 200,
+      "sha256": "b65765d58c8781b41d0008f40d65c7041d57a199df4e99abf834ea56a4018ecc",
+      "bytes": 821582
+    },
+    {
+      "file": "NCT02440464-article.xml",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10442072/fullTextXML",
+      "retrieved_at_utc": "2026-09-05T14:51:32.298Z",
+      "error": "Error: 404"
+    },
+    {
+      "file": "PMID35840087.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:35840087%20AND%20SRC:MED&format=json&resultType=core",
+      "retrieved_at_utc": "2026-09-05T14:53:03.267Z",
+      "http_status": 200,
+      "sha256": "c458f706a53b305198d5ac923a821183b4aec8f970d87aa28b7a68a8a8bd6252"
+    },
+    {
+      "file": "PMID34950839.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:34950839%20AND%20SRC:MED&format=json&resultType=core",
+      "retrieved_at_utc": "2026-09-05T14:53:03.794Z",
+      "http_status": 200,
+      "sha256": "6bf4882cf5211234d99742b09c5d8cd3408cab553f11f0efb9219c3653265e89"
+    },
+    {
+      "file": "PMID28011448.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:28011448%20AND%20SRC:MED&format=json&resultType=core",
+      "retrieved_at_utc": "2026-09-05T14:53:04.179Z",
+      "http_status": 200,
+      "sha256": "ace5d0dc67fc24c99aa99a2f0a02e9353d06de3490f2a836420cdb21aa23f7ee"
+    },
+    {
+      "file": "PMID27501767.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:27501767%20AND%20SRC:MED&format=json&resultType=core",
+      "retrieved_at_utc": "2026-09-05T14:53:04.318Z",
+      "http_status": 200,
+      "sha256": "5fb88f3f72d24402964a97062d2a6c373c4657a9c49d4d3c4ea321f7031b49cd"
+    },
+    {
+      "file": "PMID30257185.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:30257185%20AND%20SRC:MED&format=json&resultType=core",
+      "retrieved_at_utc": "2026-09-05T14:56:25.172Z",
+      "http_status": 200,
+      "sha256": "99fe26e2eba4650652fd4fbcf23415810fd1815238453acaf98f67839f5d1d07"
+    }
+  ],
+  "rendered_page_provenance": [
+    {
+      "file": "NCT00183820-decision-22.png",
+      "sha256": "220a0adb7c0ed1b8e069400336fd93572c110f73a671c7c563169c4dd24e9b68",
+      "derived_from": "NCT00183820-Prot-SAP.pdf",
+      "method": "Bundled pdftoppm -scale-to1100 -png, selected pages; visually inspected"
+    },
+    {
+      "file": "NCT00183820-decision-23.png",
+      "sha256": "f25be0bc0f2315706dcaa88eb7949c17f92965b17b3397b963db8b544aae2e76",
+      "derived_from": "NCT00183820-Prot-SAP.pdf",
+      "method": "Bundled pdftoppm -scale-to1100 -png, selected pages; visually inspected"
+    },
+    {
+      "file": "NCT00756509-decision-54.png",
+      "sha256": "f99f6933a9c7f8712975d26d6c84589bfc376f8d9f8fbd6b2f07d09ac5809417",
+      "derived_from": "NCT00756509-Prot.pdf",
+      "method": "Bundled pdftoppm -scale-to1100 -png, selected pages; visually inspected"
+    }
+  ],
+  "audit_caveats": [
+    "Initial corpus read was unintentionally broad and truncated; all subsequent reads used bounded summaries/selected records.",
+    "Default Python alias unavailable; used bundled Python. No installs.",
+    "One oversized shell write rejected by tool policy; shorter equivalent writes succeeded.",
+    "PMC browser challenges and fullTextXML404; saved primary publication abstracts via EuropePMC core instead.",
+    "Initial Python hash check used Windows default text decoding, causing false mismatches for non-ASCII source text. Rechecked explicit UTF8; all10 original payload hashes match. Refreshed copied descriptive fields from UTF8 originals."
+  ],
+  "validation": {
+    "passed": true,
+    "checked_at_utc": "2026-09-05T15:07:00.587543+00:00",
+    "scope": "Focused source/code/artifact checks only",
+    "checks": [
+      "10 unique trials; input/frozen selection hashes match",
+      "Selection precedes all10 API retrievals",
+      "10 raw-response SHA256 hashes and parsed copies verify with explicit UTF8",
+      "22 source pointers resolve and extractor replay exactly reproduces cells/sums; all source units Participants",
+      "Two protocol PDFs, five primary abstract payloads, three rendered page hashes verify; decision pages visually inspected",
+      "JSON/UTF8 and trailing-whitespace checks pass; git diff --check exit0",
+      "Git status contains only permitted output paths; no tracked edits or background worker processes"
+    ],
+    "not_run": "Normal preflight delegated explicitly to coordinator integration; no publication suite."
+  },
+  "artifact_hashes": {
+    "pilot.md": "79ed844d7bdd22612e5916135d10e578b9eecb86532fd2fc5939c1c200c62a66",
+    "selection.json": "ba3c1192a1c7bb6db870c53939b3c66e1fd7350dc3c1900c90ec0ee2b1b6d816"
+  },
+  "reproduction_instructions": "Read JSON as UTF8. Match selection original_rows by outcome title and group title; invoke endpoint_corpus._cells_for_groups on each saved source outcome and compare cells/sums. JSON pointers are zero-indexed against the saved wrapper. Interpretation requires source class denominators, population and definitions, not parser output alone."
+}

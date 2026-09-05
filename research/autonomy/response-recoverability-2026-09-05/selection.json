@@ -1,0 +1,609 @@
+{
+  "schema": "response-recoverability-pilot-selection/1",
+  "frozen_at_utc": "2026-09-05T14:48:04.818Z",
+  "before_primary_retrieval": true,
+  "base_revision": "0eb7bcb8bbce610f7ef0e7484ec49a8a9a19877c",
+  "input_path": "research/manuscripts/endpoint/endpoint-corpus-inputs.json",
+  "input_sha256": "f63766a596cdb6978a2e7d8dbbdfc0c8119a50306a18ea6746316916ae040fa8",
+  "design": "Deterministic purposive pilot; no prevalence inference; strata applied sequentially without replacement. No replacement after retrieval failure.",
+  "negative_screen_sampling": "Not possible: original raw cache refs absent and compact input has aggregate negative dispositions but no original screen-level negative identifiers. Accrual IDs are not negative-screen IDs.",
+  "unit_stratum_note": "All 552 stored rows label unit Participants; use impossible total and title proxy, without assuming correctness of stored label.",
+  "trials": [
+    {
+      "nct_id": "NCT00756509",
+      "reason": "All trials with a four-cell sum exceeding registered total enrollment",
+      "original_rows": [
+        {
+          "nct_id": "NCT00756509",
+          "arm_title": "Nilotinib",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Proportion of Participants With Best Overall Response at Month 6 (Core Phase) Determined According to the RECIST v1.0.",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Gastrointestinal Stromal Tumors"
+          ],
+          "phases": [
+            "PHASE4"
+          ],
+          "trial_enrollment": 34,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 0,
+            "PR": 14,
+            "SD": 21,
+            "PD": 6
+          },
+          "evaluable_n": 41,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00600340",
+      "reason": "Lexicographically first two remaining trials with repeated arm title across extracted rows",
+      "original_rows": [
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Paclitaxel",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Best Overall Response (ITT Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 10,
+            "PR": 115,
+            "SD": 127,
+            "PD": 18
+          },
+          "evaluable_n": 270,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Capecitabine",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Best Overall Response (ITT Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 2,
+            "PR": 74,
+            "SD": 138,
+            "PD": 47
+          },
+          "evaluable_n": 261,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Paclitaxel",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Best Overall Response (PP Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 10,
+            "PR": 111,
+            "SD": 117,
+            "PD": 17
+          },
+          "evaluable_n": 255,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Capecitabine",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Best Overall Response (PP Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 2,
+            "PR": 72,
+            "SD": 130,
+            "PD": 45
+          },
+          "evaluable_n": 249,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Paclitaxel",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Unconfirmed Best Overall Response (ITT Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 16,
+            "PR": 147,
+            "SD": 89,
+            "PD": 18
+          },
+          "evaluable_n": 270,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Capecitabine",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Unconfirmed Best Overall Response (ITT Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 4,
+            "PR": 101,
+            "SD": 109,
+            "PD": 47
+          },
+          "evaluable_n": 261,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Paclitaxel",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Unconfirmed Best Overall Response (PP Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 16,
+            "PR": 141,
+            "SD": 81,
+            "PD": 17
+          },
+          "evaluable_n": 255,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00600340",
+          "arm_title": "Bevacizumab Plus Capecitabine",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Unconfirmed Best Overall Response (PP Population)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Breast Cancer"
+          ],
+          "phases": [
+            "PHASE3"
+          ],
+          "trial_enrollment": 564,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 4,
+            "PR": 96,
+            "SD": 104,
+            "PD": 45
+          },
+          "evaluable_n": 249,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00858117",
+      "reason": "Lexicographically first two remaining trials with repeated arm title across extracted rows",
+      "original_rows": [
+        {
+          "nct_id": "NCT00858117",
+          "arm_title": "Alemtuzumab and Rituximab",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Best Response in Patients Treated With Alemtuzumab and Rituximab Combination Assessed by NCI-WG 1996 Criteria With Lymphadenopathy and Organomegaly Measured During Physical Examination",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Leukemia"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 30,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 18,
+            "PR": 12,
+            "SD": 0,
+            "PD": 0
+          },
+          "evaluable_n": 30,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00858117",
+          "arm_title": "Alemtuzumab and Rituximab",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Best Response in Patients Treated With Alemtuzumab and Rituximab Combination Assessed by NCI-WG 1996 Criteria With Measurements of the Lymph Nodes and Spleen Size by CT Scans",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Leukemia"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 30,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 7,
+            "PR": 14,
+            "SD": 9,
+            "PD": 0
+          },
+          "evaluable_n": 30,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00066222",
+      "reason": "Lexicographically first two remaining single-row trials whose four-cell sum is below trial enrollment (risk signal only)",
+      "original_rows": [
+        {
+          "nct_id": "NCT00066222",
+          "arm_title": "Radiation Therapy + Chemotherapy",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Tumor Response",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Lung Cancer"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 72,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 29,
+            "PR": 28,
+            "SD": 7,
+            "PD": 4
+          },
+          "evaluable_n": 68,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00183820",
+      "reason": "Lexicographically first two remaining single-row trials whose four-cell sum is below trial enrollment (risk signal only)",
+      "original_rows": [
+        {
+          "nct_id": "NCT00183820",
+          "arm_title": "Paclitaxel, Gemcitabine, and Oxaliplatin",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Tumor Response",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Testicular Cancer",
+            "Germ Cell Neoplasm"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 30,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 2,
+            "PR": 7,
+            "SD": 15,
+            "PD": 5
+          },
+          "evaluable_n": 29,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT02440464",
+      "reason": "Lexicographically first remaining trial with proportion/percentage in outcome title (unit-risk proxy; all stored units say Participants)",
+      "original_rows": [
+        {
+          "nct_id": "NCT02440464",
+          "arm_title": "Ixazomib Maintenance",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Percentage of Participants With Best Response to Treatment After Randomization",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Multiple Myeloma"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 57,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 2,
+            "PR": 2,
+            "SD": 0,
+            "PD": 1
+          },
+          "evaluable_n": 5,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "nct_id": "NCT02440464",
+          "arm_title": "Placebo",
+          "arm_group_type": "PLACEBO_COMPARATOR",
+          "outcome_measure_title": "Percentage of Participants With Best Response to Treatment After Randomization",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Multiple Myeloma"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 57,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 3,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "evaluable_n": 3,
+          "control_arm_candidate": true,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "nct_id": "NCT02440464",
+          "arm_title": "Ixazomib Maintenance",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Percentage of Participants With Response to Treatment",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Multiple Myeloma"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 57,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "evaluable_n": 2,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "nct_id": "NCT02440464",
+          "arm_title": "Placebo",
+          "arm_group_type": "PLACEBO_COMPARATOR",
+          "outcome_measure_title": "Percentage of Participants With Response to Treatment",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Multiple Myeloma"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 57,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 2,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "evaluable_n": 2,
+          "control_arm_candidate": true,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00298896",
+      "reason": "Lexicographically first four remaining included trials, ordinary comparison records without selection by response rate",
+      "original_rows": [
+        {
+          "nct_id": "NCT00298896",
+          "arm_title": "SNS-595",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Best Overall Response",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Carcinoma, Small Cell",
+            "Small Cell Lung Cancer"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 55,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 1,
+            "PR": 2,
+            "PD": 31,
+            "SD": 13
+          },
+          "evaluable_n": 47,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00301067",
+      "reason": "Lexicographically first four remaining included trials, ordinary comparison records without selection by response rate",
+      "original_rows": [
+        {
+          "nct_id": "NCT00301067",
+          "arm_title": "Temozolomide and Calcitriol (Cohort 1-3+Expansion)",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Tumor Response",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Metastatic Melanoma"
+          ],
+          "phases": [
+            "PHASE1",
+            "PHASE2"
+          ],
+          "trial_enrollment": 20,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 1,
+            "PD": 17
+          },
+          "evaluable_n": 20,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00389805",
+      "reason": "Lexicographically first four remaining included trials, ordinary comparison records without selection by response rate",
+      "original_rows": [
+        {
+          "nct_id": "NCT00389805",
+          "arm_title": "Arm A",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Number of Participants With Response to Therapy as Measured by RECIST (Phase I)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Lung Cancer",
+            "Unspecified Adult Solid Tumor, Protocol Specific"
+          ],
+          "phases": [
+            "PHASE1",
+            "PHASE2"
+          ],
+          "trial_enrollment": 27,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 7,
+            "PD": 7
+          },
+          "evaluable_n": 15,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "nct_id": "NCT00389805",
+          "arm_title": "Arm B",
+          "arm_group_type": "UNRESOLVED",
+          "outcome_measure_title": "Number of Participants With Response to Therapy as Measured by RECIST (Phase I)",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Lung Cancer",
+            "Unspecified Adult Solid Tumor, Protocol Specific"
+          ],
+          "phases": [
+            "PHASE1",
+            "PHASE2"
+          ],
+          "trial_enrollment": 27,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 6,
+            "PD": 5
+          },
+          "evaluable_n": 12,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT00601003",
+      "reason": "Lexicographically first four remaining included trials, ordinary comparison records without selection by response rate",
+      "original_rows": [
+        {
+          "nct_id": "NCT00601003",
+          "arm_title": "Nifurtimox",
+          "arm_group_type": "EXPERIMENTAL",
+          "outcome_measure_title": "Best Radiological Response in Participants Using the RECIST Criteria",
+          "unit_of_measure": "Participants",
+          "conditions": [
+            "Neuroblastoma",
+            "Medulloblastoma"
+          ],
+          "phases": [
+            "PHASE2"
+          ],
+          "trial_enrollment": 112,
+          "trial_enrollment_type": "ACTUAL",
+          "cells": {
+            "CR": 7,
+            "PR": 11,
+            "SD": 35,
+            "PD": 23
+          },
+          "evaluable_n": 76,
+          "control_arm_candidate": false,
+          "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    }
+  ]
+}
