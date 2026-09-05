@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T23:28:07.095555+00:00",
+  "last_updated_utc": "2026-09-05T23:35:37.068940+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -133,9 +133,9 @@
     "next_action": "Regenerate cycle plans before subsequent dispatch. Reuse completed science and continue one bounded evidence-backed question; no further process work is established by this check."
   },
   "latest_science_result": {
-    "summary": "Complete 50-pair EMC first-reader expansion and 31-design partial fusion dataset collected. Trial provenance/coverage independently checked; fusion sources/numerics independently checked. Both normal integration checks pass; new trial labels still need independent adjudication.",
-    "result": "research/autonomy/trial-reference-expansion-emc-2026-09-05/first-reader-labels.json",
-    "decision": "research/autonomy/trial-reference-expansion-emc-2026-09-05/coordinator-review.md",
+    "summary": "All 74 remaining comparator first-reader judgments complete, source-verified and integrated. Full149pair frame now has first reading or existing adjudication; 124 new labels require independent adjudication.",
+    "result": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/first-reader-checkpoint-0074.json",
+    "decision": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/README.md",
     "publication_authorized": false
   },
   "portfolio": "research/autonomy/portfolio-2026-09-05/recommendation.md",
@@ -152,15 +152,11 @@
     "continuity": "Full mission active by user goal continuation; fresh research tasks remain bounded intermediate rounds. No preprint readiness established."
   },
   "latest_research_integration": {
-    "revision": "f3edec6c6c8607ba53dbd8cf062045e44ebd1d92",
+    "revision": "49638d5a0efff4c1eaf3effe068e9e79a7102b6f",
     "target": "local main",
-    "normal_preflight": "research/autonomy/fusion-partial-benchmark-2026-09-05/normal-preflight-result.json",
-    "integrated_files_verified_after_integration": 118,
-    "worker_manifest_files": {
-      "fusion": 53,
-      "trial": 33
-    },
-    "metadata_repair": "research/autonomy/fusion-partial-benchmark-2026-09-05/integration-metadata-repair.json",
+    "normal_preflight": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/normal-preflight-settled-result.json",
+    "integrated_files_verified_after_integration": 42,
+    "verification": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/verification.json",
     "remote_synchronization": "outstanding; not attempted"
   },
   "remediation_amendment": "research/autonomy/portfolio-2026-09-05/remediation-amendment.md",
@@ -188,9 +184,9 @@
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T23:28:07.095555+00:00",
-    "status": "All 74 comparator pairs have source-linked first-reader judgments. All 149 current-frame pairs now covered by first reading or prior adjudication; 124 new labels pending independent adjudication.",
-    "next_action": "Normal integration of completed first-reader round; prepare comparator source-only inputs; independent adjudication required before evaluation.",
+    "utc": "2026-09-05T23:35:37.068940+00:00",
+    "status": "Completed 74-pair comparator first reading integrated at 49638d5a0efff4c1eaf3effe068e9e79a7102b6f after normal verification; all 149 current-frame pairs covered, with 124 new labels pending independent adjudication.",
+    "next_action": "Prepare answer-free comparator input packet and bounded fresh-reader contract using existing 74 frozen records; existing 50-pair EMC packet is ready. Independently adjudicate before freezing retrieval endpoints. New desktop-task Full access remains unresolved.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -264,10 +260,12 @@
       "source_excerpts_verified": 216,
       "modules_reviewed": 518,
       "next_position": null,
-      "normal_preflight_run": false,
-      "integrated": false
+      "normal_preflight_run": true,
+      "integrated": true,
+      "integration_revision": "49638d5a0efff4c1eaf3effe068e9e79a7102b6f"
     },
     "progress_receipt": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/progress-0074.json",
-    "source_verification": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/source-verification.json"
+    "source_verification": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/source-verification.json",
+    "integration_receipt": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/integration-receipt.json"
   }
 }
