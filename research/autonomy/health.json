@@ -3,12 +3,12 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-09-04T11:21:28Z",
-  "_generated_et": "7:21 AM ET Sep 4, 2026",
+  "_generated_utc": "2026-09-05T00:09:39Z",
+  "_generated_et": "8:09 PM ET Sep 4, 2026",
   "_cycle_interval_h": 8.0,
   "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 8 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-09-05T11:21:28Z",
-  "_stale_after_et": "7:21 AM ET Sep 5, 2026",
+  "_stale_after_utc": "2026-09-06T00:09:39Z",
+  "_stale_after_et": "8:09 PM ET Sep 5, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 8 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": false,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
@@ -33,7 +33,7 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "27 row(s) are `stalled_needs_human`: AUT-COV-001 (since 2026-08-30T14:58:04Z), AUT-049 (since 2026-08-30T23:27:08Z), AUT-079 (since 2026-08-31T12:49:57Z), AUT-PD-170 (since 2026-08-31T12:49:57Z), AUT-PD-141 (since 2026-08-31T13:39:38Z), AUT-PROP-018 (since 2026-09-01T12:08:42Z), AUT-PROP-019 (since 2026-09-01T12:08:42Z), AUT-PD-197 (since 2026-09-03T13:28:09Z), AUT-010 (since 2026-09-03T19:06:15Z), AUT-073 (since 2026-09-03T19:06:15Z), AUT-077 (since 2026-09-03T19:06:15Z), AUT-006 (since 2026-09-03T19:06:15Z), AUT-024 (since 2026-09-03T19:06:15Z), AUT-040 (since 2026-09-03T19:06:15Z), AUT-050 (since 2026-09-03T19:06:15Z), AUT-071 (since 2026-09-03T20:39:20Z), AUT-PD-188 (since 2026-09-03T21:10:10Z), AUT-PD-028 (since 2026-09-04T09:43:36Z), AUT-PD-130 (since 2026-09-04T09:43:36Z), AUT-PD-133 (since 2026-09-04T09:43:36Z), AUT-PD-147 (since 2026-09-04T09:43:36Z), AUT-PD-148 (since 2026-09-04T09:43:36Z), AUT-PD-150 (since 2026-09-04T09:43:36Z), AUT-PD-151 (since 2026-09-04T09:43:36Z), AUT-PD-158 (since 2026-09-04T09:43:36Z), AUT-PD-168 (since 2026-09-04T09:43:36Z), AUT-PD-173 (since 2026-09-04T09:43:36Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
+      "detail": "37 row(s) are `stalled_needs_human`: AUT-COV-001 (since 2026-08-30T14:58:04Z), AUT-049 (since 2026-08-30T23:27:08Z), AUT-079 (since 2026-08-31T12:49:57Z), AUT-PD-170 (since 2026-08-31T12:49:57Z), AUT-PD-141 (since 2026-08-31T13:39:38Z), AUT-PROP-018 (since 2026-09-01T12:08:42Z), AUT-PROP-019 (since 2026-09-01T12:08:42Z), AUT-PD-197 (since 2026-09-03T13:28:09Z), AUT-010 (since 2026-09-03T19:06:15Z), AUT-073 (since 2026-09-03T19:06:15Z), AUT-077 (since 2026-09-03T19:06:15Z), AUT-006 (since 2026-09-03T19:06:15Z), AUT-024 (since 2026-09-03T19:06:15Z), AUT-040 (since 2026-09-03T19:06:15Z), AUT-050 (since 2026-09-03T19:06:15Z), AUT-071 (since 2026-09-03T20:39:20Z), AUT-PD-188 (since 2026-09-03T21:10:10Z), AUT-PD-028 (since 2026-09-04T09:43:36Z), AUT-PD-130 (since 2026-09-04T09:43:36Z), AUT-PD-133 (since 2026-09-04T09:43:36Z), AUT-PD-147 (since 2026-09-04T09:43:36Z), AUT-PD-148 (since 2026-09-04T09:43:36Z), AUT-PD-150 (since 2026-09-04T09:43:36Z), AUT-PD-151 (since 2026-09-04T09:43:36Z), AUT-PD-158 (since 2026-09-04T09:43:36Z), AUT-PD-168 (since 2026-09-04T09:43:36Z), AUT-PD-173 (since 2026-09-04T09:43:36Z), AUT-PROP-055 (since 2026-09-04T13:48:16Z), AUT-PROP-056 (since 2026-09-04T13:48:16Z), AUT-007 (since 2026-09-04T17:45:57Z), AUT-008 (since 2026-09-04T17:45:57Z), AUT-027 (since 2026-09-04T17:45:57Z), AUT-011 (since 2026-09-04T18:15:44Z), AUT-016 (since 2026-09-04T18:15:44Z), AUT-025 (since 2026-09-04T19:41:10Z), AUT-044 (since 2026-09-04T20:33:24Z), AUT-PD-208-11f2347b-8e081d15 (since 2026-09-04T20:57:55Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
       "payload": {
         "open_rows": 214,
         "terminal_ids": [
@@ -63,17 +63,27 @@
           "AUT-PD-151",
           "AUT-PD-158",
           "AUT-PD-168",
-          "AUT-PD-173"
+          "AUT-PD-173",
+          "AUT-PROP-055",
+          "AUT-PROP-056",
+          "AUT-007",
+          "AUT-008",
+          "AUT-027",
+          "AUT-011",
+          "AUT-016",
+          "AUT-025",
+          "AUT-044",
+          "AUT-PD-208-11f2347b-8e081d15"
         ],
         "shallow_clone": false,
         "history_horizon_utc": "2026-08-26 15:15"
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-01T16:42:38Z",
       "bad_since_utc": "2026-09-01T16:42:38Z",
-      "consecutive_bad_runs": 13,
-      "consecutive_red_runs": 13,
-      "bad_for_h": 66.65,
+      "consecutive_bad_runs": 14,
+      "consecutive_red_runs": 14,
+      "bad_for_h": 79.45,
       "bad_since_et": "12:42 PM ET Sep 1, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -81,11 +91,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 13,
+        "n": 14,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 66.65,
+        "bad_for_h": 79.45,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -97,15 +107,15 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last receipt (CYC-0104-27d8a174.json) landed 2.7 h ago, inside the 16.0 h deadline.",
+      "detail": "the last receipt (CYC-0106-e41d184e.json) landed 6.4 h ago, inside the 16.0 h deadline.",
       "payload": {
-        "receipts_seen": 127,
-        "latest_receipt": "CYC-0104-27d8a174.json",
-        "latest_receipt_et": "4:38 AM ET Sep 4, 2026",
-        "age_h": 2.72,
+        "receipts_seen": 129,
+        "latest_receipt": "CYC-0106-e41d184e.json",
+        "latest_receipt_et": "1:45 PM ET Sep 4, 2026",
+        "age_h": 6.4,
         "deadline_h": 16.0
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -134,21 +144,21 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "2 of the last 3 cycles moved a live route (RT-EARLY-PALLIATIVE, RT-EARLY-PALLIATIVE).",
+      "detail": "3 of the last 3 cycles moved a live route (RT-EARLY-PALLIATIVE, RT-HOST-FACTOR, RT-HOST-FACTOR).",
       "payload": {
         "window": [
-          "CYC-0102-c95ec192.json",
-          "CYC-0103-27d8a174.json",
-          "CYC-0104-27d8a174.json"
+          "CYC-0104-27d8a174.json",
+          "CYC-0105-e41d184e.json",
+          "CYC-0106-e41d184e.json"
         ],
         "route_advanced": [
           "RT-EARLY-PALLIATIVE",
-          "none",
-          "RT-EARLY-PALLIATIVE"
+          "RT-HOST-FACTOR",
+          "RT-HOST-FACTOR"
         ],
-        "receipts_seen": 127
+        "receipts_seen": 129
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -179,10 +189,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
       "payload": {
-        "entries": 414,
+        "entries": 415,
         "running": 0
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -213,10 +223,10 @@
       "needs_attention": false,
       "detail": "all 2 blocked entr(ies) record what was observed to establish the block.",
       "payload": {
-        "entries": 414,
+        "entries": 415,
         "blocked": 2
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -245,20 +255,17 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "171 of 414 entr(ies) are takeable now.",
+      "detail": "172 of 415 entr(ies) are takeable now.",
       "payload": {
-        "entries": 414,
-        "takeable": 171,
-        "owned": [
-          "AUT-220"
-        ],
+        "entries": 415,
+        "takeable": 172,
         "retry_budget_spent": [
           "AUT-010",
           "AUT-PD-170",
           "AUT-073"
         ]
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -292,7 +299,7 @@
         "open": 214,
         "unrankable": 0
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-01T21:04:31Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -325,13 +332,13 @@
       "payload": {
         "cap": 2,
         "sessions": {
-          "37419c4c-cf1c-57b4-8467-171b5a252059": 2,
           "c95ec192-cc9e-59b5-8af6-cf556475217a": 2,
-          "27d8a174-fdca-59ab-a636-47c4e6b0c281": 2
+          "27d8a174-fdca-59ab-a636-47c4e6b0c281": 2,
+          "e41d184e-3ec5-5289-934d-55f11f893f5c": 2
         },
         "worst": 2
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-03T16:28:01Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -364,16 +371,16 @@
       "payload": {
         "cap": 4,
         "measured": {
-          "CYC-0099-37419c4c": 0,
-          "CYC-0100-37419c4c": 0,
           "CYC-0101-c95ec192": 0,
           "CYC-0102-c95ec192": 0,
           "CYC-0103-27d8a174": 0,
-          "CYC-0104-27d8a174": 0
+          "CYC-0104-27d8a174": 0,
+          "CYC-0105-e41d184e": 0,
+          "CYC-0106-e41d184e": 0
         },
         "worst": 0
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-03T16:28:01Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -406,7 +413,7 @@
       "payload": {
         "backoff_level": 0
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-09-02T16:43:57Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -431,16 +438,19 @@
       "key": "gates_green",
       "label": "is `main` green, so a cycle can even commit?",
       "source": "--gates-verdict (written by the workflow that can read Actions)",
-      "verdict": "GREEN",
+      "verdict": "RED-BUT-FRESH",
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the trunk is green: tests.yml concluded `success` on main at 2026-09-04T09:01:03Z.",
+      "detail": "the trunk is RED: tests.yml concluded 'failure' on main (run https://github.com/trimcrae/Rare-cancers/actions/runs/33927354698). Red for 1.3 h, inside the 24 h grace \u2014 the next cycle is expected to fix it, and this row goes red if it does not.",
       "payload": {
-        "ref": "tests.yml @ 446fb7bbc729"
+        "red_since_et": "6:53 PM ET Sep 4, 2026",
+        "held_h": 1.27,
+        "grace_h": 24.0,
+        "ref": "tests.yml @ 4ca63da1a2f1"
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
-      "last_change_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
+      "last_change_utc": "2026-09-05T00:09:39Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
       "consecutive_red_runs": 0,
@@ -473,7 +483,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-09-04T11:21:28Z",
+      "last_seen_utc": "2026-09-05T00:09:39Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
