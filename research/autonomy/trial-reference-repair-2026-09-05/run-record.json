@@ -1,0 +1,111 @@
+{
+  "schema": "emc-bounded-research-run/1",
+  "task_id": "01a072a6-0a2e-78b3-83db-0e1f8404bc15",
+  "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "resource": "paper:PUB-CARE-DELIVERY",
+  "outcome": "bounded_reference_pack_complete_pending_coordinator_scientific_verification",
+  "worktree": "C:\\Users\\mcrae\\.codex\\worktrees\\b10a\\EMC-Research",
+  "base_revision": "8b3c210215c1433a637a6514537753112725896b",
+  "head_revision": "8b3c210215c1433a637a6514537753112725896b",
+  "commit_created": false,
+  "model": "Exact model identifier not exposed to worker; coordinator execution metadata is authoritative",
+  "reasoning_effort_assigned": "medium",
+  "reasoning_effort_independently_instrumented": false,
+  "timing": {
+    "initialization_goal_created_at_utc": "2026-09-05T17:38:12Z",
+    "instructions_read_complete_observed_utc": "2026-09-05T17:38:25Z",
+    "reservation_confirmation_observed_utc": "2026-09-05T17:39:18+00:00",
+    "scientific_start_utc": "2026-09-05T17:39:18+00:00",
+    "scientific_end_utc": "2026-09-05T18:38:37.497323+00:00",
+    "elapsed_wall_seconds": 3559.497,
+    "scientific_seconds": null,
+    "scientific_seconds_estimate_excluding_blocked_tool_proxy": 1427.102,
+    "blocked_tool_proxy_seconds": 2132.395,
+    "offline_checks_measured_seconds": 9.958,
+    "reserved_scientific_seconds": 1800,
+    "estimated_within_reservation": true,
+    "approval_wait_record": "approval-wait.json",
+    "timing_uncertainty": "Exact approval request/grant times and shell startup uninstrumented; blocked-tool proxy is an estimate. No precise actual scientific-time claim. Wall-time overrun was caused by pending execution approval; completed checks reused for bookkeeping repair.",
+    "initialization_and_wait_seconds_from_goal_creation": 66,
+    "initialization_note": "Instruction reading began before first clock observation; exact first read time unavailable. Goal createdAt anchors initialization. Scientific clock starts at first clock observation immediately after coordinator confirmation; message-arrival-to-clock latency not instrumented."
+  },
+  "outputs": {
+    "directory": "C:\\Users\\mcrae\\.codex\\worktrees\\b10a\\EMC-Research\\research\\autonomy\\trial-reference-repair-2026-09-05",
+    "required_outputs": {
+      "label-protocol.json": "31f7e53e325262523fb209e94c6d1228dcf2cf6a273438cc3ae950525f0f2448",
+      "selection.json": "af203cb94ea16e0cfe2fc5d1a178b43e66778b8bd33dd84ed0e42255618bd85e",
+      "reference.json": "347b2c436a06dd25f8301faee6352b28f1ea82aeeb590a2afda93acd56cdf2d4",
+      "repair.md": "f26abed8f8cd939d14fbe2b6604b5bc076a5695ec531a5bab15759cfa3d2cd0d"
+    },
+    "output_manifest": "output-manifest.json",
+    "output_manifest_sha256": "3e1d649f3e15d4ec1c6cff8106d993f6e1cfb63e7a673321c5d19a8b6673a958",
+    "files_in_manifest": 20,
+    "label_freeze": "label-freeze.json"
+  },
+  "results": {
+    "metadata_pairs": 33,
+    "challenge_pairs": 18,
+    "unique_pairs": 49,
+    "unique_trials": 37,
+    "exact_excerpts": 95,
+    "frame_records": 6182,
+    "raw_registry_pages_verified": 112,
+    "query_manifests_verified": 24,
+    "all_selected_pairs_labeled": true,
+    "ranking_evaluation_performed": false,
+    "patient_eligibility_claimed": false,
+    "unjudged_as_negative": false
+  },
+  "checks": [
+    {
+      "script": "freeze.py",
+      "args": [],
+      "exit_code": 0,
+      "seconds": 0.14
+    },
+    {
+      "script": "verify_frame.py",
+      "args": [
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 7.605
+    },
+    {
+      "script": "build_reference.py",
+      "args": [
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 2.213
+    }
+  ],
+  "checks_log": "checks.log",
+  "normal_preflight": "Not run; coordinator owns normal preflight after integration",
+  "independence": {
+    "prior_evidence_json_read": false,
+    "prior_curate_py_read": false,
+    "prior_pilot_verdicts_read": false,
+    "known_anchors_disclosed": true,
+    "reader_count": 1,
+    "independent_scientific_verification_performed": false
+  },
+  "unresolved_issues": [
+    "Coordinator independent scientific verification remains required before reference-standard use.",
+    "NCT05135975 refers additional exclusions to an external protocol not reviewed in allowed saved-source scope; three labels remain provisional.",
+    "NCT05918640 DSRCT safety hold release unknown; retain conditional class compatibility and do not score as a permanent negative.",
+    "SS18 mutation/fusion semantics and other extra biomarker/cohort requirements unresolved; broad labels are conditional scope only.",
+    "No live site/cohort recruitment confirmation; one historical challenge is active-not-recruiting.",
+    "Four cases per stratum are insufficient for strong full-parent ranking/workload inference; next concrete repair is 149-pair ordinary/molecular enumeration, with 124 still unjudged, and prospectively frozen parent sampling if needed."
+  ],
+  "next_action": "Coordinator verifies the bounded labels, preserves unresolved gates, integrates with normal preflight, then sends frozen endpoint/labels to a fresh ranking or sampling-expansion worker.",
+  "usage": {
+    "task_tokens": "unavailable",
+    "subscription_capacity": "not queried",
+    "paid_api_used": false,
+    "gpu_used": false
+  },
+  "nested_workers_or_runners": false,
+  "publication_or_outreach": false,
+  "processes_running": false
+}

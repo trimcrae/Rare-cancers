@@ -1,0 +1,84 @@
+{
+  "schema": "emc-coordinator-verification/1",
+  "checked_utc": "2026-09-05T18:48:54.110548+00:00",
+  "coordinator": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "worker": "01a072a6-0a2e-78b3-83db-0e1f8404bc15",
+  "worker_terminal_status": "completed",
+  "actual_task_elapsed_seconds": 3652.494,
+  "base_revision": "8b3c210215c1433a637a6514537753112725896b",
+  "execution_contexts": [
+    {
+      "utc": "2026-09-05T17:38:02.155Z",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "medium",
+      "approval_policy": "on-request",
+      "sandbox_policy": {
+        "type": "workspace-write",
+        "writable_roots": [
+          "C:\\Users\\mcrae\\.codex\\visualizations\\2026\\09\\05\\01a072a6-0a2e-78b3-83db-0e1f8404bc15"
+        ],
+        "network_access": false,
+        "exclude_tmpdir_env_var": false,
+        "exclude_slash_tmp": false
+      }
+    }
+  ],
+  "timing": {
+    "initialization_goal_created_at_utc": "2026-09-05T17:38:12Z",
+    "instructions_read_complete_observed_utc": "2026-09-05T17:38:25Z",
+    "reservation_confirmation_observed_utc": "2026-09-05T17:39:18+00:00",
+    "scientific_start_utc": "2026-09-05T17:39:18+00:00",
+    "scientific_end_utc": "2026-09-05T18:38:37.497323+00:00",
+    "elapsed_wall_seconds": 3559.497,
+    "scientific_seconds": null,
+    "scientific_seconds_estimate_excluding_blocked_tool_proxy": 1427.102,
+    "blocked_tool_proxy_seconds": 2132.395,
+    "offline_checks_measured_seconds": 9.958,
+    "reserved_scientific_seconds": 1800,
+    "estimated_within_reservation": true,
+    "approval_wait_record": "approval-wait.json",
+    "timing_uncertainty": "Exact approval request/grant times and shell startup uninstrumented; blocked-tool proxy is an estimate. No precise actual scientific-time claim. Wall-time overrun was caused by pending execution approval; completed checks reused for bookkeeping repair.",
+    "initialization_and_wait_seconds_from_goal_creation": 66,
+    "initialization_note": "Instruction reading began before first clock observation; exact first read time unavailable. Goal createdAt anchors initialization. Scientific clock starts at first clock observation immediately after coordinator confirmation; message-arrival-to-clock latency not instrumented."
+  },
+  "outcome": "Verified reproducible single-reader reference pack, with bounded coordinator semantic checks; not a fully independently adjudicated reference standard.",
+  "artifact_manifest_sha256": "3e1d649f3e15d4ec1c6cff8106d993f6e1cfb63e7a673321c5d19a8b6673a958",
+  "artifact_files_verified": 20,
+  "reference_sha256": "347b2c436a06dd25f8301faee6352b28f1ea82aeeb590a2afda93acd56cdf2d4",
+  "independent_source_check": "coordinator-source-check.json",
+  "reproduction": "coordinator-reproduction.json",
+  "scientific_verification": {
+    "all49": "Read every rationale and exact evidence excerpt; broad/class/explicit scope and unresolved status kept separate. This is not an independent full-criteria reread for every case.",
+    "full_saved_criteria_and_cohorts_checked": [
+      "NCT06367075",
+      "NCT07695311",
+      "NCT04901702",
+      "NCT06526897",
+      "NCT07698899"
+    ],
+    "findings": [
+      "NCT06367075 explicitly excludes extraosseous myxoid chondrosarcoma in its inclusion paragraph.",
+      "NCT07695311 requires ES/DSRCT plus specified EWSR1 partner and HLA fit; no EMC route.",
+      "NCT04901702 phaseI broad scope differs from HR/DSB-altered A2 expansion and Ewing-only phaseII; labels retain this.",
+      "NCT06526897 excludes abdominal/mesenteric sites but diagnosis alone does not determine site; DSRCT remains unresolved.",
+      "NCT07698899 broad B7-H3-expressing tumor list and CNS status do not establish SS antigen acceptance; preserve conditional scope."
+    ],
+    "unresolved": [
+      "Full independent criteria adjudication of remaining records",
+      "NCT05135975 unreviewed external-protocol exclusions",
+      "NCT05918640 DSRCT conditional hold release",
+      "Additional biomarkers and actual cohort availability"
+    ],
+    "binary_ranking_clearance": false
+  },
+  "next_action": "Independent adjudication and label expansion before workload/ranking inference. Frozen current ordinary/molecular union has149pairs,25already authored,124unjudged; retain original labels and set memberships.",
+  "publication_ready": false,
+  "normal_preflight": {
+    "receipt": "normal-preflight.json",
+    "utc": "2026-09-05T18:50:45.689140+00:00",
+    "exit_code": 0,
+    "seconds": 71.828,
+    "scope": "Normal settled integration gate, not full publication verification",
+    "log_sha256": "ed086389edfe34ea42a8fdab7ed649da769c299224a250f43e455abc5c954077"
+  }
+}
