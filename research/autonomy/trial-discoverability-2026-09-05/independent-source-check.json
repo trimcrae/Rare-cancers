@@ -1,0 +1,66 @@
+{
+  "checked_utc": "2026-09-05T16:35:26.770771+00:00",
+  "scope": "Independent coordinator primary-source checks while worker builds frozen retrieval comparison",
+  "search_areas": {
+    "url": "https://clinicaltrials.gov/api/v2/studies/search-areas",
+    "sha256": "2dce42cda2607994a69fd3ffaafe263746b5e6bf9e87da1eab942b9880fea9a1",
+    "condition": "Condition plus titles, MeSH/ancestors, keywords and NCTId",
+    "basic": "Does not list EligibilityCriteria or StudyPopulation",
+    "eligibility": "EligibilityCriteria and StudyPopulation"
+  },
+  "trial_checks": [
+    {
+      "nct_id": "NCT05918640",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05918640",
+      "raw_sha256": "23646b31c929247d0a38676161b54ca17470f1cd845dd022c22a7c4d323ed359",
+      "conclusion": "Phase1 recurrent/relapsed solid tumor with known EWSR1/FUS/TAF15 fusion; Phase2 Ewing-specific. Do not generalize Phase1 compatibility to Phase2 or patient eligibility."
+    },
+    {
+      "nct_id": "NCT06571734",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT06571734",
+      "raw_sha256": "dce8d0251bf20cca922014b63b475cec78a1657c6337c73d2d7cba1ee9758072",
+      "conclusion": "Cohort3 translocation-associated soft tissue sarcoma; investigator interpretation and other criteria remain. Diagnosis-level candidate only."
+    },
+    {
+      "nct_id": "NCT06094101",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT06094101",
+      "raw_sha256": "7a18b5988388189ab4823443e465dd7363536d9c097c168fdfe9329631bde2e5",
+      "conclusion": "Inclusion restricts to rhabdomyosarcoma, Ewing and synovial sarcoma; generic fusion words do not establish EMC compatibility."
+    },
+    {
+      "nct_id": "NCT05071209",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05071209",
+      "raw_sha256": "b4023cab59d93d879c6a0986951def5bbf27f651a8272c7a0ede0e781f6ec653",
+      "scope": "Independently read decision-bearing criteria and status: EWS-WT1 historical inclusion; blue-cell wording; SS18 mutation and PI approval; EWSR1-WT1 exclusion, respectively."
+    },
+    {
+      "nct_id": "NCT05135975",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05135975",
+      "raw_sha256": "55c130ae10e04b6588a403a8b7034df5fbfdc73e5ea479733f91f97610322911",
+      "scope": "Independently read decision-bearing criteria and status: EWS-WT1 historical inclusion; blue-cell wording; SS18 mutation and PI approval; EWSR1-WT1 exclusion, respectively."
+    },
+    {
+      "nct_id": "NCT05687136",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05687136",
+      "raw_sha256": "99ec80f1db38eb51820486f7cddd474f2c7566fb1a6890f76c26dc358fc1b337",
+      "scope": "Independently read decision-bearing criteria and status: EWS-WT1 historical inclusion; blue-cell wording; SS18 mutation and PI approval; EWSR1-WT1 exclusion, respectively."
+    },
+    {
+      "nct_id": "NCT07092306",
+      "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT07092306",
+      "raw_sha256": "2e1e38317fc8fff6555ae2c24cc4d2c3c5f1c599d43f377a66d0884d7ef955c3",
+      "scope": "Independently read decision-bearing criteria and status: EWS-WT1 historical inclusion; blue-cell wording; SS18 mutation and PI approval; EWSR1-WT1 exclusion, respectively."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.nature.com/articles/s41467-024-53081-z",
+      "finding": "TrialGPT already covers query generation, hybrid retrieval and criterion-level matching; synthetic/benchmark patient labels and separate expert review."
+    },
+    {
+      "url": "https://assets.cureus.com/uploads/original_article/pdf/489637/20260527-101123-uw086j.pdf",
+      "pages": "6-8 and15 (printed)",
+      "finding": "RareCure already expands rare-sarcoma subtype searches through hierarchy to baskets. Its stated missing module ablation leaves quantitative independent evaluation unestablished. Prior method overlap alone does not disprove value of a well-validated new benchmark."
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "frozen_at_utc": "2026-09-05T16:29:46.3792008Z",
+  "scientific_start_utc": "2026-09-05T16:26:50Z",
+  "selection_before_trial_query_outcomes": true,
+  "rationale": "Three purposively selected fusion-defined sarcomas: EMC as target, DSRCT as shared EWSR1-family comparator, synovial sarcoma as distinct fusion-family comparator. Selection is not prevalence sampling. Prior EMC anchors were known from the supplied historical inputs; diagnosis selection is not blind to that history.",
+  "diagnoses": [
+    {
+      "id": "EMC",
+      "name": "Extraskeletal myxoid chondrosarcoma",
+      "synonyms": [
+        "extraskeletal myxoid chondrosarcoma",
+        "extra-skeletal myxoid chondrosarcoma",
+        "myxoid chondrosarcoma",
+        "EMC"
+      ],
+      "molecular_terms": [
+        "NR4A3",
+        "EWSR1",
+        "TAF15",
+        "FET fusion",
+        "FUS AND fusion"
+      ],
+      "fusion_scope": "EWSR1::NR4A3 and TAF15::NR4A3; NR4A3 rearrangement; FET-family expansion is a candidate generator, not a claim every EMC has a FET fusion. TCF12 variant is a boundary case.",
+      "primary_provenance": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC4015728/"
+      ],
+      "synonym_note": "Canonical and hyphenation/short-name variants plus ambiguous abbreviation; broader myxoid term deliberately favors ordinary baseline."
+    },
+    {
+      "id": "DSRCT",
+      "name": "Desmoplastic small round cell tumor",
+      "synonyms": [
+        "desmoplastic small round cell tumor",
+        "desmoplastic small round cell tumour",
+        "desmoplastic small round cell sarcoma",
+        "intra-abdominal desmoplastic small round cell tumor",
+        "DSRCT"
+      ],
+      "molecular_terms": [
+        "EWSR1",
+        "EWS AND WT1",
+        "WT1 AND fusion",
+        "FET fusion",
+        "FUS AND fusion"
+      ],
+      "fusion_scope": "EWSR1::WT1 (historical EWS-WT1); shared family terms intentionally broad and require criteria adjudication.",
+      "primary_provenance": [
+        "https://pubmed.ncbi.nlm.nih.gov/8187063/",
+        "https://pubmed.ncbi.nlm.nih.gov/8827070/"
+      ],
+      "synonym_note": "Primary papers support canonical tumor/sarcoma and intra-abdominal names; UK spelling added mechanically."
+    },
+    {
+      "id": "SS",
+      "name": "Synovial sarcoma",
+      "synonyms": [
+        "synovial sarcoma",
+        "synovial sarcomas",
+        "synovial cell sarcoma"
+      ],
+      "molecular_terms": [
+        "SS18",
+        "SYT AND SSX",
+        "SSX AND fusion"
+      ],
+      "fusion_scope": "SS18::SSX, historical SYT-SSX; gene-alone terms are broad retrieval probes.",
+      "primary_provenance": [
+        "https://doi.org/10.1038/ng0894-502"
+      ],
+      "synonym_note": "Canonical diagnosis, plural and common cell insertion; gene aliases will be checked against primary molecular records."
+    }
+  ],
+  "registry": "ClinicalTrials.gov API v2",
+  "comparators": [
+    "query.cond with OR of diagnosis synonyms (API condition search, not literal conditions-field membership)",
+    "query.term with identical OR of diagnosis synonyms (ordinary full-text baseline)",
+    "query.term with OR of molecular terms (molecular candidate retrieval)"
+  ],
+  "reference_frame": "Complete paginated query.term=sarcoma corpus plus each comparator union, all statuses and study types. This bounded source frame is not an independent clinical gold standard or all globally eligible trials. Manual labels focus on all molecular-only records and prespecified historical anchors; remaining corpus is unadjudicated.",
+  "parent_control": "query.term=sarcoma; parent-class retrieval is separately reported and is not a disease synonym",
+  "historical_anchors": [
+    "NCT05918640",
+    "NCT06571734",
+    "NCT06094101",
+    "NCT07188532",
+    "NCT04151342",
+    "NCT06239272"
+  ],
+  "current_definition": "RECRUITING or NOT_YET_RECRUITING or ENROLLING_BY_INVITATION; ACTIVE_NOT_RECRUITING reported separately; all other statuses historical/other. Registry status is not verified site availability.",
+  "page_size": 100,
+  "stop_rule": "Follow nextPageToken to exhaustion and assert unique IDs equal reported totalCount. Record any failure as incomplete, never zero. 1800 seconds from scientific start is the round limit."
+}

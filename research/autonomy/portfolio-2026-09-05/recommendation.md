@@ -12,11 +12,7 @@ audience: [maintainers, autonomous research agents]
 
 # Paper priorities
 
-**Update after the completed atlas investigation, 2026-09-05:** the standalone atlas is now
-deprioritized; see the [evidence and reopening criteria](atlas-decision.md). The ranking below
-records the pre-investigation judgement, not the current instruction to continue the atlas.
-The external fusion-design benchmark is the next conditional prospect; its data gate remains
-unverified. Do not automatically redispatch the completed atlas contract.
+**Current update, 2026-09-05:** the first four ranked prospects were investigated and deprioritized. See [atlas](atlas-decision.md), [fusion benchmark](../fusion-benchmark-2026-09-05/decision.md), [response recoverability](../response-recoverability-2026-09-05/decision.md), and [trial discoverability](../trial-discoverability-2026-09-05/decision.md). Rank5 decision-level reconstruction uncertainty is the next conditional lead. The ranking and dispatch statements below are retained pre-investigation history, not current execution instructions.
 
 **ASO remains the first existing submission to finish, with its frozen package awaiting author/external action. The strongest new paper development opportunity is an independently validated EMC therapeutic-address atlas, followed by an externally calibrated fusion-junction oligonucleotide design benchmark.** These are development prospects with unresolved evidence gates, not ready papers or authorization to drill down. Response-decision methods rank next; trial discoverability ranks below them. This replaces the expression-resource-first recommendation, which ranked useful preparation above demonstrated paper strength.
 

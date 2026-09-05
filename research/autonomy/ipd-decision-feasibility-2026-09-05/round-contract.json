@@ -1,0 +1,21 @@
+{
+  "question": "Can uncertainty from reconstructing survival individual-patient data support a distinct, useful study-decision calibration paper beyond established reconstruction accuracy and uncertainty methods?",
+  "priority": "Existing rank5 after four verified paper-prospect deprioritizations; broad methods utility, weak EMC specificity, novelty unproven. Do not infer clinical effects from sparse EMC reconstruction.",
+  "inputs": [
+    "research/autonomy/portfolio-2026-09-05/recommendation.md",
+    "research/autonomy/trial-discoverability-2026-09-05/decision.md",
+    "research/literature/emc-ipd-admissibility-2026-08-12.json",
+    "research/modalities/emc-ipd-survival.json",
+    "research/modalities/emc_ipd_survival.py"
+  ],
+  "scope": "First specify a concrete study decision, estimand and ground-truth validation route. Inspect existing evidence and targeted primary reconstruction/uncertainty benchmarks, including IPDfromKM and original reconstruction methods. If a distinct remediable gap exists, run a small explicitly synthetic or public-known-IPD feasibility experiment using matched reconstruction baselines; retain negative results and reproducible inputs/scripts. Avoid inventing clinical thresholds, generic accuracy simulation, or unnecessary full-corpus work.",
+  "success": "A concrete novel decision-level question with actual primary prior-art distinction and credible falsifiable validation, ideally one reproduced informative pilot result. This is a development gate, not publication adequacy.",
+  "failure": "Existing methods answer the question, no adequate ground truth or identifiable estimand, arbitrary thresholds, or only routine digitization-error simulations/sparse disease-effect inference.",
+  "stop": "One fresh worker with its own bounded goal,medium,1800seconds,no nested tasks/agents/runners. Return go/no-go or one exact remediable uncertainty. No manuscript/preregistration/clinical registry edits, publication or outreach, paid API/GPU spending. Overall mission has no daily pacing cap.",
+  "outputs": [
+    "research/autonomy/ipd-decision-feasibility-2026-09-05/feasibility.md",
+    "research/autonomy/ipd-decision-feasibility-2026-09-05/evidence.json",
+    "research/autonomy/ipd-decision-feasibility-2026-09-05/sources/"
+  ],
+  "publication_authorized": false
+}

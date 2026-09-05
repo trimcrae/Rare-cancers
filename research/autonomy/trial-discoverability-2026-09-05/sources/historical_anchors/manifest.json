@@ -1,0 +1,52 @@
+{
+  "query_id": "historical_anchors",
+  "parameters": {
+    "filter.ids": "NCT05918640,NCT06571734,NCT06094101,NCT07188532,NCT04151342,NCT06239272"
+  },
+  "started_at_utc": "2026-09-05T16:32:32.876302+00:00",
+  "selection_sha256": "11bf549d8458975fe051a8d8388cc1bf062b80bfe0979fb45ae285a0f0224a8e",
+  "pages": [
+    {
+      "file": "sources/historical_anchors/page-0001.json.gz",
+      "url": "https://clinicaltrials.gov/api/v2/studies?filter.ids=NCT05918640%2CNCT06571734%2CNCT06094101%2CNCT07188532%2CNCT04151342%2CNCT06239272&format=json&pageSize=100&countTotal=true",
+      "retrieved_at_utc": "2026-09-05T16:32:33.220893+00:00",
+      "sha256": "b83990fb5c861eaafd085b6e07114a11588dfb5046ad767d519c2ee0a58e3ab9",
+      "bytes": 137460,
+      "count": 6,
+      "request_page_token": null,
+      "next_page_token": null,
+      "headers": {
+        "Date": "Sat, 05 Sep 2026 16:32:33 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options": "SAMEORIGIN",
+        "content-type": "application/json",
+        "etag": "\"883b003/0.34.1/mtmq3wmo\"",
+        "x-envoy-upstream-service-time": "17",
+        "set-cookie": "ncbi_sid=DE9C2A4D2AEAF2C2_DE5DSID; Max-Age=31536000; Domain=clinicaltrials.gov; Path=/; $x-enc=URI_ENCODING",
+        "Vary": "Accept-Encoding",
+        "X-UA-Compatible": "IE=Edge",
+        "X-XSS-Protection": "1; mode=block",
+        "Via": "1.1 google",
+        "Alt-Svc": "clear",
+        "Connection": "close",
+        "Transfer-Encoding": "chunked"
+      },
+      "original_file": "sources/historical_anchors/page-0001.json",
+      "storage_encoding": "gzip",
+      "stored_sha256": "3bc88291e5a5f33e836b54e51fbc36efc64c0bcbee108433812e479b2b700e72",
+      "stored_bytes": 36023
+    }
+  ],
+  "complete": true,
+  "ids": [
+    "NCT04151342",
+    "NCT05918640",
+    "NCT06094101",
+    "NCT06239272",
+    "NCT06571734",
+    "NCT07188532"
+  ],
+  "total_count": 6,
+  "finished_at_utc": "2026-09-05T16:32:33.227691+00:00"
+}
