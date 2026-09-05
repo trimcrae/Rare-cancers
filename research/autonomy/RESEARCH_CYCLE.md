@@ -16,6 +16,10 @@ The coordinator reads the operating protocol, current handover, ownership status
 cycle outcome. `scripts/research_cycle.py --plan` evaluates the bounded contracts in
 `cycle-tasks.json`, linked to existing research-ledger entries. It writes a plan, a task and a
 contract under `.cache/research-cycle/`. Planning makes no model call and changes no ledger.
+An empty plan removes its generated dispatch files. Generated contracts bind the base revision,
+input fingerprint and task text; the runner rechecks current eligibility under the existing lock
+before authentication. Regenerate a plan after the base, contract or inputs change. Old copied
+contracts cannot redispatch matching completed or attempted work.
 
 Contracts name the question, evidence inputs, allowed outputs, validation and stop condition
 before dispatch. Ratings for clinical relevance, answerability, validation and information gained
@@ -45,6 +49,13 @@ SHA256s, output SHA256s, the run ID, next action and measured time to verified o
 coordinator verification JSON. Counts of substantive and repair-induced defects may be null when
 not assessed; do not convert unknown values to zero. Later publication requirements are follow-up,
 not blockers of a finished computational task.
+For a failed run, record a reconciliation note with the run ID, any actual checks, and the next
+action. Collection can preserve it as `attempted` even if authentication failed before the worker
+checkout existed or partial output violated its contract. The durable record names those integrity
+issues and claims no verified output. Keep the original receipt and partial worktree; resolve the
+resource explicitly only after this evidence is preserved. Successful-result integrity checks
+still apply in full before any result is recorded as verified. A worker's completion label with
+a failed independent check is an attempted outcome, never verified success.
 
 While holding the existing coordinator lock, integrate only the allowed outputs into the
 coordinator worktree. `research_cycle.py --collect RECEIPT --plan-file PLAN --verification-file

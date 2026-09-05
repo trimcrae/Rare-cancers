@@ -1,0 +1,25 @@
+{
+  "source_revision": "66c41277ec18cdbe1eb44450fd150292e21760d8",
+  "command": [
+    "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "-m",
+    "pytest",
+    "scripts/tests/test_research_cycle.py",
+    "research/autonomy/tests/test_bounded_review_dispatch.py",
+    "-q",
+    "-k",
+    "no_work_plan or copied_cycle_dispatch or failed_worker_is or focused_seats or reopening_seat",
+    "--basetemp=C:\\Users\\mcrae\\.codex\\worktrees\\7163\\EMC-Research\\.cache\\follow-through-tmp\\boundary-after",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "--durations=15"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 11.875,
+  "log": "research/autonomy/follow-through-2026-09-05/boundary-after.log",
+  "log_sha256": "3fc91ed88e60387c3e382ce2f13f895cfe0ced0e2e35db7d26ee2c1d413d281a",
+  "python": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "dependencies": "C:/Projects/EMC-Research/.cache/python-deps",
+  "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+}

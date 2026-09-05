@@ -29,6 +29,9 @@ Freeze that JSON before opening seats, then pass it to `seat_scratch.py --open-s
 --review-request FILE` with the paper, exact revision and a named lens. The seat record preserves
 the request and refuses to change it when closing. The remaining lenses may complete the same
 batch; a completed batch cannot expand or repeat through the dispatch interface.
+Resuming an open seat preserves its frozen request, document identity and partial notes. Conflicting
+values are refused. Completed focused seats enforce the budget even before the hardening summary
+has been updated to their revision.
 
 A batched repair uses `scope: focused_verification`, nonempty `changed_claims`, and `depends_on`
 repository paths naming the evidence to verify. For another whole-paper review, supply

@@ -1,0 +1,133 @@
+FFFFFFFFFFFFFF                                                           [100%]
+================================== FAILURES ===================================
+______________ test_no_work_plan_removes_previous_dispatch_files ______________
+scripts\tests\test_research_cycle.py:195: in test_no_work_plan_removes_previous_dispatch_files
+    assert not (destination / "task.txt").exists()
+E   AssertionError: assert not True
+E    +  where True = exists()
+E    +    where exists = (WindowsPath('C:/Users/mcrae/.codex/worktrees/7163/EMC-Research/.cache/follow-through-tmp/boundary-reproduced/test_no_work_plan_removes_prev0/.cache/research-cycle') / 'task.txt').exists
+________ test_copied_cycle_dispatch_is_rechecked_before_auth[verified] ________
+scripts\tests\test_research_cycle.py:223: in test_copied_cycle_dispatch_is_rechecked_before_auth
+    cycle.runner.launch(tmp_path, cache, "synthetic", cycle.runner.DEFAULTS,
+scripts\research_run.py:371: in launch
+    probe_auth(codex, env)
+scripts\tests\test_research_cycle.py:221: in <lambda>
+    monkeypatch.setattr(cycle.runner, "probe_auth", lambda *a: pytest.fail("Authentication reached"))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Authentication reached
+_______ test_copied_cycle_dispatch_is_rechecked_before_auth[attempted] ________
+scripts\tests\test_research_cycle.py:223: in test_copied_cycle_dispatch_is_rechecked_before_auth
+    cycle.runner.launch(tmp_path, cache, "synthetic", cycle.runner.DEFAULTS,
+scripts\research_run.py:371: in launch
+    probe_auth(codex, env)
+scripts\tests\test_research_cycle.py:221: in <lambda>
+    monkeypatch.setattr(cycle.runner, "probe_auth", lambda *a: pytest.fail("Authentication reached"))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Authentication reached
+__________ test_copied_cycle_dispatch_is_rechecked_before_auth[base] __________
+scripts\tests\test_research_cycle.py:223: in test_copied_cycle_dispatch_is_rechecked_before_auth
+    cycle.runner.launch(tmp_path, cache, "synthetic", cycle.runner.DEFAULTS,
+scripts\research_run.py:371: in launch
+    probe_auth(codex, env)
+scripts\tests\test_research_cycle.py:221: in <lambda>
+    monkeypatch.setattr(cycle.runner, "probe_auth", lambda *a: pytest.fail("Authentication reached"))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Authentication reached
+_________ test_copied_cycle_dispatch_is_rechecked_before_auth[prompt] _________
+scripts\tests\test_research_cycle.py:223: in test_copied_cycle_dispatch_is_rechecked_before_auth
+    cycle.runner.launch(tmp_path, cache, "synthetic", cycle.runner.DEFAULTS,
+scripts\research_run.py:371: in launch
+    probe_auth(codex, env)
+scripts\tests\test_research_cycle.py:221: in <lambda>
+    monkeypatch.setattr(cycle.runner, "probe_auth", lambda *a: pytest.fail("Authentication reached"))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Authentication reached
+________ test_copied_cycle_dispatch_is_rechecked_before_auth[unbound] _________
+scripts\tests\test_research_cycle.py:223: in test_copied_cycle_dispatch_is_rechecked_before_auth
+    cycle.runner.launch(tmp_path, cache, "synthetic", cycle.runner.DEFAULTS,
+scripts\research_run.py:371: in launch
+    probe_auth(codex, env)
+scripts\tests\test_research_cycle.py:221: in <lambda>
+    monkeypatch.setattr(cycle.runner, "probe_auth", lambda *a: pytest.fail("Authentication reached"))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Authentication reached
+_ test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[missing_worktree] _
+scripts\tests\test_research_cycle.py:244: in test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output
+    result = collect_test(tmp_path, cache)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\tests\test_research_cycle.py:127: in collect_test
+    return cycle.collect(tmp_path, cache, "test-owner", cache / "plan.json", cache / "receipt.json",
+scripts\research_cycle.py:167: in collect
+    raise runner.Refused("Worker inputs differ from the selected committed evidence")
+E   local_ownership.Refused: Worker inputs differ from the selected committed evidence
+_ test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[changed_input] _
+scripts\tests\test_research_cycle.py:244: in test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output
+    result = collect_test(tmp_path, cache)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\tests\test_research_cycle.py:127: in collect_test
+    return cycle.collect(tmp_path, cache, "test-owner", cache / "plan.json", cache / "receipt.json",
+scripts\research_cycle.py:167: in collect
+    raise runner.Refused("Worker inputs differ from the selected committed evidence")
+E   local_ownership.Refused: Worker inputs differ from the selected committed evidence
+_ test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[outside_scope] _
+scripts\tests\test_research_cycle.py:244: in test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output
+    result = collect_test(tmp_path, cache)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\tests\test_research_cycle.py:127: in collect_test
+    return cycle.collect(tmp_path, cache, "test-owner", cache / "plan.json", cache / "receipt.json",
+scripts\research_cycle.py:171: in collect
+    raise runner.Refused("Worker changed files outside its bounded contract")
+E   local_ownership.Refused: Worker changed files outside its bounded contract
+_________ test_focused_seats_enforce_budget_before_rollup_is_updated __________
+research\autonomy\tests\test_bounded_review_dispatch.py:102: in test_focused_seats_enforce_budget_before_rollup_is_updated
+    assert BR.review_decision("PUB-X", SHA, changed, repo=root)["action"] == "budget_spent"
+E   AssertionError: assert 'focused_verification' == 'budget_spent'
+E     
+E     - budget_spent
+E     + focused_verification
+_ test_reopening_seat_cannot_replace_frozen_contract[review_request-replacement0] _
+research\autonomy\tests\test_bounded_review_dispatch.py:120: in test_reopening_seat_cannot_replace_frozen_contract
+    assert findings and "CONTRADICTS" in findings[0][0]
+E   assert ([])
+__ test_reopening_seat_cannot_replace_frozen_contract[document-different.md] __
+research\autonomy\tests\test_bounded_review_dispatch.py:120: in test_reopening_seat_cannot_replace_frozen_contract
+    assert findings and "CONTRADICTS" in findings[0][0]
+E   assert ([])
+_ test_reopening_seat_cannot_replace_frozen_contract[document_sha256-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb] _
+research\autonomy\tests\test_bounded_review_dispatch.py:120: in test_reopening_seat_cannot_replace_frozen_contract
+    assert findings and "CONTRADICTS" in findings[0][0]
+E   assert ([])
+_______ test_reopening_seat_preserves_contract_and_interrupted_progress _______
+research\autonomy\tests\test_bounded_review_dispatch.py:134: in test_reopening_seat_preserves_contract_and_interrupted_progress
+    assert {k: after[k] for k in before} == before
+               ^^^^^^^^
+E   KeyError: 'review_request'
+============================ slowest 15 durations =============================
+1.10s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[base]
+1.08s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[outside_scope]
+0.93s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[unbound]
+0.93s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[prompt]
+0.92s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[attempted]
+0.92s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[verified]
+0.92s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[changed_input]
+0.89s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[missing_worktree]
+0.82s call     scripts/tests/test_research_cycle.py::test_no_work_plan_removes_previous_dispatch_files
+0.01s call     research/autonomy/tests/test_bounded_review_dispatch.py::test_focused_seats_enforce_budget_before_rollup_is_updated
+
+(5 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ===========================
+FAILED scripts/tests/test_research_cycle.py::test_no_work_plan_removes_previous_dispatch_files
+FAILED scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[verified]
+FAILED scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[attempted]
+FAILED scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[base]
+FAILED scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[prompt]
+FAILED scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[unbound]
+FAILED scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[missing_worktree]
+FAILED scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[changed_input]
+FAILED scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[outside_scope]
+FAILED research/autonomy/tests/test_bounded_review_dispatch.py::test_focused_seats_enforce_budget_before_rollup_is_updated
+FAILED research/autonomy/tests/test_bounded_review_dispatch.py::test_reopening_seat_cannot_replace_frozen_contract[review_request-replacement0]
+FAILED research/autonomy/tests/test_bounded_review_dispatch.py::test_reopening_seat_cannot_replace_frozen_contract[document-different.md]
+FAILED research/autonomy/tests/test_bounded_review_dispatch.py::test_reopening_seat_cannot_replace_frozen_contract[document_sha256-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb]
+FAILED research/autonomy/tests/test_bounded_review_dispatch.py::test_reopening_seat_preserves_contract_and_interrupted_progress
+14 failed, 18 deselected in 9.17s

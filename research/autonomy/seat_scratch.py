@@ -251,6 +251,13 @@ def open_seat_record(seats_dir: str, paper: str, sha: str, lens: str, *, documen
                            f"a record for {paper} seat {lens!r} at {sha[:12]} already exists and is "
                            f"not open (status={existing.get('status')!r}) — pick a distinct lens "
                            "name rather than overwriting a seat's reported findings")]
+        supplied = {"review_request": review_request, "document": document,
+                    "document_sha256": document_sha256}
+        changed = [key for key, value in supplied.items()
+                   if value is not None and value != existing.get(key)]
+        if changed:
+            return path, [("CONTRADICTS-THE-OPEN-RECORD", path,
+                           "reopening would replace the frozen " + ", ".join(sorted(changed)))]
 
     record = {
         "_schema": "emc-review-seat/1",
@@ -276,6 +283,8 @@ def open_seat_record(seats_dir: str, paper: str, sha: str, lens: str, *, documen
         "p1s": [],
     }
     if existing is not None:
+        # Resumption keeps the original contract and any interrupted progress.
+        record = existing
         record["reopened_utc"] = now
     if review_request is not None:
         record["review_request"] = review_request

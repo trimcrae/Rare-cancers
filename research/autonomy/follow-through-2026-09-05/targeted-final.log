@@ -1,0 +1,19 @@
+.................................................... [ 70%]
+......................                                                   [100%]
+============================ slowest 15 durations =============================
+2.41s call     scripts/tests/test_research_cycle.py::test_current_bound_plan_executes_one_local_worker_and_then_reuses_output
+1.87s call     scripts/tests/test_research_ownership.py::OwnershipTests::test_other_clone_reads_disabled_handover_before_claim_push
+1.74s call     scripts/tests/test_research_run.py::RunnerTests::test_timeout_stops_descendants
+1.59s call     scripts/tests/test_research_run.py::RunnerTests::test_read_only_audit_is_bounded_and_does_not_claim_cutover
+1.55s call     scripts/tests/test_research_run.py::RunnerTests::test_bounded_success_retains_worktree_and_receipt
+1.54s call     scripts/tests/test_research_run.py::RunnerTests::test_dispatch_budget_stops_incomplete_task_without_claiming_readiness
+1.34s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[base]
+1.28s call     scripts/tests/test_research_cycle.py::test_worker_scope_and_integrated_output_mismatch_are_refused
+1.24s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[completed_failed_check]
+1.23s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[attempted]
+1.23s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[verified]
+1.22s call     scripts/tests/test_research_cycle.py::test_copied_cycle_dispatch_is_rechecked_before_auth[unbound]
+1.22s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[changed_input]
+1.22s call     scripts/tests/test_research_cycle.py::test_failed_worker_is_preserved_as_attempted_without_claiming_valid_output[outside_scope]
+1.15s call     scripts/tests/test_research_cycle.py::test_verified_work_is_reused_but_changed_input_is_new_work
+74 passed, 20 subtests passed in 47.07s

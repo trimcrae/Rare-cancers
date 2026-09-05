@@ -1,0 +1,35 @@
+..F....F.......                                            [100%]
+================================== FAILURES ===================================
+________ RunnerTests.test_bounded_success_retains_worktree_and_receipt ________
+scripts\tests\test_research_run.py:158: in test_bounded_success_retains_worktree_and_receipt
+    receipt, _ = self.fake_launch(["completed"],
+scripts\tests\test_research_run.py:150: in fake_launch
+    path, receipt = R.launch(repo, cache, "fixture", config or R.DEFAULTS,
+scripts\research_run.py:335: in launch
+    from research_cycle import require_current_plan
+E   ModuleNotFoundError: No module named 'research_cycle'
+_ RunnerTests.test_dispatch_budget_stops_incomplete_task_without_claiming_readiness _
+scripts\tests\test_research_run.py:177: in test_dispatch_budget_stops_incomplete_task_without_claiming_readiness
+    receipt, sessions = self.fake_launch(["needs_revision"],
+scripts\tests\test_research_run.py:150: in fake_launch
+    path, receipt = R.launch(repo, cache, "fixture", config or R.DEFAULTS,
+scripts\research_run.py:335: in launch
+    from research_cycle import require_current_plan
+E   ModuleNotFoundError: No module named 'research_cycle'
+============================ slowest 15 durations =============================
+1.71s call     scripts/tests/test_research_run.py::RunnerTests::test_timeout_stops_descendants
+1.58s call     scripts/tests/test_research_run.py::RunnerTests::test_read_only_audit_is_bounded_and_does_not_claim_cutover
+1.00s call     scripts/tests/test_research_run.py::RunnerTests::test_common_lock_is_shared_across_real_git_worktrees
+0.84s call     scripts/tests/test_research_run.py::RunnerTests::test_plan_is_read_only_and_does_not_probe_auth
+0.82s call     scripts/tests/test_research_run.py::RunnerTests::test_direct_launch_cannot_bypass_dispatch_or_timeout_limits
+0.71s call     scripts/tests/test_research_run.py::RunnerTests::test_bounded_success_retains_worktree_and_receipt
+0.67s call     scripts/tests/test_research_run.py::RunnerTests::test_launch_requires_cutover_before_auth_or_worktree
+0.66s call     scripts/tests/test_research_run.py::RunnerTests::test_dispatch_budget_stops_incomplete_task_without_claiming_readiness
+0.25s call     scripts/tests/test_research_run.py::RunnerTests::test_os_lock_excludes_second_process_and_releases
+0.01s call     scripts/tests/test_research_run.py::RunnerTests::test_limits_cannot_be_unbounded_or_wrong_types
+
+(5 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ===========================
+FAILED scripts/tests/test_research_run.py::RunnerTests::test_bounded_success_retains_worktree_and_receipt
+FAILED scripts/tests/test_research_run.py::RunnerTests::test_dispatch_budget_stops_incomplete_task_without_claiming_readiness
+2 failed, 13 passed, 14 subtests passed in 8.49s

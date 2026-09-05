@@ -141,9 +141,59 @@ def write_plan(root, destination):
         task_text = prompt(task)
         result["task_sha256"] = hashlib.sha256(task_text.encode()).hexdigest()
         (destination / "task.txt").write_text(task_text, encoding="utf-8")
-        runner.write_json(destination / "contract.json", task)
+        runner.write_json(destination / "contract.json", {**task, "cycle_plan": {
+            "base_commit": result["base_commit"], "fingerprint": result["selected"]["fingerprint"],
+            "task_sha256": result["task_sha256"]}})
+    else:
+        for name in ("task.txt", "contract.json"):
+            (destination / name).unlink(missing_ok=True)
     runner.write_json(destination / "plan.json", result)
     return result
+
+
+def require_current_plan(root, contract, task_text):
+    """Recheck registered cycle work inside the runner lock, before spending a dispatch.
+
+    Generic manual/review contracts keep their existing interface. Registered cycle
+    ids also require a plan binding, so old unbound copies cannot bypass this check.
+    """
+    path = root / CONTRACTS
+    tasks = read(path)["tasks"] if path.is_file() else []
+    current = next((t for t in tasks if t["id"] == contract.get("id")), None)
+    binding = contract.get("cycle_plan")
+    if current is None and "cycle_plan" not in contract:
+        return
+    if current is None:
+        raise runner.Refused("Cycle contract is no longer registered; create a current plan")
+    if task_text != prompt(current):
+        raise runner.Refused("Cycle task text differs from the planned prompt; create a current plan")
+    if {k: v for k, v in contract.items() if k != "cycle_plan"} != current:
+        raise runner.Refused("Cycle contract changed since planning; create a current plan")
+    result = plan(root, [current], history(root), read(root / "research/autonomy/research-ledger.json"))
+    if not result["selected"]:
+        raise runner.Refused(result["decisions"][0]["reason"])
+    expected = {"base_commit": result["base_commit"],
+                "fingerprint": result["selected"]["fingerprint"],
+                "task_sha256": hashlib.sha256(task_text.encode()).hexdigest()}
+    if binding != expected:
+        raise runner.Refused("Cycle plan is missing or its base/inputs changed; create a current plan")
+
+
+def worker_integrity_issues(worktree, inputs, outputs, base):
+    if not worktree.is_dir():
+        return ["Worker worktree is absent; input and output integrity could not be checked"]
+    issues = []
+    try:
+        if any(not within(worktree, p).is_file() or digest(within(worktree, p)) != h
+               for p, h in inputs.items()):
+            issues.append("Worker inputs differ from the selected committed evidence")
+        paths = runner.git(worktree, "diff", "--name-only", base).splitlines()
+        paths += runner.git(worktree, "ls-files", "--others", "--exclude-standard").splitlines()
+        if set(paths) - set(outputs):
+            issues.append("Worker changed files outside its bounded contract")
+    except (runner.Refused, OSError) as exc:
+        issues.append(str(exc))
+    return issues
 
 
 def collect(root, cache, owner, plan_path, receipt_path, verification_path):
@@ -162,13 +212,7 @@ def collect(root, cache, owner, plan_path, receipt_path, verification_path):
         if receipt["resource"] != task["resource"] or receipt["task_sha256"] != selection["task_sha256"]:
             raise runner.Refused("Receipt does not belong to the selected contract")
         worktree = Path(receipt["worktree"])
-        if any(not within(worktree, p).is_file() or digest(within(worktree, p)) != h
-               for p, h in inputs.items()):
-            raise runner.Refused("Worker inputs differ from the selected committed evidence")
-        paths = runner.git(worktree, "diff", "--name-only", receipt["base_commit"]).splitlines()
-        paths += runner.git(worktree, "ls-files", "--others", "--exclude-standard").splitlines()
-        if set(paths) - set(task["outputs"]):
-            raise runner.Refused("Worker changed files outside its bounded contract")
+        issues = worker_integrity_issues(worktree, inputs, task["outputs"], receipt["base_commit"])
         if verification.get("run_id") != receipt["run_id"]:
             raise runner.Refused("Coordinator verification names a different run")
         checks = verification.get("checks", [])
@@ -184,6 +228,8 @@ def collect(root, cache, owner, plan_path, receipt_path, verification_path):
             check_logs.append(log)
         verified = (receipt["status"] == "completed" and bool(checks)
                     and all(type(c.get("exit_code")) is int and c["exit_code"] == 0 for c in checks))
+        if verified and issues:
+            raise runner.Refused("; ".join(issues))
         hashes = {}
         if verified:
             if not task["outputs"]:
@@ -214,8 +260,9 @@ def collect(root, cache, owner, plan_path, receipt_path, verification_path):
                   "fingerprint": fp, "input_sha256": inputs, "artifact_sha256": hashes,
                   "status": "verified" if verified else "attempted",
                   "runner_status": receipt["status"], "finished_utc": runner.utc_now(),
+                  "worker_integrity_issues": issues,
                   "worker_elapsed_seconds": receipt["elapsed_seconds"],
-                  "time_to_verified_output_seconds": verification.get("time_to_verified_output_seconds"),
+                  "time_to_verified_output_seconds": verification.get("time_to_verified_output_seconds") if verified else None,
                   "substantive_defects_found": verification.get("substantive_defects_found"),
                   "repair_induced_defects": verification.get("repair_induced_defects"),
                   "duplicate_candidates_suppressed": selection["duplicate_candidates_suppressed"],

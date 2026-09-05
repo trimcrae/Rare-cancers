@@ -86,6 +86,57 @@ def test_frozen_batch_can_finish_but_cannot_expand_or_repeat(review):
     assert BR.review_decision("PUB-X", SHA, request, repo=root)["action"] == "budget_spent"
 
 
+def test_focused_seats_enforce_budget_before_rollup_is_updated(review):
+    root, seats, state = review
+    state.update(record={"reviewed_commit": OLD}, history={OLD: 2})
+    (root / "arithmetic.json").write_text('{"synthetic": true}')
+    request = {"scope": "focused_verification", "changed_claims": ["Synthetic result"],
+               "depends_on": ["arithmetic.json"], "lenses": ["claims", "methods"]}
+    for lens in request["lenses"]:
+        (seats / f"PUB-X-{SHA}-seat-{lens}.json").write_text(json.dumps({
+            "reviewed_commit": SHA, "lens": lens, "status": "complete", "review_request": request}))
+        expected = "resume_batch" if lens == "claims" else "budget_spent"
+        assert BR.review_decision("PUB-X", SHA, request, repo=root)["action"] == expected
+    for changed in ({**request, "lenses": ["extra"]},
+                    {k: v for k, v in request.items() if k != "lenses"}):
+        assert BR.review_decision("PUB-X", SHA, changed, repo=root)["action"] == "budget_spent"
+    material = {"scope": "full_review", "reason": {
+        "kind": "material_error", "summary": "Synthetic independent contradiction",
+        "evidence": ["arithmetic.json"]}}
+    assert BR.review_decision("PUB-X", SHA, material, repo=root)["allowed"]
+
+
+@pytest.mark.parametrize("field,replacement", [
+    ("review_request", {"scope": "full_review"}),
+    ("document", "different.md"), ("document_sha256", "b" * 64)])
+def test_reopening_seat_cannot_replace_frozen_contract(tmp_path, field, replacement):
+    frozen = {"review_request": {"scope": "baseline", "lenses": ["claims"]},
+              "document": "paper.md", "document_sha256": "a" * 64}
+    path, findings = seat_scratch.open_seat_record(str(tmp_path), "PUB-X", SHA, "claims", **frozen)
+    assert not findings
+    before = Path(path).read_bytes()
+    _, findings = seat_scratch.open_seat_record(str(tmp_path), "PUB-X", SHA, "claims",
+                                               **{**frozen, field: replacement})
+    assert findings and "CONTRADICTS" in findings[0][0]
+    assert Path(path).read_bytes() == before
+
+
+def test_reopening_seat_preserves_contract_and_interrupted_progress(tmp_path):
+    request = {"scope": "baseline", "lenses": ["claims"]}
+    path, _ = seat_scratch.open_seat_record(str(tmp_path), "PUB-X", SHA, "claims",
+                                           review_request=request, document="paper.md")
+    before = json.loads(Path(path).read_text())
+    before["progress"] = "Synthetic retained partial notes"
+    Path(path).write_text(json.dumps(before))
+    _, findings = seat_scratch.open_seat_record(str(tmp_path), "PUB-X", SHA, "claims")
+    assert not findings
+    after = json.loads(Path(path).read_text())
+    assert {k: after[k] for k in before} == before
+    _, findings = seat_scratch.close_seat_record(str(tmp_path), "PUB-X", SHA, "claims",
+                                                {"review_request": request, "blockers": [], "p1s": []})
+    assert not findings
+
+
 def test_seat_cli_checks_dispatch_and_freezes_the_review_request(tmp_path, monkeypatch):
     request = {"scope": "baseline", "lenses": ["claims", "methods"]}
     request_path = tmp_path / "request.json"

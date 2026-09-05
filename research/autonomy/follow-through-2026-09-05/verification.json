@@ -1,0 +1,165 @@
+{
+  "schema": "emc-process-integration-verification/1",
+  "recorded_utc": "2026-09-05T06:31:56.962267+00:00",
+  "base_revision": "66c41277ec18cdbe1eb44450fd150292e21760d8",
+  "implementation_commit": "fa264ebdf99d8fafcfba64aa5e563073ab91c805",
+  "status": "ready_for_coordinator_integration",
+  "branch": "codex/researcher-follow-through-20260905",
+  "changed_paths": [
+    "research/autonomy/BOUNDED_REVIEW.md",
+    "research/autonomy/CODEX_RUNNER.md",
+    "research/autonomy/RESEARCH_CYCLE.md",
+    "research/autonomy/bounded_review.py",
+    "research/autonomy/follow-through-2026-09-05/README.md",
+    "research/autonomy/follow-through-2026-09-05/boundary-after.json",
+    "research/autonomy/follow-through-2026-09-05/boundary-after.log",
+    "research/autonomy/follow-through-2026-09-05/boundary-before.json",
+    "research/autonomy/follow-through-2026-09-05/boundary-before.log",
+    "research/autonomy/follow-through-2026-09-05/boundary-reproduced.json",
+    "research/autonomy/follow-through-2026-09-05/boundary-reproduced.log",
+    "research/autonomy/follow-through-2026-09-05/independent-verification.json",
+    "research/autonomy/follow-through-2026-09-05/preservation-replay.json",
+    "research/autonomy/follow-through-2026-09-05/replay.py",
+    "research/autonomy/follow-through-2026-09-05/runner-standalone-after.json",
+    "research/autonomy/follow-through-2026-09-05/runner-standalone-after.log",
+    "research/autonomy/follow-through-2026-09-05/runner-standalone-before.json",
+    "research/autonomy/follow-through-2026-09-05/runner-standalone-before.log",
+    "research/autonomy/follow-through-2026-09-05/targeted-final.json",
+    "research/autonomy/follow-through-2026-09-05/targeted-final.log",
+    "research/autonomy/follow-through-2026-09-05/targeted-settled.json",
+    "research/autonomy/follow-through-2026-09-05/targeted-settled.log",
+    "research/autonomy/seat_scratch.py",
+    "research/autonomy/tests/test_bounded_review_dispatch.py",
+    "scripts/research_cycle.py",
+    "scripts/research_run.py",
+    "scripts/tests/test_research_cycle.py",
+    "research/autonomy/follow-through-2026-09-05/normal-final.json",
+    "research/autonomy/follow-through-2026-09-05/normal-final.log",
+    "research/autonomy/follow-through-2026-09-05/verification.json"
+  ],
+  "implementation_file_sha256": {
+    "research/autonomy/bounded_review.py": "284aef8a5724561a7311bb4f36e84d0188ebe8196dc85dc16a5d39a8122ff73f",
+    "research/autonomy/follow-through-2026-09-05/replay.py": "39d574adfa761f4c18b064cc7ef6b1f414ac3e6a56b6320705f5bf79fa40e0e7",
+    "research/autonomy/seat_scratch.py": "e4475e8fe0c6f547bd585df83f811add6c600e0e2e2e58f6e5932678fe78c27a",
+    "research/autonomy/tests/test_bounded_review_dispatch.py": "8cb7a042ef6d58f535a02bc9e2ba3d51a3da8b6b953fc2233317fa349e1b36da",
+    "scripts/research_cycle.py": "79261132e6c818626647d43dc245f6a54bb4d730ffbf42c19c580f3bbcadbe8a",
+    "scripts/research_run.py": "25c2b01f479990918ceba125f8dcb887896215aebfaf49e478df1b3b92f8c447",
+    "scripts/tests/test_research_cycle.py": "9ac46b85545727b166f4eb1b003bc49e4fff81963c97b90bcad50d6f266819cb"
+  },
+  "validation": {
+    "boundary-reproduced": {
+      "exit_code": 1,
+      "elapsed_seconds": 11.453,
+      "log": "research/autonomy/follow-through-2026-09-05/boundary-reproduced.log",
+      "log_sha256": "ac50c55789be6e7a7d32e6508bc861fccd3153c481187ef704c59dd37a88fb9a",
+      "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+    },
+    "boundary-after": {
+      "exit_code": 0,
+      "elapsed_seconds": 11.875,
+      "log": "research/autonomy/follow-through-2026-09-05/boundary-after.log",
+      "log_sha256": "3fc91ed88e60387c3e382ce2f13f895cfe0ced0e2e35db7d26ee2c1d413d281a",
+      "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+    },
+    "targeted-final": {
+      "exit_code": 0,
+      "elapsed_seconds": 49.406,
+      "log": "research/autonomy/follow-through-2026-09-05/targeted-final.log",
+      "log_sha256": "3a56d3057e2a652dd39b13bdc543d9739558c2ea6084062aaf39b20c940b426a",
+      "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+    },
+    "runner-standalone-before": {
+      "exit_code": 1,
+      "elapsed_seconds": 9.062,
+      "log": "research/autonomy/follow-through-2026-09-05/runner-standalone-before.log",
+      "log_sha256": "dc8c1a273a1c5c95092bc4db46f23082cc1e13540c9f869bdde2bbb53bd85cff",
+      "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+    },
+    "runner-standalone-after": {
+      "exit_code": 0,
+      "elapsed_seconds": 10.25,
+      "log": "research/autonomy/follow-through-2026-09-05/runner-standalone-after.log",
+      "log_sha256": "345ceb973b108bd7c524fbab9fe81c7da8d21fa4609c8f7efb24e1fe450be272",
+      "scope": "Targeted synthetic behavioral tests; no LLM or scientific dispatch"
+    },
+    "normal-final": {
+      "exit_code": 0,
+      "elapsed_seconds": 140.328,
+      "log": "research/autonomy/follow-through-2026-09-05/normal-final.log",
+      "log_sha256": "80c2fb0dbe31ec203b79cdf3595cc76696322cbdb13f73fa584833784fe00989",
+      "scope": "Normal document/artifact gates; no full scientific suite"
+    }
+  },
+  "normal_preflight": {
+    "exit_code": 0,
+    "elapsed_seconds": 140.328,
+    "scope": "Normal document/artifact gates; no full scientific suite",
+    "source_revision": "fa264ebdf99d8fafcfba64aa5e563073ab91c805",
+    "reported_revision": "fa264ebdf99d8fafcfba64aa5e563073ab91c805+dirty",
+    "dirty_explanation": "No tracked changes; preflight log was being written as an untracked verification artifact"
+  },
+  "reporting_wrapper": {
+    "exit_code": 1,
+    "cause": "After saving successful child exit code and log hash, printing the log tail raised UnicodeEncodeError for an arrow in Windows cp1252 stdout",
+    "child_preflight_exit_code": 0,
+    "receipt_and_complete_log_preserved": true,
+    "rerun_needed": false
+  },
+  "measured_effect": {
+    "boundary_cases_before": {
+      "failed": 14,
+      "passed": 0
+    },
+    "boundary_cases_after": {
+      "failed": 0,
+      "passed": 14
+    },
+    "targeted_tests": 74,
+    "targeted_subtests": 20,
+    "standalone_after_import_repair_tests": 15,
+    "standalone_after_import_repair_subtests": 14,
+    "test_counts_overlap": true,
+    "repair_induced_code_defects_found_and_fixed": 1,
+    "new_model_dispatches": 0,
+    "time_or_subscription_savings_not_estimated": true
+  },
+  "preservation": {
+    "report": "research/autonomy/follow-through-2026-09-05/preservation-replay.json",
+    "files": 70,
+    "mismatches": 0,
+    "original_scheduled_run": "20260905T032612Z-df96afc413",
+    "new_scheduled_science_claimed": false
+  },
+  "live_coordination": {
+    "owner": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+    "resources": {
+      "process:autonomous-researcher": {
+        "worker_id": "01a0702e-e20b-7cd3-a16f-508c006698c0",
+        "reserved_utc": "2026-09-05T06:10:19.783788Z",
+        "status": "reserved",
+        "worktree": "C:\\Users\\mcrae\\.codex\\worktrees\\7163\\EMC-Research",
+        "receipt": null
+      }
+    },
+    "automation_id": "emc-research-coordinator",
+    "automation_status": "ACTIVE",
+    "target_task_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+    "automation_sha256": "6c9829cb140e239e812b0e3d5a3181b5f43fdc96b696ce5c9ab43f16757bcb5a",
+    "changed_by_this_task": false
+  },
+  "integration_dependencies": [
+    "Original coordinator integrates these commits under its existing lock; no ownership transfer",
+    "Regenerate cycle plans before later dispatch; copied old contracts are intentionally refused"
+  ],
+  "remaining_external_constraints": [
+    "Local machine/application and saved subscription authentication must remain available",
+    "No new subscription capacity measurement",
+    "Held FUS::DDIT3 route requires preserved primary breakpoint evidence",
+    "Qeios posting remains external; NAT requires separate author authorization"
+  ],
+  "not_running": [
+    "No scientific worker or new scheduler launched by this task",
+    "All local validation subprocesses completed"
+  ],
+  "publication_or_outreach_performed": false
+}

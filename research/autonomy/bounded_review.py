@@ -119,7 +119,6 @@ def review_decision(paper, sha, request=None, *, repo=None):
             seat, _ = bar._read_json(path)
             if (seat and seat.get("status") == "complete"
                     and (seat.get("review_request") or {}).get("scope") == scope
-                    and hard and hard.get("reviewed_commit") == seat.get("reviewed_commit")
                     and bar._covers(paper, seat.get("reviewed_commit"), sha)):
                 return result(False, "budget_spent", "focused verification already completed for "
                               "these deliverables; report the unresolved issue or a material reason")

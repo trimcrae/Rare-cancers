@@ -49,6 +49,8 @@ OUTCOME_SCHEMA = {
 }
 
 
+# Keep sibling cycle validation available to direct Python callers as well as the CLI.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "research/autonomy"))
 from local_ownership import Coordinator, LocalLock, Refused, handover_disabled, utc_now, write_json
 
@@ -332,6 +334,8 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False,
                 raise Refused(f"Resource {resource} has unresolved retained output; resolve it before dispatch.")
         if not read_only:
             validate_task_contract(task_contract, resource)
+            from research_cycle import require_current_plan
+            require_current_plan(root, task_contract, task)
         if task_contract is not None:
             from bounded_review import task_review_decision
             decision = task_review_decision(task_contract, repo=root)
