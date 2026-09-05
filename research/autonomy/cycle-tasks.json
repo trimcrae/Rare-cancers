@@ -128,6 +128,53 @@
         "research/modalities/expression-validation-readiness.md"
       ],
       "instructions": "Audit only committed inputs. Record exact JSON pointers and SHA256 for every reported sample ID, cohort, platform, comparator count and CHRNA6 probe/gene availability. Distinguish runs, specimens and patients; deduplicate exact identifiers only and label cross-study identity unresolved unless documented. An absent CHRNA6 row in a selected-gene cache is not missing platform coverage. Mark coverage not_assessed when annotation is unavailable. Catalogue existing per-probe versus aggregated values and raw-data availability without downloading. No new biomarker estimates, rankings, p-values, correlations, survival models, clinical claims or full fusion calls. Primary-marker-evidence.json is abstract-level evidence; never invent supplementary tables or infer validation independence. State whether any committed data supports a later specified CHRNA6 expression comparison; if not, give exact missing inputs and stop. Enumerate counts via deterministic script and include explicit handling of unknowns. No network, installs, paid compute, figures, registry or manuscript edits. Use runner-supplied Python, medium effort, one dispatch/1800 seconds. Reuse existing outcomes. Coordinator independently checks counts and pointers before collection. If an equivalent complete mapping already exists, return its path and stop; do not fabricate novelty."
+    },
+    {
+      "id": "atlas-independent-normal-feasibility",
+      "kind": "science",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "ledger_ids": [
+        "AUT-014",
+        "AUT-082-e71cf460"
+      ],
+      "question": "Can the existing EMC tissue cohorts support an independently validated therapeutic-address atlas with compatible normal-tissue contrasts, and exactly which claim is identifiable from the available evidence?",
+      "stop_condition": "Deliver a source-keyed feasibility matrix and concise decision memo identifying defensible contrasts or a decisive failed gate. Reuse completed readiness and sensitivity outputs; no new expression estimates or target ranking.",
+      "effort_minutes": 25,
+      "assessment": {
+        "clinical_relevance": {
+          "rating": 3,
+          "basis": "Inherits first-ranked EMC therapeutic-address atlas; informs experimental tissue target validation."
+        },
+        "answerability": {
+          "rating": 3,
+          "basis": "Existing cohort and normal-tissue artifacts can establish identifiable contrasts or an explicit missing-evidence gate."
+        },
+        "validation": {
+          "rating": 3,
+          "basis": "Source pointers, sample/assay identifiers and finite counts can be independently checked."
+        },
+        "information_gain": {
+          "rating": 3,
+          "basis": "Adds normal-tissue compatibility and independent contrast decisions beyond completed CHRNA6 cache readiness; no repeat of that audit."
+        }
+      },
+      "inputs": [
+        "research/autonomy/portfolio-2026-09-05/recommendation.md",
+        "research/modalities/expression-validation-readiness.json",
+        "research/modalities/surface-address-sensitivity.json",
+        "research/modalities/geo-gse28866-brunner-series.json",
+        "research/modalities/gse28866-tumour-vs-normal.json",
+        "research/modalities/emc-surface-normal-window.json",
+        "research/modalities/emc-expression-panels-inputs.json",
+        "research/modalities/emc-cohort-search.json",
+        "research/modalities/emc-fourth-cohort-quant-inputs.json"
+      ],
+      "outputs": [
+        "research/modalities/atlas_independent_normal_feasibility.py",
+        "research/modalities/atlas-independent-normal-feasibility.json",
+        "research/modalities/atlas-independent-normal-feasibility.md"
+      ],
+      "instructions": "Read the ranked recommendation and reuse both completed audits. Focus specifically on independent EMC tissue validation and normal-tissue compatibility, not CHRNA6 probe retrieval. Audit GSE28866 normal-organ libraries and EMC samples against GSE24369/GSE4303 and fourth-cohort metadata. Establish the unit of observation (run/library/specimen/patient), identifiers, known versus unresolved overlap, assay/reference channel, normalization and available per-sample versus aggregate values. Treat GSE24369 as CHRNA6 discovery cohort, not independent validation; explain scope. For each proposed within-cohort and cross-cohort contrast, report defensible/conditional/unidentified with exact reasons. Separate cross-histology specificity from tumour-versus-normal and RNA from surface protein; PRAME is an intracellular HLA-presented address. Normal bulk tissues cannot establish therapeutic window. Do not normalize or pool incompatible technologies, infer independence from different accessions, or turn missing cache data into absent expression. Include exact JSON pointers and source file/value SHA256s for extracted facts; explicitly label coordinator-supplied premises versus computed/source-supported facts. Build a deterministic small script generating JSON and a concise memo with valid YAML metadata (kind memo, audience maintainers/autonomous research agents, purpose, scope, date, last_verified). Rerun for byte-identical output; checks must cover identifiers/counts and unknowns, not prose constants. If existing inputs cannot establish independent cohorts or compatible normal-tissue comparisons, deliver that precise negative, list the smallest missing primary evidence, and stop. If feasible, name one concrete prespecified comparison and its limitations without executing it. No network, installs, paid compute, figures, target ranking, biomarker estimates, p-values, survival/clinical claims, manuscript/registry changes, broad literature search, or new process framework. No subagents. Medium, one dispatch,1800seconds. Use runner-supplied Python. Do not redo completed sensitivity/readiness arithmetic except checking relevant input values."
     }
   ]
 }
