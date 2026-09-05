@@ -1,0 +1,52 @@
+{
+  "coordinator": "01a0712d-5c85-7782-83ec-e3a41b98a625",
+  "enforcement": "Coordinator procedure and heartbeat prompt; account budget and rolling dispatch cap are NOT enforced by research_run.py. Runner independently enforces 1800 seconds/one dispatch.",
+  "reserve_percentage_points": 20,
+  "daily_ceiling_formula": "min(8,max(0,remaining_percent-20)/days_until_reset)",
+  "observations": [
+    {
+      "utc": null,
+      "used_percent": 25,
+      "resets_at": 1789158862,
+      "time_precision": "Exact probe time not separately recorded; first startup probe precedes the second observation. Do not use this untimed point for rate estimation."
+    },
+    {
+      "utc": "2026-09-05T10:52:13.091648+00:00",
+      "used_percent": 26,
+      "resets_at": 1789158862
+    },
+    {
+      "utc": "2026-09-05T10:59:42.567918+00:00",
+      "used_percent": 26,
+      "resets_at": 1789158862,
+      "phase": "after portfolio and verification"
+    },
+    {
+      "utc": "2026-09-05T11:36:38.885015+00:00",
+      "used_percent": 27,
+      "resets_at": 1789158862,
+      "phase": "after completed research run"
+    }
+  ],
+  "current_ceiling_percentage_points": 8,
+  "observed_startup_consumption_percentage_points": 1,
+  "attribution": "All observations are account-wide rounded usage, not research cost. Pre-restart observations are history and excluded from prospective pacing.",
+  "status": "First substantive restart run completed and independently verified; observed account delta one percentage point from restart. Six-hour heartbeat retained.",
+  "max_dispatches_per_rolling_24h": null,
+  "max_dispatches_per_wake": 1,
+  "counted_runs": [
+    "20260905T032612Z-df96afc413",
+    "20260905T084620Z-b7637a0999"
+  ],
+  "earliest_dispatch_utc": null,
+  "next_action": "Retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-sample processed matrix values in one bounded evidence step. Preserve all probes and units. Establish discovery-study overlap before claiming independent validation; do not fit a survival classifier or treat absent cache rows as absent coverage.",
+  "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
+  "paid_fallback": false,
+  "reset_redemption_authorized": false,
+  "restart_baseline": {
+    "utc": "2026-09-05T11:19:02.898829+00:00",
+    "used_percent": 26,
+    "resets_at": 1789158862,
+    "authority": "User explicitly requested substantive work now; retire two-dispatch rolling cap and historical setup-spend block. Earlier observations retained as history only."
+  }
+}

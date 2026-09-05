@@ -1,0 +1,39 @@
+{
+  "run_id": "20260905T111908Z-083a73575a",
+  "checks": [
+    {
+      "command": [
+        "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-X",
+        "utf8",
+        ".cache/verify_readiness_independent.py"
+      ],
+      "exit_code": 0,
+      "log": "C:\\Users\\mcrae\\.codex\\worktrees\\ae0a\\EMC-Research\\.cache\\readiness-verification\\independent.log",
+      "log_sha256": "9d55b93688ed63517ab85ed9f35bc53db7ac3bba3db615aecdbd63d42425ee5c"
+    },
+    {
+      "command": [
+        "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-X",
+        "utf8",
+        "research/modalities/expression_validation_readiness.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log": "C:\\Users\\mcrae\\.codex\\worktrees\\ae0a\\EMC-Research\\.cache\\readiness-verification\\determinism.log",
+      "log_sha256": "f6c61622710088651d18d3779528dac9cabccb3cd145f341214b784d7e93dd30"
+    }
+  ],
+  "artifact_sha256": {
+    "research/modalities/expression_validation_readiness.py": "2d22e866dce208eb5cb2d2326e4e00e35d71392182e0f73994e578183a90f2c7",
+    "research/modalities/expression-validation-readiness.md": "bf0626b3f63eba3def89d381fd894e31dd85d40f5011bb90a1263572824aae55",
+    "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12"
+  },
+  "time_to_verified_output_seconds": 1047.542,
+  "substantive_defects_found": 0,
+  "repair_induced_defects": 0,
+  "review_scope": "Independent source hashes, every final pointer/value hash, sample/count arithmetic, unknown/alias handling, code and memo inspection. Worker corrected its own probe-list exhaustiveness assumption before completion; no coordinator scientific repair.",
+  "next_action": "Retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-sample processed matrix values in one bounded evidence step. Preserve all probes and units. Establish discovery-study overlap before claiming independent validation; do not fit a survival classifier or treat absent cache rows as absent coverage.",
+  "coordinator_repair": "coordinator-repair.json"
+}

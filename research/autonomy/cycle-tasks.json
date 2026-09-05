@@ -84,6 +84,50 @@
         "research/modalities/tests/test_fus_ddit3_prefix_comparison.py"
       ],
       "instructions": "Read the three variants and exon ranks from primary-junctions.json; do not hardcode their breakpoints. This task is a conditional native-FUS-prefix comparison, not a complete fusion or mechanism-positive-control validation. Explicitly assume the literature exon ranks correspond to committed ENST00000254108 and report that this has not been established by accession-version sequence alignment. Use only gene_models.FUS.exons and utr5_len in emc-fet-construct-designs.json and the FUS protein in fet-sequences-cache.json. Check the committed Ensembl/UniProt FUS identity flag, model self-checks and protein lengths. For each source variant, independently sum coding_nt_in_exon through the retained exon and compare to cumulative_coding_nt_through_exon and cdna_end_exclusive minus utr5_len. Divide by three with quotient and remainder. The quotient is the number of completely encoded native FUS residues; report residual nucleotides and an unresolved junction codon. Slice only the completely encoded native prefix. Enumerate all overlapping RG dipeptides whose two residues lie wholly inside this prefix (1-based positions), count total native FUS RGs and report retained fraction and whether this prefix meets rg_count==0. Report native terminal residue and possible boundary uncertainty, but never invent a junction residue or DDIT3 sequence. A zero prefix count does not prove zero RG in a whole fusion; a positive prefix count persists regardless of the unresolved junction under the explicit mapping assumption. Do not change or silently generalize the existing census precondition. Compare each row with the frozen first_RG_dipeptide_at and rgg_free_ceiling as a consistency check, not a substitute for direct counting. State that the separate ATM mechanism experiment's exact FUS::CHOP construct/variant is not established by this input. No biological validation, ATR response, safety, efficacy or clinical-stratification conclusion. This is exploratory secondary sequence arithmetic. Deliver deterministic JSON with input path/SHA256 provenance and no run-dependent timestamps, concise methods/results Markdown with valid repository metadata (kind memo; audience maintainers and autonomous research agents), and meaningful tests for internal-vs-boundary RG counting, partial codons, missing exon and inconsistent model arithmetic. Do not pin prose or mirror constants. Rerun the generator and check identical JSON. No networks, dependency installs, figures or manuscript/registry edits. Use the runner-supplied Python executable and pytest --basetemp=.cache/fus-prefix-tests --tb=short -p no:cacheprovider. Stop with a precise blocker if the committed inputs do not support the conditional arithmetic."
+    },
+    {
+      "id": "expression-validation-map-readiness",
+      "kind": "science",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "ledger_ids": [
+        "AUT-014",
+        "AUT-082-e71cf460"
+      ],
+      "question": "Which committed EMC expression cohorts can test the published CHRNA6 reference signal, and which comparisons fail because of assay coverage, absent comparator data or unresolved sample independence?",
+      "stop_condition": "Produce a source-keyed JSON readiness matrix, deterministic audit script and concise go/no-go memo. Stop after independent source-pointer and count verification. No new expression analysis or manuscript.",
+      "effort_minutes": 25,
+      "assessment": {
+        "clinical_relevance": {
+          "rating": 3,
+          "basis": "Avoid mistaking diagnostic RNA evidence for target availability and prevent unusable validation claims."
+        },
+        "answerability": {
+          "rating": 3,
+          "basis": "Committed cohort metadata and probe maps can answer availability; unknown identity remains unknown."
+        },
+        "validation": {
+          "rating": 3,
+          "basis": "Independent enumeration of identifiers and source pointers; published CISH is orthogonal assay evidence, not an independent array."
+        },
+        "information_gain": {
+          "rating": 2,
+          "basis": "A reusable map connects previously separate artifacts; stop if already complete."
+        }
+      },
+      "inputs": [
+        "research/modalities/emc-expression-panels.json",
+        "research/modalities/emc-expression-panels-inputs.json",
+        "research/modalities/emc-cohort-search.json",
+        "research/modalities/emc-fourth-cohort-quant.json",
+        "research/modalities/emc-fourth-cohort-quant-inputs.json",
+        "research/autonomy/portfolio-2026-09-05/primary-marker-evidence.json"
+      ],
+      "outputs": [
+        "research/modalities/expression_validation_readiness.py",
+        "research/modalities/expression-validation-readiness.json",
+        "research/modalities/expression-validation-readiness.md"
+      ],
+      "instructions": "Audit only committed inputs. Record exact JSON pointers and SHA256 for every reported sample ID, cohort, platform, comparator count and CHRNA6 probe/gene availability. Distinguish runs, specimens and patients; deduplicate exact identifiers only and label cross-study identity unresolved unless documented. An absent CHRNA6 row in a selected-gene cache is not missing platform coverage. Mark coverage not_assessed when annotation is unavailable. Catalogue existing per-probe versus aggregated values and raw-data availability without downloading. No new biomarker estimates, rankings, p-values, correlations, survival models, clinical claims or full fusion calls. Primary-marker-evidence.json is abstract-level evidence; never invent supplementary tables or infer validation independence. State whether any committed data supports a later specified CHRNA6 expression comparison; if not, give exact missing inputs and stop. Enumerate counts via deterministic script and include explicit handling of unknowns. No network, installs, paid compute, figures, registry or manuscript edits. Use runner-supplied Python, medium effort, one dispatch/1800 seconds. Reuse existing outcomes. Coordinator independently checks counts and pointers before collection. If an equivalent complete mapping already exists, return its path and stop; do not fabricate novelty."
     }
   ]
 }

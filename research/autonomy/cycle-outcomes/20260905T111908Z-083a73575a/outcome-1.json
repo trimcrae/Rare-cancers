@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "summary": "Completed the bounded readiness audit. No committed input supports a current CHRNA6 expression comparison. Coverage remains not_assessed; comparator gaps and unresolved patient independence are documented. No expression analysis was performed.",
+  "artifacts": [
+    "research/modalities/expression_validation_readiness.py",
+    "research/modalities/expression-validation-readiness.json",
+    "research/modalities/expression-validation-readiness.md"
+  ],
+  "checks": [
+    "Runner-supplied Python: expression_validation_readiness.py --write and --check passed.",
+    "Separate verifier passed six committed-file hashes, 1,175 source pointers/value hashes, and cohort/count checks.",
+    "Python syntax, artifact whitespace, git diff --check, and exactly-three-allowed-files checks passed."
+  ],
+  "blockers": [],
+  "follow_up": [
+    "Coordinator checks counts and pointers before collection.",
+    "Before a later comparison, obtain the CHRNA6 annotation and measurements, comparator data, and identity crosswalks specified in the memo."
+  ]
+}

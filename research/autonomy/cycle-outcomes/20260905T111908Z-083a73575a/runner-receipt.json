@@ -1,0 +1,86 @@
+{
+  "schema": "emc-local-research-run/1",
+  "run_id": "20260905T111908Z-083a73575a",
+  "started_utc": "2026-09-05T11:19:09.088531Z",
+  "resource": "paper:PUB-SURFACE-TARGETS",
+  "model": "gpt-6-astra",
+  "auth": "saved-chatgpt",
+  "coordination": "one-local-clone-only",
+  "coordinator_id": "01a0712d-5c85-7782-83ec-e3a41b98a625",
+  "mode": "workspace-write",
+  "legacy_and_remote_writers_stopped_acknowledged": true,
+  "base_commit": "8c1f292536b7d725186491b42c19c87c0b6c855c",
+  "worktree": "C:\\Projects\\EMC-Research\\.cache\\research-runs\\20260905T111908Z-083a73575a\\worktree",
+  "limits": {
+    "timeout_seconds": 1800,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "medium"
+  },
+  "task_sha256": "89c76640dc5a288b033a4ffaa45270e15d6035f4b8a2325e187321084a66e1b1",
+  "protocol_sha256": "5a0051a18b88b7e0056a98f783ac22fe42099090c17698595715cb021411a9af",
+  "rounds": [
+    {
+      "round": 1,
+      "started_utc": "2026-09-05T11:19:33.640743Z",
+      "status": "completed",
+      "stdout": "round-1.jsonl",
+      "stderr": "round-1.stderr",
+      "session_id": "01a0714b-a4c6-7c31-b9bf-4b74d077d72a",
+      "usage": [
+        {
+          "input_tokens": 1548755,
+          "cached_input_tokens": 1451776,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 17936,
+          "reasoning_output_tokens": 2064
+        }
+      ],
+      "errors": 0,
+      "exit_code": 0,
+      "finished_utc": "2026-09-05T11:34:29.718883Z",
+      "artifact_inventory": [
+        {
+          "path": "research/modalities/expression-validation-readiness.json",
+          "sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+          "deleted": false
+        },
+        {
+          "path": "research/modalities/expression-validation-readiness.md",
+          "sha256": "38deddd6f93fd83bd0bcb952a00aac1fbea257c4d3512db4ebb91426f1757b73",
+          "deleted": false
+        },
+        {
+          "path": "research/modalities/expression_validation_readiness.py",
+          "sha256": "7f86fbca7628f5a8f166245099938463c5061642787cf779a57d26075b219ed8",
+          "deleted": false
+        }
+      ],
+      "outcome": {
+        "status": "completed",
+        "summary": "Completed the bounded readiness audit. No committed input supports a current CHRNA6 expression comparison. Coverage remains not_assessed; comparator gaps and unresolved patient independence are documented. No expression analysis was performed.",
+        "artifacts": [
+          "research/modalities/expression_validation_readiness.py",
+          "research/modalities/expression-validation-readiness.json",
+          "research/modalities/expression-validation-readiness.md"
+        ],
+        "checks": [
+          "Runner-supplied Python: expression_validation_readiness.py --write and --check passed.",
+          "Separate verifier passed six committed-file hashes, 1,175 source pointers/value hashes, and cohort/count checks.",
+          "Python syntax, artifact whitespace, git diff --check, and exactly-three-allowed-files checks passed."
+        ],
+        "blockers": [],
+        "follow_up": [
+          "Coordinator checks counts and pointers before collection.",
+          "Before a later comparison, obtain the CHRNA6 annotation and measurements, comparator data, and identity crosswalks specified in the memo."
+        ]
+      },
+      "outcome_sha256": "49f0d9ab083ce13b1f6c7ea5428ad9f4a8aabc535b12330669a97068fa76d579"
+    }
+  ],
+  "status": "completed",
+  "automatic_publication": false,
+  "finished_utc": "2026-09-05T11:34:30.231941Z",
+  "elapsed_seconds": 921.11,
+  "working_tree_status": "?? research/modalities/expression-validation-readiness.json\n?? research/modalities/expression-validation-readiness.md\n?? research/modalities/expression_validation_readiness.py"
+}

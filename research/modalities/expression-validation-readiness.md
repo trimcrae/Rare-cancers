@@ -1,0 +1,42 @@
+---
+id: DOC-EXPRESSION-VALIDATION-READINESS
+title: CHRNA6 expression validation readiness
+kind: memo
+status: generated
+generator: research/modalities/expression_validation_readiness.py
+date: 2026-09-05
+last_verified: 2026-09-05
+purpose: Identify which committed EMC cohorts support a CHRNA6 expression comparison.
+scope: Six-input readiness audit; no new expression or clinical inference.
+audience: [maintainers, autonomous research agents]
+---
+
+# CHRNA6 expression validation readiness
+
+**No-go with the six committed inputs.** They contain no usable CHRNA6 expression comparison. This completes the bounded readiness audit; it does not assess publication readiness.
+
+The source-keyed [JSON matrix](expression-validation-readiness.json) records exact RFC 6901 pointers, committed-file SHA256 and canonical pointed-value SHA256. Its `sources` keys resolve every fact below; all sample IDs are retained there. [The audit script](expression_validation_readiness.py) reads pinned Git blobs, not mutable input files.
+
+| Cohort | Enumerated or reported observations | CHRNA6 and decision |
+|---|---|---|
+| GSE24369 / GPL6244 | 42 exact GSMs: 6 EMC, 29 cached comparators, 7 excluded | Not selected in the gene cache; full annotation unavailable, coverage `not_assessed`. No current comparison. |
+| GSE4303 / GPL3290 | 16 exact GSMs: 10 EMC, 6 cached comparators, 0 excluded | Not selected in the gene cache; full annotation unavailable, coverage `not_assessed`. No current comparison. |
+| GSE28866 | Source reports 99 sample records and 4 naming EMC; complete IDs and comparator labels absent | Metadata only; coverage `not_assessed`; comparator count unknown, not 95. |
+| GSE170983 | Source describes an alias of GSE28866 and the same four EMC samples | Retain the documented alias; no additional validation cohort. Exact alias crosswalk unavailable. |
+| PRJNA1357027 / SRP640302 | 12 exact runs, 12 BioSample records, 12 experiments; raw B/G labels 6/6; no non-EMC comparator runs supplied | No CHRNA6 assignment in the partial inferred map; assay design coverage `not_assessed`. No EMC-versus-mimic comparison. |
+
+Array details are in `cohorts.GSE24369` and `cohorts.GSE4303`. The first comparator arm has 17 LGFMS, 6 desmoid fibromatosis and 6 cached `fibrosarcoma` labels (verbatim annotations say myxofibrosarcoma). Its 7 exclusions retain 5 solitary fibrous tumors and 2 pooled skeletal-muscle RNA records; these are not silently added as controls. The second arm has 3 DFSP and 3 GIST records. The search reports 36 samples for the entire GSE4303 series, whereas the supplied GPL3290 cache has 16; the other 20 are not a verified comparator arm.
+
+Unique patients and biological specimens remain unknown. Different GSMs or BioSamples do not establish independent patients. The two array GSM sets have no exact overlap; cross-study identity, including overlap with the published reference, remains unresolved. The sequencing run SRR35940654 has sample alias Si22 but library name Si21; both are preserved, without merging or guessing the correct label. B/G meanings are not inferred from the six/six split.
+
+The abstract-level reference (`reference_signal`, primary input `/sources/0/observation`) reports CHRNA6 RNA CISH in 25 EMC and 685 mimics. These are reported study counts, not enumerated independent patients. No full text, supplementary table, numeric threshold, discovery roster or validation crosswalk is supplied. The expression caches cannot reproduce a tissue CISH interpretation threshold, and no independence or clinical claim follows from this audit.
+
+Existing array data have one gene-level values vector with probe IDs retained; multi-probe rows are aggregated, not separate per-probe observations. The GPL3290 GAPDH row lists 12 probe IDs but reports 384 mappings; this discrepancy is retained, so listed IDs cannot be assumed exhaustive. The processed matrix URLs are catalogued, but raw array files are not documented in the allowed inputs. Sequencing JSON references per-probe and summed raw gene-count TSVs, with reported hashes/row counts; those TSVs were not opened. The inferred map contains 906 single-gene probe assignments to 862 genes, 77 ambiguous assignments and 662 unassigned probes out of 1,645 offered. Neither mapping contains CHRNA6. Partial mapping and lossy persistence cannot prove absent assay coverage or absent expression. FASTQ locators and historical completed-stream records are retained; remote availability was not checked.
+
+A later specified comparison could ask whether CHRNA6 differs between EMC and the enumerated comparator arm within each array platform. First supply authoritative CHRNA6 probe annotation, aligned per-probe measurements and preprocessing/missingness metadata; specify probe handling and comparator inclusion. For the two-colour array, resolve reference-pool compatibility before comparing groups. For an independent validation claim, also supply a specimen/patient crosswalk against the reference study and other cohorts. GSE28866 additionally needs its full labelled expression roster and matrix. The sequencing deposit needs an authoritative CHRNA6 design mapping, compatible measurements and a non-EMC comparator arm. No current input supports proceeding to expression statistics.
+
+The historical cohort-search exclusions and unreadable/unknown metadata are retained in `historical_search`; its earlier negative GEO search is not evidence that the later SRA deposit is absent. No equivalent complete readiness mapping was found in the committed readiness/validation inventory and CHRNA6 outcome search; existing evidence was reused without recomputing expression.
+
+Reproduce with the runner-supplied Python executable and `research/modalities/expression_validation_readiness.py --write`; verify with `--check`. The check covers source readability, exact array arm/sample counts, cached vector dimensions, sequencing identifier consistency, inferred mapping counts and deterministic JSON/memo bytes. A separate stdin verifier (not importing the generator) passed all 6 file hashes, 1,175 source pointers/value hashes, direct fact values, array arms, sequencing IDs and label counts, mapping cardinalities, alias discrepancy and 56 search entries. A focused separate check passed the excluded-annotation counts and series-minus-cache counts. The initial generator check exposed the GAPDH discrepancy; the audit was corrected to preserve it. This is scoped audit verification; repository preflight and publication suites were not run. Coordinator collection remains downstream.
+
+Base: `8c1f292536b7d725186491b42c19c87c0b6c855c`. Configured model `gpt-6-astra`, effort `medium`, one dispatch, total budget 1,800 seconds; dispatch-time remaining 1,775.484 seconds. Elapsed time, token usage and remaining subscription capacity are unknown. No network, downloads, installs, paid compute, additional agents, commits or publication actions.

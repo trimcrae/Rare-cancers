@@ -11,8 +11,8 @@
     "non_null_owners": 0,
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
-  "coordinator": "Codex task 01a06e21-2d00-7070-be0b-208dc2bb6ccd; one local clone",
-  "priority": "paper:PUB-ATR",
+  "coordinator": "Codex task 01a0712d-5c85-7782-83ec-e3a41b98a625; one local clone",
+  "priority": "expression-validation-map-readiness",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -28,13 +28,15 @@
     "status": "ACTIVE",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
-    "interval_minutes": 120,
+    "interval_minutes": 360,
     "first_scheduled_run": "20260905T032612Z-df96afc413",
     "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
     "requires": "Local machine and Codex application available",
-    "target_thread_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+    "target_thread_id": "01a0712d-5c85-7782-83ec-e3a41b98a625",
     "validation": "Actual heartbeat produced a collected, independently verified scientific result; normal integration preflight passed.",
-    "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json"
+    "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json",
+    "nominal_interval_minutes": 360,
+    "pacing_reason": "User authorized immediate substantive restart with fresh 26-percent baseline; six-hour heartbeat."
   },
   "integration": {
     "status": "settled_and_verified",
@@ -94,8 +96,8 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T08:59:39.982835+00:00",
-  "coordinator_task_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+  "last_updated_utc": "2026-09-05T11:36:38.881025+00:00",
+  "coordinator_task_id": "01a0712d-5c85-7782-83ec-e3a41b98a625",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
     "evidence": "research/autonomy/throughput-2026-09-05/README.md",
@@ -107,7 +109,7 @@
       "scope": "Normal document and artifact gates; no full scientific suite"
     },
     "scheduled_science": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/cycle.json",
-    "next_action": "Reuse both verified computations. The FUS::DDIT3 literature exon gap is resolved, and conditional native-prefix arithmetic splits the variants. Next establish the exact FUS::CHOP construct used in the ATM mechanism study and its accession-version alignment before claiming a mechanism positive control."
+    "next_action": "Retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-sample processed matrix values in one bounded evidence step. Preserve all probes and units. Establish discovery-study overlap before claiming independent validation; do not fit a survival classifier or treat absent cache rows as absent coverage."
   },
   "local_runtime": {
     "python": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
@@ -117,10 +119,10 @@
   },
   "integration_source_receipt": "research/autonomy/throughput-2026-09-05/source-integration.json",
   "latest_cycle": {
-    "run_id": "20260905T084620Z-b7637a0999",
+    "run_id": "20260905T111908Z-083a73575a",
     "status": "verified",
-    "outcome": "research/autonomy/cycle-outcomes/20260905T084620Z-b7637a0999/cycle.json",
-    "normal_preflight": "research/autonomy/cycle-outcomes/20260905T084620Z-b7637a0999/normal-preflight.json"
+    "outcome": "research/autonomy/cycle-outcomes/20260905T111908Z-083a73575a/cycle.json",
+    "normal_preflight": "research/autonomy/cycle-outcomes/20260905T111908Z-083a73575a/normal-preflight.json"
   },
   "process_follow_through": {
     "status": "integrated_and_verified",
@@ -131,13 +133,12 @@
     "next_action": "Regenerate cycle plans before subsequent dispatch. Reuse completed science and continue one bounded evidence-backed question; no further process work is established by this check."
   },
   "latest_science_result": {
-    "summary": "Conditional native FUS prefixes: type II 174 residues and 0/24 RG pairs; type I 266 and 8/24; type III 277 and 8/24. Each leaves one nucleotide in an unresolved codon.",
-    "mapping_is_conditional": true,
-    "full_fusion_or_mechanism_validation": false,
-    "result": "research/modalities/fus-ddit3-prefix-comparison.md",
-    "source": "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json",
-    "worker_seconds": 610.859,
+    "summary": "CHRNA6 expression comparison is unsupported by the six current inputs; missing selected-gene values are not missing platform coverage. Four cohorts plus one documented alias mapped with 1175 source pointers.",
+    "result": "research/modalities/expression-validation-readiness.md",
+    "worker_seconds": 921.11,
     "single_dispatch": true,
     "publication_authorized": false
-  }
+  },
+  "portfolio": "research/autonomy/portfolio-2026-09-05/recommendation.md",
+  "budget_policy": "research/autonomy/portfolio-2026-09-05/budget.json"
 }
