@@ -1,5 +1,5 @@
 {
-  "coordinator": "01a0712d-5c85-7782-83ec-e3a41b98a625",
+  "coordinator": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "enforcement": "Coordinator procedure and heartbeat enforce prospective account pacing; retired rolling dispatch cap is not enforced. Runner independently enforces 1800 seconds/one dispatch.",
   "reserve_percentage_points": 20,
   "daily_ceiling_formula": "min(8,max(0,remaining_percent-20)/days_until_reset)",
@@ -26,12 +26,24 @@
       "used_percent": 27,
       "resets_at": 1789158862,
       "phase": "after completed research run"
+    },
+    {
+      "utc": "2026-09-05T14:16:56.925525Z",
+      "used_percent": 30,
+      "resets_at": 1789158862,
+      "phase": "Current coordinator startup before first fresh-context worker; account-wide rounded observation."
+    },
+    {
+      "utc": "2026-09-05T14:39:27.628887Z",
+      "used_percent": 32,
+      "resets_at": 1789158862,
+      "phase": "After verified fusion-feasibility round; account-wide rounded;2points since task start,6since26restart baseline."
     }
   ],
   "current_ceiling_percentage_points": 8,
   "observed_startup_consumption_percentage_points": 1,
   "attribution": "All observations are account-wide rounded usage, not research cost. Pre-restart observations are history and excluded from prospective pacing.",
-  "status": "Atlas retry completed and independently verified; observed account usage30percent, including other account work.",
+  "status": "Fusion round completed verified; next bounded response pilot fits remaining2points of8point prospective day ceiling.",
   "max_dispatches_per_rolling_24h": null,
   "max_dispatches_per_wake": 1,
   "counted_runs": [
@@ -39,7 +51,7 @@
     "20260905T084620Z-b7637a0999"
   ],
   "earliest_dispatch_utc": null,
-  "next_action": "Atlas deprioritized; see atlas-decision.md. Resume ranked portfolio only at a bounded evidence-backed next step; no unchanged atlas retry.",
+  "next_action": "One bounded response-recoverability pilot, then recheck budget before any further dispatch.",
   "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
   "paid_fallback": false,
   "reset_redemption_authorized": false,

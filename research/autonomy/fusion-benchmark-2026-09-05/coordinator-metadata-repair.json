@@ -1,0 +1,29 @@
+{
+  "status": "verified_for_data_feasibility_only",
+  "verified_utc": "2026-09-05T14:36:45.469419Z",
+  "worker": "01a071e8-b11a-7860-94e1-1dd8fcfe3e5d",
+  "base_commit": "0be885c02d7ae889828052c5090c74c0926249bf",
+  "actual_task_elapsed_seconds": 1485.391,
+  "worker_final_scientific_check_seconds": 1407,
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "actual_metadata_timestamp": "2026-09-05T14:11:14.022Z",
+  "verification_scope": "Coordinator read full memo and source classifications; independently verified31 sequence pairs against primary PDFs and8 numerical table rows, Lee S5/S6 rendered panels, FGFR selected-only parent assays, Scherr/Thomas primary reporting limitations. Other16-source inventory fields are source-cited but not all independently re-extracted. Not systematic review or exhaustive absence evidence.",
+  "substantive_defects_found": 0,
+  "publication_evidence": false,
+  "artifact_sha256": {
+    "evidence.json": "605cad9b6c186d3cf244feb8a03660cb284df23530cee6831aff836392ecfa53",
+    "feasibility.md": "8bd07cee8b7e4eaf451faacdb42675f6af9813489e0edc8a683c94eff4f55d25",
+    "source-manifest.json": "6b63c10c36ac416602f2ae8216c3105b862587e60e5a8efbc4cfe6e96f79ac8d"
+  },
+  "check_log_sha256": "187df786b5ed24f9fd78775ff4c0a9a67be5d8c767081f1ebf90cf2a71c59067",
+  "next_question": "Response-outcome recoverability: can independently reconstructed response definitions and denominators change an actual study interpretation beyond missing-field counts?",
+  "worker_original_artifact_sha256": {
+    "evidence.json": "605cad9b6c186d3cf244feb8a03660cb284df23530cee6831aff836392ecfa53",
+    "feasibility.md": "f13f14207e353ef27e29da219762d467b6616a33301544d4be8cbdd1787f2321",
+    "source-manifest.json": "6b63c10c36ac416602f2ae8216c3105b862587e60e5a8efbc4cfe6e96f79ac8d"
+  },
+  "coordinator_repairs": [
+    "Corrected unsupported Markdown kind and audience enum values; scientific text unchanged. Original worker hash preserved."
+  ]
+}
