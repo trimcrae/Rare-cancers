@@ -27,8 +27,10 @@ are explicit coordinator judgements; their sum divided by estimated effort is a 
 not scientific evidence. Negative results receive the same consideration as positive results.
 Select only questions public data and available local computation can answer. The initial surface
 address sensitivity question was selected because per-sample values already exist and exact
-deletion arithmetic can be independently checked. The FET comparator question remains held
-because its required primary breakpoint source is absent.
+deletion arithmetic can be independently checked. Primary FUS::DDIT3 exon evidence is now
+preserved, and a conditional native-prefix comparison is verified in cycle
+`20260905T084620Z-b7637a0999`. Its transcript mapping and the exact FUS::CHOP construct used
+in the mechanism study remain unresolved; this is not a validated mechanism positive control.
 
 Use the configured Python executable and saved ChatGPT authentication. Claim the existing runner's
 coordinator identity, then launch the selected committed checkout:

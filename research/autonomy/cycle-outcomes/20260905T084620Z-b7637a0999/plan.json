@@ -1,0 +1,94 @@
+{
+  "schema": "emc-research-cycle-plan/1",
+  "created_utc": "2026-09-05T08:46:07.481465Z",
+  "base_commit": "15f5c5718802ad8517dffbc10bfb466743e7acb6",
+  "selected": {
+    "task_id": "fet-non-ewsr1-positive-control",
+    "resource": "paper:PUB-ATR",
+    "eligible": true,
+    "fingerprint": "7a0517d416819fbcd9788e4b9ee62f7972f97b623077a6397014241c89f8709d",
+    "input_sha256": {
+      "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json": "5aebb96a0330c12d5102e0549f8bc0e1710515b211475cec7ce2b60e64d2a59c",
+      "research/modalities/emc-fet-construct-designs.json": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b",
+      "research/modalities/emc-fet-idr-census.json": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b",
+      "research/modalities/fet-sequences-cache.json": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+    },
+    "score": 0.48,
+    "reason": "Eligible bounded question; score is a planning judgement, not scientific evidence"
+  },
+  "decisions": [
+    {
+      "task_id": "surface-address-sample-sensitivity",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "eligible": false,
+      "fingerprint": "95f8e1c49c92e7351dd9c6c4bedf1dd561f7f05fcde70be08b1102c444efa020",
+      "input_sha256": {
+        "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+        "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+        "research/modalities/emc_expression_panels.py": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+      },
+      "prior_run_id": "20260905T032612Z-df96afc413",
+      "reason": "Reuse matching verified output"
+    },
+    {
+      "task_id": "fet-non-ewsr1-positive-control",
+      "resource": "paper:PUB-ATR",
+      "eligible": true,
+      "fingerprint": "7a0517d416819fbcd9788e4b9ee62f7972f97b623077a6397014241c89f8709d",
+      "input_sha256": {
+        "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json": "5aebb96a0330c12d5102e0549f8bc0e1710515b211475cec7ce2b60e64d2a59c",
+        "research/modalities/emc-fet-construct-designs.json": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b",
+        "research/modalities/emc-fet-idr-census.json": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b",
+        "research/modalities/fet-sequences-cache.json": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+      },
+      "score": 0.48,
+      "reason": "Eligible bounded question; score is a planning judgement, not scientific evidence"
+    }
+  ],
+  "duplicate_candidates_suppressed": 1,
+  "dispatches": 0,
+  "selection_is_scientific_evidence": false,
+  "contract": {
+    "id": "fet-non-ewsr1-positive-control",
+    "kind": "science",
+    "resource": "paper:PUB-ATR",
+    "ledger_ids": [
+      "AUT-PD-208-11f2347b-8e081d15"
+    ],
+    "question": "Under an explicit mapping of reported FUS exon ranks to committed ENST00000254108, do the native FUS prefixes retained by FUS::DDIT3 types II, I and III all satisfy the existing zero-RG rule?",
+    "stop_condition": "Deliver a reproducible conditional native-prefix analysis of all three sourced variants, with exact residue/RG arithmetic, explicit junction and mapping uncertainty, a concise note and behavioral tests. Stop after these outputs; do not change the census, manuscript or scientific acceptance rule.",
+    "effort_minutes": 25,
+    "assessment": {
+      "clinical_relevance": {
+        "rating": 3,
+        "basis": "Existing RT-ATR-ASSESS mechanism depends on whether its structural definition generalizes across FET family members."
+      },
+      "answerability": {
+        "rating": 3,
+        "basis": "Primary exon labels are now preserved; committed FUS exon-model arithmetic and native protein sequence support a conditional prefix analysis without reconstructing the fusion."
+      },
+      "validation": {
+        "rating": 3,
+        "basis": "Cumulative coding nucleotide counts can be independently summed and complete native-prefix RG positions independently enumerated; partial junction codons remain unresolved."
+      },
+      "information_gain": {
+        "rating": 3,
+        "basis": "A variant split would show why blanket all-native-RG-lost extrapolation needs variant-specific qualification; this is not a validated biological positive control."
+      }
+    },
+    "inputs": [
+      "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json",
+      "research/modalities/emc-fet-construct-designs.json",
+      "research/modalities/emc-fet-idr-census.json",
+      "research/modalities/fet-sequences-cache.json"
+    ],
+    "outputs": [
+      "research/modalities/fus_ddit3_prefix_comparison.py",
+      "research/modalities/fus-ddit3-prefix-comparison.json",
+      "research/modalities/fus-ddit3-prefix-comparison.md",
+      "research/modalities/tests/test_fus_ddit3_prefix_comparison.py"
+    ],
+    "instructions": "Read the three variants and exon ranks from primary-junctions.json; do not hardcode their breakpoints. This task is a conditional native-FUS-prefix comparison, not a complete fusion or mechanism-positive-control validation. Explicitly assume the literature exon ranks correspond to committed ENST00000254108 and report that this has not been established by accession-version sequence alignment. Use only gene_models.FUS.exons and utr5_len in emc-fet-construct-designs.json and the FUS protein in fet-sequences-cache.json. Check the committed Ensembl/UniProt FUS identity flag, model self-checks and protein lengths. For each source variant, independently sum coding_nt_in_exon through the retained exon and compare to cumulative_coding_nt_through_exon and cdna_end_exclusive minus utr5_len. Divide by three with quotient and remainder. The quotient is the number of completely encoded native FUS residues; report residual nucleotides and an unresolved junction codon. Slice only the completely encoded native prefix. Enumerate all overlapping RG dipeptides whose two residues lie wholly inside this prefix (1-based positions), count total native FUS RGs and report retained fraction and whether this prefix meets rg_count==0. Report native terminal residue and possible boundary uncertainty, but never invent a junction residue or DDIT3 sequence. A zero prefix count does not prove zero RG in a whole fusion; a positive prefix count persists regardless of the unresolved junction under the explicit mapping assumption. Do not change or silently generalize the existing census precondition. Compare each row with the frozen first_RG_dipeptide_at and rgg_free_ceiling as a consistency check, not a substitute for direct counting. State that the separate ATM mechanism experiment's exact FUS::CHOP construct/variant is not established by this input. No biological validation, ATR response, safety, efficacy or clinical-stratification conclusion. This is exploratory secondary sequence arithmetic. Deliver deterministic JSON with input path/SHA256 provenance and no run-dependent timestamps, concise methods/results Markdown with valid repository metadata (kind memo; audience maintainers and autonomous research agents), and meaningful tests for internal-vs-boundary RG counting, partial codons, missing exon and inconsistent model arithmetic. Do not pin prose or mirror constants. Rerun the generator and check identical JSON. No networks, dependency installs, figures or manuscript/registry edits. Use the runner-supplied Python executable and pytest --basetemp=.cache/fus-prefix-tests --tb=short -p no:cacheprovider. Stop with a precise blocker if the committed inputs do not support the conditional arithmetic."
+  },
+  "task_sha256": "33199114ef41e0f860281acb99c8e75a85bf52ce9ec260b2f44345b10dd88024"
+}

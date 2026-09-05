@@ -1,0 +1,483 @@
+{
+  "schema": "emc-fus-ddit3-conditional-native-prefix/1",
+  "question": "Do all sourced FUS::DDIT3 native FUS prefixes meet rg_count == 0?",
+  "analysis_class": "exploratory_secondary_sequence_arithmetic",
+  "mapping_assumption": "Assume the reported literature exon ranks correspond to committed ENST00000254108 and that FUS is retained from its native start through the end of the named exon. This correspondence has not been established by accession-version sequence alignment.",
+  "accession_version_alignment_established": false,
+  "source": {
+    "pmid": "17647282",
+    "doi": "10.1002/gcc.20478",
+    "title": "Relevance of translocation type in myxoid liposarcoma and identification of a novel EWSR1-DDIT3 fusion.",
+    "authors": "Bode-Lesniewska B, Frigerio S, Exner U, Abdou MT, Moch H, Zimmermann DR.",
+    "year": "2007",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/17647282/",
+    "retrieval_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:17647282%20AND%20SRC:MED&format=json&resultType=core",
+    "retrieved_representation": "Primary research article abstract indexed by Europe PMC; also cross-checked in PubMed web search",
+    "response_sha256": "68992d6e46e98bd3af7064b5c5bf90949a63ac36400c80fed37b205270806a45",
+    "location": "Abstract; sentence reporting the detected FUS/DDIT3 transcript types",
+    "short_exact_quotes": [
+      "FUS/DDIT3 type II (exons 5-2)",
+      "type I (7-2)",
+      "type III (8-2)"
+    ]
+  },
+  "source_mapping_status": "Reported exon ranks are sourced; equivalence to the committed ENST00000254108 exon ranks is a stated mapping assumption, not a sequence-alignment result.",
+  "source_remaining_gaps": [
+    "No fusion nucleotide sequence or accession-version alignment is supplied here.",
+    "The retained native FUS prefix can be computed conditionally from the committed exon model. A partial junction codon and DDIT3-derived sequence cannot be reconstructed from exon labels alone.",
+    "Native-prefix RG counts are not a full fusion sequence validation or evidence of ATM effects, ATR response, clinical efficacy or safety."
+  ],
+  "model_checks": {
+    "transcript": "ENST00000254108",
+    "translation": "ENSP00000254108",
+    "committed_ensembl_uniprot_identical": true,
+    "committed_fus_self_checks": {
+      "exon_lengths_sum_equals_cdna": true,
+      "coding_nt_sum_equals_cds": true,
+      "cdna_slice_at_utr5_equals_cds": true,
+      "cds_translation_equals_protein": true,
+      "n_transcript_exons": 15,
+      "n_coding_exons": 15,
+      "first_transcript_exon_is_coding": true
+    },
+    "committed_aggregate_self_checks_all_pass": true,
+    "protein_lengths_aa": {
+      "cache": 526,
+      "ensembl": 526,
+      "uniprot": 526,
+      "census": 526
+    },
+    "protein_lengths_agree": true,
+    "all_exon_coding_nt_sum": 1581,
+    "protein_nt_plus_terminal_stop_nt": 1581,
+    "verification_scope": "Identity and translation self-checks are committed assertions, not newly aligned or translated here. Lengths, exon counts and retained-prefix arithmetic are checked locally from the supplied model and protein cache."
+  },
+  "native_fus_rg_pairs_1based": [
+    [
+      213,
+      214
+    ],
+    [
+      216,
+      217
+    ],
+    [
+      218,
+      219
+    ],
+    [
+      242,
+      243
+    ],
+    [
+      244,
+      245
+    ],
+    [
+      248,
+      249
+    ],
+    [
+      251,
+      252
+    ],
+    [
+      259,
+      260
+    ],
+    [
+      377,
+      378
+    ],
+    [
+      383,
+      384
+    ],
+    [
+      386,
+      387
+    ],
+    [
+      388,
+      389
+    ],
+    [
+      394,
+      395
+    ],
+    [
+      407,
+      408
+    ],
+    [
+      473,
+      474
+    ],
+    [
+      476,
+      477
+    ],
+    [
+      481,
+      482
+    ],
+    [
+      485,
+      486
+    ],
+    [
+      487,
+      488
+    ],
+    [
+      491,
+      492
+    ],
+    [
+      495,
+      496
+    ],
+    [
+      498,
+      499
+    ],
+    [
+      503,
+      504
+    ],
+    [
+      514,
+      515
+    ]
+  ],
+  "total_native_fus_rg_count": 24,
+  "zero_rg_rule": "rg_count == 0; evaluated only on the completely encoded native FUS prefix",
+  "frozen_census_verdict_criterion": "rg_dipeptides_retained == 0 \u2014 THRESHOLD-FREE. An RG dipeptide is either inside the retained segment or it is not.",
+  "variants": [
+    {
+      "source_variant": {
+        "reported_type": "II",
+        "five_prime_gene": "FUS",
+        "five_prime_exon": 5,
+        "three_prime_gene": "DDIT3",
+        "three_prime_exon": 2
+      },
+      "arithmetic": {
+        "coding_nt_terms": [
+          {
+            "exon_rank": 1,
+            "coding_nt": 13
+          },
+          {
+            "exon_rank": 2,
+            "coding_nt": 25
+          },
+          {
+            "exon_rank": 3,
+            "coding_nt": 152
+          },
+          {
+            "exon_rank": 4,
+            "coding_nt": 145
+          },
+          {
+            "exon_rank": 5,
+            "coding_nt": 188
+          }
+        ],
+        "coding_nt_sum": 523,
+        "model_cumulative_coding_nt": 523,
+        "cdna_end_exclusive": 599,
+        "utr5_len": 76,
+        "cdna_end_minus_utr5_nt": 523,
+        "three_arithmetic_routes_agree": true
+      },
+      "complete_native_residues": 174,
+      "residual_native_nucleotides": 1,
+      "native_prefix_sequence": "MASNDYTQQATQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGYGTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQSYGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGG",
+      "native_terminal_residue": "G",
+      "rg_pairs_1based": [],
+      "rg_count": 0,
+      "total_native_fus_rg_count": 24,
+      "retained_rg_fraction": {
+        "numerator": 0,
+        "denominator": 24,
+        "exact": "0"
+      },
+      "native_prefix_meets_zero_rg_rule": true,
+      "junction": {
+        "codon_status": "unresolved_partial_codon",
+        "first_unresolved_residue_position": 175,
+        "unresolved_partial_codon_position": 175,
+        "residue": null,
+        "ddit3_sequence": null,
+        "whole_fusion_rg_count": null,
+        "rg_crossing_complete_prefix_boundary_possible": false,
+        "boundary_scope": "Only a terminal R could start an RG crossing the complete prefix boundary. The next residue is unknown; further junction/downstream RGs are not assessed. The native continuation is not a fusion sequence."
+      },
+      "frozen_census_consistency": {
+        "frozen_first_RG_dipeptide_at": 213,
+        "frozen_rgg_free_ceiling": 212,
+        "complete_prefix_at_or_below_frozen_ceiling": true,
+        "first_native_rg_wholly_inside_prefix": false,
+        "direct_count_agrees_with_first_rg": true,
+        "direct_count_agrees_with_frozen_ceiling_classification": true,
+        "boundary_note": "At a cut on the first R itself, its following G is outside the prefix: zero internal RG can extend one residue beyond the frozen ceiling. This comparison does not redefine the frozen ceiling or the count-based rule."
+      }
+    },
+    {
+      "source_variant": {
+        "reported_type": "I",
+        "five_prime_gene": "FUS",
+        "five_prime_exon": 7,
+        "three_prime_gene": "DDIT3",
+        "three_prime_exon": 2
+      },
+      "arithmetic": {
+        "coding_nt_terms": [
+          {
+            "exon_rank": 1,
+            "coding_nt": 13
+          },
+          {
+            "exon_rank": 2,
+            "coding_nt": 25
+          },
+          {
+            "exon_rank": 3,
+            "coding_nt": 152
+          },
+          {
+            "exon_rank": 4,
+            "coding_nt": 145
+          },
+          {
+            "exon_rank": 5,
+            "coding_nt": 188
+          },
+          {
+            "exon_rank": 6,
+            "coding_nt": 241
+          },
+          {
+            "exon_rank": 7,
+            "coding_nt": 35
+          }
+        ],
+        "coding_nt_sum": 799,
+        "model_cumulative_coding_nt": 799,
+        "cdna_end_exclusive": 875,
+        "utr5_len": 76,
+        "cdna_end_minus_utr5_nt": 799,
+        "three_arithmetic_routes_agree": true
+      },
+      "complete_native_residues": 266,
+      "residual_native_nucleotides": 1,
+      "native_prefix_sequence": "MASNDYTQQATQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGYGTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQSYGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGGGNYGQDQSSMSSGGGSGGGYGNQDQSGGGGSGGYGQQDRGGRGRGGSGGGGGGGGGGYNRSSGGYEPRGRGGGRGGRGGMGGSDRGGFNKFG",
+      "native_terminal_residue": "G",
+      "rg_pairs_1based": [
+        [
+          213,
+          214
+        ],
+        [
+          216,
+          217
+        ],
+        [
+          218,
+          219
+        ],
+        [
+          242,
+          243
+        ],
+        [
+          244,
+          245
+        ],
+        [
+          248,
+          249
+        ],
+        [
+          251,
+          252
+        ],
+        [
+          259,
+          260
+        ]
+      ],
+      "rg_count": 8,
+      "total_native_fus_rg_count": 24,
+      "retained_rg_fraction": {
+        "numerator": 8,
+        "denominator": 24,
+        "exact": "1/3"
+      },
+      "native_prefix_meets_zero_rg_rule": false,
+      "junction": {
+        "codon_status": "unresolved_partial_codon",
+        "first_unresolved_residue_position": 267,
+        "unresolved_partial_codon_position": 267,
+        "residue": null,
+        "ddit3_sequence": null,
+        "whole_fusion_rg_count": null,
+        "rg_crossing_complete_prefix_boundary_possible": false,
+        "boundary_scope": "Only a terminal R could start an RG crossing the complete prefix boundary. The next residue is unknown; further junction/downstream RGs are not assessed. The native continuation is not a fusion sequence."
+      },
+      "frozen_census_consistency": {
+        "frozen_first_RG_dipeptide_at": 213,
+        "frozen_rgg_free_ceiling": 212,
+        "complete_prefix_at_or_below_frozen_ceiling": false,
+        "first_native_rg_wholly_inside_prefix": true,
+        "direct_count_agrees_with_first_rg": true,
+        "direct_count_agrees_with_frozen_ceiling_classification": true,
+        "boundary_note": "At a cut on the first R itself, its following G is outside the prefix: zero internal RG can extend one residue beyond the frozen ceiling. This comparison does not redefine the frozen ceiling or the count-based rule."
+      }
+    },
+    {
+      "source_variant": {
+        "reported_type": "III",
+        "five_prime_gene": "FUS",
+        "five_prime_exon": 8,
+        "three_prime_gene": "DDIT3",
+        "three_prime_exon": 2
+      },
+      "arithmetic": {
+        "coding_nt_terms": [
+          {
+            "exon_rank": 1,
+            "coding_nt": 13
+          },
+          {
+            "exon_rank": 2,
+            "coding_nt": 25
+          },
+          {
+            "exon_rank": 3,
+            "coding_nt": 152
+          },
+          {
+            "exon_rank": 4,
+            "coding_nt": 145
+          },
+          {
+            "exon_rank": 5,
+            "coding_nt": 188
+          },
+          {
+            "exon_rank": 6,
+            "coding_nt": 241
+          },
+          {
+            "exon_rank": 7,
+            "coding_nt": 35
+          },
+          {
+            "exon_rank": 8,
+            "coding_nt": 33
+          }
+        ],
+        "coding_nt_sum": 832,
+        "model_cumulative_coding_nt": 832,
+        "cdna_end_exclusive": 908,
+        "utr5_len": 76,
+        "cdna_end_minus_utr5_nt": 832,
+        "three_arithmetic_routes_agree": true
+      },
+      "complete_native_residues": 277,
+      "residual_native_nucleotides": 1,
+      "native_prefix_sequence": "MASNDYTQQATQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGYGTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQSYGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGGGNYGQDQSSMSSGGGSGGGYGNQDQSGGGGSGGYGQQDRGGRGRGGSGGGGGGGGGGYNRSSGGYEPRGRGGGRGGRGGMGGSDRGGFNKFGGPRDQGSRHDS",
+      "native_terminal_residue": "S",
+      "rg_pairs_1based": [
+        [
+          213,
+          214
+        ],
+        [
+          216,
+          217
+        ],
+        [
+          218,
+          219
+        ],
+        [
+          242,
+          243
+        ],
+        [
+          244,
+          245
+        ],
+        [
+          248,
+          249
+        ],
+        [
+          251,
+          252
+        ],
+        [
+          259,
+          260
+        ]
+      ],
+      "rg_count": 8,
+      "total_native_fus_rg_count": 24,
+      "retained_rg_fraction": {
+        "numerator": 8,
+        "denominator": 24,
+        "exact": "1/3"
+      },
+      "native_prefix_meets_zero_rg_rule": false,
+      "junction": {
+        "codon_status": "unresolved_partial_codon",
+        "first_unresolved_residue_position": 278,
+        "unresolved_partial_codon_position": 278,
+        "residue": null,
+        "ddit3_sequence": null,
+        "whole_fusion_rg_count": null,
+        "rg_crossing_complete_prefix_boundary_possible": false,
+        "boundary_scope": "Only a terminal R could start an RG crossing the complete prefix boundary. The next residue is unknown; further junction/downstream RGs are not assessed. The native continuation is not a fusion sequence."
+      },
+      "frozen_census_consistency": {
+        "frozen_first_RG_dipeptide_at": 213,
+        "frozen_rgg_free_ceiling": 212,
+        "complete_prefix_at_or_below_frozen_ceiling": false,
+        "first_native_rg_wholly_inside_prefix": true,
+        "direct_count_agrees_with_first_rg": true,
+        "direct_count_agrees_with_frozen_ceiling_classification": true,
+        "boundary_note": "At a cut on the first R itself, its following G is outside the prefix: zero internal RG can extend one residue beyond the frozen ceiling. This comparison does not redefine the frozen ceiling or the count-based rule."
+      }
+    }
+  ],
+  "all_native_prefixes_meet_zero_rg_rule": false,
+  "limitations": [
+    "Exploratory secondary sequence arithmetic on three sourced exon-level variants; not experimental or biological validation.",
+    "No fusion nucleotide sequence is supplied. Junction codons, junction residues, DDIT3 sequence and the whole-fusion RG count remain unresolved.",
+    "A zero native-prefix RG count does not prove zero RG in a whole fusion. A positive internal prefix count persists regardless of the unresolved junction under the explicit mapping assumption.",
+    "The separate ATM mechanism experiment's exact FUS::CHOP construct/variant is not established by this input; these rows do not validate a mechanism positive control.",
+    "No ATM mechanism, ATR response, safety, efficacy or clinical-stratification conclusion follows. The existing census precondition and acceptance rule are unchanged."
+  ],
+  "input_provenance": [
+    {
+      "path": "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json",
+      "sha256": "5aebb96a0330c12d5102e0549f8bc0e1710515b211475cec7ce2b60e64d2a59c"
+    },
+    {
+      "path": "research/modalities/emc-fet-construct-designs.json",
+      "sha256": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b"
+    },
+    {
+      "path": "research/modalities/emc-fet-idr-census.json",
+      "sha256": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b"
+    },
+    {
+      "path": "research/modalities/fet-sequences-cache.json",
+      "sha256": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+    }
+  ]
+}

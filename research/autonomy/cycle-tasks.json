@@ -6,15 +6,29 @@
       "id": "surface-address-sample-sensitivity",
       "kind": "science",
       "resource": "paper:PUB-SURFACE-TARGETS",
-      "ledger_ids": ["AUT-025"],
+      "ledger_ids": [
+        "AUT-025"
+      ],
       "question": "For the eleven route-named therapeutic addresses already read in EMC tissue, which EMC-versus-other-sarcoma expression directions survive deleting any one EMC sample or any one comparator histology?",
       "stop_condition": "Deliver a deterministic script, JSON result, concise methods/results note and behavioral tests covering every named address on each recorded platform, including unreadable and unstable results. Stop after independent arithmetic verification; no manuscript or new broad review.",
       "effort_minutes": 25,
       "assessment": {
-        "clinical_relevance": {"rating": 3, "basis": "Existing RT-FAP-RLT and PUB-SURFACE-TARGETS route questions concern candidate tissue addresses; this can prioritize later validation, not treatment."},
-        "answerability": {"rating": 3, "basis": "Committed emc-expression-panels.json includes per-sample z values, labels and platform coverage for the eleven addresses."},
-        "validation": {"rating": 3, "basis": "Exact deletion arithmetic can be independently recomputed; compare baseline means to the committed parent artifact within its rounding precision."},
-        "information_gain": {"rating": 2, "basis": "Current cross-platform board summarizes direction without single-sample or comparator-histology sensitivity for these eleven addresses. A fragile or unreadable result is useful."}
+        "clinical_relevance": {
+          "rating": 3,
+          "basis": "Existing RT-FAP-RLT and PUB-SURFACE-TARGETS route questions concern candidate tissue addresses; this can prioritize later validation, not treatment."
+        },
+        "answerability": {
+          "rating": 3,
+          "basis": "Committed emc-expression-panels.json includes per-sample z values, labels and platform coverage for the eleven addresses."
+        },
+        "validation": {
+          "rating": 3,
+          "basis": "Exact deletion arithmetic can be independently recomputed; compare baseline means to the committed parent artifact within its rounding precision."
+        },
+        "information_gain": {
+          "rating": 2,
+          "basis": "Current cross-platform board summarizes direction without single-sample or comparator-histology sensitivity for these eleven addresses. A fragile or unreadable result is useful."
+        }
       },
       "inputs": [
         "research/modalities/emc-expression-panels.json",
@@ -33,20 +47,43 @@
       "id": "fet-non-ewsr1-positive-control",
       "kind": "science",
       "resource": "paper:PUB-ATR",
-      "ledger_ids": ["AUT-PD-208-11f2347b-8e081d15"],
-      "question": "Does the existing FET structural precondition recover a sourced FUS::DDIT3 comparator junction?",
-      "stop_condition": "A sourced exon junction and reproducible positive-control check, or an explicit evidence gap.",
+      "ledger_ids": [
+        "AUT-PD-208-11f2347b-8e081d15"
+      ],
+      "question": "Under an explicit mapping of reported FUS exon ranks to committed ENST00000254108, do the native FUS prefixes retained by FUS::DDIT3 types II, I and III all satisfy the existing zero-RG rule?",
+      "stop_condition": "Deliver a reproducible conditional native-prefix analysis of all three sourced variants, with exact residue/RG arithmetic, explicit junction and mapping uncertainty, a concise note and behavioral tests. Stop after these outputs; do not change the census, manuscript or scientific acceptance rule.",
       "effort_minutes": 25,
-      "external_blocker": "The existing ledger records no sourced exon-level FUS::DDIT3 junction in committed inputs. Coordinator must retrieve primary evidence before the offline runner can compute this; do not invent a breakpoint.",
       "assessment": {
-        "clinical_relevance": {"rating": 3, "basis": "Existing RT-ATR-ASSESS mechanism depends on whether its structural definition generalizes across FET family members."},
-        "answerability": {"rating": 1, "basis": "Required junction source is explicitly absent from the ledger's evidence inventory."},
-        "validation": {"rating": 2, "basis": "A primary junction record would enable exact sequence/architecture comparison."},
-        "information_gain": {"rating": 3, "basis": "Failure to recover a non-EWSR1 positive control could invalidate family-level extrapolation."}
+        "clinical_relevance": {
+          "rating": 3,
+          "basis": "Existing RT-ATR-ASSESS mechanism depends on whether its structural definition generalizes across FET family members."
+        },
+        "answerability": {
+          "rating": 3,
+          "basis": "Primary exon labels are now preserved; committed FUS exon-model arithmetic and native protein sequence support a conditional prefix analysis without reconstructing the fusion."
+        },
+        "validation": {
+          "rating": 3,
+          "basis": "Cumulative coding nucleotide counts can be independently summed and complete native-prefix RG positions independently enumerated; partial junction codons remain unresolved."
+        },
+        "information_gain": {
+          "rating": 3,
+          "basis": "A variant split would show why blanket all-native-RG-lost extrapolation needs variant-specific qualification; this is not a validated biological positive control."
+        }
       },
-      "inputs": ["research/modalities/emc-fet-construct-designs.json", "research/modalities/emc-fet-idr-census.json"],
-      "outputs": [],
-      "instructions": "Hold until a primary breakpoint source is preserved; no inferred sequence or manuscript rewrite."
+      "inputs": [
+        "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json",
+        "research/modalities/emc-fet-construct-designs.json",
+        "research/modalities/emc-fet-idr-census.json",
+        "research/modalities/fet-sequences-cache.json"
+      ],
+      "outputs": [
+        "research/modalities/fus_ddit3_prefix_comparison.py",
+        "research/modalities/fus-ddit3-prefix-comparison.json",
+        "research/modalities/fus-ddit3-prefix-comparison.md",
+        "research/modalities/tests/test_fus_ddit3_prefix_comparison.py"
+      ],
+      "instructions": "Read the three variants and exon ranks from primary-junctions.json; do not hardcode their breakpoints. This task is a conditional native-FUS-prefix comparison, not a complete fusion or mechanism-positive-control validation. Explicitly assume the literature exon ranks correspond to committed ENST00000254108 and report that this has not been established by accession-version sequence alignment. Use only gene_models.FUS.exons and utr5_len in emc-fet-construct-designs.json and the FUS protein in fet-sequences-cache.json. Check the committed Ensembl/UniProt FUS identity flag, model self-checks and protein lengths. For each source variant, independently sum coding_nt_in_exon through the retained exon and compare to cumulative_coding_nt_through_exon and cdna_end_exclusive minus utr5_len. Divide by three with quotient and remainder. The quotient is the number of completely encoded native FUS residues; report residual nucleotides and an unresolved junction codon. Slice only the completely encoded native prefix. Enumerate all overlapping RG dipeptides whose two residues lie wholly inside this prefix (1-based positions), count total native FUS RGs and report retained fraction and whether this prefix meets rg_count==0. Report native terminal residue and possible boundary uncertainty, but never invent a junction residue or DDIT3 sequence. A zero prefix count does not prove zero RG in a whole fusion; a positive prefix count persists regardless of the unresolved junction under the explicit mapping assumption. Do not change or silently generalize the existing census precondition. Compare each row with the frozen first_RG_dipeptide_at and rgg_free_ceiling as a consistency check, not a substitute for direct counting. State that the separate ATM mechanism experiment's exact FUS::CHOP construct/variant is not established by this input. No biological validation, ATR response, safety, efficacy or clinical-stratification conclusion. This is exploratory secondary sequence arithmetic. Deliver deterministic JSON with input path/SHA256 provenance and no run-dependent timestamps, concise methods/results Markdown with valid repository metadata (kind memo; audience maintainers and autonomous research agents), and meaningful tests for internal-vs-boundary RG counting, partial codons, missing exon and inconsistent model arithmetic. Do not pin prose or mirror constants. Rerun the generator and check identical JSON. No networks, dependency installs, figures or manuscript/registry edits. Use the runner-supplied Python executable and pytest --basetemp=.cache/fus-prefix-tests --tb=short -p no:cacheprovider. Stop with a precise blocker if the committed inputs do not support the conditional arithmetic."
     }
   ]
 }

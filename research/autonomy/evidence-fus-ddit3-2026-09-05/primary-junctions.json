@@ -1,0 +1,64 @@
+{
+  "schema": "emc-primary-junction-evidence/1",
+  "retrieved_utc": "2026-09-05T08:44:42.564003+00:00",
+  "ledger_id": "AUT-PD-208-11f2347b-8e081d15",
+  "fusion": "FUS::DDIT3",
+  "source": {
+    "pmid": "17647282",
+    "doi": "10.1002/gcc.20478",
+    "title": "Relevance of translocation type in myxoid liposarcoma and identification of a novel EWSR1-DDIT3 fusion.",
+    "authors": "Bode-Lesniewska B, Frigerio S, Exner U, Abdou MT, Moch H, Zimmermann DR.",
+    "year": "2007",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/17647282/",
+    "retrieval_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:17647282%20AND%20SRC:MED&format=json&resultType=core",
+    "retrieved_representation": "Primary research article abstract indexed by Europe PMC; also cross-checked in PubMed web search",
+    "response_sha256": "68992d6e46e98bd3af7064b5c5bf90949a63ac36400c80fed37b205270806a45",
+    "location": "Abstract; sentence reporting the detected FUS/DDIT3 transcript types",
+    "short_exact_quotes": [
+      "FUS/DDIT3 type II (exons 5-2)",
+      "type I (7-2)",
+      "type III (8-2)"
+    ]
+  },
+  "junctions": [
+    {
+      "reported_type": "II",
+      "five_prime_gene": "FUS",
+      "five_prime_exon": 5,
+      "three_prime_gene": "DDIT3",
+      "three_prime_exon": 2
+    },
+    {
+      "reported_type": "I",
+      "five_prime_gene": "FUS",
+      "five_prime_exon": 7,
+      "three_prime_gene": "DDIT3",
+      "three_prime_exon": 2
+    },
+    {
+      "reported_type": "III",
+      "five_prime_gene": "FUS",
+      "five_prime_exon": 8,
+      "three_prime_gene": "DDIT3",
+      "three_prime_exon": 2
+    }
+  ],
+  "claim_scope": "The primary study reports these exon-level transcript junctions in myxoid/round-cell liposarcoma. This record does not identify the fusion variant in the separate FET/ATM mechanism experiment.",
+  "mapping_status": "Reported exon ranks are sourced; equivalence to the committed ENST00000254108 exon ranks is a stated mapping assumption, not a sequence-alignment result.",
+  "remaining_gaps": [
+    "No fusion nucleotide sequence or accession-version alignment is supplied here.",
+    "The retained native FUS prefix can be computed conditionally from the committed exon model. A partial junction codon and DDIT3-derived sequence cannot be reconstructed from exon labels alone.",
+    "Native-prefix RG counts are not a full fusion sequence validation or evidence of ATM effects, ATR response, clinical efficacy or safety."
+  ],
+  "retrieval_limitations": [
+    "The direct PubMed open returned no text, so its indexed result was cross-checked against the Europe PMC primary abstract.",
+    "An optional PMC4965313 direct open showed a browser challenge and its Europe PMC fullTextXML endpoint returned HTTP 404; neither is used to license this record."
+  ],
+  "verification": {
+    "primary_identifier_and_doi_match": true,
+    "all_short_quotes_found_in_fetched_abstract": true,
+    "n_sourced_junctions": 3,
+    "new_model_dispatches": 0,
+    "publication_evidence": false
+  }
+}

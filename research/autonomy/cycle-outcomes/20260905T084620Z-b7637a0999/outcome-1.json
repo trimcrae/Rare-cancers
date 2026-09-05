@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "summary": "Under the explicit, unaligned ENST00000254108 mapping assumption, the answer is no: type II retains 174 complete residues and 0/24 native RGs; types I and III retain 266 and 277 residues, respectively, each with 8/24 RGs. Each leaves one nucleotide in an unresolved junction codon. These are conditional native-prefix results only.",
+  "artifacts": [
+    "research/modalities/fus_ddit3_prefix_comparison.py",
+    "research/modalities/fus-ddit3-prefix-comparison.json",
+    "research/modalities/fus-ddit3-prefix-comparison.md",
+    "research/modalities/tests/test_fus_ddit3_prefix_comparison.py"
+  ],
+  "checks": [
+    "& 'C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe' -B -m pytest research/modalities/tests/test_fus_ddit3_prefix_comparison.py --basetemp=.cache/fus-prefix-tests --tb=short -p no:cacheprovider \u2014 29 passed.",
+    "Ran fus_ddit3_prefix_comparison.py twice with the supplied Python executable: JSON and Markdown were byte-identical. Its --check command also passed.",
+    "Validated memo metadata against systems/schema/document.schema.json; repository links and whitespace checks passed.",
+    "Verified all four input files match HEAD and their recorded SHA256 hashes. git status --short showed only the four allowed additions.",
+    "bash scripts/preflight.sh could not start: Bash is unavailable. No preflight pass claimed.",
+    "Run context: gpt-6-astra, high effort; base 15f5c5718802ad8517dffbc10bfb466743e7acb6; configured budget 1800 seconds, one dispatch/round. Observed clock interval: 523 seconds; total elapsed, token usage and subscription capacity unknown. Nothing remains running."
+  ],
+  "blockers": [],
+  "follow_up": [
+    "Accession-version alignment and identification of the separate ATM experiment\u2019s exact FUS::CHOP construct remain outside this assignment.",
+    "Run the normal preflight in a Bash-capable environment before later integration."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "emc-research-cycle-outcome/1",
+  "run_id": "20260905T084620Z-b7637a0999",
+  "task_id": "fet-non-ewsr1-positive-control",
+  "kind": "science",
+  "resource": "paper:PUB-ATR",
+  "fingerprint": "7a0517d416819fbcd9788e4b9ee62f7972f97b623077a6397014241c89f8709d",
+  "input_sha256": {
+    "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json": "5aebb96a0330c12d5102e0549f8bc0e1710515b211475cec7ce2b60e64d2a59c",
+    "research/modalities/emc-fet-construct-designs.json": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b",
+    "research/modalities/emc-fet-idr-census.json": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b",
+    "research/modalities/fet-sequences-cache.json": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+  },
+  "artifact_sha256": {
+    "research/modalities/fus_ddit3_prefix_comparison.py": "bc6f3a3fe923ca29c55787324d9c33d12fae5ba10099f19e92af510ccf8f132c",
+    "research/modalities/fus-ddit3-prefix-comparison.json": "0400e98153661ea8e634c8ac015b902feaf63520b5e52083178ad960d9ce2d61",
+    "research/modalities/fus-ddit3-prefix-comparison.md": "eb142aa39cfd83025c20532e5ba3145e22a737f52c15b84c0a52e9a186d2f0e5",
+    "research/modalities/tests/test_fus_ddit3_prefix_comparison.py": "8c3667acb3c8b4eb8a6537e4cf1f438c1038887dd0df1c57557f07d9bd45dbfd"
+  },
+  "status": "verified",
+  "runner_status": "completed",
+  "finished_utc": "2026-09-05T08:58:26.629316Z",
+  "worker_integrity_issues": [],
+  "worker_elapsed_seconds": 610.859,
+  "time_to_verified_output_seconds": 1137.094734,
+  "substantive_defects_found": 0,
+  "repair_induced_defects": 0,
+  "duplicate_candidates_suppressed": 1,
+  "usage": [
+    {
+      "input_tokens": 640587,
+      "cached_input_tokens": 567296,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 13747,
+      "reasoning_output_tokens": 1394
+    }
+  ],
+  "model": "gpt-6-astra",
+  "limits": {
+    "timeout_seconds": 1800,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "high"
+  },
+  "next_action": "Reuse the conditional variant split. Before treating FUS::DDIT3 as an experimentally measured mechanism positive control, establish the exact FUS::CHOP construct/variant used in the primary ATM study and align the relevant accession-version junction. Do not loosen the zero-RG rule or generalize this prefix computation to clinical response.",
+  "publication_evidence": false
+}

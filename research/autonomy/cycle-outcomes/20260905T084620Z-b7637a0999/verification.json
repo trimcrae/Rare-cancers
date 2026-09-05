@@ -1,0 +1,70 @@
+{
+  "run_id": "20260905T084620Z-b7637a0999",
+  "verified_utc": "2026-09-05T08:58:11.516734+00:00",
+  "checks": [
+    {
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        ".cache\\fus-cycle-independent\\recompute.py",
+        "--root",
+        "C:\\Projects\\EMC-Research",
+        "--output",
+        ".cache\\fus-cycle-independent\\recomputed.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.109,
+      "log": "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\recompute.log",
+      "log_sha256": "2eea700efada5e6c7fd598a215a2293b574cbed7927710d15015e7f65af42b7a",
+      "scope": "Independent arithmetic, producer not imported; matches values calculated before reading worker output"
+    },
+    {
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\compare_worker.py",
+        "C:\\Projects\\EMC-Research\\.cache\\research-runs\\20260905T084620Z-b7637a0999\\worktree",
+        "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\expected.json"
+      ],
+      "cwd": "C:\\Projects\\EMC-Research",
+      "exit_code": 0,
+      "log": "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\compare.log",
+      "log_sha256": "904a71f7cc1d0a7fe9f204dd5ed87ae1bd073d94f2e7429cbbe578abf81c43d4"
+    },
+    {
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "research/modalities/fus_ddit3_prefix_comparison.py",
+        "--check"
+      ],
+      "cwd": "C:\\Projects\\EMC-Research\\.cache\\research-runs\\20260905T084620Z-b7637a0999\\worktree",
+      "exit_code": 0,
+      "log": "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\regeneration.log",
+      "log_sha256": "213ab0c5153bb4673b2c18d9147ede2cd72f3c6b849eb4a4743b6ba4275be4f9"
+    },
+    {
+      "command": "\"C:\\\\Users\\\\mcrae\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command \"& 'C:\\\\Users\\\\mcrae\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe' -B -m pytest research/modalities/tests/test_fus_ddit3_prefix_comparison.py --basetemp=.cache/fus-prefix-tests --tb=short -p no:cacheprovider\"",
+      "cwd": "C:\\Projects\\EMC-Research\\.cache\\research-runs\\20260905T084620Z-b7637a0999\\worktree",
+      "exit_code": 0,
+      "log": "C:\\Projects\\EMC-Research\\.cache\\fus-cycle-independent\\worker-tests.log",
+      "log_sha256": "47174e0b0f424b9ec8ea1f6b6ef2797d3b58c977f242b5d96412d5d2575bf6e5",
+      "scope": "Actual worker behavioral test output extracted from the preserved JSONL event; reviewed without an unnecessary duplicate test run"
+    }
+  ],
+  "artifact_sha256": {
+    "research/modalities/fus_ddit3_prefix_comparison.py": "bc6f3a3fe923ca29c55787324d9c33d12fae5ba10099f19e92af510ccf8f132c",
+    "research/modalities/fus-ddit3-prefix-comparison.json": "0400e98153661ea8e634c8ac015b902feaf63520b5e52083178ad960d9ce2d61",
+    "research/modalities/fus-ddit3-prefix-comparison.md": "eb142aa39cfd83025c20532e5ba3145e22a737f52c15b84c0a52e9a186d2f0e5",
+    "research/modalities/tests/test_fus_ddit3_prefix_comparison.py": "8c3667acb3c8b4eb8a6537e4cf1f438c1038887dd0df1c57557f07d9bd45dbfd"
+  },
+  "time_to_verified_output_seconds": 1137.094734,
+  "substantive_defects_found": 0,
+  "repair_induced_defects": 0,
+  "review_scope": "All three sourced variants, complete native-prefix lengths, partial-codon remainders, every retained RG position, exact fractions, source hashes, conditional mapping and mechanism limitations; 29 behavioral cases reviewed, outputs regenerated without importing the producer for independent expectations. No full fusion alignment or therapeutic validation.",
+  "next_action": "Reuse the conditional variant split. Before treating FUS::DDIT3 as an experimentally measured mechanism positive control, establish the exact FUS::CHOP construct/variant used in the primary ATM study and align the relevant accession-version junction. Do not loosen the zero-RG rule or generalize this prefix computation to clinical response.",
+  "normal_preflight": "Worker Bash unavailable; original failure log retained. Coordinator settled normal preflight remains an integration check, not a scientific result."
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "emc-research-cycle-plan/1",
+  "created_utc": "2026-09-05T09:00:45.138181Z",
+  "base_commit": "817609171ea8aa485c490c7c00e25d60260e58ac",
+  "selected": null,
+  "decisions": [
+    {
+      "task_id": "surface-address-sample-sensitivity",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "eligible": false,
+      "fingerprint": "95f8e1c49c92e7351dd9c6c4bedf1dd561f7f05fcde70be08b1102c444efa020",
+      "input_sha256": {
+        "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+        "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+        "research/modalities/emc_expression_panels.py": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+      },
+      "prior_run_id": "20260905T032612Z-df96afc413",
+      "reason": "Reuse matching verified output"
+    },
+    {
+      "task_id": "fet-non-ewsr1-positive-control",
+      "resource": "paper:PUB-ATR",
+      "eligible": false,
+      "fingerprint": "7a0517d416819fbcd9788e4b9ee62f7972f97b623077a6397014241c89f8709d",
+      "input_sha256": {
+        "research/autonomy/evidence-fus-ddit3-2026-09-05/primary-junctions.json": "5aebb96a0330c12d5102e0549f8bc0e1710515b211475cec7ce2b60e64d2a59c",
+        "research/modalities/emc-fet-construct-designs.json": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b",
+        "research/modalities/emc-fet-idr-census.json": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b",
+        "research/modalities/fet-sequences-cache.json": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+      },
+      "prior_run_id": "20260905T084620Z-b7637a0999",
+      "reason": "Reuse matching verified output"
+    }
+  ],
+  "duplicate_candidates_suppressed": 2,
+  "dispatches": 0,
+  "selection_is_scientific_evidence": false
+}
