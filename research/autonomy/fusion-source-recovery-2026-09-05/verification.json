@@ -1,0 +1,70 @@
+{
+  "schema": "emc-coordinator-verification/1",
+  "utc": "2026-09-05T18:54:16.547669+00:00",
+  "coordinator": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "worker": "01a072cc-fb6d-7523-a35a-c370476eb1f7",
+  "worker_terminal_status": "completed",
+  "base_revision": "8b3c210215c1433a637a6514537753112725896b",
+  "execution_contexts": [
+    {
+      "utc": "2026-09-05T18:20:38.272Z",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "medium",
+      "approval_policy": "on-request",
+      "sandbox_policy": {
+        "type": "workspace-write",
+        "writable_roots": [
+          "C:\\Users\\mcrae\\.codex\\visualizations\\2026\\09\\05\\01a072cc-fb6d-7523-a35a-c370476eb1f7"
+        ],
+        "network_access": false,
+        "exclude_tmpdir_env_var": false,
+        "exclude_slash_tmp": false
+      }
+    },
+    {
+      "utc": "2026-09-05T18:38:34.935Z",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "medium",
+      "approval_policy": "never",
+      "sandbox_policy": {
+        "type": "danger-full-access"
+      }
+    }
+  ],
+  "worker_manifest_sha256": "9def040d0de3e113606efb98b33346b0de6356cbd2876845f02111a933d88770",
+  "worker_files_hash_verified": 28,
+  "independent_checks": [
+    "All28worker artifacts match manifest hashes.",
+    "All XLS and XLSX cells independently reread with xlrd/openpyxl and compared to stored JSON.",
+    "Varley Fig4 and supplement embedded figure visually inspected by coordinator: manual fusion-expression estimates consistent; supplement is normal-tissue expression, not parent intervention outcomes.",
+    "Clerc Fig1G visually inspected: conditional canonical CTSD reduction with junction siRNA under helicase depletion; no numerical densitometry inferred.",
+    "Clerc Table2 row53 exact19nt core verified against Varley Fig4 sequence; full reagent identity not inferred.",
+    "Complete Clerc supplementary text read; primer and helicase readouts are not reassigned as junction outcomes.",
+    "Ohba publisher full text independently opened: Results lines278-282 places experimental targets in ABL exons2/3; exact junction constructs cited as previous reports, not new junction designs."
+  ],
+  "primary_url_checked": "https://acsjournals.onlinelibrary.wiley.com/doi/full/10.1002/cncr.20468",
+  "scientific_outcome": "Named recovery made genuine source progress: Varley supplement barrier resolved, conditional CTSD parent-effect sequence link recovered, Ohba classification corrected. No new both-parent family or verified ASO design.",
+  "limits": [
+    "Oxford403 remains access/provenance uncertainty, not demonstrated missing measurements.",
+    "Manual Varley values are image-reading estimates with ranges, not statistical uncertainty.",
+    "Clerc junction-specific dose/time and replicate uncertainty unresolved; IFITM10 unmeasured in inspected outcomes.",
+    "Partial siRNA performance benchmark is a development prospect with unestablished novelty/validation.",
+    "No clinical efficacy/safety/selectivity-window inference or paper readiness."
+  ],
+  "timing": {
+    "gross_post_ownership_seconds_approx": 1521,
+    "approval_delay_seconds_estimate": 800,
+    "approval_delay_uncertainty_seconds": 45,
+    "scientific_elapsed_excluding_approval_seconds_estimate": 721,
+    "timing_note": "Gross wall time is also below1800seconds; scientific estimate excludes approximate first approval wait. First actual approved request starts18:36:09; missing exact UI approval instant prevents precise attribution. Second interrupted tool persisted briefly; duplicate fetches preserved. No scientific time was spent on another task."
+  },
+  "normal_preflight": {
+    "receipt": "normal-preflight.json",
+    "utc": "2026-09-05T18:55:29.083559+00:00",
+    "exit_code": 0,
+    "seconds": 70.281,
+    "scope": "Normal settled integration gate, not full publication verification",
+    "log_sha256": "21374ad698f55a4c2c0ae2a509a193181225c5f2ae767cc6f2adb75597c8981d"
+  },
+  "publication_ready": false
+}

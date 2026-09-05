@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "bounded_source_recovery_delivered",
+  "worker": "01a072cc-fb6d-7523-a35a-c370476eb1f7",
+  "coordinator": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "resource": "paper:external-fusion-benchmark",
+  "base": "8b3c210215c1433a637a6514537753112725896b",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "model_effort_provenance": "Task was explicitly dispatched with medium; model based on current agent identity, not separately audited turn metadata",
+  "initialization_started_utc": "2026-09-05T18:20:49Z",
+  "ownership_confirmation_utc_approx": "2026-09-05T18:22:00Z",
+  "ownership_time_uncertainty_seconds": 14,
+  "initialization_seconds_approx": 71,
+  "finished_utc": "2026-09-05T18:47:21.143590+00:00",
+  "gross_post_ownership_seconds_approx": 1521,
+  "max_scientific_seconds": 1800,
+  "approval_delay_seconds_estimate": 800,
+  "approval_delay_uncertainty_seconds": 45,
+  "scientific_elapsed_excluding_approval_seconds_estimate": 721,
+  "timing_note": "Gross wall time is also below1800seconds; scientific estimate excludes approximate first approval wait. First actual approved request starts18:36:09; missing exact UI approval instant prevents precise attribution. Second interrupted tool persisted briefly; duplicate fetches preserved. No scientific time was spent on another task.",
+  "source_request_duration_sum_seconds": 116.907,
+  "source_wait_note": "Sum of instrumented request durations, includes parallel requests and duplicate attempts, not additive wall-time delay. Web-tool waits are uninstrumented separately.",
+  "approvals": {
+    "first_public_source_download": "granted; original sandbox failure preserved",
+    "second_public_source_and_reader_download": "interrupted tool; command nevertheless began and completed; actual outputs preserved",
+    "later_user_full_access": "User explicitly confirmed full permissions and no individual approvals; environment changed to danger-full-access/never; no later escalation"
+  },
+  "validation": [
+    "JSON parse",
+    "all direct downloaded source hashes recomputed",
+    "XLS sheets and embedded image inspected",
+    "CTSD19nt core match checked against prior Varley sense core",
+    "main Fig1 and supplementary Fig2 PDF renders inspected",
+    "output manifest hash verification performed after writing",
+    "allowed-path git status checked"
+  ],
+  "normal_preflight": "not run; coordinator owns integration and normal preflight",
+  "independent_scientific_review": "not performed in worker; coordinator verification outstanding",
+  "usage": null,
+  "usage_note": "Coordinator supplied account-wide36percent used; not attributable to this task. No reset redemption or paid API.",
+  "processes_running": false,
+  "unresolved": [
+    "Oxford primary PDF403",
+    "Ohba exact Fig1A sequences and raw HTTP bytes unavailable",
+    "Clerc junction-specific dose/time replicate metadata unresolved",
+    "No new both-parent family or ASO design",
+    "Partial benchmark contribution and independent validation not established"
+  ],
+  "next_action": "Coordinator independently verify recovery additions; decide whether a bounded partial-outcome analysis is scientifically useful, while retaining Oxford as a specific access lead."
+}

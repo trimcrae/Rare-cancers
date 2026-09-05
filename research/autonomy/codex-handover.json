@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T18:49:31.563919+00:00",
+  "last_updated_utc": "2026-09-05T18:54:16.547669+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -146,16 +146,16 @@
     "worker_task": "01a072a6-0a2e-78b3-83db-0e1f8404bc15",
     "round": "research/autonomy/trial-reference-repair-2026-09-05/round-contract.json",
     "execution": "research/autonomy/trial-reference-repair-2026-09-05/execution.json",
-    "worker_status": "completed; coordinator integration in progress",
+    "worker_status": "integrated; next adjudication/expansion pending",
     "latest_round": "research/autonomy/trial-reference-repair-2026-09-05/verification.json",
     "goal_status_observed_utc": "2026-09-05T15:20:37.017256Z",
     "continuity": "User explicitly resumed mission with no assistant-imposed usage pacing. Existing heartbeat monitors fresh rounds. Goal API still reports blocked and refuses replacement because unfinished; mission continues through user authorization and heartbeat."
   },
   "latest_research_integration": {
-    "revision": "8b3c210215c1433a637a6514537753112725896b",
+    "revision": "db115e9c152fa9ee72a8a0dfa6512eda51790306",
     "target": "local main",
-    "normal_preflight": "research/autonomy/ipd-decision-feasibility-2026-09-05/normal-preflight.json",
-    "worker_artifact_hashes_verified_after_integration": 9,
+    "normal_preflight": "research\\autonomy\\trial-reference-repair-2026-09-05\\normal-preflight.json",
+    "worker_artifact_hashes_verified_after_integration": 20,
     "remote_synchronization": "outstanding; not attempted"
   },
   "remediation_amendment": "research/autonomy/portfolio-2026-09-05/remediation-amendment.md",
@@ -177,13 +177,14 @@
   "independent_source_recovery": {
     "worker_task": "01a072cc-fb6d-7523-a35a-c370476eb1f7",
     "execution": "research/autonomy/fusion-source-recovery-2026-09-05/execution.json",
-    "status": "active after approval resolution, observed18:45",
+    "status": "completed; coordinator verified; integration pending",
     "resource": "paper:external-fusion-benchmark",
-    "reason": "Targeted named source recovery advances authorized science during distinct trial worker app approval wait; trial outputs and reservation remain intact."
+    "reason": "Targeted named source recovery advances authorized science during distinct trial worker app approval wait; trial outputs and reservation remain intact.",
+    "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T18:49:31.563919+00:00",
-    "status": "Prior app approvals resolved: trial worker completed and fusion worker resumed. Desktop new-task mode still auto at18:45; verify Full access before releasing subsequent fresh workers.",
+    "utc": "2026-09-05T18:54:16.547669+00:00",
+    "status": "Both science workers completed; no research process running. Coordinator integrating fusion recovery. New-worker Full access mode remains to be verified.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {

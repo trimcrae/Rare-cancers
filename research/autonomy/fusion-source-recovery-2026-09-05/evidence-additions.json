@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "scope": "Additions and corrections only; reuse the preceding 63-row inventory without rewriting it.",
+  "prior_evidence": "../fusion-benchmark-2026-09-05/evidence.json",
+  "kashyap": {
+    "doi": "10.5287/ora-avzqyvz9q",
+    "status": "access_unresolved",
+    "inspected": "Exact prior PDF URL and repository landing page returned HTTP403. Targeted title/DOI search identified the same repository copy, no alternate legitimate primary copy recovered.",
+    "pointer": "Chapter3 Fig3.4 printed p113 remains uninspected",
+    "new_verified_design_rows": 0,
+    "missingness": "Sequences, matched parent measurements, dose, model, replicates and uncertainty remain unavailable for inspection, not demonstrated absent.",
+    "potential": "Could enable within-family ASO chemistry/design contrasts if full sequences and paired assays are confirmed; cannot by itself establish cross-family ASO transfer."
+  },
+  "varley2014": {
+    "doi": "10.1007/s10549-014-3019-2",
+    "supplement_status": "Recovered and parsed both sheets; embedded figure visually inspected",
+    "supplement_pointer": "10549_2014_3019_MOESM1_ESM.xls; Supp. Table 1 A1:G123; Supp. Figure 1 embedded PNG and A18 caption",
+    "content": "Sample-level fusion junction-spanning read counts and fusion expression in normal breast specimens relative to MDA-MB-468. Neither sheet reports intervention-specific CTSD or IFITM10 parent outcomes.",
+    "source_label_issue": "Supp. Table 1 E7 prints CTSD-IFITM1; preserved verbatim, not silently corrected to IFITM10.",
+    "corrections": [
+      {"prior_row": "varley-1", "pointer": "Fig4b, preserved 738x581 JPEG", "fusion_remaining_estimate": 0.44, "unit": "relative to nontargeting siRNA", "graphical_reading_interval": [0.42, 0.46], "uncertainty_kind": "Conservative manual image-reading range, not statistical CI or SD; source shows three dots and a mean line", "time_h": 48, "dose": "3pmol/well", "model": "MCF7", "parent1_status": "not reported in inspected main and complete XLS supplement", "parent2_status": "not reported in inspected main and complete XLS supplement"},
+      {"prior_row": "varley-2", "pointer": "Fig4b, preserved 738x581 JPEG", "fusion_remaining_estimate": 0.49, "unit": "relative to nontargeting siRNA", "graphical_reading_interval": [0.47, 0.51], "uncertainty_kind": "Conservative manual image-reading range, not statistical CI or SD; source shows three dots and a mean line", "time_h": 48, "dose": "3pmol/well", "model": "MCF7", "parent1_status": "not reported in inspected main and complete XLS supplement", "parent2_status": "not reported in inspected main and complete XLS supplement"}
+    ],
+    "numeric_limit": "Estimates resolve design assignment only. Do not replace these intervals with exact author numbers or use tiny interdesign difference as a validated ranking.",
+    "negative_designs": "Both reported junction designs active. No unsuccessful junction intervention supplied by the XLS."
+  },
+  "ctsd2026": {
+    "doi": "10.1007/s00018-026-06254-6",
+    "source_status": "Primary XML, main PDF, supplementary PDF and Table2 XLSX preserved",
+    "family": "CTSD-IFITM10 readthrough chimera; not a new independent family relative to Varley",
+    "mechanism": "synthetic siRNA",
+    "rows": [
+      {"id": "clerc-junction", "source_printed_sequence": "ACUACACGCUCAAGGCCCA[dT][dT]", "pointer": "Supp.Table2, Primers and siRNAs!B53:C53; main Fig1F-G PDF p3; Results PDF p4", "sequence_orientation": "Single siRNA strand printed under Forward primer column; strand polarity not explicitly specified in siRNA subsection. Core matches Varley2014 sense strand; no antisense strand reconstructed.", "chemistry": "19nt RNA core plus two dT residues as printed; full positional chemistry and complementary strand not supplied", "core_matches": "varley-1 sense core; terminal UU versus dTdT and proprietary Varley chemistry prevent identity of full reagents being assumed", "fusion_outcome": "60kDa anti-CTSD band lost under junction-siRNA with DDX17/DDX5 depletion", "CTSD_outcome": "Canonical43-45kDa CTSD bands reduced in this condition; author attributes likely nonspecific effect", "IFITM10_outcome": "Not reported in inspected main paper, Table2 or complete supplementary PDF", "matched_numeric_triple": false, "fusion_value": null, "CTSD_value": null, "IFITM10_value": null, "replicates_for_Fig1G": null, "uncertainty_for_Fig1G": null},
+      {"id": "clerc-CTSD-body-control", "source_printed_sequence": "GUAUUACAAGGGUUCUCUG[dT][dT]", "pointer": "Supp.Table2, Primers and siRNAs!B52:C52; main Fig1F-G PDF p3", "target": "CTSD body; nonjunction comparator", "fusion_outcome": "60kDa band strongly reduced", "CTSD_outcome": "canonical43-45kDa bands strongly reduced", "IFITM10_outcome": "not reported", "fusion_value": null, "CTSD_value": null, "IFITM10_value": null}
+    ],
+    "model": "SH-SY5Y neuroblastoma; Fig1 comparison includes with/without DDX17/DDX5 depletion",
+    "dose_time": "Methods PDF p10 specifies20nM and48h for standard DDX17/DDX5 silencing, RNAiMAX. Separate junction/CTSD cotransfection doses and timing are not explicitly stated; do not assign standard helicase conditions as verified junction-dose metadata.",
+    "assay_specificity": "Fig1G uses CTSD antibody21327-1-AP with molecular-size separation; not an IFITM10 assay. Fig1D-E and Supp.Fig2 are helicase-perturbation qPCR, not junction-siRNA outcomes.",
+    "primer_pointers": {"CTSD": "Table2 C3:D3;146bp", "fusion": "Table2 C4:D4;266bp", "IFITM10": "No standalone IFITM10 primer row"},
+    "missingness_limit": "Supp.Tables1 and3 are described as genomic event and ChIP datasets; not downloaded after their scope was established from the supplementary legends. No claim of unpublished-data absence."
+  },
+  "ohba2004": {
+    "doi": "10.1002/cncr.20468",
+    "retrieval": "Wiley full text exposed through web-tool representation; direct original HTTP byte request403. Representation preserved separately and not mislabeled original bytes.",
+    "correction": "Three experimental siRNAs target ABL exons2/3, not the b3a2 junction. Junction sequences in Fig1B are cited earlier work, not a new independent junction panel.",
+    "pointer": "Materials/siRNA Constructs; Results first two paragraphs; Fig1A versus1B",
+    "sequence_status": "Exact experimental Fig1A sequences remain uninspected visually and are not transcribed",
+    "dose": "180nM individually; mixture60nM each",
+    "time": "24h single or6days/three transfections",
+    "model_assay_limit": "Fusion measured in K562; c-ABL measured in separate Jurkat cells. BCR-parent molecular outcome not supplied in inspected report.",
+    "negative_evidence": "siRNA2 weak after single transfection; response depends on repeat dosing and RNA versus protein assay. Nonjunction comparator evidence only.",
+    "new_qualifying_junction_rows": 0
+  },
+  "gate_change": {"new_qualifying_both_parent_families": 0, "new_verified_ASO_rows": 0, "three_family_both_parent_negative_design_gate_met": false},
+  "inference_limits": ["No measured value was imputed for a missing parent", "No cross-family or clinical validation", "No ASO/siRNA pooling", "Sequence-core reuse is not an independent target family or an identical complete reagent"]
+}
