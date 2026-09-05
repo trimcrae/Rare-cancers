@@ -1,0 +1,66 @@
+{
+  "schema": "aso-independent-disclosure-delta-verification/1",
+  "paper": "PUB-ASO",
+  "status": "verified_disclosure_only_delta_no_scientific_change",
+  "reviewer": {
+    "agent": "/root/astra_workflow",
+    "model": "GPT-6-Astra",
+    "independent_of_candidate_authoring": true,
+    "blind": false
+  },
+  "scope": {
+    "included": "Only the added non-financial-interest sentence in the Declaration of conflicting interest, its correspondence to the prior extended report, and raw-byte equivalence to the previously reviewed manuscript after removing that one addition.",
+    "excluded": [
+      "A new whole-paper scientific review",
+      "Independent confirmation of the author personal disclosure",
+      "Rendered Word/PDF content or visual layout",
+      "Publication authorization, journal acceptance or publish_bar clearance"
+    ]
+  },
+  "baseline": {
+    "manuscript_sha256": "c54d85ff8a96b2792a5e0383008ddf78a1ad9eb2d65160c36c916208f46e6d28",
+    "focused_review_path": "research/release-candidates/PUB-ASO/2026-09-04/submission/focused-science-review.json",
+    "focused_review_sha256": "d709c9638777bf7698c110d9d4376e3423e6b7d569dc7c50698ae1e16322600a",
+    "role": "Existing focused independent nonblind scientific verification remains immutable; round 34 is baseline reference only as described there."
+  },
+  "verified_delta": {
+    "manuscript_path": "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
+    "manuscript_sha256": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
+    "declaration_start_line": 311,
+    "exact_added_utf8_text": " One non-financial interest is declared: the author is a survivor of extraskeletal\nmyxoid chondrosarcoma, the disease this work addresses.",
+    "occurrences": 1,
+    "operation": "Remove exactly this UTF-8 byte sequence once, without newline conversion or other normalization.",
+    "reconstructed_baseline_sha256": "c54d85ff8a96b2792a5e0383008ddf78a1ad9eb2d65160c36c916208f46e6d28",
+    "matches_reviewed_baseline": true,
+    "all_other_manuscript_bytes_unchanged": true,
+    "conclusion": "Every scientific passage and all other manuscript bytes are unchanged from the c54d85ff source reviewed by focused-science-review.json."
+  },
+  "prior_disclosure_evidence": {
+    "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "sha256": "0388947c78b6a37bf3362624184ab4f2468850111d7ddd428e193d6676abb393",
+    "section": "Competing interests",
+    "line_start": 2796,
+    "line_end": 2800,
+    "comparison": "The added sentence matches the prior extended-report disclosure verbatim after whitespace normalization; only line wrapping differs.",
+    "normalized_sentence": "One non-financial interest is declared: the author is a survivor of extraskeletal myxoid chondrosarcoma, the disease this work addresses."
+  },
+  "hashing": {
+    "algorithm": "SHA256",
+    "basis": "Raw local file bytes; paths relative to isolated aso-submission worktree.",
+    "started_utc": "2026-09-04T23:59:39.686320+00:00",
+    "finished_utc": "2026-09-04T23:59:39.699780+00:00",
+    "before": {
+      "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
+      "research/manuscripts/aso/fusion-junction-aso-research-article.md": "0388947c78b6a37bf3362624184ab4f2468850111d7ddd428e193d6676abb393",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/focused-science-review.json": "d709c9638777bf7698c110d9d4376e3423e6b7d569dc7c50698ae1e16322600a"
+    },
+    "after": {
+      "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
+      "research/manuscripts/aso/fusion-junction-aso-research-article.md": "0388947c78b6a37bf3362624184ab4f2468850111d7ddd428e193d6676abb393",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/focused-science-review.json": "d709c9638777bf7698c110d9d4376e3423e6b7d569dc7c50698ae1e16322600a"
+    },
+    "source_and_baseline_receipt_stable": true
+  },
+  "findings": [],
+  "remaining_blockers_within_scope": []
+}

@@ -1,276 +1,73 @@
 {
-  "schema": "pub-aso-nat-upload-inventory/1",
-  "status": "unsubmitted draft",
-  "date": "2026-09-04",
-  "resource": "paper:PUB-ASO",
-  "base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+  "schema": "pub-aso-nat-upload-inventory/2",
   "path_basis": "repository root",
-  "hash_algorithm": "SHA256 over raw local file bytes",
-  "inventory_scope": "All 11 candidate-root files, relevant existing canonical upload artifacts, named local provenance, and two new Markdown support sources. No historical extended-report SI included. Manifest excludes its own hash to avoid self-reference.",
+  "hash_algorithm": "SHA256 over raw file bytes",
+  "resource": "paper:PUB-ASO",
+  "status": "Prepared upload set; final status and checks are in verification.json",
+  "manuscript_sha256": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
+  "build_hash_checks": 34,
   "files": [
     {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/aso-multipartner-seam.svg",
-      "sha256": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
-      "intended_upload_role": "Figure 1 source; derive or validate acceptable print upload",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript.docx",
+      "sha256": "7fe0033347e3825678394082157b8b60e5cc4edcdd122061d02d8d5a28d060c7",
+      "bytes": 219791,
+      "upload_role": "Main manuscript; use unless anonymous review is requested"
     },
     {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/build_candidate.py",
-      "sha256": "0d22fb63abd877eff1980e036c13582b37f0477e44f373fad18e911d30875972",
-      "intended_upload_role": "Local preview build source; no portal upload",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript-anonymized.docx",
+      "sha256": "203a9e2048d95cbed56edd9026f89c3326bd56c9243154591929e7104a22bf70",
+      "bytes": 219647,
+      "upload_role": "Alternative main manuscript for anonymous review"
     },
     {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/candidate.build-stamp.json",
-      "sha256": "d26206319bfbfd8fd156d0f009f6074ecc968685a7324449c03c13875fcbbf2e",
-      "intended_upload_role": "Internal existing build provenance",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/title-page.docx",
+      "sha256": "cc0885baa45eb6c18003087e5e418e8804566d1dd30cb277ad14bf9447e94acf",
+      "bytes": 6758,
+      "upload_role": "Title page and author declarations"
     },
     {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/candidate.html",
-      "sha256": "6e869ead44e2f1be1a516891baa72e4fd45692e279fe2e6afe74429e4608b349",
-      "intended_upload_role": "Assembled preview source; no intended portal upload",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/candidate.pdf",
-      "sha256": "3677c46d7d6075f615ddb042fd63bee75c156ff0ceaa736fd9449a6f728e74cf",
-      "intended_upload_role": "Assembled author-review preview; not the individual submission upload set",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-references.md",
-      "sha256": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
-      "intended_upload_role": "References source for main manuscript",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md",
-      "sha256": "90eb1833ed77b1c021818097eec3fff71091bd85e70d82c9a8877967473f3ee2",
-      "intended_upload_role": "Tables 1 and 2 source for main manuscript",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv",
-      "sha256": "2fc8ee19e9164f049aaedaafa2b2813bd0f16924da626b956f8856cc193c913d",
-      "intended_upload_role": "Proposed supplemental sequence record for review; reconcile archive and confirm designation",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
-      "sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
-      "intended_upload_role": "Accepted-source candidate for future main Word manuscript and title page",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/README.md",
-      "sha256": "09b7092e403a81b3c4d300cd7cc99d1e3983342b0adf260cb83304f6413e5743",
-      "intended_upload_role": "Internal candidate provenance and prior verification narrative; do not upload",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/verification.json",
-      "sha256": "efba24de9828471ed16af4b6f474453e4c89ed655cfcde5196e6787e86b66634",
-      "intended_upload_role": "Internal existing candidate verification record; not a check rerun in this task",
-      "status": "existing_candidate_file; upload readiness not established by this inventory"
-    },
-    {
-      "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx",
-      "sha256": "b9581ce1c848395b25c5949fec3adbe17f6c7de1a2c13d725ce568edf5bfb20d",
-      "intended_upload_role": "Historical canonical upload artifact; reference only; do not upload as this candidate",
-      "status": "exists; not generated or content-checked against this candidate in this task"
-    },
-    {
-      "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
-      "sha256": "d2fa257d906a928228ca293f63ae5e0a4e686ddc65733528f2ca0579e9ddd109",
-      "intended_upload_role": "Historical canonical upload artifact; reference only; do not upload as this candidate",
-      "status": "exists; not generated or content-checked against this candidate in this task"
-    },
-    {
-      "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx",
-      "sha256": "2491aa501271ca8795c91e70978b63044b1be21c64e073d28a53cd8faad43933",
-      "intended_upload_role": "Historical canonical upload artifact; reference only; do not upload as this candidate",
-      "status": "exists; not generated or content-checked against this candidate in this task"
-    },
-    {
-      "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "sha256": "7a987e118cf47ffcce5035f7d1adc1bc1b668019f41cd67320220676407a405c",
-      "intended_upload_role": "Historical canonical upload artifact; reference only; do not upload as this candidate",
-      "status": "exists; not generated or content-checked against this candidate in this task"
-    },
-    {
-      "path": "research/manuscripts/figures/submission/aso-multipartner-seam.eps",
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/figure-1.eps",
       "sha256": "09663a154157141d1cfcce468bc24869353409cc8ae6eb959a81d907d56a9f10",
-      "intended_upload_role": "Potential Figure 1 upload, choose one format after candidate-source and format validation",
-      "status": "exists outside candidate; compatibility and print properties not checked in this task"
+      "bytes": 275682,
+      "upload_role": "Figure 1; vector artwork"
     },
     {
-      "path": "research/manuscripts/figures/submission/aso-multipartner-seam.tif",
-      "sha256": "285ad3ce355884fa818ef59c44d5d8f594f768d2e53fe8b4ede9cafb13c6fe94",
-      "intended_upload_role": "Potential Figure 1 upload, choose one format after candidate-source and format validation",
-      "status": "exists outside candidate; compatibility and print properties not checked in this task"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/figure-legends.docx",
+      "sha256": "2afffaeb20c0e29502ffc44109d3e7b97ef2c73743033e87a30c8cc5639a9732",
+      "bytes": 6458,
+      "upload_role": "Figure legends"
     },
     {
-      "path": "systems/graph/publications.json",
-      "sha256": "7b7b3fd9c921f9572a9f69628c974280004eb9bb9859c70cf4ed05b77de29d3b",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/fusion-junction-aso-sequences.csv",
+      "sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3",
+      "bytes": 143782,
+      "upload_role": "Supplementary File 1"
     },
     {
-      "path": "research/autonomy/publication-authority.json",
-      "sha256": "4df56806840010fdad48f7d433394c22a9ac9b84780f94dec7f02426cb156c6e",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/anonymous/fusion-junction-aso-sequences.csv",
+      "sha256": "55b7af301149b605799aea10f38a12b85e3bbb78a2a20aa6b0eec1a5ea5b361d",
+      "bytes": 143445,
+      "upload_role": "Alternative Supplementary File 1 for anonymous review; identifiers removed from comments only"
     },
     {
-      "path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "sha256": "6fddc1297169a9d629a31fc83b00ac50b606c97ba93811696c89cbc684c140e0",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/supplementary-file-2.pdf",
+      "sha256": "4d9123996dae11fef26d11c7a63656b5a3b87b27f5d9ad893a2b33849d5dee80",
+      "bytes": 3998,
+      "upload_role": "Supplementary File 2"
     },
     {
-      "path": "research/manuscripts/aso/nat-revision-checklist-2026-08-25.md",
-      "sha256": "5931ff43124747655a94950dd7fa7e747028f7a2d7bfbe8e7de0ed2bf031e9c6",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
-    },
-    {
-      "path": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
-      "sha256": "7c65e2241794348f6c1b702d05e09b70f2d5ada999342150c1c47a2c6f54e2f6",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
-    },
-    {
-      "path": "research/manuscripts/SUBMISSION-PACKET.md",
-      "sha256": "29c7af49739b4ea159813a1e8114c87c3377feddda4e9fdd1cf9a338c5fb9b28",
-      "intended_upload_role": "Local provenance only; no portal upload",
-      "status": "existing local source read for submission planning"
+      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/supplementary-file-2-anonymized.pdf",
+      "sha256": "37b0a0117da680007a49b1297dad36a070184a3ca413fe63f98c6f3e3931f4a0",
+      "bytes": 3976,
+      "upload_role": "Alternative Supplementary File 2 for anonymous review"
     },
     {
       "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md",
-      "sha256": "5c3e8b694f411a68839798a090004a7dd18be469ab4b866827a0e4e6e2632ef8",
-      "intended_upload_role": "Editable cover-letter source; complete confirmations and remove internal notes before upload",
-      "status": "unsubmitted draft"
-    },
-    {
-      "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md",
-      "sha256": "832e30c280b6e07d6ebd926832419ba99c0d68d9854ee5b03d511c39c428fe33",
-      "intended_upload_role": "Internal handoff instructions; no portal upload",
-      "status": "unsubmitted draft"
+      "sha256": "e9adc742812480c29a5b0ac1fb827e51bf75b61128aea11960bebd050e8a0dd1",
+      "bytes": 2012,
+      "upload_role": "Cover letter body for portal text; omit repository front matter"
     }
   ],
-  "missing_candidate_variants": [
-    {
-      "path": null,
-      "status": "not generated or checked for this candidate",
-      "sha256": null,
-      "variant": "Separate title page in Word"
-    },
-    {
-      "path": null,
-      "status": "not generated or checked for this candidate",
-      "sha256": null,
-      "variant": "Double-spaced Word main manuscript including references and tables"
-    },
-    {
-      "path": null,
-      "status": "not generated or checked for this candidate",
-      "sha256": null,
-      "variant": "Separate double-spaced figure legends in Word"
-    },
-    {
-      "path": null,
-      "status": "not generated or checked for this candidate; need depends on live review model",
-      "sha256": null,
-      "variant": "Anonymized main manuscript and metadata, in portal-accepted format"
-    },
-    {
-      "path": null,
-      "status": "historical files available; candidate derivation and print validation pending",
-      "sha256": null,
-      "variant": "Candidate-validated Figure 1 EPS or TIFF"
-    }
-  ],
-  "remaining_decisions": [
-    "Author accepts exact candidate source and confirms current identity/contact details, authorship, responsibility, acknowledgments and AI disclosure.",
-    "Author confirms originality, concurrent journal consideration status, financial and other applicable competing interests, patent/equity/consultancy statement, self-funding, ethics and consent declarations.",
-    "Author confirms full Qeios history and any later posting; recorded v1 is 2026-08-27, v2 is 2026-09-04, DOI 10.32388/VL3LJR.2. Candidate is subsequent condensed revision.",
-    "Author/coordinator chooses accepted source and corrected sequence record, reconciles immutable archive and correction provenance, verifies actual archive contents and final version DOI. Candidate currently cites 10.5281/zenodo.22229096; no candidate archive ZIP inspected or claimed.",
-    "Confirm live NAT Original Paper requirements, review model, file formats/designations and sequence CSV supplemental role. Existing historical canonical uploads cannot be assumed to represent candidate.",
-    "Author confirms fees, print-colour choice and final submission date; choose reviewers and assess conflicts only if required or desired. No reviewer names or portal answers supplied.",
-    "Coordinator integrates and performs applicable normal and final-release checks; author explicitly approves exact journal upload set and costs before submission."
-  ],
-  "provenance_map": [
-    {
-      "source_path": "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
-      "detail": "Author identity and all draft declarations, AI roles, withdrawal/correction account",
-      "locator": "Author block; Acknowledgments through Statements and Declarations"
-    },
-    {
-      "source_path": "systems/graph/publications.json",
-      "detail": "Qeios v1/v2 dates and identifiers",
-      "locator": "PUB-ASO.posted, including _what_this_changes"
-    },
-    {
-      "source_path": "research/release-candidates/PUB-ASO/2026-09-04/README.md",
-      "detail": "Candidate revision versus Qeios v2; archive and upload limitations",
-      "locator": "Opening and Prior readiness evidence and remaining work"
-    },
-    {
-      "source_path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "detail": "Existing NAT letter framing and print-colour preference",
-      "locator": "Letter body; historical assertions require confirmation"
-    },
-    {
-      "source_path": "research/manuscripts/aso/nat-revision-checklist-2026-08-25.md",
-      "detail": "Historical upload plan and non-gating laboratory reply/preregistration",
-      "locator": "A6-A9, B3/B6, C"
-    },
-    {
-      "source_path": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
-      "detail": "Review-model ambiguity and archive CSV drift",
-      "locator": "2c and 3-vii"
-    },
-    {
-      "source_path": "research/manuscripts/SUBMISSION-PACKET.md",
-      "detail": "Individual upload roles",
-      "locator": "NAT upload table"
-    },
-    {
-      "source_path": "research/autonomy/publication-authority.json",
-      "detail": "No standing journal authority; Qeios author control",
-      "locator": "journal and aixiv.scope.excluded_papers.PUB-ASO"
-    }
-  ],
-  "execution": {
-    "next_action": "Generate and verify explicitly unsubmitted draft Word and anonymous upload variants from the frozen candidate bytes; no author approval is required to prepare them. Keep unresolved declarations visibly marked until the final concrete upload-package decision.",
-    "usage": "not available",
-    "no_preflight_or_science_suites": true,
-    "model": "gpt-6-astra",
-    "elapsed_time": "unknown; not measured for the complete repair",
-    "effort": "low",
-    "checks_scope": "JSON parse, all 25 existing-file paths and raw SHA256 hashes, preserved provenance and missing-variant nulls, unchanged Markdown front matter and word limit, two-file-only working-tree diff",
-    "configuration_basis": "Runner-supplied configuration for this focused repair; limits are not observed duration and the dispatch-time remaining budget is not a live clock.",
-    "timeout_seconds": 600,
-    "remaining_seconds_at_dispatch": 587.14,
-    "dispatch_number": 1,
-    "max_rounds": 1,
-    "max_dispatches": 1,
-    "effective_dispatch_limit": 1,
-    "sandbox": "workspace-write",
-    "authentication": "saved-chatgpt",
-    "remaining_subscription_capacity": "unknown"
-  },
-  "working_tree_edits": [
-    "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md",
-    "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json"
-  ],
-  "coordinator_repairs": {
-    "reason": "Normal systems check rejected author as an unsupported audience value. Used existing maintainers/external reviewers enum values; no scientific body changes.",
-    "files": [
-      "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md",
-      "research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md"
-    ],
-    "reverified_file_hashes": 25
-  }
+  "variant_rule": "Use one main manuscript and one Supplementary File 2 variant, according to the portal review mode.",
+  "publication_authority": "No journal submission has been made or authorized by this inventory."
 }

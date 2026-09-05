@@ -835,7 +835,7 @@ def test_a_supersession_names_its_successor(graph):
     assert [e for e in f.errors if "[D7]" in e] == [], "\n".join(f.errors)
 
 
-def test_a_load_bearing_document_cannot_declare_itself_retired(graph):
+def test_a_load_bearing_document_cannot_declare_itself_retired(graph, monkeypatch):
     """[D8] — and its two inputs must be non-empty, or the check is inert.
 
     ⚠ THIS IS THE FAIL-OPEN GUARD. `_pinned_targets()` and `_instruction_paths()` RAISE rather than
@@ -845,12 +845,28 @@ def test_a_load_bearing_document_cannot_declare_itself_retired(graph):
     pinned, instructed = sc._pinned_targets(), sc._instruction_paths()
     assert pinned, "[D8]'s pinned-figures half is inert"
     assert instructed, "[D8]'s project-instruction half is inert"
-    # The two documents that would have been archived on a wrong label are both covered.
+    # Keep the pinned scientific target and the current instruction target protected.
     assert "research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md" in pinned
-    assert "research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md" in instructed
+    active = "research/autonomy/OPERATING_PROTOCOL.md"
+    assert active in instructed
     f = sc.Findings()
     sc.check_documents(graph, f)
     assert [e for e in f.errors if "[D8]" in e] == [], "\n".join(f.errors)
+    # Perturb the parsed metadata, never the active document: retirement must be rejected.
+    frontmatter = sc._frontmatter
+    with open(os.path.join(REPO, active), encoding="utf-8") as source:
+        active_id = frontmatter(source.read())["id"]
+
+    def retired_protocol(text):
+        metadata = frontmatter(text)
+        if metadata and metadata.get("id") == active_id:
+            return dict(metadata, status="historical")
+        return metadata
+
+    monkeypatch.setattr(sc, "_frontmatter", retired_protocol)
+    f = sc.Findings()
+    sc.check_documents(graph, f)
+    assert any("[D8]" in e and active in e for e in f.errors), f.errors
 
 
 def test_a_partial_supersession_is_never_classified_as_a_whole_one():
@@ -1714,6 +1730,49 @@ def test_a_claim_must_pin_to_an_artifact_that_exists(graph):
     f = sc.Findings()
     sc.check_evidence_base(graph, f)
     assert f.errors == [], "\n".join(f.errors)
+
+
+@pytest.mark.parametrize("path_sep", ["/", "\\"])
+@pytest.mark.parametrize("case", ["reference", "correct", "misordered", "missing", "duplicate",
+                                  "wrong_total", "unreadable"])
+def test_documented_gate_lists_follow_the_script_when_present(tmp_path, monkeypatch, path_sep, case):
+    """A direct script reference needs no duplicate list; actual claims must remain accurate."""
+    steps = [("consistency", "lint_consistency.py"), ("systems", "systems_check.py"),
+             ("system map", "emc_systems_map_check.py"), ("claims", "lint_claims.py"),
+             ("prose", "lint_changed_prose.py"), ("citations", "lint_citations.py"),
+             ("style", "lint_style.py")]
+    script = tmp_path / "scripts" / "preflight.sh"
+    script.parent.mkdir()
+    script.write_text("\n".join(f'echo "== {title} =="\npython3 {tool}' for title, tool in steps),
+                      encoding="utf-8")
+    skill = tmp_path / ".claude" / "skills" / "repo-gates" / "SKILL.md"
+    skill.parent.mkdir(parents=True)
+    entries = [f"({i}) {title} (`{tool}`)" for i, (title, tool) in enumerate(steps, 1)]
+    if case == "misordered":
+        entries[0], entries[1] = entries[1].replace("(2)", "(1)"), entries[0].replace("(1)", "(2)")
+    elif case == "missing":
+        entries.pop()
+    elif case == "duplicate":
+        entries[-1] = entries[-2]
+    header = "Eight" if case == "wrong_total" else "Seven"
+    text = f"**{header} gates, in this order:** " + "; ".join(entries) + "\n"
+    if case == "reference":
+        text = "Run `scripts/preflight.sh`; its output identifies each gate.\n"
+    elif case == "unreadable":
+        text = text.replace("**Seven", "Seven")
+    skill.write_text(text, encoding="utf-8")
+    monkeypatch.setattr(sc, "REPO", str(tmp_path))
+    monkeypatch.setattr(sc, "INSTRUCTION_SKILLS", str(tmp_path / ".claude" / "skills"))
+    monkeypatch.setattr(sc, "GATE_ORDINAL_DOCS", ())
+    native_relpath = os.path.relpath
+    monkeypatch.setattr(sc.os.path, "relpath", lambda *args: native_relpath(*args).replace("\\", "/").replace("/", path_sep))
+    assert sc._gate_ordinal_docs() == [".claude/skills/repo-gates/SKILL.md"]
+    f = sc.Findings()
+    sc.check_preflight_gate_list({}, f)
+    if case in {"reference", "correct"}:
+        assert f.errors == [], f.errors
+    else:
+        assert any("[P1]" in e for e in f.errors), f"{case} claim passed: {f.errors}"
 
 
 def test_the_preflight_gate_ordinal_agrees_with_preflight(graph):

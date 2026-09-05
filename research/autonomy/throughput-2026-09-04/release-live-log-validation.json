@@ -1,0 +1,66 @@
+{
+  "yaml_parsed": true,
+  "only_target_run_and_explicit_bash_changed": true,
+  "bash_syntax": "passed for extracted workflow and fixture",
+  "bash_version": "5.2.37(1)-release",
+  "cases": [
+    {
+      "case": "pass-live",
+      "step_exit": 0,
+      "expected_exit": 0,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": true,
+      "failure_injected": null
+    },
+    {
+      "case": "preflight-fail",
+      "step_exit": 37,
+      "expected_exit": 37,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": null
+    },
+    {
+      "case": "capture-write-fail",
+      "step_exit": 1,
+      "expected_exit": 1,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": "capture"
+    },
+    {
+      "case": "capture-write-and-preflight-fail",
+      "step_exit": 37,
+      "expected_exit": 37,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": "capture"
+    },
+    {
+      "case": "footer-write-fail",
+      "step_exit": 1,
+      "expected_exit": 1,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": "footer"
+    },
+    {
+      "case": "footer-write-and-preflight-fail",
+      "step_exit": 37,
+      "expected_exit": 37,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": "footer"
+    },
+    {
+      "case": "sha-mismatch",
+      "step_exit": 1,
+      "expected_exit": 1,
+      "pass": true,
+      "stdout_and_stderr_visible_before_preflight_released": null,
+      "failure_injected": null
+    }
+  ],
+  "limitation": "GNU tee is unavailable in the Windows runtime. These behavioral checks use a controlled streaming tee fixture and real filesystem append errors; they verify the actual extracted Bash pipeline and exit handling, not GNU tee itself.",
+  "evidence_directory": "C:\\Users\\mcrae\\AppData\\Local\\Temp\\emc-live-log-check-ufc7uey9"
+}

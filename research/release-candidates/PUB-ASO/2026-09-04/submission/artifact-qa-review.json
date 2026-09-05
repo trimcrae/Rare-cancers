@@ -1,0 +1,270 @@
+{
+  "schema": "aso-scoped-artifact-qa/1",
+  "paper": "PUB-ASO",
+  "status": "passed_within_reviewed_artifact_scope",
+  "reviewer": {
+    "agent": "/root/astra_workflow",
+    "model": "GPT-6-Astra",
+    "independent_of_artifact_authoring": true,
+    "blind": false
+  },
+  "checked_utc": "2026-09-05T00:12:02.530Z",
+  "source": {
+    "path": "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
+    "sha256": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b"
+  },
+  "scope": {
+    "included": [
+      "Final anonymized manuscript DOCX and its 16 rendered pages",
+      "Final standalone title-page DOCX and its one rendered page",
+      "Final repaired standalone figure-legends DOCX and its one rendered page",
+      "Six-page candidate PDF preview",
+      "Known author-identifier scan across the anonymized DOCX ZIP package",
+      "Byte equivalence linking inspected render inputs to final DOCX containers"
+    ],
+    "excluded": [
+      "A fresh scientific or bibliographic review",
+      "Direct visual review of the unblinded main DOCX by this reviewer; coordinator /root reviewed it separately",
+      "Supplementary File 1 CSV or Supplementary File 2 PDF rendering/content",
+      "Journal portal-generated proofs or changes made after these hashes",
+      "Publication authorization, submission, journal acceptance or publish_bar clearance"
+    ]
+  },
+  "page_qa": [
+    {
+      "artifact": "research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript-anonymized.docx",
+      "pages": 16,
+      "result": "pass",
+      "method": "This reviewer visually inspected all settled pages 1–16 at original image resolution. In the final release render, pages 10–16 were directly reinspected; final pages 1–9 are independently confirmed raw-PNG-byte-identical to the already inspected settled pages.",
+      "direct_final_pages": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "retained_verified_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "findings": "No clipped or overlapping text, ambiguous nucleotide-letter wrapping, illegible table cells or isolated figure caption observed. The final page shows the entire figure and its caption together; exact-line-spacing image clipping is resolved."
+    },
+    {
+      "artifact": "research/release-candidates/PUB-ASO/2026-09-04/submission/title-page.docx",
+      "pages": 1,
+      "result": "pass",
+      "method": "Direct visual inspection of release/title-page/page-1.png, bound to final DOCX by independently verified uncompressed ZIP-member identity.",
+      "findings": "Title, author/contact/ORCID, running title, keywords and declarations are legible and contained on one page."
+    },
+    {
+      "artifact": "research/release-candidates/PUB-ASO/2026-09-04/submission/figure-legends.docx",
+      "pages": 1,
+      "result": "pass",
+      "method": "Direct visual inspection of release/figure-legends-repaired/page-1.png after the legends-only page-break repair.",
+      "findings": "Title and full Figure 1 legend now appear on one page, with no blank page, clipping or orphaned title."
+    },
+    {
+      "artifact": "research/release-candidates/PUB-ASO/2026-09-04/candidate.pdf",
+      "pages": 6,
+      "result": "pass",
+      "method": "Direct visual inspection of all notes/final-preview-1.png through final-preview-6.png at original image resolution.",
+      "findings": "Both tables, model-delta-Tm qualification, full figure and caption, disclosure and data-availability statements are legible. Reference labels 10–15 are fully visible after the padding repair."
+    }
+  ],
+  "repaired_findings": [
+    {
+      "id": "ASO-QA-KEYWORDS",
+      "resolution": "The duplicated Keywords run-in is absent."
+    },
+    {
+      "id": "ASO-QA-LEADING",
+      "resolution": "Manuscript text and references have consistent visible leading."
+    },
+    {
+      "id": "ASO-QA-TABLE",
+      "resolution": "The margin header fits in its cell and sequence letters remain intact."
+    },
+    {
+      "id": "ASO-QA-FIGURE",
+      "resolution": "The final manuscript image is fully visible within the page with its caption; it is no longer clipped by exact 24-point image-paragraph leading."
+    },
+    {
+      "id": "ASO-QA-PREVIEW-REFS",
+      "resolution": "The final six-page preview shows complete two-digit reference labels."
+    },
+    {
+      "id": "ASO-QA-LEGENDS",
+      "resolution": "The standalone figure-legends title and caption now share one page."
+    }
+  ],
+  "anonymous_package_check": {
+    "method": "Case-insensitive known identifiers in every ZIP part name, raw decoded content and joined XML text.",
+    "terms": [
+      "tristan",
+      "mcrae",
+      "trimcrae@gmail.com",
+      "0000-0002-1823-1451",
+      "zenodo",
+      "10.5281",
+      "22229096",
+      "VL3LJR",
+      "qeios",
+      "T.D.M."
+    ],
+    "hits": [],
+    "core_properties": {
+      "{http://purl.org/dc/elements/1.1/}creator": null,
+      "{http://purl.org/dc/elements/1.1/}description": null,
+      "{http://purl.org/dc/elements/1.1/}language": "en-US",
+      "{http://schemas.openxmlformats.org/package/2006/metadata/core-properties}lastModifiedBy": null,
+      "{http://schemas.openxmlformats.org/package/2006/metadata/core-properties}revision": "0",
+      "{http://purl.org/dc/elements/1.1/}subject": null,
+      "{http://purl.org/dc/elements/1.1/}title": "*NR4A3* fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment"
+    },
+    "custom_properties": [],
+    "tracked_tags": {},
+    "package_member_count": 13,
+    "sha256": "203a9e2048d95cbed56edd9026f89c3326bd56c9243154591929e7104a22bf70"
+  },
+  "unchanged_page_evidence": {
+    "1": {
+      "settled_sha256": "912f88c9209a3aa28ed0f6298faf5d0ebe4793384c2de1209fc7bd346230f5f3",
+      "release_sha256": "912f88c9209a3aa28ed0f6298faf5d0ebe4793384c2de1209fc7bd346230f5f3",
+      "raw_png_bytes_identical": true
+    },
+    "2": {
+      "settled_sha256": "f29dfc02fad8bde2e45504e58baf1adec0d57c8fed12a9e62145e01f72a21314",
+      "release_sha256": "f29dfc02fad8bde2e45504e58baf1adec0d57c8fed12a9e62145e01f72a21314",
+      "raw_png_bytes_identical": true
+    },
+    "3": {
+      "settled_sha256": "b1be40746256d991c2e452c4e5e81e1538f7c568e4911f3acade2138a6a89573",
+      "release_sha256": "b1be40746256d991c2e452c4e5e81e1538f7c568e4911f3acade2138a6a89573",
+      "raw_png_bytes_identical": true
+    },
+    "4": {
+      "settled_sha256": "c70faf644f78f8334712da921f999f5abfd49b356a77a955c00d1ee5931544b3",
+      "release_sha256": "c70faf644f78f8334712da921f999f5abfd49b356a77a955c00d1ee5931544b3",
+      "raw_png_bytes_identical": true
+    },
+    "5": {
+      "settled_sha256": "2211ac0ecd24ceefcd2d53733b4e42d3f67bf237b0ffc8ebc8d68f2420ab10d1",
+      "release_sha256": "2211ac0ecd24ceefcd2d53733b4e42d3f67bf237b0ffc8ebc8d68f2420ab10d1",
+      "raw_png_bytes_identical": true
+    },
+    "6": {
+      "settled_sha256": "ce92ca7c6bc9aeabace0b85b7d5f90bc282d77179144e6c5130308206bb861ff",
+      "release_sha256": "ce92ca7c6bc9aeabace0b85b7d5f90bc282d77179144e6c5130308206bb861ff",
+      "raw_png_bytes_identical": true
+    },
+    "7": {
+      "settled_sha256": "44e878ddaba5179d6e0dc56d0abd88832482eb4b7b1bd7003af6e449264a20c7",
+      "release_sha256": "44e878ddaba5179d6e0dc56d0abd88832482eb4b7b1bd7003af6e449264a20c7",
+      "raw_png_bytes_identical": true
+    },
+    "8": {
+      "settled_sha256": "49967d08aae7c933b69e2066fcde48744809582170950d8b69335718bcedbb50",
+      "release_sha256": "49967d08aae7c933b69e2066fcde48744809582170950d8b69335718bcedbb50",
+      "raw_png_bytes_identical": true
+    },
+    "9": {
+      "settled_sha256": "997331ae4a1dfd370ec50d8877b860b10e9e1494dcf08c15db1bed180228d448",
+      "release_sha256": "997331ae4a1dfd370ec50d8877b860b10e9e1494dcf08c15db1bed180228d448",
+      "raw_png_bytes_identical": true
+    }
+  },
+  "final_docx_equivalence": {
+    "method": "Independently compared every uncompressed ZIP member with release/word-baseline. A timestamp-only core-properties exception was available but was not needed: no uncompressed member changed, including core XML.",
+    "checked_utc": "2026-09-05T00:09:03.392412+00:00",
+    "results": [
+      {
+        "name": "manuscript.docx",
+        "baseline_sha256": "9f367f9afc1bddea395b30c50f460c673ebac0e4449b307379c50c506625d36c",
+        "final_sha256": "7fe0033347e3825678394082157b8b60e5cc4edcdd122061d02d8d5a28d060c7",
+        "zip_member_count": 13,
+        "changed_non_timestamp_members": [],
+        "timestamp_only_members": [],
+        "equivalent_rendered_content": true
+      },
+      {
+        "name": "manuscript-anonymized.docx",
+        "baseline_sha256": "0d0b33e2dc2f9c4df7b3b55c8b608cc93976c86376b472f92f0c52cb01d39d90",
+        "final_sha256": "203a9e2048d95cbed56edd9026f89c3326bd56c9243154591929e7104a22bf70",
+        "zip_member_count": 13,
+        "changed_non_timestamp_members": [],
+        "timestamp_only_members": [],
+        "equivalent_rendered_content": true
+      },
+      {
+        "name": "title-page.docx",
+        "baseline_sha256": "85b984cb95f1c95dc929266627576eaaaae195eb1ddecbfc7396f74998a059e0",
+        "final_sha256": "cc0885baa45eb6c18003087e5e418e8804566d1dd30cb277ad14bf9447e94acf",
+        "zip_member_count": 11,
+        "changed_non_timestamp_members": [],
+        "timestamp_only_members": [],
+        "equivalent_rendered_content": true
+      }
+    ],
+    "scope_note": "The main unblinded DOCX is included only as equivalence evidence; its visual inspection belongs to the coordinator."
+  },
+  "hashing": {
+    "algorithm": "SHA256",
+    "path_basis": "research/... paths are relative to the aso-submission worktree; .cache/... paths are relative to the main EMC-Research repository.",
+    "final_artifacts_and_render_evidence": {
+      "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "0ff3687b12a2484054b075826340eab8c0ea5b83647ceb379e18ac6e957dc53b",
+      "research/release-candidates/PUB-ASO/2026-09-04/candidate.pdf": "56eb5b3472ef147204e7147da59f5f5b6f5000072a6cef04dc25ab4267e06ace",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript-anonymized.docx": "203a9e2048d95cbed56edd9026f89c3326bd56c9243154591929e7104a22bf70",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/title-page.docx": "cc0885baa45eb6c18003087e5e418e8804566d1dd30cb277ad14bf9447e94acf",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/focused-science-review.json": "d709c9638777bf7698c110d9d4376e3423e6b7d569dc7c50698ae1e16322600a",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/disclosure-delta-review.json": "39522871ee191519f94d76ea019e358eca4bb36bf03f4a7cd4f25d4c13dcfe16",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/manuscript-anonymized.pdf": "9283dc4a7bfd9d155c2995bfb8aeafad5d1e7a88d4b2d8f567f19f82ef831397",
+      ".cache/aso-submission-qa/release/title-page/title-page.pdf": "4db5a458cce8af52b6aed6ff1b8052ab8869b5028357e5da0eb0a23c880c2a7b",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-1.png": "912f88c9209a3aa28ed0f6298faf5d0ebe4793384c2de1209fc7bd346230f5f3",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-10.png": "662d2bdcf81d9aeb18405e579227ba319deb38de02cc3b88a9dc885d6b943144",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-11.png": "3cd8d60f927f12262990b81365c36f67fcc7a944ad8ce4ba86b8502efcc09a82",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-12.png": "d709f8d8d63ec76d891773f4f22a0b0dc2155fc7dd6df2655864aab7077e65a2",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-13.png": "3f8c204ffc20972bea6a12658eb420f00b60caefb3bf55c04a7c3b4f4b8def17",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-14.png": "a40701b301e5e4298abb3ca1c5369d3bc9a2ef7a86e56104d1e863fd8e4e2f2e",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-15.png": "146eafb34b1ab2c8d1b041c6bfa677b88f4028ceb43801246ff00ca957c3729b",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-16.png": "652d09bc0da91d28c5ede55f84adb868db415e45c7edaee3ae5fdadb8a932344",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-2.png": "f29dfc02fad8bde2e45504e58baf1adec0d57c8fed12a9e62145e01f72a21314",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-3.png": "b1be40746256d991c2e452c4e5e81e1538f7c568e4911f3acade2138a6a89573",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-4.png": "c70faf644f78f8334712da921f999f5abfd49b356a77a955c00d1ee5931544b3",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-5.png": "2211ac0ecd24ceefcd2d53733b4e42d3f67bf237b0ffc8ebc8d68f2420ab10d1",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-6.png": "ce92ca7c6bc9aeabace0b85b7d5f90bc282d77179144e6c5130308206bb861ff",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-7.png": "44e878ddaba5179d6e0dc56d0abd88832482eb4b7b1bd7003af6e449264a20c7",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-8.png": "49967d08aae7c933b69e2066fcde48744809582170950d8b69335718bcedbb50",
+      ".cache/aso-submission-qa/release/manuscript-anonymized/page-9.png": "997331ae4a1dfd370ec50d8877b860b10e9e1494dcf08c15db1bed180228d448",
+      ".cache/aso-submission-qa/release/title-page/page-1.png": "6329eb8b4384f222ba6e159da5ba9bb4e5a5f736587b2906e8efdf5224a135eb",
+      ".cache/aso-submission-qa/notes/final-preview-1.png": "c796eac496ee430e0626892ccb07a814b8d16632c4dee43b78f8bb5e3e05f375",
+      ".cache/aso-submission-qa/notes/final-preview-2.png": "af33e4d53f515abbd76025a12f3bab77d46df183c2b6bd089f98ba51aa376860",
+      ".cache/aso-submission-qa/notes/final-preview-3.png": "f2b3f5578c008fece535b1673f379fc19c50f97207a0f38c4761b53d1af1ed2e",
+      ".cache/aso-submission-qa/notes/final-preview-4.png": "a21eda87c829064c7e2e12bc06a14ad05af9e7f66d9011a2c7627fdeec1bd8ef",
+      ".cache/aso-submission-qa/notes/final-preview-5.png": "df52f348fecfac93a20128699ad8f926eedbc5239e82f8d83cff82ac0102fc4a",
+      ".cache/aso-submission-qa/notes/final-preview-6.png": "faa1cbb5a2f45addbdf2f9bfe9ccc5595e74252bc34c01b026b0d2be12c7dfe5",
+      "research/release-candidates/PUB-ASO/2026-09-04/submission/figure-legends.docx": "2afffaeb20c0e29502ffc44109d3e7b97ef2c73743033e87a30c8cc5639a9732",
+      ".cache/aso-submission-qa/release/docx-equivalence.json": "a2fc84bd5b42a3e5a1f0887e2cbeda32b1186bac15ae47a8c25016cf73e16048",
+      ".cache/aso-submission-qa/release/figure-legends-repaired/figure-legends.pdf": "d88fdf012d76ec9cc5b21e83f1fb577a1b285ace8715d8443ef094033509aae5",
+      ".cache/aso-submission-qa/release/figure-legends-repaired/page-1.png": "d9e1593b1645005b8cc88b7968483de89aa65973a4607c9861b88fe97a4ef83b"
+    },
+    "inspected_baseline_docx": {
+      "manuscript-anonymized.docx": "0d0b33e2dc2f9c4df7b3b55c8b608cc93976c86376b472f92f0c52cb01d39d90",
+      "title-page.docx": "85b984cb95f1c95dc929266627576eaaaae195eb1ddecbfc7396f74998a059e0"
+    }
+  },
+  "limitations": [
+    "Visual QA concerns these rendered files; a different word processor or journal conversion can paginate differently.",
+    "Anonymity checking covers the named identifiers in the ZIP package and visibly rendered content; it does not claim that the publicly circulated title or retained non-financial disclosure prevents all possible re-identification.",
+    "This is a focused independent nonblind artifact review; existing scientific and disclosure receipts remain unchanged."
+  ],
+  "remaining_blockers_within_scope": []
+}

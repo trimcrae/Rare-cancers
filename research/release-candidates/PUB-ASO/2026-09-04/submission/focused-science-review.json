@@ -1,0 +1,352 @@
+{
+  "schema": "aso-scoped-scientific-verification/1",
+  "paper": "PUB-ASO",
+  "intended_venue": "Nucleic Acid Therapeutics",
+  "status": "no_remaining_scientific_blockers_within_reviewed_source_scope",
+  "reviewer": {
+    "agent": "/root/astra_workflow",
+    "model": "GPT-6-Astra",
+    "independent_of_candidate_authoring": true,
+    "blind": false,
+    "context_disclosure": "Read the canonical manuscript, shortened candidate, round-34 evidence and prior findings. Did not write the candidate, build_data.py or the corrections. This record reports a focused verification, not a new whole-paper or blind hardening round."
+  },
+  "scope": {
+    "reviewed_release_sources": [
+      "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
+      "research/release-candidates/PUB-ASO/2026-09-04/build_data.py",
+      "research/release-candidates/PUB-ASO/2026-09-04/data-build-stamp.json",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-references.md",
+      "research/release-candidates/PUB-ASO/2026-09-04/aso-multipartner-seam.svg"
+    ],
+    "included": "The two named scientific corrections, dependent archive CSV temperature caveat, reproducible companion generation, unchanged sequence/numerical data, retained citations and limitations, conflict-declaration relocation and revised data-availability wording.",
+    "excluded": [
+      "Final Word/PDF rendering, layout, upload-file completeness or a rendered-figure audit",
+      "Contents or inclusion of the still-preparing Supplementary File 2 revision note",
+      "Fresh wet-lab work or a new genome/transcriptome screen",
+      "A renewed audit of every cited article",
+      "Archive publication/currency certification",
+      "Any publication authorization or publish_bar clearance"
+    ]
+  },
+  "baseline_review": {
+    "round": 34,
+    "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+    "canonical_manuscript_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+    "reference_records": [
+      "research/autonomy/hardening-state/PUB-ASO.json",
+      "research/autonomy/review-seats/PUB-ASO-3d5c709b69bc32a00a7776bf47303771d17d87f5-seat-statistics.json",
+      "research/autonomy/review-seats/PUB-ASO-3d5c709b69bc32a00a7776bf47303771d17d87f5-seat-citations-and-archive.json"
+    ],
+    "role": "Baseline evidence only; these records do not review or bind the shortened, corrected candidate. No baseline record, reviewed_commit or blind flag was rewritten."
+  },
+  "prior_focused_reading": {
+    "candidate_manuscript_sha256": "b7a03e377f06e67244e5e784c3f8a0637fa3cc3ba44db7cf1f76166163618bc7",
+    "findings": [
+      "ASO-SCI-01",
+      "ASO-SCI-02"
+    ],
+    "role": "The earlier focused review read this shortened candidate and found the two interpretation defects below."
+  },
+  "hashing": {
+    "algorithm": "SHA256",
+    "basis": "Raw local file bytes. Paths are relative to the isolated aso-submission worktree root.",
+    "phases": {
+      "data_companions": {
+        "started_utc": "2026-09-04T23:31:10.307137+00:00",
+        "finished_utc": "2026-09-04T23:31:10.391405+00:00",
+        "before": {
+          "research/manuscripts/aso/fusion-junction-aso-journal-references.md": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
+          "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
+          "research/manuscripts/aso/fusion-junction-aso-sequences.csv": "ef3d19327db5536a18866ac0de89ff4a8643a4ca66f7019877d9674aedf9c7cf",
+          "research/manuscripts/aso_falsification_power.py": "e0b6c4a52ec9b28357f46e42444271e6006dbc39b3f4f91ca32f04dd96e2138c",
+          "research/manuscripts/figures/aso-multipartner-seam.svg": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
+          "research/modalities/aso-genome-offtarget.json": "aad06031e877bc7d67f83db265f3c73038e9b1bc911aa9d588d1697309b98231",
+          "research/modalities/junction-aso-thermo.json": "e566e84e05226c3bcfda2ee552d8887ef3df6c44524c39b0a610d33bedceef95",
+          "research/modalities/junction_aso_thermo.py": "552ecbe485e1a48db8d2f5730e8d4ae9c010c11730e903705c925f9cafdcb1be",
+          "research/release-candidates/PUB-ASO/2026-09-04/aso-multipartner-seam.svg": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
+          "research/release-candidates/PUB-ASO/2026-09-04/build_data.py": "80913bd99d3d2d0ce997c02897328586345bd39273e05c8ecc1b2868126c9c87",
+          "research/release-candidates/PUB-ASO/2026-09-04/data-build-stamp.json": "c3c514ccec6143bb6d6ce0296b845643b004a2e034399303f71102c098569842",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-references.md": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md": "e52f473e23bc3d76bdbbd8edc31da8be92d2ddbce5f76496cc9c5dd13a1d9f73",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3"
+        },
+        "after": {
+          "research/manuscripts/aso/fusion-junction-aso-journal-references.md": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
+          "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
+          "research/manuscripts/aso/fusion-junction-aso-sequences.csv": "ef3d19327db5536a18866ac0de89ff4a8643a4ca66f7019877d9674aedf9c7cf",
+          "research/manuscripts/aso_falsification_power.py": "e0b6c4a52ec9b28357f46e42444271e6006dbc39b3f4f91ca32f04dd96e2138c",
+          "research/manuscripts/figures/aso-multipartner-seam.svg": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
+          "research/modalities/aso-genome-offtarget.json": "aad06031e877bc7d67f83db265f3c73038e9b1bc911aa9d588d1697309b98231",
+          "research/modalities/junction-aso-thermo.json": "e566e84e05226c3bcfda2ee552d8887ef3df6c44524c39b0a610d33bedceef95",
+          "research/modalities/junction_aso_thermo.py": "552ecbe485e1a48db8d2f5730e8d4ae9c010c11730e903705c925f9cafdcb1be",
+          "research/release-candidates/PUB-ASO/2026-09-04/aso-multipartner-seam.svg": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
+          "research/release-candidates/PUB-ASO/2026-09-04/build_data.py": "80913bd99d3d2d0ce997c02897328586345bd39273e05c8ecc1b2868126c9c87",
+          "research/release-candidates/PUB-ASO/2026-09-04/data-build-stamp.json": "c3c514ccec6143bb6d6ce0296b845643b004a2e034399303f71102c098569842",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-references.md": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md": "e52f473e23bc3d76bdbbd8edc31da8be92d2ddbce5f76496cc9c5dd13a1d9f73",
+          "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3"
+        }
+      },
+      "frozen_manuscript": {
+        "started_utc": "2026-09-04T23:33:33.845973+00:00",
+        "finished_utc": "2026-09-04T23:33:33.850278+00:00",
+        "before": {
+          "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "c54d85ff8a96b2792a5e0383008ddf78a1ad9eb2d65160c36c916208f46e6d28",
+          "research/manuscripts/aso/fusion-junction-aso-journal-article.md": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377"
+        },
+        "after": {
+          "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "c54d85ff8a96b2792a5e0383008ddf78a1ad9eb2d65160c36c916208f46e6d28",
+          "research/manuscripts/aso/fusion-junction-aso-journal-article.md": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377"
+        }
+      }
+    },
+    "final_bound_files": {
+      "research/manuscripts/aso/fusion-junction-aso-journal-references.md": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
+      "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
+      "research/manuscripts/aso/fusion-junction-aso-sequences.csv": "ef3d19327db5536a18866ac0de89ff4a8643a4ca66f7019877d9674aedf9c7cf",
+      "research/manuscripts/aso_falsification_power.py": "e0b6c4a52ec9b28357f46e42444271e6006dbc39b3f4f91ca32f04dd96e2138c",
+      "research/manuscripts/figures/aso-multipartner-seam.svg": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
+      "research/modalities/aso-genome-offtarget.json": "aad06031e877bc7d67f83db265f3c73038e9b1bc911aa9d588d1697309b98231",
+      "research/modalities/junction-aso-thermo.json": "e566e84e05226c3bcfda2ee552d8887ef3df6c44524c39b0a610d33bedceef95",
+      "research/modalities/junction_aso_thermo.py": "552ecbe485e1a48db8d2f5730e8d4ae9c010c11730e903705c925f9cafdcb1be",
+      "research/release-candidates/PUB-ASO/2026-09-04/aso-multipartner-seam.svg": "0bb42f74f80f699f8e91ccbfd523cdaa2dee14fa308748489b25f3aae11e2d56",
+      "research/release-candidates/PUB-ASO/2026-09-04/build_data.py": "80913bd99d3d2d0ce997c02897328586345bd39273e05c8ecc1b2868126c9c87",
+      "research/release-candidates/PUB-ASO/2026-09-04/data-build-stamp.json": "c3c514ccec6143bb6d6ce0296b845643b004a2e034399303f71102c098569842",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-references.md": "21c69cfcd28efa14e85ed1c48679f537a6832829b7980306f8c0c81cb9e2b452",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md": "e52f473e23bc3d76bdbbd8edc31da8be92d2ddbce5f76496cc9c5dd13a1d9f73",
+      "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3",
+      "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md": "c54d85ff8a96b2792a5e0383008ddf78a1ad9eb2d65160c36c916208f46e6d28",
+      "research/manuscripts/aso/fusion-junction-aso-journal-article.md": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377"
+    },
+    "unchanged_within_each_verification_phase": true,
+    "drift_handling": "An earlier attempt stopped before writing a receipt when the manuscript declaration moved. The final phase verified the coordinator-declared frozen manuscript, including the declaration and data-availability changes. This record does not bind the earlier intermediate manuscript hashes."
+  },
+  "resolved_findings": [
+    {
+      "id": "ASO-SCI-01",
+      "original_grade": "submission_blocker",
+      "summary": "Unsupported lower-bound interpretation of unmodified-model DeltaTm for LNA/phosphorothioate chemistry.",
+      "resolution": "Methods and Table 1 now describe an unmodified DNA:RNA model difference without floor wording or >= signs. The CSV explicitly says modification-offset cancellation is not established and neither endpoints nor differences are validated predictions or bounds for modified reagents. Numbers are unchanged.",
+      "resolved_in": [
+        "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
+        "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md",
+        "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-sequences.csv"
+      ],
+      "evidence": [
+        "research/modalities/junction_aso_thermo.py:55-74",
+        "research/modalities/junction-aso-thermo.json",
+        "https://pubmed.ncbi.nlm.nih.gov/7545436/",
+        "https://pubs.acs.org/doi/10.1021/bi035976d"
+      ]
+    },
+    {
+      "id": "ASO-SCI-02",
+      "original_grade": "submission_blocker",
+      "summary": "Table caption categorically excluded correspondence to the patient-derived models despite unresolved acceptor numbering.",
+      "resolution": "Table 1 now requires nucleotide-junction confirmation before asserting correspondence. This agrees with the manuscript's conditional interpretation and sequence-verification requirement.",
+      "resolved_in": [
+        "research/release-candidates/PUB-ASO/2026-09-04/fusion-junction-aso-journal-tables.md"
+      ],
+      "evidence": [
+        "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md (Test articles section)",
+        "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+        "https://pubmed.ncbi.nlm.nih.gov/36316541/"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "manuscript_delta",
+      "status": "passed",
+      "evidence": "Exact text comparison with the previously reviewed shortened candidate admits only the DeltaTm paragraph correction, relocation of the substantively unchanged conflict declaration and the revised archive/supplement availability wording.",
+      "changed_passages": [
+        {
+          "before": "we report no absolute melting temperature. Fusion-versus-parent separation is treated as a floor:\nthe fusion pairs all ten locked residues, whereas each parent pairs five.",
+          "after": "we report no absolute melting temperature for the proposed reagents. Table 1 gives the\nunmodified-hybrid model's fusion-versus-parent difference. LNA and phosphorothioate effects\nare unmodelled; this difference is not a validated bound for the modified chemistry."
+        },
+        {
+          "before": "## Author Disclosure Statement\n\nNo competing financial interests exist. The author holds no patent, patent application, equity\nor consultancy relating to any sequence or method described here.\n\n",
+          "after": ""
+        },
+        {
+          "before": "**Consent for publication.** Not applicable; no individual-level data are reported.",
+          "after": "**Consent for publication.** Not applicable; no individual-level data are reported.\n\n**Declaration of conflicting interest.** No competing financial interests exist. The author\nholds no patent, patent application, equity or consultancy relating to any sequence or method\ndescribed here."
+        },
+        {
+          "before": "**Data availability.** Code, graded artefacts, per-design tables, screen parameters and claim\nbounds are deposited at [doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096).",
+          "after": "**Data availability.** Code, per-design tables and screen parameters for the preceding analysis\nare archived at [doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096).\nThis revision does not claim that the archived files contain its corrected interpretations.\nThe accompanying sequence record (Supplementary File 1) and revision note (Supplementary File 2)\ncorrect the melting-temperature interpretation and qualify cell-model correspondence;\nsequence rows and numerical model outputs are unchanged."
+        }
+      ]
+    },
+    {
+      "id": "release_companion_regeneration",
+      "status": "passed",
+      "evidence": "Executed the reviewed build_data.py main function with Path.write_text intercepted into memory. All three generated texts exactly match the current CSV, tables and data-build stamp. No generator output was written during review. All five stamp hashes were checked against independently read raw bytes."
+    },
+    {
+      "id": "sequence_and_table_numbers",
+      "status": "passed",
+      "evidence": "All non-comment CSV lines match the canonical source after newline normalization; table data rows differ only by removal of the two unsupported inequality signs.",
+      "csv_rows": 782,
+      "csv_fields": 17,
+      "recomputed_model_values": [
+        {
+          "sequence": "GGGCATATCATCAAAC",
+          "unmodified_fusion_tm_c": 51.3,
+          "unmodified_parent_tm_c": 24.7,
+          "model_delta_tm_c": 26.6
+        },
+        {
+          "sequence": "GGGCATATCTTGTGTG",
+          "unmodified_fusion_tm_c": 60.7,
+          "unmodified_parent_tm_c": 24.7,
+          "model_delta_tm_c": 36
+        }
+      ]
+    },
+    {
+      "id": "genomic_hits",
+      "status": "passed",
+      "evidence_path": "research/modalities/aso-genome-offtarget.json",
+      "sequence_order": [
+        "GGGCATATCATCAAAC",
+        "GGGCATATCTTGTGTG"
+      ],
+      "hybridisable_gap_paired_le2": [
+        156,
+        135
+      ],
+      "exact_matches": [
+        1,
+        0
+      ],
+      "ews_exact_site": {
+        "seq": "3",
+        "start": 176354948,
+        "end": 176354963,
+        "orientation": "sense",
+        "required_transcript_strand": "+",
+        "mismatches": 0,
+        "gap_mismatches": 0,
+        "gap_fully_paired": true,
+        "softmask_fraction": 0,
+        "genes": [
+          "ENSG00000304430"
+        ],
+        "biotypes": [
+          "lncRNA"
+        ],
+        "gene_strands": [
+          "+"
+        ],
+        "hybridisable": true,
+        "compartment": "intronic",
+        "nt_to_nearest_splice_site": 7403
+      },
+      "limits": "Verified the committed screen records, including the intronic lncRNA annotation; did not rerun the genome scan or measure expression, binding or cleavage."
+    },
+    {
+      "id": "falsification_numbers",
+      "status": "passed",
+      "evidence_path": "research/manuscripts/aso_falsification_power.py",
+      "method": "Independently recomputed noncentral-t power and Student-t interval thresholds: independent normal log-ratio replicates, SD 0.35, true ratio 3, threshold 5, upper endpoint of a two-sided 95% interval.",
+      "values": [
+        {
+          "n": 3,
+          "power_pct": 30.423563968483002,
+          "void_sd": 0.6478859464276987
+        },
+        {
+          "n": 6,
+          "power_pct": 81.28393770317678,
+          "void_sd": 1.5336223120777763
+        },
+        {
+          "n": 10,
+          "power_pct": 98.31315783258795,
+          "void_sd": 2.24983906494935
+        }
+      ]
+    },
+    {
+      "id": "citations_and_figure",
+      "status": "passed",
+      "retained_pmids": [
+        "12378528",
+        "1794439",
+        "21846246",
+        "23052253",
+        "24345066",
+        "24981949",
+        "29937513",
+        "31020999",
+        "31331701",
+        "32572850",
+        "33241214",
+        "36103645",
+        "36265509",
+        "36316541",
+        "36948401",
+        "37370737",
+        "37980543",
+        "39656687",
+        "39912803",
+        "41055792",
+        "41755350",
+        "7545436",
+        "8634690",
+        "9049825"
+      ],
+      "evidence": "Every citation occurrence matches the previously reviewed shortened candidate; all 24 mappings match the canonical manuscript. Reference-body and SVG text match canonical sources after newline normalization. These text checks do not claim a fresh audit of every cited article or visual rendering."
+    },
+    {
+      "id": "scope_and_disclosures",
+      "status": "passed",
+      "evidence": "The exact manuscript delta preserves computation-only step-one scope, absent transcriptomics, unsynthesised/untested status, model-junction uncertainty, selectivity and delivery limitations, and Claude/GPT-6-Astra disclosure. The conflict attestation is unchanged in substance."
+    },
+    {
+      "id": "data_availability_wording",
+      "status": "passed_with_packet_follow_up",
+      "evidence": "Preceding archive is distinguished from corrected release sources. Wording is accurate about this separation; final inclusion and content of Supplementary File 2 remain outside this review.",
+      "limits": "The corrected CSV exists and was checked here. Supplementary File 2 content and inclusion, and the final upload packet, require the coordinator's separate verification."
+    }
+  ],
+  "source_links": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7545436/",
+      "supports": "The source supplies unmodified RNA/DNA nearest-neighbour parameters, not an LNA/phosphorothioate temperature-difference bound."
+    },
+    {
+      "url": "https://pubs.acs.org/doi/10.1021/bi035976d",
+      "supports": "LNA thermodynamic contributions depend on sequence context. This DNA-complement study is contextual evidence, not validation of these RNA-bound gapmers."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39912803/",
+      "supports": "Step one includes prediction and transcriptomics; the candidate correctly limits its performed work to the prediction component."
+    }
+  ],
+  "remaining_scientific_blockers": [],
+  "editorial_or_maintenance_notes": [
+    {
+      "summary": "Name the Student-t interval explicitly and specify pilot sample size/confidence level before executing the proposed experiment.",
+      "classification": "Prespecification/editorial suggestion; does not invalidate the reproduced numbers."
+    },
+    {
+      "summary": "Historical canonical/deposited sources retain the earlier interpretation; this receipt covers the corrected release sources only.",
+      "classification": "Provenance limitation, expressly disclosed by the revised data-availability text. Archive correspondence is a separate packet review."
+    }
+  ],
+  "follow_up": [
+    "Bind final Word/PDF/figure and supplementary upload artifacts to these reviewed source hashes and verify their rendered content.",
+    "Verify Supplementary File 2 and its inclusion before claiming that the complete submission packet meets its availability statements.",
+    "If reviewed source bytes change, verify the affected delta and refresh the binding; do not apply this verdict to unmatched bytes.",
+    "Keep manual NAT author submission decisions separate from this source-verification result."
+  ],
+  "authorization": {
+    "publication_authorized_by_this_record": false,
+    "publish_bar_pass_claim": false,
+    "manual_nat_role": "Evidence for preparation readiness of exact reviewed sources, not permission to submit or a claim of complete packet validation."
+  }
+}

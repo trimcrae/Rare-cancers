@@ -24,11 +24,8 @@ def relative(path, base=MANUSCRIPTS):
     return os.path.relpath(path, base).replace(os.sep, "/")
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--html-only", action="store_true")
-    parser.add_argument("--chrome", help="Explicit Chromium executable path")
-    args = parser.parse_args()
+def paper_config():
+    """One source map for the preview and individual journal upload files."""
     paper = copy.deepcopy(renderer.PAPERS["aso-journal"])
     paper["manuscript"] = relative(BUNDLE / "manuscript.md")
     paper["tables"] = relative(BUNDLE / "fusion-junction-aso-journal-tables.md")
@@ -45,6 +42,19 @@ def main():
     paper["supplementary_for_review"] = (
         relative(BUNDLE / "fusion-junction-aso-sequences.csv"),
     )
+    return paper
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--html-only", action="store_true")
+    parser.add_argument("--chrome", help="Explicit Chromium executable path")
+    args = parser.parse_args()
+    paper = paper_config()
+    # Allow two-digit outside reference markers at the left column boundary.
+    renderer.JOURNAL_CSS_REST = renderer.JOURNAL_CSS_REST.replace(
+        "#references-list { padding-left: 11pt; }",
+        "#references-list { padding-left: 18pt; }")
     renderer.FORMATS["journal"] = (
         "[unsubmitted NAT candidate]",
         "Unsubmitted author-review candidate; not deposited or peer reviewed.",

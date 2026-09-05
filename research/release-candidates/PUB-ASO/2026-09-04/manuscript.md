@@ -99,8 +99,9 @@ at exon termini.
 Alignments were re-scored by nearest-neighbour stability of the longest contiguous paired run;
 only energy separations are reported. Melting-temperature calculations assume unmodified DNA:RNA
 at 250 nM strand,<sup>16</sup><!--PMID:7545436--> not locked phosphorothioate chemistry. Accordingly,
-we report no absolute melting temperature. Fusion-versus-parent separation is treated as a floor:
-the fusion pairs all ten locked residues, whereas each parent pairs five.
+we report no absolute melting temperature for the proposed reagents. Table 1 gives the
+unmodified-hybrid model's fusion-versus-parent difference. LNA and phosphorothioate effects
+are unmodelled; this difference is not a validated bound for the modified chemistry.
 
 ## Results
 
@@ -293,11 +294,6 @@ No person other than the author contributed to this work.
 T.D.M. conceived and directed the project and is responsible for its content. AI assistance
 with analysis and manuscript preparation is disclosed below.
 
-## Author Disclosure Statement
-
-No competing financial interests exist. The author holds no patent, patent application, equity
-or consultancy relating to any sequence or method described here.
-
 ## Statements and Declarations
 
 **Research use only, and not for administration to any person or animal.** Every sequence is
@@ -312,6 +308,11 @@ involved, and no ethics approval was required.
 
 **Consent for publication.** Not applicable; no individual-level data are reported.
 
+**Declaration of conflicting interest.** No competing financial interests exist. The author
+holds no patent, patent application, equity or consultancy relating to any sequence or method
+described here. One non-financial interest is declared: the author is a survivor of extraskeletal
+myxoid chondrosarcoma, the disease this work addresses.
+
 **Funding statement.** No external funding; self-funded by the author.
 
 **Use of artificial intelligence.** Claude (Anthropic) assisted with analysis code, screens,
@@ -320,8 +321,12 @@ assisted with this revision and checks against repository artefacts. Bibliograph
 were retrieved from PubMed, Europe PMC or Crossref rather than generated, and citations were
 checked against those records. The author directed the work and is responsible for its content.
 
-**Data availability.** Code, graded artefacts, per-design tables, screen parameters and claim
-bounds are deposited at [doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096).
+**Data availability.** Code, per-design tables and screen parameters for the preceding analysis
+are archived at [doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096).
+This revision does not claim that the archived files contain its corrected interpretations.
+The accompanying sequence record (Supplementary File 1) and revision note (Supplementary File 2)
+correct the melting-temperature interpretation and qualify cell-model correspondence;
+sequence rows and numerical model outputs are unchanged.
 An earlier analysis mislocated the acceptor through coding-versus-transcript exon indexing
 and was withdrawn in full. Rebuilt, verified panels and the correction record are archived.
 

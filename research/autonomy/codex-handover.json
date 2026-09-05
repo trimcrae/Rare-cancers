@@ -22,7 +22,7 @@
     "task": "Focused repair of ASO submission support instructions and manifest",
     "coordinator_verified_file_hashes": 25,
     "publication_authorized_by_this_record": false,
-    "next_action": "Generate and verify unsubmitted draft Word and anonymous upload variants without prior author approval."
+    "next_action": "ASO preparation is complete; follow aso_submission for the frozen package and remaining author action."
   },
   "schedule": {
     "status": "ACTIVE",
@@ -34,15 +34,15 @@
     "requires": "Local machine and Codex application available"
   },
   "integration": {
-    "status": "verified_for_main_integration",
+    "status": "settled_and_verified",
     "target_branch": "main",
-    "work_branch": "codex/research-throughput-2026-09-04",
+    "work_branch": "codex/aso-submission-ready",
     "normal_check": "passed",
-    "seconds": 68.703,
-    "evidence": "research/autonomy/throughput-2026-09-04/handover-preflight-result.json",
-    "checked_base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
-    "reconciled_main": "23ec976050b843e3f75e8cc475c12e8dba1c13eb",
-    "full_scientific_suite": "not run locally for this patch; hosted full CI remains separate"
+    "elapsed_seconds": 89.36,
+    "evidence": "research/release-candidates/PUB-ASO/2026-09-04/verification.json",
+    "full_release_revision": "3dc59c67654a4dfc5a6d0b842f12a732e6aeda89",
+    "reconciled_main": "b4090762bdc449311a5aae1f7540ad7de8e06bf0",
+    "upload_bytes_unchanged_from_full_verified_release": true
   },
   "initial_writing_attempt": {
     "status": "failed_outcome_contract",
@@ -53,5 +53,34 @@
     "passed": 15,
     "seconds": 9.196,
     "scope": "Standard-library runner tests, including task blockers, follow-up and actual Python executable context"
+  },
+  "aso_submission": {
+    "status": "awaiting_author_final_approval",
+    "checked_utc": "2026-09-05T01:29:14.630298+00:00",
+    "package": "research/release-candidates/PUB-ASO/2026-09-04/submission/README.md",
+    "manifest": "research/release-candidates/PUB-ASO/2026-09-04/submission/upload-manifest.json",
+    "verified_revision": "3dc59c67654a4dfc5a6d0b842f12a732e6aeda89",
+    "verification": "research/release-candidates/PUB-ASO/2026-09-04/verification.json",
+    "full_verification": "research/release-candidates/PUB-ASO/2026-09-04/submission/repository-verification/full-preflight-receipt.json",
+    "next_action": "Author approves the frozen package, confirms current submission declarations and fees, and manually submits to NAT.",
+    "autonomous_action": "Advance another computational research question. Preserve this package; reopen only for an author request, external review, changed evidence, or a demonstrated material defect.",
+    "publication_authorized_by_this_record": false,
+    "automatic_publish_bar_claimed": false
+  },
+  "initial_throughput_integration": {
+    "status": "verified_for_main_integration",
+    "target_branch": "main",
+    "work_branch": "codex/research-throughput-2026-09-04",
+    "normal_check": "passed",
+    "seconds": 68.703,
+    "evidence": "research/autonomy/throughput-2026-09-04/handover-preflight-result.json",
+    "checked_base_revision": "c832cb8c760f467ca0b3845751f40e653896b7f7",
+    "reconciled_main": "23ec976050b843e3f75e8cc475c12e8dba1c13eb",
+    "full_scientific_suite": "not run locally for this patch; hosted full CI remains separate"
+  },
+  "measured_process_follow_up": {
+    "finding": "The full release preflight took 2961 seconds; manuscript tests took 2239.13 seconds. Future process profiling should identify the slow tests before changing the workload.",
+    "immediate_fix": "Live release logging now preserves progress and failures; seven synthetic cases plus shell/YAML checks passed.",
+    "does_not_reopen_ASO_review": true
   }
 }
