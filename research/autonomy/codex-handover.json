@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T20:11:25.903418+00:00",
+  "last_updated_utc": "2026-09-05T20:19:51.089838+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -146,18 +146,21 @@
     "worker_task": "01a0730f-09bd-7200-a2d7-3cee73648e17",
     "round": "research/autonomy/trial-reference-expansion-emc-2026-09-05/",
     "execution": "research/autonomy/trial-reference-expansion-emc-2026-09-05/execution.json",
-    "worker_status": "verified_for_local_main_integration",
+    "worker_status": "integrated",
     "latest_round": "research/autonomy/trial-reference-adjudication-2026-09-05/verification.json",
     "goal_status_observed_utc": "2026-09-05T19:33:41.876267Z",
     "continuity": "Full mission active by user goal continuation; fresh research tasks remain bounded intermediate rounds. No preprint readiness established."
   },
   "latest_research_integration": {
-    "revision": "95dbbe7a0f243452bc689fb22db00fb13417d9f5",
+    "revision": "f3edec6c6c8607ba53dbd8cf062045e44ebd1d92",
     "target": "local main",
-    "normal_preflight": "research/autonomy/trial-reference-adjudication-2026-09-05/normal-preflight-result.json",
-    "integrated_files_verified_after_integration": 31,
-    "worker_manifest_files": 16,
-    "metadata_repair": "research/autonomy/trial-reference-adjudication-2026-09-05/integration-metadata-repair.json",
+    "normal_preflight": "research/autonomy/fusion-partial-benchmark-2026-09-05/normal-preflight-result.json",
+    "integrated_files_verified_after_integration": 118,
+    "worker_manifest_files": {
+      "fusion": 53,
+      "trial": 33
+    },
+    "metadata_repair": "research/autonomy/fusion-partial-benchmark-2026-09-05/integration-metadata-repair.json",
     "remote_synchronization": "outstanding; not attempted"
   },
   "remediation_amendment": "research/autonomy/portfolio-2026-09-05/remediation-amendment.md",
@@ -185,9 +188,9 @@
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T20:11:25.903418+00:00",
-    "status": "Both workers terminal and verified for main integration; normal gate passed. No research worker running.",
-    "next_action": "Finish local integration; independent EMC adjudication and 74 comparator labels remain next. New-task launch mode rechecked auto; do not launch restricted tasks.",
+    "utc": "2026-09-05T20:12:00.648844+00:00",
+    "status": "Both completed checkpoints integrated in local main and all 118 changed files matched exactly. Both paper reservations released against immutable verification receipts. No research worker running.",
+    "next_action": "Prepared source-only 50-pair independent-reader packet and contract. Launch only after actual Full access default is verified; no task currently running. Comparator74 first reads and full reference evaluation remain outstanding.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -205,13 +208,43 @@
     "required_user_action": "Select Full access in the permissions menu below the NEW TASK composer to change the remembered local launch mode. Existing restricted tasks need their own mode changed.",
     "launch_check": "Latest repeated user correction supersedes the former restricted-launch fallback: do not create further research tasks until the remembered local new-task mode is verified Full access. Verify each actual execution context after launch; never infer permissions from prompt/config alone. Leave the two existing workers running within their actual permissions and collect/integrate their outputs. Coordinator work already has Full access and can continue. Never bypass an actual pending approval.",
     "fallback_reason": "The user repeatedly requested all tasks Full access; launching more restricted tasks despite the known app override did not satisfy that instruction.",
-    "native_ui_attempt_2026_09_05": "Computer Use found the ChatGPT app window 459044 but returned no usable app controls and failed to activate captured window. No permission selection was changed. A subsequent read still found agent-mode-by-host-id.local=auto. New-task default and existing restricted tasks remain unresolved."
+    "native_ui_attempt_2026_09_05": "Computer Use found the ChatGPT app window 459044 but returned no usable app controls and failed to activate captured window. No permission selection was changed. A subsequent read still found agent-mode-by-host-id.local=auto. New-task default and existing restricted tasks remain unresolved.",
+    "latest_supported_ui_recheck": {
+      "utc": "2026-09-05T20:16:22.750578+00:00",
+      "finding": "New-task accessibility tree now exposes Change permissions and Ask for approval, but sky.click on that observed control fails: failed to activate captured window. No mode change. Saved local mode still auto.",
+      "action": "No restricted task launched; no alternate UI protocol or cached-state mutation."
+    }
   },
   "independent_partial_fusion_benchmark": {
     "worker_task": "01a07318-e6d3-7c62-a9d2-02605b370430",
     "execution": "research/autonomy/fusion-partial-benchmark-2026-09-05/execution.json",
-    "status": "verified_for_local_main_integration",
+    "status": "integrated",
     "resource": "paper:external-fusion-benchmark",
     "reason": "Concrete partial-outcome benchmark work after exact primary source recovery; launched during separate trial task approval wait, which has now cleared."
+  },
+  "next_reader_preparation": {
+    "status": "prepared_not_dispatched",
+    "contract": "research/autonomy/trial-reference-expansion-emc-2026-09-05/next-reader-contract.json",
+    "packet": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\trial-independent-emc-inputs-2026-09-05",
+    "manifest_sha256": "eb2f8441b6f7a155aa9c5238e50452b4bb67a7b7894327f15e8a238a5c2d3bdb",
+    "records": 50,
+    "source_pages_checked": 10,
+    "first_reader_judgments_in_packet": false,
+    "preparation_only": true,
+    "normal_check": "research/autonomy/trial-reference-expansion-emc-2026-09-05/next-reader-preparation-verification.json"
+  },
+  "goal_execution_blocker": {
+    "utc": "2026-09-05T20:19:51.089838+00:00",
+    "condition": "Required fresh task cannot be launched with Full access: live app local mode remains auto and supported native selector action cannot activate the window.",
+    "previous_goal_turn_classification": "progress: prepared and source-verified the independent-reader packet",
+    "recurrence_audit": [
+      "The integration goal turn ended with both workers completed and the same launch-mode dependency unresolved.",
+      "The next goal turn prepared the source-only packet; an observed selector click still failed to activate the window.",
+      "This goal turn reverified auto launch mode and terminal workers, preserved preparation through normal integration, and exhausted remaining independent coordination work."
+    ],
+    "no_live_worker": true,
+    "no_remaining_authorized_independent_progress": true,
+    "required_user_action": "Select Full access below the New task composer in the desktop app, then resume this goal.",
+    "no_publication_readiness": true
   }
 }
