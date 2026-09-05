@@ -1,0 +1,652 @@
+﻿2026-09-05T03:23:49.8071961Z Current runner version: '2.337.0'
+2026-09-05T03:23:49.8097239Z ##[group]Runner Image Provisioner
+2026-09-05T03:23:49.8098129Z Hosted Compute Agent
+2026-09-05T03:23:49.8098722Z Version: 20260828.587
+2026-09-05T03:23:49.8099472Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-05T03:23:49.8100214Z Build Date: 2026-08-28T16:44:25Z
+2026-09-05T03:23:49.8101303Z Worker ID: {39052ff2-1d40-4879-9d48-cdd0f3b3402e}
+2026-09-05T03:23:49.8102176Z Azure Region: northcentralus
+2026-09-05T03:23:49.8102880Z ##[endgroup]
+2026-09-05T03:23:49.8104472Z ##[group]Operating System
+2026-09-05T03:23:49.8105168Z Ubuntu
+2026-09-05T03:23:49.8105680Z 24.04.4
+2026-09-05T03:23:49.8106267Z LTS
+2026-09-05T03:23:49.8106785Z ##[endgroup]
+2026-09-05T03:23:49.8107410Z ##[group]Runner Image
+2026-09-05T03:23:49.8108045Z Image: ubuntu-24.04
+2026-09-05T03:23:49.8108626Z Version: 20260831.293.1
+2026-09-05T03:23:49.8109939Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260831.293/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-05T03:23:49.8111823Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260831.293
+2026-09-05T03:23:49.8112853Z ##[endgroup]
+2026-09-05T03:23:49.8114081Z ##[group]GITHUB_TOKEN Permissions
+2026-09-05T03:23:49.8116290Z Contents: read
+2026-09-05T03:23:49.8116963Z Metadata: read
+2026-09-05T03:23:49.8118002Z ##[endgroup]
+2026-09-05T03:23:49.8120124Z Secret source: Actions
+2026-09-05T03:23:49.8122185Z Prepare workflow directory
+2026-09-05T03:23:49.8685582Z Prepare all required actions
+2026-09-05T03:23:49.8756653Z Getting action download info
+2026-09-05T03:23:50.0902667Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-05T03:23:50.2385629Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-05T03:23:50.4198495Z Complete job name: pytest
+2026-09-05T03:23:50.4960299Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-05T03:23:50.4969011Z ##[group]Run actions/checkout@v4
+2026-09-05T03:23:50.4969774Z with:
+2026-09-05T03:23:50.4970244Z   repository: trimcrae/Rare-cancers
+2026-09-05T03:23:50.4974613Z   token: ***
+2026-09-05T03:23:50.4975060Z   ssh-strict: true
+2026-09-05T03:23:50.4975505Z   ssh-user: git
+2026-09-05T03:23:50.4975971Z   persist-credentials: true
+2026-09-05T03:23:50.4976481Z   clean: true
+2026-09-05T03:23:50.4976943Z   sparse-checkout-cone-mode: true
+2026-09-05T03:23:50.4977468Z   fetch-depth: 1
+2026-09-05T03:23:50.4977914Z   fetch-tags: false
+2026-09-05T03:23:50.4978368Z   show-progress: true
+2026-09-05T03:23:50.4978824Z   lfs: false
+2026-09-05T03:23:50.4979291Z   submodules: false
+2026-09-05T03:23:50.4979753Z   set-safe-directory: true
+2026-09-05T03:23:50.4980274Z   allow-unsafe-pr-checkout: false
+2026-09-05T03:23:50.4981491Z env:
+2026-09-05T03:23:50.4982556Z   PIP_PACKAGES: pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
+2026-09-05T03:23:50.4983701Z ##[endgroup]
+2026-09-05T03:23:50.6017313Z Syncing repository: trimcrae/Rare-cancers
+2026-09-05T03:23:50.6020174Z ##[group]Getting Git version info
+2026-09-05T03:23:50.6021844Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-09-05T03:23:50.6023764Z [command]/usr/bin/git version
+2026-09-05T03:23:50.6097518Z git version 2.55.0
+2026-09-05T03:23:50.6134358Z ##[endgroup]
+2026-09-05T03:23:50.6144535Z Temporarily overriding HOME='/home/runner/work/_temp/a27bed5d-d940-4468-ad52-2faea18bd60e' before making global git config changes
+2026-09-05T03:23:50.6148909Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-05T03:23:50.6151963Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-09-05T03:23:50.6204426Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-09-05T03:23:50.6210412Z ##[group]Initializing the repository
+2026-09-05T03:23:50.6215227Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-09-05T03:23:50.6313545Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-05T03:23:50.6314950Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-05T03:23:50.6321403Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-05T03:23:50.6323309Z hint: call:
+2026-09-05T03:23:50.6324467Z hint:
+2026-09-05T03:23:50.6325763Z hint: 	git config --global init.defaultBranch <name>
+2026-09-05T03:23:50.6327377Z hint:
+2026-09-05T03:23:50.6328647Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-05T03:23:50.6330446Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-05T03:23:50.6332461Z hint:
+2026-09-05T03:23:50.6333610Z hint: 	git branch -m <name>
+2026-09-05T03:23:50.6334824Z hint:
+2026-09-05T03:23:50.6336268Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-05T03:23:50.6338550Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-09-05T03:23:50.6342412Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-09-05T03:23:50.6402294Z ##[endgroup]
+2026-09-05T03:23:50.6403915Z ##[group]Disabling automatic garbage collection
+2026-09-05T03:23:50.6405336Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-05T03:23:50.6431280Z ##[endgroup]
+2026-09-05T03:23:50.6432665Z ##[group]Setting up auth
+2026-09-05T03:23:50.6439856Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-05T03:23:50.6489494Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-05T03:23:50.6898071Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-05T03:23:50.6937478Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-05T03:23:50.7169066Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-05T03:23:50.7207087Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-05T03:23:50.7432830Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-05T03:23:50.7472977Z ##[endgroup]
+2026-09-05T03:23:50.7473893Z ##[group]Fetching the repository
+2026-09-05T03:23:50.7483454Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7aa73894f4717705276b9cfa02d05d3799be98cf:refs/remotes/origin/main
+2026-09-05T03:23:59.0225723Z From https://github.com/trimcrae/Rare-cancers
+2026-09-05T03:23:59.0226966Z  * [new ref]         7aa73894f4717705276b9cfa02d05d3799be98cf -> origin/main
+2026-09-05T03:23:59.0230241Z ##[endgroup]
+2026-09-05T03:23:59.0231436Z ##[group]Determining the checkout info
+2026-09-05T03:23:59.0233391Z ##[endgroup]
+2026-09-05T03:23:59.0242258Z [command]/usr/bin/git sparse-checkout disable
+2026-09-05T03:23:59.0301734Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-05T03:23:59.0340616Z ##[group]Checking out the ref
+2026-09-05T03:23:59.0346601Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-09-05T03:24:00.0585111Z Updating files:  34% (2566/7483)
+2026-09-05T03:24:00.0678425Z Updating files:  35% (2620/7483)
+2026-09-05T03:24:00.0766161Z Updating files:  36% (2694/7483)
+2026-09-05T03:24:00.0876617Z Updating files:  37% (2769/7483)
+2026-09-05T03:24:00.0971460Z Updating files:  38% (2844/7483)
+2026-09-05T03:24:00.1023647Z Updating files:  39% (2919/7483)
+2026-09-05T03:24:00.1116807Z Updating files:  40% (2994/7483)
+2026-09-05T03:24:00.1225702Z Updating files:  41% (3069/7483)
+2026-09-05T03:24:00.1313771Z Updating files:  42% (3143/7483)
+2026-09-05T03:24:00.1379925Z Updating files:  43% (3218/7483)
+2026-09-05T03:24:00.1454483Z Updating files:  44% (3293/7483)
+2026-09-05T03:24:00.1522260Z Updating files:  45% (3368/7483)
+2026-09-05T03:24:00.1587536Z Updating files:  46% (3443/7483)
+2026-09-05T03:24:00.1659169Z Updating files:  47% (3518/7483)
+2026-09-05T03:24:00.1742918Z Updating files:  48% (3592/7483)
+2026-09-05T03:24:00.1884941Z Updating files:  49% (3667/7483)
+2026-09-05T03:24:00.2579923Z Updating files:  50% (3742/7483)
+2026-09-05T03:24:00.3395061Z Updating files:  51% (3817/7483)
+2026-09-05T03:24:00.4111805Z Updating files:  52% (3892/7483)
+2026-09-05T03:24:00.4562817Z Updating files:  53% (3966/7483)
+2026-09-05T03:24:00.4883907Z Updating files:  54% (4041/7483)
+2026-09-05T03:24:00.5197489Z Updating files:  55% (4116/7483)
+2026-09-05T03:24:00.5929661Z Updating files:  56% (4191/7483)
+2026-09-05T03:24:00.6590114Z Updating files:  57% (4266/7483)
+2026-09-05T03:24:00.6992559Z Updating files:  58% (4341/7483)
+2026-09-05T03:24:00.7020938Z Updating files:  59% (4415/7483)
+2026-09-05T03:24:00.7059049Z Updating files:  60% (4490/7483)
+2026-09-05T03:24:00.7094643Z Updating files:  61% (4565/7483)
+2026-09-05T03:24:00.7126024Z Updating files:  62% (4640/7483)
+2026-09-05T03:24:00.7176366Z Updating files:  63% (4715/7483)
+2026-09-05T03:24:00.7222669Z Updating files:  64% (4790/7483)
+2026-09-05T03:24:00.7265235Z Updating files:  65% (4864/7483)
+2026-09-05T03:24:00.7331973Z Updating files:  66% (4939/7483)
+2026-09-05T03:24:00.7361545Z Updating files:  67% (5014/7483)
+2026-09-05T03:24:00.7393556Z Updating files:  68% (5089/7483)
+2026-09-05T03:24:00.7424740Z Updating files:  69% (5164/7483)
+2026-09-05T03:24:00.7454494Z Updating files:  70% (5239/7483)
+2026-09-05T03:24:00.7486031Z Updating files:  71% (5313/7483)
+2026-09-05T03:24:00.7516925Z Updating files:  72% (5388/7483)
+2026-09-05T03:24:00.7547827Z Updating files:  73% (5463/7483)
+2026-09-05T03:24:00.7599201Z Updating files:  74% (5538/7483)
+2026-09-05T03:24:00.7646772Z Updating files:  75% (5613/7483)
+2026-09-05T03:24:00.7693420Z Updating files:  76% (5688/7483)
+2026-09-05T03:24:00.7725642Z Updating files:  77% (5762/7483)
+2026-09-05T03:24:00.7755280Z Updating files:  78% (5837/7483)
+2026-09-05T03:24:00.7785376Z Updating files:  79% (5912/7483)
+2026-09-05T03:24:00.7816528Z Updating files:  80% (5987/7483)
+2026-09-05T03:24:00.7848867Z Updating files:  81% (6062/7483)
+2026-09-05T03:24:00.7880459Z Updating files:  82% (6137/7483)
+2026-09-05T03:24:00.7911268Z Updating files:  83% (6211/7483)
+2026-09-05T03:24:00.7941829Z Updating files:  84% (6286/7483)
+2026-09-05T03:24:00.7973051Z Updating files:  85% (6361/7483)
+2026-09-05T03:24:00.8003866Z Updating files:  86% (6436/7483)
+2026-09-05T03:24:00.8036593Z Updating files:  87% (6511/7483)
+2026-09-05T03:24:00.8068640Z Updating files:  88% (6586/7483)
+2026-09-05T03:24:00.8099985Z Updating files:  89% (6660/7483)
+2026-09-05T03:24:00.8130707Z Updating files:  90% (6735/7483)
+2026-09-05T03:24:00.8164664Z Updating files:  91% (6810/7483)
+2026-09-05T03:24:00.8197376Z Updating files:  92% (6885/7483)
+2026-09-05T03:24:00.8227399Z Updating files:  93% (6960/7483)
+2026-09-05T03:24:00.8257647Z Updating files:  94% (7035/7483)
+2026-09-05T03:24:00.8288568Z Updating files:  95% (7109/7483)
+2026-09-05T03:24:00.8336510Z Updating files:  96% (7184/7483)
+2026-09-05T03:24:00.8439031Z Updating files:  97% (7259/7483)
+2026-09-05T03:24:00.8539483Z Updating files:  98% (7334/7483)
+2026-09-05T03:24:00.8620612Z Updating files:  99% (7409/7483)
+2026-09-05T03:24:00.8621488Z Updating files: 100% (7483/7483)
+2026-09-05T03:24:00.8622217Z Updating files: 100% (7483/7483), done.
+2026-09-05T03:24:00.8701652Z Switched to a new branch 'main'
+2026-09-05T03:24:00.8707662Z branch 'main' set up to track 'origin/main'.
+2026-09-05T03:24:00.8806008Z ##[endgroup]
+2026-09-05T03:24:00.8809866Z [command]/usr/bin/git log -1 --format=%H
+2026-09-05T03:24:00.8838297Z 7aa73894f4717705276b9cfa02d05d3799be98cf
+2026-09-05T03:24:00.9098781Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-05T03:24:00.9100530Z ##[group]Run actions/setup-python@v5
+2026-09-05T03:24:00.9100806Z with:
+2026-09-05T03:24:00.9101197Z   python-version: 3.11
+2026-09-05T03:24:00.9101419Z   cache: pip
+2026-09-05T03:24:00.9101669Z   cache-dependency-path: .github/workflows/tests.yml
+2026-09-05T03:24:00.9101986Z   check-latest: false
+2026-09-05T03:24:00.9104511Z   token: ***
+2026-09-05T03:24:00.9104725Z   update-environment: true
+2026-09-05T03:24:00.9104969Z   allow-prereleases: false
+2026-09-05T03:24:00.9105216Z   freethreaded: false
+2026-09-05T03:24:00.9105417Z env:
+2026-09-05T03:24:00.9105969Z   PIP_PACKAGES: pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
+2026-09-05T03:24:00.9106561Z ##[endgroup]
+2026-09-05T03:24:01.0481537Z ##[group]Installed versions
+2026-09-05T03:24:01.0600497Z (node:2241) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-05T03:24:01.0601766Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-05T03:24:01.0632468Z Successfully set up CPython (3.11.16)
+2026-09-05T03:24:01.0632907Z ##[endgroup]
+2026-09-05T03:24:01.0909544Z [command]/opt/hostedtoolcache/Python/3.11.16/x64/bin/pip cache dir
+2026-09-05T03:24:01.4582850Z /home/runner/.cache/pip
+2026-09-05T03:24:01.6050072Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.16-pip-f584cc66ade05e9c3d65ab7358b4c70ea0dd1d52eba00315c18131901ee0c8f6
+2026-09-05T03:24:01.6170538Z (node:2241) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-05T03:24:02.7206819Z Received 134217728 of 158259118 (84.8%), 127.9 MBs/sec
+2026-09-05T03:24:02.8345750Z Received 158259118 of 158259118 (100.0%), 135.4 MBs/sec
+2026-09-05T03:24:02.8347483Z Cache Size: ~151 MB (158259118 B)
+2026-09-05T03:24:02.8429228Z [command]/usr/bin/tar -xf /home/runner/work/_temp/4fb0c548-dfd2-405c-8dd0-87886ebb5847/cache.tzst -P -C /home/runner/work/Rare-cancers/Rare-cancers --use-compress-program unzstd
+2026-09-05T03:24:03.1186767Z Cache restored successfully
+2026-09-05T03:24:03.1263130Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.16-pip-f584cc66ade05e9c3d65ab7358b4c70ea0dd1d52eba00315c18131901ee0c8f6
+2026-09-05T03:24:03.1454853Z ##[group]Run pip install $PIP_PACKAGES
+2026-09-05T03:24:03.1455260Z [36;1mpip install $PIP_PACKAGES[0m
+2026-09-05T03:24:03.1500689Z shell: /usr/bin/bash -e {0}
+2026-09-05T03:24:03.1501366Z env:
+2026-09-05T03:24:03.1501938Z   PIP_PACKAGES: pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
+2026-09-05T03:24:03.1502639Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:03.1503087Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-09-05T03:24:03.1503528Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:03.1503915Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:03.1504312Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:03.1504710Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-09-05T03:24:03.1505050Z ##[endgroup]
+2026-09-05T03:24:04.5926091Z Collecting pytest
+2026-09-05T03:24:04.5944508Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-09-05T03:24:04.6126376Z Collecting pytest-xdist
+2026-09-05T03:24:04.6143354Z   Using cached pytest_xdist-3.8.0-py3-none-any.whl.metadata (3.0 kB)
+2026-09-05T03:24:04.8043557Z Collecting numpy
+2026-09-05T03:24:04.8062036Z   Using cached numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-09-05T03:24:04.9212520Z Collecting scipy
+2026-09-05T03:24:04.9241634Z   Using cached scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-09-05T03:24:04.9458581Z Collecting pymbar
+2026-09-05T03:24:04.9474174Z   Using cached pymbar-4.0.3-py3-none-any.whl.metadata (1.2 kB)
+2026-09-05T03:24:05.0001689Z Collecting rdkit
+2026-09-05T03:24:05.0018987Z   Using cached rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-09-05T03:24:05.0334637Z Collecting pyyaml
+2026-09-05T03:24:05.0351545Z   Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-09-05T03:24:05.2830055Z Collecting boto3
+2026-09-05T03:24:05.2848167Z   Using cached boto3-1.43.89-py3-none-any.whl.metadata (6.6 kB)
+2026-09-05T03:24:05.3044986Z Collecting jsonschema
+2026-09-05T03:24:05.3060922Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-09-05T03:24:05.3414223Z Collecting biopython
+2026-09-05T03:24:05.3430286Z   Using cached biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+2026-09-05T03:24:05.3554127Z Collecting pdfminer.six
+2026-09-05T03:24:05.3569140Z   Using cached pdfminer_six-20260107-py3-none-any.whl.metadata (4.3 kB)
+2026-09-05T03:24:05.3758652Z Collecting pypdf
+2026-09-05T03:24:05.3773758Z   Using cached pypdf-6.17.0-py3-none-any.whl.metadata (7.5 kB)
+2026-09-05T03:24:05.3925707Z Collecting pdfplumber
+2026-09-05T03:24:05.3940931Z   Using cached pdfplumber-0.11.10-py3-none-any.whl.metadata (43 kB)
+2026-09-05T03:24:05.5168549Z Collecting matplotlib
+2026-09-05T03:24:05.5186800Z   Using cached matplotlib-3.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+2026-09-05T03:24:05.5407732Z Collecting iniconfig>=1.0.1 (from pytest)
+2026-09-05T03:24:05.5422853Z   Using cached iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-09-05T03:24:05.5541065Z Collecting packaging>=22 (from pytest)
+2026-09-05T03:24:05.5556074Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-09-05T03:24:05.5652127Z Collecting pluggy<2,>=1.5 (from pytest)
+2026-09-05T03:24:05.5666510Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-09-05T03:24:05.5812572Z Collecting pygments>=2.7.2 (from pytest)
+2026-09-05T03:24:05.5826966Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-09-05T03:24:05.5924911Z Collecting execnet>=2.1 (from pytest-xdist)
+2026-09-05T03:24:05.5939011Z   Using cached execnet-2.1.2-py3-none-any.whl.metadata (2.9 kB)
+2026-09-05T03:24:05.6819910Z Collecting numexpr (from pymbar)
+2026-09-05T03:24:05.6837144Z   Using cached numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.0 kB)
+2026-09-05T03:24:05.8358249Z Collecting Pillow (from rdkit)
+2026-09-05T03:24:05.8376232Z   Using cached pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-09-05T03:24:06.0682355Z Collecting botocore<1.44.0,>=1.43.89 (from boto3)
+2026-09-05T03:24:06.0699928Z   Using cached botocore-1.43.89-py3-none-any.whl.metadata (5.6 kB)
+2026-09-05T03:24:06.0805282Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3)
+2026-09-05T03:24:06.0821113Z   Using cached jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+2026-09-05T03:24:06.0964038Z Collecting s3transfer<0.20.0,>=0.19.0 (from boto3)
+2026-09-05T03:24:06.0979936Z   Using cached s3transfer-0.19.2-py3-none-any.whl.metadata (1.7 kB)
+2026-09-05T03:24:06.1095105Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.44.0,>=1.43.89->boto3)
+2026-09-05T03:24:06.1110332Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-09-05T03:24:06.1297042Z Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.44.0,>=1.43.89->boto3)
+2026-09-05T03:24:06.1312590Z   Using cached urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-09-05T03:24:06.1430630Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.44.0,>=1.43.89->boto3)
+2026-09-05T03:24:06.1446389Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-09-05T03:24:06.1725193Z Collecting attrs>=22.2.0 (from jsonschema)
+2026-09-05T03:24:06.1741274Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-09-05T03:24:06.1841374Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema)
+2026-09-05T03:24:06.1856978Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-09-05T03:24:06.2017358Z Collecting referencing>=0.28.4 (from jsonschema)
+2026-09-05T03:24:06.2032916Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-09-05T03:24:06.4350072Z Collecting rpds-py>=0.25.0 (from jsonschema)
+2026-09-05T03:24:06.4368375Z   Using cached rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-09-05T03:24:06.5814429Z Collecting charset-normalizer>=2.0.0 (from pdfminer.six)
+2026-09-05T03:24:06.5832951Z   Using cached charset_normalizer-3.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+2026-09-05T03:24:06.7549903Z Collecting cryptography>=36.0.0 (from pdfminer.six)
+2026-09-05T03:24:06.7567734Z   Using cached cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-09-05T03:24:06.8350303Z Collecting pypdfium2>=5.9.0 (from pdfplumber)
+2026-09-05T03:24:06.8368832Z   Using cached pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (66 kB)
+2026-09-05T03:24:06.9037952Z Collecting contourpy>=1.0.1 (from matplotlib)
+2026-09-05T03:24:06.9057449Z   Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+2026-09-05T03:24:07.0375168Z Collecting cycler>=0.10 (from matplotlib)
+2026-09-05T03:24:07.0393899Z   Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2026-09-05T03:24:07.4221132Z Collecting fonttools>=4.28.2 (from matplotlib)
+2026-09-05T03:24:07.4238631Z   Using cached fonttools-4.64.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (123 kB)
+2026-09-05T03:24:07.5454787Z Collecting kiwisolver>=1.3.1 (from matplotlib)
+2026-09-05T03:24:07.5473093Z   Using cached kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+2026-09-05T03:24:07.5709185Z Collecting pyparsing>=3 (from matplotlib)
+2026-09-05T03:24:07.5724644Z   Using cached pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-09-05T03:24:07.6703778Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six)
+2026-09-05T03:24:07.6722353Z   Using cached cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-09-05T03:24:07.6821526Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six)
+2026-09-05T03:24:07.6836819Z   Using cached pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-09-05T03:24:07.7045071Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema)
+2026-09-05T03:24:07.7061729Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-09-05T03:24:07.7135415Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-09-05T03:24:07.7151504Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-09-05T03:24:07.7166304Z Using cached pytest_xdist-3.8.0-py3-none-any.whl (46 kB)
+2026-09-05T03:24:07.7181172Z Using cached numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-09-05T03:24:07.7254857Z Using cached scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-09-05T03:24:07.7396270Z Using cached pymbar-4.0.3-py3-none-any.whl (107 kB)
+2026-09-05T03:24:07.7412300Z Using cached rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl (38.2 MB)
+2026-09-05T03:24:07.7561841Z Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-09-05T03:24:07.7579553Z Using cached boto3-1.43.89-py3-none-any.whl (140 kB)
+2026-09-05T03:24:07.7595613Z Using cached botocore-1.43.89-py3-none-any.whl (15.8 MB)
+2026-09-05T03:24:07.7665487Z Using cached jmespath-1.1.0-py3-none-any.whl (20 kB)
+2026-09-05T03:24:07.7680356Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-09-05T03:24:07.7695733Z Using cached s3transfer-0.19.2-py3-none-any.whl (90 kB)
+2026-09-05T03:24:07.7711478Z Using cached urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-09-05T03:24:07.7726417Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-09-05T03:24:07.7743134Z Using cached biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.2 MB)
+2026-09-05T03:24:07.7770076Z Using cached pdfminer_six-20260107-py3-none-any.whl (6.6 MB)
+2026-09-05T03:24:07.7807581Z Using cached pypdf-6.17.0-py3-none-any.whl (388 kB)
+2026-09-05T03:24:07.7823498Z Using cached pdfplumber-0.11.10-py3-none-any.whl (60 kB)
+2026-09-05T03:24:07.7838475Z Using cached matplotlib-3.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.0 MB)
+2026-09-05T03:24:07.7887537Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-09-05T03:24:07.7902923Z Using cached charset_normalizer-3.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (262 kB)
+2026-09-05T03:24:07.7918161Z Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+2026-09-05T03:24:07.7933860Z Using cached cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-09-05T03:24:07.7965380Z Using cached cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+2026-09-05T03:24:07.7980240Z Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2026-09-05T03:24:07.7994717Z Using cached execnet-2.1.2-py3-none-any.whl (40 kB)
+2026-09-05T03:24:07.8009449Z Using cached fonttools-4.64.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.5 MB)
+2026-09-05T03:24:07.8042839Z Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-09-05T03:24:07.8057399Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-09-05T03:24:07.8072437Z Using cached kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+2026-09-05T03:24:07.8091697Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+2026-09-05T03:24:07.8106793Z Using cached pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-09-05T03:24:07.8145207Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-09-05T03:24:07.8164063Z Using cached pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-09-05T03:24:07.8179438Z Using cached pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-09-05T03:24:07.8206345Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-09-05T03:24:07.8221243Z Using cached rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+2026-09-05T03:24:07.8237054Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-09-05T03:24:07.8251630Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-09-05T03:24:07.8266486Z Using cached numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (443 kB)
+2026-09-05T03:24:07.8282678Z Using cached pycparser-3.0-py3-none-any.whl (48 kB)
+2026-09-05T03:24:08.2167383Z Installing collected packages: urllib3, typing-extensions, six, rpds-py, pyyaml, pypdfium2, pypdf, pyparsing, pygments, pycparser, pluggy, Pillow, packaging, numpy, kiwisolver, jmespath, iniconfig, fonttools, execnet, cycler, charset-normalizer, attrs, scipy, referencing, rdkit, python-dateutil, pytest, numexpr, contourpy, cffi, biopython, pytest-xdist, pymbar, matplotlib, jsonschema-specifications, cryptography, botocore, s3transfer, pdfminer.six, jsonschema, pdfplumber, boto3
+2026-09-05T03:24:21.7023382Z 
+2026-09-05T03:24:21.7047487Z Successfully installed Pillow-12.3.0 attrs-26.1.0 biopython-1.88 boto3-1.43.89 botocore-1.43.89 cffi-2.1.1 charset-normalizer-3.5.1 contourpy-1.3.3 cryptography-50.0.1 cycler-0.12.1 execnet-2.1.2 fonttools-4.64.0 iniconfig-2.3.0 jmespath-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 matplotlib-3.11.1 numexpr-2.14.2 numpy-2.4.6 packaging-26.3 pdfminer.six-20260107 pdfplumber-0.11.10 pluggy-1.6.0 pycparser-3.0 pygments-2.21.0 pymbar-4.0.3 pyparsing-3.3.2 pypdf-6.17.0 pypdfium2-5.13.0 pytest-9.1.1 pytest-xdist-3.8.0 python-dateutil-2.9.0.post0 pyyaml-6.0.3 rdkit-2026.3.6 referencing-0.37.0 rpds-py-2026.6.3 s3transfer-0.19.2 scipy-1.17.1 six-1.17.0 typing-extensions-4.16.0 urllib3-2.7.0
+2026-09-05T03:24:21.9269143Z ##[group]Run python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests research/autonomy/tests -q --continue-on-collection-errors --durations=25 -n 4 --dist loadfile
+2026-09-05T03:24:21.9270624Z [36;1mpython -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests research/autonomy/tests -q --continue-on-collection-errors --durations=25 -n 4 --dist loadfile[0m
+2026-09-05T03:24:21.9309774Z shell: /usr/bin/bash -e {0}
+2026-09-05T03:24:21.9310027Z env:
+2026-09-05T03:24:21.9310568Z   PIP_PACKAGES: pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
+2026-09-05T03:24:21.9311512Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:21.9311952Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-09-05T03:24:21.9312375Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:21.9312783Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:21.9313170Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-09-05T03:24:21.9313549Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-09-05T03:24:21.9313884Z ##[endgroup]
+2026-09-05T03:25:46.3922276Z bringing up nodes...
+2026-09-05T03:25:46.3941920Z bringing up nodes...
+2026-09-05T03:25:46.3951479Z 
+2026-09-05T03:25:46.5451952Z ......s..............................s................s................. [  0%]
+2026-09-05T03:25:46.8182063Z ......s......................................s..s...s.s.......s......... [  1%]
+2026-09-05T03:25:47.2972038Z ......................s................................................. [  1%]
+2026-09-05T03:25:47.6472260Z ........................................................................ [  2%]
+2026-09-05T03:25:47.9934435Z ........................................................................ [  2%]
+2026-09-05T03:25:48.4724870Z ...........................................................s............ [  3%]
+2026-09-05T03:25:48.7412159Z ...........................s.....s................s..................... [  4%]
+2026-09-05T03:25:48.9596023Z ...s.s..............................s..............s.................... [  4%]
+2026-09-05T03:25:49.3241912Z ....................................s.........s......................... [  5%]
+2026-09-05T03:25:49.7271963Z ..................s............sss.s..............................ss.s.. [  5%]
+2026-09-05T03:25:50.3041870Z s....................................................................... [  6%]
+2026-09-05T03:25:50.4491976Z ........................................................................ [  7%]
+2026-09-05T03:25:50.5832011Z ........................................................................ [  7%]
+2026-09-05T03:25:50.6582086Z ........................................................................ [  8%]
+2026-09-05T03:25:50.7872025Z ........................................................................ [  8%]
+2026-09-05T03:25:50.8381965Z ........................................................................ [  9%]
+2026-09-05T03:25:50.9291912Z ........................................................................ [ 10%]
+2026-09-05T03:25:51.2652002Z ........................................................................ [ 10%]
+2026-09-05T03:25:51.5564047Z ........................................................................ [ 11%]
+2026-09-05T03:25:52.9732225Z ........................................................................ [ 11%]
+2026-09-05T03:25:53.1811989Z ........................................................................ [ 12%]
+2026-09-05T03:25:53.4595252Z ........................................................................ [ 13%]
+2026-09-05T03:25:53.7101046Z ........................................................................ [ 13%]
+2026-09-05T03:25:54.0001248Z ........................................................................ [ 14%]
+2026-09-05T03:25:54.5672558Z .......F................................................................ [ 14%]
+2026-09-05T03:25:54.8971842Z ........................................................................ [ 15%]
+2026-09-05T03:25:55.1468846Z ........................................................................ [ 16%]
+2026-09-05T03:25:56.0255247Z ........................................................................ [ 16%]
+2026-09-05T03:25:56.3512090Z ........................................................................ [ 17%]
+2026-09-05T03:25:58.4177470Z ........................................................................ [ 17%]
+2026-09-05T03:25:59.2350135Z ........................................................................ [ 18%]
+2026-09-05T03:26:00.4801814Z ........................................................................ [ 19%]
+2026-09-05T03:26:01.0478520Z ........................................................................ [ 19%]
+2026-09-05T03:26:01.5241912Z ........................................................................ [ 20%]
+2026-09-05T03:26:02.3391959Z ........................................................................ [ 20%]
+2026-09-05T03:26:02.5257336Z ........................................................................ [ 21%]
+2026-09-05T03:26:07.4961876Z ........................................................................ [ 22%]
+2026-09-05T03:26:24.3632464Z ........................................................................ [ 22%]
+2026-09-05T03:26:33.6464954Z ........................................................................ [ 23%]
+2026-09-05T03:26:45.2971714Z ........................................................................ [ 23%]
+2026-09-05T03:26:45.6471589Z ........................................................................ [ 24%]
+2026-09-05T03:26:45.8261813Z ........................................................................ [ 24%]
+2026-09-05T03:26:46.4721918Z ........................................................................ [ 25%]
+2026-09-05T03:26:47.0898732Z ........................................................................ [ 26%]
+2026-09-05T03:26:47.2381925Z ........................................................................ [ 26%]
+2026-09-05T03:27:04.3204990Z ........................................................................ [ 27%]
+2026-09-05T03:27:08.2399502Z ........................................................................ [ 27%]
+2026-09-05T03:27:08.8027893Z ........................................................................ [ 28%]
+2026-09-05T03:27:09.0001734Z ........................................................................ [ 29%]
+2026-09-05T03:27:22.4299473Z ........................................................................ [ 29%]
+2026-09-05T03:27:22.7511795Z ........................................................................ [ 30%]
+2026-09-05T03:27:23.0391230Z ........................................................................ [ 30%]
+2026-09-05T03:27:23.2121811Z ........................................................................ [ 31%]
+2026-09-05T03:27:27.3671610Z ........................................................................ [ 32%]
+2026-09-05T03:27:29.0762028Z ........................................................................ [ 32%]
+2026-09-05T03:27:30.5897629Z ........................................................................ [ 33%]
+2026-09-05T03:27:35.3572119Z ........................................................................ [ 33%]
+2026-09-05T03:27:46.3348611Z ........................................................................ [ 34%]
+2026-09-05T03:27:48.3571790Z ........................................................................ [ 35%]
+2026-09-05T03:27:53.7816498Z ........................................................................ [ 35%]
+2026-09-05T03:27:54.0811999Z ........................................................................ [ 36%]
+2026-09-05T03:27:54.2942344Z ........................................................................ [ 36%]
+2026-09-05T03:28:03.7251951Z ........................................................................ [ 37%]
+2026-09-05T03:28:06.0339517Z ........................................................................ [ 38%]
+2026-09-05T03:28:09.9101954Z .............................................s.sssssss.................. [ 38%]
+2026-09-05T03:28:10.9961891Z ........................................................................ [ 39%]
+2026-09-05T03:28:11.2871839Z ........................................................................ [ 39%]
+2026-09-05T03:28:11.5882157Z ........................................................................ [ 40%]
+2026-09-05T03:28:14.7691844Z ........................................................................ [ 41%]
+2026-09-05T03:29:06.5262010Z ........................................................................ [ 41%]
+2026-09-05T03:29:13.4842075Z ........................................................................ [ 42%]
+2026-09-05T03:29:14.7211872Z ........................................................................ [ 42%]
+2026-09-05T03:29:15.2606346Z ........................................................................ [ 43%]
+2026-09-05T03:29:17.1122027Z ........................................................................ [ 44%]
+2026-09-05T03:29:17.7027877Z ........................................................................ [ 44%]
+2026-09-05T03:29:18.1397537Z ........................................................s............... [ 45%]
+2026-09-05T03:29:18.3401859Z ........................................................................ [ 45%]
+2026-09-05T03:29:35.4982042Z ........................................................................ [ 46%]
+2026-09-05T03:29:43.0445659Z ........................................................................ [ 47%]
+2026-09-05T03:29:44.0381783Z ........................................................................ [ 47%]
+2026-09-05T03:29:48.4471886Z ........................................................................ [ 48%]
+2026-09-05T03:29:51.3461790Z ........................................................................ [ 48%]
+2026-09-05T03:30:01.5531848Z ........................................................................ [ 49%]
+2026-09-05T03:30:04.3361812Z ........................................................................ [ 49%]
+2026-09-05T03:30:07.1071802Z ........................................................................ [ 50%]
+2026-09-05T03:30:47.4721821Z ........................................................................ [ 51%]
+2026-09-05T03:30:53.4041865Z ........................................................................ [ 51%]
+2026-09-05T03:30:53.8568092Z ........................................................................ [ 52%]
+2026-09-05T03:30:54.9492136Z .............................................................s.......... [ 52%]
+2026-09-05T03:30:55.3501615Z ........................................................................ [ 53%]
+2026-09-05T03:30:58.6681959Z ........................................................................ [ 54%]
+2026-09-05T03:31:03.1012011Z ........................................................................ [ 54%]
+2026-09-05T03:31:07.2938515Z ........................................................................ [ 55%]
+2026-09-05T03:31:08.2252019Z ........................................................................ [ 55%]
+2026-09-05T03:31:10.0641899Z ........................................................................ [ 56%]
+2026-09-05T03:31:12.6976239Z ........................................................................ [ 57%]
+2026-09-05T03:31:13.6481942Z ........................................................................ [ 57%]
+2026-09-05T03:31:15.0691811Z ........................................................................ [ 58%]
+2026-09-05T03:31:22.4198044Z .....................................................................s.. [ 58%]
+2026-09-05T03:31:28.4392257Z ........................................................................ [ 59%]
+2026-09-05T03:31:34.2648944Z ........................................................................ [ 60%]
+2026-09-05T03:31:34.6381884Z ........................................................................ [ 60%]
+2026-09-05T03:31:44.6701960Z ........................................................................ [ 61%]
+2026-09-05T03:31:44.9531898Z ............................sssss....................................... [ 61%]
+2026-09-05T03:32:17.0256833Z ........................................................................ [ 62%]
+2026-09-05T03:32:17.4941854Z ........................................................................ [ 63%]
+2026-09-05T03:32:21.6031796Z ........................................................................ [ 63%]
+2026-09-05T03:32:21.9541860Z ........................................................................ [ 64%]
+2026-09-05T03:32:26.7125978Z ........................................................................ [ 64%]
+2026-09-05T03:32:27.2812182Z ........................................................................ [ 65%]
+2026-09-05T03:32:27.4811931Z ........................................................................ [ 66%]
+2026-09-05T03:32:27.6807866Z ........................................................................ [ 66%]
+2026-09-05T03:32:32.1186221Z ........................................................................ [ 67%]
+2026-09-05T03:32:35.4141773Z ................................................s....................... [ 67%]
+2026-09-05T03:32:36.6381947Z ........................................................................ [ 68%]
+2026-09-05T03:32:39.7171879Z ........................................................................ [ 69%]
+2026-09-05T03:32:42.7844563Z ........................................................................ [ 69%]
+2026-09-05T03:33:03.3502067Z ........................................................................ [ 70%]
+2026-09-05T03:33:05.5232005Z ........................................................................ [ 70%]
+2026-09-05T03:33:05.7089432Z ........................................................................ [ 71%]
+2026-09-05T03:33:07.0421898Z ........................................................................ [ 72%]
+2026-09-05T03:33:09.7294816Z ........................................................................ [ 72%]
+2026-09-05T03:33:10.7373850Z .........................uuuu..................uu....................... [ 73%]
+2026-09-05T03:33:11.1252923Z ........................................................................ [ 73%]
+2026-09-05T03:33:12.1681948Z ........................................................................ [ 74%]
+2026-09-05T03:33:13.4132039Z ........................................................................ [ 74%]
+2026-09-05T03:33:14.1829242Z ........................................................................ [ 75%]
+2026-09-05T03:33:14.6537799Z ...............................................uuuuuuu...........uu..... [ 76%]
+2026-09-05T03:33:17.0851953Z ..uuuuu................................................................. [ 76%]
+2026-09-05T03:33:17.3861952Z ........................................................................ [ 77%]
+2026-09-05T03:33:17.9079176Z ........................................................................ [ 77%]
+2026-09-05T03:33:22.5281928Z ........................................................................ [ 78%]
+2026-09-05T03:33:22.8401876Z ........................................................................ [ 78%]
+2026-09-05T03:33:27.6441874Z ........................................................................ [ 79%]
+2026-09-05T03:33:34.6457926Z ........................................................................ [ 80%]
+2026-09-05T03:33:36.5861965Z ........................................................................ [ 80%]
+2026-09-05T03:33:37.1482129Z ..........................................ss............................ [ 81%]
+2026-09-05T03:33:37.6145376Z ........................................................................ [ 81%]
+2026-09-05T03:33:38.4211882Z ........................................................................ [ 82%]
+2026-09-05T03:33:38.6785649Z ........................................................................ [ 83%]
+2026-09-05T03:33:39.1809532Z ........................................................................ [ 83%]
+2026-09-05T03:33:40.0400631Z ........................................................................ [ 84%]
+2026-09-05T03:33:40.3992045Z ........................................................................ [ 84%]
+2026-09-05T03:33:40.5511616Z ........................................................................ [ 85%]
+2026-09-05T03:33:40.8680021Z ........................................................................ [ 86%]
+2026-09-05T03:33:41.8892061Z ........................................................................ [ 86%]
+2026-09-05T03:33:42.1781985Z ........................................................................ [ 87%]
+2026-09-05T03:33:44.1095868Z ........................................................................ [ 87%]
+2026-09-05T03:33:48.4593849Z ........................................................................ [ 88%]
+2026-09-05T03:33:49.0627876Z ........................................................................ [ 89%]
+2026-09-05T03:33:49.2562080Z ........................................................................ [ 89%]
+2026-09-05T03:33:55.4693902Z ........................................................................ [ 90%]
+2026-09-05T03:33:55.8796916Z ........................................................................ [ 90%]
+2026-09-05T03:33:56.1372210Z ..........................................................ssss.s........ [ 91%]
+2026-09-05T03:33:56.5421745Z ........................................................................ [ 92%]
+2026-09-05T03:34:00.9862159Z ........................................................................ [ 92%]
+2026-09-05T03:34:05.8802110Z ........................................................................ [ 93%]
+2026-09-05T03:34:06.8441949Z ........................................................................ [ 93%]
+2026-09-05T03:34:07.5312010Z ........................................................................ [ 94%]
+2026-09-05T03:34:10.2372005Z ...............................s......s..........s...................... [ 95%]
+2026-09-05T03:34:26.0155273Z ........................................................................ [ 95%]
+2026-09-05T03:34:33.3042152Z ........................................................................ [ 96%]
+2026-09-05T03:34:37.0676865Z ........................................................................ [ 96%]
+2026-09-05T03:34:39.6962045Z ........................................................................ [ 97%]
+2026-09-05T03:34:42.4761977Z ........................................................................ [ 98%]
+2026-09-05T03:34:57.7912110Z ........................................................................ [ 98%]
+2026-09-05T03:35:04.4548302Z ........................................................................ [ 99%]
+2026-09-05T03:35:23.1271868Z ........................................................................ [ 99%]
+2026-09-05T03:36:26.0123012Z .....................                                                    [100%]
+2026-09-05T03:36:26.0124017Z =================================== FAILURES ===================================
+2026-09-05T03:36:26.0124905Z __________ test_the_handoff_prompt_is_generated_from_committed_state ___________
+2026-09-05T03:36:26.0125970Z [gw1] linux -- Python 3.11.16 /opt/hostedtoolcache/Python/3.11.16/x64/bin/python
+2026-09-05T03:36:26.0126589Z 
+2026-09-05T03:36:26.0127315Z health = <module 'autonomy_health' from '/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/health.py'>
+2026-09-05T03:36:26.0128220Z 
+2026-09-05T03:36:26.0129174Z     def test_the_handoff_prompt_is_generated_from_committed_state(health):
+2026-09-05T03:36:26.0130527Z         """⚠ NOT typed by the outgoing session. Every fact in it is read from a committed artifact, so the
+2026-09-05T03:36:26.0132643Z         successor re-reads the same files and finds them unchanged — CLAUDE.md's 'state lives in git,
+2026-09-05T03:36:26.0133883Z         never in context', applied at the one moment context is discarded on purpose."""
+2026-09-05T03:36:26.0134824Z         spec = importlib.util.spec_from_file_location(
+2026-09-05T03:36:26.0135466Z             "handoff", REPO / "research" / "autonomy" / "handoff.py")
+2026-09-05T03:36:26.0135926Z         ho = importlib.util.module_from_spec(spec)
+2026-09-05T03:36:26.0136305Z         spec.loader.exec_module(ho)
+2026-09-05T03:36:26.0136604Z     
+2026-09-05T03:36:26.0136830Z         ledger = {"entries": [
+2026-09-05T03:36:26.0137321Z             {"id": "AUT-TOP", "score": 99.0, "kind": "harden", "what": "the top item", "retry_budget": 3},
+2026-09-05T03:36:26.0138041Z             {"id": "AUT-OWNED", "score": 100.0, "kind": "harden", "what": "claimed", "retry_budget": 3,
+2026-09-05T03:36:26.0138570Z              "owner": "CYC-X"},
+2026-09-05T03:36:26.0139033Z             {"id": "AUT-SPENT", "score": 100.0, "kind": "harden", "what": "no budget", "retry_budget": 0},
+2026-09-05T03:36:26.0139545Z         ]}
+2026-09-05T03:36:26.0139782Z         top = ho.top_items(ledger)
+2026-09-05T03:36:26.0140133Z >       assert [e["id"] for e in top] == ["AUT-TOP"], (
+2026-09-05T03:36:26.0141189Z             "the successor was handed an item that is owned or out of retry budget — its first act would "
+2026-09-05T03:36:26.0141931Z             "be discovering that, which is the cost the ledger exists to remove"
+2026-09-05T03:36:26.0142385Z         )
+2026-09-05T03:36:26.0143295Z E       AssertionError: the successor was handed an item that is owned or out of retry budget — its first act would be discovering that, which is the cost the ledger exists to remove
+2026-09-05T03:36:26.0144038Z E       assert [] == ['AUT-TOP']
+2026-09-05T03:36:26.0144294Z E         
+2026-09-05T03:36:26.0144519Z E         Right contains one more item: 'AUT-TOP'
+2026-09-05T03:36:26.0144806Z E         
+2026-09-05T03:36:26.0144990Z E         Full diff:
+2026-09-05T03:36:26.0145191Z E         + []
+2026-09-05T03:36:26.0145388Z E         - [
+2026-09-05T03:36:26.0145583Z E         -     'AUT-TOP',
+2026-09-05T03:36:26.0145808Z E         - ]
+2026-09-05T03:36:26.0145929Z 
+2026-09-05T03:36:26.0146089Z systems/tests/test_autonomy_health.py:1236: AssertionError
+2026-09-05T03:36:26.0146480Z =============================== warnings summary ===============================
+2026-09-05T03:36:26.0146871Z research/manuscripts/claim_coverage.py:439: 10 warnings
+2026-09-05T03:36:26.0147303Z research/modalities/tests/test_one_geometry_screen_loading.py: 4 warnings
+2026-09-05T03:36:26.0148046Z   /home/runner/work/Rare-cancers/Rare-cancers/research/manuscripts/claim_coverage.py:439: DeprecationWarning: invalid escape sequence '\s'
+2026-09-05T03:36:26.0148854Z     """Find a censused sentence in the RAW file, tolerating everything `_prose` stripped out of it.
+2026-09-05T03:36:26.0149220Z 
+2026-09-05T03:36:26.0149483Z research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py:2: 12 warnings
+2026-09-05T03:36:26.0150362Z research/modalities/tests/test_one_geometry_screen_loading.py: 4 warnings
+2026-09-05T03:36:26.0151802Z   /home/runner/work/Rare-cancers/Rare-cancers/research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py:2: DeprecationWarning: invalid escape sequence '\d'
+2026-09-05T03:36:26.0152884Z     """Every number the FUSION-PARTNER manuscript prints, tied to the artifact field that computes it.
+2026-09-05T03:36:26.0153285Z 
+2026-09-05T03:36:26.0153585Z research/manuscripts/tests/test_every_censused_sentence_can_be_found_in_its_own_file.py: 1 warning
+2026-09-05T03:36:26.0154254Z research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py: 3 warnings
+2026-09-05T03:36:26.0155065Z research/manuscripts/tests/test_the_census_reads_every_publication_endpoint.py: 2 warnings
+2026-09-05T03:36:26.0155694Z research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py: 1 warning
+2026-09-05T03:36:26.0156258Z scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py: 1 warning
+2026-09-05T03:36:26.0156767Z research/manuscripts/tests/test_no_guard_can_silently_not_run.py: 3 warnings
+2026-09-05T03:36:26.0157306Z research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py: 3 warnings
+2026-09-05T03:36:26.0157888Z research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py: 1 warning
+2026-09-05T03:36:26.0158401Z   <unknown>:2: DeprecationWarning: invalid escape sequence '\d'
+2026-09-05T03:36:26.0158712Z 
+2026-09-05T03:36:26.0159195Z research/manuscripts/tests/test_the_deposited_chain_can_run_from_the_deposit.py::test_every_input_an_invoked_module_names_is_in_the_archive
+2026-09-05T03:36:26.0160129Z research/manuscripts/tests/test_the_deposited_chain_can_run_from_the_deposit.py::test_every_input_an_invoked_module_names_is_in_the_archive
+2026-09-05T03:36:26.0161428Z research/manuscripts/tests/test_the_manifest_hashes_were_taken_against_a_committed_tree.py::test_both_check_modes_pass_provenance_when_the_flag_is_true[--check]
+2026-09-05T03:36:26.0163087Z research/manuscripts/tests/test_the_manifest_hashes_were_taken_against_a_committed_tree.py::test_both_check_modes_pass_provenance_when_the_flag_is_true[--check-archive]
+2026-09-05T03:36:26.0164454Z   <unknown>:439: DeprecationWarning: invalid escape sequence '\s'
+2026-09-05T03:36:26.0164925Z 
+2026-09-05T03:36:26.0165307Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-09-05T03:36:26.0166095Z ============================= slowest 25 durations =============================
+2026-09-05T03:36:26.0167225Z 288.37s call     research/modalities/tests/test_emc_ret_target_scan.py::test_the_committed_artifact_rederives_from_its_inputs
+2026-09-05T03:36:26.0169450Z 100.09s call     research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[research/manuscripts/aso/fusion-junction-aso-journal-article.md]
+2026-09-05T03:36:26.0171939Z 96.93s call     research/modalities/tests/test_no_hand_rolled_publish.py::test_the_python_publisher_scanner_actually_finds_the_known_one
+2026-09-05T03:36:26.0173617Z 91.01s call     research/modalities/tests/test_no_hand_rolled_publish.py::test_every_python_publisher_that_stamps_also_guards_on_the_checkout
+2026-09-05T03:36:26.0175300Z 85.35s call     research/manuscripts/tests/test_citation_type_guard.py::test_the_live_tree_is_green_with_no_baseline_and_no_amnesty
+2026-09-05T03:36:26.0176998Z 84.73s call     research/modalities/tests/test_ndrg1_panel_attribution_controls.py::test_the_committed_artifact_rederives_from_its_generator
+2026-09-05T03:36:26.0178527Z 53.44s call     research/modalities/tests/test_valb_triangle_lane.py::test_R_is_exactly_zero_for_a_perfect_cycle
+2026-09-05T03:36:26.0179998Z 40.43s call     research/modalities/tests/test_one_geometry_screen_loading.py::test_the_repository_is_clean_of_direct_discovery
+2026-09-05T03:36:26.0181815Z 27.59s call     research/manuscripts/tests/test_endpoint_producers_check.py::test_the_figure_check_passes_and_refuses_a_perturbation
+2026-09-05T03:36:26.0183759Z 24.48s call     research/manuscripts/tests/test_endpoint_producers_check.py::test_check_passes_on_the_committed_artifact[endpoint_regime_map]
+2026-09-05T03:36:26.0185297Z 24.13s call     research/modalities/tests/test_nr4a3_5bt.py::test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty
+2026-09-05T03:36:26.0186941Z 23.96s call     research/modalities/tests/test_fusion_neoantigen_invalidation.py::test_the_routed_map_edit_points_at_the_artifact_and_restates_no_peptide
+2026-09-05T03:36:26.0188762Z 23.79s call     research/modalities/tests/test_fusion_neoantigen_invalidation.py::test_the_artifact_carries_the_banner_or_the_grader_clears_it
+2026-09-05T03:36:26.0191136Z 23.46s call     research/modalities/tests/test_fusion_neoantigen_invalidation.py::test_the_cleared_banner_names_the_downstream_work_the_clearance_does_NOT_do
+2026-09-05T03:36:26.0192930Z 22.89s call     research/modalities/tests/test_lint_derived_thresholds.py::test_no_production_module_types_a_multiple_of_the_basis
+2026-09-05T03:36:26.0194426Z 22.23s call     research/modalities/tests/test_adaptive_certify.py::test_systematic_bias_defeats_the_statistical_control
+2026-09-05T03:36:26.0195674Z 22.20s call     systems/tests/test_systems_check.py::test_every_produced_artifact_is_registered
+2026-09-05T03:36:26.0197072Z 20.63s call     research/modalities/tests/test_one_geometry_screen_loading.py::test_a_registered_exception_cannot_outlive_the_pattern_it_names
+2026-09-05T03:36:26.0198650Z 19.61s call     research/modalities/tests/test_one_geometry_screen_loading.py::test_no_module_is_unparseable_to_the_scanner
+2026-09-05T03:36:26.0199859Z 16.43s call     systems/tests/test_systems_check.py::test_cli_check_exits_zero
+2026-09-05T03:36:26.0200763Z 16.29s call     systems/tests/test_systems_check.py::test_repo_state_is_clean
+2026-09-05T03:36:26.0202327Z 15.67s call     research/modalities/tests/test_ndrg1_panel_attribution_controls.py::test_a_panel_that_clears_on_the_pparg_side_makes_the_verdict_false
+2026-09-05T03:36:26.0204000Z 15.37s call     research/manuscripts/tests/test_citation_type_guard.py::test_the_guard_is_reached_by_the_gate_that_runs_in_the_commit_loop
+2026-09-05T03:36:26.0205573Z 15.35s setup    research/modalities/tests/test_emc_prmt5_route_controls.py::test_the_welch_t_matches_the_one_the_panel_already_owns
+2026-09-05T03:36:26.0206988Z 14.93s call     research/modalities/tests/test_lint_citations.py::test_the_repository_currently_passes
+2026-09-05T03:36:26.0207965Z =========================== short test summary info ============================
+2026-09-05T03:36:26.0210437Z FAILED systems/tests/test_autonomy_health.py::test_the_handoff_prompt_is_generated_from_committed_state - AssertionError: the successor was handed an item that is owned or out of retry budget — its first act would be discovering that, which is the cost the ledger exists to remove
+2026-09-05T03:36:26.0212619Z assert [] == ['AUT-TOP']
+2026-09-05T03:36:26.0213005Z   
+2026-09-05T03:36:26.0213355Z   Right contains one more item: 'AUT-TOP'
+2026-09-05T03:36:26.0213830Z   
+2026-09-05T03:36:26.0214151Z   Full diff:
+2026-09-05T03:36:26.0214464Z   + []
+2026-09-05T03:36:26.0214760Z   - [
+2026-09-05T03:36:26.0215083Z   -     'AUT-TOP',
+2026-09-05T03:36:26.1724947Z   - ]
+2026-09-05T03:36:26.1725633Z 1 failed, 12040 passed, 57 skipped, 49 warnings, 20 subtests passed in 722.23s (0:12:02)
+2026-09-05T03:36:26.5254909Z ##[error]Process completed with exit code 1.
+2026-09-05T03:36:26.5401267Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-05T03:36:26.5402589Z Post job cleanup.
+2026-09-05T03:36:26.6289353Z [command]/usr/bin/git version
+2026-09-05T03:36:26.6337529Z git version 2.55.0
+2026-09-05T03:36:26.6383326Z Temporarily overriding HOME='/home/runner/work/_temp/3feac6ec-e03f-4ba9-9f18-3b61c91440a1' before making global git config changes
+2026-09-05T03:36:26.6385142Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-05T03:36:26.6390554Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-09-05T03:36:26.6432930Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-05T03:36:26.6470700Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-05T03:36:26.6754155Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-05T03:36:26.6781096Z http.https://github.com/.extraheader
+2026-09-05T03:36:26.6793843Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-05T03:36:26.6830750Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-05T03:36:26.7117007Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-05T03:36:26.7162945Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-05T03:36:26.7647705Z Cleaning up orphan processes
+2026-09-05T03:36:26.8089549Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

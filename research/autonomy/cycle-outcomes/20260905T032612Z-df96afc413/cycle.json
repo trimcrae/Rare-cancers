@@ -1,0 +1,45 @@
+{
+  "schema": "emc-research-cycle-outcome/1",
+  "run_id": "20260905T032612Z-df96afc413",
+  "task_id": "surface-address-sample-sensitivity",
+  "kind": "science",
+  "resource": "paper:PUB-SURFACE-TARGETS",
+  "fingerprint": "95f8e1c49c92e7351dd9c6c4bedf1dd561f7f05fcde70be08b1102c444efa020",
+  "input_sha256": {
+    "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+    "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+    "research/modalities/emc_expression_panels.py": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+  },
+  "artifact_sha256": {
+    "research/modalities/surface_address_sensitivity.py": "16602a591b3c8f09c4f6c0b6cb4fbe15af501b7d4a1480e8bbfb780480a589e2",
+    "research/modalities/surface-address-sensitivity.json": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+    "research/modalities/surface-address-sensitivity.md": "685b9a6c30d0b5b950d673722a7f4451d12761171fed95d231d1509a78307934",
+    "research/modalities/tests/test_surface_address_sensitivity.py": "64a5b9c63d4bc263c9530905d2d41602d4009e90494ebf0d39e1e31f1813caaa"
+  },
+  "status": "verified",
+  "runner_status": "completed",
+  "finished_utc": "2026-09-05T03:39:02.081889Z",
+  "worker_elapsed_seconds": 725.563,
+  "time_to_verified_output_seconds": 818.012084,
+  "substantive_defects_found": 0,
+  "repair_induced_defects": 0,
+  "duplicate_candidates_suppressed": 0,
+  "usage": [
+    {
+      "input_tokens": 1091173,
+      "cached_input_tokens": 995712,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 17369,
+      "reasoning_output_tokens": 2579
+    }
+  ],
+  "model": "gpt-6-astra",
+  "limits": {
+    "timeout_seconds": 1800,
+    "max_rounds": 1,
+    "max_dispatches": 1,
+    "reasoning_effort": "high"
+  },
+  "next_action": "Reuse this verified sensitivity analysis. FAP comparator dependence and unstable small-cohort directions warrant explicit interpretation in future surface-target work. No manuscript rewrite or publication authorized by this cycle.",
+  "publication_evidence": false
+}

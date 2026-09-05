@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "summary": "Completed all 22 address/platform combinations: 12 stable directions, 7 unstable and 3 unreadable. All 19 readable baselines match the parent at four decimal places. Completion concerns this bounded analysis only.",
+  "artifacts": [
+    "research/modalities/surface_address_sensitivity.py",
+    "research/modalities/surface-address-sensitivity.json",
+    "research/modalities/surface-address-sensitivity.md",
+    "research/modalities/tests/test_surface_address_sensitivity.py"
+  ],
+  "checks": [
+    "Python executable: C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe.",
+    "Ran: <Python executable> -m pytest research/modalities/tests/test_surface_address_sensitivity.py --basetemp=.cache/surface-sensitivity-tests --tb=short -p no:cacheprovider. Result: 41 passed, including independent Decimal arithmetic verification of all 231 deletion rows.",
+    "Ran <Python executable> research/modalities/surface_address_sensitivity.py twice; JSON and Markdown were byte-identical. JSON SHA256: f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94.",
+    "Validated Markdown YAML against systems/schema/document.schema.json.",
+    "Confirmed all three inputs match committed bytes at 7aa73894f4717705276b9cfa02d05d3799be98cf. git diff --check passed; git status confirmed exactly four allowed output files.",
+    "Configured model gpt-6-astra, effort high, timeout 1800 seconds, dispatch limit 1. Measured interval after initial inspection: 649 seconds. Token usage and subscription capacity unknown. No ongoing processes."
+  ],
+  "blockers": [],
+  "follow_up": [
+    "Coordinator verification of the supplied GEO links; this run used no network access."
+  ]
+}

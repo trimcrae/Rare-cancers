@@ -25,16 +25,16 @@
     "next_action": "ASO preparation is complete; follow aso_submission for the frozen package and remaining author action."
   },
   "schedule": {
-    "status": "PAUSED",
+    "status": "ACTIVE",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
     "interval_minutes": 120,
-    "first_scheduled_run": "not yet observed",
+    "first_scheduled_run": "20260905T032612Z-df96afc413",
     "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
     "requires": "Local machine and Codex application available",
-    "pause_reason": "Single coordinator implementing and validating researcher improvements before observed schedule test",
     "target_thread_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
-    "validation": "One-minute existing-heartbeat test to be armed after explicit ownership transfer; nominal interval remains 120 minutes"
+    "validation": "Actual heartbeat produced a collected, independently verified scientific result; normal integration preflight passed.",
+    "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json"
   },
   "integration": {
     "status": "settled_and_verified",
@@ -94,10 +94,10 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T03:04:41.829707+00:00",
+  "last_updated_utc": "2026-09-05T03:39:57.079281+00:00",
   "coordinator_task_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
   "researcher_improvements": {
-    "status": "implemented_normal_verified_schedule_test_pending",
+    "status": "implemented_scheduled_science_verified",
     "evidence": "research/autonomy/throughput-2026-09-05/README.md",
     "targeted_tests": "67 passed, 20 subtests passed in 36.10 seconds",
     "normal_preflight": {
@@ -106,8 +106,8 @@
       "receipt": "research/autonomy/throughput-2026-09-05/normal-settled.json",
       "scope": "Normal document and artifact gates; no full scientific suite"
     },
-    "scheduled_science": "pending observed heartbeat execution",
-    "next_action": "On the actual heartbeat, run the selected surface-address sensitivity contract, independently verify and collect the useful result, update this handover, and preserve final normal preflight. No other writer remains active."
+    "scheduled_science": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/cycle.json",
+    "next_action": "Preserve this verified cycle and reuse matching results. Next cycle may retrieve the primary FUS::DDIT3 breakpoint evidence for the held comparator contract or define one new bounded evidence-backed question. Do not redispatch the same sensitivity analysis."
   },
   "local_runtime": {
     "python": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
@@ -115,5 +115,11 @@
     "environment_helper": "C:/Projects/EMC-Research/.cache/full_preflight_runtime.py",
     "remaining_subscription_capacity": "Account-wide 16% weekly consumed at initial probe; not task-specific, no reset redeemed"
   },
-  "integration_source_receipt": "research/autonomy/throughput-2026-09-05/source-integration.json"
+  "integration_source_receipt": "research/autonomy/throughput-2026-09-05/source-integration.json",
+  "latest_cycle": {
+    "run_id": "20260905T032612Z-df96afc413",
+    "status": "verified",
+    "outcome": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/cycle.json",
+    "normal_preflight": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/final-normal-preflight.json"
+  }
 }

@@ -1227,15 +1227,17 @@ def test_the_handoff_prompt_is_generated_from_committed_state(health):
     spec.loader.exec_module(ho)
 
     ledger = {"entries": [
-        {"id": "AUT-TOP", "score": 99.0, "kind": "harden", "what": "the top item", "retry_budget": 3},
-        {"id": "AUT-OWNED", "score": 100.0, "kind": "harden", "what": "claimed", "retry_budget": 3,
+        {"id": "AUT-TOP", "score": 99.0, "kind": "analysis", "what": "the top item", "retry_budget": 3},
+        {"id": "AUT-OWNED", "score": 100.0, "kind": "analysis", "what": "claimed", "retry_budget": 3,
          "owner": "CYC-X"},
-        {"id": "AUT-SPENT", "score": 100.0, "kind": "harden", "what": "no budget", "retry_budget": 0},
+        {"id": "AUT-SPENT", "score": 100.0, "kind": "analysis", "what": "no budget", "retry_budget": 0},
+        {"id": "AUT-UNSCOPED-REVIEW", "score": 101.0, "kind": "harden",
+         "what": "review without a publication target", "retry_budget": 3},
     ]}
     top = ho.top_items(ledger)
     assert [e["id"] for e in top] == ["AUT-TOP"], (
-        "the successor was handed an item that is owned or out of retry budget — its first act would "
-        "be discovering that, which is the cost the ledger exists to remove"
+        "the successor was handed an item that is owned, out of retry budget, or an unscoped review — "
+        "its first act would be discovering that, which is the cost the ledger exists to remove"
     )
     prompt = ho.build(reason="because", ledger=ledger, state={"max_cycles_per_session": 2})
     assert "FRESH SESSION" in prompt and "because" in prompt

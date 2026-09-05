@@ -1,0 +1,89 @@
+{
+  "schema": "emc-research-cycle-plan/1",
+  "created_utc": "2026-09-05T03:25:54.235515Z",
+  "base_commit": "7aa73894f4717705276b9cfa02d05d3799be98cf",
+  "selected": {
+    "task_id": "surface-address-sample-sensitivity",
+    "resource": "paper:PUB-SURFACE-TARGETS",
+    "eligible": true,
+    "fingerprint": "95f8e1c49c92e7351dd9c6c4bedf1dd561f7f05fcde70be08b1102c444efa020",
+    "input_sha256": {
+      "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+      "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "research/modalities/emc_expression_panels.py": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+    },
+    "score": 0.44,
+    "reason": "Eligible bounded question; score is a planning judgement, not scientific evidence"
+  },
+  "decisions": [
+    {
+      "task_id": "surface-address-sample-sensitivity",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "eligible": true,
+      "fingerprint": "95f8e1c49c92e7351dd9c6c4bedf1dd561f7f05fcde70be08b1102c444efa020",
+      "input_sha256": {
+        "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+        "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+        "research/modalities/emc_expression_panels.py": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+      },
+      "score": 0.44,
+      "reason": "Eligible bounded question; score is a planning judgement, not scientific evidence"
+    },
+    {
+      "task_id": "fet-non-ewsr1-positive-control",
+      "resource": "paper:PUB-ATR",
+      "eligible": false,
+      "fingerprint": "ef80fb770de9aa68785022882ddf28afa55ccff6a291b969b39b2d19fa4895e4",
+      "input_sha256": {
+        "research/modalities/emc-fet-construct-designs.json": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b",
+        "research/modalities/emc-fet-idr-census.json": "72f4ba902ecc709156d1e1758663644e0e2ed9ff6fdf69925e18f1aa4f59646b"
+      },
+      "reason": "The existing ledger records no sourced exon-level FUS::DDIT3 junction in committed inputs. Coordinator must retrieve primary evidence before the offline runner can compute this; do not invent a breakpoint."
+    }
+  ],
+  "duplicate_candidates_suppressed": 0,
+  "dispatches": 0,
+  "selection_is_scientific_evidence": false,
+  "contract": {
+    "id": "surface-address-sample-sensitivity",
+    "kind": "science",
+    "resource": "paper:PUB-SURFACE-TARGETS",
+    "ledger_ids": [
+      "AUT-025"
+    ],
+    "question": "For the eleven route-named therapeutic addresses already read in EMC tissue, which EMC-versus-other-sarcoma expression directions survive deleting any one EMC sample or any one comparator histology?",
+    "stop_condition": "Deliver a deterministic script, JSON result, concise methods/results note and behavioral tests covering every named address on each recorded platform, including unreadable and unstable results. Stop after independent arithmetic verification; no manuscript or new broad review.",
+    "effort_minutes": 25,
+    "assessment": {
+      "clinical_relevance": {
+        "rating": 3,
+        "basis": "Existing RT-FAP-RLT and PUB-SURFACE-TARGETS route questions concern candidate tissue addresses; this can prioritize later validation, not treatment."
+      },
+      "answerability": {
+        "rating": 3,
+        "basis": "Committed emc-expression-panels.json includes per-sample z values, labels and platform coverage for the eleven addresses."
+      },
+      "validation": {
+        "rating": 3,
+        "basis": "Exact deletion arithmetic can be independently recomputed; compare baseline means to the committed parent artifact within its rounding precision."
+      },
+      "information_gain": {
+        "rating": 2,
+        "basis": "Current cross-platform board summarizes direction without single-sample or comparator-histology sensitivity for these eleven addresses. A fragile or unreadable result is useful."
+      }
+    },
+    "inputs": [
+      "research/modalities/emc-expression-panels.json",
+      "research/modalities/emc-expression-panels-inputs.json",
+      "research/modalities/emc_expression_panels.py"
+    ],
+    "outputs": [
+      "research/modalities/surface_address_sensitivity.py",
+      "research/modalities/surface-address-sensitivity.json",
+      "research/modalities/surface-address-sensitivity.md",
+      "research/modalities/tests/test_surface_address_sensitivity.py"
+    ],
+    "instructions": "Use the existing surface_antigen.groups.route_named_addresses membership: CD276, SSTR2, PRAME, FAP, CD248, CSPG4, MSLN, L1CAM, GPC3, ALPP, CDH17. Use only gene_reads per_sample z_vs_array, class and gsm from the committed parent JSON. Preserve the parent input SHA256 and exact source path. Analyse each platform independently: baseline mean(EMC)-mean(all non-EMC); every leave-one-EMC-out delta; every leave-one-comparator-histology-out delta, provided both arms remain nonempty. Report sample counts, comparator class counts, min/max deletion deltas, sign flips and missingness. Include all deletion rows so arithmetic is auditable. No p-values, confidence intervals, probability claims or cross-platform pooling: these are finite sensitivity ranges on rounded parent values, not sampling uncertainty. Compare recomputed baseline to parent welch_EMC_vs_comparator.delta_a_minus_b at the parent's precision and report disagreement rather than silently normalizing it away. Do not claim raw-data or probe-choice validation: parent values already aggregate probes. Flag unreadable platform/address combinations; missing probe does not mean absent expression. The two cohorts contain different comparator mixtures and cannot establish tumour restriction, surface protein localisation, safety or efficacy. PRAME is an intracellular HLA-presented address, not a surface protein; use therapeutic-address wording. Note this is exploratory secondary reanalysis, not a preregistered analysis. Generate a concise Markdown note with valid repository metadata (kind memo, audience maintainers/autonomous research agents) and source links to https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369 and https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE4303, verified by coordinator. Focus tests on missing data, sign instability and comparator deletion; don't pin prose. Rerun generator and confirm deterministic identical JSON. No figures needed. No networks, installs or paid compute. For pytest use --basetemp=.cache/surface-sensitivity-tests --tb=short -p no:cacheprovider because the shared Windows pytest temporary directory is not writable. Use runner-supplied Python executable. Stop on a precise missing-input problem if the committed parent cannot support this computation."
+  },
+  "task_sha256": "82bbdd1401b826857b34cabf3a8c5e806a07bed05ab23ef834aeec1273f6718b"
+}
