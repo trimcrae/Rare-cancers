@@ -28,7 +28,7 @@
     "status": "ACTIVE",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
-    "interval_minutes": 360,
+    "interval_minutes": 5,
     "first_scheduled_run": "20260905T032612Z-df96afc413",
     "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
     "requires": "Local machine and Codex application available",
@@ -36,7 +36,7 @@
     "validation": "Actual heartbeat produced a collected, independently verified scientific result; normal integration preflight passed.",
     "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json",
     "nominal_interval_minutes": 360,
-    "pacing_reason": "Response worker terminal and verified; forward account pacing requires waiting before new dispatch. Same six-hour heartbeat remains active."
+    "pacing_reason": "User removed usage pacing and authorized reset credits as needed; continuous fresh-worker iteration resumes now."
   },
   "integration": {
     "status": "settled_and_verified",
@@ -150,7 +150,7 @@
     "worker_status": "completed_verified",
     "latest_round": "research/autonomy/response-recoverability-2026-09-05/verification.json",
     "goal_status_observed_utc": "2026-09-05T15:20:37.017256Z",
-    "continuity": "Existing six-hour heartbeat remains active for authorized research. Goal API provides no resume operation; do not claim app goal active."
+    "continuity": "User explicitly resumed mission with no assistant-imposed usage pacing. Existing heartbeat monitors fresh rounds. Goal API still reports blocked and refuses replacement because unfinished; mission continues through user authorization and heartbeat."
   },
   "latest_research_integration": {
     "revision": "6bd4e5abfd127b7e31306976d9ca822949c8f26e",
