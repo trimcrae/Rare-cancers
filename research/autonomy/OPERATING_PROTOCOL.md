@@ -49,6 +49,26 @@ association, and experimental validation. No wet-lab claim can be established by
 
 ## Review with an endpoint
 
+**User rule, 2026-09-05: every paper requires one independent ultra-reasoning pass
+before submission.** This applies to journal and preprint submissions and future revised
+submissions, including the pending ASO submission; it does not retroactively reopen posted
+versions or authorize publication. Keep routine research at medium. Plan the ultra pass as
+part of the existing bounded review batch, not an extra recurring review cycle.
+
+Freeze the paper and supporting evidence before this pass. Review scientific validity,
+methods, novelty, claim strength, citations, limitations and whether the contribution merits
+submission. Preserve the actual model and `reasoning_effort: ultra` execution record, reviewed
+revision/deliverable digest, findings and their disposition. Do not relabel a historical high
+or unknown-effort review as ultra. Reuse a documented ultra pass covering unchanged deliverables.
+The coordinator must verify this evidence before declaring a package ready or handing it off
+for submission; missing evidence blocks that readiness declaration. This is a procedural
+submission requirement, not a claim that the existing publish-bar code already checks effort.
+
+Resolve substantiated blockers in one batch and independently verify the changed claims and
+dependencies. Editorial repairs do not require another full ultra pass. Material scientific
+changes require a new pass covering the changed science and its dependencies. A zero-finding
+review is valid; ultra reasoning is not experimental validation or a guarantee of correctness.
+
 Freeze the outgoing files and identify their evidence before commissioning a review. Reuse
 existing completed reviews when their deliverable digest still matches. Read
 `publish_bar.py` for actual acceptance, not the convenience `converged` field alone.
