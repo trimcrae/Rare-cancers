@@ -34,6 +34,12 @@ association, and experimental validation. No wet-lab claim can be established by
    validation, expected information gained, and effort. Record the concrete question and stop
    condition before starting. Reproducible reanalyses, benchmark datasets, and decisive negative
    results can be valuable; do not manufacture papers from work with no useful result.
+   Before scientific drill-down or a runner contract, maintain a paper-level rank with evidence
+   and reasons: importance, nontrivial novelty, achievable evidence and validation, coherent
+   contribution, and utility come first. Distinguish demonstrated results from development
+   prospects and blocked hypotheses. Feasibility and usage govern execution, not scientific
+   rank; small preparation tasks inherit the selected paper's priority. Use the current
+   [paper priority memo](portfolio-2026-09-05/recommendation.md).
    Use [bounded cycle contracts](RESEARCH_CYCLE.md) to specify the evidence, validation and stop
    condition for one existing route. Reuse matching verified output and reconcile unchanged
    failed inputs before considering another dispatch. Planning scores are judgements, not evidence.

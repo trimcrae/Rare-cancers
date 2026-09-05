@@ -1,6 +1,6 @@
 {
   "coordinator": "01a0712d-5c85-7782-83ec-e3a41b98a625",
-  "enforcement": "Coordinator procedure and heartbeat prompt; account budget and rolling dispatch cap are NOT enforced by research_run.py. Runner independently enforces 1800 seconds/one dispatch.",
+  "enforcement": "Coordinator procedure and heartbeat enforce prospective account pacing; retired rolling dispatch cap is not enforced. Runner independently enforces 1800 seconds/one dispatch.",
   "reserve_percentage_points": 20,
   "daily_ceiling_formula": "min(8,max(0,remaining_percent-20)/days_until_reset)",
   "observations": [
@@ -39,7 +39,7 @@
     "20260905T084620Z-b7637a0999"
   ],
   "earliest_dispatch_utc": null,
-  "next_action": "Retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-sample processed matrix values in one bounded evidence step. Preserve all probes and units. Establish discovery-study overlap before claiming independent validation; do not fit a survival classifier or treat absent cache rows as absent coverage.",
+  "next_action": "Reconcile and present the paper-strength ranking in recommendation.md before any scientific drill-down or runner contract; preparation inherits the selected paper priority. No automatic CHRNA6 retrieval.",
   "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
   "paid_fallback": false,
   "reset_redemption_authorized": false,
