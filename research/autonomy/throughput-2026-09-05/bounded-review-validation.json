@@ -1,0 +1,37 @@
+{
+  "utc": "2026-09-05T02:46:07.392914+00:00",
+  "scope": "targeted review dispatch, publish-bar evidence, seat lifecycle and affected legacy reader tests",
+  "command": [
+    "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "-m",
+    "pytest",
+    "research/autonomy/tests/test_bounded_review_dispatch.py",
+    "research/autonomy/tests/test_a_round_rollup_is_not_a_sixth_seat.py",
+    "research/autonomy/tests/test_recorded_review_outcome.py",
+    "systems/tests/test_the_bar_binds_a_review_to_what_it_read.py",
+    "systems/tests/test_convergence_is_a_repeated_look_not_a_single_test.py",
+    "research/autonomy/tests/test_a_seat_writes_its_record_before_it_looks.py",
+    "research/autonomy/tests/test_continuity_has_no_green_state_recording_can_buy.py",
+    "research/autonomy/tests/test_retries_that_learn_nothing_cost_something.py",
+    "research/autonomy/tests/test_stalls_are_named_reaches_the_board.py",
+    "research/autonomy/tests/test_who_may_act_has_one_answer.py",
+    "research/autonomy/tests/test_an_unscored_row_is_ranked_by_nothing.py",
+    "research/autonomy/tests/test_a_near_miss_field_name_cannot_enter_the_ledger.py",
+    "-q",
+    "--basetemp=.cache/review-final-tests",
+    "--tb=short"
+  ],
+  "exit": 0,
+  "elapsed_seconds": 26.743,
+  "stdout_summary": "215 passed in 24.24s",
+  "full_release_verification": false,
+  "log": "bounded-review-tests.log",
+  "environment": "Native Windows bundled Python with existing C:/Projects/EMC-Research/.cache/python-deps; explicit worktree basetemp avoids inaccessible shared temp directory.",
+  "final_scope_validation": {
+    "why": "Added rejection of mutable revision names after the combined run",
+    "exit": 0,
+    "elapsed_seconds": 2.909,
+    "summary": "8 passed in 0.32s",
+    "log": "bounded-review-final-scope.log"
+  }
+}

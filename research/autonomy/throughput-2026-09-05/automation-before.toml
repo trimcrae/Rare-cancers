@@ -1,0 +1,10 @@
+version = 1
+id = "emc-research-coordinator"
+kind = "heartbeat"
+name = "EMC research coordinator"
+prompt = "Continue the autonomous EMC research program in C:\\Projects\\EMC-Research using this thread as the single coordinator. Read research/autonomy/OPERATING_PROTOCOL.md and research/autonomy/codex-handover.json first, then inspect the latest durable outcome and current repository state. The user disabled the Claude driver on 4 September 2026. If it is re-enabled or another writer owns the same paper, resolve ownership before writing.\n\nKeep PUB-ASO first. Select one concrete unfinished deliverable with a clear stop condition. Use scripts/research_run.py with saved ChatGPT authentication, --ack-local-cutover, a named resource and a task file; retain the configured 30-minute, one-dispatch limit unless the user changes it. Let that run finish, inspect its actual changes and relevant checks, preserve useful outputs and receipts, and integrate coherent work after reconciling current main. Keep writers in separate worktrees and shared status with this coordinator. Never launch overlapping writers or treat a process launch as success.\n\nDo not reopen completed whole-paper reviews without a demonstrated material reason. Once ASO is waiting only on a recorded author decision or external dependency, advance one other computationally answerable research question chosen for clinical relevance, validation and effort. A process improvement must remove observed friction and have a measurable outcome. Preserve existing publication authority: PUB-ASO is excluded from automatic aiXiv posting; journal submission and outreach need the user's specific authorization. No paid API fallback, GPU rental or invented findings. Finish each cycle with exact delivered files, actual validation, unresolved issues and the next concrete action. If nothing useful can proceed, record that state and stop rather than inventing more work."
+status = "ACTIVE"
+rrule = "RRULE:FREQ=MINUTELY;INTERVAL=120"
+target_thread_id = "01a06e21-2d00-7070-be0b-208dc2bb6ccd"
+created_at = 1788561827922
+updated_at = 1788572171378

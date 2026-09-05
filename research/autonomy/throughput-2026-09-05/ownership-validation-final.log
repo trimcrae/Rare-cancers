@@ -1,0 +1,16 @@
+...................................................... [ 38%]
+........................................................................ [ 89%]
+.............F
+================================== FAILURES ===================================
+_______ test_claim_apply_claim_produces_the_canonical_bytes_end_to_end ________
+research\autonomy\tests\test_the_ledger_has_one_serialization.py:181: in test_claim_apply_claim_produces_the_canonical_bytes_end_to_end
+    assert ledger_path.read_bytes() == ledger_io.dumps_ledger(after).encode("utf-8"), (
+E   AssertionError: apply_claim wrote bytes that do not match this repository's one canonical serialization
+E   assert b'{\r\n  "ent...n  ]\r\n}\r\n' == b'{\n  "entri...  }\n  ]\n}\n'
+E     
+E     At index 1 diff: b'\r' != b'\n'
+E     Use -v to get more diff
+=========================== short test summary info ===========================
+FAILED research/autonomy/tests/test_the_ledger_has_one_serialization.py::test_claim_apply_claim_produces_the_canonical_bytes_end_to_end
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 139 passed, 18 subtests passed in 174.56s (0:02:54)

@@ -33,8 +33,9 @@ class RunnerTests(unittest.TestCase):
         path = repo / R.PROTOCOL
         path.parent.mkdir(parents=True)
         path.write_text("Complete only the assigned task.\n", encoding="utf-8")
+        (repo / "research/autonomy/codex-handover.json").write_text(json.dumps({"legacy_driver": {"status": "disabled"}}))
         (repo / ".gitignore").write_text(".cache/\n", encoding="utf-8")
-        R.git(repo, "add", R.PROTOCOL, ".gitignore")
+        R.git(repo, "add", R.PROTOCOL, ".gitignore", "research/autonomy/codex-handover.json")
         R.git(repo, "-c", "core.hooksPath=", "commit", "-qm", "fixture")
         return repo
 
@@ -128,6 +129,8 @@ class RunnerTests(unittest.TestCase):
     def fake_launch(self, statuses, config=None, read_only=False):
         repo = self.repo()
         cache = R.repository(repo)[1]
+        with R.Coordinator(repo, cache) as ownership:
+            ownership.claim("fixture-coordinator", "Synthetic fixture; no remote driver")
         fake = self.directory / "fake_worker.py"
         fake.write_text("import json,sys\nfrom pathlib import Path\n"
                         "Path(sys.argv[1]).with_suffix('.prompt.txt').write_text(sys.stdin.read())\n"
@@ -145,7 +148,7 @@ class RunnerTests(unittest.TestCase):
 
         with mock.patch.object(R, "probe_auth"), mock.patch.object(R, "command_for", side_effect=command):
             path, receipt = R.launch(repo, cache, "fixture", config or R.DEFAULTS,
-                                     "Create a fixture.", "paper:PUB-ASO", dict(os.environ), read_only)
+                                     "Create a fixture.", "paper:PUB-ASO", dict(os.environ), read_only, "fixture-coordinator", {"resource": "paper:PUB-ASO", "kind": "science"})
         self.assertEqual(json.loads(path.read_text())["status"], receipt["status"])
         self.assertEqual(R.git(repo, "status", "--porcelain", "--untracked-files=no"), "")
         self.assertEqual(len((cache / "runs.jsonl").read_text().splitlines()), 1)
@@ -172,23 +175,21 @@ class RunnerTests(unittest.TestCase):
 
     def test_dispatch_budget_stops_incomplete_task_without_claiming_readiness(self):
         receipt, sessions = self.fake_launch(["needs_revision"],
-                                             {**R.DEFAULTS, "max_rounds": 2, "max_dispatches": 1})
+                                             R.DEFAULTS)
         self.assertEqual(receipt["status"], "budget_exhausted")
         self.assertEqual(len(sessions), 1)
 
-    def test_one_repair_resumes_only_explicit_session(self):
-        receipt, sessions = self.fake_launch(["needs_revision", "completed"],
-                                             {**R.DEFAULTS, "max_rounds": 2, "max_dispatches": 2})
-        self.assertEqual(receipt["status"], "completed")
-        self.assertEqual(sessions, [None, "explicit-fixture-id"])
-        prompt = (Path(receipt["worktree"]) / ".cache/research-run/outcome-2.prompt.txt").read_text()
-        self.assertEqual(json.loads(prompt.splitlines()[1])["dispatch_number"], 2)
-        self.assertIn("fixture blocker", prompt)
-        self.assertNotIn("Obtain author approvals", prompt)
+    def test_direct_launch_cannot_bypass_dispatch_or_timeout_limits(self):
+        repo = self.repo()
+        for changed in ({"max_rounds": 2, "max_dispatches": 2}, {"timeout_seconds": 1801}):
+            with self.subTest(changed=changed), self.assertRaises(R.Refused):
+                R.launch(repo, R.repository(repo)[1], "fixture", {**R.DEFAULTS, **changed},
+                         "Test", "process:test", {}, read_only=True)
+        self.assertFalse((repo / ".cache").exists())
 
     def test_read_only_audit_is_bounded_and_does_not_claim_cutover(self):
         receipt, sessions = self.fake_launch(["needs_revision"],
-                                             {**R.DEFAULTS, "max_rounds": 2, "max_dispatches": 2}, True)
+                                             R.DEFAULTS, True)
         self.assertFalse(receipt["legacy_and_remote_writers_stopped_acknowledged"])
         self.assertEqual(receipt["mode"], "read-only")
         self.assertEqual(len(sessions), 1)
@@ -217,7 +218,7 @@ class RunnerTests(unittest.TestCase):
 
     def test_limits_cannot_be_unbounded_or_wrong_types(self):
         for key, value in (("max_rounds", 3), ("max_dispatches", 0),
-                           ("timeout_seconds", True), ("timeout_seconds", 7201)):
+                           ("timeout_seconds", True), ("timeout_seconds", 1801), ("max_dispatches", 2)):
             path = self.directory / "config.json"
             path.write_text(json.dumps({key: value}))
             with self.subTest(key=key, value=value), self.assertRaises(R.Refused):

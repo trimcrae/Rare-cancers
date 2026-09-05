@@ -1,0 +1,130 @@
+{
+  "schema": "emc-researcher-performance/1",
+  "base_revision": "6dcb5b0140c58b1e9a2f16c093378a355adfeeb2",
+  "ablation": {
+    "before_seconds": 340.809314,
+    "after_seconds": 296.205605,
+    "reduction_percent": 13.09,
+    "before_subprocesses": 36,
+    "after_subprocesses": 27,
+    "identical_result_dictionaries": true,
+    "identical_manuscript_hashes": true,
+    "workload": "One deterministic middle covered quantitative sentence per floored document; 4 documents; forced cold cache; baseline witness checks included.",
+    "limitations": "Local Windows measurements, not hosted full preflight. Concurrent local test work affected timing, especially the patched first baseline (102.60s versus40.40s). The full test population was not rerun here. One tables witness is already red at baseline in both runs and remains explicitly subtracted.",
+    "logs": [
+      "ablation-before.log",
+      "ablation-after.log"
+    ],
+    "raw_results": [
+      "ablation-before.json",
+      "ablation-after.json"
+    ]
+  },
+  "collector_contract": {
+    "before_seconds": 126.94,
+    "after_seconds": 9.2,
+    "reduction_percent": 92.75,
+    "before_passed": 5,
+    "after_passed": 5,
+    "mechanism": "Fixture now mocks the Vast control plane as well as synthetic S3 data, eliminating four real unauthenticated fleet GETs. All mapping assertions remain.",
+    "logs": [
+      "retro-collector-before-settled.log",
+      "retro-collector-after.log"
+    ]
+  },
+  "focused_checks": {
+    "passed": 109,
+    "seconds": 58.35,
+    "warnings": 3,
+    "log": "focused-tests.log",
+    "shell_syntax": "bash -n scripts/preflight.sh passed",
+    "diff_whitespace": "git diff --check passed"
+  },
+  "full_preflight": "Not run; prior ASO frozen full-release evidence remains unchanged. Coordinator runs normal preflight after integration.",
+  "metadata_sites": {
+    "report": "metadata-sites.json",
+    "before": 12,
+    "after": 4,
+    "removed": "Eight digit runs within two checksum-valid ORCID representations. All four remaining sites retained.",
+    "censored_before": "Original first-span probe stopped after more than six minutes before producing a result. No numerical before/after speedup is inferred from the interrupted run.",
+    "patched_execution": {
+      "row_seconds": 69.230099,
+      "total_seconds": 70.042639,
+      "subprocesses": 4,
+      "result": {
+        "status": "applied",
+        "red": [
+          "test:test_a_hardening_round_may_not_grow_the_paper.py",
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_aso_deposition_doi_is_one_fact.py",
+          "test:test_citation_type_guard.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_journal_references_match_the_prose.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_pinned_figures_every_home.py",
+          "test:test_round6_fixes_landed.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_claim_audit_never_scores_its_own_paper.py",
+          "test:test_the_deposit_does_not_restate_a_count_the_paper_owns.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+          "test:test_the_journal_articles_word_quantities_are_derived.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+          "test:test_the_manuscript_title_states_the_measurement_it_carries.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_paper_states_what_its_own_claims_depend_on.py",
+          "test:test_the_printed_cut_ladder_is_the_measured_one.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "test:test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+          "test:test_the_unbound_claims_the_coverage_census_found.py",
+          "test:test_two_prose_numbers_bind_to_their_sources.py",
+          "test:test_universal_claims_are_scoped_to_what_was_measured.py",
+          "pin:*"
+        ],
+        "witnesses": [
+          "test:test_a_hardening_round_may_not_grow_the_paper.py",
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_aso_deposition_doi_is_one_fact.py",
+          "test:test_citation_type_guard.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_journal_references_match_the_prose.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_pinned_figures_every_home.py",
+          "test:test_round6_fixes_landed.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_claim_audit_never_scores_its_own_paper.py",
+          "test:test_the_deposit_does_not_restate_a_count_the_paper_owns.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+          "test:test_the_journal_articles_word_quantities_are_derived.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+          "test:test_the_manuscript_title_states_the_measurement_it_carries.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_paper_states_what_its_own_claims_depend_on.py",
+          "test:test_the_printed_cut_ladder_is_the_measured_one.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "test:test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+          "test:test_the_unbound_claims_the_coverage_census_found.py",
+          "test:test_two_prose_numbers_bind_to_their_sources.py",
+          "test:test_universal_claims_are_scoped_to_what_was_measured.py",
+          "pin:*"
+        ],
+        "quantity_kind": "digits",
+        "baseline": {
+          "commands": 2,
+          "already_red": 0
+        },
+        "reason": "4 -> 7"
+      },
+      "evidence": "metadata-after.json"
+    }
+  }
+}

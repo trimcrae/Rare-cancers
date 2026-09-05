@@ -1,0 +1,30 @@
+{
+  "utc": "2026-09-05T03:02:13.010844+00:00",
+  "command": [
+    "C:\\Projects\\EMC-Research\\.cache\\full-preflight-runtime\\bin\\python3.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "-q",
+    "scripts/tests/test_research_cycle.py",
+    "scripts/tests/test_research_run.py",
+    "scripts/tests/test_research_ownership.py",
+    "research/autonomy/tests/test_bounded_review_dispatch.py",
+    "research/autonomy/tests/test_a_round_rollup_is_not_a_sixth_seat.py",
+    "scripts/tests/test_ablation_execution.py",
+    "research/modalities/tests/test_nrv04_retro_collect_contract.py",
+    "--basetemp=.cache/integration-tests-settled",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "mode": "targeted",
+  "source_commit": "fd13a4720c2586dff05b7766bd303644b8c7a5a8",
+  "exit_code": 0,
+  "elapsed_seconds": 38.844,
+  "log": "targeted-settled.log",
+  "log_sha256": "6c3ca11f2a12cbd91ad137a226a6101c7e61e68a975ad5d70e3d86026e379208",
+  "full_release_verification": false,
+  "scope": "Named behavioral tests"
+}

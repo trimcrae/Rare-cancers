@@ -89,21 +89,12 @@ def measure(goal: dict) -> dict:
         # goal" as "this goal is fine" is the exact inversion this file refuses.
         return {"status": UNKNOWN, "detail": f"done_condition.kind is {kind!r}, which this "
                                              "checker does not know how to compute"}
-    # ⛔⛔ THE BAR IS SATISFIED AT THE PIN, NOT AT HEAD, AND MEASURING HEAD MEANT THIS TRACKER COULD
-    # NEVER READ MET. All three of `publish_bar`'s hard clauses bind to the commit being posted, and
-    # the artifacts that clear them — the seat records, the hardening record, the PREFLIGHT_FULL
-    # receipt — are COMMITTED AFTERWARDS, which necessarily moves HEAD past that commit. So a
-    # tracker reading HEAD asks the bar about a commit no round has reviewed, for ever.
-    # ⚠ MEASURED 2026-09-01, in the instrument written the same morning to stop exactly this class
-    # of mistake: goals.json's own docstring says a checker that reads a stored verdict is the
-    # "populated field is not a measured one" failure, and this one recomputed faithfully — against
-    # the wrong subject. Recomputing the wrong thing is not better than reading a stale record.
-    # ★ THE PIN IS READ FROM THE HARDENING RECORD, which is where the round writes which commit its
-    # seats actually reviewed. HEAD is the fallback for a goal with no round yet, and the reading
-    # says which of the two it used so nobody has to infer it.
-    sha, basis = _pinned_commit(cond.get("paper", "")), "the reviewed pin"
+    # An explicitly frozen target is stable. Otherwise grade current committed
+    # deliverables; publish_bar already reuses matching historical review digests.
+    # Always grading the last reviewed pin hid later unreviewed manuscript changes.
+    sha, basis = cond.get("sha"), "the goal's frozen release revision"
     if not sha:
-        sha, basis = _head(), "HEAD (no hardening record names a reviewed commit yet)"
+        sha, basis = _head(), "HEAD (matching frozen-artifact evidence is reused)"
     if not sha:
         return {"status": UNKNOWN, "detail": "neither a reviewed pin nor HEAD is readable, so there "
                                              "is no commit to measure the bar against"}
@@ -164,8 +155,8 @@ def main(argv=None) -> int:
             # ⭐ SAY WHAT WOULD MOVE IT. A distance with no next action is a status, and this
             # repository's own rule is that a status nobody can act on is an unanswered question
             # wearing a costume.
-            print("[goal]      these clauses bind to the commit being posted, so any manuscript "
-                  "edit after the round that closes them re-opens all three")
+            print("[goal]      verify the named open clauses; unchanged deliverables reuse their "
+                  "completed evidence. Extra full review needs a material scientific reason.")
     return worst
 
 

@@ -53,7 +53,10 @@ import json
 import os
 import sys
 
+
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from claim_quantity_identifiers import orcid_spans  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CACHE = os.path.join(HERE, "claim-ablation-cache.json")
 SCHEMA = "emc-claim-ablation-cache/1"
@@ -144,6 +147,10 @@ def key_for(paper, sentence, witnesses):
     acc = hashlib.sha256()
     acc.update(paper.encode("utf-8") + b"\0")
     acc.update(sentence.encode("utf-8") + b"\0")
+    # Only rows whose permitted mutation sites changed lose the old verdict.
+    # A hit earned by altering an author identifier cannot certify a quantity.
+    if orcid_spans(sentence):
+        acc.update(b"quantity-sites-exclude-valid-orcid/1\0")
     for w, digest in srcs:
         acc.update(w.encode("utf-8") + b"\0" + digest.encode("ascii") + b"\n")
     return acc.hexdigest()

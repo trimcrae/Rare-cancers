@@ -11,8 +11,8 @@
     "non_null_owners": 0,
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
-  "coordinator": "This Codex thread; one local clone",
-  "priority": "paper:PUB-ASO",
+  "coordinator": "Codex task 01a06e21-2d00-7070-be0b-208dc2bb6ccd; one local clone",
+  "priority": "paper:PUB-SURFACE-TARGETS",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -25,13 +25,16 @@
     "next_action": "ASO preparation is complete; follow aso_submission for the frozen package and remaining author action."
   },
   "schedule": {
-    "status": "ACTIVE",
+    "status": "PAUSED",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
     "interval_minutes": 120,
     "first_scheduled_run": "not yet observed",
     "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
-    "requires": "Local machine and Codex application available"
+    "requires": "Local machine and Codex application available",
+    "pause_reason": "Single coordinator implementing and validating researcher improvements before observed schedule test",
+    "target_thread_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+    "validation": "One-minute existing-heartbeat test to be armed after explicit ownership transfer; nominal interval remains 120 minutes"
   },
   "integration": {
     "status": "settled_and_verified",
@@ -82,5 +85,35 @@
     "finding": "The full release preflight took 2961 seconds; manuscript tests took 2239.13 seconds. Future process profiling should identify the slow tests before changing the workload.",
     "immediate_fix": "Live release logging now preserves progress and failures; seven synthetic cases plus shell/YAML checks passed.",
     "does_not_reopen_ASO_review": true
-  }
+  },
+  "qeios_v3_submission": {
+    "status": "received_pending_posting",
+    "receipt": "research/autonomy/qeios-v3-submission-2026-09-05.json",
+    "previous_version_url": "https://www.qeios.com/read/VL3LJR.2",
+    "new_version_url": null,
+    "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
+    "does_not_authorize_NAT_submission": true
+  },
+  "last_updated_utc": "2026-09-05T03:04:41.829707+00:00",
+  "coordinator_task_id": "01a06e21-2d00-7070-be0b-208dc2bb6ccd",
+  "researcher_improvements": {
+    "status": "implemented_normal_verified_schedule_test_pending",
+    "evidence": "research/autonomy/throughput-2026-09-05/README.md",
+    "targeted_tests": "67 passed, 20 subtests passed in 36.10 seconds",
+    "normal_preflight": {
+      "status": "passed",
+      "seconds": 136.875,
+      "receipt": "research/autonomy/throughput-2026-09-05/normal-settled.json",
+      "scope": "Normal document and artifact gates; no full scientific suite"
+    },
+    "scheduled_science": "pending observed heartbeat execution",
+    "next_action": "On the actual heartbeat, run the selected surface-address sensitivity contract, independently verify and collect the useful result, update this handover, and preserve final normal preflight. No other writer remains active."
+  },
+  "local_runtime": {
+    "python": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "python_dependencies": "C:/Projects/EMC-Research/.cache/python-deps",
+    "environment_helper": "C:/Projects/EMC-Research/.cache/full_preflight_runtime.py",
+    "remaining_subscription_capacity": "Account-wide 16% weekly consumed at initial probe; not task-specific, no reset redeemed"
+  },
+  "integration_source_receipt": "research/autonomy/throughput-2026-09-05/source-integration.json"
 }

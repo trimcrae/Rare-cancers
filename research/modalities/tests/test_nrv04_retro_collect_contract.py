@@ -103,6 +103,16 @@ def collect(monkeypatch, tmp_path):
         monkeypatch.chdir(tmp_path)
         import importlib
         L = importlib.import_module("nrv04_vast_launch")
+        # This fixture measures driver-result mapping. Keep all control-plane
+        # activity synthetic too: the live board GET used to cost ~31 s per test.
+        monkeypatch.setattr(L, "retro_reap", lambda *a, **kw: None)
+        monkeypatch.setattr(L, "retro_supervise", lambda *a, **kw: {})
+
+        def fleet_request(method, path, key, **kwargs):
+            assert (method, path) == ("GET", "/instances/")
+            return {"instances": []}
+
+        monkeypatch.setattr(L, "_vast_request", fleet_request)
         rc = L.retro_collect("stub-bucket")
         return rc, json.load(open(tmp_path / "nrv04-retro-collect.json"))
     return _run

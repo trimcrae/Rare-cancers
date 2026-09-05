@@ -125,6 +125,14 @@ def test_a_clean_round_with_no_rollup_at_all_still_passes(bar, tmp_path, monkeyp
     assert "0 blockers across 5 blind seat(s)" in got["evidence"], got
 
 
+def test_prior_rollups_do_not_invent_an_extra_independent_reviewer(bar, tmp_path, monkeypatch):
+    _stand_up(bar, tmp_path, monkeypatch, seats_at_sha=5, rollup={},
+              prior_widths=(5, 5), prior_rollup=True)
+    got = bar.clause_1_hardening_converged("PUB-X", SHA)
+    assert got["ok"], got
+    assert all(width == 5 for width in bar._look_history("PUB-X").values())
+
+
 # --------------------------------------------------------------------------- the defect itself
 
 def test_a_rollup_carrying_its_seats_findings_is_refused(bar, tmp_path, monkeypatch):

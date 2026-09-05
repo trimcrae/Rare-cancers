@@ -1,0 +1,22 @@
+{
+  "schema": "emc-process-independent-review/1",
+  "date": "2026-09-05",
+  "scope": "scripts/research_cycle.py, its task contract, collector tests and runbook; focused verification of one repair",
+  "reviewer": "bounded_review delegated agent, separate from cycle implementation author",
+  "evidence_origin": "Observed collaboration messages and focused reviewer reproduction; no separate raw reviewer stdout log was retained.",
+  "substantive_defects_found": 1,
+  "finding": "Collector could attest coordinator working-tree input hashes while a frozen worker read different committed bytes.",
+  "reproduction": {
+    "before": "Synthetic collector returned verified with coordinator input d75ca28f... and worker input f1a8594e...",
+    "after": [
+      "Dirty coordinator input refused without creating an outcome",
+      "Changed worker input refused without creating an outcome",
+      "Matching committed inputs verified with matching hashes"
+    ]
+  },
+  "repair": "Plan compares each input to its committed Git blob; collection compares every worker input to the selected evidence fingerprint.",
+  "repair_commit": "1c3aa932a",
+  "status": "verified_repair",
+  "additional_metadata_fix": "Added required front matter to BOUNDED_REVIEW.md.",
+  "scientific_or_publication_evidence": false
+}

@@ -1,0 +1,26 @@
+........................................................................ [ 66%]
+.....................................                                    [100%]
+============================== warnings summary ===============================
+research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_no_deposit_guard_depends_on_a_module_ci_does_not_install
+research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_every_remaining_skip_in_the_deposit_suite_is_a_decision_somebody_took
+research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_no_deposit_guard_skips_itself_because_an_input_is_missing
+  <unknown>:101: SyntaxWarning: invalid escape sequence '\d'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================ slowest 15 durations =============================
+34.86s call     scripts/tests/test_affected_tests.py::test_a_changed_module_selects_the_tests_that_import_it
+5.11s call     research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_every_remaining_skip_in_the_deposit_suite_is_a_decision_somebody_took
+3.09s call     research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_no_deposit_guard_depends_on_a_module_ci_does_not_install
+2.77s call     research/manuscripts/tests/test_no_guard_can_silently_not_run.py::test_no_deposit_guard_skips_itself_because_an_input_is_missing
+1.96s call     scripts/tests/test_ablation_execution.py::test_real_pytest_probe_stops_but_an_ordinary_run_executes_the_rest
+1.27s call     scripts/tests/test_preflight_suite_gating.py::test_only_an_unscoped_green_run_certifies_the_selector[-0-True]
+0.88s call     scripts/tests/test_preflight_suite_gating.py::test_only_an_unscoped_green_run_certifies_the_selector[-1-False]
+0.83s call     scripts/tests/test_preflight_suite_gating.py::test_only_an_unscoped_green_run_certifies_the_selector[PUB-ASO-0-False]
+0.54s call     scripts/tests/test_preflight_suite_gating.py::test_linux_bootstrap_is_not_run_by_a_windows_shell[Linux-True]
+0.51s call     research/manuscripts/tests/test_the_ablation_cache_cannot_launder_a_red.py::test_every_witness_kind_the_sweep_emits_can_be_keyed
+0.47s call     scripts/tests/test_affected_tests.py::test_a_validated_selector_change_does_not_force_full_on_later_commits
+0.41s call     scripts/tests/test_affected_tests.py::test_the_selector_reports_a_documents_guard_truthfully
+0.38s call     scripts/tests/test_affected_tests.py::test_a_changed_artifact_selects_tests_that_name_it
+0.37s call     scripts/tests/test_affected_tests.py::test_a_manuscript_selects_the_modality_tests_that_name_it
+0.27s call     scripts/tests/test_preflight_suite_gating.py::test_linux_bootstrap_is_not_run_by_a_windows_shell[MSYS_NT-10.0-False]
+109 passed, 3 warnings in 58.35s

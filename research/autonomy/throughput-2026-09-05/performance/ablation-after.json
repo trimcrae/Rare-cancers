@@ -1,0 +1,637 @@
+{
+  "schema": "emc-ablation-performance/1",
+  "revision": "working-tree",
+  "source_sha256": "d1bab6c94ee301969e7aeafbadae40a27e7595acd3b8eb8c9011c5e3b6d88c45",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "command": [
+    "research/autonomy/throughput-2026-09-05/performance/benchmark_ablation.py",
+    "--per-paper",
+    "1",
+    "--output",
+    "research/autonomy/throughput-2026-09-05/performance/ablation-after.json"
+  ],
+  "cache": "forced cold; writes disabled",
+  "elapsed_seconds": 296.205605,
+  "subprocess_count": 27,
+  "manuscript_sha256": {
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+    "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md": "ba05bfd6060f22c49aae0a4bb9d35ce4c8151d017f1bf4b3a6ea4b32961d0197",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda"
+  },
+  "manuscripts_unchanged": true,
+  "rows": [
+    {
+      "paper": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+      "sentence": "Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and for 61 of the 87 the longest is wild-type *NR4A3*; 85 are paired by one of the design's own two parent genes.",
+      "result": {
+        "status": "applied",
+        "red": [
+          "test:test_a_hardening_round_may_not_grow_the_paper.py",
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_aso_deposition_doi_is_one_fact.py",
+          "test:test_citation_type_guard.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_journal_references_match_the_prose.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_pinned_figures_every_home.py",
+          "test:test_round6_fixes_landed.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_claim_audit_never_scores_its_own_paper.py",
+          "test:test_the_deposit_does_not_restate_a_count_the_paper_owns.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+          "test:test_the_journal_articles_word_quantities_are_derived.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+          "test:test_the_manuscript_title_states_the_measurement_it_carries.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_paper_states_what_its_own_claims_depend_on.py",
+          "test:test_the_printed_cut_ladder_is_the_measured_one.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "test:test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+          "test:test_the_unbound_claims_the_coverage_census_found.py",
+          "test:test_two_prose_numbers_bind_to_their_sources.py",
+          "test:test_universal_claims_are_scoped_to_what_was_measured.py",
+          "pin:*"
+        ],
+        "witnesses": [
+          "test:test_a_hardening_round_may_not_grow_the_paper.py",
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_aso_deposition_doi_is_one_fact.py",
+          "test:test_citation_type_guard.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_journal_references_match_the_prose.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_pinned_figures_every_home.py",
+          "test:test_round6_fixes_landed.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_claim_audit_never_scores_its_own_paper.py",
+          "test:test_the_deposit_does_not_restate_a_count_the_paper_owns.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+          "test:test_the_journal_articles_word_quantities_are_derived.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+          "test:test_the_manuscript_title_states_the_measurement_it_carries.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_paper_states_what_its_own_claims_depend_on.py",
+          "test:test_the_printed_cut_ladder_is_the_measured_one.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "test:test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+          "test:test_the_unbound_claims_the_coverage_census_found.py",
+          "test:test_two_prose_numbers_bind_to_their_sources.py",
+          "test:test_universal_claims_are_scoped_to_what_was_measured.py",
+          "pin:*"
+        ],
+        "quantity_kind": "both",
+        "baseline": {
+          "commands": 2,
+          "already_red": 0
+        },
+        "reason": "87 -> 84"
+      },
+      "seconds": 140.971224,
+      "subprocesses": [
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_a_hardening_round_may_not_grow_the_paper.py",
+            "<clone>\\research\\manuscripts\\tests\\test_a_quantity_written_as_a_word_is_bound_too.py",
+            "<clone>\\research\\manuscripts\\tests\\test_aso_abstract_is_bounded.py",
+            "<clone>\\research\\manuscripts\\tests\\test_aso_deposition_doi_is_one_fact.py",
+            "<clone>\\research\\manuscripts\\tests\\test_citation_type_guard.py",
+            "<clone>\\research\\manuscripts\\tests\\test_display_items_are_cited_in_order.py",
+            "<clone>\\research\\manuscripts\\tests\\test_journal_article_numbers.py",
+            "<clone>\\research\\manuscripts\\tests\\test_journal_references_match_the_prose.py",
+            "<clone>\\research\\manuscripts\\tests\\test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+            "<clone>\\research\\manuscripts\\tests\\test_pinned_figures_every_home.py",
+            "<clone>\\research\\manuscripts\\tests\\test_round6_fixes_landed.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_ablation_cache_cannot_launder_a_red.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_claim_audit_never_scores_its_own_paper.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_deposit_does_not_restate_a_count_the_paper_owns.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_envelope_declares_one_interest.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_journal_articles_word_quantities_are_derived.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_journal_display_items_say_what_their_rows_say.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_manuscript_title_states_the_measurement_it_carries.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_numbered_claims_no_instrument_read.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_paper_states_what_its_own_claims_depend_on.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_printed_cut_ladder_is_the_measured_one.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_unbound_claims_the_coverage_census_found.py",
+            "<clone>\\research\\manuscripts\\tests\\test_two_prose_numbers_bind_to_their_sources.py",
+            "<clone>\\research\\manuscripts\\tests\\test_universal_claims_are_scoped_to_what_was_measured.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly"
+          ],
+          "seconds": 102.600356,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 12.631716,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 11.358642,
+          "red": true
+        }
+      ]
+    },
+    {
+      "paper": "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md",
+      "sentence": "PMID 20231676. doi 10.1200/jco.2009.26.3541. 7. van den Bent MJ, Wefel JS, Schiff D, Taphoorn MJ, Jaeckle K, et al.",
+      "result": {
+        "status": "applied",
+        "red": [
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_endpoint_logic.py",
+          "test:test_endpoint_manuscript_figures.py",
+          "test:test_every_censused_sentence_can_be_found_in_its_own_file.py",
+          "test:test_the_endpoint_reference_list_binds_to_what_was_fetched.py",
+          "pin:*"
+        ],
+        "witnesses": [
+          "test:test_aso_abstract_is_bounded.py",
+          "test:test_endpoint_logic.py",
+          "test:test_endpoint_manuscript_figures.py",
+          "test:test_every_censused_sentence_can_be_found_in_its_own_file.py",
+          "test:test_the_endpoint_reference_list_binds_to_what_was_fetched.py",
+          "pin:*"
+        ],
+        "quantity_kind": "digits",
+        "baseline": {
+          "commands": 2,
+          "already_red": 0
+        },
+        "reason": "20231676 -> 20231677"
+      },
+      "seconds": 40.902677,
+      "subprocesses": [
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_aso_abstract_is_bounded.py",
+            "<clone>\\research\\manuscripts\\tests\\test_endpoint_logic.py",
+            "<clone>\\research\\manuscripts\\tests\\test_endpoint_manuscript_figures.py",
+            "<clone>\\research\\manuscripts\\tests\\test_every_censused_sentence_can_be_found_in_its_own_file.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_endpoint_reference_list_binds_to_what_was_fetched.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly"
+          ],
+          "seconds": 22.434796,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.653138,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.371526,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_aso_abstract_is_bounded.py",
+            "<clone>\\research\\manuscripts\\tests\\test_endpoint_logic.py",
+            "<clone>\\research\\manuscripts\\tests\\test_endpoint_manuscript_figures.py",
+            "<clone>\\research\\manuscripts\\tests\\test_every_censused_sentence_can_be_found_in_its_own_file.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_endpoint_reference_list_binds_to_what_was_fetched.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "--maxfail=1"
+          ],
+          "seconds": 11.345273,
+          "red": true
+        }
+      ]
+    },
+    {
+      "paper": "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+      "sentence": "The two reagents named for synthesis, with their parent-duplex label.** The parent-duplex column is the longest contiguous duplex a mature wild-type parent forms through the catalytic gap; neither reagent reaches the ten-base-pair criterion, so the length is printed rather than a pass mark.",
+      "result": {
+        "status": "applied",
+        "red": [
+          "test:test_a_display_item_cell_is_not_clipped.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "pin:*",
+          "generator:research/manuscripts/aso_journal_tables.py"
+        ],
+        "witnesses": [
+          "test:test_a_display_item_cell_is_not_clipped.py",
+          "test:test_display_items_are_cited_in_order.py",
+          "test:test_journal_article_numbers.py",
+          "test:test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+          "test:test_the_envelope_declares_one_interest.py",
+          "test:test_the_journal_display_items_say_what_their_rows_say.py",
+          "test:test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_numbered_claims_no_instrument_read.py",
+          "test:test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+          "pin:*",
+          "generator:research/manuscripts/aso_journal_tables.py"
+        ],
+        "quantity_kind": "words",
+        "baseline": {
+          "commands": 11,
+          "already_red": 1
+        },
+        "reason": "two -> six"
+      },
+      "seconds": 30.856577,
+      "subprocesses": [
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_a_display_item_cell_is_not_clipped.py",
+            "<clone>\\research\\manuscripts\\tests\\test_display_items_are_cited_in_order.py",
+            "<clone>\\research\\manuscripts\\tests\\test_journal_article_numbers.py",
+            "<clone>\\research\\manuscripts\\tests\\test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_envelope_declares_one_interest.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_journal_display_items_say_what_their_rows_say.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_numbered_claims_no_instrument_read.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly"
+          ],
+          "seconds": 9.910172,
+          "red": true
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_a_display_item_cell_is_not_clipped.py"
+          ],
+          "seconds": 0.742784,
+          "red": true
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_display_items_are_cited_in_order.py"
+          ],
+          "seconds": 0.741968,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_journal_article_numbers.py"
+          ],
+          "seconds": 2.353741,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_named_reagents_carry_the_acceptor_the_csv_gives_them.py"
+          ],
+          "seconds": 0.795817,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_the_envelope_declares_one_interest.py"
+          ],
+          "seconds": 0.6539,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_the_journal_display_items_say_what_their_rows_say.py"
+          ],
+          "seconds": 0.699034,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py"
+          ],
+          "seconds": 5.8119,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_the_numbered_claims_no_instrument_read.py"
+          ],
+          "seconds": 0.887443,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "<clone>\\research\\manuscripts\\tests\\test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py"
+          ],
+          "seconds": 0.764532,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.486088,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research/manuscripts/aso_journal_tables.py",
+            "--check"
+          ],
+          "seconds": 0.0833,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.788801,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research/manuscripts/aso_journal_tables.py",
+            "--check"
+          ],
+          "seconds": 0.079404,
+          "red": true
+        }
+      ]
+    },
+    {
+      "paper": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+      "sentence": "Verbatim: *\"A medium throughput drug screen using 40 drugs was conducted with USZ20-EMC1 at passage 5.\"* Only three agents \u2014 carfilzomib, doxorubicin and venetoclax \u2014 went forward to a **validation** step that used both models, and it is that step, not the 40-drug screen, that the partner-independence sentences describe.",
+      "result": {
+        "status": "applied",
+        "red": [
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_every_censused_sentence_can_be_found_in_its_own_file.py",
+          "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+          "test:test_fusion_partner_prose_matches_its_artifact.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_census_bound_names_the_sentences_it_counts.py",
+          "test:test_the_census_reads_every_publication_endpoint.py",
+          "test:test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_readability_splitter_breaks_where_a_sentence_does.py",
+          "pin:*"
+        ],
+        "witnesses": [
+          "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+          "test:test_every_censused_sentence_can_be_found_in_its_own_file.py",
+          "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+          "test:test_fusion_partner_prose_matches_its_artifact.py",
+          "test:test_the_ablation_cache_cannot_launder_a_red.py",
+          "test:test_the_census_bound_names_the_sentences_it_counts.py",
+          "test:test_the_census_reads_every_publication_endpoint.py",
+          "test:test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
+          "test:test_the_readability_splitter_breaks_where_a_sentence_does.py",
+          "pin:*"
+        ],
+        "quantity_kind": "both",
+        "baseline": {
+          "commands": 2,
+          "already_red": 0
+        },
+        "reason": "20 -> 27"
+      },
+      "seconds": 80.84428,
+      "subprocesses": [
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_a_quantity_written_as_a_word_is_bound_too.py",
+            "<clone>\\research\\manuscripts\\tests\\test_every_censused_sentence_can_be_found_in_its_own_file.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_matches_its_artifact.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_ablation_cache_cannot_launder_a_red.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_bound_names_the_sentences_it_counts.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_reads_every_publication_endpoint.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_readability_splitter_breaks_where_a_sentence_does.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly"
+          ],
+          "seconds": 17.923545,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.365542,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 3.424072,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_a_quantity_written_as_a_word_is_bound_too.py",
+            "<clone>\\research\\manuscripts\\tests\\test_every_censused_sentence_can_be_found_in_its_own_file.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_matches_its_artifact.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_ablation_cache_cannot_launder_a_red.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_bound_names_the_sentences_it_counts.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_reads_every_publication_endpoint.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_readability_splitter_breaks_where_a_sentence_does.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "--maxfail=1"
+          ],
+          "seconds": 30.387971,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "<clone>\\research\\manuscripts\\lint_consistency.py"
+          ],
+          "seconds": 7.474702,
+          "red": false
+        },
+        {
+          "command": [
+            "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-m",
+            "pytest",
+            "<clone>\\research\\manuscripts\\tests\\test_a_quantity_written_as_a_word_is_bound_too.py",
+            "<clone>\\research\\manuscripts\\tests\\test_every_censused_sentence_can_be_found_in_its_own_file.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+            "<clone>\\research\\manuscripts\\tests\\test_fusion_partner_prose_matches_its_artifact.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_ablation_cache_cannot_launder_a_red.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_bound_names_the_sentences_it_counts.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_census_reads_every_publication_endpoint.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
+            "<clone>\\research\\manuscripts\\tests\\test_the_readability_splitter_breaks_where_a_sentence_does.py",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            "-p",
+            "no:randomly",
+            "--maxfail=1"
+          ],
+          "seconds": 18.198905,
+          "red": true
+        }
+      ]
+    }
+  ]
+}

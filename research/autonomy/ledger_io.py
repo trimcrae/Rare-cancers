@@ -103,5 +103,5 @@ def write_ledger(path: "str | os.PathLike", data: dict, check: bool = True) -> N
                   file=sys.stderr)
         admissibility.check_write(os.fspath(path), data)
         ledger_schema.check_write(os.fspath(path), data)
-    with open(path, "w", encoding="utf-8") as fh:
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(dumps_ledger(data))

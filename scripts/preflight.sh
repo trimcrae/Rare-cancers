@@ -528,6 +528,13 @@ fi
 # script here rather than at the gate that needs it, and the empty string then falls through to
 # serial, which is the safe direction.
 # ⛔ Asserted by scripts/tests/test_the_dep_probe_asks_the_interpreter_that_runs_the_tests.py.
+# Keep the slow-test evidence in the durable preflight log, not only in a
+# temporary pytest file. This is diagnostic output; all suite verdicts below
+# still come from the complete pytest result.
+_print_test_profile() {
+  awk '/slowest .* durations/ {show=1; print; next} show && /^=/ {exit} show {print}' "$1"
+}
+
 PYTEST_PAR=""
 _pytest_selftest="$($PYTEST --version --version 2>/dev/null || true)"
 if [ "${PREFLIGHT_SERIAL:-0}" != "1" ]; then
@@ -1072,15 +1079,16 @@ if [ "$RUN_MODALITIES" = "1" ]; then
   # decided once, above, where the selector's exit code was still in hand.
   if [ "$SEL_STATUS" = "scoped" ]; then
     # shellcheck disable=SC2086
-    $PYTEST $PYTEST_PAR $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
+    $PYTEST $PYTEST_PAR $SELECTED -q --durations=25 --continue-on-collection-errors >"$out" 2>&1 || true
   elif [ "$SEL_STATUS" = "none" ]; then
     echo "no modality test is affected by this change" >"$out"
   else
-    $PYTEST $PYTEST_PAR research/modalities/tests/ -q --continue-on-collection-errors \
+    $PYTEST $PYTEST_PAR research/modalities/tests/ -q --durations=25 --continue-on-collection-errors \
         --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
   fi
   failed=$(grep -cE '^FAILED' "$out" || true)
   errored=$(grep -cE '^ERROR ' "$out" || true)
+  _print_test_profile "$out"
   tail -1 "$out"
 
   # ⛔ A RUN THAT EXECUTED NOTHING IS NOT A PASS. Belt and braces against the failure above returning
@@ -1210,7 +1218,8 @@ if [ "$RUN_TESTS" = "1" ]; then
   # — 151 passed, 0 failed, measured the day this gate was added — so the bar here is simply zero.
   echo "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) =="
   mout=$(mktemp)
-  $PYTEST $PYTEST_PAR research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
+  $PYTEST $PYTEST_PAR research/manuscripts/tests -q --durations=25 --continue-on-collection-errors >"$mout" 2>&1 || true
+  _print_test_profile "$mout"
   tail -1 "$mout"
   # ⛔⛔ READ THE COUNT, NOT ONLY THE `^FAILED` LINES — MEASURED 2026-08-26, IN THIS FILE'S OWN LOG.
   # A preflight run printed `PREFLIGHT OK` while THIS step's own `tail -1` said
@@ -1364,7 +1373,8 @@ if [ "$RUN_SELECTOR_TESTS" = "0" ]; then
 else
 echo "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments${SYSTEMS_TESTS:+ + the systems model}) =="
 sout=$(mktemp)
-$PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests $SYSTEMS_TESTS -q --continue-on-collection-errors >"$sout" 2>&1 || true
+$PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests $SYSTEMS_TESTS -q --durations=25 --continue-on-collection-errors >"$sout" 2>&1 || true
+_print_test_profile "$sout"
 tail -1 "$sout"
 # ⛔ SAME TWO-SIGNAL DECISION AS THE MANUSCRIPTS BLOCK ABOVE, AND IT IS HERE FOR THE REASON THAT
 # BLOCK'S COMMENT GIVES: a fix bound to one call site regresses at its sibling (`paper-hardening`

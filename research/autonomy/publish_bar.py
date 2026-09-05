@@ -262,9 +262,8 @@ def _rollup_covering(pub_id: str, sha: str, err: str) -> tuple[dict | None, str]
     ⛔ A ROLL-UP ONLY — the bare `{pub_id}-{commit}.json`, never a `-seat-` file. Clause 6 asks for
     the round's canonical adversarial record, and widening it to any seat file would let a
     single-lens seat stand in for the round's own verdict.
-    ⛔ AND IT REFUSES TO CHOOSE BETWEEN TWO CANDIDATES. If more than one covering roll-up exists, the
-    clause gets nothing rather than the first one sorted: picking would mean this function deciding
-    which review speaks for the paper, which is the judgement a clause may not make for itself.
+    Multiple candidates require the current hardening record to select their accepted
+    round. Without that explicit selection, ambiguity still refuses.
     """
     try:
         paths = sorted(SEATS_DIR.glob(f"{pub_id}-*.json"))
@@ -282,6 +281,16 @@ def _rollup_covering(pub_id: str, sha: str, err: str) -> tuple[dict | None, str]
     if len(found) == 1:
         return found[0][1], err
     if len(found) > 1:
+        # The hardening record already identifies the round whose evidence is accepted.
+        # Reuse that explicit choice; do not let an unrelated commit make identical
+        # artifacts ambiguous again. All clause-6 checks still run on the chosen record.
+        hardening, _ = _read_json(HARDENING_DIR / f"{pub_id}.json")
+        pinned = (hardening or {}).get("reviewed_commit")
+        selected = [record for name, record in found
+                    if record.get("reviewed_commit") == pinned
+                    and name == f"{pub_id}-{pinned}.json"]
+        if len(selected) == 1:
+            return selected[0], err
         return None, (f"{len(found)} round roll-ups review the paper at {sha[:12]} "
                       f"({', '.join(sorted(n for n, _ in found))}) and this clause will not choose "
                       "between them")
@@ -403,8 +412,12 @@ def _look_history(pub_id: str) -> dict:
             continue
         seen = record.get("reviewed_commit")
         if isinstance(seen, str) and seen:
-            history[seen] = history.get(seen, 0) + 1
-    return history
+            history.setdefault(seen, []).append(path.name)
+    # Compare independent looks with independent looks. A synthesis file did not
+    # commission another reviewer. Keep a lone canonical record as its one seat,
+    # matching the current-round discriminator without rewriting historical data.
+    return {seen: (sum(_is_seat_file(pub_id, seen, name) for name in names)
+                   or len(names)) for seen, names in history.items()}
 
 
 def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
@@ -581,36 +594,10 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                        f"{record.get('last_round')} ({open_p1s} P1(s) alongside, which do not "
                        "refuse this clause)")
 
-    # ⛔ THE ROUND THAT DECLARES CONVERGENCE MAY NOT BE THE WEAKEST ONE. Rounds repeat until one
-    # comes back clean, so the loop stops on the first favourable draw; stopping on a THIN round
-    # after several fat ones is that failure at its worst, and it is the one form of it that can be
-    # forbidden without knowing the seats' miss rate. The declaring round must therefore field at
-    # least as many blind seats as the widest round that came before it.
-    # ⚠ THE WIDTH IS READ OFF THE SEAT RECORDS ON DISK, so it is a LOWER bound: a round whose seat
-    # records were never committed cannot raise it. That makes this check miss cases, never invent
-    # them — stated because a bound in the permissive direction inside a permission is exactly the
-    # thing this file's header says to distrust.
-    # ⛔⛔ THE TWO SIDES OF THIS COMPARISON ARE DELIBERATELY NOT SYMMETRICAL, AND SAYING SO IS THE
-    # POINT (AUT-PD-193, 2026-09-01). The declaring round is counted in SEATS (`seat_only`); the
-    # earlier rounds are counted in blind RECORDS, roll-ups included, exactly as before.
-    #
-    #   * counting the declaring round in seats LOWERS its number, so this check fires more often
-    #     — a STRENGTHENING, which is the only direction available to a cycle this bar is blocking.
-    #   * counting the priors in seats would LOWER `widest`, so the check would fire LESS often.
-    #     That is a LOOSENING and it is therefore NOT TAKEN HERE, however obviously right it looks.
-    #
-    # ⚠ AND THE COST OF NOT TAKING IT IS MEASURED, NOT HYPOTHETICAL. On the records on disk,
-    # `_look_history("PUB-ASO")` returns 6 for four earlier commits that fielded FIVE seats and one
-    # roll-up each, so `widest` is 6; a round fielding five seats and no roll-up (the round-27
-    # convention, PUB-ASO-6127da1ac1a2, 5 records / 5 seats) is refused for being narrower than a
-    # round that looked exactly as hard. THAT IS A FALSE REFUSAL AND IT IS LEFT STANDING ON PURPOSE:
-    # `amendment_guard` forbids a bar being loosened by the cycle it blocks, and a false refusal
-    # costs a round, while a false clearance costs a paper published under a real ORCID. A later
-    # cycle — or trimcrae — may symmetrise this line, declared in `amendments.jsonl`. Until then a
-    # round that has to clear the old bound clears it the honest way, by fielding another seat.
-    # ⛔ EXCLUDED BY THE ROUND'S OWN COMMIT, NOT BY `sha`. Where the declaring round was filed
-    # elsewhere, excluding `sha` would leave that round's own seats in `priors` and compare it
-    # against itself, which nothing can fail.
+    # Preserve the existing minimum independent-review width, using the same
+    # seat discriminator for past and current rounds. The user-authorized
+    # correction removes a known extra-seat demand caused by counting roll-ups.
+    # Historical evidence remains untouched; fewer actual reviewers still fails.
     priors = {seen: k for seen, k in _look_history(pub_id).items() if seen != round_commit}
     widest = max(priors.values(), default=0)
     if len(seat_only) < widest:

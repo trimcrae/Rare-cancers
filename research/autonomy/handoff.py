@@ -53,6 +53,7 @@ RECEIPTS = HERE / "receipts"
 # set of scripts run as `python3 research/autonomy/<tool>.py` from the repo root.
 sys.path.insert(0, str(HERE))
 import stuck_clock  # noqa: E402
+import bounded_review
 
 #: How many queued items the successor is handed. Enough to choose from; not so many that the prompt
 #: becomes a plan the successor follows instead of re-scoring the queue itself, which is step 2 of
@@ -310,6 +311,7 @@ def top_items(ledger: dict | None, n: int = TOP_N, exclude_ids=None) -> list[dic
                 and int(e.get("retry_budget") or 0) > 0
                 and e.get("score") is not None
                 and not e.get("requires_trimcrae")
+                and bounded_review.task_review_decision(e, repo=REPO)["allowed"]
                 and e.get("id") not in exclude]
     return sorted(takeable, key=lambda e: -float(e.get("score") or 0))[:n]
 

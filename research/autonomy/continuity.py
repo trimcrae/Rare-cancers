@@ -68,6 +68,7 @@ sys.path.insert(0, HERE)
 import envread  # noqa: E402 — AUT-PD-140: the session id is READ three-valued
 import handoff  # noqa: E402
 import priority  # noqa: E402 — AUT-PD-014: reuses priority.py's progress-aware retry-budget
+import bounded_review
 # arithmetic (`fruitless_attempts_count`, `DEFAULT_RETRY_BUDGET`) so this file's exclusion and
 # priority.py's own `retry_budget` field can never disagree about what "budget spent" means.
 #: ⛔ The governed concurrency dial lives in ONE file and is READ, never remembered — CLAUDE.md §1
@@ -145,6 +146,9 @@ def _why_not_ready(e: dict, me: str | None, terminal: frozenset | None = None) -
     """
     if e.get("state") not in OPEN_STATES:
         return "finished"
+    review = bounded_review.task_review_decision(e, repo=REPO)
+    if not review["allowed"]:
+        return f"bounded review ({review['action']}): {review['reason']}"
     if terminal and e.get("id") in terminal:
         return "stalled_needs_human (stuck_clock.py) — a human decision, not queued work"
     # ⛔⛔ AUT-PD-014, WIRED IN THE SAME SHAPE AS `terminal` ABOVE: a row whose progress-aware retry

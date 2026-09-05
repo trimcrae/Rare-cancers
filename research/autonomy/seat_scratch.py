@@ -229,7 +229,8 @@ def seat_record_path(seats_dir: str, paper: str, sha: str, lens: str) -> str:
 
 
 def open_seat_record(seats_dir: str, paper: str, sha: str, lens: str, *, document: str | None = None,
-                     document_sha256: str | None = None, utc: str | None = None):
+                     document_sha256: str | None = None, utc: str | None = None,
+                     review_request: dict | None = None):
     """Write the empty, honest, `status: open` record. Returns (path, findings)."""
     path = seat_record_path(seats_dir, paper, sha, lens)
     now = utc or _utcnow()
@@ -276,6 +277,8 @@ def open_seat_record(seats_dir: str, paper: str, sha: str, lens: str, *, documen
     }
     if existing is not None:
         record["reopened_utc"] = now
+    if review_request is not None:
+        record["review_request"] = review_request
     os.makedirs(seats_dir, exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(record, fh, indent=2)
@@ -310,7 +313,8 @@ def close_seat_record(seats_dir: str, paper: str, sha: str, lens: str, findings:
     # the lens are the seat's CONTRACT, written before it looked; letting the close overwrite them
     # would let a seat that read another tree relabel itself afterwards, which is exactly the drift
     # `paper-hardening` §3 pins a commit to prevent.
-    frozen = ("reviewed_commit", "blind", "seat", "lens", "paper", "pub_id", "opened_utc")
+    frozen = ("reviewed_commit", "blind", "seat", "lens", "paper", "pub_id", "opened_utc",
+              "review_request")
     contradicted = [k for k in frozen
                     if k in findings and findings[k] != record.get(k)]
     if contradicted:
@@ -396,6 +400,8 @@ def main(argv=None) -> int:
     ap.add_argument("--document-sha256", default=None, help="that document's digest at --sha")
     ap.add_argument("--findings", metavar="FILE",
                     help="JSON object of the seat's reported findings, for --close-seat-record")
+    ap.add_argument("--review-request", metavar="FILE",
+                    help="frozen JSON scope/reason and lenses for this bounded review batch")
     ap.add_argument("--seats-dir", default=SEATS_DIR,
                     help=f"directory holding the seat records (default {SEATS_DIR})")
     args = ap.parse_args(argv)
@@ -409,9 +415,23 @@ def main(argv=None) -> int:
         if missing:
             ap.error(f"a seat record needs {', '.join(missing)}")
         if args.open_seat_record:
+            import bounded_review
+            request = {"scope": "baseline", "lenses": [args.lens]}
+            if args.review_request:
+                try:
+                    request = json.loads(pathlib.Path(args.review_request).read_text(encoding="utf-8"))
+                except (OSError, ValueError) as exc:
+                    return _report([("INVALID-REQUEST", args.review_request, str(exc))], "")
+            if not isinstance(request, dict) or args.lens not in request.get("lenses", []):
+                return _report([("INVALID-REQUEST", args.lens,
+                                 "name this lens in the frozen request's lenses list")], "")
+            decision = bounded_review.review_decision(args.paper, args.sha, request)
+            if not decision["allowed"]:
+                return _report([("BOUNDED-REVIEW", args.paper, decision["reason"])], "")
             path, findings = open_seat_record(
                 args.seats_dir, args.paper, args.sha, args.lens,
-                document=args.document, document_sha256=args.document_sha256)
+                document=args.document, document_sha256=args.document_sha256,
+                review_request=request)
             return _report(findings, f"opened {path} — now go and read the paper")
         if not args.findings:
             ap.error("--close-seat-record needs --findings FILE")

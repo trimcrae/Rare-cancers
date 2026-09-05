@@ -91,6 +91,7 @@ def evaluate(sha: str | None = None) -> dict:
             "what_he_does": HIS_ACTS[nxt],
             "document": (pub.get("document") or {}).get("file"),
             "commit": sha,
+            "deliverable_digest": publish_bar._deliverable_digest_at(pid, sha),
             "clauses_passed": verdict["n_passed"],
             "clauses_total": verdict["n_clauses"],
             "blocking_clauses": blocking,
@@ -99,6 +100,23 @@ def evaluate(sha: str | None = None) -> dict:
             "state": "READY" if not blocking else "NOT-READY",
         }
     return waiting
+
+
+def _already_notified(paper: str, ready: dict, queue: dict) -> bool:
+    """Notification identity is the outgoing bytes and requested act, not repository HEAD."""
+    import publish_bar
+    previous = queue["notified"].get(paper, {})
+    old_act = previous.get("act") or queue.get("waiting", {}).get(paper, {}).get("act")
+    if old_act != ready.get("act"):
+        return False
+    old_digest = previous.get("deliverable_digest")
+    if not old_digest and previous.get("commit"):
+        old_digest = publish_bar._deliverable_digest_at(paper, previous["commit"])
+    new_digest = ready.get("deliverable_digest")
+    if old_digest and new_digest:
+        return old_digest == new_digest
+    # Missing digests cannot prove equivalence across revisions.
+    return bool(previous.get("commit") and previous["commit"] == ready.get("commit"))
 
 
 def main(argv=None) -> int:
@@ -112,8 +130,13 @@ def main(argv=None) -> int:
     q = _load_queue()
 
     if args.mark_notified:
-        q["notified"][args.mark_notified] = {"commit": _head()}
         q["waiting"] = evaluate()
+        ready = q["waiting"].get(args.mark_notified, {})
+        if ready.get("state") != "READY":
+            print(f"cannot mark {args.mark_notified}: no verified READY artifact")
+            return 1
+        q["notified"][args.mark_notified] = {
+            key: ready.get(key) for key in ("commit", "deliverable_digest", "act")}
         _write(q)
         print(f"recorded that trimcrae was notified about {args.mark_notified}")
         return 0
@@ -122,10 +145,8 @@ def main(argv=None) -> int:
     ready = {k: v for k, v in waiting.items() if v.get("state") == "READY"}
 
     if args.new:
-        # ⚠ Notified is keyed on the COMMIT too: a paper he was told about at one commit and then
-        # revised is a NEW thing to tell him about, not an old one to stay quiet on.
         fresh = {k: v for k, v in ready.items()
-                 if q["notified"].get(k, {}).get("commit") != v.get("commit")}
+                 if not _already_notified(k, v, q)}
         for pid, v in fresh.items():
             print(f"READY (not yet notified): {pid} — {v['what_he_does']}  [{v['document']}]")
         if not fresh:

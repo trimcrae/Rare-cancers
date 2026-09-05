@@ -140,6 +140,7 @@ LEDGER = os.path.join(HERE, "research-ledger.json")
 # flat set of scripts, not a package.
 sys.path.insert(0, HERE)
 import ledger_io  # noqa: E402
+from local_ownership import Coordinator, Refused as OwnershipRefused  # noqa: E402
 import priority  # noqa: E402 — AUT-PD-014: shares priority.py's evidence_fingerprint() so the
 # fingerprint stamped HERE, at dispatch, and the one `fruitless_attempts_count()` reads back later
 # are computed by the same function. `priority.py` has no import-time side effects (see its own
@@ -435,6 +436,29 @@ def finished_by(row: dict):
     return None
 
 
+def resource_of(row: dict) -> str | None:
+    """Paper/subsystem identity spans task ids, so a second row is not a new writer slot."""
+    if row.get("resource"):
+        return row["resource"]
+    serves = row.get("serves") or {}
+    paper = serves.get("publication") or serves.get("paper")
+    return f"paper:{paper}" if paper else None
+
+
+def legacy_handover_refusal(git):
+    if not isinstance(git, Git):
+        return None
+    handover = git._run("show", "origin/main:research/autonomy/codex-handover.json", check=False)
+    if handover.returncode == 0:
+        try:
+            disabled = json.loads(handover.stdout).get("legacy_driver", {}).get("status") == "disabled"
+        except (ValueError, AttributeError):
+            return "Remote coordinator handover is unreadable; reconcile it before legacy dispatch."
+        if disabled:
+            return "Remote handover disables the legacy driver; use the registered Codex coordinator."
+    return None
+
+
 def decide(trunk: dict, entry_id: str, me: str) -> tuple[str, str]:
     """`(verdict, why)` from the TRUNK's copy — never the working tree's.
 
@@ -455,6 +479,11 @@ def decide(trunk: dict, entry_id: str, me: str) -> tuple[str, str]:
             "the claim writes `state = in_progress` over the completion record. Take the next item. "
             "If the work genuinely must be redone, file a NEW row for it rather than reopening this "
             "one, the way AUT-PD-145 was filed for the deferred half of AUT-PD-050.")
+    resource = resource_of(row)
+    for other in trunk.get("entries", []):
+        if (resource and other.get("id") != entry_id and other.get("owner")
+                and not finished_by(other) and resource_of(other) == resource):
+            return YIELDED, f"{resource} is already held through {other['id']} by {other['owner']}"
     owner = row.get("owner")
     if owner and owner != me:
         return YIELDED, f"{entry_id} is already held by {owner}"
@@ -546,11 +575,11 @@ def withdraw_claim(ledger_path: str, before: str) -> None:
     ⚠ AND IF THAT PRE-EXISTING EDIT IS ITSELF WHAT BLOCKS THE MERGE, `integrate()` now says
     `MERGE_REFUSED` and the caller stops honestly. That is a human's problem and it is now named.
     """
-    with open(ledger_path, "w", encoding="utf-8") as fh:
+    with open(ledger_path, "w", encoding="utf-8", newline="") as fh:
         fh.write(before)
 
 
-def claim(entry_id: str, me: str, when: str, git: Git | None = None,
+def _claim(entry_id: str, me: str, when: str, git: Git | None = None,
           ledger_path: str = LEDGER) -> tuple[str, str]:
     """Take `entry_id` for `me`, or yield to whoever already holds it. Returns `(verdict, why)`.
 
@@ -565,7 +594,7 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
     that no longer exists — and cannot converge, ever, however many attempts it is given.
     """
     git = git or Git()
-    with open(ledger_path, encoding="utf-8") as fh:
+    with open(ledger_path, encoding="utf-8", newline="") as fh:
         before = fh.read()
     try:
         # ⛔⛔ AUT-PD-160: REFUSE BEFORE TOUCHING ANYTHING IF HEAD CARRIES WORK THE TRUNK DOES NOT.
@@ -581,6 +610,9 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
         # ⚠ AND THE COMPLEMENT ALREADY EXISTS AND CANNOT COVER THIS. `--check` reports a claim the
         # trunk cannot SEE; this is the opposite failure — a push that carried more than it meant to.
         git.fetch()
+        refused = legacy_handover_refusal(git)
+        if refused:
+            return SUSPENDED, refused
         carried = git.commits_not_on_trunk()
         if carried:
             return SUSPENDED, (
@@ -606,7 +638,15 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
                 "unstage it (`git restore --staged`); then claim again.")
         for attempt in range(1, MAX_ATTEMPTS + 1):
             git.fetch()
+            refused = legacy_handover_refusal(git)
+            if refused:
+                return SUSPENDED, refused
             trunk = git.trunk_ledger()
+            if isinstance(git, Git):
+                from bounded_review import task_review_decision
+                decision = task_review_decision(row_of(trunk, entry_id) or {}, repo=git.repo)
+                if not decision["allowed"]:
+                    return SUSPENDED, decision["reason"]
             verdict, why = decide(trunk, entry_id, me)
             if verdict != TAKEN:
                 return verdict, why
@@ -675,6 +715,25 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
         f"{entry_id} was still free after {MAX_ATTEMPTS} attempts and every push lost the "
         "compare-and-swap even after merging origin/main each time. Automation has stopped: this is "
         "not a row to retry, it is a row a human clears. Look at the push output directly.")
+
+
+def claim(entry_id: str, me: str, when: str, git: Git | None = None,
+          ledger_path: str = LEDGER) -> tuple[str, str]:
+    """Serialize local legacy claims against the existing Codex coordinator lock.
+
+    The remote push remains the arbiter for legacy clones. Its fetched handover
+    disables new claims after cutover; pre-cutover writers must be drained first.
+    """
+    git = git or Git()
+    if not isinstance(git, Git):  # Pure decision/retry test adapters have no clone.
+        return _claim(entry_id, me, when, git, ledger_path)
+    try:
+        with Coordinator(git.repo) as ownership:
+            if ownership.state.get("owner"):
+                return SUSPENDED, f"Local Codex coordinator {ownership.state['owner']} owns this clone."
+            return _claim(entry_id, me, when, git, ledger_path)
+    except OwnershipRefused as exc:
+        return SUSPENDED, str(exc)
 
 
 def unpushed_claims(trunk: dict, working: dict) -> list[tuple[str, str]]:

@@ -1,0 +1,15 @@
+MODE=targeted
+BASE=fd13a4720c2586dff05b7766bd303644b8c7a5a8
+COMMAND=["C:\\Projects\\EMC-Research\\.cache\\full-preflight-runtime\\bin\\python3.exe", "-X", "utf8", "-m", "pytest", "-q", "scripts/tests/test_research_cycle.py", "scripts/tests/test_research_run.py", "scripts/tests/test_research_ownership.py", "research/autonomy/tests/test_bounded_review_dispatch.py", "research/autonomy/tests/test_a_round_rollup_is_not_a_sixth_seat.py", "scripts/tests/test_ablation_execution.py", "research/modalities/tests/test_nrv04_retro_collect_contract.py", "--basetemp=.cache/integration-tests-settled", "--tb=short", "-p", "no:cacheprovider"]
+.................................................... [ 77%]
+...............                                                          [100%]
+============================== warnings summary ===============================
+research\manuscripts\claim_coverage.py:454
+  C:\Users\mcrae\.codex\worktrees\1072\EMC-Research\research\manuscripts\claim_coverage.py:454: SyntaxWarning: invalid escape sequence '\s'
+    `sentence in text` fails because the flattener joins lines, and answered with `\s+` between
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+67 passed, 1 warning, 20 subtests passed in 36.10s
+
+EXIT=0
+ELAPSED_SECONDS=38.844

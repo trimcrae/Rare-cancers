@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Run one bounded research task using local, subscription-authenticated Codex.
 
-The OS lock serializes this runner across worktrees of ONE local clone. It does
-not replace claim.py's remote arbitration or coordinate Claude/other machines.
-Writing runs require an acknowledged local-only cutover. Read-only audits may
-inspect a frozen checkout while legacy writers continue elsewhere.
+The existing OS lock serializes runners, ownership changes and local legacy
+claims. Persistent coordinator/resource records retain ownership until output
+is reconciled. Remote writers still require the recorded legacy-driver cutover.
+Read-only audits may inspect a frozen checkout while legacy writers continue.
 Receipts are operational records, never a manuscript-readiness verdict.
 """
 from __future__ import annotations
@@ -49,19 +49,8 @@ OUTCOME_SCHEMA = {
 }
 
 
-class Refused(RuntimeError):
-    pass
-
-
-def utc_now():
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-
-def write_json(path, value):
-    path = Path(path)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(path)
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "research/autonomy"))
+from local_ownership import Coordinator, LocalLock, Refused, handover_disabled, utc_now, write_json
 
 
 def git(repo, *arguments, timeout=30):
@@ -86,7 +75,13 @@ def settings(path):
         if not isinstance(supplied, dict) or set(supplied) - set(DEFAULTS):
             raise Refused("Runner config contains unsupported fields.")
         config.update(supplied)
-    for key, maximum in (("timeout_seconds", 7200), ("max_rounds", 2), ("max_dispatches", 2)):
+    return validate_settings(config)
+
+
+def validate_settings(config):
+    if set(config) != set(DEFAULTS):
+        raise Refused("Runner config must contain the supported budget fields.")
+    for key, maximum in (("timeout_seconds", 1800), ("max_rounds", 1), ("max_dispatches", 1)):
         if type(config[key]) is not int or not 1 <= config[key] <= maximum:
             raise Refused(f"{key} must be an integer from 1 to {maximum}.")
     if config["reasoning_effort"] not in ("low", "medium", "high", "xhigh", "max"):
@@ -112,44 +107,6 @@ def probe_auth(codex, env):
     if result.returncode or "chatgpt" not in status or "api key" in status or "api_key" in status:
         raise Refused("Saved ChatGPT authentication could not be verified. Run codex login status "
                       "in the intended local account and sign in with ChatGPT before launching.")
-
-
-class LocalLock:
-    """An OS-held lock; process death releases it without lease expiry guesses."""
-    def __init__(self, path):
-        self.path, self.handle = Path(path), None
-
-    def __enter__(self):
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.handle = self.path.open("a+b")
-        self.handle.seek(0, os.SEEK_END)
-        if self.handle.tell() == 0:
-            self.handle.write(b"0")
-            self.handle.flush()
-        self.handle.seek(0)
-        try:
-            if os.name == "nt":
-                import msvcrt
-                msvcrt.locking(self.handle.fileno(), msvcrt.LK_NBLCK, 1)
-            else:
-                import fcntl
-                fcntl.flock(self.handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError as exc:
-            self.handle.close()
-            self.handle = None
-            raise Refused("Another local research runner owns the coordinator lock.") from exc
-        return self
-
-    def __exit__(self, *_):
-        if self.handle:
-            if os.name == "nt":
-                import msvcrt
-                self.handle.seek(0)
-                msvcrt.locking(self.handle.fileno(), msvcrt.LK_UNLCK, 1)
-            else:
-                import fcntl
-                fcntl.flock(self.handle.fileno(), fcntl.LOCK_UN)
-            self.handle.close()
 
 
 class WindowsJob:
@@ -248,6 +205,26 @@ def read_outcome(path):
     return result
 
 
+def artifact_inventory(worktree, outcome):
+    """Bind claimed outputs and actual changed files to bytes retained for integration."""
+    root = Path(worktree).resolve()
+    paths = set(git(root, "diff", "--name-only", "HEAD").splitlines())
+    paths.update(git(root, "ls-files", "--others", "--exclude-standard").splitlines())
+    for name in outcome["artifacts"]:
+        path = (root / name).resolve()
+        if not path.is_relative_to(root) or not path.is_file():
+            raise Refused(f"Worker artifact is not a retained file in its worktree: {name}")
+        paths.add(path.relative_to(root).as_posix())
+    result = []
+    for name in sorted(paths):
+        path = root / name
+        if not path.resolve().is_relative_to(root):
+            raise Refused(f"Output path escapes its retained worktree: {name}")
+        result.append({"path": name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()
+                       if path.is_file() else None, "deleted": not path.exists()})
+    return result
+
+
 def event_summary(path):
     summary = {"session_id": None, "usage": [], "errors": 0}
     for line in Path(path).read_text(encoding="utf-8", errors="replace").splitlines():
@@ -334,9 +311,32 @@ def dispatch_prompt(prompt, config, read_only, number, remaining):
             + prompt)
 
 
-def launch(root, cache, codex, config, task, resource, env, read_only=False):
-    with LocalLock(cache / "coordinator.lock"):
-        probe_auth(codex, env)
+def validate_task_contract(contract, resource):
+    if (not isinstance(contract, dict) or contract.get("kind") not in ("science", "maintenance", "review")
+            or contract.get("resource") != resource):
+        raise Refused("Writing --task-contract requires kind science|maintenance|review and resource matching --resource.")
+    if contract["kind"] == "review" and not isinstance(contract.get("review_request"), dict):
+        raise Refused("Review task contracts require an explicit review_request object.")
+    return contract
+
+
+def launch(root, cache, codex, config, task, resource, env, read_only=False,
+           coordinator_id=None, task_contract=None):
+    config = validate_settings(config)
+    with Coordinator(root, cache) as ownership:
+        if not read_only:
+            ownership.require(coordinator_id)
+            handover_disabled(root)
+            ownership.recover(coordinator_id)
+            if resource in ownership.state["resources"]:
+                raise Refused(f"Resource {resource} has unresolved retained output; resolve it before dispatch.")
+        if not read_only:
+            validate_task_contract(task_contract, resource)
+        if task_contract is not None:
+            from bounded_review import task_review_decision
+            decision = task_review_decision(task_contract, repo=root)
+            if not decision["allowed"]:
+                raise Refused(decision["reason"])
         protocol_path = root / PROTOCOL
         if not protocol_path.is_file():
             raise Refused(f"Required operating protocol is missing: {PROTOCOL}")
@@ -349,6 +349,7 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
         receipt = {"schema": "emc-local-research-run/1", "run_id": run_id,
                    "started_utc": utc_now(), "resource": resource, "model": MODEL,
                    "auth": "saved-chatgpt", "coordination": "one-local-clone-only",
+                   "coordinator_id": coordinator_id,
                    "mode": "read-only" if read_only else "workspace-write",
                    "legacy_and_remote_writers_stopped_acknowledged": not read_only,
                    "base_commit": base, "worktree": str(worktree), "limits": config,
@@ -356,13 +357,18 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
                    "protocol_sha256": hashlib.sha256(protocol.encode()).hexdigest(),
                    "rounds": [], "status": "starting", "automatic_publication": False}
         receipt_path = directory / "receipt.json"
+        if not read_only:
+            ownership.reserve(coordinator_id, resource, run_id, receipt=receipt_path)
         write_json(receipt_path, receipt)
         prompt = task_prompt(task, protocol, resource, read_only)
         (directory / "task.txt").write_text(task, encoding="utf-8")
         (directory / "protocol.md").write_text(protocol, encoding="utf-8")
+        if task_contract is not None:
+            write_json(directory / "task-contract.json", task_contract)
         started = time.monotonic()
         deadline = started + config["timeout_seconds"]
         try:
+            probe_auth(codex, env)
             git(root, "worktree", "add", "--detach", str(worktree), base,
                 timeout=max(1, deadline - time.monotonic()))
             scratch = worktree / ".cache" / "research-run"
@@ -392,9 +398,14 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
                     raise Refused("Codex run failed; inspect the recorded logs. No automatic retry.")
                 if read_only and git(worktree, "status", "--porcelain"):
                     raise Refused("Read-only audit changed project files; inspect the retained worktree.")
+                if git(worktree, "rev-parse", "HEAD") != base:
+                    raise Refused("Worker changed its committed base; inspect retained work before integration.")
                 outcome = read_outcome(outcome_path)
+                record["artifact_inventory"] = artifact_inventory(worktree, outcome)
                 record.update({"status": outcome["status"], "outcome": outcome})
-                write_json(directory / f"outcome-{number}.json", outcome)
+                retained_outcome = directory / f"outcome-{number}.json"
+                write_json(retained_outcome, outcome)
+                record["outcome_sha256"] = hashlib.sha256(retained_outcome.read_bytes()).hexdigest()
                 receipt["status"] = outcome["status"]
                 if outcome["status"] != "needs_revision":
                     break
@@ -424,7 +435,14 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False):
                     record.update(event_summary(log))
                 if record["status"] == "running":
                     record["status"] = receipt["status"]
+            if worktree.is_dir():
+                try:
+                    receipt["working_tree_status"] = git(worktree, "status", "--porcelain")
+                except Refused as exc:
+                    receipt["working_tree_status_error"] = str(exc)
             write_json(receipt_path, receipt)
+            if not read_only:
+                ownership.update_run(coordinator_id, resource, receipt)
             with (cache / "runs.jsonl").open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps({"run_id": run_id, "resource": resource,
                                          "status": receipt["status"], "receipt": str(receipt_path)}) + "\n")
@@ -437,12 +455,26 @@ def main(argv=None):
     parser.add_argument("--config", help="Optional JSON budget settings; see codex-runner.json")
     parser.add_argument("--codex", default="codex")
     parser.add_argument("--task-file", help="UTF-8 file containing one concrete deliverable")
+    parser.add_argument("--task-contract", help="Optional JSON ledger/selection contract for bounded review policy")
+    parser.add_argument("--coordinator-id", help="Stable owning task identity; required for writes and ownership changes")
+    parser.add_argument("--note", help="Reason/evidence for coordinator claim or handoff")
+    parser.add_argument("--worker-id", help="Manual worker identity when reserving a resource")
+    parser.add_argument("--worktree", help="Separate existing worktree for a manual resource writer")
+    parser.add_argument("--resolution", choices=("integrated", "abandoned"))
+    parser.add_argument("--evidence", help="Durable verification/reason file for resolving retained output")
     parser.add_argument("--resource", help="Stable resource name, e.g. paper:PUB-ASO or process:ci")
     parser.add_argument("--read-only", action="store_true",
                         help="One sandboxed audit of a frozen checkout; can coexist with legacy writers")
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--plan", action="store_true", help="Read-only plan; no auth check or LLM call")
     modes.add_argument("--doctor", action="store_true", help="Read-only prerequisites and auth probe")
+    modes.add_argument("--coordinator-status", action="store_true")
+    modes.add_argument("--claim-coordinator", action="store_true")
+    modes.add_argument("--release-coordinator", action="store_true")
+    modes.add_argument("--handoff-coordinator", metavar="SUCCESSOR")
+    modes.add_argument("--reserve-resource", action="store_true")
+    modes.add_argument("--release-resource", action="store_true")
+    modes.add_argument("--recover", action="store_true")
     parser.add_argument("--ack-local-cutover", action="store_true",
                         help="Assert all legacy/remote writers are stopped; this lock is LOCAL ONLY")
     args = parser.parse_args(argv)
@@ -458,6 +490,32 @@ def main(argv=None):
                   "mode": "read-only" if args.read_only else "workspace-write", "paid_api_fallback": False}
         if args.plan:
             print(json.dumps(report, indent=2))
+            return 0
+        if args.coordinator_status:
+            print(json.dumps(Coordinator.read(cache), indent=2))
+            return 0
+        if any((args.claim_coordinator, args.release_coordinator, args.handoff_coordinator,
+                args.reserve_resource, args.release_resource, args.recover)):
+            with Coordinator(root, cache) as ownership:
+                if args.claim_coordinator:
+                    if not args.ack_local_cutover:
+                        raise Refused("Coordinator claim requires --ack-local-cutover after draining old writers.")
+                    ownership.claim(args.coordinator_id, args.note)
+                elif args.handoff_coordinator:
+                    ownership.handoff(args.coordinator_id, args.handoff_coordinator, args.note)
+                elif args.release_coordinator:
+                    ownership.release(args.coordinator_id, args.note)
+                elif args.reserve_resource:
+                    if not args.worktree:
+                        raise Refused("Manual writer reservation requires --worktree.")
+                    ownership.reserve(args.coordinator_id, args.resource, args.worker_id, args.worktree)
+                elif args.release_resource:
+                    if not args.evidence:
+                        raise Refused("Resolving a resource requires --evidence.")
+                    ownership.release_resource(args.coordinator_id, args.resource, args.resolution, args.evidence)
+                else:
+                    ownership.recover(args.coordinator_id)
+                print(json.dumps(ownership.state, indent=2))
             return 0
         if not codex:
             raise Refused("Native Codex CLI executable not found.")
@@ -486,7 +544,9 @@ def main(argv=None):
         previous_handler = signal.signal(signal.SIGTERM, cancelled)
         try:
             receipt_path, receipt = launch(root, cache, codex, config, task, args.resource,
-                                           dict(os.environ), args.read_only)
+                                           dict(os.environ), args.read_only, args.coordinator_id,
+                                           json.loads(Path(args.task_contract).read_text(encoding="utf-8-sig"))
+                                           if args.task_contract else None)
         finally:
             signal.signal(signal.SIGTERM, previous_handler)
         print(json.dumps({"status": receipt["status"], "receipt": str(receipt_path),

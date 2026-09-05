@@ -1,0 +1,52 @@
+{
+  "schema": "emc-bounded-research-contracts/1",
+  "purpose": "Concrete next questions attached to existing routes. This refines the ledger, does not replace it, and never authorizes publication. Ratings are coordinator judgements, not biological evidence.",
+  "tasks": [
+    {
+      "id": "surface-address-sample-sensitivity",
+      "kind": "science",
+      "resource": "paper:PUB-SURFACE-TARGETS",
+      "ledger_ids": ["AUT-025"],
+      "question": "For the eleven route-named therapeutic addresses already read in EMC tissue, which EMC-versus-other-sarcoma expression directions survive deleting any one EMC sample or any one comparator histology?",
+      "stop_condition": "Deliver a deterministic script, JSON result, concise methods/results note and behavioral tests covering every named address on each recorded platform, including unreadable and unstable results. Stop after independent arithmetic verification; no manuscript or new broad review.",
+      "effort_minutes": 25,
+      "assessment": {
+        "clinical_relevance": {"rating": 3, "basis": "Existing RT-FAP-RLT and PUB-SURFACE-TARGETS route questions concern candidate tissue addresses; this can prioritize later validation, not treatment."},
+        "answerability": {"rating": 3, "basis": "Committed emc-expression-panels.json includes per-sample z values, labels and platform coverage for the eleven addresses."},
+        "validation": {"rating": 3, "basis": "Exact deletion arithmetic can be independently recomputed; compare baseline means to the committed parent artifact within its rounding precision."},
+        "information_gain": {"rating": 2, "basis": "Current cross-platform board summarizes direction without single-sample or comparator-histology sensitivity for these eleven addresses. A fragile or unreadable result is useful."}
+      },
+      "inputs": [
+        "research/modalities/emc-expression-panels.json",
+        "research/modalities/emc-expression-panels-inputs.json",
+        "research/modalities/emc_expression_panels.py"
+      ],
+      "outputs": [
+        "research/modalities/surface_address_sensitivity.py",
+        "research/modalities/surface-address-sensitivity.json",
+        "research/modalities/surface-address-sensitivity.md",
+        "research/modalities/tests/test_surface_address_sensitivity.py"
+      ],
+      "instructions": "Use the existing surface_antigen.groups.route_named_addresses membership: CD276, SSTR2, PRAME, FAP, CD248, CSPG4, MSLN, L1CAM, GPC3, ALPP, CDH17. Use only gene_reads per_sample z_vs_array, class and gsm from the committed parent JSON. Preserve the parent input SHA256 and exact source path. Analyse each platform independently: baseline mean(EMC)-mean(all non-EMC); every leave-one-EMC-out delta; every leave-one-comparator-histology-out delta, provided both arms remain nonempty. Report sample counts, comparator class counts, min/max deletion deltas, sign flips and missingness. Include all deletion rows so arithmetic is auditable. No p-values, confidence intervals, probability claims or cross-platform pooling: these are finite sensitivity ranges on rounded parent values, not sampling uncertainty. Compare recomputed baseline to parent welch_EMC_vs_comparator.delta_a_minus_b at the parent's precision and report disagreement rather than silently normalizing it away. Do not claim raw-data or probe-choice validation: parent values already aggregate probes. Flag unreadable platform/address combinations; missing probe does not mean absent expression. The two cohorts contain different comparator mixtures and cannot establish tumour restriction, surface protein localisation, safety or efficacy. PRAME is an intracellular HLA-presented address, not a surface protein; use therapeutic-address wording. Note this is exploratory secondary reanalysis, not a preregistered analysis. Generate a concise Markdown note with valid repository metadata (kind memo, audience maintainers/autonomous research agents) and source links to https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369 and https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE4303, verified by coordinator. Focus tests on missing data, sign instability and comparator deletion; don't pin prose. Rerun generator and confirm deterministic identical JSON. No figures needed. No networks, installs or paid compute. For pytest use --basetemp=.cache/surface-sensitivity-tests --tb=short -p no:cacheprovider because the shared Windows pytest temporary directory is not writable. Use runner-supplied Python executable. Stop on a precise missing-input problem if the committed parent cannot support this computation."
+    },
+    {
+      "id": "fet-non-ewsr1-positive-control",
+      "kind": "science",
+      "resource": "paper:PUB-ATR",
+      "ledger_ids": ["AUT-PD-208-11f2347b-8e081d15"],
+      "question": "Does the existing FET structural precondition recover a sourced FUS::DDIT3 comparator junction?",
+      "stop_condition": "A sourced exon junction and reproducible positive-control check, or an explicit evidence gap.",
+      "effort_minutes": 25,
+      "external_blocker": "The existing ledger records no sourced exon-level FUS::DDIT3 junction in committed inputs. Coordinator must retrieve primary evidence before the offline runner can compute this; do not invent a breakpoint.",
+      "assessment": {
+        "clinical_relevance": {"rating": 3, "basis": "Existing RT-ATR-ASSESS mechanism depends on whether its structural definition generalizes across FET family members."},
+        "answerability": {"rating": 1, "basis": "Required junction source is explicitly absent from the ledger's evidence inventory."},
+        "validation": {"rating": 2, "basis": "A primary junction record would enable exact sequence/architecture comparison."},
+        "information_gain": {"rating": 3, "basis": "Failure to recover a non-EWSR1 positive control could invalidate family-level extrapolation."}
+      },
+      "inputs": ["research/modalities/emc-fet-construct-designs.json", "research/modalities/emc-fet-idr-census.json"],
+      "outputs": [],
+      "instructions": "Hold until a primary breakpoint source is preserved; no inferred sequence or manuscript rewrite."
+    }
+  ]
+}

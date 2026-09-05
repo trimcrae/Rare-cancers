@@ -75,6 +75,11 @@ def _identify(repo, name):
     for key, value in (("user.email", f"{name}@example.invalid"), ("user.name", name),
                        ("commit.gpgsign", "false"), ("core.hooksPath", "/dev/null")):
         _git("config", key, value, cwd=repo)
+    # The production repository ignores the runner's shared runtime cache. Give
+    # these minimal clones the same local exclusion so _clean still detects
+    # unintended claim edits, while the shared OS lock can remain on disk.
+    with open(os.path.join(repo, ".git", "info", "exclude"), "a", encoding="utf-8") as fh:
+        fh.write("\n/.cache/research-runs/\n")
 
 
 def _ledger_bytes(rows):

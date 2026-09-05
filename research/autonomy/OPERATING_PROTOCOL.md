@@ -34,6 +34,9 @@ association, and experimental validation. No wet-lab claim can be established by
    validation, expected information gained, and effort. Record the concrete question and stop
    condition before starting. Reproducible reanalyses, benchmark datasets, and decisive negative
    results can be valuable; do not manufacture papers from work with no useful result.
+   Use [bounded cycle contracts](RESEARCH_CYCLE.md) to specify the evidence, validation and stop
+   condition for one existing route. Reuse matching verified output and reconcile unchanged
+   failed inputs before considering another dispatch. Planning scores are judgements, not evidence.
 4. An unrelated red health row or maintenance backlog is not a scientific task. Triage only the
    conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
    constraints. A process fix must remove observed friction and report its measured effect.
@@ -78,12 +81,18 @@ Workers report a needed execution approval to the coordinator before entering a 
 call. The coordinator owns the approval request and keeps its purpose visible to the user.
 Do not leave several delegated workers silently waiting on separate permission prompts.
 
-The legacy remote `claim.py` protocol uses a successful compare-and-push to `main` as its lock.
-A local file, worktree, or branch is not a remote claim. The new local Codex runner serializes its
-own runs using an OS-held lock shared by worktrees; it cannot lock a Claude worker on another
-machine. **Do not run both schedulers over the same work.** Before autonomous local execution,
-pause/drain the legacy driver and identify outstanding owners. A user-invoked read-only audit
-can run while that handover is pending; a local implementation branch is not a live cutover.
+The legacy remote `claim.py` protocol uses a successful compare-and-push to `main` as its remote
+claim. A local file, worktree, or branch is not a remote claim. The local Codex runner and local
+legacy claims share the existing OS-held lock; its durable coordinator and resource records retain
+ownership through output integration or explicit abandonment. A stopped process does not release
+its unfinished paper to a second writer. Transfer ownership explicitly, and preserve interrupted
+outputs when recovering. See [the runner](CODEX_RUNNER.md) for the actual commands.
+
+The lock cannot fence a noncooperating worker on another machine. Cooperating legacy claims also
+read the disabled-driver handover from fetched main. **Do not run both schedulers over the same
+work.** Before autonomous local execution, pause/drain the legacy driver and identify outstanding
+owners. Every writing launch rechecks the handover and outstanding legacy owners. A read-only
+audit can run while handover is pending; an implementation branch is not a live cutover.
 
 Start from a known base. Integrate coherent changes at a settled checkpoint, after checking current
 main for conflicts. Do not merge main after every edit or push each status observation separately.
@@ -129,6 +138,9 @@ A cycle ends with a durable outcome and a clear next action. A process launch is
 result. Do not report a scheduler as active until an actual run produced and preserved its output.
 Local runner receipts are not legacy `CYC-*` receipts or publication evidence. A remote cycle must
 continue using the existing claim and receipt schemas until its readers are deliberately migrated.
+The cycle adapter preserves local verified results separately, including input/output hashes,
+independent check logs, elapsed time and observed usage. Independent maintenance needs measured
+friction and normally consumes at most one of four cycles; useful science has selection priority.
 
 ## Basis for this change
 

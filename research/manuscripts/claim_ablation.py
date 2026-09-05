@@ -75,6 +75,7 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 import claim_coverage as cc  # noqa: E402
 import claim_ablation_cache as _cache  # noqa: E402
+from claim_quantity_identifiers import orcid_spans  # noqa: E402
 
 #: The witness kinds the census emits, and the command that re-runs each one.
 _LINT_CONSISTENCY = [sys.executable, os.path.join(HERE, "lint_consistency.py")]
@@ -334,6 +335,9 @@ def perturbations(span, skip):
     ⛔ AND NOTHING INSIDE A STRIPPED SPAN IS EVER PERTURBED (`skip`), for either kind — a number word
     inside a dropped heading or a fenced block is not part of the flattened claim.
     """
+    # Author identifiers can share a census span with an abstract quantity.
+    # Their digits are not quantities; retain every actual numerical site.
+    skip = list(skip) + orcid_spans(span)
     out = []
     for m in re.finditer(r"\d+", span):
         if any(s <= m.start() < e for s, e in skip):
@@ -360,7 +364,7 @@ def states_a_quantity(sentence):
     ⚠ Takes the FLATTENED census sentence, which by construction contains only text that survived
     `_prose`, so there is no stripped span to exclude here.
     """
-    return bool(re.search(r"\d", sentence) or _NUMBER_WORD.search(sentence))
+    return bool(perturbations(sentence, []))
 
 
 def quantity_kind(span, skip):
@@ -438,6 +442,25 @@ def _baseline_reds(witnesses, workspace):
                 red.append(len(final) - 1)
     _BASELINE_CACHE[key] = (final, red)
     return _BASELINE_CACHE[key]
+
+
+def _mutation_is_detected(commands, already_red, workspace):
+    """Ask whether any baseline-green witness detects this mutation.
+
+    Run the inexpensive standalone tools before pytest and stop once the answer
+    is known. Pytest stops after its first failure only for this mutation probe.
+    The unmutated baseline and the enclosing scientific suite still run every
+    test; a blind mutation still runs every eligible witness. No verdict is
+    inferred from an unrun witness.
+    """
+    ordered = sorted(enumerate(commands), key=lambda item: "pytest" in item[1])
+    for index, command in ordered:
+        if index in already_red:
+            continue
+        probe = command + ["--maxfail=1"] if "pytest" in command else command
+        if _run(probe, workspace):
+            return True
+    return False
 
 
 def subtraction_note(commands, already_red):
@@ -555,9 +578,7 @@ def ablate(paper_key, row, witnesses=None):
             _write_without_following_the_link(
                 mirror,
                 original[:hit.start() + start] + now + original[hit.start() + end:])
-            fired = [i for i, cmd in enumerate(cmds)
-                     if i not in already_red and _run(cmd, workspace)]
-            if fired:
+            if _mutation_is_detected(cmds, already_red, workspace):
                 _cache.record(_entries, _key, True, f"{was} -> {now}", ws,
                               status=APPLIED, quantity_kind=kind, baseline=baseline)
                 _cache.save(_entries)
