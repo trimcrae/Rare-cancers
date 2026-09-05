@@ -1,0 +1,87 @@
+{
+  "thread_id": "01a07318-e6d3-7c62-a9d2-02605b370430",
+  "coordinator_thread_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "resource": "paper:external-fusion-benchmark",
+  "reservation": "Coordinator explicitly confirmed exclusive reservation before scientific writing",
+  "base_revision": "95dbbe7a0f243452bc689fb22db00fb13417d9f5",
+  "base_verification": "Coordinator confirmed actual HEAD and worktree in incoming task message",
+  "worktree": "C:/Users/mcrae/.codex/worktrees/1d4f/EMC-Research",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "model_effort_evidence": "Coordinator runtime confirmation",
+  "permissions": {
+    "sandbox": "workspace-write",
+    "approval": "on-request",
+    "network": false,
+    "full_access_requested_by_user": true,
+    "full_access_actually_available": false,
+    "escalation_requests": 0
+  },
+  "timing": {
+    "initialization_first_clock_utc": "2026-09-05T19:43:40+00:00",
+    "reservation_scientific_start_utc": "2026-09-05T19:46:01+00:00",
+    "initialization_observed_seconds": 141,
+    "initialization_note": "First instruction read began before initial clock; its approximately five-second tool call is not included in observed interval. Reservation clock waits are initialization, not scientific work.",
+    "clock_wait_seconds_before_reservation": 102.5211,
+    "scientific_checkpoint_utc": "2026-09-05T19:59:29.987198+00:00",
+    "scientific_elapsed_seconds": 808.987198,
+    "scientific_budget_seconds": 1800,
+    "scientific_wait_seconds": 0,
+    "goal_tool_elapsed_seconds": 816,
+    "goal_complete_utc": "2026-09-05T19:59:37+00:00"
+  },
+  "checkpoint_status": "delivered partial-outcome numerical benchmark for independent coordinator verification",
+  "scope_outputs": "Only research/autonomy/fusion-partial-benchmark-2026-09-05/",
+  "input_cache": "C:/Users/mcrae/.codex/worktrees/8010/EMC-Research/.cache/fusion-partial-inputs-2026-09-05/ (read-only)",
+  "runtime": {
+    "python": "3.12.14",
+    "pypdfium2": "5.13.0",
+    "Pillow": "12.3.0",
+    "python_flags": [
+      "-B",
+      "-X",
+      "utf8"
+    ],
+    "new_dependencies": false
+  },
+  "observed_execution_issue": "Initial optional pypdf import failed because C:/Projects/EMC-Research/.cache/python-deps/fontTools/__init__.py was unreadable. Used existing pypdfium2/Pillow successfully; no escalation or install.",
+  "validation": [
+    "nine source/member SHA-256 and byte counts",
+    "seven PDF archive member byte identities",
+    "31 duplex lengths and reverse-complement orientations",
+    "93 endpoint-row coverage",
+    "61 mean coordinates agree with color-column check within one pixel",
+    "61 mean and SD-cap overlays visually checked by writer",
+    "four derived outputs reproduce byte-for-byte read-only",
+    "rank arithmetic perfect/inverse/ties/constant checks"
+  ],
+  "integration_preflight": "not run; coordinator-owned",
+  "independent_verification": "pending coordinator; same-writer checks are not independent review",
+  "unresolved": [
+    "SS #4 parent mean/SD censored at plot ceiling",
+    "31 second-parent outcomes unknown",
+    "exact Ct transformation unreported in inspected methods/captions",
+    "biological versus technical triplicate identity unresolved",
+    "no common verified exact breakpoint/reference alignment score",
+    "no cross-study validation or paper novelty/readiness assessment"
+  ],
+  "usage": {
+    "tokens": 85040,
+    "subscription_remaining": null,
+    "note": "Goal tool reported tokensUsed=85040 and timeUsedSeconds=816 on completion; subscription remaining unavailable. No API/GPU expenditure or usage reset."
+  },
+  "actions": {
+    "nested_agents": 0,
+    "new_tasks": 0,
+    "outgoing_task_messages": 0,
+    "runners": 0,
+    "network_requests": 0,
+    "commits": 0,
+    "publications": 0,
+    "outreach": 0,
+    "pull_requests": 0,
+    "writes_outside_output_directory": 0
+  },
+  "actually_running": [],
+  "next_action": "Coordinator independently verifies numerical extraction and integrates coherent checkpoint; extension requires a separate evidence-based decision. Whole-program preprint goal stays with coordinator."
+}

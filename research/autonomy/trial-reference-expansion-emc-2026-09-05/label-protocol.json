@@ -1,0 +1,21 @@
+{
+  "frozen_utc": "2026-09-05T19:44:44.977014+00:00",
+  "labels": {
+    "explicit_diagnosis_compatible": "EMC explicitly admitted by saved disease/cohort scope.",
+    "defining_fusion_compatible": "Exact defining EMC fusion/variant admitted; variant matching required.",
+    "fusion_class_compatible": "Matching EMC variant belongs to an admitted fusion class; not all NR4A3 fusions are FET fusions.",
+    "broad_tumor_compatible": "Open solid-tumor/sarcoma scope without a narrower conflicting histology limit; additional molecular gates stay orthogonal.",
+    "explicit_exclusion": "Express exclusion or clearly closed incompatible positive disease list; record which.",
+    "insufficient_evidence": "Unresolved disease/cohort applicability including nononcology acronym hits; never automatic negative."
+  },
+  "rules": [
+    "Read complete eligibility, description, arms/cohorts, design/purpose/phases, conditions and status before labeling.",
+    "Reconcile all cohorts/phases; distinguish open examples from closed lists.",
+    "Required additional biomarker is unestablished, never inferred from EMC or a hypothetical future alteration.",
+    "Keep enrollment holds, missing external protocols, non-treatment purpose and snapshot status explicit.",
+    "Preserve 25 adjudicated overlaps with all original provenance unchanged; 24 outside-frame reference pairs stay separate.",
+    "No patient-specific judgments, ranking, model fitting or retrieval evaluation.",
+    "New labels require separate independent verification/adjudication."
+  ],
+  "work_order": "Ascending SHA256 of UTF-8 20260905|EMC-expansion|NCTID, NCT ID tie-breaker. Work order, not prevalence sample."
+}

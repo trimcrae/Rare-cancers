@@ -1,0 +1,286 @@
+{
+  "metadata": {
+    "study": "Lee et al. 2023",
+    "doi": "10.4143/crt.2022.910",
+    "pmcid": "PMC10101799",
+    "scope": "Retrospective partial-outcome within-study siRNA benchmark; no both-parent/ASO/clinical validation",
+    "license": "XML states CC BY-NC 4.0, copyright 2023 Korean Cancer Association; retained for non-commercial attributed research",
+    "feature_specification": "protocol.md",
+    "extraction_specification": "extraction-coordinates.json",
+    "source_manifest": "inputs/input-manifest.json",
+    "coverage": {
+      "designs": 31,
+      "fusion_means": 31,
+      "measured_parent_means": 30,
+      "measured_parent_ceiling_censored": 1,
+      "second_parent_unknown": 31
+    },
+    "uncertainty": "Image-reading ranges and plotted SD are different quantities. No raw replicates or confidence intervals recovered."
+  },
+  "associations": [
+    {
+      "target": "B4N",
+      "endpoint": "fusion",
+      "feature": "gc_fraction",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 15,
+      "min_relative_expression": 0.07368421052631578,
+      "max_relative_expression": 0.9789473684210527,
+      "spearman_remaining": 0.11873392253649441,
+      "spearman_suppression_index": -0.11873392253649441,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 3,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.05145136643248091,
+          "sampled_rho_max": 0.11873392253649441,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 12,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.013852290962591015,
+          "sampled_rho_max": 0.18205868122262478,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "B4N",
+      "endpoint": "fusion",
+      "feature": "terminal_gc_asymmetry",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 15,
+      "min_relative_expression": 0.07368421052631578,
+      "max_relative_expression": 0.9789473684210527,
+      "spearman_remaining": -0.5462611111932976,
+      "spearman_suppression_index": 0.5462611111932976,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 3,
+          "all_pairs": 105,
+          "sampled_rho_min": -0.5462611111932976,
+          "sampled_rho_max": -0.4731827016691106,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 12,
+          "all_pairs": 105,
+          "sampled_rho_min": -0.5864542364316004,
+          "sampled_rho_max": -0.46222094024048255,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "B4N",
+      "endpoint": "measured_parent",
+      "feature": "gc_fraction",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 15,
+      "min_relative_expression": 0.3473684210526316,
+      "max_relative_expression": 0.9947368421052631,
+      "spearman_remaining": 0.22559445281933937,
+      "spearman_suppression_index": -0.22559445281933937,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 14,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.11675502382755285,
+          "sampled_rho_max": 0.3720329572810158,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 27,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.04749356901459777,
+          "sampled_rho_max": 0.42348432371349676,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "B4N",
+      "endpoint": "measured_parent",
+      "feature": "terminal_gc_asymmetry",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 15,
+      "min_relative_expression": 0.3473684210526316,
+      "max_relative_expression": 0.9947368421052631,
+      "spearman_remaining": -0.2557744333346544,
+      "spearman_suppression_index": 0.2557744333346544,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 14,
+          "all_pairs": 105,
+          "sampled_rho_min": -0.39096949095440026,
+          "sampled_rho_max": -0.17356122261994406,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 27,
+          "all_pairs": 105,
+          "sampled_rho_min": -0.5005871052406807,
+          "sampled_rho_max": -0.14067593833405992,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "SS",
+      "endpoint": "fusion",
+      "feature": "gc_fraction",
+      "n_quantitative_designs": 16,
+      "n_disclosed_designs": 16,
+      "min_relative_expression": 0.21794871794871795,
+      "max_relative_expression": 0.8333333333333334,
+      "spearman_remaining": -0.24140827530622996,
+      "spearman_suppression_index": 0.24140827530622996,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 22,
+          "all_pairs": 120,
+          "sampled_rho_min": -0.42370008251531127,
+          "sampled_rho_max": -0.1345325079519419,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 37,
+          "all_pairs": 120,
+          "sampled_rho_min": -0.49947126515491075,
+          "sampled_rho_max": -0.06958577997514237,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "SS",
+      "endpoint": "fusion",
+      "feature": "terminal_gc_asymmetry",
+      "n_quantitative_designs": 16,
+      "n_disclosed_designs": 16,
+      "min_relative_expression": 0.21794871794871795,
+      "max_relative_expression": 0.8333333333333334,
+      "spearman_remaining": -0.19937052152074178,
+      "spearman_suppression_index": 0.19937052152074178,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 22,
+          "all_pairs": 120,
+          "sampled_rho_min": -0.27173830764180057,
+          "sampled_rho_max": -0.04579859117558436,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 37,
+          "all_pairs": 120,
+          "sampled_rho_min": -0.3404361944051771,
+          "sampled_rho_max": 0.02289929558779218,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "SS",
+      "endpoint": "measured_parent",
+      "feature": "gc_fraction",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 16,
+      "min_relative_expression": 0.7371794871794872,
+      "max_relative_expression": 1.544871794871795,
+      "spearman_remaining": 0.6380802132517647,
+      "spearman_suppression_index": -0.6380802132517647,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 13,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.5800729211379678,
+          "sampled_rho_max": 0.6960875053655614,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 23,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.5426488617097118,
+          "sampled_rho_max": 0.7952612628504399,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    },
+    {
+      "target": "SS",
+      "endpoint": "measured_parent",
+      "feature": "terminal_gc_asymmetry",
+      "n_quantitative_designs": 15,
+      "n_disclosed_designs": 16,
+      "min_relative_expression": 0.7371794871794872,
+      "max_relative_expression": 1.544871794871795,
+      "spearman_remaining": 0.3224560503252009,
+      "spearman_suppression_index": -0.3224560503252009,
+      "sensitivity": [
+        {
+          "reading_halfwidth_multiplier": 1,
+          "ambiguous_order_pairs": 13,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.26094709274871747,
+          "sampled_rho_max": 0.4454739654781677,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        },
+        {
+          "reading_halfwidth_multiplier": 2,
+          "ambiguous_order_pairs": 23,
+          "all_pairs": 105,
+          "sampled_rho_min": 0.22366893664175785,
+          "sampled_rho_max": 0.5218941854974349,
+          "draws": 10000,
+          "seed": 20260905,
+          "interpretation": "Observed simulation range under independent uniform reading perturbations; not a confidence interval or exhaustive bound."
+        }
+      ]
+    }
+  ]
+}

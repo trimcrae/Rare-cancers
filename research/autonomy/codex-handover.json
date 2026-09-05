@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Trial reference adjudication completed and coordinator-verified; expand the 149 current ordinary/molecular pairs before retrieval evaluation. IPD and partial fusion prospects retained.",
+  "priority": "Trial reference expansion active after integrated49pair independent adjudication. Complete149current ordinary/molecular pairs before retrieval evaluation.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-05T19:30:46.590211+00:00",
+  "last_updated_utc": "2026-09-05T20:11:25.903418+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -133,29 +133,31 @@
     "next_action": "Regenerate cycle plans before subsequent dispatch. Reuse completed science and continue one bounded evidence-backed question; no further process work is established by this check."
   },
   "latest_science_result": {
-    "summary": "All 49 trial reference pairs have independent frozen model judgments and source adjudication; coordinator verified the two changed labels, raw provenance and exact preservation. Expand 149 current ordinary/molecular pairs before retrieval comparison.",
-    "result": "research/autonomy/trial-reference-adjudication-2026-09-05/adjudicated-reference.json",
-    "decision": "research/autonomy/trial-reference-adjudication-2026-09-05/decision.md",
+    "summary": "Complete 50-pair EMC first-reader expansion and 31-design partial fusion dataset collected. Trial provenance/coverage independently checked; fusion sources/numerics independently checked. Both normal integration checks pass; new trial labels still need independent adjudication.",
+    "result": "research/autonomy/trial-reference-expansion-emc-2026-09-05/first-reader-labels.json",
+    "decision": "research/autonomy/trial-reference-expansion-emc-2026-09-05/coordinator-review.md",
     "publication_authorized": false
   },
   "portfolio": "research/autonomy/portfolio-2026-09-05/recommendation.md",
   "budget_policy": "research/autonomy/portfolio-2026-09-05/budget.json",
   "fresh_session_workflow": {
     "authority": "Latest user steering relayed by launcher 2026-09-05: coordinator keeps full active goal; each bounded round runs in a NEW task with fresh context and its own bounded goal. Supersedes coordinator handoff after each round.",
-    "overall_goal_status": "active (verified actual goal tool after user continuation)",
-    "worker_task": "01a072f6-562d-70e0-9bc0-e8f4a26dc49a",
-    "round": "research/autonomy/trial-reference-adjudication-2026-09-05/",
-    "execution": "research/autonomy/trial-reference-adjudication-2026-09-05/execution.json",
-    "worker_status": "completed_verified",
+    "overall_goal_status": "active; actual goal tool verified this turn",
+    "worker_task": "01a0730f-09bd-7200-a2d7-3cee73648e17",
+    "round": "research/autonomy/trial-reference-expansion-emc-2026-09-05/",
+    "execution": "research/autonomy/trial-reference-expansion-emc-2026-09-05/execution.json",
+    "worker_status": "verified_for_local_main_integration",
     "latest_round": "research/autonomy/trial-reference-adjudication-2026-09-05/verification.json",
-    "goal_status_observed_utc": "2026-09-05T19:04:45.267663+00:00",
+    "goal_status_observed_utc": "2026-09-05T19:33:41.876267Z",
     "continuity": "Full mission active by user goal continuation; fresh research tasks remain bounded intermediate rounds. No preprint readiness established."
   },
   "latest_research_integration": {
-    "revision": "0efeaa1cbd9ee630042f60f4afa6251d4d99518b",
+    "revision": "95dbbe7a0f243452bc689fb22db00fb13417d9f5",
     "target": "local main",
-    "normal_preflight": "research\\autonomy\\fusion-source-recovery-2026-09-05\\normal-preflight.json",
-    "worker_artifact_hashes_verified_after_integration": 28,
+    "normal_preflight": "research/autonomy/trial-reference-adjudication-2026-09-05/normal-preflight-result.json",
+    "integrated_files_verified_after_integration": 31,
+    "worker_manifest_files": 16,
+    "metadata_repair": "research/autonomy/trial-reference-adjudication-2026-09-05/integration-metadata-repair.json",
     "remote_synchronization": "outstanding; not attempted"
   },
   "remediation_amendment": "research/autonomy/portfolio-2026-09-05/remediation-amendment.md",
@@ -183,9 +185,9 @@
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T19:25:36.353815+00:00",
-    "status": "Trial adjudication completed and verified; normal preflight passed after frontmatter repair; integration commit next.",
-    "next_action": "Complete normal integration, release reservation, then dispatch fresh bounded 149-pair expansion with existing adjudicated overlap reused.",
+    "utc": "2026-09-05T20:11:25.903418+00:00",
+    "status": "Both workers terminal and verified for main integration; normal gate passed. No research worker running.",
+    "next_action": "Finish local integration; independent EMC adjudication and 74 comparator labels remain next. New-task launch mode rechecked auto; do not launch restricted tasks.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -201,7 +203,15 @@
     "observed_worker_execution": "Fusion-source worker turn_context2026-09-05T18:20:38.272Z confirms on-request, workspace-write, network_access=false.",
     "control_limitation": "create_thread and send_message_to_thread expose no permission override. Desktop mode is cached in live app memory; editing the on-disk state alone would not apply and could be overwritten. No unsupported state edit or permission bypass attempted.",
     "required_user_action": "Select Full access in the permissions menu below the NEW TASK composer to change the remembered local launch mode. Existing restricted tasks need their own mode changed.",
-    "launch_check": "Inspect and record actual execution permissions before research. Prefer the explicitly authorized Full access setting; do not claim it from prompt/config alone. The tool still exposes no override. If restricted, only proceed with independently useful work wholly inside the actual allowed workspace and requiring no network, deletion, installation or permission escalation. Do not halt all research merely because an unused capability is restricted; never bypass an actual pending approval.",
-    "fallback_reason": "Revalidated previous no-progress turn: no process was live, but independent adjudication from already committed source packets is fully available offline within the ordinary workspace sandbox. User requests Full access to avoid repeated prompts, not a blanket stop on permitted scientific work. Remove the coordinator-imposed hard stop; maintain honest permission status."
+    "launch_check": "Latest repeated user correction supersedes the former restricted-launch fallback: do not create further research tasks until the remembered local new-task mode is verified Full access. Verify each actual execution context after launch; never infer permissions from prompt/config alone. Leave the two existing workers running within their actual permissions and collect/integrate their outputs. Coordinator work already has Full access and can continue. Never bypass an actual pending approval.",
+    "fallback_reason": "The user repeatedly requested all tasks Full access; launching more restricted tasks despite the known app override did not satisfy that instruction.",
+    "native_ui_attempt_2026_09_05": "Computer Use found the ChatGPT app window 459044 but returned no usable app controls and failed to activate captured window. No permission selection was changed. A subsequent read still found agent-mode-by-host-id.local=auto. New-task default and existing restricted tasks remain unresolved."
+  },
+  "independent_partial_fusion_benchmark": {
+    "worker_task": "01a07318-e6d3-7c62-a9d2-02605b370430",
+    "execution": "research/autonomy/fusion-partial-benchmark-2026-09-05/execution.json",
+    "status": "verified_for_local_main_integration",
+    "resource": "paper:external-fusion-benchmark",
+    "reason": "Concrete partial-outcome benchmark work after exact primary source recovery; launched during separate trial task approval wait, which has now cleared."
   }
 }

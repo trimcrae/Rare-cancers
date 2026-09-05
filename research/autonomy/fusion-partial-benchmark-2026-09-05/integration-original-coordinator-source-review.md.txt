@@ -1,0 +1,58 @@
+---
+id: DOC-FUSION-PARTIAL-COORDINATOR-REVIEW-20260905
+title: Independent coordinator check of Lee partial benchmark extraction
+kind: verification
+status: live
+date: 2026-09-05
+last_verified: 2026-09-05
+purpose: Record the actual source and arithmetic review supporting retention of the numerical checkpoint.
+scope: S1 and S2 sequence tables, S5 and S6A RNA screens, methods sections 4 and 5, and descriptive calculations.
+audience: [researchers, maintainers]
+---
+
+The coordinator inspected both complete sequence-table renders, the complete S5 page,
+both S6 pages including the caption continuation, and both full coordinate overlays.
+The checked source identities are Lee 2023, DOI 10.4143/crt.2022.910, retained under
+inputs/. Methods sections 4 and 5 were read directly from the retained article XML.
+This is a separate coordinator source check, not a blinded second digitization or
+an independent ultra paper review.
+
+The sequence tables identify sense and antisense 5-prime to 3-prime, all 15 B4N and
+16 SS designs, and terminal lowercase tt. Methods identify dTdT overhangs, 50 nM,
+72 hours, and triplicate assays. The SS cell-line spelling differs between methods
+and figure captions; the worker preserves this discrepancy. Triplicate wording
+does not establish whether replicates are biological or technical.
+
+The S5 legend maps light blue to wild BRD4 and dark blue to BRD4-NUTM1; NC and PC
+precede designs 1-15. S6A maps light green to wild SS18 and dark green to fusion;
+NC precedes designs 1-16. The coordinator checked all design assignments and
+mean/upper-error-cap markers visually, including the very low B4N #15 fusion,
+the B4N #2/#4 wide parent error bars, and SS #4's light-green bar reaching the
+2.0 plot ceiling. The ceiling is not a recoverable mean or SD. These panels
+measure RNA; protein and growth panels on S6 are separate outcomes.
+
+The S5 axis spans 0-1.6 and the S6A axis 0-2.0. Axis increments agree with retained
+calibrations. All 61 recovered means were independently checked against colored
+pixel edges near their retained coordinates. Independently implemented affine
+conversion agrees with means and plotted SD arithmetic; scipy Spearman values
+agree for all eight target/endpoint/descriptor combinations. Interval-overlap
+counts and descriptor calculations also agree. The exact inputs and numerical
+check scope are in coordinator-numeric-check.json and coordinator_verify.py.
+Reading tolerances are image-reading tolerances, not biological uncertainty.
+
+The source does not give an unambiguous Ct transformation for the S5 plotted
+scale. Retaining its relative-expression axis and normalization caveat is
+appropriate. No second-parent measurement is inferred from the presence of a
+primer in a table. The two descriptor associations are descriptive results from
+dependent tiled designs in one study, without fitted parameters or external
+performance validation. The SS measured-parent association explicitly uses
+15 recovered means and excludes the ceiling-censored design. A future declared
+rank sensitivity can include that design as the largest value if the retained
+lower bound exceeds every other upper bound; that would be an extension, not
+an alteration of this frozen protocol or an imputed biological measurement.
+
+No extraction defect requiring a change to the frozen numerical dataset was
+identified. This checkpoint removes the quantitative-source-recovery gap for
+these 31 designs. It does not establish cross-study prediction, both-parent
+sparing, ASO transfer, or preprint readiness. The current trial-paper evaluation
+remains the principal allocation; retain this reusable dataset and its limitations.

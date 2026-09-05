@@ -1,0 +1,23 @@
+---
+id: DOC-FUSION-PARTIAL-PROTOCOL-20260905
+title: Frozen retrospective Lee 2023 partial siRNA benchmark protocol
+kind: protocol
+status: live
+date: 2026-09-05
+last_verified: 2026-09-05
+purpose: Fix extraction and descriptive analysis choices before numerical outcome extraction.
+scope: All 31 disclosed duplexes in Lee 2023, separately by target and measured transcript.
+audience: [researchers, maintainers]
+---
+
+Frozen before numerical extraction, after reading sequence table text and methods/S5 caption, but before viewing rendered outcome panels or extracting their values. Earlier feasibility work saw qualitative results; this is neither prospective preregistration nor a blind independent test. Freeze timestamp and exact digest are retained in protocol-freeze.json. Do not overwrite this protocol; use a dated amendment for changes.
+
+Universe: all 15 B4N siRNAs in S1 Table and all 16 SS siRNAs in S2 Table. Retain every design, including ineffective designs, and missing endpoint rows. Controls are calibration/context records, not additional designs. Primary endpoints are the plotted relative fusion mRNA expression and, separately, plotted relative expression of the actually assayed wild-type parent in the same screen/cell context. Preserve exact axis wording and normalization uncertainty; do not relabel a plotted quantity as fold change unless established. Lower remaining expression means greater suppression; use 1 minus plotted relative expression only as an explicitly derived suppression index, not percent knockdown when normalization is ambiguous. Do not substitute selected protein panels, viability or unrelated cell lines. Missing second-parent endpoints remain unknown.
+
+Record source document, actual figure/panel/page, bytes/hash, axis ticks, bar-design mapping and extraction method. Prefer vector bar geometry when genuinely available and visually verified; otherwise retain rendered pixels, affine y-axis calibration, x coordinate, top-of-mean-bar coordinate and conservative image-reading interval. Intervals bound reading ambiguity only, never biological uncertainty or a confidence interval. Extract error extent only when its identity is separable and caption defines it; otherwise retain its definition and missing numeric value. Never recover fictional replicates from error bars. Record triplicate wording separately from biological/technical replicate identity.
+
+Fixed baselines, no fitted weights: (1) GC fraction of the 19-nt RNA antisense core excluding the dTdT overhang; (2) terminal composition asymmetry = GC count in last four antisense core bases minus GC count in first four, divided by four. This is a transparent compositional descriptor, not a thermodynamic free-energy score or a validated published predictor. Use no optimized GC window or polarity choice. Report the signed association of each descriptor with remaining expression and suppression index. Junction/parent matching is unresolved unless exact breakpoint/alignment is verified; it is not needed for these two baselines, and no score shall be invented.
+
+Analyze each target and endpoint separately with unweighted Spearman rank correlation (average tied ranks), no p-values or population confidence intervals. Also report min/max expression and count of recovered/missing designs. No pooled target correlation, model training, sequence holdouts, permutation significance or independent-family count. Adjacent overlapping sequences are dependent designs. This is a convenient, selected within-study series; it cannot validate clinical transfer, ASOs, both-parent sparing, efficacy, safety or a therapeutic window.
+
+Sensitivity: retain all pairwise design comparisons. A pair has definite ordering only if its two extraction ranges do not overlap; count ambiguous pairs. Report rank correlations at mean-bar point estimates and across 10,000 seeded independent uniform draws inside the reading ranges, seed 20260905. Those draws explore reading uncertainty only and are not samples from a biological or statistical model; report observed min/max, not confidence intervals or exhaustive mathematical bounds. Repeat with reading half-widths doubled. Do not select or alter features after correlations. If numerical values cannot be defensibly recovered, retain missing rows and calibrated ranges with precise remaining tasks rather than forcing an association.

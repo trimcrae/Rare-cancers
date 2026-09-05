@@ -1,0 +1,40 @@
+{
+  "reason": "Normal systems document schema rejected unsupported kind/audience fields. Immutable original protocol bytes and freeze receipt retained.",
+  "changes": [
+    {
+      "file": "protocol.md",
+      "original_file": "integration-original-protocol.md.txt",
+      "original_sha256": "23c903969564f3ad6f3b8fc01a0cb7c68d9fa928058dff365c802f0b1a5c92eb",
+      "integrated_sha256": "f690ef687031ecfad62571d6d5c59663988aa18dc1376c881fdf07fbc3891088",
+      "change": "Document metadata only; body identical"
+    },
+    {
+      "file": "provenance.md",
+      "original_file": "integration-original-provenance.md.txt",
+      "original_sha256": "af148e5238a1e0c8ed22d3e8e63619eeb151b9fdbabc639a1137bea1ed9eccbb",
+      "integrated_sha256": "4d6d4e4dbf0e31af0e6eccd09fda62bcea7bca69e50be5b0501f01f86fd43027",
+      "change": "Document metadata only; body identical"
+    },
+    {
+      "file": "result.md",
+      "original_file": "integration-original-result.md.txt",
+      "original_sha256": "e3280eefd3a3817096ffeafa73832407c6181884aeab4ffbdf94923117609eaf",
+      "integrated_sha256": "ee467c44ea30737e200c8d5fc20618846d075b85565f208dbd71bcd4954ef87b",
+      "change": "Document metadata only; body identical. Initial repair missed kind due to CRLF in this one file; corrected after second failed normal run."
+    },
+    {
+      "file": "coordinator-source-review.md",
+      "original_file": "integration-original-coordinator-source-review.md.txt",
+      "original_sha256": "b99f6a2337e635f9d925c8a6c7c453b8730f4445bca6690957dad86e0b0da935",
+      "integrated_sha256": "f9498b9a22a81fce573f06caa8c1b1564d85326fd5c51fdef544be5dfc06f63d",
+      "change": "Document metadata only; body identical"
+    },
+    {
+      "file": "reproduce.py",
+      "original_file": "integration-original-reproduce.py.txt",
+      "original_sha256": "e34455f414d119cb1187146dd1cf8e7659e173540595e86300f653b2053bab77",
+      "integrated_sha256": "448c72af04a2cae0015c34a33e291eb166a099957c7bf34063edacf1e2d77c95",
+      "change": "Validate immutable original protocol hash and identical canonical body after frontmatter-only repair; scientific calculations unchanged"
+    }
+  ]
+}
