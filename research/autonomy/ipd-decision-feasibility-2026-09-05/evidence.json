@@ -1,0 +1,97 @@
+{
+  "question": "Does survival IPD reconstruction uncertainty support a distinct study-decision paper?",
+  "outcome": "one_exact_remediable_uncertainty",
+  "decision": "Retain the narrowed decision-certificate and targeted-information prospect for a realistic matched benchmark; not manuscript-ready.",
+  "remediable_uncertainty": "Can complete or conservative compatibility bounds achieve useful certification and information savings beyond published reconstructors and simple p-margin abstention on realistic known-IPD releases?",
+  "demonstrated": {
+    "synthetic": true,
+    "selected_case": 31,
+    "cases_searched": 32,
+    "compatible_classes": 10,
+    "p_min": 0.04372807074169506,
+    "p_max": 0.050915219285281074,
+    "true_p": 0.050915219285281074,
+    "midpoint_p": 0.04544135433272497,
+    "maximum_rmst_discrepancy": 0,
+    "single_query_resolves_every_possible_answer": true
+  },
+  "scientific_scope": {
+    "reference": "Original observed-IPD two-sided ordinary logrank decision at alpha=0.05",
+    "uncertainty": "Identification ambiguity conditional on released summaries; not sampling or clinical uncertainty",
+    "assumptions": [
+      "Exact rational KM survival probabilities and exact event times",
+      "Reported total events equals number of positive drops: one event per drop",
+      "One arm has no censoring",
+      "Only right censoring, no delayed entry",
+      "Risk sets counted immediately before event times; events precede same-time censoring",
+      "No censor marks or original p-value released"
+    ],
+    "not_established": [
+      "Realistic digitization-error certificate",
+      "Frequency of ambiguous decisions",
+      "Population type-I-error calibration",
+      "Clinical efficacy or treatment recommendation",
+      "Superiority over actual IPDfromKM/CIFresolve execution",
+      "Paper-level empirical utility or exhaustive novelty"
+    ]
+  },
+  "prior_art": {
+    "primary_records": "sources/prior-art.json",
+    "key_collisions": [
+      "liu2021",
+      "titman2026",
+      "resolve2025",
+      "boucher2025",
+      "kombine2025"
+    ],
+    "novelty_inference": "No inspected primary method supplied the complete combination of compatibility-set decision bounds and minimax extra-risk-count queries. Targeted search is not proof of absence."
+  },
+  "source_search": {
+    "date": "2026-09-05",
+    "strategy": "Original methods and citation-linked comparisons, then targeted bounds/decision/uncertainty searches; contemporary primary methods and software checked",
+    "queries": [
+      "Kaplan Meier reconstruction uncertainty decision significance IPD reconstruction uncertainty methods",
+      "IPDfromKM reconstruction survival uncertainty bootstrap Guyot Wei Royston validation",
+      "Kaplan Meier reconstruction uncertainty partial identification bounds log rank robustness decision",
+      "\"log-rank\" \"reconstructed\" \"uncertainty\" \"bounds\"",
+      "Kaplan Meier reconstructed data \"multiple\" \"plausible\" uncertainty",
+      "\"Kaplan\" \"identified set\" reconstruct"
+    ],
+    "limitations": "Many bounds searches were irrelevant; no-hit queries do not establish novelty. Primary abstracts are explicitly distinguished from full-text reads. Zenodo dataset download returned HTTP 429."
+  },
+  "validation": {
+    "receipt": "validation.json",
+    "script": "verify_pilot.py",
+    "independent_numerical_implementation": "SciPy 1.18.1 logrank",
+    "alternate_enumeration_multisets": 123410,
+    "byte_identical_reproduction": true,
+    "normal_preflight": "Not run: coordinator responsibility",
+    "scientific_review": "Not performed; code cross-check is not independent paper review"
+  },
+  "provenance": {
+    "worktree": "C:/Users/mcrae/.codex/worktrees/8f50/EMC-Research",
+    "base_revision": "b72f8ad547b29daca2e460da9278fff6ec252117",
+    "reservation": "Confirmed by coordinator for paper:PUB-IPD-SURVIVAL before output writes",
+    "contract_preserved": true,
+    "model": "GPT-6-based Codex per system; exact served model identifier unavailable",
+    "effort": "medium requested by dispatch; runtime effort not independently introspected"
+  },
+  "timing": {
+    "goal_created_utc": "2026-09-05T17:02:27Z",
+    "scientific_start_utc": "2026-09-05T17:14:07.532Z",
+    "scientific_freeze_utc": "2026-09-05T17:29:24.629Z",
+    "scientific_elapsed_seconds": 917,
+    "scientific_budget_seconds": 1800,
+    "pre_science_window_seconds": 701,
+    "pre_science_note": "Excluded from scientific elapsed. Combined initialization, reading and coordinator-reservation waiting; pure approval-wait duration was not separately timestamped."
+  },
+  "process": {
+    "running": false,
+    "nested_agents": 0,
+    "runners": 0,
+    "paid_api_or_gpu": 0,
+    "committed": false,
+    "published": false,
+    "shared_state_modified": false
+  }
+}

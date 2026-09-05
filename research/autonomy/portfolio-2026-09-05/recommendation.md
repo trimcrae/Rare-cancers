@@ -12,6 +12,8 @@ audience: [maintainers, autonomous research agents]
 
 # Paper priorities
 
+**Remediation amendment:** [The user challenged premature demotion](remediation-amendment.md). None of the four bounded no-go results proves an insurmountable blocker. Retain the evidence and prioritize concrete repair attempts as specified in the amendment; the next conditional step after the currently reserved IPD round is trial-discoverability benchmark remediation.
+
 **Current update, 2026-09-05:** the first four ranked prospects were investigated and deprioritized. See [atlas](atlas-decision.md), [fusion benchmark](../fusion-benchmark-2026-09-05/decision.md), [response recoverability](../response-recoverability-2026-09-05/decision.md), and [trial discoverability](../trial-discoverability-2026-09-05/decision.md). Rank5 decision-level reconstruction uncertainty is the next conditional lead. The ranking and dispatch statements below are retained pre-investigation history, not current execution instructions.
 
 **ASO remains the first existing submission to finish, with its frozen package awaiting author/external action. The strongest new paper development opportunity is an independently validated EMC therapeutic-address atlas, followed by an externally calibrated fusion-junction oligonucleotide design benchmark.** These are development prospects with unresolved evidence gates, not ready papers or authorization to drill down. Response-decision methods rank next; trial discoverability ranks below them. This replaces the expression-resource-first recommendation, which ranked useful preparation above demonstrated paper strength.
