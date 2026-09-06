@@ -407,3 +407,24 @@ The verdict grade, the counts, the annotation table, the transport controls and 
 negatives all stand exactly as measured. `BLK-NO-EMC-DATA` is **still not retired** for the reason
 §9 gives — its statement is about functional-genomics data, and a tumour expression panel is not a
 dependency screen, whoever published it.
+
+
+## 11 · Update 2026-09-06 — processed supplementary matrix recovered
+
+The public full-text JATS and named Data S1 workbook have now been recovered through Europe PMC.
+The [verified source packet](../../autonomy/peerj21497-source-2026-09-06/decision.md) preserves the
+original workbook, archive, source-cell inventories and independent coordinator checks. Data S1
+is a 9,500-feature by 12-sample processed export labelled log2CPM, not the raw 22-case probe
+matrix. Seven prespecified atlas symbols have rows. Five are absent for unresolved reasons;
+missing rows are not zero expression. Six feature identifiers are numeric, and the difference
+from the article's stated 9,909 genes is unresolved. No external MI-ONCOSEQ matrix, probe map,
+normalization factors, known batch-correction state or same-assay normal arm is supplied.
+
+This supersedes lack of an available processed matrix, not the original raw-read probe-design
+gate or functional-genomics limitations. The primary Methods reports twelve patients after
+exclusions; that is stronger evidence than merely counting BioSamples. Column-to-patient and
+aliquot links remain unavailable in this workbook. Conditional on twelve distinct represented
+patients and an at-most-six-patient discovery cohort, at least six patients must be new to
+discovery; their identities and separation from every other cohort do not follow. No new
+expression contrast, calibrated detection criterion, target validation or manuscript result
+is established. The source packet's coordinator verification records the exact scope.
