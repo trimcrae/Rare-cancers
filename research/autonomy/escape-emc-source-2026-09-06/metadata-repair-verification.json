@@ -1,0 +1,31 @@
+{
+  "operation": "metadata-only preflight vocabulary repair",
+  "verified_utc": "2026-09-06T04:48:14.602018+00:00",
+  "original_file": "decision.original.md.txt",
+  "original_sha256": "708272b06d083d1312b732e64ee66e6abe80762247dbaf545edb48f85726192d",
+  "updated_file": "decision.md",
+  "updated_sha256": "822bddec9d06aa32aa7558544987c10430b7ee29f825bde08c5ba333588cb4bf",
+  "edits": [
+    {
+      "old": "kind: evidence-report",
+      "new": "kind: memo"
+    },
+    {
+      "old": "status: complete",
+      "new": "status: live"
+    },
+    {
+      "old": "audience: [maintainers, research reviewers]",
+      "new": "audience: [maintainers, external reviewers]"
+    }
+  ],
+  "body_bytes_unchanged": true,
+  "scientific_analysis_rerun": false,
+  "previous_scientific_verification": "Existing verification.log retained; no scientific analyses rerun",
+  "verification": [
+    "Original backup equals previous decision bytes",
+    "Exactly three front-matter replacements",
+    "Body after closing front-matter delimiter byte-identical",
+    "Regenerated manifest matches all included files"
+  ]
+}

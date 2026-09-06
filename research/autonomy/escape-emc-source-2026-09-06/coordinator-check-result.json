@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "source_sha256": "31ad995d56ce98b916c4a8045e138fcbe12862e8be3500916812a633beaaf1c7",
+  "unique_pinned_peptides": 271,
+  "sheets": [
+    {
+      "sheet": "oncogene",
+      "rows": 1518,
+      "row": 1231,
+      "peptide": "QSSSYGQQN",
+      "alleles": 50,
+      "minimum": 0.89290625,
+      "maximum": 2.13453907
+    },
+    {
+      "sheet": "onco_wt",
+      "rows": 1518,
+      "row": 1231,
+      "peptide": "QSSSYGQQN",
+      "alleles": 50,
+      "minimum": 0.89290625,
+      "maximum": 2.134539074
+    }
+  ],
+  "selected_fusion_details": 31,
+  "nr4a3_selected_details": 0,
+  "reported_architecture_constructs_checked": [
+    "EWSR1_NR4A3_type1",
+    "EWSR1_NR4A3_type2",
+    "EWSR1_NR4A3_type5",
+    "TAF15_NR4A3"
+  ],
+  "model_classification": {
+    "id": "OBJ-MODEL-E7E3",
+    "kind": "modelled_construct",
+    "display_name": "The modelled EWSR1 e7 :: NR4A3 e3 construct",
+    "aliases": [
+      "EWSR1 e7 :: NR4A3 e3",
+      "EWSR1 e7::e3",
+      "emc_canonical_EWSR1_NR4A3",
+      "EWS_CUT = 264 :: NR4A3 resumed at res 2"
+    ],
+    "status": "modelled_not_reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 7 :: NR4A3 exon 3 \u2014 \u26d4 NOT A REPORTED FUSION TYPE. It pairs the 5\u2032 half of reported type 2 with the 3\u2032 half of reported type 1.",
+      "residue_level": "EWSR1(1\u2013264) :: NR4A3(1\u2013626), with no UTR-encoded segment",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "shares type 1's 3\u2032 exon only"
+      },
+      {
+        "object": "OBJ-FUS-T2",
+        "why": "shares type 2's 5\u2032 cut only, and omits type 2's 59 UTR-encoded residues"
+      }
+    ],
+    "notes": "\u26a0 THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files \u2014 see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix. \u26a0 THE `emc_canonical_EWSR1_NR4A3` ALIAS IS HISTORICAL AS OF 2026-09-02 (AUT-PD-208): emc-fet-idr-census.json no longer writes that key. It now carries every reported EWSR1::NR4A3 type under `emc_EWSR1_NR4A3_reported_types`, keyed by the sourced registry's ids, so the exon-7 record sits under `EWSR1_NR4A3_type2` and asserts nothing about which type is commonest. The alias is kept so the retired name stays searchable."
+  },
+  "scope": "Independent original XLS cell reads and exact peptide/full pinned protein equality. All 100 saved cells checked, representing two released sheets rather than independent experiments. Missing read QC prevents biological-negative claims; no endogenous EMC presentation or clinical inference."
+}
