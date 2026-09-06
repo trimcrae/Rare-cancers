@@ -1,0 +1,119 @@
+{
+  "verified_utc": "2026-09-06T01:58:42.920282+00:00",
+  "method": "Independent recomputation from all saved scores without importing author code or reading reference labels: deterministic ranks, every tie bound/midrank, set comparisons at five budgets, deep promotions and frozen conjunction.",
+  "score_rows": 18546,
+  "rank_cells_checked": 55638,
+  "summary": {
+    "EMC": {
+      "budgets": {
+        "25": {
+          "overlap": 21,
+          "added": 4,
+          "removed": 4,
+          "jaccard": 0.7241379310344828
+        },
+        "50": {
+          "overlap": 42,
+          "added": 8,
+          "removed": 8,
+          "jaccard": 0.7241379310344828
+        },
+        "100": {
+          "overlap": 83,
+          "added": 17,
+          "removed": 17,
+          "jaccard": 0.7094017094017094
+        },
+        "200": {
+          "overlap": 177,
+          "added": 23,
+          "removed": 23,
+          "jaccard": 0.7937219730941704
+        },
+        "500": {
+          "overlap": 475,
+          "added": 25,
+          "removed": 25,
+          "jaccard": 0.9047619047619048
+        }
+      },
+      "robust_deep_promotions": 13,
+      "screen_pass": false
+    },
+    "DSRCT": {
+      "budgets": {
+        "25": {
+          "overlap": 23,
+          "added": 2,
+          "removed": 2,
+          "jaccard": 0.8518518518518519
+        },
+        "50": {
+          "overlap": 42,
+          "added": 8,
+          "removed": 8,
+          "jaccard": 0.7241379310344828
+        },
+        "100": {
+          "overlap": 76,
+          "added": 24,
+          "removed": 24,
+          "jaccard": 0.6129032258064516
+        },
+        "200": {
+          "overlap": 165,
+          "added": 35,
+          "removed": 35,
+          "jaccard": 0.7021276595744681
+        },
+        "500": {
+          "overlap": 470,
+          "added": 30,
+          "removed": 30,
+          "jaccard": 0.8867924528301887
+        }
+      },
+      "robust_deep_promotions": 23,
+      "screen_pass": true
+    },
+    "SS": {
+      "budgets": {
+        "25": {
+          "overlap": 19,
+          "added": 6,
+          "removed": 6,
+          "jaccard": 0.6129032258064516
+        },
+        "50": {
+          "overlap": 44,
+          "added": 6,
+          "removed": 6,
+          "jaccard": 0.7857142857142857
+        },
+        "100": {
+          "overlap": 96,
+          "added": 4,
+          "removed": 4,
+          "jaccard": 0.9230769230769231
+        },
+        "200": {
+          "overlap": 198,
+          "added": 2,
+          "removed": 2,
+          "jaccard": 0.9801980198019802
+        },
+        "500": {
+          "overlap": 498,
+          "added": 2,
+          "removed": 2,
+          "jaccard": 0.9920318725099602
+        }
+      },
+      "robust_deep_promotions": 1,
+      "screen_pass": false
+    }
+  },
+  "frozen_experiment_sha256": "e19f74566eed0c15010177fdd1ac714e82c87ebaba839a7c9dee9031defc61b9",
+  "rank_results_sha256": "90fc7d7d39e0255a8e1d6334c31380e454ac784746ce79b48a1210dfd159ba5d",
+  "limitations": "Does not independently validate relevance or the lexical scoring design."
+}

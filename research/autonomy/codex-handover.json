@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-06T01:38:17.920973+00:00",
+  "last_updated_utc": "2026-09-06T01:41:49.450531+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -185,9 +185,9 @@
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-05T23:35:37.068940+00:00",
-    "status": "Completed 74-pair comparator first reading integrated at 49638d5a0efff4c1eaf3effe068e9e79a7102b6f after normal verification; all 149 current-frame pairs covered, with 124 new labels pending independent adjudication.",
-    "next_action": "Prepare answer-free comparator input packet and bounded fresh-reader contract using existing 74 frozen records; existing 50-pair EMC packet is ready. Independently adjudicate before freezing retrieval endpoints. New desktop-task Full access remains unresolved.",
+    "utc": "2026-09-06T02:08:29.926826+00:00",
+    "status": "Frozen trial baseline complete, independently checked and normal gate passed; integrating. Atlas provenance running; bulk trial readers paused.",
+    "next_action": "Integrate portable baseline evidence while atlas subagent resolves named primary-source provenance gaps.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -271,15 +271,15 @@
     "integration_receipt": "research/autonomy/trial-reference-expansion-comparators-2026-09-05/integration-receipt.json"
   },
   "latest_allocation_review": {
-    "utc": "2026-09-06T01:35:11.069858+00:00",
+    "utc": "2026-09-06T02:08:29.926826+00:00",
     "user_question": "Was trial work top priority or the in-progress route when premature demotion was challenged? Is it the best use of tokens?",
     "original_trial_scientific_rank": 4,
-    "status": "complete; bulk trial readers remain paused",
+    "status": "complete; frozen baseline complete and independently checked; atlas provenance running",
     "reviewer": "/root/priority_reassessment",
     "scope": "Existing top four only; no new broad inventory, no experiments.",
     "trial_readers": "paused; do not automatically resume until current allocation decision is recorded",
     "receipt": "research/autonomy/portfolio-2026-09-05/allocation-reassessment-2026-09-06.json",
-    "next_allocation": "One bounded frozen matched-information ordinary/hierarchy baseline versus molecular augmentation test, starting with label-independent output differences; no more bulk independent label reading yet."
+    "next_allocation": "Targeted atlas GSE4303 reference-channel and specimen provenance recovery. No bulk trial label continuation."
   },
   "subagent_reader_dispatch": {
     "authority": "Latest user explicitly requested subagents for bulk research; supersedes desktop-task-only workflow.",
@@ -304,5 +304,43 @@
     ],
     "independent_labels_complete": false,
     "ownership": "Coordinator retains paper integration; separate disjoint label outputs and worktrees are reserved by subtask."
+  },
+  "frozen_baseline_experiment": {
+    "status": "completed; coordinator verified; normal gate passed; integrating",
+    "agent": "/root/trial_baseline",
+    "worktree": "C:/Users/mcrae/.codex/worktrees/trial-baseline-20260906/EMC-Research",
+    "base_revision": "7305b159b97d3345f6d2e3fb2fa718b0b2d35ec1",
+    "resource": "paper:PUB-CARE-DELIVERY:frozen-baseline",
+    "write_scope": "research/autonomy/trial-frozen-baseline-2026-09-06",
+    "actual_permissions": "Agent confirmed approval never and danger-full-access",
+    "reasoning_effort": "medium",
+    "method_review_required_before_evaluation": true,
+    "new_label_reading_authorized": false,
+    "prior_independent_artifact_recheck": "All 11 hashes in trial-reference-adjudication-2026-09-05/verification.json still match",
+    "allocation_limit": "One bounded discriminating test, not promotion of trial above the higher-value atlas/fusion prospects. Bulk readers remain paused.",
+    "package": "research/autonomy/trial-frozen-baseline-package-2026-09-06",
+    "verification": "research/autonomy/trial-frozen-baseline-package-2026-09-06/coordinator-verification.json",
+    "result": {
+      "records": 6182,
+      "EMC_top100_additions": 17,
+      "prespecified_minimum_additions": 20,
+      "EMC_deep_promotions": 13,
+      "prespecified_minimum_deep_promotions": 10,
+      "continuation_screen_passed": false
+    },
+    "interpretation": "Pragmatic allocation screen, not scientific futility; no relevance, review-time or clinical advantage established.",
+    "bulk_readers": "Paused; EMC 2/50 independent labels preserved, comparator 0/74. No automatic resumption."
+  },
+  "atlas_primary_provenance": {
+    "utc": "2026-09-06T02:08:29.926826+00:00",
+    "status": "running; verified live agent inventory",
+    "agent": "/root/atlas_provenance",
+    "worktree": "C:/Users/mcrae/.codex/worktrees/atlas-provenance-20260906/EMC-Research",
+    "base_revision": "7305b159b97d3345f6d2e3fb2fa718b0b2d35ec1",
+    "resource": "paper:PUB-SURFACE-TARGETS",
+    "write_scope": "research/autonomy/atlas-primary-provenance-2026-09-06",
+    "question": "Can primary reference/channel and specimen provenance support an independent within-study GSE4303 EMC-versus-DFSP contrast?",
+    "limits": "Named primary-source recovery only; no new broad inventory, expression reprocessing or target rankings.",
+    "actual_permissions": "Worker confirmed injected danger-full-access and approval never; downloads and writes executed without escalation."
   }
 }
