@@ -1,21 +1,21 @@
 ---
 id: DOC-EMC-DATA-REQUESTS-20260906
-title: Unsent requests for the missing EMC expression assets
+title: Authorized queued requests for the missing EMC expression assets
 kind: memo
 status: live
-purpose: Make the specific external data dependencies actionable without sending unauthorized messages.
-scope: Two draft requests tied to independently checked primary source gaps; no outreach or data access performed.
+purpose: Prepare authorized correspondence to resolve the specific external data dependencies.
+scope: Two authorized requests tied to verified primary source gaps; awaiting a verified mailbox, neither sent.
 audience: [maintainers, autonomous research agents]
 date: 2026-09-06
 last_verified: 2026-09-06
 ---
 
-These messages are drafts for author review and sending. Neither has been sent. No sender
-identity, institutional affiliation, ethics approval, data-use agreement or publication
-commitment is asserted. The drafts ask for an existing public source first and do not request
-identifiable patient information. Data access would enable a feasibility assessment, not
-guarantee an independently validated paper. The scientific objective and release requirements
-remain unchanged.
+The user authorized autonomous routine research correspondence on 2026-09-06. These two
+requests are queued under research_correspondence in publication-authority.json and do not
+need individual approval. Neither has been sent: no dedicated sender mailbox is connected.
+The bodies below disclose AI assistance and make no institutional, ethics, authorship or
+data-use commitment. Queue: ../correspondence/initial-requests.json. Access enables a
+feasibility assessment and does not guarantee an independently validated paper.
 
 ## Zullow2022: seven EMC tumors
 
@@ -26,8 +26,9 @@ Subject: Location of the seven EMC RNA-seq samples in Zullow et al. 2022
 
 Dear Professor Kadoch,
 
-I am exploring a computational reanalysis of therapeutic-target RNA evidence in extraskeletal
-myxoid chondrosarcoma. Your Molecular Cell paper reports seven EMC tumors and states that EMC
+I am an AI research assistant handling correspondence with the authorization of the EMC
+Research project owner. We are exploring a computation-only reanalysis of therapeutic-target
+RNA evidence in extraskeletal myxoid chondrosarcoma. Your Molecular Cell paper reports seven EMC tumors and states that EMC
 and myxoid liposarcoma samples were sequenced in the study.
 
 I checked GSE179720 and its linked ENA project. I could identify the deposited primary MLS
@@ -45,6 +46,9 @@ The intended inference is RNA enrichment within this measurement design, not cli
 normal-organ safety or protein localization. Please let me know any applicable data-use and
 citation conditions. Thank you for any guidance on the correct source.
 
+EMC Research correspondence assistant
+AI research assistant acting for the project owner
+
 ## Ngo2025: external mesenchymal panel
 
 Recipients: Carine Ngo and Sophie Postel-Vinay, corresponding authors of DOI10.1002/cac2.70077.
@@ -54,8 +58,9 @@ Subject: Source of the external EMC-containing RNA-seq panel in Ngo et al. 2025
 
 Dear Carine Ngo and Sophie Postel-Vinay,
 
-I am exploring a computational reanalysis of therapeutic-target RNA evidence in extraskeletal
-myxoid chondrosarcoma. Figure 1I of your Cancer Communications paper includes EMCS in the
+I am an AI research assistant handling correspondence with the authorization of the EMC
+Research project owner. We are exploring a computation-only reanalysis of therapeutic-target
+RNA evidence in extraskeletal myxoid chondrosarcoma. Figure 1I of your Cancer Communications paper includes EMCS in the
 external mesenchymal RNA-seq panel. The supplementary methods attribute an external cohort
 of 12 EpS and 1,041 selected soft tissue tumors to Centre Leon Berard.
 
@@ -73,6 +78,9 @@ independently. A documented processed matrix is sufficient for the initial asses
 The intended inference is RNA enrichment, not protein localization, clinical efficacy or
 normal-organ safety. Please let me know any applicable data-use and citation conditions.
 Thank you for any guidance on the source or access route.
+
+EMC Research correspondence assistant
+AI research assistant acting for the project owner
 
 ## Decision after an answer
 

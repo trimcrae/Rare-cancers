@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Atlas named source chain completed without public EMC validation matrix. No scientific workers or new expression analysis selected. Integrate both source checks, then reassess actual remaining input dependencies without repeated failed accesses.",
+  "priority": "Implement authorized autonomous EMC research correspondence; two source-verified requests are queued pending a dedicated verified sender mailbox. Scientific data dependency remains; no preprint ready.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -25,7 +25,7 @@
     "next_action": "ASO preparation is complete; follow aso_submission for the frozen package and remaining author action."
   },
   "schedule": {
-    "status": "ACTIVE",
+    "status": "PAUSED",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
     "interval_minutes": 5,
@@ -36,7 +36,8 @@
     "validation": "Actual heartbeat produced a collected, independently verified scientific result; normal integration preflight passed.",
     "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json",
     "nominal_interval_minutes": 360,
-    "pacing_reason": "User removed usage pacing and authorized reset credits as needed; continuous fresh-worker iteration resumes now."
+    "pacing_reason": "User removed usage pacing and authorized reset credits as needed; continuous fresh-worker iteration resumes now.",
+    "pause_reason": "Await a verified dedicated mailbox; correspondence is authorized. Avoid redundant research wakeups while the actual data and transport dependencies remain."
   },
   "integration": {
     "status": "settled_and_verified",
@@ -96,7 +97,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-06T07:31:41.819763+00:00",
+  "last_updated_utc": "2026-09-06T07:35:39.505036+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -168,7 +169,7 @@
       "Finished independently verified preprint package satisfying actual readiness gates"
     ],
     "all_other_updates": "Internal only: worker progress/completion, feasibility results, demotions, recoverable failures, usage observations and routine approvals already within scope. Use coordinator judgment and keep working.",
-    "user_instruction": "Notify me if you\u2019re completely blocked or if you have a finished preprint and that\u2019s it. The rest you should use your judgement on",
+    "user_instruction": "Notify me if you’re completely blocked or if you have a finished preprint and that’s it. The rest you should use your judgement on",
     "automation_delivery": "Routine notifications muted with failed_runs_only, the available app setting. Do not deliberately fail runs to generate notifications.",
     "phone_push_clarification": {
       "user": "Phone push notifications",
@@ -577,7 +578,7 @@
     "resource": "paper:PUB-SURFACE-TARGETS:specimen-provenance",
     "scope": "research/autonomy/atlas-specimen-provenance-2026-09-06/",
     "contract": "research/autonomy/portfolio-2026-09-05/allocation-after-suffix-2026-09-06.md",
-    "task": "Named Panagopoulos2002/Mitelman9736 cases and2017EMC46\u201351 specimen-recruitment/map recovery. Distinct public routes; no repeated access failures, expression computation or broad search.",
+    "task": "Named Panagopoulos2002/Mitelman9736 cases and2017EMC46–51 specimen-recruitment/map recovery. Distinct public routes; no repeated access failures, expression computation or broad search.",
     "status_observed_utc": "2026-09-06T04:49:41.456093+00:00",
     "latest_observation": "Completed packet independently checked and integrated at b094175; resource released. C12 remains unresolved.",
     "results": "C12 unchanged. Country fallback cannot establish recruitment; Case7 multiple investigations do not identify array specimen. No expression analysis or further automatic source recovery selected.",
@@ -751,11 +752,32 @@
   },
   "mission_impasse_audit": {
     "condition": "Current ranked portfolio lacks the external validation/source measurements needed for a useful new independently verified preprint. Named public source routes are exhausted for these leads; concrete data requests are prepared but unsent. Further progress requires a specific new source, data-holder response, or authorized outreach.",
-    "consecutive_goal_turns": 1,
-    "status": "Previous turn made source integration progress. This turn completed the remaining safe preparation (two verified unsent requests), then observed the first settled overall impasse. No scientific worker or verification process remains running; goal remains active pending required repeated audit.",
+    "consecutive_goal_turns": 3,
+    "status": "Historical goal tool block retained. User has now granted routine outreach authority; setup is in progress, with mailbox connection still missing. Do not reuse prior three-turn audit for this new setup state.",
     "evidence": "research/autonomy/portfolio-2026-09-05/current-evidence-impasse-2026-09-06.md",
     "not_a_usage_or_approval_limit": true,
-    "last_checked_utc": "2026-09-06T07:31:41.819763+00:00"
+    "last_checked_utc": "2026-09-06T07:35:39.505036+00:00",
+    "observations": [
+      {
+        "utc": "2026-09-06T07:33:36.438506+00:00",
+        "count": 2,
+        "classification": "no progress: same external-input dependency",
+        "root_revision": "3398174770a328a38bf6a638c190a8447abe4ef5",
+        "live_scientific_workers": 0,
+        "reserved_resources": 0,
+        "requests_sent": 0
+      },
+      {
+        "utc": "2026-09-06T07:35:39.505036+00:00",
+        "count": 3,
+        "classification": "no progress: same verified external-input dependency",
+        "root_revision": "3398174770a328a38bf6a638c190a8447abe4ef5",
+        "live_scientific_workers": 0,
+        "reserved_resources": 0,
+        "requests_sent": 0,
+        "goal_status": "blocked"
+      }
+    ]
   },
   "tempo_normal_source": {
     "agent": "/root/tempo_normal_source",
@@ -816,15 +838,26 @@
     "integration_receipt": "research/autonomy/ngo-emc-source-2026-09-06/integration-receipt.json"
   },
   "external_data_requests": {
-    "status": "two concrete drafts prepared; neither sent",
+    "status": "authorized and queued; neither sent; awaiting verified mailbox",
     "file": "research/autonomy/portfolio-2026-09-05/emc-data-requests-2026-09-06.md",
     "targets": [
       "Zullow2022 sevenEMC processed measurements and sample/comparator provenance",
       "Ngo2025 externalCentreLeonBerard EMC-bearing panel source and sample/comparator provenance"
     ],
-    "authorization": "No explicit authorization for messaging others has been supplied; no outreach performed. Full computer permissions do not supply that authorization.",
+    "authorization": "User approved the standing autonomous correspondence proposal on 2026-09-06: Do it. See research_correspondence in publication-authority.json. No per-message approval required.",
     "scientific_limit": "Data access permits feasibility assessment, not a promise of publishable results.",
     "verification": "Published recipients checked against original article correspondence; requested assets match verified source gaps. Normal settled check passed; no message sent.",
-    "sending_capability": "No email connector exposed in available tool inventory; no browser mail account inspected or used."
+    "sending_capability": "No mail connector or signed-in browser mailbox found. Address/provider requested; no account configured or send/receive test performed.",
+    "queue": "research/autonomy/correspondence/initial-requests.json",
+    "procedure": "research/autonomy/correspondence/README.md"
+  },
+  "correspondence_setup": {
+    "authorization": "granted",
+    "recorded_utc": "2026-09-06T11:48:31.935214+00:00",
+    "transport": "not_configured",
+    "send_receive_verified": false,
+    "requests_sent": 0,
+    "monitor_running": false,
+    "next_action": "Identify and connect the dedicated mailbox; test actual send/receive, then send queued requests and activate quiet follow-through without reapproval."
   }
 }

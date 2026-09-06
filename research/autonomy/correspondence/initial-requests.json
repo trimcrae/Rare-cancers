@@ -1,0 +1,26 @@
+{
+  "schema": "emc-research-correspondence-queue/1",
+  "requests": [
+    {
+      "request_id": "emc-zullow2022-expression-v1",
+      "recipients": [
+        "Cigall_kadoch@dfci.harvard.edu"
+      ],
+      "subject": "Location of the seven EMC RNA-seq samples in Zullow et al. 2022",
+      "body": "Dear Professor Kadoch,\n\nI am an AI research assistant handling correspondence with the authorization of the EMC\nResearch project owner. We are exploring a computation-only reanalysis of therapeutic-target\nRNA evidence in extraskeletal myxoid chondrosarcoma. Your Molecular Cell paper reports seven EMC tumors and states that EMC\nand myxoid liposarcoma samples were sequenced in the study.\n\nI checked GSE179720 and its linked ENA project. I could identify the deposited primary MLS\nand Ewing records, but could not locate the seven EMC expression records. Could you point me\nto their public accession or processed gene-level matrix? A documented processed matrix\nwould be sufficient to begin; raw sequencing files are not essential for the initial check.\n\nIf the EMC data are not public, would you consider sharing an appropriately deidentified\nmatrix with sample diagnosis and the relevant MLS comparator measurements? Information on\nspecimen recruitment, repeated samples, library preparation and sequencing batches would help\nassess independent replication and avoid confusing tissue differences with technical effects.\nThe Table S1 sample crosswalk and identification of excluded samples would also be useful.\n\nThe intended inference is RNA enrichment within this measurement design, not clinical efficacy,\nnormal-organ safety or protein localization. Please let me know any applicable data-use and\ncitation conditions. Thank you for any guidance on the correct source.\n\nEMC Research correspondence assistant\nAI research assistant acting for the project owner",
+      "source_doi": "10.1016/j.molcel.2022.03.019",
+      "scientific_dependency": "Locate seven EMC measurements and within-study MLS comparator/sample provenance for independent RNA enrichment validation."
+    },
+    {
+      "request_id": "emc-ngo2025-external-panel-v1",
+      "recipients": [
+        "carine.ngo@gustaveroussy.fr",
+        "sophie.postel-vinay@gustaveroussy.fr"
+      ],
+      "subject": "Source of the external EMC-containing RNA-seq panel in Ngo et al. 2025",
+      "body": "Dear Carine Ngo and Sophie Postel-Vinay,\n\nI am an AI research assistant handling correspondence with the authorization of the EMC\nResearch project owner. We are exploring a computation-only reanalysis of therapeutic-target\nRNA evidence in extraskeletal myxoid chondrosarcoma. Figure 1I of your Cancer Communications paper includes EMCS in the\nexternal mesenchymal RNA-seq panel. The supplementary methods attribute an external cohort\nof 12 EpS and 1,041 selected soft tissue tumors to Centre Leon Berard.\n\nCould you point me to the public accession or processed gene-level matrix and diagnosis\nmetadata for that external panel? I checked the published supplements, linked figure repository\nand named EGA DAC; I could locate the study EpS/EERT data description, but not the external\nEMC-containing panel's expression matrix or sample roster.\n\nIf the external panel is not public, would you consider sharing an appropriately deidentified\nEMC subset with relevant sarcoma comparator measurements, or directing me to the appropriate\ndata custodian? Sample diagnosis, repeated-specimen identifiers, recruitment provenance and\nlibrary/batch information would help assess whether within-study RNA enrichment can be tested\nindependently. A documented processed matrix is sufficient for the initial assessment.\n\nThe intended inference is RNA enrichment, not protein localization, clinical efficacy or\nnormal-organ safety. Please let me know any applicable data-use and citation conditions.\nThank you for any guidance on the source or access route.\n\nEMC Research correspondence assistant\nAI research assistant acting for the project owner",
+      "source_doi": "10.1002/cac2.70077",
+      "scientific_dependency": "Locate the external Centre Leon Berard EMC-bearing expression panel and comparator/sample provenance for independent RNA enrichment validation."
+    }
+  ]
+}

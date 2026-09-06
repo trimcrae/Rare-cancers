@@ -158,7 +158,9 @@ Prepare reviewer-readable preprints, reusable data/code, accurate limitations, a
 together. aiXiv remains an authorized distribution option within the existing grant, not evidence
 of scientific credibility. PUB-ASO remains excluded from automatic aiXiv posting. Recheck venue
 rules at release time; do not wait indefinitely for a hypothetical higher-visibility AI venue.
-Journal submission and outreach follow the user's specific authorization and existing authority.
+Journal submission follows its existing authority. The user's 2026-09-06 standing research_correspondence
+grant covers routine EMC outreach and follow-through without per-message approval; follow
+[the correspondence procedure](correspondence/README.md) and its private durable ledger.
 
 A cycle ends with a durable outcome and a clear next action. A process launch is not a delivered
 result. Do not report a scheduler as active until an actual run produced and preserved its output.
