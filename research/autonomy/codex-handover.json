@@ -420,7 +420,7 @@
     "available_reset_credits": 2,
     "redemption_needed": false
   },
-  "current_allocation": "research/autonomy/portfolio-2026-09-05/allocation-after-suffix-2026-09-06.md",
+  "current_allocation": "research/autonomy/portfolio-2026-09-05/escape-source-allocation-2026-09-06.md",
   "ipd_development": {
     "status": "integrated",
     "base_revision": "863a1917f98b55772243807d32c8abd5ee82d511",
@@ -535,7 +535,7 @@
   },
   "ipd_partial_order_prior_art": {
     "agent": "/root/ipd_prior_art",
-    "status": "independently checked and normal-gated; integration revision recorded in adjacent integration receipt",
+    "status": "integrated; resource released against durable receipt",
     "worktree": "C:/Users/mcrae/.codex/worktrees/ipd-prior-art-20260906/EMC-Research",
     "base_revision": "920fed4fff362b9cef8e97fb7b3356209c77c7af",
     "resource": "paper:PUB-IPD-SURVIVAL:partial-order-prior-art",
@@ -545,11 +545,12 @@
     "finding": "Generic novelty withdrawn. Conditional within-arm no-ties switch bounds, partial-order three-way decisions and equivalence-class query selection preexist; aggregate inverse feasibility with true ties remains conditional and practically unproven.",
     "coordinator_checks": "Exact136134signed-Z switches found no counterexample (not proof); separate true-tie example Q2 versus untied25/17 prevents silent tie extension.",
     "verification": "research/autonomy/ipd-partial-order-prior-art-2026-09-06/coordinator-verification.json",
-    "integration_receipt": "research/autonomy/ipd-partial-order-prior-art-2026-09-06/integration-receipt.json"
+    "integration_receipt": "research/autonomy/ipd-partial-order-prior-art-2026-09-06/integration-receipt.json",
+    "integration_revision": "6d44b06f5dba8b3bd67a422eeb27ed54c6c7230f"
   },
   "ipd_suffix_pruning": {
     "agent": "/root/ipd_suffix",
-    "status": "independently checked and normal-gated; integration revision recorded in adjacent integration receipt",
+    "status": "integrated; resource released against durable receipt",
     "worktree": "C:/Users/mcrae/.codex/worktrees/ipd-suffix-20260906/EMC-Research",
     "base_revision": "3aa9bfc2cc5e1d2e0ac6ba0f9162a6a620f5e7c8",
     "resource": "paper:PUB-IPD-SURVIVAL:suffix-pruning",
@@ -565,22 +566,37 @@
     "results": "17/18 development certificates versus prior16;0/4 stress; one stress bound weaker; stopped solver iteration",
     "verification": "research/autonomy/ipd-suffix-pruning-2026-09-06/coordinator-verification.json",
     "next_action": "Retain integrated development evidence; no additional solver experiments selected",
-    "integration_receipt": "research/autonomy/ipd-suffix-pruning-2026-09-06/integration-receipt.json"
+    "integration_receipt": "research/autonomy/ipd-suffix-pruning-2026-09-06/integration-receipt.json",
+    "integration_revision": "6d44b06f5dba8b3bd67a422eeb27ed54c6c7230f"
   },
   "atlas_specimen_provenance": {
     "agent": "/root/atlas_specimens",
-    "status": "running; successfully spawned actual collaboration handle",
+    "status": "independently checked and normal-gated; integration revision recorded in adjacent receipt",
     "worktree": "C:/Users/mcrae/.codex/worktrees/atlas-specimens-20260906/EMC-Research",
     "base_revision": "3aa9bfc2cc5e1d2e0ac6ba0f9162a6a620f5e7c8",
     "resource": "paper:PUB-SURFACE-TARGETS:specimen-provenance",
     "scope": "research/autonomy/atlas-specimen-provenance-2026-09-06/",
     "contract": "research/autonomy/portfolio-2026-09-05/allocation-after-suffix-2026-09-06.md",
     "task": "Named Panagopoulos2002/Mitelman9736 cases and2017EMC46\u201351 specimen-recruitment/map recovery. Distinct public routes; no repeated access failures, expression computation or broad search.",
-    "status_observed_utc": "2026-09-06T04:06:22.319488+00:00"
+    "status_observed_utc": "2026-09-06T04:06:22.319488+00:00",
+    "latest_observation": "Worker reports new secondary Mitelman country/biopsy fields and repeated investigations; primary recruitment and cohort separation still unresolved. Source task ongoing; not independently verified as a finished packet.",
+    "results": "C12 unchanged. Country fallback cannot establish recruitment; Case7 multiple investigations do not identify array specimen. No expression analysis or further automatic source recovery selected.",
+    "verification": "research/autonomy/atlas-specimen-provenance-2026-09-06/coordinator-verification.json",
+    "integration_receipt": "research/autonomy/atlas-specimen-provenance-2026-09-06/integration-receipt.json"
   },
   "last_goal_turn_audit": {
-    "utc": "2026-09-06T04:06:22.319488+00:00",
-    "classification": "progress",
-    "evidence": "Previous explicit user turn confirmed original rank and stopped further suffix expansion. Current continuation independently checks completed experiment, changes authoritative allocation and launches named atlas source task."
+    "previous_turn": "verified wait",
+    "evidence": "Actual atlas_specimens handle running and polled; independently read case/field semantics. Current turn completed original-source validation and source-packet collection; selected named experimental reserve and spawned exact source worker."
+  },
+  "escape_emc_source": {
+    "agent": "/root/escape_emc",
+    "status": "running; actual collaboration agent successfully spawned",
+    "worktree": "C:/Users/mcrae/.codex/worktrees/escape-emc-20260906/EMC-Research",
+    "base_revision": "6d44b06f5dba8b3bd67a422eeb27ed54c6c7230f",
+    "resource": "paper:PUB-NEOANTIGEN:escape-emc-source",
+    "scope": "research/autonomy/escape-emc-source-2026-09-06/",
+    "contract": "research/autonomy/portfolio-2026-09-05/escape-source-allocation-2026-09-06.md",
+    "task": "Exact Shi2025 ESCAPE-seq Table4 and source-data intersection with pinned EMC junction peptides; identify actual measured allele pairs and assay limitations. No general benchmark or manuscript.",
+    "status_observed_utc": "2026-09-06T04:21:33.510060+00:00"
   }
 }

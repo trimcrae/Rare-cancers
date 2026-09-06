@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    
+
+    <meta charset="utf-8">
+    <meta name="description"
+          content="The information in the Mitelman Database of Chromosome Aberrations and Gene Fusions in Cancer relates cytogenetic changes and their genomic consequences, in particular gene fusions, to tumor characteristics, based either on individual cases or associations.">
+    <title>Mitelman Database Chromosome Aberrations and Gene Fusions in Cancer</title>
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148377238-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-148377238-1');
+    </script>
+    
+
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="shortcut icon" href="/static/favicon.png">
+    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
+    <!--dataTables-->
+    <script type="text/javascript" src="/static/js/libs/datatables.min.js"></script>
+    <!--fontawesome-->
+    <script type="text/javascript" src="/static/js/libs/c53771aefd.js"></script>
+    <!--chosen js-->
+    <script type="text/javascript" src="/static/js/libs/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    
+<script type="text/javascript">
+    active_menu = 'help_menu';
+</script>
+
+</head>
+
+
+<header>
+    <div class="sidenav">
+        <ul>
+            <li><a id='home_menu' href="/">Home</a></li>
+            <li><a id='search_menu' href="search_menu">Search <i class="fas fa-search"></i></a>
+            </li>
+            <li>
+                <ul>
+                    <li><a id='case_search' href="case_search">Cases Cytogenetics</a></li>
+                    <li><a id='mb_search' href="mb_search">Gene Fusions</a></li>
+                    <li><a id='clinical_search' href="clinical_search">Clinical Associations</a></li>
+                    <li><a id='recab_search' href="recab_search">Recurrent Chromosome Aberrations</a></li>
+                    <li><a id='ref_search' href="ref_search">References</a></li>
+                </ul>
+            </li>
+            <li><a id='data_browser' href="data_browser">Data Browser</a></li>
+            <li><a id='bq_data' href="bq_data">BigQuery and Data Analysis</a></li>
+            <li><a id='help_menu' href="help">User Guide</a></li>
+            <li><a id='about_menu' href="about">About</a></li>
+        </ul>
+    </div>
+</header>
+<body>
+<main>
+    
+<div class="panel margin-r-10">
+    <h1>User Guide</h1>
+    <br>
+    <h2><strong>Mitelman Database of Chromosome Aberrations and Gene Fusions in Cancer</strong></h2>
+    <div class="accordion" id="helpAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem1" aria-expanded="false" aria-controls="helpItem1">
+                    How to Fill in the Database Search Fields
+                </button>
+            </h2>
+            <div id="helpItem1" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <div>
+                            <h3><strong>Abnormality</strong></h3>
+                            <ul>
+                                <li>Select <code>Yes</code> in the <i>Sole Abnormality</i> field in the Cases
+                                    Cytogenetics
+                                    Searcher to find
+                                    cases that contain this chosen abnormality and no other.
+                                </li>
+                                <li>Enter a single or multiple entries, separated by a comma.</li>
+                                <li>Click the <code>And</code> radio button to get results with all of the multiple
+                                    entries
+                                    or the <code>Or</code>
+                                    radio button to get results with any of the multiple entries.
+                                </li>
+                                <li>Use standard wildcard characters, i.e., <code>*</code> matches a string of any
+                                    length
+                                    and <code>_</code> matches a
+                                    single character. All abnormality searches are automatically wildcarded on the
+                                    right,
+                                    but
+                                    not on the left. Thus, a wildcard must be used to obtain the derivative chromosomes
+                                    containing the chosen abnormality, e.g., <code>*t(2;10)(p21;q22)</code> will present
+                                    all
+                                    the <code>der</code>
+                                    chromosomes with this translocation.
+                                </li>
+                                <li>To do an 'exact match' search for each entry, wrap the entry in double quotes, e.g.
+                                    <code>"+2"</code>.
+                                </li>
+                                <li>Use <code>not</code> to exclude an entry from results, e.g., <code>+7, not +2</code>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Age</strong></h3>
+                            <ul>
+                                <li>Enter simple integers, e.g., <code>4</code> or <code>25</code> or ranges, e.g.,
+                                    <code>4-8</code>
+                                    or <code><10</code>.
+                                </li>
+                                <li>Use <code>0</code> to denote less than 12 months.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Authors</strong></h3>
+                            <ul>
+                                <li>Enter a single author or multiple authors, separated by a comma. Results will
+                                    contain
+                                    references with all authors specified.
+                                </li>
+                                <li>Use standard name format without periods after initials, e.g., <code>Johnson
+                                    H</code>
+                                    <ul>
+                                        <li>Entering <code>Mendel</code> will match any author whose last name is <code>Mendel</code>,
+                                            regardless of initials.
+                                        </li>
+                                        <li>Entering <code>Mendel G</code> will match only an author whose last name is
+                                            <code>Mendel</code> and whose only
+                                            initial is <code>G</code>.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Use standard wildcard characters, i.e., <code>*</code> matches a string of any
+                                    length
+                                    and <code>_</code> matches a
+                                    single character.
+                                    <ul>
+                                        <li>Entering <code>Mendel *</code>, with an internal space, is equivalent to
+                                            entering <code>Mendel</code>.
+                                        </li>
+                                        <li>Entering <code>Mendel*</code>, with no internal space, will match any author
+                                            whose last name begins with <code>Mendel</code>, including, for example,
+                                            <code>Mendelsohn
+                                                H</code>.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Breakpoint</strong></h3>
+                            <ul>
+                                <li>Enter a single or multiple entries, separated by a comma.
+                                </li>
+                                <li>Click the <code>And</code> radio button to get results with all of the multiple
+                                    entries
+                                    or the <code>Or</code>
+                                    radio button to get results with any of the multiple entries.
+                                </li>
+                                <li>Use standard wildcard characters, i.e., <code>*</code> matches a string of any
+                                    length
+                                    and <code>_</code> matches a
+                                    single character.
+                                    <ul>
+                                        <li>Breakpoints have an implicit wildcard for band numbers, e.g.,
+                                            <code>1p</code>
+                                            will match
+                                            any breakpoint
+                                            on <code>1p</code>, and <code>14q3</code> will match breakpoints on
+                                            <code>14q31</code>
+                                            or <code>14q32</code>.
+
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>To do an 'exact match' search for each entry, wrap the entry in double quotes, e.g.
+                                    <code>"14q3"</code>.
+                                </li>
+                                <li>Use <code>not</code> to exclude an entry from results, e.g., <code>2q21, not
+                                    2p13</code>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Number of Clones</strong></h3>
+                            <ul>
+                                <li>Enter simple integers, e.g., <code>4</code> or <code>25</code> or ranges, e.g.,
+                                    <code>4-8</code>
+                                    or <code>>10</code>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Number of Chromosomes</strong></h3>
+                            <ul>
+                                <li>Enter simple integers, e.g., <code>46</code> or <code>50</code> or ranges, e.g.,
+                                    <code>46-50</code>
+                                    or <code><62</code>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Gene</strong></h3>
+                            <ul>
+                                <li>Type in the gene name to filter the inputs from the drop down list and selecting the
+                                    value
+                                </li>
+                                <li>To filter the gene name:
+                                    <ul>
+                                        <li>Enter gene designation to find rearranged gene, e.g., <code>BCR</code>.</li>
+                                        <li>Enter gene designations separated by double colons <code>::</code> to find
+                                            gene
+                                            fusions
+                                            only, e.g., <code>BCR::ABL1</code>.
+                                        </li>
+                                        <li>Use plus <code>+</code> before gene designation to retrieve amplifications
+                                            associated with
+                                            homogeneously staining regions, giant marker chromosomes, ring chromosomes,
+                                            and
+                                            double
+                                            minutes, e.g., <code>+MYCN</code>.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Journal</strong></h3>
+                            <ul>
+                                <li>Use valid MEDLINE abbreviations (see List of Journal Abbreviations).</li>
+                                <li>Use standard wildcard characters, i.e., <code>*</code> matches a string of any
+                                    length
+                                    and <code>_</code> matches a single character. All abnormality searches are
+                                    automatically wildcarded on the right,
+                                    but not on the left.
+                                </li>
+                                <li>To do an 'exact match' search for each entry, wrap the entry in double quotes, e.g.
+                                    <code>"N Engl J Med"</code>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Morphology</strong></h3>
+                            <ul>
+                                <li>Use morphology designation followed by <i>(all subtypes)</i> to get all
+                                    subclassified
+                                    cases within
+                                    entry (i.e. <i>Acute myeloid leukemia (all subtypes)</i> will present AML NOS and
+                                    FAB
+                                    types M0-M7)
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Special Hereditary Disorder</strong></h3>
+                            <ul>
+                                <li>Enter a special hereditary disorder from the List of Special Hereditary Disorders.
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Special Morphology</strong></h3>
+                            <ul>
+                                <li>Enter a special morphology from the List of Special Morphologies.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><strong>Year</strong></h3>
+                            <ul>
+                                <li>Enter simple integers, e.g., <code>1995</code> or range, e.g.,
+                                    <code>1992-1997</code> or
+                                    <code><1996</code>.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem2" aria-expanded="false" aria-controls="helpItem2">
+                    Definitions of Database Search Fields
+                </button>
+            </h2>
+            <div id="helpItem2" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <h3><strong>Abnormality</strong></h3>
+                        <p>Abnormal element of a karyoptype, e.g., <code>t(1;6)(p21;q12)</code>.</p>
+                        <ul>
+                            <li>The nomenclature for chromosomal abnormalities follows the recommendations proposed by
+                                ISCN. See ISCN Abbreviated Terms and Symbols for a brief summary and explanation of
+                                terms and symbols. The short ISCN system for designating structural chromosome
+                                abnormalities is used.
+                                Therefore, the transcription of some complex rearrangements originally described in the
+                                detailed system may give rise to some ambiguities. However, the bands involved in an
+                                aberration are always specified. Otherwise, no attempts have been made to "interpret"
+                                karyotypic changes; e.g., inferred breakpoints were not cataloged. Nor have obvious
+                                mistakes been corrected: Breakpoints localized to non-existing bands are listed as given
+                                in the original report.
+                            </li>
+                            <li>Only clonal aberrations are recorded in the database.</li>
+                            <li>Chronic myeloid leukemias with <code>t(9;22)</code> as the sole abnormality are not
+                                registered.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3><strong>Breakpoint</strong></h3>
+                        <p>Cytogenetic band location of abnormality, e.g., <code>1p21</code>, as defined by ISCN.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Case No</strong></h3>
+                        <p>Identification number used in database for each individual case within a reference. Multiple
+                            different tumors cytogenetically investigated in the same case are indicated by capital
+                            letters A, B, etc, following the Case Number.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Clinical Association</strong></h3>
+                        <p>Provides information on associations between clinical parameters, most commonly outcome, and
+                            chromosomal changes and/or gene rearrangements resulting from chromosome aberrations.
+                            Information on
+                            <strong>Abnormality</strong>, <strong>Breakpoint</strong> and/or <strong>Gene</strong> may
+                            not always be available.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Number of Clones</strong></h3>
+                        <p>Number of identical karyotype of one subset of cells from a sample. The operational
+                            definition of a
+                            clone follows the recommendation of ISCN : At least two cells with the same extra chromosome
+                            or
+                            structural aberration, or three cells with the same missing chromosome.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Country</strong></h3>
+                        <p>Case origin when stated in publication; otherwise, in general the residence of corresponding
+                            author.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Gene</strong></h3>
+                        <p>Provides information on rearranged protein-coding genes located in breakpoints of acquired
+                            cytogenetic
+                            aberrations.</p>
+                        <ul>
+                            <li>Molecular consequences of known neoplasia-associated chromosome changes are registered
+                                even if no cytogenetic investigation was performed.
+                            </li>
+                            <li>References to articles on quantitative gene alterations as a result of unbalanced
+                                cytogeneticaberrations are not recorded except for amplifications in homogeneously
+                                staining regions
+                                (hsr), giant marker chromosomes, ring chromosomes (r), and double minutes (dmin).
+                            </li>
+                            <li>Gene symbols are in accordance with the most recent Guidelines for Human Gene
+                                Nomenclature recommendations; hence there are no dashes, Roman numerals, or Greek
+                                letters within the
+                                gene designations.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3><strong>Inv No</strong></h3>
+                        <p>Number used in database for each consecutive investigation within a case or for a metastatic
+                            lesion at a different location.</p>
+                        <ul>
+                            <li>
+                                Whenever a tumor was studied at different times, the karyotypes are presented
+                                chronologically.
+                            </li>
+                            <li>
+                                From the second investigation onward, only the clones with new abnormalities are in
+                                general listed.
+                            </li>
+                            <li>It should be noted that the relevant chromosome aberration may be present in only one of
+                                several karyotypes presented for the case.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3><strong>Gene Fusions</strong></h3>
+                        <p>Protein-coding genes rearranged as a consequence of structural chromosome changes. References
+                            are provided
+                            to the first original publications in which the gene rearrangement was reported in a
+                            particular tumor type. Most gene fusions in the database have been identified through RNA
+                            sequencing. The chromosome abnormalities giving rise to such fusions are by default
+                            designated as translocations (t), unless shown to arise by other types of chromosome
+                            rearrangements (del, dup, ins, inv).</p>
+                    </div>
+                    <div>
+                        <h3><strong>Morphology</strong></h3>
+                        <p>Tumor histology.</p>
+                        <ul>
+                            <li>The nomenclature of tumor histology is based on the International Classification of
+                                Diseases for Oncology (ICD-O), the Systematized Nomenclature of Medicine (SNOMED), the
+                                French-American-British (FAB) proposals for the classification of acute leukemias and
+                                myelodysplastic syndromes, and the WHO Classification of Tumours of Soft Tissue and
+                                Bone.
+                            </li>
+                            <li>
+                                Tumors of the lymphoreticular system, as described according to the US National Cancer
+                                Institute
+                                Working Formulation (WF) and Kiel classification systems for non-Hodgkin's lymphomas
+                                (NHL), are
+                                converted to the REAL/WHO classification. All unspecified non-Hodgkin lymphomas are
+                                presented as
+                                <strong>Peripheral B-cell neoplasm, NOS</strong>.
+                            </li>
+                            <li>
+                                When chronic myeloproliferative disorders progress to acute myeoloid leukemia (AML), the
+                                following classification principle has been adopted: Patients with AML following, e.g.
+                                polycythemia vera, are entered under the latter diagnosis if they had not received
+                                genotoxic treatment, but as secondary AML if such treatment had been given. AML
+                                following a myelodysplastic phase is not registered as secondary.
+                            </li>
+                            <li>
+                                Rare tumor types grouped under <strong>special type</strong>, e.g. <strong>Benign
+                                mesenchymal tumor, special
+                                type</strong>, are presented in <strong>Special Morphology</strong>.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3><strong>Previous Tumor</strong></h3>
+                        <p><code>Yes</code> indicates benign or malignant, treated or untreated neoplasm.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Recurrent aberration</strong></h3>
+                        <p>Any aberration, structural or numerical, present in two or more cases of the same morphology
+                            or morphologic subentity, and, when applicable for solid tumors, topography. Hence, an
+                            identical aberration reported in two cases of AML M1 is recorded as recurrent whereas the
+                            same aberration when present in one case each of AML M1 and AML M2 will not appear as
+                            recurrent.
+                            Only well characterized abnormalities are presented, i.e., aberrations preceded by a
+                            <code>?</code> or
+                            separated by <code>or</code> and abnormalities with breakpoints separated by <code>-</code>
+                            are excluded.</p>
+                    </div>
+                    <div>
+                        <h3><strong>References</strong></h3>
+                        <p>When a case has been reported in more than one publication, generally only the most recent
+                            reference
+                            is given. Therefore, a search for the original article may not yield any results. Data
+                            presented at
+                            congresses, conferences or workshops are not registered, even if abstracts were published in
+                            scientific journals.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Ref No</strong></h3>
+                        <p>Unique identification number used in database for each individual reference.
+                        </p>
+                    </div>
+                    <div>
+                        <h3><strong>Series</strong></h3>
+                        <p>A case is categorized as <strong>Selected</strong> when reported because of a
+                            specific/unusual karyotypic
+                            feature;
+                            otherwise, the case is classified as <strong>Unselected</strong>.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Special Hereditary Disorder</strong></h3>
+                        <p>Constitutional chromosome abnormality or Mendelian disorder, specified in <strong>Special
+                            Hereditary
+                            Disorder</strong>.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Tissue</strong></h3>
+                        <p>Tissue used for cytogenetic investigation. Only neoplasms studied in direct preparations or
+                            after short-term in vitro culture are registered.</p>
+                    </div>
+                    <div>
+                        <h3><strong>Topography</strong></h3>
+                        <p>Tumor site, applicable for solid tumors, also grouped according to organ systems, e.g.
+                            <strong>Respiratory system (all sites)</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem3" aria-expanded="false" aria-controls="helpItem3">
+                    About Genomic Imbalances in Cytogenetic Cases
+                </button>
+            </h2>
+            <div id="helpItem3" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <h3><strong>Genomic Imbalances and Coordinates on the Karyotype Info Page</strong></h3>
+                        <div>The <strong>Karyotype Info</strong> page displays detailed information about the
+                            chromosomal imbalances in a specific karyotype, including their genomic coordinates.
+                        </div>
+                        <div>The genomic coordinates and genomic imbalance data are generated by <a
+                                href="https://jxw773.shinyapps.io/Cytogenetic__software/" class="sr-set"
+                                rel="noreferrer" target="_blank">CytoConverter</a>. CytoConverter produces a list of
+                            imbalance types (gain or loss) and their genomic coordinates (start and end positions). To
+                            learn more about CytoConverter, see the following paper:
+                        </div>
+                        <div class="p-2 mt-2 mb-3 bg-light rounded">
+                            CytoConverter: a web-based tool to convert karyotypes to genomic coordinates. Wang, J.,
+                            LaFramboise, T. <em>BMC Bioinformatics</em> <strong>20</strong>, 467 (2019).
+                            <a target="_blank" rel="noreferrer"
+                               class="sr-set"
+                               href="https://doi.org/10.1186/s12859-019-3062-4">https://doi.org/10.1186/s12859-019-3062-4</a>
+                        </div>
+
+                        <h3 id="karyotype-validation" class="mt-2"><strong>Karyotype Validation</strong></h3>
+                        <div>
+                            <div class="mb-3">Before being converted, each karyotype is validated that it is in the
+                                proper format.
+                                Invalid aberrations within the karyotype will not be included in the genomic imbalances
+                                analysis. If the karyotype cannot be parsed at all, the entire karyotype will be
+                                excluded.
+                            </div>
+                            <div>The karyotype validation process excludes <strong>karyotypes</strong>:</div>
+                            <ul>
+                                <li>that span more than one ploidy level, e.g. <code>29-47,XY,...</code>.</li>
+                                <li>with an unknown chromosome number, e.g. <code>??,XY,...</code>.</li>
+                            </ul>
+                            <div>
+                                It excludes <strong>aberrations</strong>:
+                            </div>
+                            <ul>
+                                <li>that have missing breakpoints or contain:
+                                    <ul>
+                                        <li>'<code>?</code>' (question mark)</li>
+                                        <li>'<code>or</code>' (ambiguous interpretation)</li>
+                                        <li>'<code>hsr</code>' (homogeneously staining region)</li>
+                                        <li>'<code>c</code>' (constitutional abnormality)</li>
+                                        <li>'<code>-</code>' (interval sign)</li>
+                                    </ul>
+                                </li>
+                                <li>that violate ISCN rules, such as the following examples:
+                                    <ul>
+                                        <li>Translocations (<code>t</code>) with more than one breakpoint per
+                                            chromosome, e.g. <code>t(1;7)(p36;q11q22)</code>.
+                                        </li>
+                                        <li>Insertions (<code>ins</code>) with
+                                            <ul>
+                                                <li>more than one breakpoint in the "first" chromosome, e.g. <code>ins(1;7)(p34p36;q11)</code>.
+                                                </li>
+                                                <li>more than two breakpoints in the "second" chromosome, e.g. <code>ins(1;7)(p36;q11q22q33)</code>.
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>Deletions (<code>del</code>) with more than two breakpoints, e.g. <code>del(1)(q11q12q22)</code>.
+                                        </li>
+                                        <li>Duplications (<code>dup</code>) with less than two or more than two
+                                            breakpoints, e.g. <code>dup(1)(q11)</code>
+                                            or <code>dup(1)(q11q12q22)</code>.
+                                        </li>
+                                        <li>Additional material (<code>add</code>) with more than one breakpoint, e.g.
+                                            <code>add(1)(p35p36)</code>.
+                                        </li>
+                                        <li>Inversions (<code>inv</code>) with less than two or more than two
+                                            breakpoints,
+                                            e.g. <code>inv(1)(p36)</code> or <code>inv(1)(p13q22q23)</code>.
+                                        </li>
+                                        <li>Ring chromosomes (<code>r</code>) with less than two or more than two
+                                            breakpoints, e.g. <code>r(8)(p22q23q24)</code>.
+                                        </li>
+                                        <li>Derivative chromosomes (<code>der</code>) not followed by any specified
+                                            aberration such as <code>t</code>, <code>inv</code>, <code>del</code>, e.g.
+                                            <code>der(1)(p36q22)</code>.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h3><strong>Accessing the Karyotype Info Page</strong></h3>
+                        <div>The page can be accessed by clicking either:</div>
+                        <ul>
+                            <li>the <strong>View Karyotype Details</strong> link in the Karyotype column on the Cases
+                                Cytogenetics Search Result page
+                            </li>
+                            <li>the karyotype from the <strong>Chromosome Aberration Case Info</strong> page</li>
+                        </ul>
+
+                        <div>The <strong>Karyotype Info</strong> page contains:</div>
+                        <ul>
+                            <li><strong>Ref No, Case No, Inv No</strong>: Unique identification numbers associated with
+                                the case karyotype.
+                            </li>
+                            <li><strong>Karyotype</strong>: The full karyotype retrieved from reference.
+                                <ul>
+                                    <li><strong>Invalid Karyotype</strong>: Reason for invalidating the karyotype.
+                                    </li>
+                                    <li><strong>Invalid Syntax Detected</strong>: List of any invalid aberrations
+                                        detected in the karyotype.
+                                    </li>
+                                    <li><strong>Karyotype Used for Analysis</strong>: A karyotype that has been modified
+                                        to disregard all invalid syntaxes and is used for analysis.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Chromosome Abnormalities</strong>: Information about the genomic abnormalities
+                                of the clones and chromosomes.
+                                <ul>
+                                    <li><strong>View by Genomic Coordinates</strong>: The calculated data of the genomic
+                                        imbalances in a table, also downloadable in a .csv file.
+                                    </li>
+                                    <li><strong>View in Chromosome Images</strong>: An ideogram which visualizes the
+                                        data over chromosomes, downloadable in a .png or .svg file. Hovering the mouse
+                                        over the colored block will display the genomic coordinates of the aberrations.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem4" aria-expanded="false" aria-controls="helpItem4">
+                    How to View the Overall Genomic Imbalances in Multiple Cytogenetic Cases
+                </button>
+            </h2>
+            <div id="helpItem4" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <h3><strong>View Overall Chromosomal Imbalances</strong></h3>
+                        <div>
+                            After searching on the <a href="case_search">Cases Cytogenetics</a> page using specific
+                            parameters (<em>e.g. breast cancer or cases with a breakpoint in a certain band</em>),
+                            retrieved cases are displayed on the <strong>Cases Cytogenetics Search Result</strong> page.
+                        </div>
+                        <div>By clicking on the <strong>View Overall Chromosomal Imbalances</strong> button, you can
+                            see a combined analysis of genomic imbalances and genomic coordinates for all or a subset of
+                            the resulting karyotypes. The abnormalities of the chromosomes and their genomic coordinates
+                            are calculated by <a
+                                    href="https://jxw773.shinyapps.io/Cytogenetic__software/" class="sr-set"
+                                    rel="noreferrer" target="_blank">CytoConverter</a> and are displayed in chart,
+                            ideogram and tabular format.
+                        </div>
+
+                        <h3 class="mt-3"><strong>Selecting Samples for Analysis</strong></h3>
+                        To select samples for analysis on the <strong>Cases Cytogenetics Search Result</strong> page:
+
+                        <ol>
+                            <li>By default, all results are selected for the analysis.
+                            </li>
+                            <li>To select a subset of the results, check the checkbox preceding each row that you want
+                                included.
+                            </li>
+                        </ol>
+                        The number of selected samples will be displayed in a circle on the button <strong>View Overall
+                        Chromosomal Imbalances</strong>.
+
+                        <h3 class="mt-3">
+                            <strong>View Overall Chromosomal Imbalances button</strong>
+                        </h3>
+                        Clicking on the <strong>View Overall Chromosomal Imbalances</strong> button will run the
+                        analysis for the selected samples. It shows the combined frequency of genomic imbalances by the
+                        imbalance types in in each cytoband of the chromosomes.
+                        <ul>
+                            <li>Imbalances are grouped into four categories:
+                                <ul>
+                                    <li><strong>1 Extra Copy</strong></li>
+                                    <li><strong>>1 Extra Copy</strong></li>
+                                    <li><strong>Loss of 1 Copy</strong></li>
+                                    <li><strong>Homozygous Deletions</strong></li>
+                                </ul>
+                            </li>
+                            <li>All calculations are in relation to the diploid chromosome complement.</li>
+                        </ul>
+                        The analyzed results are shown in three different formats, each on its own tab:
+                        <ul>
+                            <li>
+                                <strong>Charts</strong>: A bar chart visualizing the occurrence of the imbalances in all
+                                chromosomes. Read more at <a href="#display-option">Charts: Display Options</a> to learn
+                                about the available display options.
+                            </li>
+                            <li>
+                                <strong>Ideogram</strong>: An ideogram visualizing the frequency of the imbalances in
+                                all chromosomes.
+                            </li>
+                            <li><strong>Data</strong>: A table displaying the calculated overall imbalances in all
+                                chromosomes.
+                            </li>
+                        </ul>
+
+                        <h3 id="display-option" class="mt-3"><strong>Charts: Display Options</strong></h3>
+
+                        <ul>
+                            <li><strong>Y-Axis Value</strong>: Occurrences can be displayed by the percentage, <code>Frequency(%)</code>
+                                or by the counts, <code>No. of Occurrences</code>.
+                            </li>
+                            <li><strong>Hide Chromosomes with No Imbalances</strong>:
+                                <ul>
+                                    <li>Check this box to hide charts with no genomic imbalances.</li>
+                                    <li>Checking this box will update certain checkboxes inside <strong>Imbalance
+                                        Type</strong> and <strong>Chromosomes</strong> to filter the data.
+                                    </li>
+                                    <li>This checkbox is checked by default.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Imbalance Type<sup>*</sup></strong>: Filter the data by specific imbalance type.
+                            </li>
+                            <li><strong>Chromosomes<sup>*</sup></strong>: Filter the data by chromosomes.</li>
+                            <li>Use the <strong>Update</strong> button to apply the changes to the chart, and the
+                                <strong>Clear
+                                    All Filters</strong> button to unselect all checkboxes.
+                            </li>
+                        </ul>
+                        <div class="text-muted ms-5">* To select all filters, unselect all checkboxes.</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem5" aria-expanded="false" aria-controls="helpItem5">
+                    Learning about BigQuery and Data Analysis
+                </button>
+            </h2>
+            <div id="helpItem5" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <h3><strong>BigQuery and Data Analysis page</strong></h3>
+                        <div>
+                            <p>
+                                Data tables used in the Mitelman Database are stored within the Google BigQuery data
+                                warehouse.
+                            </p>
+                            <p>
+                                The BigQuery and Data Analysis page provides the following information:
+                            </p>
+                            <ul>
+                                <li>A list of the Mitelman Google BigQuery database tables, and a description of each
+                                    table
+                                </li>
+                                <li>Links to the ISB-CGC documentation and Google documentation</li>
+                                <li>SQL query examples</li>
+                                <li>Data analysis notebook information, including descriptions of current Mitelman
+                                    Notebooks and links to the notebooks and documentation
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#helpItem6" aria-expanded="false" aria-controls="helpItem6">
+                    How to use the Data Browser
+                </button>
+            </h2>
+            <div id="helpItem6" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                    <div>
+                        <h3><strong>Data Browser page</strong></h3>
+                        <div>
+                            <p>
+                                By using the Data Browser, you can visualize the data in three ways:
+                            </p>
+                            <ul>
+                                <li>Circos Plot</li>
+                                <li>Copy Number</li>
+                                <li>Gene Fusions</li>
+                            </ul>
+                            <p>For each one, go to the Data Browser page at
+                                <a href="/data_browser">https://mitelmandatabase.isb-cgc.org/data_browser</a>
+                                and click on the appropriate tab.</p>
+                            <p>Enter the fields as described in the <strong>User Guide: How to Fill in the Database
+                                Search
+                                Fields</strong>.</p>
+                        </div>
+                        <h3><strong>Circos Plot</strong></h3>
+                        <div>
+                            <p>
+                                The <strong>Circos plot</strong> displays copy number aberrations present in
+                                cytogenetics cases as a histogram around the circle, along with gene fusions displayed
+                                as links between gene loci in the center of the plot. This plot can be used to view the
+                                frequency of abnormalities present in the Mitelman database.
+                            </p>
+                            <p>
+                                On the Circos Plot tab, click on the <strong><i class="fas fa-info-circle me-1"></i>About
+                                this Plot</strong> icon for more information.
+                            </p>
+                        </div>
+                        <h3><strong>Copy Number</strong></h3>
+                        <div>
+                            <p>On the <strong>Copy Number</strong> tab, individual charts display the copy number
+                                details
+                                for each
+                                chromosome. Users can select from the given search criteria to view the frequency of
+                                chromosomal imbalances present in the Mitelman database for the selection. The <strong>Histogram</strong>
+                                section provides bar charts displaying gain/loss counts in each chromosome band, while
+                                the <strong>Ideogram</strong> shows the same data on a chromosome representation. Values
+                                used in the
+                                charts can be viewed on the <strong>Data</strong> tab.
+                            </p>
+                            <p>On the Copy Number tab, click on the <strong><i class="fas fa-info-circle me-1"></i>About
+                                this Plot</strong> icon for more information.</p>
+                        </div>
+                        <h3><strong>Gene Fusions</strong></h3>
+                        <div>
+                            <p>The <strong>Gene Fusions</strong> tab allows for you to view the morphology and
+                                topography
+                                distributions
+                                for specific genes or gene fusions. Users can search using individual genes or
+                                "gene1::gene2" fusion pairs and/or cytogenetic abnormalities and breakpoints. The
+                                results are displayed in pie charts with a table showing the data used in the charts.
+                            </p>
+                            <p>On the Gene Fusions tab, click on the <strong><i class="fas fa-info-circle me-1"></i>About
+                                this Plot</strong> icon for more information.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="border border-secondary rounded py-3 px-4 mt-5 text-muted">
+        This website is optimized for use with the <span class="fw-bolder">Google Chrome</span> or <span
+            class="fw-bolder">Mozilla Firefox</span> desktop web browsers. If you find an
+        issue and you are not using Google Chrome or Mozilla Firefox, please try using Google Chrome or Mozilla Firefox
+        to see if the issue appears to be browser specific.
+    </div>
+</div>
+
+
+
+    <div class="spinner" style="display: none;">
+        <div class="spinner-group d-flex justify-content-center">
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 0%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 10%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 20%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 30%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 40%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 50%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+        </div>
+    </div>
+    <div id="journal-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h2 class="modal-header">
+                    <div class="modal-title"><strong>Journal List</strong></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </h2>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bqstm-modal" tabindex="-1" role="dialog" aria-labelledby="view_bq_stmt_title"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="view_bq_stmt_title"><strong>View SQL Statement</strong> in BigQuery
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="bqstm" class="m-0 text-primary border bg-light rounded p-2"></pre>
+                    <div class="py-2 text-end">
+                        <div class="text-muted">Mitelman Database is a public dataset under BigQuery</div>
+                        <a data-bs-toggle="collapse" href="#about_bq_console" role="button" aria-expanded="false"
+                           class="collapse-link" aria-controls="about_bq_console">
+                            Learn how to view Mitelman DB and run SQLs in the BigQuery console
+                        </a>
+                    </div>
+                    <div id="about_bq_console" class="collapse bg-light rounded p-2 my-2">
+                        <div>In order to view Mitelman DB tables in BigQuery Google Cloud Console,</div>
+                        <div>
+                            <ul>
+                                <li>
+                                    Click the "Open BigQuery Console" button
+                                </li>
+                                <li>
+                                    Be logged in with a Google account
+                                </li>
+                                <li>Choose a <b>project</b> associated with your Google account.
+                                    <br>
+                                    Creating a project is easy - See
+                                    <a target="_blank" rel="noreferrer"
+                                       href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project"
+                                       class="sr-set">
+                                        How to Create a Project<span class="sr-only"> opens a new tab</span></a>.
+                                </li>
+                                <li>Use the "Copy" and the "Open BigQuery Console" buttons to utilize the SQL statement
+                                    under the BigQuery Cloud Console
+                                </li>
+                            </ul>
+                        </div>
+                        <div>Consider using
+                            <a target="_blank" rel="noopener noreferrer"
+                               href="https://cloud.google.com/free/docs/gcp-free-tier"
+                               class="sr-set">
+                                Google Cloud Platform Free-Tier
+                                <span class="sr-only"> opens a new tab</span></a> and run queries at no cost!
+                        </div>
+                        <div>*Visit <a target="_blank" rel="noopener noreferrer"
+                                       href="https://cloud.google.com/bigquery/docs/quickstarts/quickstart-cloud-console">BQ
+                            Quickstart using the Cloud Console</a> to learn more about BigQuery
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-primary copy-button"><i class="far fa-clipboard"></i>
+                            Copy
+                        </button>
+                        <button type="button" class="btn btn-primary copy-button open-bqconsole-btn">
+                            <svg fill="none" fill-rule="evenodd" height="15" viewBox="0 0 32 32" width="15"
+                                 xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet"
+                                 focusable="false">
+                                <path d="M8.627 14.358v3.69c.58.998 1.4 1.834 2.382 2.435v-6.125H8.62z"
+                                      fill="#fff"></path>
+                                <path d="M13.044 10.972v10.54c.493.073.998.12 1.516.12.473 0 .934-.042 1.386-.104V10.972h-2.902z"
+                                      fill="#fff"></path>
+                                <path d="M18.294 15.81v4.604a6.954 6.954 0 0 0 2.384-2.556v-2.05h-2.384zm5.74 6.233l-1.99 1.992a.592.592 0 0 0 0 .836L27 29.83c.23.23.606.23.836 0l1.992-1.99a.594.594 0 0 0 0-.837l-4.957-4.956a.593.593 0 0 0-.83 0"
+                                      fill="#fff"></path>
+                                <path d="M14.615 2C7.648 2 2 7.648 2 14.615 2 21.582 7.648 27.23 14.615 27.23c6.966 0 12.614-5.648 12.614-12.615C27.23 7.648 21.58 2 14.61 2m0 21.96a9.346 9.346 0 0 1-9.346-9.345 9.347 9.347 0 1 1 9.346 9.346"
+                                      fill="#fff"></path>
+                            </svg>
+                            Open BigQuery Console
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
