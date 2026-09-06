@@ -1,0 +1,48 @@
+{
+  "status": "immutable",
+  "reader": "recruiting-reader-one",
+  "frozen_at_utc": "2026-09-06T06:15:26.911Z",
+  "requested_reasoning_effort": "medium",
+  "actual_reasoning_effort": "Not independently exposed in runtime; no verification of requested routing claimed.",
+  "model_as_disclosed": "Codex based on GPT-6 per developer context",
+  "actual_backend": "Exact backend model/version not exposed to this reader; unknown.",
+  "comparison_performed": false,
+  "inputs_only": "Standalone supplied protocol, disease anchors, manifest and eight archived complete records; no browsing, registry refresh, coordinator scientific files, source-query metadata, prior labels or other reader outputs read.",
+  "reading_scope": "All eight complete JSON records parsed and read in manifest order. Every eligibility, brief/detailed description, condition, design, intervention and arm/cohort text read without truncation before judgment. One initially truncated case-006 outcomes section recovered and read in full in a dedicated call; case-007 read by complete modules in manageable chunks. All plausible therapeutic cohorts assessed, including observational/ancillary routes, exclusions, extra biomarkers, gaps, contradictions and availability. No source unreadable.",
+  "timing": {
+    "earliest_exact_clock_observation_utc": "2026-09-06T06:10:53.9405864Z",
+    "seconds_from_that_observation_to_freeze": 272.971,
+    "total_reading_start": "Not instrumented; occurred before this clock observation. Exact total elapsed unavailable rather than reconstructed."
+  },
+  "input_sha256": {
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/protocol.md": "526b8cc6bb4fb1169499199ed65c1a80497a0deee49432ef10e610edd3671072",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/disease-anchors.md": "d160cf82d28e0649ecd1037c8ed29d9252e345c5346cccbc3da2103daef2d0dc",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/manifest.json": "2e33cee8f22212876f8c89fe1670a4660275b6641aea5f5bb0c500e5c2b2d2b1",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json": "16d6a853ab3c237e6e3f0c692aa26ec424d3f6ab6f084fa61450f9b177170f62",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json": "41db7436b47526a0f3978c749133d3a57407839a7e3f876cc5672e2ef8be11cf",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json": "7d23daedfcef6e4333aafb92bc2af50006782764b3bad9283e215b9b974c6044",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json": "1d65b3f3d1c8df29f9e497071c99a114ce152c203f66ff4c67de5e11dcb5d7fb",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json": "a7dd30a901583cbc2a3f20b48df01b6879e51f2856f6d91ce43f8bcc6329c5d1",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json": "45b5bcd702369b01247c0bc83ce5cf4ab392edb46205161991c6480884ff0dfe",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json": "ceefb930dca208d4e399b6f67e75c0ae0366843fce6b5a3163f179a6f360e8b1",
+    "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json": "55a018da1e66627c47cb80f828684a5719795b448e1f56f4896fb10134502440"
+  },
+  "output_sha256": {
+    "independent-labels.json": "7cab41d0ef4a2b6ef65aaf4ac35fe4eb1e7e3750a5f2a99bce5aa5b8b177491f",
+    "source-evidence.json": "ee79861851d409c2e312e5ec6e6d13ef24ce6110238a578ba0eea7ea5c1435e6",
+    "verify.mjs": "7aa15b222ec6b94275aed0cc7d5f4c571c88db9fa822bdc5345a340f46fc1f6d",
+    "verification-result.json": "cb21c4c9317e0e31833eebb3112ab59e5471dcf91f993858bf05aed145bd82c2"
+  },
+  "receipt_hash_convention": "Receipt excludes its own hash to avoid a self-reference. Created exclusively; immutable freeze event, no later overwrite authorized.",
+  "verification": {
+    "status": "PASS",
+    "records": 8,
+    "exact_pointer_excerpts": 111,
+    "result": "verification-result.json",
+    "reproduce": "node research/autonomy/recruiting-treatment-reader-one-2026-09-06/verify.mjs",
+    "scope": "Source hash/byte/NCT/canonical JSON checks; mandatory fields; exact RFC6901 excerpts; consistent evidence copies and bounds. Semantic judgments remain independent source reading, not proven by the verifier."
+  },
+  "clinical_limit": "No clinical efficacy, safety, therapeutic window, patient eligibility or current cohort-place claim.",
+  "worktree_base_as_assigned": "51c849d36ea6f77c7cfb46b2ae97ecca86708fca",
+  "running_after_checkpoint": false
+}

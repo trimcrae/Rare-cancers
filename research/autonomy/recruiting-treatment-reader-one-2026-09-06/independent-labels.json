@@ -1,0 +1,1711 @@
+{
+  "reader": "recruiting-reader-one",
+  "comparison_performed": false,
+  "scope": "Independent source-only disease-level therapeutic cohort assessment of eight archived complete records. No patient eligibility, efficacy, safety or actual availability conclusion.",
+  "cases": [
+    {
+      "case_id": "case-001",
+      "nct_id": "NCT06087861",
+      "source_raw_sha256": "16d6a853ab3c237e6e3f0c692aa26ec424d3f6ab6f084fa61450f9b177170f62",
+      "label": "positive",
+      "bounds": [
+        1,
+        1
+      ],
+      "route_category": "broad_tumor",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "External beam radiotherapy",
+          "therapeutic_purpose": "Preoperative external beam radiation 30 Gy/5 fractions",
+          "disease_molecular_compatibility": "Compatible broad STS; extremity/trunk/retroperitoneal anatomical scope remains conditional.",
+          "extra_biomarkers": "None required in this route.",
+          "exclusions": "Full eligibility criteria retained as evidence; no EMC-specific exclusion identified.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The sole external-beam radiation arm directly treats histologically confirmed soft tissue sarcoma. EMC is STS under EMC-1, and no histology or molecular restriction excludes it. Ordinary site/stage/patient requirements remain conditional.",
+      "ordinary_requirements": {
+        "summary": "Age >=18; extremity, trunk or retroperitoneal STS; offered preoperative radiation and surgery; KPS >=70 or ECOG 0-2; life expectancy >=6 months; consent and pregnancy requirements. No prior radiation to treatment area, active investigational anticancer agents, concurrent systemic treatment in the defined interval, or pregnancy. Palo Alto, United States. All conditions remain patient-specific and unassumed.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": false,
+        "scope_changing": false,
+        "detail": "No external disease or molecular criteria incorporated in supplied eligibility."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": true,
+      "rationale": "The sole external-beam radiation arm directly treats histologically confirmed soft tissue sarcoma. EMC is STS under EMC-1, and no histology or molecular restriction excludes it. Ordinary site/stage/patient requirements remain conditional.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n1. Histologically confirmed soft tissue sarcoma of the extremity, trunk or retroperitoneum.\n2. Has been offered preoperative radiation and surgery as part of standard-of-care treatment\n3. Age ≥ 18\n4. KPS ≥ 70 or ECOG 0 to 2\n5. Life expectancy ≥ 6 months\n6. If a woman is of childbearing potential, a negative serum or urine pregnancy test must be documented.\n7. Ability to understand and the willingness to personally sign the written IRB approved informed consent document.\n\nExclusion Criteria:\n\n1. History of prior radiation to the area to be treated.\n2. Active use of other anti-cancer investigational agents.\n3. Planned use of concurrent chemotherapy, targeted therapy, or immunotherapy with radiation therapy (defined as the time interval starting 1 week before the first and last fraction of radiation therapy and surgery).\n4. Pregnancy.",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "The purpose of this study is to examine the safety and efficacy of an abbreviated course of preoperative radiation, given over five days, for patients with soft tissue sarcoma of the extremity, trunk or retroperitoneum. This is in contrast to standard preoperative radiation, which is given over 25 days.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "External beam radiotherapy",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "Patients will receive treatment with external beam radiotherapy at a total of 30 Gy delivered over five fractions delivered daily.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Radiation will be delivered by external beam techniques to the tumor and areas of possible microscopic disease at a dose of 30 Gy divided into 5 equal fractions of 6 Gy (administered over a total of 5 to 10 business day",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-001.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-002",
+      "nct_id": "NCT06456359",
+      "source_raw_sha256": "41db7436b47526a0f3978c749133d3a57407839a7e3f876cc5672e2ef8be11cf",
+      "label": "negative",
+      "bounds": [
+        0,
+        0
+      ],
+      "route_category": "no_compatible_therapeutic_route",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Pasireotid treatment single arm: DSRCT",
+          "therapeutic_purpose": "Pasireotide maintenance",
+          "disease_molecular_compatibility": "Incompatible closed DSRCT diagnosis.",
+          "extra_biomarkers": "High SSTR2/3/5 mRNA required; not established by EMC-1.",
+          "exclusions": "Mandatory DSRCT or SySa diagnosis excludes EMC.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Pasireotid treatment single arm: SySa",
+          "therapeutic_purpose": "Pasireotide maintenance",
+          "disease_molecular_compatibility": "Incompatible closed synovial sarcoma diagnosis.",
+          "extra_biomarkers": "High SSTR2/3/5 mRNA required; not established by EMC-1.",
+          "exclusions": "Mandatory DSRCT or SySa diagnosis excludes EMC.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The sole pasireotide maintenance arm requires reference-confirmed DSRCT or synovial sarcoma. This is a closed diagnosis requirement, not an open example list. EMC-1 identifies EMC separately; neither a generic fusion-driven rationale nor the shared EWSR1 gene overrides this restriction. SSTR expression is additionally required and unestablished for EMC.",
+      "ordinary_requirements": {
+        "summary": "Age 13-50, weight >=30 kg, BSA >=1.1 m2; disease response/stability after standard treatment; no curative option; Karnofsky/Lansky >=80%; recent chemotherapy and timing, organ function, reproductive precautions, consent, comorbidity and prohibited medication rules remain conditional. Germany sites; adolescent staggered run-in feasibility is conditional.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Prohibited medication Table 5 not supplied and molecular testing references MASTER/INFORM; these cannot rescue the affirmative closed disease restriction."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": false,
+      "rationale": "The sole pasireotide maintenance arm requires reference-confirmed DSRCT or synovial sarcoma. This is a closed diagnosis requirement, not an open example list. EMC-1 identifies EMC separately; neither a generic fusion-driven rationale nor the shared EWSR1 gene overrides this restriction. SSTR expression is additionally required and unestablished for EMC.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\nPatients meeting all of the following criteria are considered for enrolment into the trial:\n\n1. Reference pathological proven diagnosis of DSRCT in any stage; or Reference pathological proven diagnosis of SySa, IRS III, metastatic or relapsed disease\n2. High SSTR2/3/5 mRNA expression, as determined by RNA sequencing in the DKFZ/NCT/DKTK MASTER (ClinicalTrials.gov ID: NCT05852522) or INFORM programs.\n3. Stable disease, partial or complete response after completion of standard treatment\n4. Age from 13 to 50 years\n5. For patients (≥16 years): Karnofsky-Index ≥ 80% For patients (\\<16 years): Lansky-Index ≥ 80%\n6. No curative treatment option\n7. Bodyweight ≥ 30kg and BSA ≥ 1.1m²\n8. Time from last chemotherapy (at least 2 chemotherapy cycles) to enrollment \\<8 weeks\n9. Ability of patient to understand character and individual consequences of the clinical trial\n10. Written informed consent (for individuals \\<18 years of age an ICF for adolescents and their parents is needed)\n11. For women of childbearing potential negative urine pregnancy test at screening as well as highly effective forms of contraception have to be in place thereafter\n\n    * Evidence of childbearing potential is defined as fertile, following menarche and until becoming post-menopausal unless permanently sterile\n    * Postmenopausal or evidence of non-childbearing status is defined as:\n\n      * Amenorrhea for 1 year or more without an alternative medical cause following cessation of exogenous hormonal treatments plus follicle stimulating hormone (FSH) levels in the postmenopausal range in women not using hormonal contraception or hormonal replacement therapy.\n      * Chemotherapy-induced menopause\n      * Surgical sterilization (bilateral oophorectomy, bilateral salpingectomy, total hysterectomy or tubal ligation at least 6 weeks before IMP treatment)\n    * A man is considered fertile after puberty unless permanently sterile by bilateral orchidectomy\n12. Female patients of childbearing potential and male patients with partners of childbearing potential who are sexually active must agree to the use of two forms of contraception in combination (male condom and one highly effective method). These should be started immediately after signing the informed consent form and continued throughout the period of study treatment plus 3 months for female and male patients . Male patients should refrain from fathering a child or donating sperm during the trial and for at least 3 months following the last dose.\n13. Adequate bone marrow, renal, and hepatic function defined by laboratory tests within 14 days prior to study treatment:\n\n    * Hemoglobin ≥ 10 g/dl\n    * Neutrophil count ≥ 1,500/mm3\n    * Platelet count ≥ 100,000/µl\n    * Bilirubin ≤ 1.5 x upper limit of normal (ULN)\n    * ALT and AST ≤ 2.5 x ULN\n    * Alkaline phosphatase ≤ 2.5 x ULN\n    * PT-INR/PTT ≤ 1.5 x ULN\n    * Albumin ≥ 25 g/l\n    * Creatine kinase ≤ 2.5 x ULN\n    * Serum creatinine \\< or = 1.5 mg/dl or creatinine clearance = or \\> 51 ml/min (calculation according to Crockroft-Gault)\n\nExclusion Criteria:\n\nPatients presenting with any of the following criteria are not included in the trial:\n\n1. History of hypersensitivity to the investigational medicinal product or to any drug with similar chemical structure or to any excipient present in the pharmaceutical form of the investigational medicinal product\n2. Concurrent or previous treatment within 30 days in another interventional clinical trial / Participation in other ongoing clinical trials.\n3. Uncontrolled concurrent disease, in particular diabetes mellitus\n4. Bleeding disorder\n5. Therapeutic anticoagulation which cannot be paused temporarily in order to ensure safe intramuscular injection\n6. Is taking or requiring any of the prohibited medication listed in Table 5 (6.4.2)\n7. Heart rate at rest \\< 60/min\n8. fasting glucose level \\> 110mg/dl\n9. Severe neurologic or psychiatric disorder\n10. Pregnancy/lactation\n11. Prior treatment with somatostatin analog\n\n    \\-",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "PAMSARC is a non-commercial interventional Phase 2 clinical trial of academic research institutions, with its primary goal being to improve medical treatment of fusion driven Desmoplastic small round cell tumor (DSRCT) and Synovial sarcoma (SySa) in young adults and adolsecents with male predominance.\n\nCurrent management of DSRCT and SySa includes chemotherapy, radiation and aggressive cytoreductive surgery. Despite advances in multimodal therapy, outcomes remain poor with frequent disease recurrence and very limited options for patients with advanced disease.\n\nSelected somatostatin receptor (SSTR) family members, i.e., SSTR2, SSTR3 and SSTR5, are frequently overexpressed in DSRCT and SySa, providing the rationale for treatment with somatostatin analogues (SSA).\n\nPasireotide is a SSA with high affinity for SSTR1, -2, -3, and -5 and is approved for the treatment of Cushing's disease and acromegaly and has also shown activity in other cancers. In patients with advanced stage DSRCT and SySa, conventional chemotherapeutic approaches frequently lead to disease response, however, the duration of progression-free time after chemotherapy is short. The targeted approach with pasireotide after initial intensive multimodal treatment may have the potential to significantly improve outcome.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "Desmoplastic small round cell tumor (DSRCT) is an extremely rare, aggressive sarcoma. It originates from the serosal surface of the abdominal cavity and the hallmark characteristic of DSRCT is the EWSR1-WT1 gene fusion. Synovial sarcoma (SySa) is also a rare fusion-gene driven (SS18-SSX1, SS18-SSX2, or rarely, SS18-SSX4) soft-tissue sarcoma.\n\nSelected somatostatin receptor (SSTR) family members, i.e., SSTR2, SSTR3 and SSTR5, were highly expressed in patients with available transcriptome data, providing the basis for treatment with a somatostatin analog such as pasireotide with high affinity for SSTR1, 2, 3, and 5.\n\nThe primary aim of the study is to assess the clinical efficacy of pasireotide maintenance therapy for prolonging progression-free (PFS) and overall survival (OS) in patients with SSTR2/3/5-expressing advanced SySa and DSRCT. Furthermore measurable residual disease (MRD) before, during, and after pasireotide maintenance therapy are assessed. Pasireotide is applied in adults with 60 mg and in adolescents 60 mg (body surface area \\[BSA\\] \\>1.6 m²) or 40 mg (BSA 1.1-1.6 m²) via intragluteal via intragluteal depot injection every 28±3 days. The sample size is planned for the entire study population with subsequent sensitivity analysis in two subgroups, i.e., adolescents and adults. The primary efficacy analysis is be based on a two-sided, one-sample log-rank test using a significance level of 5%. The sample size was calculated assuming exponential data, planning for a power of 90% to detect a hazard ratio of 0.5. With a sample size of n=28, the expected number of events during the study is 22. Safety is assessed continuously according to CTCAE v5.0. The recruitment period is planned for 2 years starting in 2024 followed by a minimal follow-up of the last patient of 6 months leading to estimated trial completion in 2027.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "Pasireotid treatment single arm",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "Adults receive 60 mg via intragluteal depot injection every 28±3 days, adolescents 60 mg (body surface area \\[BSA\\] \\>1.6 m²) or 40 mg (BSA 1.1-1.6 m2) via intragluteal depot injection every 28±3 days.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Signifor 40 mg: each vial contains 40 mg pasireotide (as pasireotide pamoate). Signifor 60 mg: each vial contains 60 mg pasireotide (as pasireotide pamoate).",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-002.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-003",
+      "nct_id": "NCT04776525",
+      "source_raw_sha256": "7d23daedfcef6e4333aafb92bc2af50006782764b3bad9283e215b9b974c6044",
+      "label": "negative",
+      "bounds": [
+        0,
+        0
+      ],
+      "route_category": "no_compatible_therapeutic_route",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Sequential ifosfamide and doxorubicin",
+          "therapeutic_purpose": "Sequential neoadjuvant chemotherapy",
+          "disease_molecular_compatibility": "Incompatible closed histotype list: leiomyosarcoma, MPNST, UPS, myxofibrosarcoma, synovial sarcoma, pleomorphic liposarcoma, pleomorphic rhabdomyosarcoma, unclassified spindle cell sarcoma.",
+          "extra_biomarkers": "TP53 is a response research outcome, not an enrollment requirement.",
+          "exclusions": "Inclusion requires belonging to one of eight histotypes; confirmed EMC is not listed.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The sole chemotherapy arm admits only one of eight named histotypes. EMC is absent from that closed positive list; unclassified spindle cell sarcoma is not a license to relabel a confirmed EMC diagnosis. Broad title/condition terminology cannot override the explicit histotype restriction.",
+      "ordinary_requirements": {
+        "summary": "Age >=18; localized grade >=2 tumor >=5 cm, deep extremity/girdle/trunk wall location, biopsy access, measurable disease, ECOG 0-1; organ function/serology, contraception and consent. No prior STS therapy or locoregional/distant metastasis (small uncertain lung nodules exception); cardiac, urinary, comorbidity and pregnancy exclusions. Norway sites. None assumed met.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Contraceptive definitions appendix referenced; no missing histotype criteria invoked."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": false,
+      "rationale": "The sole chemotherapy arm admits only one of eight named histotypes. EMC is absent from that closed positive list; unclassified spindle cell sarcoma is not a license to relabel a confirmed EMC diagnosis. Broad title/condition terminology cannot override the explicit histotype restriction.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n1. ≥ 18 years of age at the time of informed consent.\n2. Histological diagnosis of soft tissue sarcoma belonging to one of the following histotypes:\n\n   1. Leiomyosarcoma\n   2. Malignant peripheral nerve sheath tumor\n   3. Undifferentiated pleomorphic sarcoma\n   4. Myxofibrosarcoma\n   5. Synovial sarcoma\n   6. Pleomorphic liposarcoma\n   7. Pleomorphic rhabdomyosarcoma\n   8. Unclassified spindle cell sarcoma\n3. Malignancy grade ≥ 2 according to the Fédération Nationale des Centres de Lutte Contre le Cancer (FNCLCC) grading system.\n4. Tumor localized in extremity, girdle and/or trunk wall.\n5. Primary tumor size ≥5.0 cm as measured in the longest diameter on diagnostic MRI or CT scan.\n6. Primary tumor location below the superficial fascia or involving the superficial fascia, i.e. deep-seated according to the World Health Organization (WHO) Classification of Tumors of Soft Tissue and Bone (4th edition, 2013).\n7. The primary tumor must be available for biopsy collection at protocol inclusion.\n8. Patients must have a measurable tumor according to RECIST v1.1.\n9. Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1.\n10. Before patient registration, written informed consent must be given according to national and local regulations.\n11. Adequate organ function and bone marrow reserve as indicated by the following laboratory assessments:\n\n    1. Hemoglobin ≥ 8.0 g/dL\n    2. Neutrophil count ≥ 1.0 x 109/L\n    3. Platelet count ≥ 75 x 109/L\n    4. Total bilirubin ≤ 1.5 x the upper limit of normal (ULN)\n    5. Creatinine clearance ≥ 60 ml/min based on Cockcroft Gault estimation or direct measurement\n12. Negative Hepatitis B and C and HIV serology.\n13. Adequate contraception in women of childbearing potential (WOCBP) and their fertile partners during the study and until 6 months after end of study treatment. WOCBP should have a negative highly sensitive serum or urine pregnancy test within 72 hours prior to receiving the first dose of study medication. A woman is considered fertile following menarche and until becoming post-menopausal unless permanently sterile. WOCBP should be willing to use one of the mentioned highly effective methods of birth control mentioned below or be surgically sterile, or abstain from heterosexual activity for the course of the study through 1 year after the last dose of study medication. Methods considered as highly effective birth control methods include combined (estrogen and progestogen containing) or progestogen-only hormonal contraception associated with inhibition of ovulation (oral, intravaginal, injectable, implantable or transdermal), intrauterine device (including hormone-releasing), male condom, bilateral tubal occlusion, vasectomised partner or sexual abstinence (see appendix 5 for definitions).\n\nExclusion Criteria:\n\n1. Any prior therapy for soft tissue sarcoma.\n2. Locoregional or distant metastasis as assessed by CT and/or MRI at time of diagnosis. Patients with lung nodules \\<10 mm of uncertain etiology may be included.\n3. Clinical evidence of serious coagulopathy. Prior arterial/venous thrombosis or embolism does not exclude patients from inclusion, unless patient is considered unfit by study oncologist.\n4. Urinary obstruction.\n5. Known hypersensitivity towards ifosfamide, doxorubicin or pegfilgrastim, their metabolites and other ingredients in the drug administration formulation.\n6. New York Heart Association class II-IV heart disease, myocardial infarction within 6 months of diagnosis of soft tissue sarcoma, active ischemia or any other uncontrolled cardiac condition such as angina pectoris, clinically significant cardiac arrhythmia requiring therapy, uncontrolled hypertension or congestive heart failure.\n7. Left ventricular ejection fraction (LVEF) \\< 50%.\n8. Patients with a prior or concurrent malignant disease whose natural history or treatment have the potential to interfere with the safety or efficacy assessment of this clinical trial are not eligible. Patients with a history of breast cancer, requiring continued hormonal treatment (e.g. anti-estrogen or an aromatase inhibitor) may be included. Patients with a history of prostate cancer, requiring continued support with luteinizing hormone releasing hormone (LHRH) agonists, with or without androgens, may be included.\n9. Patients not able to give an informed consent or comply with study regulations as deemed by study investigator.\n10. Any other significant comorbidities, such as active infection, uncontrolled pulmonary or liver disease, active cystitis, or any other condition, that based on the assessment of the treating physician could compromise compliance with the protocol or predispose the patient to safety risks.\n11. Pregnant or lactating patients.",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "Nearly half of patients with high-grade, localized soft tissue sarcoma (STS) of extremities and trunk wall develop disease recurrence after local therapy. Adjuvant chemotherapy with ifosfamide and doxorubicin may improve long-term disease-free survival, but the benefit of adjuvant treatment is limited and predictive factors for treatment response are lacking. The aim of this study is to explore sequential treatment with ifosfamide and doxorubicin in a neoadjuvant setting and to investigate biomarkers predictive of treatment response.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "Sequential ifosfamide and doxorubicin",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "Four cycles ifosfamide 9 g/m2 and four cycles doxorubicin 80 mg/m2. Each cycle has a duration of 14 days.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "3 g/m2 each day for three days",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/1/description",
+          "excerpt": "80 mg/m2 over four hours day 1",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-003.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-004",
+      "nct_id": "NCT04072042",
+      "source_raw_sha256": "1d65b3f3d1c8df29f9e497071c99a114ce152c203f66ff4c67de5e11dcb5d7fb",
+      "label": "positive",
+      "bounds": [
+        1,
+        1
+      ],
+      "route_category": "broad_tumor",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "VEGFR SNP-Positive Sarcoma Arm (VEGFR-AtoG); positive and negative strata",
+          "therapeutic_purpose": "Apatinib monotherapy in prospective clinical trial",
+          "disease_molecular_compatibility": "Compatible broad non-adipocytic STS through explicitly treated biomarker-negative control as well as stratified all-comer enrollment.",
+          "extra_biomarkers": "Named positive biomarker unestablished by EMC-1, but positive and negative patients receive treatment; positivity not mandatory.",
+          "exclusions": "Adipocytic tumors excluded; EMC-1 identifies EMC as its own soft tissue sarcoma diagnosis, not adipocytic. All ordinary restrictions preserved.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "CSF1-Positive Sarcoma Arm (CSF1-high); positive and negative strata",
+          "therapeutic_purpose": "Apatinib monotherapy in prospective clinical trial",
+          "disease_molecular_compatibility": "Compatible broad non-adipocytic STS through explicitly treated biomarker-negative control as well as stratified all-comer enrollment.",
+          "extra_biomarkers": "Named positive biomarker unestablished by EMC-1, but positive and negative patients receive treatment; positivity not mandatory.",
+          "exclusions": "Adipocytic tumors excluded; EMC-1 identifies EMC as its own soft tissue sarcoma diagnosis, not adipocytic. All ordinary restrictions preserved.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "4q12 amplicon-Positive Sarcoma Arm (4q12-amp); positive and negative strata",
+          "therapeutic_purpose": "Apatinib monotherapy in prospective clinical trial",
+          "disease_molecular_compatibility": "Compatible broad non-adipocytic STS through explicitly treated biomarker-negative control as well as stratified all-comer enrollment.",
+          "extra_biomarkers": "Named positive biomarker unestablished by EMC-1, but positive and negative patients receive treatment; positivity not mandatory.",
+          "exclusions": "Adipocytic tumors excluded; EMC-1 identifies EMC as its own soft tissue sarcoma diagnosis, not adipocytic. All ordinary restrictions preserved.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Observational pneumothorax cohort",
+          "therapeutic_purpose": "Observational follow-up of patients already exposed to antiangiogenic TKIs; no prospective study-assigned drug route established here.",
+          "disease_molecular_compatibility": "Broad disease scope potentially compatible but observational route cannot supply the therapeutic conclusion.",
+          "extra_biomarkers": "Genotyping collected for validation, not evidence of EMC biomarker positivity.",
+          "exclusions": "Prior pneumothorax/TKI and clinical criteria apply.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The prospective apatinib trial accepts broad advanced non-adipocytic bone/soft tissue sarcoma and explicitly treats biomarker-negative patients with the same regimen. Thus no VEGFR2/CSF1/4q12 positivity need be inferred for an EMC disease-level lead. The observational pneumothorax cohort is separate and is not used to establish treatment assignment.",
+      "ordinary_requirements": {
+        "summary": "Age 8-65; advanced unresectable disease with mandatory pulmonary lesion, refractory to guideline first-line chemotherapy, ECOG 0-2 and life expectancy >3 months, organ/pulmonary function, controlled blood pressure. Prior TKI <8 weeks stopped for manageable complications now resolved is listed as inclusion 9; >8 weeks or discontinuation for oncologic reasons/dose-limiting complications after adequate intervention excluded. Other malignancy, infection, wound, effusion, cardiac and coagulation restrictions remain conditional. Shanghai, China.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "NCCN first-line treatment reference is an ordinary prior-therapy requirement, not an unspecified tumor histology or molecular entry list."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": true,
+      "rationale": "The prospective apatinib trial accepts broad advanced non-adipocytic bone/soft tissue sarcoma and explicitly treats biomarker-negative patients with the same regimen. Thus no VEGFR2/CSF1/4q12 positivity need be inferred for an EMC disease-level lead. The observational pneumothorax cohort is separate and is not used to establish treatment assignment.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n1. age between 8 and 65 years;\n2. diagnosis of histologically confirmed advanced bone and soft tissue sarcoma excluding adipocytic tumor;\n3. identification of pulmonary lesion is mandatory;\n4. refractory to prior treatment consisted of standard National Comprehensive Cancer Network (NCCN) guideline recommended first-line chemotherapy;\n5. Eastern Cooperative Oncology Group(ECOG) performance status 0-2 with a life expectancy \\>3 months;\n6. adequate renal, hepatic, and hemopoietic function;normal or controlled blood pressure;\n7. advanced stage that complete surgical resection of all lesions are infeasible;\n8. no serious thoracic comorbidities with adequate pulmonary function for daily living;\n9. previously treated with tyrosine kinase inhibitors (TKIs) for less than 8 weeks but off treatment due to manageable complications such as wound complications or pneumothorax without adequate interventions. The complications is resolved and disappeared at enrollment.\n\nExclusion Criteria:\n\n1. have had other kinds of malignant tumors at the same time;\n2. cardiac insufficiency or arrhythmia;\n3. uncontrolled complications, such as diabetes mellitus and so on;\n4. coagulation disorders or Hemorrhagic diseases ;\n5. pleural or peritoneal effusion that needs to be handled by surgical treatment;\n6. combined with other infections or wound complications;\n7. wound dystrophy, poor soft-tissue around implantation risky of non-healing given angiogenesis inhibitor at baseline;\n8. previously treated with VEGFR TKIs for more than 8 weeks\n9. previous treated with VEGFR TKIs but off treatment due to oncological assessment or dose-limiting complications given adequate interventions.",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "The aim of this study is to evaluate the efficacy and safety of Apatinib monotherapy for relapsed or refractory advanced bone and soft tissue sarcoma with VEGFR-2 (KDR) 604A\\>G polymorphism as predictive biomarker",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "After standard chemotherapy and surgery for the localized disease, pulmonary metastases of bone and soft tissue sarcoma occurs in up to 40% of cases and still remain challenging without satisfactory regimen. Apatinib has been reported as a novel oral kinase inhibitor of receptor tyrosine (TKI) targeting VEGFR2 as an angiogenesis inhibitor. Previous studies indicated that Apatinib, as well as other novel VEGFR inhibitor (such as Regorafenib, Cabozantinib, Pazopanib ), showed a promising anti-sarcoma activity with a 4 month progression free rate (PFR) ranging from 40 to 60% in advanced bone and soft tissue sarcoma after multi-line chemotherapy failure. However, the significant inter-individual variability of the agents suggests a lack of predictive biomarker for its clinical use. Furthermore, up to 10\\~30% of patients may encounter pneumothorax, a potentially life-threatening consequence. Other common debilitating adverse effects (AEs) include surgical wound complication, hand foot skin reaction, etc.\n\nOur preliminary data (Presented in ESMO poster session and ESMO Asia oral session in 2019) suggests that rs2071559\\_VEGFR2 604A\\>G polymorphism is associated pulmonary tumor cavitation (predisposes one to pneumothorax), hair depigmentation, superior anti-tumor efficacy. Therefore, the investigators aim to explore the clinical signficance of pneumothorax incidence as well as the efficacy of Apatinib monotherapy for advanced bone and soft tissue sarcoma in association with VEGFR-2 (KDR) 604 genotype. We aim to further conduct our clinical study in two cohorts: the observational study cohort and the prospective clinical trial cohort.\n\nIn the observational cohort, we recruited patients with anti-angiogenic TKIs who encounter pneumothorax during the course of the treatment from nation-wide as a real world study. We review the radiological features of their tumor (such as cavitation, location, etc.) and the medical history of the pre-treatment. We then prospectively follow up the oncological outcomes and the respiratory outcomes given that all pneumothoraces are treated with multidisciplinary approaches to minimize the adverse effect of pneumothoax and maximize the duration of response to anti-angiogenic TKIs. We expect that the patients with pneumothorax (an efficacy related toxicity), if managed actively, will have a durable progression-free survival compared to historical control. Blood samples will also be collected for genotyping VEGFR2 604A\\>G polymorphism status as a validation to our preliminary findings.\n\nIn the prospective clinical trial cohort, we formally designed a prospective single-arm, open-label, biomarker-driven phase II clinical trial to explore the efficacy of Apatinib, a novel anti-angiogenic oral inhibitor, in biomarker-based selective patients as follows: With all comers(biomarker positive and negative) allowed to be enrolled, only VEGFR-2 (KDR) 604A\\>G polymorphism positive will be measured for the primary endpoint of the study according to our sample size estimation . The primary objective is to hypothesize that the progression-free rate (PFR) of Apatinib in this population is ≥ 70% at 4 months (tremendous higher than non-biomarker driven historical control), against the null hypothesis of PFR ≤ 50% as in the general sarcoma patients. Using Simon's two stage design, we are going to recruit 9 biomarker-positive patients in the first stage. If the primary objective was reached in \\>3 patients, study continue to recruit a total of 28 biomarker-positive patients. The primary endpoint will be considered met if 18 or more patients achieve PFR at 4 months. Considering the potential lost to follow-up, a total of 30 patients with biomarker positive is needed in this trial. Biomarker-negative patients will be analyzed as a non-comparative control without pre-specified sample size, which is expected to be similar to the historical control of advanced bone and soft tissue sarcoma.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "VEGFR SNP-Positive Sarcoma Arm (VEGFR-AtoG)",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "In this arm, patients with VEGFR2-604 A\\>G single nucleotide polymorphism (SNP) were recruited for the efficacy analysis.\n\nBiomarker positive patients will receive Apatinib 250mg tablet by mouth, bid. Biomarker negative patients are treated with the same regimens as a non-comparative, non-randomized, pragmatic control without a pre-specified sample size.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/label",
+          "excerpt": "CSF1-Positive Sarcoma Arm (CSF1-high)",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/description",
+          "excerpt": "In this arm, patients with CSF1-positivity were recruited for the efficacy analysis. CSF1-positivity is defined as CSF1 copy number amplification and/or CSF1 expression ≥ 30% by immunohistochemistry (IHC) in the sarcoma tumor specimen according to the institutional pathological review.\n\nBiomarker positive patients will receive Apatinib 250mg tablet by mouth, bid. Biomarker negative patients are treated with the same regimens as a non-comparative, non-randomized, pragmatic control without a pre-specified sample size.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/label",
+          "excerpt": "4q12 amplicon-Positive Sarcoma Arm (4q12-amp)",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/description",
+          "excerpt": "In this arm, patients with 4q12 amplicon (4q12-amp) were recruited for the efficacy analysis. 4q12-amp is defined as copy number amplification of chromosome segment 4q12 detected by fluorescence in situ hybridization (FISH) in the sarcoma tumor specimen according to the institutional pathological review.\n\nBiomarker positive patients will receive Apatinib 250mg tablet by mouth, bid. Biomarker negative patients are treated with the same regimens as a non-comparative, non-randomized, pragmatic control without a pre-specified sample size.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "patients will receive Apatinib 250mg tablet by mouth, bid.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-004.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-005",
+      "nct_id": "NCT07328425",
+      "source_raw_sha256": "a7dd30a901583cbc2a3f20b48df01b6879e51f2856f6d91ce43f8bcc6329c5d1",
+      "label": "negative",
+      "bounds": [
+        0,
+        0
+      ],
+      "route_category": "no_compatible_therapeutic_route",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Lurbinectedine and Irinotecan",
+          "therapeutic_purpose": "Lurbinectedin plus irinotecan",
+          "disease_molecular_compatibility": "Incompatible: requires DSRCT plus EWSR1-WT1, not EMC or NR4A3 fusion.",
+          "extra_biomarkers": "EWSR1-WT1 required. EWSR1 gene overlap alone insufficient.",
+          "exclusions": "Mandatory central DSRCT diagnosis and EWSR1-WT1 exclude the supported EMC route.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Optional biological study",
+          "therapeutic_purpose": "Ancillary gene/molecule study; no separate therapeutic assignment",
+          "disease_molecular_compatibility": "Does not provide an alternate EMC-compatible therapeutic cohort.",
+          "extra_biomarkers": "No additional therapeutic molecular route.",
+          "exclusions": "Nested within DSRCT treatment study.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The single lurbinectedin/irinotecan therapeutic route requires centrally confirmed DSRCT and EWSR1-WT1. EMC-1 supports NR4A3 fusions, not this DSRCT histology/partner combination. The optional biological study supplies no alternate treatment route.",
+      "ordinary_requirements": {
+        "summary": "Age >=15; advanced/metastatic disease, RECIST measurable, progression/intolerance timing, prior anthracycline and 1-3 prior chemotherapy lines, ECOG <=2, organ/cardiac thresholds, washouts, consent and contraception. Exclusions include prior lurbinectedin/trabectedin/ecubectedin/PM54 and listed comorbidities, infection, transplants, interacting medications and active brain metastasis. Listed sites Italy. None assumed met.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Contraceptive and CYP3A appendices referenced; explicit DSRCT plus EWSR1-WT1 remains restrictive."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": false,
+      "rationale": "The single lurbinectedin/irinotecan therapeutic route requires centrally confirmed DSRCT and EWSR1-WT1. EMC-1 supports NR4A3 fusions, not this DSRCT histology/partner combination. The optional biological study supplies no alternate treatment route.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n1. Histological centrally confirmed diagnosis of DSRCT with the documented presence of EWSR1-WT1 translocation.\n2. Age ≥ 15 years.\n3. Locally advanced (i.e. radical surgical resection of local disease unfeasible or surgery declined by the patient or surgery deemed to become less demolitive and / or easier after cytoreduction) and/or metastatic disease.\n4. Measurable disease by RECIST v1.1.\n5. Clinical or objective disease progression after the last administration of the last standard therapy, or have stopped standard therapy due to intolerability within 6 months from enrollment.\n6. At least one prior chemotherapy based on anthracycline (considering chemotherapy administered for primary tumour) and no more than 3 prior chemotherapy lines.\n7. Eastern Cooperative Oncology Group (ECOG) Performance Status (PS) ≤ 2.\n8. Adequate bone marrow, renal, hepatic, and metabolic function (assessed ≤ 7 days before inclusion in the trial), defined as the following:\n\n   1. platelet count ≥ 100 × 109/L, hemoglobin ≥ 9.0 g/dL, white blood cells ≥ 3.0 × 109/L and absolute neutrophil count (ANC) ≥ 2.0 × 109/L,\n   2. aspartate aminotransferase (AST) and alanine aminotransferase (ALT) ≤ 3.0 × the upper limit of normal (ULN), even in the presence of liver metastases,\n   3. total bilirubin ≤ 1.5 × ULN or direct bilirubin ≤ ULN,\n   4. International Normalized Ratio (INR) \\< 1.5 (except if patient is on oral anticoagulation therapy),\n   5. calculated creatinine clearance (CrCL) ≥ 30 mL/minute (using Cockcroft-Gault formula),\n   6. creatine phosphokinase (CPK) ≤ 2.5 × ULN,\n   7. albumin ≥ 3.0 g/dL.\n9. Cardiac ejection fraction ≥50% as measured by echocardiogram.\n10. Recovery to grade ≤ 1 or to baseline from any adverse event (AE) derived from previous treatment (excluding alopecia and/or cutaneous toxicity and/or fatigue grade ≤ 2).\n11. No history of arterial and/or venous thromboembolic event within the previous 12 months.\n12. Females of childbearing potential must have a negative pregnancy test (preferable by serum or, if serum test unavailable, urine beta-HCG) within 7 days before treatment start.\n13. Post-menopausal women must be amenorrhoeic for at least 12 months to be considered of non-childbearing potential.\n14. Male and female patients of reproductive potential must agree to employ a highly effective method of birth control (Acceptable methods of contraception are described in Appendix 5) throughout the study and thereafter, at the end of study treatment, and for at least 7 months from the patient's last lurbinectedin administration in female patients of childbearing potential and for at least 4 months in men in fertile age after the last lurbinectedin administration.\n15. The patient or legal representative must be able to read and understand the informed consent form (ICF) and must have been willing to give written informed consent and any locally required authorisation before any study-specific procedures, including screening evaluations, sampling, and analyses.\n\nExclusion Criteria:\n\n1. Prior treatment with lurbinectedin or trabectedin, Ecubectedin (PM 14) or PM54.\n2. Known hypersensitivity to irinotecan or lurbinectedin or any of their components of the drugs products (excipients).\n3. Other primary malignancy with \\<5 years clinically assessed disease free interval, except basal cell skin cancer, cervical carcinoma in situ or other neoplasm judged to entail a low risk of relapse.\n4. History or presence of unstable angina, myocardial infarction, or clinically significant valvular heart disease within 12 months of the study.\n5. Grade III/IV cardiac problems as defined by the New York Heart Association Criteria (i.e. congestive heart failure, myocardial infarction within 12 months of study).\n6. Symptomatic arrhythmia or any uncontrolled arrhythmia requiring ongoing treatment within 12 months of study.\n7. Myopathy or any clinical situation that causes significant and persistent elevation of CPK (\\> 2.5 × ULN in two different determinations performed one week apart).\n8. Severe and/or uncontrolled medical disease (i.e. uncontrolled diabetes, chronic renal disease, or active uncontrolled infection).\n9. Known active brain metastasis.\n10. Known chronic liver disease (i.e. chronic active hepatitis and cirrhosis).\n11. Diagnosis of human deficiency virus (HIV), hepatitis C virus (HCV) infection or active hepatitis B (to be excluded during the screening period).\n12. Any past or present chronic inflammatory colon and/or liver disease, past intestinal obstruction, pseudo or sub-occlusion or paralysis.\n13. Evident symptomatic pulmonary fibrosis or interstitial pneumonitis, pleural or cardiac effusion rapidly increasing and/or necessitating prompt local treatment within seven days.\n14. Any other major illness that, in the Investigator's judgment, will substantially increase the risk associated with the patient's participation in this study.\n15. Known active COVID-19 disease (this includes positive test for SARS-CoV-2 in nasopharyngeal/oropharyngeal swabs or nasal swabs by PCR).\n16. Prior bone marrow and/or stem cell transplantation, and allogenic transplant.\n17. Last dose of systemic cytotoxic therapy or investigational therapy within 21 days from enrollment.\n18. Prior treatment with any form of radiation therapy within 14 days from enrollment.\n19. Major surgery within 3 weeks prior to study entry and minor surgery within 1 week prior to study entry.\n20. Use of strong inducers of CYP3A activity within two weeks prior to the first infusion of lurbinectedin (Appendix 6).\n21. Expected limitation of the patient's ability to comply with the treatment or follow-up protocol.\n22. Subjects who have current active hepatic or biliary disease (with exception of patients with asymptomatic gallstones, liver metastasis or stable chronic liver disease per Investigator assessment).\n23. Subjects who have known Gilbert's syndrome.\n24. Patient has received a live or liver attenuated vaccines within 30 days before the first dose of study intervention. Killed vaccines are allowed.",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "Patients participating in this study have DSRCT that has spread locally or to other parts of the body and can no longer be surgically removed without causing significant harm.\n\nTreatment will continue until the tumor progresses further, severe side effects occur, or either patient or investigator decision.\n\nIn addition, patients may participate in an optional biological study. The study will analyze the tumor's genes and the molecules related to them. By studying genes and their products, the investigators can better understand the behavior of the tumor and how the body responds to therapies.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "This is an Italian and Spanish multicentric, prospective, phase II single-arm, open-label, investigator-initiated clinical study that will be conducted within the Italian Sarcoma Group (ISG) and the Spanish Sarcoma Groups (GEIS), aiming at exploring the activity of lurbinectedinin combination with irinotecan, until progression or unacceptable toxicity, in a population of =/\\>15 years old patients with histologically and molecularly confirmed (EWSR1-WT1 translocation positive), advanced (locally advanced or metastatic) DSRCT, from 2nd to 4th line, following progression to anthracycline-based chemotherapy.\n\nThe primary end-point of the study will be the overall response rate (ORR) by RECIST v1.1 in the study population. Secondary end-points will be PFS, DoR, OS, safety and changes in QoL.\n\nPatients will be evaluated for the primary end-point if have completed at least one cycle of lurbinectedin and irinotecan and have at least one post-baseline radiologic disease assessment. Patients with documented early progression disease (PD) or who die due to PD before the first scheduled tumor assessment will also be included in the analysis.\n\nPatients will be followed for follow up visits every 6 months for 2 years.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "Lurbinectedine and Irinotecan",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "lurbinectedin in combination with intravenous irinotecan administered until progression or unacceptable toxicity, in a population of =/\\>15 years old patients with histologically and molecularly confirmed (EWSR1-WT1 translocation positive), advanced (locally advanced or metastatic) DSRCT, from 2nd to 4th line, following progression to anthracycline-based chemotherapy.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Lurbinectedin and Irinotecan",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/1/description",
+          "excerpt": "Lurbinectedin and Irinotecan",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-005.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-006",
+      "nct_id": "NCT06709495",
+      "source_raw_sha256": "45b5bcd702369b01247c0bc83ce5cf4ab392edb46205161991c6480884ff0dfe",
+      "label": "positive",
+      "bounds": [
+        1,
+        1
+      ],
+      "route_category": "broad_tumor",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level 0",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level -1A",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level -1B",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level -2",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level 1",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 1: Dose Escalation PEEL-224 Dose Level 2",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible histologic sarcoma phase 1 entry.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 2: Dose Expansion Ewing Sarcoma",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Incompatible Ewing histology plus FET-ETS family translocation requirement.",
+          "extra_biomarkers": "FET-ETS fusion is required; EMC-1 NR4A3 rearrangements do not establish that class.",
+          "exclusions": "Closed histologic diagnosis excludes EMC; cohort-specific CNS and irinotecan/temozolomide progression exclusions also apply.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 2: Dose Expansion DSRCT",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Incompatible DSRCT histology plus EWSR1-WT1 requirement.",
+          "extra_biomarkers": "EWSR1-WT1 required, not supported EMC defining fusion.",
+          "exclusions": "Closed histologic diagnosis excludes EMC; cohort-specific CNS and irinotecan/temozolomide progression exclusions also apply.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase 2: Dose Expansion Other Sarcoma",
+          "therapeutic_purpose": "PEEL-224 plus vincristine and temozolomide, with myeloid growth factor support",
+          "disease_molecular_compatibility": "Compatible broad other-sarcoma cohort; dedicated slots are included within, not an exhaustive positive histology list.",
+          "extra_biomarkers": "No required extra tumor biomarker.",
+          "exclusions": "No EMC-specific exclusion; applicable ordinary restrictions retained.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "All six phase 1 dose levels admit histologic sarcoma and the phase 2 other-sarcoma cohort also admits histologic sarcoma. These cohorts explicitly administer PEEL-224, temozolomide and vincristine. Dedicated slots within other sarcoma do not exhaust its 15-person cohort and are not a closed histology list. EWS and DSRCT phase 2 requirements do not constrain these alternative compatible routes.",
+      "ordinary_requirements": {
+        "summary": "Age 12-49, weight >=40 kg, relapse/refractoriness after standard therapy, evaluable/measurable disease for compatible cohorts, Karnofsky/Lansky >=50%, marrow/organ criteria, washouts and recovery. Prior PEEL-224, other anticancer agents, specified interactions, transplant, pregnancy/lactation, allergy and uncontrolled illness excluded. Stable CNS metastases can be considered for phase 1/other-sarcoma cohorts; irinotecan-temozolomide progression exclusion applies only to EWS/DSRCT phase 2 cohorts. Insurance reimbursement or self-pay for temozolomide required. Boston sites. None assumed met.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Performance appendix and dose/toxicity protocol details referenced; stated broad sarcoma diagnosis entry is complete in the supplied summary."
+      },
+      "contradictions": [],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": true,
+      "rationale": "All six phase 1 dose levels admit histologic sarcoma and the phase 2 other-sarcoma cohort also admits histologic sarcoma. These cohorts explicitly administer PEEL-224, temozolomide and vincristine. Dedicated slots within other sarcoma do not exhaust its 15-person cohort and are not a closed histology list. EWS and DSRCT phase 2 requirements do not constrain these alternative compatible routes.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n-Patients in all cohorts must have relapsed or refractory disease after standard therapy.\n\nInclusion Criteria Phase 1 (only) diagnosis requirements:\n\n-Patients must have:\n\n* Evaluable or measurable disease; and\n* Histologic diagnosis of sarcoma\n\nInclusion Criteria Phase 2 (only) diagnosis requirements\n\n* EWS cohort: Patients must have:\n\n  * RECIST measurable disease at study entry;\n  * Histologic diagnosis consistent with Ewing sarcoma; and\n  * Molecular evidence of a FET-ETS family translocation including but not limited to any of the following:\n\n    * EWSR1::FLI1, EWSR1::ERG, EWSR1::ETV1, EWSR1::ETV4, EWSR1::FEV, FUS::FLI1, FUS::ERG\n* DSRCT cohort: Patients must have:\n\n  * RECIST measurable disease at study entry;\n  * Histologic diagnosis consistent with DSRCT; and\n  * Molecular evidence of an EWSR1::WT1 fusion\n* Other sarcoma cohort: Patients must have:\n\n  * RECIST evaluable or measurable disease; and\n  * Histologic diagnosis of sarcoma. Patients with EWS or DSRCT with evaluable but not measurable disease may participate in this cohort.\n  * Slots in this cohort will include three dedicated slots for patients with rhabdomyosarcoma, three dedicated slots for patients with osteosarcoma and three dedicated slots for patients with other translocation-associated round cell sarcomas.\n* Age: ≥ 12 years and ≤ 49 years.\n* Weight: Patients must be ≥ 40 kg.\n* Performance Status: Karnofsky ≥ 50% for patients \\>16 year of age and Lansky ≥ 50% for patients ≤ 16 years of age. (see Appendix A for definitions of Lansky and Karnofsky Performance Status).\n* Participants must meet the following organ and marrow function as defined below: Adequate Bone Marrow Function:\n\n  * Hematologic Requirements for Subjects without Bone Marrow Involvement by\n\nDisease:\n\n* Absolute neutrophil count (ANC) ≥ 1,000/uL\n* Platelet count ≥100,000/uL (transfusion independent, defined as not receiving platelet transfusions for at least 7 days prior to enrollment)\n\n  --Hematologic Requirements for Subjects with Bone Marrow Involvement by Disease:\n* ANC ≥750 /uL\n* Platelets ≥50,000 /uL (may receive platelet transfusions) Not known to be refractory to red cell and/or platelet transfusions.\n\n  --Adequate Renal Function: Creatinine clearance or radioisotope GFR ≥70ml/min/1.73 m2 or A serum creatinine based on age/sex as follows:\n* Age: 12 to \\< 13 years, Maximum Serum Creatinine (mg/dL): Male 1.2, Female 1.2\n* Age 13 to \\< 16 years, Maximum Serum Creatinine (mg/dL): Male 1.5, Female 1.4\n\n  ---≥ 16 years, Maximum Serum Creatinine (mg/dL): Male 1.7, Female 1.4\n\n  --Adequate Liver Function:\n* Bilirubin (sum of conjugated + unconjugated) ≤ 1.5 x upper limit of normal (ULN) for age\n* SGPT (ALT) ≤110 U/L. For the purpose of this study, the ULN for SGPT is 45 U/L.\n\n  * Adequate Cardiac Function: QTc \\< 480 msec\n\n    -Patients must have fully recovered from the acute toxic effects of all prior anti-cancer therapy except organ function as noted above. Patients must meet the following minimum washout periods prior to enrollment:\n  * Myelosuppressive chemotherapy: At least 14 days after the last dose of myelosuppressive chemotherapy\n  * Radiotherapy:\n* At least 14 days after local XRT (small port, including cranial radiation);\n* At least 90 days must have elapsed after prior TBI, craniospinal XRT or if \\>50% radiation of pelvis;\n* At least 42 days must have elapsed if other substantial BM radiation.\n\n  * Small molecule biologic therapy: At least 7 days following the last dose of a biologic agent.\n  * Monoclonal antibody: At least 21 days must have elapsed after the last dose of antibody.\n  * Myeloid and platelet growth factors: At least 14 days following the last dose of long-acting myeloid growth factor (e.g. Neulasta) or 7 days following short-acting myeloid or platelet growth factor.\n  * Autologous hematopoietic stem cell transplant and stem cell boost: Patients must be at least 60 days from day 0 of an autologous stem cell transplant or stem cell boost.\n  * Cellular Therapies (e.g., CART, NK-cell based therapy): The patient must be and at least 42 days from cellular therapy administration.\n  * Major Surgery: At least 2 weeks from prior major surgical procedure. Note: Biopsy, CNS shunt placement/revision, and central line placement/removal are not considered major.\n  * Irinotecan, liposomal irinotecan, and/or temozolomide: Patients may have received prior irinotecan, liposomal irinotecan, and/or temozolomide. NOTE: Patients who have had progressive disease while receiving irinotecan and temozolomide in combination will be excluded from the Phase 2 EWS and DSRCT cohorts only.\n\n    -For patients with metastatic disease to the CNS enrolling to the phase 1 portion of the trial or the \"other sarcoma\" cohort, any baseline neurologic deficits (including seizure) must be stable for at least one week prior to study enrollment. Patients with CNS metastatic disease receiving corticosteroids must be on a stable or decreasing dose at time of study entry.\n  * Patients with CNS metastatic disease will not be eligible for the phase 2 EWS and DSRCT cohorts.\n\n    * Participants with a prior or concurrent malignancy whose natural history or treatment does not have the potential to interfere with the safety or efficacy assessment of the investigational regimen are eligible for this trial.\n    * The effects of PEEL-224 in combination with temozolomide and vincristine on the developing human fetus are unknown. For this reason, women of child-bearing potential and men must agree to use adequate contraception (hormonal or barrier method of birth control; abstinence) prior to study entry and for the duration of study participation. Should a woman become pregnant or suspect she is pregnant while she or her partner is participating in this study, she should inform her treating physician immediately. Men treated or enrolled on this protocol must also agree to use adequate contraception prior to the study, for the duration of study participation, and 4 months after completion of PEEL-224 administration.\n    * Ability to understand and/or the willingness of the patient (or parent or legally authorized representative, if minor) to provide informed consent, using an institutionally approved informed consent procedure.\n    * Any participant must obtain prior approval from insurance to reimburse oral temozolomide for the duration of the study or agree to self-pay for oral temozolomide.\n\nExclusion Criteria:\n\n* Patients who have received prior treatment with PEEL-224.\n* Patients who have had progressive disease while receiving irinotecan and temozolomide in combination will be excluded from the Phase 2 EWS and DSRCT cohorts only.\n* Participants who are receiving any other anti-cancer agents for this condition.\n* Patients receiving strong P450 CYP1A2 and CYP3A4 inhibitors and/or inducers with 14 days of the first planned dose of PEEL-224. NOTE: levofloxacin is permitted and preferred over ciprofloxacin for patients needing a fluoroquinolone.\n* Patients who have received a solid organ or allogeneic stem cell transplant\n* Pregnant participants, given that the effects of PEEL-224 on the developing human fetus are unknown.\n* Breastfeeding mothers, because there is an unknown risk for adverse events in nursing infants secondary to treatment of the mother with PEEL-224.\n* Patients with a history of allergic reactions attributed to PEGylated drugs, camptothecins, temozolomide or vincristine.\n* Patients with uncontrolled intercurrent illness including, but not limited to, ongoing or active infection, symptomatic congestive heart failure, unstable angina pectoris, cardiac arrhythmia, or psychiatric illness/social situations that would limit compliance with study requirements.",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "This research is being done to test a new drug called PEEL-224 in combination with two commercially available drugs, Vincristine and Temozolomide, and to determine how effective this combination of drugs is at treating Ewing Sarcoma (EWS) and Desmoplastic Small Round Cell Tumor (DSRCT), as well as multiple other kinds of sarcomas.\n\nThe names of the study drugs and biological agents involved in this study are:\n\n* PEEL-224 (a type of Topoisomerase 1 inhibitor)\n* Vincristine (A type of vinca alkaloid)\n* Temozolomide (A type of alkylating agent)\n* Pegfilgrastim or Filgrastim (types of Myeloid growth factors)",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "This is an open-label, single-arm, non-randomized, phase I/II trial to test a new drug called PEEL-224 in combination with two commercially available drugs, Vincristine and Temozolomide, and to determine how effective this combination of drugs is at treating Ewing Sarcoma (EWS) and Desmoplastic Small Round Cell Tumor (DSRCT), as well as multiple other kinds of sarcomas. This is the first time that PEEL-224 will be given in combination with Vincristine and Temozolomide to humans.\n\nIn Phase 1, the safety and tolerability of PEEL-224 in combination with Vincristine and Temozolomide will be assessed by dose escalation and establishment of a Recommended Phase 2 Dose. In Phase 2 the efficacy of the drug combination will be assessed in three separate cohorts of participants.\n\nThe U.S. Food and Drug Administration (FDA) has not approved PEEL-224 as a treatment for Relapsed or Refractory Sarcoma.\n\nThe U.S. Food and Drug Administration (FDA) has not approved Vincristine and Temozolomide for Relapsed or Refractory Sarcoma, but it has been approved for other uses.\n\nThe research study procedures include screening for eligibility, study treatment in-clinic visits, X-rays, Computerized Tomography (CT) scans, Magnetic Resonance Imaging (MRI) scans, or Positron Emission Tomography (PET) scans, blood tests, urine tests, and electrocardiograms (ECGs).\n\nParticipants will receive study treatment for up to 34 cycles (approximately 2 years) and will be followed for up to 1 year after the last participant has received the last dose of treatment.\n\nIt is expected that about 63 people will take part in this research study.\n\nPEEL Therapeutics is funding this research study by providing the study drug, PEEL-224.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level 0",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "Up to 15 participants will be enrolled using a Bayesian design, the Continual Reassessment Method (CRM), to determine the maximum tolerated dose of PEEL-224 and starting at Dose Level 0. Transition to a lower dose level will be determined by types of dose-limiting toxicities observed per the protocol.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level -1A",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/description",
+          "excerpt": "Transition to a lower dose level will be determined by types of dose-limiting toxicities observed per the protocol, otherwise establishment of the MTD/RP2D will be according to the CRM model.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level -1B",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/description",
+          "excerpt": "Transition to a lower dose level will be determined by types of dose-limiting toxicities observed per the protocol, otherwise establishment of the MTD/RP2D will be according to the CRM model.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/3/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level -2",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/3/description",
+          "excerpt": "Establishment of the MTD/RP2D will be according to the CRM design.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/4/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level 1",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/4/description",
+          "excerpt": "Escalation to Dose Level 2 or establishment of the MTD/RP2D will be determined by the CRM design.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/5/label",
+          "excerpt": "Phase 1: Dose Escalation PEEL-224 Dose Level 2",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/5/description",
+          "excerpt": "Establishment of the MTD/RP2D will be determined by the CRM design.\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/6/label",
+          "excerpt": "Phase 2: Dose Expansion Ewing Sarcoma",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/6/description",
+          "excerpt": "Administration of PEEL-224 will be at the RP2D, and safety monitoring rules will be applied for the occurrence of dose-limiting toxicities. 15 participants will be enrolled and will complete:\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/7/label",
+          "excerpt": "Phase 2: Dose Expansion DSRCT",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/7/description",
+          "excerpt": "Administration of PEEL-224 will be at the RP2D, and safety monitoring rules will be applied for the occurrence of dose-limiting toxicities. 15 participants will be enrolled and will complete:\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/8/label",
+          "excerpt": "Phase 2: Dose Expansion Other Sarcoma",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/8/description",
+          "excerpt": "Administration of PEEL-224 will be at the RP2D, and safety monitoring rules will be applied for the occurrence of dose-limiting toxicities. 15 participants will be enrolled and will complete:\n\n* Baseline visit with assessments and imaging\n* Cycle 1 (21 day cycle):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n  * Day 10: Myeloid growth factor (Pegfilgrastim or Filgrastim) administration 1x daily\n* Cycle 2 through End of Treatment (21 day cycles):\n\n  * Days 1 through 5: Predetermined dose of Temozolomide 1x daily\n  * Days 1 and 8: Predetermined dose of PEEL-224 1x daily and predetermined dose of Vincristine 1x daily\n* Imaging every 2 cycles until Cycle 6 and then every 3 cycles\n* End of study visit",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Topoisomerase 1 inhibitor, 200mg amber vial, via intravenous (into the vein) infusion per protocol.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/1/description",
+          "excerpt": "Alkylating agent, 5, 20, 100, 140, 180, or 250 mg capsule, taken orally per standard of care.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/2/description",
+          "excerpt": "Vinca alkaloid, 1 or 2mL vials, via intravenous (into the vein) infusion per institutional policy.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/3/description",
+          "excerpt": "Myeloid growth factor administered per institutional standards.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/4/description",
+          "excerpt": "Myeloid growth factor administered per institutional standards.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-006.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-007",
+      "nct_id": "NCT04901702",
+      "source_raw_sha256": "ceefb930dca208d4e399b6f67e75c0ae0366843fce6b5a3163f179a6f360e8b1",
+      "label": "positive",
+      "bounds": [
+        1,
+        1
+      ],
+      "route_category": "broad_tumor",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Phase I Arm A",
+          "therapeutic_purpose": "Onivyde plus talazoparib",
+          "disease_molecular_compatibility": "Compatible broad non-CNS solid tumor.",
+          "extra_biomarkers": "None required in this route.",
+          "exclusions": "Full eligibility criteria retained as evidence; no EMC-specific exclusion identified.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I Arm B",
+          "therapeutic_purpose": "Onivyde plus temozolomide",
+          "disease_molecular_compatibility": "Compatible broad non-CNS solid tumor.",
+          "extra_biomarkers": "None required in this route.",
+          "exclusions": "Full eligibility criteria retained as evidence; no EMC-specific exclusion identified.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I expansion A1",
+          "therapeutic_purpose": "Onivyde plus talazoparib at RP2D",
+          "disease_molecular_compatibility": "Compatible non-Ewing solid tumor.",
+          "extra_biomarkers": "None required in this route.",
+          "exclusions": "Full eligibility criteria retained as evidence; no EMC-specific exclusion identified.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I expansion B1",
+          "therapeutic_purpose": "Onivyde plus temozolomide at RP2D",
+          "disease_molecular_compatibility": "Compatible non-Ewing solid tumor.",
+          "extra_biomarkers": "None required in this route.",
+          "exclusions": "Full eligibility criteria retained as evidence; no EMC-specific exclusion identified.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I expansion A2",
+          "therapeutic_purpose": "Onivyde plus talazoparib at RP2D",
+          "disease_molecular_compatibility": "Unresolved molecularly restricted non-Ewing non-CNS solid-tumor route.",
+          "extra_biomarkers": "Deleterious germline/somatic HR repair or DSB signaling gene alteration required; EMC-1 does not establish this.",
+          "exclusions": "No inference from generic EMC fusion to DNA-repair defect.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase II Arm A",
+          "therapeutic_purpose": "Onivyde plus talazoparib",
+          "disease_molecular_compatibility": "Incompatible mandatory Ewing sarcoma histology.",
+          "extra_biomarkers": "EWSR1-FLI1 or other EWS rearrangement is tied to Ewing histology, not an unrestricted EWSR1 basket.",
+          "exclusions": "Closed Ewing diagnosis excludes EMC.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase II Arm B",
+          "therapeutic_purpose": "Onivyde plus temozolomide",
+          "disease_molecular_compatibility": "Incompatible mandatory Ewing sarcoma histology.",
+          "extra_biomarkers": "EWSR1-FLI1 or other EWS rearrangement is tied to Ewing histology.",
+          "exclusions": "Closed Ewing diagnosis excludes EMC.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "Phase I Arms A/B treat broad recurrent/refractory non-CNS solid tumors; expansions A1/B1 explicitly cover non-Ewing solid tumors. EMC-1 supports EMC within that broad scope. A2 has an unestablished HR/DSB molecular requirement, and phase II is Ewing-specific, but neither restriction governs the independent broad phase I/A1/B1 routes. Their actual places are unknown.",
+      "ordinary_requirements": {
+        "summary": "Eligibility prose requires age >12 months and <30 years; non-CNS refractory/recurrent malignancy not amenable to curative treatment, histologic confirmation, measurable/evaluable disease, performance >50%, organ function, prior therapy recovery/washouts and reproductive precautions. Marrow involvement changes hematologic evaluability and dose-cohort allocation. Prior irinotecan/temozolomide and PARP inhibitors other than talazoparib permitted in phase I. United States/Canada sites; no available place implied.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Section 7 disease measurability/evaluability definitions referenced; ordinary disease assessment details do not replace the explicit broad non-CNS solid-tumor phase I scope. A2 biomarker must be assessed in a qualifying laboratory."
+      },
+      "contradictions": [
+        "Age prose uses strict >12 months/<30 years whereas structured fields state minimum 12 Months and maximum 30 Years; retain strict prose boundary pending clinical confirmation. Not a disease-scope contradiction.",
+        "Detailed sample sizes (36+36+88) differ from structured enrollment 90; actual cohort places unknown. No explicit closure follows from this discrepancy."
+      ],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": true,
+      "rationale": "Phase I Arms A/B treat broad recurrent/refractory non-CNS solid tumors; expansions A1/B1 explicitly cover non-Ewing solid tumors. EMC-1 supports EMC within that broad scope. A2 has an unestablished HR/DSB molecular requirement, and phase II is Ewing-specific, but neither restriction governs the independent broad phase I/A1/B1 routes. Their actual places are unknown.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria\n\nPatients must be \\> 12 months and \\< 30 years at the time of enrollment on study.\n\nPhase I\n\n* Patients with refractory or recurrent non-central nervous system (CNS) solid tumors not amenable to curative treatment are eligible. Patients must have had histologic verification of malignancy at original diagnosis or at the time of relapse. Patients eligible for the expansion cohort, A2, will include non-ES patients with refractory or recurrent non-CNS solid tumors with a deleterious alteration in germline or somatic genes involved in HR repair and DSBs signaling, germline or somatic assessed by prior comprehensive sequencing performed in a CLIA-approved (or equivalent) facility.\n\nPhase II\n\n* Patients with refractory or recurrent Ewing sarcoma (during or after completion of first-line therapy). Refractory disease is defined as progression during first line treatment or within 12 weeks of completion of first line treatment. Recurrent disease includes patients who received first line treatment and experienced disease progression at any time point \\>12 weeks from the completion of first line therapy.\n* Patients must have a histologic diagnosis of Ewing sarcoma with EWSR1- FLI1 translocation or other EWS rearrangement at the time of initial diagnosis. Repeat biopsy at the time of disease recurrence is strongly encouraged but it is not required/mandated for enrollment.\n\nDisease status\n\n* Patients must have either measurable or evaluable disease (see Section 7.0 for definitions). Measurable disease includes soft tissue disease evaluable by cross-sectional imaging (RECIST). Patients with bone disease without a measurable soft tissue component or bone marrow disease only are eligible for the phase 1 and phase 2 study but will not be included in the OR endpoint.\n* Performance level: Karnofsky \\> 50% for patients \\> 16 years of age and Lansky \\> 50% for patients \\< 16 years of age. Patients who are unable to walk because of paralysis, but who are up in a wheelchair, will be considered ambulatory for the purpose of assessing the performance score.\n\nPrior therapy\n\nPhase I Patients who have received prior therapy with an irinotecan-based or temozolomide-based regimen are eligible. Patients who have received prior therapy with a PARP inhibitor other than talazoparib are eligible.\n\nPhase II\n\n* Patients should have received first line therapy and developed either refractory or recurrent disease (first relapse).\n* Organ function: Must have adequate organ and bone marrow function as defined by the following parameters:\n* Patients with solid tumors not metastatic to bone marrow:\n* Peripheral absolute neutrophil count (ANC) \\>1,000/mm3 (1x109/L)\n* Platelet count \\> 75,000/mm3 (75x109/L) (no transfusion within 7 days of enrollment)\n* Hemoglobin \\> 9 g/dL (with or without support)\n\nIn the phase I study, patients with solid tumors metastatic to bone marrow or with bone marrow hypocellularity defined as \\<30% cellularity in at least one bone marrow site will be eligible for study, but they will not be evaluable for hematologic toxicity. These patients must not be refractory to red cell or platelet transfusions. At least 2 of every cohort of 3 patients (in the phase I study) must be evaluable for hematologic toxicity. If dose limiting hematologic toxicity is observed at any dose level, all subsequent patients enrolled at that dose level must be evaluable for hematologic toxicity.\n\n* Adequate renal function defined as: Creatinine clearance or radioisotope GFR \\> 60ml/min/1.73m2 or a serum creatinine maximum based on age/sex: age 6months to \\<1 year, creatinine 0.4; 1 to \\< 2 years, creatinine 0.6; 2 \\< 6 years, creatinine 0.8; 6 \\< 10 years, creatinine 1; 10 to \\<13 years, creatinine 1.2; 13 to \\< 16 years creatinine 1.5 (males) or 1.4 (females); \\> 16 years, creatinine 1.7 (males) 1.4 (females)\n* Adequate liver function defined as: normal liver function as defined by SGPT (ALT) concentration \\<5x the institutional ULN, a total bilirubin concentration \\<2x the institutional ULN for age, and serum albumin \\> 2g/dL.\n* Adequate pulmonary function defined as no evidence of dyspnea at rest and a pulse oximetry \\> 94% if there is a clinical indication for determination. Pulmonary function tests are not required.\n* Patients must have fully recovered from the acute toxic effects of chemotherapy, immunotherapy, surgery, or radiotherapy prior to entering this study:\n* Myelosuppressive chemotherapy: Patient has not received myelosuppressive chemotherapy within 3 weeks of enrollment onto this study (8 weeks if received prior myeloablative therapy).\n* Hematopoietic growth factors: At least 7 days must have elapsed since the completion of therapy with a growth factor. At least 14 days must have elapsed after receiving pegfilgrastim.\n* Biologic (anti-neoplastic agent): At least 7 days must have elapsed since completion of therapy with a biologic agent. For agents that have known adverse events occurring beyond 7 days after administration, this period prior to enrollment must be extended beyond the time during which adverse events are known to occur.\n* Monoclonal antibodies: At least 3 half-lives must have elapsed since prior therapy that included a monoclonal antibody or 28 days have elapsed since last dose of the monoclonal antibody with complete resolution of symptoms related to treatment.\n* Radiotherapy: At least 2 weeks must have elapsed since any irradiation; at least 6 weeks must have elapsed since craniospinal RT, 131I-mIBG therapy or substantial bone marrow irradiation (e.g., \\>50% pelvis irradiation).\n* Female participant who is post-menarchal must have a negative urine or serum pregnancy test and must be willing to have additional serum and urine pregnancy tests during the study.\n* Female or male participant of reproductive potential must agree to use effective contraceptive methods at screening and throughout duration of study treatment.\n\nExclusion Criteria\n\nPregnant or breastfeeding\n\n* Pregnant or breast-feeding women will not be entered on this study. Pregnancy tests must be obtained in girls who are post-menarchal. Males or females of reproductive potential may not participate unless they have agreed to use two methods of birth control: a medically accepted barrier of contraceptive method (e.g., male or female condom) and a second method of birth control during protocol therapy. Two highly effective methods of contraception are required for female patients during treatment and for at least 7 months after completing therapy. Male patients with female partners of reproductive potential and/or pregnant partners are advised to use two highly effective methods of contraception during treatment and for at least 4 months after the final dose.\n* Male and female participants must agree not to donate sperm or eggs, respectively, after the first dose of study drug through 105 days and 45 days after the last dose of study drug. Females considered not of childbearing potential include those who are surgically sterile (bilateral salpingectomy, bilateral oophorectomy, or hysterectomy).",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "The phase I portion of this study is designed for children or adolescents and young adults (AYA) with a diagnosis of a solid tumor that has recurred (come back after treatment) or is refractory (never completely went away). The trial will test 2 combinations of therapy and participants will be randomly assigned to either Arm A or Arm B. The purpose of the phase I study is to determine the highest tolerable doses of the combinations of treatment given in each Arm.\n\nIn Arm A, children and AYAs with recurrent or refractory solid tumors will receive 2 medications called Onivyde and talazoparib. Onivyde works by damaging the DNA of the cancer cell and talazoparib works by blocking the repair of the DNA once the cancer cell is damaged. By damaging the tumor DNA and blocking the repair, the cancer cells may die. In Arm B, children and AYAs with recurrent or refractory solid tumors will receive 2 medications called Onivyde and temozolomide. Both of these medications work by damaging the DNA of the cancer call which may cause the tumor(s) to die.\n\nOnce the highest doses are reached in Arm A and Arm B, then \"expansion Arms\" will open. An expansion arm treats more children and AYAs with recurrent or refractory solid tumors at the highest doses achieved in the phase I study. The goal of the expansion arms is to see if the tumors go away in children and AYAs with recurrent or refractory solid tumors. There will be 3 \"expansion Arms\". In Arm A1, children and AYAs with recurrent or refractory solid tumors (excluding Ewing sarcoma) will receive Onivyde and talazoparib. In Arm A2, children and AYAs with recurrent or refractory solid tumors, whose tumors have a problem with repairing DNA (identified by their doctor), will receive Onivyde and talazoparib. In Arm B1, children and AYAs with recurrent or refractory solid tumors (excluding Ewing sarcoma) will receive Onivyde and temozolomide.\n\nOnce the highest doses of medications used in Arm A and Arm B are determined, then a phase II study will open for children or young adults with Ewing sarcoma that has recurred or is refractory following treatment received after the initial diagnosis. The trial will test the same 2 combinations of therapy in Arm A and Arm B. In the phase II, a participant with Ewing sarcoma will be randomly assigned to receive the treatment given on either Arm A or Arm B.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "ONITT (ONIvyde, Talazoparib, Temozolomide) is a phase I/II study which will evaluate two treatment regimens; nanoliposomal irinotecan (nal-IRN, Onivyde) plus talazoparib (TAL) and Onivyde (ONI) plus temozolomide (TMZ) for the treatment of recurrent or refractory (RR) Ewing sarcoma. A dose finding phase I study will be open to patients with recurrent or refractory solid tumors. Patients will be assigned to receive either ONI plus TAL (Arm A) or ONI plus TMZ (Arm B). Once the recommended phase II doses (RP2D) of Arm A and Arm B are determined, expansion cohorts (A1, B1) will open at the RP2Ds for enrollment of non-Ewing sarcoma solid tumor patients. There will be an additional Arm A expansion cohort (A2) for patients with homologous recombination repair defects. Concurrently, the phase II study will open to patients with RR Ewing sarcoma. In the phase II study, patients with RR Ewing sarcoma will be randomized to receive either ONI plus TAL or ONI plus TMZ. The primary endpoint will be progression-free survival (PFS). PFS of both treatment arms in the phase II study will be compared to one another by using a two-arm non-inferiority design when superiority is expected.\n\nPhase I Primary Objective To determine the recommended phase 2 doses (RP2Ds) of Onivyde combined with talazoparib (Arm A) and Onivyde combined with temozolomide (Arm B) administered to children, adolescents and young adults with refractory or recurrent solid malignancies.\n\nPhase I Secondary Objectives\n\n* To characterize the safety profile of the drug regimens, Onivyde plus talazoparib (Arm A) and Onivyde plus temozolomide (Arm B).\n* To characterize the plasma pharmacokinetics (PK) of Onivyde and talazoparib in children, adolescents and young adults with refractory or recurrent solid malignancies.\n* To estimate the antitumor activity of Onivyde plus talazoparib and Onivyde plus temozolomide.\n\nPhase I Exploratory Objectives\n\n* To describe the relationship between UGT1A1 genotype status with toxicity and response.\n* To describe the molecular germline and somatic profiles, including evaluation of mutations in homologous recombination genes and their possible association to therapy response in participants with recurrent or refractory solid tumors.\n* To measure ctDNA at different time points and evaluate its relationship with response to therapy.\n* To describe the safety of onivyde plus talazoparib vs onivyde plus temozolomide at the determined RP2D in children, adolescents and young adults treated in the expansion cohorts.\n* To describe the palatability and ease of administration of talazoparib liquid suspension in children who are unable to swallow the capsules.\n\nPhase II Primary Objectives\n\n• To compare the progression-free survival (PFS) of Onivyde plus talazoparib and Onivyde plus temozolomide in participants with refractory or recurrent Ewing sarcoma.\n\nPhase II Secondary Objectives\n\n* To describe the toxicity of the treatment regimens.\n* To describe the objective response rate (ORR), disease control rate (DCR) after cycle 4, duration of response (DoR), event free survival (EFS) and overall survival (OS) for participants receiving Onivyde plus talazoparib and Onivyde plus temozolomide.\n* To characterize the plasma pharmacokinetics of Onivyde and talazoparib in children, adolescents and young adults with refractory or recurrent Ewing sarcoma.\n\nPhase II Exploratory Objectives\n\n* To describe the relationship between UGT1A1 genotype status with toxicity and response.\n* To describe the molecular germline and somatic profiles, including evaluation of mutations in homologous recombination genes and their possible association to chemotherapy response in participants with recurrent or refractory Ewing sarcoma.\n* To describe ctDNA at different time points and the relationship with response to therapy.\n* To describe the palatability and ease of administration of talazoparib liquid suspension in children who are unable to swallow the capsules.\n\nPhase I The phase I portion of the study will include 2 separate treatment arms, Arms A and B. Arm A will evaluate Onivyde plus talazoparib (ONI + TAL). Arm B will evaluate Onivyde plus temozolomide (ONI + TMZ). Both phase I studies will be open to patients with recurrent or refractory solid tumors who meet eligibility criteria. In Arm A, patients will receive intravenous Onivyde on Days 1 and 8. They will receive oral talazoparib twice on Day 1 and then daily on Days 2-6. In Arm B, participants will receive intravenous Onivyde on Days 1 and 8. They will receive oral temozolomide daily on Days 1-5. Pharmacokinetic testing will take place during Cycle 1. Therapy may continue for up to 24 months. Tumor assessments will be performed at baseline and repeated after cycles 2, 4, 6 and then every 4 cycles thereafter to assess disease status. If at any designated disease evaluation time point a patient develops a response that is better than the prior response (i.e. SD at Cycle 2 evaluation, then PR at Cycle 4 evaluation), an interim disease evaluation is recommended after 28 days to confirm response. Therapy will be discontinued if there is evidence of disease progression or drug-related dose limiting toxicities requiring removal from treatment. Safety and tolerability will be monitored continuously throughout study participation.\n\nPhase II Following the completion of the phase I dose finding studies, patients with recurrent or refractory Ewing sarcoma that meet eligibility criteria will be eligible for randomization into the phase II study. Arm A will evaluate Onivyde plus talazoparib (ONI + TAL). Arm B will evaluate Onivyde plus temozolomide (ONI + TMZ). In Arm A, patients will receive intravenous Onivyde on Days 1 and 8. They will receive oral talazoparib twice on Day 1 and then daily on Days 2-6. In Arm B, patients will receive intravenous Onivyde on Days 1 and 8. They will receive oral temozolomide daily on Days 1-5. Pharmacokinetic testing will take place during Cycle 1. Therapy may continue for up to 24 months. Tumor assessments will be performed at baseline and repeated after Cycles 2, 4, 6 and then every 4 cycles thereafter to assess disease status. If at any designated disease evaluation time point a patient develops a response that is better than the prior response (i.e. SD at Cycle 2 evaluation, then PR at Cycle 4 evaluation), an interim disease evaluation is recommended after 28 days to confirm response. Therapy will be discontinued if there is evidence of disease progression and/or any other condition(s) occur that do not allow treatment continuation or similar toxicities requiring removal from the trial. Safety and tolerability will be monitored continuously throughout study participation.\n\nSample size: In the dose escalation phase I study, approximately 18 patients per arm will be enrolled for a total of 36 patients. The dose expansion phase I study will include 3 treatment cohorts. Arm A will have 2 dose expansion cohorts including 1) a non-ES solid tumor cohort (A1) and 2) a DNA repair defects/mutations cohort (A2). Arm B will have 1 dose expansion cohort including non-ES solid tumors (B1). Approximately 12 patients will enroll per expansion treatment cohort for a total of 36 patients. In the phase II study, 44 patients will be enrolled on each arm for a total of 88 patients.",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "(Arm A) ONI plus TAL",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "The phase I/II study will evaluate a treatment regimen; nanoliposomal irinotecan (nal-IRN, Onivyde) plus talazoparib (TAL)",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/label",
+          "excerpt": "(Arm B) ONI plus TMZ",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/description",
+          "excerpt": "The phase I/II study will evaluate a treatment regimen; Onivyde (ONI) plus temozolomide (TMZ)",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Given intravenous on Days 1 and 8",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/1/description",
+          "excerpt": "Given orally twice on Day 1 (daily maximum is 1000mcg/day), then daily on Days 2-6",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/2/description",
+          "excerpt": "Given once a day on Days 1-5.",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-007.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "case-008",
+      "nct_id": "NCT04577014",
+      "source_raw_sha256": "55a018da1e66627c47cb80f828684a5719795b448e1f56f4896fb10134502440",
+      "label": "positive",
+      "bounds": [
+        1,
+        1
+      ],
+      "route_category": "broad_tumor",
+      "cohorts_checked": [
+        {
+          "cohort_identifier": "Phase I: Safety Run-In / Dose Level 0",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Compatible broad high-grade STS under ordinary stage/prior-treatment requirements.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Ordinary high-grade/stage/treatment-naive requirements; no explicit EMC exclusion.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I: Dose De-escalation Level 1",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Compatible broad high-grade STS under ordinary stage/prior-treatment requirements.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Ordinary high-grade/stage/treatment-naive requirements; no explicit EMC exclusion.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I: Dose De-escalation Level -1",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Compatible broad high-grade STS under ordinary stage/prior-treatment requirements.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Ordinary high-grade/stage/treatment-naive requirements; no explicit EMC exclusion.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Phase I: Dose De-escalation Level -2",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Compatible broad high-grade STS under ordinary stage/prior-treatment requirements.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Ordinary high-grade/stage/treatment-naive requirements; no explicit EMC exclusion.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Undifferentiated Pleomorphic Sarcoma/Myxofibrosarcoma",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Incompatible named histology-specific cohort; no EMC route.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Cohort histology restricted to Undifferentiated Pleomorphic Sarcoma/Myxofibrosarcoma.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Liposarcoma/LPS",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Incompatible named histology-specific cohort; no EMC route.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Cohort histology restricted to Liposarcoma/LPS.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Leiomyosarcoma/LMS",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Incompatible named histology-specific cohort; no EMC route.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Cohort histology restricted to Leiomyosarcoma/LMS.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Vascular Sarcoma",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Incompatible named histology-specific cohort; no EMC route.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Cohort histology restricted to Vascular Sarcoma.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Other Soft tissue sarcoma/STS",
+          "therapeutic_purpose": "Gemcitabine/docetaxel plus retifanlimab",
+          "disease_molecular_compatibility": "Compatible broad high-grade STS under ordinary stage/prior-treatment requirements.",
+          "extra_biomarkers": "No mandatory extra tumor biomarker.",
+          "exclusions": "Ordinary high-grade/stage/treatment-naive requirements; no explicit EMC exclusion.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "cohort_identifier": "Advanced sarcoma who have progressed on prior treatment",
+          "therapeutic_purpose": "Retifanlimab monotherapy",
+          "disease_molecular_compatibility": "Disease scope broad, but unresolved extra TME biomarker and prior-treatment contradiction.",
+          "extra_biomarkers": "Immune-enriched/non-fibrotic TME required and unestablished by EMC-1.",
+          "exclusions": "General no-prior-systemic-therapy restriction conflicts with this prior-progression arm.",
+          "availability": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ],
+      "same_cohort_rationale": "The phase 1 combination arms and other-STS phase 2 combination cohort link therapy to broad high-grade advanced STS. EMC-1 permits an EMC disease-level lead under ordinary high-grade/stage requirements. The separate post-treatment retifanlimab-only cohort requires an unestablished immune-enriched/non-fibrotic TME and conflicts with the general prior-therapy exclusion; it does not support a positive by itself or alter the coherent treatment-naive combination route.",
+      "ordinary_requirements": {
+        "summary": "Age >=18; high-grade metastatic/locally advanced unresectable STS, ECOG <=1, RECIST measurable disease, biopsy/archival tissue and consent, organ function, reproductive precautions. Combination cohorts require no systemic therapy in advanced/metastatic setting; adjuvant/neoadjuvant >=1 year earlier permitted. Listed autoimmune, immune suppression, cardiovascular, infection, pulmonary, transplant, allergy, radiation/surgery restrictions remain conditional. New York site. None assumed met.",
+        "all_source_requirements_preserved_in_evidence_pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+        "patient_assumed": null
+      },
+      "external_criteria_gap": {
+        "present": true,
+        "scope_changing": false,
+        "detail": "Dose-level protocol references do not replace explicit STS eligibility; missing clarification of post-treatment monotherapy requirements matters to that cohort only."
+      },
+      "contradictions": [
+        "Post-treatment monotherapy arm requires progression on prior treatment while general inclusion/exclusion prohibit systemic therapy in advanced/metastatic disease. This arm is unresolved; combination treatment-naive arms remain coherent."
+      ],
+      "cohort_availability": {
+        "status": "unknown",
+        "detail": "Unknown cohort places; archived record-level RECRUITING does not establish open slots. No explicit unconditional cohort closure or hold found in the supplied record.",
+        "record_status": "RECRUITING",
+        "closure_or_hold_evidence": []
+      },
+      "secondary_disease_scope_compatible": true,
+      "rationale": "The phase 1 combination arms and other-STS phase 2 combination cohort link therapy to broad high-grade advanced STS. EMC-1 permits an EMC disease-level lead under ordinary high-grade/stage requirements. The separate post-treatment retifanlimab-only cohort requires an unestablished immune-enriched/non-fibrotic TME and conflicts with the general prior-therapy exclusion; it does not support a positive by itself or alter the coherent treatment-naive combination route.",
+      "anchor_ids": [
+        "EMC-1"
+      ],
+      "evidence": [
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Inclusion Criteria:\n\n* Diagnosis of metastatic or locally advanced and unresectable high-grade soft tissue sarcoma. Unresectable is defined as:\n\n  1. primary tumor cannot be safely removed surgically, or\n  2. primary tumor would benefit from systemic therapy prior to a surgical approach\n* Be willing and able to provide written informed consent\n* Must consent to mandatory tumor biopsy (if deemed safe and feasible) for research studies at screening, if archival tissue is not available, and at C1D15, C3D15.\n* Age ≥ 18 years\n* ECOG performance status ≤ 1\n* Presence of measurable disease per RECIST v1.1\n\n  * Target lesions must not be chosen from a previously irradiated field unless there has been radiographically and/or pathologically documented tumor progression in that lesion prior to enrollment.\n* No prior systemic therapy (see exclusion criteria, below)\n* Negative serum pregnancy test in women of childbearing potential\n* Patients with chronic HBV (HBsAg-positive with undetectable or low HBV DNA and normal ALT, or HBsAg-negative with anti-HBc-positive serology) and HCV (completed curative antiviral treatment with HCV viral load below the limit of quantification) may be eligible\n\n  * Patients with HBV should be treated with suppressive antiviral therapy prior to enrollment\n  * Patients with HCV must have completed curative therapy and have negative HCV viral load\n* Adequate organ function, as defined in Table 2:\n\nTable 2: Laboratory Parameters Required for Study Inclusion\n\nHematological Absolute neutrophil count (ANC): ≥ 1,500 /mcL Platelets: ≥ 75,000 / mcL Hemoglobin: ≥ 9g/dL or ≥ 5.6 mmol/L\n\nRenal Serum creatinine: ≤ 1.5 X upper limit of normal (ULN) OR Measured or calculated creatinine clearance: ≥ 60 mL/min for patient with creatinine levels \\> 1.5 X institutional ULN (GFR can also be used in place of creatinine orCrCl)\n\nHepatic Serum total bilirubin: ≤ 1.5 X ULN OR Direct bilirubin ≤ ULN for patients with total bilirubin levels \\> 1.5 ULN except patients with Gilbert's disease (≤ 3x ULN) AST (SGOT) and ALT (SGPT): ≤ 2.5 X ULN OR ≤ 5 X ULN for patients with liver metastases\n\nExclusion Criteria:\n\n* Received any systemic therapy in the advanced or metastatic setting\n\n  * Adjuvant or neoadjuvant therapies received ≥ 1 year prior to enrollment are permitted\n* Unstable or deteriorating cardiovascular disease within the previous 6 months, including:\n\n  * Unstable angina or myocardial infarction\n  * CVA/stroke\n  * New York Heart Association \\[NYHA\\] Class III or IV congestive heart failure\n  * Uncontrolled clinically significant arrhythmias\n* Current use of immunosuppressive medication, EXCEPT for the following:\n\n  * Intranasal, inhaled, topical steroids, or local steroid injection (e.g., intra-articular injection)\n  * Systemic corticosteroids at physiologic doses ≤ 10 mg/day of prednisone or equivalent\n  * Steroids as premedication for hypersensitivity reactions (e.g., CT scan premedication)\n* Evidence of clinically significant immunosuppression such as the following:\n\n  * Primary immunodeficiency state such as Severe Combined Immunodeficiency Disease\n  * Concurrent opportunistic infection\n  * Receiving systemic immunosuppressive therapy (\\> 2 weeks) including oral steroid doses \\> 10 mg/day of prednisone or equivalent within 2 months prior to enrollment\n* History or evidence of symptomatic autoimmune disease in past 2 years prior to enrollment.\n\n  * Replacement therapy (e.g., thyroxine for hypothyroidism, insulin for diabetes or physiologic corticosteroid replacement therapy for adrenal or pituitary insufficiency) is not considered a form of systemic treatment for autoimmune disease\n* Uncontrolled HIV infection, as defined by one or more of the following:\n\n  * Patients with CD4+ T-cell (CD4+) counts \\< 350 cells/uL\n  * Patients with a history of an opportunistic infection secondary to AIDS\n  * Patients on anti-microbials with drug-drug interactions with the study drugs on this protocol, who cannot be switched to alternative anti-microbials\n  * Patients on antiretroviral therapy \\< 4 weeks\n  * Patients with HIV viral load \\> 400 copies/mL\n* Active Hepatitis B or Hepatitis C\n* Patients who have received a live vaccine within 30 days of the start date of the planned study therapy (with the exception of COVID-19 vaccines)\n* History of active TB (Bacillus Tuberculosis)\n* Radiation therapy within 2 weeks prior to study day 1\n* If patient received major surgery, they must have recovered adequately from the toxicity and/or complications from the intervention prior to starting therapy\n* Women who are pregnant or breast feeding\n* Patients expecting to conceive or father children within the projected duration of the trial, starting with the visit through 180 days after the last dose of study treatment(s)\n* Prior organ transplantation including allogenic stem-cell transplantation\n* Active infection requiring systemic therapy\n* Known prior severe hypersensitivity to investigational product or any component in its formulations, including known severe hypersensitivity reactions to monoclonal antibodies (NCI CTCAE v5.0 Grade ≥ 3)\n* Patients with prior history of interstitial lung disease and clinically significant pulmonary compromise, including those who have a requirement for supplemental oxygen use to maintain adequate oxygenation",
+          "supports": "Complete inclusion and exclusion criteria support disease/molecular entry restrictions and all retained ordinary patient requirements. Interpret EMC disease identity using anchor EMC-1.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "This study is being done to find out whether the study drug Retifanlimab, a monoclonal antibody against the PD-1 protein, combined with gemcitabine and docetaxel, is a safe and effective treatment for your disease. Gemcitabine and docetaxel are chemotherapy drugs that are commonly used to treat soft tissue sarcoma. Retifanlimab is an experimental drug that boosts the immune system's ability to fight cancer cells. The study researchers think that Retifanlimab may help gemcitabine and docetaxel work better against soft tissue sarcoma that is either locally advanced or has spread beyond its original location (metastasized), and it cannot be removed with surgery (unresectable).",
+          "supports": "Description links population and therapeutic or observational routes and supplies cohort scope/context.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/designModule/designInfo/primaryPurpose",
+          "excerpt": "TREATMENT",
+          "supports": "Record-level treatment purpose is contextual only; arm and cohort evidence is required independently.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/label",
+          "excerpt": "Phase I: Safety Run-In / Dose Level 0",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/0/description",
+          "excerpt": "A safety run-in (dose level 0 in Table 1, below) will be performed and enroll 6 patients with advanced high-grade sarcoma who are treatment naïve. Cycle one will consist of gemcitabine plus docetaxel at the institution's standard dose and schedule: 900 mg/m2 of gemcitabine on days 1 and 8, and 75 mg/m2 of docetaxel on day 8. Intravenous Retifanlimab at a flat dose of 210 mg will be administered every 3 weeks starting on C2D1 for a total of two cycles (cycles 2 and 3). All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/label",
+          "excerpt": "Phase I: Dose De-escalation Level 1",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/1/description",
+          "excerpt": "If ≤ 1 patient out of 6 at dose level 0 has a dose-limiting toxicity during this safety run-in, then the dose de-escalation portion of the protocol will commence.\n\nDose Level 1:\n\nRetifanlimab (Day 1) - 375 mg (flat dose) Gemcitabine (Days 1 and 8) - 900 mg/m2 Docetaxel (Day 8) - 75 mg/m2 All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/label",
+          "excerpt": "Phase I: Dose De-escalation Level -1",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/2/description",
+          "excerpt": "Dose Level -1:\n\nRetifanlimab (Day 1) - 375 mg (flat dose) Gemcitabine (Days 1 and 8) - 750 mg/m2 Docetaxel (Day 8) - 60 mg/m2 All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/3/label",
+          "excerpt": "Phase I: Dose De-escalation Level -2",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/3/description",
+          "excerpt": "Dose Level -2:\n\nRetifanlimab (Day 1) - 375 mg (flat dose) Gemcitabine (Days 1 and 8) - 675 mg/m2 Docetaxel (Day 8) - 50 mg/m2 All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/4/label",
+          "excerpt": "Undifferentiated Pleomorphic Sarcoma/Myxofibrosarcoma",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/4/description",
+          "excerpt": "(UPS/MFS)\n\nAfter the RP2D is determined, 5 histology-specific cohorts (10 patients each), including UPS/MFS, LPS, LMS, vascular sarcoma, and other STS, will open for enrollment. Patients will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375 mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles), after which treatment with Retifanlimab will continue until unacceptable toxicity, disease progression, or the completion of 35 cycles (105 weeks) of Retifanlimab treatment. All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/5/label",
+          "excerpt": "Liposarcoma/LPS",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/5/description",
+          "excerpt": "After the RP2D is determined, 5 histology-specific cohorts (10 patients each), including UPS/MFS, LPS, LMS, vascular sarcoma, and other STS, will open for enrollment. Patients will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375 mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles), after which treatment with Retifanlimab will continue until unacceptable toxicity, disease progression, or the completion of 35 cycles (105 weeks) of Retifanlimab treatment. All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/6/label",
+          "excerpt": "Leiomyosarcoma/LMS",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/6/description",
+          "excerpt": "After the RP2D is determined, 5 histology-specific cohorts (10 patients each), including UPS/MFS, LPS, LMS, vascular sarcoma, and other STS, will open for enrollment. Patients will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375 mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles), after which treatment with Retifanlimab will continue until unacceptable toxicity, disease progression, or the completion of 35 cycles (105 weeks) of Retifanlimab treatment. All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/7/label",
+          "excerpt": "Vascular Sarcoma",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/7/description",
+          "excerpt": "After the RP2D is determined, 5 histology-specific cohorts (10 patients each), including UPS/MFS, LPS, LMS, vascular sarcoma, and other STS, will open for enrollment. Patients will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375 mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles), after which treatment with Retifanlimab will continue until unacceptable toxicity, disease progression, or the completion of 35 cycles (105 weeks) of Retifanlimab treatment. All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/8/label",
+          "excerpt": "Other Soft tissue sarcoma/STS",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/8/description",
+          "excerpt": "After the RP2D is determined, 5 histology-specific cohorts (10 patients each), including UPS/MFS, LPS, LMS, vascular sarcoma, and other STS, will open for enrollment. Patients will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375 mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles), after which treatment with Retifanlimab will continue until unacceptable toxicity, disease progression, or the completion of 35 cycles (105 weeks) of Retifanlimab treatment. All visits are to be done +/-3 days of the scheduled timepoints.",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/9/label",
+          "excerpt": "Advanced sarcoma who have progressed on prior treatment",
+          "supports": "Named arm identity for checked cohort.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/armGroups/9/description",
+          "excerpt": "Participants will have advanced sarcoma who have progressed on prior treatment and have an immune-enriched/non-fibrotic TME",
+          "supports": "Treatment assignment and cohort details for this named arm, interpreted jointly with complete eligibility and description.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "Phase I:\n\nDose Level 1 - 375 mg (flat dose) Dose Level 0 - 210 mg (flat dose) Dose Level -1 - 375 mg (flat dose) Dose Level -2 - 375 mg (flat dose)\n\nPhase II: 375 mg (flat dose)",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/1/description",
+          "excerpt": "Phase I:\n\nDose Level 1 - 900 mg/m2 Dose Level 0 - 900 mg/m2 Dose Level -1 - 750 mg/m2 Dose Level -2 - 675 mg/m2\n\nThe dose level with ≤ 1 DLT seen per patients will be declared the RP2D.\n\nPhase II: Participants will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab ) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles),",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/armsInterventionsModule/interventions/2/description",
+          "excerpt": "Phase I:\n\nDose Level 1 - 75 mg/m2 Dose Level 0 - 75 mg/m2 Dose Level -1 - 60 mg/m2 Dose Level -2 - 50 mg/m2\n\nThe dose level with ≤ 1 DLT seen per patients will be declared the RP2D.\n\nPhase II: Participants will be treated with the RP2D of gemcitabine/docetaxel (when administered in combination with Retifanlimab) for cycle 1, with Retifanlimab added on cycle 2 day 1 at a flat dose of 375mg. Gemcitabine/docetaxel will continue for 5 additional cycles (total of 6 cycles),",
+          "supports": "Intervention content; named arm-group linkage is in the same intervention object and checked arm descriptions.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        },
+        {
+          "file": "research/autonomy/recruiting-treatment-difference-2026-09-06/reader/records/case-008.json",
+          "pointer": "/protocolSection/statusModule/overallStatus",
+          "excerpt": "RECRUITING",
+          "supports": "Archived overall recruiting status; not proof of cohort places and not an override for closure/hold.",
+          "anchor_ids": [
+            "EMC-1"
+          ]
+        }
+      ]
+    }
+  ]
+}
