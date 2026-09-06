@@ -1,0 +1,71 @@
+{
+  "task": "response_protocol",
+  "resource": "paper:PUB-ENDPOINT:protocol-decision",
+  "worktree": "C:\\Users\\mcrae\\.codex\\worktrees\\response-protocol-20260906\\EMC-Research",
+  "base_revision": "6f9851a75efe7645ae6e4d5f4e2ff825d4f7bd45",
+  "started_source_access_utc": "2026-09-06T04:54:43.560750+00:00",
+  "completed_utc": "2026-09-06T05:00:49.807736+00:00",
+  "elapsed_since_first_access_seconds": 366.246986,
+  "model": "Exact model identifier not exposed to this worker; inherited parent configuration",
+  "reasoning_effort": "Inherited parent setting; exact execution metadata unavailable to worker",
+  "usage_tokens": null,
+  "scope": "Single named official protocol retrieval, source-rule freeze, saved-record comparison, exact design arithmetic",
+  "tests": {
+    "command": "python -B -X utf8 research/autonomy/response-protocol-decision-2026-09-06/check_decision.py",
+    "actual_exit_code": 0,
+    "log": "check-run.log",
+    "result": "decision-check.json",
+    "scope": "Offline original hashes, chronology, count extraction, 724 stage-count pairs and exact binomial design arithmetic; not clinical validation"
+  },
+  "source_retrieval": {
+    "python_urllib": {
+      "http_status": 200,
+      "original_bytes": 7970202,
+      "metadata": "retrieval.json"
+    },
+    "web_open": {
+      "url": "https://cdn.clinicaltrials.gov/large-docs/03/NCT00601003/Prot_SAP_000.pdf",
+      "result": "55-page PDF opened successfully; independent web tool observation, not byte source",
+      "internal_reference": "turn124view0"
+    }
+  },
+  "pdf_inspection": {
+    "render_tool": "Poppler pdftoppm",
+    "scale_to": 1500,
+    "rendered_pages": [
+      15,
+      17,
+      18,
+      19,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "visually_inspected_pages": [
+      15,
+      17,
+      18,
+      19,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "text_packages": {
+      "pypdf": "6.10.0",
+      "pdfplumber": "0.11.9"
+    },
+    "reproduction_script": "reproduce_extraction.py",
+    "script_execution": "Text extraction and render commands executed as separate tool commands; combined reproduction script supplied but not separately rerun"
+  },
+  "outcome": "protocol_recovered_actual_stratum_decisions_not_identifiable",
+  "background_processes_running": false,
+  "commit_performed": false,
+  "preflight_performed": false,
+  "independent_review": "pending coordinator",
+  "next_action": "Coordinator verify original pages and saved-record schema; integrate or request focused correction. No further worker source expansion."
+}
