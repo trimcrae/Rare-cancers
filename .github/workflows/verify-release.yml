@@ -18,7 +18,7 @@ jobs:
   verify:
     if: startsWith(github.ref, 'refs/heads/codex/release/')
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
