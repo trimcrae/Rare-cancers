@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-06T07:20:49.369149+00:00",
+  "last_updated_utc": "2026-09-06T07:31:41.819763+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -750,12 +750,12 @@
     "integration_receipt": "research/autonomy/cspg4-browser-source-2026-09-06/integration-receipt.json"
   },
   "mission_impasse_audit": {
-    "condition": "Named independent EMC comparator sources now checked; no usable independent EMC validation matrix identified. Current selected portfolio still requires material external evidence.",
-    "consecutive_goal_turns": 0,
-    "status": "This turn recovered and independently verified two specific primary source chains. Progress, not a blocked turn. Next goal turn must assess whether any meaningful safe action remains.",
+    "condition": "Current ranked portfolio lacks the external validation/source measurements needed for a useful new independently verified preprint. Named public source routes are exhausted for these leads; concrete data requests are prepared but unsent. Further progress requires a specific new source, data-holder response, or authorized outreach.",
+    "consecutive_goal_turns": 1,
+    "status": "Previous turn made source integration progress. This turn completed the remaining safe preparation (two verified unsent requests), then observed the first settled overall impasse. No scientific worker or verification process remains running; goal remains active pending required repeated audit.",
     "evidence": "research/autonomy/portfolio-2026-09-05/current-evidence-impasse-2026-09-06.md",
     "not_a_usage_or_approval_limit": true,
-    "last_checked_utc": "2026-09-06T07:20:49.369149+00:00"
+    "last_checked_utc": "2026-09-06T07:31:41.819763+00:00"
   },
   "tempo_normal_source": {
     "agent": "/root/tempo_normal_source",
@@ -785,7 +785,7 @@
   },
   "zullow_emc_source": {
     "agent": "/root/zullow_emc_source",
-    "status": "completed and independently source-verified; pending coherent integration/resource release",
+    "status": "Integrated at d1838d9588290a511de30ca2193929b6e689243e; resource released; worker terminal",
     "worktree": "C:/Users/mcrae/.codex/worktrees/zullow-emc-source-20260906/EMC-Research",
     "base_revision": "6ca5e76b559914510e28c0c6ad4bfb7ad1a3c544",
     "resource": "paper:PUB-SURFACE-TARGETS:zullow-emc-source",
@@ -795,11 +795,13 @@
     "status_observed_utc": "2026-09-06T07:14:28.390298+00:00",
     "task": "Resolve actual seven EMC expression assets and comparator provenance in PMC9465545/GSE179720 and directly linked primary files. No mixed21.9GBtar, reads, target outcomes or manuscript.",
     "verification": "research/autonomy/zullow-emc-source-2026-09-06/coordinator-verification.json",
-    "result": "All138GEO and138ENA sample titles match;22primary RNA records are12MLS/10Ewing, noneEMC. Primary methods report7newEMC; measurements notidentified in deposit. Exact TableS1response is challengeHTML, notXLSX. Missing data and comparability remain unresolved."
+    "result": "All138GEO and138ENA sample titles match;22primary RNA records are12MLS/10Ewing, noneEMC. Primary methods report7newEMC; measurements notidentified in deposit. Exact TableS1response is challengeHTML, notXLSX. Missing data and comparability remain unresolved.",
+    "integration_revision": "d1838d9588290a511de30ca2193929b6e689243e",
+    "integration_receipt": "research/autonomy/ngo-emc-source-2026-09-06/integration-receipt.json"
   },
   "ngo_emc_source": {
     "agent": "/root/ngo_emc_source",
-    "status": "completed and independently source-verified; pending coherent integration/resource release",
+    "status": "Integrated at d1838d9588290a511de30ca2193929b6e689243e; resource released; worker terminal",
     "worktree": "C:/Users/mcrae/.codex/worktrees/ngo-emc-source-20260906/EMC-Research",
     "base_revision": "43dcda877f8d634701ce9bdecb88ac884416ff02",
     "resource": "paper:PUB-SURFACE-TARGETS:ngo-emc-source",
@@ -809,6 +811,20 @@
     "status_observed_utc": "2026-09-06T07:20:49.369149+00:00",
     "task": "Resolve actual external1041sample32entity panel includingEMCS in PMC12728484 exact supplements/public linkedasset; distinguish EpS newscRNA/spatial cohort and EGA policy from externalEMC panel. No expression outcomes or broadsearch.",
     "verification": "research/autonomy/ngo-emc-source-2026-09-06/coordinator-verification.json",
-    "result": "ExactPDF/XLSX recovered; external12EpS plus1041mesenchymal panel attributed toCentreLeonBerard; no externalEMC matrix/roster/accession in supplements or linkedrepo. ExactEGA DAC coversnewEpS/EERT data only. No expression analysis."
+    "result": "ExactPDF/XLSX recovered; external12EpS plus1041mesenchymal panel attributed toCentreLeonBerard; no externalEMC matrix/roster/accession in supplements or linkedrepo. ExactEGA DAC coversnewEpS/EERT data only. No expression analysis.",
+    "integration_revision": "d1838d9588290a511de30ca2193929b6e689243e",
+    "integration_receipt": "research/autonomy/ngo-emc-source-2026-09-06/integration-receipt.json"
+  },
+  "external_data_requests": {
+    "status": "two concrete drafts prepared; neither sent",
+    "file": "research/autonomy/portfolio-2026-09-05/emc-data-requests-2026-09-06.md",
+    "targets": [
+      "Zullow2022 sevenEMC processed measurements and sample/comparator provenance",
+      "Ngo2025 externalCentreLeonBerard EMC-bearing panel source and sample/comparator provenance"
+    ],
+    "authorization": "No explicit authorization for messaging others has been supplied; no outreach performed. Full computer permissions do not supply that authorization.",
+    "scientific_limit": "Data access permits feasibility assessment, not a promise of publishable results.",
+    "verification": "Published recipients checked against original article correspondence; requested assets match verified source gaps. Normal settled check passed; no message sent.",
+    "sending_capability": "No email connector exposed in available tool inventory; no browser mail account inspected or used."
   }
 }
