@@ -1,0 +1,1803 @@
+{
+  "attempted_cases": 120,
+  "source_groups": 10,
+  "execution_status": {
+    "returned": 120
+  },
+  "valid_original_cases": 120,
+  "original_rejects": 4,
+  "always_nonsignificant": {
+    "errors": 4,
+    "retained": 120
+  },
+  "dual_success_cases": 120,
+  "dual_success_fraction": 1.0,
+  "primary_common_success": {
+    "0.5": {
+      "margin": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      },
+      "margin_minus_disagreement": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      },
+      "binary_agreement_then_margin": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      }
+    },
+    "0.75": {
+      "margin": {
+        "retained": 90,
+        "errors": 2,
+        "error_rate": 0.022222222222222223,
+        "error_source_groups": [
+          "TCGA-LUAD"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 0,
+        "predicted_rejects": 2,
+        "sign_flips": 10
+      },
+      "margin_minus_disagreement": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      },
+      "binary_agreement_then_margin": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      }
+    },
+    "0.9": {
+      "margin": {
+        "retained": 108,
+        "errors": 2,
+        "error_rate": 0.018518518518518517,
+        "error_source_groups": [
+          "TCGA-LUAD"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 2,
+        "predicted_rejects": 4,
+        "sign_flips": 10
+      },
+      "margin_minus_disagreement": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 4,
+        "predicted_rejects": 4,
+        "sign_flips": 10
+      },
+      "binary_agreement_then_margin": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 2,
+        "predicted_rejects": 2,
+        "sign_flips": 10
+      }
+    },
+    "1.0": {
+      "margin": {
+        "retained": 120,
+        "errors": 3,
+        "error_rate": 0.025,
+        "error_source_groups": [
+          "TCGA-LUAD",
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse",
+          "3022-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 3
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 7,
+        "sign_flips": 10
+      },
+      "margin_minus_disagreement": {
+        "retained": 120,
+        "errors": 3,
+        "error_rate": 0.025,
+        "error_source_groups": [
+          "TCGA-LUAD",
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3022-61003-3-sparse",
+          "3008-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 3
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 7,
+        "sign_flips": 10
+      },
+      "binary_agreement_then_margin": {
+        "retained": 120,
+        "errors": 3,
+        "error_rate": 0.025,
+        "error_source_groups": [
+          "TCGA-LUAD",
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse",
+          "3022-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 3
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 7,
+        "sign_flips": 10
+      }
+    }
+  },
+  "secondary_common_success": {
+    "0.5": {
+      "margin": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "margin_minus_disagreement": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "binary_agreement_then_margin": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      }
+    },
+    "0.75": {
+      "margin": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "margin_minus_disagreement": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "binary_agreement_then_margin": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      }
+    },
+    "0.9": {
+      "margin": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 1,
+        "predicted_rejects": 1,
+        "sign_flips": 2
+      },
+      "margin_minus_disagreement": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 2,
+        "predicted_rejects": 2,
+        "sign_flips": 2
+      },
+      "binary_agreement_then_margin": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 2,
+        "predicted_rejects": 2,
+        "sign_flips": 2
+      }
+    },
+    "1.0": {
+      "margin": {
+        "retained": 120,
+        "errors": 2,
+        "error_rate": 0.016666666666666666,
+        "error_source_groups": [
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3022-61003-2-sparse",
+          "3022-61003-2-dense"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 6,
+        "sign_flips": 2
+      },
+      "margin_minus_disagreement": {
+        "retained": 120,
+        "errors": 2,
+        "error_rate": 0.016666666666666666,
+        "error_source_groups": [
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3022-61003-2-sparse",
+          "3022-61003-2-dense"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 6,
+        "sign_flips": 2
+      },
+      "binary_agreement_then_margin": {
+        "retained": 120,
+        "errors": 2,
+        "error_rate": 0.016666666666666666,
+        "error_source_groups": [
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3022-61003-2-sparse",
+          "3022-61003-2-dense"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 6,
+        "sign_flips": 2
+      }
+    }
+  },
+  "individual_method_margins": {
+    "IPDfromKM": {
+      "0.5": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 10
+      },
+      "0.75": {
+        "retained": 90,
+        "errors": 2,
+        "error_rate": 0.022222222222222223,
+        "error_source_groups": [
+          "TCGA-LUAD"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 0,
+        "predicted_rejects": 2,
+        "sign_flips": 10
+      },
+      "0.9": {
+        "retained": 108,
+        "errors": 2,
+        "error_rate": 0.018518518518518517,
+        "error_source_groups": [
+          "TCGA-LUAD"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 2,
+        "predicted_rejects": 4,
+        "sign_flips": 10
+      },
+      "1.0": {
+        "retained": 120,
+        "errors": 3,
+        "error_rate": 0.025,
+        "error_source_groups": [
+          "TCGA-LUAD",
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3008-61003-2-sparse",
+          "3008-61003-3-sparse",
+          "3022-61003-3-sparse"
+        ],
+        "flip_counts": {
+          "false_reject": 3
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 7,
+        "sign_flips": 10
+      }
+    },
+    "CIFresolve": {
+      "0.5": {
+        "retained": 60,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "0.75": {
+        "retained": 90,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 0,
+        "predicted_rejects": 0,
+        "sign_flips": 2
+      },
+      "0.9": {
+        "retained": 108,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_source_groups": [],
+        "error_cases": [],
+        "flip_counts": {},
+        "original_rejects": 1,
+        "predicted_rejects": 1,
+        "sign_flips": 2
+      },
+      "1.0": {
+        "retained": 120,
+        "errors": 2,
+        "error_rate": 0.016666666666666666,
+        "error_source_groups": [
+          "TCGA-OV"
+        ],
+        "error_cases": [
+          "3022-61003-2-sparse",
+          "3022-61003-2-dense"
+        ],
+        "flip_counts": {
+          "false_reject": 2
+        },
+        "original_rejects": 4,
+        "predicted_rejects": 6,
+        "sign_flips": 2
+      }
+    }
+  },
+  "source_primary_gains": [
+    {
+      "source_group": "TCGA-BRCA",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "margin_errors": 2,
+      "augmented_errors": 0,
+      "gain": 2
+    },
+    {
+      "source_group": "TCGA-OV",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "margin_errors": 0,
+      "augmented_errors": 0,
+      "gain": 0
+    }
+  ],
+  "leave_one_source_out": [
+    {
+      "excluded_source": "TCGA-BRCA",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-CESC",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-GBM",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-KIRC",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-LGG",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-LUAD",
+      "gain": 0
+    },
+    {
+      "excluded_source": "TCGA-OV",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-SARC",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-STAD",
+      "gain": 2
+    },
+    {
+      "excluded_source": "TCGA-UCEC",
+      "gain": 2
+    }
+  ],
+  "density_pairs": [
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61001-2-sparse",
+      "dense_case": "3027-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61001-2-sparse",
+      "dense_case": "3027-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61001-3-sparse",
+      "dense_case": "3027-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61001-3-sparse",
+      "dense_case": "3027-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61002-2-sparse",
+      "dense_case": "3027-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61002-2-sparse",
+      "dense_case": "3027-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61002-3-sparse",
+      "dense_case": "3027-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61002-3-sparse",
+      "dense_case": "3027-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61003-2-sparse",
+      "dense_case": "3027-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61003-2-sparse",
+      "dense_case": "3027-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61003-3-sparse",
+      "dense_case": "3027-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-STAD",
+      "sparse_case": "3027-61003-3-sparse",
+      "dense_case": "3027-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61001-2-sparse",
+      "dense_case": "3011-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61001-2-sparse",
+      "dense_case": "3011-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61001-3-sparse",
+      "dense_case": "3011-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61001-3-sparse",
+      "dense_case": "3011-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61002-2-sparse",
+      "dense_case": "3011-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61002-2-sparse",
+      "dense_case": "3011-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61002-3-sparse",
+      "dense_case": "3011-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61002-3-sparse",
+      "dense_case": "3011-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61003-2-sparse",
+      "dense_case": "3011-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61003-2-sparse",
+      "dense_case": "3011-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61003-3-sparse",
+      "dense_case": "3011-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-CESC",
+      "sparse_case": "3011-61003-3-sparse",
+      "dense_case": "3011-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61001-2-sparse",
+      "dense_case": "3016-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61001-2-sparse",
+      "dense_case": "3016-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61001-3-sparse",
+      "dense_case": "3016-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61001-3-sparse",
+      "dense_case": "3016-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61002-2-sparse",
+      "dense_case": "3016-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61002-2-sparse",
+      "dense_case": "3016-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61002-3-sparse",
+      "dense_case": "3016-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61002-3-sparse",
+      "dense_case": "3016-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61003-2-sparse",
+      "dense_case": "3016-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61003-2-sparse",
+      "dense_case": "3016-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61003-3-sparse",
+      "dense_case": "3016-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-KIRC",
+      "sparse_case": "3016-61003-3-sparse",
+      "dense_case": "3016-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61001-2-sparse",
+      "dense_case": "3008-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61001-2-sparse",
+      "dense_case": "3008-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61001-3-sparse",
+      "dense_case": "3008-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61001-3-sparse",
+      "dense_case": "3008-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61002-2-sparse",
+      "dense_case": "3008-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61002-2-sparse",
+      "dense_case": "3008-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61002-3-sparse",
+      "dense_case": "3008-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61002-3-sparse",
+      "dense_case": "3008-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61003-2-sparse",
+      "dense_case": "3008-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": true,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61003-2-sparse",
+      "dense_case": "3008-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61003-3-sparse",
+      "dense_case": "3008-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": true,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LUAD",
+      "sparse_case": "3008-61003-3-sparse",
+      "dense_case": "3008-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61001-2-sparse",
+      "dense_case": "3022-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61001-2-sparse",
+      "dense_case": "3022-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61001-3-sparse",
+      "dense_case": "3022-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61001-3-sparse",
+      "dense_case": "3022-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61002-2-sparse",
+      "dense_case": "3022-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61002-2-sparse",
+      "dense_case": "3022-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61002-3-sparse",
+      "dense_case": "3022-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61002-3-sparse",
+      "dense_case": "3022-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61003-2-sparse",
+      "dense_case": "3022-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61003-2-sparse",
+      "dense_case": "3022-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": true,
+      "dense_error": true
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61003-3-sparse",
+      "dense_case": "3022-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": true,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-OV",
+      "sparse_case": "3022-61003-3-sparse",
+      "dense_case": "3022-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61001-2-sparse",
+      "dense_case": "3028-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61001-2-sparse",
+      "dense_case": "3028-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61001-3-sparse",
+      "dense_case": "3028-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61001-3-sparse",
+      "dense_case": "3028-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61002-2-sparse",
+      "dense_case": "3028-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61002-2-sparse",
+      "dense_case": "3028-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61002-3-sparse",
+      "dense_case": "3028-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61002-3-sparse",
+      "dense_case": "3028-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61003-2-sparse",
+      "dense_case": "3028-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61003-2-sparse",
+      "dense_case": "3028-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61003-3-sparse",
+      "dense_case": "3028-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-UCEC",
+      "sparse_case": "3028-61003-3-sparse",
+      "dense_case": "3028-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61001-2-sparse",
+      "dense_case": "3019-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61001-2-sparse",
+      "dense_case": "3019-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61001-3-sparse",
+      "dense_case": "3019-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61001-3-sparse",
+      "dense_case": "3019-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61002-2-sparse",
+      "dense_case": "3019-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61002-2-sparse",
+      "dense_case": "3019-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61002-3-sparse",
+      "dense_case": "3019-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61002-3-sparse",
+      "dense_case": "3019-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61003-2-sparse",
+      "dense_case": "3019-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61003-2-sparse",
+      "dense_case": "3019-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61003-3-sparse",
+      "dense_case": "3019-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-LGG",
+      "sparse_case": "3019-61003-3-sparse",
+      "dense_case": "3019-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61001-2-sparse",
+      "dense_case": "3014-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61001-2-sparse",
+      "dense_case": "3014-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61001-3-sparse",
+      "dense_case": "3014-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61001-3-sparse",
+      "dense_case": "3014-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61002-2-sparse",
+      "dense_case": "3014-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61002-2-sparse",
+      "dense_case": "3014-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61002-3-sparse",
+      "dense_case": "3014-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61002-3-sparse",
+      "dense_case": "3014-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61003-2-sparse",
+      "dense_case": "3014-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61003-2-sparse",
+      "dense_case": "3014-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61003-3-sparse",
+      "dense_case": "3014-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-GBM",
+      "sparse_case": "3014-61003-3-sparse",
+      "dense_case": "3014-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61001-2-sparse",
+      "dense_case": "3025-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61001-2-sparse",
+      "dense_case": "3025-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61001-3-sparse",
+      "dense_case": "3025-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61001-3-sparse",
+      "dense_case": "3025-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61002-2-sparse",
+      "dense_case": "3025-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61002-2-sparse",
+      "dense_case": "3025-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61002-3-sparse",
+      "dense_case": "3025-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61002-3-sparse",
+      "dense_case": "3025-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61003-2-sparse",
+      "dense_case": "3025-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61003-2-sparse",
+      "dense_case": "3025-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61003-3-sparse",
+      "dense_case": "3025-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-SARC",
+      "sparse_case": "3025-61003-3-sparse",
+      "dense_case": "3025-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61001-2-sparse",
+      "dense_case": "3010-61001-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61001-2-sparse",
+      "dense_case": "3010-61001-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61001-3-sparse",
+      "dense_case": "3010-61001-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61001-3-sparse",
+      "dense_case": "3010-61001-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61002-2-sparse",
+      "dense_case": "3010-61002-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61002-2-sparse",
+      "dense_case": "3010-61002-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61002-3-sparse",
+      "dense_case": "3010-61002-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61002-3-sparse",
+      "dense_case": "3010-61002-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61003-2-sparse",
+      "dense_case": "3010-61003-2-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61003-2-sparse",
+      "dense_case": "3010-61003-2-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61003-3-sparse",
+      "dense_case": "3010-61003-3-dense",
+      "method": "IPDfromKM",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    },
+    {
+      "source_group": "TCGA-BRCA",
+      "sparse_case": "3010-61003-3-sparse",
+      "dense_case": "3010-61003-3-dense",
+      "method": "CIFresolve",
+      "sparse_success": true,
+      "dense_success": true,
+      "sparse_error": false,
+      "dense_error": false
+    }
+  ],
+  "continuation_checks": {
+    "complete_planned_execution": true,
+    "at_least_8_incumbent_errors": false,
+    "at_least_3_error_sources": false,
+    "dual_success_at_least_80pct": true,
+    "primary_gain_at_least_2": true,
+    "primary_relative_gain_at_least_20pct": true,
+    "gain_at_least_2_sources": false,
+    "no_leave_one_source_out_reversal": true
+  },
+  "continue_to_held_out": false,
+  "scope": "Descriptive development only; source-dependent repetitions, randomized pseudoarms, no population-null error label or clinical claim."
+}

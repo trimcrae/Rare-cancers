@@ -1,0 +1,51 @@
+# NCC and Zurich assay provenance, 2026-09-06
+
+No concordance computation, outcome-based drug selection, messages or tracked edits performed.
+
+## Zurich 2023
+
+Primary article: https://link.springer.com/article/10.1007/s13577-022-00818-x
+Publisher PDF: https://link.springer.com/content/pdf/10.1007/s13577-022-00818-x.pdf
+Preserved full-text XML: Zurich2023-fulltext.xml, 69,800 bytes, obtained from https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/fullTextXML
+
+The 40-drug screen uses USZ20-EMC1 alone. Validation of three drugs uses both USZ20-EMC1 and USZ22-EMC2. RNA characterization identifies EWSR1-NR4A3 and TAF15-NR4A3, respectively.
+
+Screen: passage 5 in Methods versus passage 6 in Results; 800 cells/well; 384-well ultra-low-attachment plates; 50 uL medium; 23 targeted agents and 17 chemotherapies; six-dose, three-log curves. The overall concentration range is 33 pmol/L to 200 umol/L, without per-drug dose vectors. Exposure is six days. CellTiter-Glo 2.0 ATP signal is normalized to vehicle-only controls, with maximum DMSO 0.2%. AUC is the stated summary endpoint. Figure 5 labels response bands using viability percentages, creating an unresolved relationship between the stated AUC metric and displayed bands. Do not equate them with NCC single-dose viability.
+
+Validation: carfilzomib, doxorubicin and venetoclax in both models at passages 8-10; 96-well format; triplicates; 1,000 cells/well; drug addition 24 hours after plating; six-point logarithmic dilution; maximum 10 uM and minimum 4.7 pM; six-day endpoint. Triplicates are not automatically independent biological replicates. Figure 6 reports mean and SD plots and combination matrices.
+
+The entire lower Supplementary Information section was inspected, and both linked PDFs were parsed:
+
+1. https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-022-00818-x/MediaObjects/13577_2022_818_MOESM1_ESM.pdf
+   Three pages: Supplementary Table 1, additional molecular alterations. No drug-response measurements. Web PDF parsing succeeded; local HTTP produced HTML, retained with an access-response.html suffix.
+2. https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-022-00818-x/MediaObjects/13577_2022_818_MOESM2_ESM.pdf
+   One page: Supplementary Table 2, STR authentication. No drug-response measurements. Genuine 110,337-byte PDF preserved.
+
+Figure pages and legends were read:
+https://link.springer.com/article/10.1007/s13577-022-00818-x/figures/5
+https://link.springer.com/article/10.1007/s13577-022-00818-x/figures/6
+
+Image HTTP yielded HTML; web images and PDF screenshots timed out. No numerical or colour-based extraction was performed. The main text offers underlying datasets on request and explicitly identifies chantal.pauli@usz.ch as corresponding address.
+
+## NCC 2025
+
+The recovered 221-drug mean/SD table and 24 IC50 values remain verified. Methods are not present in the inspected subscription preview. Targeted exact-paper searches yielded abstracts and bibliographies, not an accessible Methods copy. No assay conditions were borrowed from other NCC papers. The exact MOESM3 retry again yielded 3,038-byte HTML locally; the web tool reports application/octet-stream for that URL. Its contents remain unread by this worker, not globally unavailable.
+
+## Zurich 2026
+
+Coordinator reports an actual normal-browser CAPTCHA. No bypass or repeated browser attempt was made here. No exact public supplement URL was recovered; no guessed mmc filenames were requested.
+
+## Next executable step
+
+Request existing source measurements for all 40 Zurich screening drugs, including per-drug dose vectors, controls/normalization, replicates and AUC definition; also request the existing three-drug validation results for both models. Obtain NCC Methods and the dose vectors and fitting/censoring rules behind the 24 IC50 estimates. Two narrowed drafts are provided separately.
+
+Then freeze drug identity and assay-compatibility rules before examining all overlapping drugs. A defensible numerical cross-study concordance is not yet ready. The accessible Zurich ordinal figure could support a bounded documentation comparison after actual image inspection; it cannot substitute for an assay-matched quantitative comparison.
+
+## Precise source locators for coordinator
+
+Zurich publisher HTML, Materials and methods > Drug screening: paragraphs beginning with the 40-drug screen, validation sensitivities, and combination treatments. In the web rendering these are lines 102-107. Results > Functional characterization: lines 148-153, including passage 6 and passages 8-10. Figure 5 legend: line 159; Figure 6 legend: lines 165-167. Data availability: lines 181-183. Corresponding author: lines 241-243. Supplementary Information: lines 259-265, links 71 and 72.
+
+PDF equivalent: Drug screening begins on journal page 448 (PDF page 3), with source PDF text lines 188-212 covering the core assay details; use section text over line numbers if a different rendering changes the offsets. Preserved fulltext XML has the corresponding sec title Drug screening and figure IDs Fig5/Fig6.
+
+Current sendable drafts are zurich-combined-exact-request-draft.txt (one message covering both Zurich studies) and ncc-exact-residual-request-draft.txt. Earlier Zurich drafts are superseded. NCC draft seeks Methods/assay metadata only, not the recovered public 221-drug tables.
+

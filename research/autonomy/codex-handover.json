@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Continuous substantive research alongside pending atlas correspondence. Execute the dated empirical-information checkpoint while pursuing genuinely new EMC sources; no new preprint ready.",
+  "priority": "Continuous direct EMC research alongside four pending targeted data requests. Empirical survival pilot completed and independently verified no-go; analyze recovered pharmacotyping sources with identity/assay limitations. No new preprint ready.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -174,7 +174,7 @@
       "Finished independently verified preprint package satisfying actual readiness gates"
     ],
     "all_other_updates": "Internal only: worker progress/completion, feasibility results, demotions, recoverable failures, usage observations and routine approvals already within scope. Use coordinator judgment and keep working.",
-    "user_instruction": "Notify me if you’re completely blocked or if you have a finished preprint and that’s it. The rest you should use your judgement on",
+    "user_instruction": "Notify me if you\u2019re completely blocked or if you have a finished preprint and that\u2019s it. The rest you should use your judgement on",
     "automation_delivery": "Routine notifications muted with failed_runs_only, the available app setting. Do not deliberately fail runs to generate notifications.",
     "phone_push_clarification": {
       "user": "Phone push notifications",
@@ -584,7 +584,7 @@
     "resource": "paper:PUB-SURFACE-TARGETS:specimen-provenance",
     "scope": "research/autonomy/atlas-specimen-provenance-2026-09-06/",
     "contract": "research/autonomy/portfolio-2026-09-05/allocation-after-suffix-2026-09-06.md",
-    "task": "Named Panagopoulos2002/Mitelman9736 cases and2017EMC46–51 specimen-recruitment/map recovery. Distinct public routes; no repeated access failures, expression computation or broad search.",
+    "task": "Named Panagopoulos2002/Mitelman9736 cases and2017EMC46\u201351 specimen-recruitment/map recovery. Distinct public routes; no repeated access failures, expression computation or broad search.",
     "status_observed_utc": "2026-09-06T04:49:41.456093+00:00",
     "latest_observation": "Completed packet independently checked and integrated at b094175; resource released. C12 remains unresolved.",
     "results": "C12 unchanged. Country fallback cannot establish recruitment; Case7 multiple investigations do not identify array specimen. No expression analysis or further automatic source recovery selected.",
@@ -844,33 +844,37 @@
     "integration_receipt": "research/autonomy/ngo-emc-source-2026-09-06/integration-receipt.json"
   },
   "external_data_requests": {
-    "status": "both initial requests sent; awaiting responses",
+    "status": "four targeted requests sent and provider Sent copies verified; replies pending",
     "file": "research/autonomy/portfolio-2026-09-05/emc-data-requests-2026-09-06.md",
     "targets": [
       "Zullow2022 sevenEMC processed measurements and sample/comparator provenance",
-      "Ngo2025 externalCentreLeonBerard EMC-bearing panel source and sample/comparator provenance"
+      "Ngo2025 externalCentreLeonBerard EMC-bearing panel source and sample/comparator provenance",
+      "NCC2025 assay methods for already recovered221-drug and24-IC50 tables",
+      "Zurich2023/2026 existing response files, assay definition and model/expression crosswalk"
     ],
     "authorization": "User approved the standing autonomous correspondence proposal on 2026-09-06: Do it. See research_correspondence in publication-authority.json. No per-message approval required.",
     "scientific_limit": "Data access permits feasibility assessment, not a promise of publishable results.",
     "verification": "Independent scope/source review completed. Each exact outgoing request reserved once, sent once and verified by actual Sent message, recipients, subject and body; private receipts and ledger hold provider IDs.",
     "sending_capability": "Dedicated Tuta mailbox via documented in-app browser controls; actual self-send, receive and Sent lookup verified. Credentials and provider receipts are private outside Git.",
     "queue": "research/autonomy/correspondence/initial-requests.json",
-    "procedure": "research/autonomy/correspondence/README.md"
+    "procedure": "research/autonomy/correspondence/README.md",
+    "additional_queue": "research/autonomy/correspondence/pharmacotyping-requests-2026-09-06.json"
   },
   "correspondence_setup": {
     "authorization": "granted",
     "recorded_utc": "2026-09-06T13:19:31.541030+00:00",
     "transport": "verified_Tuta_browser_mailbox",
     "send_receive_verified": true,
-    "requests_sent": 2,
+    "requests_sent": 4,
     "monitor_running": false,
     "next_action": "Read tracked replies and delivery failures at scheduled checks; restrained followup only when due. No individual approval or further mailbox setup required.",
     "scheduled_checks_enabled": true,
     "subsequent_scheduled_run_observed": false,
-    "operational_verification": "research/autonomy/correspondence/operational-verification.json"
+    "operational_verification": "research/autonomy/correspondence/operational-verification.json",
+    "last_new_requests_verified_utc": "2026-09-06T14:37:01.760784+00:00"
   },
   "continuous_research": {
-    "status": "frozen_development_pilot_running",
+    "status": "empirical_pilot_completed_verified_no_go",
     "utc": "2026-09-06T13:57:31.575231+00:00",
     "allocation": "research/autonomy/portfolio-2026-09-05/continuous-research-allocation-2026-09-06.md",
     "writer": "/root/resume_existing_evidence",
@@ -878,14 +882,19 @@
     "resource": "paper:PUB-IPD-SURVIVAL:empirical-information",
     "worktree": "C:/Users/mcrae/.codex/worktrees/ipd-empirical-information-20260906/EMC-Research",
     "outcomes_opened": true,
-    "worker_result_verified": false,
-    "observed_utc": "2026-09-06T14:11:13.549519+00:00",
-    "worker_exec_session": 50909,
+    "worker_result_verified": true,
+    "observed_utc": "2026-09-06T14:37:01.760784+00:00",
+    "worker_exec_session": null,
     "planned_cases": 120,
     "first_case_persisted": "3027-61001-2-sparse",
     "reserved_holdout_groups": 11,
     "heldout_outcomes_opened": false,
-    "next_action": "Collect and independently verify the fixed pilot and its allocation decision. In parallel, assess NCC/Zurich assay provenance and model-drug overlap; no held-out expansion or manuscript yet."
+    "next_action": "Continue identity-aware EMC pharmacology analysis and independent Zurich source transcription in parallel; collect and verify checkpoint outputs. Do not repeat the survival pilot or wait globally for mail.",
+    "scientific_process_running": false,
+    "completed_cases": 120,
+    "returned_reconstructions": 240,
+    "decision": "Prespecified continuation gate failed; no held-out expansion.",
+    "verification": "research/autonomy/ipd-empirical-information-2026-09-06/coordinator-verification.json"
   },
   "ncc_screen_source": {
     "status": "recovered_and_independently_verified",
@@ -895,5 +904,29 @@
     "biological_models": 1,
     "generic_data_request_sent": false,
     "next_action": "Primary Methods and independent Zurich response/assay alignment; no unvalidated clinical inference."
+  },
+  "emc_pharmacology_identity": {
+    "status": "dispatched_in_reserved_worktree",
+    "observed_utc": "2026-09-06T14:37:01.760784+00:00",
+    "agent": "/root/independent_emc_reader",
+    "resource": "paper:PUB-REPURPOSING:pharmacology-identity",
+    "base": "b79868c1adb422098e565cf62418e45b35773c2e",
+    "worktree": "C:/Users/mcrae/.codex/worktrees/emc-pharmacology-identity-20260906/EMC-Research",
+    "scope": "research/autonomy/emc-pharmacology-identity-2026-09-06/",
+    "question": "Does within-NCC proteasome-directed support survive duplicate/formulation and chemical-family accounting?",
+    "retrospective": true,
+    "limits": "One biological model, unknown assay details; no selective dependency or clinical efficacy. Do not calculate cross-study biological concordance."
+  },
+  "zurich_ordinal_source": {
+    "status": "40 ordinal bands and complete nominal catalogue crosswalk independently verified",
+    "observed_utc": "2026-09-06T14:37:01.760784+00:00",
+    "packet": "research/autonomy/zurich-ordinal-source-2026-09-06",
+    "rows": 40,
+    "source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/supplementaryFiles",
+    "comparison_run": false,
+    "verification": "research/autonomy/zurich-ordinal-source-2026-09-06/independent-verification/reconciliation.json",
+    "crosswalk_verification": "research/autonomy/zurich-ordinal-source-2026-09-06/crosswalk-coordinator-verification.json",
+    "nominal_unique_labels": 20,
+    "next_action": "Use verified identities for the separately reviewed descriptive question; assay compatibility still pending. Collect/repair pharmacology result using exact supplier identity evidence."
   }
 }

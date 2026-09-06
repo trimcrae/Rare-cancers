@@ -1,0 +1,15 @@
+args<-commandArgs(trailingOnly=TRUE)
+.libPaths(normalizePath(args[1]));library(survival);library(jsonlite)
+survdiff_exact<-survival::survdiff
+formals(survdiff_exact)$timefix<-FALSE
+stopifnot(identical(body(survdiff_exact),body(survival::survdiff)))
+d<-data.frame(time=c(1,3,1+1e-10,4),event=c(1,0,1,0),arm=c('a','a','b','b'))
+exact<-survdiff_exact(Surv(time,event)~arm,d,rho=0)
+stopifnot(abs(exact$chisq-1/17)<1e-12)
+d$time[3]<-1
+tied<-survdiff_exact(Surv(time,event)~arm,d,rho=0)
+stopifnot(tied$chisq==0)
+d$event<-0
+degenerate<-survdiff_exact(Surv(time,event)~arm,d,rho=0)
+stopifnot(degenerate$var[1,1]==0)
+write_json(list(exact_near_tie_q=exact$chisq,true_tie_q=tied$chisq,zero_variance=degenerate$var[1,1],passed=TRUE),args[2],pretty=TRUE,auto_unbox=TRUE,digits=17)

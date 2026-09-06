@@ -135,3 +135,6 @@ worker completions, pending requests and unchanged checks are quiet. Notify only
 the overall mission is completely blocked or a finished independently verified preprint
 is ready. Pause sending when actual mailbox access cannot be verified; preserve uncertain
 sends for reconciliation and avoid repeatedly polling an unchanged access problem.
+
+
+September 6 follow-through: the two requests in pharmacotyping-requests-2026-09-06.json were also sent once and their actual Sent records verified. There are now four tracked research requests. Reconcile all four through the private ledger and followthrough.json; do not duplicate any request. NCC received a methods-only request acknowledging the recovered public tables; Zurich received one combined 2023/2026 data and model-crosswalk request.

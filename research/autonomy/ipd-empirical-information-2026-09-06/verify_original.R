@@ -1,0 +1,13 @@
+args<-commandArgs(trailingOnly=TRUE)
+.libPaths(normalizePath(args[1]));library(survival);library(jsonlite)
+survdiff_exact<-survival::survdiff;formals(survdiff_exact)$timefix<-FALSE
+stopifnot(identical(body(survdiff_exact),body(survival::survdiff)))
+input<-fromJSON(args[2],simplifyVector=FALSE)
+output<-lapply(input,function(x){
+ d<-do.call(rbind,lapply(x$records,function(r)data.frame(time=r$time,event=r$event,arm=r$arm)))
+ fit<-survdiff_exact(Surv(time,event)~arm,data=d,rho=0)
+ if(!is.finite(fit$var[1,1])||fit$var[1,1]<=0)return(list(case=x$case,evaluable=FALSE,z=NULL,q=NULL,p=NULL))
+ z<-(fit$obs[1]-fit$exp[1])/sqrt(fit$var[1,1])
+ list(case=x$case,evaluable=TRUE,z=unname(z),q=unname(fit$chisq),p=pchisq(fit$chisq,1,lower.tail=FALSE))
+})
+write_json(output,args[3],pretty=TRUE,auto_unbox=TRUE,digits=17,null='null')

@@ -101,3 +101,12 @@ ZIP/XML extraction reproduced the worker's spreadsheet-library counts and crossw
 generic request for these measurements was withdrawn before sending. Assay Methods and
 independent Zurich response alignment remain specific next actions; no global input stop.
 Actual shared account usage is65% weekly with two reset credits available; no credit redeemed.
+
+
+## Completed pilot and immediate EMC continuation
+
+The frozen development pilot completed all120 cases and240 package results. Separate original-data and independent arithmetic verification passed. The continuation gate failed: only3 incumbent errors across2 sources and benefit in1 source; the two removed retained errors were precision variants of one LUAD assignment, with no advantage over binary disagreement. No held-out expansion is selected and all11 reserved groups remain unopened. Preserve the negative result; do not add seeds or tune toward a paper. See ../ipd-empirical-information-2026-09-06/result.md and its coordinator-verification.json.
+
+The next direct EMC computation is retrospective identity-aware pharmacology in the recovered complete NCC screen: retain all221CAS rows, distinguish preparations, active moieties and prodrugs, and test whether proteasome-directed support depends on duplicates or one chemical family. The separate reserved writer is /root/independent_emc_reader, resource paper:PUB-REPURPOSING:pharmacology-identity, worktree emc-pharmacology-identity-20260906, base b79868c1adb422098e565cf62418e45b35773c2e. Its only tracked output is research/autonomy/emc-pharmacology-identity-2026-09-06/. This is a useful model-evidence checkpoint, not promotion to a standalone paper or a replacement for the atlas.
+
+A new legitimate Europe PMC asset route also recovered Zurich Figures5/6. The full40-drug ordinal roster is frozen before NCC matching. Independent source transcription and a source-only catalogue crosswalk are running in parallel. AUC-versus-viability ambiguity and missing NCC assay details preclude biological concordance claims. Both precise pharmacotyping requests have now been sent and verified, bringing the private ledger to four requests. Pending replies do not stop this available source validation and computation.

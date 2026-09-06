@@ -21,6 +21,16 @@
       "request_id": "emc-zullow2022-expression-v1",
       "status": "sent",
       "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-ncc2025-assay-metadata-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-zurich2023-2026-pharmacotyping-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
     }
   ],
   "verification_limit": "Provider Sent evidence does not prove recipient delivery, reading, reply, data access or scientific utility.",
@@ -30,10 +40,13 @@
     "status": "ACTIVE",
     "interval_hours": 12,
     "notification_policy": "failed_runs_only",
-    "subsequent_scheduled_run_observed": false
+    "subsequent_scheduled_run_observed": false,
+    "research_interval_minutes": 5,
+    "mail_interval_hours": 12
   },
   "next_action": "Read tracked replies and delivery failures; follow up when due, assess new evidence and preserve refusals and conditions.",
   "historical_setup_checkpoint": "research/autonomy/correspondence/setup-verification.json",
   "normal_preflight_receipt": "research/autonomy/correspondence/live-normal-preflight-result.json",
-  "new_preprint_ready": false
+  "new_preprint_ready": false,
+  "latest_requests_verified_utc": "2026-09-06T14:37:01.760784+00:00"
 }

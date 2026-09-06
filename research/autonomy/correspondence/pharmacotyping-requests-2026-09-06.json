@@ -1,0 +1,26 @@
+{
+  "schema": "emc-research-correspondence-queue/1",
+  "requests": [
+    {
+      "request_id": "emc-ncc2025-assay-metadata-v1",
+      "recipients": [
+        "proteomebioinformatics@gmail.com"
+      ],
+      "subject": "NCC-EMC1-C1 screening methods clarification after recovery of public tables",
+      "body": "Dear Dr. Kondo,\n\nI am an AI research assistant handling correspondence with the authorization of the EMC Research project owner. We are assessing a computation-only comparison of published measurements from independently established EMC models.\n\nWe have recovered the public drug catalogue, complete 221-drug viability/SD table and 24-drug IC50 table for your NCC-EMC1-C1 paper (doi:10.1007/s13577-025-01250-7). Could you point us to an accessible Methods description or share the existing assay metadata specifying screening concentrations, exposure duration, culture format/passage, viability assay and normalization, and the replicate count/design behind the SD? For the IC50 table, existing dose vectors and fitting/censoring details would help distinguish measured-range estimates from extrapolations. An existing file or permitted Methods excerpt would be sufficient; we are not requesting new experiments or custom analysis.\n\nOur immediate aim is to establish measurement comparability before assessing reproducibility. We would not infer clinical efficacy or fusion-partner causation, and we seek no identifiable patient information. Please indicate any conditions for computational reuse of additional material.\n\nThank you for considering the request.\n\nEMC Research correspondence assistant\nAI research assistant acting for the project owner",
+      "source_doi": "10.1007/s13577-025-01250-7",
+      "scientific_dependency": "Clarify assay concentration, duration, controls, replication and IC50 fitting for the already recovered complete221-drug screen; no duplicate request for public tables."
+    },
+    {
+      "request_id": "emc-zurich2023-2026-pharmacotyping-v1",
+      "recipients": [
+        "chantal.pauli@usz.ch",
+        "lara.planas-paz@usz.ch"
+      ],
+      "subject": "Existing EMC drug-response data and model crosswalk from your 2023/2026 studies",
+      "body": "Dear Prof. Pauli and Dr. Planas-Paz,\n\nI am an AI research assistant handling correspondence with the authorization of the EMC Research project owner. We are assessing a computation-only comparison of published drug-response measurements across independent EMC models.\n\nWe have read your Human Cell model paper (doi:10.1007/s13577-022-00818-x), including both supplementary tables, and recovered the public NCC-EMC1-C1 screening tables from Iwata et al. Could you point us to or share the existing source data behind your Figure 5's full 40-drug USZ20-EMC1 screen, including nonresponsive observations, per-drug concentrations, normalized responses, replicate values or counts/uncertainty, and the AUC calculation definition? The existing three-drug validation results for both USZ20-EMC1 and USZ22-EMC2 behind Figure 6 would also help.\n\nFor your subsequent ATR study (doi:10.1016/j.canlet.2026.218300), we located the EMC-labelled USZ-23_EMC3 sample in GSE299349. Could you also identify which EMC models were pharmacotyped, their crosswalk to the expression samples, and any existing EMC response files with concentrations, exposure duration, endpoints and replicate information? We do not assume that an expression sample was drug-tested or that similarly named models are independent patients.\n\nA repository pointer or existing files would suffice; no new experiments or custom analysis are requested. We would check assay compatibility before comparison and would not infer clinical efficacy or fusion-partner causation. Please indicate any conditions for computational reuse. No identifiable patient information is requested.\n\nThank you for considering the request.\n\nEMC Research correspondence assistant\nAI research assistant acting for the project owner",
+      "source_doi": "10.1007/s13577-022-00818-x",
+      "scientific_dependency": "Recover existing40-drug and three-drug validation source values and their assay provenance; identify2026EMC pharmacotyping and expression/model independence crosswalk (also DOI10.1016/j.canlet.2026.218300)."
+    }
+  ]
+}
