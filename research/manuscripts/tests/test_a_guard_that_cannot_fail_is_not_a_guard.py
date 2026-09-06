@@ -159,7 +159,7 @@ def _r1_offenders():
     """Tests that READ a module attribute an autouse fixture in their own module REWROTE."""
     offenders = {}
     for path in _scope_files():
-        rel = os.path.relpath(path, REPO)
+        rel = os.path.relpath(path, REPO).replace(os.sep, "/")
         try:
             tree = ast.parse(open(path, encoding="utf-8").read())
         except SyntaxError as exc:                     # a suite that will not parse is a finding
@@ -223,7 +223,7 @@ def test_no_parametrisation_collects_nothing():
     file level. Zero instances today; this keeps it there, and costs nothing."""
     empty = []
     for path in _scope_files():
-        rel = os.path.relpath(path, REPO)
+        rel = os.path.relpath(path, REPO).replace(os.sep, "/")
         tree = ast.parse(open(path, encoding="utf-8").read())
         for node in ast.walk(tree):
             if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):

@@ -1,0 +1,72 @@
+['C:\\Projects\\EMC-Research\\.cache\\full-preflight-runtime\\bin\\python3.exe', '-B', '-X', 'utf8', '-m', 'pytest', '-q', '--tb=short', 'research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py', 'research/manuscripts/tests/test_line_citations.py']
+TEMPROOT=C:\Users\mcrae\AppData\Local\Temp\atlas-citation-portability-uo1rm3d6
+....................................                                     [100%]
+============================== warnings summary ===============================
+research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py::test_no_test_reads_a_module_attribute_its_own_autouse_fixture_rewrote
+research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py::test_the_detector_still_fires_on_every_audited_site
+research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py::test_no_parametrisation_collects_nothing
+  <unknown>:101: SyntaxWarning: invalid escape sequence '\d'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+36 passed, 3 warnings in 102.17s (0:01:42)
+
+EXIT=0
+POST-REVIEW: Python3.11 f-string quoting repaired; ast.parse(feature_version=(3,11)) results:
+[
+  {
+    "path": "research/autonomy/deliverable_digest.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/autonomy/tests/test_a_review_names_what_it_read.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/manuscripts/line_citations.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/manuscripts/tests/test_line_citations.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/account_orphan_alarm.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/alarm_state.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/assert_progress_fresh.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/fleet_supervision_alarm.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/job_progress_monitor.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/lane_staleness_watch.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "research/modalities/work_ledger.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "systems/systems_check.py",
+    "python311_grammar": "pass"
+  },
+  {
+    "path": "systems/tests/test_systems_check.py",
+    "python311_grammar": "pass"
+  }
+]
