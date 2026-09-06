@@ -3,12 +3,12 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-09-06T04:42:58Z",
-  "_generated_et": "12:42 AM ET Sep 6, 2026",
+  "_generated_utc": "2026-09-06T23:57:30Z",
+  "_generated_et": "7:57 PM ET Sep 6, 2026",
   "_cycle_interval_h": 8.0,
   "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 8 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-09-07T04:42:58Z",
-  "_stale_after_et": "12:42 AM ET Sep 7, 2026",
+  "_stale_after_utc": "2026-09-07T23:57:30Z",
+  "_stale_after_et": "7:57 PM ET Sep 7, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 8 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": false,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
@@ -34,20 +34,20 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "the last receipt is 35.0 h old against a 16.0 h deadline (2 cycle periods of 8 h). A Routine that fires and delivers nothing is indistinguishable from one that never fired \u2014 check the clock before assuming the cycle is slow.",
+      "detail": "the last receipt is 54.2 h old against a 16.0 h deadline (2 cycle periods of 8 h). A Routine that fires and delivers nothing is indistinguishable from one that never fired \u2014 check the clock before assuming the cycle is slow.",
       "payload": {
         "receipts_seen": 129,
         "latest_receipt": "CYC-0106-e41d184e.json",
         "latest_receipt_et": "1:45 PM ET Sep 4, 2026",
-        "age_h": 34.95,
+        "age_h": 54.2,
         "deadline_h": 16.0
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-05T10:38:43Z",
       "bad_since_utc": "2026-09-05T10:38:43Z",
-      "consecutive_bad_runs": 2,
-      "consecutive_red_runs": 2,
-      "bad_for_h": 18.07,
+      "consecutive_bad_runs": 3,
+      "consecutive_red_runs": 3,
+      "bad_for_h": 37.31,
       "bad_since_et": "6:38 AM ET Sep 5, 2026",
       "on_red": "advises",
       "axis": "liveness",
@@ -55,11 +55,11 @@
         "axis": "liveness",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 2,
+        "n": 3,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 18.07,
+        "bad_for_h": 37.31,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -71,7 +71,7 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "38 row(s) are `stalled_needs_human`: AUT-COV-001 (since 2026-08-30T14:58:04Z), AUT-049 (since 2026-08-30T23:27:08Z), AUT-079 (since 2026-08-31T12:49:57Z), AUT-PD-170 (since 2026-08-31T12:49:57Z), AUT-PD-141 (since 2026-08-31T13:39:38Z), AUT-PROP-018 (since 2026-09-01T12:08:42Z), AUT-PROP-019 (since 2026-09-01T12:08:42Z), AUT-PD-197 (since 2026-09-03T13:28:09Z), AUT-010 (since 2026-09-03T19:06:15Z), AUT-073 (since 2026-09-03T19:06:15Z), AUT-077 (since 2026-09-03T19:06:15Z), AUT-006 (since 2026-09-03T19:06:15Z), AUT-024 (since 2026-09-03T19:06:15Z), AUT-040 (since 2026-09-03T19:06:15Z), AUT-050 (since 2026-09-03T19:06:15Z), AUT-071 (since 2026-09-03T20:39:20Z), AUT-PD-188 (since 2026-09-03T21:10:10Z), AUT-PD-028 (since 2026-09-04T09:43:36Z), AUT-PD-130 (since 2026-09-04T09:43:36Z), AUT-PD-133 (since 2026-09-04T09:43:36Z), AUT-PD-147 (since 2026-09-04T09:43:36Z), AUT-PD-148 (since 2026-09-04T09:43:36Z), AUT-PD-150 (since 2026-09-04T09:43:36Z), AUT-PD-151 (since 2026-09-04T09:43:36Z), AUT-PD-158 (since 2026-09-04T09:43:36Z), AUT-PD-168 (since 2026-09-04T09:43:36Z), AUT-PD-173 (since 2026-09-04T09:43:36Z), AUT-PROP-055 (since 2026-09-04T13:48:16Z), AUT-PROP-056 (since 2026-09-04T13:48:16Z), AUT-007 (since 2026-09-04T17:45:57Z), AUT-008 (since 2026-09-04T17:45:57Z), AUT-027 (since 2026-09-04T17:45:57Z), AUT-011 (since 2026-09-04T18:15:44Z), AUT-016 (since 2026-09-04T18:15:44Z), AUT-025 (since 2026-09-04T19:41:10Z), AUT-044 (since 2026-09-04T20:33:24Z), AUT-PD-208-11f2347b-8e081d15 (since 2026-09-04T20:57:55Z), AUT-221 (since 2026-09-05T13:29:23Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
+      "detail": "40 row(s) are `stalled_needs_human`: AUT-COV-001 (since 2026-08-30T14:58:04Z), AUT-049 (since 2026-08-30T23:27:08Z), AUT-079 (since 2026-08-31T12:49:57Z), AUT-PD-170 (since 2026-08-31T12:49:57Z), AUT-PD-141 (since 2026-08-31T13:39:38Z), AUT-PROP-018 (since 2026-09-01T12:08:42Z), AUT-PROP-019 (since 2026-09-01T12:08:42Z), AUT-PD-197 (since 2026-09-03T13:28:09Z), AUT-010 (since 2026-09-03T19:06:15Z), AUT-073 (since 2026-09-03T19:06:15Z), AUT-077 (since 2026-09-03T19:06:15Z), AUT-006 (since 2026-09-03T19:06:15Z), AUT-024 (since 2026-09-03T19:06:15Z), AUT-040 (since 2026-09-03T19:06:15Z), AUT-050 (since 2026-09-03T19:06:15Z), AUT-071 (since 2026-09-03T20:39:20Z), AUT-PD-188 (since 2026-09-03T21:10:10Z), AUT-PD-028 (since 2026-09-04T09:43:36Z), AUT-PD-130 (since 2026-09-04T09:43:36Z), AUT-PD-133 (since 2026-09-04T09:43:36Z), AUT-PD-147 (since 2026-09-04T09:43:36Z), AUT-PD-148 (since 2026-09-04T09:43:36Z), AUT-PD-150 (since 2026-09-04T09:43:36Z), AUT-PD-151 (since 2026-09-04T09:43:36Z), AUT-PD-158 (since 2026-09-04T09:43:36Z), AUT-PD-168 (since 2026-09-04T09:43:36Z), AUT-PD-173 (since 2026-09-04T09:43:36Z), AUT-PROP-055 (since 2026-09-04T13:48:16Z), AUT-PROP-056 (since 2026-09-04T13:48:16Z), AUT-007 (since 2026-09-04T17:45:57Z), AUT-008 (since 2026-09-04T17:45:57Z), AUT-027 (since 2026-09-04T17:45:57Z), AUT-011 (since 2026-09-04T18:15:44Z), AUT-016 (since 2026-09-04T18:15:44Z), AUT-025 (since 2026-09-04T19:41:10Z), AUT-044 (since 2026-09-04T20:33:24Z), AUT-PD-208-11f2347b-8e081d15 (since 2026-09-04T20:57:55Z), AUT-221 (since 2026-09-05T13:29:23Z), AUT-219 (since 2026-09-06T08:41:22Z), AUT-220 (since 2026-09-06T17:42:50Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
       "payload": {
         "open_rows": 214,
         "terminal_ids": [
@@ -112,17 +112,19 @@
           "AUT-025",
           "AUT-044",
           "AUT-PD-208-11f2347b-8e081d15",
-          "AUT-221"
+          "AUT-221",
+          "AUT-219",
+          "AUT-220"
         ],
         "shallow_clone": false,
         "history_horizon_utc": "2026-08-26 15:15"
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-01T16:42:38Z",
       "bad_since_utc": "2026-09-01T16:42:38Z",
-      "consecutive_bad_runs": 17,
-      "consecutive_red_runs": 17,
-      "bad_for_h": 108.01,
+      "consecutive_bad_runs": 18,
+      "consecutive_red_runs": 18,
+      "bad_for_h": 127.25,
       "bad_since_et": "12:42 PM ET Sep 1, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -130,11 +132,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 17,
+        "n": 18,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 108.01,
+        "bad_for_h": 127.25,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -160,7 +162,7 @@
         ],
         "receipts_seen": 129
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-03T00:18:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -194,7 +196,7 @@
         "entries": 415,
         "running": 0
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -228,7 +230,7 @@
         "entries": 415,
         "blocked": 2
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -267,7 +269,7 @@
           "AUT-073"
         ]
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -301,7 +303,7 @@
         "open": 214,
         "unrankable": 0
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-01T21:04:31Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -340,7 +342,7 @@
         },
         "worst": 2
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-03T16:28:01Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -382,7 +384,7 @@
         },
         "worst": 0
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-03T16:28:01Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -415,7 +417,7 @@
       "payload": {
         "backoff_level": 0
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-02T16:43:57Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -448,7 +450,7 @@
       "payload": {
         "ref": "tests.yml @ 81db6f24d2e4"
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-09-05T04:33:49Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -482,7 +484,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-09-06T04:42:58Z",
+      "last_seen_utc": "2026-09-06T23:57:30Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -505,6 +507,6 @@
     }
   ],
   "_commit_worthy": true,
-  "_commit_worthy_why": "keep-alive \u2014 the committed board expires 6:38 AM ET Sep 6, 2026, inside one cycle period (8 h), and a frozen board must not read as a board that keeps saying fine",
+  "_commit_worthy_why": "keep-alive \u2014 the committed board expires 12:42 AM ET Sep 7, 2026, inside one cycle period (8 h), and a frozen board must not read as a board that keeps saying fine",
   "_commit_worthy_means": "fleet_armed.py's discipline: the caller COMMITS this file only when this is true. A board whose verdicts are unchanged carries no information (measured cost of ignoring that: 1,476 commits in 24 h, 703 of them non-events), and the keep-alive clause makes sure a live checker can never be the reason the board looks dead."
 }
