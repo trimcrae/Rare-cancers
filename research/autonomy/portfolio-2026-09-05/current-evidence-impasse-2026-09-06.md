@@ -82,3 +82,14 @@ substitute. The other ranked paper dependencies above remain unresolved. No scie
 is running. This turn delivered source/verification progress and is not counted as an overall
 blocked turn. Do not relabel these packets as a completed paper; reassess real safe actions
 and the strict repeated-impasse threshold on continuation.
+
+
+Dated continuous-work correction, 2026-09-06: the user resumed the full mission and the actual
+goal tool reports active. Both Zullow/Ngo requests have now been sent and provider-verified.
+Independent reassessment identified cached RealIPD empirical data and executable published
+reconstructors whose outcome/abstention evaluation was never run. Failed inverse-solver stress
+certification does not establish failure of this separate empirical triage experiment. The
+[new allocation](continuous-research-allocation-2026-09-06.md) freezes its scope and retains
+its weak EMC specificity and conditional novelty. Earlier observations remain historical;
+there is no current global impasse while concrete preparation, computation or authorized
+source recovery can advance a worthwhile question.

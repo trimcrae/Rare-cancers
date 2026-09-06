@@ -68,6 +68,12 @@
       "used_percent": 37,
       "resets_at": 1789158862,
       "phase": "After trial completion and during fusion recovery; account-wide rounded."
+    },
+    {
+      "utc": "2026-09-06T14:11:13.549519+00:00",
+      "used_percent": 65,
+      "resets_at": 1789158862,
+      "phase": "Continuous-work restart; actual shared account reading, both reset credits still available."
     }
   ],
   "current_ceiling_percentage_points": null,
@@ -75,13 +81,13 @@
   "attribution": "All observations are account-wide rounded usage, not research cost. Pre-restart observations are history and excluded from prospective pacing.",
   "status": "Continuous substantive iteration authorized; no assistant-imposed daily pacing or total round cap.",
   "max_dispatches_per_rolling_24h": null,
-  "max_dispatches_per_wake": 1,
+  "max_dispatches_per_wake": null,
   "counted_runs": [
     "20260905T032612Z-df96afc413",
     "20260905T084620Z-b7637a0999"
   ],
   "earliest_dispatch_utc": null,
-  "next_action": "Integrate trial reference pack, then independent label adjudication/expansion. Fusion source recovery active. No usage pacing.",
+  "next_action": "Execute current dated research allocation; proceed to the next useful checkpoint without daily pacing. Continue correspondence independently.",
   "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
   "paid_fallback": false,
   "reset_redemption_authorized": true,
@@ -112,8 +118,13 @@
   },
   "user_override": {
     "utc": "2026-09-05T16:25:02.704153Z",
-    "instruction": "We have a couple usage limit resets in our back pocket so why don\u2019t you just keep iterating on this with no limitations",
+    "instruction": "We have a couple usage limit resets in our back pocket so why don’t you just keep iterating on this with no limitations",
     "interpretation": "Supersedes reserve, prospective daily pacing and waiting-until-tomorrow restriction. Authorizes available reset credits as needed; scientific integrity, publication scope and bounded fresh-worker workflow preserved."
   },
-  "available_reset_credits_observed": 2
+  "available_reset_credits_observed": 2,
+  "latest_user_reaffirmation": {
+    "utc": "2026-09-06T13:57:31.575231+00:00",
+    "instruction": "We should be running continuously because we have a lot of usage resets to use up",
+    "interpretation": "Continuous substantive research; existing credits when actual limits require them. No additional reserve cap or inbox-only pause."
+  }
 }

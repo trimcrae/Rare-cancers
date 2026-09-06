@@ -47,6 +47,18 @@ association, and experimental validation. No wet-lab claim can be established by
    conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
    constraints. A process fix must remove observed friction and report its measured effect.
 
+## Continue beyond a route-specific blocker
+
+User reaffirmation, 2026-09-06: continuous substantive research is authorized, with existing
+usage-reset credits when actual account limits require them. Waiting for correspondence,
+an empty generated task list, a failed development experiment, or a paper not being ready
+does not establish that all useful work is blocked. At each checkpoint, distinguish the
+specific missing input from the next credible independent computation, exact source recovery,
+authorized targeted request or genuinely new evidence-based question. Execute that next step
+without an artificial daily reserve, total-round cap or inbox-only pause. Preserve negative
+results and real acceptance criteria; do not repeat unchanged work or invent a paper merely
+to consume credits. Keep finite worker checkpoints and explicit ownership, then continue.
+
 ## Review with an endpoint
 
 **User rule, 2026-09-05: every paper requires one independent ultra-reasoning pass

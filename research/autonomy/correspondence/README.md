@@ -27,9 +27,10 @@ Sent copy, including sender identity, subject and body. Both messages in
 records read back and confirmed in the shared private ledger. This establishes provider
 send evidence, not recipient delivery, a reply or data access.
 
-The existing coordinator heartbeat is active with twice-daily correspondence checks and
-routine notifications muted. This is a configured local schedule; no subsequent scheduled
-mail check is claimed yet. Account details, encrypted credentials, connection evidence and
+The existing coordinator heartbeat now supports continuous research, with correspondence
+checks approximately twice daily and routine notifications muted. The research continuity
+interval is five minutes; that is not an instruction to poll the inbox every five minutes.
+This is a configured local schedule; no subsequent scheduled mail check is claimed yet. Account details, encrypted credentials, connection evidence and
 provider receipts remain in the private directory specified below, outside Git. See
 [operational-verification.json](operational-verification.json) for the dated public status.
 
