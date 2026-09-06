@@ -1,0 +1,9 @@
+Changes in version 0.1.1 (2026-06-08)
+
+* Reconstruction of left-truncated survival data now possible via ltrunc option
+* New PFS_OS_resolve function to allow consistent simultaneous reconstruction of PFS and OS curves from the same study
+* Additional pre-processing to remove redundant equality constraints in order to reduce the occasions where solve.QP incorrectly claims there are no solutions.
+* Redundant zero equality constraints are removed before passing to CPLEX to reduce number of cases the number of variables exceeds the 1000 limit for the free community version of IBM CPLEX.
+* Can now supply the Nelson-Aalen estimates of cumulative hazards as an input rather than the Kaplan-Meier or Aalen-Johansen estimate.
+* Default time limit for CPLEX changed to 100 rather than 1000 seconds.
+* Additional data examples. pfs_elgalay example dataset modified to remove duplicate time values in the digitized curve.

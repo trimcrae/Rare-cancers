@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "source_sha256": {
+    "bounds.py": "17ba850631de0d12e9f377b0b85f147e7e61b326328f09d7193783e1e377fc5d",
+    "protocol.md": "f15bb9e77ffdc127a9ee5ec3cf1bd3b99fa98a3532d2549ff08c73e00611762f",
+    "development-releases.json": "b82e3df721f9f3705a0dbd2c1e68e5d724720c3a32f032a5629e6d6427d09172",
+    "development-results.json": "d69f2c17180062aa6d22a4a24ed09c6f11aeccc199898ae035fe3d55a344447b",
+    "development-truth.json": "1beb3dc2e0282ff04454086a565a259e784804e99b667dafeb4a91e93dc0e881"
+  },
+  "unequal_arm_release_pairs": 1395,
+  "unequal_arm_subject_pairs": 2100,
+  "development_checks": [
+    {
+      "case_id": "n20-hazard-b-0.18-sparse",
+      "q": "46155629/35415349",
+      "p_approx": 0.2536174667536924,
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.18-dense",
+      "q": "46155629/35415349",
+      "p_approx": 0.2536174667536924,
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.32-sparse",
+      "q": "7924697818/7101955187",
+      "p_approx": 0.29081438898942286,
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.32-dense",
+      "q": "7924697818/7101955187",
+      "p_approx": 0.29081438898942286,
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.65-sparse",
+      "q": "28014525/1522489",
+      "p_approx": 1.7901309087544364e-05,
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.65-dense",
+      "q": "28014525/1522489",
+      "p_approx": 1.7901309087544364e-05,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.18-sparse",
+      "q": "336726424179539/40331023221815251",
+      "p_approx": 0.9271960318297983,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.18-dense",
+      "q": "336726424179539/40331023221815251",
+      "p_approx": 0.9271960318297983,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.32-sparse",
+      "q": "43406717952470797/13516320440580943",
+      "p_approx": 0.07312554380621138,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.32-dense",
+      "q": "43406717952470797/13516320440580943",
+      "p_approx": 0.07312554380621138,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.65-sparse",
+      "q": "1865180599/55119841",
+      "p_approx": 5.987762668814824e-09,
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.65-dense",
+      "q": "1865180599/55119841",
+      "p_approx": 5.987762668814824e-09,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.18-sparse",
+      "q": "374250571324638541696904/118901303395613204247811",
+      "p_approx": 0.07603996835801277,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.18-dense",
+      "q": "374250571324638541696904/118901303395613204247811",
+      "p_approx": 0.07603996835801277,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.32-sparse",
+      "q": "95246908069293793999/8255808001414246505",
+      "p_approx": 0.0006822619342436682,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.32-dense",
+      "q": "95246908069293793999/8255808001414246505",
+      "p_approx": 0.0006822619342436682,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.65-sparse",
+      "q": "1212413056333272/20850852573725",
+      "p_approx": 2.4325356061108292e-14,
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.65-dense",
+      "q": "1212413056333272/20850852573725",
+      "p_approx": 2.4325356061108292e-14,
+      "original_contained": true
+    }
+  ],
+  "query_partition_checks": [
+    {
+      "case_id": "n80-hazard-b-0.18-sparse",
+      "pairs": 10620,
+      "options": 8,
+      "selected": {
+        "arm": "b",
+        "time": 2,
+        "outcomes": [
+          {
+            "risk": 56,
+            "pairs": 360,
+            "q_outer": [
+              "1185428040490494404747/382107720201589587949",
+              "361302306798988633281523/93059710281824748634517"
+            ],
+            "decision": "unresolved"
+          },
+          {
+            "risk": 57,
+            "pairs": 270,
+            "q_outer": [
+              "82011949472182471614296/26242248144471216838557",
+              "2847112270962017794907473/752836660060122197658797"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 58,
+            "pairs": 450,
+            "q_outer": [
+              "11982360463721555842/4077959621511697793",
+              "43914934549259715445537/11541617321314127589743"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 60,
+            "pairs": 630,
+            "q_outer": [
+              "170801584192599888721/58083921887543073399",
+              "44333729851454833978/11837767805543375767"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 61,
+            "pairs": 990,
+            "q_outer": [
+              "2634720871644213786207/938138717437275460025",
+              "48712657632421108751559/12933469742155572220801"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 62,
+            "pairs": 1260,
+            "q_outer": [
+              "1368235982233862204865921/502156009246815431360950",
+              "33044933668857441209090101/8910791440756145761016699"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 63,
+            "pairs": 1530,
+            "q_outer": [
+              "3310327344851836973168/1205268467164000102975",
+              "10614669044004707731697/2841597063229750643303"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 65,
+            "pairs": 2340,
+            "q_outer": [
+              "388246323616282464/147518267138552425",
+              "679595120068954407471/190130599488857173889"
+            ],
+            "decision": "stable_nonreject"
+          },
+          {
+            "risk": 66,
+            "pairs": 2790,
+            "q_outer": [
+              "5880805298718486843331/2279833723091602849064",
+              "457789648177407069099/127194100447433650741"
+            ],
+            "decision": "stable_nonreject"
+          }
+        ],
+        "worst_unresolved_pairs": 360,
+        "worst_pairs": 2790
+      }
+    }
+  ],
+  "independent_threshold_p": [
+    "0.050000000000000177675125286949973257629704261788039289296988047516",
+    "0.049999999999999879480514232651793745343931094083674917360865657699"
+  ],
+  "mpmath_version": "1.3.0",
+  "initial_attempt": "Scientific checks completed; supplementary mpmath import failed. Installed mpmath1.3.0 in isolated coordinator cache and reran.",
+  "proof_review": "Coordinator inspected Machin pi enclosure, decreasing alternating erf terms, positive interval products and exact sqrt floor; numerical check is supplementary.",
+  "elapsed_seconds": 3.875,
+  "scope": "Coordinator independent expected values; author solver imported only as system under test. Grouped-time development only, not held-out or publication verification."
+}

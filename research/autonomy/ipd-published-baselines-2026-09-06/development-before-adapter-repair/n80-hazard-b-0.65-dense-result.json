@@ -1,0 +1,44 @@
+{
+  "schema": "published-baseline-results-v1",
+  "input_file": "research\\autonomy\\ipd-published-baselines-2026-09-06\\development\\n80-hazard-b-0.65-dense-release.json",
+  "input_schema": "discrete-km-release-v1",
+  "package_versions": {
+    "IPDfromKM": "0.1.10",
+    "CIFresolve": "0.1.1",
+    "quadprog": "1.5.8",
+    "survival": "3.8.6"
+  },
+  "R": "R version 4.6.1 (2026-06-24 ucrt)",
+  "inputs": {
+    "a": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.78000000000000003, 0.60999999999999999, 0.46000000000000002, 0.39000000000000001, 0.32000000000000001, 0.20999999999999999, 0.20999999999999999],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [80, 80, 56, 42, 30, 23, 18, 0],
+      "n": 80,
+      "events": 55
+    },
+    "b": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.34999999999999998, 0.080000000000000002, 0.040000000000000001, 0.01, 0, 0, 0],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [80, 80, 26, 6, 3, 1, 0, 0],
+      "n": 80,
+      "events": 78
+    }
+  },
+  "methods": {
+    "IPDfromKM": {
+      "status": "failure",
+      "error": "missing value where TRUE/FALSE needed",
+      "warnings": [],
+      "elapsed_seconds": 0.10000000000000009
+    },
+    "CIFresolve": {
+      "status": "failure",
+      "error": "invalid 'times' argument",
+      "warnings": "longer object length is not a multiple of shorter object length",
+      "elapsed_seconds": 0.0099999999999997868
+    }
+  }
+}

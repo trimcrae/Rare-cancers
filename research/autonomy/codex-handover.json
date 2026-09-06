@@ -96,7 +96,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-06T03:02:21.349032+00:00",
+  "last_updated_utc": "2026-09-06T03:16:46.077815+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -356,15 +356,12 @@
     "previous_turn_classification": "no progress; priority explanation only",
     "classification": "progress",
     "evidence": [
-      "Independently verified18source responses and6primary excerpts, copied21worker files",
-      "Reassessed current allocation and launched two disjoint reserved IPD development subagents",
-      "Reviewed exact grouped-time release protocol before development outcomes"
+      "CSPG4 source packet integrated at63d958a1a71f271464e63877c10245d631a07364;33files verified",
+      "Exact grouped-time oracle and actual baseline executions completed, copied and independently checked",
+      "Four stress failures expose combinatorial growth; independent methods review specifies conservative frontier bounds and interval-time extension"
     ],
-    "current_handles": [
-      "/root/ipd_bounds",
-      "/root/ipd_baselines"
-    ],
-    "completion": "No independently verified preprint; goal active"
+    "current_handles": [],
+    "completion": "No finished independently verified preprint; goal active."
   },
   "atlas_sample_organ": {
     "utc": "2026-09-06T02:24:09.423136+00:00",
@@ -401,14 +398,17 @@
   },
   "cspg4_evidence": {
     "agent": "/root/cspg4_evidence",
-    "status": "verified; normal preflight passed, integration pending",
+    "status": "integrated",
     "scope": "CSPG4/NG2/HMW-MAA measured protein or spatial/cell-specific RNA in actual EMC; distinguish conventional bone chondrosarcoma and stromal signal. No broad target inventory.",
     "worktree": "C:/Users/mcrae/.codex/worktrees/atlas-provenance-20260906/EMC-Research",
     "resource": "paper:PUB-SURFACE-TARGETS:cspg4-tissue-sources",
     "write_scope": "research/autonomy/cspg4-primary-tissue-evidence-2026-09-06/",
     "review_result": "No EMC-specific CSPG4 protein/spatial measurement verified in inspected primary cohorts; two exact subtype tables remain uninspected. Not proof no evidence exists.",
     "recovery_result": "Both exact subtype tables remain uninspected after documented access failures; no EMC-specific protein/spatial validation established and no evidence-absence claim.",
-    "verification": "research/autonomy/cspg4-primary-tissue-evidence-2026-09-06/coordinator-verification.json"
+    "verification": "research/autonomy/cspg4-primary-tissue-evidence-2026-09-06/coordinator-verification.json",
+    "integration_revision": "63d958a1a71f271464e63877c10245d631a07364",
+    "integration_receipt": "research/autonomy/cspg4-primary-tissue-evidence-2026-09-06/integration-receipt.json",
+    "resource_resolution": "released as integrated against durable receipt"
   },
   "latest_usage_observation": {
     "utc": "2026-09-06T02:45:05.415027+00:00",
@@ -418,7 +418,7 @@
   },
   "current_allocation": "research/autonomy/portfolio-2026-09-05/ipd-allocation-2026-09-06.md",
   "ipd_development": {
-    "status": "two actual collaboration subagents launched",
+    "status": "both packets independently verified; normal gate passed; integration pending",
     "base_revision": "863a1917f98b55772243807d32c8abd5ee82d511",
     "allocation": "research/autonomy/portfolio-2026-09-05/ipd-allocation-2026-09-06.md",
     "workers": [
@@ -440,6 +440,20 @@
       "scope": "Exact grouped-time release with rounded probabilities; does not bound continuous-time ordering",
       "coordinator_review": "Accepted as development extension, before outcome inspection; held-out generation prohibited at this checkpoint"
     },
-    "next_action": "Independently check actual bounds/baseline executions, then freeze realistic benchmark before held-out evaluation. No method superiority or paper readiness established."
+    "next_action": "Joint reachable-state/frontier U,V bounds on the existing oracle/stress cases, then interval-time weak-order extension preserving original logrank target. Independent methods review completed; no follow-up writer launched yet.",
+    "results": {
+      "grouped_time": "18 development releases complete,17 certificates,one unresolved; all original statistics contained; four stress releases incomplete and safely unresolved",
+      "baseline_runs": "CIFresolve18/18 and IPDfromKM15/18 returned results;3errors retained; none fully satisfies grouped-time release constraints",
+      "coordinator_checks": "1,395 unequal-arm release comparisons,2,100 subject pairs,all18original/witnesses and10,620query partitions; all33R logrank statistics independently recomputed; actual packages rerun on2cases reproducing rows/p/errors",
+      "held_out": "No held-out or empirical benchmark outcomes inspected",
+      "verification": [
+        "research/autonomy/ipd-bounds-development-2026-09-06/coordinator-check-result.json",
+        "research/autonomy/ipd-bounds-development-2026-09-06/coordinator-stress-check.json",
+        "research/autonomy/ipd-published-baselines-2026-09-06/coordinator-check-result.json",
+        "research/autonomy/ipd-published-baselines-2026-09-06/coordinator-reproduction.json"
+      ],
+      "descriptive_original_comparison": "CIFresolve0/18 decision disagreements; IPDfromKM2/15 successful returns disagree, both releases of same original dataset. Development only; no superiority or general performance estimate."
+    },
+    "normal_preflight": "research/autonomy/ipd-bounds-development-2026-09-06/normal-preflight-result.json"
   }
 }

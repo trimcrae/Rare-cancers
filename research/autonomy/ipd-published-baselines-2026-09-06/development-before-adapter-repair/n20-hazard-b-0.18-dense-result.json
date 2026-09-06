@@ -1,0 +1,559 @@
+{
+  "schema": "published-baseline-results-v1",
+  "input_file": "research\\autonomy\\ipd-published-baselines-2026-09-06\\development\\n20-hazard-b-0.18-dense-release.json",
+  "input_schema": "discrete-km-release-v1",
+  "package_versions": {
+    "IPDfromKM": "0.1.10",
+    "CIFresolve": "0.1.1",
+    "quadprog": "1.5.8",
+    "survival": "3.8.6"
+  },
+  "R": "R version 4.6.1 (2026-06-24 ucrt)",
+  "inputs": {
+    "a": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.94999999999999996, 0.58999999999999997, 0.52000000000000002, 0.37, 0.28000000000000003, 0.28000000000000003, 0.28000000000000003],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [20, 20, 16, 8, 7, 4, 1, 0],
+      "n": 20,
+      "events": 11
+    },
+    "b": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.90000000000000002, 0.79000000000000004, 0.68000000000000005, 0.56000000000000005, 0.48999999999999999, 0.48999999999999999, 0.48999999999999999],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [20, 20, 17, 14, 11, 8, 6, 0],
+      "n": 20,
+      "events": 9
+    }
+  },
+  "methods": {
+    "IPDfromKM": {
+      "status": "success",
+      "ipd": [
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.1"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.2"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.3"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.4"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.5"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.6"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.7"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.8"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.9"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.10"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.11"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.12"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.13"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.14"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.15"
+        },
+        {
+          "time": 4.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.16"
+        },
+        {
+          "time": 5,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.17"
+        },
+        {
+          "time": 5.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.18"
+        },
+        {
+          "time": 5.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.19"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.20"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.1"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.2"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.3"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.4"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.5"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.6"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.7"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.8"
+        },
+        {
+          "time": 3.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.9"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.10"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.11"
+        },
+        {
+          "time": 4.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.12"
+        },
+        {
+          "time": 5,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.13"
+        },
+        {
+          "time": 5.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.14"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.15"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.16"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.17"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.18"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.19"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.20"
+        }
+      ],
+      "logrank_chisq": 1.3032662476374297,
+      "logrank_p": 0.2536174667536924,
+      "fit_details": {
+        "a": {
+          "preprocessed": [
+            {
+              "time": 0,
+              "surv": 1,
+              "id": 1,
+              "interval": 1
+            },
+            {
+              "time": 1,
+              "surv": 0.94999999999999996,
+              "id": 2,
+              "interval": 2
+            },
+            {
+              "time": 2,
+              "surv": 0.58999999999999997,
+              "id": 3,
+              "interval": 3
+            },
+            {
+              "time": 3,
+              "surv": 0.52000000000000002,
+              "id": 4,
+              "interval": 4
+            },
+            {
+              "time": 4,
+              "surv": 0.37,
+              "id": 5,
+              "interval": 5
+            },
+            {
+              "time": 5,
+              "surv": 0.28000000000000003,
+              "id": 6,
+              "interval": 6
+            },
+            {
+              "time": 6,
+              "surv": 0.28000000000000003,
+              "id": 7,
+              "interval": 7
+            },
+            {
+              "time": 7,
+              "surv": 0.28000000000000003,
+              "id": 8,
+              "interval": 8
+            }
+          ],
+          "riskmat": [
+            {
+              "interval": 1,
+              "lower": 1,
+              "upper": 1,
+              "trisk": 0,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 2,
+              "lower": 2,
+              "upper": 2,
+              "trisk": 1,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 3,
+              "event.hat": 1
+            },
+            {
+              "interval": 3,
+              "lower": 3,
+              "upper": 3,
+              "trisk": 2,
+              "nrisk": 16,
+              "nrisk.hat": 16,
+              "censor.hat": 2,
+              "event.hat": 6
+            },
+            {
+              "interval": 4,
+              "lower": 4,
+              "upper": 4,
+              "trisk": 3,
+              "nrisk": 8,
+              "nrisk.hat": 8,
+              "censor.hat": 0,
+              "event.hat": 1
+            },
+            {
+              "interval": 5,
+              "lower": 5,
+              "upper": 5,
+              "trisk": 4,
+              "nrisk": 7,
+              "nrisk.hat": 7,
+              "censor.hat": 1,
+              "event.hat": 2
+            },
+            {
+              "interval": 6,
+              "lower": 6,
+              "upper": 6,
+              "trisk": 5,
+              "nrisk": 4,
+              "nrisk.hat": 4,
+              "censor.hat": 2,
+              "event.hat": 1
+            },
+            {
+              "interval": 7,
+              "lower": 7,
+              "upper": 7,
+              "trisk": 6,
+              "nrisk": 1,
+              "nrisk.hat": 1,
+              "censor.hat": 1,
+              "event.hat": 0
+            },
+            {
+              "interval": 8,
+              "lower": 8,
+              "upper": 8,
+              "trisk": 7,
+              "nrisk": 0,
+              "nrisk.hat": 0,
+              "censor.hat": 0,
+              "event.hat": 0
+            }
+          ],
+          "precision": [0.002, 0.001, 0.0040000000000000001]
+        },
+        "b": {
+          "preprocessed": [
+            {
+              "time": 0,
+              "surv": 1,
+              "id": 1,
+              "interval": 1
+            },
+            {
+              "time": 1,
+              "surv": 0.90000000000000002,
+              "id": 2,
+              "interval": 2
+            },
+            {
+              "time": 2,
+              "surv": 0.79000000000000004,
+              "id": 3,
+              "interval": 3
+            },
+            {
+              "time": 3,
+              "surv": 0.68000000000000005,
+              "id": 4,
+              "interval": 4
+            },
+            {
+              "time": 4,
+              "surv": 0.56000000000000005,
+              "id": 5,
+              "interval": 5
+            },
+            {
+              "time": 5,
+              "surv": 0.48999999999999999,
+              "id": 6,
+              "interval": 6
+            },
+            {
+              "time": 6,
+              "surv": 0.48999999999999999,
+              "id": 7,
+              "interval": 7
+            },
+            {
+              "time": 7,
+              "surv": 0.48999999999999999,
+              "id": 8,
+              "interval": 8
+            }
+          ],
+          "riskmat": [
+            {
+              "interval": 1,
+              "lower": 1,
+              "upper": 1,
+              "trisk": 0,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 2,
+              "lower": 2,
+              "upper": 2,
+              "trisk": 1,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 1,
+              "event.hat": 2
+            },
+            {
+              "interval": 3,
+              "lower": 3,
+              "upper": 3,
+              "trisk": 2,
+              "nrisk": 17,
+              "nrisk.hat": 17,
+              "censor.hat": 1,
+              "event.hat": 2
+            },
+            {
+              "interval": 4,
+              "lower": 4,
+              "upper": 4,
+              "trisk": 3,
+              "nrisk": 14,
+              "nrisk.hat": 14,
+              "censor.hat": 1,
+              "event.hat": 2
+            },
+            {
+              "interval": 5,
+              "lower": 5,
+              "upper": 5,
+              "trisk": 4,
+              "nrisk": 11,
+              "nrisk.hat": 11,
+              "censor.hat": 1,
+              "event.hat": 2
+            },
+            {
+              "interval": 6,
+              "lower": 6,
+              "upper": 6,
+              "trisk": 5,
+              "nrisk": 8,
+              "nrisk.hat": 8,
+              "censor.hat": 1,
+              "event.hat": 1
+            },
+            {
+              "interval": 7,
+              "lower": 7,
+              "upper": 7,
+              "trisk": 6,
+              "nrisk": 6,
+              "nrisk.hat": 6,
+              "censor.hat": 6,
+              "event.hat": 0
+            },
+            {
+              "interval": 8,
+              "lower": 8,
+              "upper": 8,
+              "trisk": 7,
+              "nrisk": 0,
+              "nrisk.hat": 0,
+              "censor.hat": 0,
+              "event.hat": 0
+            }
+          ],
+          "precision": [0.0030000000000000001, 0.002, 0.0040000000000000001]
+        }
+      },
+      "warnings": [],
+      "elapsed_seconds": 0.11000000000000032
+    },
+    "CIFresolve": {
+      "status": "failure",
+      "error": "invalid 'times' argument",
+      "warnings": "longer object length is not a multiple of shorter object length",
+      "elapsed_seconds": 0.020000000000000018
+    }
+  }
+}

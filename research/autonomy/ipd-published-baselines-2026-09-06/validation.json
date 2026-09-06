@@ -1,0 +1,1905 @@
+{
+  "scope": "Released development inputs and reconstructed outputs only; no original hidden IPD opened",
+  "max_p_discrepancy": 9.992007221626409e-16,
+  "summary": {
+    "IPDfromKM": {
+      "success": 15,
+      "failure": 3,
+      "same_discrete_release_compatible": 0
+    },
+    "CIFresolve": {
+      "success": 18,
+      "failure": 0,
+      "same_discrete_release_compatible": 0
+    }
+  },
+  "cases": [
+    {
+      "case": "n20-hazard-b-0.18-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.2365011395915068,
+      "scipy_p": 0.23650113959150676,
+      "absolute_p_discrepancy": 2.7755575615628914e-17,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 17,
+            "2": 16,
+            "3": 8,
+            "4": 7,
+            "5": 4,
+            "6": 1
+          },
+          "actual_rounded_curve": [
+            "0.94",
+            "0.59",
+            "0.51",
+            "0.37",
+            "0.28",
+            "0.28"
+          ],
+          "n": 20,
+          "events": 11
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 19,
+            "2": 17,
+            "3": 14,
+            "4": 11,
+            "5": 8,
+            "6": 6
+          },
+          "actual_rounded_curve": [
+            "0.89",
+            "0.79",
+            "0.68",
+            "0.55",
+            "0.48",
+            "0.48"
+          ],
+          "n": 20,
+          "events": 9
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.18-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.24570676105545033,
+      "scipy_p": 0.2457067610554503,
+      "absolute_p_discrepancy": 2.7755575615628914e-17,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 19,
+            "2": 16,
+            "3": 8,
+            "4": 7,
+            "5": 4,
+            "6": 1
+          },
+          "actual_rounded_curve": [
+            "0.95",
+            "0.59",
+            "0.52",
+            "0.37",
+            "0.28",
+            "0.28"
+          ],
+          "n": 20,
+          "events": 11
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 17,
+            "3": 14,
+            "4": 11,
+            "5": 8,
+            "6": 6
+          },
+          "actual_rounded_curve": [
+            "0.90",
+            "0.79",
+            "0.68",
+            "0.56",
+            "0.49",
+            "0.49"
+          ],
+          "n": 20,
+          "events": 9
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.18-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.25348255616370907,
+      "scipy_p": 0.25348255616370896,
+      "absolute_p_discrepancy": 1.1102230246251565e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 8
+          },
+          "actual_rounded_curve": [
+            "0.95",
+            "0.61",
+            "0.55",
+            "0.41",
+            "0.31",
+            "0.31"
+          ],
+          "n": 21,
+          "events": 11
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 12
+          },
+          "actual_rounded_curve": [
+            "0.90",
+            "0.79",
+            "0.68",
+            "0.57",
+            "0.57",
+            "0.57"
+          ],
+          "n": 21,
+          "events": 8
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.18-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.2640609188280889,
+      "scipy_p": 0.2640609188280888,
+      "absolute_p_discrepancy": 1.1102230246251565e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 19,
+            "4": 7
+          },
+          "actual_rounded_curve": [
+            "0.95",
+            "0.59",
+            "0.53",
+            "0.38",
+            "0.28",
+            "0.28"
+          ],
+          "n": 20,
+          "events": 11
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "4": 11
+          },
+          "actual_rounded_curve": [
+            "0.90",
+            "0.79",
+            "0.68",
+            "0.56",
+            "0.49",
+            "0.49"
+          ],
+          "n": 20,
+          "events": 9
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.32-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.8018832608358516,
+      "scipy_p": 0.8018832608358515,
+      "absolute_p_discrepancy": 1.1102230246251565e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 15,
+            "3": 11,
+            "4": 7,
+            "5": 1,
+            "6": 1
+          },
+          "actual_rounded_curve": [
+            "0.75",
+            "0.65",
+            "0.41",
+            "0.24",
+            "0.24",
+            "0.24"
+          ],
+          "n": 20,
+          "events": 14
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 21,
+            "2": 16,
+            "3": 3,
+            "4": 3,
+            "5": 2,
+            "6": 2
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.38",
+            "0.38",
+            "0.25",
+            "0.25",
+            "0.13"
+          ],
+          "n": 21,
+          "events": 12
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.32-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.29081438898942286,
+      "scipy_p": 0.29081438898942324,
+      "absolute_p_discrepancy": 3.885780586188048e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 15,
+            "3": 11,
+            "4": 7,
+            "5": 4,
+            "6": 4
+          },
+          "actual_rounded_curve": [
+            "0.75",
+            "0.65",
+            "0.41",
+            "0.24",
+            "0.24",
+            "0.24"
+          ],
+          "n": 20,
+          "events": 14
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 15,
+            "3": 6,
+            "4": 6,
+            "5": 3,
+            "6": 2
+          },
+          "actual_rounded_curve": [
+            "0.75",
+            "0.35",
+            "0.35",
+            "0.23",
+            "0.16",
+            "0.08"
+          ],
+          "n": 20,
+          "events": 17
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.32-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.43143941310272327,
+      "scipy_p": 0.43143941310272227,
+      "absolute_p_discrepancy": 9.992007221626409e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 23,
+            "4": 10
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.69",
+            "0.49",
+            "0.35",
+            "0.35",
+            "0.35"
+          ],
+          "n": 23,
+          "events": 14
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 6
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.37",
+            "0.37",
+            "0.25",
+            "0.16",
+            "0.00"
+          ],
+          "n": 20,
+          "events": 16
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.32-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.4632407189693659,
+      "scipy_p": 0.4632407189693659,
+      "absolute_p_discrepancy": 0.0,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 19,
+            "4": 7
+          },
+          "actual_rounded_curve": [
+            "0.74",
+            "0.63",
+            "0.40",
+            "0.23",
+            "0.23",
+            "0.23"
+          ],
+          "n": 20,
+          "events": 14
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 6
+          },
+          "actual_rounded_curve": [
+            "0.75",
+            "0.35",
+            "0.35",
+            "0.23",
+            "0.18",
+            "0.09"
+          ],
+          "n": 20,
+          "events": 17
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.65-dense",
+      "method": "IPDfromKM",
+      "status": "failure",
+      "error": "missing value where TRUE/FALSE needed"
+    },
+    {
+      "case": "n20-hazard-b-0.65-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 1.7901309087544313e-05,
+      "scipy_p": 1.7901309087544378e-05,
+      "absolute_p_discrepancy": 6.437450399132683e-20,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 17,
+            "3": 12,
+            "4": 10,
+            "5": 7,
+            "6": 6
+          },
+          "actual_rounded_curve": [
+            "0.85",
+            "0.70",
+            "0.58",
+            "0.41",
+            "0.35",
+            "0.35"
+          ],
+          "n": 20,
+          "events": 12
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": true,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "2": 9,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "actual_rounded_curve": [
+            "0.45",
+            "0.15",
+            "0.00",
+            "0.00",
+            "0.00",
+            "0.00"
+          ],
+          "n": 20,
+          "events": 20
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.65-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.00018951928498317394,
+      "scipy_p": 0.0001895192849831734,
+      "absolute_p_discrepancy": 5.421010862427522e-19,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 22,
+            "4": 12
+          },
+          "actual_rounded_curve": [
+            "0.86",
+            "0.72",
+            "0.62",
+            "0.46",
+            "0.46",
+            "0.46"
+          ],
+          "n": 22,
+          "events": 11
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": true,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 0
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.15",
+            "0.00",
+            "0.00",
+            "0.00",
+            "0.00"
+          ],
+          "n": 20,
+          "events": 20
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n20-hazard-b-0.65-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 1.9781281293714574e-05,
+      "scipy_p": 1.9781281293714635e-05,
+      "absolute_p_discrepancy": 6.098637220230962e-20,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 20,
+            "4": 10
+          },
+          "actual_rounded_curve": [
+            "0.85",
+            "0.69",
+            "0.58",
+            "0.41",
+            "0.35",
+            "0.35"
+          ],
+          "n": 20,
+          "events": 12
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": true,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 20,
+            "4": 0
+          },
+          "actual_rounded_curve": [
+            "0.45",
+            "0.15",
+            "0.00",
+            "0.00",
+            "0.00",
+            "0.00"
+          ],
+          "n": 20,
+          "events": 20
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.18-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.8678942927318632,
+      "scipy_p": 0.8678942927318631,
+      "absolute_p_discrepancy": 1.1102230246251565e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 38,
+            "2": 32,
+            "3": 19,
+            "4": 18,
+            "5": 14,
+            "6": 14
+          },
+          "actual_rounded_curve": [
+            "0.84",
+            "0.63",
+            "0.63",
+            "0.56",
+            "0.56",
+            "0.40"
+          ],
+          "n": 44,
+          "events": 20
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 38,
+            "2": 31,
+            "3": 26,
+            "4": 20,
+            "5": 17,
+            "6": 15
+          },
+          "actual_rounded_curve": [
+            "0.82",
+            "0.71",
+            "0.60",
+            "0.54",
+            "0.51",
+            "0.37"
+          ],
+          "n": 44,
+          "events": 22
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.18-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.9271960318297983,
+      "scipy_p": 0.9271960318297983,
+      "absolute_p_discrepancy": 0.0,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 40,
+            "2": 28,
+            "3": 15,
+            "4": 14,
+            "5": 12,
+            "6": 12
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.59",
+            "0.59",
+            "0.51",
+            "0.51",
+            "0.29"
+          ],
+          "n": 40,
+          "events": 22
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 40,
+            "2": 27,
+            "3": 22,
+            "4": 16,
+            "5": 13,
+            "6": 11
+          },
+          "actual_rounded_curve": [
+            "0.80",
+            "0.68",
+            "0.56",
+            "0.49",
+            "0.45",
+            "0.29"
+          ],
+          "n": 40,
+          "events": 23
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.18-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.9281695053295115,
+      "scipy_p": 0.9281695053295115,
+      "absolute_p_discrepancy": 0.0,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 36,
+            "4": 14
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.58",
+            "0.58",
+            "0.49",
+            "0.49",
+            "0.49"
+          ],
+          "n": 40,
+          "events": 16
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 37,
+            "4": 16
+          },
+          "actual_rounded_curve": [
+            "0.81",
+            "0.69",
+            "0.55",
+            "0.48",
+            "0.42",
+            "0.42"
+          ],
+          "n": 40,
+          "events": 18
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.18-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.9244876102991515,
+      "scipy_p": 0.9244876102991515,
+      "absolute_p_discrepancy": 0.0,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 14
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.59",
+            "0.59",
+            "0.50",
+            "0.50",
+            "0.30"
+          ],
+          "n": 40,
+          "events": 22
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 16
+          },
+          "actual_rounded_curve": [
+            "0.80",
+            "0.67",
+            "0.55",
+            "0.48",
+            "0.44",
+            "0.30"
+          ],
+          "n": 40,
+          "events": 23
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.32-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.16643146132612135,
+      "scipy_p": 0.16643146132612163,
+      "absolute_p_discrepancy": 2.7755575615628914e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 37,
+            "2": 29,
+            "3": 25,
+            "4": 17,
+            "5": 12,
+            "6": 9
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.68",
+            "0.51",
+            "0.42",
+            "0.35",
+            "0.27"
+          ],
+          "n": 40,
+          "events": 25
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 38,
+            "2": 32,
+            "3": 22,
+            "4": 5,
+            "5": 4,
+            "6": 4
+          },
+          "actual_rounded_curve": [
+            "0.84",
+            "0.61",
+            "0.28",
+            "0.22",
+            "0.22",
+            "0.17"
+          ],
+          "n": 41,
+          "events": 29
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.32-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.07312554380621152,
+      "scipy_p": 0.07312554380621133,
+      "absolute_p_discrepancy": 1.8041124150158794e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 40,
+            "2": 29,
+            "3": 25,
+            "4": 17,
+            "5": 12,
+            "6": 9
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.67",
+            "0.51",
+            "0.42",
+            "0.35",
+            "0.27"
+          ],
+          "n": 40,
+          "events": 26
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 40,
+            "2": 31,
+            "3": 21,
+            "4": 9,
+            "5": 6,
+            "6": 5
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.59",
+            "0.25",
+            "0.17",
+            "0.17",
+            "0.10"
+          ],
+          "n": 40,
+          "events": 33
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.32-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.07971377062507394,
+      "scipy_p": 0.07971377062507376,
+      "absolute_p_discrepancy": 1.8041124150158794e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 39,
+            "4": 17
+          },
+          "actual_rounded_curve": [
+            "0.77",
+            "0.66",
+            "0.51",
+            "0.42",
+            "0.36",
+            "0.28"
+          ],
+          "n": 40,
+          "events": 25
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 9
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.59",
+            "0.24",
+            "0.16",
+            "0.16",
+            "0.16"
+          ],
+          "n": 40,
+          "events": 32
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.32-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.057361767435455055,
+      "scipy_p": 0.05736176743545474,
+      "absolute_p_discrepancy": 3.122502256758253e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 17
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.68",
+            "0.52",
+            "0.43",
+            "0.36",
+            "0.25"
+          ],
+          "n": 40,
+          "events": 26
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 39,
+            "4": 9
+          },
+          "actual_rounded_curve": [
+            "0.82",
+            "0.59",
+            "0.24",
+            "0.16",
+            "0.16",
+            "0.11"
+          ],
+          "n": 40,
+          "events": 33
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.65-dense",
+      "method": "IPDfromKM",
+      "status": "failure",
+      "error": "missing value where TRUE/FALSE needed"
+    },
+    {
+      "case": "n40-hazard-b-0.65-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 8.496034422275186e-09,
+      "scipy_p": 8.496034422275152e-09,
+      "absolute_p_discrepancy": 3.474158572722716e-23,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 39,
+            "2": 29,
+            "3": 21,
+            "4": 17,
+            "5": 11,
+            "6": 10
+          },
+          "actual_rounded_curve": [
+            "0.85",
+            "0.64",
+            "0.52",
+            "0.43",
+            "0.39",
+            "0.39"
+          ],
+          "n": 40,
+          "events": 21
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 40,
+            "2": 11,
+            "3": 4,
+            "4": 1,
+            "5": 1,
+            "6": 0
+          },
+          "actual_rounded_curve": [
+            "0.33",
+            "0.12",
+            "0.03",
+            "0.03",
+            "0.00",
+            "0.00"
+          ],
+          "n": 40,
+          "events": 38
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.65-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 1.431918378823005e-05,
+      "scipy_p": 1.4319183788230082e-05,
+      "absolute_p_discrepancy": 3.218725199566341e-20,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 18
+          },
+          "actual_rounded_curve": [
+            "0.85",
+            "0.64",
+            "0.52",
+            "0.43",
+            "0.43",
+            "0.43"
+          ],
+          "n": 41,
+          "events": 21
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": true,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 40,
+            "4": 1
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.13",
+            "0.03",
+            "0.03",
+            "0.00",
+            "0.00"
+          ],
+          "n": 40,
+          "events": 40
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n40-hazard-b-0.65-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 7.83716459390993e-09,
+      "scipy_p": 7.837164593909863e-09,
+      "absolute_p_discrepancy": 6.617444900424221e-23,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 38,
+            "4": 17
+          },
+          "actual_rounded_curve": [
+            "0.84",
+            "0.65",
+            "0.52",
+            "0.43",
+            "0.39",
+            "0.39"
+          ],
+          "n": 40,
+          "events": 21
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 39,
+            "4": 1
+          },
+          "actual_rounded_curve": [
+            "0.33",
+            "0.11",
+            "0.03",
+            "0.03",
+            "0.00",
+            "0.00"
+          ],
+          "n": 40,
+          "events": 38
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.18-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.036031247304061986,
+      "scipy_p": 0.03603124730406212,
+      "absolute_p_discrepancy": 1.3183898417423734e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 61,
+            "2": 57,
+            "3": 57,
+            "4": 20,
+            "5": 19,
+            "6": 17
+          },
+          "actual_rounded_curve": [
+            "0.93",
+            "0.93",
+            "0.56",
+            "0.53",
+            "0.47",
+            "0.42"
+          ],
+          "n": 82,
+          "events": 32
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 76,
+            "2": 63,
+            "3": 46,
+            "4": 33,
+            "5": 25,
+            "6": 17
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.64",
+            "0.53",
+            "0.44",
+            "0.35",
+            "0.25"
+          ],
+          "n": 80,
+          "events": 51
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.18-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.07023836900731927,
+      "scipy_p": 0.07023836900731933,
+      "absolute_p_discrepancy": 6.938893903907228e-17,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 80,
+            "2": 73,
+            "3": 55,
+            "4": 37,
+            "5": 34,
+            "6": 31
+          },
+          "actual_rounded_curve": [
+            "0.94",
+            "0.76",
+            "0.55",
+            "0.51",
+            "0.46",
+            "0.39"
+          ],
+          "n": 80,
+          "events": 45
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 78,
+            "2": 63,
+            "3": 46,
+            "4": 33,
+            "5": 25,
+            "6": 17
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.65",
+            "0.52",
+            "0.43",
+            "0.34",
+            "0.24"
+          ],
+          "n": 80,
+          "events": 52
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.18-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.04123269806835521,
+      "scipy_p": 0.04123269806835529,
+      "absolute_p_discrepancy": 8.326672684688674e-17,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 76,
+            "4": 37
+          },
+          "actual_rounded_curve": [
+            "0.93",
+            "0.93",
+            "0.55",
+            "0.50",
+            "0.45",
+            "0.45"
+          ],
+          "n": 80,
+          "events": 36
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 76,
+            "4": 33
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.64",
+            "0.53",
+            "0.43",
+            "0.34",
+            "0.23"
+          ],
+          "n": 80,
+          "events": 49
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.18-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.08896956310595786,
+      "scipy_p": 0.08896956310595816,
+      "absolute_p_discrepancy": 3.0531133177191805e-16,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 80,
+            "4": 37
+          },
+          "actual_rounded_curve": [
+            "0.94",
+            "0.76",
+            "0.55",
+            "0.51",
+            "0.46",
+            "0.39"
+          ],
+          "n": 80,
+          "events": 45
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 33
+          },
+          "actual_rounded_curve": [
+            "0.83",
+            "0.65",
+            "0.52",
+            "0.43",
+            "0.34",
+            "0.24"
+          ],
+          "n": 80,
+          "events": 52
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.32-dense",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 1.9239137037870743e-05,
+      "scipy_p": 1.923913703787051e-05,
+      "absolute_p_discrepancy": 2.337810934421869e-19,
+      "compatibility": {
+        "a": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 81,
+            "2": 55,
+            "3": 28,
+            "4": 23,
+            "5": 20,
+            "6": 16
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.60",
+            "0.49",
+            "0.43",
+            "0.34",
+            "0.32"
+          ],
+          "n": 81,
+          "events": 35
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 77,
+            "2": 49,
+            "3": 34,
+            "4": 18,
+            "5": 6,
+            "6": 5
+          },
+          "actual_rounded_curve": [
+            "0.64",
+            "0.44",
+            "0.29",
+            "0.16",
+            "0.13",
+            "0.11"
+          ],
+          "n": 81,
+          "events": 65
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.32-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.0007493509332999142,
+      "scipy_p": 0.0007493509332999105,
+      "absolute_p_discrepancy": 3.686287386450715e-18,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 79,
+            "2": 54,
+            "3": 39,
+            "4": 30,
+            "5": 23,
+            "6": 18
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.60",
+            "0.49",
+            "0.41",
+            "0.34",
+            "0.30"
+          ],
+          "n": 80,
+          "events": 48
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 80,
+            "2": 48,
+            "3": 33,
+            "4": 17,
+            "5": 9,
+            "6": 6
+          },
+          "actual_rounded_curve": [
+            "0.63",
+            "0.44",
+            "0.27",
+            "0.14",
+            "0.11",
+            "0.09"
+          ],
+          "n": 80,
+          "events": 68
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.32-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 0.0001337042329861976,
+      "scipy_p": 0.0001337042329861974,
+      "absolute_p_discrepancy": 1.8973538018496328e-19,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 30
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.60",
+            "0.49",
+            "0.41",
+            "0.35",
+            "0.35"
+          ],
+          "n": 80,
+          "events": 42
+        },
+        "b": {
+          "sample_size_match": false,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 20
+          },
+          "actual_rounded_curve": [
+            "0.65",
+            "0.46",
+            "0.30",
+            "0.18",
+            "0.15",
+            "0.15"
+          ],
+          "n": 83,
+          "events": 62
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.32-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 0.0007377287995395573,
+      "scipy_p": 0.0007377287995395585,
+      "absolute_p_discrepancy": 1.1926223897340549e-18,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 79,
+            "4": 30
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.60",
+            "0.48",
+            "0.40",
+            "0.34",
+            "0.30"
+          ],
+          "n": 80,
+          "events": 48
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 17
+          },
+          "actual_rounded_curve": [
+            "0.64",
+            "0.45",
+            "0.27",
+            "0.14",
+            "0.11",
+            "0.09"
+          ],
+          "n": 80,
+          "events": 68
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.65-dense",
+      "method": "IPDfromKM",
+      "status": "failure",
+      "error": "missing value where TRUE/FALSE needed"
+    },
+    {
+      "case": "n80-hazard-b-0.65-dense",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 2.4366959478694794e-14,
+      "scipy_p": 2.4366959478694078e-14,
+      "absolute_p_discrepancy": 7.162857019406787e-28,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 79,
+            "2": 56,
+            "3": 42,
+            "4": 30,
+            "5": 23,
+            "6": 18
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.60",
+            "0.46",
+            "0.38",
+            "0.32",
+            "0.21"
+          ],
+          "n": 80,
+          "events": 55
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 80,
+            "2": 26,
+            "3": 6,
+            "4": 3,
+            "5": 1,
+            "6": 0
+          },
+          "actual_rounded_curve": [
+            "0.35",
+            "0.08",
+            "0.04",
+            "0.01",
+            "0.00",
+            "0.00"
+          ],
+          "n": 80,
+          "events": 78
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.65-sparse",
+      "method": "IPDfromKM",
+      "status": "success",
+      "r_p": 5.731022442570593e-07,
+      "scipy_p": 5.731022442570576e-07,
+      "absolute_p_discrepancy": 1.6940658945086007e-21,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 77,
+            "4": 30
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.61",
+            "0.46",
+            "0.38",
+            "0.31",
+            "0.22"
+          ],
+          "n": 80,
+          "events": 53
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": false,
+          "discrete_support_match": true,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 3
+          },
+          "actual_rounded_curve": [
+            "1.00",
+            "0.08",
+            "0.04",
+            "0.01",
+            "0.00",
+            "0.00"
+          ],
+          "n": 80,
+          "events": 80
+        }
+      },
+      "same_discrete_release_compatible": false
+    },
+    {
+      "case": "n80-hazard-b-0.65-sparse",
+      "method": "CIFresolve",
+      "status": "success",
+      "r_p": 1.3760531396137382e-14,
+      "scipy_p": 1.3760531396136942e-14,
+      "absolute_p_discrepancy": 4.401843851133246e-28,
+      "compatibility": {
+        "a": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": true,
+          "rounded_curve_match": false,
+          "actual_risks": {
+            "1": 80,
+            "4": 30
+          },
+          "actual_rounded_curve": [
+            "0.78",
+            "0.61",
+            "0.46",
+            "0.40",
+            "0.33",
+            "0.21"
+          ],
+          "n": 80,
+          "events": 55
+        },
+        "b": {
+          "sample_size_match": true,
+          "event_total_match": true,
+          "discrete_support_match": false,
+          "risk_counts_match": false,
+          "rounded_curve_match": true,
+          "actual_risks": {
+            "1": 79,
+            "4": 3
+          },
+          "actual_rounded_curve": [
+            "0.35",
+            "0.08",
+            "0.04",
+            "0.01",
+            "0.00",
+            "0.00"
+          ],
+          "n": 80,
+          "events": 78
+        }
+      },
+      "same_discrete_release_compatible": false
+    }
+  ]
+}
