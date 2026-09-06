@@ -1,0 +1,190 @@
+{
+  "denominator_preparations": 221,
+  "biological_models": 1,
+  "reported_followup_ic50_entries": 24,
+  "confirmed_proteasome_preparations": 4,
+  "confirmed_active_moieties": 3,
+  "confirmed_chemical_families": 2,
+  "unresolved_candidates": 1,
+  "quartile_midrank_cutoff": 55.25,
+  "proteasome_candidates": [
+    {
+      "source_row": "31",
+      "cas": "179324-69-7",
+      "source_name": "Bortezomib (PS-341)",
+      "cell_viability_percent": "13.615285912111077",
+      "reported_sd_percent": "11.931955331393794",
+      "mean_midrank": 15.0,
+      "mean_plus_sd": 25.54724124350487,
+      "mean_plus_sd_midrank": 19.0,
+      "rank_denominator": 221,
+      "role": "confirmed_proteasome_direct",
+      "active_moiety": "bortezomib",
+      "chemical_family": "peptide_boronic_acid",
+      "reported_ic50_nM": "135.0",
+      "ic50_source_name": "Bortezomib"
+    },
+    {
+      "source_row": "41",
+      "cas": "868540-17-4",
+      "source_name": "Carfilzomib (PR-171)",
+      "cell_viability_percent": "23.575521197260922",
+      "reported_sd_percent": "1.4432177658074252",
+      "mean_midrank": 24.0,
+      "mean_plus_sd": 25.018738963068348,
+      "mean_plus_sd_midrank": 17.0,
+      "rank_denominator": 221,
+      "role": "confirmed_proteasome_direct",
+      "active_moiety": "carfilzomib",
+      "chemical_family": "peptide_epoxyketone",
+      "reported_ic50_nM": null,
+      "ic50_source_name": null
+    },
+    {
+      "source_row": "111",
+      "cas": "1072833-77-2",
+      "source_name": "Ixazomib (MLN2238)",
+      "cell_viability_percent": "12.842859502242312",
+      "reported_sd_percent": "2.3376062403923075",
+      "mean_midrank": 14.0,
+      "mean_plus_sd": 15.18046574263462,
+      "mean_plus_sd_midrank": 10.0,
+      "rank_denominator": 221,
+      "role": "confirmed_proteasome_direct",
+      "active_moiety": "ixazomib",
+      "chemical_family": "peptide_boronic_acid",
+      "reported_ic50_nM": null,
+      "ic50_source_name": null
+    },
+    {
+      "source_row": "112",
+      "cas": "1239908-20-3",
+      "source_name": "Ixazomib citrate",
+      "cell_viability_percent": "16.764045559396948",
+      "reported_sd_percent": "1.9723077941540799",
+      "mean_midrank": 17.0,
+      "mean_plus_sd": 18.736353353551028,
+      "mean_plus_sd_midrank": 12.0,
+      "rank_denominator": 221,
+      "role": "confirmed_proteasome_prodrug",
+      "active_moiety": "ixazomib",
+      "chemical_family": "peptide_boronic_acid",
+      "reported_ic50_nM": "3511.0",
+      "ic50_source_name": "Ixazomib citrate"
+    },
+    {
+      "source_row": "113",
+      "cas": "1201902-80-8",
+      "source_name": "Ixazomib Citrate (MLN9708)",
+      "cell_viability_percent": "21.929033323593295",
+      "reported_sd_percent": "4.675212480784609",
+      "mean_midrank": 22.0,
+      "mean_plus_sd": 26.604245804377904,
+      "mean_plus_sd_midrank": 20.0,
+      "rank_denominator": 221,
+      "role": "unresolved_proteasome_candidate_identity",
+      "active_moiety": null,
+      "chemical_family": null,
+      "reported_ic50_nM": "1982.0",
+      "ic50_source_name": "Ixazomib"
+    }
+  ],
+  "active_moieties": [
+    {
+      "active_moiety": "bortezomib",
+      "preparations": [
+        "179324-69-7"
+      ],
+      "worst_mean_rank": 15.0,
+      "worst_stress_rank": 19.0,
+      "all_preparations_lowest_quartile": true
+    },
+    {
+      "active_moiety": "carfilzomib",
+      "preparations": [
+        "868540-17-4"
+      ],
+      "worst_mean_rank": 24.0,
+      "worst_stress_rank": 17.0,
+      "all_preparations_lowest_quartile": true
+    },
+    {
+      "active_moiety": "ixazomib",
+      "preparations": [
+        "1072833-77-2",
+        "1239908-20-3"
+      ],
+      "worst_mean_rank": 17.0,
+      "worst_stress_rank": 12.0,
+      "all_preparations_lowest_quartile": true
+    }
+  ],
+  "chemical_families": [
+    {
+      "chemical_family": "peptide_boronic_acid",
+      "cas": [
+        "179324-69-7",
+        "1072833-77-2",
+        "1239908-20-3"
+      ],
+      "active_moieties": [
+        "bortezomib",
+        "ixazomib"
+      ],
+      "worst_rank": 17.0,
+      "leave_family_out_remaining_moieties": [
+        "carfilzomib"
+      ],
+      "leave_family_out_remaining_low_quartile": 1
+    },
+    {
+      "chemical_family": "peptide_epoxyketone",
+      "cas": [
+        "868540-17-4"
+      ],
+      "active_moieties": [
+        "carfilzomib"
+      ],
+      "worst_rank": 24.0,
+      "leave_family_out_remaining_moieties": [
+        "bortezomib",
+        "ixazomib"
+      ],
+      "leave_family_out_remaining_low_quartile": 3
+    }
+  ],
+  "stop_rule_checks": {
+    "all_confirmed_moiety_worst_ranks_in_lowest_quartile": true,
+    "at_least_two_confirmed_chemical_families": true,
+    "no_unresolved_candidate_identity_affecting_complete_membership": false,
+    "leave_each_family_out_retains_lowest_quartile_observation": true
+  },
+  "descriptive_complete_family_claim_supported": false,
+  "stop_reason": "Unresolved exact identity for CAS1201902-80-8 prevents a complete identity-resolved class claim; known-subset low-rank consistency remains observable.",
+  "sensitivity": {
+    "assign_ambiguous_entry_to_ixazomib_all_lowest_quartile": true,
+    "keep_ambiguous_entry_separate_all_lowest_quartile": true,
+    "confirmed_mean_plus_sd_all_lowest_quartile": true,
+    "all_named_candidates_mean_plus_sd_lowest_quartile": true
+  },
+  "followup": {
+    "candidate_cas_present": [
+      "179324-69-7",
+      "1239908-20-3",
+      "1201902-80-8"
+    ],
+    "candidate_cas_absent": [
+      "868540-17-4",
+      "1072833-77-2"
+    ],
+    "note": "Selected follow-up table; not independent validation. Names retained next to CAS to expose the MLN9708/Ixazomib mismatch."
+  },
+  "rows_outside_zero_to_100": 51,
+  "limits": [
+    "NCC assay exposure and replicate definition unknown",
+    "SD stress is not a confidence bound",
+    "No biological replicate, target engagement, selectivity or clinical efficacy inference",
+    "No quantitative Zurich comparison",
+    "Retrospective selected-family description; no novel target discovery claim"
+  ]
+}

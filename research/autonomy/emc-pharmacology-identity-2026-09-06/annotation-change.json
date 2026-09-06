@@ -1,0 +1,49 @@
+{
+  "before": {
+    "cas": "1201902-80-8",
+    "source_name": "Ixazomib Citrate (MLN9708)",
+    "source_row": 113,
+    "role": "unresolved_proteasome_candidate_identity",
+    "active_moiety": null,
+    "chemical_family": null,
+    "preparation": "source-labelled Ixazomib Citrate (MLN9708)",
+    "sources": [
+      "identity-search-evidence.json",
+      "pubchem-49867936.json",
+      "pubchem-56844015.json"
+    ],
+    "note": "PubChem CID49867936 differs in connectivity from regulatory citrate CID56844015. Source screen labels citrate/MLN9708 whereas IC50 table calls it Ixazomib. Purchased compound identity and equivalence unresolved; only a sensitivity may assign it to ixazomib.",
+    "name_group_candidates": [
+      "ixazomib"
+    ]
+  },
+  "after": {
+    "cas": "1201902-80-8",
+    "source_name": "Ixazomib Citrate (MLN9708)",
+    "source_row": 113,
+    "role": "source_annotated_proteasome_analogue",
+    "active_moiety": null,
+    "chemical_family": "boronic_acid_ester_lineage",
+    "preparation": "S2181 ixazomib citrate analogue; distinct six-member boronate connectivity",
+    "sources": [
+      "identity-search-evidence.json",
+      "pubchem-49867936.json",
+      "pubchem-56844015.json",
+      "amendment-evidence/NCC-MOESM4.xlsx!A113:F113",
+      "https://www.selleckchem.com/products/MLN9708.html",
+      "https://www.selleckchem.com/datasheet/MLN9708-S218103-DataSheet.html"
+    ],
+    "note": "Current catalogue identity resolved. Analogue-specific potency and conversion to ixazomib are not established; not a fourth validated active moiety.",
+    "name_group_candidates": [
+      "ixazomib"
+    ],
+    "catalogue_source_row": 113,
+    "catalogue_id": "S2181",
+    "catalogue_source_name": "Ixazomib Citrate (MLN9708)",
+    "source_target": "Proteasome",
+    "source_pathway": "Proteases",
+    "provider": "Selleck  Chemicals"
+  },
+  "family_label_change": "peptide_boronic_acid renamed boronic_acid_ester_lineage to accommodate explicit ester preparations; two broad families remain, not three.",
+  "source_names": "Exact MOESM5 source_name and separate exact MOESM4 catalogue_source_name retained; MOESM6 CAS1201902-80-8 remains labelled Ixazomib."
+}
