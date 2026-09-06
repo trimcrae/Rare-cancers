@@ -1,0 +1,120 @@
+{
+  "id": "EVID-CSPG4-PRIMARY-TISSUE-2026-09-06",
+  "date": "2026-09-06",
+  "last_verified": "2026-09-06",
+  "base_revision": "7305b159b97d3345f6d2e3fb2fa718b0b2d35ec1",
+  "sources": [
+    {
+      "id": "leuci_main",
+      "citation": "Leuci 2020",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7710537/",
+      "source_file": "leuci_main.response",
+      "sha256": "bc8dc378bab7d36a1b109b87a9ff38e8cde351dc2768d1280ff2539808bee2de",
+      "bytes": 249160,
+      "inspected": "Methods, Results and Figure 1",
+      "observed_excerpt": "UPS n=3, GIST n=5, Liposarcoma n=4, Leiomyosarcoma n=2, MPNST n=1",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "Flow: 15 patient-derived cultures of those histologies plus HT1080 fibrosarcoma. RNA: 251 TCGA samples (LMS99, DDLPS58, UPS/MFH/high-grade spindle50, MFS25, MPNST9, synovial10). No EMC in either disclosed cohort.",
+      "completeness": "Disclosed cohorts inspected; supplements not inspected.",
+      "emc_protein_validation": false
+    },
+    {
+      "id": "cattaruzza_main",
+      "citation": "Cattaruzza 2013",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3656611/",
+      "source_file": "cattaruzza_main.response",
+      "sha256": "7887c5c23c70183b600b87f1b0ff322a6d10de9531894bb6a37edd237c834f4f",
+      "bytes": 251393,
+      "inspected": "Results and Figures 1-2 captions",
+      "observed_excerpt": "NG2 was predominantly associated with the tumour cells (as well as decorating pericytes of the neovasculature)",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "Figure 1 lists MFH-like pleomorphic sarcoma, LMS, liposarcoma variants, fibrosarcoma, synovial sarcoma. NG2 immunolabeling on neoplastic cells and neovasculature; Figure 2 identifies pericyte staining within NG2-negative tumor-cell xenografts. Supports possible perivascular contribution in other sarcomas, not EMC cell origin.",
+      "completeness": "Supplementary Table S1 NOT inspected. Full count and exhaustive subtype scope unverified; no inference that EMC is absent.",
+      "emc_protein_validation": false
+    },
+    {
+      "id": "boudin_main",
+      "citation": "Boudin 2022",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9552405/",
+      "source_file": "boudin_main.response",
+      "sha256": "e5542e25185b60cea13006de3d700e91c29b68cdc4b4998e8f09122dbc98004a",
+      "bytes": 265869,
+      "inspected": "Methods, Table 1, Results",
+      "observed_excerpt": "343 cancer cell lines including four sarcoma cell lines",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "1,378 pooled bulk-RNA clinical specimens; Table 1 groups 177 as other. Separate cancer-cell-line RNA/protein correlation does not establish EMC tissue protein.",
+      "completeness": "Other subtype breakdown NOT inspected; EMC inclusion/exclusion not inferred.",
+      "emc_protein_validation": false
+    },
+    {
+      "id": "geldres_main",
+      "citation": "Geldres 2014",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3944408/",
+      "source_file": "geldres_main.response",
+      "sha256": "cf62664f99c3cc064c053f6a729861cf939ba943d63911824f91e6601250a2b1",
+      "bytes": 199765,
+      "inspected": "Results, Figure 1 discussion",
+      "observed_excerpt": "multiple sarcoma types (chondrosarcoma, leiomyosarcoma, liposarcoma)",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "Sarcoma evidence comes from expression databases; disclosed IHC series concerns melanoma, breast cancer, HNSCC, neuroblastoma, mesothelioma. No verified EMC protein.",
+      "completeness": "Bittner sample metadata not inspected.",
+      "emc_protein_validation": false
+    },
+    {
+      "id": "nota_main",
+      "citation": "Nota 2022",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9468862/",
+      "source_file": "nota_main.response",
+      "sha256": "79ad55cf15644ca4cf29a95daa4ff2e22cf96778b374da81fee9cae37a98e468",
+      "bytes": 195189,
+      "inspected": "Primary patient-selection paragraph",
+      "observed_excerpt": "52 cases of diagnosed conventional chondrosarcoma ranging from grade 1-3 and 24 cases of dedifferentiated chondrosarcoma",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "76-patient bone-chondrosarcoma cohort, not EMC.",
+      "completeness": "Cohort inclusion paragraph inspected.",
+      "emc_protein_validation": false
+    },
+    {
+      "id": "benassi_europepmc",
+      "citation": "Benassi 2009, PMID 18634019",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:18634019%20AND%20SRC:MED&format=json&resultType=core",
+      "source_file": "benassi_europepmc.response",
+      "sha256": "6f084d8d9507e9d4b2a1035674b190ba28e966bb6b26b4ca862cfc5729fa8d08",
+      "bytes": 6665,
+      "inspected": "Primary abstract via Europe PMC core API",
+      "observed_excerpt": "an abundant but nonuniform in situ expression of its product",
+      "excerpt_confirmed_in_saved_source": true,
+      "finding": "Abstract describes high-grade STS NG2 RNA and nonuniform in situ protein. Does not disclose subtype table. Review-derived subtype counts not accepted as primary verification.",
+      "completeness": "Primary subtype table NOT inspected; EMC inclusion/exclusion unresolved.",
+      "emc_protein_validation": false
+    }
+  ],
+  "conclusion": "No EMC-specific protein or spatial/cell-specific RNA measurement verified in bounded search. This is not proof of absence.",
+  "exact_remaining_gaps": [
+    "Cattaruzza 2013 Supplementary Table S1: full patient/subtype counts remain uninspected.",
+    "Benassi 2009 primary subtype table: full subtype scope uninspected."
+  ],
+  "novelty_constraint": "Coordinator independently verified original GSE28866 CSPG4 peak46886 annotation MLS_EMC_. Not recomputed here; do not claim first discovery of EMC-linked CSPG4 RNA.",
+  "implication": "Independent diagnosis-confirmed EMC tissue measurement with separate malignant-cell membrane and perivascular scoring remains necessary. No therapeutic window, efficacy, tumor-cell origin or paper-readiness claim.",
+  "execution": {
+    "worker": "/root/cspg4_evidence",
+    "reasoning_effort": "medium assigned",
+    "model": "inherited; runtime model identifier not independently exposed",
+    "permissions": "danger-full-access, approval never",
+    "writes": "Only reserved output folder",
+    "tests": "No tests or expression analysis",
+    "commits": false,
+    "outreach": false,
+    "paid_services": false
+  },
+  "recovery_stop": "Observed publisher/PMC links and public source APIs exhausted in bounded recovery; no access-control bypass.",
+  "search_queries": [
+    "CSPG4 \"extraskeletal myxoid chondrosarcoma\"",
+    "NG2 \"extraskeletal myxoid chondrosarcoma\"",
+    "HMW-MAA sarcoma immunohistochemistry chondrosarcoma",
+    "\"extraskeletal myxoid chondrosarcoma\" \"MCSP\" OR \"melanoma-associated\" OR \"NG-2\"",
+    "\"10.1002/jor.20694\" pdf Benassi",
+    "\"mjt010\" \"supplementary\" pdf",
+    "\"NG2 expression predicts\" repository"
+  ]
+}
