@@ -82,7 +82,7 @@ UNMEASURED_VERDICTS = frozenset({
 
 
 def _et(ts):
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
 
 
 def _z(ts):

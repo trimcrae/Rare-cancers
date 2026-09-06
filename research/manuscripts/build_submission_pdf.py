@@ -77,6 +77,30 @@ LANDSCAPE_MIN_COLS = 8
 _TABLES_IN_COLUMN = False
 
 PAPERS = {
+    "surface-tissue-rna": {
+        "footer_text": "Not peer reviewed.",
+        "supplementary_presentation": {
+            "main_suffix": "-preprint.pdf",
+            "relation": "accompanies",
+            "running_title": "EMC tissue RNA: supplementary information",
+            "preserve_source_filenames": True,
+        },
+        "manuscript": "surface-targets/emc-tissue-rna-prioritization.md",
+        "supplementary": "surface-targets/emc-tissue-rna-prioritization-si.md",
+        "tables": None,
+        "references": None,
+        "stamp_sources": (
+            "surface-targets/emc-tissue-rna-prioritization.md",
+            "surface-targets/emc-tissue-rna-prioritization-si.md",
+            "surface-targets/plot_emc_tissue_rna.py",
+        ),
+        "figures": {"Figure 1.": "surface-tissue-rna-figure1.svg",
+                    "Figure 2.": "surface-tissue-rna-figure2.svg"},
+        "journal": {"article_type": "Research article", "section": "",
+                    "preprint_note": "Research manuscript; not peer reviewed."},
+        "layout": {"tables_in_column": True},
+        "out": "surface-targets/emc-tissue-rna-prioritization.pdf",
+    },
     #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
     #: It carries its own references and tables companions and no supplementary file.
     "aso-journal": {
@@ -2306,6 +2330,8 @@ def handling_footers(paper):
     paper that has a canonical orderable file; when there is none the two lengths are the same
     string, and `print_pdf` skips the second render rather than grafting a page onto itself.
     """
+    if "footer_text" in paper:
+        return paper["footer_text"], paper["footer_text"]
     orderable = order_from(paper)
     if not orderable:
         return FOOTER_SHORT, FOOTER_SHORT
@@ -2622,7 +2648,10 @@ def build_supplementary(paper, html_only=False):
     src = paper.get("supplementary")
     if not src:
         return 0
-    body = apply_deposit_filenames(strip_frontmatter(read(src)), paper, "supplementary")
+    si_options = paper.get("supplementary_presentation", {})
+    body = strip_frontmatter(read(src))
+    if not si_options.get("preserve_source_filenames"):
+        body = apply_deposit_filenames(body, paper, "supplementary")
     title_m = re.search(r"^#\s+(.*)$", body, re.M)
     title = re.sub(r"[*_`]", "", title_m.group(1)) if title_m else "Supplementary Information"
     #: ⛔ THE SI DID NOT NAME ITS OWN PAPER AND DID NOT SAY IT WAS UN-REFEREED (blind screen,
@@ -2633,10 +2662,13 @@ def build_supplementary(paper, html_only=False):
     #: paper's own masthead declaration rather than restated here.
     article_title = re.search(r"^#\s+(.*)$", strip_frontmatter(read(paper["manuscript"])), re.M)
     article_pdf = deposit_filenames(paper)[os.path.basename(paper["manuscript"])]
+    if si_options.get("main_suffix"):
+        article_pdf = os.path.basename(paper["out"]).replace(".pdf", si_options["main_suffix"])
+    relation = si_options.get("relation", "deposited as")
     front_block = (
         '<p class="sitrace">Supplementary Information to <span class="of">'
         + inline(article_title.group(1)) + "</span>"
-        + (f' — deposited as <code>{_html.escape(article_pdf)}</code>' if article_pdf else "")
+        + (f' — {_html.escape(relation)} <code>{_html.escape(article_pdf)}</code>' if article_pdf else "")
         + ".</p>"
         + f'<p class="version">{_html.escape(paper.get("journal", {}).get("preprint_note", ""))}'
         + f' · {_html.escape(provenance_line(paper, "supplementary"))}</p>')
@@ -2670,8 +2702,9 @@ def build_supplementary(paper, html_only=False):
         "/Creator": "build_submission_pdf.py (supplementary), Chromium print-to-PDF",
         "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
     }
-    print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
-              if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
+    running_title = si_options.get("running_title") or (
+        declared_running_title(body) if re.search(r"running[- ]title", body, re.I) else title[:60])
+    print_pdf(chrome, html_path, pdf_path, running_title, meta,
               headings=headings_of(page), footers=handling_footers(paper))
     #: ⛔ THE SI WAS THE ONE BUILT PDF WITH NO BUILD STAMP (round 14 seat 4). Four of the five PDFs
     #: in `aso/` carry `<name>.build-stamp.json` and the staleness gate reads it; the SI carried

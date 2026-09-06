@@ -1,0 +1,9 @@
+<unknown>:454: SyntaxWarning: invalid escape sequence '\s'
+wrote research\manuscripts\aso\fusion-junction-aso-archive-manifest.json: 516 files, 50.746 MiB
+⛔ LOCAL_ONLY REVISION: cf99d16fb773 resolves here but no remote-tracking ref contains it, so it exists only in this clone.
+  Every deposited PDF prints this sha as its provenance line and the deposit's own step 1
+  is `git checkout` it. A rebase before the push rewrites any commit that is not already on
+  origin, so this manifest is one `git push` away from naming a commit no clone can
+  resolve — and nothing downstream can tell, because an orphaned sha is still a well-formed
+  sha.
+  ⭐ Fetch and rebase FIRST, then regenerate: `git fetch origin && git rebase origin/main && python3 research/manuscripts/aso_archive_manifest.py`. That records a commit that is already on origin, which no later rebase can rewrite. If the push then races, rebase and regenerate again — a retry alone re-pushes the dead sha.

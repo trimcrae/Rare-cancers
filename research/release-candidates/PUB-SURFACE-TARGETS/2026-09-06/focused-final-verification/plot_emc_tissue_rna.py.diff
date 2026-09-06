@@ -1,0 +1,11 @@
+--- frozen/research/manuscripts/surface-targets/plot_emc_tissue_rna.py
++++ final/research/manuscripts/surface-targets/plot_emc_tissue_rna.py
+@@ -73,7 +73,7 @@
+     ax.axvline(.5,color='black',ls='--',lw=.9);ax.axvline(full,color='#2166ac',alpha=.35,lw=.8);ax.set_yticks(range(len(labels2)),labels2);ax.invert_yaxis();ax.set_xlim(0,1);ax.set_xlabel('Year-matched equal-histology A');ax.set_title('B  Sequencing-year deletion sensitivity',loc='left');ax.spines[['top','right']].set_visible(False)
+     for ext in ['pdf','png','svg']:fig.savefig(output/('surface-tissue-rna-figure2.'+ext),bbox_inches='tight')
+     plt.close(fig)
+-    record={'git_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=HERE,text=True).strip(),'inputs':provenance,'matplotlib':matplotlib.__version__,'numpy':np.__version__,'figures':{p.name:sha(p) for p in output.glob('surface-tissue-rna-figure*')},'scope':'descriptive source values and completed estimates; no uncertainty bars in these figures'}
++    record={'git_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=HERE,text=True).strip(),'inputs':provenance,'matplotlib':matplotlib.__version__,'numpy':np.__version__,'figures':{p.name:sha(p) for p in output.glob('surface-tissue-rna-figure*') if p.suffix in {'.pdf','.png','.svg'}},'scope':'descriptive source values and completed estimates; no uncertainty bars in these figures'}
+     (output/'surface-tissue-rna-figure-provenance.json').write_text(json.dumps(record,indent=2)+'\n')
+ if __name__=='__main__':
+     a=argparse.ArgumentParser();a.add_argument('--render',action='store_true');a.add_argument('--output',type=Path,default=HERE.parent/'figures');v=a.parse_args()

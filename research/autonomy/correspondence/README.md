@@ -138,3 +138,5 @@ sends for reconciliation and avoid repeatedly polling an unchanged access proble
 
 
 September 6 follow-through: the two requests in pharmacotyping-requests-2026-09-06.json were also sent once and their actual Sent records verified. There are now four tracked research requests. Reconcile all four through the private ledger and followthrough.json; do not duplicate any request. NCC received a methods-only request acknowledging the recovered public tables; Zurich received one combined 2023/2026 data and model-crosswalk request.
+
+September 6 atlas follow-through: the focused Hofvander cohort-overlap and batch-metadata request in hofvander-request-2026-09-06.json was sent once and its actual Sent recipient, subject and body verified. Five research requests are now tracked privately. This clarification does not pause manuscript work.

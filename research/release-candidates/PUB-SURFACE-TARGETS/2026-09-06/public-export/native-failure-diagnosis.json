@@ -1,0 +1,73 @@
+{
+  "run": "10representativetests,10failed,211.72seconds; freshuniquePYTEST_DEBUG_TEMPROOT andTEMP; exactconfiguredruntime",
+  "artifact_diff_findings": [
+    {
+      "module": "aso_gap_length_tradeoff",
+      "diff_count": 1,
+      "differences": [
+        {
+          "path": "/thresholds/min_contiguous_dna_nt_for_rnaseh1/anchor_file",
+          "kind": "value",
+          "old": "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+          "new": "research\\manuscripts\\aso\\lit-targets-aso-gap-length.json"
+        }
+      ]
+    },
+    {
+      "module": "decoy_null_provenance",
+      "diff_count": 3,
+      "differences": [
+        {
+          "path": "/arms/0/artifact",
+          "kind": "value",
+          "old": "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json",
+          "new": "results\\nr4a3-decoy\\-mmgbsa\\nr4a3-mmgbsa.json"
+        },
+        {
+          "path": "/arms/1/artifact",
+          "kind": "value",
+          "old": "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json",
+          "new": "results\\nr4a3-decoy\\-mmgbsa-ms\\nr4a3-mmgbsa.json"
+        },
+        {
+          "path": "/arms/2/artifact",
+          "kind": "value",
+          "old": "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json",
+          "new": "results\\nr4a3-decoy\\-mmgbsa-metad-ms\\nr4a3-mmgbsa.json"
+        }
+      ]
+    },
+    {
+      "module": "nr4a3_short_linker_probe",
+      "error": "ValueError('Invalid format string')"
+    },
+    {
+      "module": "sufex_second_handle",
+      "diff_count": 1,
+      "differences": [
+        {
+          "path": "/map_edits_required/verification/verified_against",
+          "kind": "value",
+          "old": "research/manuscripts/nr4a3-program-map.md",
+          "new": "research\\manuscripts\\nr4a3-program-map.md"
+        }
+      ]
+    }
+  ],
+  "causes": {
+    "test_aso_gap_length_tradeoff": "Only1JSONleafdiff: anchor_file path slash→backslash. No numericdiff. Fix producer719serialization toPOSIX.",
+    "test_decoy_null_provenance": "Only3JSONleafdiffs: arm artifactpaths slash→backslash. No numericdiff. Fix os.path.relpath serialization78 toPOSIX.",
+    "test_deepternary_blind_controls": "Actualtraceback expected data/PROTAC/protac22.txt; nativebackslashreturned. Fixproducer109toPOSIX.",
+    "test_fusion_neoantigen_invalidation": "Consumerpaths containbackslashes; expected hla_coverage.py slashpath missing onlybyspelling. Producers237/300 use os.path.relpath unnormalized.",
+    "test_junction_seam_retraction": "Stagedtoolimports successfully then fails _now374 strftime(%-I) withValueError Invalidformatstring onWindows. Portablehourformat needed; stageddependencycontract notmissing. Secondidempotencetest notrerun; same_nowcalledby sweep.",
+    "test_nrv04_retro_hold_and_protocol": "Representativefixture failure ModuleNotFoundError urllib3; runtime dependency, notheldunitlogic. No realnetworkfleetoperation performed.",
+    "test_nrv04_retro_launch": "Representativefixture failure ModuleNotFoundError urllib3; runtime dependency, notreplacerlogic.",
+    "test_one_geometry_screen_loading": "discovering_modules204 emits str(relative_to) nativebackslashes; ALLOWED usesPOSIXpaths, so all3registeredexceptions falselylookmissing. Normalize logicalrecordpaths, do notremove validexceptions. Scanner also walksignored.cache and twiceatcollection, causingcost; notafailureofCSPG4science.",
+    "test_short_linker_probe": "_et80 strftime(%-I) raises onWindows beforecomparison. Artifactdriftnotestablished.",
+    "test_sufex_second_handle": "Only1JSONleafdiff: map_edits_required.verification.verified_against nativebackslashes instead ofPOSIX. Normalize sharedmapverificationproducer; no numericdiff."
+  },
+  "CSPG4_relation": "None of10representatives tests atlascorekernels/HofvanderRNAresults/arrayrankestimand. These are ASO/proteinmodel/neoantigen/retrofleet branches or repositoryscanner. Allobservedfailures are Windowsportability or missingruntimepackage; no CSPG4scientificregression identified. This is not a waiver ofexistingchecks.",
+  "suggested_remedy": "Existing configuredLinuxCI can resolve platformpath/strftimebehavior without rewriting scientificartifacts; ensure actualurllib3/runtime transitive dependencies installed. For Windowsport, fixes are logicalpath.as_posix andportablehourformat plusruntimeurllib3. Do not regenerate committedartifacts toencodeWindows paths or loosen assertions.",
+  "tracked_edits": "none; gitstatus--untracked-files=no empty atcheckpoint",
+  "limits": "Representative1testper10files only. Broaderfamilycounts notclaimed; Linuxpass nottested. Nofullsuite rerun."
+}

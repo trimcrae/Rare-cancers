@@ -78,6 +78,7 @@ def _publication(pub_id, at=None):
 def _read(rel, at=None):
     """File bytes now, or as of a commit. `None` when it does not exist there."""
     if at:
+        rel = rel.replace("\\", "/")  # Git object paths use '/', including on Windows.
         r = subprocess.run(["git", "-C", ROOT, "show", "%s:%s" % (at, rel)],
                            capture_output=True)
         return r.stdout if r.returncode == 0 else None
@@ -90,6 +91,7 @@ def _read(rel, at=None):
 
 def _listing(directory, at=None):
     if at:
+        directory = directory.replace("\\", "/")
         r = subprocess.run(["git", "-C", ROOT, "ls-tree", "--name-only", "%s:%s" % (at, directory)],
                            capture_output=True, text=True)
         return [] if r.returncode else [n for n in r.stdout.split("\n") if n]

@@ -1,0 +1,37 @@
+{
+  "candidate": "5c95a428",
+  "base": "3ffcb419",
+  "scope": "Read-only source/archive history audit: 10 commits,255 touched paths,9 distinct ZIP/HTML/XLSX blobs,467 recursively inventoried archive members. Not a universal legal or secret-scan certification.",
+  "required_export_change": [
+    {
+      "outer_path": "research/autonomy/atlas-prior-art-2026-09-06/original-source-audit.zip",
+      "member_to_omit": "prame-publisher.html",
+      "sha256": "cb490fdfeecc6357a632c92ea022add86a8011fa86f8a52e89dec126306c6a41",
+      "bytes": 380377,
+      "reason": "Copied publisher subscription-preview page with abstract/references and exclusive-rights notice; no established broad redistribution basis. Not paywalled full article.",
+      "minimal_method": "Create a separate public export archive retaining every other source member unchanged; add export receipt outside archive identifying original outer/member hashes and omission. Keep original archive/history locally."
+    }
+  ],
+  "nested_duplicates": [],
+  "nested_duplicate_scope": "No copy of that member in scanned supplement/review archives or other historical archive versions. All changed source/archive paths enumerated across ten commits, not only HEAD.",
+  "retain": [
+    "Standalone PRAME original factual XLSX: public supplement, distinct from publisher prose; no separate CC grant established, but no prohibition finding.",
+    "Standalone citation-anchors.json and extracted factual PRAME rows, exact DOI/source URLs/hashes.",
+    "All unchanged manuscript, SI, combined PDF, figures, portable public supplement ZIP, frozen science and replay input-lock sources.",
+    "Hofvander original XML with actual CC-BY-NC-ND4.0 attribution; deposited data CC-BY4.0 separately.",
+    "HPA source-specific CC-BY4.0 and third-party caveat; GEO accession/source attribution and applicable NCBI terms, no blanket CC assignment."
+  ],
+  "verification_effects": [
+    "Core replay input-lock does not require prior-art original-source-audit.zip or original PRAME XLSX; scientific replay input hashes unchanged.",
+    "Changing archive bytes changes source audit/inventory hash references. Do not rewrite historical review-input manifests as if the original audit read this filtered archive. Add public-export source mapping/receipt and preserve historical receipt.",
+    "ultra-review/context_verify.py and finalize_review.py directly read original-source-audit.zip, with finalize_review.py expecting prame-publisher.html. These are historical review scripts; exact rerun requires local original or source retrieval. Public export must document this, not claim full historical-review hermeticity.",
+    "Keeping citation-anchors.json prevents dropping exact article title/DOI/abstract retrieval anchors. NCBI/EuropePMC bibliographic records are not assigned a blanket license here."
+  ],
+  "private_content_findings": [
+    "No private-key, OpenAI-key, GitHub-token or JWT-format hits in scanned archived text. No raw model session transcript members identified. Narrow pattern scan, not proof every possible secret absent.",
+    "Tracked correspondence records contain public professional addresses, outbound research request body, operational statuses and a local private-evidence directory path. Inspected record states credentials encrypted outside Git; no secret value in those records. No inbound confidential correspondence found in inspected changed correspondence records."
+  ],
+  "source_url": "https://doi.org/10.1007/s00428-023-03606-6",
+  "evidence_locator": "prame-publisher.html: subscription-preview notice; Rights and permissions exclusive-rights paragraph immediately following supplement links",
+  "recommended_public_export": "Separate snapshot based on local3ff retaining original5c history locally. Remove only actual publisher-preview member, add explicit export manifest/hash mapping, run Linux verification against new candidate. No need to remove factual workbook merely for lacking CC."
+}

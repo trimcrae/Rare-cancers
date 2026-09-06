@@ -42,7 +42,7 @@ DEFAULT_MAX_AGE_MIN = 10.0
 
 
 def _et(ts: datetime.datetime) -> str:
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y")
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ")
 
 
 def check(path: str, max_age_min: float, now: datetime.datetime | None = None) -> tuple[bool, str]:

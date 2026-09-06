@@ -140,7 +140,7 @@ def _et(iso):
     if not iso:
         return "—"
     dt = datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).astimezone(_ET)
-    return dt.strftime("%-I:%M %p ET")
+    return dt.strftime("%I:%M %p ET").lstrip("0")
 
 
 def analyse(cur, prev=None, total_units=None, now_iso=None, hang_min=25.0):

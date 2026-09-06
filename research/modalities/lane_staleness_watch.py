@@ -201,7 +201,7 @@ class LaneState:
 
 
 def _et(ts: datetime.datetime | None) -> str | None:
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
 
 
 def _z(ts: datetime.datetime | None) -> str | None:

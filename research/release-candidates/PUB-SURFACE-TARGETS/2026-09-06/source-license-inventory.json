@@ -1,0 +1,72 @@
+{
+  "scope": "Source-access/attribution statements, not legal advice or determination of permitted redistribution. No universal license assigned to mixed-source bundle.",
+  "records": [
+    {
+      "source": "Hofvander2026 author data v1.0.1",
+      "access": "public repository/Zenodo deposit",
+      "recorded_license": "CC-BY-4.0",
+      "evidence": "research/autonomy/atlas-hofvander-source-2026-09-06/zenodo17866629.json#/metadata/license/id",
+      "source_url": "https://zenodo.org/records/17866629",
+      "applies_to": "Deposited author data/software record as described; do not assign to separately published article or all ZIPmembers.",
+      "attribution": "Hofvander etal; DOI10.5281/zenodo.17866629, authorversionv1.0.1, sourcefile hashes."
+    },
+    {
+      "source": "Hofvander2026 primary article",
+      "recorded_license": "CC-BY-NC-ND-4.0",
+      "evidence": "research/autonomy/atlas-hofvander-source-2026-09-06/hofvander2026.xml .//permissions/license",
+      "source_url": "https://doi.org/10.1158/1078-0432.CCR-25-3740",
+      "applies_to": "Article license statement; original XML is also inside source-provenance.zip and prior-art archive. No conversion to CC-BY asserted.",
+      "attribution": "Authors and AACR2026; DOI retained.",
+      "limits": "Supplement-specific rights not independently inspected; do not assume the data record license supersedes publisher supplement/article terms."
+    },
+    {
+      "source": "HPA individual gene JSON/XML and metadata",
+      "recorded_license": "CC-BY-4.0 for copyrightable database parts; explicit third-party caveat",
+      "evidence": "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip!hpa-license.html",
+      "source_url": "https://www.proteinatlas.org/about/licence",
+      "version": "XMLentriesversion25; current methods/download pages25.1; Ensembl109. JSONsnapshot hashed; no silent version replacement.",
+      "attribution": "Human Protein Atlas, versioned per-geneURLs, Uhlen2015 DOI10.1126/science.1260419 and Thul2017 DOI10.1126/science.aal3321 where relevant.",
+      "limits": "No blanket license for underlying third-party data, source articles or rawGTEx. HPAconsensus annotations are not isolated GTExdonor data.",
+      "third_party_GTex_license": "Not established by inspected local sources; do not assign a GTExrelease/license. No rawGTExfiles included."
+    },
+    {
+      "source": "GEO GSE24369/GPL6244 and GSE28866 processed source files",
+      "access": "Exact public NCBIGEO downloads and accession metadata preserved",
+      "recorded_license": null,
+      "license_status": "No explicit dataset-specific reuse license or applicable GEOterms text established in the inspected packets. Publicaccess is not labelledCC-BY or universalpublicdomain.",
+      "source_urls": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369",
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244",
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28866"
+      ],
+      "attribution": "Cite accession/platform, originalstudy, exactsourceURL/hash. GSE28866methodsDOI10.1186/gb-2012-13-8-r75.",
+      "limits": "No new legal conclusion; if publication service requires an affirmative source redistribution license, obtain exact applicable terms rather than infer from access."
+    },
+    {
+      "source": "Cammareri2023 PRAME article and originalXLSX",
+      "access": "Publisher abstract and directly linked public supplement recovered",
+      "recorded_license": null,
+      "evidence": "research/autonomy/atlas-prior-art-2026-09-06/original-source-audit.zip!prame-publisher.html, Rights and permissions",
+      "source_url": "https://doi.org/10.1007/s00428-023-03606-6",
+      "publisher_statement": "SpringerNature or licensor holds exclusive rights under publishing agreement; no openCCreuse license was established for theXLSX.",
+      "attribution": "Cammareri etal2023, VirchowsArchiv483:145\u2013156; Supplement1Sheet1rows128\u2013132, exactsourceSHA.",
+      "limits": "Download accessibility is recorded; it is not a universal redistribution grant. Do not label this sourceCC-BY. Preserve evidence/attribution and source-specific conditions."
+    },
+    {
+      "source": "Dulken2024 CHRNA6 citation/abstract",
+      "access": "Primary PubMed/EuropePMC abstract metadata and publisherMethods inspected",
+      "recorded_license": null,
+      "evidence": "research/autonomy/atlas-prior-art-2026-09-06/citation-anchors.json; original-source-audit.zip!dulken2024.json",
+      "source_url": "https://doi.org/10.1016/j.modpat.2024.100464",
+      "limits": "Metadata/abstract source capture is not a retrieved fullarticlelicense. No universal articlelicense assigned."
+    }
+  ],
+  "mixed_archives": [
+    "Hofvander source-provenance.zip contains publisherarticle/supplement source bytes alongside authorrepository metadata.",
+    "Original-array source-recovery.zip contains GEO-derived, repository-authored and historical files.",
+    "HPA original-source-packet.zip contains database data, documentation and repository-authored extracts.",
+    "PRAME prior-art original-source-audit.zip contains publisherarticle HTML/XLSX, PubMedmetadata and HofvanderarticleXML."
+  ],
+  "source_bytes_reused": true,
+  "new_downloads": false
+}

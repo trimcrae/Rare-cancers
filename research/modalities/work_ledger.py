@@ -351,11 +351,11 @@ _FORBIDDEN_INPUT_TOKENS = ("bid", "price", "usd", "ceiling", "ratio", "basis", "
 # small helpers — every one of them tri-state, because ABSENT IS NEVER A LEGAL GOOD VALUE
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 def _et(ts: datetime.datetime | None) -> str | None:
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
 
 
 def _et_short(ts: datetime.datetime | None) -> str:
-    return ts.astimezone(ET).strftime("%-I:%M %p ET") if ts else "ETA unknown"
+    return ts.astimezone(ET).strftime("%I:%M %p ET").lstrip("0") if ts else "ETA unknown"
 
 
 def _z(ts: datetime.datetime | None) -> str | None:

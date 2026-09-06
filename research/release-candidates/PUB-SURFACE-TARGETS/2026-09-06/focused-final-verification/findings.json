@@ -1,0 +1,300 @@
+{
+  "schema": "focused-final-artifact-verification/1",
+  "verdict": "supported",
+  "scope": "Focused post-review verification of changed presentation artifacts, M1 repair, and final local supplementary archive; not another whole-paper review.",
+  "completed_utc": "2026-09-06T17:22:17.322919+00:00",
+  "execution_identity": {
+    "agent_path": "/root/atlas_blind_ultra",
+    "same_continuing_review_seat": true,
+    "dispatch_model": "gpt-6-astra",
+    "dispatch_reasoning_effort": "ultra",
+    "actual_serving_model_identifier": null,
+    "actual_effort_telemetry": null,
+    "qualification": "Dispatch identifiers retained from the completed independent review; no new serving-model or effort telemetry exposed."
+  },
+  "original_review": {
+    "verdict": "supported",
+    "report_path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-20260906-ultra\\review-results\\report.md",
+    "report_sha256": "78e786517aa57a9ecc56db5c797f3c79ab4f2abb9d088e13a5ee5d3782fb0893",
+    "findings_path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-20260906-ultra\\review-results\\findings.json",
+    "findings_sha256": "da6338b460c7acd44dec7a74e48cd730d85ec10742711a7ddfcb477459d2c064",
+    "input_manifest_sha256": "0af4470a94a08d593737ecb90928c841f8b86a9f5e27fdd0dd921107f17e30b6",
+    "preserved": true
+  },
+  "source_checkpoint": "8bb8c9d2945f2ae68a60455ebd0eef4ee2fb0e0b",
+  "artifact_candidate_commit": "7b673f6c73f11e754b463374501d80bfe6cb95c6",
+  "central_claim_status": "Original narrow CSPG4 tissue-validation rationale and its disclosed comparator/year limitations are unchanged; the prior scientific supported verdict transfers to these exact artifacts.",
+  "blockers": [],
+  "maintenance": [],
+  "resolved_findings": [
+    {
+      "id": "M1",
+      "status": "verified_fixed",
+      "evidence": "Provenance self-entry removed; historical record matches original review bytes; six figure files and original generation metadata are unchanged; repaired canonical script restricts hashes to PDF/PNG/SVG."
+    }
+  ],
+  "editorial": [
+    {
+      "id": "E1",
+      "status": "optional_deferred_accepted",
+      "evidence": "Explicit review-repair-disposition.json records deferral. E1 was optional and did not condition the scientific supported verdict; no new rationale or citation was invented."
+    }
+  ],
+  "checks": {
+    "root_vs_original_freeze": {
+      "files": 151,
+      "unchanged": 145,
+      "changed": [
+        {
+          "path": "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+          "old_sha256": "247a180221936ca40f54b4cf401ca7abe84b72d1b6c4c3e8ee2648af8938361b",
+          "final_sha256": "91953fcfc34aa0ae47b123a45fe6b29501ea2b056fbd6cc8d7c6447bb372e8c3"
+        },
+        {
+          "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.build-stamp.json",
+          "old_sha256": "206f818f2109d72ce39b9bec9a596dff70bf8f3f2506c2e70d1053f34eaa25a8",
+          "final_sha256": "f2211a38981eef20a269997faf01a882878e0f82a5d5fb5a4a326acf67d7a0aa"
+        },
+        {
+          "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.pdf",
+          "old_sha256": "fa618adb800aa8501ed9c0a24f90106fb40f193b0905cca47d5a3a6af7442185",
+          "final_sha256": "69a3786e7652e274239d90fc18d30306bfccf954610f75a79891c117b0c4bc99"
+        },
+        {
+          "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.pdf",
+          "old_sha256": "2ddd3deae37c7632635c68e7315d1286c07a4fa997b320a4aba539911a9dfa46",
+          "final_sha256": "e46566f4eb87b894cbbb40ddce1812c01151dcc9ce30c0aca3a643b18cf4e9da"
+        },
+        {
+          "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+          "old_sha256": "3366113fcdaa088045340f53532f087f15bf603a2331d110bd1754a1955eaa14",
+          "final_sha256": "455260bd45a60817571253d954fc42d6275e3ee53631b20f23d7f6fcbd1816d1"
+        },
+        {
+          "path": "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+          "old_sha256": "5838486e65719cb57086fec095bc267e663c721b4ddb93ffdfcc5a00f6f0ad1c",
+          "final_sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274"
+        }
+      ],
+      "unexpected_changes": 0,
+      "missing": 0,
+      "main_markdown_only_change": "Frontmatter level cross-cutting to L3",
+      "scientific_prose_unchanged": true,
+      "SI_markdown_unchanged": true
+    },
+    "PDFs": {
+      "article_pages": 7,
+      "SI_pages": 4,
+      "combined_pages": 11,
+      "combined_page_text_exact_append": true,
+      "all_page_texts_equal_to_reviewed_components_except_revision_label": true,
+      "pixel_identical_pages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11
+      ],
+      "remaining_pixel_changes": [
+        {
+          "page": 1,
+          "pixel_identical": false,
+          "difference_bbox": [
+            290,
+            187,
+            343,
+            197
+          ],
+          "image_size": [
+            849,
+            1200
+          ]
+        },
+        {
+          "page": 8,
+          "pixel_identical": false,
+          "difference_bbox": [
+            587,
+            210,
+            640,
+            220
+          ],
+          "image_size": [
+            849,
+            1200
+          ]
+        }
+      ],
+      "visual_confirmation": "Viewed final pages 1 and 8; changed pixels are confined to source-revision labels. All other pages are pixel-identical to the previously visually reviewed PDFs.",
+      "both_buildstamps_match_actual_dependencies": true
+    },
+    "package": {
+      "bytes": 95349965,
+      "members": 148,
+      "inventory_entries": 147,
+      "CRC_verified": true,
+      "member_inventory_digests_and_sizes_verified": true,
+      "packaged_original_review_files_unchanged": 139,
+      "changed_packaged_review_files": [
+        "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+        "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+        "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+      ],
+      "replay_lock_entries_verified": 76,
+      "scientific_authorization_hashes_verified": 8,
+      "adapter_code_freeze_entries_verified": 6,
+      "original_core_source_members_verified": 11,
+      "required_tables_replay_and_historical_draft_unchanged": true,
+      "PRAME_factual_cells_checked": 29,
+      "PRAME_scope": "Original publisher HTML/workbook not redistributed; factual cells match the reviewed workbook, with exact original retrieval URL and SHA256 retained.",
+      "root_copy_matches_packageworker_archive": true
+    },
+    "proposed_metadata": {
+      "title_and_abstract_match_final_MD_exactly": true,
+      "public_deposit_or_attachment_assertion_added": false
+    },
+    "after_integrity": {
+      "original_151_inputs_unchanged": true,
+      "root_151_checked_inputs_stable": true,
+      "all_bound_final_artifacts_stable": true
+    },
+    "science_rerun": false,
+    "broad_literature_search": false
+  },
+  "artifact_bindings": [
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "sha256": "455260bd45a60817571253d954fc42d6275e3ee53631b20f23d7f6fcbd1816d1",
+      "bytes": 22438
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "sha256": "81b5ace2d11e3c5ddf1e4a49becdce7d86ea9b5819f41a1415d5a923dd5d1844",
+      "bytes": 12035
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.pdf",
+      "sha256": "69a3786e7652e274239d90fc18d30306bfccf954610f75a79891c117b0c4bc99",
+      "bytes": 304794
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "sha256": "e46566f4eb87b894cbbb40ddce1812c01151dcc9ce30c0aca3a643b18cf4e9da",
+      "bytes": 262787
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.build-stamp.json",
+      "sha256": "f2211a38981eef20a269997faf01a882878e0f82a5d5fb5a4a326acf67d7a0aa",
+      "bytes": 924
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.build-stamp.json",
+      "sha256": "da4bd6687913433cc95aa4899d3c1f0da1914d41b84535830aa69cfaf9d8947b",
+      "bytes": 479
+    },
+    {
+      "path": "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+      "sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "bytes": 7217
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+      "sha256": "91953fcfc34aa0ae47b123a45fe6b29501ea2b056fbd6cc8d7c6447bb372e8c3",
+      "bytes": 2576
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf",
+      "sha256": "2b39580313d504bca3790b9c8da16e06e16e8e2a2708fb554903c3a6fad059fc",
+      "bytes": 424860
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-code-data-supplement.zip",
+      "sha256": "56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6",
+      "bytes": 95349965
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/figure-provenance-before-M1-repair.json",
+      "sha256": "247a180221936ca40f54b4cf401ca7abe84b72d1b6c4c3e8ee2648af8938361b",
+      "bytes": 2296
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/review-repair-disposition.json",
+      "sha256": "0682176935a3fc87c4024a5aebd56e858e07964e985aa8a643628672de85de8e",
+      "bytes": 956
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/final-pdf-build-receipt.json",
+      "sha256": "eaf7471207270fa714cf0df828f14c4ee19337f1634247e43aad47aa374562e9",
+      "bytes": 508
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/outgoing-pdf-verification.json",
+      "sha256": "ed6dd4954382340ab9af147b6219c0dd8e6412d969adcda9858da85f4d2affb8",
+      "bytes": 2527
+    },
+    {
+      "path": "research/manuscripts/build_submission_pdf.py",
+      "sha256": "321780223324cab4f8a799917a669e353394d5ce2103a9500062cd20445acdc4",
+      "bytes": 178734
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.pdf",
+      "sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "bytes": 37799
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.png",
+      "sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "bytes": 341601
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.svg",
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "bytes": 76890
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.pdf",
+      "sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "bytes": 27513
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.png",
+      "sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "bytes": 183499
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.svg",
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "bytes": 42295
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-package-20260906\\emc-tissue-rna-code-data-supplement-8bb8c9d.zip",
+      "sha256": "56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6",
+      "bytes": 95349965
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-package-20260906\\aixiv-metadata.proposed.json",
+      "sha256": "87721750b0c7eeab04b0c7934c59719921ad90195fc70bb81fa30f88c5a2d79d",
+      "bytes": 2915
+    }
+  ],
+  "submission_judgement": {
+    "scientific_verdict_carried_forward": "supported",
+    "final_local_PDF_and_code_data_package": "verified and ready for the coordinator delivery step",
+    "remote_ZIP_attachment_or_public_deposit_verified": false,
+    "availability_scope": "The code/data supplement exists as a verified local archive for separate delivery. No aiXiv ZIP attachment, upload success, public hosting URL or deposit DOI is asserted.",
+    "funding_COI": "Unknown author metadata unchanged; no inferred additional venue gate imposed.",
+    "repository_gate": "Latest coordinator update: full preflight intentionally interrupted after fast-stage repository-maintenance failures; generated inventory/filing repairs are outside this focused review and do not alter its artifact bindings. No full-gate pass is certified here."
+  },
+  "process_state": {
+    "focused_batch_complete": true,
+    "focused_processes_running": false,
+    "root_edits": false,
+    "publication_or_upload_actions": false,
+    "new_goal_or_recurring_review": false
+  }
+}

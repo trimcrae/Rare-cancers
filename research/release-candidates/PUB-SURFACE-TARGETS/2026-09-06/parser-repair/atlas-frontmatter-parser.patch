@@ -1,0 +1,64 @@
+diff --git a/systems/systems_check.py b/systems/systems_check.py
+index d8c4e196f..2a6ef42dd 100644
+--- a/systems/systems_check.py
++++ b/systems/systems_check.py
+@@ -1299,6 +1299,15 @@ def _frontmatter(text):
+             continue
+         k, _, v = ln.partition(":")
+         out[k.strip()] = v.strip()
++    # Compare semantic scalar values, so quoted YAML statuses/kinds obey the same
++    # rules as bare ones. Keep the legacy representation for collections and for
++    # malformed historical headers: archive ids still participate in uniqueness.
++    # This fallback is not validation; check_document_frontmatter rejects malformed
++    # live YAML and schema-invalid values independently.
++    parsed, error = _yaml_frontmatter(text)
++    if error is None and parsed is not None:
++        out.update((key, value) for key, value in parsed.items()
++                   if isinstance(key, str) and isinstance(value, str))
+     return out
+ 
+ 
+diff --git a/systems/tests/test_systems_check.py b/systems/tests/test_systems_check.py
+index b7b0e1373..db9b328b4 100644
+--- a/systems/tests/test_systems_check.py
++++ b/systems/tests/test_systems_check.py
+@@ -1610,6 +1610,39 @@ def test_a_dead_code_pointer_still_fires_after_the_external_allowance(graph):
+ # so it drifted from what the repository actually did and nobody could tell.
+ 
+ 
++@pytest.mark.parametrize("kind,status,expected", [
++    ("memo", "live", None),
++    ('"memo"', '"live"', None),
++    ("'prereg'", "'immutable'", None),
++    ('"prereg"', '"live"', "[D3]"),
++    ("memo", '"not-a-status"', "[D2]"),
++    ("memo", "not-a-status", "[D2]"),
++    ("memo", '"unterminated', "[D11]"),
++])
++def test_frontmatter_semantic_status_checks(tmp_path, monkeypatch, graph, kind, status, expected):
++    """YAML quoting neither creates a false rejection nor bypasses prereg rules."""
++    text = (f"---\nid: DOC-SEMANTIC-PROBE\ntitle: Probe\nkind: {kind}\nstatus: {status}\n"
++            "purpose: Check scalar semantics\nscope: Parser fixture\naudience: [maintainers]\n"
++            "date: 2026-09-06\nlast_verified: 2026-09-06\n---\nBody\n")
++    (tmp_path / "probe.md").write_text(text, encoding="utf-8")
++    monkeypatch.setattr(sc, "REPO", str(tmp_path))
++    monkeypatch.setattr(sc, "_pinned_targets", lambda: [])
++    monkeypatch.setattr(sc, "_instruction_paths", lambda: [])
++    f = sc.Findings()
++    sc.check_documents(graph, f)
++    sc.check_document_frontmatter(graph, f)
++    if expected:
++        assert any(expected in error for error in f.errors), f.errors
++    else:
++        assert f.errors == [], f.errors
++
++
++def test_frontmatter_retains_archive_id_on_malformed_yaml():
++    text = "---\nid: DOC-OLD-ARCHIVE\ntitle: Old: unquoted colon\n---\n"
++    assert sc._frontmatter(text)["id"] == "DOC-OLD-ARCHIVE"
++    assert sc._yaml_frontmatter(text)[1] is not None
++
++
+ def test_every_document_frontmatter_is_valid_yaml():
+     """⛔ THE HAND-ROLLED PARSER CANNOT FAIL, WHICH IS WHY 24 FILES GOT IN.
+ 

@@ -111,6 +111,27 @@ def test_a_missing_member_yields_no_digest_rather_than_a_partial_one():
     assert D.deliverable_digest("PUB-DOES-NOT-EXIST") == (None, None)
 
 
+def test_git_object_paths_accept_windows_separators_and_refuse_missing_files():
+    """Native relpath separators must not make an existing committed graph disappear."""
+    graph = "systems/graph/publications.json"
+    expected = D._read(graph, "HEAD")
+    assert expected is not None
+    assert D._read(graph.replace("/", "\\"), "HEAD") == expected
+    listing = D._listing("systems/graph", "HEAD")
+    assert "publications.json" in listing
+    assert D._listing("systems\\graph", "HEAD") == listing
+    assert D._read("systems\\graph\\absent-digest-fixture.json", "HEAD") is None
+    assert D._listing("systems\\absent-digest-fixture", "HEAD") == []
+
+
+def test_windows_graph_relpath_preserves_committed_digest(monkeypatch):
+    expected = D.deliverable_digest(PAPER, "HEAD")
+    assert expected[0] is not None
+    native_relpath = D.os.path.relpath
+    monkeypatch.setattr(D.os.path, "relpath", lambda *args: native_relpath(*args).replace("/", "\\"))
+    assert D.deliverable_digest(PAPER, "HEAD") == expected
+
+
 def test_the_digest_moves_when_the_paper_moves():
     """★ THE OTHER DIRECTION, WHICH IS THE ONE A REVIEWER SHOULD DISTRUST FIRST. An instrument that
     never changes is not stable, it is blind. Perturb one member's bytes and the digest must move.

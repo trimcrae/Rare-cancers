@@ -419,7 +419,7 @@ ACCOUNT_LANES: list[dict] = [
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 def _et(ts: datetime.datetime | None) -> str | None:
     """CLAUDE.md §1: every time reported is US Eastern, 12-hour. Converted here so no caller can forget."""
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
 
 
 def _z(ts: datetime.datetime | None) -> str | None:
