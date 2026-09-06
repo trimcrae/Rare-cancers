@@ -20,12 +20,18 @@ The user can narrow or revoke it. This record does not authorize any publication
 
 ## Current operational state
 
-Authorization is granted; transport is not configured or tested. The two messages in
-[initial-requests.json](initial-requests.json) are prepared and unsent. No external message,
-new account, mailbox inspection, data access request or running inbox monitor is claimed.
-Available tools were searched for mail and plugin search/suggestion capabilities; none
-were exposed. Browser inventory showed only an in-app browser with no tabs. A connected
-mailbox must be identified and verified before any author request is dispatched.
+On 2026-09-06 a dedicated Tuta Free mailbox was created with the user's explicit setup
+authorization. The coordinator verified an actual self-addressed send, inbox receipt and
+Sent copy, including sender identity, subject and body. Both messages in
+[initial-requests.json](initial-requests.json) were then sent once and their actual Sent
+records read back and confirmed in the shared private ledger. This establishes provider
+send evidence, not recipient delivery, a reply or data access.
+
+The existing coordinator heartbeat is active with twice-daily correspondence checks and
+routine notifications muted. This is a configured local schedule; no subsequent scheduled
+mail check is claimed yet. Account details, encrypted credentials, connection evidence and
+provider receipts remain in the private directory specified below, outside Git. See
+[operational-verification.json](operational-verification.json) for the dated public status.
 
 The [official plugin instructions](https://learn.chatgpt.com/docs/plugins) describe opening
 Plugins, selecting the relevant provider, and connecting the account when prompted.
@@ -110,7 +116,7 @@ then freeze the analysis question and rule before examining target outcomes.
 
 ## Connection and monitoring activation
 
-Once the user identifies the mailbox, connect it and verify the actual sender address,
+For a new or reconnected mailbox, connect it and verify the actual sender address,
 display identity, outgoing access, incoming access and sent-mail lookup. Use a harmless
 self-addressed connection check and preserve the real send and receive evidence. Do not
 mark the account verified based on a promise, an installed plugin or a simulated test.
@@ -126,4 +132,5 @@ checks while correspondence is pending. A local scheduled worker requires this c
 and app to be available. Preserve failed_runs_only notification policy; routine replies,
 worker completions, pending requests and unchanged checks are quiet. Notify only when
 the overall mission is completely blocked or a finished independently verified preprint
-is ready. Keep the existing research heartbeat paused while mailbox setup is pending.
+is ready. Pause sending when actual mailbox access cannot be verified; preserve uncertain
+sends for reconciliation and avoid repeatedly polling an unchanged access problem.

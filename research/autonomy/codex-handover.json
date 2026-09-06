@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Implement authorized autonomous EMC research correspondence; two source-verified requests are queued pending a dedicated verified sender mailbox. Scientific data dependency remains; no preprint ready.",
+  "priority": "Continue authorized autonomous correspondence for the highest-ranked EMC atlas route. Both source-verified requests are sent through a verified dedicated mailbox; assess replies and data provenance. No new preprint is ready.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -25,19 +25,21 @@
     "next_action": "ASO preparation is complete; follow aso_submission for the frozen package and remaining author action."
   },
   "schedule": {
-    "status": "PAUSED",
+    "status": "ACTIVE",
     "automation_id": "emc-research-coordinator",
     "kind": "thread heartbeat",
-    "interval_minutes": 5,
+    "interval_minutes": 720,
     "first_scheduled_run": "20260905T032612Z-df96afc413",
     "prerequisite_satisfied_by": "20260904T223902Z-8460640638",
     "requires": "Local machine and Codex application available",
     "target_thread_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
     "validation": "Actual heartbeat produced a collected, independently verified scientific result; normal integration preflight passed.",
     "trigger_evidence": "research/autonomy/cycle-outcomes/20260905T032612Z-df96afc413/scheduled-trigger.json",
-    "nominal_interval_minutes": 360,
-    "pacing_reason": "User removed usage pacing and authorized reset credits as needed; continuous fresh-worker iteration resumes now.",
-    "pause_reason": "Await a verified dedicated mailbox; correspondence is authorized. Avoid redundant research wakeups while the actual data and transport dependencies remain."
+    "nominal_interval_minutes": 720,
+    "pacing_reason": "Twice-daily pending-correspondence checks; avoid unchanged source retries.",
+    "pause_reason": null,
+    "correspondence_activated_utc": "2026-09-06T13:19:31.541030+00:00",
+    "correspondence_validation": "Automation tool update succeeded; saved active status, 12-hour interval and failed_runs_only policy verified. Manual mailbox check executed; no subsequent scheduled mail check observed yet."
   },
   "integration": {
     "status": "settled_and_verified",
@@ -97,7 +99,7 @@
     "next_action": "Await Qeios posting. Verify the actual version URL and typeset content when available. Do not resubmit while pending.",
     "does_not_authorize_NAT_submission": true
   },
-  "last_updated_utc": "2026-09-06T07:35:39.505036+00:00",
+  "last_updated_utc": "2026-09-06T13:19:31.541030+00:00",
   "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
   "researcher_improvements": {
     "status": "implemented_scheduled_science_verified",
@@ -186,9 +188,9 @@
     "verification": "research\\autonomy\\fusion-source-recovery-2026-09-05\\verification.json"
   },
   "current_execution_dependency": {
-    "utc": "2026-09-06T02:08:29.926826+00:00",
-    "status": "Fixed-panel sample/organ experiment integrated and verified; CSPG4 exact-source subtype-table recovery is the active science.",
-    "next_action": "Integrate experiment then assess recovered tissue cohort evidence; no bulk trial labels or broad target inventory.",
+    "utc": "2026-09-06T13:19:31.541030+00:00",
+    "status": "Mailbox setup and both initial author sends verified. Scientific independent EMC measurement/comparator dependency remains unresolved.",
+    "next_action": "Twice-daily tracked correspondence checks; handle routine replies under the standing grant and delegate scientific assessment when new usable evidence arrives.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -751,12 +753,12 @@
     "integration_receipt": "research/autonomy/cspg4-browser-source-2026-09-06/integration-receipt.json"
   },
   "mission_impasse_audit": {
-    "condition": "Current ranked portfolio lacks the external validation/source measurements needed for a useful new independently verified preprint. Named public source routes are exhausted for these leads; concrete data requests are prepared but unsent. Further progress requires a specific new source, data-holder response, or authorized outreach.",
+    "condition": "The scientific external-validation dependency remains. Authorized outreach has now progressed: verified mailbox, both requests sent and scheduled follow-through active. Waiting for responses does not itself establish a completely blocked overall mission.",
     "consecutive_goal_turns": 3,
-    "status": "Historical goal tool block retained. User has now granted routine outreach authority; setup is in progress, with mailbox connection still missing. Do not reuse prior three-turn audit for this new setup state.",
+    "status": "Historical goal-tool blocked state retained; correspondence setup and initial dispatch are complete. Do not reuse the historical three observations for the current correspondence state.",
     "evidence": "research/autonomy/portfolio-2026-09-05/current-evidence-impasse-2026-09-06.md",
     "not_a_usage_or_approval_limit": true,
-    "last_checked_utc": "2026-09-06T07:35:39.505036+00:00",
+    "last_checked_utc": "2026-09-06T13:19:31.541030+00:00",
     "observations": [
       {
         "utc": "2026-09-06T07:33:36.438506+00:00",
@@ -838,7 +840,7 @@
     "integration_receipt": "research/autonomy/ngo-emc-source-2026-09-06/integration-receipt.json"
   },
   "external_data_requests": {
-    "status": "authorized and queued; neither sent; awaiting verified mailbox",
+    "status": "both initial requests sent; awaiting responses",
     "file": "research/autonomy/portfolio-2026-09-05/emc-data-requests-2026-09-06.md",
     "targets": [
       "Zullow2022 sevenEMC processed measurements and sample/comparator provenance",
@@ -846,18 +848,21 @@
     ],
     "authorization": "User approved the standing autonomous correspondence proposal on 2026-09-06: Do it. See research_correspondence in publication-authority.json. No per-message approval required.",
     "scientific_limit": "Data access permits feasibility assessment, not a promise of publishable results.",
-    "verification": "Published recipients checked against original article correspondence; requested assets match verified source gaps. Normal settled check passed; no message sent.",
-    "sending_capability": "No mail connector or signed-in browser mailbox found. Address/provider requested; no account configured or send/receive test performed.",
+    "verification": "Independent scope/source review completed. Each exact outgoing request reserved once, sent once and verified by actual Sent message, recipients, subject and body; private receipts and ledger hold provider IDs.",
+    "sending_capability": "Dedicated Tuta mailbox via documented in-app browser controls; actual self-send, receive and Sent lookup verified. Credentials and provider receipts are private outside Git.",
     "queue": "research/autonomy/correspondence/initial-requests.json",
     "procedure": "research/autonomy/correspondence/README.md"
   },
   "correspondence_setup": {
     "authorization": "granted",
-    "recorded_utc": "2026-09-06T11:48:31.935214+00:00",
-    "transport": "not_configured",
-    "send_receive_verified": false,
-    "requests_sent": 0,
+    "recorded_utc": "2026-09-06T13:19:31.541030+00:00",
+    "transport": "verified_Tuta_browser_mailbox",
+    "send_receive_verified": true,
+    "requests_sent": 2,
     "monitor_running": false,
-    "next_action": "Identify and connect the dedicated mailbox; test actual send/receive, then send queued requests and activate quiet follow-through without reapproval."
+    "next_action": "Read tracked replies and delivery failures at scheduled checks; restrained followup only when due. No individual approval or further mailbox setup required.",
+    "scheduled_checks_enabled": true,
+    "subsequent_scheduled_run_observed": false,
+    "operational_verification": "research/autonomy/correspondence/operational-verification.json"
   }
 }
