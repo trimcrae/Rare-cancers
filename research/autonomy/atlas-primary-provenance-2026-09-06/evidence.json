@@ -1,0 +1,150 @@
+{
+  "decision": {
+    "C3": "partial_only_orientation_resolved",
+    "C12": "unresolved_with_new_case_links",
+    "valid_independent_EMC_DFSP_contrast": false,
+    "conditional_smallest_contrast": "GPL3290 tenEMC versus threeDFSP normalized tumor/reference ratios",
+    "missing_evidence_is": "unknown, not duplication or futility"
+  },
+  "claims": [
+    {
+      "id": "C3-orientation",
+      "status": "resolved",
+      "finding": "All36 RNA records have Cy3 ch1 and Cy5 ch2; GPL3290 subset10EMC3DFSP3GIST.",
+      "source": "GSE4303.soft.gz",
+      "pointer": "Each ^SAMPLE block: !Sample_type, !Sample_label_ch1, !Sample_label_ch2, !Sample_title, !Sample_platform_id; see gsm-platform-evidence.json",
+      "quote": "!Sample_label_ch1 = Cy3",
+      "sha256": "228f80e4cd78f7ecdfd4433e86c01bcd1a01fe558cdb1d6ba76e9d659e89c294"
+    },
+    {
+      "id": "C3-value",
+      "status": "resolved",
+      "finding": "Normalized log2 red/green mean ratio, not absolute tumor intensity.",
+      "source": "GSE4303.soft.gz",
+      "pointer": "Each GSM !Sample_data_processing and #VALUE field description",
+      "sha256": "228f80e4cd78f7ecdfd4433e86c01bcd1a01fe558cdb1d6ba76e9d659e89c294"
+    },
+    {
+      "id": "C3-reference",
+      "status": "unresolved_conflicting_descriptions",
+      "finding": "CRH and CRH-mRNA are labels, not proven reference equivalence. Stratagene versus11cell pool descriptions remain unbridged; UHR is separate.",
+      "sources": [
+        {
+          "file": "web-path1792-methods.json",
+          "pointer": "Subramanian expression microarray methods",
+          "quote": "obtained from Stratagene",
+          "sha256": "3e0503e431122168a99caa56a85322f5815f3d4c5c94c7333f0a0eec46d6bd0e"
+        },
+        {
+          "file": "linn.html",
+          "pointer": "Materials and Methods, expression profiling paragraph before data selection; not Array CGH",
+          "quote": "The reference mRNA was isolated from a pool of 11 cell lines.",
+          "sha256": "564f96c9df6f0fff320876fa59eb7508daab47129c5bc5949c319b945bb8f050"
+        }
+      ],
+      "unknown": [
+        "Exact CRH batch composition",
+        "Meaning of CRH vs CRH-mRNA",
+        "Bridge/normalization across reference batches",
+        "UHR composition for these specific records"
+      ]
+    },
+    {
+      "id": "C12-2005",
+      "status": "partial_specimen_links",
+      "finding": "Nine base labels agree with author Table1; STT3714 vsSTT3696 conflicts; STT2528 recurrence, suffix(2) meaning unknown; ten unique patients unverified.",
+      "sources": [
+        {
+          "file": "table1.htm",
+          "pointer": "Table1 ten clinical rows",
+          "sha256": "16c76d12ab4e0ab1676521b861a8786febc8b0425c84e7dbc15ace4f8e9684dd"
+        },
+        {
+          "file": "GSE4303.soft.gz",
+          "pointer": "GSM98509 STT3714 and GSM98513 STT2528(2)",
+          "sha256": "228f80e4cd78f7ecdfd4433e86c01bcd1a01fe558cdb1d6ba76e9d659e89c294"
+        }
+      ],
+      "unknown": [
+        "EMC array procurement institutions",
+        "Patient versus lesion identity",
+        "Unmatched sample crosswalk"
+      ],
+      "caution": "Identical clinical attributes for STT2003/STT3697 are not proof of duplicate patients."
+    },
+    {
+      "id": "C12-dfsp",
+      "status": "linked_specimen_labels",
+      "finding": "STT3126,STT3068,STT3053 link to Linn Table1. Four procurement institutions described globally, no per-case assignment.",
+      "source": "linn.html",
+      "pointer": "Materials and Methods tumor collection and Table1",
+      "sha256": "564f96c9df6f0fff320876fa59eb7508daab47129c5bc5949c319b945bb8f050"
+    },
+    {
+      "id": "C12-legacy",
+      "status": "partial_new_provenance",
+      "finding": "2017 primary reuses six Moller2011 EMC controls, S1cases46\u201351. Four cases have earlier publication case links, but no EMC1\u20136 mapping.",
+      "sources": [
+        {
+          "file": "web-2017-controls-provenance-2.json",
+          "pointer": "Patients and tumor samples / GGE methods, prior published6EMC with reference7",
+          "sha256": "ee53f00a2c12c63628f91a218adc7140685c33cac84221fe5c9a4b4ce37ddd9e"
+        },
+        {
+          "file": "2017-controls-table.xlsx",
+          "pointer": "Blad1 rows48\u201353 (case46\u201351); Publishedj columnU; footnotej",
+          "sha256": "f16e530c1bc8d8b9090d6533e8ade49625217f9a8fe86ab4432264b57a181d07"
+        }
+      ],
+      "links": [
+        {
+          "case2017": 46,
+          "mitelman_ref": 9736,
+          "prior_case": 3
+        },
+        {
+          "case2017": 47,
+          "mitelman_ref": 9736,
+          "prior_case": 5
+        },
+        {
+          "case2017": 48,
+          "mitelman_ref": 9736,
+          "prior_case": 4
+        },
+        {
+          "case2017": 49,
+          "mitelman_ref": 9736,
+          "prior_case": 7
+        }
+      ],
+      "unknown": [
+        "EMC1\u20136 to2017cases46\u201351",
+        "Individual procurement sites",
+        "Relationship to GSE4303"
+      ]
+    },
+    {
+      "id": "C12-9736",
+      "status": "bibliography_resolved_methods_not_recovered",
+      "finding": "Mitelman9736 resolves to Panagopoulos2002 PMID12378528 DOI10.1002/gcc.10127; publisher403 and Lund abstract only.",
+      "source": "mitelman-9736-details.html",
+      "pointer": "Title, Authors,Year and PubMed link; ref_details?refno=9736",
+      "sha256": "eec345f0201ea567dd6498a1d3928b898a8767c990f6cace638c7b859a5abb19"
+    },
+    {
+      "id": "C12-pcr",
+      "status": "resolved_assay_distinction",
+      "finding": "Two additional EMC were RT-PCR-only; not independent array validation.",
+      "source": "ccr-supplement.pdf",
+      "pointer": "Supplement page5 RNA extraction for gene expression analysis and RT-PCR",
+      "sha256": "da56a8ed5ac75a5bae517cd9fff99975d3122de4acb94650abe2b615d42d2704"
+    }
+  ],
+  "next_experiment": {
+    "name": "reference-channel diagnostic",
+    "samples": "13 candidate arrays;3UHR/GIST separately labelled controls",
+    "purpose": "Falsify practical reference compatibility using rawCy3 quality/reference profiles; cannot prove identical pool from correlation",
+    "not_performed": true
+  }
+}

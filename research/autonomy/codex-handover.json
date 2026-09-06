@@ -12,7 +12,7 @@
     "finding": "No live manuscript writer found. Ownerless in_progress labels are stale task state, not live ownership. Remaining owned workflow rows are compute monitors."
   },
   "coordinator": "Codex task 01a071e4-d344-7053-b429-7bdfc963c8c2; one local clone",
-  "priority": "Targeted atlas primary-source recovery for an independent GSE4303 EMC-versus-DFSP contrast; bulk trial labeling paused after completed frozen allocation test.",
+  "priority": "Empirical fixed-panel GSE28866 sample/peak and adult-organ contrasts with protocol check; finish named provenance recovery. Bulk trial labeling paused.",
   "writing_run": {
     "status": "completed",
     "run_id": "20260904T223902Z-8460640638",
@@ -186,8 +186,8 @@
   },
   "current_execution_dependency": {
     "utc": "2026-09-06T02:08:29.926826+00:00",
-    "status": "Frozen trial experiment integrated and byte-verified in coordinator and source main; atlas provenance worker confirmed running.",
-    "next_action": "Collect and independently verify named atlas provenance evidence; do not resume bulk trial labels.",
+    "status": "Fixed12-target GSE28866 computation running; primary provenance packet verified and awaiting normal integration gate.",
+    "next_action": "Integrate provenance and independently check actual sample/organ computation when delivered.",
     "no_preprint_ready": true
   },
   "worker_permission_policy": {
@@ -336,7 +336,7 @@
   },
   "atlas_primary_provenance": {
     "utc": "2026-09-06T02:08:29.926826+00:00",
-    "status": "running; verified live agent inventory",
+    "status": "completed; coordinator source verified; normal gate passed; integrating",
     "agent": "/root/atlas_provenance",
     "worktree": "C:/Users/mcrae/.codex/worktrees/atlas-provenance-20260906/EMC-Research",
     "base_revision": "7305b159b97d3345f6d2e3fb2fa718b0b2d35ec1",
@@ -344,7 +344,9 @@
     "write_scope": "research/autonomy/atlas-primary-provenance-2026-09-06",
     "question": "Can primary reference/channel and specimen provenance support an independent within-study GSE4303 EMC-versus-DFSP contrast?",
     "limits": "Named primary-source recovery only; no new broad inventory, expression reprocessing or target rankings.",
-    "actual_permissions": "Worker confirmed injected danger-full-access and approval never; downloads and writes executed without escalation."
+    "actual_permissions": "Worker confirmed injected danger-full-access and approval never; downloads and writes executed without escalation.",
+    "result": "All36 RNA orientations and10EMC/3DFSP common-platform membership resolved; reference composition and cohort independence remain unresolved. Four legacy case publication links recovered.",
+    "verification": "research\\autonomy\\atlas-primary-provenance-2026-09-06\\coordinator-verification.json"
   },
   "goal_turn_audit": {
     "utc": "2026-09-06T02:14:39.621844+00:00",
@@ -352,5 +354,33 @@
     "evidence": "Completed portable trial integration at d95044ed94e6fd5c012488a015a508884dbc7c8c; independently verified 21 changed file bytes; updated allocation and released completed worker reservation.",
     "current_live_handle": "/root/atlas_provenance",
     "completion": "No preprint package exists for this development prospect; goal remains active."
+  },
+  "atlas_sample_organ": {
+    "utc": "2026-09-06T02:24:09.423136+00:00",
+    "status": "running fixed computation after coordinator protocol review",
+    "agent": "/root/atlas_sample_organ",
+    "worktree": "C:/Users/mcrae/.codex/worktrees/atlas-sample-organ-20260906/EMC-Research",
+    "base_revision": "95b30a620c45f459463a032a2044b253112b2d4a",
+    "resource": "paper:PUB-SURFACE-TARGETS:sample-organ",
+    "write_scope": "research/autonomy/atlas-sample-organ-2026-09-06/",
+    "panel": [
+      "CHRNA6",
+      "CD276",
+      "SSTR2",
+      "PRAME",
+      "FAP",
+      "CD248",
+      "CSPG4",
+      "MSLN",
+      "L1CAM",
+      "GPC3",
+      "ALPP",
+      "CDH17"
+    ],
+    "method_review": "Coordinator read original/amendment, verified final digest; missing annotation/replicate/coverage clarifications resolved before target contrasts. No ultra readiness review.",
+    "independence": "Unresolved; no independent tissue or finished atlas claim",
+    "basis": "research/autonomy/portfolio-2026-09-05/atlas-alternate-cohort-review-2026-09-06.json",
+    "protocol_sha256": "7429a89c8b9804fa956c43818d4e7cb4841ae69926ed3beca3b9e4c32a405f8d",
+    "actual_permissions": "Agent runtime confirms never/danger-full-access"
   }
 }

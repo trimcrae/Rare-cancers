@@ -1,0 +1,22 @@
+{
+  "utc": "2026-09-06T02:24:09.423136+00:00",
+  "reviewer": "/root/atlas_alternate_cohort",
+  "mode": "Fresh-context read-only medium subagent; primary-source inspection, no experiment",
+  "question": "Can existing GSE24369 and GSE28866 bypass the GSE4303 reference ambiguity with independent tissue evidence?",
+  "finding": "Study-separated measurement route exists; primary sources inspected do not establish specimen independence or demonstrate overlap. Stanford IRB and archived tissue governance do not assign recruitment provenance to the four EMC records.",
+  "source_urls": [
+    "https://link.springer.com/article/10.1186/gb-2012-13-8-r75#Sec10",
+    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369",
+    "https://aacr.figshare.com/articles/dataset/Table_S1_from_In-depth_Genetic_Analysis_of_Sclerosing_Epithelioid_Fibrosarcoma_Reveals_Recurrent_Genomic_Alterations_and_Potential_Treatment_Targets/22466361"
+  ],
+  "next_analysis_recommended": "Fixed CHRNA6 peak-level and individual-sample check in GSE28866, with separate sarcoma histologies and adult normal organs; fetal strata separate, comparator duplicates handled.",
+  "coordinator_selection": "Apply the same fixed descriptive check to CHRNA6 plus all eleven pre-existing atlas addresses to avoid choosing a favorable target; protocol check before contrasts. This is a bounded empirical contribution toward the atlas, not a replacement finished paper.",
+  "limits": [
+    "Unresolved specimen independence",
+    "Cancer-selected peaks",
+    "Square-root depth-scaled values are not RNA fold changes",
+    "Different comparator populations",
+    "RNA does not establish protein localization, efficacy or therapeutic window"
+  ],
+  "publication_ready": false
+}

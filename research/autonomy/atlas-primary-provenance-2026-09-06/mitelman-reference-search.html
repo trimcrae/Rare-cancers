@@ -1,0 +1,3690 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    
+
+    <meta charset="utf-8">
+    <meta name="description"
+          content="The information in the Mitelman Database of Chromosome Aberrations and Gene Fusions in Cancer relates cytogenetic changes and their genomic consequences, in particular gene fusions, to tumor characteristics, based either on individual cases or associations.">
+    <title>Mitelman Database Chromosome Aberrations and Gene Fusions in Cancer</title>
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148377238-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-148377238-1');
+    </script>
+    
+
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="shortcut icon" href="/static/favicon.png">
+    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
+    <!--dataTables-->
+    <script type="text/javascript" src="/static/js/libs/datatables.min.js"></script>
+    <!--fontawesome-->
+    <script type="text/javascript" src="/static/js/libs/c53771aefd.js"></script>
+    <!--chosen js-->
+    <script type="text/javascript" src="/static/js/libs/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    
+<script type="text/javascript">
+    active_menu = 'ref_search';
+</script>
+<script type="text/javascript" src="/static/js/search.js"></script>
+
+</head>
+
+
+<header>
+    <div class="sidenav">
+        <ul>
+            <li><a id='home_menu' href="/">Home</a></li>
+            <li><a id='search_menu' href="search_menu">Search <i class="fas fa-search"></i></a>
+            </li>
+            <li>
+                <ul>
+                    <li><a id='case_search' href="case_search">Cases Cytogenetics</a></li>
+                    <li><a id='mb_search' href="mb_search">Gene Fusions</a></li>
+                    <li><a id='clinical_search' href="clinical_search">Clinical Associations</a></li>
+                    <li><a id='recab_search' href="recab_search">Recurrent Chromosome Aberrations</a></li>
+                    <li><a id='ref_search' href="ref_search">References</a></li>
+                </ul>
+            </li>
+            <li><a id='data_browser' href="data_browser">Data Browser</a></li>
+            <li><a id='bq_data' href="bq_data">BigQuery and Data Analysis</a></li>
+            <li><a id='help_menu' href="help">User Guide</a></li>
+            <li><a id='about_menu' href="about">About</a></li>
+        </ul>
+    </div>
+</header>
+<body>
+<main>
+    
+<h1 class="search-header">Reference Searcher</h1>
+
+<div class="collapse" id="aboutRefSearch">
+    <div class="card card-body m-2">
+        <p>The <strong>Reference Searcher</strong> contains the complete set of references in the entire database. The
+            references are organized into three groups:
+        <ul>
+            <li>The Individual Cases references</li>
+            <li>The Gene Fusions references</li>
+            <li>The Clinical Associations references</li>
+        </ul>
+        The search engine can find any reference by author, journal, year, or reference number in one, two, or all
+        three of these groups.
+        </p>
+        Tips for this Searcher:
+        <ul>
+            <li>Clicking the <i class="fas fa-list" style="margin: 5px;" aria-hidden="true"></i> icon will display a
+                full list of Journals available.
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="m-2 p-2">
+    <div>
+        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                data-bs-target="#aboutRefSearch"
+                aria-expanded="false" aria-controls="aboutRefSearch">
+            <i class="fas fa-info-circle" style="margin-right: 5px;"></i>About this Search
+        </button>
+        <form action="/result" method="POST">
+            <input type="hidden" name="search_type" value="ref">
+            <fieldset class="form-group">
+                <div class="row mb-3">
+                    <legend class="col-form-label col-sm-4 pt-0 text-end">Reference Group</legend>
+                    <div class="col-sm-5">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="I" id="indCheck" name="indCheck">
+                            <label class="form-check-label" for="indCheck">
+                                Individual Cases
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="M" id="mbCheck" name="mbCheck">
+                            <label class="form-check-label" for="mbCheck">
+                                Gene Fusions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="C" id="clinCheck" name="clinCheck">
+                            <label class="form-check-label" for="clinCheck">
+                                Clinical Association
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-group row mb-3">
+                <label for="inputAuth" class="col-sm-4 col-form-label text-end">Authors</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputAuth" name="inputAuth">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="inputJournal" class="col-sm-4 col-form-label text-end">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#journal-modal"
+                       title="Click to View the Complete Journal List"><i class="fas fa-list"
+                                                                          style="margin-right: 5px;"></i><span
+                            class="d-none">Journal List</span></a>
+                    Journal
+                </label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputJournal" name="inputJournal">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="inputYear" class="col-sm-4 col-form-label text-end">Year</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="inputYear" name="inputYear">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="inputRefNo" class="col-sm-4 col-form-label text-end">Ref No.</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="inputRefNo" name="inputRefNo">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-9 text-end">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <div class="spinner" style="display: none;">
+        <div class="spinner-group d-flex justify-content-center">
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 0%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 10%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 20%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 30%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 40%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 50%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+        </div>
+    </div>
+    <div id="journal-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h2 class="modal-header">
+                    <div class="modal-title"><strong>Journal List</strong></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </h2>
+                <div class="modal-body">
+                    
+                    <table class='table table-sm table-striped table-in-modal'>
+                        <tbody>
+                        <thead>
+                        <tr>
+                            <th>Journal Name</th>
+                        </tr>
+                        </thead>
+                        
+                        <tr>
+                            <td>AIDS</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>AJNR Am J Neuroradiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>APMIS</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Acad Med Wuhan</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Biochim Biophys Sin (Shanghai)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Biomed</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Cytol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Derm Venereol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Derm Venerol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Dermatovenerol Alp Panonica Adriat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Dermatovenerol Croat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Haematol Jpn</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Med Acad</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Med Iran</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Med Okayama</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Med Scand</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Neurochir</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Neurol Belg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Neuropathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Neuropathol Commun</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Orthop Belg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Orthop Scand</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Paediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Paediatr Hung</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Paediatr Jpn</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Pathol Jpn</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Radiol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acta Univ Carol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Adv Biomed Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Adv Exp Med Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Adv Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Afr Health Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Alan R Liss, New York</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Blood Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Clin Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Dermatopathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Hum Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Kidney Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Med Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Med Genet A</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Obstet Gynecol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Ophtalmol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Pediatr Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Surg Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Am J Surg.</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Anal Cell Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Anal Cell Pathol (Amst)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Acad Med Singapore</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Biol Clin (Paris)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Clin Lab Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Clin Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Clin Transl Neurol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Diagn Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Hum Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann N Y Acad Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Neurol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Otol Rhinol Laryngol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Palliat Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Plast Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Saudi Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Thorac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Thorac Surg Short Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ann Transl Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Anticancer Drugs</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Anticancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Appl Immunohistochem Mol Morphol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Appl Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Dis Child</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Fr Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Geschwulstforsch</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Iran Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Med Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Otolaryngol Head Neck Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Pathol Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arch Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Arq Neuropsiquiatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Asia Pac J Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Asian J Androl</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Asian J Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Asian Pac J Cancer Prev</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Atlas Genet Cytogenet Haematol (http://www.infobiogen.fr/services/chromcancer/Reports/t814BalicekID100002.html)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Atlas Genet Cytogenet Oncol Haematol (http://www.infobiogen.fr/services/chromcancer/Reports/0412MooreID100005.html)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Atlas Genet Cytogenet Oncol Haematol (http://www.infobiogen.fr/services/chromcancer/Reports/t814KerndrupID100001.html)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Aust N Z J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Avicenna J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BJC Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Genomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Med Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Med Genomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Nephrol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Pulm Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Res Notes</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMC Urol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>BMJ Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Beijing Da Xue Xue Bao</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Best Pract Res Clin Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biochem Biophys Res Commun</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bioinformatics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biol Blood Marrow Transplant</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biol Clin Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biol Direct</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biol Zent bl</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomark Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomed Pap Med Fac Univ Palacky Olomouc Czech Repub</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomed Pharmacother</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomed Res Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomedicine</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Biomedicines</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Birth Defects</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Adv</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Cancer Discov</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Cancer J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Cell Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Cells</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Cells Mol Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Neoplasia</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blood Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Blut</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bol Asoc Med P R</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bone Marrow Transplant</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bosn J Basic Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Neurosurg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Ophthalmol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Oral Maxillofac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br J Urol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Br Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Brain Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Brain Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Brain Tumor Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Brain Tumor Res Treat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bratisl Lek Listy</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Braz J Med Biol Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Brazil J Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Breast Cancer Res Treat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Breast J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Bull Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>C R Acad Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>C R Acad Sci III</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>CNS Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Can J Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Biol Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Cell</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Cell Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Cells</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Chemother Pharmacol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Commun (Lond)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Cytopathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Detect Prev</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Discov</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Epidemiol Biomarkers Prev</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Gene Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Genet Cytogenet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Genomics Proteomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Immunol Immunother</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Innov</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Invest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Lett</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Pathog Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Prev Res (Phila)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Rep (Hoboken)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Res Commun</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Res Treat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancer Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cancers (Basel)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Carcinogenesis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cardiovasc Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Case Rep Dermatol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Case Rep Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Case Rep Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Case Rep Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Case Rep Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Biol Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Death Differ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Death Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Death Discov</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Discov</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Rep Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cell Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cells</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chang Gung Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chemotherapy</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Child Neurol Open</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Children (Basel)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Childs Nerv Syst</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chin J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chin Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chin Med J (Engl)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chin Med Sci J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chromosoma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chromosome Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chronic Myelocytic Leukemia and Interferon (Eds Huhn, Hellriegel, Niederle), Springer-Verlag, Berlin</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Adv Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Chem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Chem Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Colorectal Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Dysmorphol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Endocrinol (Oxf)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Epigenetics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Exp Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Exp Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Exp Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Exp Metastasis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Exp Rheumatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Genitourin Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Immunol Immunopathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin J Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lab</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lab Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lab Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lung Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lymphoma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lymphoma Myeloma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Lymphoma Myeloma Leuk</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Med Insights Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Neuropathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Nucl Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Orthop</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Orthop Relat Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Respir J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Transl Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clin Transl Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Clinics (Sao Paulo)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cold Spring Harb Mol Case Stud</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cold Spring Harb Symp Quant Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Coll Antropol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Commun Med (Lond)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Conn Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Connect Tissue Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Contemp Oncol (Pozn)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Crit Rev Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Crit Rev Oncol Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cureus</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Curr Med Res Opin</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Curr Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Curr Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Curr Probl Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytobios</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytogenet Cell Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytogenet Genome Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytometry</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytometry A</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytometry B Clin Cytom</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytopathology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Cytotherapy</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>DNA Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dermatol Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dermatopathology (Basel)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Diagn Cytopathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Diagn Mol Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Diagn Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Diagn Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Diagnostics (Basel)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dig Dis Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dig Liver Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dis Markers</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Discov Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>EBioMedicine</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>EJHaem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>EMBO J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>ESMO Open</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Elife</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Endocr Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Endocr Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Endocr Relat Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur Arch Otorhinolaryngol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Cancer B Oral Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Cancer Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Case Rep Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Clin Invest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Endocrinol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Gynaecol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Histochem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Med Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Obstet Gynecol Reprod Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Pediatr Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur J Surg Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur Rev Med Pharmacol Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eur Urol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Cell Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Eye Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Mol Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Exp Ther Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Experientia</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Expert Opin Ther Targets</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Eye</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>F1000Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>FASEB J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fetal Pediat Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fetal Pediatr Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Folia Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Folia Neuropathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Free Neuropathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Endocrinol (Lausanne)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Med (Lausanne)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Pharmacol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Front Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fukushima J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Future Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gann</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gastric Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gastroenterology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Geburtshilfe Frauenheilkd</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gen Diagn Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gene</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genes (Basel)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genes Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genes Chromosomes Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genes Dev</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genes Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genet Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genet Mol Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genetica</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genetika (Moskva)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genome Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genome Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Genomics Inform</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Glob Med Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gulf J Oncolog</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gut</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gut Liver</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gynecol Obstet Invest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gynecol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gynecol Oncol Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Haematol Blood Transfus</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Haematologia</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Haematologia (Budap)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Haematologica</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Head Neck</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Head Neck Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Health Sci Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Heliyon</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Helsinki Chromosome Conference</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hemasphere</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol Cell Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol Oncol Stem Cell Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematol Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hematopathol Mol Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Henry Ford Hosp Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hepatology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hereditary Colorectal Cancer (Eds J Utsunomiya, HT Lynch), Springer-Verlag, Berlin</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hereditas</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Histol Histopathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Histopathology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hong Kong Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hum Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hum Hered</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hum Mol Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hum Mutat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Hum Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Humangenetik</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Immunity</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Immunogenetics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>In Vivo</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Hematol Blood Transfus</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Med Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Pathol Microbiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian J Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Indian Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int Cancer Conf J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Anal Chem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Biochem Cell Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Biol Macromol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Clin Exp Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Clin Lab Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Environ Res Public Health</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Gynaecol Obstet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Gynecol Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Gynecol Obstet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Gynecol Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Hematol Oncol Stem Cell Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Lab Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Mol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Mol Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Oral Maxillofac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Pediatr Otorhinolaryngol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Radiat Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Int J Surg Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Interact Cardiovasc Thorac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Intern Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Invest New Drugs</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Invest Ophthalmol Vis Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ir J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Isr J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ital J Neurol Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ital J Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Allergy Clin Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Am Acad Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Appl Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Assoc Genet Technol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Ayub Med Coll Abbottabad</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Belg Soc Radiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Biol Chem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Blood Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Bone Joint Surg Br</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cancer Res Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cancer Res Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cell Biochem</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cell Mol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cent South Univ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Chemother</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Endocrinol Metab</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Exp Hematop</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Invest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Lab Anal</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Neurosci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Pharm Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Clin Rheumatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Coll Physicians Surg Pak</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cutan Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Cytol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Dermatol Surg Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Egypt Natl Canc Inst</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Exp Clin Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Exp Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Foot Ankle Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Formos Med Assoc</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Gastrointestin Liver Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Gene Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Genet Eng Biotechnol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Genet Genomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Genet Hum</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hand Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hematop</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hematother Stem Cell Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hepatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Huazhong Univ Sci Technol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Hum Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Immunol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Inflamm Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Int Med Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Invest Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Investig Med High Impact Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Jpn Soc Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Korean Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Kyoto Pref Univ Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J La State Med Soc</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Lab Physicians</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Laryngol Otol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Leukoc Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Long Term Eff Med Implants</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med Assoc Thai</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med Cases</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Med Life</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Mol Diagn</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Mol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Mol Med (Berl)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Natl Cancer Cent</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Natl Cancer Inst</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Natl Compr Canc Netw</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurol Neurosurg Psychiatry</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurol Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurooncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neuropathol Exp Neurol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neuroradiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurosurg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurosurg Case Lessons</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Neurosurg Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Obstet Gynaecol Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Oncol Pharm Pract</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Oral Maxillofac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Oral Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Oral Pathol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Orthop Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Orthop Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Orthop Surg Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pak Med Assoc</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pakistan Med Ass</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pathol Clin Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pediatr Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pediatr Hematol Oncol.</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pediatr Orthop B</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pediatr Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Pers Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Postgrad Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Radiat Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Rheumatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Submicrosc Cytol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Surg Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Surg Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Thorac Cardiovasc Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Thorac Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Thorac Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Tongji Med Univ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Transl Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Ultrasound Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Urol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>J Zhejiang Univ Sci B</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JAAD Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JAMA</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JAMA Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JAMA Otolaryngol Head Neck Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JAPI</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JBJS Case Connect</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JCO Precis Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>JTO Clin Res Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Jpn J Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Jpn J Clin Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Jpn J Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Jpn J Hum Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Jpn J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Kaohsiung J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Keio J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Klin Padiatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Klin Pdiatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Klin Wochenschr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Korean J Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Korean J Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lab Invest</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lancet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lancet Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lancet Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Laryngoscope</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Leuk Lymphoma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Leuk Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Leuk Res Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Leukemia</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Lung Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Malays J Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mayo Clin Proc</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Clin (Barc)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Mol Morphol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Oncol Tumor Pharmacother</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Pediatr Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Princ Pract</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Med Sci Monit</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Medicina (Kaunas)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Medicine (Baltimore)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mediterr J Hematol Infect Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Melanoma Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mod Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Biol Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Biol Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Biotechnol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cancer Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Carcinog</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cell Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cell Endocrinol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cell Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cell Probes</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Clin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Cytogenet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Diagn</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Gen Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Genet Genomic Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Genet Genomics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Hum Reprod</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Med Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mol Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Monaldi Arch Chest Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Monatsschr Kinderheilkd</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mt Sinai J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mutagenesis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mutat Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Myelofibrosis Pathophysiology and Clinical Management (Ed SM Lewis), Marcel Dekker, New York</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>N Engl J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>N Y State J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>NMC Case Rep J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>NPJ Precis Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nat Biotechnol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nat Commun</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nat Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nat Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Natl Inst Radiol Sci Ann Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Natl Med J India</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nature</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neoplasia</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neoplasma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neth J Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neuro Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neuro-oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurol Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurooncol Adv</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurooncol Pract</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neuropathol Appl Neurobiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neuropathology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neuropediatrics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurosurg Focus</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Neurosurgery</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nobel Symp</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Non-Hodgkin&#39;s Lymphomas: New Techniques and Treatments (Eds Sotto, Vrousos, Vincent), Karger, Basel</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nouv Presse Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nouv Rev Fr Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nouv Rev Fr Hematol Suppl</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nucl Med Commun</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nucleic Acids Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>ORL J Otorhinolaryngol Relat Spec</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Obstet Gynecol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Occup Environ Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Onco Targets Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncogene</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncogene Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncol Lett</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncol Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncol Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncologist</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncology (Williston Park)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oncotarget</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Onkologie</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Open Life Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ophthal Plast Reconstr Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ophthalmic Plast Reconstr Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ophthalmologica</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ophthalmology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oral Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oral Maxillofac Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oral Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oral Surg Oral Med Oral Pathol Oral Radiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oral Surg Oral Med Oral Pathol Oral Radiol Endod</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Orbit</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Orphanet J Rare Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Otolaryngol Head Neck Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>P R Health Sci J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PLoS Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PLoS Comput Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PLoS Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PLoS One</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pan Afr Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Panminerva Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathobiology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Biol (Paris)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Oncol Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Res Pract</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathol Res Pract.</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathologica</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pathology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Blood Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Dermatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Dev Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Hematol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Neonatol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Nephrol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Neurosurg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Pathol Lab Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Radiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Surg Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatr Transplant</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatrics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pediatrie</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PeerJ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pharmgenomics Pers Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pigment Cell Melanoma Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pigment Cell Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pol Arch Intern Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Pol J Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Precis Clin Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Presse Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Proc Jpn Acad</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Proc Natl Acad Sci U S A</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Prostate</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Prostate Cancer Prostatic Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Radiat Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Radiol Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Radiol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Radiother Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Recent Res Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Reports (MDPI)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Respir Med Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Respirol Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rev Esp Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rev Inv Clin</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rev Paul Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rev Rhum</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rev Roum Med - Med Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rheumatol Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rheumatology (Oxford)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rinsho Ketsueki</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rom J Morphol Embryol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>S Karger, Basel</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>SAGE Open Med Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sage Open Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sangre</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sao Paulo Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sarcoma</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Scand J Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Scand J Resp Dis</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Scand J Work Environ Health</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sci Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Sci Transl Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Science</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Semin Hematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Semin Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ser Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Serano Symp Publ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Singapore Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Skeletal Radiol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Somat Cell Mol Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>South Asian J Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>South Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Stem Cells Dev</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Surg Neurol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Surg Neurol Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Surg Today</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Surv Ophtalmol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Taiwan J Obstet Gynecol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Technol Cancer Res Treat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Teratology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ther Adv Med Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Theranostics</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Thorac Cancer</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Thyroid</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Toaki J Exp Clin Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Tohoku J Exp Med</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transfusion</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transl Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transl Lung Cancer Res</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transl Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transl Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transplant Cell Ther</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transplant Proc</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Transplantation</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Tsitol Genet</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Tumor Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Tumori</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Tumour Biol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Turk J Haematol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Turk J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Turk J Pediatr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ulster Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ultrastruct Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Union Med Can</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Ups J Med Sci</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Urol Case Rep</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Urol Int</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Urol Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Urology</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Verh Dtsch Ges Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Virchows Arch</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Virchows Arch A</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Virchows Arch A Pathol Anat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Virchows Arch B Cell Pathol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Virchows Archiv A Pathol Anat</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Wien Klin Wochenschr</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Wiley-Liss, New York</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Clin Cases</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Gastroenterol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Gastrointest Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Surg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World J Surg Oncol</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>World Neurosurg</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yonsei Med J</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Z Kinderheilk</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Z Krebsforsch</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Zentralbl Neurochir</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Zhong Nan Da Xue Xue Bao Yi Xue Ban</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Zhongguo Dang Dai Er Ke Za Zhi</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bqstm-modal" tabindex="-1" role="dialog" aria-labelledby="view_bq_stmt_title"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="view_bq_stmt_title"><strong>View SQL Statement</strong> in BigQuery
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="bqstm" class="m-0 text-primary border bg-light rounded p-2"></pre>
+                    <div class="py-2 text-end">
+                        <div class="text-muted">Mitelman Database is a public dataset under BigQuery</div>
+                        <a data-bs-toggle="collapse" href="#about_bq_console" role="button" aria-expanded="false"
+                           class="collapse-link" aria-controls="about_bq_console">
+                            Learn how to view Mitelman DB and run SQLs in the BigQuery console
+                        </a>
+                    </div>
+                    <div id="about_bq_console" class="collapse bg-light rounded p-2 my-2">
+                        <div>In order to view Mitelman DB tables in BigQuery Google Cloud Console,</div>
+                        <div>
+                            <ul>
+                                <li>
+                                    Click the "Open BigQuery Console" button
+                                </li>
+                                <li>
+                                    Be logged in with a Google account
+                                </li>
+                                <li>Choose a <b>project</b> associated with your Google account.
+                                    <br>
+                                    Creating a project is easy - See
+                                    <a target="_blank" rel="noreferrer"
+                                       href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project"
+                                       class="sr-set">
+                                        How to Create a Project<span class="sr-only"> opens a new tab</span></a>.
+                                </li>
+                                <li>Use the "Copy" and the "Open BigQuery Console" buttons to utilize the SQL statement
+                                    under the BigQuery Cloud Console
+                                </li>
+                            </ul>
+                        </div>
+                        <div>Consider using
+                            <a target="_blank" rel="noopener noreferrer"
+                               href="https://cloud.google.com/free/docs/gcp-free-tier"
+                               class="sr-set">
+                                Google Cloud Platform Free-Tier
+                                <span class="sr-only"> opens a new tab</span></a> and run queries at no cost!
+                        </div>
+                        <div>*Visit <a target="_blank" rel="noopener noreferrer"
+                                       href="https://cloud.google.com/bigquery/docs/quickstarts/quickstart-cloud-console">BQ
+                            Quickstart using the Cloud Console</a> to learn more about BigQuery
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-primary copy-button"><i class="far fa-clipboard"></i>
+                            Copy
+                        </button>
+                        <button type="button" class="btn btn-primary copy-button open-bqconsole-btn">
+                            <svg fill="none" fill-rule="evenodd" height="15" viewBox="0 0 32 32" width="15"
+                                 xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet"
+                                 focusable="false">
+                                <path d="M8.627 14.358v3.69c.58.998 1.4 1.834 2.382 2.435v-6.125H8.62z"
+                                      fill="#fff"></path>
+                                <path d="M13.044 10.972v10.54c.493.073.998.12 1.516.12.473 0 .934-.042 1.386-.104V10.972h-2.902z"
+                                      fill="#fff"></path>
+                                <path d="M18.294 15.81v4.604a6.954 6.954 0 0 0 2.384-2.556v-2.05h-2.384zm5.74 6.233l-1.99 1.992a.592.592 0 0 0 0 .836L27 29.83c.23.23.606.23.836 0l1.992-1.99a.594.594 0 0 0 0-.837l-4.957-4.956a.593.593 0 0 0-.83 0"
+                                      fill="#fff"></path>
+                                <path d="M14.615 2C7.648 2 2 7.648 2 14.615 2 21.582 7.648 27.23 14.615 27.23c6.966 0 12.614-5.648 12.614-12.615C27.23 7.648 21.58 2 14.61 2m0 21.96a9.346 9.346 0 0 1-9.346-9.345 9.347 9.347 0 1 1 9.346 9.346"
+                                      fill="#fff"></path>
+                            </svg>
+                            Open BigQuery Console
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

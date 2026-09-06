@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    
+
+    <meta charset="utf-8">
+    <meta name="description"
+          content="The information in the Mitelman Database of Chromosome Aberrations and Gene Fusions in Cancer relates cytogenetic changes and their genomic consequences, in particular gene fusions, to tumor characteristics, based either on individual cases or associations.">
+    <title>Mitelman Database Chromosome Aberrations and Gene Fusions in Cancer</title>
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148377238-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-148377238-1');
+    </script>
+    
+
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="shortcut icon" href="/static/favicon.png">
+    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
+    <!--dataTables-->
+    <script type="text/javascript" src="/static/js/libs/datatables.min.js"></script>
+    <!--fontawesome-->
+    <script type="text/javascript" src="/static/js/libs/c53771aefd.js"></script>
+    <!--chosen js-->
+    <script type="text/javascript" src="/static/js/libs/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    
+    <script type="text/javascript" src="/static/js/ref_result.js"></script>
+    <script type="text/javascript" src="/static/js/result.js"></script>
+    <script type="text/javascript">
+        let criteria = assign_var({"op_c": "C", "op_i": "I", "op_m": "M", "refno": "9736", "search_type": "ref"});
+    </script>
+
+
+</head>
+
+
+<header>
+    <div class="sidenav">
+        <ul>
+            <li><a id='home_menu' href="/">Home</a></li>
+            <li><a id='search_menu' href="search_menu">Search <i class="fas fa-search"></i></a>
+            </li>
+            <li>
+                <ul>
+                    <li><a id='case_search' href="case_search">Cases Cytogenetics</a></li>
+                    <li><a id='mb_search' href="mb_search">Gene Fusions</a></li>
+                    <li><a id='clinical_search' href="clinical_search">Clinical Associations</a></li>
+                    <li><a id='recab_search' href="recab_search">Recurrent Chromosome Aberrations</a></li>
+                    <li><a id='ref_search' href="ref_search">References</a></li>
+                </ul>
+            </li>
+            <li><a id='data_browser' href="data_browser">Data Browser</a></li>
+            <li><a id='bq_data' href="bq_data">BigQuery and Data Analysis</a></li>
+            <li><a id='help_menu' href="help">User Guide</a></li>
+            <li><a id='about_menu' href="about">About</a></li>
+        </ul>
+    </div>
+</header>
+<body>
+<main>
+    
+<h1 class="search-header">Reference Search Result</h1>
+<div class="panel panel-default">
+    <div class="panel-body">
+        
+            
+        <div class="result-div mb-5">
+            <div data-sqlstm="SELECT DISTINCT
+ Reference.Abbreviation,
+ Reference.Journal,
+ Reference.RefNo
+FROM
+ `mitelman-db.prod.Reference` Reference
+WHERE
+ (
+  ( EXISTS (SELECT c.RefNo FROM `mitelman-db.prod.CytogenInv` c WHERE c.RefNo = Reference.RefNo) )
+   OR
+  ( EXISTS (SELECT m.RefNo FROM `mitelman-db.prod.MolBiolClinAssoc` m WHERE m.MolClin = &#39;M&#39; AND m.RefNo = Reference.RefNo) )
+   OR
+  ( EXISTS (SELECT a.RefNo FROM `mitelman-db.prod.MolBiolClinAssoc` a WHERE a.MolClin = &#39;C&#39; AND a.RefNo = Reference.RefNo) )
+ )
+ AND Reference.RefNo = 9736
+" class="d-none sql-stm-div"></div>
+            
+            <div class="row pb-2">
+                <div class="col-4 backbutton-div text-start">
+                    <button class="btn btn-outline-secondary back-button"><i class="fas fa-chevron-left"></i> Back
+                    </button>
+                </div>
+                <div class="col-8 button-div text-end">
+                    
+                    <button class="btn btn-secondary view-bqstm-button">View SQL Statement
+                    </button>
+                    <button class="btn btn-secondary download-button" data-tableid="ref_result"><i
+                            class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+            <table id="ref_result" class="table table-striped result-table" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    
+                        
+                        <th>Reference</th>
+                        
+                    
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+
+
+    <div class="spinner" style="display: none;">
+        <div class="spinner-group d-flex justify-content-center">
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 0%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 10%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 20%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 30%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 40%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 50%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+        </div>
+    </div>
+    <div id="journal-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h2 class="modal-header">
+                    <div class="modal-title"><strong>Journal List</strong></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </h2>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bqstm-modal" tabindex="-1" role="dialog" aria-labelledby="view_bq_stmt_title"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="view_bq_stmt_title"><strong>View SQL Statement</strong> in BigQuery
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="bqstm" class="m-0 text-primary border bg-light rounded p-2"></pre>
+                    <div class="py-2 text-end">
+                        <div class="text-muted">Mitelman Database is a public dataset under BigQuery</div>
+                        <a data-bs-toggle="collapse" href="#about_bq_console" role="button" aria-expanded="false"
+                           class="collapse-link" aria-controls="about_bq_console">
+                            Learn how to view Mitelman DB and run SQLs in the BigQuery console
+                        </a>
+                    </div>
+                    <div id="about_bq_console" class="collapse bg-light rounded p-2 my-2">
+                        <div>In order to view Mitelman DB tables in BigQuery Google Cloud Console,</div>
+                        <div>
+                            <ul>
+                                <li>
+                                    Click the "Open BigQuery Console" button
+                                </li>
+                                <li>
+                                    Be logged in with a Google account
+                                </li>
+                                <li>Choose a <b>project</b> associated with your Google account.
+                                    <br>
+                                    Creating a project is easy - See
+                                    <a target="_blank" rel="noreferrer"
+                                       href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project"
+                                       class="sr-set">
+                                        How to Create a Project<span class="sr-only"> opens a new tab</span></a>.
+                                </li>
+                                <li>Use the "Copy" and the "Open BigQuery Console" buttons to utilize the SQL statement
+                                    under the BigQuery Cloud Console
+                                </li>
+                            </ul>
+                        </div>
+                        <div>Consider using
+                            <a target="_blank" rel="noopener noreferrer"
+                               href="https://cloud.google.com/free/docs/gcp-free-tier"
+                               class="sr-set">
+                                Google Cloud Platform Free-Tier
+                                <span class="sr-only"> opens a new tab</span></a> and run queries at no cost!
+                        </div>
+                        <div>*Visit <a target="_blank" rel="noopener noreferrer"
+                                       href="https://cloud.google.com/bigquery/docs/quickstarts/quickstart-cloud-console">BQ
+                            Quickstart using the Cloud Console</a> to learn more about BigQuery
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-primary copy-button"><i class="far fa-clipboard"></i>
+                            Copy
+                        </button>
+                        <button type="button" class="btn btn-primary copy-button open-bqconsole-btn">
+                            <svg fill="none" fill-rule="evenodd" height="15" viewBox="0 0 32 32" width="15"
+                                 xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet"
+                                 focusable="false">
+                                <path d="M8.627 14.358v3.69c.58.998 1.4 1.834 2.382 2.435v-6.125H8.62z"
+                                      fill="#fff"></path>
+                                <path d="M13.044 10.972v10.54c.493.073.998.12 1.516.12.473 0 .934-.042 1.386-.104V10.972h-2.902z"
+                                      fill="#fff"></path>
+                                <path d="M18.294 15.81v4.604a6.954 6.954 0 0 0 2.384-2.556v-2.05h-2.384zm5.74 6.233l-1.99 1.992a.592.592 0 0 0 0 .836L27 29.83c.23.23.606.23.836 0l1.992-1.99a.594.594 0 0 0 0-.837l-4.957-4.956a.593.593 0 0 0-.83 0"
+                                      fill="#fff"></path>
+                                <path d="M14.615 2C7.648 2 2 7.648 2 14.615 2 21.582 7.648 27.23 14.615 27.23c6.966 0 12.614-5.648 12.614-12.615C27.23 7.648 21.58 2 14.61 2m0 21.96a9.346 9.346 0 0 1-9.346-9.345 9.347 9.347 0 1 1 9.346 9.346"
+                                      fill="#fff"></path>
+                            </svg>
+                            Open BigQuery Console
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
