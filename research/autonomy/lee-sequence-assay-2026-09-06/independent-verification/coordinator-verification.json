@@ -9,7 +9,7 @@
   "independent_checks": 245,
   "independent_calculation_seconds": 0.4912901000061538,
   "reviewed_author_manifest_sha256": "cdc2ff2b9759d7bf1bcdd1a508db61fa25576f27016873c4a9bded22b3da3486",
-  "corrected_author_manifest_sha256": "7109aa0b60fd9b2ae47afb2e276a3c9d861e4d00cdb98059fb5051706cd72b00",
+  "corrected_author_manifest_sha256": "7bccfab2698402a3a3cb78d87857f358a27c8925d4df94937a3df16fde1e249a",
   "correction": "Right-flank endpoint483\u2013509 corrected to483\u2013510;28nt. Actual coordinates, reconstruction and all six computed outputs unchanged.",
   "current_author_manifest_entries_verified": 21,
   "unchanged_computation_outputs": {
@@ -32,9 +32,10 @@
       "sha256": "37ae241fa17660f273c2520e06cfe698b27654efe4dc798cd12bcf129599699a"
     },
     {
-      "file": "review.md",
+      "file": "review-original.txt",
       "bytes": 5238,
-      "sha256": "c77b73932d327ed033aefd38bd9e20bae20177bdbc3c3de61b0c4d36b7e526db"
+      "sha256": "c77b73932d327ed033aefd38bd9e20bae20177bdbc3c3de61b0c4d36b7e526db",
+      "original_source_name": "review.md"
     }
   ],
   "review_script_scope": "Original actual reviewer script and outputs preserved byte-for-byte. Original environment paths are execution provenance. Packet analyze.py/verify.py reproduced deterministically in the recorded Windows runtime; cross-platform byte replay has not been verified.",
@@ -45,5 +46,20 @@
     "crlf_aware_exit": 2,
     "log_sha256": "4f04771c01b692311a2d727daeeebe0e79673f9ef8de9630c16439153189ff7a",
     "finding": "The repository uses * -text to preserve scientific source hashes. Original GenBank records carry fixed-format trailing spaces; reviewed writer code has a blank final line. CRLF/native source bytes retained. No whitespace-pass or normal-preflight claim."
+  },
+  "document_metadata_repair": {
+    "finding": "Normal integration preflight failed systems D4 for three Markdown files missing purpose/scope/audience/freshness frontmatter.",
+    "diagnostic_sha256": "24b3578dc9c65f1fb0ab77aed6e2dc14ec46e83fef45da19746bbfbfbf876033",
+    "author_prose_bodies_sha256": {
+      "result.md": "9064c8bb273016371887195aa91e4f421a694456e85c3ef728d125b4b9bb161a",
+      "specification.md": "dd02a328806d1e59574acb94396b9ba847ec32785f6d46d010d5db424b6ff6d0"
+    },
+    "author_prose_bodies_unchanged": true,
+    "original_review_sha256": "c77b73932d327ed033aefd38bd9e20bae20177bdbc3c3de61b0c4d36b7e526db",
+    "original_review_preserved_as": "review-original.txt",
+    "review_wrapper": "review.md",
+    "prior_author_manifest_sha256": "7109aa0b60fd9b2ae47afb2e276a3c9d861e4d00cdb98059fb5051706cd72b00",
+    "new_author_manifest_sha256": "7bccfab2698402a3a3cb78d87857f358a27c8925d4df94937a3df16fde1e249a",
+    "scientific_outputs_changed": false
   }
 }

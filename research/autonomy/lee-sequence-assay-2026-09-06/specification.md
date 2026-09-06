@@ -1,3 +1,16 @@
+---
+id: DOC-LEE-SEQUENCE-ASSAY-SPEC-20260906
+title: Specification for the Lee sequence and assay audit
+level: —
+kind: memo
+status: live
+date: 2026-09-06
+last_verified: 2026-09-06
+purpose: Fix the question, inputs and stopping rule for the sequence and assay checkpoint.
+scope: Dated analysis specification written after outcomes were inspected; not a preregistration.
+audience: [maintainers, autonomous research agents]
+---
+
 # Lee sequence and assay analysis specification — 2026-09-06
 
 This is a dated analysis specification, not a preregistration. Published outcomes and previous frozen extraction have already been inspected, including the apparent B4N #15 parent loss. No hypothesis or decision threshold is retrospectively preregistered.

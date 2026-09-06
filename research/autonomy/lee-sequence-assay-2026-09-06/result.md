@@ -1,3 +1,16 @@
+---
+id: DOC-LEE-SEQUENCE-ASSAY-20260906
+title: Lee fusion guide and qPCR assay audit
+level: —
+kind: memo
+status: live
+date: 2026-09-06
+last_verified: 2026-09-06
+purpose: Record the bounded sequence and assay findings from published fusion-siRNA experiments.
+scope: Two reported fusion systems and 31 designs; exact reference and primer mapping with unchanged published outcome extraction.
+audience: [maintainers, autonomous research agents]
+---
+
 # Lee sequence and qPCR audit — 2026-09-06
 
 B4N #15 remains a credible reported counterexample to assuming measured-parent sparing solely from junction crossing and absence of a full-length parental match. This bounded audit eliminates an exact-sequence fusion-amplification explanation for the named BRD4 qPCR pair. It does not experimentally establish assay specificity, mechanism, or a causal direct effect on BRD4. SS outcomes remain unverified for full-parent/assay specificity because primary-source SS18/SSX1 reference versions could not be established.
