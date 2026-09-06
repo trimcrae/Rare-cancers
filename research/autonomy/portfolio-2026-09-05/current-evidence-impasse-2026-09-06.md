@@ -62,3 +62,23 @@ Independent methodological challenge narrows the requirement to an identifiable 
 RNA contrast, not universal absolute calibration or protein evidence. The specific Zullow2022
 seven-EMC source is being checked under its dated allocation. No overall blocked turn is counted
 while genuine source recovery and verification advance the decision.
+
+
+Dated completion update, 2026-09-06: both exact EMC-bearing comparator leads from the targeted
+source search have now been recovered and independently checked. Zullow2022 reports seven
+new EMC tumors, but all138GEO/ENA records agree and provide no identified EMC expression asset;
+TableS1 remains challenge HTML, not a workbook. Ngo2025's exact supplements and repository
+identify the external panel's provider but supply no externalEMC gene matrix or roster. Its
+EGA DAC positively covers the new EpS/EERT cohort, not the external panel. These are actual
+source-specific gaps, not evidence that RNA-only replication universally requires absolute
+calibration, protein, raw reads or a particular form of patient crosswalk.
+
+No new expression analysis is ready. A public independent EMC-bearing matrix with diagnosis
+and measurement provenance, or independently defensible calibration/measurement invariance
+for a relevant comparator, would change this assessment. The exact documented external panel
+or omitted seven-case measurements could qualify if made available; mere article inclusion,
+normal-only precision, harmonization, source-access retries or old cohort arithmetic cannot
+substitute. The other ranked paper dependencies above remain unresolved. No scientist worker
+is running. This turn delivered source/verification progress and is not counted as an overall
+blocked turn. Do not relabel these packets as a completed paper; reassess real safe actions
+and the strict repeated-impasse threshold on continuation.
