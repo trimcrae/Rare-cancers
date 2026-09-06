@@ -1,0 +1,120 @@
+{
+  "schema": "ipd-partial-order-prior-art-v1",
+  "date": "2026-09-06",
+  "base_revision": "920fed4fff362b9cef8e97fb7b3356209c77c7af",
+  "scope": "Targeted primary literature/code checkpoint, not systematic search or novelty proof",
+  "decision": {
+    "generic_logrank_imprecision_bounds": "occupied",
+    "generic_three_way_certification": "occupied",
+    "generic_decision_targeted_query_selection": "occupied",
+    "specific_rounded_KM_risk_inversion_with_true_ties": "not directly solved in inspected methods; remaining development prospect, not established novelty",
+    "next_action": "Narrow novelty claims and assess whether a useful aggregate-summary solver is achievable before expanding implementation. No inspected method directly replaces suffix reachability DP.",
+    "standalone_paper_status": "not established"
+  },
+  "sources": [
+    {
+      "id": "coolen2023",
+      "title": "A monotonicity property of weighted log-rank tests",
+      "authors": "Tahani Coolen-Maturi; Frank P. A. Coolen",
+      "doi": "10.1080/03610926.2021.1952270",
+      "url": "https://tahanimaturi.com/pdfs/Logrank-ComStats-rev-20210507-Final.pdf",
+      "status": "Published 2023; author accepted manuscript inspected; 2020 arXiv preprint exists",
+      "access": "Original author PDF downloaded; publisher PDF HTTP403; publisher indexed full text inspected",
+      "locators": [
+        "PDF p2: known within-arm ordering, interval observations and extrema",
+        "PDF p3 equations(1)-(4), no-ties restriction; p4 Theorem3.1",
+        "PDF pp12-14 Example2, Figures6-7",
+        "PDF p16 Appendix Lemma5.1 and D1-D4 identities"
+      ],
+      "quote": "we assume throughout this paper that there are no ties",
+      "quote_words": 12,
+      "overlap": "Signed standardized logrank extrema under imprecise event/censor timing, and decision robustness from bounds",
+      "limitations": "Fixed within-arm order and failure/censor status; no ties; not an inverse solver for released aggregate KM/risk constraints. Appendix not independently established as proof in this checkpoint.",
+      "reuse": "Conditional candidate order-extremization/outer-relaxation bound only after proof/assumptions verified; not direct exact two-sided extrema when Z hull spans zero"
+    },
+    {
+      "id": "denoeux2005",
+      "title": "Nonparametric rank-based statistics and significance tests for fuzzy data",
+      "authors": "Thierry Denoeux; Marie-Helene Masson; Pierre-Alexandre Hebert",
+      "doi": "10.1016/j.fss.2005.01.008",
+      "url": "https://www.hds.utc.fr/~tdenoeux/dokuwiki/_media/en/publi/fss2642v4.pdf",
+      "status": "Peer-reviewed methods paper; author manuscript inspected",
+      "access": "Web full PDF text; Python TLS trust failed; PowerShell system-trust download succeeded",
+      "locators": [
+        "PDF pp5-8 section3: interval observations, compatible orders, equations(8)-(11), three-way result",
+        "PDF p9: MCMC extrema are inward approximations",
+        "PDF p18 equation(27): Wilcoxon bounds",
+        "PDF p19 section6: ties and weak orders excluded"
+      ],
+      "quote": "the result of the test is indeterminate",
+      "quote_words": 8,
+      "overlap": "Compatible-order statistic bounds, p bounds and rejection/nonrejection/indeterminacy already explicit",
+      "limitations": "Kendall/Wilcoxon examples; no true ties; stochastic extremum approximations not conservative certificates",
+      "reuse": "Partial-order representation and cited linear-extension generation; sampled extrema provide witnesses only"
+    },
+    {
+      "id": "fayshaw2010_interval",
+      "title": "Exact and Asymptotic Weighted Logrank Tests for Interval Censored Data: The interval R package",
+      "authors": "Michael P. Fay; Pamela A. Shaw",
+      "url": "https://stat.ethz.ch/CRAN/web/packages/interval/vignettes/intervalCensoring.pdf",
+      "status": "Primary methods/software vignette",
+      "access": "PDF and actual R source plus Rd downloaded",
+      "locators": [
+        "Vignette section2.5 PDF pp5-7",
+        "interval_ictest.R lines104,165-206",
+        "interval_ictest.Rd lines149-158 and 240-248"
+      ],
+      "quote": "does not produce exactly the standard logrank test results",
+      "quote_words": 10,
+      "overlap": "Interval-censored rank inference and exact permutation methods established",
+      "limitations": "Exact refers to permutation null inference, not exhaustive original observed-IPD statistic range. Uses pooled NPMLE and derived scores/imputation.",
+      "reuse": "Not an interchangeable comparator for certifying our fixed ordinary observed-IPD p target"
+    },
+    {
+      "id": "coolen2021",
+      "title": "Imprecise inference based on the log-rank test for accelerated life testing",
+      "authors": "Frank P. A. Coolen; Abdullah A. H. Ahmadini; Tahani Coolen-Maturi",
+      "doi": "10.1007/s00184-021-00807-4",
+      "url": "https://link.springer.com/article/10.1007/s00184-021-00807-4",
+      "status": "Peer-reviewed primary methods application",
+      "access": "Publisher HTML downloaded/read; sections2-3 and abstract",
+      "locators": [
+        "Section3: Imprecise predictive inference based on the log-rank test"
+      ],
+      "overlap": "Applied imprecise logrank inference predates proposal",
+      "limitations": "Accelerated life testing, stress-link transformation and predictive inference; not released KM inverse problem"
+    },
+    {
+      "id": "golovin2010",
+      "title": "Near-Optimal Bayesian Active Learning with Noisy Observations",
+      "authors": "Daniel Golovin; Andreas Krause; Debajyoti Ray",
+      "url": "https://www.cs.cmu.edu/~dgolovin/papers/nips10.pdf",
+      "status": "Primary algorithm paper",
+      "access": "Author PDF downloaded and sections2-4 inspected",
+      "locators": [
+        "PDF p4 section3: equivalence class determination definition, edge-cutting equation(3.1)",
+        "PDF p5 Theorem3; PDF p6 equation(4.1)"
+      ],
+      "quote": "the goal is to determine which class",
+      "quote_words": 8,
+      "overlap": "Choose tests until remaining compatible hypotheses have one decision label; do not need full latent-state recovery",
+      "limitations": "Prior-weighted expected cost and EC2 theorem are not our prior-free minimax guarantee; identifiability under available tests required",
+      "reuse": "Decision-equivalence partition and cross-decision edge-elimination objectives; an exact risk-count query is a deterministic test"
+    }
+  ],
+  "interpretations": [
+    "Signed Z extrema [a,b] yield max Q=max(a^2,b^2); if a<=0<=b then hull-derived lower Q=0 is conservative but need not be attainable. Exact lower Q needs the closest attainable Z to zero.",
+    "KM/risk constraints couple records, allow variable within-arm event/censor histories, and may exclude endpoint/switch extremizers. An outer relaxation can ignore constraints safely only if every compatible true-tied history is represented and the bounding result applies.",
+    "Preserving true ties requires weak orders and the tied hypergeometric variance; replacing ties by arbitrary strict orders is not justified by the inspected no-tie theorems.",
+    "Restricting queries to arm/time exact risk counts is an application-specific test family. A one-step minimax split is a heuristic, not a proof of globally minimum query cost.",
+    "No search miss or unavailable article is used as proof of priority."
+  ],
+  "validation": {
+    "experiments_run": false,
+    "code_inspected_not_executed": [
+      "interval_ictest.R",
+      "interval_ictest.Rd"
+    ],
+    "verification_scope": "Source/body hashes, source locators, JSON parse, git scope. No normal preflight, ultra review, scientific computation or benchmark rerun."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "definition": {
+    "0": "G0 event",
+    "1": "G0 censor",
+    "2": "G1 event",
+    "3": "G1 censor"
+  },
+  "rule": "At rho=0 and no ties, swapping adjacent G0 then G1 observations should not decrease signed Z for group1.",
+  "design": "Deterministic exhaustive words n4 through n8, at least2 records per group; skip zero variance; stop at first counterexample. No frequency claim.",
+  "words_checked": 79200,
+  "positive_variance_switches_checked": 136134,
+  "counterexample": null,
+  "elapsed_seconds": 5.827999999994063
+}
