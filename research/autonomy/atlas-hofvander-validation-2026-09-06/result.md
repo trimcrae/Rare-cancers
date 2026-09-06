@@ -44,7 +44,7 @@ All10 other address genes fail the original broad allocation rule. PRAME and L1C
 
 ## Separate normal-expression context; no change to frozen analysis
 
-The new12-gene [HPA source roster](C:/Users/mcrae/.codex/worktrees/8010/EMC-Research/.cache/atlas-normal-context-recovery-20260906/fixed-panel-normal-context-roster.json) is joined by the fixed symbols for interpretation only. Its original XML entries are version25; current HPA methods/download pages describe25.1/Ensembl109. Exact response hashes and retrieval provenance remain in that source packet; this is not a tumor/normal matched comparison. HPA consensus tissue RNA takes maxima across HPA/GTEx sources and grouped sub-tissues, not an independent cohort average. No nTPM/TPM safety ratio, normal-sparing label or membrane-accessibility verdict is computed.
+The new12-gene [HPA source roster](../atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json) is joined by the fixed symbols for interpretation only. Its original XML entries are version25; current HPA methods/download pages describe25.1/Ensembl109. Exact response hashes and retrieval provenance remain in that source packet; this is not a tumor/normal matched comparison. HPA consensus tissue RNA takes maxima across HPA/GTEx sources and grouped sub-tissues, not an independent cohort average. No nTPM/TPM safety ratio, normal-sparing label or membrane-accessibility verdict is computed.
 
 | Gene | Normal tissue IHC reliability | Missing/discordant context retained |
 |---|---|---|

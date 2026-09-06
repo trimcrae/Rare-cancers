@@ -1,0 +1,23 @@
+{
+  "observed_date": "2026-09-06",
+  "base_revision": "ac556fe22f08747396fcd2dea33b86b2e74c2073",
+  "finding": "Actual Linux systems check reported one K1 error: the Hofvander result linked to an absolute Windows cache path.",
+  "correction": "Point result.md to the existing committed roster using a relative path.",
+  "source": "research/autonomy/atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json",
+  "cache_and_committed_source_bytes": 27720,
+  "cache_and_committed_source_sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+  "independent_verification": "The independent reader compared both files and confirmed byte identity. The link change preserves the exact scientific evidence.",
+  "actual_linux_diagnostic": {
+    "command": "PATH=/opt/emc-venv/bin:$PATH python3 systems/systems_check.py --check",
+    "exit": 1,
+    "seconds": 224.344,
+    "log_sha256": "f95539b46a70b18cc61b8264579a3d1c74778aa4aab704cc53fea7863fe1a6cc"
+  },
+  "superseded_full_attempt": {
+    "outcome": "Interrupted after a demonstrated fast-gate failure, before test suites; not a completed FULL result.",
+    "pipeline_exit": 143,
+    "pipeline_log_sha256": "38d097a40a134cdc5a913f4ea1056cd2b0efdfae9cef95a75c25c3822c424939"
+  },
+  "validation_at_commit": "Draft source checkpoint. Normal preflight and actual unscoped FULL remain to be run on the corrected revision.",
+  "outgoing_artifacts": "All eight frozen files are unchanged; no scientific claim, numerical result, threshold or acceptance rule changed."
+}
