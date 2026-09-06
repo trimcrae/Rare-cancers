@@ -1,0 +1,47 @@
+{
+  "utc": "2026-09-06T02:37:14.603913+00:00",
+  "status": "coordinator_verified_reproduced_normal_gate_passed",
+  "reproduction_runs": [
+    {
+      "script": "analyze.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify.py",
+      "exit_code": 0
+    },
+    {
+      "script": "render_report.py",
+      "exit_code": 0
+    }
+  ],
+  "reproduction_elapsed_seconds": 5.046999999991385,
+  "byte_identical_outputs": {
+    "selected-source-rows.tsv": "612bc13a9bc4ee46e79557f255bc431815f5992ca44b2ae12b90feaed5a6e374",
+    "all-peak-annotations.tsv": "8a8b90fe051fb1f5e0288369b28aaa672fc13121ca4c8969e0374ae3969d9637",
+    "column-mapping.json": "6fa6ca977b1d94d697b6c6cf0f2c124301b250ac702dee9b4ffd834691c23ac9",
+    "results.json": "35a360ca037c13ad1832268c3a8fa89b897a1100163f4aa46349787133c76f6f",
+    "provenance.json": "3bf8701e2957c2effd7ae2f60be5e0846bb4fa078fbeb9840b6352a28a5a85c9",
+    "checks.json": "a91edb3b61075e73dae62485254b93989631a8ce8215b094ec2e3f121ece8208",
+    "report.md": "23975a18179f03c616e28ebfbbc0de16699523c1fcae36f079bcd1f7c80556fc",
+    "contrasts.tsv": "f305e6d6a17072ebb4c7a1e49f55a5ea10d68ae4c7fc8e9427f98005c50e88c9"
+  },
+  "input_hashes_checked": 8,
+  "independent_arithmetic": "coordinator-check.json; root independently reconstructed units/strata and all540 contrasts",
+  "normal_preflight": {
+    "started_utc": "2026-09-06T02:42:49.130568+00:00",
+    "finished_utc": "2026-09-06T02:44:05.016140+00:00",
+    "elapsed_seconds": 75.89100000000326,
+    "exit_code": 0,
+    "scope": "Normal repository preflight after required date metadata correction; no full publication claim",
+    "log_sha256": "d0149c3c63d5381802d1c35e47a7db641c77de9513f1340d225c79426c0d6ce8"
+  },
+  "publication_ready": false,
+  "ultra_review": false,
+  "metadata_repair": "metadata-repair.json preserves original protocol/code/report; six scientific outputs unchanged after required date metadata repair",
+  "novelty_constraint": {
+    "source_peak": "46886",
+    "source_annotation": "MLS_EMC_",
+    "interpretation": "Original source already labels CSPG4 peak as MLS/EMC-associated. New contribution is sample/normal-stratum qualification, not first RNA association discovery."
+  }
+}
