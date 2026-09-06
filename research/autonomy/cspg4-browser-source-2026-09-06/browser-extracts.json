@@ -1,0 +1,28 @@
+{
+  "artifact_type": "Manually retained exact excerpts from browser tool output; not original publisher bytes or full page exports",
+  "observations": [
+    {
+      "id": "cattaruzza_supplement_stop",
+      "requested_url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3656611/bin/supp_mjt010_mjt010supp.pdf",
+      "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3656611/bin/supp_mjt010_mjt010supp.pdf",
+      "observation_time_bounds_utc": ["2026-09-06T06:27:38.780Z", "2026-09-06T06:27:52.933Z"],
+      "time_precision": "Bounds from tool-call timestamps surrounding navigation and closure; exact capture time unavailable",
+      "method": "cua click on observed PDF link, followed by getAXState",
+      "title": "Checking your browser - reCAPTCHA",
+      "visible_text_excerpt": "Checking your browser before accessing pmc.ncbi.nlm.nih.gov ... Click",
+      "additional_visible_text_excerpt": "if you are not automatically redirected after 5 seconds.",
+      "visible_challenge": "reCAPTCHA iframe and protected by reCAPTCHA text",
+      "outcome": "Stopped and closed tab on challenge; no CAPTCHA interaction, wait-for-solve, bypass, alternate endpoint or retry"
+    },
+    {
+      "id": "benassi_pdf_stop",
+      "requested_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/jor.20694",
+      "final_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/jor.20694",
+      "observed_utc": "2026-09-06T06:28:15.741Z",
+      "initial_stop_observed_utc": "2026-09-06T06:28:08.507Z",
+      "method": "cua click on observed Download PDF link, getAXState, then read-only innerText extraction of observed #accessDenialLayout",
+      "access_text": "Get access to the full version of this article.\nView access options below.\nInstitutional Login\nLoading institution options...\n(or click to choose manually)\nLog in to Wiley Online Library\n\nIf you have previously obtained access with your personal account, please log in.\n\nLog in with CONNECT\nOne account for all your research.\nWiley Online Library is part of the CONNECT Network.\nPurchase Instant Access\n\n48-Hour online access\n\n$12.00\n\nDetails\n\nOnline-only access\n\n$20.00\n\nDetails\n\nPDF download and online access\n\n$49.00\n\nDetails\nCheck out",
+      "outcome": "Stopped and closed tab on login/purchase access denial; no credentials, purchase, login interaction or alternate PDF route"
+    }
+  ]
+}
