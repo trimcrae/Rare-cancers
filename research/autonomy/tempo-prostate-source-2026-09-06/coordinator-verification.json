@@ -1,0 +1,132 @@
+{
+  "status": "passed",
+  "source_checks": [
+    {
+      "file": "prostate-article.xml",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10095552/fullTextXML",
+      "status": 200,
+      "bytes": 146221,
+      "sha256": "b3533443766fbec4bbc73d7534317e11db1fe6b2e1c98d583b9c416d0dc63377",
+      "utc": "2026-09-06T06:43:06.234033+00:00"
+    },
+    {
+      "file": "E-MTAB-12593.json",
+      "url": "https://www.ebi.ac.uk/biostudies/api/v1/studies/E-MTAB-12593",
+      "status": 200,
+      "bytes": 46310,
+      "sha256": "a822100cf5ba8129f02da52097986d8add33b92af50ef977b38006a2b1a80117",
+      "utc": "2026-09-06T06:44:16.905452+00:00"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-12593/E-MTAB-12593.idf.txt",
+      "file": "E-MTAB-12593.idf.txt",
+      "bytes": 11986,
+      "sha256": "f4911a4768ddbae5879410c2c996e729ce929e429629bd5c18d4547e87aab6f2",
+      "status": 200
+    },
+    {
+      "url": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-12593/E-MTAB-12593.sdrf.txt",
+      "file": "E-MTAB-12593.sdrf.txt",
+      "bytes": 26103,
+      "sha256": "5599fd521857212f4407a2d5a7d800418fab202a33e9c6859095a075c8900e34",
+      "status": 200
+    }
+  ],
+  "donors": 15,
+  "biological_regions": 45,
+  "regions_by_donor": {
+    "individual 1": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 2": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 3": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 4": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 5": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 6": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 7": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 8": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 9": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 11": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 10": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 12": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 13": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 14": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ],
+    "individual 15": [
+      "neoplasm",
+      "microenvironment",
+      "normal tissue"
+    ]
+  },
+  "public_study_file_inventory": [
+    "E-MTAB-12593.idf.txt",
+    "E-MTAB-12593.sdrf.txt"
+  ],
+  "methods": [
+    {
+      "section_id": "sec2dot5-jcm-12-02605",
+      "text": "Formalin-fixed, paraffin-embedded (FFPE) human prostate tissue sections of human prostates were provided to BioClavis (Glasgow, UK) for targeted RNA expression profiling using the TempO-Seq assays (https://www.bioclavis.co.uk, accessed on 9 June 2021) [46,47]. Samples from two different locations of interest, normal prostate tissues and malignant tissues, were identified in H&E-stained slices, with the help of an expert uro-pathologist. The normal and tumour regions of interest were annotated on adjacent unstained tissue sections, which were sent to BioClavis. A 10 mm2 excision of each tissue region of interest was processed, using the Human Whole Transcriptome v2.0 TempO-Seq panel with standard attenuators. Internal processing control RNA and no-sample negative controls were run as replicates on each assay plate, together with the samples, to ensure quality metrics passed on a plate-wise level."
+    },
+    {
+      "section_id": "sec2dot6-jcm-12-02605",
+      "text": "Sequencing libraries for targeted panels were generated as described briefly here and depicted in Supplementary Figures S2 and S3. Each Detector Oligo in TempO-Seq was made up of a universal primer-binding site (i.e., one that is the same for all targeted genes) and a sequence complementary to an mRNA target. They immediately anneal next to one another on the specific RNA template, allowing for ligation. Ligated detector oligos were PCR-amplified using a primer set (singleplex PCR reaction, with a single primer pair for each sample) that introduced the adaptors needed for sequencing, as well as a sample-specific barcode. The barcode sequences flanked the target sequence and were inserted appropriately into the standard Illumina adaptors to permit standard dual-index sequencing of the barcodes and deconvolution of sample-specific reads from the sequencing data using the standard Illumina software. All PCR-amplified and barcoded samples were pooled into a single library for sequencing on an Illumina HiSeq 2500 High Output v4 flow cell. Sequencing reads were de-multiplexed using BCL2FASTQ software (Illumina, San Diego, CA, USA) for each sample, using the barcodes, to give a FASTQ file for each. FASTQ files were aligned to the Human Whole Transcriptome v2.0 panel, which consists of 22,537 probes, using STAR in the TempO-SeqR software package [48] (BioSpyder Technologies, Carlsbad, CA, USA), with up to 2 mismatches allowed in the 50-nucleotide target sequence (https://www.bioclavis.co.uk/workflow, accessed on 9 June 2021) [49]."
+    }
+  ],
+  "controls_in_primary_methods": "Internal processing RNA and no-sample controls run on each plate",
+  "deposited_control_rows_identified": 0,
+  "processed_count_file_in_study_inventory": false,
+  "scope": "Cancer-patient normal regions, not healthy donors. No raw reads or counts retrieved. No cross-study calibration claim."
+}

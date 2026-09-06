@@ -52,3 +52,13 @@ publication verification has been produced for a new paper. The current turn del
 integrated scientific evidence; the first overall impasse observation occurs only after this
 last source checkpoint is settled. Do not mark the goal blocked until the required repeated
 impasse audit is met. No routine phone notification is selected during that audit.
+
+
+Dated allocation correction, 2026-09-06: the original observation above is preserved, but its
+statement that no specific untried input was identified is superseded. GSE119630 human normal
+counts and E-MTAB-12593 metadata have now been recovered and checked. They do not solve the
+EMC comparison, but establish that the former selection gap was not proof of global blockage.
+Independent methodological challenge narrows the requirement to an identifiable within-study
+RNA contrast, not universal absolute calibration or protein evidence. The specific Zullow2022
+seven-EMC source is being checked under its dated allocation. No overall blocked turn is counted
+while genuine source recovery and verification advance the decision.
