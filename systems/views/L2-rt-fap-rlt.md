@@ -108,7 +108,7 @@ Entirely unmeasured in EMC. The rationale is a plausible inference from the tumo
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The stromal arm, which is the only row on the list that does not require the fusion biology to be solved and is also the least measured.
 

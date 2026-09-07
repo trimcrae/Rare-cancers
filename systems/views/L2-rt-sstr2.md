@@ -113,7 +113,7 @@ It is a well-formed cheap ask with an unknown answer. There is no computation th
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The theranostic receptor arm, framed as a cheap decisive negative rather than as a lead — there is no computation that strengthens it, only a measurement.
 

@@ -1,3 +1,16 @@
+---
+id: DOC-EMC-TISSUE-RNA-VERIFICATION-20260907
+title: Verified tissue-RNA preprint package
+level: cross-cutting
+kind: index
+status: live
+purpose: Locate the frozen release files and their actual independent verification evidence.
+scope: Frozen tissue-RNA article, release package, and preserved verification records.
+audience: [maintainers, autonomous research agents, external reviewers]
+date: 2026-09-07
+last_verified: 2026-09-07
+---
+
 # Verified preprint package
 
 The frozen paper and code/data package passed independent ultra review, focused verification, original-source replay, visual inspection, full GitHub CI, and all eight release-bar clauses. The verified candidate is `785cda386aa401c19439fdecd1bfdd5b03f56c0f`. The paper files did not change during release verification.

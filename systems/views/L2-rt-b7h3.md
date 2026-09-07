@@ -103,7 +103,7 @@ The negative was measured on surrogates, so it is as provisional as a positive w
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`primary` · ◐ `drafted` · aimed at `preprint`
+`primary` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The prioritised surface-antigen ranking and the surrogate basis that bounds its negatives.
 
