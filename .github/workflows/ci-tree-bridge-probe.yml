@@ -3,7 +3,7 @@ on:
   push:
     branches: ['codex/ci-stage/emc-tree-bridge-20260907']
 permissions:
-  contents: read
+  contents: write
 jobs:
   transport-proof:
     runs-on: ubuntu-latest
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
       - name: Verify harmless connector payload
         shell: bash
         run: |
@@ -20,3 +20,9 @@ jobs:
           echo 'd6714fd9c2a0df60695a3a99feaeb9ab45de852f97c4284ebe856040ede788a1  .ci-bridge/transport-probe.bin' | sha256sum --check
           git rev-parse HEAD
           echo 'CONNECTOR_TRANSPORT_PROBE_PASS=1'
+      - name: Prove normal Actions write to isolated task ref
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin "${GITHUB_SHA}:refs/heads/codex/ci-stage/emc-tree-write-proof-20260907"
+          echo 'ACTIONS_CONTENTS_WRITE_PROBE_PASS=1'
