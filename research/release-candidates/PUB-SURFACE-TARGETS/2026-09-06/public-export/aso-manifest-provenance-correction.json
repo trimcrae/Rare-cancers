@@ -1,0 +1,83 @@
+{
+  "schema": "emc-development-manifest-provenance-correction/1",
+  "created_utc": "2026-09-07T01:47:00.724512+00:00",
+  "reason": "Regenerate the moving development inventory at an actual public source commit. The original generation event and immutable published deposit are preserved.",
+  "original": {
+    "manifest_sha256": "a29906b9a3d2bba5fd9afcd262b937e33cd07f48ca44d839a8d0e194dbde0083",
+    "generation_revision": "cf99d16fb773574a55ba55a3e61a2a90adeaff1a",
+    "preserved_at": "17a958ecb47fdef602501c81c0025a9f484c6581:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "generation_record": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/archive-inventory-refresh.json"
+  },
+  "public_source": {
+    "sha": "17a958ecb47fdef602501c81c0025a9f484c6581",
+    "tree": "98b79afe943fe7590e1d91c1a06b5b95a7b47ba9",
+    "origin": "https://github.com/trimcrae/Rare-cancers.git",
+    "ref": "refs/heads/codex/ci-stage/emc-public-source-20260907",
+    "ls_remote": "17a958ecb47fdef602501c81c0025a9f484c6581\trefs/heads/codex/ci-stage/emc-public-source-20260907"
+  },
+  "regeneration": {
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "research/manuscripts/aso_archive_manifest.py"
+    ],
+    "exit": 0,
+    "generator_sha256": "11767d142f812c536d6b887c61e94100b16912618e0f3555e157d9559e7cfa81",
+    "changed_fields": [
+      "git_revision"
+    ],
+    "manifest_sha256": "8eeee566889ff0fcdecb380fdcd3a0bd1b50505d2da56a868c93f4c11233ce3b",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "83f0dabbaaf380cf8f98457f7044a16ea72ee7288b8cc25e99bf33794c9d0e18"
+  },
+  "inventory": {
+    "verified_files": 516,
+    "rows_unchanged": true,
+    "archive_content_digest": "8710f8a2d02f926f00d09d5703e5bb51080ed1910a37f3efcd430693d3bec103"
+  },
+  "published_deposit_state_sha256": "c7a4df0c83c22e451cbf8dfc586020e06d6da01f31fa8063e3e1db73b98701ff",
+  "unchanged_outgoing": [
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.build-stamp.json",
+      "sha256": "f2211a38981eef20a269997faf01a882878e0f82a5d5fb5a4a326acf67d7a0aa",
+      "bytes": 924
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.pdf",
+      "sha256": "69a3786e7652e274239d90fc18d30306bfccf954610f75a79891c117b0c4bc99",
+      "bytes": 304794
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "sha256": "81b5ace2d11e3c5ddf1e4a49becdce7d86ea9b5819f41a1415d5a923dd5d1844",
+      "bytes": 12035
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.build-stamp.json",
+      "sha256": "da4bd6687913433cc95aa4899d3c1f0da1914d41b84535830aa69cfaf9d8947b",
+      "bytes": 479
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "sha256": "e46566f4eb87b894cbbb40ddce1812c01151dcc9ce30c0aca3a643b18cf4e9da",
+      "bytes": 262787
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "sha256": "455260bd45a60817571253d954fc42d6275e3ee53631b20f23d7f6fcbd1816d1",
+      "bytes": 22438
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-code-data-supplement.zip",
+      "sha256": "56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6",
+      "bytes": 95349965
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf",
+      "sha256": "2b39580313d504bca3790b9c8da16e06e16e8e2a2708fb554903c3a6fad059fc",
+      "bytes": 424860
+    }
+  ],
+  "validation_scope": "Generator and provenance/content checks only. No tests or full CI run. The later correction commit is identified in external execution evidence.",
+  "publication": "No paper or deposit publication; original private history was not exported."
+}
