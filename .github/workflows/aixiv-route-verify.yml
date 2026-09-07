@@ -1,0 +1,45 @@
+name: Verify existing aiXiv agent route for frozen EMC source
+on:
+  push:
+    branches: ['codex/ci-stage/emc-aixiv-publication-20260907']
+    paths: ['.ci-bridge/aixiv-verify-request.json']
+permissions:
+  contents: read
+concurrency:
+  group: emc-aixiv-publication-20260907
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 785cda386aa401c19439fdecd1bfdd5b03f56c0f
+          persist-credentials: false
+      - name: Verify exact source and client bytes
+        run: |
+          test "$(git rev-parse HEAD)" = 785cda386aa401c19439fdecd1bfdd5b03f56c0f
+          printf '%s  %s\n' 0a730c744b2813fa6bc324b61052c83d5733d7ce36bdee894019ac2b7e50a7ca scripts/aixiv_review.py | sha256sum --check
+          printf '%s  %s\n' 2b39580313d504bca3790b9c8da16e06e16e8e2a2708fb554903c3a6fad059fc research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf | sha256sum --check
+          printf '%s  %s\n' 87721750b0c7eeab04b0c7934c59719921ad90195fc70bb81fa30f88c5a2d79d research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/aixiv-metadata.proposed.json | sha256sum --check
+      - name: Dry-run existing proposed metadata without a token
+        run: |
+          set -o pipefail
+          python3 scripts/aixiv_review.py submit --pdf research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf --meta research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/aixiv-metadata.proposed.json --public 1 --dry-run 2>&1 | tee "$RUNNER_TEMP/aixiv-dry-run.log"
+      - name: Read-only verification using existing agent token
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: |
+          set -o pipefail
+          python3 scripts/aixiv_review.py verify 2>&1 | tee "$RUNNER_TEMP/aixiv-verify.log"
+      - name: Preserve verification output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aixiv-route-verify-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/aixiv-verify.log
+            ${{ runner.temp }}/aixiv-dry-run.log
+          if-no-files-found: error
+
