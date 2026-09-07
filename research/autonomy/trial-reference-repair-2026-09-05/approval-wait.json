@@ -1,0 +1,18 @@
+{
+  "pending_action": "Guarded deletion of generated round __pycache__, followed by offline finalize.py checks and run-record sealing",
+  "approval_status": "Approved command prefix delivered; original pending call then executed and exited after checks because of the wall-time assertion",
+  "last_pre_call_artifact_utc": "2026-09-05T18:00:30Z",
+  "coordinator_observed_waiting_on_approval": "2026-09-05T18:05Z (minute resolution, relayed by coordinator)",
+  "first_process_output_file_creation_utc": "2026-09-05T18:36:02.5351852Z",
+  "first_check_measured_seconds": 0.14,
+  "final_checks_finished_utc": "2026-09-05T18:36:12.364255+00:00 (label-freeze timestamp immediately after checks)",
+  "worker_first_post_call_clock_utc": "2026-09-05T18:36:20Z",
+  "exact_approval_requested_at_utc": null,
+  "exact_approval_granted_at_utc": null,
+  "exact_wait_seconds": null,
+  "blocked_tool_interval_proxy_start_utc": "2026-09-05T18:00:30Z",
+  "blocked_tool_interval_proxy_end_utc": "2026-09-05T18:36:02.395185Z",
+  "proxy_note": "Start is finalizer file-write time immediately before pending command, not instrumented request time. End is first checks.log creation minus measured first-check runtime; shell/git startup and approval-to-execution delay are uninstrumented. This estimates blocked-tool time, not precise human approval wait. Coordinator independently saw waiting status during the interval.",
+  "scientific_time_handling": "Do not count the entire blocked-tool interval as scientific work. Retain elapsed wall time, a clearly labeled estimate excluding that proxy interval, separately measured offline checks, and timing uncertainty. Never prevent truthful run-record preservation with an elapsed-wall assertion.",
+  "failure_preserved": "Original finalizer completed all three offline checks successfully, wrote label-freeze and output manifest, then raised AssertionError: Scientific reservation exceeded; preserve outputs and report timing. No scientific artifact was lost."
+}

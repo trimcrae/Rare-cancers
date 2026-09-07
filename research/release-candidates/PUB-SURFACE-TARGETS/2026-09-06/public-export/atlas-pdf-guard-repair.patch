@@ -1,0 +1,82 @@
+diff --git a/research/manuscripts/tests/test_build_submission_pdf.py b/research/manuscripts/tests/test_build_submission_pdf.py
+index 38e5bc91a..977be0b56 100644
+--- a/research/manuscripts/tests/test_build_submission_pdf.py
++++ b/research/manuscripts/tests/test_build_submission_pdf.py
+@@ -589,13 +589,18 @@ def test_no_paper_is_stamped_with_another_papers_orderable_file(key):
+     r"""The rendered PDF may only send a reader to a file that paper's own build declares.
+ 
+     Read from the RENDERED text, not the source: the defect lives entirely in the page furniture,
+-    which no `.md` gate can see. Every paper in PAPERS has its `out` PDF committed, so a missing one
+-    is a broken tree — which is exactly when a guard must speak rather than step aside.
++    which no `.md` gate can see. Resolve the paper's declared main suffix when present; a missing
++    declared PDF is a broken tree, not a reason to pass over the check.
+     """
++    paper = bsp.PAPERS[key]
++    declared = paper["out"]
++    main_suffix = paper.get("supplementary_presentation", {}).get("main_suffix")
++    if main_suffix:
++        declared = declared.replace(".pdf", main_suffix)
+     pdf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+-                       *bsp.PAPERS[key]["out"].split("/"))
++                       *declared.split("/"))
+     assert os.path.exists(pdf), (
+-        f"{bsp.PAPERS[key]['out']} is missing. It is a committed deposit artifact, so rebuild it "
++        f"{declared} is missing. It is a committed deposit artifact, so rebuild it "
+         "with build_submission_pdf.py rather than passing over the footer check.")
+     text = _pdf_text(pdf)
+     mine = _orderable_names(key)
+@@ -604,7 +609,7 @@ def test_no_paper_is_stamped_with_another_papers_orderable_file(key):
+                       for name in _orderable_names(other)
+                       if name not in mine and name in text})
+     assert not foreign, (
+-        f"{bsp.PAPERS[key]['out']} sends its reader to {foreign} — another paper's reagent files, "
++        f"{declared} sends its reader to {foreign} — another paper's reagent files, "
+         "which this paper has none of and never declares. Check the running footer: it must come "
+         "from handling_footers(paper), not from the module-level ORDER_FROM.")
+ 
+@@ -614,9 +619,14 @@ def test_every_papers_footer_is_derived_from_its_own_sources(key):
+     """The unit half of the guard above, so the rule holds for a paper before its first build."""
+     paper = bsp.PAPERS[key]
+     full, short = bsp.handling_footers(paper)
+-    assert "not for administration" in full and "not for administration" in short, (
+-        "the prohibition is universal and must survive in both lengths")
+     orderable = bsp.order_from(paper)
++    if "footer_text" in paper:
++        assert orderable is None, "a neutral footer must not suppress reagent handling instructions"
++        assert full == short == paper["footer_text"] and full.strip(), (
++            "an explicit neutral footer must match its nonempty declaration in both lengths")
++    else:
++        assert "not for administration" in full and "not for administration" in short, (
++            "the default handling prohibition must survive in both lengths")
+     if orderable is None:
+         assert full == short, (
+             f"{key} has no orderable file, so there is no destination to state and the two lengths "
+@@ -686,13 +696,26 @@ def test_a_bulleted_list_after_an_italic_opening_line_is_unaffected():
+     assert "<ul>" in html and html.count("<li>") == 2
+ 
+ 
++def _literal_blockquote_markers(text):
++    # A Markdown blockquote marker starts a line. Inline inequalities are mathematical content.
++    return re.findall(r"(?m)^[ \t]*>[ \t]+[A-Za-z(]", text)
++
++
++def test_blockquote_detection_catches_leaks_without_flagging_an_inequality():
++    assert _literal_blockquote_markers("Title\n> C(A) = 1 - x\ncontinued"), (
++        "a literal marker at the start of an extracted line must be detected")
++    assert _literal_blockquote_markers("  > an indented leaked quote"), (
++        "indentation must not conceal a literal marker")
++    assert not _literal_blockquote_markers("A = P(EMC > comparator) + 0.5 P(tie)"), (
++        "the probability definition in the figure is content, not a blockquote")
++
++
+ @pytest.mark.committed_artifact
+ @pytest.mark.parametrize("pdf", sorted(_glob.glob(
+     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "*", "*.pdf"))))
+ def test_no_blockquote_marker_survives_into_a_deposited_pdf(pdf):
+     """The rendered half of the guard above, over every built document in the tree."""
+-    text = " ".join(_pdf_text(pdf).split())
+-    leaked = re.findall(r"(?<![-<=>])>\s+[A-Za-z(]", text)
++    leaked = _literal_blockquote_markers(_pdf_text(pdf))
+     assert not leaked, (
+         f"{os.path.basename(pdf)} prints {len(leaked)} literal blockquote marker(s) {leaked[:3]} — "
+         "markdown_to_html must render a quoted line as a <blockquote>, not as body text.")

@@ -1,0 +1,63 @@
+[
+  {
+    "position": 52,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included in the advanced/recurrent/metastatic STS eligibility and is not among excluded histologies.",
+    "cohort_reconciliation": "One SFRT plus PraG arm is listed. Prior surgery, chemotherapy or radiation is permitted subject to washout and toxicity resolution; same-site excessive radiation exposure is excluded.",
+    "extra_biomarker_requirement": "No additional molecular entry requirement is stated.",
+    "protocol_uncertainty": "The summary mentions ABC or placebo despite a single-arm design, and thymalfasin is absent from the detailed intervention listing. These are unresolved regimen inconsistencies. Age 18–75 and clinical criteria remain. Saved status is NOT_YET_RECRUITING; planned start and primary completion coincide. External protocol and actual availability are unverified.",
+    "task_domain": "oncology_treatment_with_source_regimen_conflicts",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["descriptionModule/briefSummary", "Participants will receive daily oral administration of ABC or placebo for a consecutive 4 months."],
+      ["statusModule/overallStatus", "NOT_YET_RECRUITING"]
+    ]
+  },
+  {
+    "position": 53,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SySa is explicitly eligible in IRS III, metastatic or relapsed disease. The broader any-stage DSRCT clause does not apply to SS.",
+    "cohort_reconciliation": "Maintenance after SD/PR/CR following standard treatment, no curative option, and enrollment less than eight weeks after at least two chemotherapy cycles. Adolescent recruitment follows adult run-in feasibility and cannot be inferred open from the overall recruitment flag.",
+    "extra_biomarker_requirement": "High SSTR2/3/5 mRNA expression by RNA sequencing in MASTER or INFORM is required. The saved text provides no numerical high-expression cutoff; receptor PET or diagnosis alone does not satisfy this requirement.",
+    "protocol_uncertainty": "Age 13–50, weight/BSA and clinical criteria remain; prior somatostatin analogue is excluded. External prohibited-medication table and expression thresholds are unreviewed. Source power assumptions are planned quantities, not measured benefit. Live cohort availability is unknown.",
+    "task_domain": "oncology_maintenance_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Reference pathological proven diagnosis of SySa, IRS III, metastatic or relapsed disease"],
+      ["eligibilityModule/eligibilityCriteria", "High SSTR2/3/5 mRNA expression, as determined by RNA sequencing in the DKFZ/NCT/DKTK MASTER (ClinicalTrials.gov ID: NCT05852522) or INFORM programs."],
+      ["eligibilityModule/eligibilityCriteria", "Stable disease, partial or complete response after completion of standard treatment"]
+    ]
+  },
+  {
+    "position": 54,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly listed in conditions and fits the broad advanced/refractory soft-tissue or bone sarcoma eligibility. This supports saved histologic scope only despite substantial source inconsistencies.",
+    "cohort_reconciliation": "Narrative describes dose escalation then expansion of sequential CD146- and HER2-directed products. One arm lists CD146/HER2 CAR-T; intervention text instead mentions hematologic malignancies and BCMA/GPRC5D. These contradictory treatment descriptions are unresolved, not evidence of a separate eligible hematologic cohort.",
+    "extra_biomarker_requirement": "CD146 and/or HER2 testing is recommended and at least one target should be present, but unavailable testing may be replaced by investigator judgment based on histology. Neither antigen positivity nor that discretion is established for an individual SS case.",
+    "protocol_uncertainty": "Eligibility ages 12 to approximately 75 conflict with metadata 21–90; narrative enrollment 40 conflicts with design 60. Examples and unspecified intervals leave protocol gaps. Prior CAR-T/gene-modified T-cell therapy is excluded. External protocol, precise product and live availability are unverified; this record merits independent scrutiny before any clinical interpretation.",
+    "task_domain": "oncology_treatment_with_material_source_conflicts",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/5", "Sarcoma, Synovial"],
+      ["eligibilityModule/eligibilityCriteria", "Histologically or cytologically confirmed sarcoma (soft tissue or bone sarcoma), that is metastatic, locally advanced, or refractory to standard therapy."],
+      ["eligibilityModule/eligibilityCriteria", "In cases where testing is unavailable, enrollment may proceed based on histology known to often express these targets, per investigator judgment."],
+      ["armsInterventionsModule/interventions/0/description", "The goal is to assess safety and efficacy in patients with specific hematologic malignancies."]
+    ]
+  },
+  {
+    "position": 55,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included in the high-grade STS list. Explicit DSRCT/chondrosarcoma and other exclusions do not exclude SS.",
+    "cohort_reconciliation": "Randomized trabectedin versus trabectedin plus tTF-NGR after completed safety run-in. The historical escalating run-in doses are not the randomized dose. Anthracycline failure, specified recent adjuvant exposure, or contraindication is required.",
+    "extra_biomarker_requirement": "Central pathology CD13 score at least 1 is required in addition to FNCLCC grade 2–3 disease. Neither CD13 positivity nor drug suitability follows from SS histology.",
+    "protocol_uncertainty": "Age 18–75, vascular/thrombotic risks, laboratory and other criteria remain, including investigator discretion for some outliers. External trabectedin attachment and protocol are unreviewed; saved recruitment is not live-slot evidence. Source inference from six DLT-free patients to a low future DLT rate is not endorsed or validated here.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "CD13 positivity with a score of ≥ 1 (20) by central pathology (GDI Münster)"],
+      ["eligibilityModule/eligibilityCriteria", "Tumor types not listed above may be included upon communication with Coordinating Investigator."]
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+diff --git a/research/autonomy/deliverable_digest.py b/research/autonomy/deliverable_digest.py
+index 36a9a6ad8..164af2e36 100644
+--- a/research/autonomy/deliverable_digest.py
++++ b/research/autonomy/deliverable_digest.py
+@@ -78,6 +78,7 @@ def _publication(pub_id, at=None):
+ def _read(rel, at=None):
+     """File bytes now, or as of a commit. `None` when it does not exist there."""
+     if at:
++        rel = rel.replace("\\", "/")  # Git object paths use '/', including on Windows.
+         r = subprocess.run(["git", "-C", ROOT, "show", "%s:%s" % (at, rel)],
+                            capture_output=True)
+         return r.stdout if r.returncode == 0 else None
+@@ -90,6 +91,7 @@ def _read(rel, at=None):
+ 
+ def _listing(directory, at=None):
+     if at:
++        directory = directory.replace("\\", "/")
+         r = subprocess.run(["git", "-C", ROOT, "ls-tree", "--name-only", "%s:%s" % (at, directory)],
+                            capture_output=True, text=True)
+         return [] if r.returncode else [n for n in r.stdout.split("\n") if n]
+diff --git a/research/autonomy/tests/test_a_review_names_what_it_read.py b/research/autonomy/tests/test_a_review_names_what_it_read.py
+index eb05998d1..902e45a22 100644
+--- a/research/autonomy/tests/test_a_review_names_what_it_read.py
++++ b/research/autonomy/tests/test_a_review_names_what_it_read.py
+@@ -111,6 +111,27 @@ def test_a_missing_member_yields_no_digest_rather_than_a_partial_one():
+     assert D.deliverable_digest("PUB-DOES-NOT-EXIST") == (None, None)
+ 
+ 
++def test_git_object_paths_accept_windows_separators_and_refuse_missing_files():
++    """Native relpath separators must not make an existing committed graph disappear."""
++    graph = "systems/graph/publications.json"
++    expected = D._read(graph, "HEAD")
++    assert expected is not None
++    assert D._read(graph.replace("/", "\\"), "HEAD") == expected
++    listing = D._listing("systems/graph", "HEAD")
++    assert "publications.json" in listing
++    assert D._listing("systems\\graph", "HEAD") == listing
++    assert D._read("systems\\graph\\absent-digest-fixture.json", "HEAD") is None
++    assert D._listing("systems\\absent-digest-fixture", "HEAD") == []
++
++
++def test_windows_graph_relpath_preserves_committed_digest(monkeypatch):
++    expected = D.deliverable_digest(PAPER, "HEAD")
++    assert expected[0] is not None
++    native_relpath = D.os.path.relpath
++    monkeypatch.setattr(D.os.path, "relpath", lambda *args: native_relpath(*args).replace("/", "\\"))
++    assert D.deliverable_digest(PAPER, "HEAD") == expected
++
++
+ def test_the_digest_moves_when_the_paper_moves():
+     """★ THE OTHER DIRECTION, WHICH IS THE ONE A REVIEWER SHOULD DISTRUST FIRST. An instrument that
+     never changes is not stable, it is blind. Perturb one member's bytes and the digest must move.

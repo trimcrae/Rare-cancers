@@ -1,0 +1,22 @@
+{
+  "question": "Across a frozen small set of fusion-defined sarcoma diagnoses, does molecular eligibility retrieval recover source-supported diagnosis-level candidates missed by ordinary disease synonyms and full-text search, with a credible bounded reference set and nontrivial novelty?",
+  "priority": "Existing rank4 after three independently verified deprioritizations; gate unverified.",
+  "selection": "Before retrieval, freeze 3-5 diagnoses including EMC, canonical disease synonyms and established defining fusion terms with primary provenance; do not choose based on query success. Enumerate a defensibly bounded complete query corpus with pagination and counts, timestamp/hash raw sources. Separate current records from historical candidates.",
+  "validation": "Compare condition-only, ordinary synonym/full-text and molecular criteria retrieval. Preserve all comparator IDs, pagination, eligibility source pointers, positive candidates, hard negatives and uncertainty. Source-grounded worker reference labels remain provisional pending coordinator independent verification. No global recall without independent denominator. Diagnosis-level compatibility is not patient eligibility.",
+  "novelty": "Focused primary prior-art check including TrialGPT and diagnosis/molecular search. Condition-field omission is not unfindability; beating an artificially weak baseline is insufficient.",
+  "success": "A reproducible useful retrieval gap surviving ordinary synonyms/full-text baselines, credible reference-set construction, plausible generalization and distinct contribution warranting development.",
+  "stop": "One medium 1800-second fresh-context round, return go/no-go or specific remediable uncertainty. No nested tasks/runners, manuscript rewriting, clinical registry edits, publication/outreach or API/GPU spending. No total daily program pacing cap; bounded rounds remain for coordination.",
+  "inputs": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/autonomy/response-recoverability-2026-09-05/decision.md"
+  ],
+  "outputs": [
+    "research/autonomy/trial-discoverability-2026-09-05/pilot.md",
+    "research/autonomy/trial-discoverability-2026-09-05/selection.json",
+    "research/autonomy/trial-discoverability-2026-09-05/evidence.json",
+    "research/autonomy/trial-discoverability-2026-09-05/sources/"
+  ],
+  "publication_authorized": false
+}

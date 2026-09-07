@@ -1,0 +1,218 @@
+{
+  "status": "passed",
+  "checks": {
+    "metadata": 5633,
+    "source": 3,
+    "TPM_values": 8448,
+    "primary_summary": 24,
+    "histology": 120,
+    "yearcell": 1632,
+    "deletion_summary": 1560,
+    "deletion_histology": 4608,
+    "deletion_range": 192,
+    "allocation": 11,
+    "revision": 24,
+    "array_values": 504,
+    "array_contrast": 48,
+    "array_deletion": 696,
+    "shared_hofvander": 96,
+    "annotation": 1
+  },
+  "total_comparisons": 23600,
+  "mismatches": [],
+  "passing_address_genes": [
+    "CSPG4"
+  ],
+  "computed": {
+    "CD276": {
+      "primary": {
+        "marginal": 0.26574865463754355,
+        "matched": 0.2714285714285714
+      },
+      "LGFMS": {
+        "marginal": 0.02564102564102564,
+        "matched": 0.047619047619047616
+      }
+    },
+    "SSTR2": {
+      "primary": {
+        "marginal": 0.5692579025912359,
+        "matched": 0.7337301587301588
+      },
+      "LGFMS": {
+        "marginal": 0.7606837606837606,
+        "matched": 0.8095238095238096
+      }
+    },
+    "PRAME": {
+      "primary": {
+        "marginal": 0.215732826843938,
+        "matched": 0.25396825396825395
+      },
+      "LGFMS": {
+        "marginal": 0.6410256410256411,
+        "matched": 0.7619047619047619
+      }
+    },
+    "FAP": {
+      "primary": {
+        "marginal": 0.34366662144439925,
+        "matched": 0.278968253968254
+      },
+      "LGFMS": {
+        "marginal": 0.05128205128205128,
+        "matched": 0.09523809523809523
+      }
+    },
+    "CD248": {
+      "primary": {
+        "marginal": 0.12178356622801068,
+        "matched": 0.015873015873015872
+      },
+      "LGFMS": {
+        "marginal": 0.21367521367521367,
+        "matched": 0.047619047619047616
+      }
+    },
+    "CSPG4": {
+      "primary": {
+        "marginal": 0.8945416723194501,
+        "matched": 0.811111111111111
+      },
+      "LGFMS": {
+        "marginal": 0.9658119658119658,
+        "matched": 0.9333333333333332
+      }
+    },
+    "MSLN": {
+      "primary": {
+        "marginal": 0.680075068963958,
+        "matched": 0.5896825396825397
+      },
+      "LGFMS": {
+        "marginal": 0.9273504273504274,
+        "matched": 0.7857142857142857
+      }
+    },
+    "L1CAM": {
+      "primary": {
+        "marginal": 0.6993058381947271,
+        "matched": 0.6162698412698412
+      },
+      "LGFMS": {
+        "marginal": 0.9017094017094017,
+        "matched": 0.8571428571428571
+      }
+    },
+    "GPC3": {
+      "primary": {
+        "marginal": 0.2905982905982906,
+        "matched": 0.3126984126984127
+      },
+      "LGFMS": {
+        "marginal": 0.7606837606837606,
+        "matched": 0.9047619047619048
+      }
+    },
+    "ALPP": {
+      "primary": {
+        "marginal": 0.5333627278071723,
+        "matched": 0.49722222222222223
+      },
+      "LGFMS": {
+        "marginal": 0.6111111111111112,
+        "matched": 0.5
+      }
+    },
+    "CDH17": {
+      "primary": {
+        "marginal": 0.44520191742413956,
+        "matched": 0.4311507936507937
+      },
+      "LGFMS": {
+        "marginal": 0.3034188034188034,
+        "matched": 0.280952380952381
+      }
+    },
+    "CHRNA6": {
+      "primary": {
+        "marginal": 1.0,
+        "matched": 1.0
+      },
+      "LGFMS": {
+        "marginal": 1.0,
+        "matched": 1.0
+      }
+    }
+  },
+  "independent_bootstrap": {
+    "draws": 10000,
+    "seed": 2026090601,
+    "method": "independent multinomial stratum-count resampling shared across histologies",
+    "marginal_percentile_95": [
+      0.8680866458644236,
+      0.9178763623208067
+    ],
+    "matched_percentile_95": [
+      0.7527777777777778,
+      0.861111111111111
+    ]
+  },
+  "cohort_counts": {
+    "Dermatofibrosarcoma protuberans": 10,
+    "Desmoid": 11,
+    "Extraskeletal myxoid chondrosarcoma": 9,
+    "Low-grade fibromyxoid sarcoma": 13,
+    "Myxofibrosarcoma": 60,
+    "Myxoid liposarcoma": 14,
+    "Solitary fibrous tumor": 11,
+    "Synovial sarcoma": 18
+  },
+  "array_counts": {
+    "Desmoid": 6,
+    "Extraskeletal myxoid chondrosarcoma": 6,
+    "Low-grade fibromyxoid sarcoma": 17,
+    "Myxofibrosarcoma": 6,
+    "Solitary fibrous tumor": 5,
+    "Normal muscle pool": 2
+  },
+  "read_files": {
+    "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip": "30829e7962887125ede409ace0fefd7babaa8ad345aa8a51caaf769529697e12",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/PRAME.json": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/FAP.json": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD248.json": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CSPG4.json": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/MSLN.json": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/L1CAM.json": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/GPC3.json": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/ALPP.json": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CDH17.json": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CHRNA6.json": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+    "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/PRAME.json": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/FAP.json": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD248.json": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CSPG4.json": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/MSLN.json": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/L1CAM.json": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/GPC3.json": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/ALPP.json": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CDH17.json": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CHRNA6.json": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4"
+  },
+  "archive_members": {
+    "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip!source_data/meta_data.txt": "e0bbc6f2e8c062cb6733e68e1c148248775f2e53c6bce7c61b70bb79c89777bf",
+    "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip!ccr-25-3740_supplementary_table_s1_suppts1.xlsx": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c",
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip!GPL6244-original-annotation.tsv": "bf8d5628703920806179c9ed871d56ae1275c9f67fc537ae2bbc2034aa36dccc"
+  }
+}

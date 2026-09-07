@@ -1,0 +1,63 @@
+[
+  {
+    "position": 38,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly listed in the advanced other-sarcoma scope and the Cohort C Phase II and Cohort D histology lists.",
+    "cohort_reconciliation": "Monotherapy other-sarcoma Cohort F, radiation-combination advanced Cohort C and localized Cohort D have different disease/treatment restrictions. Cohort E is limited to specified L-sarcomas and is not a synovial-sarcoma route. A/B are Phase I advanced STS. A single arm label does not collapse these distinctions.",
+    "extra_biomarker_requirement": "Central diagnostic confirmation and tissue provision are required; no additional molecular inclusion threshold is stated for SS.",
+    "protocol_uncertainty": "External protocol and currently open cohorts are unverified. Cohort D requires selected localized grade/site/resectability risk criteria and excludes its defined high-risk group; C has radiation-field constraints; advanced cohorts have prior-line/progression limits. Past estimated completion dates do not supersede saved RECRUITING status.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "A centralized diagnosis of other sarcomas includes: undifferentiated pleomorphic sarcoma (UPS), myxofibrosarcoma, synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients must be diagnosed by central pathology review with one of the following subtypes: leiomyosarcoma, undifferentiated pleomorphic sarcoma (UPS), myxofibrosarcoma, synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "A centralized diagnosis of DD liposarcoma or mixoid/hypercellular liposarcoma or leiomyosarcoma must be confirmed for patients in cohort E."]
+    ]
+  },
+  {
+    "position": 39,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly admitted, with a diagnosis-specific age range of 2–17.",
+    "cohort_reconciliation": "Single pediatric basket treatment arm. The 2–21 range for other diagnoses and global maximum age 21 do not extend SS enrollment to ages 18–21.",
+    "extra_biomarker_requirement": "HLA-A*02 positivity and centrally confirmed MAGE-A4 expression are required; HLA-A*02:05 or protein-equivalent A*02 alleles are specifically excluded. No expression cutoff is supplied in the saved summary, and no patient result is established.",
+    "protocol_uncertainty": "External protocol, antigen cutoff and live slots are unverified. Prior systemic chemotherapy, minimum weight, measurable disease before lymphodepletion and rapid-progression/clinical exclusions remain applicable. Performance-score wording overlaps at age 16 and is preserved.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "(A) Synovial Sarcoma: 2 to 17 years"],
+      ["eligibilityModule/eligibilityCriteria", "Tumor shows MAGE-A4 expression confirmed by central laboratory."],
+      ["eligibilityModule/eligibilityCriteria", "or any A\\*02 having same protein sequence as HLA-A\\*02:05"]
+    ]
+  },
+  {
+    "position": 40,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The expansion eligibility explicitly names synovial sarcoma and requires histologic/translocation confirmation. Dose escalation also permits broad advanced solid tumors.",
+    "cohort_reconciliation": "Dose escalation is broad while expansion is SS/MRCLS-specific. Only a dose-escalation arm is currently enumerated, so a listed expansion criterion is not proof expansion is open.",
+    "extra_biomarker_requirement": "HLA-A*02:01, *02:05 or *02:06 plus NY-ESO-1 in at least 50% of tumor cells at IHC 2+ or 3+, confirmed at MDACC, are required. This record permits *02:05; exclusions from other trials must not be imported. SS translocation confirmation is an additional diagnostic requirement.",
+    "protocol_uncertainty": "The exact source wording assigns SYT/SSX chromosomes and uses t(X;18); preserve it for protocol-level confirmation without silently rewriting it. External protocol and live cohorts are unverified. Ages 16–80, weight and prior-therapy rules apply; previous NY-ESO therapy is excluded.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients with histologically confirmed synovial sarcoma (cohort 1) or myxoid/round cell liposarcoma (cohort 2)"],
+      ["eligibilityModule/eligibilityCriteria", "50% tumor cells 2+ or 3+ by IHC"],
+      ["eligibilityModule/eligibilityCriteria", "NY-ESO expression must be confirmed at MDACC prior to study entry."],
+      ["eligibilityModule/eligibilityCriteria", "Previously received any anti-NY-ESO-1 therapy."]
+    ]
+  },
+  {
+    "position": 41,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly included in the advanced bone/soft-tissue sarcoma list and is not one of its enumerated exceptions.",
+    "cohort_reconciliation": "One chidamide/AK112 treatment arm after first-line failure; broad wording does not erase specific histology exclusions, but none conflicts with SS.",
+    "extra_biomarker_requirement": "No PD-L1 or other molecular inclusion threshold is stated.",
+    "protocol_uncertainty": "External protocol and live enrollment are unverified. Drug-name translations and chidamide frequency differ across text; the prior sildenafil/HDAC-inhibitor exclusion is retained verbatim rather than corrected. Saved RECRUITING status is old and estimated completion has passed, neither of which proves current slots or closure.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "mainly including synovial sarcoma, smooth muscle sarcoma, vascular sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Except for the following types: malignant mesothelioma, acinar soft tissue sarcoma, gastrointestinal stromal tumor, and extra bone mucinous chondrosarcoma;"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with advanced bone and soft tissue sarcoma who experience disease progression or failure after first-line standard treatment;"]
+    ]
+  }
+]

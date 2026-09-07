@@ -1,0 +1,1740 @@
+{
+  "protocol_sha256": "2e7cf8ff30f52cedc6165742470e43f2b4cdad4c938b120d0dd8204b1edf153b",
+  "source_packet_sha256": "097df086c8cfe8c5b250040a839d2318594cfa7cf06b80a49c916cdf6ae0792a",
+  "labels": [
+    {
+      "position": 1,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "The saved eligibility explicitly permits histologically verified relapsed or refractory DSRCT. This is disease-scope compatibility only.",
+      "cohort_reconciliation": "Phase 2 Part B2 is the DSRCT cohort. Until Phase 1 dose confirmation, its stated age range is 12–39; after confirmation it is 2–39. Title references osteosarcoma and the phase enum is PHASE2, while the detailed record describes phase-dependent WT/DSRCT cohorts. Neither the title nor phase enum resolves which cohorts or ages are currently open.",
+      "extra_biomarker_requirement": "No positive HER2-expression threshold is stated as a required inclusion criterion in the complete saved eligibility. HER2 IHC prediction of response is an exploratory objective; do not infer a biomarker gate from the drug mechanism. Prior HER2-targeted therapy is excluded.",
+      "protocol_uncertainty": "External protocol and active cohort availability are unverified. Relapsed/refractory status, prior treatment, measurable disease, surgical plans and all other clinical criteria still apply. Metadata age limits do not resolve the conditional age expansion.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT04616560",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT04616560",
+      "title": "Trastuzumab Deruxtecan (DS-8201a) for the Treatment of Recurrent or Refractory Osteosarcoma, Wilms Tumor, and Desmoplastic Small Round Cell Tumor",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Patients must have had histologic verification of Wilms tumor or desmoplastic small round cell tumor at original diagnosis or relapse",
+          "char_start": 1072,
+          "char_end": 1205
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Desmoplastic small round cell tumor: DSRCT patients with relapsed or refractory disease are eligible",
+          "char_start": 2633,
+          "char_end": 2733
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "To evaluate whether HER2 expression as measured by immunohistochemistry (IHC) is predictive of response to DS-8201a in pediatric and young adult patients with WT or DSRCT.",
+          "char_start": 918,
+          "char_end": 1089
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "4ba109bfc4bef3c37bde2aa2aa6aad103d31e916b054f34d61cf347ad53d9de1"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "b8cc3bcefb6c5c72d02f3a3463fcc07c24ab3e198a4d2b0b8ad7800f0a46ffd2"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "801748841c3c832401f99aeb745315a50a9e217ec6cfd644c6ab10df2702190c"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "664ca101af0dd61ee0c2151ed7bbc33f5b0af5dce954ad5d2523ca1b93f783fb"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "3df5fbcbe3dc1a79c48a395650c3ceb5a17eaccf2fad48643b41f47f56ef71af"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "3bb670bfe500281d72034b6ee6519e3076f5e01ef3eae8c1c97dafebb576d940"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/6/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "0e98bca9f9c4387160568606a578ba6a3868d4a028c77aa06a8a4329ff7215b9"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0001-0003.json",
+        "pointer": "/0",
+        "sha256": "ec4316420ae3f04448fad5736656cf78164ea661bc8f3c7efb9e674ce295759f"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-06",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 2,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "DSRCT is explicitly included by tissue diagnosis in the saved eligibility and consistently named in the description. B7-H3 expression is a separate required gate, not established by diagnosis alone.",
+      "cohort_reconciliation": "Single phase 1 CAR-T treatment cohort for patients aged 1–24 with relapsed or refractory RMS, ES or DSRCT; description, eligibility and arm agree. Separate infusion exclusions apply after initial enrollment assessment.",
+      "extra_biomarker_requirement": "Tumor expression of B7-H3 is explicitly required; the saved inclusion list does not state an assay cutoff and no patient expression result is available.",
+      "protocol_uncertainty": "External protocol, biomarker assay threshold, manufacturing feasibility and live slots are not independently verified. Measurable cross-sectional disease is required and marrow-only detectable disease is expressly excluded. Other clinical and infusion criteria remain unassessed for an individual.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT07751380",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07751380",
+      "title": "Multi-modular Chimeric Antigen Receptor T Cells tarGeting B7-H3 in Children, Teenage & Young Adult Sarcoma",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Tissue diagnosis of RMS, ES or DSRCT",
+          "char_start": 51,
+          "char_end": 87
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Expression of B7-H3 in the tumour",
+          "char_start": 91,
+          "char_end": 124
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Relapsed or refractory disease after one or multiple lines of previous treatment.",
+          "char_start": 128,
+          "char_end": 209
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Patients with only bone marrow detectable disease (bone marrow aspirate or trephine) are NOT eligible for the study.",
+          "char_start": 260,
+          "char_end": 376
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "635cf25f960c57858ef906234002b02dcc670528b4f667b7ac2cb754b6dcdcba"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "ea8437622f422d594cfb36bf91705ffcc49179facaf399c3c1a4a16b0bca688b"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "0006fe49ddf32ba765d0414c21fb590030866d4fd4b5276e1ca10ece57d3c54e"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "db77096c472b7818bcc6c860fd6f5bd8024bb245056ac4c0e2dc11eb755d01e7"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "645411aa4dfecc7fdea91410915de3504d3a1841d56fb0933c6ef31914df89b5"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "200ddafe83b3f570f6798f5f904fe3d555190733b267280c2a042da876fd9107"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/66/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "4adcb5ed5af505900857188aa0fc1b7728f51e6b6416953b8dac67a407c2cb18"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0001-0003.json",
+        "pointer": "/1",
+        "sha256": "ec4316420ae3f04448fad5736656cf78164ea661bc8f3c7efb9e674ce295759f"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-08",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 3,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "DSRCT is explicitly listed for Parts A and B (Phase 1), but not for the NF-associated MPNST-only Part C (Phase 2). The compatibility label is restricted to the saved Phase 1 scope.",
+      "cohort_reconciliation": "Eligibility lists DSRCT in Phase 1 Parts A/B and restricts Phase 2 Part C to progressive, relapsed, unresectable or metastatic NF-associated MPNST. Description and arms support this distinction. The PHASE2 design enum and overall RECRUITING status do not establish that the DSRCT-compatible Phase 1 parts are currently available.",
+      "extra_biomarker_requirement": "No additional molecular inclusion gate is stated for DSRCT in Parts A/B. The NF-associated MPNST requirement belongs to Part C and is not transferred to DSRCT.",
+      "protocol_uncertainty": "External protocol and active part/cohort are unverified. Patients must have disease refractory to/progressing after standard therapies, or no standard care options, plus all other clinical criteria. Overall registry status cannot establish live Phase 1 availability.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT05253131",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05253131",
+      "title": "Trial of Selumetinib and Bromodomain Inhibitor With Durvalumab for Sarcomas",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Part A and B (Phase 1): Patients with histologically confirmed soft tissue or bone sarcoma of the following subtypes:",
+          "char_start": 117,
+          "char_end": 234
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Desmoplastic small round blue cell tumor (DSRCT)",
+          "char_start": 438,
+          "char_end": 486
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Part C (Phase 2): Patients with progressive, relapsed, unresectable or metastatic NF associated MPNST.",
+          "char_start": 655,
+          "char_end": 757
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/descriptionModule/briefSummary",
+          "excerpt": "The phase 2 portion will be for patients with refractory/unresectable NF1-associated MPNST.",
+          "char_start": 280,
+          "char_end": 371
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "875ec762d3682b9035307e48d6da155507bc5b17865e7497b5ea3fab1c14a6a9"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "dad184468889215bebc7fee452ff4e71d0a454fe29bf182d9e7472b21f80a984"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "39c2e7aa6c6668a8f03f1942e4b2f28beb99fe864f31c474262891d9d8e4a8fc"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "700930ffb08214e3bbd8947d9c0ab5ff27d01ac316479c1b8fb9f1c83f1c0311"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "0051de592e27c16af9f0e5c883dc4d3bab58872053eafa07b65e2864c2eb0fde"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "b19f346f2af7a219317319fac50fe8e7122b0ae07075ba32082a03da90bb6d08"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/70/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "6374027f94b051da8b2513273fbc8478f755fa188b1799e12f6550fbe80a86d2"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0001-0003.json",
+        "pointer": "/2",
+        "sha256": "ec4316420ae3f04448fad5736656cf78164ea661bc8f3c7efb9e674ce295759f"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-08",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 4,
+      "label": "explicit_exclusion",
+      "rationale": "The exclusion list explicitly names desmoplastic small round cell tumor among excluded pediatric-type sarcomas. Broad STS wording does not override this exclusion.",
+      "cohort_reconciliation": "The two randomized radiotherapy/surgical-timing arms and concurrent observational cohort share a study restricted to primary resectable extremity/trunk-wall STS. No separate DSRCT exception is stated.",
+      "extra_biomarker_requirement": "No molecular gate establishes a DSRCT exception.",
+      "protocol_uncertainty": "External protocol is unreviewed; the saved record is NOT_YET_RECRUITING. Anatomic, recurrence and risk restrictions also apply, but the disease-name exclusion is sufficient for this source-scope judgment.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT07265661",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07265661",
+      "title": "Surgical Timing After Preoperative Hypofractionated Radiotherapy for Localized Extremity and Trunk Soft Tissue Sarcoma",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Soft tissue sarcomas (STS) originating at different sites (i.e., retroperitoneal, abdominal, pelvic, head and neck), gynecological sarcomas, as well as gastrointestinal stromal tumors (GISTs), desmoid-type fibromatosis and pediatric-type sarcomas (i.e., extraosseous Ewing sarcoma, embryonal/alveolar rhabdomyosarcoma, desmoplastic small round cell tumor) are excluded.",
+          "char_start": 2122,
+          "char_end": 2491
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "cb234dd158ea4d532417875fae7dff8f3eb03a76ba138cde696fbdd7c7557460"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "9c4a637dcf856fd3997675246950fac8fb35348c931d2d501a715b1b6f7f4f3c"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "0b77ebc669beed60e16a2fd455f7c882c795e66769a018de931f085819c0a2cf"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "cdeb32d18ba585feb89917dedfa38df30261a877e34540e26fe1f1f474d1b0ae"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "6dd14f82ae67a5fba8ca6e6d2407a99fe0722e99ff8fb70216f5ceb8c3b3b018"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "12f9638f749f5fce4ec1b0f6531a04c14cc0253a1e459246cf3cceebc6830173"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/69/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "b876d69792651268bb679bd3feea7ed95c3c6f9178591ec936e04f80b9da83b7"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0004-0007.json",
+        "pointer": "/0",
+        "sha256": "5d16dfaf201758bf73f87d8911699b517e4cfb9598b65e08c5392f379a7e20d0"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "NOT_YET_RECRUITING",
+      "status_verified_date": "2026-09",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 5,
+      "label": "insufficient_evidence",
+      "rationale": "The record permits histologically confirmed Ewing sarcoma and conditionally Ewing-like sarcoma treated under the protocol's Ewing paradigm. It does not explicitly identify DSRCT or EWSR1-WT1. The condition-field EWSR1-non-ETS category does not establish that this diagnosis satisfies the protocol-dependent Ewing-like classification.",
+      "cohort_reconciliation": "Radiotherapy and surgical cohorts differ by tumor size and local-control strategy; none supplies a broader DSRCT-specific disease entry route. The common eligibility criterion remains controlling.",
+      "extra_biomarker_requirement": "The listed EWSR1-non-ETS condition is not a sufficient molecular inclusion rule for DSRCT; protocol-defined histology/treatment-paradigm membership is unresolved. A tumor panel is requested for tumors at least 8 cm, without a stated DSRCT-compatible result threshold.",
+      "protocol_uncertainty": "The external definition of Ewing-like and its treatment-paradigm criteria is unavailable in the reviewed modules. Retain uncertainty instead of converting a shared gene/category or absent name into inclusion or explicit exclusion.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT07188532",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07188532",
+      "title": "Biologically-Adapted, Dose-Escalated Radiotherapy for the Treatment of Ewing Sarcoma, BEAR Trial",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Histological confirmation of Ewing sarcoma, including both skeletal and extra-skeletal primary tumors. Patients with \"Ewing-like\" sarcoma may be eligible if patients are planned to be treated per Ewing treatment paradigms, as defined in this clinical trial",
+          "char_start": 23,
+          "char_end": 279
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/conditionsModule/conditions/1",
+          "excerpt": "Round Cell Sarcoma With EWSR1-non-ETS Fusion",
+          "char_start": 0,
+          "char_end": 44
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "0742007152ca7182c66152173bc49ca3beb2d32cd840cbde6467855229b8a2b8"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "5fe769b65858f4c6989823f43a7595fbab709b2fc51bbb294757ae9f7f5b8b2b"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "6f74339678870f260c8f1150a6063140952fa43c55b1ace0994f0e6284306946"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "0592c1c0c38f84b98478080da176a843d590bc0837b7fa7e7d74f28cc2488f40"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "ca1ec0dd34859da00aac10a701358ce9cefbe50e957d88e72c1652631f5162c3"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "cc0925c99fe61e1fe8c7d21d74913357cf2deb510aa77231b83da3058b5403a9"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/14/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "daebb96541eb88867f937cb1c1670a72086905b8c95d57f43bdfda550c9d1e6d"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0004-0007.json",
+        "pointer": "/1",
+        "sha256": "5d16dfaf201758bf73f87d8911699b517e4cfb9598b65e08c5392f379a7e20d0"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-06",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 6,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "DSRCT is explicitly listed among high-risk extracranial solid tumors. The relapsed/refractory and transplant-context restrictions remain separate from disease-name compatibility.",
+      "cohort_reconciliation": "One stem-cell graft/zoledronic-acid regimen proceeds through phase Ib dose finding and phase II. No separate histologic restriction removes DSRCT. However, patients with progressive solid tumor disease after relapsed/refractory treatment are excluded, so the broad relapsed/refractory inclusion is not unconditional.",
+      "extra_biomarker_requirement": "No tumor molecular inclusion gate is stated for DSRCT. An eligible haplo-identical related donor is required and is not established by diagnosis.",
+      "protocol_uncertainty": "Ages 6 months through 25, prior autologous-transplant failure/ineligibility or stated low chance of cure, donor availability, disease control and other clinical criteria require individual assessment. External protocol and live phase/slots are unverified; no efficacy or survival claim is inferred from the study rationale.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT06625190",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06625190",
+      "title": "Alpha/Beta T and B Cell Depletion With Zoledronic Acid for Solid Tumors",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Other high-risk extracranial solid tumors: desmoplastic small round cell tumors, chordoma, malignant rhabdoid tumor, epithelioid sarcoma, myoepithelial tumor",
+          "char_start": 592,
+          "char_end": 749
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Patients with progressive solid tumor disease after relapsed/refractory treatment.",
+          "char_start": 3165,
+          "char_end": 3247
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Haplo-identical related donor (at least one full haplotype must be matched).",
+          "char_start": 1301,
+          "char_end": 1377
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "25d22ed0180f7b42edab4c015c31f312d3e6a9faa58e9178b02ca0b8a5b4b9db"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "50354491edc02cffb2e06f280536de46f7dfa7c5aeaee8536aae65c5e319e8da"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "b55807a3e380d024bee59c584c368e89a2f8f9c1d0349d152fb5198534194983"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "4af8018450fc8c20e1ace1016e221702960dd44510a6182233f6949dc735176e"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "2377ef06f188c0b3acd1166e2bb9dab6aceab0d53c300bc8f3c33e7cdbde5d68"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "f5b3392822c7b2aa0100a910d5dfcf697e0e081982d284f12640d5a4b2241174"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/27/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "4549abc98631270bbf237d8255fd6754e597c1cb53eba6c19c2df95d518d1477"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0004-0007.json",
+        "pointer": "/2",
+        "sha256": "5d16dfaf201758bf73f87d8911699b517e4cfb9598b65e08c5392f379a7e20d0"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-06",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 7,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "The Part 2 eligibility explicitly includes DSRCT and the detailed description assigns it to a separate stratum. Part 1 also permits broad relapsed/refractory biopsy-accessible solid tumors without standard therapy.",
+      "cohort_reconciliation": "Part 2 follows dose determination in Part 1; its target accrual is driven by FLC but separate DSRCT/HCC/non-CNS MRT strata are stated. A common treatment arm does not erase this disease-specific enrollment route or establish the current part's availability.",
+      "extra_biomarker_requirement": "No positive PD-L1 or other molecular threshold is required in the saved eligibility; these are exploratory measurements. Willingness to enroll on MAST and biopsy-accessible disease are explicit requirements.",
+      "protocol_uncertainty": "Eligibility text requires age under 30 while metadata lists maximum 30; retain the stricter textual boundary pending protocol review. Unresectability, measurable/evaluable and safely biopsy-accessible disease, marrow-toxicity cohort rules and all other clinical constraints remain unassessed. External protocol and live strata are unverified.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT05468359",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05468359",
+      "title": "Safety and Efficacy of Cyclophosphamide, Sorafenib, Bevacizumab, and Atezolizumab in Pediatric Solid Tumor Patients",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Biopsy accessible refractory or recurrent (relapsed)or FL-HCC, DSRCT or non-CNS MRT.",
+          "char_start": 478,
+          "char_end": 562
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/descriptionModule/detailedDescription",
+          "excerpt": "Eligible patients with hepatocellular (HCC), desmoplastic small round cell tumor (DSRCT) or non-central nervous system (CNS) malignant rhabdoid tumors (MRT) will be enrolled on separate strata but target accrual will be determined by patients with FLC.",
+          "char_start": 3091,
+          "char_end": 3343
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Willingness to enroll on the St. Jude Molecular Analysis of Solid Tumors (MAST) study.",
+          "char_start": 95,
+          "char_end": 181
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "51bbaba82b3b582be7485c8221796f7bb4fbbfad3af04b5367371d20c974e465"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "f9327dfc5c64fb21ddf87a4fab7baae1e6ff2083e850f16e4a1ff69b7edbccc5"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "811fcb18e5aa3c7559ab4d3a94d07d84f0005d54026904e2bbad724ae487bb5b"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "73aa75f2b3c7ba673fd2086c303842624ece86af8b366f1e3d394c47ff330d6a"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "3d5a90aaebff4cc7f4f7f08aeddf00ffd6323035e3c9f04cf6b135f91e18faeb"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "35a2479dec1352a1727074dd46c9554c4ec6995351ecd6fc57daf13494505bfc"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/46/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "f8813628e63d13c522e8bf4ec82bfbb16c9652f2f5a998517c7b7b024d8fa7b5"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0004-0007.json",
+        "pointer": "/3",
+        "sha256": "5d16dfaf201758bf73f87d8911699b517e4cfb9598b65e08c5392f379a7e20d0"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-05",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 8,
+      "label": "explicit_exclusion",
+      "rationale": "The molecular eligibility expressly excludes clear FET-non-ETS fusions and specifically names EWSR1-WT1. This is an express defining-fusion exclusion, not merely omission of the DSRCT name.",
+      "cohort_reconciliation": "Both randomized chemotherapy arms share the Ewing-sarcoma pathology and fusion restriction; no separate DSRCT arm or molecular exception is described.",
+      "extra_biomarker_requirement": "FISH/NGS evidence of Ewing-specific FET breaks is required, but an EWSR1 break alone cannot override the stated EWSR1-WT1 exclusion.",
+      "protocol_uncertainty": "External protocol is unreviewed. Saved status is NOT_YET_RECRUITING with verification July 2025; elapsed estimated start dates are not evidence recruitment began.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT07092306",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07092306",
+      "title": "A Randomized Controlled Study Comparing the Safety and Efficacy of Irinotecan Hydrochloride Liposome Injection Combined With Temozolomide and Vincristine (NALIRI-VT) Versus Irinotecan Combined With Temozolomide and Vincristine (VIT) in Patients With Advanced Ewing's Sarcoma",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "This study does not impose special restrictions on fusion partner genes, but clear FET-non ETS fusions (such as EWSR1-WT1, EWSR1-NFATC2, EWSR1-PATZ1, etc.) do not meet the enrollment criteria.",
+          "char_start": 503,
+          "char_end": 695
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "e0a57293b5821201870814b0332b6ef85fec8ad6ff1c461c04ed56e79ee88ac2"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "e3cabbc9856ef07c614ebd08b337dcbaf1b3fefc494672d0a6e8243e877d057d"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "ea29aed608cce3883c237cb119449470d43a4ac17fced9af24f264a245e54f9a"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "fc4e9e641849f44b881ee863982a00080a0cf5c3b78e4dbe76ae0fc5312024b7"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "f5df6ad3984ed4130023dfd73d353e313a0ffe15238214c5c3b9bbc03f72392c"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "5c1485184a03031de21f6272413a22a6d14f4c287dec7c1b50e355df01a21786"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_molecular/page-0001.json.gz",
+          "source_sha256": "2b5560fe17331115a13ed144d9b74262ce14567a6cc3552090ee9e3df84478a2",
+          "decoded_sha256": "19128c0f867b97ecdb7a0e8ba22b2e0b5f1c2a54536f623b6ce407abc794fcf0",
+          "pointer": "/studies/16/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "9612d7f588bd67648dba8f3cc1d4385c355e72625b846337081d941d7445412f"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0008-0012.json",
+        "pointer": "/0",
+        "sha256": "f228f6709603f63b1afbd77933325df9e1b282aeb95342895a8343b1570401c5"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "NOT_YET_RECRUITING",
+      "status_verified_date": "2025-07",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 9,
+      "label": "explicit_exclusion",
+      "rationale": "This is a clearly closed incompatible positive disease list: first-recurrence grade 4 glioblastoma/other grade 4 malignant glioma or molecular GBM. DSRCT is not an eligible disease class under that list. The WT-1 fusion protein is the investigational product, not a tumor-fusion inclusion rule.",
+      "cohort_reconciliation": "The safety lead-in and expansion are both within the same recurrent-GBM treatment study, with no open solid-tumor or DSRCT cohort. Gliosarcoma is expressly excluded as well.",
+      "extra_biomarker_requirement": "HLA-A*0201 is required for the admitted glioma population and is not established by DSRCT; it does not broaden the disease list.",
+      "protocol_uncertainty": "External protocol and live enrollment are unverified; label concerns the saved closed disease scope, not an individual with a second diagnosis. No WT1-expression or therapeutic-fusion match is inferred.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT06917885",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06917885",
+      "title": "CUE-102 in Recurrent Glioblastoma",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Have histologically confirmed World Health Organization (WHO) Grade 4 glioblastoma, other WHO grade 4 malignant glioma or molecular GBM (based on the 2021 WHO Classification) at first recurrence. Patients with gliosarcoma are NOT eligible;",
+          "char_start": 103,
+          "char_end": 342
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/armsInterventionsModule/interventions/0/description",
+          "excerpt": "A WT-1-pHLA-IL2-Fc fusion protein, single-use vial, via intravenous (into the vein) infusion per protocol.",
+          "char_start": 0,
+          "char_end": 106
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "a3c38e0c4b63ccd890909029c15f58d9903f073158ed2ee1f98dd381a9a1cc80"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "05e4d72605847e4909366ac910b7e4419d66c0c7032c1d1579db6882ea588685"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "689327c8988e5a21098fb70024f1d722a43ec925e9c9583c195fd6479f24b097"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "ce3341278cc222b313c2b23809ff4795e2a52e15cd85a4f7441fa022a16219e6"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "ca05dbd81fd32b12a4d9b679744797c9f43a38df699a0e1b465e0be61b2c578c"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "2cfd21f9d7c8920e7986288337d61782e1812ddca051846869b92e26c9411846"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_molecular/page-0001.json.gz",
+          "source_sha256": "263ba7030f667276fe7d607f0d3a3e5ed1343b3f0f4e58e8551d1931e4e978c3",
+          "decoded_sha256": "bef504391df09f9b6c775c2519fada5755b8830f522dd21a744b19c8d626e2e1",
+          "pointer": "/studies/5/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "625dcfca3c2f300d4b9c604268fd3360b4c4c022ae763f6621a52925b1181656"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0008-0012.json",
+        "pointer": "/1",
+        "sha256": "f228f6709603f63b1afbd77933325df9e1b282aeb95342895a8343b1570401c5"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-03",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 10,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "Reference-pathology-confirmed DSRCT is explicitly admitted. High SSTR2/3/5 mRNA expression measured through specified programs is an additional unestablished gate.",
+      "cohort_reconciliation": "The single maintenance-therapy arm includes DSRCT and synovial sarcoma. Eligibility states DSRCT in any stage while design and narrative emphasize advanced/metastatic disease; retain that scope discrepancy. Recruitment in adolescents follows feasibility assessment in at least three adults, and release of that condition is unknown.",
+      "extra_biomarker_requirement": "High SSTR2/3/5 mRNA expression by RNA sequencing in MASTER or INFORM is required. The saved record does not supply a numeric high-expression cutoff or establish a patient's result.",
+      "protocol_uncertainty": "Maintenance requires stable disease/response after standard therapy, no curative option, age 13–50 and a short interval after chemotherapy, plus other criteria. External medication Table 5 and protocol are unreviewed. Overall RECRUITING does not establish adolescent enrollment availability or resolve stage wording.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT06456359",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06456359",
+      "title": "Pasireotide as Maintenance Treatment in Synovial Sarcoma and Desmoplastic Small Round Cell Tumor",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Reference pathological proven diagnosis of DSRCT in any stage; or Reference pathological proven diagnosis of SySa, IRS III, metastatic or relapsed disease",
+          "char_start": 117,
+          "char_end": 271
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "High SSTR2/3/5 mRNA expression, as determined by RNA sequencing in the DKFZ/NCT/DKTK MASTER (ClinicalTrials.gov ID: NCT05852522) or INFORM programs.",
+          "char_start": 275,
+          "char_end": 423
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/designModule/designInfo/interventionModelDescription",
+          "excerpt": "According to the staggered approach during a run-in phase feasibility is assessed in 3 (or, if necessary, more) adult patients before initiating recruitment in adolescents.",
+          "char_start": 161,
+          "char_end": 333
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "b2609c09d19892437deba16f131d7723c5a73482bdafde74f53f4c0764fece09"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "8f21ec2cb628771820c97e532c845e0d91236671dc0bdece716817aa298f857f"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "6a32131d38cb97f3fa825d303a3baa420bf51c9c55481d69ac82e5562338111e"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "b23914b6e87e2690164e392a5096db11abc98d6490bcdb2902594f1728172aaa"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "62e3af23375b47a8b4e52de9d4870d98c563d951bd0ae4aeb7a73c0ea7f1f1bd"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "2d3c72980b1f8b9702dd08959737e91eafc9b7b2a719dd7edcc82ba1dc8bb6b8"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_condition/page-0001.json.gz",
+          "source_sha256": "2ceeaca78cc783ae47235f662a10efa78175dd6786a6ad4b046d3638eb81f19e",
+          "decoded_sha256": "20c69efa70c870c5befabf261ea552dadf5ab6e737827c261ee23bf2fdda7e79",
+          "pointer": "/studies/32/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "22e9c4da1c6b81e4bc9451593c3a26489193cba4bff25d98ca06c24b02442d6e"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0008-0012.json",
+        "pointer": "/2",
+        "sha256": "f228f6709603f63b1afbd77933325df9e1b282aeb95342895a8343b1570401c5"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2025-01",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 11,
+      "label": "explicit_diagnosis_compatible",
+      "rationale": "Prospective Cohort 1 explicitly names DSRCT; Cohort 2 additionally permits recurrent extracranial solid tumors of any histology in second complete remission. This is maintenance scope after standard treatment, not an unrestricted active-progression study.",
+      "cohort_reconciliation": "The treatment arm contains both prospective cohorts; historical matched controls are not a current therapeutic enrollment route. Eligibility permits complete remission or minimal radiological abnormalities, whereas the arm/design descriptions summarize complete remission; preserve the more detailed eligibility and the summary discrepancy.",
+      "extra_biomarker_requirement": "No additional tumor molecular inclusion gate is stated. Histologic verification is required.",
+      "protocol_uncertainty": "Ages 1–30, remission/minimal-imaging state and prior-therapy completion conditions remain applicable. Enrollment on another upfront/relapse trial is excluded. External protocol and live cohort availability are unverified; no maintenance efficacy is inferred from the objective.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT04469530",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT04469530",
+      "title": "Sirolimus in Combination With Metronomic Chemotherapy in Children With High-Risk Solid Tumors",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Metastatic/unresectable osteosarcoma, metastatic Ewing or Ewing-like sarcoma, high-risk rhabdomyosarcoma, metastatic non-rhabdomyosarcoma soft tissue sarcoma, desmoplastic small round cell tumor (DSRCT), malignant rhabdoid tumor.",
+          "char_start": 446,
+          "char_end": 675
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Prospective Cohort 2: Recurrent extracranial solid tumor (any histology) in second complete remission following completion of initial relapse regimen.",
+          "char_start": 878,
+          "char_end": 1028
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Subjects must be in complete remission or with minimal radiological abnormalities.",
+          "char_start": 1128,
+          "char_end": 1210
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "687420bfd736e7b53d25fa38d9dbf65bb6d54f3b64ad854b0281a0f5d75858fd"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "4df782d4299f9506ed1074b74fd868281d2b05c84e9398d9d2f798033ad52215"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "44e25d7c53d2eb2bceef78089fd206c37ffd9421eac8aec9a727f9b08eebcf9b"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "da198b475d2af7a619dab8b490a5d3362fffd18a8d564ca86a8903a2e1524ea7"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "5cb947d734c27b4da3c6766a3589d85a95f397cbb1f644876e56a7a20943b72c"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "55a8a9e9f1c90b835e153bcbb69828098798f1f7f45af5b082351f87059e096d"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/14/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "5876cbdb7006d0fbbd3e8ce0aa96886d86b533c51ad216d4f0d112ab0317f00f"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0008-0012.json",
+        "pointer": "/3",
+        "sha256": "f228f6709603f63b1afbd77933325df9e1b282aeb95342895a8343b1570401c5"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-02",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    },
+    {
+      "position": 12,
+      "label": "explicit_exclusion",
+      "rationale": "The eligibility expressly lists DSRCT among excluded soft-tissue sarcoma subtypes. The broad retroperitoneal STS inclusion does not override it.",
+      "cohort_reconciliation": "Both phase I dose finding and phase II radiation efficacy use the same P-SFRT/standard-radiation/surgery pathway. No alternative DSRCT-compatible cohort is stated.",
+      "extra_biomarker_requirement": "No molecular gate or exception alters the express disease exclusion.",
+      "protocol_uncertainty": "External protocol and live status are unverified. The source's description of standard-of-care is recorded as the registry's rationale, not independently endorsed. No patient eligibility or radiation benefit conclusion is drawn.",
+      "task_domain": "oncology_treatment",
+      "complete_saved_modules_read": true,
+      "pair_id": "DSRCT:NCT06327477",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06327477",
+      "title": "Proton-Spatially Fractionated Radiotherapy and Standard Radiation Therapy for the Treatment of Newly Diagnosed Retroperitoneal Soft Tissue Sarcoma",
+      "state": "first_reader_pending_independent_verification",
+      "reader_context": "existing_coordinator_context_not_independent",
+      "evidence": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Patients who have had one of the following soft tissue sarcoma subtypes where neoadjuvant chemotherapy is established as standard-of-care:",
+          "char_start": 3239,
+          "char_end": 3377
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/eligibilityModule/eligibilityCriteria",
+          "excerpt": "Desmoplastic small round cell tumor",
+          "char_start": 3477,
+          "char_end": 3512
+        }
+      ],
+      "reviewed_modules": [
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/identificationModule",
+          "module_present": true,
+          "module_sha256": "7e67e7d66f6712adb2621f6a9220474d04a0e83dd3c3fb392daf7c77c2cafd01"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/conditionsModule",
+          "module_present": true,
+          "module_sha256": "e43b12fbea4c6e9866425ee207db417df120ae25d55f90efacf5e9556e214661"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/descriptionModule",
+          "module_present": true,
+          "module_sha256": "1a46785faec989df4023f8e57d534283021c384daa87914e56e35e48f6a38149"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/eligibilityModule",
+          "module_present": true,
+          "module_sha256": "7b519e0666e80cff335fc0b4c057ccb5db32b5c66689d42c6f3dc2355e17595b"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/armsInterventionsModule",
+          "module_present": true,
+          "module_sha256": "0877f59800565619d546a1e20de3b643f59150158e257ddec88677ea07e30665"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/designModule",
+          "module_present": true,
+          "module_sha256": "6807334b9f76ab506bd756621599b5ccbb09f66d96c6bf6b7b3e5df2e36aa758"
+        },
+        {
+          "source": "research/autonomy/trial-discoverability-2026-09-05/sources/DSRCT_eligibility_ordinary/page-0001.json.gz",
+          "source_sha256": "14131ecd84994d2b67b21bd40c81d485986d9c03f4848b54e910295f08c98f17",
+          "decoded_sha256": "ec3a9e7d245d4130cfac4b913a718a0b66a51437d18f7807bdbe2127f37fe0c4",
+          "pointer": "/studies/65/protocolSection/statusModule",
+          "module_present": true,
+          "module_sha256": "4b1f56fe050598b3fea51bebf9feb1f19fcc44fae90239e9221a9d17353ea67a"
+        }
+      ],
+      "source_note": {
+        "file": "judgments-0008-0012.json",
+        "pointer": "/4",
+        "sha256": "f228f6709603f63b1afbd77933325df9e1b282aeb95342895a8343b1570401c5"
+      },
+      "external_protocol_reviewed": false,
+      "additional_biomarker_established": false,
+      "clinical_eligibility_established": false,
+      "clinical_benefit_established": false,
+      "snapshot_status": "RECRUITING",
+      "status_verified_date": "2026-07",
+      "registry_primary_purpose": "TREATMENT",
+      "recruitment_uncertainty": "Saved overall status only; no live site, phase, cohort or slot verification.",
+      "binary_benchmark_use": "not_permitted_before_independent_verification_and_endpoint_definition"
+    }
+  ],
+  "unfinished_pairs": [
+    {
+      "position": 13,
+      "pair_id": "DSRCT:NCT06836505",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06836505"
+    },
+    {
+      "position": 14,
+      "pair_id": "DSRCT:NCT04897321",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT04897321"
+    },
+    {
+      "position": 15,
+      "pair_id": "DSRCT:NCT07615049",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07615049"
+    },
+    {
+      "position": 16,
+      "pair_id": "DSRCT:NCT07328425",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07328425"
+    },
+    {
+      "position": 17,
+      "pair_id": "DSRCT:NCT05597917",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05597917"
+    },
+    {
+      "position": 18,
+      "pair_id": "DSRCT:NCT04199741",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT04199741"
+    },
+    {
+      "position": 19,
+      "pair_id": "DSRCT:NCT06709495",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06709495"
+    },
+    {
+      "position": 20,
+      "pair_id": "DSRCT:NCT05985161",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05985161"
+    },
+    {
+      "position": 21,
+      "pair_id": "DSRCT:NCT06686108",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06686108"
+    },
+    {
+      "position": 22,
+      "pair_id": "DSRCT:NCT07781891",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07781891"
+    },
+    {
+      "position": 23,
+      "pair_id": "DSRCT:NCT05765084",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05765084"
+    },
+    {
+      "position": 24,
+      "pair_id": "DSRCT:NCT05999994",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05999994"
+    },
+    {
+      "position": 25,
+      "pair_id": "DSRCT:NCT05004116",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05004116"
+    },
+    {
+      "position": 26,
+      "pair_id": "DSRCT:NCT06986811",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06986811"
+    },
+    {
+      "position": 27,
+      "pair_id": "DSRCT:NCT07695311",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07695311"
+    },
+    {
+      "position": 28,
+      "pair_id": "DSRCT:NCT06047977",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06047977"
+    },
+    {
+      "position": 29,
+      "pair_id": "DSRCT:NCT06849986",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06849986"
+    },
+    {
+      "position": 30,
+      "pair_id": "SS:NCT06644755",
+      "diagnosis": "SS",
+      "nct_id": "NCT06644755"
+    },
+    {
+      "position": 31,
+      "pair_id": "SS:NCT04605770",
+      "diagnosis": "SS",
+      "nct_id": "NCT04605770"
+    },
+    {
+      "position": 32,
+      "pair_id": "SS:NCT05296564",
+      "diagnosis": "SS",
+      "nct_id": "NCT05296564"
+    },
+    {
+      "position": 33,
+      "pair_id": "SS:NCT05841563",
+      "diagnosis": "SS",
+      "nct_id": "NCT05841563"
+    },
+    {
+      "position": 34,
+      "pair_id": "SS:NCT06607692",
+      "diagnosis": "SS",
+      "nct_id": "NCT06607692"
+    },
+    {
+      "position": 35,
+      "pair_id": "SS:NCT06526897",
+      "diagnosis": "SS",
+      "nct_id": "NCT06526897"
+    },
+    {
+      "position": 36,
+      "pair_id": "SS:NCT07713732",
+      "diagnosis": "SS",
+      "nct_id": "NCT07713732"
+    },
+    {
+      "position": 37,
+      "pair_id": "SS:NCT07032285",
+      "diagnosis": "SS",
+      "nct_id": "NCT07032285"
+    },
+    {
+      "position": 38,
+      "pair_id": "SS:NCT05146440",
+      "diagnosis": "SS",
+      "nct_id": "NCT05146440"
+    },
+    {
+      "position": 39,
+      "pair_id": "SS:NCT05642455",
+      "diagnosis": "SS",
+      "nct_id": "NCT05642455"
+    },
+    {
+      "position": 40,
+      "pair_id": "SS:NCT06083883",
+      "diagnosis": "SS",
+      "nct_id": "NCT06083883"
+    },
+    {
+      "position": 41,
+      "pair_id": "SS:NCT06637007",
+      "diagnosis": "SS",
+      "nct_id": "NCT06637007"
+    },
+    {
+      "position": 42,
+      "pair_id": "SS:NCT06986811",
+      "diagnosis": "SS",
+      "nct_id": "NCT06986811"
+    },
+    {
+      "position": 43,
+      "pair_id": "SS:NCT06239272",
+      "diagnosis": "SS",
+      "nct_id": "NCT06239272"
+    },
+    {
+      "position": 44,
+      "pair_id": "SS:NCT07169344",
+      "diagnosis": "SS",
+      "nct_id": "NCT07169344"
+    },
+    {
+      "position": 45,
+      "pair_id": "SS:NCT06829654",
+      "diagnosis": "SS",
+      "nct_id": "NCT06829654"
+    },
+    {
+      "position": 46,
+      "pair_id": "SS:NCT07261657",
+      "diagnosis": "SS",
+      "nct_id": "NCT07261657"
+    },
+    {
+      "position": 47,
+      "pair_id": "SS:NCT05999994",
+      "diagnosis": "SS",
+      "nct_id": "NCT05999994"
+    },
+    {
+      "position": 48,
+      "pair_id": "SS:NCT05111964",
+      "diagnosis": "SS",
+      "nct_id": "NCT05111964"
+    },
+    {
+      "position": 49,
+      "pair_id": "SS:NCT06946225",
+      "diagnosis": "SS",
+      "nct_id": "NCT06946225"
+    },
+    {
+      "position": 50,
+      "pair_id": "SS:NCT04995003",
+      "diagnosis": "SS",
+      "nct_id": "NCT04995003"
+    },
+    {
+      "position": 51,
+      "pair_id": "SS:NCT06849986",
+      "diagnosis": "SS",
+      "nct_id": "NCT06849986"
+    },
+    {
+      "position": 52,
+      "pair_id": "SS:NCT07342322",
+      "diagnosis": "SS",
+      "nct_id": "NCT07342322"
+    },
+    {
+      "position": 53,
+      "pair_id": "SS:NCT06456359",
+      "diagnosis": "SS",
+      "nct_id": "NCT06456359"
+    },
+    {
+      "position": 54,
+      "pair_id": "SS:NCT07066982",
+      "diagnosis": "SS",
+      "nct_id": "NCT07066982"
+    },
+    {
+      "position": 55,
+      "pair_id": "SS:NCT05597917",
+      "diagnosis": "SS",
+      "nct_id": "NCT05597917"
+    },
+    {
+      "position": 56,
+      "pair_id": "SS:NCT04589741",
+      "diagnosis": "SS",
+      "nct_id": "NCT04589741"
+    },
+    {
+      "position": 57,
+      "pair_id": "SS:NCT05926700",
+      "diagnosis": "SS",
+      "nct_id": "NCT05926700"
+    },
+    {
+      "position": 58,
+      "pair_id": "SS:NCT06748872",
+      "diagnosis": "SS",
+      "nct_id": "NCT06748872"
+    },
+    {
+      "position": 59,
+      "pair_id": "SS:NCT06506838",
+      "diagnosis": "SS",
+      "nct_id": "NCT06506838"
+    },
+    {
+      "position": 60,
+      "pair_id": "SS:NCT06235125",
+      "diagnosis": "SS",
+      "nct_id": "NCT06235125"
+    },
+    {
+      "position": 61,
+      "pair_id": "SS:NCT06298916",
+      "diagnosis": "SS",
+      "nct_id": "NCT06298916"
+    },
+    {
+      "position": 62,
+      "pair_id": "SS:NCT03016819",
+      "diagnosis": "SS",
+      "nct_id": "NCT03016819"
+    },
+    {
+      "position": 63,
+      "pair_id": "SS:NCT07139067",
+      "diagnosis": "SS",
+      "nct_id": "NCT07139067"
+    },
+    {
+      "position": 64,
+      "pair_id": "SS:NCT07613723",
+      "diagnosis": "SS",
+      "nct_id": "NCT07613723"
+    },
+    {
+      "position": 65,
+      "pair_id": "SS:NCT06700070",
+      "diagnosis": "SS",
+      "nct_id": "NCT06700070"
+    },
+    {
+      "position": 66,
+      "pair_id": "SS:NCT05492682",
+      "diagnosis": "SS",
+      "nct_id": "NCT05492682"
+    },
+    {
+      "position": 67,
+      "pair_id": "SS:NCT06550765",
+      "diagnosis": "SS",
+      "nct_id": "NCT06550765"
+    },
+    {
+      "position": 68,
+      "pair_id": "SS:NCT05227326",
+      "diagnosis": "SS",
+      "nct_id": "NCT05227326"
+    },
+    {
+      "position": 69,
+      "pair_id": "SS:NCT06277154",
+      "diagnosis": "SS",
+      "nct_id": "NCT06277154"
+    },
+    {
+      "position": 70,
+      "pair_id": "SS:NCT07173972",
+      "diagnosis": "SS",
+      "nct_id": "NCT07173972"
+    },
+    {
+      "position": 71,
+      "pair_id": "SS:NCT07174427",
+      "diagnosis": "SS",
+      "nct_id": "NCT07174427"
+    },
+    {
+      "position": 72,
+      "pair_id": "SS:NCT05711615",
+      "diagnosis": "SS",
+      "nct_id": "NCT05711615"
+    },
+    {
+      "position": 73,
+      "pair_id": "SS:NCT02275286",
+      "diagnosis": "SS",
+      "nct_id": "NCT02275286"
+    },
+    {
+      "position": 74,
+      "pair_id": "SS:NCT05253131",
+      "diagnosis": "SS",
+      "nct_id": "NCT05253131"
+    }
+  ],
+  "independent_adjudication_complete": false
+}

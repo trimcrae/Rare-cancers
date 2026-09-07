@@ -1,0 +1,43 @@
+{
+  "schema": "emc-correspondence-setup-verification/1",
+  "utc": "2026-09-06T11:52:23.679507+00:00",
+  "source_base": "3398174770a328a38bf6a638c190a8447abe4ef5",
+  "authority": "User explicitly granted routine correspondence; per-message approval not required.",
+  "existing_publication_grants_unchanged": true,
+  "queue_matches_reviewable_drafts": true,
+  "script_sha256": "cd2914aaa75e04fe60d50edcc6ffde4893f8f0e0935d18c1ec2960d9c4c8f495",
+  "tests_sha256": "2c3eef48dab1634958e1eba991a6a8f54245a74b88b05d1e9432003907cb95c6",
+  "targeted_test_exit_code": 0,
+  "targeted_test_seconds": 0.609,
+  "test_log": "research/autonomy/correspondence/ledger-tests.log",
+  "private_ledger_status": {
+    "ready_to_reserve": false,
+    "reasons": [
+      "no verified send-and-receive mailbox configuration"
+    ],
+    "transport_implemented": false,
+    "verification": "operator-attested",
+    "requests": [
+      {
+        "id": "emc-ngo2025-external-panel-v1",
+        "status": "prepared",
+        "message_id": null
+      },
+      {
+        "id": "emc-zullow2022-expression-v1",
+        "status": "prepared",
+        "message_id": null
+      }
+    ]
+  },
+  "requests_sent": 0,
+  "mailbox_verified": false,
+  "monitor_running": false,
+  "automation": {
+    "id": "emc-research-coordinator",
+    "status": "PAUSED",
+    "notification_policy": "failed_runs_only"
+  },
+  "limit": "Tests use synthetic transport evidence; no actual email adapter/account has been connected or tested.",
+  "next_action": "User identifies the dedicated mailbox; connect and test real send/receive, then dispatch under the existing grant without individual reapproval."
+}

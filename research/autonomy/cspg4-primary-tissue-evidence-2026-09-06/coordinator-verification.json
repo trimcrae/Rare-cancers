@@ -1,0 +1,21 @@
+{
+  "utc": "2026-09-06T03:02:21.349032+00:00",
+  "worker_files_byte_verified": 21,
+  "source_responses_verified": 18,
+  "primary_excerpts_verified": 6,
+  "command": "python -B coordinator_check.py",
+  "exit_code": 0,
+  "output": "coordinator-check-output.txt",
+  "scope": "Source integrity and bounded primary-scope review; no exhaustive subtype-table or literature verification",
+  "manual_review": "Coordinator read six primary excerpts in normalized saved-source context, checked RNA/protein cohort distinction and unresolved subtype boundaries; read access response types. No EMC protein validation established.",
+  "normal_preflight": {
+    "utc": "2026-09-06T03:04:47.925544+00:00",
+    "exit_code": 0,
+    "elapsed_seconds": 91.359,
+    "log": "normal-preflight.log",
+    "log_sha256": "778e9f719777425d42c92fc0f5260d348ecf74a5ead2e716b760dc2636df9bfe",
+    "scope": "Normal preflight only; not full scientific or publication verification"
+  },
+  "publication_ready": false,
+  "post_gate_additions": "Only exact already-reviewed protocol text snapshot and JSON scope review were added during the run; no new scientific results or executable behavior."
+}

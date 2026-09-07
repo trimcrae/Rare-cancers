@@ -1,0 +1,38 @@
+{
+  "files": [
+    {
+      "path": "research/modalities/account_orphan_alarm.py",
+      "sha256": "f4e0557a4510c4ffe39faa8415b15bc45dcb0ef8d09463337e01e6a9ec1992b3"
+    },
+    {
+      "path": "research/modalities/work_ledger.py",
+      "sha256": "1aa5dd3f8dfe6d5f9617d03077b2da7542fb1f24891338a90aa6ed736fa2ddd2"
+    },
+    {
+      "path": "research/modalities/lane_staleness_watch.py",
+      "sha256": "83dbb6c12c211a90c53ba100496a774d98fb4107686035da4e0e0f2aee69f672"
+    },
+    {
+      "path": "research/modalities/alarm_state.py",
+      "sha256": "f9245174126c2bf2271af2ff17f17f224d5314135320fd36ee2319904ebcfdee"
+    },
+    {
+      "path": "research/modalities/fleet_supervision_alarm.py",
+      "sha256": "bffbe26c1815f1867bdc7caaa649b92b0fb415a36681df280b3662936890d135"
+    },
+    {
+      "path": "research/modalities/assert_progress_fresh.py",
+      "sha256": "c36be5efcbd60aba740720304dd70dbd97de2f9bc8fb40403ab9270e1da170fb"
+    },
+    {
+      "path": "research/modalities/job_progress_monitor.py",
+      "sha256": "d669c052ee5f1dae1d346a19a6c32f4e02801265a7610598d1322f6d705ad7bf"
+    },
+    {
+      "path": "research/modalities/tests/test_fleet_timestamp_portability.py",
+      "sha256": "0577471063709f323f347e22c3db69611c1ffe7143d418b55f8c2a2ea368492a"
+    }
+  ],
+  "result": 0,
+  "limits": "Seven formatting-only production edits. Existing fixed UTC-4 timezone behavior retained; this does not fix seasonal offset. No fleet-state/API/threshold changes. Eight original affected modules run in full plus19new regressions. Initial new winter test assumed DST semantics not present in code; corrected fixture to test existing summer offset without widening implementation scope."
+}

@@ -1,0 +1,50 @@
+{
+  "verified_at_utc": "2026-09-05T16:51:55.610100+00:00",
+  "checks": [
+    {
+      "check": "all_registry_payload_original_hashes_and_unique_counts",
+      "result": "pass",
+      "queries": 24,
+      "pages": 112
+    },
+    {
+      "check": "pagination_chain_exhaustion_and_compressed_storage_hashes",
+      "result": "pass"
+    },
+    {
+      "check": "frozen_selection_precedes_registry_outcomes_and_amendments_unchanged",
+      "result": "pass",
+      "first_query": "2026-09-05T16:30:32.614222+00:00"
+    },
+    {
+      "check": "ordinary_molecular_parent_set_arithmetic",
+      "result": "pass",
+      "corpus_unique": 6182,
+      "parent_unique": 5849
+    },
+    {
+      "check": "all_provisional_record_pointers_resolve_to_unchanged_full_criteria",
+      "result": "pass",
+      "records": 74
+    },
+    {
+      "check": "decision_example_retrieval_membership_and_source_anchors",
+      "result": "pass"
+    },
+    {
+      "check": "all_round_python_syntax_and_json_parse",
+      "result": "pass"
+    },
+    {
+      "check": "archived_literature_hashes",
+      "result": "pass",
+      "known_failure": "EMC fullTextXML404; primary abstract successfully archived"
+    }
+  ],
+  "normal_preflight": {
+    "result": "not_run",
+    "reason": "FileNotFoundError(2, 'The system cannot find the file specified', None, 2, None)",
+    "log": "preflight.log"
+  },
+  "scope": "Round data/provenance validation. No independent scientific review, full publication gate, patient eligibility validation, or clinical result claimed."
+}

@@ -1,0 +1,41 @@
+{
+  "observed_utc": "2026-09-06T19:25:15.632418+00:00",
+  "base": "e320000e7332b59c9e99a21693ce5ed4484287b7",
+  "status": "Tested repair batch committed as a verification candidate; not a green full gate or publication clearance",
+  "files": [
+    {
+      "path": "research/manuscripts/line_citations.py",
+      "sha256": "9b787f23754243249dce6bc520799942f5b63544973f09ab8ff64593157e9736"
+    },
+    {
+      "path": "research/manuscripts/tests/test_line_citations.py",
+      "sha256": "7db6a5636b4f251e33955be4e18e8f5d01dc7d0734de0e88f7674044c7ba3841"
+    },
+    {
+      "path": "research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py",
+      "sha256": "ab98341ec0689f625b41135ba53a77db94a8af8e7b2c184fc94ed214497a6f59"
+    },
+    {
+      "path": "research/manuscripts/tests/test_build_submission_pdf.py",
+      "sha256": "346ed80ef8e50c1f8371d8c807ef9dbc3079f26f313b5a3cde762fbc659f4fbc"
+    }
+  ],
+  "tests": {
+    "citation_and_audit_modules": "36 passed; no exclusions; quote-only Python3.11 grammar correction verified after original test run",
+    "pdf_guards": "42 passed,68 deselected; all paper-footer cases and31PDF blockquote cases plus controls; actual sparse candidate replay, not full suite"
+  },
+  "python311_grammar": "all four changed files pass",
+  "science_and_reader_files": "no changes",
+  "remaining_native_manuscript_errors": "five symlink privilege fixture errors; no fallback or test exclusion added",
+  "evidence_observed_utc": "2026-09-06T19:28:32.930653+00:00",
+  "original_native_candidate": "5c95a42897976a70ef7e86091ae60ea921dd5a1d",
+  "native_manuscripts": {
+    "failed": 10,
+    "passed": 1955,
+    "skipped": 3,
+    "errors": 5,
+    "seconds": 3176.05
+  },
+  "original_native_diagnostic": ".cache/atlas-manuscripts-raw-observed.log (kept locally)",
+  "frozen_artifacts": "No reader-facing file changed; only the four named check/helper files and this evidence batch differ from the preceding candidate."
+}

@@ -1,0 +1,1234 @@
+{
+  "accno" : "E-MTAB-12593",
+  "attributes" : [ {
+    "name" : "ReviewType",
+    "value" : "DoubleBlind"
+  }, {
+    "name" : "Title",
+    "value" : "Radiogenomics reveals significant correlation between quantitative texture radiomic features of biparametric MRI and hypoxia related gene expression in men with localised prostate cancer"
+  }, {
+    "name" : "ReleaseDate",
+    "value" : "2023-01-29"
+  }, {
+    "name" : "RootPath",
+    "value" : "E-MTAB-12593"
+  }, {
+    "name" : "AttachTo",
+    "value" : "ArrayExpress"
+  } ],
+  "section" : {
+    "accno" : "s-E-MTAB-12593",
+    "type" : "Study",
+    "attributes" : [ {
+      "name" : "Title",
+      "value" : "Radiogenomics reveals significant correlation between quantitative texture radiomic features of biparametric MRI and hypoxia related gene expression in men with localised prostate cancer"
+    }, {
+      "name" : "Study type",
+      "value" : "RNA-seq of coding RNA",
+      "valqual" : [ {
+        "name" : "Ontology",
+        "value" : "EFO"
+      }, {
+        "name" : "TermId",
+        "value" : "EFO_0003738"
+      } ]
+    }, {
+      "name" : "Organism",
+      "value" : "Homo sapiens"
+    }, {
+      "name" : "Description",
+      "value" : "The aim of this study was to perform the multiscale correlation between quantitative texture features phenotype of pre-biopsy biparametric MRI (bpMRI) and targeted sequence-based RNA expression for hypoxia-related genes. Images from pre-biopsy 3T bpMRI scans in clinically localised prostate cancer (PCa) patients of various risk categories (n=15) were used to extract textural features. The genomic landscape of hypoxia-related genes expression was obtained using post-radical prostatectomy tissue for targeted RNA expression profiling using the TempO-sequence method. The nonparametric Games Howell test was used to correlate the differential expression of the three important hypoxia-related genes with 28 radiomic texture features. Following this, cBioportal was accessed and a gene-oriented query was conducted to extract Oncoprint genomic output graph of the selected hypoxia-related genes from The Cancer Genome Atlas (TCGA). Correlation analysis using Pearson's coefficients calculated against each selected gene profile; survival analysis using Kaplan-Meier estimators were carried out. We found the quantitative bpMR imaging textural features, including histogram and grey level co-occurrence matrix (GLCM), correlated with hypoxia related genes (ANGPTL4, VEGFA, and P4HA1) seen on RNA sequencing using TempO-Seq method. Further radiogenomic analysis, including data accessed on cBioportal genomic database, confirmed that overexpressed hypoxia-related genes significantly correlated with a poor survival outcome, with a median survival of 81.11: 133.00 months in those with and without alterations of genes respectively. In summary, radiomic texture features of bpMRI in localised PCa correlate with the expression of hypoxia-related genes expression in prostate cancer. The expression data analysis showed that hypoxia-related genes are associated with poor survival."
+    } ],
+    "links" : [ [ {
+      "url" : "ERP144175",
+      "attributes" : [ {
+        "name" : "Type",
+        "value" : "ENA"
+      } ]
+    } ] ],
+    "subsections" : [ [ {
+      "accno" : "P-MTAB-129316",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129316"
+      }, {
+        "name" : "Type",
+        "value" : "sample collection protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0005518"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "The work described in this report is a study using targeted sequencing-based RNA expression analysis on formalin-fixed, paraffin-embedded (FFPE) tissue sections of human prostate. The radical prostatectomy specimens from the 15 male patients included in this study were labelled, weighed and formalin fixed. This included 15 samples from each of three different regions of interest - normal prostate tissue, cancerous tissue, and the microenvironment. An excision of 10mm2 was taken for normal prostate and cancerous regions, and an excision of 5mm2 was taken for microenvironment due to the smaller area available for this region across slides."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129317",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129317"
+      }, {
+        "name" : "Type",
+        "value" : "dissection protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0005519"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "The radical prostatectomy specimens from the 15 male patients included in this study were labelled, weighed and formalin fixed. Subsequently, the radical prostatectomy specimens were sliced in patient-specific moulds to assist in correlating and adjusting magnetic resonance images with histology. Before an excision of 10mm2 was taken for normal prostate and cancerous regions, and an excision of 5mm2 was taken for microenvironment due to the smaller area available for this region across slides."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129318",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129318"
+      }, {
+        "name" : "Type",
+        "value" : "treatment protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0003969"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "After the buffers have been prepared, proceed to sample excision. Begin by scraping away paraffin adjacent to the tissue area of interest with a single-edge disposable razor blade. Excess paraffin can form a thick layer on top of the liquid in subsequent steps, inhibiting digestion and mixing. Prepare a new 96-well PCR plate, then proceed with one sample at a time. Add 1.8 μL of 1X Lysis Buffer per mm2 of sample tissue to the well. Attach a fresh sterile tip to a single-channel hand pipet or prepare a sterile plastic toothpick. Use a fresh tip/toothpick for every sample. Excise the target area by scraping it off the glass slide with a disposable razor. Use a fresh razor for each sample. Transfer the excised tissue into the plate well. Use the pipet tip or toothpick to push the sample off the blade, into the well, and down to the bottom of the well. Static electricity may cause the tissue to fly off the transfer tool. This can be prevented by pre-wetting the transfer tool in lysis buffer by dipping it into the well. If using a pipette tip, dispense any liquid that may have entered the tip by capillary action into the well. Overlay sample with molecular biology grade mineral oil. Use 10 μL plus 1 μL per mm2 of tissue in the sample. For example, add 20 μL to a 10 mm2 tissue input. When all samples have been processed, visually inspect the plate to ensure there is tissue at the bottom of each assay well. Spin the plate at 1000 rcf for 2 minutes. Incubate the plate at 95°C for 5 minutes to melt the tissue, then cool it to 4°C for 5 minutes. Add 0.2 μL Protease Mix per mm2 of tissue to the aqueous layer at the bottom of each sample well. For example, add 2 μL for a 10 mm2 input. Mix the aqueous layer by trituration, taking care not to aspirate the tissue sample. Spin the plate at 1000 rcf for 2 minutes to bring the aqueous phase to the bottom of the well. This will also separate the oil/paraffin layer from the lysate. Incubate the plate at 37°C for 30 minutes for tissue lysis. After tissue lysis, visually inspect the wells. You may see tissue fragments in the aqueous layer. To homogenize the lysate, triturate until the lysate becomes uniform. Take care to avoid bubbles.  Spin the plate at 1000 rcf for 2 minutes to separate layers. FFPE lysates can be used immediately or stored at -80°C for up to one year."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129319",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129319"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid extraction protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0002944"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "The TempO-Seq assay utilizes a detector oligo (DO) pool specific to the RNA targets to be monitored. BioSpyder offers fixed content and custom DO pools to measure focused sets of transcripts, up to whole transcriptomes. In addition to FFPE tissues, the assay can utilize purified RNA, and cell lysates. Both positive and negative control samples can be included. The TempO-Seq assay does not require extraction or purification of RNA from FFPE samples. Instead, tissue is scraped from a slide into lysis buffer, melted, and lysed. This tissue lysate is directly added into the assay. RNA within the lysate is annealed to a matched pair of detector oligos, with each pair of DOs targeting a single transcript. The DO pool targets up to tens of thousands of RNA sequences, depending on the content of the assay. The DOs hybridize to sequences of the targeted RNA molecule such that their respective 3’ and 5’ ends are immediately adjacent. After DO annealing, excess oligos and mis-hybridized or weakly hybridized DOs are removed by nuclease digestion, and the annealed oligos are ligated to form amplifiable templates. The ligated DOs are amplified with one pair of primers (making each PCR reaction single-plex regardless of the number of genes measured). A different combination of sample index/tag sequences can be assigned to each sample. The PCR products are pooled together into a sequencing library, which is then purified and run on an Illumina sequencer to count the number of ligated detector oligo sequences per sample (ThermoFisher-compatible kit under development) . Because TempO-Seq includes an end-point PCR reaction, individual quantitation of the amplified products before library pooling is not needed. Very low concentration and negative control samples are expected to show low reads in the sequencing data. The resulting sequencing read counts from the pooled library can be analyzed to determine the abundance of each gene from each sample. Many types of further analysis are then possible; for example, changes in expression due to treatments or differential expression between samples can be determined."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129320",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129320"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid library construction protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0004184"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "In TempO-Seq, each Detector Oligo consists of a sequence complementary to an mRNA target plus a universal (i.e. same for every targeted gene) primer binding site. They anneal in immediate juxtaposition to each other on the targeted RNA template such that they can be ligated together. Ligated detector oligos are PCR-amplified using a primer set (single-plex PCR reaction, with a single primer pair for each sample) that introduces both the adaptors required for sequencing and a sample-specific barcode. The barcode sequences flank the target sequence and are inserted appropriately into the standard Illumina adaptors to permit standard dual-index sequencing of the barcodes and deconvolution of sample-specific reads from the sequencing data using the standard Illumina software. All the PCR-amplified and barcoded samples are pooled into a single library for sequencing. Sequencing reads are demultiplexed using the standard sequencing instrument software for each sample using the barcodes to give a FASTQ file for each."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129321",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129321"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid sequencing protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0004170"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "The barcode sequences flank the target sequence and are inserted appropriately into the standard Illumina adaptors to permit standard dual-index sequencing of the barcodes and deconvolution of sample-specific reads from the sequencing data using the standard Illumina software. All the PCR-amplified and barcoded samples are pooled into a single library for sequencing. Sequencing reads are demultiplexed using the standard sequencing instrument software for each sample using the barcodes to give a FASTQ file for each."
+      }, {
+        "name" : "Hardware",
+        "value" : "Illumina HiSeq 2500"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129322",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129322"
+      }, {
+        "name" : "Type",
+        "value" : "high throughput sequence alignment protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0004917"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "The sequencing instrument will use the information in sample sheet to generate one file for each sample name provided. In most cases, this file will be in FASTQ format. This file is not the final output of the assay but represents raw sequencing data. Each FASTQ file must be aligned to produce final gene counts. The easiest way to align your FASTQs is to use the Aligner function of TempO-SeqR. If this is not feasible, users should utilize the R script provided by BioSpyder. The TempO-SeqR data analysis option can be used to verify data clustering, perform principal component analysis, and verify reproducibility through scatter plots."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-129323",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-129323"
+      }, {
+        "name" : "Type",
+        "value" : "normalization data transformation protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0003816"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "Within this Rpackage, edgeR is used for normalization and quality controlof count data."
+      }, {
+        "name" : "Hardware"
+      } ]
+    } ], {
+      "type" : "Author",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "Chidozie Ogbonnaya"
+      }, {
+        "name" : "Email",
+        "value" : "czogbonnaya@dundee.ac.uk"
+      }, {
+        "name" : "Role",
+        "value" : "submitter"
+      }, {
+        "name" : "affiliation",
+        "value" : "o1",
+        "reference" : true
+      } ]
+    }, {
+      "accno" : "o1",
+      "type" : "Organization",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "University of Dundee"
+      }, {
+        "name" : "Address",
+        "value" : "University of Dundee Nethergate Dundee DD1 4HN Scotland, UK"
+      } ]
+    }, {
+      "accno" : "s-samples-factors-E-MTAB-12593",
+      "type" : "Samples",
+      "attributes" : [ {
+        "name" : "Sample count",
+        "value" : "45"
+      }, {
+        "name" : "Experimental Designs",
+        "value" : "cell component comparison design",
+        "valqual" : [ {
+          "name" : "TermId",
+          "value" : "EFO_0001743"
+        } ]
+      }, {
+        "name" : "Experimental Factors",
+        "value" : "sampling site",
+        "valqual" : [ {
+          "name" : "TermName",
+          "value" : "sampling site"
+        } ]
+      } ],
+      "subsections" : [ {
+        "accno" : "exp_factor-E-MTAB-12593",
+        "type" : "Experimental Factors",
+        "attributes" : [ {
+          "name" : "Sampling site",
+          "value" : "neoplasm"
+        }, {
+          "name" : "Sampling site",
+          "value" : "normal tissue"
+        }, {
+          "name" : "Sampling site",
+          "value" : "microenvironment"
+        } ],
+        "subsections" : [ [ {
+          "accno" : "factors_0",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "15",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465396,ERS14465399,ERS14465402,ERS14465405,ERS14465408,ERS14465411,ERS14465414,ERS14465417,ERS14465420,ERS14465423,ERS14465426,ERS14465429,ERS14465432,ERS14465435,ERS14465438"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_1",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "15",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465397,ERS14465400,ERS14465403,ERS14465406,ERS14465409,ERS14465412,ERS14465415,ERS14465418,ERS14465421,ERS14465424,ERS14465427,ERS14465430,ERS14465433,ERS14465436,ERS14465439"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_2",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "15",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465398,ERS14465401,ERS14465404,ERS14465407,ERS14465410,ERS14465413,ERS14465416,ERS14465419,ERS14465422,ERS14465425,ERS14465428,ERS14465431,ERS14465434,ERS14465437,ERS14465440"
+            } ]
+          } ]
+        } ] ]
+      }, {
+        "accno" : "source_chars-E-MTAB-12593",
+        "type" : "Source Characteristics",
+        "attributes" : [ {
+          "name" : "Organism",
+          "value" : "Homo sapiens"
+        }, {
+          "name" : "Sex",
+          "value" : "male"
+        }, {
+          "name" : "Organism part",
+          "value" : "prostate gland"
+        }, {
+          "name" : "Disease",
+          "value" : "prostate cancer"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 13"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 3"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 1"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 4"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 7"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 6"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 10"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 2"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 14"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 12"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 15"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 9"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 8"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 11"
+        }, {
+          "name" : "Individual",
+          "value" : "individual 5"
+        }, {
+          "name" : "Sampling site",
+          "value" : "neoplasm"
+        }, {
+          "name" : "Sampling site",
+          "value" : "normal tissue"
+        }, {
+          "name" : "Sampling site",
+          "value" : "microenvironment"
+        } ],
+        "subsections" : [ [ {
+          "accno" : "source_0",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 1"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465396"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_1",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 1"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465397"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_2",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 1"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465398"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_3",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 2"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465399"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_4",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 2"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465400"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_5",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 2"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465401"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_6",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 3"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465402"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_7",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 3"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465403"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_8",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 3"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465404"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_9",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 4"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465405"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_10",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 4"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465406"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_11",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 4"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465407"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_12",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 5"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465408"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_13",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 5"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465409"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_14",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 5"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465410"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_15",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 6"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465411"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_16",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 6"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465412"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_17",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 6"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465413"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_18",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 7"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465414"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_19",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 7"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465415"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_20",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 7"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465416"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_21",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 8"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465417"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_22",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 8"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465418"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_23",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 8"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465419"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_24",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 9"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465420"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_25",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 9"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465421"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_26",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 9"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465422"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_27",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 11"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465423"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_28",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 11"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465424"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_29",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 11"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465425"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_30",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 10"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465426"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_31",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 10"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465427"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_32",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 10"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465428"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_33",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 12"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465429"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_34",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 12"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465430"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_35",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 12"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465431"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_36",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 13"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465432"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_37",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 13"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465433"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_38",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 13"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465434"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_39",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 14"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465435"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_40",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 14"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465436"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_41",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 14"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465437"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_42",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 15"
+          }, {
+            "name" : "sampling site",
+            "value" : "neoplasm"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465438"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_43",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 15"
+          }, {
+            "name" : "sampling site",
+            "value" : "microenvironment"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465439"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_44",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "individual",
+            "value" : "individual 15"
+          }, {
+            "name" : "sampling site",
+            "value" : "normal tissue"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS14465440"
+            } ]
+          } ]
+        } ] ]
+      } ]
+    }, {
+      "accno" : "s-assays-data-E-MTAB-12593",
+      "type" : "Assays and Data",
+      "attributes" : [ {
+        "name" : "Assay count",
+        "value" : "45"
+      }, {
+        "name" : "Technology",
+        "value" : "Sequencing assay"
+      }, {
+        "name" : "Assay by Molecule",
+        "value" : "RNA assay"
+      } ],
+      "subsections" : [ {
+        "accno" : "mt-E-MTAB-12593",
+        "type" : "MAGE-TAB Files",
+        "files" : [ [ {
+          "path" : "E-MTAB-12593.idf.txt",
+          "size" : 11986,
+          "attributes" : [ {
+            "name" : "Type",
+            "value" : "IDF File"
+          }, {
+            "name" : "Format",
+            "value" : "tab-delimited text"
+          }, {
+            "name" : "Description",
+            "value" : "Investigation Design Format (IDF)"
+          } ],
+          "type" : "file"
+        }, {
+          "path" : "E-MTAB-12593.sdrf.txt",
+          "size" : 26103,
+          "attributes" : [ {
+            "name" : "Type",
+            "value" : "SDRF File"
+          }, {
+            "name" : "Format",
+            "value" : "tab-delimited text"
+          }, {
+            "name" : "Description",
+            "value" : "Sample and Data Relationship Format (SDRF)"
+          } ],
+          "type" : "file"
+        } ] ]
+      } ]
+    }, {
+      "accno" : "score-E-MTAB-12593",
+      "type" : "MINSEQE Score",
+      "attributes" : [ {
+        "name" : "Exp. Design",
+        "value" : "*"
+      }, {
+        "name" : "Protocols",
+        "value" : "*"
+      }, {
+        "name" : "Variables",
+        "value" : "*"
+      }, {
+        "name" : "Processed",
+        "value" : "-"
+      }, {
+        "name" : "Raw",
+        "value" : "*"
+      } ]
+    } ]
+  },
+  "type" : "submission"
+}

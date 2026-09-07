@@ -1,0 +1,2656 @@
+{
+  "version": "1-frozen-independent",
+  "created_utc": "2026-09-05T19:15:53.625907+00:00",
+  "reader": "Fresh independent model session; not clinical/human review",
+  "diagnosis_scope_assumptions": {
+    "EMC": "Supplied extraskeletal myxoid chondrosarcoma molecular scope; EWSR1/TAF15 FET-partner subsets do not imply all EMC.",
+    "DSRCT": "Supplied EWSR1::WT1 defining fusion.",
+    "SS": "Supplied SS18::SSX defining fusion; not an EWS/FET fusion."
+  },
+  "prior_labels_read": false,
+  "unit": "unique diagnosis-trial pair",
+  "pairs": [
+    {
+      "pair_id": "DSRCT|NCT01804634",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT01804634",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Single transplant cohort names DSRCT among examples meeting high-risk expected-survival requirement; other solid tumors considered case by case."
+        ],
+        "rationale": "Explicit DSRCT scope remains conditional on high-risk assessment, stable disease where measurable, donor and transplant criteria.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Suitable HLA-haploidentical donor required; no tumor biomarker gate stated."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT01804634:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT01804634:eligibilityModule",
+        "NCT01804634:descriptionModule",
+        "NCT01804634:armsInterventionsModule",
+        "NCT01804634:conditionsModule",
+        "NCT01804634:designModule",
+        "NCT01804634:statusModule",
+        "NCT01804634:quote:0",
+        "NCT01804634:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT03013998",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT03013998",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Master groups A/B and select-site C enroll AML/myeloid malignancies; all listed S1-S26 therapeutic cohorts remain under that scope.",
+          "Closed historical cohorts and currently described S17/S24/S25/S26 do not add a solid-sarcoma pathway."
+        ],
+        "rationale": "AML/myeloid enrollment cannot be inferred to include DSRCT from WT1 or fusion terms.",
+        "restriction_type": "closed hematologic disease domain"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT03013998:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "interpretation": "AML genomic assignment and investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT03013998:eligibilityModule",
+        "NCT03013998:descriptionModule",
+        "NCT03013998:armsInterventionsModule",
+        "NCT03013998:conditionsModule",
+        "NCT03013998:designModule",
+        "NCT03013998:statusModule",
+        "NCT03013998:quote:0",
+        "NCT03013998:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT03967834",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT03967834",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Prospective rare-sarcoma biospecimen cohort explicitly includes DSRCT; retrospective cases described separately."
+        ],
+        "rationale": "DSRCT is explicitly enumerated in the positive histology list. This is translational characterization, not a therapeutic drug trial.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT03967834:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "OTHER",
+        "phases": [
+          "NA"
+        ],
+        "interpretation": "translational biospecimen and clinical characterization"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT03967834:eligibilityModule",
+        "NCT03967834:descriptionModule",
+        "NCT03967834:armsInterventionsModule",
+        "NCT03967834:conditionsModule",
+        "NCT03967834:designModule",
+        "NCT03967834:statusModule",
+        "NCT03967834:quote:0",
+        "NCT03967834:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT04901702",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT04901702",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Phase I A/B and expansions A1/B1 allow non-Ewing solid tumors.",
+          "Expansion A2 additionally requires a deleterious HR-repair/DSB signaling alteration.",
+          "Phase II is histologically Ewing restricted and does not establish DSRCT scope."
+        ],
+        "rationale": "The broad phase-I pathway makes a whole-trial DSRCT exclusion inappropriate; the molecular EWS criterion belongs to phase II.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "HR-repair/DSB deleterious alteration required for A2 only, unestablished; no such gate stated for phase I A/B or A1/B1."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "RECRUITING snapshot does not establish which phase or expansion is open.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT04901702:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT04901702:eligibilityModule",
+        "NCT04901702:descriptionModule",
+        "NCT04901702:armsInterventionsModule",
+        "NCT04901702:conditionsModule",
+        "NCT04901702:designModule",
+        "NCT04901702:statusModule",
+        "NCT04901702:quote:0",
+        "NCT04901702:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT05071209",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05071209",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "defining_fusion_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "defining_fusion_compatible",
+        "cohort_reconciliation": [
+          "Part A and B1 allow any EWS-fusion positive solid tumor; DSRCT defining EWS-WT1 explicitly included, EMC only EWSR1-fused subset.",
+          "PAX3-FOXO1 rhabdomyosarcoma route does not cover these diagnoses.",
+          "Part A DDR and Part B3 allow non-CNS solid tumor with qualifying inactivating DDR alteration: possible SS histologic scope, extra marker unestablished."
+        ],
+        "rationale": "An EWS-fusion route and a separate DDR route coexist. SS cannot be labeled excluded merely because SS18::SSX is not an EWS fusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "EWS-fusion confirmed in tissue for fusion route; EMC EWSR1 subset only. SS requires additional qualifying DDR alteration, unestablished. Pathogenicity review and study-chair approval may be necessary."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "ACTIVE_NOT_RECRUITING saved status; disease scope remains a historical/registered scope judgment, not a currently open opportunity.",
+      "current_availability": {
+        "overall_status_snapshot": "ACTIVE_NOT_RECRUITING",
+        "current_as_defined_in_frozen_sample": false,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05071209:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05071209:eligibilityModule",
+        "NCT05071209:descriptionModule",
+        "NCT05071209:armsInterventionsModule",
+        "NCT05071209:conditionsModule",
+        "NCT05071209:designModule",
+        "NCT05071209:statusModule",
+        "NCT05071209:quote:0",
+        "NCT05071209:quote:1",
+        "NCT05071209:quote:2"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT05135975",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05135975",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Stratum A names DSRCT BR2 or later and separately any other soft tissue sarcoma BR2 or later, covering broad EMC/SS scope.",
+          "Strata B, C and D are metastatic Ewing, osteosarcoma and fusion-positive rhabdomyosarcoma, respectively; they do not override Stratum A."
+        ],
+        "rationale": "A broad STS pathway persists alongside the explicitly named DSRCT pathway, but omitted protocol exclusions prevent definitive eligibility.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Explicit missing external exclusion criteria and referenced best-response definitions (Section 3.1.2); histology scope supported, full protocol eligibility unresolved. BR2+, maintained best response, age and maintenance timing requirements retained.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05135975:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05135975:eligibilityModule",
+        "NCT05135975:descriptionModule",
+        "NCT05135975:armsInterventionsModule",
+        "NCT05135975:conditionsModule",
+        "NCT05135975:designModule",
+        "NCT05135975:statusModule",
+        "NCT05135975:quote:0",
+        "NCT05135975:quote:1",
+        "NCT05135975:quote:2"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT05687136",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05687136",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Both escalation and expansion require broad solid malignancy plus approved molecular/IHC alteration.",
+          "SS18 is named among SWI/SNF mutations, but SS18::SSX fusion is not explicitly stated as accepted. Other listed alteration routes remain available in principle to all three diagnoses."
+        ],
+        "rationale": "The diagnosis itself does not establish the additional molecular gate. SS18 mention cannot be promoted to proven defining-fusion compatibility or treated as an exclusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Additional qualifying ATM/MYC/FBXW7/CCNE1/SWI-SNF/ATRX-DAXX alteration or IHC finding required and unestablished for each diagnosis. SS18 mutation versus SS18::SSX fusion acceptance unresolved."
+      },
+      "protocol_uncertainty": "List syntax (including conjunctions) and PI-approved molecular acceptance require clarification; do not infer that every named alteration co-occurs or that fusion equals mutation. Paired biopsy required in expansion unless exempted.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05687136:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05687136:eligibilityModule",
+        "NCT05687136:descriptionModule",
+        "NCT05687136:armsInterventionsModule",
+        "NCT05687136:conditionsModule",
+        "NCT05687136:designModule",
+        "NCT05687136:statusModule",
+        "NCT05687136:quote:0",
+        "NCT05687136:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT05918640",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05918640",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Phase 1 dose escalation and exploratory cohort require EWSR1, FUS or TAF15-containing fusion. EMC compatibility is limited to matching FET-fused variants.",
+          "DSRCT is explicitly recognized but enrollment is conditional on at least 3 non-DSRCT patients enrolled without dose-limiting toxicity; satisfaction of that condition is unknown.",
+          "Phase 2 requires Ewing sarcoma with EWS-FLI1 and does not establish an EMC, DSRCT or SS pathway.",
+          "SS has broad solid-tumor histologic scope in phase 1 only, but its defining SS18::SSX does not establish a FET gate; hypothetical additional FET alteration remains unestablished."
+        ],
+        "rationale": "The phase-1 molecular class is broader than Ewing sarcoma, despite the arm label. Preserve the DSRCT safety lead-in condition and the narrower phase-2 restriction.",
+        "restriction_type": "phase-specific closed histology and conditional safety hold"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Documented FET-containing fusion required in phase 1; EMC only FET-partner subset; DSRCT EWSR1::WT1 matches supplied defining scope; SS18::SSX alone does not qualify. SS additional qualifying fusion unestablished."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Overall RECRUITING snapshot. Phase/cohort opening unknown; DSRCT hold is conditional, with satisfaction unknown, not asserted currently blocked.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05918640:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05918640:eligibilityModule",
+        "NCT05918640:descriptionModule",
+        "NCT05918640:armsInterventionsModule",
+        "NCT05918640:conditionsModule",
+        "NCT05918640:designModule",
+        "NCT05918640:statusModule",
+        "NCT05918640:quote:0",
+        "NCT05918640:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT05949125",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT05949125",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Both phase-1a escalation and phase-1b expansion are CD123+ AML; MRD+ AML remains AML."
+        ],
+        "rationale": "Neither CD123 nor a myeloid sarcoma term establishes DSRCT eligibility.",
+        "restriction_type": "closed AML histology domain"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "CD123 threshold and HLA matching apply to AML; not a DSRCT molecular pathway."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05949125:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05949125:eligibilityModule",
+        "NCT05949125:descriptionModule",
+        "NCT05949125:armsInterventionsModule",
+        "NCT05949125:conditionsModule",
+        "NCT05949125:designModule",
+        "NCT05949125:statusModule",
+        "NCT05949125:quote:0"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06094101",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06094101",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Screening stage 1 restricts enrollment to metastatic fusion-driven rhabdomyosarcoma, Ewing and synovial sarcoma.",
+          "Stage 2 requires successful personalized vaccine manufacture and complete/stable partial remission with local treatment of residual sites."
+        ],
+        "rationale": "Generic fusion-driven language does not expand the explicit screening histology list; SS is named, EMC and DSRCT are not.",
+        "restriction_type": "closed allowed histology list for EMC/DSRCT"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Fusion-breakpoint WES/RNA information and successful individual vaccine production required; no single predefined HLA allele gate claimed."
+      },
+      "protocol_uncertainty": "Remission/PRplus and investigator review remain required; no proof of successful manufacturing for hypothetical patient.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06094101:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06094101:eligibilityModule",
+        "NCT06094101:descriptionModule",
+        "NCT06094101:armsInterventionsModule",
+        "NCT06094101:conditionsModule",
+        "NCT06094101:designModule",
+        "NCT06094101:statusModule",
+        "NCT06094101:quote:0",
+        "NCT06094101:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06239272",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06239272",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Low-, intermediate- and high-risk NRSTS groups share explicit DSRCT exclusion."
+        ],
+        "rationale": "General NRSTS terminology does not overcome direct exclusion of desmoplastic small round cell tumor.",
+        "restriction_type": "direct diagnosis exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06239272:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06239272:eligibilityModule",
+        "NCT06239272:descriptionModule",
+        "NCT06239272:armsInterventionsModule",
+        "NCT06239272:conditionsModule",
+        "NCT06239272:designModule",
+        "NCT06239272:statusModule",
+        "NCT06239272:quote:0"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06277154",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06277154",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Both randomized treatment groups share histologic eligibility explicitly naming DSRCT."
+        ],
+        "rationale": "DSRCT is named among eligible advanced STS; the separate EMC exclusion does not exclude DSRCT.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "First-line advanced disease, 18-70 years and full clinical constraints apply; no external protocol reviewed.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06277154:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06277154:eligibilityModule",
+        "NCT06277154:descriptionModule",
+        "NCT06277154:armsInterventionsModule",
+        "NCT06277154:conditionsModule",
+        "NCT06277154:designModule",
+        "NCT06277154:statusModule",
+        "NCT06277154:quote:0"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06526897",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06526897",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "insufficient_evidence",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "insufficient_evidence",
+        "cohort_reconciliation": [
+          "Both imaging arms share the listed truncal/extremity histologies and exclude retroperitoneal/mesenteric/abdominal sarcoma."
+        ],
+        "rationale": "DSRCT is not expressly included. Ewing-like and unclassified grade-2/3 language does not establish DSRCT inclusion. The site restriction excludes abdominal cases but cannot establish universal DSRCT exclusion.",
+        "restriction_type": "anatomic exclusion and unresolved histology boundary"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "DSRCT fit to allowed histologies unresolved, including unusual extra-abdominal sites; grade/stage/location and prior curative resection all required.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06526897:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "DIAGNOSTIC",
+        "phases": [
+          "NA"
+        ],
+        "interpretation": "lung surveillance imaging comparison; not systemic treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06526897:eligibilityModule",
+        "NCT06526897:descriptionModule",
+        "NCT06526897:armsInterventionsModule",
+        "NCT06526897:conditionsModule",
+        "NCT06526897:designModule",
+        "NCT06526897:statusModule",
+        "NCT06526897:quote:0",
+        "NCT06526897:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06571734",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06571734",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "fusion_class_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "fusion_class_compatible",
+        "cohort_reconciliation": [
+          "Cohort 1 leiomyosarcoma and cohort 2 bone sarcoma do not define these STS pathways.",
+          "Cohort 3 accepts histologically confirmed metastatic/unresectable translocation-associated STS, with greater than 2 prior treatment lines and no more than 2 TKI lines. SS is explicitly named as an example in enrollment description."
+        ],
+        "rationale": "The TAS class supports the supplied fusion-defined diagnosis scope; it is not solely a leiomyosarcoma trial.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Translocation-associated histology needs NCCN-center pathology review; no additional named target biomarker gate stated."
+      },
+      "protocol_uncertainty": "TAS pathology adjudication and cohort opening remain unverified. Preserve >2 prior treatment lines exactly; no extrapolation of benefit.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06571734:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06571734:eligibilityModule",
+        "NCT06571734:descriptionModule",
+        "NCT06571734:armsInterventionsModule",
+        "NCT06571734:conditionsModule",
+        "NCT06571734:designModule",
+        "NCT06571734:statusModule",
+        "NCT06571734:quote:0",
+        "NCT06571734:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT06979596",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT06979596",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Cohort A HR+/HER2- breast carcinoma; B high-grade epithelial ovarian/fallopian/peritoneal carcinoma; C low-grade endometrioid carcinoma.",
+          "Experimental, endocrine comparator and observation groups inherit those cohort restrictions; no DSRCT route."
+        ],
+        "rationale": "Peritoneal carcinoma and carcinosarcoma should not be conflated with DSRCT. All relevant cohorts are restricted.",
+        "restriction_type": "closed carcinoma histology lists; direct pure-sarcoma exclusion in C"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Cohort-specific endocrine/histologic features do not establish a DSRCT pathway."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06979596:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06979596:eligibilityModule",
+        "NCT06979596:descriptionModule",
+        "NCT06979596:armsInterventionsModule",
+        "NCT06979596:conditionsModule",
+        "NCT06979596:designModule",
+        "NCT06979596:statusModule",
+        "NCT06979596:quote:0",
+        "NCT06979596:quote:1"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT07030959",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07030959",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Parts A/B monotherapy and Part C cetuximab combination operate within solid-tumor scope, but each has unspecified KRAS details."
+        ],
+        "rationale": "Broad solid-tumor scope is conditional on additional KRAS alteration; DSRCT alone does not establish it, and part-specific rules are missing.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Additional KRAS alteration required and unestablished; defining EWSR1::WT1 does not satisfy it."
+      },
+      "protocol_uncertainty": "Exact eligible KRAS variants, part-specific histologies and additional full-protocol criteria unavailable; cohort compatibility beyond umbrella scope unresolved.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07030959:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07030959:eligibilityModule",
+        "NCT07030959:descriptionModule",
+        "NCT07030959:armsInterventionsModule",
+        "NCT07030959:conditionsModule",
+        "NCT07030959:designModule",
+        "NCT07030959:statusModule",
+        "NCT07030959:quote:0"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT07271914",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07271914",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Single early ovarian/fallopian diagnostic surgery group; sarcomas explicitly excluded."
+        ],
+        "rationale": "Non-epithelial ovarian wording is narrowed by a direct sarcoma exclusion.",
+        "restriction_type": "direct sarcoma exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07271914:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "DIAGNOSTIC",
+        "phases": [
+          "NA"
+        ],
+        "interpretation": "surgical staging and histopathologic diagnosis"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07271914:eligibilityModule",
+        "NCT07271914:descriptionModule",
+        "NCT07271914:armsInterventionsModule",
+        "NCT07271914:conditionsModule",
+        "NCT07271914:designModule",
+        "NCT07271914:statusModule",
+        "NCT07271914:quote:0"
+      ]
+    },
+    {
+      "pair_id": "DSRCT|NCT07297979",
+      "diagnosis": "DSRCT",
+      "nct_id": "NCT07297979",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Dose confirmation and expansion both require histologic Ewing sarcoma and EWSR1-ETS molecular evidence."
+        ],
+        "rationale": "DSRCT EWSR1::WT1 is not the required Ewing histology or ETS-partner criterion.",
+        "restriction_type": "closed histology plus defining molecular restriction"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "EWSR1-ETS required; shared EWSR1 alone insufficient."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07297979:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "BASIC_SCIENCE",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "dose-finding anticancer intervention; registry primaryPurpose BASIC_SCIENCE retained"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07297979:eligibilityModule",
+        "NCT07297979:descriptionModule",
+        "NCT07297979:armsInterventionsModule",
+        "NCT07297979:conditionsModule",
+        "NCT07297979:designModule",
+        "NCT07297979:statusModule",
+        "NCT07297979:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT05071209",
+      "diagnosis": "EMC",
+      "nct_id": "NCT05071209",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "fusion_class_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "fusion_class_compatible",
+        "cohort_reconciliation": [
+          "Part A and B1 allow any EWS-fusion positive solid tumor; DSRCT defining EWS-WT1 explicitly included, EMC only EWSR1-fused subset.",
+          "PAX3-FOXO1 rhabdomyosarcoma route does not cover these diagnoses.",
+          "Part A DDR and Part B3 allow non-CNS solid tumor with qualifying inactivating DDR alteration: possible SS histologic scope, extra marker unestablished."
+        ],
+        "rationale": "An EWS-fusion route and a separate DDR route coexist. SS cannot be labeled excluded merely because SS18::SSX is not an EWS fusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "EWS-fusion confirmed in tissue for fusion route; EMC EWSR1 subset only. SS requires additional qualifying DDR alteration, unestablished. Pathogenicity review and study-chair approval may be necessary."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "ACTIVE_NOT_RECRUITING saved status; disease scope remains a historical/registered scope judgment, not a currently open opportunity.",
+      "current_availability": {
+        "overall_status_snapshot": "ACTIVE_NOT_RECRUITING",
+        "current_as_defined_in_frozen_sample": false,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05071209:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05071209:eligibilityModule",
+        "NCT05071209:descriptionModule",
+        "NCT05071209:armsInterventionsModule",
+        "NCT05071209:conditionsModule",
+        "NCT05071209:designModule",
+        "NCT05071209:statusModule",
+        "NCT05071209:quote:0",
+        "NCT05071209:quote:1",
+        "NCT05071209:quote:2"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT05135975",
+      "diagnosis": "EMC",
+      "nct_id": "NCT05135975",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Stratum A names DSRCT BR2 or later and separately any other soft tissue sarcoma BR2 or later, covering broad EMC/SS scope.",
+          "Strata B, C and D are metastatic Ewing, osteosarcoma and fusion-positive rhabdomyosarcoma, respectively; they do not override Stratum A."
+        ],
+        "rationale": "A broad STS pathway persists alongside the explicitly named DSRCT pathway, but omitted protocol exclusions prevent definitive eligibility.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Explicit missing external exclusion criteria and referenced best-response definitions (Section 3.1.2); histology scope supported, full protocol eligibility unresolved. BR2+, maintained best response, age and maintenance timing requirements retained.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05135975:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05135975:eligibilityModule",
+        "NCT05135975:descriptionModule",
+        "NCT05135975:armsInterventionsModule",
+        "NCT05135975:conditionsModule",
+        "NCT05135975:designModule",
+        "NCT05135975:statusModule",
+        "NCT05135975:quote:0",
+        "NCT05135975:quote:1",
+        "NCT05135975:quote:2"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT05687136",
+      "diagnosis": "EMC",
+      "nct_id": "NCT05687136",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Both escalation and expansion require broad solid malignancy plus approved molecular/IHC alteration.",
+          "SS18 is named among SWI/SNF mutations, but SS18::SSX fusion is not explicitly stated as accepted. Other listed alteration routes remain available in principle to all three diagnoses."
+        ],
+        "rationale": "The diagnosis itself does not establish the additional molecular gate. SS18 mention cannot be promoted to proven defining-fusion compatibility or treated as an exclusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Additional qualifying ATM/MYC/FBXW7/CCNE1/SWI-SNF/ATRX-DAXX alteration or IHC finding required and unestablished for each diagnosis. SS18 mutation versus SS18::SSX fusion acceptance unresolved."
+      },
+      "protocol_uncertainty": "List syntax (including conjunctions) and PI-approved molecular acceptance require clarification; do not infer that every named alteration co-occurs or that fusion equals mutation. Paired biopsy required in expansion unless exempted.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05687136:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05687136:eligibilityModule",
+        "NCT05687136:descriptionModule",
+        "NCT05687136:armsInterventionsModule",
+        "NCT05687136:conditionsModule",
+        "NCT05687136:designModule",
+        "NCT05687136:statusModule",
+        "NCT05687136:quote:0",
+        "NCT05687136:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT05918640",
+      "diagnosis": "EMC",
+      "nct_id": "NCT05918640",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        },
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "fusion_class_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "fusion_class_compatible",
+        "cohort_reconciliation": [
+          "Phase 1 dose escalation and exploratory cohort require EWSR1, FUS or TAF15-containing fusion. EMC compatibility is limited to matching FET-fused variants.",
+          "DSRCT is explicitly recognized but enrollment is conditional on at least 3 non-DSRCT patients enrolled without dose-limiting toxicity; satisfaction of that condition is unknown.",
+          "Phase 2 requires Ewing sarcoma with EWS-FLI1 and does not establish an EMC, DSRCT or SS pathway.",
+          "SS has broad solid-tumor histologic scope in phase 1 only, but its defining SS18::SSX does not establish a FET gate; hypothetical additional FET alteration remains unestablished."
+        ],
+        "rationale": "The phase-1 molecular class is broader than Ewing sarcoma, despite the arm label. Preserve the DSRCT safety lead-in condition and the narrower phase-2 restriction.",
+        "restriction_type": "phase-specific closed histology and conditional safety hold"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Documented FET-containing fusion required in phase 1; EMC only FET-partner subset; DSRCT EWSR1::WT1 matches supplied defining scope; SS18::SSX alone does not qualify. SS additional qualifying fusion unestablished."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Overall RECRUITING snapshot. Phase/cohort opening unknown; DSRCT hold is conditional, with satisfaction unknown, not asserted currently blocked.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05918640:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05918640:eligibilityModule",
+        "NCT05918640:descriptionModule",
+        "NCT05918640:armsInterventionsModule",
+        "NCT05918640:conditionsModule",
+        "NCT05918640:designModule",
+        "NCT05918640:statusModule",
+        "NCT05918640:quote:0",
+        "NCT05918640:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06094101",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06094101",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Screening stage 1 restricts enrollment to metastatic fusion-driven rhabdomyosarcoma, Ewing and synovial sarcoma.",
+          "Stage 2 requires successful personalized vaccine manufacture and complete/stable partial remission with local treatment of residual sites."
+        ],
+        "rationale": "Generic fusion-driven language does not expand the explicit screening histology list; SS is named, EMC and DSRCT are not.",
+        "restriction_type": "closed allowed histology list for EMC/DSRCT"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Fusion-breakpoint WES/RNA information and successful individual vaccine production required; no single predefined HLA allele gate claimed."
+      },
+      "protocol_uncertainty": "Remission/PRplus and investigator review remain required; no proof of successful manufacturing for hypothetical patient.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06094101:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06094101:eligibilityModule",
+        "NCT06094101:descriptionModule",
+        "NCT06094101:armsInterventionsModule",
+        "NCT06094101:conditionsModule",
+        "NCT06094101:designModule",
+        "NCT06094101:statusModule",
+        "NCT06094101:quote:0",
+        "NCT06094101:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06235125",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06235125",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Single Cytalux imaging cohort includes other NRSTS despite osteosarcoma-specific official title."
+        ],
+        "rationale": "Full eligibility and descriptions support a broader pediatric sarcoma imaging cohort than the title alone.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Pulmonary surgical indication, age/weight and other constraints required; registry birthday/sex criteria contain awkward or conflicting language needing protocol clarification.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06235125:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "DIAGNOSTIC",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "fluorescence-guided pulmonary surgery imaging"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06235125:eligibilityModule",
+        "NCT06235125:descriptionModule",
+        "NCT06235125:armsInterventionsModule",
+        "NCT06235125:conditionsModule",
+        "NCT06235125:designModule",
+        "NCT06235125:statusModule",
+        "NCT06235125:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06367075",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06367075",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Single cadonilimab/adriamycin arm excludes extraosseous myxoid chondrosarcoma in inclusion definition."
+        ],
+        "rationale": "EMC is directly excluded despite broad STS framing.",
+        "restriction_type": "direct diagnosis exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Saved age fields conflict: text less than 60 versus structured maximum 75; this does not alter histologic exclusion.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06367075:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06367075:eligibilityModule",
+        "NCT06367075:descriptionModule",
+        "NCT06367075:armsInterventionsModule",
+        "NCT06367075:conditionsModule",
+        "NCT06367075:designModule",
+        "NCT06367075:statusModule",
+        "NCT06367075:quote:0",
+        "NCT06367075:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06456359",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06456359",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Single maintenance arm allows DSRCT or SySa only."
+        ],
+        "rationale": "The fusion discussion concerns the two named histologies and is not an all-fusion basket.",
+        "restriction_type": "closed allowed histology list"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "High SSTR2/3/5 mRNA expression by MASTER/INFORM RNA sequencing; not evidence of EMC inclusion."
+      },
+      "protocol_uncertainty": "Referenced prohibited medication Table 5 is not supplied as full external protocol; remission, timing and age constraints remain.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06456359:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06456359:eligibilityModule",
+        "NCT06456359:descriptionModule",
+        "NCT06456359:armsInterventionsModule",
+        "NCT06456359:conditionsModule",
+        "NCT06456359:designModule",
+        "NCT06456359:statusModule",
+        "NCT06456359:quote:0",
+        "NCT06456359:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06571734",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06571734",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "fusion_class_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "fusion_class_compatible",
+        "cohort_reconciliation": [
+          "Cohort 1 leiomyosarcoma and cohort 2 bone sarcoma do not define these STS pathways.",
+          "Cohort 3 accepts histologically confirmed metastatic/unresectable translocation-associated STS, with greater than 2 prior treatment lines and no more than 2 TKI lines. SS is explicitly named as an example in enrollment description."
+        ],
+        "rationale": "The TAS class supports the supplied fusion-defined diagnosis scope; it is not solely a leiomyosarcoma trial.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Translocation-associated histology needs NCCN-center pathology review; no additional named target biomarker gate stated."
+      },
+      "protocol_uncertainty": "TAS pathology adjudication and cohort opening remain unverified. Preserve >2 prior treatment lines exactly; no extrapolation of benefit.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06571734:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06571734:eligibilityModule",
+        "NCT06571734:descriptionModule",
+        "NCT06571734:armsInterventionsModule",
+        "NCT06571734:conditionsModule",
+        "NCT06571734:designModule",
+        "NCT06571734:statusModule",
+        "NCT06571734:quote:0",
+        "NCT06571734:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT06646627",
+      "diagnosis": "EMC",
+      "nct_id": "NCT06646627",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Intraperitoneal and IV arms both enroll ovarian carcinoma; pure sarcoma excluded even though focal sarcomatous elements in carcinoma allowed."
+        ],
+        "rationale": "An ovarian/peritoneal location or B7-H3 expression cannot overcome the pure-sarcoma exclusion.",
+        "restriction_type": "direct pure-sarcoma exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "B7-H3 expression explicitly not required; do not invent a biomarker gate."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06646627:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06646627:eligibilityModule",
+        "NCT06646627:descriptionModule",
+        "NCT06646627:armsInterventionsModule",
+        "NCT06646627:conditionsModule",
+        "NCT06646627:designModule",
+        "NCT06646627:statusModule",
+        "NCT06646627:quote:0",
+        "NCT06646627:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07037433",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07037433",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Both cardiovascular-outcomes groups share recent malignancy exclusion."
+        ],
+        "rationale": "Outside oncology task domain, with an explicit 5-year malignancy exclusion covering active/recent EMC. This is not a lifetime disease exclusion.",
+        "restriction_type": "direct recent-malignancy exclusion; outside oncology task domain"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Cancer-free history beyond five years is not ruled out by this clause; no EMC treatment scope.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07037433:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "nononcology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE3"
+        ],
+        "interpretation": "cardiovascular morbidity/mortality intervention"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07037433:eligibilityModule",
+        "NCT07037433:descriptionModule",
+        "NCT07037433:armsInterventionsModule",
+        "NCT07037433:conditionsModule",
+        "NCT07037433:designModule",
+        "NCT07037433:statusModule",
+        "NCT07037433:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07141732",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07141732",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Single newly diagnosed glioblastoma cohort; no sarcoma arm."
+        ],
+        "rationale": "Required glioblastoma histology and active/prior malignancy exclusion preclude an EMC disease-directed pathway. EMC in study description denotes European Medical Center.",
+        "restriction_type": "closed histology list plus other-malignancy exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07141732:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07141732:eligibilityModule",
+        "NCT07141732:descriptionModule",
+        "NCT07141732:armsInterventionsModule",
+        "NCT07141732:conditionsModule",
+        "NCT07141732:designModule",
+        "NCT07141732:statusModule",
+        "NCT07141732:quote:0",
+        "NCT07141732:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07188532",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07188532",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "insufficient_evidence",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "insufficient_evidence",
+        "cohort_reconciliation": [
+          "Cohort A groups 1/2, B and C are all within Ewing or conditionally Ewing-like sarcoma treated per Ewing paradigms."
+        ],
+        "rationale": "The record permits Ewing-like cases but does not establish that EMC belongs to that protocol definition. An EWSR1 non-ETS condition term is insufficient to settle EMC eligibility.",
+        "restriction_type": "unresolved histology boundary"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Unresolved meaning of Ewing-like and trial-specific Ewing treatment paradigms for EMC. No external protocol or investigator confirmation available.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07188532:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "NA"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07188532:eligibilityModule",
+        "NCT07188532:descriptionModule",
+        "NCT07188532:armsInterventionsModule",
+        "NCT07188532:conditionsModule",
+        "NCT07188532:designModule",
+        "NCT07188532:statusModule",
+        "NCT07188532:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07202884",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07202884",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "insufficient_evidence",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "insufficient_evidence",
+        "cohort_reconciliation": [
+          "GZS1/GZS2 and both active/placebo groups concern female stress urinary incontinence with overweight/obesity."
+        ],
+        "rationale": "This is a nononcology search hit. The record does not establish an EMC oncology cohort or directly exclude every person with an EMC history.",
+        "restriction_type": "outside oncology task domain"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "No oncology eligibility inference; any coincident EMC patient eligibility is unknown and outside the task.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07202884:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "nononcology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE3"
+        ],
+        "interpretation": "stress urinary incontinence and weight-related intervention"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07202884:eligibilityModule",
+        "NCT07202884:descriptionModule",
+        "NCT07202884:armsInterventionsModule",
+        "NCT07202884:conditionsModule",
+        "NCT07202884:designModule",
+        "NCT07202884:statusModule",
+        "NCT07202884:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07359053",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07359053",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Bone arm uses lenvatinib; soft tissue arm uses anlotinib. Broad STS criterion supports EMC in STS arm."
+        ],
+        "rationale": "No direct EMC restriction is stated, but suitability for the chemotherapy regimen is investigator-determined.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Investigator may deem histologies unsuitable; prior first-line progression and full organ/clinical constraints remain. No diagnosis-wide treatment suitability inferred.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07359053:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07359053:eligibilityModule",
+        "NCT07359053:descriptionModule",
+        "NCT07359053:armsInterventionsModule",
+        "NCT07359053:conditionsModule",
+        "NCT07359053:designModule",
+        "NCT07359053:statusModule",
+        "NCT07359053:quote:0"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07383116",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07383116",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Both HB0025 and tislelizumab chemotherapy arms require nonsquamous NSCLC; sarcoma components are expressly excluded."
+        ],
+        "rationale": "This is a lung-carcinoma study, not an EMC lung-metastasis study.",
+        "restriction_type": "closed histology plus direct sarcoma-component exclusion"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "EGFR/ALK and other driver exclusions apply to NSCLC, not an EMC molecular route."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07383116:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE3"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07383116:eligibilityModule",
+        "NCT07383116:descriptionModule",
+        "NCT07383116:armsInterventionsModule",
+        "NCT07383116:conditionsModule",
+        "NCT07383116:designModule",
+        "NCT07383116:statusModule",
+        "NCT07383116:quote:0",
+        "NCT07383116:quote:1"
+      ]
+    },
+    {
+      "pair_id": "EMC|NCT07695311",
+      "diagnosis": "EMC",
+      "nct_id": "NCT07695311",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Both monotherapy safety and later combination cohorts require ES or DSRCT plus one of the listed fusions; no EMC cohort."
+        ],
+        "rationale": "An EWSR1 gene hit does not overcome the ES/DSRCT histologic restriction or listed FLI1/ERG/WT1 partners.",
+        "restriction_type": "closed allowed histology list"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Listed fusion breakpoint plus HLA peptide fit; age/combination cohorts require safety review. No EMC-specific fit established."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "NOT_YET_RECRUITING snapshot; pediatric and combination openings depend on safety review and IRB approval.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07695311:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07695311:eligibilityModule",
+        "NCT07695311:descriptionModule",
+        "NCT07695311:armsInterventionsModule",
+        "NCT07695311:conditionsModule",
+        "NCT07695311:designModule",
+        "NCT07695311:statusModule",
+        "NCT07695311:quote:0",
+        "NCT07695311:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT04282044",
+      "diagnosis": "SS",
+      "nct_id": "NCT04282044",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "explicit_exclusion",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_exclusion",
+        "cohort_reconciliation": [
+          "Monotherapy and combination cohorts share one-of-eight allowed tumor list; no SS arm."
+        ],
+        "rationale": "Osteosarcoma in the positive list is not permission for all sarcomas. Broad title and combination-arm shorthand defer to the explicit histology list.",
+        "restriction_type": "closed allowed histology list"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT04282044:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT04282044:eligibilityModule",
+        "NCT04282044:descriptionModule",
+        "NCT04282044:armsInterventionsModule",
+        "NCT04282044:conditionsModule",
+        "NCT04282044:designModule",
+        "NCT04282044:statusModule",
+        "NCT04282044:quote:0"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT04776525",
+      "diagnosis": "SS",
+      "nct_id": "NCT04776525",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Single sequential chemotherapy cohort lists synovial sarcoma."
+        ],
+        "rationale": "Explicit SS scope is localized high-grade extremity/girdle/trunk disease; metastases excluded.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "No external protocol read; size, grade, prior treatment and location restrictions retained.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT04776525:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT04776525:eligibilityModule",
+        "NCT04776525:descriptionModule",
+        "NCT04776525:armsInterventionsModule",
+        "NCT04776525:conditionsModule",
+        "NCT04776525:designModule",
+        "NCT04776525:statusModule",
+        "NCT04776525:quote:0"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT05071209",
+      "diagnosis": "SS",
+      "nct_id": "NCT05071209",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Part A and B1 allow any EWS-fusion positive solid tumor; DSRCT defining EWS-WT1 explicitly included, EMC only EWSR1-fused subset.",
+          "PAX3-FOXO1 rhabdomyosarcoma route does not cover these diagnoses.",
+          "Part A DDR and Part B3 allow non-CNS solid tumor with qualifying inactivating DDR alteration: possible SS histologic scope, extra marker unestablished."
+        ],
+        "rationale": "An EWS-fusion route and a separate DDR route coexist. SS cannot be labeled excluded merely because SS18::SSX is not an EWS fusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "EWS-fusion confirmed in tissue for fusion route; EMC EWSR1 subset only. SS requires additional qualifying DDR alteration, unestablished. Pathogenicity review and study-chair approval may be necessary."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "ACTIVE_NOT_RECRUITING saved status; disease scope remains a historical/registered scope judgment, not a currently open opportunity.",
+      "current_availability": {
+        "overall_status_snapshot": "ACTIVE_NOT_RECRUITING",
+        "current_as_defined_in_frozen_sample": false,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05071209:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05071209:eligibilityModule",
+        "NCT05071209:descriptionModule",
+        "NCT05071209:armsInterventionsModule",
+        "NCT05071209:conditionsModule",
+        "NCT05071209:designModule",
+        "NCT05071209:statusModule",
+        "NCT05071209:quote:0",
+        "NCT05071209:quote:1",
+        "NCT05071209:quote:2"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT05135975",
+      "diagnosis": "SS",
+      "nct_id": "NCT05135975",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Stratum A names DSRCT BR2 or later and separately any other soft tissue sarcoma BR2 or later, covering broad EMC/SS scope.",
+          "Strata B, C and D are metastatic Ewing, osteosarcoma and fusion-positive rhabdomyosarcoma, respectively; they do not override Stratum A."
+        ],
+        "rationale": "A broad STS pathway persists alongside the explicitly named DSRCT pathway, but omitted protocol exclusions prevent definitive eligibility.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Explicit missing external exclusion criteria and referenced best-response definitions (Section 3.1.2); histology scope supported, full protocol eligibility unresolved. BR2+, maintained best response, age and maintenance timing requirements retained.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05135975:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05135975:eligibilityModule",
+        "NCT05135975:descriptionModule",
+        "NCT05135975:armsInterventionsModule",
+        "NCT05135975:conditionsModule",
+        "NCT05135975:designModule",
+        "NCT05135975:statusModule",
+        "NCT05135975:quote:0",
+        "NCT05135975:quote:1",
+        "NCT05135975:quote:2"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT05687136",
+      "diagnosis": "SS",
+      "nct_id": "NCT05687136",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "molecular_only"
+        },
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Both escalation and expansion require broad solid malignancy plus approved molecular/IHC alteration.",
+          "SS18 is named among SWI/SNF mutations, but SS18::SSX fusion is not explicitly stated as accepted. Other listed alteration routes remain available in principle to all three diagnoses."
+        ],
+        "rationale": "The diagnosis itself does not establish the additional molecular gate. SS18 mention cannot be promoted to proven defining-fusion compatibility or treated as an exclusion.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Additional qualifying ATM/MYC/FBXW7/CCNE1/SWI-SNF/ATRX-DAXX alteration or IHC finding required and unestablished for each diagnosis. SS18 mutation versus SS18::SSX fusion acceptance unresolved."
+      },
+      "protocol_uncertainty": "List syntax (including conjunctions) and PI-approved molecular acceptance require clarification; do not infer that every named alteration co-occurs or that fusion equals mutation. Paired biopsy required in expansion unless exempted.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05687136:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05687136:eligibilityModule",
+        "NCT05687136:descriptionModule",
+        "NCT05687136:armsInterventionsModule",
+        "NCT05687136:conditionsModule",
+        "NCT05687136:designModule",
+        "NCT05687136:statusModule",
+        "NCT05687136:quote:0",
+        "NCT05687136:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT05774275",
+      "diagnosis": "SS",
+      "nct_id": "NCT05774275",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Phase Ib and II treatment arm both include localized SS."
+        ],
+        "rationale": "Synovial sarcoma is explicitly included; metastatic disease and radiation-induced sarcoma are excluded.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Localized limb/trunk, grade, size/resectability and age constraints required; no external protocol reviewed.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05774275:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05774275:eligibilityModule",
+        "NCT05774275:descriptionModule",
+        "NCT05774275:armsInterventionsModule",
+        "NCT05774275:conditionsModule",
+        "NCT05774275:designModule",
+        "NCT05774275:statusModule",
+        "NCT05774275:quote:0"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT05918640",
+      "diagnosis": "SS",
+      "nct_id": "NCT05918640",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Phase 1 dose escalation and exploratory cohort require EWSR1, FUS or TAF15-containing fusion. EMC compatibility is limited to matching FET-fused variants.",
+          "DSRCT is explicitly recognized but enrollment is conditional on at least 3 non-DSRCT patients enrolled without dose-limiting toxicity; satisfaction of that condition is unknown.",
+          "Phase 2 requires Ewing sarcoma with EWS-FLI1 and does not establish an EMC, DSRCT or SS pathway.",
+          "SS has broad solid-tumor histologic scope in phase 1 only, but its defining SS18::SSX does not establish a FET gate; hypothetical additional FET alteration remains unestablished."
+        ],
+        "rationale": "The phase-1 molecular class is broader than Ewing sarcoma, despite the arm label. Preserve the DSRCT safety lead-in condition and the narrower phase-2 restriction.",
+        "restriction_type": "phase-specific closed histology and conditional safety hold"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Documented FET-containing fusion required in phase 1; EMC only FET-partner subset; DSRCT EWSR1::WT1 matches supplied defining scope; SS18::SSX alone does not qualify. SS additional qualifying fusion unestablished."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Overall RECRUITING snapshot. Phase/cohort opening unknown; DSRCT hold is conditional, with satisfaction unknown, not asserted currently blocked.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT05918640:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT05918640:eligibilityModule",
+        "NCT05918640:descriptionModule",
+        "NCT05918640:armsInterventionsModule",
+        "NCT05918640:conditionsModule",
+        "NCT05918640:designModule",
+        "NCT05918640:statusModule",
+        "NCT05918640:quote:0",
+        "NCT05918640:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT06094101",
+      "diagnosis": "SS",
+      "nct_id": "NCT06094101",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Screening stage 1 restricts enrollment to metastatic fusion-driven rhabdomyosarcoma, Ewing and synovial sarcoma.",
+          "Stage 2 requires successful personalized vaccine manufacture and complete/stable partial remission with local treatment of residual sites."
+        ],
+        "rationale": "Generic fusion-driven language does not expand the explicit screening histology list; SS is named, EMC and DSRCT are not.",
+        "restriction_type": "closed allowed histology list for EMC/DSRCT"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Fusion-breakpoint WES/RNA information and successful individual vaccine production required; no single predefined HLA allele gate claimed."
+      },
+      "protocol_uncertainty": "Remission/PRplus and investigator review remain required; no proof of successful manufacturing for hypothetical patient.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06094101:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06094101:eligibilityModule",
+        "NCT06094101:descriptionModule",
+        "NCT06094101:armsInterventionsModule",
+        "NCT06094101:conditionsModule",
+        "NCT06094101:designModule",
+        "NCT06094101:statusModule",
+        "NCT06094101:quote:0",
+        "NCT06094101:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT06571734",
+      "diagnosis": "SS",
+      "nct_id": "NCT06571734",
+      "memberships": [
+        {
+          "set": "challenge",
+          "stratum": "anchor"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Cohort 1 leiomyosarcoma and cohort 2 bone sarcoma do not define these STS pathways.",
+          "Cohort 3 accepts histologically confirmed metastatic/unresectable translocation-associated STS, with greater than 2 prior treatment lines and no more than 2 TKI lines. SS is explicitly named as an example in enrollment description."
+        ],
+        "rationale": "The TAS class supports the supplied fusion-defined diagnosis scope; it is not solely a leiomyosarcoma trial.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Translocation-associated histology needs NCCN-center pathology review; no additional named target biomarker gate stated."
+      },
+      "protocol_uncertainty": "TAS pathology adjudication and cohort opening remain unverified. Preserve >2 prior treatment lines exactly; no extrapolation of benefit.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06571734:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06571734:eligibilityModule",
+        "NCT06571734:descriptionModule",
+        "NCT06571734:armsInterventionsModule",
+        "NCT06571734:conditionsModule",
+        "NCT06571734:designModule",
+        "NCT06571734:statusModule",
+        "NCT06571734:quote:0",
+        "NCT06571734:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT06625190",
+      "diagnosis": "SS",
+      "nct_id": "NCT06625190",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Relapsed/refractory NRSTS includes synovial sarcoma in shared transplant eligibility; phase Ib dose selection precedes phase II."
+        ],
+        "rationale": "SS is directly named, with pediatric/AYA age, transplant suitability and donor requirements.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No tumor molecular biomarker gate stated; haplo-identical donor and transplant requirements are additional constraints."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06625190:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06625190:eligibilityModule",
+        "NCT06625190:descriptionModule",
+        "NCT06625190:armsInterventionsModule",
+        "NCT06625190:conditionsModule",
+        "NCT06625190:designModule",
+        "NCT06625190:statusModule",
+        "NCT06625190:quote:0",
+        "NCT06625190:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT06761651",
+      "diagnosis": "SS",
+      "nct_id": "NCT06761651",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Part 1 dose escalation accepts advanced/metastatic solid tumors after standard therapy.",
+          "Part 2 selects common cancers or other tumor types with best Part-1 responses; SS expansion is not established."
+        ],
+        "rationale": "The broad escalation pathway persists, but SS-specific expansion or biomarker status cannot be assumed.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No tumor biomarker enrollment gate stated for Part 1. Part 2 named carcinomas require EGFR/MET/VEGF alteration or expression; applicability to an SS expansion is unresolved."
+      },
+      "protocol_uncertainty": "Registry calls Parts 1/2 phases although design phase is PHASE1. Actual expansion selection and any SS biomarker requirements unknown.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT06761651:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT06761651:eligibilityModule",
+        "NCT06761651:descriptionModule",
+        "NCT06761651:armsInterventionsModule",
+        "NCT06761651:conditionsModule",
+        "NCT06761651:designModule",
+        "NCT06761651:statusModule",
+        "NCT06761651:quote:0",
+        "NCT06761651:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT07575724",
+      "diagnosis": "SS",
+      "nct_id": "NCT07575724",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "Both biopsy-tract strategies accept primary extremity bone/STS; no SS-specific exclusion."
+        ],
+        "rationale": "Broad extremity STS surgical scope includes SS at disease level, conditional on limb-sparing en-bloc resection and absence of distant disease.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "No additional tumor biomarker gate stated in the saved disease inclusion criteria."
+      },
+      "protocol_uncertainty": "Full external protocol not reviewed; remaining patient-level criteria are preserved in the complete source evidence.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07575724:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "surgical biopsy-tract management comparison"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07575724:eligibilityModule",
+        "NCT07575724:descriptionModule",
+        "NCT07575724:armsInterventionsModule",
+        "NCT07575724:conditionsModule",
+        "NCT07575724:designModule",
+        "NCT07575724:statusModule",
+        "NCT07575724:quote:0"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT07686367",
+      "diagnosis": "SS",
+      "nct_id": "NCT07686367",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "ordinary"
+        }
+      ],
+      "label": "explicit_diagnosis_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "explicit_diagnosis_compatible",
+        "cohort_reconciliation": [
+          "Single brenetafusp cohort includes molecularly confirmed SS and myxoid/round-cell liposarcoma."
+        ],
+        "rationale": "SS scope is explicit. HLA-A*02:01 is required; PRAME positivity appears in study aims, but the saved eligibility does not define a PRAME cutoff or testing gate.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "HLA-A*02:01 required and unestablished. PRAME-positive target population in descriptions; precise enrollment assay/threshold unresolved, not assumed."
+      },
+      "protocol_uncertainty": "PRAME enrollment requirement cannot be reconciled completely from saved text; no external protocol. Prior TCR-T and PRAME-directed therapies excluded.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "NOT_YET_RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07686367:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE2"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07686367:eligibilityModule",
+        "NCT07686367:descriptionModule",
+        "NCT07686367:armsInterventionsModule",
+        "NCT07686367:conditionsModule",
+        "NCT07686367:designModule",
+        "NCT07686367:statusModule",
+        "NCT07686367:quote:0",
+        "NCT07686367:quote:1"
+      ]
+    },
+    {
+      "pair_id": "SS|NCT07698899",
+      "diagnosis": "SS",
+      "nct_id": "NCT07698899",
+      "memberships": [
+        {
+          "set": "metadata",
+          "stratum": "parent_only"
+        }
+      ],
+      "label": "broad_tumor_compatible",
+      "eligibility_scope": {
+        "level": "disease/cohort registry scope, not patient eligibility",
+        "label": "broad_tumor_compatible",
+        "cohort_reconciliation": [
+          "All four dose levels share open-ended B7-H3-expressing tumor scope and required recurrent/refractory CNS disease."
+        ],
+        "rationale": "The list is expressly non-exhaustive. SS is not named, so only broad histologic scope is supported, conditional on B7-H3 and CNS setting.",
+        "restriction_type": "none"
+      },
+      "extra_biomarker_requirement": {
+        "state": "unestablished_or_not_applicable_see_detail",
+        "detail": "Tumor known to express B7-H3 required; SS-specific satisfaction unestablished. CNS involvement and intraventricular access additionally required."
+      },
+      "protocol_uncertainty": "How an unlisted SS tumor establishes B7-H3 eligibility is not specified; no negative inference or guaranteed eligibility.",
+      "recruitment_uncertainty": "Current site and cohort enrollment not verified; overall status is the saved registry snapshot only.",
+      "current_availability": {
+        "overall_status_snapshot": "RECRUITING",
+        "current_as_defined_in_frozen_sample": true,
+        "site_and_cohort_current_availability": "unverified",
+        "status_module_evidence": "NCT07698899:statusModule"
+      },
+      "clinical_trial_purpose": {
+        "task_domain": "oncology",
+        "registry_study_type": "INTERVENTIONAL",
+        "registry_primary_purpose": "TREATMENT",
+        "phases": [
+          "PHASE1"
+        ],
+        "interpretation": "investigational treatment"
+      },
+      "all_other_constraints": "Full eligibility module is retained verbatim; age, organ function, treatment history, location, disease status and investigator judgment remain unassessed for an individual.",
+      "evidence_ids": [
+        "NCT07698899:eligibilityModule",
+        "NCT07698899:descriptionModule",
+        "NCT07698899:armsInterventionsModule",
+        "NCT07698899:conditionsModule",
+        "NCT07698899:designModule",
+        "NCT07698899:statusModule",
+        "NCT07698899:quote:0"
+      ]
+    }
+  ],
+  "unreviewed_ids": []
+}

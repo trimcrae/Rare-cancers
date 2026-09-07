@@ -47,7 +47,9 @@ blocked by the retained hook.
 `research/autonomy/publication-authority.json` owns the grants; `publish_bar.py` and
 `scripts/zenodo_deposit.py` enforce their respective paths. aiXiv has a standing scoped grant;
 PUB-ASO is excluded. The Zenodo grant covers existing drafts subject to its recorded conditions.
-Journal submission, a new external act, or outreach requires the applicable user authorization.
+Routine EMC research correspondence has a standing user grant in research_correspondence;
+follow [the correspondence procedure](research/autonomy/correspondence/README.md) without per-message approval.
+Journal submission and external acts outside the named grants require applicable user authorization.
 Prepare the concrete package before seeking an approval that is actually needed.
 The active budget posture in `research/autonomy/autonomy-state.json` takes precedence over old
 generic spending thresholds. No paid API fallback and no GPU spending without applicable authority.

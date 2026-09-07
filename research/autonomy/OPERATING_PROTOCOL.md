@@ -34,6 +34,12 @@ association, and experimental validation. No wet-lab claim can be established by
    validation, expected information gained, and effort. Record the concrete question and stop
    condition before starting. Reproducible reanalyses, benchmark datasets, and decisive negative
    results can be valuable; do not manufacture papers from work with no useful result.
+   Before scientific drill-down or a runner contract, maintain a paper-level rank with evidence
+   and reasons: importance, nontrivial novelty, achievable evidence and validation, coherent
+   contribution, and utility come first. Distinguish demonstrated results from development
+   prospects and blocked hypotheses. Feasibility and usage govern execution, not scientific
+   rank; small preparation tasks inherit the selected paper's priority. Use the current
+   [paper priority memo](portfolio-2026-09-05/recommendation.md).
    Use [bounded cycle contracts](RESEARCH_CYCLE.md) to specify the evidence, validation and stop
    condition for one existing route. Reuse matching verified output and reconcile unchanged
    failed inputs before considering another dispatch. Planning scores are judgements, not evidence.
@@ -41,7 +47,39 @@ association, and experimental validation. No wet-lab claim can be established by
    conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
    constraints. A process fix must remove observed friction and report its measured effect.
 
+## Continue beyond a route-specific blocker
+
+User reaffirmation, 2026-09-06: continuous substantive research is authorized, with existing
+usage-reset credits when actual account limits require them. Waiting for correspondence,
+an empty generated task list, a failed development experiment, or a paper not being ready
+does not establish that all useful work is blocked. At each checkpoint, distinguish the
+specific missing input from the next credible independent computation, exact source recovery,
+authorized targeted request or genuinely new evidence-based question. Execute that next step
+without an artificial daily reserve, total-round cap or inbox-only pause. Preserve negative
+results and real acceptance criteria; do not repeat unchanged work or invent a paper merely
+to consume credits. Keep finite worker checkpoints and explicit ownership, then continue.
+
 ## Review with an endpoint
+
+**User rule, 2026-09-05: every paper requires one independent ultra-reasoning pass
+before submission.** This applies to journal and preprint submissions and future revised
+submissions, including the pending ASO submission; it does not retroactively reopen posted
+versions or authorize publication. Keep routine research at medium. Plan the ultra pass as
+part of the existing bounded review batch, not an extra recurring review cycle.
+
+Freeze the paper and supporting evidence before this pass. Review scientific validity,
+methods, novelty, claim strength, citations, limitations and whether the contribution merits
+submission. Preserve the actual model and `reasoning_effort: ultra` execution record, reviewed
+revision/deliverable digest, findings and their disposition. Do not relabel a historical high
+or unknown-effort review as ultra. Reuse a documented ultra pass covering unchanged deliverables.
+The coordinator must verify this evidence before declaring a package ready or handing it off
+for submission; missing evidence blocks that readiness declaration. This is a procedural
+submission requirement, not a claim that the existing publish-bar code already checks effort.
+
+Resolve substantiated blockers in one batch and independently verify the changed claims and
+dependencies. Editorial repairs do not require another full ultra pass. Material scientific
+changes require a new pass covering the changed science and its dependencies. A zero-finding
+review is valid; ultra reasoning is not experimental validation or a guarantee of correctness.
 
 Freeze the outgoing files and identify their evidence before commissioning a review. Reuse
 existing completed reviews when their deliverable digest still matches. Read
@@ -132,7 +170,9 @@ Prepare reviewer-readable preprints, reusable data/code, accurate limitations, a
 together. aiXiv remains an authorized distribution option within the existing grant, not evidence
 of scientific credibility. PUB-ASO remains excluded from automatic aiXiv posting. Recheck venue
 rules at release time; do not wait indefinitely for a hypothetical higher-visibility AI venue.
-Journal submission and outreach follow the user's specific authorization and existing authority.
+Journal submission follows its existing authority. The user's 2026-09-06 standing research_correspondence
+grant covers routine EMC outreach and follow-through without per-message approval; follow
+[the correspondence procedure](correspondence/README.md) and its private durable ledger.
 
 A cycle ends with a durable outcome and a clear next action. A process launch is not a delivered
 result. Do not report a scheduler as active until an actual run produced and preserved its output.

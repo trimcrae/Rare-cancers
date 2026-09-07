@@ -1,0 +1,41 @@
+roster_index,zurich_label_verbatim,status,strict_nominal_include,candidate_ids,candidate_cas,candidate_names,rationale
+1,Carfilzomib,nominal_unique,True,S2853,868540-17-4,Carfilzomib (PR-171),
+2,Doxorubicin HCL,nominal_unique,True,S1208,25316-40-9,Doxorubicin (Adriamycin) HCl,Exclude E2516 free base: source explicitly HCl.
+3,Etoposide,nominal_unique,True,S1225,33419-42-0,Etoposide,
+4,SN-38,absent,False,,,,Do not substitute irinotecan: distinct parent and active metabolite; FDA label.
+5,Docetaxel,nominal_unique,True,S1148,114977-28-5,Docetaxel,
+6,Gemcitabine HCl,nominal_unique,True,S1149,122111-03-9,Gemcitabine HCl,Exclude S1714 free base: source explicitly HCl.
+7,Mitomycin C,absent,False,,,,Do not substitute mitoxantrone.
+8,Fluorouracil,nominal_unique,True,S1209,51-21-8,"Fluorouracil (5-Fluoracil, 5-FU)",
+9,Topotecan HCl,nominal_unique,True,S1231,119413-54-6,Topotecan HCl,Exclude S9321 free base: source explicitly HCl.
+10,Dacarbazine,nominal_unique,True,S1221,4342-03-4,Dacarbazine,
+11,Oxaliplatin,absent,False,,,,Do not substitute cisplatin or carboplatin.
+12,Pemetrexed Disodium Hydrate,hydrate_unresolved,False,S1135,150399-23-8,Pemetrexed (LY-231514) disodium,"Catalogue CAS150399-23-8 is disodium, no hydrate specified; 2.5 hydrate has CAS357166-30-4. Hydration number unknown. Exclude S5971 free acid."
+13,Bleomycin sulfate,nominal_unique,True,S1214,9041-93-4,Bleomycin sulfate,
+14,Vinblastine sulfate,nominal_unique,True,S4505,143-67-9,Vinblastine sulfate,
+15,Fludarabine phosphate,nominal_unique,True,S1229,75607-67-9,Fludarabine Phosphate,Exclude S1491 nonphosphorylated form.
+16,Paclitaxel,nominal_unique,True,S1150,33069-62-4,Paclitaxel,
+17,Vinorelbine tartrate,nominal_unique,True,S4269,125317-39-7,Vinorelbine Tartrate,
+18,PU-H71,absent,False,,,,No matching name or alias in catalogue.
+19,HDM201,absent,False,,,,Siremadlin / NVP-HDM201 also absent.
+20,Venetoclax,nominal_unique,True,S8048,1257044-40-8,"Venetoclax (ABT-199, GDC-0199)",
+21,Derazantinib,absent,False,,,,ARQ087 also absent.
+22,Ceritinib,form_unresolved,False,S7083 | S4967,1032900-25-6 | 1380575-43-8,Ceritinib (LDK378) | Ceritinib dihydrochloride,Unsuffixed Zurich label; retain base and dihydrochloride candidates.
+23,AZD5153,absent,False,,,,No catalogue match.
+24,Encorafenib,nominal_unique,True,S7108,1269440-17-6,Encorafenib (LGX818),
+25,Dabrafenib,form_unresolved,False,S2807 | S5069,1195765-45-7 | 1195768-06-9,Dabrafenib (GSK2118436) | Dabrafenib Mesylate,Unsuffixed Zurich label; retain base and mesylate candidates.
+26,Belinostat,nominal_unique,True,S1085,414864-00-9,Belinostat (PXD101),NCC name includes synonym PXD101.
+27,Crizotinib,form_unresolved,False,S1068 | S5190,877399-52-5 | 1415560-69-8,Crizotinib (PF-02341066) | Crizotinib hydrochloride,"Retain base and HCl candidates; exclude S7505 (S)-crizotinib, a different enantiomer confirmed by supplier FAQ."
+28,Abmaciclib,label_unresolved,False,S5716 | S7158,1231929-97-7 | 1231930-82-7,Abemaciclib | abemaciclib (LY2835219),"Printed label preserved. Abemaciclib is only a candidate correction, not established. Supplier identifies S7158/CAS1231930-82-7 as mesylate despite unsuffixed NCC name."
+29,Adavosertib,absent,False,,,,MK1775 / AZD1775 also absent.
+30,Ipatasertib,absent,False,,,,GDC0068 also absent.
+31,Trametinib,solvate_unresolved,False,S4484,1187431-43-1,Trametinib DMSO solvate,NCC CAS1187431-43-1 and supplier S4484 identify DMSO solvate; Zurich unsuffixed label does not establish solvate.
+32,Enasidenib,form_unresolved,False,S8205 | S4929,1446502-11-9 | 1650550-25-6,Enasidenib (AG-221) | Enasidenib Mesylate,Unsuffixed Zurich label; retain base and mesylate candidates.
+33,Niraparib Tosylate,nominal_unique,True,S7625,1038915-73-9,Niraparib (MK-4827) tosylate,Exclude S2741 free base: source explicitly tosylate.
+34,Erlotinib HCl,nominal_unique,True,S1023,183319-69-9,Erlotinib HCl (OSI-744),Exclude S7786 free base: source explicitly HCl.
+35,Sorafenib,form_unresolved,False,S7397 | S1040,284461-73-0 | 475207-59-1,Sorafenib | Sorafenib Tosylate,Unsuffixed Zurich label; retain base and tosylate candidates.
+36,WE-822,label_unresolved_absent,False,,,,Printed label preserved. VE-822 / berzosertib / VX970 / M6620 are unconfirmed candidate corrections and all absent from catalogue.
+37,Tazemetostat,nominal_unique,True,S7128,1403254-99-8,Tazemetostat (EPZ-6438),
+38,Cabozantinib,form_unresolved,False,S1119 | S4001,849217-68-1 | 1140909-48-3,"Cabozantinib (XL184, BMS-907351) | Cabozantinib malate (XL184)",Unsuffixed Zurich label; retain base and malate candidates.
+39,Ponatinib,nominal_unique,True,S1490,943319-70-8,Ponatinib (AP24534),
+40,Selpercatinib,absent,False,,,,LOXO292 also absent; do not substitute pralsetinib.

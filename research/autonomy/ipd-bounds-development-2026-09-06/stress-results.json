@@ -1,0 +1,197 @@
+{
+  "synthetic": true,
+  "partition": "development",
+  "seed": 2026090601,
+  "cases": [
+    {
+      "case_id": "n80-k12-digits2",
+      "result": {
+        "schema": "discrete-km-bounds-v1",
+        "synthetic": true,
+        "arm_enumerations": {
+          "a": {
+            "complete": false,
+            "reason": "node_limit",
+            "nodes": 300001,
+            "accepted_paths": 531,
+            "elapsed_seconds": 7.388207299998612
+          },
+          "b": {
+            "complete": true,
+            "reason": null,
+            "nodes": 163620,
+            "accepted_paths": 4163,
+            "elapsed_seconds": 3.3724695999990217
+          }
+        },
+        "limits": {
+          "max_nodes_per_arm": 300000,
+          "max_paths_per_arm": 10000,
+          "max_pairs": 25000,
+          "seconds_per_phase": 8
+        },
+        "enumerated_pairs": 0,
+        "complete": false,
+        "decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer": [
+          0,
+          1
+        ],
+        "reason": "incomplete_arm_enumeration",
+        "elapsed_seconds": 10.760883700000704
+      },
+      "verification": {
+        "true_q": "1277645648258609171368836611889205525331/117695365266246111413296852029298717099",
+        "release_matches": true,
+        "finite_bound_containment": null
+      }
+    },
+    {
+      "case_id": "n200-k12-digits2",
+      "result": {
+        "schema": "discrete-km-bounds-v1",
+        "synthetic": true,
+        "arm_enumerations": {
+          "a": {
+            "complete": false,
+            "reason": "path_limit",
+            "nodes": 34692,
+            "accepted_paths": 10000,
+            "elapsed_seconds": 0.42858669999986887
+          },
+          "b": {
+            "complete": false,
+            "reason": "path_limit",
+            "nodes": 38510,
+            "accepted_paths": 10000,
+            "elapsed_seconds": 0.306205000000773
+          }
+        },
+        "limits": {
+          "max_nodes_per_arm": 300000,
+          "max_paths_per_arm": 10000,
+          "max_pairs": 25000,
+          "seconds_per_phase": 8
+        },
+        "enumerated_pairs": 0,
+        "complete": false,
+        "decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer": [
+          0,
+          1
+        ],
+        "reason": "incomplete_arm_enumeration",
+        "elapsed_seconds": 0.7349506000027759
+      },
+      "verification": {
+        "true_q": "23799662635393477529718825742810536565435223767/3904696696778144970954368246049877185493036233",
+        "release_matches": true,
+        "finite_bound_containment": null
+      }
+    },
+    {
+      "case_id": "n80-k6-digits1",
+      "result": {
+        "schema": "discrete-km-bounds-v1",
+        "synthetic": true,
+        "arm_enumerations": {
+          "a": {
+            "complete": false,
+            "reason": "path_limit",
+            "nodes": 22302,
+            "accepted_paths": 10000,
+            "elapsed_seconds": 0.5745598999928916
+          },
+          "b": {
+            "complete": false,
+            "reason": "path_limit",
+            "nodes": 22564,
+            "accepted_paths": 10000,
+            "elapsed_seconds": 0.343871199991554
+          }
+        },
+        "limits": {
+          "max_nodes_per_arm": 300000,
+          "max_paths_per_arm": 10000,
+          "max_pairs": 25000,
+          "seconds_per_phase": 8
+        },
+        "enumerated_pairs": 0,
+        "complete": false,
+        "decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer": [
+          0,
+          1
+        ],
+        "reason": "incomplete_arm_enumeration",
+        "elapsed_seconds": 0.9185303999984171
+      },
+      "verification": {
+        "true_q": "560665813187486401522237/146833377689258907925763",
+        "release_matches": true,
+        "finite_bound_containment": null
+      }
+    },
+    {
+      "case_id": "n200-k20-digits2",
+      "result": {
+        "schema": "discrete-km-bounds-v1",
+        "synthetic": true,
+        "arm_enumerations": {
+          "a": {
+            "complete": false,
+            "reason": "node_limit",
+            "nodes": 300001,
+            "accepted_paths": 0,
+            "elapsed_seconds": 2.0420016999996733
+          },
+          "b": {
+            "complete": false,
+            "reason": "node_limit",
+            "nodes": 300001,
+            "accepted_paths": 0,
+            "elapsed_seconds": 2.4973437000007834
+          }
+        },
+        "limits": {
+          "max_nodes_per_arm": 300000,
+          "max_paths_per_arm": 10000,
+          "max_pairs": 25000,
+          "seconds_per_phase": 8
+        },
+        "enumerated_pairs": 0,
+        "complete": false,
+        "decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer": [
+          0,
+          1
+        ],
+        "reason": "incomplete_arm_enumeration",
+        "elapsed_seconds": 4.539593399997102
+      },
+      "verification": {
+        "true_q": "33325836150588514156577250802513770765038664001/73715585234776255285172865955218624831805528119",
+        "release_matches": true,
+        "finite_bound_containment": null
+      }
+    }
+  ],
+  "amendment_sha256": "a4cd01e0af9c21ac70d92953b166f64a8fca2f76600af56c039dfcc9560b9477",
+  "elapsed_seconds": 16.97391420000349
+}

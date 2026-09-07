@@ -1,0 +1,60 @@
+# Actual published package calls; no reconstruction algorithm is reimplemented.
+args <- commandArgs(trailingOnly=TRUE)
+if (length(args)!=3) stop('usage: Rscript runner.R library-path release.json result.json')
+.libPaths(normalizePath(args[1]))
+suppressPackageStartupMessages(library(IPDfromKM))
+library(CIFresolve)
+library(jsonlite)
+x <- fromJSON(args[2],simplifyVector=FALSE)
+asnum <- function(x) as.numeric(unlist(x))
+prepare <- function(a) {
+ if (x$schema=='discrete-km-release-v1') {
+  times <- c(0,asnum(x$grid)); surv <- c(1,asnum(a$survival_rounded))
+  rt <- as.numeric(names(a$risk_counts)); nr <- asnum(a$risk_counts)
+  # Before first possible observation, risk(1)=n is equivalent to risk(0)=n.
+  # Avoid CIFresolve dropping origin for duplicate risk counts.
+  if (min(rt)==min(asnum(x$grid)) && nr[which.min(rt)]==a$n) rt[which.min(rt)]<-0
+  if (!0 %in% rt) {rt<-c(0,rt);nr<-c(a$n,nr)}
+  # All observations exit by max(grid); terminal zero is public model information.
+  endpoint<-max(asnum(x$grid))+1
+  rt<-c(rt,endpoint);nr<-c(nr,0)
+  times<-c(times,endpoint);surv<-c(surv,tail(surv,1))
+ } else if (x$schema=='exact-pilot-release-v1') {
+  times <- c(0,asnum(lapply(a$km,function(v)v[[1]])),a$tau)
+  surv <- c(1,asnum(lapply(a$km,function(v)v[[2]])),as.numeric(a$km[[length(a$km)]][[2]]))
+  rt<-asnum(a$risk_times);nr<-asnum(a$risks)
+ } else stop('Unsupported release schema')
+ ord<-order(rt);list(time=times,surv=surv,trisk=rt[ord],nrisk=nr[ord],n=a$n,events=a$total_events)
+}
+inputs<-lapply(list(a=x$a,b=x$b),prepare)
+results<-list()
+for (method in c('IPDfromKM','CIFresolve')) {
+ warns<-character(); start<-proc.time()[['elapsed']]
+ ans<-tryCatch(withCallingHandlers({
+  ipds<-list(); fit_details<-list()
+  for (arm in names(inputs)) {
+   d<-inputs[[arm]]
+   if(method=='IPDfromKM') {
+    prep<-preprocess(data.frame(time=d$time,surv=d$surv),trisk=d$trisk,nrisk=d$nrisk,totalpts=d$n,maxy=1)
+    fit<-getIPD(prep,armID=match(arm,names(inputs)),tot.events=d$events)
+    ipd<-data.frame(time=fit$IPD$time,event=fit$IPD$status,arm=arm)
+    fit_details[[arm]]<-list(preprocessed=prep$preprocessdat,riskmat=fit$riskmat,precision=fit$precision)
+   } else {
+    fit<-KM_resolve(list(time=d$time,surv=d$surv),t.risk=d$trisk,n.risk=d$nrisk,ndeath=d$events,optmethod='approx')
+    dat<-make_data(fit)
+    ipd<-data.frame(time=dat$time,event=dat$event,arm=arm)
+    fit_details[[arm]]<-unclass(fit)
+   }
+   if(anyNA(ipd)||any(!ipd$event %in% c(0,1)))stop('Invalid reconstructed records')
+   ipds[[arm]]<-ipd
+  }
+  joined<-do.call(rbind,ipds)
+  lr<-survdiff(Surv(time,event)~arm,data=joined,rho=0)
+  list(status='success',ipd=joined,logrank_chisq=unname(lr$chisq),logrank_p=pchisq(lr$chisq,df=1,lower.tail=FALSE),fit_details=fit_details)
+ },warning=function(w){warns<<-c(warns,conditionMessage(w));invokeRestart('muffleWarning')}),error=function(e)list(status='failure',error=conditionMessage(e)))
+ ans$warnings<-warns;ans$elapsed_seconds<-proc.time()[['elapsed']]-start
+ results[[method]]<-ans
+}
+out<-list(schema='published-baseline-results-v1',input_file=args[2],input_schema=x$schema,package_versions=list(IPDfromKM=as.character(packageVersion('IPDfromKM')),CIFresolve=as.character(packageVersion('CIFresolve')),quadprog=as.character(packageVersion('quadprog')),survival=as.character(packageVersion('survival'))),R=R.version.string,inputs=inputs,methods=results)
+write_json(out,args[3],pretty=TRUE,auto_unbox=TRUE,digits=17,null='null',na='null')
+cat('Output:',args[3],'\n');print(lapply(results,function(v)v[c('status','logrank_p','error','warnings','elapsed_seconds')]))

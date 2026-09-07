@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CRAN: Package IPDfromKM</title>
+<link rel="canonical" href="https://CRAN.R-project.org/package=IPDfromKM">
+<link rel="stylesheet" type="text/css" href="../../CRAN_web.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="citation_title" content="Map Digitized Survival Curves Back to Individual Patient Data [R package IPDfromKM version 0.1.10]">
+<meta name="citation_author1" content="Na Liu">
+<meta name="citation_author2" content="J.Jack Lee">
+<meta name="citation_publication_date" content="2020-11-11">
+<meta name="citation_public_url" content="https://CRAN.R-project.org/package=IPDfromKM">
+<meta name="DC.identifier" content="https://CRAN.R-project.org/package=IPDfromKM">
+<meta name="DC.publisher" content="Comprehensive R Archive Network (CRAN)">
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="IPDfromKM: Map Digitized Survival Curves Back to Individual Patient Data">
+<meta property="og:description" content=" An implementation to reconstruct individual patient data from Kaplan-Meier (K-M) survival curves, visualize and assess the accuracy of the reconstruction, then perform secondary analysis on the reconstructed data. We involve a simple function to extract the coordinates form the published K-M curves. The function is developed based on Poisot T. ’s digitize package (2011) &amp;lt;&lt;a href=&quot;https://doi.org/10.32614%2FRJ-2011-004&quot; target=&quot;_top&quot;&gt;doi:10.32614/RJ-2011-004&lt;/a&gt;&amp;gt; . For more complex and tangled together graphs, digitizing software, such as 'DigitizeIt' (for MAC or windows) or 'ScanIt'(for windows) can be used to get the coordinates. Additional information should also be involved to increase the accuracy, like numbers of patients at risk (often reported at 5-10 time points under the x-axis of the K-M graph), total number of patients, and total number of events. The package implements the modified iterative K-M estimation algorithm (modified-iKM) improved upon the approach proposed by Guyot (2012) &amp;lt;&lt;a href=&quot;https://doi.org/10.1186%2F1471-2288-12-9&quot; target=&quot;_top&quot;&gt;doi:10.1186/1471-2288-12-9&lt;/a&gt;&amp;gt; with some modifications. ">
+<meta property="og:image" content="https://CRAN.R-project.org/CRANlogo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://CRAN.R-project.org/package=IPDfromKM">
+<style>
+  table td { vertical-align: top; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>IPDfromKM: Map Digitized Survival Curves Back to Individual Patient Data</h2>
+<p>
+      An implementation to reconstruct individual patient data from Kaplan-Meier (K-M) survival curves, visualize and assess the accuracy of the reconstruction, then perform secondary analysis on the reconstructed data. We involve a simple function to extract the coordinates form the published K-M curves. The function is developed based on Poisot T. ’s digitize package (2011)  &lt;<a href="https://doi.org/10.32614%2FRJ-2011-004" target="_top">doi:10.32614/RJ-2011-004</a>&gt; . For more complex and tangled together graphs, digitizing software, such as 'DigitizeIt' (for MAC or windows) or 'ScanIt'(for windows) can be used to get the coordinates. Additional information should also be involved to increase the accuracy, like numbers of patients at risk (often reported at 5-10 time points under the x-axis of the K-M graph), total number of patients, and total number of events. The package implements the modified iterative K-M estimation algorithm (modified-iKM) improved upon the approach proposed by Guyot (2012) &lt;<a href="https://doi.org/10.1186%2F1471-2288-12-9" target="_top">doi:10.1186/1471-2288-12-9</a>&gt; with some modifications. </p>
+<table>
+<tr>
+<td>Version:</td>
+<td>0.1.10</td>
+</tr>
+<tr>
+<td>Depends:</td>
+<td>R (&ge; 3.6.0), <a href="../ggplot2/index.html"><span class="CRAN">ggplot2</span></a>, <a href="../dplyr/index.html"><span class="CRAN">dplyr</span></a>, <a href="../survival/index.html"><span class="CRAN">survival</span></a>, <a href="../gridExtra/index.html"><span class="CRAN">gridExtra</span></a>, <a href="../readbitmap/index.html"><span class="CRAN">readbitmap</span></a></td>
+</tr>
+<tr>
+<td>Published:</td>
+<td>2020-11-11</td>
+</tr>
+<tr>
+<td>DOI:</td>
+<td><a href="https://doi.org/10.32614/CRAN.package.IPDfromKM">10.32614/CRAN.package.IPDfromKM</a></td>
+</tr>
+<tr>
+<td>Author:</td>
+<td>Na Liu [aut, cre],
+  J.Jack Lee [aut, ths],
+  Yanhong Zhou [ctb]</td>
+</tr>
+<tr>
+<td>Maintainer:</td>
+<td>Na Liu  &#x3c;&#x6e;&#x6c;&#x69;&#x75;&#x31;&#x31;&#x30;&#x34;&#x20;&#x61;&#x74;&#x20;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;&#x3e;</td>
+</tr>
+<tr>
+<td>License:</td>
+<td><a href="../../licenses/GPL-2"><span class="CRAN">GPL-2</span></a></td>
+</tr>
+<tr>
+<td>NeedsCompilation:</td>
+<td>no</td>
+</tr>
+<tr>
+<td>CRAN&nbsp;checks:</td>
+<td><a href="../../checks/check_results_IPDfromKM.html"><span class="CRAN">IPDfromKM results</span></a></td>
+</tr>
+</table>
+<h4>Documentation:</h4>
+<table>
+<tr>
+<td>Reference&nbsp;manual:</td>
+<td>
+ <a href="refman/IPDfromKM.html"><span class="CRAN">IPDfromKM.html</span></a> ,  <a href="IPDfromKM.pdf"><span class="CRAN">IPDfromKM.pdf</span></a> 
+</td>
+</tr>
+</table>
+<h4>Downloads:</h4>
+<table>
+<tr>
+<td> Package&nbsp;source: </td>
+<td> <a href="../../../src/contrib/IPDfromKM_0.1.10.tar.gz"> <span class="CRAN"> IPDfromKM_0.1.10.tar.gz </span> </a> </td>
+</tr>
+<tr>
+<td> Windows&nbsp;binaries: </td>
+<td> r-devel: <a href="../../../bin/windows/contrib/4.7/IPDfromKM_0.1.10.zip"><span class="CRAN">IPDfromKM_0.1.10.zip</span></a>, r-release: <a href="../../../bin/windows/contrib/4.6/IPDfromKM_0.1.10.zip"><span class="CRAN">IPDfromKM_0.1.10.zip</span></a>, r-oldrel: <a href="../../../bin/windows/contrib/4.5/IPDfromKM_0.1.10.zip"><span class="CRAN">IPDfromKM_0.1.10.zip</span></a> </td>
+</tr>
+<tr>
+<td> macOS&nbsp;binaries: </td>
+<td> r-release (arm64): <a href="../../../bin/macosx/sonoma-arm64/contrib/4.6/IPDfromKM_0.1.10.tgz"><span class="CRAN">IPDfromKM_0.1.10.tgz</span></a>, r-oldrel (arm64): <a href="../../../bin/macosx/big-sur-arm64/contrib/4.5/IPDfromKM_0.1.10.tgz"><span class="CRAN">IPDfromKM_0.1.10.tgz</span></a>, r-release (x86_64): <a href="../../../bin/macosx/big-sur-x86_64/contrib/4.6/IPDfromKM_0.1.10.tgz"><span class="CRAN">IPDfromKM_0.1.10.tgz</span></a>, r-oldrel (x86_64): <a href="../../../bin/macosx/big-sur-x86_64/contrib/4.5/IPDfromKM_0.1.10.tgz"><span class="CRAN">IPDfromKM_0.1.10.tgz</span></a> </td>
+</tr>
+</table>
+<h4>Reverse dependencies:</h4>
+<table>
+<tr>
+<td>Reverse&nbsp;imports:</td>
+<td><a href="../impower133/index.html"><span class="CRAN">impower133</span></a>, <a href="../OneArm2stage/index.html"><span class="CRAN">OneArm2stage</span></a></td>
+</tr>
+</table>
+<h4>Linking:</h4>
+<p>Please use the canonical form
+<a href="https://CRAN.R-project.org/package=IPDfromKM"><span class="CRAN"><samp>https://CRAN.R-project.org/package=IPDfromKM</samp></span></a>
+to link to this page.</p>
+</div>
+</body>
+</html>

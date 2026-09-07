@@ -1,0 +1,59 @@
+{
+  "checks": [
+    {
+      "case": "n80-hazard-b-0.18-sparse",
+      "exit_code": 0,
+      "seconds": 2.531,
+      "command": [
+        "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-baselines-20260906\\EMC-Research\\.cache\\R-4.6.1\\bin\\x64\\Rscript.exe",
+        "--vanilla",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\research\\autonomy\\ipd-published-baselines-2026-09-06\\runner.R",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-baselines-20260906\\EMC-Research\\.cache\\R-library",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\research\\autonomy\\ipd-published-baselines-2026-09-06\\development\\n80-hazard-b-0.18-sparse-release.json",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\ipd-baseline-independent-reproduction\\n80-hazard-b-0.18-sparse-result.json"
+      ],
+      "source_runner_sha256": "248f4e01992d5b91215ca4fef7507e59fd4eb90f8a1c49b597dfb858696940c9",
+      "input_records_and_method_results_match": true,
+      "methods": {
+        "IPDfromKM": {
+          "status": "success",
+          "logrank_p": 0.04123269806835521
+        },
+        "CIFresolve": {
+          "status": "success",
+          "logrank_p": 0.08896956310595786
+        }
+      },
+      "log": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\ipd-baseline-independent-reproduction\\n80-hazard-b-0.18-sparse.log",
+      "log_sha256": "fbcc7ecb731375f9ff92b99c18526818a3f7f1d6faabfe0efa0de87f7b9af881"
+    },
+    {
+      "case": "n40-hazard-b-0.65-dense",
+      "exit_code": 0,
+      "seconds": 2.297,
+      "command": [
+        "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-baselines-20260906\\EMC-Research\\.cache\\R-4.6.1\\bin\\x64\\Rscript.exe",
+        "--vanilla",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\research\\autonomy\\ipd-published-baselines-2026-09-06\\runner.R",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-baselines-20260906\\EMC-Research\\.cache\\R-library",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\research\\autonomy\\ipd-published-baselines-2026-09-06\\development\\n40-hazard-b-0.65-dense-release.json",
+        "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\ipd-baseline-independent-reproduction\\n40-hazard-b-0.65-dense-result.json"
+      ],
+      "source_runner_sha256": "248f4e01992d5b91215ca4fef7507e59fd4eb90f8a1c49b597dfb858696940c9",
+      "input_records_and_method_results_match": true,
+      "methods": {
+        "IPDfromKM": {
+          "status": "failure",
+          "error": "missing value where TRUE/FALSE needed"
+        },
+        "CIFresolve": {
+          "status": "success",
+          "logrank_p": 8.496034422275186e-09
+        }
+      },
+      "log": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\ipd-baseline-independent-reproduction\\n40-hazard-b-0.65-dense.log",
+      "log_sha256": "4277e0ccff516f6b4c22a1ed5f827ac450ac171207de21fdb3dd9da5e1a49a9a"
+    }
+  ],
+  "scope": "Actual pinned packages re-executed on two development cases; timings excluded from comparison. Original reconstructed rows and p values/errors reproduced."
+}

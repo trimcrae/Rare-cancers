@@ -1,0 +1,362 @@
+[
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec001",
+    "section_title": "Introduction",
+    "direct_p_index_1based": 5,
+    "text": "In this study, we extend the use of the targeted, ligation-based Templated Oligo Sequencing (TempO-Seq) whole transcriptome assay to FFPE samples [7]. The experiments described were carried out using human, mouse, and rat whole transcriptome panels. Since it relies on probe hybridization rather than reverse transcription, TempO-Seq chemistry is highly resistant to RNA fragmentation and degradation, making it perfectly suited for fixed tissue samples. We show that FFPE samples can produce gene expression data on par with fresh tissues and cell cultures, that decades-old archival samples can be successfully processed without laborious extraction and purification methods, and that such tissues can even be H&E stained so that small focal areas of interest can be profiled independently of the surrounding tissue."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec004",
+    "section_title": "Tissue sources",
+    "direct_p_index_1based": 1,
+    "text": "All human tissue was sourced from the University of Arizona Cancer Center Biorepository. Prostate samples were sourced from the UACC Prostate Biorepository. Human samples were consented for research use after clinical testing and de-identified before receipt. Human samples were exempt from IRB approval as per the grant funding source (NCI 5R33CA183688-03 & NIEHS 1R43ES024107-01). The TempO-Seq assay does not sequence patient DNA or RNA, and instead only produces predetermined probe sequence data; therefore, it is not possible to use TempO-Seq sequencing readouts to identify patients. Mouse tissue was provided as a gift from Kathleen Scully and Pamela Itkin-Ansari of the Sanford Burnham Prebys Medical Discovery Institute (La Jolla, Ca.). Rat tissues were obtained from Tissue Acquisition and Cellular/Molecular Analysis Shared Resource at University of Arizona Cancer Center. Rats were euthanized with CO2 asphyxiation in accordance with American Veterinary Medical Association (AVMA) guidelines. The collection of animal samples was approved by IACUC (A3248-01)."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec007",
+    "section_title": "FFPE tissues",
+    "direct_p_index_1based": 1,
+    "text": "All human tissue was sourced from the University of Arizona Cancer Center Biorepository. Prostate samples were sourced from the UACC Prostate Biorepository. Human samples were consented for research use after clinical testing and deidentified before receipt. Archival samples were stored as FFPE blocks from the year indicated until 2016, at which point a pathologist identified homogenous tumor regions. 5 μm thick sections were then cut and mounted, and slides were stored until 2018. For these experiments, 25 mm2 areas were cut from serial sections to represent biological replicates."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec008",
+    "section_title": "TempO-Seq assay",
+    "direct_p_index_1based": 3,
+    "text": "A nuclease mix is then added, which degrades unbound and incorrectly bound DOs. Finally, addition of a ligase mixture allows for ligation of correctly bound DOs into full-length probes. The enzymes are then inactivated by a 15 minute incubation at 80°C, and the resulting ligated probes are amplified in a PCR step. The PCR primers allow indexing of individual samples, so that hundreds or thousands of samples can be multiplexed within the same sequencing library (Fig 1C)."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec008",
+    "section_title": "TempO-Seq assay",
+    "direct_p_index_1based": 4,
+    "text": "The assays used were the human whole transcriptome assay [7] which measures 19,283 genes (21,111 probes); the mouse whole transcriptome assay which measures 23,580 genes (30,147 probes); and the rat whole transcriptome assay which measures 21,119 genes (22,253 probes). Each gene is measured by one or more probes formed by ligation of a DO pair, as previously described [7]. TempO-Seq probes for the whole transcriptome assays were designed to target only protein-coding genes (with few exceptions), so noncoding RNAs are not visible, nor do they take any sequencing reads in this approach. Custom TempO-Seq assays that measure noncoding RNA, splice junctions and variants, fusion genes, etc., have been designed and used in other work, but were not used for the experiments described in this manuscript."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec009",
+    "section_title": "Sequencing and data analysis",
+    "direct_p_index_1based": 3,
+    "text": "For PCA and correlation plots related to colon matched normal and cancer, a pathologist identified regions of cancerous and normal tissue on sections of colorectal cancer. Two within-donor biological replicates were taken from each tissue type from each patient, and lysed. The lysate was used to perform three technical replicate experiments, the results of which were then averaged. Plots represent direct comparisons of all data, without cutoffs, normalized for total read depth."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec011",
+    "section_title": "Reproducibility and sample types",
+    "direct_p_index_1based": 2,
+    "text": "To gauge assay reproducibility, the same areas of adjacent 5 μm thick sections were independently processed, and gene expression patterns between replicates compared. It is worth noting that these replicates are biologically different: they represent different subsections of tissue from the same organ, with potentially different tissue composition (microvasculature, innervation, etc.), and are processed completely independently. These are within-donor biological replicates, in which some variance in expression is expected due to the heterogeneity of cellular composition of FFPE. This measures the repeatability of the assay independent of the variability between donors. Technical replicates, such as replicates of the same FFPE tissue lysate, can be used as another measure of assay repeatability, but do not address the variability of the lysis step or resulting from FFPE tissue heterogeneity. For these reasons, it is important to differentiate such “within-donor biological replicates” from “between-donor biological replicates,” where samples from different individuals are measured, and where the range of biological variability within a disease can be seen."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec011",
+    "section_title": "Reproducibility and sample types",
+    "direct_p_index_1based": 3,
+    "text": "Gene expression correlation among within-donor biological replicates for all sample types had R2 values greater than 0.8, regardless of species. Of the human samples, pancreatic tissue had the highest reproducibility across biological replicates (R2 = 0.916), (Fig 2). Human colorectal and prostate cancers had R2 values of 0.872 and 0.885, respectively. Mouse breast, lung, and muscle had R2 values that exceeded 0.8 (0.891, 0.833 and 0.895, respectively). Rat brain, kidney, and liver all had R2 values that exceeded 0.9 (0.926, 0.949, and 0.959), (Fig 2). Across all nine tissue types the average R2 was 0.903. Average %CVs for genes with minimum of 10, 50, or 200 counts were 26.7%, 20.3%, and 16.8%, respectively (Table 1). Larger variance was observed in samples from tissues known to contain large amounts of RNAses (pancreas), and in tissues with low cellularity and thus low RNA amounts (lung, breast)."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec013",
+    "section_title": "Expression variability in matched cancer vs. normal tissue samples",
+    "direct_p_index_1based": 1,
+    "text": "The reproducibility shown in Fig 2 validates the precision and reproducibility of the assay when used on separate samples from the same source (same patient or animal, within-donor biological reproducibility). However, this result does not address the expected variation among multiple individuals (what we define as “between-donor biological replicates”). To address this, we performed the assay on matched samples of human normal and cancerous colon tissue from five different patients."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec013",
+    "section_title": "Expression variability in matched cancer vs. normal tissue samples",
+    "direct_p_index_1based": 2,
+    "text": "Fig 3 shows results from principal component analysis (PCA) of gene expression counts. Two within-donor biological replicates of each tissue from each of the five patients were assayed. Each patient is shown in one color, with normal samples shown as circles and cancer samples as triangles. As can be clearly seen, despite the expected diversity in gene expression, normal tissues from all five patients cluster together, with the small spread between them representing between-donor biological variability. The tight clustering of measurements reflects within-donor repeatability and technical repeatability of the assay. In contrast, cancers tend to follow their own trajectories, reflecting genomic instability, stages of progression, and varying pathways of oncogenesis and transcriptional phenotype, or subtypes of cancer. The PCA analysis suggests four subgroups of cancer, with two patients within one of the subgroups, that are clearly distinguished from normal tissues."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec013",
+    "section_title": "Expression variability in matched cancer vs. normal tissue samples",
+    "direct_p_index_1based": 3,
+    "text": "To further illustrate and quantify assay reproducibility, correlation plots of within-donor biological samples of normal tissue and are shown (Fig 4A and 4B) for two patients (Patient 3, brown in the Fig 3 PCA plot; and Patient 5, purple in the Fig 3 PCA plot). These two patients exhibited the greatest level of within-donor biological difference in their normal colon tissue expression profiles. Fig 4C and 4D depict the biological repeatability within cancer tissue from the same patients, demonstrating these measurements are also highly repeatable. Fig 4E shows as exemplar data the difference between patient 5 normal and cancer tissue, showing the differentially expressed genes underlying the PCA results depicted in Fig 3, readily identified because of the high repeatability of within-patient measurements. For comparison the largest difference between normal among the patients (between patients 3 and 5) is depicted in Fig 4F. Finally, Fig 4G and 4H show the difference between the cancer profiles for patients 3 and 5, and patients 2 and 4, respectively; demonstrating how different these cancers are, consistent with the PCA analysis. These plots demonstrate the high repeatability within donors that permits robust measurement of differential expression, and also show that the between-donor variability in normal tissue measurements is much less than the variability between cancers from different patients, consistent with expected biological differences and the PCA analysis."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec014",
+    "section_title": "Focal input and sensitivity",
+    "direct_p_index_1based": 3,
+    "text": "We excised both 2 mm2 and 10 mm2 from 5μm thick mouse liver sections. The correlation of gene expression across biological replicates of the same area excision were similar for 2 mm2 and 10 mm2 areas, with the R2 = 0.969 and 0.95, respectively (Fig 5A and 5B). The correlation between 10 mm2 and 2 mm2 inputs was also very good, with R2 of 0.969 (Fig 5C, average of three samples of each input). These data indicate that the TempO-Seq FFPE assay is highly sensitive and can handle very low input amounts."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec015",
+    "section_title": "Archival tissue",
+    "direct_p_index_1based": 2,
+    "text": "To determine if storage time of FFPE blocks had a significant effect on performance of the TempO-Seq FFPE assay, we obtained archival human tumor FFPE samples from the University of Arizona Cancer Center Biorepository. Archival tissues, with their indicated year of harvest, were as follows: colorectal cancer (1986), hepatocellular carcinoma (1993), and two separate cases of kidney cancer (1994 and 1988). Blocks had been stored at room temperature, and in early 2016, were cut into 5μm thick sections. Slides were stored for two years before 25 mm2 areas were scraped for TempO-Seq FFPE processing using the human whole transcriptome panel. The same area was cut from serial sections to produce biological replicates. On average, each sample generated 2.1 M mapped reads, which is sufficient for meaningful data analysis (only a 50 base pair region is sequenced and counted for each gene using TempO-Seq, compared to RNA-Seq in which identification of each gene requires sequencing and counting multiple fragments). We compared gene expression data between biological replicates from the same block as a read out of assay reproducibility. Each of the archival samples had R2 values of greater than 0.8, with the kidney harvested in 1994 having a within-donor biological replicate R2 of 0.925 (Fig 6). Although a controlled study demonstrating consistent gene expression profiles in the same samples over decades of storage is not feasible, these results demonstrate that the TempO-Seq FFPE assay can produce robust data from FFPE samples that are more than 30 years old."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec016",
+    "section_title": "Fixation time",
+    "direct_p_index_1based": 2,
+    "text": "There was no negative effect on sequencing quality with additional fixation time beyond 24 hours. Gene expression between biological replicates was high: R2 = 0.96 for 24 hours; 0.93 for 96 hours; 0.95 for 192 hours, and 0.98 for 384 hours (Fig 7). For all fixation times, the observed expression pattern clearly matched that expected for hepatocytes. These data collectively demonstrate that the TempO-Seq assay performs robustly even on samples that have been fixed for extended periods of time."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec017",
+    "section_title": "FFPE samples vs. fresh samples",
+    "direct_p_index_1based": 1,
+    "text": "Since fixation denatures RNA-binding proteins and disrupts secondary structure, TempO-Seq probes may interact with RNA in the context of fixed tissue differently than in fresh tissue, which could affect sensitivity and conclusions drawn from the samples. We compared the TempO-Seq FFPE assay to the standard assay designed for fresh lysates or purified RNA to determine whether processing of FFPE samples may impact biological conclusions. FFPE cell pellets were made from MCF-7 and MDA-MB-231 breast cancer cell lines, derived from luminal A and claudin low subtypes, respectively. 10mm2 areas were excised from 5 μm thick sections and used as input into the FFPE assay. Cells from the same plate were lysed fresh in lysis buffer and used as input into the standard TempO-Seq assay [7], to minimize variables other than fixation."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec019",
+    "section_title": "Stained tissue",
+    "direct_p_index_1based": 2,
+    "text": "To test whether H&E staining would interfere with TempO-Seq, we used a set of 5 μm thick serial human prostate cancer slides. These slides were either processed directly, deparaffinized and processed, or deparaffinized then H&E stained and processed (Fig 9). RNase-free reagents were used for deparaffinization and staining. The same 5 mm2 area of homogenous tumor was scraped from each serial section and lysed, with 2 mm2 equivalent of the resulting lysate used as input into the human whole transcriptome TempO-Seq FFPE assay. Gene expression profiles between paraffinized and deparaffinized sections had a high correlation (R2 = 0.902), indicating that the method of paraffin removal had little effect on assay performance. The R2 value between deparaffinized and H&E stained was also high (R2 = 0.855), demonstrating that the assay still worked well with RNA exposed to the H&E chemistry. Gene expression signatures from H&E stained tissue also correlated well with unstained sections (R2 = 0.841). Overall, these data demonstrate that H&E stained FFPE tissue can serve as input for the TempO-Seq assay, with the note that we were careful to use RNase free reagents in the H&E staining process. This also further validates the ability of the assay to detect significantly degraded RNA within samples (Fig 9)."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec020",
+    "section_title": "Discussion",
+    "direct_p_index_1based": 2,
+    "text": "TempO-Seq [4, 7–11] is a targeted, ligation-based assay designed to minimize complexities usually associated with gene expression measurements. The targeted approach provides several advantages–since it processes and counts only specific pre-determined probe sequences, it avoids cumbersome bioinformatics (the output of the assay is a simple table of counts for each gene in each sample) and reduces sequencing costs significantly (to 1/10th or less). The obvious downside is that all non-targeted sequences will be invisible (although a probe can be made for almost any target). Additionally, the assay can be performed in any lab, requiring no specialized equipment beyond a thermocycler and access to a sequencing instrument (commercially, or in most university core facilities). Critically for the purpose of FFPE evaluation, TempO-Seq does not rely on RNA extraction and reverse transcription, which makes it relatively insensitive to fragmentation, as the probes can successfully bind to RNA targets that are <100 nt in length."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/article.xml",
+    "sha256": "e55e0ed27184e7ae0b1561293ad839a0c6699c4ba9cfad2e20618324cff232bc",
+    "section_id": "sec020",
+    "section_title": "Discussion",
+    "direct_p_index_1based": 8,
+    "text": "The between donor biological repeatability of the TempO-Seq assay revealed an important observation: the biological variability of normal colorectal tissue is quite low in comparison to variability between cancer samples, demonstrating that biological differences in disease phenotype between patients can be clearly seen above any assay variability. Normal samples clustered tightly and very differently from cancer, showing that the regularly seen “noise” in expression profiles due to biological differences between the normal tissue of donors is easily distinguishable from disease processes inherent to oncogenesis. Thus, using a larger cohort of patients, it should be possible to identify phenotypic subtypes or molecular signatures among colon cancer patients."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec001",
+    "section_title": "Introduction",
+    "direct_p_index_1based": 1,
+    "text": "Trichostatin A is a broad-spectrum histone deacetylase inhibitor that has been characterized extensively in vitro [1,2]. Because it modulates the lysine acetylation state of histones and other proteins, TSA is commonly used to alter gene expression [3–6]. TSA-regulated genes are reported in publicly accessible databases such as cMAP [7] (https://www.broadinstitute.org/connectivity-map-cMAP) and GSEA [8] (http://software.broadinstitute.org/gsea/msigdb/index.jsp), making this a useful reference compound for validation of new methods as well as for understanding how gene expression assays can be used for compound classification. Gene expression profiles have been used to classify compound responses and to infer molecular mechanisms of action [3–6] as well as classify and group compounds by comparing profiles with those of previously characterized compounds [9]. Hence, the sensitivity with which a given assay platform delivers differential expression results is important for accurate, functionally relevant results. In a database of responses to small molecule compounds such as cMAP, differentially expressed genes vary in significance and rank across replicate studies, even for a single cell line and exposure. We wondered whether this was due to variability in cell responses, or whether the analysis method lacked sufficient sensitivity or repeatability for robustly detecting TSA responses. To address this question and to determine whether additional genes not previously associated with TSA responses could be identified, we used the novel expression profiling assay TempO-Seq to analyze MCF-7 cells treated with TSA, and asked whether this method is robust enough to augment or build a database of compound responses."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec001",
+    "section_title": "Introduction",
+    "direct_p_index_1based": 4,
+    "text": "TempO-Seq (Templated Oligo assay with Sequencing readout) utilizes a different approach to targeted sequencing. Namely, the whole transcriptome TempO-Seq assay targets and measures a specific sequence within each gene, yet measures every gene and isotype in the transcriptome, and does so by directly targeting the RNA contained in crude cellular lysates in a homogenous progressive addition assay. TempO-Seq relies on the hybridization of two “detector” oligos (DOs) to adjacent target sequences such that when properly hybridized they can be ligated. Excess unhybridized DOs are removed enzymatically in a process that is readily scaled and automated, then the ligated DO pairs are amplified to add a sample-specific sequence and the adaptors required for sequencing. Because there is no poly-(A)+ selection, there is no positional bias in target location, so DOs are designed to maximize hybridization specificity. The ligation step also provides specificity for single base differences, making even highly homologous genes distinguishable. The unique biochemistry of TempO-Seq also eliminates mis-ligation and assay background, making the whole transcriptome content possible, and allowing precise dose-response and single-cell level measurements while maximizing sequencing flow cell productivity. In addition, the signal from highly abundant transcripts can be attenuated individually in a way that allows accurate back-calculation of the unattenuated read counts while saving sequencing read utilization. Importantly, the sequencing process delivers only already known ligated DO sequences, so there is no complex bioinformatic analysis; the output of the assay is a simple table with expression levels of each gene in each sample."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec003",
+    "section_title": "Reagents, RNAs, and cells",
+    "direct_p_index_1based": 2,
+    "text": "Total RNAs for TempO-Seq assay testing included the MAQC Universal Human Reference RNA (Agilent, cat#740000), MAQC Human Brain Reference RNA, and a selection of human tissue total RNAs (Thermo Fisher Scientific, cat # AM6050 and others). Synthetic RNAs for testing absolute sensitivity and fold change were the ERCC ExFold RNA Spike-In Mixes, obtained from Thermo Fisher Scientific (cat # 4456739). For the RNA-Seq cross-platform comparison, MCF-7 and MDA MB 231 cells were lysed according to the TempO-Seq protocol and RNA was purified using TRIzol (Thermo Fisher cat # 15596026). Total RNAs were assayed in both the whole transcriptome TempO-Seq assay (12 replicates each) and in RNA-Seq (6 replicates each), using ribosomal RNA depletion (KAPA Stranded RNA-Seq with RiboErase kit, Kapa cat # KK8483)."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec004",
+    "section_title": "Detector oligo design",
+    "direct_p_index_1based": 2,
+    "text": "The Whole Transcriptome DO pools for the studies described here consisted of 20,629 or 21,111 DO pairs targeting 18,886 or 19,300 genes. Assays of lower complexity measuring fewer genes or other content were used for some experiments, including dedicated DO pools measuring the synthetic reference ERCC RNAs, DO pools for cell-specific RNA detection, DO pools for showing context independence, and DO pools for attenuation studies. The ligated DO gene-specific sequences are provided in the processed data files in GEO accession # GSE91395. For highly abundant transcripts in the synthetic reference ERCC RNA pools, attenuators (nonfunctional DOs that compete with functional DOs) were added into the ERCC DO pool to attenuate their signals by a known ratio per RNA transcript."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec005",
+    "section_title": "Data analysis",
+    "direct_p_index_1based": 1,
+    "text": "After sample demultiplexing using the default Illumina sequencer and bcl2fastq settings, FASTQ files were aligned to the ligated DO gene sequences using Bowtie, allowing for up to 2 mismatches in the 50 nt target sequence. The data analysis pipeline (TempO-SeqR, BioSpyder Technologies, Inc.) delivers graphical and tabular summaries of total/mapped and unmapped reads, a dendrogram of sample clustering, differential expression and PCA tools, and a flat file of read counts per DO pair per sample. For whole transcriptome assays at 4M reads per sample, data alignment took about 30 seconds per sample on 16 CPUs. The data are shown as raw or normalized read counts for comparing replicates. Normalization for this purpose was done by scaling the data to the average of the total reads per sample. For differential expression analysis, data normalization and adjusted p-value [17] scoring was done using the DESeq2 package in R [18]."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec008",
+    "section_title": "Repeatability",
+    "direct_p_index_1based": 1,
+    "text": "The Whole Transcriptome TempO-Seq assay exhibits excellent repeatability, with R2 values for total RNA technical replicates over 0.97 at a read depth of 7.2M per sample. Triplicate assays for 100 ng Universal Reference RNA (URR) and Human Reference Brain RNA (Brain) are shown in Fig 2. Under these conditions, the proportion of reads that map correctly to the expected ligated DO sequences is 85–90%. This correlation between technical replicates in a single sequencing run is very similar to the correlation between a single sample in two different sequencing runs (R2 = 0.96, S1 Fig, Seq Run Repeatability), suggesting that the bulk of replicate variability comes from sequencing. The assay is also characterized by very few reads for no-input negative control samples (Fig 2C), with the number of reads for no-input amounting to 0.1% of the reads for the positive samples. Examination of the unmapped reads shows that these consist primarily of partial sequences, rather than mis-ligation. The frequency of mis-ligation is < 0.1%, in contrast to previous ligation-based assays, where mis-ligation can reach 20% or more [13,14]. Fig 2D shows the substantial differences in expression observed between these reference RNAs. Using the DESeq2 package in R, ~45% of all transcripts were differentially expressed between URR and Brain in this experiment at a padj value <0.05. The padj is a rigorous method that reduces the false positive rate, and thus differentiates true differentially expressed genes from false positives [17]."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec009",
+    "section_title": "Sensitivity",
+    "direct_p_index_1based": 3,
+    "text": "To determine the absolute sensitivity of TempO-Seq, we used the ERCC ExFold RNA Spike-In Mixes: synthetic RNA pools prepared in mixtures of known concentrations and ratios for each transcript [19]. These were assayed with a DO pool specific for measuring the ERCC sequences. The ERCC RNA mixtures cover a 6-log range of RNA abundance, but the 7 most abundant RNAs contribute 99% of the mass. This bias in input amounts means that sequencing results would be dominated by these high abundance RNAs, limiting the utility of these mixtures for measuring absolute sensitivity unless the contributions of these 7 RNAs could be reduced. In this experiment, we attenuated the signal from the high abundance transcripts by titrating in non-functional competitor DOs at a fixed ratio per transcript (e.g. a ratio of 4:1 reduces a gene with counts of 50,000 to 10,000). Attenuation is designed to reduce signal from highly abundant targets, but not eliminate them. Instead, the ratio of attenuators to functional DOs is set so that the abundant genes are brought down to about half the level of the highest unattenuated genes. Because the read depth remains high for these genes, there is no impact of attenuation on fold difference measurements (S2 Fig). After data normalization, read counts for the attenuated genes can be corrected by multiplying by the ratio of attenuator to DO for each gene to calculate what their unattenuated read counts would have been. A comparison of results for the same RNA with and without attenuation is shown in S3 Fig, both before and after back-calculation, demonstrating that back-calculated data correlate well with unattenuated data."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec009",
+    "section_title": "Sensitivity",
+    "direct_p_index_1based": 4,
+    "text": "To assess the absolute limit of detection, RNA Mixes 1 and 2 were diluted to 1x10-3, 1x10-4, 1x10-5, and 1x10-6 of the stock concentrations in a background of 100 ng/test of URR. This dilution series was needed to reduce the target concentrations to approach a lower limit. At the limit of detection, probes began to exhibit increased variability, so Fig 3C shows the relation between reads for probes with less than 60% cv between replicates of the 1x10-5 dilution of Mix 2 and the number of molecules present in the amplification step. This level was chosen because the higher inputs (1x10-3 and 1x10-4) showed assay saturation, and the lower input (1x10-6) had high variability due to low reads. The correlation of reads to input was R2 = 0.77, consistent with other experiments with these target RNAs. Because of the low assay background, using a single read as the threshold for detection is feasible. For Mix 2, the range of x-intercepts (corresponding to a single read) was 15–19 molecules in the amplification reaction. For both Mix 1 and Mix 2 at this input, the range was from 15 to 72 molecules, with a median of 21 molecules and an average of 32 molecules. Because 19% (10 μL of the 52 μL reaction) of ligated material is transferred to amplification, assay sensitivity is also ~ 20–30 molecules, if one assay is used to supply up to 5 amplifications."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec010",
+    "section_title": "Specificity",
+    "direct_p_index_1based": 1,
+    "text": "As a ligation and sequencing-based assay, TempO-Seq should exhibit high specificity. Specificity is critical for accurately measuring the abundance of genes, to avoid false positive signals from cross-reactive targets. This is a particular issue with microarrays where mismatches in hybridization can still result in measurable signals. Although mismatches in either 25-nt target sequence may not detectably affect DO hybridization, a mismatch at the ligation point should be readily detectable. Thus, designing the DOs so that the greatest difference is at the point of ligation was expected to allow TempO-Seq to distinguish between otherwise highly homologous genes or to detect single base differences among RNAs. We tested the specificity of the TempO-Seq assay by introducing single base differences into the DOs within 3 bases on either side of the ligation point and measuring their impact on signal from endogenous high abundance transcripts present in URR. Fig 4A illustrates the position of mismatches in the detector oligos, and Fig 4B shows the effect of these mismatches on read counts. In this experiment, the perfect match/mismatch DOs were added to standard DOs for 20 other targets, later used for normalization. As expected, mismatches closest to the ligation point were most effective at impairing detectable products, with the most disruptive mismatch at the 3′ hydroxyl base averaging 0.4% of the expected read counts, translating into single-base specificity of 99.6%. Thus, the TempO-Seq assay can reliably distinguish between closely related transcripts with single base specificity, consistent with the low level of mis-ligation observed that might otherwise result from ligation on similar RNA target sequences. This level of specificity was critically important for scaling the assay to the whole transcriptome while maintaining independent measurement of each gene without detectable off-target reads. The DO design pipeline incorporates a requirement for absolute sequence specificity between gene targets across the ligation point."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec010",
+    "section_title": "Specificity",
+    "direct_p_index_1based": 2,
+    "text": "The independent measurement of each gene that is a result of the assay’s high specificity is important for content flexibility. If transcript measurements are truly independent in an assay, then the signal for a targeted set of genes should be the same whether they are measured within one or another set of other genes. This was tested with TempO-Seq by comparing data for a common set of probes measured in the context of two otherwise different DO pools (Fig 5). In this case, a DO pool targeting 2,941 transcripts had 1,396 DO pairs in common with another pool targeting 2,363 transcripts, illustrated in the Venn diagram in Fig 5A. Comparing the read counts for the 1,396 targets measured using the two different pools showed a correlation with R2 of 0.98 with no significant outliers, demonstrating that the different contexts had little influence, and that expression measurements are independent of context. This feature is particularly valuable for longitudinal studies where DOs may be added or removed, because existing data will still be comparable for the DOs that don’t change. In addition, context independence suggests that initial studies with the whole transcriptome assay will be predictive of DO behavior when they are selected for a smaller gene panel."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec011",
+    "section_title": "Differential expression",
+    "direct_p_index_1based": 1,
+    "text": "High assay repeatability, high specificity, and low backgrounds are required for highly sensitive detection of differential expression. To determine how sensitive the TempO-Seq assay is for measuring small changes in expression, we ran technical replicates of the Reference RNAs in an assay of 2,244 genes and compared results both across and within URR and Brain triplicates. Fig 6 shows log2 fold changes vs log mean read counts derived from DESeq2, where green dots indicate genes that are differentially expressed (padj<0.05). Panels A and B show the false positive detection rate, measured by comparing 3 replicates of URR to another 3 replicates of URR (Fig 6A), or comparing 3 replicates of Brain to another 3 replicates of Brain (Fig 6B). The absence of green dots indicates that there were no differentially expressed genes among replicates of the same RNA, as expected. In contrast, Fig 6C and 6D show differential expression between mixtures of RNAs made so that transcript abundance between the mixtures are at most 1.2-fold (20%) different. DESeq2 analysis of 50% Brain/50% URR compared to 60% Brain/40% URR identified 564 differentially expressed transcripts (green dots) at padj<0.05 (Fig 6C). Similarly, DESeq2 analysis of 40% Brain/60% URR vs 50% Brain/50% URR identified 690 differentially expressed transcripts at padj<0.05 (Fig 6D). This result indicates that the TempO-Seq whole transcriptome assay can reliably detect 1.2-fold differences in transcript abundance."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec013",
+    "section_title": "Treatment response",
+    "direct_p_index_1based": 5,
+    "text": "Two approaches were taken to confirm these previously unreported TSA-responsive genes: an assessment of the reliability of the TempO-Seq probes for these genes, and RT-PCR analysis. S4 Fig shows the cross-platform comparison from Fig 7, highlighted to identify the results for the novel 46 TSA-responsive genes. The fold differences measured in the cross-platform comparison for these 46 genes correlate well with the rest of the whole transcriptome, demonstrating that the measurement of these transcripts is robust. RT-PCR analysis of these genes was expected to be challenging because of their low abundance and small fold changes. Gene-specific RT primers and a pair of PCR primers were designed for 12 genes that spanned the range and direction of expression changes, as well as 4 housekeeping genes as normalization controls (Fig 12). Of the 12 genes tested, 8 showed changes in expression greater than 1 standard deviation of the control genes. All 8 were concordant with the direction of TSA responses in TempO-Seq. Taken together, these results confirm that the novel TSA-responsive genes detected in TempO-Seq are likely to be valid."
+  },
+  {
+    "source": "tempo-normal-source-2026-09-06/yeakley2017.xml",
+    "sha256": "5fcd49d6db1842ea6ce23e1b009f5607473dff17020be57a37246752fb18142e",
+    "section_id": "sec014",
+    "section_title": "Discussion",
+    "direct_p_index_1based": 2,
+    "text": "The fact that TempO-Seq targets a specific RNA sequence suggests that read depth per sample can be lower than in shotgun RNA-Seq because only the targeted genes contribute to a library. For example, there is no need to sequence to higher depth to accommodate the sequencing capacity occupied by ribosomal RNAs or high abundance transcripts such as globin in blood samples. Further, the ability to attenuate high abundance transcripts allows optimization of sequencing space."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Participants and study subjects",
+    "direct_p_index_1based": 2,
+    "text": "All available formalin-fixed paraffin-embedded (FFPE) blocks were retrieved for molecular analysis. For these cases, two pathologists independently reviewed three µm hematoxylin and eosin-stained sections to confirm the histological subtype (conventional, solid-cellular, or high-grade EMC). Surgical margins were classified following Enneking, Spanier & Goodman (1980). Multidisciplinary Tumor Board discussions were performed for each case to validate the clinical and pathological correlation. Of the 22 patients, seven were excluded due to insufficient RNA quality or critically low gene expression counts, leaving 15 patients with informative gene expression data. One additional sample was identified as an outlier by principal component analysis (PCA) and hierarchical clustering and was subsequently removed. Of the remaining 14 patients, one had died of an unrelated cause, and one had no available prognostic record; both were excluded from prognostic analysis. The final cohort, therefore, comprised 12 EMC patients with complete molecular and clinical data, who were carried forward for all downstream analyses."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Fluorescence ",
+    "direct_p_index_1based": 1,
+    "text": "FISH analysis was conducted to assess chromosomal translocations affecting EWSR1 on paraffin sections using a dual-color break-apart probe (Abbott Molecular, Des Plaines, IL). This probe detects all translocations involving the EWSR1 gene on chromosome 22q12. Probe hybridization specificity was verified on normal metaphase preparations and the cutoff for variation on paraffin sections was established at 10%. Paraffin-embedded tissues were cut into 4–5 µm-thick sections onto adhesive-coated slides. The tissue sections were baked overnight at 60 °C before hybridization. The slides were treated with protease treatment using a paraffin pretreatment kit (Abbott Molecular, Des Plaines, IL). FISH was performed using standard methods, and hybridization signals were scored on at least 100 distinct nuclei on DAPI-stained slides. All analyses were carried out on a Nikon Eclipse 600 microscope attached to a Cytovision imaging analysis workstation. Cells with a translocation, revealing one fused and one or more ‘split’ signals or deviations from the normal two fused signal pattern, were considered positive for EWSR1 translocation."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "TempO-Seq assay",
+    "direct_p_index_1based": 2,
+    "text": "In brief, an area of interest on a slide-mounted FFPE section was scraped from the slide and deposited directly into BioSpyder 1X FFPE lysis buffer. The sample was overlaid with mineral oil and incubated at 95 °C for five minutes to dissolve the paraffin. FFPE Protease reagent was added to the FFPE lysate and incubated at 37 °C for 30 min. After a quick homogenization step by vortexing, the lysates were used for the TempO-Seq FFPE assay. A two µL aliquot of the processed lysate was then added to a microplate well containing a mix of annealing buffer and detector oligos (DOs) to measure each targeted gene. The DO panels used in this study were designed against the whole human transcriptome. This mixture was exposed to a temperature decrease from 70 °C to 45 °C, followed by overnight incubation at 45 °C. Then, a nuclease mix was added to degrade unbound and incorrectly bound DOs. Finally, the addition of a ligase mixture enabled the ligation of correctly bound DOs into full-length probes. The enzymes were inactivated by a 15-minute incubation at 80 °C, and the resulting ligated probes were amplified in a polymerase chain reaction (PCR) step. To provide an approximate assessment of statistical power for differential expression analysis, power calculations were performed using the RNASeqPower framework. Assuming dispersion values typical of bulk RNA-seq datasets, the sample size used in this study (n = 6 per group) provided an estimated power of 0.98 without technical replicates and remained above 0.80 for detecting genes with large effect sizes (fold change ≥2). A Benjamini–Hochberg false discovery rate (FDR) of 0.05 was applied. Because RNASeqPower assumes independent biological replicates and simplified dispersion models, these calculations should be interpreted as approximate and are not intended as definitive power estimates for this exploratory cohort. The human whole transcriptome assay identified 19,683 unique human genes (22,537 probes). Each gene was measured by one or more probes formed by the ligation of a DO pair, as previously described (Yeakley et al., 2017). TempO-Seq probes for whole transcriptome assays were designed to target only protein-coding genes."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "TempO-Seq assay",
+    "direct_p_index_1based": 3,
+    "text": "Quality control (QC) was conducted using internal assay controls provided by BioClavis. Samples were required to meet predefined QC thresholds. These included a signal-to-noise ratio >20:1, mapped read percentage in positive RNA controls >80%, average reads per probe >250, and >6 million mapped reads in positive RNA controls. All samples included in this study exceeded these thresholds. Specifically, the assay achieved an average of 7,794,021 mapped reads in positive RNA controls, a signal-to-noise ratio of 174:1, 96% reads mapping to positive controls, and 512 average reads per probe."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "TempO-Seq assay",
+    "direct_p_index_1based": 4,
+    "text": "Technical reproducibility was assessed using replicate positive RNA controls, which demonstrated excellent correlation (R2 = 0.99). As expected for archival FFPE specimens, some inter-sample variability in read counts was observed. To account for this variability, downstream data processing included upper-quartile normalization and filtering of low-expressed genes prior to subsequent analyses."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Data processing, quality control, normalization, and feature standardization",
+    "direct_p_index_1based": 1,
+    "text": "The initial dataset comprised 22 pathologically confirmed EMC cases with raw gene expression data for 22,537 probes. To refine the dataset, genes with zero counts across all samples and those with duplicated gene symbols were discarded. Low-expressed genes were subsequently filtered out using established thresholding methods (Källberg, Vidman & Rydén, 2021). During quality control, seven samples with critically low expression counts were excluded, leaving 15 samples with informative transcriptomic data."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Data processing, quality control, normalization, and feature standardization",
+    "direct_p_index_1based": 2,
+    "text": "To account for variations in sequencing depth across the cohort, the remaining data underwent global normalization. Specifically, upper quartile (UQ) normalization was applied, and raw counts were converted to counts per million (CPM) using the edgeR package in R (Robinson, McCarthy & Smyth, 2010). Unsupervised analyses, including principal component analysis (PCA) and hierarchical clustering, were then conducted to assess batch effects and identify potential outliers, leading to the exclusion of one outlier sample. Finally, two samples lacking valid clinical prognostic information (one unrelated death and one missing record) were excluded. This established the final analytical cohort of 12 EMC patients encompassing 9,909 genes for downstream analysis."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Data processing, quality control, normalization, and feature standardization",
+    "direct_p_index_1based": 3,
+    "text": "Although UQ normalization corrects for between-sample library size differences, penalized regression models such as Least Absolute Shrinkage and Selection Operator (LASSO) are sensitive to differences in predictor variance. Therefore, prior to prognostic model construction, normalized gene expression values were further standardized using z-score transformation. This step ensured that all genes were placed on a common mathematical scale (mean = 0, standard deviation = 1). This standardization enabled fair comparison of predictor effects and stable coefficient estimation during LASSO-based feature selection."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Statistical analysis of immunofluorescence data",
+    "direct_p_index_1based": 1,
+    "text": "ROI-level comparisons of single-plex fluorescence intensity between the two representative specimens (one poor-prognosis and one good-prognosis case) were performed using the Wilcoxon rank-sum test (n = 5 ROIs per specimen). ROI-level immune cell density comparisons between transcriptomic risk groups were similarly evaluated using the Wilcoxon rank-sum test (n = 10 ROIs per specimen). Because ROIs represent technical replicates within individual tumor specimens rather than independent biological samples, all immunofluorescence results are presented as descriptive and hypothesis-generating observations. P values are reported for completeness but must not be interpreted as evidence of biological group-level differences."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Patient and tumor characteristics",
+    "direct_p_index_1based": 1,
+    "text": "A total of 12 EMC patients met all inclusion and molecular quality control criteria and were included in the final analysis, as described in the Methods and illustrated in Fig. 1A. This study aimed to identify molecular features associated with clinical outcomes. Of the 12 EMC patients, seven (60%) were women and five (40%) were men (male-to-female ratio, 0.71:1). The median age at diagnosis was 51.5 years (range, 37–77 years). The median follow-up for the entire cohort was 88.8 months (range 27.6–192 months). In eight out of 12 EMC patients, EWSR1 rearrangements were detected by FISH. The EWSR1 fusion gene in EMC does not reliably predict overall survival (log-rank P = 0.85), confirming its role as a diagnostic rather than prognostic marker. Patients were classified into good-prognosis (n = 6; OS > 8 years, no notable metastasis) and poor-prognosis (n = 6; progressive disease or death from disease, OS < 8 years) groups. The 8-year threshold reflects the prolonged natural history of EMC, in which clinically meaningful events frequently occur beyond 5–7 years. Clinical characteristics are summarized in Table 1. All findings should be interpreted in the context of a small cohort and require validation in independent datasets."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "LASSO analysis identifies candidate prognostic genes",
+    "direct_p_index_1based": 3,
+    "text": "To explore potential prognostic panels and mitigate dimensionality in our small cohort, LASSO–Cox regression was used to select the most predictive features from the 14 candidate genes. Following z-score normalization of expression data, the LASSO algorithm identified a three-gene candidate panel comprising PXN, TYMS, and H1FX (Figs. S3A and S3B). Individual Kaplan–Meier survival analyses confirmed that higher expression of each of these three selected genes is associated with worse overall survival (Fig. S3C)."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Cross-cohort analysis and lineage specificity of prognostic biomarkers",
+    "direct_p_index_1based": 3,
+    "text": "To further account for baseline technical differences and evaluate external consistency, we compared our internal TempO-Seq platform (Log2CPM; n = 12) against an external MI-ONCOSEQ platform dataset (Davis et al., Log2[RPKM + 1]; n = 6) by applying a within-dataset z-score transformation. Statistical evaluation using a two-sided Mann–Whitney U test demonstrated robust cross-platform consistency for all three biomarkers. As shown in Fig. S6C, the normalized expression distributions of PXN (P = 0.963), H1FX (P = 0.888), and TYMS (P = 1) did not significantly differ between our internal cohort and the external cohort. This confirms that our normalization strategy successfully bridges distinct sequencing platforms, validating the baseline comparability of these genes in an independent dataset."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Proof-of-concept immunofluorescence assessment",
+    "direct_p_index_1based": 1,
+    "text": "Given limited tissue availability, immunofluorescence staining was performed on two representative FFPE specimens (one poor-prognosis and one good-prognosis case) as proof-of-concept validation. Consequently, this analysis should be considered illustrative orthogonal evidence rather than formal validation and does not permit statistical comparisons across the full cohort. All IF findings are therefore presented as descriptive and hypothesis-generating. Regions of interest (ROI) measurements represent technical replicates within each tumor specimen and should not be interpreted as independent biological samples or evidence of cohort-level differences. These observations provide qualitative spatial context for transcriptomic findings but require validation in larger cohorts."
+  },
+  {
+    "source": "peerj21497-source-2026-09-06/article.xml",
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "section_id": null,
+    "section_title": "Limitations",
+    "direct_p_index_1based": 1,
+    "text": "Several limitations of this study should be acknowledged. The most significant limitation is the extremely small cohort size (n = 12), reflecting the rarity of EMC and inherently limiting statistical power. Consequently, the findings should be interpreted with caution and require external validation in independent cohorts before any clinical application can be considered. The retrospective design and variability in FFPE block age spanning approximately two decades may introduce pre-analytical confounding. Although this issue was partially mitigated by the use of TempO-Seq, which is optimized for archival specimens, together with stringent quality control thresholds, residual technical variability cannot be entirely excluded. In addition, statistical power estimates for RNA sequencing analyses rely on assumptions regarding biological replicates and dispersion parameters. Given the ultra-rare nature of EMC and the limited sample size available, these estimates should therefore be interpreted as approximate indicators rather than definitive measures of statistical power."
+  }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "position": 71,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is expressly the eligible histology for TBI-1301 in unresectable progressive/recurrent disease after one to four systemic chemotherapy regimens including anthracycline.",
+    "cohort_reconciliation": "One split-dose cell-therapy arm follows cyclophosphamide/fludarabine. Prior cell or gene therapy is excluded and collection requires recovery from prior treatment.",
+    "extra_biomarker_requirement": "HLA-A*02:01 or *02:06 and tumor NY-ESO-1 by IHC are required. The saved criteria supply no numerical IHC cutoff.",
+    "protocol_uncertainty": "Age at least 18, organ function and clinical restrictions remain; external protocol and live slots are unverified. Phase 3 designation with estimated enrollment five is retained as registry metadata, not confirmation of comparative evidence or approval.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histologically confirmed synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "HLA-A\\*02:01 or HLA-A\\*02:06 positive"],
+      ["eligibilityModule/eligibilityCriteria", "Tumor that express NY-ESO-1 by immunohistochemistry"]
+    ]
+  },
+  {
+    "position": 72,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included among the selected STS histologies, despite the leiomyosarcoma emphasis in the title and biological rationale.",
+    "cohort_reconciliation": "One peposertib/low-dose liposomal-doxorubicin escalation pathway for metastatic/unresectable disease without known curative therapy, after at least one prior line. Prior anthracycline is allowed up to the specified cumulative dose, while prior DNA-PK inhibitor is excluded.",
+    "extra_biomarker_requirement": "HRD susceptibility, gammaH2AX/pNBS1 and ctDNA are hypotheses or correlative objectives, not positive entry assays. Evaluable biopsy-amenable disease is required.",
+    "protocol_uncertainty": "Age at least 18, clinical/medication requirements and radiation washouts remain. External protocol and actual availability are unreviewed. Preclinical combination rationale does not establish clinical benefit.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients must have evaluable disease that is amenable to biopsy"],
+      ["eligibilityModule/eligibilityCriteria", "Patients may not have received prior treatment with a DNA-protein kinase (PK) inhibitor"]
+    ]
+  },
+  {
+    "position": 73,
+    "label": "explicit_exclusion",
+    "rationale": "SS was expressly included in Cohort A, but A and B are explicitly closed to recruitment. Remaining C/D have closed histology lists confined to specified leiomyosarcoma/liposarcoma types and do not include SS. This is a cohort-closure/current-scope exclusion, not a claim that SS was never eligible.",
+    "cohort_reconciliation": "Historical A permits SS with metastatic/irradiation constraints. B is myxoid liposarcoma; C/D are resectable non-metastatic retroperitoneal LMS/LPS strata. The single generic treatment arm and overall RECRUITING flag do not reopen the closed SS route.",
+    "extra_biomarker_requirement": "No SS-specific biomarker would override the stated cohort closure. Translational assays are not a separate entry pathway.",
+    "protocol_uncertainty": "Saved status was verified in 2023; later actual cohort reopening is unknown. External protocol and current availability are unreviewed. Historical A lung-only versus up-to-two-organ wording is inconsistent but does not change its stated closure. Independent adjudication should retain historical inclusion separately from current cohort scope.",
+    "task_domain": "oncology_treatment_closed_ss_cohort",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["descriptionModule/briefSummary", "Cohorts A and B are closed to recruitment in 2023."],
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "High grade leiomyosarcoma (G2-3), liposarcoma (G2-3), if at least 30% of the tumour is dedifferentiated, pleomorphic liposarcoma."],
+      ["eligibilityModule/eligibilityCriteria", "Well differentiated liposarcoma (WD liposarcoma) and G2 dedifferentiated liposarcorcoma, if less than 30% of the tumour is dedifferentiated."]
+    ]
+  },
+  {
+    "position": 74,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly eligible in Phase 1 Parts A/B. The narrower NF-associated MPNST Phase 2 cohort does not exclude SS from those earlier parts.",
+    "cohort_reconciliation": "Part A combines selumetinib/ZEN-3694; B adds durvalumab; C is NF-associated MPNST only. The generic phase-2 metadata cannot replace the explicitly described phase-1 routes. Phase 1 permits evaluable or measurable disease after refractory/progressive disease or absent standard options.",
+    "extra_biomarker_requirement": "No NF1, MPNST or molecular assay gate is stated for SS in A/B. NF association applies to C. Prior MEK/Ras/Raf inhibitor for malignant sarcoma is excluded, with a separate other-tumor exception.",
+    "protocol_uncertainty": "Age at least 18 (metadata maximum 99), weight greater than 30 kg, clinical criteria and washouts remain. External protocol/appendix and which part is currently enrolling are unverified; no SS Phase 2 access or efficacy is claimed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Part A and B (Phase 1): Patients with histologically confirmed soft tissue or bone sarcoma of the following subtypes:"],
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Part C (Phase 2): Patients with progressive, relapsed, unresectable or metastatic NF associated MPNST."]
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+---
+id: DOC-TRIAL-DIFFERENCE-METADATA-20260906
+title: Administrative metadata correction before reader dispatch
+kind: memo
+status: live
+purpose: Correct repository metadata vocabulary while preserving the first preparation freeze.
+scope: Metadata-only protocol correction and explicit utility limitation before any new labels.
+audience: [maintainers, autonomous research agents, external reviewers]
+date: 2026-09-06
+last_verified: 2026-09-06
+---
+
+The coordinator identified invalid frontmatter vocabulary immediately after the first source
+build and before methods acceptance or reader dispatch. The corrected protocol uses kind
+prereg, status immutable and repository audience values. Its scientific text and endpoint are
+byte-identical after frontmatter. This is a prospective post-ranking protocol, not a claim
+that the question was preregistered before rankings were known.
+
+The exact initial protocol, README, reader manifest, coordinator manifest and integrity receipt
+are preserved under coordinator/pre-review-v1-*; the text copies preserve their original bytes
+without exposing invalid active Markdown metadata. No original freeze was deleted or silently
+overwritten. Their historical receipt hashes remain checkable against the preserved byte files.
+The new receipt covers both historical evidence and current corrected outputs.
+
+The README now states the utility limitation explicitly: the primary broad disease-scope
+endpoint, with treatment purpose and enrollment status only descriptive, cannot establish
+better actionable trial finding. The recommendation remains HOLD pending an independent
+scientific-value decision. No source selection, work order, taxonomy, bounds, endpoint or
+reader rule changed; no new or historical relevance judgment was read. Reader dispatch remains
+unauthorized by this preparation.

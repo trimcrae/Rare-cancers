@@ -1,0 +1,52 @@
+---
+id: DOC-FUSION-PARTIAL-RESULT-20260905
+title: Lee partial siRNA benchmark recovers 61 means across 31 disclosed designs
+kind: result-memo
+status: live
+date: 2026-09-05
+last_verified: 2026-09-05
+purpose: Deliver a source-backed numerical checkpoint and its bounded descriptive result for coordinator verification.
+scope: One retrospective study, two siRNA targets, fusion and actually measured parent mRNA endpoints.
+audience: [researchers, maintainers]
+---
+
+The retained Lee 2023 partial benchmark is quantitatively feasible. All 31 disclosed duplex designs are retained, with 31 fusion means, 30 measured-parent means and 61 plotted standard deviations. SS #4's parent mean is censored by the plot ceiling and remains unknown above a conservative lower reading bound of 1.9744. All 31 second-parent outcomes remain unknown. This is a completed numerical checkpoint for independent coordinator verification, not a manuscript, preprint-readiness declaration or a relaxation of the historical both-parent feasibility requirement.
+
+The two frozen descriptors do not show a common ordering pattern across the screens. GC has weak fusion associations with opposite signs. Terminal composition asymmetry has a moderate negative association with remaining B4N fusion expression, but a weaker SS fusion association whose sign can change when reading uncertainty is doubled. The stronger positive SS parent/GC association is descriptive and excludes the censored design. These overlapping tiled designs do not identify a causal sequence rule, a calibrated predictor or an independent target-family validation.
+
+| Screen / endpoint | Recovered means / disclosed designs | GC rho with remaining expression | Terminal asymmetry rho with remaining expression |
+|---|---:|---:|---:|
+| B4N / fusion | 15 / 15 | 0.119 | -0.546 |
+| B4N / measured parent | 15 / 15 | 0.226 | -0.256 |
+| SS / fusion | 16 / 16 | -0.241 | -0.199 |
+| SS / measured parent | 15 / 16 | 0.638 | 0.322 |
+
+Rho is Spearman with average tied ranks. Lower plotted relative expression means more suppression; correlation with the explicitly derived index `1 - remaining expression` has the opposite sign. Neither index is asserted to be percent knockdown: source captions do not establish the exact Ct transformation. No p-values, statistical confidence intervals, trained weights, pooling across targets or population inference were used. Plotted SDs are retained separately and do not enter the reading-uncertainty simulation. Raw replicate-level variability and correlation are unavailable, so these associations are not tested against biological uncertainty.
+
+| Screen / endpoint | Feature | Rho range sampled inside reading ranges | Rho range with doubled half-widths |
+|---|---|---:|---:|
+| B4N / fusion | gc_fraction | 0.051 to 0.119 | 0.014 to 0.182 |
+| B4N / fusion | terminal_gc_asymmetry | -0.546 to -0.473 | -0.586 to -0.462 |
+| B4N / measured parent | gc_fraction | 0.117 to 0.372 | 0.047 to 0.423 |
+| B4N / measured parent | terminal_gc_asymmetry | -0.391 to -0.174 | -0.501 to -0.141 |
+| SS / fusion | gc_fraction | -0.424 to -0.135 | -0.499 to -0.070 |
+| SS / fusion | terminal_gc_asymmetry | -0.272 to -0.046 | -0.340 to 0.023 |
+| SS / measured parent | gc_fraction | 0.580 to 0.696 | 0.543 to 0.795 |
+| SS / measured parent | terminal_gc_asymmetry | 0.261 to 0.445 | 0.224 to 0.522 |
+
+Each range is the observed minimum/maximum over 10,000 seeded uniform perturbations, not an exhaustive bound or confidence interval. Four-pixel native-image half-widths correspond to +/-0.0211 B4N and +/-0.0256 SS plotted units. At those widths, ambiguous pair orderings number 3/105 for B4N fusion, 14/105 for B4N parent, 22/120 for SS fusion and 13/105 for the 15 recovered SS parent means. With doubled widths the counts are 12/105, 27/105, 37/120 and 23/105, respectively. Close design rankings therefore cannot all be resolved, even before biological variation is considered. The SS parent #4 censored observation is retained in coverage but excluded from these numeric summaries; no value was imputed.
+
+The screen includes clear losses of the actually measured parent. For example B4N #15 has plotted fusion expression about 0.074 (reading range 0.053-0.095) and BRD4 about 0.347 (0.326-0.368). B4N #9 has fusion about 0.137 (0.116-0.158) and BRD4 about 0.779 (0.758-0.800). These are source-figure readings, not new experiments or statistical claims of selective sparing. SS #9 has measured SS18 about 0.737 (0.712-0.763); the missing SSX1 outcome cannot be treated as spared. Selected protein or separate-cell-line observations are not substituted for these RNA endpoints.
+
+`dataset.json` contains metadata, all designs and all 93 design-by-endpoint rows. `designs.csv` and `outcomes.csv` provide the same records as flat tables; empty cells mean missing, not zero. `analysis.json` retains full precision calculations, sample accounting and sensitivity specifications. `protocol.md` and `protocol-freeze.json` retain the pre-extraction retrospective freeze. `extraction-coordinates.json` preserves bar/design mapping, axis calibration, mean and SD upper-cap coordinates and censoring. `provenance.md` describes exact panel identities, methods, source naming inconsistencies, normalization and chemistry limits. `inspections/` contains original-page renders, native images and visually checked coordinate overlays. `inputs/` contains attributed primary bytes and the verified source manifest. No new research figure was generated; the overlays are source-extraction diagnostics.
+
+Read-only reproduction from any working directory:
+
+```powershell
+& 'C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -B -X utf8 'C:/Users/mcrae/.codex/worktrees/1d4f/EMC-Research/research/autonomy/fusion-partial-benchmark-2026-09-05/reproduce.py'
+& 'C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -B -X utf8 'C:/Users/mcrae/.codex/worktrees/1d4f/EMC-Research/research/autonomy/fusion-partial-benchmark-2026-09-05/validate_science.py'
+```
+
+Actual validation: all nine input source/member hashes pass; all seven PDF files match the original ZIP member bytes; 31 duplex lengths/orientations/reverse complements pass; every design has fusion, measured-parent and unknown-second-parent rows; 61 mean coordinates agree with an independent color-column calculation within one native pixel; all four derived output files reproduce byte-for-byte; rank arithmetic checks pass for perfect, inverse, tied and constant inputs. The mean/SD overlays and complete relevant table/caption pages were visually inspected by this writer. These are same-writer checks, not independent scientific verification. Normal integration preflight was intentionally left to the coordinator. An initial optional pypdf import failed on an unreadable fontTools dependency; installed pypdfium2 and Pillow completed the work without network, installation or escalation.
+
+Next action: coordinator independently verifies bar/design assignment, calibrations and representative plus extreme mean/SD coordinates, explicitly including SS #4 censoring and both endpoint series. Confirm the retained source normalization limitation and exact duplex sequences before reusing the data. Then decide whether a prespecified extension to another adequately disclosed study would provide enough new information. Any exact junction/parent-matching analysis needs verified reference alignment first. No additional broad inventory is needed for this checkpoint. Missing second-parent measurements, retrospective selection, tiled-sequence dependence, unresolved technical/biological replicate identity and uncertain normalization prevent both-parent sparing, ASO performance, therapeutic-window and cross-family clinical claims. The whole-program preprint-readiness goal remains with the coordinator. No runner, agent, commit, publication, outreach or PR is active or created by this round.

@@ -1,0 +1,157 @@
+{
+  "retrieved_date": "2026-09-05",
+  "retrieval": "web search/open of primary publications or their abstracts and official software documentation; original paraphrases, not archived full texts",
+  "scope": "Targeted novelty screen, not systematic review or proof of absence",
+  "sources": [
+    {
+      "id": "guyot2012",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3313891/",
+      "title": "Enhanced secondary analysis of survival data",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Results: standard errors of log hazard ratios; accuracy and reproducibility methods",
+      "finding": "Reconstruction accuracy and reproducibility, including log-HR standard errors, were evaluated. Missing auxiliary information can underestimate uncertainty.",
+      "distinction": "Rules out claiming that reconstruction variability or auxiliary-information dependence is newly discovered.",
+      "access": "full text read"
+    },
+    {
+      "id": "hoyle2011",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3198983/",
+      "title": "Improved curve fits to summary survival data",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Abstract and method overview",
+      "finding": "Fits survival models using estimated patient data from summary survival information for economic evaluation.",
+      "distinction": "Original reconstruction and downstream model fitting are established.",
+      "access": "indexed primary article text"
+    },
+    {
+      "id": "wei2017",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5796634/",
+      "title": "Reconstructing time-to-event data from published Kaplan-Meier curves",
+      "status": "peer-reviewed primary software/methods paper",
+      "locator": "Abstract; algorithm section",
+      "finding": "The ipdfc command implements reconstruction from curves, with auxiliary information including total events.",
+      "distinction": "Implementing another Guyot-style reconstruction is insufficient.",
+      "access": "indexed primary article text"
+    },
+    {
+      "id": "liu2021",
+      "url": "https://link.springer.com/article/10.1186/s12874-021-01308-8",
+      "title": "IPDfromKM: reconstruct individual patient data from published Kaplan-Meier survival curves",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Discussion on variability of test statistics; Tables 3 and 4; accuracy assessment",
+      "finding": "Compares logrank conclusions in five POLAR curve pairs and six simulated pairs; also compares bootstrap HR intervals. Reports agreement. Uses curve-fit diagnostics.",
+      "distinction": "Directly defeats generic novelty based on comparing reconstructed and original significance decisions. Does not provide a complete feasible-set certificate in the inspected methods.",
+      "access": "full text read"
+    },
+    {
+      "id": "wan2015",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0121353",
+      "title": "A review and comparison of methods for recreating individual patient data ... a simulation study",
+      "status": "peer-reviewed primary simulation study",
+      "locator": "Abstract: Methods and Results",
+      "finding": "Compares reconstruction methods across sample sizes, censoring and parametric models, including uncertainty in mean survival.",
+      "distinction": "Generic reconstruction-accuracy and uncertainty simulations are established.",
+      "access": "PubMed primary abstract and publisher indexed text"
+    },
+    {
+      "id": "rogula2022",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35128059/",
+      "title": "A Method for Reconstructing Individual Patient Data From Kaplan-Meier Survival Curves That Incorporate Marked Censoring Times",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Abstract and indexed primary article text",
+      "finding": "Uses marked censor times, curve drops and sample size to reconstruct IPD without requiring a risk table or uniform censoring.",
+      "distinction": "Censor marks must be a matched information comparator; blanket impossibility without risk tables is too strong.",
+      "access": "primary abstract read; PMC open returned challenge"
+    },
+    {
+      "id": "irvine2020",
+      "url": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-020-01092-x",
+      "title": "A non-linear optimisation method to extract summary statistics from Kaplan-Meier survival plots using the published P value",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Abstract; non-exact P value analysis",
+      "finding": "Uses a reported P value as an additional reconstruction constraint to infer summary statistics.",
+      "distinction": "When the same decision's P value is published, reconstructing that decision is unnecessary. A future benchmark must retain it as information when available.",
+      "access": "full text and primary PDF text read"
+    },
+    {
+      "id": "titman2026",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1002/sim.70474",
+      "title": "Using Quadratic Programming to Reconstruct Data From Published Survival and Competing Risks Analyses",
+      "status": "peer-reviewed primary methods paper",
+      "locator": "Sections 5.1, 5.2, Discussion; software https://github.com/andrewtitman/CIFresolve",
+      "finding": "Constrained QP/MIQP incorporates auxiliary information and benchmarks against IPDfromKM and censor-mark reconstruction. Two-arm benchmarks include Cox/Weibull HR, RMST difference and proportionality test statistic.",
+      "distinction": "Constraint-rich optimization and downstream test-statistic accuracy are already covered. Proposed gap is bounding a specified decision over all compatible reconstructions and selecting information to resolve it.",
+      "access": "full text read"
+    },
+    {
+      "id": "resolve2025",
+      "url": "https://arxiv.org/html/2511.01785v1",
+      "title": "RESOLVE-IPD: High-Fidelity Individual Patient Data Reconstruction and Uncertainty-Aware Subgroup Meta-Analysis",
+      "status": "primary preprint, v1",
+      "locator": "Uncertainty-Aware Subgroup IPD Recovery; S2",
+      "finding": "Generates plausible subgroup-label assignments consistent with summary statistics and propagates their uncertainty in meta-analysis.",
+      "distinction": "Ensembles and uncertainty propagation are not new. Proposed pilot concerns censor-order ambiguity within fixed arm labels and an exhaustive decision bound.",
+      "access": "full text read"
+    },
+    {
+      "id": "kombine2025",
+      "url": "https://arxiv.org/html/2509.15371v1",
+      "title": "KoMbine: Propagating Statistical and Systematic Errors to Kaplan-Meier Curves",
+      "status": "primary preprint, v1",
+      "locator": "Sections 3.1, 3.5 and 5.2.2",
+      "finding": "Models patient inclusion or biomarker-assignment uncertainty with likelihood penalties and computes survival comparisons.",
+      "distinction": "The proposed censor-order reconstruction set is a different uncertainty source; no claim to invent uncertainty-aware survival tests.",
+      "access": "full text read"
+    },
+    {
+      "id": "boucher2025",
+      "url": "https://www.psiweb.org/docs/default-source/psi-conference-2025/abstracts-2025/cys07-abstract-157.pdf?sfvrsn=db1fafdb_2",
+      "title": "Reconstructing Individual Patient Level Survival Data from Aggregate Survival Data using a Simulation Approach",
+      "status": "primary conference abstract; full journal methods not established here",
+      "locator": "Page 2, lines 42-63",
+      "finding": "Simulates multiple survival/censoring datasets to estimate alternative summaries and reconstruction uncertainty under nonproportional hazards, comparing with Guyot.",
+      "distinction": "A multiple-reconstruction uncertainty workflow alone overlaps this prior work. Complete compatibility bounds and information-query utility remain the narrowed target.",
+      "access": "primary PDF text read"
+    },
+    {
+      "id": "cctg2022",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35779942/",
+      "title": "Validating Restricted Mean Survival Time Estimates From Reconstructed Kaplan-Meier Data Against Original Trial Individual Patient Data From Trials Conducted by the Canadian Cancer Trials Group",
+      "status": "peer-reviewed primary validation study",
+      "locator": "Abstract",
+      "finding": "Blinded RMST validation against original IPD across 39 trials reports small reconstruction discrepancies.",
+      "distinction": "Real-IPD RMST validation is established. Those patient files were not acquired in this round.",
+      "access": "primary abstract read"
+    },
+    {
+      "id": "kim2025",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40919413/",
+      "title": "Reconstructing patient level survival data from published Kaplan-Meier curves",
+      "status": "peer-reviewed primary validation study",
+      "locator": "Abstract",
+      "finding": "Evaluates reconstructed hazard ratios and confidence intervals against reported values, including 58 reconstructed HRs.",
+      "distinction": "A routine audit of reproduced HRs/CIs would add little without a distinct decision or validation target.",
+      "access": "primary abstract read"
+    },
+    {
+      "id": "kmpopigo2026",
+      "url": "https://kmpopigo.github.io/doc/datasets/index.html",
+      "title": "KM-PoPiGo benchmark documentation",
+      "status": "primary developer documentation for a preprint-associated method",
+      "locator": "Dataset descriptions; linked repository https://github.com/kmpopigo/kmpopigo.github.io",
+      "finding": "Documents Real IPD, Published KM and Synthetic KM benchmarks at Zenodo record 18320575. The application supports sample-size, event-count, risk-table and censoring constraints.",
+      "distinction": "Do not create a generic benchmark without checking/reusing this one. Download was not achieved: Zenodo returned HTTP 429. Contents and licenses require file-level verification.",
+      "access": "developer docs and source repository read; preprint DOI 10.21203/rs.3.rs-8789849/v1 could not be opened"
+    },
+    {
+      "id": "scipy2026",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.logrank.html",
+      "title": "SciPy logrank documentation",
+      "status": "primary software documentation",
+      "locator": "Notes and CensoredData examples",
+      "finding": "Defines the ordinary two-sided logrank score and right-censored inputs used by the independent numerical check.",
+      "distinction": "Verification uses installed SciPy 1.18.1, not a second hand-coded score formula.",
+      "access": "official docs read"
+    }
+  ]
+}

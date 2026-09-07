@@ -1,0 +1,9 @@
+{
+  "date":"2026-09-05",
+  "reason":"The live API search-area metadata shows ConditionSearch includes titles, keywords and MeSH fields. BasicSearch does not list EligibilityCriteria; EligibilitySearch is separate. Thus query.term alone must not be relabeled full-record full-text.",
+  "primary_source":"https://clinicaltrials.gov/api/v2/studies/search-areas",
+  "timing":"After initial comparator retrieval, while parent_sarcoma pagination was running; before comparison adjudication. Frozen diagnoses and terms unchanged.",
+  "added_queries":"For each diagnosis, AREA[EligibilitySearch](the same frozen synonym expression) and AREA[EligibilitySearch](the same frozen molecular expression). Add AREA[EligibilitySearch]sarcoma as parent control. Report ordinary union=BasicSearch OR EligibilitySearch, molecular union likewise.",
+  "interpretation":"This amendment strengthens both baselines symmetrically in response to primary API semantics, not favorable query outcomes. Literal conditions-field phrase membership is computed locally as a separate descriptive comparator, not equated with query.cond.",
+  "transport_correction":"First request rejected unsupported sort NCTId:asc with HTTP400 Unsupported sort field type: nct. Removed sort; no trial payload was returned by failed attempt. Pagination now follows service default ordering and verifies all IDs/counts."
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "emc-correspondence-operational-verification/1",
+  "verified_utc": "2026-09-06T13:19:31.541030+00:00",
+  "scope": "Mailbox and correspondence operations; not scientific or publication validation",
+  "setup_authorization": "User explicitly approved creating the free mailbox, generating the credential and accepting provider terms and the one-free-account/nonbusiness declaration.",
+  "provider": "Tuta Free via in-app browser",
+  "actual_connection_check": {
+    "self_addressed_send": true,
+    "inbox_receive": true,
+    "sent_lookup": true,
+    "sender_subject_body_read_back": true
+  },
+  "credential_storage": "Windows DPAPI current-user encrypted files outside Git; no plaintext credential or recovery code in repository",
+  "requests": [
+    {
+      "request_id": "emc-ngo2025-external-panel-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-zullow2022-expression-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-ncc2025-assay-metadata-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-zurich2023-2026-pharmacotyping-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    },
+    {
+      "request_id": "emc-hofvander2026-cohort-provenance-v1",
+      "status": "sent",
+      "provider_sent_record_verified": true
+    }
+  ],
+  "verification_limit": "Provider Sent evidence does not prove recipient delivery, reading, reply, data access or scientific utility.",
+  "private_evidence_directory": "C:/Users/mcrae/.codex/research-correspondence/EMC-Research",
+  "schedule": {
+    "automation_id": "emc-research-coordinator",
+    "status": "ACTIVE",
+    "interval_hours": 12,
+    "notification_policy": "failed_runs_only",
+    "subsequent_scheduled_run_observed": false,
+    "research_interval_minutes": 5,
+    "mail_interval_hours": 12
+  },
+  "next_action": "Read tracked replies and delivery failures; follow up when due, assess new evidence and preserve refusals and conditions.",
+  "historical_setup_checkpoint": "research/autonomy/correspondence/setup-verification.json",
+  "normal_preflight_receipt": "research/autonomy/correspondence/live-normal-preflight-result.json",
+  "new_preprint_ready": false,
+  "latest_requests_verified_utc": "2026-09-06T16:25:24.856376+00:00"
+}

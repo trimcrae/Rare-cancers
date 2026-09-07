@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\worktrees\ipd-interval-20260906\EMC-Research\research\autonomy\ipd-interval-orders-2026-09-06\oracle.py", line 125, in <module>
+    result=solve(json.loads(a.release.read_text(encoding='utf-8-sig')),a.node_limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mcrae\.codex\worktrees\ipd-interval-20260906\EMC-Research\research\autonomy\ipd-interval-orders-2026-09-06\oracle.py", line 65, in solve
+    started=time.perf_counter();bounds=validate(r);N=r['a']['n']+r['b']['n'];T=bounds[-1]
+                                       ^^^^^^^^^^^
+  File "C:\Users\mcrae\.codex\worktrees\ipd-interval-20260906\EMC-Research\research\autonomy\ipd-interval-orders-2026-09-06\oracle.py", line 27, in validate
+    if not 0<=lo<=hi<=T or not 0<=sl<=sh<=1: raise ValueError('Invalid observation box')
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid observation box

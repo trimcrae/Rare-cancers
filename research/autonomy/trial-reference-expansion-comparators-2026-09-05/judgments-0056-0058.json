@@ -1,0 +1,48 @@
+[
+  {
+    "position": 56,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly named in advanced/unresectable sarcoma eligibility after standard-treatment failure or where no standard exists.",
+    "cohort_reconciliation": "CAV/IE with or without toripalimab; an additional maintenance randomization is described only for experimental-arm disease control. First-line exceptions for subtypes lacking standard therapy do not establish first-line SS access.",
+    "extra_biomarker_requirement": "No molecular gate is stated. Prior PD-1/PD-L1 treatment is excluded.",
+    "protocol_uncertainty": "Age 14–70 and clinical restrictions apply. Control arm is coded PLACEBO_COMPARATOR although described as chemotherapy alone; drug units and alternative liposomal-doxorubicin doses have source inconsistencies. External protocol, exact regimen and live slots are unverified; no source novelty or efficacy claim is endorsed.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "They were mainly synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients who had previously received anti-PD-1 / PD-L1 antibody therapy."],
+      ["armsInterventionsModule/armGroups/1/type", "PLACEBO_COMPARATOR"]
+    ]
+  },
+  {
+    "position": 57,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly included in the advanced/unresectable STS list.",
+    "cohort_reconciliation": "Single cadonilimab/anlotinib arm after at least one chemotherapy regimen including anthracycline and documented progression within six months. Acinar soft-tissue and clear-cell sarcoma exceptions do not apply to SS. Prior immune therapy is excluded; prior anlotinib is conditionally excluded for best PD or SD no longer than twelve weeks.",
+    "extra_biomarker_requirement": "No additional molecular entry gate is stated.",
+    "protocol_uncertainty": "Age at least 18 and clinical/washout restrictions remain. Drug spelling varies between cadonilimab and candonilimab in the source; external protocol and live availability are unreviewed. No individual treatment eligibility or benefit is established.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients who have used at least one chemotherapy regimen (including anthracyclines) in the past (except for acinar soft tissue sarcoma and clear cell sarcoma)"],
+      ["eligibilityModule/eligibilityCriteria", "The best swelling evaluation result of patients who had received previous treatment with anlotinib was PD, or SD ≤ 12 weeks."]
+    ]
+  },
+  {
+    "position": 58,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "SS is explicitly among the confirmed diagnoses eligible for MDG1015 after exhaustion of options with proven survival benefit.",
+    "cohort_reconciliation": "Dose escalation followed by expansion shares the listed disease scope. Adult weight threshold differs between dose levels 1–3 (40 kg) and level 4 (50 kg). GAC/GEJ-specific resection exclusion is not an SS condition.",
+    "extra_biomarker_requirement": "Central HLA-A*02:01 positivity and NY-ESO-1 and/or LAGE-1a mRNA positivity are required. HLA-A*02:02 and *02:03 are excluded. Numerical expression cutoff is absent from the saved text; eligible archival tissue must be no older than one year, or a fresh biopsy may be used.",
+    "protocol_uncertainty": "External protocol and assay thresholds are unreviewed. Saved status is NOT_YET_RECRUITING with a 2024 verification date, not evidence of live availability. Clinical criteria, leukapheresis and organ requirements remain; no efficacy or safety conclusion follows.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Subject's must have tested positive for HLA-A\\*02:01 genotype by a Sponsor designated central laboratory"],
+      ["eligibilityModule/eligibilityCriteria", "Subject's tumor must have tested positive for NY-ESO-1 and/or LAGE-1a mRNA expression by a Sponsor designated central laboratory"],
+      ["eligibilityModule/eligibilityCriteria", "HLA-A\\*02:02 or HLA-A\\*02:03 genotype"]
+    ]
+  }
+]

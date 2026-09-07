@@ -1,0 +1,32 @@
+{
+  "status": "prepared_not_dispatched",
+  "prepared_utc": "2026-09-05T20:16:22.750578+00:00",
+  "base_revision": "f3edec6c6c8607ba53dbd8cf062045e44ebd1d92",
+  "resource": "paper:PUB-CARE-DELIVERY",
+  "fresh_task_required": true,
+  "permissions_required": {
+    "approval_policy": "never",
+    "sandbox_mode": "danger-full-access"
+  },
+  "routine_reasoning_effort": "medium",
+  "scientific_checkpoint_seconds": 1800,
+  "source_only_inputs": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\trial-independent-emc-inputs-2026-09-05",
+  "input_manifest_sha256": "eb2f8441b6f7a155aa9c5238e50452b4bb67a7b7894327f15e8a238a5c2d3bdb",
+  "input_builder": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\research\\autonomy\\trial-reference-expansion-emc-2026-09-05\\prepare-independent-inputs.py",
+  "purpose": "Independently read and adjudicate the 50 new EMC trial-scope labels so the reference can support later evaluation. This does not complete the remaining 74 comparator pairs.",
+  "before_prior_labels": [
+    "Read OPERATING_PROTOCOL.md and the source-only packet, generic label protocol and frozen work order. Do not read first-reader-labels.json, judgments-*.json, the expansion decision memo, or their summaries before freezing independent judgments.",
+    "Inspect complete original eligibility, descriptions, conditions, arms/cohorts, design/purpose and status for every record. Preserve uncertainty and additional requirements; no binary patient eligibility or live-slot inference.",
+    "Write independent labels with exact source pointers/excerpts, cohort reconciliation and separate molecular/variant/protocol/purpose uncertainty. Record completed IDs honestly.",
+    "Freeze exact input/output hashes and timestamp before reading prior labels. Procedural separation is not a technical access barrier or human clinical review."
+  ],
+  "after_freeze": [
+    "Read the original first-reader-labels.json and compare all fields that affect disease scope or benchmark use.",
+    "Resolve substantive differences against complete original records; preserve both readers and source-linked dispositions. Do not force disagreement or majority voting.",
+    "Retain unresolvable differences as uncertainty; do not improve retrieval scores by changing labels.",
+    "Provide deterministic reproduction, coverage and source checks, manuscript-use limits, timing and actual execution evidence. Coordinator checks remain separate."
+  ],
+  "coordination": "No outgoing task status messages, nested tasks, agents, runners, cleanup, installs or network needed. Coordinator reserves before scientific writing and polls.",
+  "output_directory": "research/autonomy/trial-expansion-independent-emc-2026-09-05/",
+  "completion_limit": "A durable checkpoint is an intermediate outcome; only mark a worker goal complete if its actual bounded objective is satisfied. Full manuscript, independent ultra review and publication gates remain the parent goal."
+}

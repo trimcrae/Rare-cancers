@@ -1,0 +1,47 @@
+[
+  {
+    "position": 46,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly eligible in a restricted salvage setting after clinical benefit and subsequent progression following ACT using TCR-T.",
+    "cohort_reconciliation": "This single N-803 arm does not administer a new TCR-T therapy. Prior assessable TCR-T product, at least one scan showing SD/PR/CR and later progression are required, alongside feasible leukapheresis and clinical criteria.",
+    "extra_biomarker_requirement": "No new explicit HLA or antigen assay threshold is stated; the required prior TCR-T treatment and product assessability cannot be inferred from SS histology.",
+    "protocol_uncertainty": "External protocol and leukapheresis/product-assessment appendices are unreviewed. Age 18–80 and prior-treatment exclusions remain relevant. Saved recruitment does not establish live slots. Brief-summary mechanistic wording is not endorsed and no N-803 benefit is established.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients must have histologically or cytologically confirmed Synovial Sarcoma (SS) and/or Myxoid/Round Cell Liposarcoma (MRCL) who have progressed after ACT using TCR-T."],
+      ["eligibilityModule/eligibilityCriteria", "Patients must have shown clinical benefit on at least one scan post ACT using TCR-T, (SD, PR, CR), as determined by the treating investigator."],
+      ["eligibilityModule/eligibilityCriteria", "Patients must have been treated with a TCR-T product that can be assessed per medical history and/or discretion of the principal investigator."]
+    ]
+  },
+  {
+    "position": 47,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The master protocol explicitly names synovial sarcoma in its SS ISA treatment arms, although the master eligibility text is generic.",
+    "cohort_reconciliation": "SS ISA has ramucirumab/gemcitabine/docetaxel and gemcitabine/docetaxel arms, distinct from DSRCT and ES ISAs. The experimental arm description omits docetaxel while its label and intervention mapping include it; this discrepancy is preserved.",
+    "extra_biomarker_requirement": "Master criteria do not establish all SS ISA biomarker requirements; additional ISA criteria are explicitly deferred to individual addenda.",
+    "protocol_uncertainty": "External ISA addenda are unreviewed; master ages 1–39, status and aggregate enrollment do not prove every ISA's age limits or live availability. Linked expanded-access marketing status does not establish SS approval or access.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["armsInterventionsModule/armGroups/2/description", "Ramucirumab and gemcitabine given IV in 21-day cycles for synovial sarcoma (SS) ISA."],
+      ["armsInterventionsModule/armGroups/3/description", "Gemcitabine and docetaxel given IV in 21-day cycles for SS ISA."],
+      ["eligibilityModule/eligibilityCriteria", "Additional criteria are specified in the protocol amendment (individual addenda) to which the participant will enroll."]
+    ]
+  },
+  {
+    "position": 48,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is expressly included among eligible HIFU-targetable STS histologies and is not a listed excluded histology.",
+    "cohort_reconciliation": "Three STS pathways distinguish small resectable, in-field recurrent resectable, and unresectable/no-further-chemo-or-radiotherapy disease; the fourth pathway is for desmoids. HIFU targetability and size/site constraints apply separately from histology.",
+    "extra_biomarker_requirement": "No molecular entry gate is stated. Optional research biopsies and immune measurements are not required positive biomarker results.",
+    "protocol_uncertainty": "Anatomical exclusions, skin/imaging constraints, UK attendance, age at least 18 and treatment washouts remain. Source includes sacral chordoma while excluding chordoma and includes retroperitoneal sarcoma while excluding impractical retroperitoneal targeting; these conflicts do not erase the explicit SS route. Narrative 12–16 versus design enrollment 10 is unresolved. External protocol/live slots and source claims of safety or efficacy are not validated here.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Diagnosed with histologically-confirmed and HIFU-targetable soft tissue sarcoma of several subtypes, including but not necessarily limited to:"],
+      ["armsInterventionsModule/armGroups/0/description", "All participants receive HIFU to their target tumour, hence this is a single arm study with 4 recruitment pathways."]
+    ]
+  }
+]

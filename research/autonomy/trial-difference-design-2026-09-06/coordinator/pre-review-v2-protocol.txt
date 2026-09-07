@@ -1,0 +1,182 @@
+---
+id: PROTOCOL-TRIAL-DIFFERENCE-20260906
+title: Prospective exact EMC top-100 disease-scope yield difference
+kind: prereg
+status: immutable
+purpose: Specify a finite comparison before any new relevance judgments.
+scope: Frozen EMC hierarchy versus molecular-augmented top-100 symmetric difference only.
+audience: [maintainers, autonomous research agents, external reviewers]
+date: 2026-09-06
+last_verified: 2026-09-06
+---
+
+## Authority and boundary
+
+This is a separate prospective protocol selected by the dated trial-difference allocation,
+after the therapeutic source checks. It was designed with the ordering results known, but
+before any new relevance judgments. It is not a pre-ranking preregistration. Freeze these
+exact bytes and the complete source packet before independent methods review; later changes
+require a dated amendment and a fresh freeze before reader dispatch. Preparation does not
+authorize reading. The coordinator must accept the design and separately commission readers.
+
+The original pragmatic screen remains **FAILED**: 17 replacements is below 20, despite 13
+robust >200-to-100 promotions meeting the separate >=10 requirement. Its conjunctive rule,
+protocol, guard, selected reference/pilot and outputs remain unchanged. Do not run its pilot,
+read its selected reference, or read any old first-/second-reader labels or outcomes. No
+network refresh, new queries, scoring, reranking, K changes, content-selected subset, bulk
+124-label expansion, manuscript change or publication is authorized here.
+
+## Population, provenance and selection
+
+The target is extraskeletal myxoid chondrosarcoma (EMC), not every use of the acronym EMC.
+The population is the archived 6,182-record query union, not all trials. H is the frozen
+hierarchy ranking and A its frozen molecular augmentation. Set H100 and A100 to the NCT IDs
+whose archived deterministic rank is <=100. Read every record in their symmetric difference,
+without relevance-based inclusion: E=A100\\H100 and D=H100\\A100. Exact membership is derived
+from rankings-EMC.json; the separate coordinator manifest enumerates it. The 83 common records
+require no new labels for this estimand. There are 17 E and 17 D records. No replacement is
+allowed for missing, difficult, long, non-treatment, closed or apparently irrelevant records.
+
+Rank order is descending frozen score, then ascending NCT ID. Exact equal-score tie blocks
+retain rank_min, rank_max and midrank. Verify the complete rank sequence against archived
+scores (no rescoring). Both H and A cutoff records and their successors are singleton ties;
+no block straddles 100. Thus membership here is also robust to alternative ordering within
+existing ties. This does not license changing the rule in other experiments.
+
+The archive and archive-manifest hashes are pinned in build_packet.py. Only named ranking,
+code, protocol/amendment, freeze, version-audit, generic reading-label protocol, corpus index,
+and source manifests/pages may be decoded. The original selected reference and every label
+outcome remain inaccessible to this builder. Hashing the ZIP container does not decode those
+members. Source pages are checked against archive entries, original freeze hashes, compressed
+and decompressed page digests, byte/count metadata, complete-query ID sets and union IDs.
+No title, eligibility text or relevance signal enters membership or work ordering.
+
+For each selected NCT ID, apply the archived version rule: greatest registry
+lastUpdatePostDateStruct.date, then greatest retrieved_at_utc, then lexicographically smallest
+page path and canonical-record SHA256. Reconcile every candidate page and distinct canonical
+digest with version-audit.json. Missing version timestamps, inconsistent hashes or an audit
+disagreement stop preparation. Multiple archived versions are not silently mixed: preserve
+their digests and the deterministic selected version. These are internally verified archive
+versions, not independent confirmation of registry truth or present-day currency.
+
+Each reader record is the entire selected registry study JSON object, copied as an exact
+UTF-8 byte slice of the decompressed page, with all fields retained. Coordinator provenance
+records the ZIP member, page hash, retrieval timestamp, JSON pointer, byte range [start,end),
+raw slice digest and canonical digest. Only 34 complete records are copied, not the ZIP or
+the entire corpus. Reader packet metadata omits query paths, retrieval ranks, scores and group.
+
+## Estimand and uncertainty
+
+For a single strategy-independent binary label y_i on the identical archived record version,
+the finite relevant-record yield difference is
+
+    Delta = sum(i in A100) y_i - sum(i in H100) y_i
+          = sum(i in E) y_i - sum(i in D) y_i.
+
+The same y_i must apply to a common record in both strategies; even unknown common labels
+cancel exactly. Different strategy-specific definitions, sources, judgments or weights would
+break this argument. This is a set-yield contrast at fixed K=100, not a rank-weighted metric.
+
+The primary disease-scope target is whether the archived record supports at least one cohort
+whose disease and molecular scope is compatible with EMC, conditional on ordinary remaining
+individual clinical requirements. It does not assert that any particular patient meets age,
+performance status, treatment history, organ function or other clinical criteria. Unestablished
+additional molecular criteria are not assumed satisfied. This distinction is prespecified
+and applies identically to E and D. No hypothetical patient or biomarker prevalence is invented.
+
+Readers assign one six-category label from the generic reading-label-protocol.json plus
+explicit qualifiers and supporting evidence. These are annotation categories, not new claims
+about which fusions define EMC:
+
+| Category | Operational source rule |
+|---|---|
+| explicit_diagnosis_compatible | At least one coherent cohort explicitly permits EMC; reconcile restrictions in that cohort. |
+| defining_fusion_compatible | A cohort permits a defining fusion explicitly linked to EMC by the supplied record; an unestablished link remains uncertain. |
+| fusion_class_compatible | A molecular class offers an EMC-compatible route supported by supplied evidence; gene mention alone is insufficient. |
+| broad_tumor_compatible | A broad sarcoma/solid-tumor cohort permits the target disease without a conflicting closed histology list; this is weak disease-scope evidence. |
+| explicit_exclusion | All possible cohorts explicitly exclude the target or impose incompatible closed disease scope; a clearly nononcology false hit has a separate task-domain qualifier. |
+| insufficient_evidence | Scope cannot be resolved from the full supplied record, including unavailable external criteria or unresolved molecular language. |
+
+Within compatible cohorts, explicit diagnosis takes precedence over defining fusion, fusion
+class and broad tumor. A restrictive cohort does not establish trial-level exclusion while
+another plausible cohort is unresolved. Read all arms/cohorts before aggregating. No outside
+medical assumptions about mutation versus fusion, partners, classes or extra biomarkers may
+resolve an ambiguity. If evidence does not establish applicability, preserve uncertainty.
+
+Assign primary admissible bounds [l_i,u_i] as follows: compatible category with a supported
+route and no unresolved disease/molecular restriction is [1,1]; explicit exclusion supported
+across all plausible cohorts is [0,0]; insufficient evidence, an unestablished extra molecular
+requirement, or an unresolved scope-changing external-protocol condition is [0,1]. A merely
+referenced external protocol does not automatically erase an unambiguous disease-scope route:
+record why missing criteria can or cannot alter scope. Unresolved ordinary clinical eligibility
+alone does not change this disease-scope endpoint. Broad compatibility never means EMC-specific
+targeting or molecular efficacy. Unknown category values fail validation; missing/unread
+records remain [0,1] and cannot be reported as completely read.
+
+Retain separate fields for extra_biomarker_requirement (none stated / explicit required /
+unclear, with text), molecular_compatibility (supported / conditional / incompatible / unknown),
+protocol_uncertainty (none identified / scope-changing / other / unknown), task_domain,
+clinical_trial_purpose, study_type, raw overallStatus and snapshot enrollment availability.
+Purpose distinguishes treatment, non-treatment, mixed and unknown using all relevant cohorts;
+the raw registry purpose is also preserved. Status is archived status only. Site/cohort access,
+hold language, external protocol availability and live slots cannot be inferred from recruiting
+status. Neither purpose nor recruitment filters or changes the primary endpoint. Report their
+cross-tabulations on the 34-record difference descriptively, not as total top-100 counts.
+
+Report the conservative identification interval
+
+    [sum_E l_i - sum_D u_i, sum_E u_i - sum_D l_i].
+
+It is an outer bound over admissible unresolved binary values, not a confidence interval.
+No independence assumption, prevalence imputation, uncertain-as-negative coding or significance
+test is used. Dependencies between uncertain records can make it conservative. If all labels
+resolve, the interval collapses to exact integer Delta. A strictly positive lower bound supports
+positive net disease-scope yield in this snapshot; a strictly negative upper bound supports a
+negative difference; an interval including zero leaves direction unresolved. Report every count
+and uncertainty category regardless of direction. Do not force adjudication to remove uncertainty.
+
+## Prospective independent reading and freezing
+
+Work order is ascending SHA256 of a fixed domain seed, a newline and NCT ID, with NCT ID as
+collision fallback. Seed and membership live only in coordinator/packet-manifest.json. Assign
+case-001 onward in that order; the reader manifest contains only case IDs and source hashes.
+This is reproducible procedural separation, not secure or perfect blinding: NCT identity and
+content can reveal clues, and anyone accessing the coordinator files can recover membership.
+
+Future reader sessions receive only this protocol, the copied generic reading-label protocol,
+reader/manifest.json and all reader/records/*.json. They must not access coordinator files,
+rankings, builder code, archive, other tasks, original labels, old reference or each other's
+judgments. Use two separate fresh sessions; neither may be the preparation author or a session
+that has seen the group mapping. Readers inspect full eligibility, descriptions, conditions,
+design/purpose, interventions and all arms/cohorts. They record exact JSON pointers, verbatim
+evidence and record hashes for every label and qualifier; no live registry or external refresh.
+Truncation is not complete reading. Split long records without omitting fields.
+
+Each reader independently writes and SHA256/timestamp-freezes its complete 34-case judgment
+and evidence files before any comparison, other-reader access or group unmasking. A coordinator
+verifies case completeness, source hashes, pointers, excerpts and permitted bounds mechanically.
+No scientific label is produced during this preparation. After both freezes, a separately
+commissioned adjudicator can inspect disagreements under the same rules and with membership
+still withheld. Preserve original independent labels, all disagreements and uncertain cases;
+freeze adjudicated results before group unmasking and computation. Report reader-specific and
+adjudicated intervals; record failures of separation honestly. This design checkpoint stops
+before all reader work and makes no claim of human clinician review.
+
+## Interpretation and verification endpoint
+
+The algebra identifies a legitimate finite set contrast even though the earlier ordering
+screen failed. The post-ordering choice of this question, query-union ascertainment, fixed
+weights, single disease and snapshot prevent confirmatory generalization. Relevance is not
+established by membership verification. Absolute top-100 precision/yield requires labels for
+the 83 common records; recall requires a wider relevance denominator. Delta/100 is the
+corresponding fixed-budget fraction difference, not either strategy's absolute precision.
+No review-time measurement, patient eligibility, enrollment opportunity, clinical benefit,
+therapeutic safety or efficacy follows. No scientific winner or paper readiness is declared.
+
+The executable verifies membership, tie rules, versions, exact raw source bytes, frozen output
+hashes and reproducibility. Semantic fixtures exhaust arbitrary common binary labels and all
+admissible uncertain assignments, include cancellation of uncertain common records, treatment
+and status orthogonality, sign reversal, and the failure of cancellation for inconsistent
+common labels. Builder mutations are limited to this new directory; verify is read-only.
+No original experiment code is executed. Integrity failure stops before reading. Return the
+protocol SHA256 and packet manifest to the coordinator for independent methods review.

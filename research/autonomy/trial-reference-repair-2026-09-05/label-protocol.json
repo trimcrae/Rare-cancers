@@ -1,0 +1,25 @@
+{
+  "version": "1.0-frozen-before-criteria",
+  "scientific_start_utc": "2026-09-05T17:39:18Z",
+  "initialization": {"instructions_read_start_utc_approximate": "2026-09-05T17:38:00Z", "instruction_reads_complete_utc": "2026-09-05T17:38:25Z", "reservation_wait_end_utc": "2026-09-05T17:39:18Z", "approximate_start_note": "First clock observation was after instruction reads; initial goal tool createdAt 1788629892 anchors initialization at 17:38:12Z."},
+  "unit": "Diagnosis-trial pair with cohort-level supporting judgments; not patient eligibility",
+  "diagnosis_definitions": {"EMC": "Extraskeletal myxoid chondrosarcoma, molecular scope in allowed original selection.json", "DSRCT": "Desmoplastic small round cell tumor, EWSR1::WT1", "SS": "Synovial sarcoma, SS18::SSX"},
+  "sample": "freeze.py uses only NCT ID, query membership, study type and overall status. Strong ordinary is union of condition, ordinary, eligibility_ordinary, unquoted_ordinary and unquoted_eligibility. Molecular is union of molecular and eligibility_molecular. Parent is union of parent_sarcoma and parent_eligibility_sarcoma. This deliberately favors competent ordinary/hierarchy retrieval. Seed is a reproducible pseudorandom hash ordering, not a claim of random ascertainment of the corpus.",
+  "current": "INTERVENTIONAL and RECRUITING/NOT_YET_RECRUITING/ENROLLING_BY_INVITATION in frozen corpus index. Current refers to saved snapshot, not verified present recruitment.",
+  "anchors": "Six contract-named NCT records, each crossed with all three diagnoses before criteria inspection. Purposive challenge set, analyzed separately even when overlapping the metadata sample. No diagnosis choice informed by criteria.",
+  "independence": "Fresh worker has read task prompt, instructions, amendment, original selection.json, and corpus metadata only before freeze. Six anchors and broad fusion scopes were disclosed in prompt/selection; not blind to these. No prior evidence.json, curate.py or pilot verdicts read. Single model-assisted reader; independent coordinator verification outstanding, no inter-rater reliability claim.",
+  "required_reading": "Full saved eligibilityCriteria, brief/detailed descriptions, arm/cohort descriptions and conditions for each distinct selected trial. Preserve raw JSON pointer and source SHA256. If text is absent record insufficient evidence; no invented protocol detail. Saved registry text can conflict across modules; retain conflict rather than silently resolve.",
+  "labels": {
+    "explicit_diagnosis_compatible": "Full eligibility or explicitly described enrollment cohort names diagnosis; any additional biomarker and availability requirements recorded separately.",
+    "defining_fusion_compatible": "Enrollment requires exact defining fusion/rearrangement matching diagnosis molecular scope; variant requirements retained.",
+    "fusion_class_compatible": "Enrollment accepts a molecular class that includes some diagnosis-defining alterations; diagnosis-wide applicability must not be inferred.",
+    "broad_tumor_compatible": "Eligibility includes broad solid tumors or relevant sarcoma class without a contradictory diagnosis restriction; not a molecular discovery and not proof an active expansion cohort accepts the diagnosis.",
+    "explicit_exclusion": "Criteria explicitly exclude diagnosis, or positive closed allowed-diagnosis list is incompatible. Record direct exclusion versus restricted histology distinctly.",
+    "insufficient_evidence": "Registry text does not establish diagnosis/cohort compatibility, or irreconcilable inclusion scope prevents a determination."
+  },
+  "orthogonal_fields": ["cohort", "phase", "extra_biomarker_requirement", "protocol_uncertainty", "recruitment_uncertainty", "exclusions_and_other_constraints"],
+  "precedence": "Explicit exclusion overrides broad phrasing for same cohort; explicit diagnosis outranks fusion and broad within compatible cohorts. Separate differing cohorts. Extra biomarker does not equal negative or demonstrated patient compatibility. Unspecified enrollment cohort is unresolved even if umbrella diagnosis compatibility is broad.",
+  "evidence": "Cite exact RFC6901 pointers to full criteria and relevant cohort/description/phase/status modules. Concise rationale quotes or identifies decisive text. Full text retained in review packet; criteria-wide pointer plus exact excerpt locates judgment within string.",
+  "benchmark_boundary": "No rankings until labels frozen. No unjudged record is a negative. Do not calculate global recall, clinical eligibility or site availability. Stratified sample and challenge anchors must not be pooled as a prevalence estimate. Mixed/uncertain cohorts and conditional biomarkers require separate/sensitivity outcomes.",
+  "validation": "Reproduce frozen selection offline; assert every selected diagnosis-trial case present exactly once per set; resolve every raw pointer and verify hashes/excerpts; report label diversity and precise next sampling repair. Coordinator performs separate bounded scientific verification before reference-standard use."
+}

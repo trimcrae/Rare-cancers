@@ -120,7 +120,7 @@ TICK_WORKFLOW = "step1-fanout-autoscale.yml"
 
 
 def _et(ts: datetime.datetime) -> str:
-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y")
+    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ")
 
 
 def _parse_z(s: str) -> datetime.datetime | None:

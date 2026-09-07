@@ -1,0 +1,21 @@
+---
+id: DOC-IPD-SUFFIX-PROTOCOL-20260906
+title: Exact suffix feasibility with conservative interrupted joint coverage
+kind: memo
+status: live
+purpose: Freeze one discriminating inverse-compatibility algorithm experiment before execution.
+scope: Existing 18 development and four stress grouped-time releases only.
+audience: [maintainers, autonomous research agents]
+date: 2026-09-06
+last_verified: 2026-09-06
+---
+
+Generic novelty for imprecise logrank bounds, three-way certification and decision-focused queries is withdrawn. This tests only whether exact inversion of rounded KM/risk releases with unknown marginal histories and true ties removes useless prefixes at useful cost. No no-ties monotonicity shortcut is used; no manuscript or clinical claim follows.
+
+Each arm memoizes an exact key (time, risk, remaining events, rational KM). A TRUE entry stores one real full continuation as event/censor counts. Terminal TRUE requires zero remaining risk and events. FALSE is stored only after every locally admissible successor has recursively returned FALSE (including an empty exhausted successor set). Missing entries are UNKNOWN. Any budget interruption propagates UNKNOWN, never FALSE; previously completed TRUE/FALSE entries survive. Unknown states are not cached as false and are not pruned.
+
+Joint traversal starts with the original zero-score structural state. Initial suffix queries seek real full paths establishing nonemptiness. Before crossing marginal transitions into a joint transition, query each child's marginal suffix. Skip a marginal transition only on proven FALSE. TRUE and UNKNOWN can proceed; global budget exhaustion instead stops joint expansion with the entire active parent retained. Thus every compatible history survives either in a child, a still-unprocessed parent, the untouched frontier, or a terminal rectangle. The original exact structural keys, tied-event score increments, rectangle merging, outward remaining-event bounds and witness-required threshold classification are reused unchanged. Stored TRUE continuations reconstruct witnesses; feasibility alone never certifies a score.
+
+Per-release budget: 12 seconds from before arm construction through suffix and joint search (same nominal sum as previous 8+2+2 seconds, but globally shared); 200,000 total work units; 100,000 joint transitions; 20,000 joint stored states; 100,000 cache entries across arms; 64 MiB peak traced Python allocation. Work units charge each suffix call including cache hits, each candidate event count and censor successor generated in either search, and each joint pair processed. Time/memory are checked at every work charge and cache insertion. Reporting/final outer aggregation is included in measured end-to-end time and peak memory but may finish after a search cap, to preserve and report coverage. Finite limits and instrumentation differ from the prior solver, so saved host timing comparisons are descriptive, not a controlled speed benchmark. No free suffix preprocessing is permitted. TRUE paths are stored in measured memory. A cap encountered inside initial feasibility search leaves the initial joint region retained. Artificial forced-stop hooks exercise suffix entry and after fully processed successors; these are validation-only, not release-run tuning.
+
+Run exactly the committed releases once with these defaults; save each completed output. Independent verification uses the existing tiny subject histories and exact development oracle outputs, never hidden rows for inference. Check every compatible history has a retained exact-key rectangle containing its score prefix, all oracle extrema are enclosed, every emitted witness independently reproduces released summaries and score, every cached false suffix is really empty on tiny histories, every cached true continuation is compatible, and UNKNOWN cannot be pruned. Force stops inside recursion, after explored successors, during joint expansion, at state/cache/time/memory/work caps, and without witnesses. Report cache/pruning/work/state counts, widths, certificates, total time and peak traced memory, including negative results. Stop after this test and one necessary defect-repair batch. Base: 3aa9bfc2cc5e1d2e0ac6ba0f9162a6a620f5e7c8.

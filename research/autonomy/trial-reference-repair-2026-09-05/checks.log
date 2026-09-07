@@ -1,0 +1,244 @@
+{"script": "freeze.py", "args": [], "exit_code": 0, "seconds": 0.14}
+Frozen metadata selection reproduced exactly
+[
+  {
+    "diagnosis": "EMC",
+    "stratum": "ordinary",
+    "frame_n": 48,
+    "selected_ids": [
+      "NCT07141732",
+      "NCT06367075",
+      "NCT07037433",
+      "NCT07202884"
+    ]
+  },
+  {
+    "diagnosis": "EMC",
+    "stratum": "molecular_only",
+    "frame_n": 10,
+    "selected_ids": [
+      "NCT05918640",
+      "NCT06456359",
+      "NCT07695311",
+      "NCT07188532"
+    ]
+  },
+  {
+    "diagnosis": "EMC",
+    "stratum": "parent_only",
+    "frame_n": 1021,
+    "selected_ids": [
+      "NCT07383116",
+      "NCT06646627",
+      "NCT06235125",
+      "NCT07359053"
+    ]
+  },
+  {
+    "diagnosis": "DSRCT",
+    "stratum": "ordinary",
+    "frame_n": 29,
+    "selected_ids": [
+      "NCT06277154",
+      "NCT06239272",
+      "NCT01804634",
+      "NCT03967834"
+    ]
+  },
+  {
+    "diagnosis": "DSRCT",
+    "stratum": "molecular_only",
+    "frame_n": 10,
+    "selected_ids": [
+      "NCT03013998",
+      "NCT06526897",
+      "NCT04901702",
+      "NCT07297979"
+    ]
+  },
+  {
+    "diagnosis": "DSRCT",
+    "stratum": "parent_only",
+    "frame_n": 1009,
+    "selected_ids": [
+      "NCT06979596",
+      "NCT07271914",
+      "NCT05949125",
+      "NCT07030959"
+    ]
+  },
+  {
+    "diagnosis": "SS",
+    "stratum": "ordinary",
+    "frame_n": 51,
+    "selected_ids": [
+      "NCT06625190",
+      "NCT07686367",
+      "NCT05774275",
+      "NCT04776525"
+    ]
+  },
+  {
+    "diagnosis": "SS",
+    "stratum": "molecular_only",
+    "frame_n": 1,
+    "selected_ids": [
+      "NCT05687136"
+    ]
+  },
+  {
+    "diagnosis": "SS",
+    "stratum": "parent_only",
+    "frame_n": 992,
+    "selected_ids": [
+      "NCT07575724",
+      "NCT04282044",
+      "NCT06761651",
+      "NCT07698899"
+    ]
+  }
+]
+
+
+{"script": "verify_frame.py", "args": ["--check"], "exit_code": 0, "seconds": 7.605}
+{
+  "checked_at_utc": "2026-09-05T18:36:10.064866+00:00",
+  "corpus_records": 6182,
+  "registry_query_manifests": 24,
+  "gzip_pages": 112,
+  "all_index_query_memberships_statuses_types_match_raw_sources": true,
+  "all_page_and_manifest_counts_hashes_verified": true
+}
+
+
+{"script": "build_reference.py", "args": ["--check"], "exit_code": 0, "seconds": 2.213}
+{
+  "selection_reproduced": true,
+  "frozen_hashes_verified": 4,
+  "unique_trials": 37,
+  "unique_pairs": 49,
+  "metadata_pairs": 33,
+  "challenge_pairs": 18,
+  "overlapping_pairs": [
+    "EMC:NCT05918640",
+    "SS:NCT05687136"
+  ],
+  "exact_excerpts_verified": 95,
+  "source_gzip_and_decoded_hashes_verified": 23,
+  "all_selected_pairs_accounted_for": true,
+  "strata": [
+    {
+      "diagnosis": "EMC",
+      "stratum": "ordinary",
+      "frame_n": 48,
+      "sample_n": 4,
+      "label_counts": {
+        "explicit_exclusion": 3,
+        "insufficient_evidence": 1
+      }
+    },
+    {
+      "diagnosis": "EMC",
+      "stratum": "molecular_only",
+      "frame_n": 10,
+      "sample_n": 4,
+      "label_counts": {
+        "explicit_exclusion": 2,
+        "fusion_class_compatible": 1,
+        "insufficient_evidence": 1
+      }
+    },
+    {
+      "diagnosis": "EMC",
+      "stratum": "parent_only",
+      "frame_n": 1021,
+      "sample_n": 4,
+      "label_counts": {
+        "broad_tumor_compatible": 2,
+        "explicit_exclusion": 2
+      }
+    },
+    {
+      "diagnosis": "DSRCT",
+      "stratum": "ordinary",
+      "frame_n": 29,
+      "sample_n": 4,
+      "label_counts": {
+        "explicit_diagnosis_compatible": 3,
+        "explicit_exclusion": 1
+      }
+    },
+    {
+      "diagnosis": "DSRCT",
+      "stratum": "molecular_only",
+      "frame_n": 10,
+      "sample_n": 4,
+      "label_counts": {
+        "broad_tumor_compatible": 1,
+        "explicit_exclusion": 2,
+        "insufficient_evidence": 1
+      }
+    },
+    {
+      "diagnosis": "DSRCT",
+      "stratum": "parent_only",
+      "frame_n": 1009,
+      "sample_n": 4,
+      "label_counts": {
+        "broad_tumor_compatible": 1,
+        "explicit_exclusion": 3
+      }
+    },
+    {
+      "diagnosis": "SS",
+      "stratum": "ordinary",
+      "frame_n": 51,
+      "sample_n": 4,
+      "label_counts": {
+        "explicit_diagnosis_compatible": 4
+      }
+    },
+    {
+      "diagnosis": "SS",
+      "stratum": "molecular_only",
+      "frame_n": 1,
+      "sample_n": 1,
+      "label_counts": {
+        "broad_tumor_compatible": 1
+      }
+    },
+    {
+      "diagnosis": "SS",
+      "stratum": "parent_only",
+      "frame_n": 992,
+      "sample_n": 4,
+      "label_counts": {
+        "broad_tumor_compatible": 3,
+        "explicit_exclusion": 1
+      }
+    }
+  ],
+  "challenge_label_counts": {
+    "broad_tumor_compatible": 6,
+    "defining_fusion_compatible": 1,
+    "explicit_diagnosis_compatible": 3,
+    "explicit_exclusion": 3,
+    "fusion_class_compatible": 4,
+    "insufficient_evidence": 1
+  },
+  "unresolved_pairs": [
+    "DSRCT:NCT05135975",
+    "DSRCT:NCT05918640",
+    "DSRCT:NCT06526897",
+    "EMC:NCT05135975",
+    "EMC:NCT07188532",
+    "EMC:NCT07202884",
+    "SS:NCT05135975",
+    "SS:NCT05918640"
+  ],
+  "independent_scientific_verification": "not performed by this single reader; coordinator required",
+  "rankings_run": false,
+  "normal_preflight": "coordinator after integration, not run by worker"
+}
+
+

@@ -6,6 +6,11 @@ description: Review a research manuscript or verify a repair against its evidenc
 # Paper review
 
 Follow `research/autonomy/OPERATING_PROTOCOL.md`, especially "Review with an endpoint".
+Every paper needs a documented independent ultra-reasoning pass before submission, as directed
+by the user on 2026-09-05. Include it in the existing bounded review batch. Record actual model,
+effort, frozen inputs, findings and disposition; never infer ultra effort from a review label.
+The coordinator checks this requirement before readiness or submission handoff. Reuse matching
+ultra evidence; focused repair verification does not automatically restart full-paper review.
 Read the outgoing artifacts, existing reviews, and actual publish-bar requirements. Reuse a
 completed review when the deliverable digest matches; do not restart because unrelated main
 commits moved. An already-reviewed manuscript does not need another baseline round.

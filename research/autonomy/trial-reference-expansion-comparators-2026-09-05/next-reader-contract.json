@@ -1,0 +1,29 @@
+{
+  "status": "prepared_not_dispatched",
+  "prepared_utc": "2026-09-06T01:23:39.632009+00:00",
+  "base_revision": "958624c5a58216bfa7a8794de28f6a6c898982ab",
+  "resource": "paper:PUB-CARE-DELIVERY",
+  "fresh_task_required": true,
+  "routine_reasoning_effort": "medium",
+  "scientific_checkpoint_seconds": 1800,
+  "permissions_required": {
+    "approval_policy": "never",
+    "sandbox_mode": "danger-full-access"
+  },
+  "source_only_inputs": "C:/Users/mcrae/.codex/worktrees/8010/EMC-Research/.cache/trial-independent-comparator-inputs-2026-09-06",
+  "input_manifest_sha256": "6e7213b32c2992af13d19b40c3d1f24d3b0f5e7a9acf1cc9595bca2e2b8413f7",
+  "objective": "Independently read all 74 frozen comparator pairs against complete archived records, freezing independent judgments before any prior labels. Preserve a complete bounded checkpoint if 1800 scientific seconds elapse.",
+  "allowed_outputs": "research/autonomy/trial-expansion-independent-comparators-2026-09-06/",
+  "before_freeze": [
+    "Read the operating protocol and only the source-only packet, generic protocol and work order for evidence. Do not read the comparator README, any first-reader note/checkpoint, handover, portfolio summaries or selected evidence before freezing.",
+    "Read complete eligibility, descriptions, conditions, arms/cohorts, design, status and interventions; resolve cross-module conflicts and preserve cohort/phase applicability.",
+    "Write source-linked labels, exact quotes and JSON pointers, separate molecular/variant requirements, external protocol uncertainty, study purpose and snapshot availability. Distinguish scope from active cohort availability and individual eligibility.",
+    "Record actual execution metadata and inspected IDs. Freeze source/output hashes and timestamp before consulting any first-reader judgments. Procedural separation is not technical blinding or human clinical review."
+  ],
+  "after_freeze": [
+    "Compare only independently frozen IDs with the corresponding immutable first-reader notes. Preserve both readers and source-grounded dispositions for every substantive field difference.",
+    "Keep unresolved differences uncertain. No performance-based label tuning, retrieval evaluation, patient eligibility or treatment advice."
+  ],
+  "coordination": "No nested workers, outgoing status messages, network, installs, changes outside output scope, commits or preflight. Coordinator retains ownership and polls.",
+  "completion_limit": "An intermediate checkpoint is not a finished adjudicated reference or preprint; preserve unfinished IDs explicitly."
+}

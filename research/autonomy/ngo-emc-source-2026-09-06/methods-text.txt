@@ -1,0 +1,868 @@
+PAGE 1
+1 
+ 
+Supporting Information for 1 
+Multi-omics profiling identified two epithelioid sarcoma molecular subtypes with 2 
+distinct signaling and immune characteristics  3 
+Authors 4 
+Carine Ngo1,2*, Lé o Colmet-Daage1, Julien Vibert1,3,4, Clé mence Hé non3,4, Daniel 5 
+Pissaloux5, Alexander Valent2, Jia Xiang Jin6,7,8, Riwan Brillet1, Julien Masliah-6 
+Planchon9, Gaë lle Pierron9, Ludovic Lacroix2, Etienne Rouleau2, Cyril Roussel-7 
+Simonin3, Lilian Lecorgne1, Clé mence Astier1, Marlè ne Garrido1, Rastislav Bahleda3, 8 
+Benjamin Verret4, Axel Le Cesne4, Charles Honore10, Matthieu Faron10, Wolf 9 
+Herman Fridman11, Catherine Sautè s-Fridman11, Jean-Michel Coindre12, Jean-Yves 10 
+Scoazec2,13,14, Joshua J Waterfall15,16, Franck Bourdeaut17, Thomas G. P. 11 
+Grü newald6,7,8,18, Jean-Yves Blay5, Franck Tirode5, Sophie Postel-Vinay1,3,14,19* 12 
+Affiliations 13 
+1 European Research Council Starting Grant, Targeting Genetic and Epigenetic 14 
+Vulnerabilities in Solid Tumors and Sarcoma, National Institute of Health and 15 
+Medical Research U981, Institut Gustave Roussy, Paris Saclay University, Villejuif, 16 
+France 17 
+2Department of Pathology and Laboratory Medicine, Institut Gustave Roussy, 18 
+Villejuif, France 19 
+3 Department of Therapeutic Innovation and Early Clinical Trials, Institut Gustave 20 
+Roussy, Villejuif, France 21 
+4Department of Medical Oncology, Institut Gustave Roussy, Villejuif, France 22 
+5 National Institute of Health and Medical Research 1052, French National Centre for 23 
+Scientific Research 5286, Cancer Research Center of Lyon, Lyon, France 24 
+6Division of Translational Pediatric Sarcoma Research (B410), German Cancer 25 
+Research Center, German Cancer Consortium, Heidelberg, Germany 26 
+7Hopp-Children’s Cancer Center, Heidelberg, Germany 27 
+8National Center for Tumor Diseases (NCT), NCT Heidelberg, a partnership between 28 
+German Cancer Research Center and Heidelberg University Hospital, Heidelberg, 29 
+Germany  30 
+9Somatic Genetic Unit, Department of Pathology and Diagnostic and Theranostic 31 
+Medicine, Institut Curie Hospital, Paris, France 32 
+
+PAGE 2
+2 
+ 
+10Surgery Department, Institut Gustave Roussy, Villejuif, France 33 
+11Centre de Recherche des Cordeliers, Sorbonne University, National Institute of 34 
+Health and Medical Research, Paris University, The French League Against Cancer, 35 
+Paris, France 36 
+12Department of Pathology, Institut Bergonié , Bordeaux, France 37 
+13Experimental and Translational Pathology Platform, Molecular Analysis, Modeling, 38 
+and Imaging of Cancer, National Institute of Health and Medical Research 39 
+US23/UAR3655, Institut Gustave Roussy, Villejuif, France 40 
+14Paris Saclay University, Bicê tre Faculty of Medicine, Le Kremlin-Bicê tre, France 41 
+15 National Institute of Health and Medical Research U830, Integrative Functional 42 
+Genomics of Cancer Lab, Paris Sciences & Lettres Research University, Institut Curie 43 
+Research Center, Paris, France  44 
+16Department of Translational Research, Paris Sciences & Lettres Research 45 
+University, Institut Curie Research Center, Paris, France 46 
+17Paris-Cité  University & Expert Center in Childhood and Adolescent Oncology 47 
+Center, National Institute of Health and Medical Research U830, Institut Curie 48 
+Research Center, Paris, France 49 
+18Institute of Pathology, Heidelberg University Hospital, Heidelberg, Germany. 50 
+19University College of London Cancer Institute, London, United Kingdom 51 
+ 52 
+*Corresponding authors:  53 
+Sophie Postel-Vinay, Department of Therapeutic Innovation and Early Clinical Trials, 54 
+Institut Gustave Roussy, 114 rue Edouard Vaillant, Villejuif 94800, France. E-mail: 55 
+sophie.postel-vinay@gustaveroussy.fr  56 
+Carine Ngo, Department of Pathology and Laboratory Medicine, Institut Gustave 57 
+Roussy, 114 rue Edouard Vaillant, Villejuif 94800, France. E-mail: 58 
+carine.ngo@gustaveroussy.fr 59 
+  60 
+
+PAGE 3
+3 
+ 
+Supplementary Materials and Methods 61 
+Patient samples 62 
+Sample selection 63 
+Cases with pathological diagnosis of epithelioid sarcoma (EpS) or extracranial 64 
+extrarenal rhabdoid tumor (EERT) (age >18 years) between January 1998 and January 65 
+2022 were retrieved from the Department of Pathology of Institut Gustave Roussy, 66 
+Villejuif, France. All cases were histologically reviewed by two soft tissue 67 
+pathologists (C.N. and J-M. C.) and classified by histological subtype (distal, 68 
+proximal or hybrid EpS) according to the reference consensus guidelines 69 
+(Supplementary Table S1) [1]. Final pathological diagnoses and clinico-pathological 70 
+characteristics of the patients are summarized in Supplementary Table S2. Archived 71 
+frozen and formalin-fixed paraffin-embedded (FFPE) samples were used according to 72 
+the French legal framework of MR-004 reference methodology set up by the French 73 
+Data Protection Authority (Number I14112002202020 Health Data Hub, available at 74 
+https://www.health-data-hub.fr/). Tumor samples were collected regardless of tumor 75 
+status (untreated or treated primary tumors, recurrences, or metastases), with a 76 
+preference given to untreated primary tumors whenever available. 77 
+An additional external cohort of 12 EpS and 1,041 selected soft tissue tumors’ bulk 78 
+RNA-sequencing (RNA-seq) data was provided by Centre Lé on Bé rard, Lyon, 79 
+France. 80 
+For single-cell RNA-sequencing analysis  81 
+Seven patients among the selected cases signed a preoperative written informed 82 
+consent to allow the use of tumor residual samples for single-cell RNA-sequencing 83 
+(scRNA-seq) analysis.    84 
+Bulk RNA sequencing  85 
+Sample preparation and paired-end sequencing 86 
+Total RNAs were extracted from FFPE tissue sections with tumor purity > 40%, using 87 
+a FormaPure RNA kit (Beckman Coulter, Brea, CA, USA). The Ambion DNase I 88 
+(Life Technologies, Carlsbad, CA, USA) was used to remove DNA. RNA 89 
+quantification was assessed using a NanoDrop spectrophotometer (Thermo Fisher 90 
+
+PAGE 4
+4 
+ 
+Scientific, Waltham, Massachusetts, USA) measurement and RNA quality using 91 
+TapeStation system with Hs RNA screen tape (Agilent, Santa Clara, CA, USA). 92 
+Samples with sufficient RNA quantity (> 0.5 μg) and quality [percentage of RNA 93 
+fragments > 200 nucleotides (DV200) > 30%] were considered suitable for 94 
+sequencing. Individual libraries were prepared using 100 ng of total RNA and TruSeq 95 
+RNA Exome kits (Illumina, San Diego, CA, USA). Sequencing was performed 96 
+(paired-end, 2 ×  75 cycles) using NextSeq 500/550 high output kits on a NextSeq 500 97 
+machine, or the NovaSeq 6000 SP/S1 reagent kit on a NovaSeq 6000 machine 98 
+(Illumina). The mean number of reads per sample was approximately 80 million. 99 
+Bioinformatics and data analysis 100 
+Alignments were performed using Spliced Transcript Alignment to a Reference 101 
+(STAR) version 2.6.1 (available at https://github.com/alexdobin/STAR) on the hg19 102 
+version of the human reference genome. Numbers of duplicate reads were assessed 103 
+using Picard version 2.23.9 (available at https://broadinstitute.github.io/picard/). 104 
+Samples with a number of unique reads less than 8 million were discarded from 105 
+further analyses. Fusion transcripts were called by STAR-Fusion version 1.10.1 and 106 
+Arriba version 2.4.0 (available at https://github.com/suhrig/arriba). Expression values 107 
+were extracted using the Salmon v1.4.0 tool with University of California, Santa Cruz 108 
+Genome Reference Consortium Human Build 37 (GRCh37) reference. All samples 109 
+were normalized together using a variance stabilizing transformation with the DESeq2 110 
+R package version 1.34.0 (available at 111 
+https://bioconductor.org/packages/release/bioc/html/DESeq2.html). 112 
+Consensus hierarchical clustering using the Ward.D2 was performed on the 113 
+transcriptomic data of 33 EpS and 3 EERT samples using the top 25% most variably 114 
+expressed genes. 115 
+Differential gene expression analysis was performed with the DESeq2 R package. The 116 
+significance was given by adjusted P-value (Padj) < 0.05 and log2 fold change 117 
+(log2FC) > 1. Functional enrichment analysis was performed using ToppFun from the 118 
+ToppGene suite [2]. Enriched gene sets from Gene Ontology Biological Process (GO 119 
+BP) with Padj < 0.05 were selected. 120 
+Gene Set Enrichment Analysis (GSEA) was performed using the normalized 121 
+expression by median of ratios from DESeq2 with the hallmark gene set collection 122 
+
+PAGE 5
+5 
+ 
+from the Molecular Signature Database (MSigDB) (available at https://www.gsea-123 
+msigdb.org/gsea/msigdb/). 124 
+To estimate the abundance of immune cells, we used immunedeconv R package 125 
+version 2.0.4 to deconvolute immune cell gene expression signatures with 126 
+Microenvironment Cell Populations (MCP) counter and CIBERSORT on transcripts 127 
+per million (TPM) values. 128 
+Whole-exome sequencing (WES) 129 
+Sample preparation and sequencing 130 
+WES was performed on 17 tumor samples and 16 tumor/normal sample pairs with 131 
+tumor purity > 40%.  132 
+For 14 tumor/normal pairs and 2 tumor samples, sequence capture and exome 133 
+sequencing were performed by the Sequencing Platform at Institut Curie, Unit of 134 
+Genetics (Paris, France). Briefly, genomic DNA was isolated from fresh frozen tissue 135 
+by standard proteinase K digestion and phenol/chloroform extraction. Then, the 150–136 
+200 bp DNA fragments library was analyzed with SureSelectXT HS kit and 67.3 Mb 137 
+CRE v2 probes (Agilent). DNA fragments were barcoded, captured, and enriched by 138 
+polymerase chain reaction (PCR) with SureSelect Post-Capture Primer Mix Agilent 139 
+and P5 & P7 primers Illumina (P5: 5'-AATGATACGGCGACCACCGA-3'; P7: 5'-140 
+CAAGCAGAAGACGGCATACGAGAT-3'), before quantifying and qualifying using 141 
+the TapeStation system. PCR was performed with an initial denaturation at 98° C for 2 142 
+min, followed by 9 cycles of 98° C for 30 s, 60° C for 30 s, and 72° C for 1 min, and a 143 
+final extension at 72° C for 10 min. Fragments were then sequenced by NextSeq500 144 
+paired-end 2 × 100 bp (Illumina). Mean sequencing depths of 200× for somatic and 145 
+100×  for germline were reached.  146 
+For the remaining 15 tumor samples and 2 tumor/normal pairs, sequence capture and 147 
+exome sequencing were performed by IntegraGen SA (Evry, France). DNA was 148 
+extracted from the FFPE tissue sample using the QIAamp Diagnostic Sample 149 
+Preparation (DSP) DNA FFPE Tissue Kit (Qiagen, Hilden, Germany), according to 150 
+the manufacturer’s instructions. The protocol followed by IntegraGen has been 151 
+described elsewhere [3]. In brief, genomic DNA was captured using Twist Human 152 
+Core Exome Enrichment System (Twist Bioscience, South San Francisco, CA, USA) 153 
+
+PAGE 6
+6 
+ 
++ IntegraGen Custom V2. Library Preparation Enzymatic Fragmentation Kit was used 154 
+for library preparation. The eluted fraction was amplified by PCR with P5 & P7 155 
+primers TruSeq Illumina (Adapter P5: 5’-156 
+AATGATACGGCGACCACCGAGATCTACAC [INDEX] 157 
+ACACTCTTTCCCTACACGACGCTCTTCCGATCT-3’ ---Insert; Adapter P7: 5’-158 
+CAAGCAGAAGACGGCATACGAGAT [INDEX] 159 
+GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT-3’ ---Insert). PCR 160 
+amplification was carried out using the KAPA HiFi HotStart ReadyMix (2X) under 161 
+the following conditions: an initial denaturation at 98° C for 45 s, followed by 7 cycles 162 
+of 98° C for 15 s, 60° C for 30 s, and 72° C for 30 s, with a final extension at 72° C for 1 163 
+min. Fragments were then sequenced on an Illumina NovaSeq as Paired End 100 164 
+reads.  165 
+Bioinformatics and data analysis 166 
+Sample reads were aligned following Genome Analysis Toolkit (GATK) best practice 167 
+with bwa version 0.7.17-r1188. Targeted regions were sequenced to an average depth 168 
+of 150×, with 99% of the regions covered by ≥ 1×, 98% covered by ≥ 4×, and 95% 169 
+covered by ≥ 20×. 170 
+For the detection of somatic single-nucleotide variants (SNVs) and base insertions or 171 
+deletions (indels), we used GATK Mutect2. We applied the following filtering criteria 172 
+for somatic mutation calling: alternative read count < 9. The following filtering 173 
+criteria were applied for germline variant calling: alternative read count <1. The 174 
+variants were annotated using VEP (available at http://www.ensembl.org/vep) and 175 
+SNPeff (available at http://pcingola.github.io/SnpEff/). Only frame-shift 176 
+deletions/insertions, in-frame insertions/deletions, missense mutations, nonsense 177 
+mutations and splice-site variants were selected.  178 
+For copy-number variation (CNV) analysis, we used CNVkit version 0.9.9 (available 179 
+at https://github.com/etal/cnvkit). A homozygous deletion was considered when 180 
+estimated log2 copy ratio was below 1. Intermediate estimated log2 copy ratios 181 
+between -1 and -0.25 were considered as heterozygous deletions.  182 
+Tumor mutational burden (TMB) per Mb was assessed in samples with matched 183 
+normal samples using the maftools R package version 2.10.05 and only non-184 
+synonymous variants with functional impact. 185 
+
+PAGE 7
+7 
+ 
+DNA methylation 186 
+Sample preparation and sequencing 187 
+Thirty-seven DNA samples were hybridized on the Infinium MethylationEPIC array 188 
+(Illumina) according to the manufacturer’s instructions at the Genomics and 189 
+Proteomics Core Facility of the German Cancer Research Center (DKFZ) Heidelberg. 190 
+Both fresh frozen and FFPE samples with tumor purity > 50% were included. DNA 191 
+from frozen samples was extracted by standard proteinase K digestion and 192 
+phenol/chloroform. Following deparaffinization, DNA from FFPE samples was 193 
+extracted with the Maxwell® 16FFPE Plus LEV DNA Kit (Promega, Fitchburg, 194 
+Wisconsin, USA) and a Maxwell DNA extractor (Promega). 195 
+Bioinformatics and data analysis 196 
+CNV analysis was performed using the ‘conumee' R package in Bioconductor 197 
+(available at http://bioconductor.org/packages/conumee/) from .IDAT files. In brief, 198 
+the sum of the raw fluorescence signals from probes targeting both the methylated and 199 
+unmethylated alleles of a CpG site was calculated, then the intensity values were 200 
+log2-transformed and referenced to the diploid genome. This copy-number ratio was 201 
+then plotted in a graph according to chromosomal location. Homozygous deletion was 202 
+considered when log2 ratios of targeting probes were below 1. Intermediate log2 203 
+ratios between -1 and -0.25 were considered as heterozygous deletions. A low-level 204 
+copy number gain was defined as a log 2 ratio > 0.25 and an amplification as log 2 205 
+ratio > 0.4. Evaluation of arm-level copy number alteration was based on visual 206 
+assessment of DNA methylation CNV plots. 207 
+Fluorescence hybridization in situ (FISH) 208 
+Sections (4 μm thick) were deparaffinized in xylene and rehydrated through a graded 209 
+series of ethanol solutions. For the detection of SMARCB1 deletion, ZytoLight® 210 
+SPEC SMARCB1/22q12 Dual Color Probe was used (ZytoVision GmbH, 211 
+Bremerhaven, Germany). We followed the procedure as recommended by the 212 
+manufacturers and slides were viewed under a fluorescent microscope equipped with 213 
+multi‐bandpass filters to visualize colors simultaneously.  214 
+Clinical targeted next-generation sequencing (NGS) 215 
+
+PAGE 8
+8 
+ 
+A custom NGS panel known as DRAGON (Detection of Relevant Alterations in 216 
+Genes involved in Oncogenetics by NGS), commercially available as SureSelect CD 217 
+Curie CGP by Agilent, was performed in three cases at Institut Curie, Unit of 218 
+Genetics (Paris, France). Library preparation and bioinformatics methods have been 219 
+described elsewhere [4].  220 
+Single nucleotide polymorphism (SNP) array genomic profiling 221 
+SNP array genomic profiling was performed on three samples. The procedure was 222 
+performed as previously described [5]. 223 
+Shallow whole genome sequencing 224 
+DNA was extracted from FFPE tissue samples using the QIAamp DSP DNA FFPE 225 
+Tissue Kit (Qiagen), following the manufacturer's instructions. The whole genome 226 
+library was prepared by the SureSelect XT HS kit (Agilent) on NextSeq (Illumina). 227 
+To predict sample tumor fraction and copy number counts, ichorCNA analysis was 228 
+applied (available at https://github.com/broadinstitute/ichorCNA). IchorCNA uses a 229 
+probabilistic model, implemented as a hidden Markov model (HMM), to 230 
+simultaneously segment the genome, predict large-scale copy number alterations, and 231 
+estimate the tumor fraction of an ultra-low-pass whole genome sequencing sample. 232 
+Immunohistochemistry analysis 233 
+Immunohistochemical staining was performed on 3 μm-thick sections from FFPE 234 
+tumor samples for antibodies to the following proteins: switch/sucrose non-235 
+fermentable-related matrix associated actin dependent regulator of chromatin 236 
+subfamily B member 1 (SMARCB1), CD3, CD8, CD68, CD163, CD21, CD23 and 237 
+desmoglein 2 (DSG2). The antibodies and conditions used for immunohistochemistry 238 
+are summarized in Supplementary Table S10.  239 
+The density of tumor-infiltrating immune cells was evaluated on whole-tissue sections 240 
+with a semi-quantitative method, as follows: 0: 0%; 1: 1%-25%; 2: 26%-50%; 3: > 241 
+50%, in the core of the tumor or intratumoral area and in the invasive margin or 242 
+peritumoral area. The density of tumor-infiltrating immune cells was subsequently 243 
+divided into high or low based on the median score as a cut-off for each individual 244 
+immune cell. 245 
+
+PAGE 9
+9 
+ 
+Evaluation of mature tertiary lymphoid structure (TLS) was based on hematoxylin-246 
+eosin-saffron (HES) staining, CD20 and CD23 immunohistochemistry in non-247 
+lymphoid organs. Mature TLS was defined as a nodular CD20+ B lymphoid cell 248 
+aggregate (including at least 50 immune cells) with CD23+ follicular dendritic cells 249 
+[6]. 250 
+Visium Spatial transcriptomics assay 251 
+Sample and library preparation 252 
+Representative FFPE tumor blocks from four EpS patients with DV200 > 30% were 253 
+selected for the Visium Spatial transcriptomics assay (10x Genomics, Pleasanton, CA, 254 
+USA) to provide optimal coverage of the 6.5 ×  6.5 mm capture area. Using the human 255 
+whole transcriptome probe set, spatial transcriptomics was performed with 10x 256 
+Genomics Visium technology according to the Visium Spatial Gene expression for 257 
+FFPE samples protocol described previously [7]. Generated Visium libraries were 258 
+pooled and loaded in a single small paired-end Illumina flow cell. Sequencing was 259 
+performed on NovaSeq PE 50 at a sequencing depth of 50,000 read pairs per spot 260 
+covered with tissue using 10x Genomics recommended run parameters. 261 
+Bioinformatics and data analysis 262 
+Space Ranger (10x Genomics) was used to perform the demultiplexing of Visium-263 
+prepared raw base call files generated by Illumina sequencers into FASTQ files using 264 
+Space Ranger version 2.0.0 mkfastq. Next, Space Ranger count was used to perform 265 
+tissue and fiducial alignment from the microscope slide image and barcode/ Unique 266 
+Molecular Identifier (UMI) counting to generate feature-barcode matrices that were 267 
+further used for downstream analyses.  268 
+Downstream analyses relied on the Seurat R package (version 4.3, available at 269 
+https://satijalab.org/seurat/). We calculated the average expression levels of selected 270 
+genes subtracted by the aggregated expression of control gene sets using the 271 
+AddModuleScore function from Seurat. 272 
+Human tumor samples scRNA-Seq analysis 273 
+Tumor dissociation and scRNA-Seq 274 
+
+PAGE 10
+10 
+ 
+For the tissue dissociation of the eight fresh tumor samples collected from seven 275 
+patients with EpS, we followed the protocol as described previously [7]. Single cells 276 
+were loaded into the 10x Genomics cassette for a targeted cell recovery of 5,000 cells 277 
+per sample following the recommendations from the manufacturer’s protocol. Two 278 
+samples were profiled using the 10x Genomics Chromium Single Cell 3' GE kit and 279 
+six samples using the Chromium Next GEM Single Cell 5’ GE kit v1.1. Cell 280 
+encapsulation, reverse transcription and library generation were performed according 281 
+to 10x Genomics standard protocols [8, 9]. Paired-end sequencing was performed on 282 
+the Illumina NovaSeq 6000 sequencer for a targeted depth of 400 million reads per 283 
+sample. 284 
+Bioinformatics and data analysis 285 
+Raw Binary Base Call (BCL) files were demultiplexed and converted to Fastq format 286 
+using bcl2fastq (version 2.20.0.422 from Illumina). Read quality control was 287 
+performed using fastQC (version 0.11.9) and assignment to the expected genome 288 
+species was evaluated with fastq-screen (version 0.14.0). Reads were pseudo-mapped 289 
+to the Ensembl reference transcriptome v99 corresponding to the homo sapiens 290 
+GRCH38 build with kallisto (version 0.46.2, available at 291 
+https://github.com/pachterlab/kallisto) using its 'bus' subcommand and parameters 292 
+corresponding to the 10x Chromium 5' scRNA-Seq v2 chemistry. The index was 293 
+made with the kb-python (version 0.24.4) wrapper of kallisto. Barcode correction 294 
+using a whitelist provided by the manufacturer (10x Genomics) and gene-based reads 295 
+quantification were performed with BUStools (version 0.40.0, available at 296 
+https://github.com/BUStools/bustools). 297 
+ScRNA-Seq data were analyzed using the Seurat R package (version 4.0.4). Samples 298 
+stemming from different patients were combined by merging the raw count matrices 299 
+of individual Seurat objects. The SCTransform normalization method [10] was used 300 
+to normalize, scale, and select 2,000 highly variable genes. Pearson residuals from 301 
+this regression were used for dimension reduction by principal component analysis 302 
+(PCA). The number of PCA dimensions to keep for further analysis was evaluated by 303 
+assessing a range of reduced PCA spaces using 3 to 50 dimensions, with a step of 2. 304 
+For each generated PCA space, Louvain clustering of cells was performed using a 305 
+range of values for the resolution parameter from 0.1 to 1.2 with a step of 0.1. The 306 
+
+PAGE 11
+11 
+ 
+optimal space was manually evaluated as the combination of kept dimensions and 307 
+clustering resolution resolving the best structure (clusters homogeneity and 308 
+compactness) in a uniform manifold approximation and projection (UMAP). 309 
+Additionally, we used the clustree method (version 0.4.3) to assess if the selected 310 
+optimal space corresponded to a relatively stable position in the clustering results 311 
+tested for these dimensions/resolution combinations.  312 
+The integration of samples stemming from different patients was performed by using 313 
+the Harmony algorithm (https://github.com/immunogenomics/harmony) [11]. 314 
+Datasets were merged using the merge() function from Seurat (version 4.0.4), and the 315 
+SCTransform normalization method was used to normalize, scale and select 2,000 316 
+highly variable genes. The reduced PCA spaces were used as input for the 317 
+HarmonyMatrix() function implemented in Harmony package (version 0.1.0) where 318 
+the batch effect was regressed. The batch-corrected shared space output by Harmony 319 
+was used for clustering.  320 
+We used CerebroApp (version 1.3.1, available at 321 
+https://github.com/romanhaa/cerebroApp/), a cell report browser which allows users 322 
+to interactively visualize various parts of single-cell transcriptomics analyses to 323 
+identify the most expressed genes in each cell subpopulation to compute pathway 324 
+enrichment on marker genes (based on the Enrichr application programming 325 
+interface) and Gene Set Enrichment Analysis (GSEA) [12]. 326 
+Inference of single cells’ CNV was performed using the InferCNV tool. Raw gene 327 
+expression data were first extracted from each patient's Seurat object. For each 328 
+sample, normal reference cells were selected based on the expression of immune cells 329 
+and/or cancer-associated fibroblasts canonical markers and tumor cells were grouped 330 
+according to annotated Louvain clusters as defined above. The cutoff for the 331 
+minimum average read count per gene was set to 0.1, as recommended for 10x 332 
+Genomics’ data. The 'cluster_by_groups' setting was used to perform separate 333 
+clustering for each cluster as defined in the cell annotations file. All other options 334 
+were set to their default values. Each CNV was annotated as a gain or a loss to a p- or 335 
+q-arm using the GRCh38 reference genome. We also applied InferCNV on the 336 
+merged dataset with the same parameters, a down-sampling of 800 cells per cell type 337 
+and using all the non-tumor cells as reference. 338 
+
+PAGE 12
+12 
+ 
+MoMac-VERSE atlas [13] was used to deconvolute and annotate myeloid cell 339 
+subpopulations from the ScRNA-Seq individual dataset. 340 
+To infer cell-cell communication between identified tumor and immune cell clusters, 341 
+we used CellphoneDB (available at https://github.com/Teichlab/cellphonedb), a 342 
+repository of ligands, receptors and their interactions [14]. For this purpose, we 343 
+integrated with Harmony, as previously described, the datasets from patients 344 
+according to their molecular subtype. Cellphone DB was then applied separately in 345 
+each EpS transcriptomic subtype integrated dataset. Mean is calculated as the average 346 
+of the expression of the ligand in the source cell type and the receptor in the target cell 347 
+type. The interactions with P-value <0.05 are considered significant.  348 
+Assessment of scRNA-Seq-derived signatures’ specificity and prognostic value 349 
+CIBERSORTx 350 
+To deconvolve scRNA-Seq EpS malignant cell subclusters identified in EpS scRNA-351 
+seq data from EpS bulk RNA-seq, CIBERSORTx (https://cibersortx.standford.edu) 352 
+was used to derive a signature matrix from scRNA-seq data. Using the Seurat subset 353 
+function, 500 or 1,000 cells were extracted from each cluster from the scRNA-seq 354 
+integrated dataset. Cluster-labeled cells served to obtain a single-cell reference matrix 355 
+(scREF-matrix) used as an input on the CIBERSORTx online server using the 356 
+“Custom” option. Default values for replicates (n = 5), sampling (0.5), and minimum 357 
+expression (0.0) were used. Additional options for kappa (999), q-value (0.01), and 358 
+number of barcode genes (300–500) were kept at default values. The imputation of 359 
+cell subtype fractions defined on the scREF-matrix was performed on counts per 360 
+million (CPM) values from EpS bulk RNA-seq data using the ‘Impute Cell Fractions’ 361 
+function with the ‘Custom’ option and ran in absolute mode. A total of 500 362 
+permutations was performed to test for statistical significance. 363 
+Gene signature scores calculation for specificity and prognostic assessment 364 
+The top 100 upregulated genes within each malignant cell subcluster from the 365 
+scRNA-seq integrated dataset, defined by Seurat graph-based clustering using the K-366 
+nearest neighbor method, were selected to define cluster-specific gene signatures. A 367 
+score for each cluster-specific signature was then calculated from the Institut Gustave 368 
+Roussy EpS bulk RNA-seq dataset and an external cohort of 1,041 samples from 32 369 
+
+PAGE 13
+13 
+ 
+soft tissue tumor subtypes using the arithmetic mean of Z-scores of each gene 370 
+expression expressed in variance stabilizing transformed raw counts. Samples with a 371 
+number of unique reads less than 10 million were discarded from this analysis. 372 
+First, to assess the specificity of scRNA-Seq derived cluster-specific gene signatures 373 
+for EpS, an analysis of variance (ANOVA) test was performed to compare the 374 
+signature values between EpS transcriptomic subtypes, EERT and all other subtypes 375 
+of soft tissue tumors. The significance test was set at P < 0.05.  376 
+To further evaluate the prognostic value of scRNA-Seq-derived cluster-specific gene 377 
+signatures, the IGR EpS bulk RNA-seq dataset was segregated into ‘High’ and ‘Low’ 378 
+signature scores using the optimal cutpoint method. We then performed a survival 379 
+analysis for patients from whom the tumor samples were collected to compare ‘High’ 380 
+versus ‘Low’ signature scores using the Kaplan-Meier model and tested for 381 
+significance with the log-rank test. Overall survival was defined as the time from the 382 
+EpS diagnosis until death from disease. Metastasis-free survival was defined as the 383 
+time from the EpS diagnosis until the occurrence of distant metastasis or death from 384 
+disease. Subsequently, we validated our findings on an external validation cohort of 385 
+RNA-Seq data from 12 EpS samples. 386 
+Statistical analyses 387 
+Unless otherwise specified in the specific methods section, statistical data analysis 388 
+was performed using PRISM 9 (GraphPad Software Inc., CA, USA) on the raw data. 389 
+Comparisons between two groups were performed using the Fisher’s exact test for 390 
+categorical variables and the Mann–Whitney U test for continuous (non-categorical) 391 
+variables. A P-value < 0.05 was considered statistically significant. 392 
+ 393 
+References 394 
+1. WHO Classification of Tumours Editorial Board. Soft Tissue and Bone 395 
+Tumours, 5th ed.; WHO Classification of Tumours Series; International Agency for 396 
+Research on Cancer: Lyon, France, 2020; Volume 3.  397 
+2.         Chen J, Bardes EE, Aronow BJ, Jegga AG. ToppGene Suite for gene list 398 
+enrichment analysis and candidate gene prioritization. Nucleic Acids Res. 2009 Jul 399 
+1;37(Web Server):W305–11.  400 
+
+PAGE 14
+14 
+ 
+3. Gnirke A, Melnikov A, Maguire J, Rogov P, LeProust EM, Brockman W, et 401 
+al. Solution hybrid selection with ultra-long oligonucleotides for massively parallel 402 
+targeted sequencing. Nat Biotechnol. 2009 Feb;27(2):182–9. 403 
+4. Dupain C, Gutman T, Girard E, Kamoun C, Marret G, Castel-Ajgal Z, et al. 404 
+Tumor mutational burden assessment and standardized bioinformatics approach using 405 
+custom NGS panels in clinical routine. BMC Biol. 2024 Feb 20;22(1):43.  406 
+5. Ngo C, Cotteret S, Deneche I, Kfoury M, Chehab R, Tran-Dien A, et al. 407 
+Uterine adenosarcoma: Clinical significance of histological classification and SNP 408 
+array analysis. Hum Pathol. 2024 Jun;148:14–22. 409 
+6. Vanhersecke L, Bougouin A, Crombé  A, Brunet M, Sofeu C, Parrens M, et al. 410 
+Standardized Pathology Screening of Mature Tertiary Lymphoid Structures in 411 
+Cancers. Lab Invest. 2023 May;103(5):100063. 412 
+7. Henon C, Vibert J, Eychenne T, Gruel N, Colmet-Daage L, Ngo C, et al. 413 
+Single-cell multiomics profiling reveals heterogeneous transcriptional programs and 414 
+microenvironment in DSRCTs. Cell Rep Med. 2024 Jun 18;5(6):101582. 415 
+8. Chromium Single Cell 3’ Reagent Kits User Guide (v3.1 Chemistry Dual 416 
+Index) - Official 10x Genomics Support. 417 
+https://www.10xgenomics.com/support/single-cell-gene-418 
+expression/documentation/steps/library-prep/chromium-single-cell-3-reagent-kits-419 
+user-guide-v-3-1-chemistry-dual-index 420 
+9. Chromium Single Cell V(D)J Reagent Kits (v1.1 Chemistry) - Official 10x 421 
+Genomics Support. https://www.10xgenomics.com/support/universal-five-prime-422 
+gene-expression/documentation/steps/library-prep/chromium-single-cell-v-d-j-423 
+reagent-kits-v-1-1-chemistry  424 
+10. Hafemeister C, Satija R. Normalization and variance stabilization of single-425 
+cell RNA-seq data using regularized negative binomial regression. Genome Biol. 426 
+2019 Dec;20(1):296. 427 
+11. Korsunsky I, Millard N, Fan J, Slowikowski K, Zhang F, Wei K, et al. Fast, 428 
+sensitive and accurate integration of single-cell data with Harmony. Nat Methods. 429 
+2019 Dec;16(12):1289–96. 430 
+
+PAGE 15
+15 
+ 
+12. Hillje R, Pelicci PG, Luzi L. Cerebro: interactive visualization of scRNA-seq 431 
+data. Bioinformatics. 2020 Apr 1;36(7):2311–3. 432 
+13. Mulder K, Patel AA, Kong WT, Piot C, Halitzki E, Dunsmore G, et al. Cross-433 
+tissue single-cell landscape of human monocytes and macrophages in health and 434 
+disease. Immunity. 2021 Aug;54(8):1883-1900.e5. 435 
+14. Efremova M, Vento-Tormo M, Teichmann SA, Vento-Tormo R. 436 
+CellPhoneDB: inferring cell-cell communication from combined expression of multi-437 
+subunit ligand-receptor complexes. Nat Protoc. 2020 Apr;15(4):1484–506. 438 
+15. Chun HJE, Lim EL, Heravi-Moussavi A, Saberi S, Mungall KL, Bilenky M, et 439 
+al. Genome-Wide Profiles of Extra-cranial Malignant Rhabdoid Tumors Reveal 440 
+Heterogeneity and Dysregulated Developmental Pathways. Cancer Cell. 2016 441 
+Mar;29(3):394–406. 442 
+  443 
+
+PAGE 16
+16 
+ 
+Supplementary Figures 444 
+ 445 
+Supplementary Figure S1. Representative images of EpS histological subtypes 446 
+with HES staining. (A) The distal subtype of EpS consists of a pseudogranulomatous 447 
+growth pattern of tumor cells with central degeneration. (B) Tumor cells in the distal 448 
+subtype of EpS are epithelioid or spindle-shaped with mild atypia. (C) The proximal 449 
+subtype of EpS consists of dense proliferation of large cells. (D) Proximal subtype of 450 
+EpS with pleomorphic epithelioid cells, enlarged vesicular nuclei and prominent 451 
+nucleoli. (E) Hybrid subtype of EpS displays features from both distal and proximal 452 
+subtypes. The distal feature consists of a pseudogranulomatous nodular growth 453 
+pattern. (F) The proximal feature in the hybrid subtype of EpS consists of areas of 454 
+dense proliferation of large pleomorphic epithelioid cells with prominent nucleoli.  455 
+Abbreviations: EpS, epithelioid sarcoma, HES, hematoxylin-eosin-saffron 456 
+  457 
+
+
+PAGE 17
+17 
+ 
+458 
+Supplementary Figure S2. Transcriptome analysis identifies two molecular 459 
+subtypes of EpS with distinct biological features. (A) Top 10 significantly enriched 460 
+GO terms related to biological processes between distal-like and proximal-like EpS 461 
+samples. The bar graph shows adjusted P-values and numbers of genes (in brackets) 462 
+mapped to GO terms (gray dashed line at P = 0.05). (B) Gene Set Enrichment 463 
+Analysis showing significant enrichment “Hallmark” gene sets related to epithelial-464 
+mesenchymal transition and genes down-regulated in response to UV radiation in 465 
+distal-like EpS compared to proximal-like EpS. The significance criteria were 466 
+nominal P-value < 0.05 and FDR < 0.25.  467 
+Abbreviations: EpS, epithelioid sarcoma; FDR, false discovery rate; GO, gene 468 
+ontology; NES, normalized enrichment score; UV, ultraviolet 469 
+470 
+
+
+PAGE 18
+18 
+ 
+  471 
+ 472 
+Supplementary Figure S3. Somatic genomic alterations in EpS. (A) Oncoplot 473 
+showing the clinical characteristics, assay used, SMARCB1 gene status and selected 474 
+genomic alterations in distal-like EpS (n = 18), proximal-like EpS (n = 13) and EERT 475 
+
+
+PAGE 19
+19 
+ 
+(n = 3). Each column represents a different patient and the sample ID is displayed at 476 
+the bottom; only known tumor suppressors or oncogenes according to the catalogue of 477 
+somatic mutations in cancer (COSMIC) database are shown. (B) SMARCB1 mRNA 478 
+levels across all samples, based on bulk RNA-Seq data. Heatmap shows Z-scores of 479 
+SMARCB1 gene expression across samples. (C) Boxplot displaying SMARCB1 480 
+mRNA levels according to the type of SMARCB1 alterations. The P-value was 481 
+calculated using the Wilcoxon signed-rank test. (D) Boxplot displaying SMARCB1 482 
+mRNA levels according to the type of SMARCB1 gene alterations, comparing biallelic 483 
+inactivation, monoallelic inactivation, and other SMARCB1 alterations. The P-value 484 
+was calculated using the Wilcoxon signed-rank test. 485 
+ Abbreviations: BARD1, breast cancer type 1 associated RING domain 1; 486 
+CACNA1D, calcium voltage-gated channel subunit alpha1; CDKN2A, cyclin-487 
+dependent kinase inhibitor 2A; CDKN2B, cyclin-dependent kinase inhibitor 2B; 488 
+EERT: extracranial extrarenal rhabdoid tumor; EGFR, epidermal growth factor 489 
+receptor; EpS, epithelioid sarcoma; ERBB4, v-erb-a erythroblastic leukemia viral 490 
+oncogene homolog 4; FAT1, FAT atypical cadherin 1; FISH, fluorescence in situ 491 
+hybridization; HET DEL, heterozygous deletion; HOM DEL, homozygous deletion; 492 
+JAK3, Janus kinase 3; KAT2C, lysine acetyltransferase 2C; KMT2C, lysine 493 
+methyltransferase 2C; NCOR1, nuclear receptor corepressor 1; NCOR2, nuclear 494 
+receptor corepressor 2; PRDM16, positive regulatory domain I-binding factor 1 and 495 
+retinoblastoma-interacting zinc finger protein 1/ su(var)3-9, enhancer-of-zeste, 496 
+trithorax domain 16; SMARCA4, switch/sucrose non-fermentable-related, matrix 497 
+associated, actin dependent regulator of chromatin, subfamily A, member 4; 498 
+SMARCB1, switch/sucrose non-fermentable-related matrix associated actin 499 
+dependent regulator of chromatin subfamily B member 1; SNP, single nucleotide 500 
+polymorphism; SNV, single nucleotide variant; TP53, tumor protein p53; TRA, 501 
+translocation; ZFHX3, zinc finger homeobox 3 502 
+  503 
+
+PAGE 20
+20 
+ 
+504 
+Supplementary Figure S4. Mutational and copy-number landscape of the two 505 
+molecular subtypes of EpS. (A) Scatter plot comparing the non-synonymous TMB 506 
+per genome of distal-like EpS (n = 6), proximal-like EpS (n = 6) and EERT (n = 2) 507 
+with other tumors. Malignant rhabdoid tumors’ data are from Chun et al. [15] and 508 
+other tumor types are based on the TCGA data (http://cancergenome.nih.gov/). Tumor 509 
+types are ordered by their median mutation load, shown as a horizontal red line. (B) 510 
+Arm-level gains and losses based on the DNA methylation data in distal-like EpS (n = 511 
+20), proximal-like EpS (n = 13) and EERT (n = 3). Blue corresponds to a loss of at 512 
+least one copy and red corresponds to a gain. 513 
+Abbreviations: ACC, adrenocortical carcinoma; BLCA, bladder urothelial carcinoma; 514 
+BRCA, breast invasive carcinoma; CESC, cervical squamous cell carcinoma & 515 
+
+
+PAGE 21
+21 
+ 
+endocervical adenocarcinoma; CHOL, cholangiocarcinoma; CHR, chromosome; 516 
+CNA, copy number alteration; COAD, colon adenocarcinoma; DLBC, lymphoid 517 
+neoplasm diffuse large B-cell lymphoma; EERT: extracranial extrarenal rhabdoid 518 
+tumor; EpS, epithelioid sarcoma; ERBB4, GBM, glioblastoma; HNSC, head & neck 519 
+squamous cell carcinoma; KICH, kidney chromophobe; KIRC, kidney renal clear cell 520 
+carcinoma; KIRP, kidney renal papillary cell carcinoma; LAML, acute myeloid 521 
+leukemia; LGG, low grade glioma; LIHC, hepatocellular carcinoma; LUAD, lung 522 
+adenocarcinoma; LUSC, lung squamous cell carcinoma; MESO, mesothelioma; 523 
+MRT, malignant rhabdoid tumor; OV, ovarian serous cystadenocarcinoma; PAAD, 524 
+pancreatic adenocarcinoma; PCPG, pheochromocytoma & paraganglioma; PRAD, 525 
+prostate adenocarcinoma; READ, rectal adenocarcinoma; SARC, sarcoma; SKCM, 526 
+skin cutaneous melanoma; STAD, stomach adenocarcinoma; TCGA, the cancer 527 
+genome atlas; TGCT, testicular germ cell tumors; THCA, papillary thyroid 528 
+carcinoma; THYM, thymoma; TMB, tumor mutational burden; UCEC, uterine corpus 529 
+endometrial carcinoma; UCS, uterine carcinosarcoma; UVM, uveal Melanoma 530 
+  531 
+
+PAGE 22
+22 
+ 
+532 
+Supplementary Figure S5. Differences in immune cell composition between the 533 
+two molecular subtypes of EpS. (A) Boxplots comparing the means of 534 
+CIBERSORT-estimated abundances for 22 immune cell types between distal-like and 535 
+proximal-like EpS subtypes in the bulk RNA-seq EpS cohort. The lower and upper 536 
+hinges correspond to the first and third quartiles (the 25th and 75th percentiles). The 537 
+upper whisker extends from the hinge to the largest value no further than 1.5 ×  IQR 538 
+from the hinge (where IQR is the inter-quartile range or distance between the first and 539 
+third quartiles). The lower whisker extends from the hinge to the smallest value at 540 
+most 1.5 × IQR of the hinge. * is for P < 0.05, ** is for P < 0.01 and *** is for P < 541 
+0.001 (Wilcoxon signed-rank test). (B) Example of IHC staining for CD8 in T cells 542 
+
+
+PAGE 23
+23 
+ 
+and CD163 in macrophages at the periphery of a nodule of tumor cells in a distal-like 543 
+EpS sample (left panel) and in the tumor core of a proximal-like EpS sample (right 544 
+panel). (C) Distribution of distal-like and proximal-like EpS transcriptomic subtypes 545 
+in mature TLS+ and TLS- groups. (D) Representative images of CD20 (left) and CD23 546 
+(right) immunostaining in a mature TLS in EpS.  547 
+Abbreviations: EpS: epithelioid sarcoma; IHC: immunohistochemistry; NK, natural 548 
+killer; TLS: tertiary lymphoid structure 549 
+ 550 
+  551 
+
+PAGE 24
+24 
+ 
+ 552 
+Supplementary Figure S6. ScRNA-seq recapitulates EpS cellular composition. 553 
+(A) UMAP showing single-cell profiles of malignant and non-malignant cells from 8 554 
+EpS colored by expression of selected genes (tumor cell markers: SMARCB1, KRT8, 555 
+MUC1; CAF markers: POSTN, COL3A1; NK/T cells markers: CD3E, NKG7; 556 
+
+
+PAGE 25
+25 
+ 
+myeloid cells markers: CD14, FCER1A; B cell markers: IGKC, CD79A; endothelial 557 
+cells marker: PECAM1). (B) Single-cell level copy number variation inference using 558 
+the InferCNV tool on the merge of individual scRNA-Seq datasets.  559 
+Abbreviations: CAF: cancer-associated fibroblast; COL3A1, collagen type III alpha 1 560 
+chain; EpS, epithelioid sarcoma; FCER1A, fc epsilon receptor Ia; IGKC, 561 
+immunoglobulin kappa constant; KRT8, keratin 8; MUC1, mucin 1; NK, natural 562 
+killer; NKG7, natural killer cell granule protein 7; PECAM1, platelet endothelial cell 563 
+adhesion molecule; POSTN, periostin; scRNA-Seq, single-cell RNA sequencing; 564 
+SMARCB1, switch/sucrose non-fermentable-related matrix associated actin 565 
+dependent regulator of chromatin subfamily B member 1; UMAP: uniform manifold 566 
+approximation and projection  567 
+ 568 
+  569 
+
+PAGE 26
+26 
+ 
+ 570 
+Supplementary Figure S7. Myeloid cells are the most abundant immune 571 
+subpopulation in EpS. (A) Barplot highlighting the proportion of each EpS cell 572 
+subpopulation in the individual scRNA-Seq datasets. (B) Barplot highlighting the 573 
+proportion of infiltrating myeloid cells in EpS from the scRNA-Seq individual 574 
+datasets according to transcriptomic subtype. Myeloid cells are annotated according to 575 
+the MoMac-VERSE atlas [13].  576 
+Abbreviations: CAF, cancer-associated fibroblast; DC, dendritic cell; EpS, epithelioid 577 
+sarcoma; FTL, ferritin light chain; HES1, hairy and enhancer of split 1; IL1B, 578 
+interleukin 1 beta; IL4I1, interleukin 4 induced 1; ISG, interferon-stimulated gene; 579 
+MNP, mononuclear phagocyte; NK, natural killer; TREM2, triggering receptor 580 
+expressed on myeloid cells 2 581 
+  582 
+
+
+PAGE 27
+27 
+ 
+ 583 
+Supplementary Figure S8. ScRNA-Seq data related to ligand-receptor 584 
+interactions between tumor and immune cells in distal-like EpS molecular 585 
+subtype. (A) UMAP showing integrated single-cell (Int-sc) profiles of distal-like EpS 586 
+malignant and non-malignant cells colored by cell identity (left panel) and sample of 587 
+origin (right panel). (B) Heatmap showing expression Z-score of selected marker 588 
+genes in distal-like EpS Int-sc cell types. 589 
+Abbreviations: ACTA2, actin alpha 2; APOC1, apolipoprotein C1; APOE, 590 
+apolipoprotein E; CAF: cancer-associated fibroblast; CCR7, C-C chemokine receptor 591 
+type 7; C1QA, complement C1q A Chain; C1QB, complement C1q B Chain; DSG2, 592 
+desmoglein 2; EpS, epithelioid sarcoma; FGFBP2, fibroblast growth factor binding 593 
+protein 2; FOXP3, forkhead box P3; GZMB, granzyme B; GZMK, granzyme K; 594 
+IL7R, interleukin 7 receptor; Int-sc, integrated single-cell; KAT7, lysine 595 
+acetyltransferase 7; KRT8, keratin 8; Lnc: long non-coding; MKI67, marker of 596 
+
+
+PAGE 28
+28 
+ 
+proliferation Ki-67; MMP11, matrix metallopeptidase 11; MZB1, marginal zone B 597 
+and B1 cell-specific protein 1; NEAT1, nuclear paraspeckle assembly transcript 1; 598 
+NK, natural killer; NKG7, natural killer cell granule protein 7; PECAM1, platelet 599 
+endothelial cell adhesion molecule; PLVAP, plasmalemma vesicle associated protein; 600 
+POSTN, periostin; S100A8, S100 calcium-binding protein A8; S100A9, S100 601 
+calcium-binding protein A9; ScRNA-Seq, single-cell RNA sequencing; SPON2, 602 
+spondin 2; TCF7, transcription factor 7; TGIT, T-cell immunoreceptor with 603 
+immunoglobulin and immunoreceptor tyrosine-based inhibitory motif domains; 604 
+TOP2A, DNA topoisomerase 2-alpha; UBE2C, Ubiquitin Conjugating Enzyme E2 C; 605 
+UMAP: uniform manifold approximation and projection;   606 
+  607 
+
+PAGE 29
+29 
+ 
+ 608 
+Supplementary Figure S9. ScRNA-Seq data related to ligand-receptor 609 
+interactions between tumor and immune cells in proximal-like EpS molecular 610 
+subtype. (A) UMAP showing Int-sc profiles of proximal-like EpS malignant and non-611 
+malignant cells colored by cell identity (left panel) and sample of origin (right panel). 612 
+(B) Heatmap showing expression Z-score of selected marker genes in proximal-like 613 
+EpS Int-sc cell types. 614 
+
+
+PAGE 30
+30 
+ 
+Abbreviations: APOC1, apolipoprotein C1; APOE, apolipoprotein E; C1QA, 615 
+complement C1q A Chain; C1QB, complement C1q B Chain; CAF: cancer-associated 616 
+fibroblast; EpS, epithelioid sarcoma; GZMA, granzyme 1; Int-sc, integrated single-617 
+cell; KRT8, keratin 8; KRT19, keratin 19; MMP11, matrix metallopeptidase 11; 618 
+NKG7, natural killer cell granule protein 7; PECAM1, platelet endothelial cell 619 
+adhesion molecule; PLVAP, plasmalemma vesicle associated protein; POSTN, 620 
+periostin; UMAP: uniform manifold approximation and projection 621 
+  622 
+
+PAGE 31
+31 
+ 
+ 623 
+Supplementary Figure S10. Spatial distribution of selected ligand-receptor pairs 624 
+involved in the intercellular interactions between the immune and tumor cells, in 625 
+distal-like EpS using Visium Spatial transcriptomics (10x Genomics). (A) HES-626 
+stained slide of the capture area by the Visium assay, represented in Figure 1G, from 627 
+P36's distal-like EpS sample. The lower panel corresponds to a higher magnification 628 
+of the boxed area. Immune cell infiltration was seen at the periphery of the tumor. (B) 629 
+Spatial representation of the ligand CCL5 and its receptor ACKR2 expression levels 630 
+by Visium assay in the P36 distal-like EpS sample. (C) HES-stained slide of the 631 
+
+
+PAGE 32
+32 
+ 
+capture area by Visium assay from P33 distal-like EpS sample. The lower panel 632 
+corresponds to a higher magnification of the boxed area. Immune cell infiltration was 633 
+seen at the periphery of the tumor. (D) Spatial representation of the ligands CCL5 and 634 
+DSC2 and their cognate receptors ACKR2 and DSG2 expression levels by Visium 635 
+assay in the P33 distal-like EpS sample.  636 
+Abbreviations: ACKR2, atypical chemokine receptor 2; CCL5, C-C motif chemokine 637 
+ligand 5; DSC2, desmocollin 2; DSG2, desmoglein 2; EpS, epithelioid sarcoma; HES, 638 
+hematoxylin-eosin-saffron 639 
+  640 
+
+PAGE 33
+33 
+ 
+ 641 
+Supplementary Figure S11. Spatial distribution of selected ligand-receptor pairs 642 
+involved in the intercellular interactions between the immune and tumor cells, in 643 
+
+
+PAGE 34
+34 
+ 
+proximal-like EpS using Visium Spatial transcriptomics (10x Genomics). (A) 644 
+Spatial representation of the ligands CCL5, DSC2 and CSF1 and their cognate 645 
+receptors ACKR2, DSG2 and CSF1R expression levels by Visium assay in the P35 646 
+proximal-like EpS sample. (B) Spatial representation of the ligands CCL5, DSC2 and 647 
+CSF1 and their cognate receptors ACKR2, DSG2 and CSF1R expression levels by 648 
+Visium assay in the P23 proximal-like EpS sample. 649 
+Abbreviations: ACKR2, atypical chemokine receptor 2; CCL5, C-C motif chemokine 650 
+ligand 5; CSF1, colony-stimulating factor 1; CSF1R, colony stimulating factor 1 651 
+receptor; DSC2, desmocollin 2; DSG2, desmoglein 2; EpS, epithelioid sarcoma 652 
+  653 
+
+PAGE 35
+35 
+ 
+ 654 
+Supplementary Figure S12. ScRNA-Seq highlights a cancer cell-specific EMT 655 
+signature of distal-like EpS molecular subtype. (A) Heatmap showing expression 656 
+Z-score of the top 50 differentially expressed genes of each EpS malignant cell 657 
+subcluster. Key markers of each subcluster are shown on the right. (B) Top three 658 
+significantly enriched GO pathways in each single-cell EpS malignant cell subcluster. 659 
+
+
+PAGE 36
+36 
+ 
+Abbreviations: AEBP1, adipocyte enhancer-binding protein 1; BGN, biglycan; CCL2, 660 
+C-C motif chemokine ligand 2; CCN2, cellular communication network factor 2; 661 
+CFB, complement factor B; CLU, clusterin; COL14A1, collagen type XIV alpha 1 662 
+chain; CRYAB, crystallin alpha B; DSG2, desmoglein 2; ECM1, extracellular matrix 663 
+protein 1; EDNRA, endothelin receptor type A; EMT: epithelial- mesenchymal 664 
+transition; FAM107A, family with sequence similarity 107 member A; FDR, false 665 
+discovery rate; HGF, hepatocyte growth factor ; IFI6, interferon alpha inducible 666 
+protein 6; IFN: interferon; ISG15, interferon-stimulated gene 15; ITM2B, integral 667 
+membrane protein 2B; KAT7, kysine acetyltransferase 7; LncRNA: long non-coding 668 
+RNA LRRC17, leucine Rich Repeat Containing 17; MALAT1, metastasis associated 669 
+lung adenocarcinoma transcript 1; MFF, mitochondrial fission factor; MGFE8, milk 670 
+fat globule-EGF and factor V/VIII domain containing; MIF, macrophage migrationi 671 
+factor; MKI67, marker of proliferation Ki-67; MMP28, matrix metallopeptidase 28; 672 
+MT1E, metallothionein 1E, MT1M, metallothionein 1M; MT1X, metallothionein 1X; 673 
+NEAT1, nuclear paraspeckle assembly transcript 1; NR2F2, nuclear receptor 674 
+subfamily 2 group F member 2; RPL29, ribosomal protein L29; SULF1, sulfatase 1; 675 
+SYNPO2, synaptopodin 2; TOP2A, DNA topoisomerase II Alpha; TNNC1, troponin 676 
+C1; UBEC2C, Ubiquitin Conjugating Enzyme E2 C; UMAP: uniform manifold 677 
+approximation and projection 678 
+  679 
+
+PAGE 37
+37 
+ 
+ 680 
+Supplementary Figure S13. CIBERSORTx deconvolution of scRNA-Seq EpS 681 
+malignant cell subclusters from the bulk RNA-seq EpS cohort.  682 
+Abbreviations: EpS, epithelioid sarcoma; EMT: epithelial-mesenchymal transition; 683 
+IFN: interferon; LncRNA: long non-coding RNA   684 
+
+
+PAGE 38
+38 
+ 
+ 685 
+Supplementary Figure S14. DSG2 immunostaining. Representative example of a 686 
+positive IHC staining for DSG2 in a distal-like EpS sample (left panel) and a negative 687 
+IHC staining for DSG2 in a proximal-like EpS sample (right panel).  688 
+Abbreviations: DSG2, desmoglein 2; EpS, epithelioid sarcoma; IHC, 689 
+immunohistochemistry 690 
+  691 
+
+
+PAGE 39
+39 
+ 
+ 692 
+Supplementary Figure S15. Assessment of single-cell derived EMT_5 signature’s 693 
+prognostic value. (A) Kaplan-Meier metastasis-free survival analysis according to 694 
+high and low EMT_5 signature score in the bulk RNA-Seq dataset of the EpS cohort. 695 
+B) Kaplan-Meier overall survival (left panel) and metastasis-free survival (right 696 
+panel) analyses according to high and low EMT_5 signature score in an independent 697 
+external RNA-Seq cohort of 12 EpS. P values are calculated using the Log-rank test. 698 
+Abbreviation: EMT: epithelial-mesenchymal transition 699 

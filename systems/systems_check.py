@@ -1299,6 +1299,15 @@ def _frontmatter(text):
             continue
         k, _, v = ln.partition(":")
         out[k.strip()] = v.strip()
+    # Compare semantic scalar values, so quoted YAML statuses/kinds obey the same
+    # rules as bare ones. Keep the legacy representation for collections and for
+    # malformed historical headers: archive ids still participate in uniqueness.
+    # This fallback is not validation; check_document_frontmatter rejects malformed
+    # live YAML and schema-invalid values independently.
+    parsed, error = _yaml_frontmatter(text)
+    if error is None and parsed is not None:
+        out.update((key, value) for key, value in parsed.items()
+                   if isinstance(key, str) and isinstance(value, str))
     return out
 
 

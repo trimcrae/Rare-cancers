@@ -1,0 +1,191 @@
+{
+  "passed": true,
+  "synthetic": true,
+  "scope": "Worker independent multiset filter and subject-level arithmetic; production enumerator is system under test. No independent external review claimed.",
+  "tiny_subject_multisets": 56,
+  "release_designs": 4,
+  "unique_arm_release_groups": 107,
+  "tiny_release_pair_checks": 3357,
+  "tiny_subject_pair_checks": 12544,
+  "tied_events_exercised": true,
+  "both_arm_censoring_exercised": true,
+  "budget_failures": [
+    {
+      "settings": {
+        "max_nodes": 0
+      },
+      "reason": "incomplete_arm_enumeration"
+    },
+    {
+      "settings": {
+        "max_paths": 1
+      },
+      "reason": "incomplete_arm_enumeration"
+    },
+    {
+      "settings": {
+        "seconds": 0
+      },
+      "reason": "incomplete_arm_enumeration"
+    },
+    {
+      "settings": {
+        "max_pairs": 1
+      },
+      "reason": "pair_limit"
+    }
+  ],
+  "infeasible_release_checked": true,
+  "zero_variance_checked": true,
+  "threshold_proof_verified": true,
+  "development_checks": [
+    {
+      "case_id": "n20-hazard-b-0.18-sparse",
+      "true_q": "46155629/35415349",
+      "true_p_approx": 0.2536174667536924,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.18-dense",
+      "true_q": "46155629/35415349",
+      "true_p_approx": 0.2536174667536924,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.32-sparse",
+      "true_q": "7924697818/7101955187",
+      "true_p_approx": 0.29081438898942286,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.32-dense",
+      "true_q": "7924697818/7101955187",
+      "true_p_approx": 0.29081438898942286,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.65-sparse",
+      "true_q": "28014525/1522489",
+      "true_p_approx": 1.7901309087544364e-05,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n20-hazard-b-0.65-dense",
+      "true_q": "28014525/1522489",
+      "true_p_approx": 1.7901309087544364e-05,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.18-sparse",
+      "true_q": "336726424179539/40331023221815251",
+      "true_p_approx": 0.9271960318297983,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.18-dense",
+      "true_q": "336726424179539/40331023221815251",
+      "true_p_approx": 0.9271960318297983,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.32-sparse",
+      "true_q": "43406717952470797/13516320440580943",
+      "true_p_approx": 0.07312554380621138,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.32-dense",
+      "true_q": "43406717952470797/13516320440580943",
+      "true_p_approx": 0.07312554380621138,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.65-sparse",
+      "true_q": "1865180599/55119841",
+      "true_p_approx": 5.987762668814824e-09,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n40-hazard-b-0.65-dense",
+      "true_q": "1865180599/55119841",
+      "true_p_approx": 5.987762668814824e-09,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.18-sparse",
+      "true_q": "374250571324638541696904/118901303395613204247811",
+      "true_p_approx": 0.07603996835801277,
+      "complete": true,
+      "decision": "unresolved",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.18-dense",
+      "true_q": "374250571324638541696904/118901303395613204247811",
+      "true_p_approx": 0.07603996835801277,
+      "complete": true,
+      "decision": "stable_nonreject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.32-sparse",
+      "true_q": "95246908069293793999/8255808001414246505",
+      "true_p_approx": 0.0006822619342436682,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.32-dense",
+      "true_q": "95246908069293793999/8255808001414246505",
+      "true_p_approx": 0.0006822619342436682,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.65-sparse",
+      "true_q": "1212413056333272/20850852573725",
+      "true_p_approx": 2.4325356061108292e-14,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    },
+    {
+      "case_id": "n80-hazard-b-0.65-dense",
+      "true_q": "1212413056333272/20850852573725",
+      "true_p_approx": 2.4325356061108292e-14,
+      "complete": true,
+      "decision": "stable_reject",
+      "original_contained": true
+    }
+  ],
+  "scipy_version": "1.18.1",
+  "scipy_comparisons": 18,
+  "max_scipy_p_discrepancy": 3.885780586188048e-16,
+  "elapsed_seconds": 58.51467109999794
+}

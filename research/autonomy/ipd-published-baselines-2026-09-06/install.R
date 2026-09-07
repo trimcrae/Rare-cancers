@@ -1,0 +1,7 @@
+dir.create('.cache/R-library', recursive=TRUE, showWarnings=FALSE)
+.libPaths(normalizePath('.cache/R-library'))
+options(repos=c(CRAN='https://cran.r-project.org'),timeout=180)
+install.packages(c('IPDfromKM','quadprog','jsonlite'),type='win.binary',destdir='.cache')
+install.packages('.cache/CIFresolve',repos=NULL,type='source')
+print(sessionInfo())
+print(installed.packages()[,c('Package','Version')])

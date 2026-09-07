@@ -1,0 +1,1215 @@
+PDF page 1
+ORIGINAL ARTICLE
+Cellular andM olecular Life Sciences
+Cellular and Molecular Life Sciences          (2026) 83:290 
+https://doi.org/10.1007/s00018-026-06254-6
+  Cyril F. Bourgeois
+cyril.bourgeois@inserm.fr
+1 Equipe Labellisée Ligue Contre Le Cancer, Laboratoire de 
+Biologie Et Modelisation de La Cellule, Ecole Normale 
+Superieure de Lyon, CNRS, UMR 5239, Inserm, U1293, 
+Universite Claude Bernard Lyon 1, 69007 Lyon, France
+2 Cancer Research Center of Lyon (CRCL), INSERM U1052, 
+Université Claude-Bernard Lyon 1, Hepatology Institute of 
+Lyon, 69008 Lyon, France
+3 Apoptosis, Cancer and Development Laboratory- Equipe 
+Labellisée La Ligue, LabEx DEVweCAN, Institut 
+Convergence PLAsCAN, Centre de Recherche en 
+Cancerologie de Lyon, INSERM U1052-CNRS 5286, 
+Université Claude Bernard Lyon 1, 69008 Lyon, France
+4 Gastroenterology and Technologies for Health, Centre de 
+Recherche en Cancerologie de Lyon, INSERM U1052-
+CNRS5286, Université Lyon 1, 69008 Lyon, France
+Abstract
+DEAD box helicases DDX17 and DDX5 control transcription termination and the associated processing of the 3' end 
+of pre-messenger RNAs. Here, we demonstrate that the transcriptional readthrough induced by DDX17 depletion, either 
+alone or in combination with DDX5, leads to an increased production of chimeric transcripts from tandemly oriented 
+gene, or tracRNAs, in neuroblastoma cells. Analysis of neuroblastoma tumours in which tracRNAs are abundant revealed 
+that low expression of DDX17 and DDX5 genes is associated with high-risk tumours and poor overall patient survival, 
+and inversely linked with MYCN oncogene amplification. We demonstrate that changes in MYCN expression do not 
+affect the expression of either helicase, but alter transcription termination leading to the production of tracRNAs. MYCN 
+acts on termination through its direct binding to the 3' region of genes and it interacts with DDX17, suggesting that it 
+may interfere with the activity of the helicase. Collectively, our work reveals a novel function of MYCN in transcription 
+termination and suggests that the deregulation of MYCN and DDX17/DDX5 expression in neuroblastoma may lead to the 
+expression of non-canonical and potentially harmful RNA molecules.
+Received: 29 October 2025 / Revised: 27 April 2026 / Accepted: 5 May 2026
+© The Author(s) 2026
+MYCN and helicases DDX17 and DDX5 have opposite effects on the 
+production of readthrough-associated chimeric transcripts
+Valentine Clerc1 · Khouaila Aouadi1 · Jessica Valat1 · Xavier Grand1,2 · Lou-Sahra Khourab1 · Alizée Duquet1 · 
+Nicolas Fontrodona1 · Matéo Bazire1 · Nicolas Rama3 · Didier Auboeuf1 · Benjamin Gibert4 · Franck Mortreux1 ·  
+Cyril F. Bourgeois1
+poly-A tail, is regulated not only by RNA binding proteins, 
+but also by transcription and chromatin-associated fac -
+tors [ 1, 2]. Transcription factors impact RNA processing 
+in multiple manners, for example by regulating RNAPII 
+elongation speed, interacting with RNA binding proteins or 
+directly with RNA [3]. Yet, we know only a few examples 
+of transcription factors that regulate alternative splicing by 
+binding to chromatin sites near regulated RNA processing 
+events rather than to the promoter [4, 5].
+The tight connection between transcription termination 
+and 3' end RNA processing is archetypal of this coordina -
+tion of events. The slow down and release of RNAPII after 
+the transcription of the polyadenylation site (PAS) and the 
+cleavage of the nascent transcript are mutually dependent 
+events, in a complex interplay involving factors acting on 
+chromatin, at the level of the RNAPII complex, and/or on 
+the RNA molecule [6–8]. Altering the expression or activity 
+of these factors results in readthrough transcription past the 
+TTS (transcription termination site) and in the extension of 
+the 3' extremity of the transcript. Readthrough transcription 
+has been observed in cells exposed to various stresses or viral 
+infection, as well as in cancer [ 9–17], as recently reviewed 
+[18, 19]. However, a recent survey of transcriptomic data 
+Introduction
+In eukaryotes, the co-transcriptional processing of nascent 
+RNAs produced by RNA polymerase II (RNAPII), i.e. 
+5' capping, splicing, 3' end cleavage and addition of the 
+
+PDF page 2
+1 3
+  290  Page 2 of 15
+V. Clerc et al.
+revealed a large prevalence of readthrough transcription 
+in healthy cells, affecting up to 34% of expressed protein-
+coding genes, suggesting a potential regulatory role of this 
+phenomenon [20].
+In some cases, readthrough transcription invades the 
+downstream gene on the same DNA strand, generating cis-
+spliced transcripts containing exons from both genes. These 
+RNA molecules have been called transcription-induced 
+chimeras [ 21, 22], tandem RNA chimeras [ 23], products 
+of conjoined genes [ 24, 25], readthrough fusions [ 26] or 
+cis-splicing products of adjacent genes [ 27, 28]. Hereaf -
+ter we propose to define them as tracRNAs for transcrip -
+tion readthrough-associated chimeric RNAs, to distinguish 
+them clearly from mRNAs resulting from chromosomal 
+rearrangements. As readthrough transcripts, tracRNAs are 
+found in normal tissues [22, 29] and their production is con-
+sidered as a possible mechanism to increase protein diver -
+sity since some of them can retain a functional open reading 
+frame (ORF). Chimeric proteins produced from tracRNAs 
+have been identified in cancer cells [ 26, 30–32]. Accord-
+ingly, tracRNAs have been identified in many types of can-
+cers and associated with oncogenesis [33, 34].
+Several splicing and/or polyadenylation factors impact 
+the formation of tracRNAs [35], and chemical splicing inhi-
+bition represses their formation in neuroblastoma, a cancer 
+in which most RNA fusions are intrachromosomal and cor-
+respond to tracRNAs [36]. The formation of tracRNAs can 
+be associated to splicing defects in the adjacent invaded 
+gene, highlighting the coordination of events that ensures 
+the autonomous expression of neighbouring genes [37, 38]. 
+Production of tracRNAs also involves chromatin-associated 
+factors, such as the histone methyltransferase SETD2 [ 10] 
+or CTCF [27, 28]. Recent reports further supported a func -
+tion of CTCF in controlling PAS choice and transcription 
+termination [39, 40].
+Among the factors involved in 3' end processing of 
+RNAPII transcript are DEAD box ATPases DDX17 and 
+DDX5, two closely related proteins that have a variety of 
+functions in gene expression, especially in transcription and 
+RNA processing [ 41, 42]. Thanks to their helicase activ -
+ity, these proteins modulate local DNA and RNA second -
+ary structures and control the dynamics of transcription 
+and RNA processing, impacting promoter and exon choice 
+[43–49]. We and others have shown that the knockdown of 
+DDX17 and DDX5, or their yeast ortholog Dbp2, also leads 
+to readthrough transcription [40, 47, 48, 50, 51].
+We show hereafter that the readthrough transcription 
+induced by DDX17 and DDX5 silencing in neuroblas -
+toma cells results in the production of several hundreds of 
+tracRNAs, a fraction of which is also found in neuroblas -
+toma tumours. Interestingly, we found that high DDX17 
+and DDX5 expression correlates with a good survival 
+of neuroblastoma patients but that it is inversely corre -
+lated to the amplification of MYCN, a driving oncogene 
+in this cancer [ 52]. Like the closely related transcription 
+factor MYC, MYCN binds to most active promoters and 
+regulates several aspects of RNAPII activity [ 53], but it 
+also binds to many intragenic and intergenic sites. Here, 
+we present evidence that MYCN directly controls tran -
+scription termination through its binding near the TTS of 
+DDX17/DDX5-regulated genes. This new function sug -
+gests that the amplification of MYCN, combined to the 
+suboptimal expression of DDX17 and DDX5, could con -
+tribute to the increased expression of tracRNAs in high-
+risk neuroblastomas.
+Results
+DDX17 and DDX5 depletion enhances the 
+expression of tracRNAs and chimeric proteins
+We recently described a genome-wide effect of DDX17/
+DDX5 depletion on transcription termination in neuroblas -
+toma cells SH-SY5Y cells [40]. Beside the numerous exam-
+ples of transcriptional readthrough induced by DDX17/
+DDX5 depletion, our RNA-seq results also displayed splic-
+ing junction reads across adjacent genes. Typically, splicing 
+skipped the terminal exon of the altered gene and linked 
+its penultimate exon to the second exon of the following 
+gene, generating a chimeric mRNA molecule or tracRNA 
+(Fig. 1A). However, we also frequently observed complex 
+alternative splicing patterns across exons from both genes. In 
+some interesting cases chimeric junctions linked more than 
+2 adjacent genes, suggesting that DDX17/DDX5 depletion 
+could induce the formation of multimeric mRNA molecules 
+(NTRK1-PEAR1-LRRC71 and NDUF A13-YJEFN3-CILP2).
+We used the Arriba algorithm [ 54] to evaluate the 
+number of tracRNAs whose expression is modified upon 
+DDX17/DDX5 depletion. We identified 282 tracRNAs, 
+218 of which (77%) were upregulated and 64 (23%) down-
+regulated (Fig. 1B, top panel, Supp. Table 1). Applying 
+a more stringent selection threshold confirmed that the 
+depletion of both helicases mostly increased the expres -
+sion of tracRNAs (Fig. 1B, bottom panel). Hereafter we 
+focused only on induced tracRNAs, and found that more 
+than 22% of the genes displaying this pattern had been 
+previously identified as genes with readthrough induced 
+by DDX17/DDX5 depletion (Fig. 1C) [ 40]. Taken col -
+lectively, this allowed us to define a list of 953 genes 
+whose termination is positively controlled by DDX17 
+and DDX5 (Supp. Table 1).
+We next validated experimentally the expression of 
+a selection of tracRNAs. First, we carried out RT-PCR 
+
+PDF page 3
+1 3
+Page 3 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+Fig.  1 DDX17 and DDX5 depletion enhances the expression of 
+tracRNAs. A Schematic representation of the production of readthrough 
+induced tracRNAs. B Diagram showing the number of up and down -
+regulated tracRNAs displaying at least a fold change of 2 and the most 
+significant transcripts (P-val < 0.1). C Venn diagram showing the overlap 
+between genes producing upregulated tracRNAs and the genes previ -
+ously identified as displaying readthrough transcription. The list of 953 
+genes corresponds to the genes on which we carried out global analyses 
+(Supp. Table 1). Note that within the 218 upregulated events from panel 
+B, there are cases of tracRNAs that display a splicing between one exon 
+from the same gene of origin to exons from different target genes, each 
+time generating 2 different chimeras. As these events can be counted only 
+once in panel C, this explains the total of 216 upregulated tracRNAs. D 
+Quantification of tracRNAs upon silencing of both DDX17 and DDX5. 
+Expression of tracRNAs was monitored by RT-qPCR using primers span-
+ning the chimeric junction and then normalized on the expression of the 
+5’ parental gene. Two-tailed paired t-test (* P-val < 0.05; ** P-val < 0.01). 
+E Quantification of tracRNAs upon silencing of DDX17. Details are as 
+in panel D. F Schematic representation of CTSD-IFITM10 tracRNAs and 
+putative chimeric protein. The sites targeted by the siRNAs used to vali-
+date the specificity of the band corresponding to CTSD-IFITM10 protein 
+are indicated. G Western-blot showing the expression of the chimeric 
+CTSD-IFITM10 protein and the canonical protein CTSD, as well as the 
+validation of DDX5 and DDX17 silencing
+ 
+
+PDF page 4
+1 3
+  290  Page 4 of 15
+V. Clerc et al.
+assays using a primer overlapping the predicted RNA 
+fusion between both genes, to specifically detect the 
+tracRNA, that we systematically compared to the canoni -
+cally produced mRNA. We observed an increased amount 
+of all tested tracRNAs upon DDX17/DDX5 depletion, 
+which did not systematically match with a change of 
+expression of the corresponding canonical mRNA. Using 
+RT-qPCR for a more precise quantification of a larger 
+panel of tracRNAs, we showed that the expression of each 
+tracRNA was increased between 2 and up to 150-fold in 
+absence of DDX17/DDX5, compared to the canonical 
+mRNA (Fig. 1D). Note that validated CTSD-IFITM10 , 
+NDUF A13-YJEFN3 and TRIM3-HPX  tracRNAs were not 
+predicted as significant events by Arriba but were identi -
+fied while browsing through our RNA-seq data. This sug -
+gested that the number of tracRNAs induced by DDX17/
+DDX5 depletion is underestimated.
+We also tested the effect of single DDX17 knockdown 
+on the production of previously validated tracRNAs. We 
+observed an increased expression of all tracRNAs, even 
+though the effect was less pronounced than in the double 
+knockdown condition (Fig. 1E). This experiment showed 
+that the depletion of only one of the two helicases is suf -
+ficient to induce readthrough transcription.
+Some tracRNAs maintain the open reading frame of 
+their respective canonical transcripts and escape degra -
+dation by the nonsense-mediated mRNA decay pathway. 
+For example, the CTSD-IFITM10  tracRNA is cleaved 
+and polyadenylated at the canonical PAS of the IFITM10 
+gene. This chimeric mRNA is predicted to produce a chi -
+meric protein of 557 amino acids (60 kDa), lacking 55 
+and 28 amino acids from the C-terminal part of CTSD 
+and N-terminal part of IFITM10 proteins, respectively 
+(Fig. 1F). This chimeric protein was identified in breast 
+cancer cells [ 26], and we sought to detect it in neuro -
+blastoma cells, using an antibody against Cathepsin D. 
+We identified expected proteins of 43 and 45 kDa, but 
+also a discrete 60 kDa band that was detected only upon 
+depletion of DDX17 and DDX5 (Fig. 1G). We estimated 
+that its relative expression had increased by at least five -
+fold compared to the control condition. All bands nearly 
+disappeared when cells were treated with a siRNA target -
+ing the body of the CTSD transcript. Furthermore, treat -
+ing cells with another siRNA specifically targeting the 
+CTSD-IFITM10  junction also led to a complete loss of 
+the 60 kDa band. Note that this treatment also reduced 
+the level of canonical Cathepsin D, likely because of a 
+non-specific effect of the junction siRNA on canonical 
+mRNAs. This result demonstrated that the siDDX17/
+DDX5-induced tracRNAs can produce chimeric proteins, 
+which could have a strong functional impact in cells.
+The expression of the DDX17 gene is reduced in 
+high-risk neuroblastomas
+Recently, neuroblastoma tumours were shown to express 
+large amounts of tracRNAs [36], which prompted us to look 
+whether DDX17/DDX5-regulated chimeras can be found 
+in these tumours. Of the 90 most significantly induced 
+tracRNAs from our analysis, 25 were also identified in neu-
+roblastomas (Fig. 2A, top panel, Supp. Table 1). Of note, 4 
+of these 25 tracRNAs were detected in at least 10% of neu-
+roblastomas (Fig. 2B), whereas only 1 of them ( SLC29A1-
+HSP90AB1) was also detected in a control cohort of 161 
+healthy adrenal gland samples (Fig. 2A, bottom panel).
+Our earlier work showed that DDX17 and DDX5 are 
+involved in early stages of retinoic acid-induced differentia-
+tion of neuroblastoma cells [46]. To explore further the link 
+between the two helicases and this cancer, we analysed the 
+expression of their genes in the clinically annotated SEQC 
+neuroblastoma cohort [55]. We found that a high expression 
+of DDX17 was significantly correlated with a better survival 
+probability of patients (Fig. 2C, left panel). This was true 
+also when the Kaplan-Meyer analysis was performed only 
+on the most aggressive stage 4 patients (International Neu -
+roblastoma Staging System INSS) (Fig. 2C, right panel). 
+More specifically, DDX17 expression is significantly lower 
+in stage 4 tumours than in any other neuroblastoma stage 
+(Fig. 2D), and is also significantly reduced in high-risk 
+tumours (Fig. 2E). Finally, we found a negative associa -
+tion between DDX17 expression and the amplification of 
+the MYCN oncogene, which is a well-established driver and 
+marker of poor prognostic in neuroblastoma [ 52] (Fig. 2F). 
+For the DDX5 gene, results were more contrasted but as 
+for DDX17, a low DDX5 expression was correlated with a 
+lower survival probability and with MYCN amplification. 
+This is in contrast with previous findings that associated a 
+high expression DDX5 with an unfavourable outcome in 
+neuroblastoma patients [56].
+Fig.  2 The expression of the DDX17 gene is reduced in high-risk 
+neuroblastomas. A Venn diagrams showing the number of tracRNAs 
+(defined as in Fig. 1A) that are upregulated upon DDX17/DDX5 deple-
+tion and identified in neuroblastoma tumors. B Top 10 of tracRNAs 
+identified both in neuroblastoma tumours and upregulated upon 
+DDX17/DDX5 depletion. C Kaplan–Meier curves showing the over -
+all survival of neuroblastoma patients, separated in 2 groups of high 
+and low DDX17 expression (relative to the median value of the group). 
+Left diagram: all patients ( n = 498). Right diagram: stage 4 patients 
+(n = 183). The number of patients in each group and for each time point 
+is indicated below. D Box plot of DDX17 expression relative to tumor 
+stage (INSS classification). ANOV A corrected for multiple compari -
+sons with Tukey’s tests. Only the comparison between Stage 4 and 
+other stages is shown, the other comparisons were not significant. E 
+Box plot of DDX17 expression relative to low/high risk classification. 
+Two-tailed t-test. F Box plot of DDX17 expression relative to ampli -
+fied (A) or non-amplified (NA) MYCN status. Two-tailed t-test
+
+PDF page 5
+1 3
+Page 5 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+In conclusion, our results established a link between the 
+expression of DDX17, and to a lower extent of DDX5, and 
+the severity of neuroblastoma. This raised the interesting 
+possibility that a suboptimal expression of DDX17 and/
+or DDX5, which leads to transcription termination defects 
+of hundreds of genes in cultured cells, could promote the 
+ 
+
+PDF page 6
+1 3
+  290  Page 6 of 15
+V. Clerc et al.
+abnormal expression of a subset of tracRNAs in aggressive 
+neuroblastomas.
+Overexpression of MYCN increases transcriptional 
+readthrough and tracRNA formation
+The negative link between the amplification of MYCN and a 
+lower expression of both DDX17 and DDX5 genes suggested 
+that MYCN could control the expression of both helicases. 
+To test this hypothesis, we used two different neuroblas -
+toma cell lines with and without an amplification of MYCN 
+to modulate the expression of the oncogene. As c-MYC was 
+recently shown to regulate readthrough transcription [ 57], 
+we also investigated whether variations in MYCN expres -
+sion could affect transcription termination in neuroblastoma 
+cells, using a subset of previously validated DDX17/DDX5-
+regulated tracRNAs (Fig. 1) and readthrough events [40] as 
+readouts.
+First, we transfected SH-SY5Y cells (no MYCN amplifi-
+cation) with increasing amounts of an HA-tagged MYCN-
+encoding plasmid. MYCN protein was barely detectable in 
+control cells and strongly induced upon transfection, but 
+this did not result in any significant change in DDX17 and 
+DDX5 protein levels (Fig. 3A). However, under these con-
+ditions we observed an increased readthrough transcription 
+and production of tracRNAs (Fig. 3B).
+In parallel, we downregulated MYCN expression in the 
+MYCN-amplified SK-N-BE(2) cell line, using specific siR -
+NAs which reduced MYCN protein level by nearly 60%. 
+This depletion did not affect the levels of either DDX17 
+or DDX5 protein (Fig. 3C), but it significantly reduced 
+readthrough transcription and tracRNA expression (Fig. 3D). 
+Importantly, steady-state levels of the corresponding canon-
+ical transcripts remained unaffected by variations in MYCN 
+expression, suggesting that MYCN altered transcription ter-
+mination and as a consequence, tracRNA production, in a 
+manner that is distinct from its promoter-associated activity.
+MYCN interacts with DDX17
+Since the effect of MYCN on transcription termination is 
+the opposite of that of DDX17 and DDX5, we hypothesised 
+that MYCN could in some way interfere with the function of 
+helicases at the 3' end of their target genes. Thus, we tested 
+whether MYCN could interact with these helicases by car -
+rying out co-immunoprecipitation (co-IP) assays in SK-N-
+BE(2) cells. As shown in Fig. 3E, endogenous MYCN and 
+DDX17, but not DDX5, co-immunoprecipitated efficiently. 
+The efficiency of MYCN IP was increased by 2.5-fold 
+when the cell lysates were treated with Benzonase®, which 
+similarly improved the detection of DDX17. This result 
+excluded the contribution of nucleic acids and suggested a 
+direct interaction between the two proteins. Next, we carried 
+out the reverse experiment and immunoprecipitated DDX17 
+and DDX5 from SK-N-BE(2) cell lysates. In absence of 
+Benzonase®, endogenous MYCN was detected only in the 
+DDX17 IP, and not in the DDX5 IP (Fig. 3F), confirming 
+the results of MYCN IPs. Benzonase® treatment improved 
+the detection of MYCN in DDX17 IP samples, and it also 
+allowed to detect a weak amount of MYCN protein in the 
+DDX5 IP. Altogether, these results revealed the existence 
+of a complex between MYCN and DDX17 in neuroblas -
+toma cells, and they underlined the specificity of this inter -
+action, which could alter the activity of DDX17 and lead to 
+enhanced readthrough transcription.
+MYCN binding is enriched near the TTS of DDX17/
+DDX5-regulated genes
+To test the hypothesis of a direct effect of MYCN on tran -
+scription termination, we re-analysed previously published 
+ChIP-seq datasets performed in several neuroblastoma cell 
+lines [58–60]. We found that the 3' region of genes display-
+ing transcriptional readthrough or tracRNA production upon 
+DDX17/DDX5 knock-down or MYCN overexpression often 
+exhibited at least one MYCN peak, detected across several 
+cell lines (Fig. 4A). A global analysis of all DDX17/DDX5-
+regulated genes confirmed this observation, as the chroma -
+tin region overlapping their terminal exon was significantly 
+enriched in MYCN binding sites, compared to non-regu -
+lated genes (Fig. 4B). These binding sites are enriched in 
+the motif corresponding to the classical E-Box recognised 
+by members of the Myc family (Fig. 4B). The binding of 
+MYCN near the 3' end of our model genes was also vali -
+dated by ChIP-qPCR assays in SK-N-BE(2) cells (Fig. 4C). 
+Together with results of Fig. 3 showing that MYCN does 
+not affect DDX17 and DDX5 expression, these experiments 
+strongly suggested that the effect of MYCN on transcription 
+termination is direct.
+To extend our analysis of the epigenetic state of those 
+regulated genes, we also examined the enrichment of several 
+histone marks downstream of their TTS, using ENCODE 
+[61] ChIP-seq datasets from SK-N-SH neuroblastoma cells. 
+This revealed a reduction in repressive marks (H3K9me2/3 
+and H3K27me3), alongside an increase in a mark associated 
+with open and active chromatin (H4K20me1) (Fig. 4D). No 
+difference was observed for marks associated with active 
+intragenic transcription (H3K36me3) and active enhancers 
+(H3K27ac) (Fig. 4D). These data suggest that the chromatin 
+downstream of genes regulated by DDX17/DDX5 is in a 
+permissive state that could promote readthrough transcrip -
+tion when their regulation is altered.
+
+PDF page 7
+1 3
+Page 7 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+The forced recruitment of MYCN near the 
+termination region induces the production of 
+tracRNAs
+Finally, to evaluate the consequence of MYCN binding 
+near the TTS on transcriptional readthrough and tracRNA 
+production, we designed an experiment in SH-SY5Y cells 
+(low endogenous MYCN level) in which we could force 
+the recruitment of MYCN downstream of the TTS of the 
+MAPK7 gene. For this, we co-transfected cells with two 
+plasmids, one expressing the MYCN protein fused to a 
+catalytically inactive "dead" Cas9 protein and the other 
+expressing specific RNA guides to target dCas9-MYCN 
+downstream of the MAPK7 gene (Fig. 5A). A plasmid 
+expressing dCas9-GFP fusion protein was used as a control 
+to rule out a possible non-specific action of the dCas9 fusion 
+Fig. 3 MYCN enhances the formation of tracRNAs and interacts with 
+DDX17. A Western-blot showing DDX17 and DDX5 protein levels 
+upon increasing expression of MYCN in SH-SY5Y cells. Quantifi -
+cation of the western-blot (normalised to vinculin) is shown on the 
+right. B Expression of tracRNAs and readthrough transcripts upon 
+MYCN overexpression. Details are as in Fig. 1D. Ratio paired t-test 
+(*P-val < 0.05; ** P-val < 0.01; *** P-val < 0.001). C Western-blot 
+showing DDX17 and DDX5 protein levels upon MYCN depletion 
+in SK-N-BE(2) cells. Quantification of the western-blot (normalised 
+to GAPDH) is shown on the right. D Expression of tracRNAs and 
+readthrough transcripts upon MYCN depletion. Unpaired Mann–Whit-
+ney test (*P-val < 0.05; **P-val < 0.01). E Immunoprecipitation assays 
+of endogenous MYCN in SK-N-BE(2) cells to detect its association 
+with DDX5 and DDX17. The cell lysate was pre-treated or not with 
+Benzonase®, as indicated, to remove all nucleic acids. F Immunopre-
+cipitation of endogenous DDX5 and DDX17 in SK-N-BE(2) cells to 
+detect their association with MYCN, in the presence or absence of 
+Benzonase®
+ 
+
+PDF page 8
+1 3
+  290  Page 8 of 15
+V. Clerc et al.
+protein on transcription through steric hindrance. We veri -
+fied by ChIP-qPCR that fusion proteins were indeed bound 
+at their target site upon transfection of RNA guides.
+We then quantified the expression of the MAPK7 gene, 
+which remained unaffected by the recruitment of either 
+dCas9-MYCN or dCas9-GFP, as did the control ADCK4 
+gene (Fig. 5B, left panel). In contrast, the expression of the 
+MAPK7-RNF112 tracRNA was enhanced specifically upon 
+the binding of the dCas9-MYCN between the two genes, 
+while the ADCK4-NUMBL tracRNA remained unchanged 
+(Fig. 5B, right panel). This experiment demonstrated that 
+the binding of MYCN near the TTS is sufficient to inhibit 
+the normal termination process and promote the formation 
+of a tracRNA.
+Discussion
+In this study, we showed that MYCN, a transcription fac -
+tor with a major oncogenic effect in many cancers, in par -
+ticular neuroblastoma, promotes readthrough transcription 
+and the production of tracRNAs. This new function of 
+the oncoprotein is dependent on its binding to chromatin 
+in the TTS region. Importantly, MYC was also recently 
+Fig. 4 MYCN binds near the TTS of DDX17/DDX5-regulated genes. 
+A Typical examples of DDX17/DDX5-regulated genes displaying 
+MYCN binding near their 3’ end. B Left panel: genome wide analysis 
+of MYCN binding near terminal exons of DDX17/DDX5-regulated 
+genes and control genes in neuroblastoma cell lines. Tukey’s test. 
+Right panel: MEME analysis showing the enrichment of the E-Box 
+motif within MYCN binding sites. C ChIP-qPCR analysis of MYCN 
+binding near the 3’ end of DDX17/DDX5-regulated genes. Paired t-test 
+(*P-val < 0.05; **P-val < 0.01). D Analysis of histone mark enrichment 
+near the termination region of DDX17/DDX5-regulated genes (TTS 
+−300 to + 1500 bp) and control genes in SK-N-SH cells. Two-sided 
+Wilcoxon rank-sum test (***P < 0.001; ns, not significant)
+ 
+
+PDF page 9
+1 3
+Page 9 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+described to bind near the TTS and to be associated with 
+altered readthrough transcription [57], which underlines the 
+conserved nature of this function within the MYC protein 
+family. Our study is a new illustration of moonlighting func-
+tions that a transcription factor can have upon its binding to 
+non-promoter sites, such as the effects of intragenic binding 
+of transcription factors on alternative splicing [4, 5].
+Highlighting the features associated with MYCN/MYC 
+binding at the TTS of genes helps to understand how these 
+transcription factors control termination. First, in line 
+with the lack of enrichment of the typical enhancer mark 
+H3K27ac in our analysis, Wang and colleagues distin -
+guished MYC-associated TTS from classical transcription 
+enhancers, especially because of their location and because 
+of the diversity of their effect [ 57]. Indeed, they identified 
+examples of increased or decreased readthrough transcrip -
+tion of genes associated to MYC binding. This differs from 
+our results showing a repressed termination of each tested 
+gene by MYCN, but we cannot exclude that the limited size 
+of our panel does not reflect the complete activity of MYCN.
+MYC/MYCN could prevent termination at the end of 
+the gene by activating RNAPII, as they are both known to 
+induce productive elongation [ 62–64]. MYC proteins are 
+known to interact with multiple chromatin remodeling com-
+plexes [53], whose ectopic recruitment to the 3’ end of gene 
+may alter the local epigenetic environment, affect RNAPII 
+kinetics and interactome and disturb the chain of events 
+leading to termination, as proposed for MYC [57]. Interest-
+ingly, our analysis of histone marks in an untreated neuro -
+blastoma cell line (no depletion of DDX17/DDX5 and no 
+MYCN amplification) indicates that the readthrough-asso -
+ciated chromatin of DDX17/DDX5-regulated genes is in a 
+more open and transcriptionally permissive state, compared 
+to unregulated genes. This particular epigenetic context may 
+be more disposed to alterations leading to readthrough tran-
+scription beyond the TTS.
+In our study, one common feature of MYCN-altered 
+genes is that their termination depends on helicases DDX17 
+and DDX5. We showed previously that DDX17/DDX5-reg-
+ulated genes display a looped 3D conformation that brings 
+closer their promoter and TTS [ 40]. Interestingly, this spe-
+cific 3D organisation, which we showed to be critical for the 
+proper selection of the polyadenylation/termination site [40], 
+is also a key aspect of MYC-associated TTS [ 57]. MYC/
+MYCN could therefore contribute to the crosstalk between 
+the promoter and factors involved in 3' end processing and 
+termination, like many other factors [7, 65]. These findings 
+reinforce the concept of a tight spatial coordination between 
+initiation and termination of transcription [40, 66].
+The fact that MYCN binds preferentially downstream 
+of DDX17/DDX5-regulated genes, and that it efficiently 
+co-immunoprecipitates with DDX17, both strongly advo -
+cate for a functional interplay between the transcription 
+factor and the helicase, at least in neuroblastoma cells. 
+One hypothesis is that, when overexpressed, MYCN may 
+interfere with normal DDX17 interactions with its protein 
+partners, including its heterodimerisation partner DDX5. 
+Alternatively, it may interfere with DDX17 binding to chro-
+matin or RNA, or with DDX17 activity on DNA or RNA 
+structures. Consequently, this may impact DDX17/DDX5-
+mediated 3D gene looping [ 40] and termination. Future 
+work will help to determine which of those non-mutually 
+exclusive hypotheses is correct, or if another mechanism is 
+involved.
+The readthrough transcription induced either by depletion 
+of DDX17, alone or with DDX5, or by MYCN overexpres-
+sion, leads to the production of tracRNAs in neuroblastoma 
+cells. Among the most significantly induced tracRNAs, 27% 
+were previously found in neuroblastoma tumors and not in 
+non-tumoural adrenal gland tissue [ 36]. This suggests that 
+this subset of chimeric RNA molecules could potentially be 
+used as biomarkers for this cancer, but further studies will be 
+required to determine their level of specificity, as tracRNAs 
+have been identified in many types of cancers [33, 34].
+Fig. 5 The forced recruitment of MYCN near the termination region 
+is sufficient to induce the formation of tracRNAs. A Strategy for the 
+recruitment of MYCN (fused to a catalytically inactive dCas9) at the 
+3’ end of the MAPK7 gene. B Quantification of canonical MAPK7 tran-
+script and MAPK7-RNF112 tracRNA in cells transfected with dCas9-
+MYCN or dCas9-GFP, relative to transfection without specific gRNA. 
+Paired t-test (*P-val < 0.05; **P-val < 0.01)
+ 
+
+PDF page 10
+1 3
+  290  Page 10 of 15
+V. Clerc et al.
+If production of tracRNA in healthy cells was proposed 
+to increase protein diversity [ 22], their abnormal expres -
+sion in cancer cells can have several consequences [ 67]. 
+First, a fraction of tracRNAs can retain a functional ORF 
+allowing the translation of chimeric or fusion proteins [ 26, 
+30–32], and we validated the production of CTSD-IFITM10 
+protein upon DDX17/DDX5 depletion. In the future, an 
+important objective will be to study the effects of MYCN 
+and search for such chimeric proteins in neuroblastoma cell 
+proteomes. Chimeric proteins can generate highly immu -
+nogenic neo-antigens, which may be unique to the tumour 
+and could be targeted by the immune system, raising new 
+hopes for cancer therapies [68]. Chimeric proteins produced 
+from tracRNAs could also alter the normal protein interac -
+tion network and activate cell growth pathways by acting 
+as oncoproteins, or alter the cell response to antitumour 
+treatments. Second, chimeric transcripts can act as func -
+tional long noncoding RNAs (lncRNA). For example, the 
+SLC45A3-ELK4 tracRNA acts as lncRNA and regulates cell 
+growth in prostate cancer, where its higher expression level 
+has been associated with disease progression and metas -
+tasis [69, 70]. Future analyses will determine whether the 
+tracRNAs we have identified have protumoral properties or 
+can influence tumour response to treatment.
+Our results show that a reduced expression of DDX17 
+or DDX5 genes is significantly associated with a higher 
+risk and shorter patient survival in neuroblastoma patients. 
+These results differ from a previous report showing a link 
+between high DDX5 expression and poor survival of neu -
+roblastoma patients [56], but we used a much larger cohort 
+of tumours ( n = 498 versus n = 42). Importantly, the fact 
+that high expression of DDX17 is associated with a better 
+survival of stage 4 patients reduces the possibility that it is 
+directly and solely linked to MYCN amplification, which is 
+a less predominant risk factor in this class of tumours. We 
+will have to confirm these results at the protein level and to 
+investigate the possible contribution of both helicases to the 
+mechanism of oncogenesis. Based on our previous [40] and 
+present results, we propose that a combined MYCN over-
+expression and suboptimal expression of DDX17 and/or 
+DDX5 may create unfavourable conditions leading to deep 
+transcriptome alterations in neuroblastoma cells, especially 
+readthrough transcription and production of tracRNAs. 
+Understanding better the interplay between these factors 
+will be of great importance to appreciate their impact on 
+tumorigenesis.
+Finally, showing that DDX17 knockdown alone is suf -
+ficient to induce readthrough and tracRNA production is 
+interesting in the context of the recent association of de 
+novo heterozygous DDX17 variants with neurodevelopmen-
+tal disorders [71]. The reduced expression and/or activity of 
+DDX17 in those patients may induce termination defects 
+that may contribute to their altered neuronal development, 
+an hypothesis that will be tested in future studies.
+Materials and methods
+Plasmids and cell culture
+Human SH-SY5Y and SK-N-BE(2) cells (ECACC) were 
+grown and transfected essentially as described previously 
+[46]. For standard DDX17/DDX5 silencing experiments, 
+20 nM of siRNA (sequences in Supp. Table 2) were mixed 
+with Lipofectamine™ RNAiMax (ThermoFisher Scien -
+tific) following the manufacturer’s instructions and cells 
+were harvested 48 h after transfection. Note that for DDX17 
+silencing, we used a mixture of 2 different siRNAs and a 
+total concentration of 60 nM siRNAs. For MYCN overex -
+pression, cells were plated in 6-well-plates to reach 70% 
+confluence, and then transfected with 0.5 to 1 μg pCDNA3-
+HA-hMYCN (Addgene #74163) using JetPrime® (Polyp -
+lus Transfection) following the manufacturer’s instructions. 
+Cells were harvested 48 h after transfection.
+For dCas9-MYCN experiments, the hMYCN cDNA was 
+subcloned into the dCas9-empty-GFP plasmid (a gift from 
+Reini F. Luco, Institut Curie, Orsay, France). This cloning 
+step was done by RD Biotech. We cloned the sequences 
+corresponding to the two RNA guides into the BsmBI site 
+of the CRIZI plasmid (provided by Philippe Mangeot, 
+CIRI, Lyon, France). SH-SY5Y cells were plated in 6-well-
+plates to reach 70% confluence and transfected with 1 μg of 
+dCas9-HA-MYCN plasmid and 1 μg of sgRNA-containing 
+plasmid (500 ng of each guide, sequences in Supp. Table 2) 
+using jetPRIME (PolyPlus Transfection).
+Western blot and co-immunoprecipitation
+Protein extraction and western blotting were carried out as 
+previously described [45]. Primary antibodies used for west-
+ern-blotting: DDX5 (ab10261, Abcam), DDX17 (ab24601, 
+Abcam), GAPDH (sc-32233, Santa Cruz Biotechnology), 
+MYCN (sc-53993, Santa Cruz Biotechnology), CTSD 
+(21327–1-AP, Proteintech). For co-immunoprecipitation, 
+SK-N-BE(2) cells were harvested and gently lysed in IP buf-
+fer (20 mM Tris–HCl pH 7.5, 150 mM NaCl, 2 mM EDTA, 
+1% NP40, 10% glycerol and protease/phosphatase inhibitors) 
+for 30 min at 4 °C under constant mixing. The nuclear lysate 
+was centrifuged for 15 min to remove cell debris and solu -
+ble proteins were quantified by BCA (ThermoFisher). The 
+lysate, treated or not with 250 U/ml Benzonase® (Merck-
+Millipore) for 30 min at 37 °C, was then split in aliquots of 
+1 mg of proteins. Each fraction received 4 μg of antibody 
+and the incubation was left overnight at 4 °C under rotating 
+
+PDF page 11
+1 3
+Page 11 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+mixing. The following antibodies were used for IP: rabbit 
+anti-DDX17 (19910–1-AP, Proteintech) or control rabbit 
+IgG (ThermoFisher), goat anti-DDX5 (ab10261, Abcam) 
+or control goat IgG (Santa Cruz Biotechnology), and mouse 
+anti-MYCN (sc-53993, Santa Cruz Biotechnology) or con -
+trol mouse IgG. The next day, the different lysate/antibody 
+mixtures were divided and incubated with 50 μg Dynabeads 
+Protein G/A (ThermoFisher), for 4 h at 4 °C under rotating 
+mixing. Beads were washed 5 times with IP buffer, elution 
+was performed by boiling for 5 min in SDS-PAGE loading 
+buffer prior to analysis by western-blotting.
+RNA extraction and real-time quantitative PCR
+Total RNAs were isolated using TriPure Isolation Reagent 
+(Roche). For reverse transcription, 2 μg of purified RNAs 
+were treated with Dnase I (ThermoFisher) and retrotrans -
+cribed using Maxima reverse transcriptase (ThermoFisher), 
+as recommended by the supplier. Potential genomic DNA 
+contamination was systematically checked by perform -
+ing negative RT controls in the absence of enzyme and by 
+including controls with water instead of cDNA in qPCR 
+assays. PCR reactions were carried out described previously 
+[46]. For qPCR analyses, the specificity and linear efficiency 
+of each primer set (sequences are in Supp. Table 2) was first 
+verified by establishing a standard expression curve with 
+various amounts of human genomic DNA or cDNA. qPCR 
+reactions were carried out on 0.625 ng of cDNA using a 
+LightCycler 480 System (Roche), with the SYBR® Pre -
+mix Ex Taq (Tli RNaseH Plus, Takara), under conditions 
+recommended by the manufacturer. Melting curves were 
+controlled to rule out the existence of non-specific prod -
+ucts. Relative DNA levels were calculated using the 2-ΔΔCt 
+method (using the average Ct obtained from technical dupli-
+cates or triplicates) and were normalised to the expression 
+of GAPDH RNA.
+Chromatin immunoprecipitation
+A total of 107 cells were crosslinked with 1% formaldehyde 
+for 10 min at room temperature. Crosslinking was quenched 
+by addition of 0.125 M glycine. Nuclei were isolated by 
+sonication using a Covaris S220 (2 min, Peak Power: 75; 
+Duty Factor: 2; Cycles/burst: 200), pelleted by centrifuga -
+tion at 1000 g for 5 min at 4 °C, washed once with FL buf -
+fer (5 mM HEPES pH 8.0, 85 mM KCl, 0.5% NP40) and 
+resuspended in 1 ml shearing buffer (10 mM Tris–HCl pH 
+8.0, 1 mM EDTA, 0.1% SDS). Chromatin was sheared in 
+order to obtain fragments ranging from 200 to 800 bp using 
+Covaris S220 (20 min, Peak Power: 140; Duty Factor: 5; 
+Cycles/burst: 200). Chromatin was next immunoprecipi -
+tated overnight at 4 °C with 4 μg of mouse anti-MYCN 
+antibody (sc53993, Santa Cruz Biotechnology), or an 
+equivalent amount of the corresponding IgG Isotype control 
+(ThermoFisher), and then incubated for 4 h with 30 μl of 
+Dynabeads® Protein A/G (ThermoFisher). Complexes were 
+washed with 4 different buffers: Low salt buffer (20 mM 
+Tris–HCl pH 8.0, 150 mM NaCl, 1% Triton X-100, 0.1% 
+SDS, 2 mM EDTA), High salt buffer (20 mM Tris–HCl pH 
+8.0, 500 mM NaCl, 1% Triton X-100, 0.1% SDS, 2 mM 
+EDTA), Low LiCl buffer (10 mM Tris–HCl pH 8.0, 0.5 M 
+LiCl, 1% NaDoc, 1% NP40), Tris/EDTA (10 mM Tris–HCl 
+pH 8.0, 1 mM EDTA), and were eluted in Elution buffer 
+(200 mM NaCl, 1% SDS, 0.1 M NaHCO3, 20 μg Proteinase 
+K) overnight at 65 °C. The immunoprecipitated chromatin 
+was purified by phenol–chloroform extraction and ethanol 
+precipitation, and analysed by qPCR. Values were nor -
+malised to the signal obtained for the immunoprecipitation 
+with control IgG.
+In silico prediction of chimeric RNAs from RNA-seq 
+data
+The raw RNA-seq data were described previously [ 40] and 
+are accessible in the Gene Expression Omnibus repository 
+(accession number GSE183205). Raw reads were pre-
+processed using fastp (v0.23.2) [ 72] and mapped to the 
+human reference genome (hg19, GRCh37.87) using STAR 
+(v2.7.8a) [73]. Mapped reads were filtered using samtools 
+(v1.11) [ 74]. Gene fusions were detected using Arriba 
+(v2.3.0) [54] and results were parsed using an R script. Split 
+and discordant reads identified by Arriba were counted for 
+each fusion and compared to control condition. Differen -
+tially fused genes (DFG) were analysed using the DESeq2 
+package (v1.40.1) [ 75]. The complete pipeline is available 
+in Nextflow [76] at  h t t  p s : /  / g i  t b i  o . e  n s -  l y o n  . f  r / L B M C / r e g a r d s 
+/ n e x t fl  o w / - / b l o b / m a s t e r / s r c / a r r i b a _ f u s i o n . n f     .  
+Statistical analysis of DDX17 and DDX5 expression 
+in neuroblastoma tumours
+To test the expression of DDX17 and DDX5 in neuroblas -
+tomas, we used the previously described cohort of 498 
+tumours (GEO accession number: GSE62564) [ 77], in 
+which patients groups were defined according to the Inter -
+national Neuroblastoma Staging System (INSS). Survival 
+curves were generated by the Kaplan–Meier method, and 
+statistical analyses were carried out as described previously 
+[78, 79].
+Analysis of MYCN ChIP-seq data
+To analyse the relative proximity of DDX17/DDX5-reg -
+ulated terminal exons to MYCN binding sites, we first 
+
+PDF page 12
+1 3
+  290  Page 12 of 15
+V. Clerc et al.
+generated a BED file containing a merged list of MYCN 
+peaks identified in several neuroblastoma cell lines [58–60] 
+(Supp. Table 3), re-analysed as follows. Raw reads were 
+pre-processed using fastp (v0.23.2) [72] and mapped to the 
+human reference genome (hg19, GRCh37.87) using bow -
+tie2 (v2.5.2) [ 80]. Mapped reads were filtered using sam -
+tools (v1.11) [ 74] and then formatted using deepTools2 
+(v3.5.1) [ 81]. Peak calling analysis was carried out with 
+MACS (v3.0.0a6) [ 82]. Nearest exons from peak summits 
+were identified using to BEDtools (v2.25.0) [83]. The com-
+plete ChIP-seq pipeline is available in Nextflow [ 76] at 
+https:/ /gitbio .enslyo n.fr/ xgrand/ChIPster.
+We next calculated the genomic distance (negative or 
+positive for upstream and downstream peaks, respectively) 
+between each exon from the FasterDB database [ 84] and 
+the summit of the closest MYCN peak. Only genes having 
+at least one internal exon were considered. We performed a 
+logistic regression analysis to test if the 3' terminal exons 
+regulated by DDX5/DDX17 ( n = 933) are closer to MYCN 
+peaks than unregulated terminal exons. ( n = 18,482). We 
+modeled the proximity to a MYCN peak according to the 
+two groups of exons using the glm function, with fam -
+ily = binomial (‘logit’) in R software. A MYCN peak was 
+considered as close to an exon if its center is located within 
+an exon or within an interval of 1 base to 2 kb upstream 
+or downstream of the exon. To test the differences between 
+the two groups of exons, a Tukey’s test was used (with R, 
+emmeans function from emmeans library). To search for 
+enriched motifs within MYCN peaks, we used the MEME 
+tool (version 5.4.1) from the MEME suite [ 85], with the 
+defaulyt parameters. Starting from the summit of the nearest 
+MYCN peak, we extended the sequence by 250 nucleotides 
+on either side in order to define the coordinates of each peak.
+Analysis of histone marks
+To study the enrichment of histone marks at the transcription 
+termination site (TTS) of DDX17/DDX5-regulated genes, 
+we generated a BED file containing the genomic coordinates 
+of TTS regions, defined as 300 bp upstream to 1,500 bp 
+downstream of the TTS, based on the human reference 
+genome (hg19, GRCh37.8). Genes were divided into two 
+groups: a group including genes that produce readthrough 
+transcripts or tracRNAs upon DDX17/DDX5 depletion in 
+SH-SY5Y cells (n = 702) and a control group of unaffected 
+genes (n = 9806). Only genes with an average DESeq2-based 
+basemean expression of at least 10 in our RNA-seq experi -
+ment were retained. In addition, to avoid including promoter-
+associated signals in our analysis, we only kept genes whose 
+nearest downstream protein-coding or long non-coding RNA 
+(lncRNA) gene was located at least 3 kb from the TTS. We 
+retrieved processed ChIP-seq bigWig files for several histone 
+marks of interest (Supp. Table 3) from the ENCODE portal 
+[61]. These datasets were derived from untreated SK-N-SH 
+cells, the parental cell line of SH-SY5Y . We next calculated 
+the mean histone mark enrichment score for each TTS region 
+using deepTools2 (v3.5.6) [ 81]. We performed statistical 
+analyses using Python (v3.12.3). Mean enrichment scores 
+were transformed using the Log2(Score + 1) function. To test 
+the differences in histone mark enrichment between the two 
+groups of genes, a two-sided Wilcoxon rank-sum test was 
+used (with Python, mannwhitneyu function from the scipy.
+stats librairy).
+Supplementary Information  The online version contains 
+supplementary material available at  h t t  p s : /  / d o  i . o  r g / 1 0 . 1 0 0 7 / s 0 0 0 1 8 - 0 
+2 6 - 0 6 2 5 4 - 6     .  
+Acknowledgements We wish to thank Reini F. Luco (Institut Curie, 
+Orsay, France) and Philippe Mangeot (CIRI, Lyon, France) for shar -
+ing reagents. We are grateful to LBMC members for fruitful discus -
+sions and advice. We acknowledge the ENCODE Consortium and the 
+ENCODE production laboratories generating the ChIP-seq datasets we 
+used in this study. We acknowledge the CBPSMN (Centre Blaise Pas-
+cal de Simulation et de Modélisation Numérique) of the ENS-Lyon for 
+computing resources.
+Author contributions V .C., K.A., J.V ., A.D. and M.B. carried out ex-
+periments, collected and interpreted the data. X.G., L.-S.K. and N.F. 
+analysed RNA-seq and ChIP-seq datasets. N.R. and B.G. analysed 
+the cohort of neuroblastoma tumours. D.A., F.M. and C.F.B. acquired 
+funding. C.F.B. conceptualised the study, interpreted the data and su -
+pervised the project. The first draft of the manuscript was written by 
+V .C. and C.F.B. and all authors commented, corrected and approved 
+the manuscript.
+Funding This work was supported by grants from Ligue contre le 
+Cancer (Equipe labellisée), Fondation ARC, and Association Hubert 
+Gouin “Enfance et Cancer”. V .C. was supported by a doctoral fellow-
+ship from the Fondation pour la Recherche Médicale (FRM). K.A. was 
+supported by a doctoral fellowship from the Ligue contre le Cancer. 
+J.V . received doctoral fellowships from the French Ministry of Re -
+search and Education and from the Ligue contre le Cancer.
+Data availability  Raw RNA-seq data are accessible in the Gene 
+Expression Omnibus repository (accession number GSE183205). 
+Cohort of 498 neuroblastoma tumours: GEO accession number: 
+GSE62564. Public data used for MYCN and histone marks ChIP-seq 
+analyses are listed in Supp. Table 3.
+Declarations
+Ethics approval Not relevant.
+Consent to participate  Not relevant (the transcriptomic data from 
+the publically available cohort of neuroblastoma tumours are totally 
+anonymous).
+Consent to publish Not relevant.
+Competing interests The authors declare no competing interests.
+
+PDF page 13
+1 3
+Page 13 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+Open Access   This article is licensed under a Creative Commons 
+Attribution 4.0 International License, which permits use, sharing, 
+adaptation, distribution and reproduction in any medium or format, 
+as long as you give appropriate credit to the original author(s) and the 
+source, provide a link to the Creative Commons licence, and indicate 
+if changes were made. The images or other third party material in this 
+article are included in the article’s Creative Commons licence, unless 
+indicated otherwise in a credit line to the material. If material is not 
+included in the article’s Creative Commons licence and your intended 
+use is not permitted by statutory regulation or exceeds the permitted 
+use, you will need to obtain permission directly from the copyright 
+holder. To view a copy of this licence, visit  h t    t p : / / c r e  a  t  i v e  c  o  m m o n s . o 
+r g / l i c e n s e s / b y / 4 . 0 /     .  
+References
+1. Tellier M, Maudlin I, Murphy S (2020) Transcription and splic -
+ing: a two-way street. Wiley Interdiscip Rev RNA 11(5):e1593
+2. Shine M, Gordon J, Scharfen L, Zigackova D, Herzel L, Neuge -
+bauer KM (2024) Co-transcriptional gene regulation in eukary -
+otes and prokaryotes. Nat Rev Mol Cell Biol 25:534–554
+3. Boumpas P, Merabet S, Carnesecchi J (2023) Integrating tran -
+scription and splicing into cell fate: transcription factors on the 
+block. Wiley Interdiscip Rev RNA 14(2):e1752
+4. Shukla S, Kavak E, Gregory M, Imashimizu M, Shutinoski B, 
+Kashlev M et al (2011) CTCF-promoted RNA polymerase II paus-
+ing links DNA methylation to splicing. Nature 479(7371):74–79
+5. Ameur LB, Marie P, Thenoz M, Giraud G, Combe E, Claude JB 
+et al (2020) Intragenic recruitment of NF-kappaB drives splicing 
+modifications upon activation by the oncogene Tax of HTLV-1. 
+Nat Commun 11(1):3045
+6. Proudfoot NJ (2016) Transcriptional termination in mam -
+mals: stopping the RNA polymerase II juggernaut. Science 
+352(6291):aad9926
+7. Boreikaite V , Passmore LA (2023) 3’-End processing of eukary-
+otic mRNA: machinery, regulation, and impact on gene expres -
+sion. Annu Rev Biochem 92:199–225
+8. Rodriguez-Molina JB, West S, Passmore LA (2023) Knowing 
+when to stop: transcription termination on protein-coding genes 
+by eukaryotic RNAPII. Mol Cell 83(3):404–415
+9. Cardiello JF, Goodrich JA, Kugel JF (2018) Heat shock causes a 
+reversible increase in RNA polymerase II occupancy downstream 
+of mRNA genes, consistent with a global loss in transcriptional 
+termination. Mol Cell Biol 38(18):e00181-18
+10. Grosso AR, Leite AP, Carvalho S, Matos MR, Martins FB, Vitor 
+AC et al (2015) Pervasive transcription read-through promotes 
+aberrant expression of oncogenes and RNA chimeras in renal car-
+cinoma. Elife 4:e09214
+11. Rutkowski AJ, Erhard F, L’Hernault A, Bonfert T, Schilhabel M, 
+Crump C et al (2015) Widespread disruption of host transcription 
+termination in HSV-1 infection. Nat Commun 6:7126
+12. Heinz S, Texari L, Hayes MGB, Urbanowski M, Chang MW, 
+Givarkes N et al (2018) Transcription elongation can affect 
+genome 3D structure. Cell 174(6):1522–36 e22
+13. Rosa-Mercado NA, Zimmer JT, Apostolidi M, Rinehart J, Simon 
+MD, Steitz JA (2021) Hyperosmotic stress alters the RNA 
+polymerase II interactome and induces readthrough transcrip -
+tion despite widespread transcriptional repression. Mol Cell 
+81(3):502–13 e4
+14. Vilborg A, Passarelli MC, Yario TA, Tycowski KT, Steitz JA 
+(2015) Widespread inducible transcription downstream of human 
+genes. Mol Cell 59(3):449–461
+15. Vilborg A, Sabath N, Wiesel Y , Nathans J, Levy-Adam F, Yario 
+TA et al (2017) Comparative analysis reveals genomic features of 
+stress-induced transcriptional readthrough. Proc Natl Acad Sci U 
+S A 114(40):E8362–E8371
+16. Hennig T, Michalski M, Rutkowski AJ, Djakovic L, Whisnant 
+AW, Friedl MS et al (2018) HSV-1-induced disruption of tran -
+scription termination resembles a cellular stress response but 
+selectively increases chromatin accessibility downstream of 
+genes. PLoS Pathog 14(3):e1006954
+17. Bauer DLV , Tellier M, Martinez-Alonso M, Nojima T, Proud -
+foot NJ, Murphy S et al (2018) Influenza virus mounts a two-
+pronged attack on host RNA polymerase II transcription. Cell 
+Rep 23(7):2119–29 e3
+18. Rosa-Mercado NA, Steitz JA (2022) Who let the DoGs out? - 
+biogenesis of stress-induced readthrough transcripts. Trends Bio-
+chem Sci 47(3):206–217
+19. Morgan M, Shiekhattar R, Shilatifard A, Lauberth SM (2022) 
+It’s a DoG-eat-DoG world-altered transcriptional mechanisms 
+drive downstream-of-gene (DoG) transcript production. Mol Cell 
+82(11):1981–1991
+20. Caldas P, Luz M, Baseggio S, Andrade R, Sobral D, Grosso AR 
+(2024) Transcription readthrough is prevalent in healthy human 
+tissues and associated with inherent genomic features. Commun 
+Biol 7(1):100
+21. Akiva P, Toporik A, Edelheit S, Peretz Y , Diber A, Shemesh R 
+et al (2006) Transcription-mediated gene fusion in the human 
+genome. Genome Res 16(1):30–36
+22. Parra G, Reymond A, Dabbouseh N, Dermitzakis ET, Castelo 
+R, Thomson TM et al (2006) Tandem chimerism as a means to 
+increase protein complexity in the human genome. Genome Res 
+16(1):37–44
+23. Greger L, Su J, Rung J, Ferreira PG, Geuvadis c, Lappalainen T 
+et al (2014) Tandem RNA chimeras contribute to transcriptome 
+diversity in human population and are associated with intronic 
+genetic variants. PLoS One 9(8):e104567
+24. Prakash T, Sharma VK, Adati N, Ozawa R, Kumar N, Nishida Y 
+et al (2010) Expression of conjoined genes: another mechanism 
+for gene regulation in eukaryotes. PLoS ONE 5(10):e13284
+25. Kim RN, Kim A, Choi SH, Kim DS, Nam SH, Kim DW et al 
+(2012) Novel mechanism of conjoined gene formation in the 
+human genome. Funct Integr Genomics 12(1):45–61
+26. Varley KE, Gertz J, Roberts BS, Davis NS, Bowling KM, Kirby 
+MK et al (2014) Recurrent read-through fusion transcripts in 
+breast cancer. Breast Cancer Res Treat 146(2):287–297
+27. Qin F, Song Y , Zhang Y , Facemire L, Frierson H, Li H (2016) 
+Role of CTCF in regulating SLC45A3-ELK4 chimeric RNA. 
+PLoS One 11(3):e0150382
+28. Qin F, Song Z, Babiceanu M, Song Y , Facemire L, Singh R et 
+al (2015) Discovery of CTCF-sensitive cis-spliced fusion RNAs 
+between adjacent genes in human prostate cells. PLoS Genet 
+11(2):e1005001
+29. Babiceanu M, Qin F, Xie Z, Jia Y , Lopez K, Janus N et al (2016) 
+Recurrent chimeric fusion RNAs in non-cancer tissues and cells. 
+Nucleic Acids Res 44(6):2859–2872
+30. Yun SM, Yoon K, Lee S, Kim E, Kong SH, Choe J et al (2014) 
+PPP1R1B-STARD3 chimeric fusion transcript in human gastric 
+cancer promotes tumorigenesis through activation of PI3K/AKT 
+signaling. Oncogene 33(46):5341–5347
+31. Han P, Chen RH, Wang F, Zeng JY , Yu ST, Xu LH et al (2017) 
+Novel chimeric transcript RRM2-c2orf48 promotes metastasis in 
+nasopharyngeal carcinoma. Cell Death Dis 8(9):e3047
+32. Egashira S, Jinnin M, Makino K, Ajino M, Shimozono N, Oka -
+moto S et al (2019) Recurrent fusion gene ADCK4-NUMBL in 
+cutaneous squamous cell carcinoma mediates cell proliferation. J 
+Invest Dermatol 139(4):954–957
+33. Dorney R, Dhungel BP, Rasko JEJ, Hebbard L, Schmitz U (2023) 
+Recent advances in cancer fusion transcript detection. Brief Bio -
+inform 24(1):519
+
+PDF page 14
+1 3
+  290  Page 14 of 15
+V. Clerc et al.
+34. Sun Y , Li H (2022) Chimeric RNAs discovered by RNA sequenc-
+ing and their roles in cancer and rare genetic diseases. Genes 
+(Basel) 13(5):741
+35. Chwalenia K, Qin F, Singh S, Li H (2019) A cell-based splic -
+ing reporter system to identify regulators of cis-splicing between 
+adjacent genes. Nucleic Acids Res 47(4):e24
+36. Shi Y , Yuan J, Rraklli V , Maxymovitz E, Cipullo M, Liu M et al 
+(2021) Aberrant splicing in neuroblastoma generates RNA-fusion 
+transcripts and provides vulnerability to spliceosome inhibitors. 
+Nucleic Acids Res 49:2509–2521
+37. Alpert T, Straube K, Carrillo Oesterreich F, Herzel L, Neugebauer 
+KM (2020) Widespread transcriptional readthrough caused by 
+Nab2 depletion leads to chimeric transcripts with retained introns. 
+Cell Rep 33(4):108324
+38. Hadar S, Meller A, Saida N, Shalgi R (2022) Stress-induced tran-
+scriptional readthrough into neighboring genes is linked to intron 
+retention. iScience 25(12):105543
+39. Nanavaty V , Abrash EW, Hong C, Park S, Fink EE, Li Z et al 
+(2020) DNA methylation regulates alternative polyadenylation 
+via CTCF and the cohesin complex. Molecular cell. 78(4):752–64 
+e6
+40. Terrone S, Valat J, Fontrodona N, Giraud G, Claude JB, Combe E 
+et al (2022) RNA helicase-dependent gene looping impacts mes -
+senger RNA processing. Nucleic Acids Res 50:9226–9246
+41. Giraud G, Terrone S, Bourgeois CF (2018) Functions of DEAD 
+box RNA helicases DDX5 and DDX17 in chromatin organization 
+and transcriptional regulation. BMB Rep 51(12):613–622
+42. Xing Z, Ma WK, Tran EJ (2019) The DDX5/Dbp2 subfam -
+ily of DEAD-box RNA helicases. Wiley Interdiscip Rev RNA 
+10(2):e1519
+43. Camats M, Guil S, Kokolo M, Bach-Elias M (2008) P68 RNA 
+helicase (DDX5) alters activity of cis- and trans-acting factors of 
+the alternative splicing of H-Ras. PLoS One 3(8):e2926
+44. Kar A, Fushimi K, Zhou X, Ray P, Shi C, Chen X et al (2011) 
+RNA helicase p68 (DDX5) regulates tau exon 10 splicing by 
+modulating a stem-loop structure at the 5’ splice site. Mol Cell 
+Biol 31(9):1812–1821
+45. Dardenne E, Polay Espinoza M, Fattet L, Germann S, Lam -
+bert MP, Neil H et al (2014) RNA helicases DDX5 and DDX17 
+dynamically orchestrate transcription, miRNA, and splicing pro -
+grams in cell differentiation. Cell Rep 7(6):1900–1913
+46. Lambert MP, Terrone S, Giraud G, Benoit-Pilven C, Cluet D, 
+Combaret V et al (2018) The RNA helicase DDX17 controls the 
+transcriptional activity of REST and the expression of proneu -
+ral microRNAs in neuronal differentiation. Nucleic Acids Res 
+46(15):7686–7700
+47. Lai YH, Choudhary K, Cloutier SC, Xing Z, Aviran S, Tran EJ 
+(2019) Genome-wide discovery of DEAD-Box RNA helicase tar-
+gets reveals RNA structural remodeling in transcription termina -
+tion. Genetics 212(1):153–174
+48. Mersaoui SY , Yu Z, Coulombe Y , Karam M, Busatto FF, Masson 
+JY et al (2019) Arginine methylation of the DDX5 helicase RGG/
+RG motif by PRMT5 regulates resolution of RNA:DNA hybrids. 
+EMBO J 38(15):e100986
+49. Wu G, Xing Z, Tran EJ, Yang D (2019) DDX5 helicase resolves 
+G-quadruplex and is involved in MYC gene transcriptional acti -
+vation. Proc Natl Acad Sci U S A 116(41):20453–20461
+50. Katahira J, Ishikawa H, Tsujimura K, Kurono S, Hieda M (2019) 
+Human THO coordinates transcription termination and sub -
+sequent transcript release from the HSP70 locus. Genes Cells 
+24(4):272–283
+51. Aydin E, Schreiner S, Bohme J, Keil B, Weber J, Zunar B et al 
+(2024) DEAD-box ATPase Dbp2 is the key enzyme in an mRNP 
+assembly checkpoint at the 3’-end of genes and involved in the 
+recycling of cleavage factors. Nat Commun 15(1):6829
+52. Otte J, Dyberg C, Pepich A, Johnsen JI (2020) MYCN function in 
+neuroblastoma development. Front Oncol 10:624079
+53. Baluapuri A, Wolf E, Eilers M (2020) Target gene-indepen -
+dent functions of MYC oncoproteins. Nat Rev Mol Cell Biol 
+21(5):255–267
+54. Uhrig S, Ellermann J, Walther T, Burkhardt P, Frohlich M, Hutter 
+B et al (2021) Accurate and efficient detection of gene fusions 
+from RNA sequencing data. Genome Res 31(3):448–460
+55. Zhang W, Yu Y , Hertwig F, Thierry-Mieg J, Zhang W, Thierry-
+Mieg D et al (2015) Comparison of RNA-seq and microarray-
+based models for clinical endpoint prediction. Genome Biol 
+16:133
+56. Zhao X, Li D, Yang F, Lian H, Wang J, Wang X et al (2020) Long 
+noncoding RNA NHEG1 drives beta-catenin transactivation and 
+neuroblastoma progression through Interacting with DDX5. Mol 
+Ther J Am Soc Gene Ther 28(3):946–962
+57. Wang H, Ma B, Stevens T, Knapp J, Lu J, Prochownik EV (2025) 
+MYC binding near transcriptional end sites regulates basal gene 
+expression, read-through transcription, and intragenic contacts. 
+Adv Sci (Weinh) 12(31):e14601
+58. Buchel G, Carstensen A, Mak KY , Roeschert I, Leen E, Sumara 
+O et al (2017) Association with aurora-a controls N-MYC-depen-
+dent promoter escape and pause release of RNA polymerase ii 
+during the cell cycle. Cell Rep 21(12):3483–3497
+59. Upton K, Modi A, Patel K, Kendsersky NM, Conkrite KL, Suss-
+man RT et al (2020) Epigenomic profiling of neuroblastoma cell 
+lines. Sci Data 7(1):116
+60. Zeid R, Lawlor MA, Poon E, Reyes JM, Fulciniti M, Lopez MA et 
+al (2018) Enhancer invasion shapes MYCN-dependent transcrip-
+tional amplification in neuroblastoma. Nat Genet 50(4):515–523
+61. Kagda MS, Lam B, Litton C, Small C, Sloan CA, Spragins E et 
+al (2025) Data navigation on the ENCODE portal. Nat Commun 
+16(1):9592
+62. Baluapuri A, Hofstetter J, Dudvarski Stankovic N, Endres T, 
+Bhandare P, V os SM et al (2019) MYC recruits SPT5 to RNA 
+polymerase II to promote processive transcription elongation. 
+Mol Cell 74(4):674–87
+63. Herold S, Kalb J, Buchel G, Ade CP, Baluapuri A, Xu J et al 
+(2019) Recruitment of BRCA1 limits MYCN-driven accumula -
+tion of stalled RNA polymerase. Nature 567(7749):545–549
+64. Papadopoulos D, Solvie D, Baluapuri A, Endres T, Ha SA, Herold 
+S et al (2022) MYCN recruits the nuclear exosome complex to 
+RNA polymerase II to prevent transcription-replication conflicts. 
+Mol Cell 82(1):159–76 e12
+65. Al-Husini N, Medler S, Ansari A (2020) Crosstalk of promoter 
+and terminator during RNA polymerase II transcription cycle. 
+Biochim Biophys Acta Gene Regul Mech 1863(12):194657
+66. Calvo-Roitberg E, Carroll CL, Kim G, Sanabria V , Venev SV , 
+Mick ST et al (2025) mRNA initiation and termination are spa -
+tially coordinated. Science 390(6769):eado8279
+67. Barresi V , Cosentini I, Scuderi C, Napoli S, Di Bella V , Spamp-
+inato G et al (2019) Fusion transcripts of adjacent genes: new 
+insights into the world of human complex transcripts in cancer. 
+Int J Mol Sci 20(21):5252
+68. Weber D, Ibn-Salem J, Sorn P, Suchan M, Holtstrater C, Lah -
+rmann U et al (2022) Accurate detection of tumor-specific gene 
+fusions reveals strongly immunogenic personal neo-antigens. Nat 
+Biotechnol 40(8):1276–1284
+69. Zhang Y , Gong M, Yuan H, Park HG, Frierson HF, Li H (2012) 
+Chimeric transcript generated by cis-splicing of adjacent genes 
+regulates prostate cancer cell proliferation. Cancer Discov 
+2(7):598–607
+70. Qin F, Zhang Y , Liu J, Li H (2017) SLC45A3-ELK4 functions as 
+a long non-coding chimeric RNA. Cancer Lett 404:53–61
+
+PDF page 15
+1 3
+Page 15 of 15   290 
+MYCN and helicases DDX17 and DDX5 have opposite effects on the production of readthrough-associated…
+71. Seaby EG, Godwin A, Meyer-Dilhet G, Clerc V , Grand X, 
+Fletcher T et al (2025) Monoallelic de novo variants in DDX17 
+cause a neurodevelopmental disorder. Brain 148(4):1155–1168
+72. Chen S, Zhou Y , Chen Y , Gu J (2018) Fastp: an ultra-fast all-in-
+one FASTQ preprocessor. Bioinformatics 34(17):i884–i890
+73. Dobin A, Davis CA, Schlesinger F, Drenkow J, Zaleski C, Jha S 
+et al (2013) STAR: ultrafast universal RNA-seq aligner. Bioinfor-
+matics 29(1):15–21
+74. Danecek P, Bonfield JK, Liddle J, Marshall J, Ohan V , Pol -
+lard MO et al (2021) Twelve years of SAMtools and BCFtools. 
+Gigascience 10(2):008
+75. Love MI, Huber W, Anders S (2014) Moderated estimation of 
+fold change and dispersion for RNA-seq data with DESeq2. 
+Genome Biol 15(12):550
+76. Di Tommaso P, Chatzou M, Floden EW, Barja PP, Palumbo E, 
+Notredame C (2017) Nextflow enables reproducible computa -
+tional workflows. Nat Biotechnol 35(4):316–319
+77. Zhang S, Wei JS, Li SQ, Badgett TC, Song YK, Agarwal S et al 
+(2016) MYCN controls an alternative RNA splicing program in 
+high-risk metastatic neuroblastoma. Cancer Lett 371(2):214–224
+78. Gibert B, Delloye-Bourgeois C, Gattolliat CH, Meurette O, Le 
+Guernevel S, Fombonne J et al (2014) Regulation by miR181 
+family of the dependence receptor CDON tumor suppressive 
+activity in neuroblastoma. J Natl Cancer Inst 106(11):318
+79. Jiang S, Richaud M, Vieugue P, Rama N, Delcros JG, Siouda M 
+et al (2021) Targeting netrin-3 in small cell lung cancer and neu-
+roblastoma. EMBO Mol Med 13(4):e12878
+80. Langmead B, Wilks C, Antonescu V , Charles R (2019) Scaling 
+read aligners to hundreds of threads on general-purpose proces -
+sors. Bioinformatics 35(3):421–432
+81. Ramirez F, Ryan DP, Gruning B, Bhardwaj V , Kilpert F, Richter 
+AS et al (2016) deepTools2: a next generation web server for deep-
+sequencing data analysis. Nucleic Acids Res 44(W1):W160–W165
+82. Zhang Y , Liu T, Meyer CA, Eeckhoute J, Johnson DS, Bernstein 
+BE et al (2008) Model-based analysis of ChIP-Seq (MACS). 
+Genome Biol 9(9):R137
+83. Quinlan AR, Hall IM (2010) BEDTools: a flexible suite of utilities 
+for comparing genomic features. Bioinformatics 26(6):841–842
+84. Mallinjoud P, Villemin JP, Mortada H, Polay Espinoza M, Desmet 
+FO, Samaan S et al (2014) Endothelial, epithelial, and fibroblast 
+cells exhibit specific splicing programs independently of their tis-
+sue of origin. Genome Res 24(3):511–521
+85. Bailey TL, Elkan C (1994) Fitting a mixture model by expec -
+tation maximization to discover motifs in biopolymers. Proc Int 
+Conf Intell Syst Mol Biol 2:28–36
+Publisher's Note Springer Nature remains neutral with regard to juris-
+dictional claims in published maps and institutional affiliations.

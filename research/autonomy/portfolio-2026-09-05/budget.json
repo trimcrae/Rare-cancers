@@ -1,8 +1,8 @@
 {
-  "coordinator": "01a0712d-5c85-7782-83ec-e3a41b98a625",
-  "enforcement": "Coordinator procedure and heartbeat prompt; account budget and rolling dispatch cap are NOT enforced by research_run.py. Runner independently enforces 1800 seconds/one dispatch.",
-  "reserve_percentage_points": 20,
-  "daily_ceiling_formula": "min(8,max(0,remaining_percent-20)/days_until_reset)",
+  "coordinator": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "enforcement": "Actual account limits only; use authorized available reset credits when needed. No paid API/GPU fallback.",
+  "reserve_percentage_points": null,
+  "daily_ceiling_formula": null,
   "observations": [
     {
       "utc": null,
@@ -26,27 +26,105 @@
       "used_percent": 27,
       "resets_at": 1789158862,
       "phase": "after completed research run"
+    },
+    {
+      "utc": "2026-09-05T14:16:56.925525Z",
+      "used_percent": 30,
+      "resets_at": 1789158862,
+      "phase": "Current coordinator startup before first fresh-context worker; account-wide rounded observation."
+    },
+    {
+      "utc": "2026-09-05T14:39:27.628887Z",
+      "used_percent": 32,
+      "resets_at": 1789158862,
+      "phase": "After verified fusion-feasibility round; account-wide rounded;2points since task start,6since26restart baseline."
+    },
+    {
+      "utc": "2026-09-05T15:11:30.050366Z",
+      "used_percent": 33,
+      "resets_at": 1789158862,
+      "phase": "After second fresh-context round; account-wide rounded,7points since26percent restart baseline."
+    },
+    {
+      "utc": "2026-09-05T16:58:37.000605Z",
+      "used_percent": 34,
+      "resets_at": 1789158862,
+      "phase": "After trial-discoverability round; account-wide rounded,not attributed cost."
+    },
+    {
+      "utc": "2026-09-05T17:34:00Z",
+      "used_percent": 35,
+      "resets_at": 1789158862,
+      "phase": "After IPD bounded result and coordinator verification; time approximate,account-wide rounded."
+    },
+    {
+      "utc": "2026-09-05T18:20:38.329387+00:00",
+      "used_percent": 36,
+      "resets_at": 1789158862,
+      "phase": "Before distinct targeted fusion-source recovery while trial finalization awaits app approval; account-wide rounded."
+    },
+    {
+      "utc": "2026-09-05T18:49:31.563919+00:00",
+      "used_percent": 37,
+      "resets_at": 1789158862,
+      "phase": "After trial completion and during fusion recovery; account-wide rounded."
+    },
+    {
+      "utc": "2026-09-06T14:11:13.549519+00:00",
+      "used_percent": 65,
+      "resets_at": 1789158862,
+      "phase": "Continuous-work restart; actual shared account reading, both reset credits still available."
     }
   ],
-  "current_ceiling_percentage_points": 8,
+  "current_ceiling_percentage_points": null,
   "observed_startup_consumption_percentage_points": 1,
   "attribution": "All observations are account-wide rounded usage, not research cost. Pre-restart observations are history and excluded from prospective pacing.",
-  "status": "First substantive restart run completed and independently verified; observed account delta one percentage point from restart. Six-hour heartbeat retained.",
+  "status": "Continuous substantive iteration authorized; no assistant-imposed daily pacing or total round cap.",
   "max_dispatches_per_rolling_24h": null,
-  "max_dispatches_per_wake": 1,
+  "max_dispatches_per_wake": null,
   "counted_runs": [
     "20260905T032612Z-df96afc413",
     "20260905T084620Z-b7637a0999"
   ],
   "earliest_dispatch_utc": null,
-  "next_action": "Retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-sample processed matrix values in one bounded evidence step. Preserve all probes and units. Establish discovery-study overlap before claiming independent validation; do not fit a survival classifier or treat absent cache rows as absent coverage.",
+  "next_action": "Execute current dated research allocation; proceed to the next useful checkpoint without daily pacing. Continue correspondence independently.",
   "reasoning": "medium by default; high only named methodological issue plus justification and stop; no xhigh/max",
   "paid_fallback": false,
-  "reset_redemption_authorized": false,
+  "reset_redemption_authorized": true,
   "restart_baseline": {
     "utc": "2026-09-05T11:19:02.898829+00:00",
     "used_percent": 26,
     "resets_at": 1789158862,
     "authority": "User explicitly requested substantive work now; retire two-dispatch rolling cap and historical setup-spend block. Earlier observations retained as history only."
+  },
+  "pacing": null,
+  "prior_pacing_policy": {
+    "reserve_percentage_points": 20,
+    "daily_ceiling_formula": "min(8,max(0,remaining_percent-20)/days_until_reset)",
+    "earliest_dispatch_utc": "2026-09-06T11:19:02.898829+00:00",
+    "pacing": {
+      "checked_utc": "2026-09-05T15:11:30.050366Z",
+      "used_since_restart_points": 7,
+      "remaining_account_percent": 67,
+      "days_until_reset": 6.2242,
+      "daily_formula_allowance_points": 7.551,
+      "remaining_current_window_points": 0.551,
+      "next_round_planning_allowance_points": 2,
+      "basis": "Rounded account changes across two bounded rounds were2 and1points;2point allowance conservatively includes integration and other account work. Not a fixed run-count cap.",
+      "next_window_utc": "2026-09-06T11:19:02.898829+00:00",
+      "recovery_heartbeat_minutes": 360
+    },
+    "enforcement": "Coordinator procedure and heartbeat enforce prospective account pacing; retired rolling dispatch cap is not enforced. Runner independently enforces 1800 seconds/one dispatch."
+  },
+  "user_override": {
+    "utc": "2026-09-05T16:25:02.704153Z",
+    "instruction": "We have a couple usage limit resets in our back pocket so why don’t you just keep iterating on this with no limitations",
+    "interpretation": "Supersedes reserve, prospective daily pacing and waiting-until-tomorrow restriction. Authorizes available reset credits as needed; scientific integrity, publication scope and bounded fresh-worker workflow preserved."
+  },
+  "available_reset_credits_observed": 2,
+  "latest_user_reaffirmation": {
+    "utc": "2026-09-06T13:57:31.575231+00:00",
+    "instruction": "We should be running continuously because we have a lot of usage resets to use up",
+    "interpretation": "Continuous substantive research; existing credits when actual limits require them. No additional reserve cap or inbox-only pause."
   }
 }

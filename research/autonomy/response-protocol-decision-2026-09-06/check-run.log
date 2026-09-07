@@ -1,0 +1,68 @@
+{
+  "checked_utc": "2026-09-06T04:58:50.215621+00:00",
+  "source_integrity": "passed",
+  "rules_frozen_before_saved_record_open": true,
+  "outcome_pointer": "/study/resultsSection/outcomeMeasuresModule/outcomeMeasures/1",
+  "pooled_categories": {
+    "Complete Response": 7,
+    "Partial Response": 11,
+    "Stable Disease": 35,
+    "Progressive Disease": 23
+  },
+  "reported_outcome_denominator": 76,
+  "pooled_CR_plus_PR": 18,
+  "flow_milestones": {
+    "STARTED": 112,
+    "COMPLETED": 76,
+    "NOT COMPLETED": 36
+  },
+  "population_description_present": false,
+  "analyses_present": false,
+  "observed_outcome_groups": [
+    {
+      "id": "OG000",
+      "title": "Nifurtimox",
+      "description": "Nifurtimox: 30mg/kg/day PO divided into TID dosing q day\n\nCyclophosphamide: 250 mg/m2/dose in normal saline, IV, infused over 30 minutes on days 1-5 of each cycle.\n\nTopotecan: 0.75mg/m2/dose, in normal saline, IV, infused over 30 minutes on days 1-5 of each cycle."
+    }
+  ],
+  "stage_results_present": false,
+  "decision_identifiable": false,
+  "reason": "Only one pooled response group; required stratum-specific evaluable totals, CR/PR counts and interim accrual-order outcomes are not supplied.",
+  "no_real_patient_decision_computed": true,
+  "protocol_arithmetic": {
+    "I": {
+      "design": [
+        19,
+        6,
+        39,
+        16
+      ],
+      "boundary_and_path_checks": "passed",
+      "count_pairs_checked": 420,
+      "null_rejection_probability": 0.045498996161495615,
+      "alternative_rejection_probability": 0.8036229963890946,
+      "null_stage1_futility_probability": 0.6655015070269568,
+      "scope": "Exact design arithmetic only, not an observed trial result"
+    },
+    "II": {
+      "design": [
+        18,
+        4,
+        33,
+        10
+      ],
+      "boundary_and_path_checks": "passed",
+      "count_pairs_checked": 304,
+      "null_rejection_probability": 0.045830134167342086,
+      "alternative_rejection_probability": 0.8011416824208375,
+      "null_stage1_futility_probability": 0.7163538157286196,
+      "scope": "Exact design arithmetic only, not an observed trial result"
+    },
+    "III": {
+      "computed_not_quoted_rejection_cutoff": 4,
+      "null_tail_at_3": 0.08491751385187904,
+      "null_tail_at_4": 0.0188806334082002,
+      "scope": "Derived from page 18 n=21 and page 19 directional exact test; no observed stratum count available"
+    }
+  }
+}

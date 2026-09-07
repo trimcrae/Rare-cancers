@@ -1,0 +1,77 @@
+{
+  "checkpoint": "Frozen full expansion frame/source packet and 50 new EMC first-reader judgments delivered",
+  "base_revision": "95dbbe7a0f243452bc689fb22db00fb13417d9f5",
+  "task_id": "01a0730f-09bd-7200-a2d7-3cee73648e17",
+  "coordinator_task": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "resource": "paper:PUB-CARE-DELIVERY",
+  "ownership": "Exclusive reservation confirmed by coordinator; worker did not write shared ownership state.",
+  "execution": {
+    "requested_reasoning_effort": "medium",
+    "actual_model_and_reasoning_effort": "Not independently exposed in worker launch context; no ultra review claimed.",
+    "permission_profile": "workspace-write; not Full access",
+    "python": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "python_flags": [
+      "-B",
+      "-X",
+      "utf8"
+    ],
+    "network_calls": 0,
+    "installs": 0,
+    "deletes": 0,
+    "escalations": 0,
+    "nested_agents": 0,
+    "runner_processes": 0,
+    "paid_api_or_gpu_use": false,
+    "commits": 0,
+    "publication": false
+  },
+  "timing": {
+    "goal_creation_anchor_utc": "2026-09-05T19:32:53Z",
+    "reservation_confirmation_utc": "2026-09-05T19:33:41.876267Z",
+    "scientific_started_utc": "2026-09-05T19:43:07+00:00",
+    "checkpoint_frozen_utc": "2026-09-05T20:02:54.811139+00:00",
+    "scientific_elapsed_seconds": 1187.811139,
+    "scientific_budget_seconds": 1800,
+    "initialization_and_wait_seconds_from_goal_anchor": 614,
+    "goal_anchor_to_reservation_seconds": 48.876267,
+    "reservation_to_science_seconds": 565.123733,
+    "wait_detail": "An optional outgoing initialization message was attempted and coordinator reported it pending app approval. The orchestration was terminated without retry. Its tool returned a success-shaped result on termination; delivery was not independently checked. The 614-second initialization/wait interval is measured from goal creation; its approval-wait-only component cannot be separated reliably. No scientific writing preceded reservation confirmation.",
+    "scientific_approval_wait_seconds": 0,
+    "initialization_before_goal_anchor_seconds": null
+  },
+  "coverage": {
+    "full_pairs": 149,
+    "full_diagnoses": {
+      "EMC": 58,
+      "DSRCT": 39,
+      "SS": 52
+    },
+    "full_distinct_trials": 124,
+    "prior_adjudicated_overlaps": 25,
+    "prior_outside_frame_pairs": 24,
+    "new_first_reader_emc": 50,
+    "remaining_unjudged_pairs": 74,
+    "remaining_unjudged_diagnoses": {
+      "DSRCT": 29,
+      "SS": 45
+    },
+    "unfinished_emc_ids": [],
+    "unfinished_file": "unfinished-pairs.json"
+  },
+  "validation": {
+    "result": "validation.json",
+    "command": "python -B -X utf8 research/autonomy/trial-reference-expansion-emc-2026-09-05/validate.py",
+    "normal_preflight": "Not run here; assigned to coordinator.",
+    "independent_semantic_verification": "Outstanding for all 50 new labels",
+    "assembly_first_attempt": "Caught wrong zero-based condition pointer at position 29 before writing labels; original note preserved, explicit source-corrections.json applied."
+  },
+  "unresolved": [
+    "Separate independent source verification/adjudication of all 50 new EMC labels.",
+    "First-reader and independent work for 29 DSRCT and 45 SS pairs.",
+    "External protocols, actual cohort/phase openings and individual biomarkers remain unverified.",
+    "Prespecify comparison endpoint and matched-information ordinary/hierarchy baselines only after reference verification; no performance evaluation performed.",
+    "Full manuscript/preprint package, ultra review and publication gates remain coordinator work."
+  ],
+  "running_at_checkpoint": false,
+  "subscription_usage": "Unavailable; not inferred"
+}

@@ -18,7 +18,7 @@ jobs:
   verify:
     if: startsWith(github.ref, 'refs/heads/codex/release/')
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,6 +35,11 @@ jobs:
       - name: Install the existing full-gate dependencies
         run: |
           set -euo pipefail
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install --yes jq
+          fi
+          jq --version
           python3 -m pip install --quiet --disable-pip-version-check uv
           ./scripts/dev-setup.sh --if-needed
 

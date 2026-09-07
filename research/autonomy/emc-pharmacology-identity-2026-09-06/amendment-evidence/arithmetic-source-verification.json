@@ -1,0 +1,206 @@
+{
+  "arithmetic_passed": true,
+  "worker_analyze_imported": false,
+  "source_workbooks_checked": 3,
+  "all_221_mean_and_binary64_stress_ranks_match": true,
+  "decimal_stress_sensitivity_differences": [
+    {
+      "cas": "154-93-8",
+      "source_name": "Carmustine",
+      "decimal_mean_rank": "147",
+      "worker_mean_rank": "147.0",
+      "decimal_stress_rank": "137",
+      "worker_stress_rank": "137.5",
+      "exact_stress": "95.390850304269908",
+      "worker_stress": "95.3908503042699"
+    },
+    {
+      "cas": "145781-92-6",
+      "source_name": "Goserelin Acetate",
+      "decimal_mean_rank": "156",
+      "worker_mean_rank": "156.0",
+      "decimal_stress_rank": "136",
+      "worker_stress_rank": "135.5",
+      "exact_stress": "94.9076108481494635",
+      "worker_stress": "94.90761084814946"
+    },
+    {
+      "cas": "763113-22-0",
+      "source_name": "Olaparib (AZD2281, Ku-0059436)",
+      "decimal_mean_rank": "120.5",
+      "worker_mean_rank": "120.5",
+      "decimal_stress_rank": "138",
+      "worker_stress_rank": "137.5",
+      "exact_stress": "95.390850304269912",
+      "worker_stress": "95.3908503042699"
+    },
+    {
+      "cas": "150399-23-8",
+      "source_name": "Pemetrexed (LY-231514) disodium",
+      "decimal_mean_rank": "135",
+      "worker_mean_rank": "135.0",
+      "decimal_stress_rank": "135",
+      "worker_stress_rank": "135.5",
+      "exact_stress": "94.907610848149456",
+      "worker_stress": "94.90761084814946"
+    }
+  ],
+  "decimal_sensitivity_changes_key_candidates_or_quartile": false,
+  "source_values_names_and_cas_match_workbooks": true,
+  "quartile": "55.25",
+  "candidates": [
+    {
+      "cas": "179324-69-7",
+      "source_row": 31,
+      "source_name": "Bortezomib (PS-341)",
+      "mean_rank": 15.0,
+      "stress_rank": 19.0,
+      "catalogue": "S1013",
+      "provider": "Selleck  Chemicals",
+      "source_target": "Proteasome",
+      "source_pathway": "Proteases",
+      "ic50_rows": [
+        {
+          "source_row": "6",
+          "cas": "179324-69-7",
+          "source_name": "Bortezomib",
+          "ic50_nM": "135.0"
+        }
+      ]
+    },
+    {
+      "cas": "868540-17-4",
+      "source_row": 41,
+      "source_name": "Carfilzomib (PR-171)",
+      "mean_rank": 24.0,
+      "stress_rank": 17.0,
+      "catalogue": "S2853",
+      "provider": "Selleck  Chemicals",
+      "source_target": "Proteasome",
+      "source_pathway": "Proteases",
+      "ic50_rows": []
+    },
+    {
+      "cas": "1072833-77-2",
+      "source_row": 111,
+      "source_name": "Ixazomib (MLN2238)",
+      "mean_rank": 14.0,
+      "stress_rank": 10.0,
+      "catalogue": "S2180",
+      "provider": "Selleck  Chemicals",
+      "source_target": "Proteasome",
+      "source_pathway": "Proteases",
+      "ic50_rows": []
+    },
+    {
+      "cas": "1239908-20-3",
+      "source_row": 112,
+      "source_name": "Ixazomib citrate",
+      "mean_rank": 17.0,
+      "stress_rank": 12.0,
+      "catalogue": "S4432",
+      "provider": "Selleck  Chemicals",
+      "source_target": "Proteasome",
+      "source_pathway": "Proteases",
+      "ic50_rows": [
+        {
+          "source_row": "19",
+          "cas": "1239908-20-3",
+          "source_name": "Ixazomib citrate",
+          "ic50_nM": "3511.0"
+        }
+      ]
+    },
+    {
+      "cas": "1201902-80-8",
+      "source_row": 113,
+      "source_name": "Ixazomib Citrate (MLN9708)",
+      "mean_rank": 22.0,
+      "stress_rank": 20.0,
+      "catalogue": "S2181",
+      "provider": "Selleck  Chemicals",
+      "source_target": "Proteasome",
+      "source_pathway": "Proteases",
+      "ic50_rows": [
+        {
+          "source_row": "18",
+          "cas": "1201902-80-8",
+          "source_name": "Ixazomib",
+          "ic50_nM": "1982.0"
+        }
+      ]
+    }
+  ],
+  "confirmed_group_worst": {
+    "bortezomib": {
+      "mean": 15.0,
+      "stress": 19.0
+    },
+    "carfilzomib": {
+      "mean": 24.0,
+      "stress": 17.0
+    },
+    "ixazomib_confirmed": {
+      "mean": 17.0,
+      "stress": 12.0
+    }
+  },
+  "leave_family_out": {
+    "boronic_lineage": {
+      "remaining_preparations": 1,
+      "remaining_low_quartile": 1,
+      "remaining_families": 1
+    },
+    "epoxyketone": {
+      "remaining_preparations": 3,
+      "remaining_low_quartile": 3,
+      "remaining_families": 1
+    }
+  },
+  "sensitivity": {
+    "group_with_ixazomib_worst_mean": 22.0,
+    "group_with_ixazomib_worst_stress": 20.0,
+    "all_five_mean_low_quartile": true,
+    "all_five_stress_low_quartile": true
+  },
+  "rows_outside_zero_to_100": 51,
+  "missing_frontmatter": [
+    "protocol.md",
+    "report.md"
+  ],
+  "worker_manifest_mismatches": [],
+  "source_field_notes": [
+    "MOESM5 title explicitly says cell viability (%), columnD says SD (standard deviation). Report percentage-point interpretation is appropriate; not a confidence interval.",
+    "MOESM6 CAS1201902-80-8 is named Ixazomib at row18; preserved faithfully by CSV and worker result, but cannot be substituted for active ixazomib CAS1072833-77-2.",
+    "MOESM4 has vendor/catalogue fields already: missing-vendor-catalogue residual claim is incorrect.",
+    "PubChem JSON property key is ConnectivitySMILES; worker report calls it connectivity SMILES, correctly."
+  ],
+  "inspected_hashes": {
+    "acquire_sources.py": "40113d90612fb2e5fca1cc5ac8d6bc8f342b43976caa43074659e5f822859917",
+    "analysis-freeze.json": "9e025b6979fca954e059af628113dfd6ffa8a9bdb2b4ef08e354f4c309174df6",
+    "analysis.log": "f6d55b90e00b8de803a31f94e02605a3cf9d97825c2bc6f86aea51735722fc1a",
+    "analyze.py": "29cb92e9dc9f76a496472c8c8e5e3d9aa8a8437b8a8dfaf82dbfbb2034c510ea",
+    "checks.json": "4db870ac51afb258ea0d98bc7d932613a4f7ff4ee46f1779e937cdf51bb784d8",
+    "execution.json": "0a6490b71363a3adcf8b2ec1a503f2e17298228168039b55d8c2328d8035417d",
+    "file-manifest.json": "aa53e1ba3191941ca9b7a85fbc099d713bcaee017143067ae62e5c864f699073",
+    "identity-roster.json": "97912b56333f629394a31db2e794bf80dd461b614cccdcddb56ac9ca337ce0d4",
+    "prepare_annotations.py": "eed76bff9bad39e4dcfbc2d97fd99f2ceb82cfef1ad50175a20595786291e71a",
+    "protocol.md": "5c7ae9404e4dc3a091339f68d1c6d2f22ed85069c7509af41efce1aaad2c1a3e",
+    "ranked-screen.csv": "df0d8517454c7adcedce0ea9c208286a3f977329f976233d1c17d55e5ad5dbf2",
+    "related-entry-candidates.json": "d1ea974220231a0dcf3b8716e8014bd343d669d75eb79160e7ce38f248185623",
+    "report.md": "31ed08fef50d1c487a019686656af018396ad3c2bf92965e56ad2fc96e9ac0a5",
+    "result.json": "ea745a47891dcb7680b1064a2923ac7493d8c19e77359b28a6041ed545cbb778",
+    "source-ic50.csv": "eae42aa2cf40cd6519827d421789f37bf4a6103123c4ebe7b7197bf8242865ff",
+    "source-provenance.json": "ad9d3cf8c89ccd31581b29e9b094a5d2d8172d14b0207413518b66643031a47e",
+    "source-quote-checks.json": "47779fc84297866b5cf1b3dc7ccbe8169a1f95c64808435662e8623cb18f30e1",
+    "source-screen.csv": "38e2e7df4dfa546431efa3b05e60068591963fe72407eed4420c85f492f49a36",
+    "sources\\doxorubicin.html": "e07eddd5404f8e5b222444c6b68df251b4ed94b9795107ea843928d3dfc73582",
+    "sources\\identity-search-evidence.json": "96109b4207f6d209fc9c1a37d27dd7ed4fc3d6df08eba643bb13f575b83a87b4",
+    "sources\\identity-web-evidence.json": "1ff2da8e8ed467f238742358904f22402930a0a8a666171356daabad3fb86068",
+    "sources\\kyprolis.html": "16ef019462230a15f8ef41181039fe92973c231145a7914ddbffe7245f1c2304",
+    "sources\\ninlaro.html": "e758e78f4b9f2f59fbcd0965a742ca0de027f06a8fef18e01109b5f054aab415",
+    "sources\\pubchem-49867936.json": "7ce5f3e87afc8edb7813e40625aeb22e03edc5c56f73048383a347e858e22475",
+    "sources\\pubchem-56844015.json": "70e8eb56527319de1a15299fe79f8e1b70730d98911b70ece20b3bbcd222b9eb",
+    "sources\\velcade.html": "8f5c6c7425231eb8b2d6f0884fd0d43f580e6dd41c222c0d9c99a67db3d7e138"
+  }
+}

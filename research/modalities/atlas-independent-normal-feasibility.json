@@ -1,0 +1,4275 @@
+{
+  "base_revision": "ee4d858f80d55b9865b9838872054de773580965",
+  "claim_ceiling": "Descriptive RNA differences within named cached assay/comparator records; no independently validated therapeutic-address atlas, surface-protein validation or therapeutic window.",
+  "cohorts": {
+    "GSE170983": {
+      "alias": {
+        "evidence": [
+          "search#/known_cohorts/GSE170983"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, the same linked publication and the same four EMC samples, under a different accession"
+      },
+      "disposition": "Reported same Brunner deposit and four EMC samples; do not count as independent. Primary GSM alias crosswalk not supplied."
+    },
+    "GSE24369": {
+      "arms": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE24369/sample_records"
+        ],
+        "method": "reuse_readiness_arms_check_against_array_IDs",
+        "status": "known",
+        "value": {
+          "EMC": [
+            "GSM600934",
+            "GSM600935",
+            "GSM600936",
+            "GSM600937",
+            "GSM600938",
+            "GSM600939"
+          ],
+          "comparator": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933",
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956",
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "excluded": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967",
+            "GSM600968",
+            "GSM600969"
+          ]
+        }
+      },
+      "assay_units": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/value_kind"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)"
+      },
+      "cached_records": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE24369/sample_records"
+        ],
+        "method": "distinct_exact_GSM_count",
+        "status": "known",
+        "value": 42
+      },
+      "normalization_limit": "Cached probe averaging and per-array standardization are documented; full primary preprocessing is not supplied. z units do not harmonize technologies.",
+      "normalization_record": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "probes averaged per symbol, standardised against that sample's whole-array background, Welch t. Identical arithmetic to `gene_reads`; see `self_check`."
+      },
+      "platform": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/platform"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "GPL6244"
+      },
+      "pooled_muscle_RNA_records": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE24369/sample_records"
+        ],
+        "method": "literal_pooled_RNA_annotation",
+        "status": "known",
+        "value": [
+          "GSM600968",
+          "GSM600969"
+        ]
+      },
+      "reference_channel": "Single-channel; muscle pools are separate array records, not a second channel.",
+      "roster": [
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 1 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/0"
+          ],
+          "gsm": "GSM600928",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 1"
+        },
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 2 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/1"
+          ],
+          "gsm": "GSM600929",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 2"
+        },
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 3 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/2"
+          ],
+          "gsm": "GSM600930",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 3"
+        },
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 4 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/3"
+          ],
+          "gsm": "GSM600931",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 4"
+        },
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 5 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/4"
+          ],
+          "gsm": "GSM600932",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 5"
+        },
+        {
+          "annotation_verbatim": "Desmoid fibromatosis 6 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/5"
+          ],
+          "gsm": "GSM600933",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Desmoid fibromatosis 6"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/6"
+          ],
+          "gsm": "GSM600934",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 1"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/7"
+          ],
+          "gsm": "GSM600935",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 2"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/8"
+          ],
+          "gsm": "GSM600936",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 3"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/9"
+          ],
+          "gsm": "GSM600937",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 4"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/10"
+          ],
+          "gsm": "GSM600938",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 5"
+        },
+        {
+          "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/11"
+          ],
+          "gsm": "GSM600939",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Extraskeletal myxoid chondrosarcoma 6"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/12"
+          ],
+          "gsm": "GSM600940",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 1"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/13"
+          ],
+          "gsm": "GSM600941",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 2"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/14"
+          ],
+          "gsm": "GSM600942",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 3"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/15"
+          ],
+          "gsm": "GSM600943",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 4"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/16"
+          ],
+          "gsm": "GSM600944",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 5"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/17"
+          ],
+          "gsm": "GSM600945",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 6"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 7 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/18"
+          ],
+          "gsm": "GSM600946",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 7"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 8 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/19"
+          ],
+          "gsm": "GSM600947",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 8"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 9 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/20"
+          ],
+          "gsm": "GSM600948",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 9"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 10 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/21"
+          ],
+          "gsm": "GSM600949",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 10"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 11 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/22"
+          ],
+          "gsm": "GSM600950",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 11"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 12 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/23"
+          ],
+          "gsm": "GSM600951",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 12"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 13 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/24"
+          ],
+          "gsm": "GSM600952",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 13"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 14 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/25"
+          ],
+          "gsm": "GSM600953",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 14"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 15 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/26"
+          ],
+          "gsm": "GSM600954",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 15"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 16 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/27"
+          ],
+          "gsm": "GSM600955",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 16"
+        },
+        {
+          "annotation_verbatim": "Low-grade fibromyxoid sarcoma 17 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/28"
+          ],
+          "gsm": "GSM600956",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Low-grade fibromyxoid sarcoma 17"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/29"
+          ],
+          "gsm": "GSM600957",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 1"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/30"
+          ],
+          "gsm": "GSM600958",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 2"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/31"
+          ],
+          "gsm": "GSM600959",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 3"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/32"
+          ],
+          "gsm": "GSM600960",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 4"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/33"
+          ],
+          "gsm": "GSM600961",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 5"
+        },
+        {
+          "annotation_verbatim": "Myxofibrosarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/34"
+          ],
+          "gsm": "GSM600962",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Myxofibrosarcoma 6"
+        },
+        {
+          "annotation_verbatim": "Solitary fibrous tumor 1 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/35"
+          ],
+          "gsm": "GSM600963",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Solitary fibrous tumor 1"
+        },
+        {
+          "annotation_verbatim": "Solitary fibrous tumor 2 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/36"
+          ],
+          "gsm": "GSM600964",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Solitary fibrous tumor 2"
+        },
+        {
+          "annotation_verbatim": "Solitary fibrous tumor 3 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/37"
+          ],
+          "gsm": "GSM600965",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Solitary fibrous tumor 3"
+        },
+        {
+          "annotation_verbatim": "Solitary fibrous tumor 4 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/38"
+          ],
+          "gsm": "GSM600966",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Solitary fibrous tumor 4"
+        },
+        {
+          "annotation_verbatim": "Solitary fibrous tumor 5 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/39"
+          ],
+          "gsm": "GSM600967",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Solitary fibrous tumor 5"
+        },
+        {
+          "annotation_verbatim": "Skeletal muscle pooled RNA 1 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/40"
+          ],
+          "gsm": "GSM600968",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Skeletal muscle pooled RNA 1"
+        },
+        {
+          "annotation_verbatim": "Skeletal muscle pooled RNA 2 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle",
+          "evidence": [
+            "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/41"
+          ],
+          "gsm": "GSM600969",
+          "reference_label_tokens": [],
+          "specimen_label": null,
+          "title": "Skeletal muscle pooled RNA 2"
+        }
+      ],
+      "series_reported_records": {
+        "evidence": [
+          "search#/candidates/GSE24369/n_samples"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": 42
+      },
+      "unique_patients": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE24369/sample_records"
+        ],
+        "method": "No patient crosswalk; pools are not donor counts.",
+        "status": "unknown",
+        "value": null
+      },
+      "unique_specimens": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE24369/sample_records"
+        ],
+        "method": "GSM and STT labels do not establish biological uniqueness.",
+        "status": "unknown",
+        "value": null
+      },
+      "unit": "GSM array record; not a verified specimen or patient",
+      "value_representation": {
+        "evidence": [
+          "arrays#/targets/GSE24369_series_matrix.txt.gz/genes"
+        ],
+        "method": "inspect_keys_and_vector_lengths_only_no_expression_arithmetic",
+        "status": "known",
+        "value": {
+          "gene_vectors": 2284,
+          "per_sample": true,
+          "separate_per_probe_vectors": false,
+          "vector_lengths_match_roster": true
+        }
+      }
+    },
+    "GSE28866": {
+      "cached_values": {
+        "evidence": [
+          "normal#/per_gene/values",
+          "normal#/per_gene/_contrast"
+        ],
+        "method": "inspect_cached_value_schema",
+        "status": "known",
+        "value": {
+          "per_gene_fields": [
+            "_n_emc_libs",
+            "_n_normal_libs",
+            "_n_sarcoma_libs",
+            "emc_median",
+            "n_peaks",
+            "normal_median",
+            "sarcoma_median"
+          ],
+          "per_library_gene_values_present": false,
+          "scope": "Arm medians over gene peaks and libraries; raw/normalized headers and first-row previews only, not full matrices."
+        }
+      },
+      "counts": {
+        "evidence": [
+          "normal#/sources/0/grouping",
+          "series#/samples",
+          "normal#/sources/1/columns/sample_columns"
+        ],
+        "method": "exact_ID_and_label_counts_not_patients",
+        "status": "known",
+        "value": {
+          "EMC_libraries": 4,
+          "GEO_records": 99,
+          "distinct_matrix_STT_labels": 91,
+          "matrix_libraries": 93,
+          "normal_broad_stage_counts": {
+            "adult": 17,
+            "fetal": 10
+          },
+          "normal_libraries": 27,
+          "normal_stage_counts": {
+            "adult": 17,
+            "fetal": 1,
+            "fetal, 13wks": 2,
+            "fetal, 14wks": 3,
+            "fetal, 15wks": 4
+          },
+          "tumour_libraries": 66
+        }
+      },
+      "design_count_discrepancy": {
+        "evidence": [
+          "series#/design_vs_contents/n_samples_the_design_accounts_for"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": 6396
+      },
+      "design_count_disposition": "Cached 6396 is not a sample count; use enumerated 93 libraries plus six non-matrix cell-line GSM records, totaling 99. Preserve the defective input unchanged.",
+      "header_discrepancy": {
+        "evidence": [
+          "normal#/sources/0/columns",
+          "normal#/sources/1/columns"
+        ],
+        "method": "exact_column_set_difference_after_line_ending_trim",
+        "status": "known",
+        "value": {
+          "actual_library_columns": 93,
+          "extra_annotation_fields": [
+            "classification",
+            "differentially_expressed_cancer_type",
+            "hg18_coords"
+          ],
+          "reported_normalized_sample_columns": 96
+        }
+      },
+      "normal_scope_limit": {
+        "evidence": [
+          "normal#/per_gene/_what_the_normal_arm_cannot_settle"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "The normals are visceral organs with almost no soft tissue in them, so a gene high in EMC against THIS panel is not thereby shown to be EMC-specific rather than mesenchymal-lineage-specific. The normal arm is a normal-ORGAN EXPOSURE reading — the on-target/off-tumour axis — and the sarcoma arm is the lineage axis. Do not read either as the other."
+      },
+      "normal_strata": {
+        "evidence": [
+          "normal#/sources/0/grouping",
+          "series#/samples",
+          "normal#/sources/1/columns/sample_columns"
+        ],
+        "method": "count_metadata_stage_and_tissue",
+        "status": "known",
+        "value": [
+          {
+            "libraries": 5,
+            "stage": "adult",
+            "tissue": "breast"
+          },
+          {
+            "libraries": 3,
+            "stage": "adult",
+            "tissue": "colon"
+          },
+          {
+            "libraries": 3,
+            "stage": "adult",
+            "tissue": "kidney"
+          },
+          {
+            "libraries": 5,
+            "stage": "adult",
+            "tissue": "lung"
+          },
+          {
+            "libraries": 1,
+            "stage": "adult",
+            "tissue": "uterus"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal",
+            "tissue": "lung"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 13wks",
+            "tissue": "bowel"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 13wks",
+            "tissue": "lung"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 14wks",
+            "tissue": "bowel"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 14wks",
+            "tissue": "kidney"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 14wks",
+            "tissue": "lung"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 15wks",
+            "tissue": "bowel"
+          },
+          {
+            "libraries": 2,
+            "stage": "fetal, 15wks",
+            "tissue": "kidney"
+          },
+          {
+            "libraries": 1,
+            "stage": "fetal, 15wks",
+            "tissue": "lung"
+          }
+        ]
+      },
+      "normalization": {
+        "evidence": [
+          "series#/design_vs_contents/overall_design_verbatim"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "3SEQ was performed on 64 formalin-fixed, paraffin-embedded (FFPE) human tumors representing 17 diagnostic cancer subtypes. Duplicate libraries were prepared for two of the tumors (ESS STT5520 and LMS STT516). 3SEQ was also performed on 27 normal human tissue samples. RNA-Seq was performed on 6 breast cancer cell lines for the examination of the breast-specific transcript on chr10.  Series supplementary files:  'GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt': Raw_counts: Total 3SEQ reads in each peak for each sample. File includes read counts for 54,511 peaks for the 66 cancer libraries and the 27 normal libraries.  'GSE28866_36048_normalized_peaks_cancer_and_normal.txt': Normalized_peaks: Normalized 3SEQ expression data for the 36,048 filtered peaks for the 66 cancer libraries and the 27 normal libraries. Peaks were classified as coding, lncRNA (Rinn, Bartel, Hughes, Gencode_lnc), other known transcripts (ref_known_Gencode_nc, all_mrna, other known), downstream, intron, promoter, or novel_intergenic. Peaks determined to be differentially expressed in one of the 17 cancer subtypes using a series of 2-Class SAM analyses are noted along with the type of cancer showing upregulation. Expression data was normalized using the sequencing depth of each sample by scaling the data using the mean value of each sample. Data was further compressed to reduce outliers by taking the square root of each value."
+      },
+      "packaging_caveat": {
+        "evidence": [
+          "normal#/_why_the_series_matrix_looked_empty"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "n_probes: 0 across 99 samples on GPL10999 with a 404 on the platform annotation is a PACKAGING fact about a sequencing deposit, not empty data. The values are in the series SUPPLEMENTARY peak tables."
+      },
+      "platform": {
+        "evidence": [
+          "series#/platform_records/GPL10999"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": {
+          "organism": [
+            "Homo sapiens"
+          ],
+          "technology": "high-throughput sequencing",
+          "title": "Illumina Genome Analyzer IIx (Homo sapiens)"
+        }
+      },
+      "reference_channel": "3SEQ libraries; no two-colour reference channel. Normalized values are depth-scaled then square-root compressed, not TPM or ordinary fold changes.",
+      "roster_EMC_and_normal": [
+        {
+          "archive_method": "FFPE",
+          "arm": "EMC",
+          "column": "EMC_STT5525",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/emc_columns/0",
+            "series#/samples/39"
+          ],
+          "gsm": "GSM715466",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5525",
+          "stage": null,
+          "tissue": "extraskeletal myxoid chondrosarcoma"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "EMC",
+          "column": "EMC_STT5526",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/emc_columns/1",
+            "series#/samples/40"
+          ],
+          "gsm": "GSM715467",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5526",
+          "stage": null,
+          "tissue": "extraskeletal myxoid chondrosarcoma"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "EMC",
+          "column": "EMC_STT5527",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/emc_columns/2",
+            "series#/samples/41"
+          ],
+          "gsm": "GSM715470",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5527",
+          "stage": null,
+          "tissue": "extraskeletal myxoid chondrosarcoma"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "EMC",
+          "column": "EMC_STT5592",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/emc_columns/3",
+            "series#/samples/42"
+          ],
+          "gsm": "GSM715472",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5592",
+          "stage": null,
+          "tissue": "extraskeletal myxoid chondrosarcoma"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5425_Adult_normal_breast",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/0",
+            "series#/samples/66"
+          ],
+          "gsm": "GSM984203",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5425",
+          "stage": "adult",
+          "tissue": "breast"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5451_Adult_normal_breast",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/1",
+            "series#/samples/67"
+          ],
+          "gsm": "GSM984204",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5451",
+          "stage": "adult",
+          "tissue": "breast"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5510_Adult_normal_breast",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/2",
+            "series#/samples/68"
+          ],
+          "gsm": "GSM984205",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5510",
+          "stage": "adult",
+          "tissue": "breast"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5588_Fetal_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/3",
+            "series#/samples/83"
+          ],
+          "gsm": "GSM984220",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5588",
+          "stage": "fetal",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5601_Adult_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/4",
+            "series#/samples/71"
+          ],
+          "gsm": "GSM984208",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5601",
+          "stage": "adult",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5603_Adult_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/5",
+            "series#/samples/72"
+          ],
+          "gsm": "GSM984209",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5603",
+          "stage": "adult",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5609_Adult_normal_uterus",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/6",
+            "series#/samples/82"
+          ],
+          "gsm": "GSM984219",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5609",
+          "stage": "adult",
+          "tissue": "uterus"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5610_Adult_normal_colon",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/7",
+            "series#/samples/76"
+          ],
+          "gsm": "GSM984213",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5610",
+          "stage": "adult",
+          "tissue": "colon"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5620_Adult_normal_breast",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/8",
+            "series#/samples/69"
+          ],
+          "gsm": "GSM984206",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5620",
+          "stage": "adult",
+          "tissue": "breast"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5680_Fetal_normal_bowel",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/9",
+            "series#/samples/87"
+          ],
+          "gsm": "GSM984224",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5680",
+          "stage": "fetal, 14wks",
+          "tissue": "bowel"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5681_Fetal_normal_bowel",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/10",
+            "series#/samples/88"
+          ],
+          "gsm": "GSM984225",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5681",
+          "stage": "fetal, 15wks",
+          "tissue": "bowel"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5682_Fetal_normal_bowel",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/11",
+            "series#/samples/89"
+          ],
+          "gsm": "GSM984226",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5682",
+          "stage": "fetal, 13wks",
+          "tissue": "bowel"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5683_Fetal_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/12",
+            "series#/samples/90"
+          ],
+          "gsm": "GSM984227",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5683",
+          "stage": "fetal, 15wks",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5684_Fetal_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/13",
+            "series#/samples/91"
+          ],
+          "gsm": "GSM984228",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5684",
+          "stage": "fetal, 15wks",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5685_Fetal_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/14",
+            "series#/samples/92"
+          ],
+          "gsm": "GSM984229",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5685",
+          "stage": "fetal, 14wks",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5686_Fetal_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/15",
+            "series#/samples/84"
+          ],
+          "gsm": "GSM984221",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5686",
+          "stage": "fetal, 14wks",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5687_Fetal_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/16",
+            "series#/samples/85"
+          ],
+          "gsm": "GSM984222",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5687",
+          "stage": "fetal, 15wks",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5688_Fetal_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/17",
+            "series#/samples/86"
+          ],
+          "gsm": "GSM984223",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5688",
+          "stage": "fetal, 13wks",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5692_Adult_normal_colon",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/18",
+            "series#/samples/77"
+          ],
+          "gsm": "GSM984214",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5692",
+          "stage": "adult",
+          "tissue": "colon"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5693_Adult_normal_colon",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/19",
+            "series#/samples/78"
+          ],
+          "gsm": "GSM984215",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5693",
+          "stage": "adult",
+          "tissue": "colon"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5694_Adult_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/20",
+            "series#/samples/79"
+          ],
+          "gsm": "GSM984216",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5694",
+          "stage": "adult",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5695_Adult_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/21",
+            "series#/samples/80"
+          ],
+          "gsm": "GSM984217",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5695",
+          "stage": "adult",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5696_Adult_normal_kidney",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/22",
+            "series#/samples/81"
+          ],
+          "gsm": "GSM984218",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5696",
+          "stage": "adult",
+          "tissue": "kidney"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5697_Adult_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/23",
+            "series#/samples/73"
+          ],
+          "gsm": "GSM984210",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5697",
+          "stage": "adult",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5698_Adult_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/24",
+            "series#/samples/74"
+          ],
+          "gsm": "GSM984211",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5698",
+          "stage": "adult",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5699_Adult_normal_lung",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/25",
+            "series#/samples/75"
+          ],
+          "gsm": "GSM984212",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5699",
+          "stage": "adult",
+          "tissue": "lung"
+        },
+        {
+          "archive_method": "FFPE",
+          "arm": "normal",
+          "column": "STT5761_Adult_normal_breast",
+          "description": [
+            "Experiment type: 3SEQ",
+            "polyA RNA"
+          ],
+          "evidence": [
+            "normal#/sources/0/grouping/normal_columns/26",
+            "series#/samples/70"
+          ],
+          "gsm": "GSM984207",
+          "patient_id": null,
+          "platform": [
+            "GPL10999"
+          ],
+          "specimen_label": "STT5761",
+          "stage": "adult",
+          "tissue": "breast"
+        }
+      ],
+      "run_ids": {
+        "evidence": [
+          "normal#/sources/0/grouping",
+          "series#/samples",
+          "normal#/sources/1/columns/sample_columns"
+        ],
+        "method": "GSM metadata and peak headers do not enumerate SRA runs.",
+        "status": "unknown",
+        "value": null
+      },
+      "technical_replicates": {
+        "evidence": [
+          "normal#/sources/1/columns/sample_columns",
+          "normal#/sources/0/grouping/technical_replicate_columns"
+        ],
+        "method": "same_exact_STT_label_and_documented_rep_columns",
+        "status": "known",
+        "value": {
+          "STT516": [
+            "LMS_STT516_rep1",
+            "LMS_STT516_rep2"
+          ],
+          "STT5520": [
+            "ESS_STT5520_rep1",
+            "ESS_STT5520_rep2"
+          ]
+        }
+      },
+      "unique_patients": {
+        "evidence": [
+          "normal#/sources/0/grouping",
+          "series#/samples",
+          "normal#/sources/1/columns/sample_columns"
+        ],
+        "method": "Four EMC STT labels are not a patient crosswalk; normal donors and cross-organ reuse unknown.",
+        "status": "unknown",
+        "value": null
+      },
+      "unique_specimens": {
+        "evidence": [
+          "normal#/sources/0/grouping",
+          "series#/samples",
+          "normal#/sources/1/columns/sample_columns"
+        ],
+        "method": "91 distinct STT labels are labelled material units, not verified biological uniqueness.",
+        "status": "unknown",
+        "value": null
+      },
+      "unit": "Supplementary 3SEQ library column linked to GSM and STT label; run and patient IDs unavailable"
+    },
+    "GSE4303": {
+      "arms": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE4303/sample_records"
+        ],
+        "method": "reuse_readiness_arms_check_against_array_IDs",
+        "status": "known",
+        "value": {
+          "EMC": [
+            "GSM98495",
+            "GSM98496",
+            "GSM98499",
+            "GSM98503",
+            "GSM98506",
+            "GSM98509",
+            "GSM98510",
+            "GSM98511",
+            "GSM98512",
+            "GSM98513"
+          ],
+          "comparator": [
+            "GSM89883",
+            "GSM89898",
+            "GSM89924",
+            "GSM91381",
+            "GSM91397",
+            "GSM91405"
+          ],
+          "excluded": []
+        }
+      },
+      "assay_units": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/value_kind"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)"
+      },
+      "cached_records": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE4303/sample_records"
+        ],
+        "method": "distinct_exact_GSM_count",
+        "status": "known",
+        "value": 16
+      },
+      "normalization_limit": "Cached probe averaging and per-array standardization are documented; full primary preprocessing is not supplied. z units do not harmonize technologies.",
+      "normalization_record": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "probes averaged per symbol, standardised against that sample's whole-array background, Welch t. Identical arithmetic to `gene_reads`; see `self_check`."
+      },
+      "platform": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/platform"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "GPL3290"
+      },
+      "pooled_muscle_RNA_records": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE4303/sample_records"
+        ],
+        "method": "literal_pooled_RNA_annotation",
+        "status": "known",
+        "value": []
+      },
+      "reference_channel": "EMC has CRH-mRNA tokens, DFSP CRH, GIST UHR. Tokens do not establish identical reference composition, preparation or dye orientation.",
+      "roster": [
+        {
+          "annotation_verbatim": "STT3126-DFSP | CRH | STT3126-DFSP mRNA | CRH | STT3126-DFSP mRNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/0"
+          ],
+          "gsm": "GSM89883",
+          "reference_label_tokens": [
+            "CRH"
+          ],
+          "specimen_label": "STT3126",
+          "title": "STT3126-DFSP"
+        },
+        {
+          "annotation_verbatim": "STT3068-DFSP | CRH | STT3068-DFSP mRNA | CRH | STT3068-DFSP mRNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/1"
+          ],
+          "gsm": "GSM89898",
+          "reference_label_tokens": [
+            "CRH"
+          ],
+          "specimen_label": "STT3068",
+          "title": "STT3068-DFSP"
+        },
+        {
+          "annotation_verbatim": "STT3053-DFSP | CRH | STT3053-DFSP mRNA | CRH | STT3053-DFSP mRNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/2"
+          ],
+          "gsm": "GSM89924",
+          "reference_label_tokens": [
+            "CRH"
+          ],
+          "specimen_label": "STT3053",
+          "title": "STT3053-DFSP"
+        },
+        {
+          "annotation_verbatim": "STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA | UHR | STT2001c-GIST-Total RNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/3"
+          ],
+          "gsm": "GSM91381",
+          "reference_label_tokens": [
+            "UHR"
+          ],
+          "specimen_label": "STT2001c",
+          "title": "STT2001c-GIST-Total RNA-WT"
+        },
+        {
+          "annotation_verbatim": "STT794b-GIST-Total RNA-PDGFRa | UHR | STT794b-GIST-Total RNA | UHR | STT794b-GIST-Total RNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/4"
+          ],
+          "gsm": "GSM91397",
+          "reference_label_tokens": [
+            "UHR"
+          ],
+          "specimen_label": "STT794b",
+          "title": "STT794b-GIST-Total RNA-PDGFRa"
+        },
+        {
+          "annotation_verbatim": "STT94b-GIST-Total RNA-exon9 | UHR | STT94b-GIST-Total RNA | UHR | STT94b-GIST-Total RNA",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/5"
+          ],
+          "gsm": "GSM91405",
+          "reference_label_tokens": [
+            "UHR"
+          ],
+          "specimen_label": "STT94b",
+          "title": "STT94b-GIST-Total RNA-exon9"
+        },
+        {
+          "annotation_verbatim": "STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/6"
+          ],
+          "gsm": "GSM98495",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3699",
+          "title": "STT3699-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/7"
+          ],
+          "gsm": "GSM98496",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3698",
+          "title": "STT3698-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/8"
+          ],
+          "gsm": "GSM98499",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3697",
+          "title": "STT3697-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/9"
+          ],
+          "gsm": "GSM98503",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3782",
+          "title": "STT3782-Myxoid chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/10"
+          ],
+          "gsm": "GSM98506",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3783",
+          "title": "STT3783-Myxoid chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/11"
+          ],
+          "gsm": "GSM98509",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3714",
+          "title": "STT3714-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/12"
+          ],
+          "gsm": "GSM98510",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT3780",
+          "title": "STT3780-Myxoid chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/13"
+          ],
+          "gsm": "GSM98511",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT1169",
+          "title": "STT1169-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/14"
+          ],
+          "gsm": "GSM98512",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT2003",
+          "title": "STT2003-Myxoid Chondrosarcoma"
+        },
+        {
+          "annotation_verbatim": "STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma",
+          "evidence": [
+            "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/15"
+          ],
+          "gsm": "GSM98513",
+          "reference_label_tokens": [
+            "CRH-mRNA"
+          ],
+          "specimen_label": "STT2528(2)",
+          "title": "STT2528(2)-Myxoid Chondrosarcoma"
+        }
+      ],
+      "series_reported_records": {
+        "evidence": [
+          "search#/candidates/GSE4303/n_samples"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": 36
+      },
+      "unique_patients": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE4303/sample_records"
+        ],
+        "method": "No patient crosswalk; pools are not donor counts.",
+        "status": "unknown",
+        "value": null
+      },
+      "unique_specimens": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+          "readiness#/cohorts/GSE4303/sample_records"
+        ],
+        "method": "GSM and STT labels do not establish biological uniqueness.",
+        "status": "unknown",
+        "value": null
+      },
+      "unit": "GSM array record; not a verified specimen or patient",
+      "value_representation": {
+        "evidence": [
+          "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/genes"
+        ],
+        "method": "inspect_keys_and_vector_lengths_only_no_expression_arithmetic",
+        "status": "known",
+        "value": {
+          "gene_vectors": 2035,
+          "per_sample": true,
+          "separate_per_probe_vectors": false,
+          "vector_lengths_match_roster": true
+        }
+      }
+    },
+    "PRJNA1357027": {
+      "alias_discrepancies": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "exact_string_disagreement_not_corrected",
+        "status": "known",
+        "value": [
+          {
+            "experiment_accession": "SRX30989939",
+            "library_name": "Si21",
+            "run_accession": "SRR35940654",
+            "sample_accession": "SAMN53073768",
+            "sample_alias": "Si22"
+          }
+        ]
+      },
+      "assay": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "distinct_depositor_titles",
+        "status": "known",
+        "value": [
+          "Illumina HiSeq 2500 sequencing: Targeted RNA-seq (TempO-Seq) of EMC"
+        ]
+      },
+      "available_values": "Run-level read-structure diagnostics and sequence-to-gene map; no sample-aligned normalized target-expression matrix in this input. Counts locator is not loaded.",
+      "counts": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "distinct_identifiers_by_namespace",
+        "status": "known",
+        "value": {
+          "experiment_accession": 12,
+          "library_name": 12,
+          "run_accession": 12,
+          "sample_accession": 12,
+          "sample_alias": 12
+        }
+      },
+      "counts_locator": {
+        "evidence": [
+          "fourth#/_counts_live_in"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "emc-fourth-cohort-probe-counts.tsv"
+      },
+      "identifiers": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "distinct_identifiers_by_namespace",
+        "status": "known",
+        "value": {
+          "experiment_accession": [
+            "SRX30989936",
+            "SRX30989937",
+            "SRX30989938",
+            "SRX30989939",
+            "SRX30989940",
+            "SRX30989941",
+            "SRX30989942",
+            "SRX30989943",
+            "SRX30989944",
+            "SRX30989945",
+            "SRX30989946",
+            "SRX30989947"
+          ],
+          "library_name": [
+            "Si01",
+            "Si02",
+            "Si05",
+            "Si09",
+            "Si10",
+            "Si14",
+            "Si15",
+            "Si16",
+            "Si17",
+            "Si19",
+            "Si20",
+            "Si21"
+          ],
+          "run_accession": [
+            "SRR35940646",
+            "SRR35940647",
+            "SRR35940648",
+            "SRR35940649",
+            "SRR35940650",
+            "SRR35940651",
+            "SRR35940652",
+            "SRR35940653",
+            "SRR35940654",
+            "SRR35940655",
+            "SRR35940656",
+            "SRR35940657"
+          ],
+          "sample_accession": [
+            "SAMN53073757",
+            "SAMN53073758",
+            "SAMN53073759",
+            "SAMN53073760",
+            "SAMN53073761",
+            "SAMN53073762",
+            "SAMN53073763",
+            "SAMN53073764",
+            "SAMN53073765",
+            "SAMN53073766",
+            "SAMN53073767",
+            "SAMN53073768"
+          ],
+          "sample_alias": [
+            "Si01",
+            "Si02",
+            "Si05",
+            "Si09",
+            "Si10",
+            "Si14",
+            "Si15",
+            "Si16",
+            "Si17",
+            "Si19",
+            "Si20",
+            "Si22"
+          ]
+        }
+      },
+      "mapping_unknowns": {
+        "evidence": [
+          "fourth#/probe_map/⚠ unassigned_means"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "no verbatim match to a human cDNA or ncRNA transcript at any core length tried. That is a statement about this matcher, NOT about the probe: a probe spanning a junction the sequence set does not contain, or carrying non-target bases, is unassigned here and is still a real probe."
+      },
+      "normal_comparator": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "All run titles describe EMC; no normal arm enumerated. This is a cache/design bound, not absence of expression.",
+        "status": "unknown",
+        "value": null
+      },
+      "normalization": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "No primary expression normalization protocol or comparable normal values in this input.",
+        "status": "unknown",
+        "value": null
+      },
+      "read_structure_gate": {
+        "evidence": [
+          "fourth#/probe_gate/meaning"
+        ],
+        "method": "source_value",
+        "status": "known",
+        "value": "PASS = the reads are one fixed length and a panel-sized set of distinct sequences carries most of them, which is what a templated-ligation probe assay looks like and what makes probe-count matching the right quantification. It is NOT a confirmation of any named commercial panel or of its gene content."
+      },
+      "reference_channel": "Targeted TempO-Seq description, no two-colour reference; not interchangeable with conventional RNA-seq.",
+      "roster": [
+        {
+          "evidence": [
+            "fourth#/run_table/rows/0"
+          ],
+          "experiment_accession": "SRX30989944",
+          "library_name": "Si15",
+          "run_accession": "SRR35940649",
+          "sample_accession": "SAMN53073763",
+          "sample_alias": "Si15"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/1"
+          ],
+          "experiment_accession": "SRX30989938",
+          "library_name": "Si20",
+          "run_accession": "SRR35940655",
+          "sample_accession": "SAMN53073767",
+          "sample_alias": "Si20"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/2"
+          ],
+          "experiment_accession": "SRX30989936",
+          "library_name": "Si01",
+          "run_accession": "SRR35940657",
+          "sample_accession": "SAMN53073757",
+          "sample_alias": "Si01"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/3"
+          ],
+          "experiment_accession": "SRX30989947",
+          "library_name": "Si19",
+          "run_accession": "SRR35940646",
+          "sample_accession": "SAMN53073766",
+          "sample_alias": "Si19"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/4"
+          ],
+          "experiment_accession": "SRX30989946",
+          "library_name": "Si17",
+          "run_accession": "SRR35940647",
+          "sample_accession": "SAMN53073765",
+          "sample_alias": "Si17"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/5"
+          ],
+          "experiment_accession": "SRX30989945",
+          "library_name": "Si16",
+          "run_accession": "SRR35940648",
+          "sample_accession": "SAMN53073764",
+          "sample_alias": "Si16"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/6"
+          ],
+          "experiment_accession": "SRX30989943",
+          "library_name": "Si14",
+          "run_accession": "SRR35940650",
+          "sample_accession": "SAMN53073762",
+          "sample_alias": "Si14"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/7"
+          ],
+          "experiment_accession": "SRX30989941",
+          "library_name": "Si09",
+          "run_accession": "SRR35940652",
+          "sample_accession": "SAMN53073760",
+          "sample_alias": "Si09"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/8"
+          ],
+          "experiment_accession": "SRX30989942",
+          "library_name": "Si10",
+          "run_accession": "SRR35940651",
+          "sample_accession": "SAMN53073761",
+          "sample_alias": "Si10"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/9"
+          ],
+          "experiment_accession": "SRX30989940",
+          "library_name": "Si05",
+          "run_accession": "SRR35940653",
+          "sample_accession": "SAMN53073759",
+          "sample_alias": "Si05"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/10"
+          ],
+          "experiment_accession": "SRX30989939",
+          "library_name": "Si21",
+          "run_accession": "SRR35940654",
+          "sample_accession": "SAMN53073768",
+          "sample_alias": "Si22"
+        },
+        {
+          "evidence": [
+            "fourth#/run_table/rows/11"
+          ],
+          "experiment_accession": "SRX30989937",
+          "library_name": "Si02",
+          "run_accession": "SRR35940656",
+          "sample_accession": "SAMN53073758",
+          "sample_alias": "Si02"
+        }
+      ],
+      "unique_patients": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "No patient linkage or cross-study overlap documentation.",
+        "status": "unknown",
+        "value": null
+      },
+      "unique_specimens": {
+        "evidence": [
+          "fourth#/run_table/rows"
+        ],
+        "method": "Distinct BioSamples do not prove distinct tissue specimens.",
+        "status": "unknown",
+        "value": null
+      },
+      "unit": "Run, experiment, BioSample and library-name records; not verified patients"
+    }
+  },
+  "decision": "failed_gate_independent_validation_unidentified",
+  "feasibility_matrix": [
+    {
+      "comparison": "GSE24369 EMC vs cached 29 sarcoma comparators",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+        "readiness#/cohorts/GSE24369/counts/class_counts"
+      ],
+      "id": "C1",
+      "identifiable_claim": "Descriptive within-platform RNA contrast for cached gene vectors and these sample records.",
+      "reason": "Six EMC records; comparator composition is 17 LGFMS, six desmoid and six myxofibrosarcoma (the readiness cache labels the last class fibrosarcoma). Not normal tissue, independent CHRNA6 validation, patient-level inference or diagnostic specificity beyond sampled histologies.",
+      "status": "defensible"
+    },
+    {
+      "comparison": "GSE24369 EMC vs two skeletal-muscle pooled-RNA records",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples"
+      ],
+      "id": "C2",
+      "identifiable_claim": "At most tumour records versus these particular RNA pools on GPL6244.",
+      "reason": "Per-record vectors exist, but pool donor composition, reuse, preparation and primary preprocessing are unresolved. Not two healthy patients, matched mesenchymal controls, or a population normal distribution.",
+      "status": "conditional"
+    },
+    {
+      "comparison": "GSE4303 EMC vs three DFSP records",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples"
+      ],
+      "id": "C3",
+      "identifiable_claim": "Within-platform relative RNA contrast only after reference compatibility is established.",
+      "reason": "CRH-mRNA vs CRH tokens suggest a narrower candidate arm but do not prove identical reference material or dye orientation. Ten EMC GSMs are not ten verified patients.",
+      "status": "conditional"
+    },
+    {
+      "comparison": "GSE4303 EMC vs GIST, or all six cached comparators",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+        "sensitivity#/method"
+      ],
+      "id": "C4",
+      "identifiable_claim": "Cached arithmetic is a difference of recorded ratios, not an identified tissue-expression difference.",
+      "reason": "EMC CRH-mRNA and GIST UHR reference labels differ; histology and reference channel are confounded without a primary reference crosswalk/calibration. Sensitivity stability cannot repair this.",
+      "status": "unidentified"
+    },
+    {
+      "comparison": "GSE4303 EMC vs its reference channel as normal tissue",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples"
+      ],
+      "id": "C5",
+      "identifiable_claim": "No tumour-versus-normal tissue claim.",
+      "reason": "Reference pool identity/composition is unresolved and not a sampled normal-tissue arm; negative ratios are not absent expression.",
+      "status": "unidentified"
+    },
+    {
+      "comparison": "GSE28866 EMC vs all 27 normal-organ libraries",
+      "evidence": [
+        "normal#/sources/0/grouping",
+        "normal#/per_gene/_contrast",
+        "series#/design_vs_contents/overall_design_verbatim"
+      ],
+      "id": "C6",
+      "identifiable_claim": "The existing cache describes an aggregate RNA comparison against this mixed organ/stage library panel only.",
+      "reason": "Four EMC library labels and 27 normal labels are resolved on one 3SEQ platform. Cached medians mix adult/fetal tissues and peaks; no per-library uncertainty or patient inference is recoverable. Square-root compressed ratios are not RNA fold changes.",
+      "status": "defensible"
+    },
+    {
+      "comparison": "GSE28866 EMC vs adult organ-specific normal strata",
+      "evidence": [
+        "normal#/sources/0/grouping",
+        "normal#/per_gene/_contrast",
+        "series#/design_vs_contents/overall_design_verbatim"
+      ],
+      "id": "C7",
+      "identifiable_claim": "A within-study organ-specific descriptive RNA comparison could be specified after recovery.",
+      "reason": "17 adult and ten fetal library identities are recoverable; adult strata must remain separate. Full sample-aligned peak values, annotation/filtering provenance and donor/specimen linkage are missing from these caches. No analysis executed.",
+      "status": "conditional"
+    },
+    {
+      "comparison": "GSE28866 EMC vs other sarcomas",
+      "evidence": [
+        "normal#/sources/0/grouping",
+        "normal#/per_gene/_contrast",
+        "series#/design_vs_contents/overall_design_verbatim",
+        "normal#/per_gene/values",
+        "normal#/per_gene/_ties_to_technical_replicates"
+      ],
+      "id": "C8",
+      "identifiable_claim": "Cross-histology RNA contrast, separate from normal-organ comparison.",
+      "reason": "Cache reports 32 other-sarcoma libraries; ESS and LMS each have a technical duplicate pair. Full per-library values and replicate handling are needed; arm median cannot establish independent specimens or histology-balanced specificity.",
+      "status": "conditional"
+    },
+    {
+      "comparison": "GSE24369/GSE4303 tumours vs GSE28866 normal libraries",
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+        "normal#/sources/0/grouping",
+        "normal#/per_gene/_contrast",
+        "series#/design_vs_contents/overall_design_verbatim"
+      ],
+      "id": "C9",
+      "identifiable_claim": "No calibrated quantitative tumour-versus-normal contrast.",
+      "reason": "Single-channel intensity, reference-channel log ratios and depth-scaled square-root 3SEQ values are incompatible scales with cohort/technology confounding. Neither pooling nor z standardization resolves this.",
+      "status": "unidentified"
+    },
+    {
+      "comparison": "PRJNA1357027 EMC vs internal or external normals",
+      "evidence": [
+        "fourth#/run_table/rows",
+        "normal#/sources/0/grouping",
+        "normal#/per_gene/_contrast",
+        "series#/design_vs_contents/overall_design_verbatim"
+      ],
+      "id": "C10",
+      "identifiable_claim": "No normal contrast from the supplied fourth-cohort metadata.",
+      "reason": "Only EMC-described targeted-assay runs are enumerated; no compatible normal arm or normalized per-sample matrix is supplied. HPA/3SEQ/array normals cannot be substituted.",
+      "status": "unidentified"
+    },
+    {
+      "comparison": "Any EMC cohort vs HPA normal RNA",
+      "evidence": [
+        "hpa#/source",
+        "hpa#/_note",
+        "hpa#/antigens"
+      ],
+      "id": "C11",
+      "identifiable_claim": "Qualitative normal-organ RNA context only; no calibrated tumour/normal effect or therapeutic window.",
+      "reason": "HPA cache supplies categorical summaries and nullable nTPM fields, not linked donors or compatible tumour/normal measurements. RNA and subcellular tags cannot establish accessible surface protein or safety.",
+      "status": "unidentified"
+    },
+    {
+      "comparison": "Cross-cohort independent tissue validation",
+      "evidence": [
+        "recommendation#",
+        "search#/known_cohorts/GSE170983",
+        "readiness#/identity_policy"
+      ],
+      "id": "C12",
+      "identifiable_claim": "No independently validated atlas from these inputs.",
+      "reason": "GSE24369 is CHRNA6 discovery by coordinator premise; GSE170983 is a reported alias; other patient overlap is unresolved. Distinct studies and assay types do not prove independent tissue. Different comparator histologies do not estimate one shared specificity contrast.",
+      "status": "unidentified"
+    }
+  ],
+  "hash_convention": "File SHA256 over exact bytes; value SHA256 over UTF-8 sorted-key compact JSON with ensure_ascii=False and allow_nan=False. Recommendation pointer is empty: whole document as a JSON string.",
+  "next_action": "Stop. Resolve the patient-independence gate and recover same-assay primary normal evidence before proposing an atlas analysis; no new target estimates or ranking authorized here.",
+  "operational_history": {
+    "evidence": [
+      "history#/failure"
+    ],
+    "method": "source_value",
+    "status": "known",
+    "value": "Repeated stream disconnected before completion: idle timeout waiting for websocket; outer runner terminated at 1800.078 seconds."
+  },
+  "operational_history_scope": "Previous transport failure only; no scientific evidence or completed output.",
+  "overlap_matrix": [
+    {
+      "cohorts": [
+        "GSE24369",
+        "GSE4303"
+      ],
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples"
+      ],
+      "exact_GSM_overlap": [],
+      "exact_STT_label_overlap": [],
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Nonmatching accession or literal label is not evidence of different patients. STT labels are not globally verified patient identifiers."
+    },
+    {
+      "cohorts": [
+        "GSE24369",
+        "GSE28866"
+      ],
+      "evidence": [
+        "arrays#/targets/GSE24369_series_matrix.txt.gz/samples",
+        "series#/samples"
+      ],
+      "exact_GSM_overlap": [],
+      "exact_STT_label_overlap": [],
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Nonmatching accession or literal label is not evidence of different patients. STT labels are not globally verified patient identifiers."
+    },
+    {
+      "cohorts": [
+        "GSE4303",
+        "GSE28866"
+      ],
+      "evidence": [
+        "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+        "series#/samples"
+      ],
+      "exact_GSM_overlap": [],
+      "exact_STT_label_overlap": [],
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Nonmatching accession or literal label is not evidence of different patients. STT labels are not globally verified patient identifiers."
+    },
+    {
+      "cohorts": [
+        "GSE24369",
+        "PRJNA1357027"
+      ],
+      "evidence": [
+        "fourth#/run_table/rows"
+      ],
+      "exact_GSM_overlap": null,
+      "exact_STT_label_overlap": null,
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Fourth cohort has SRR/SRX/SAMN/Si identifiers, no shared verified patient namespace."
+    },
+    {
+      "cohorts": [
+        "GSE4303",
+        "PRJNA1357027"
+      ],
+      "evidence": [
+        "fourth#/run_table/rows"
+      ],
+      "exact_GSM_overlap": null,
+      "exact_STT_label_overlap": null,
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Fourth cohort has SRR/SRX/SAMN/Si identifiers, no shared verified patient namespace."
+    },
+    {
+      "cohorts": [
+        "GSE28866",
+        "PRJNA1357027"
+      ],
+      "evidence": [
+        "fourth#/run_table/rows"
+      ],
+      "exact_GSM_overlap": null,
+      "exact_STT_label_overlap": null,
+      "independence": "unidentified",
+      "patient_overlap": null,
+      "reason": "Fourth cohort has SRR/SRX/SAMN/Si identifiers, no shared verified patient namespace."
+    }
+  ],
+  "premises": [
+    {
+      "evidence": [
+        "recommendation#"
+      ],
+      "kind": "coordinator_supplied_not_independently_primary_verified",
+      "value": "GSE24369 is the CHRNA6 discovery cohort of the published tissue study; it cannot validate its own discovery."
+    },
+    {
+      "evidence": [
+        "hpa#/antigens/PRAME"
+      ],
+      "kind": "user_supplied_scope_rule_not_computed",
+      "value": "PRAME is an intracellular HLA-presented address. HPA plasma-membrane tags do not validate accessible PRAME surface antigen or endogenous peptide-HLA presentation."
+    },
+    {
+      "evidence": [
+        "hpa#/_note"
+      ],
+      "kind": "user_supplied_inference_boundary",
+      "value": "Bulk normal RNA cannot establish therapeutic window; RNA is not surface protein."
+    }
+  ],
+  "question": "Can existing EMC tissue cohorts support independent validation with compatible normal contrasts?",
+  "resource": "paper:PUB-SURFACE-TARGETS",
+  "reused_audits": {
+    "readability": [
+      {
+        "cohort": "GSE24369",
+        "gene": "ALPP",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "CD248",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "CD276",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "CDH17",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "CSPG4",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "FAP",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "GPC3",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "L1CAM",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "MSLN",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "PRAME",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE24369",
+        "gene": "SSTR2",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "ALPP",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "CD248",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": false
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": "No probe on GPL3290 maps to the symbol CD248. The platform's probe->symbol mapping covers 27197 of 43008 probes (rate 0.6324), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol."
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "CD276",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": false
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": "No probe on GPL3290 maps to the symbol CD276. The platform's probe->symbol mapping covers 27197 of 43008 probes (rate 0.6324), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol."
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "CDH17",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "CSPG4",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "FAP",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "GPC3",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "L1CAM",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "MSLN",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "PRAME",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": true
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": null
+        }
+      },
+      {
+        "cohort": "GSE4303",
+        "gene": "SSTR2",
+        "interpretation": "Existing arithmetic retained upstream; no independent-validation inference or reranking.",
+        "readable": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/readable"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": false
+        },
+        "unreadable_reason": {
+          "evidence": [
+            "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason"
+          ],
+          "method": "source_value",
+          "status": "known",
+          "value": "No probe on GPL3290 maps to the symbol SSTR2. The platform's probe->symbol mapping covers 27197 of 43008 probes (rate 0.6324), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol."
+        }
+      }
+    ],
+    "readiness_decision": {
+      "evidence": [
+        "readiness#/decision"
+      ],
+      "method": "source_value",
+      "status": "known",
+      "value": "no_go_for_expression_comparison_with_current_allowed_inputs"
+    },
+    "readiness_scope": {
+      "evidence": [
+        "readiness#/scope"
+      ],
+      "method": "source_value",
+      "status": "known",
+      "value": "Six committed JSON inputs only; no network, expression analysis or manuscript. No assertion of publication readiness."
+    },
+    "scope_extension": "The earlier CHRNA6 readiness input set did not enumerate these 3SEQ normal libraries. This audit adds the expressly allowed series/header metadata; it does not reverse CHRNA6 readiness or redo its arithmetic.",
+    "sensitivity_method": {
+      "evidence": [
+        "sensitivity#/method"
+      ],
+      "method": "source_value",
+      "status": "known",
+      "value": {
+        "arithmetic": "exact rational decimal inputs; JSON numbers serialized as floats",
+        "contrast": "mean(EMC) - mean(all recorded non-EMC), available values, sample weighted",
+        "missingness": "no imputation; unreadable is not absent expression",
+        "range": "finite min/max deletion deltas; not sampling uncertainty",
+        "scope": "exploratory secondary reanalysis; no pooling, raw-data or probe-choice validation",
+        "sign_change": "any sign change, including to/from zero",
+        "sign_flip": "opposite nonzero signs relative to recomputed baseline",
+        "units": "parent within-array z_vs_array units"
+      }
+    }
+  },
+  "runtime_context": {
+    "authentication": "saved-chatgpt",
+    "dispatch_number": 1,
+    "effective_dispatch_limit": 1,
+    "elapsed_note": "Unknown in deterministic artifact; timeout is a configured budget, not elapsed time.",
+    "elapsed_seconds": null,
+    "max_dispatches": 1,
+    "max_rounds": 1,
+    "model": "gpt-6-astra",
+    "python_executable": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "reasoning_effort": "medium",
+    "remaining_seconds_at_dispatch": 1782.11,
+    "remaining_subscription_capacity": null,
+    "timeout_seconds": 1800,
+    "usage": null
+  },
+  "schema_version": 1,
+  "smallest_missing_primary_evidence": [
+    "Author/depositor run-GSM-library-specimen-patient crosswalk across the discovery tissue and candidate validation cohorts, including repeat lesions, technical replicates and GSE170983 alias mapping.",
+    "For the same-assay normal route: full GSE28866 peak-by-library matrix with peak/gene annotation, normalization/filtering provenance and normal donor/organ/stage linkage. Headers and pooled gene medians are insufficient for organ-specific comparison.",
+    "For the array alternatives: GSE24369 muscle pool composition/preparation and primary preprocessing; GSE4303 per-sample channel/dye and CRH/CRH-mRNA/UHR reference composition or calibration.",
+    "If using the fourth cohort: authoritative TempO-Seq assay/probe design, sample-aligned processed values and normalization provenance, a compatible normal arm, and resolution of Si21 library versus Si22 alias for SRR35940654."
+  ],
+  "source_manifest": {
+    "arrays": {
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "path": "research/modalities/emc-expression-panels-inputs.json",
+      "role": "committed_cache"
+    },
+    "fourth": {
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "path": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "role": "committed_cache"
+    },
+    "history": {
+      "file_sha256": "671152cd47cf5d71a48a227fe680b6b7b0748bb7da9395dc53bcf24204e4928c",
+      "path": "research/autonomy/cycle-outcomes/20260905T121951Z-b093a5d8bc/verification.json",
+      "role": "operational_history_only"
+    },
+    "hpa": {
+      "file_sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+      "path": "research/modalities/emc-surface-normal-window.json",
+      "role": "committed_cache"
+    },
+    "normal": {
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "path": "research/modalities/gse28866-tumour-vs-normal.json",
+      "role": "committed_cache"
+    },
+    "readiness": {
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "path": "research/modalities/expression-validation-readiness.json",
+      "role": "committed_cache"
+    },
+    "recommendation": {
+      "file_sha256": "14a7611a6924937e8858e678f95ad1ebadec2d5852a51941f673e941eb03c1b0",
+      "path": "research/autonomy/portfolio-2026-09-05/recommendation.md",
+      "role": "coordinator_premise"
+    },
+    "search": {
+      "file_sha256": "f730d8d451156cf8be7282286f03fa0197aa4115f3bfe08b27b59a20b616c8d2",
+      "path": "research/modalities/emc-cohort-search.json",
+      "role": "committed_cache"
+    },
+    "sensitivity": {
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "path": "research/modalities/surface-address-sensitivity.json",
+      "role": "committed_cache"
+    },
+    "series": {
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "path": "research/modalities/geo-gse28866-brunner-series.json",
+      "role": "committed_cache"
+    }
+  },
+  "sources": {
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/genes": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/genes",
+      "value_sha256": "5e7296a241a58e4c87af0b157ac4a287fc68df500589bbedfcfd3ca7056b2335"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own",
+      "value_sha256": "326303723aa3552f523bd34657638985602b4b1e8960b5c7eb49936badbfe8da"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/platform": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/platform",
+      "value_sha256": "5061081d561183d09c4c36180909b3adfcfde70e90952a57789772833ef814c5"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples",
+      "value_sha256": "e7830c798fac27ca847f8a9fddadd1d3e564f73dae2458954b119e1331c4abc7"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/0": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/0",
+      "value_sha256": "6ee3a26022614ecfa4a4e0f6825d940f002afe18535e8b3ed2157fee7a3cf0c4"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/1": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/1",
+      "value_sha256": "594f6fd41d3e77e019fe0863bcdf0c5f42a07fb15b877112f3c2ce130eacb5c3"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/10": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/10",
+      "value_sha256": "51812705511c432b47e8155a0af5f4fbd368d1461a57892faa964f7a70282f73"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/11": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/11",
+      "value_sha256": "cf49028d8d03a530218e4d6f65e8748667fcbb5510574b506f5cde8636ae52a2"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/12": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/12",
+      "value_sha256": "035abb0e3bc43d34c85831e2f66dc10690e48ec73148c27265ab912a735ffc9d"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/13": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/13",
+      "value_sha256": "d97303e50936d2331ba7b257b9b5f8bd45b71a2d4e2a9b6ba78d54fcbbde182d"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/14": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/14",
+      "value_sha256": "62522c0cd3a76df6e01f47edfa425b671e5790c720c3e4b4e5ff30d42cc50262"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/15": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/15",
+      "value_sha256": "7adce746b54e346ec04664951f1755c9a2bd955e1bdcf3d6f0c5cae265c28de3"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/16": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/16",
+      "value_sha256": "86a622b97278e32641378f14a950c44921cf90fedd216b77b989a6ef2347fca4"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/17": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/17",
+      "value_sha256": "c493d22587550308ed6e977854d3a604a6e5cc49b067c6c75fc7ee102b098330"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/18": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/18",
+      "value_sha256": "f509dd44ca07c94de63a602bbc11ecca67af65fe128669ed7ea517afc0caafd5"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/19": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/19",
+      "value_sha256": "038e1d25ca44ffbf49c1b60f0066647734eb16936b668315c04aed828e14de67"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/2": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/2",
+      "value_sha256": "6dfd9ea02ac5f5099ffaa681ed11ba946203610a0799735183f5357b4de5afec"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/20": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/20",
+      "value_sha256": "de85eeb181fc11e8dc8a079b77661c01416339a6684288dc32cb4cde0ee4100f"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/21": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/21",
+      "value_sha256": "7f4defbac973dc027706f113ed52a1442680598078351f942f17c789288af731"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/22": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/22",
+      "value_sha256": "72a043d9b5583533d34166354d514cc5d9e1ea547d33bfc4c64c6c1ec99c2de9"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/23": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/23",
+      "value_sha256": "cb08ecf8b6ade35947ea3d8bef720a11b2c28737613b67b2055c88794d234397"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/24": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/24",
+      "value_sha256": "66fb0d03a019dd3ee04efa13b9f9377be1520eab99ef676736dcf73a4136a0a8"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/25": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/25",
+      "value_sha256": "1dd8165e033366c24c90dacbc3349162b5d4c7278f8991cac04ad538d852c358"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/26": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/26",
+      "value_sha256": "5ab551f145bab1d4f0b768002b79b46de63baadccbc1c7e72bf09b25197c4535"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/27": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/27",
+      "value_sha256": "be98d311af70e49da29ff63e1abdc3b23ba7654b68a54620b4b2d99bf9812457"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/28": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/28",
+      "value_sha256": "b6d33c591531382ef817496295b80f743bea70d17cc7ebcd2a1442c1e3dda0c2"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/29": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/29",
+      "value_sha256": "ab3f11589e93a70c78e173a6cdf71620a89df833c4d6ba736d976a88d1a0d2d6"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/3": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/3",
+      "value_sha256": "8c13aa91b1af400454aefdb0797bd600f598097a887c49908037a7e0554badc1"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/30": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/30",
+      "value_sha256": "235f3e2a835abb91baada672177bd93eaa689b5927a14d02e646e6493de6a045"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/31": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/31",
+      "value_sha256": "f0477226f49753a32c2abbf6fb37d746df8bd3572d7591ec9025de9914246c15"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/32": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/32",
+      "value_sha256": "a4f3afd3be9c515d0f8e760e539b56a2ffd8ddafb56aab2db86dd05d0109a1c4"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/33": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/33",
+      "value_sha256": "3b739229ffbe201376829493d6a81251fd17bca1175605b105b49d2cf0a5a9bd"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/34": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/34",
+      "value_sha256": "d90bf24d60be4adff4b2f32a8b6b4781c094bdac5229f6e90806ed75f68a31b5"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/35": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/35",
+      "value_sha256": "c1d67ae05d3b7131c62c1e8de56f7e30a79a8fb4f54132653b5f20232d9b4fff"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/36": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/36",
+      "value_sha256": "5b26a7f9812b21fd8f7dd9e5b13f364ddd80262841a3ea77a6119ae0d1e91305"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/37": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/37",
+      "value_sha256": "67e11eea544dfcdbaf88d10b29598c8389daca95b45aa41595a20e75bcfd042f"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/38": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/38",
+      "value_sha256": "23dcb224028016abd33cb5dafd46b4bae51686a066eb02dcbd5d5e4892ad7714"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/39": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/39",
+      "value_sha256": "eeeb460cdf35debf652a6874f963a1e57c10d51613c984a9e93050fa2672b312"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/4": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/4",
+      "value_sha256": "573758ebff7e0c358678617fd6c498ea7ff115bf5a5c23fff3d9c8ceefd453b2"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/40": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/40",
+      "value_sha256": "72b4f94f4e741f47165ed3790fd9d8f5639ebadaf94e21650fd0683a8f1a48cc"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/41": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/41",
+      "value_sha256": "9a4d6b0c3db485883601c346e5ab5e80beebd30a418495454ed5ab5f5c854d9e"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/5": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/5",
+      "value_sha256": "523823fc0416d3c9fcc05a7da28b55edd10835c6f93eaee6c45cff2bf88e1db3"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/6": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/6",
+      "value_sha256": "2e1c104365843f190e2f1cf7b91ff4e01b19336d61d0de0333605c14e451ea51"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/7": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/7",
+      "value_sha256": "d56bb759b3924a0dc4e2b38403d3a4093498396490eaec7fabfd73f64b007bfb"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/8": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/8",
+      "value_sha256": "6c677297f63d20242b7148b38ebe0e64a078ecf4a04cd3d07d4e598bce3d4741"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/samples/9": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/samples/9",
+      "value_sha256": "82f00f1ed2ab8a691717182041acf536b834df4bbd6fe7d9fb86d005fe6f5923"
+    },
+    "arrays#/targets/GSE24369_series_matrix.txt.gz/value_kind": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE24369_series_matrix.txt.gz/value_kind",
+      "value_sha256": "84e8cd2a6631dc55e5d77a254ebca4823b93b1b6f1b481a50b54225ee566ab21"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/genes": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/genes",
+      "value_sha256": "3429c4764e3332cb03bc7a05d2774b5f676466b01f9a2e958d5378ea8ae79167"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/genome_wide_null/_the_statistic_is_the_panel_s_own",
+      "value_sha256": "326303723aa3552f523bd34657638985602b4b1e8960b5c7eb49936badbfe8da"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/platform": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/platform",
+      "value_sha256": "41a19b8d5220528fdb09fbf62408e8d2a1cbca9e0c8905155e9549078d875c21"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples",
+      "value_sha256": "7bebef2a7528b79b760e0b22799736a997010357f01b3166286824b529de2d62"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/0": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/0",
+      "value_sha256": "6cdd5d4bd869bad90bfb81abf6d8572645b7324f43e3f46412794be61ed33fdf"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/1": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/1",
+      "value_sha256": "f98f683d64bedd9abd88dc1955118f2f85119fe44f98152031e23e0e23ced154"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/10": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/10",
+      "value_sha256": "9f6eb3be8c998b6d1d40bb85ed23ab90e7d9b6d350b89b980e33bd997605fb0b"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/11": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/11",
+      "value_sha256": "621ab5ea9973d82b01f50ccac67fb92514658a9a2dbecf6a1b92ec28d9c1939b"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/12": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/12",
+      "value_sha256": "1e0b0fc04062180fa2bea3bac4ebafa78b2034663e29c47aafc4b098a1536eab"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/13": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/13",
+      "value_sha256": "9ef3769ca8d9b0980c8a8d978b61d1d7e6af0316ae69debdc4abf07642142dba"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/14": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/14",
+      "value_sha256": "841d07cd37dd3f1af62d85b0c49d852489cf59a6d6b0c825b2d8b0a9b19eb8b6"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/15": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/15",
+      "value_sha256": "43f6c9803582a4e69b944bdf1e61f0a592630e318b1fddd8d77ce261d72881b6"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/2": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/2",
+      "value_sha256": "bfaa9399abd51f317adfefe68fe82a91a743e2efa75bfcb4baa515a315122a8a"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/3": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/3",
+      "value_sha256": "f4237a3d16618d65c251462ee24d82410187f68465986beec720ce0640793eff"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/4": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/4",
+      "value_sha256": "7fd3aaae73602d17852725033c94c14c5e097341f3aed424435389b5a0eb4a22"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/5": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/5",
+      "value_sha256": "bb1da44d96597731c006aa8294b9579c555715b6f5c7d9b265db8b7d744dcde8"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/6": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/6",
+      "value_sha256": "abb0000fb85f3c954ff4b9b092de99368928ae516c26b3629461f87b380ccd28"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/7": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/7",
+      "value_sha256": "2bb1b3f49eb447bfc3199b085364a1c5dd891c5876ef7f6355b90bc71d92f16d"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/8": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/8",
+      "value_sha256": "8858615f43dc14004d1b982f9302ff1c04eb4c6b5973e0bf2288ae0c53f60d6b"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/9": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/samples/9",
+      "value_sha256": "b010949639555c13f3ba4975d0a800f8419f3ea1a08378f3b947dee2390df5fb"
+    },
+    "arrays#/targets/GSE4303-GPL3290_series_matrix.txt.gz/value_kind": {
+      "file": "research/modalities/emc-expression-panels-inputs.json",
+      "file_sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "pointer": "/targets/GSE4303-GPL3290_series_matrix.txt.gz/value_kind",
+      "value_sha256": "514aab16a07811a4f05d7a013219413806257f85fe7df97df3b56ca3fbc91085"
+    },
+    "fourth#/_counts_live_in": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/_counts_live_in",
+      "value_sha256": "557de8eceef3377457237f38d64a38b766b9ed9d1fe4fc0c55bf1483d7cd5c13"
+    },
+    "fourth#/probe_gate/meaning": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/probe_gate/meaning",
+      "value_sha256": "3405db5ac2d2454f46668717e21c5e75ca381e0a83c47764bf70f4e7b096bab9"
+    },
+    "fourth#/probe_map/⚠ unassigned_means": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/probe_map/⚠ unassigned_means",
+      "value_sha256": "b0380b33c924f3f7343a36b461cfc7b1f0c5908523b3497fe940b86107390591"
+    },
+    "fourth#/run_table/rows": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows",
+      "value_sha256": "f6742c3ff5ea67bed04a97d1fafd4fb58dd4ebef332097742af5bdeb52c912d9"
+    },
+    "fourth#/run_table/rows/0": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/0",
+      "value_sha256": "cebe3dbc08e6589dbb0bfd9132a482841cb552e795c324ed19b05968a14f6007"
+    },
+    "fourth#/run_table/rows/1": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/1",
+      "value_sha256": "8c647d3860771f979387df2eed3ff31c474f0aa143652eb31bfd55bef132f4ba"
+    },
+    "fourth#/run_table/rows/10": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/10",
+      "value_sha256": "fd1298788b9b3f1b463e0c3588815411b0b2b06b6b0c2b0d8392c0d53cb6a711"
+    },
+    "fourth#/run_table/rows/11": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/11",
+      "value_sha256": "a10832f668e6c86b98b5b87b2651c77392fbb9204a20112566099428d74e9d3c"
+    },
+    "fourth#/run_table/rows/2": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/2",
+      "value_sha256": "0787050199a1644f654c2e1df6c032aa989433c8884c16811f5c9b0acaa88741"
+    },
+    "fourth#/run_table/rows/3": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/3",
+      "value_sha256": "db9a04c8ac3478742701b003adaddc8e59a5f483540f1a0e9e254901a8e7b9e6"
+    },
+    "fourth#/run_table/rows/4": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/4",
+      "value_sha256": "f27ae0fbc12316cc3e011ce3ba7b9a95c17fb832b08118fb80e35c15c0f00a6d"
+    },
+    "fourth#/run_table/rows/5": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/5",
+      "value_sha256": "feee17270a3fd2dabc7142b92f5c4dfa2dd59216e50454d4626f94be6cffa224"
+    },
+    "fourth#/run_table/rows/6": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/6",
+      "value_sha256": "8b868de333553b86818f99b57f6b95e7b6af667dc6551805c02eaef13610bd74"
+    },
+    "fourth#/run_table/rows/7": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/7",
+      "value_sha256": "f157c6d6fd2e2fbed52b58d844f00696a5d4de6e0c9d89a34abf65b20dfcf3ff"
+    },
+    "fourth#/run_table/rows/8": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/8",
+      "value_sha256": "e89fe8c74a90553a6f4a5716e938bbc5d7d855f8c71193823996e7990a41f603"
+    },
+    "fourth#/run_table/rows/9": {
+      "file": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+      "file_sha256": "bdb38dedeafda696fe87f88846baf370c4911ffeed7a65dd5d0872be26f24bbf",
+      "pointer": "/run_table/rows/9",
+      "value_sha256": "a731682c5a45363243f49b64d6b0c7056d5395f93b84dda9513445f1bc5d1452"
+    },
+    "history#/failure": {
+      "file": "research/autonomy/cycle-outcomes/20260905T121951Z-b093a5d8bc/verification.json",
+      "file_sha256": "671152cd47cf5d71a48a227fe680b6b7b0748bb7da9395dc53bcf24204e4928c",
+      "pointer": "/failure",
+      "value_sha256": "0163495797e8c90b59d2956f1ead68d306072e4418fb98408b96dbd57e457eca"
+    },
+    "hpa#/_note": {
+      "file": "research/modalities/emc-surface-normal-window.json",
+      "file_sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+      "pointer": "/_note",
+      "value_sha256": "a8c3df8da170bf6badb8dff971ccd0278f6679dc4451db5ce8085e0618694c8c"
+    },
+    "hpa#/antigens": {
+      "file": "research/modalities/emc-surface-normal-window.json",
+      "file_sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+      "pointer": "/antigens",
+      "value_sha256": "b900565da2ca2362d8ad708f428da5877e3ac87a70fb7b7e0239017c3f018df3"
+    },
+    "hpa#/antigens/PRAME": {
+      "file": "research/modalities/emc-surface-normal-window.json",
+      "file_sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+      "pointer": "/antigens/PRAME",
+      "value_sha256": "dee739c6636cb045330ee7592f81bbac64e867a12e316967eeb1baa43555497b"
+    },
+    "hpa#/source": {
+      "file": "research/modalities/emc-surface-normal-window.json",
+      "file_sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab",
+      "pointer": "/source",
+      "value_sha256": "127c552ad7cbd396ba17f72012f5e0f068e4a0ff5890088b97e6674e5b82aed1"
+    },
+    "normal#/_why_the_series_matrix_looked_empty": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/_why_the_series_matrix_looked_empty",
+      "value_sha256": "a73c668db6b9471be0158182dec71714653586274d2cd26fe43a24817bf1b643"
+    },
+    "normal#/per_gene/_contrast": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/per_gene/_contrast",
+      "value_sha256": "9bfa6f0d8512f6c6dbc14826d748b86f0c035fb7a301bfb9f5a7cf7f63623445"
+    },
+    "normal#/per_gene/_ties_to_technical_replicates": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/per_gene/_ties_to_technical_replicates",
+      "value_sha256": "2ed7c49ef5981b593a030ed700be53a31d468557185f65264c003e2471f0b93b"
+    },
+    "normal#/per_gene/_what_the_normal_arm_cannot_settle": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/per_gene/_what_the_normal_arm_cannot_settle",
+      "value_sha256": "ed62375903fa8548152e03a3de2a03d0ab9541bc20f181c09c20493e11c19627"
+    },
+    "normal#/per_gene/values": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/per_gene/values",
+      "value_sha256": "247d9982b61ae3fef2ff3f1c16560203265d1d58494d4b84811059fd96dd5285"
+    },
+    "normal#/sources/0/columns": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/columns",
+      "value_sha256": "90f3bbde1d5cab4936305a31b1a5a83dde9774681e1078de8c3d8e991f8bee2d"
+    },
+    "normal#/sources/0/grouping": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping",
+      "value_sha256": "8529a4ce4f7241ab12341873c88b50cf4f0f34e61f4c4603ae65ca1a2c03c4e8"
+    },
+    "normal#/sources/0/grouping/emc_columns/0": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/emc_columns/0",
+      "value_sha256": "87f2b58844dd76a5077d54b63e0ad753004e40fcd08cafad6439dcfe97285a94"
+    },
+    "normal#/sources/0/grouping/emc_columns/1": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/emc_columns/1",
+      "value_sha256": "f441f937370b570d50bb827b2ee278abfd86ca9e596d28a35d207cac7f3e7e13"
+    },
+    "normal#/sources/0/grouping/emc_columns/2": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/emc_columns/2",
+      "value_sha256": "e25ec4c5169b01168bf99e8ad23645dc641178557c2aa85f4a384b6cc88dfae7"
+    },
+    "normal#/sources/0/grouping/emc_columns/3": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/emc_columns/3",
+      "value_sha256": "f3cd5e0302fd2fa7298fb9abf5db6990f8b7ae3dc000d4d84c30f7b011aaea1c"
+    },
+    "normal#/sources/0/grouping/normal_columns/0": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/0",
+      "value_sha256": "a6f16b24453f6f12690da0966852f369489020b921d36c358f3f3d256fdadef7"
+    },
+    "normal#/sources/0/grouping/normal_columns/1": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/1",
+      "value_sha256": "bc0e159d7cc35e9160a7a5eed34320da7c6a6e33f18055ba43289f84cda6df83"
+    },
+    "normal#/sources/0/grouping/normal_columns/10": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/10",
+      "value_sha256": "b0eab46058c2095b57ab1f170249083957cdccca65b5d4f7b2b4fafa4e624214"
+    },
+    "normal#/sources/0/grouping/normal_columns/11": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/11",
+      "value_sha256": "10a673cf7bf6555a39258261ca37d47251faf6a1b3c5ed55e1a21208c0624e82"
+    },
+    "normal#/sources/0/grouping/normal_columns/12": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/12",
+      "value_sha256": "aa985878490b8ec2b2dba802021b1d6d02290f179851706e025d215321796f08"
+    },
+    "normal#/sources/0/grouping/normal_columns/13": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/13",
+      "value_sha256": "a52d47fa2657caaa7a15dd56a230897e4c20eec7e9896da9e976ebc210d8d8e3"
+    },
+    "normal#/sources/0/grouping/normal_columns/14": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/14",
+      "value_sha256": "a49cf54af0e80df6a492a5f17ad4c92b18d31f593038d5df67a58ab8f4849b53"
+    },
+    "normal#/sources/0/grouping/normal_columns/15": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/15",
+      "value_sha256": "837dd4e3b69230dfed446d31302328f2e65c918b17c1a11efcb8bb4d18a5c309"
+    },
+    "normal#/sources/0/grouping/normal_columns/16": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/16",
+      "value_sha256": "520a6fb8e86a82a9ea4246eb7de691cb1e13fd2a4297a4eb026f4e3cbf6bd6f0"
+    },
+    "normal#/sources/0/grouping/normal_columns/17": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/17",
+      "value_sha256": "3933a15a2a125c626d195aaf63453090071a6b29109498980a8dd20faa1856b1"
+    },
+    "normal#/sources/0/grouping/normal_columns/18": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/18",
+      "value_sha256": "ae0c86b7f6b2240044ba9d1e9f21f38e90fa68601ea6bf2fb6131019bc4b440e"
+    },
+    "normal#/sources/0/grouping/normal_columns/19": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/19",
+      "value_sha256": "daf2d93508b3972d13db78901cc5960cb780443716003e81c08fd9f58d39d8df"
+    },
+    "normal#/sources/0/grouping/normal_columns/2": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/2",
+      "value_sha256": "b62eb082f3465fc0fd514d0c77312aaf357fb0fedccaa52825baf53841169579"
+    },
+    "normal#/sources/0/grouping/normal_columns/20": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/20",
+      "value_sha256": "0e67cb6fd2c5055b2c5d28f376084eec68273fb1529d5d561eb90b1798528166"
+    },
+    "normal#/sources/0/grouping/normal_columns/21": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/21",
+      "value_sha256": "fccc45277664d5d57cb8517605c38b2b9ced73cf6b2166cbcc13f55369039e7d"
+    },
+    "normal#/sources/0/grouping/normal_columns/22": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/22",
+      "value_sha256": "1699184e5c86e743cfe88e1c23b2cfd64631fe92f81059cfcf269c2485eafa6e"
+    },
+    "normal#/sources/0/grouping/normal_columns/23": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/23",
+      "value_sha256": "8f5537b57f416d2839ec8b78f55d9d42b16d254bf0691abe0a2d668d21acbdd4"
+    },
+    "normal#/sources/0/grouping/normal_columns/24": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/24",
+      "value_sha256": "812bdd348ab20ef5e563faa7c8b43f0b9bb72be37ed3ab5e987ca7151eacba48"
+    },
+    "normal#/sources/0/grouping/normal_columns/25": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/25",
+      "value_sha256": "b34874d47f228dd525a3a0cf23ee5bb447c3c42d827eb42d8e520a92437e7977"
+    },
+    "normal#/sources/0/grouping/normal_columns/26": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/26",
+      "value_sha256": "054ea5072e0053442ecac040ff5ab2ae564484373fafd1cf68ca00cd920cfb40"
+    },
+    "normal#/sources/0/grouping/normal_columns/3": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/3",
+      "value_sha256": "d6144fe20c56f2206aa45c8097f870d0bc4414a3c5b06867e10d3a9f88665da9"
+    },
+    "normal#/sources/0/grouping/normal_columns/4": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/4",
+      "value_sha256": "6b7ef88cdfb40dc9592fa4687f5a266469b16a892153ae101d9b88149783e21a"
+    },
+    "normal#/sources/0/grouping/normal_columns/5": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/5",
+      "value_sha256": "9e6e30899ea4a812043736e869ad16f019961c0ae8fad922cb727ae86a23ecfb"
+    },
+    "normal#/sources/0/grouping/normal_columns/6": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/6",
+      "value_sha256": "ad52de61fcebe03469e1effc9527950684d86df51950f9c123f8789be2414355"
+    },
+    "normal#/sources/0/grouping/normal_columns/7": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/7",
+      "value_sha256": "7196772bc1eec1f966537eeee159bdb1d82eca3816b7ce305a8409cdf61a1a86"
+    },
+    "normal#/sources/0/grouping/normal_columns/8": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/8",
+      "value_sha256": "32413c698c8f2483b0740a36cc7c4c8410ace0a81e3f2c75ee33269531e306f1"
+    },
+    "normal#/sources/0/grouping/normal_columns/9": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/normal_columns/9",
+      "value_sha256": "ca76dcf402dac2690e16d4b5188f0a7c028069ca2b7bea81f915f52a204a670c"
+    },
+    "normal#/sources/0/grouping/technical_replicate_columns": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/0/grouping/technical_replicate_columns",
+      "value_sha256": "2ed7c49ef5981b593a030ed700be53a31d468557185f65264c003e2471f0b93b"
+    },
+    "normal#/sources/1/columns": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/1/columns",
+      "value_sha256": "dffb5623ea017e4809dde111942f4505bd45bfea7777b0bd42e90980008ef293"
+    },
+    "normal#/sources/1/columns/sample_columns": {
+      "file": "research/modalities/gse28866-tumour-vs-normal.json",
+      "file_sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "pointer": "/sources/1/columns/sample_columns",
+      "value_sha256": "f6d602113134d941d4eac535a7da46f87f738a1ade716e3f84d05d4b00b2740d"
+    },
+    "readiness#/cohorts/GSE24369/counts/class_counts": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/cohorts/GSE24369/counts/class_counts",
+      "value_sha256": "fc191a0770c0ce2bdc55bdf41342731fc307168649606b39cc02d83778211277"
+    },
+    "readiness#/cohorts/GSE24369/sample_records": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/cohorts/GSE24369/sample_records",
+      "value_sha256": "945336e3f71c3a724ed1781e4eaf3aacbac2423a2094d24569cbd93c651e585e"
+    },
+    "readiness#/cohorts/GSE4303/sample_records": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/cohorts/GSE4303/sample_records",
+      "value_sha256": "83b3147ff6f204a6d60d302d02a210652daaeb87370e6b25d6520b4ec066345d"
+    },
+    "readiness#/decision": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/decision",
+      "value_sha256": "28c03d95acbe6326fb9045fcc88aeba236bcc53c0b38306670088fa52cfaa4a2"
+    },
+    "readiness#/identity_policy": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/identity_policy",
+      "value_sha256": "3f2c73b5dd81ba24190c9b60195c560d144e1d400ca1d2d32350039915002a5a"
+    },
+    "readiness#/scope": {
+      "file": "research/modalities/expression-validation-readiness.json",
+      "file_sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "pointer": "/scope",
+      "value_sha256": "02780df11dfcf1767b335c894336305322eedbab5616c6c428e19f02c1f8c235"
+    },
+    "recommendation#": {
+      "file": "research/autonomy/portfolio-2026-09-05/recommendation.md",
+      "file_sha256": "14a7611a6924937e8858e678f95ad1ebadec2d5852a51941f673e941eb03c1b0",
+      "pointer": "",
+      "value_sha256": "aedeeb9552543f54e3a89a72d6baf4c64fb3cbf9ecc0dfc94ffb55658acc77da"
+    },
+    "search#/candidates/GSE24369/n_samples": {
+      "file": "research/modalities/emc-cohort-search.json",
+      "file_sha256": "f730d8d451156cf8be7282286f03fa0197aa4115f3bfe08b27b59a20b616c8d2",
+      "pointer": "/candidates/GSE24369/n_samples",
+      "value_sha256": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049"
+    },
+    "search#/candidates/GSE4303/n_samples": {
+      "file": "research/modalities/emc-cohort-search.json",
+      "file_sha256": "f730d8d451156cf8be7282286f03fa0197aa4115f3bfe08b27b59a20b616c8d2",
+      "pointer": "/candidates/GSE4303/n_samples",
+      "value_sha256": "76a50887d8f1c2e9301755428990ad81479ee21c25b43215cf524541e0503269"
+    },
+    "search#/known_cohorts/GSE170983": {
+      "file": "research/modalities/emc-cohort-search.json",
+      "file_sha256": "f730d8d451156cf8be7282286f03fa0197aa4115f3bfe08b27b59a20b616c8d2",
+      "pointer": "/known_cohorts/GSE170983",
+      "value_sha256": "9c18b615574f8a883b9f2d6f9d6f6b596293e016ec59169b43b8e8c6b282dcf3"
+    },
+    "sensitivity#/method": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/method",
+      "value_sha256": "85f1a6e727846cc9e28aa5825d56e7fd19cab0671e2709bc997f1a199714a9ea"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/ALPP/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CD248/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CD276/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CDH17/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/FAP/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/GPC3/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/MSLN/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/PRAME/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE24369_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/ALPP/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/readable",
+      "value_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD248/unreadable_reason",
+      "value_sha256": "db20097685e1a0e712d0ae0247a63afc140cc543269be92b0f84cf03b96579ea"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/readable",
+      "value_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CD276/unreadable_reason",
+      "value_sha256": "419c37b5ff145c587141c1ce7434e4a729ed20f6b8d10f49dcffaf16961f1632"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CDH17/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/CSPG4/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/FAP/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/GPC3/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/L1CAM/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/MSLN/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/readable",
+      "value_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/PRAME/unreadable_reason",
+      "value_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/readable": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/readable",
+      "value_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    "sensitivity#/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason": {
+      "file": "research/modalities/surface-address-sensitivity.json",
+      "file_sha256": "f367993c2eff0d0d8c0700e966414a4984ca137de8a1a4690f2ae60070debc94",
+      "pointer": "/platforms/GSE4303-GPL3290_series_matrix.txt.gz/addresses/SSTR2/unreadable_reason",
+      "value_sha256": "4f621baade8d41e2d0c3c3e82a6809630083799d53b2947caa3a42d5809b20ad"
+    },
+    "series#/design_vs_contents/n_samples_the_design_accounts_for": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/design_vs_contents/n_samples_the_design_accounts_for",
+      "value_sha256": "5c8d10295bf5a990f90e5003ff2f53be9421d62c991b48f2d645ad62675ebf85"
+    },
+    "series#/design_vs_contents/overall_design_verbatim": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/design_vs_contents/overall_design_verbatim",
+      "value_sha256": "bdfdc86d72fbdf47cdc6c12c973f58b9136bbd30d9af145a265ac7bea8bf41e7"
+    },
+    "series#/platform_records/GPL10999": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/platform_records/GPL10999",
+      "value_sha256": "78499175efc8bd2b2259d4616cac418bebf36c4f481ffd0d3dc501f7a5c5fbc1"
+    },
+    "series#/samples": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples",
+      "value_sha256": "c6cb1a5c682e0721497cce9699e10c1d9b10b74ef19db502da2892dcb36610d7"
+    },
+    "series#/samples/39": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/39",
+      "value_sha256": "3ed16305ffd1f5d0712c405a8a8150d9a3e67bf022fa16c0e8f25cecf8416e21"
+    },
+    "series#/samples/40": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/40",
+      "value_sha256": "96fbd5430d6c35dcc433a468070acb793f439aec84746070c10627c7a5ddeba3"
+    },
+    "series#/samples/41": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/41",
+      "value_sha256": "ff77e1a7a47424ebabfcbbe2253347ebfbc9d47cab4ef2db71e8e8e5f3c8f20f"
+    },
+    "series#/samples/42": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/42",
+      "value_sha256": "5093f33dd2fed53dbe613ce216f5a929f6cadc89b365795ea794d887e8fb1f24"
+    },
+    "series#/samples/66": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/66",
+      "value_sha256": "db42194642622167cb4afd5a7289a365810b7657f87f814a234c0116a39967bc"
+    },
+    "series#/samples/67": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/67",
+      "value_sha256": "e35334b1b4e792d68b1146289f66b310cc9a9f0908f10d4bb4ca9ca26b46c5e9"
+    },
+    "series#/samples/68": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/68",
+      "value_sha256": "958c1b7ce7744bfb059dd3b5b28e71e9dd47cf34a85cbdc80760d541cc2f6f07"
+    },
+    "series#/samples/69": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/69",
+      "value_sha256": "fb3c7f76d09032b87475e7bdb9f926ee7a689cc6daae6c210b80c3ad6f1321ac"
+    },
+    "series#/samples/70": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/70",
+      "value_sha256": "9a60443109c32166f9c66225c63c68a025f1c027d36eafd4101d389161ad7137"
+    },
+    "series#/samples/71": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/71",
+      "value_sha256": "6e99a2e98e07247992b105d051794de8c969c4f2ed813daa4c9864e75fa676ae"
+    },
+    "series#/samples/72": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/72",
+      "value_sha256": "e2c6401ee95f608f3701e8870533203331c8c5448019dc7299382a694b423425"
+    },
+    "series#/samples/73": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/73",
+      "value_sha256": "1a175eaaf93db10f0c4d9210084165c01d3f50640216b26ddc62da022f321494"
+    },
+    "series#/samples/74": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/74",
+      "value_sha256": "70d7deb91385748b5fdcac2870efeeda6569118159f0ca72e20b8214757e1007"
+    },
+    "series#/samples/75": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/75",
+      "value_sha256": "c2fefeaa5ef0177f5e087a99df593ad3af424914fbbb6b6bbe6fbfba8ec4d79b"
+    },
+    "series#/samples/76": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/76",
+      "value_sha256": "0bb5d4a6d21ac22508c301ee53fa30f6c8074521cdc5981357daccc5be8394d1"
+    },
+    "series#/samples/77": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/77",
+      "value_sha256": "4a8de7cc44ee08bf3acf145445154dccd0420c599b380dd24e56349418cc1878"
+    },
+    "series#/samples/78": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/78",
+      "value_sha256": "285dd6844ec0437a019f8cf0875e96e8df5634308bd46a49c5a78a34c2edafd7"
+    },
+    "series#/samples/79": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/79",
+      "value_sha256": "ececf0e2453f64ecb3503844be3e6ad0ba6803484c4ce2a278e43dc0ba6f41f9"
+    },
+    "series#/samples/80": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/80",
+      "value_sha256": "5e1b5f953eb66668365b17a55b1c30d6bbe228e5b9043d4d2fb2417522a9ac81"
+    },
+    "series#/samples/81": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/81",
+      "value_sha256": "bd174fe0fd4bf75414d8459a856deff2305500eb7ca6edd37f6ecd3cce1ce027"
+    },
+    "series#/samples/82": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/82",
+      "value_sha256": "3381d9921f806f36f59d54cc991cec49e2b76d44533615745f20d4bf99c1bc3b"
+    },
+    "series#/samples/83": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/83",
+      "value_sha256": "a540af79b0ddb68a167c010244bf4b2e0ecb9aebd0ad65272bbe35acdbea0868"
+    },
+    "series#/samples/84": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/84",
+      "value_sha256": "f0fdef7f479d16b3a4723823a235edf7d45bdfb53b3e2678ec495576290500ec"
+    },
+    "series#/samples/85": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/85",
+      "value_sha256": "09b9fa0b41de3b8fba033e20921dc28725d8589b1980e21367ea0805efa23ab7"
+    },
+    "series#/samples/86": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/86",
+      "value_sha256": "04457ccc4661ab56f967a9fb4ff3e505c28a792fd3cb24601cbcacc378addc1c"
+    },
+    "series#/samples/87": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/87",
+      "value_sha256": "548bb722669ba888b0e4b9dca84ba382fc3e8c096406900b33ee87bad9f62296"
+    },
+    "series#/samples/88": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/88",
+      "value_sha256": "0ebb84fc0c5b0f8c9d4be10abf121c0e8ef41d2c6d2bcee1fd721a1fadf43199"
+    },
+    "series#/samples/89": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/89",
+      "value_sha256": "9a1e368ec2c37b7bdedbd9943cd6d62daf1d17c01f102f03bf87f829c415cd6e"
+    },
+    "series#/samples/90": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/90",
+      "value_sha256": "85297e5e80d5c94b15a46788372a1c7d01348b7c5d962b3c26e1a8191c55c026"
+    },
+    "series#/samples/91": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/91",
+      "value_sha256": "e7c8cc6bfb155c442de2bcafc7f6462942f9806e72154da5b9506c44eb6f1914"
+    },
+    "series#/samples/92": {
+      "file": "research/modalities/geo-gse28866-brunner-series.json",
+      "file_sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "pointer": "/samples/92",
+      "value_sha256": "fe8a623f7762c0140183dd11f29a50a2e632756a866d5b131125029e3e31d691"
+    }
+  },
+  "status_definitions": {
+    "conditional": "Named within-study comparison potentially recoverable with specified primary evidence.",
+    "defensible": "Narrow descriptive claim identifiable from cached records; not biological validation.",
+    "unidentified": "Required independence or contrast cannot be identified from supplied inputs."
+  },
+  "task_outcome": "completed_bounded_negative_feasibility"
+}

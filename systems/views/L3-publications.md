@@ -57,7 +57,7 @@ last_verified: 2026-08-06
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
-| **PUB-SURFACE-TARGETS**<br/>[Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: …](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
+| **PUB-SURFACE-TARGETS**<br/>[Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosa…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
@@ -355,15 +355,11 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 
-### PUB-SURFACE-TARGETS — Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts
+### PUB-SURFACE-TARGETS — Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/surface-targets/emc-surface-target-landscape.md`](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md`](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)**
 
-Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is "bounded by that surrogate basis rather than by an EMC tissue measurement", from "one cell line and a translocation-sarcoma comparison set". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-marker control, can be assessed using within-cohort tissue RNA ranks and prespecified sarcoma comparators. In the overlap-reduced Hofvander cohort of nine primary EMC specimens, CSPG4 alone meets the frozen tissue-validation allocation rule; its LGFMS contrast agrees with the original GSE24369 array contrast, but year-deletion sensitivity and DFSP context limit generalization. This supports a qualified rationale for EMC tissue protein and compartment validation, not validated surface expression, normal sparing, treatment selection or efficacy. All other fixed-panel results and discordant protein/normal-context evidence are retained.
 
 | route | role | what it contributes |
 |---|---|---|

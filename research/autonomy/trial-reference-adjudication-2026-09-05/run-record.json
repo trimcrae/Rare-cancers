@@ -1,0 +1,63 @@
+{
+  "worker_task": "01a072f6-562d-70e0-9bc0-e8f4a26dc49a",
+  "coordinator_task": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "base_revision": "0efeaa1cbd9ee630042f60f4afa6251d4d99518b",
+  "base_verification": "Coordinator reservation confirmation reports actual HEAD verified; no git mutation by worker.",
+  "model": "GPT-6 family per session instructions; exact runtime model ID not exposed",
+  "reasoning_effort_requested": "medium",
+  "reasoning_effort_runtime_verified": false,
+  "permission_mode": "workspace-write; no claim of Full access",
+  "timing": {
+    "initial_goal_created_utc": "2026-09-05T19:05:58Z",
+    "reservation_confirmation_utc_approximate": "2026-09-05T19:07:10+00:00",
+    "reservation_timestamp_note": "Confirmation arrived after clock observation 19:07:07 UTC; exact message delivery timestamp unavailable. 19:07:10 is approximate.",
+    "first_contract_written_utc": "2026-09-05T19:08:04.516542+00:00",
+    "independent_labels_frozen_utc": "2026-09-05T19:15:53.641842+00:00",
+    "scientific_end_utc": "2026-09-05T19:22:52.822387+00:00",
+    "scientific_elapsed_seconds_approximate": 942.822,
+    "conservative_elapsed_upper_bound_seconds_since_goal_including_initialization_and_wait": 1014.822,
+    "scientific_limit_seconds": 1800,
+    "within_limit_even_including_initialization_and_wait": true,
+    "initialization_and_reservation_wait_seconds_approximate": 72,
+    "explicit_coordinator_wait_sleep_seconds": 50.0256,
+    "approval_or_platform_block_wait_seconds": 0,
+    "note": "No artificial pause or budget subtraction. Conservative upper bound includes instruction reads, allowed preliminary packet inspection and coordinator wait."
+  },
+  "outcome": "All 49 pairs independently frozen, compared and adjudicated; 37 complete saved records reviewed; pending coordinator verification.",
+  "checks": {
+    "status": "passed",
+    "assertions": 1384,
+    "source_pointer_resolutions_including_repeats": 1139,
+    "exact_excerpt_checks_including_repeats": 155,
+    "raw_source_files": 23,
+    "independent_evidence_objects": 282,
+    "selection_and_memberships_reproduced": true,
+    "all_49_comparisons_resolved": true,
+    "label_discrepancies": 2,
+    "integration_preflight_run": false
+  },
+  "output_directory": "research/autonomy/trial-reference-adjudication-2026-09-05",
+  "output_manifest": "output-manifest.json",
+  "unreviewed_pair_ids": [],
+  "unresolved_issues": [
+    "Full external protocols unavailable; source-level uncertainties preserved per pair.",
+    "No live site or cohort availability verification.",
+    "Coordinator independent scientific verification and integration preflight outstanding."
+  ],
+  "next_action": "Coordinator verifies and integrates this checkpoint; then separately adjudicate the 149 current ordinary/molecular frame pairs.",
+  "processes_running": false,
+  "background_processes_launched": [],
+  "network_calls": 0,
+  "installations": 0,
+  "deletions": 0,
+  "escalations": 0,
+  "nested_workers": 0,
+  "commits": 0,
+  "paid_api_or_gpu_use": false,
+  "usage_tokens": "Not measured by local scripts; no token budget assigned.",
+  "execution_notes": [
+    "Initial default-encoding packet metadata read failed on UTF-8 characters; fixed by explicit UTF-8/-X utf8.",
+    "Oversized/truncated allowed output sections were reread in smaller chunks.",
+    "No source, prior label, registry, manuscript, shared state or pre-existing file modified."
+  ]
+}

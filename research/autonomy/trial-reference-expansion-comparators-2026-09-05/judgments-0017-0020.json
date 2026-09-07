@@ -1,0 +1,64 @@
+[
+  {
+    "position": 17,
+    "label": "explicit_exclusion",
+    "rationale": "DSRCT is expressly listed under tumor types that will not be included. Permission to discuss unlisted types does not override a named exclusion.",
+    "cohort_reconciliation": "The completed safety run-in and randomized trabectedin versus trabectedin/tTF-NGR portion use the same stated histologic scope. No DSRCT exception is stated in either arm.",
+    "extra_biomarker_requirement": "Central CD13 positivity is required for eligible tumor types, but does not nullify the explicit DSRCT exclusion.",
+    "protocol_uncertainty": "External protocol is unreviewed; saved narrative reports randomized-part opening, but current sites/slots are not independently verified. No safety inference is made from the registry's run-in discussion.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "The following tumor types will not be included:"],
+      ["eligibilityModule/eligibilityCriteria", "Desmoplastic small round cell tumor"],
+      ["eligibilityModule/eligibilityCriteria", "Tumor types not listed above may be included upon communication with Coordinating Investigator."]
+    ]
+  },
+  {
+    "position": 18,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Adult inclusion explicitly names DSRCT despite SCLC-focused title and conditions. This is diagnostic imaging scope, not therapeutic eligibility.",
+    "cohort_reconciliation": "Adult criteria admit DSRCT at age at least 18; pediatric criteria are separately restricted to high-risk neuroblastoma. Both listed phase arms specify at least 50% DLL3-positive tumors by IHC, while the eligibility section primarily describes tissue availability. Preserve this additional arm-level restriction and the differing enrollment totals.",
+    "extra_biomarker_requirement": "Phase-arm descriptions require at least 50% DLL3 positivity by IHC; no individual result is established. Tissue availability alone is not equivalent to that positive result.",
+    "protocol_uncertainty": "External protocol, adult non-SCLC investigator-discretion rules and live phase availability remain unverified. Metadata minimum age 18 omits the separately described pediatric neuroblastoma population, which does not create pediatric DSRCT access.",
+    "task_domain": "oncology_diagnostic_imaging",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "OR Desmoplastic small round cell tumors, osteosarcoma, Ewing's sarcoma, rabdomyosarcoma, Wilms tumors, hepatoblastomas, rhabdoid tumors and neuroblastoma patients"],
+      ["eligibilityModule/eligibilityCriteria", "High risk neuroblastoma patients"],
+      ["designModule/designInfo/primaryPurpose", "DIAGNOSTIC"],
+      ["armsInterventionsModule/armGroups/0/description", "50% positive for DLL3 by IHC"]
+    ]
+  },
+  {
+    "position": 19,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "A dedicated Phase 2 DSRCT cohort requires consistent histology and EWSR1::WT1. Phase 1 permits sarcoma broadly, and the Other Sarcoma cohort expressly permits DSRCT with evaluable but nonmeasurable disease.",
+    "cohort_reconciliation": "Do not apply the dedicated Phase 2 cohort's CNS-metastasis and prior irinotecan/temozolomide-progression exclusions to the entire study: the text limits them to EWS/DSRCT Phase 2 cohorts. Phase 1 and Other Sarcoma have separate CNS stability provisions and broader disease assessment scope. Dedicated slots for other histologies do not remove the express DSRCT route.",
+    "extra_biomarker_requirement": "EWSR1::WT1 molecular confirmation is stated for the dedicated DSRCT cohort. It is distinct from the Ewing cohort's FET-ETS rule; no unrelated molecular gate is stated for the broad cohorts.",
+    "protocol_uncertainty": "Ages 12–49, weight at least 40 kg, prior standard-therapy failure and other clinical requirements remain applicable. Insurance/self-pay agreement for temozolomide is an explicit access condition, not resolved here. Live phase/cohort capacity and external protocol are unverified.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Histologic diagnosis consistent with DSRCT; and"],
+      ["eligibilityModule/eligibilityCriteria", "Molecular evidence of an EWSR1::WT1 fusion"],
+      ["eligibilityModule/eligibilityCriteria", "Patients with EWS or DSRCT with evaluable but not measurable disease may participate in this cohort."],
+      ["eligibilityModule/eligibilityCriteria", "Patients who have had progressive disease while receiving irinotecan and temozolomide in combination will be excluded from the Phase 2 EWS and DSRCT cohorts only."]
+    ]
+  },
+  {
+    "position": 20,
+    "label": "broad_tumor_compatible",
+    "rationale": "Cohort D has open solid-tumor histologic scope for tumors outside Cohorts A–C, with mandatory patient-specific supporting evidence and principal-investigator approval. DSRCT is not expressly named; histologic compatibility does not establish the required evidence.",
+    "cohort_reconciliation": "A–C are Wilms, rhabdoid and MPNST cohorts. D is the relevant open histologic route; E separately requires an activating BCOR alteration and is not inferred from DSRCT. Younger age groups have conditional PK enrollment and later Phase 2 entry, so metadata minimum age alone is insufficient.",
+    "extra_biomarker_requirement": "Cohort D requires documented XPO1 dependency/activation/elevated expression or qualifying preclinical evidence plus PI approval; none is established by DSRCT. BCOR activation is a different cohort's gate and is likewise unestablished.",
+    "protocol_uncertainty": "External protocol and PK/cohort availability are unverified. Prior systemic-treatment failure, measurable versus evaluable disease by phase, no prior XPO1 inhibitor and other clinical criteria remain applicable. Registry language suggesting benefit is an entry rationale, not demonstrated benefit.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Cohort D: Patients must not qualify for Cohorts A, B, or C but have a solid tumor (no hematologic malignancies including lymphoma) for which there is specific evidence that this particular patient's tumor may benefit from selinexor."],
+      ["eligibilityModule/eligibilityCriteria", "All patients in this cohort require approval of study principal investigator and must provide documentation of specific supporting evidence."],
+      ["eligibilityModule/eligibilityCriteria", "Cohort E: Patients must have a solid tumor with an activating genomic alteration (e.g. fusion or internal tandem duplication) involving BCOR."]
+    ]
+  }
+]

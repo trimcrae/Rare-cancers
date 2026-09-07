@@ -1,0 +1,68 @@
+---
+title: Independent EMC atlas and normal-tissue feasibility
+kind: memo
+audience: [maintainers, autonomous research agents]
+purpose: Identify the defensible contrast and independent-validation gate.
+scope: Committed EMC cohort metadata and existing audits; no expression estimates.
+date: 2026-09-05
+last_verified: 2026-09-05
+---
+
+The independent-validation gate fails with the supplied evidence. The bounded audit is complete; an independently validated therapeutic-address atlas is not established. Patient overlap remains unknown across candidate studies, and accession differences cannot resolve it. GSE24369 is CHRNA6 discovery by the coordinator-supplied premise, not independent validation of that discovery. The GSE170983 alias is a cached source assertion, not another cohort.
+
+The identifiable claim is narrower: descriptive RNA differences within explicitly named assay and comparator records. Cross-histology comparisons address only the sampled histologies; tumour-versus-normal comparisons address only the sampled normal tissues. Neither establishes surface protein, peptide-HLA presentation or a therapeutic window. PRAME is an intracellular HLA-presented address (user-supplied scope rule); the HPA cache's plasma-membrane flag does not validate that mechanism.
+
+GSE28866 resolves four EMC GSM/library/STT links: GSM715466/STT5525, GSM715467/STT5526, GSM715470/STT5527, GSM715472/STT5592. Its 27 normal libraries are 17 adult and ten fetal, all annotated FFPE/3SEQ. These labels are not verified patient counts. Normal organs do not supply a matched normal mesenchymal lineage comparator. [Evidence: series#/samples; normal#/sources/0/grouping.]
+
+| Normal stratum | Libraries |
+|---|---:|
+| adult breast | 5 |
+| adult colon | 3 |
+| adult kidney | 3 |
+| adult lung | 5 |
+| adult uterus | 1 |
+| fetal lung | 1 |
+| fetal, 13wks bowel | 1 |
+| fetal, 13wks lung | 1 |
+| fetal, 14wks bowel | 1 |
+| fetal, 14wks kidney | 1 |
+| fetal, 14wks lung | 1 |
+| fetal, 15wks bowel | 1 |
+| fetal, 15wks kidney | 2 |
+| fetal, 15wks lung | 1 |
+
+The 93 matrix libraries comprise 66 tumour and 27 normal libraries; two documented ESS/LMS duplicate pairs leave 91 distinct STT labels, not 91 verified patients. Six breast cell-line GSMs account for the remainder of the 99-record series. The normalized-header cache counts 96 “sample columns” because it includes hg18_coords, classification and differentially_expressed_cancer_type; matching the raw header resolves 93 actual libraries. Its separate design-count field of 6396 is also defective. Both source values are preserved and explicitly bounded in the JSON, without editing inputs.
+
+The primary design text describes per-sample depth scaling by the sample mean, followed by square-root compression. Full peak matrices are named but not contained in these inputs: the gene cache retains only arm medians. This permits description of the existing mixed-panel contrast, not organ-specific estimates or patient uncertainty. The earlier readiness audit had a narrower input set; these additional metadata do not reverse its CHRNA6 no-go. Sensitivity results and unreadable entries are reused without recalculation. Their stability is not proof of reference-channel compatibility. [Evidence: normal#/per_gene/_contrast; series#/design_vs_contents/overall_design_verbatim; readiness#/scope; sensitivity#/method.]
+
+| ID | Proposed comparison | Disposition and exact limit |
+|---|---|---|
+| C1 | GSE24369 EMC vs cached 29 sarcoma comparators | **defensible** — Six EMC records; comparator composition is 17 LGFMS, six desmoid and six myxofibrosarcoma (the readiness cache labels the last class fibrosarcoma). Not normal tissue, independent CHRNA6 validation, patient-level inference or diagnostic specificity beyond sampled histologies. |
+| C2 | GSE24369 EMC vs two skeletal-muscle pooled-RNA records | **conditional** — Per-record vectors exist, but pool donor composition, reuse, preparation and primary preprocessing are unresolved. Not two healthy patients, matched mesenchymal controls, or a population normal distribution. |
+| C3 | GSE4303 EMC vs three DFSP records | **conditional** — CRH-mRNA vs CRH tokens suggest a narrower candidate arm but do not prove identical reference material or dye orientation. Ten EMC GSMs are not ten verified patients. |
+| C4 | GSE4303 EMC vs GIST, or all six cached comparators | **unidentified** — EMC CRH-mRNA and GIST UHR reference labels differ; histology and reference channel are confounded without a primary reference crosswalk/calibration. Sensitivity stability cannot repair this. |
+| C5 | GSE4303 EMC vs its reference channel as normal tissue | **unidentified** — Reference pool identity/composition is unresolved and not a sampled normal-tissue arm; negative ratios are not absent expression. |
+| C6 | GSE28866 EMC vs all 27 normal-organ libraries | **defensible** — Four EMC library labels and 27 normal labels are resolved on one 3SEQ platform. Cached medians mix adult/fetal tissues and peaks; no per-library uncertainty or patient inference is recoverable. Square-root compressed ratios are not RNA fold changes. |
+| C7 | GSE28866 EMC vs adult organ-specific normal strata | **conditional** — 17 adult and ten fetal library identities are recoverable; adult strata must remain separate. Full sample-aligned peak values, annotation/filtering provenance and donor/specimen linkage are missing from these caches. No analysis executed. |
+| C8 | GSE28866 EMC vs other sarcomas | **conditional** — Cache reports 32 other-sarcoma libraries; ESS and LMS each have a technical duplicate pair. Full per-library values and replicate handling are needed; arm median cannot establish independent specimens or histology-balanced specificity. |
+| C9 | GSE24369/GSE4303 tumours vs GSE28866 normal libraries | **unidentified** — Single-channel intensity, reference-channel log ratios and depth-scaled square-root 3SEQ values are incompatible scales with cohort/technology confounding. Neither pooling nor z standardization resolves this. |
+| C10 | PRJNA1357027 EMC vs internal or external normals | **unidentified** — Only EMC-described targeted-assay runs are enumerated; no compatible normal arm or normalized per-sample matrix is supplied. HPA/3SEQ/array normals cannot be substituted. |
+| C11 | Any EMC cohort vs HPA normal RNA | **unidentified** — HPA cache supplies categorical summaries and nullable nTPM fields, not linked donors or compatible tumour/normal measurements. RNA and subcellular tags cannot establish accessible surface protein or safety. |
+| C12 | Cross-cohort independent tissue validation | **unidentified** — GSE24369 is CHRNA6 discovery by coordinator premise; GSE170983 is a reported alias; other patient overlap is unresolved. Distinct studies and assay types do not prove independent tissue. Different comparator histologies do not estimate one shared specificity contrast. |
+
+GSE24369 has 42 cached array records: six EMC, 29 prior sarcoma comparators, five excluded solitary fibrous tumours and two skeletal-muscle pooled-RNA records (GSM600968/969). Those pools are potential same-platform normal material, with unknown donor composition and preparation. GSE4303 has 16 cached GPL3290 records of 36 series-reported records: ten EMC, three DFSP and three GIST. EMC annotations say CRH-mRNA, DFSP CRH and GIST UHR; shared-reference cancellation is not established. The 20 uncached series records are not assigned to an arm. [Evidence: arrays#/targets/*/samples; readiness#/cohorts/*/counts; search#/candidates/GSE4303/n_samples; exact pointers in JSON.]
+
+The fourth-cohort table links 12 SRR runs, 12 SRX experiments, 12 SAMN BioSamples and 12 library names. Patient/specimen uniqueness is unknown. SRR35940654 retains library Si21 versus sample alias Si22. All run titles describe targeted TempO-Seq EMC; no compatible normal arm or normalized expression matrix is supplied here. Read-structure diagnostics and sequence matching are not a verified assay design or expression absence. [Evidence: fourth#/run_table/rows; fourth#/probe_gate/meaning; fourth#/probe_map/⚠ unassigned_means.]
+
+The smallest primary evidence needed to reopen a route is:
+
+1. Author/depositor run-GSM-library-specimen-patient crosswalk across the discovery tissue and candidate validation cohorts, including repeat lesions, technical replicates and GSE170983 alias mapping.
+2. For the same-assay normal route: full GSE28866 peak-by-library matrix with peak/gene annotation, normalization/filtering provenance and normal donor/organ/stage linkage. Headers and pooled gene medians are insufficient for organ-specific comparison.
+3. For the array alternatives: GSE24369 muscle pool composition/preparation and primary preprocessing; GSE4303 per-sample channel/dye and CRH/CRH-mRNA/UHR reference composition or calibration.
+4. If using the fourth cohort: authoritative TempO-Seq assay/probe design, sample-aligned processed values and normalization provenance, a compatible normal arm, and resolution of Si21 library versus Si22 alias for SRR35940654.
+
+Stop here. No expression comparison, target ranking or normalization was executed. The failed prior run is operational history only. Later acquisition or experimental protein validation is outside this assignment.
+
+Source keys, exact RFC 6901 JSON pointers, file SHA256s and canonical extracted-value SHA256s are in [the generated matrix](atlas-independent-normal-feasibility.json). Markdown source documents use the empty pointer and are hashed as a whole JSON string. Facts copied from caches, computed identifier counts and coordinator/user premises are labelled separately. Null means unknown, never zero expression.
+
+Reproduce with the runner-supplied Python and `research/modalities/atlas_independent_normal_feasibility.py`; append `--check` for read-only byte comparison. Built-in checks cover committed inputs, pointer/hash integrity, array vector alignment, reused arm counts, exact library/GSM resolution, normal strata, technical duplicates, run identities and retained unknowns. Model: gpt-6-astra; effort: medium; one dispatch; configured budget: 1,800 seconds. Usage, live capacity and total elapsed time are unknown in this deterministic artifact. No publication-readiness claim.

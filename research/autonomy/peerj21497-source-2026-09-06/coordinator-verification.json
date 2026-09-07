@@ -1,0 +1,24 @@
+{
+  "utc": "2026-09-06T05:36:20.242346+00:00",
+  "status": "Independent source and structural checks and normal preflight passed",
+  "worker_manifest_files_verified": 16,
+  "files_copied_with_manifest_and_receipt": 18,
+  "independent_checker": "coordinator_check.py",
+  "independent_result": "coordinator-check-result.json",
+  "source_review": "Coordinator read original JATS patient selection, assay/data processing, cross-study and immunofluorescence sections. Independently checked primary supplementary processing-instruction size/MD5 against real archive/workbook bytes and decoded all123513source cells. Seven exact-symbol rows and all84reported panel source values match preserved inventory. No expression contrast performed.",
+  "dependency_repaired": "Actual sample-aligned processed expression export is available; old raw-read/abstract-only availability descriptions are incomplete.",
+  "remaining_limits": [
+    "9500feature rows versus article9909; six numeric identifiers unresolved.",
+    "No raw probe matrix, probe map, exact preprocessing/batch state, clinical crosswalk, same-assay normal arm or externalMI-ONCOSEQ matrix in workbook.",
+    "Source reports12patients. Against at most6discoverypatients, at least6are new if the columns represent those12distinctpatients; no patient identities are thereby resolved. Old4versus6zero-guarantee argument does not automatically apply.",
+    "No assay-defined positivity criterion exists here. Neither a retained processed row nor missing symbol establishes detection or absence. No calibrated cross-gene abundance, target density, malignant-cell localization or therapeutic coverage follows."
+  ],
+  "scientific_value_review": {
+    "reviewer": "/root/atlas_value",
+    "mode": "focused read-only reassessment after new external evidence",
+    "finding": "No useful new atlas target-validation contrast identified from this matrix alone. Within-cohort rank association is mathematically identifiable but no prespecified target-selection decision depends on it, and cell composition remains an alternative explanation. Do not create an experiment merely because it is computable.",
+    "exposure": "Inventory exposed target cell values to reviewer; no calculations performed. Not an outcome-blind review."
+  },
+  "normal_preflight": "normal-preflight-result.json",
+  "publication_ready": false
+}

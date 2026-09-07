@@ -1,0 +1,60 @@
+---
+id: DOC-ESCAPE-EMC-SOURCE-20260906
+title: ESCAPE-seq source intersection does not establish measurements for reported EMC junctions
+kind: evidence-report
+status: complete
+purpose: Decide whether this named experimental dataset supports the reserved EMC fusion-antigen question.
+scope: Exact released library, peptide and allele intersection with pinned sequences and their biological provenance; no predictor runs or manuscript.
+audience: [maintainers, research reviewers]
+date: 2026-09-06
+last_verified: 2026-09-06
+---
+
+Close this dataset intersection for the proposed experimental calibration of **reported EMC fusion-junction antigens**. No NR4A3 fusion appears in the selected library detail block or result labels. A real sequence overlap exists, but it is one EWSR1–FLI1 peptide shared with a **modeled, not reported, EWSR1 e7::NR4A3 e3 construct**. It provides no positive signal and does not establish EMC processing, presentation, immunogenicity or clinical benefit. This source check is reusable negative selection evidence, not a paper contribution.
+
+## Source and library evidence
+
+The primary source is [Shi et al., Nature Genetics 2025](https://pmc.ncbi.nlm.nih.gov/articles/PMC12339365/), DOI 10.1038/s41588-025-02268-1, PMID 40721532. Original article HTML, Supplementary Table 4, Source Data and Supplementary Code bytes are retained in `originals/`; `retrieval.json` records successful binary URLs, sizes, hashes and retrieval times. Public PMC binary links returned download-preparation HTML, preserved with `.browser-check.html` suffixes and explicitly marked invalid source bytes. The public `static-content.springer.com` endpoint delivered genuine OLE/BIFF XLS files and ZIP bytes. Nothing was read from an HTML page as though it were a workbook.
+
+Supplementary Table 4's `fusion_gene` sheet has **two separate side-by-side blocks**. Columns A:D are a candidate inventory; G:V contain selected junction details, with headers at G4:V4 and 31 entries at G5:V35. The left and right blocks are not row-wise linked. For example, A34 contains EWSR1–NR4A3 while G34:V34 describes DNAJB1–PRKACA. Joining those blocks by row would manufacture a false EMC peptide.
+
+| Evidence | Exact source locator | Interpretation |
+|---|---|---|
+| EWSR1_ENST00000397938–NR4A3_ENST00000395097 | S4 `fusion_gene` A34:D34 | Candidate inventory only; no selected sequence |
+| TAF15_ENST00000604841–NR4A3_ENST00000395097 | S4 `fusion_gene` A61:D61 | Candidate inventory only; no selected sequence |
+| EWSR1–FLI1 COSF165 | S4 `fusion_gene` G8:V8, fusion sequence R8 | Selected sequence `SQQSSSYGQQNPSYDSVRRGA` |
+| EWSR1–FLI1 COSF167 | S4 `fusion_gene` G9:V9 | Different selected FLI1 junction |
+| EWSR1–ATF1 COSF217; EWSR1–WT1 COSF186 | S4 `fusion_gene` G31:V31; G33:V33 | Partner overlap only |
+| FUS–DDIT3 COSF6 | S4 `fusion_gene` G25:V25 | Detail row says `UTR`, with no peptide sequence |
+
+All 31 detail rows and all candidate alias/partner rows are preserved in `library-block-evidence.json`; the complete two-sheet S4 value matrix is `supplementary-table4-cells.json`. Searches include NR4A3, CHN, NOR1/NOR-1 and TEC, plus EWSR1/EWS, TAF15/TAF2N/TAFII68/RBP56, FUS/TLS, TCF12/HTF4, TFG and HSPA8. No target alias occurs in either oncogene result sheet. All partner result rows, including low values, are retained in `source-partner-rows.json`.
+
+## Exact peptide result and biological status
+
+The pinned `fusion-breakpoint-neoantigens.json` and `junction-frameshift-peptides.json` together contain 271 distinct candidate peptides, including 67 nine-residue peptides. Both released result sheets have 1,518 data rows, all nine-residue peptides. Exhaustive exact equality finds **only `QSSSYGQQN`**, at row 1231 in both `oncogene` and `onco_wt`, name `EWSR1_1112_FLI14127_2`; peptide cell BA1231 and allele cells B1231:AY1231. Duplicate name labels elsewhere identify different FLI1 peptides, so the join uses the actual AA cell, never name alone.
+
+The pinned match is `EWSR1_e7__NR4A3_e3`, sequence context `SQQSSSYGQQ|NMPCVQAQYSP`. The peptide has eight EWSR1 residues plus the chimeric seam N; it contains no downstream NR4A3 amino acid. Its terminal N is also present at the EWSR1–FLI1 junction. This is exact peptide identity, not exact fusion or disease identity.
+
+The repository's `systems/graph/objects.json` object `OBJ-MODEL-E7E3` and `systems/graph/integrity.json` conflict `OC-2` explicitly classify e7::e3 as modeled, not a reported fusion type. `EMITTABLE` in the peptide computation certifies its modeled sequence/frame rule, not occurrence in a patient. Transcript ranks refer to EWSR1 ENST00000397938 and NR4A3 ENST00000395097, including noncoding exons; NR4A3's first two transcript exons are noncoding. The retained 2-nt 5′ UTR segment in exon 3 contributes to the synthetic e7::e3 seam codon.
+
+The source-supported architectures in `emc-fet-construct-designs.json` distinguish reported type 1 (e12::e3), type 2 (e7::e2) and type 5 (e13::e3). The modeled type-2 protein has seam `SQQSSSYGQQ|KPTAEEGSPA`, followed by the UTR-derived segment, rather than the e7::e3 N seam. Existing source provenance includes PMC3335514 and PMC4015728 for type 2, and PMC4055444/PMC2395470 for type 5; this task checks the committed source-backed architecture records, not newly recovered patient sequences.
+
+Exact substring checks of the complete committed computed proteins for these three reported architectures and TAF15 e6::e3 find no `QSSSYGQQN`. It is also absent from the pinned canonical wild-type EWSR1 (656 aa) and NR4A3 (626 aa) proteins. These checks do not establish absence across every isoform, reported rare breakpoint or patient. The biological source distinction and all checked input hashes are retained in `biological-provenance-check.json`.
+
+## Scores, coverage of the source and assay limits
+
+The complete 50-allele mapping, with original cell coordinates and numerical precision, is `exact-peptide-allele-matches.json`. It covers 14 HLA-A, 29 HLA-B and 7 HLA-C columns, with identities in the original header order. There are 50 numeric values per match, no blanks: zero above 3.8 and 50 below it. In `oncogene` the range is 0.89290625–2.13453907. `onco_wt` contains the same peptide and near-identical values (maximum 2.134539074), so it is not an independent matched normal-peptide experiment. The released code initializes `scorewt` as a copy and replaces only mutation-kind rows; fusion rows are not changed by that loop. Preserve both released representations without averaging them or counting 100 independent measurements.
+
+These are **below-cutoff released scores with per-pair read QC unknown**, not 50 established biological negatives. Each oncogene sheet exposes scores and labels, but no per-replicate raw counts, per-pair read mask, replicate E-scores or uncertainties. Numeric values, including values exactly 2, must not be assumed to prove adequate measurement depth. The source code applies a >=40-read requirement in each of two replicates when constructing its mask, then reduces the mask across alleles into a row-level flag; that flag is not included in these sheets. Sequencing is deposited as PRJNA1268025, but raw-read reanalysis was outside this allocation.
+
+The paper describes four surface-staining bins, with read-depth and per-pair normalization and weights 0, 2, 4 and 8. For the pooled assay it aligns each allele's lower score mode; the supplied code aligns each replicate's mode to 2 and averages the two normalized replicate scores. Methods define combinatorial positivity as E-score >3.8, versus >3.2 for single-allele screens; this is a dimensionless engineered display score, not affinity in nM. The supplied code uses both `>=cs` and `>cs` in different downstream summaries; no matched score is close enough for that inequality difference to affect this intersection.
+
+The oncogene experiment uses nine-residue peptides in single-chain peptide–B2M–HLA constructs, with HLA Y84C and linker G2C stabilizing disulfide engineering. It measures surface display in an engineered cell assay. The paper reports usual two biological replicates for pooled screens and a library replicate correlation of 0.89; its general Methods give >0.9 as an example criterion. Per-pair reproducibility cannot be inferred from a global correlation or reconstructed from these sheets. The source does not show endogenous EMC processing or peptide-specific EMC T-cell recognition for this overlap.
+
+## Decision and verification
+
+No defensible new EMC calibration question is established by these recovered files. A single low-scoring peptide shared with an unreported construct cannot calibrate the reported EMC junction repertoire. The original paper already benchmarks predictions and explores HLA coverage. Do not commission those generic analyses, substitute its FLI1 data for EMC validation, or promote this intersection into a manuscript. Reopening requires a specific source-supported EMC peptide/allele measurement or changed biological provenance, with adequate assay QC; it is not triggered by this gene-name inventory.
+
+`verify_intersection.py --xlrd-path <xlrd-directory> --check` re-extracts the original XLS values, compares deterministic JSON evidence, and reruns sequence/provenance checks. Extraction uses bundled Python plus xlrd 2.0.2, installed only in this worker's `.cache` after confirming it was absent from the bundled and suggested cached dependencies. It does not execute the publisher's script, fit models, recalculate workbook formulas or rewrite original workbooks. The packet manifest records original and derived file hashes. Coordinator integration and its normal preflight remain separate; no commit, publication or shared-state change was made by this worker.
+
+Execution base: `6d44b06f5dba8b3bd67a422eeb27ed54c6c7230f`. Actual model, effort and token usage were not exposed in this worker context and are recorded as unknown. The worker returns with no launched background process remaining.

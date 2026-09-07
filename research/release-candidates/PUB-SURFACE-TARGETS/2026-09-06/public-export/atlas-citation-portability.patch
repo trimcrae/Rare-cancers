@@ -1,0 +1,117 @@
+diff --git a/research/manuscripts/line_citations.py b/research/manuscripts/line_citations.py
+index 2efa6941d..102ac4dd0 100644
+--- a/research/manuscripts/line_citations.py
++++ b/research/manuscripts/line_citations.py
+@@ -437,7 +437,7 @@ def carriers():
+     syntax in prose and in a regex and are reported like any other carrier. An exclusion list is a typed
+     fact, and the first thing a typed exclusion list does is grow a line for the file that actually broke.
+     """
+-    map_rel = os.path.relpath(MAP, ROOT)
++    map_rel = os.path.relpath(MAP, ROOT).replace(os.sep, "/")
+     out = []
+     for f in _tracked_files():
+         if f == map_rel:
+@@ -627,7 +627,7 @@ def verdict(found, gen_results, rewrote=None, needs_review=0):
+     lines, code, clauses = [], EXIT_CLEAN, []
+ 
+     if rewrote is not None:
+-        clauses.append("rewrote %d citation(s) in %s" % (rewrote, os.path.relpath(MAP, ROOT)))
++        clauses.append("rewrote %d citation(s) in %s" % (rewrote, os.path.relpath(MAP, ROOT).replace(os.sep, "/")))
+     if needs_review:
+         clauses.append("LEFT %d drifted citation(s) for a reader" % needs_review)
+         code = EXIT_WRONG
+@@ -742,7 +742,7 @@ def main(argv=None):
+           f"{len(needs_review)} drifted-but-unconfident · {len(by['ambiguous'])} ambiguous · "
+           f"{len(by['not_found'])} quote not found · {len(by['quote_too_short'])} quote too short · "
+           f"{len(by['no_quote'])} carry no quote · {len(by['inside_a_quote'])} inside a quotation")
+-    print(f"  coverage: {checked} of {len(cites)} citations in {os.path.relpath(MAP, ROOT)} were resolved "
++    print(f"  coverage: {checked} of {len(cites)} citations in {os.path.relpath(MAP, ROOT).replace(os.sep, '/')} were resolved "
+           f"to a line ({100.0 * checked / len(cites):.0f}%). The rest are NAMED above, not skipped.")
+     # ⚠ REPORTED, NOT GATED, in check mode. This checker is a member of the fast six and its name is
+     # "roadmap line citations resolve"; failing it because an unrelated cell of a generated view drifted
+diff --git a/research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py b/research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py
+index 95d808e29..28816f873 100644
+--- a/research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py
++++ b/research/manuscripts/tests/test_a_guard_that_cannot_fail_is_not_a_guard.py
+@@ -159,7 +159,7 @@ def _r1_offenders():
+     """Tests that READ a module attribute an autouse fixture in their own module REWROTE."""
+     offenders = {}
+     for path in _scope_files():
+-        rel = os.path.relpath(path, REPO)
++        rel = os.path.relpath(path, REPO).replace(os.sep, "/")
+         try:
+             tree = ast.parse(open(path, encoding="utf-8").read())
+         except SyntaxError as exc:                     # a suite that will not parse is a finding
+@@ -223,7 +223,7 @@ def test_no_parametrisation_collects_nothing():
+     file level. Zero instances today; this keeps it there, and costs nothing."""
+     empty = []
+     for path in _scope_files():
+-        rel = os.path.relpath(path, REPO)
++        rel = os.path.relpath(path, REPO).replace(os.sep, "/")
+         tree = ast.parse(open(path, encoding="utf-8").read())
+         for node in ast.walk(tree):
+             if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+diff --git a/research/manuscripts/tests/test_line_citations.py b/research/manuscripts/tests/test_line_citations.py
+index 5a7e5175b..5bee6bce7 100644
+--- a/research/manuscripts/tests/test_line_citations.py
++++ b/research/manuscripts/tests/test_line_citations.py
+@@ -86,8 +86,8 @@ def test_every_citation_in_the_roadmap_is_accounted_for(scanned):
+     — a different implementation from the module's own `CITE.finditer` — so this is a measurement rather
+     than a restatement of what `scan()` chose to walk.
+     """
+-    r = subprocess.run(["git", "-C", ROOT, "grep", "-oE", r"`:[0-9]+([–-][0-9]+)?`", "--",
+-                        os.path.relpath(lc.MAP, ROOT)], capture_output=True, text=True)
++    r = subprocess.run(["git", "-C", ROOT, "grep", "-I", "-oP", r"`:[0-9]+([–-][0-9]+)?`", "--",
++                        os.path.relpath(lc.MAP, ROOT).replace(os.sep, "/")], capture_output=True, text=True)
+     assert r.returncode == 0, r.stderr
+     expected = len([l for l in r.stdout.split("\n") if l.strip()])
+     assert expected > 0, "git grep found no citations in the roadmap at all — the syntax changed"
+@@ -352,13 +352,28 @@ def _independently_derived_carriers():
+     `carriers()` proves nothing; asserting it against `git grep -lP` for the same syntax is what makes
+     "the enumeration is complete" a measurement instead of a restatement.
+     """
+-    r = subprocess.run(["git", "-C", ROOT, "grep", "-lE", r"`:[0-9]+([–-][0-9]+)?`"],
++    r = subprocess.run(["git", "-C", ROOT, "grep", "-I", "-lP", r"`:[0-9]+([–-][0-9]+)?`"],
+                        capture_output=True, text=True)
+     assert r.returncode in (0, 1), f"git grep failed: {r.stderr}"
+-    map_rel = os.path.relpath(lc.MAP, ROOT)
++    map_rel = os.path.relpath(lc.MAP, ROOT).replace(os.sep, "/")
+     return {f for f in r.stdout.split("\n") if f and f != map_rel}
+ 
+ 
++def test_git_enumeration_covers_unicode_ranges_but_not_binary_archives(tmp_path):
++    """Independent Git matching must agree on textual syntax without reading binary payloads."""
++    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
++    (tmp_path / "citations.txt").write_text("`:12` `:13-15` `:16–18`\n", encoding="utf-8")
++    (tmp_path / "ordinary.txt").write_text("12-18 is not a line citation\n", encoding="utf-8")
++    (tmp_path / "archive.bin").write_bytes(b"\x00archive payload `:999`\x00")
++    subprocess.run(["git", "-C", str(tmp_path), "add", "."], check=True)
++    pattern = r"`:[0-9]+([–-][0-9]+)?`"
++    result = subprocess.run(["git", "-C", str(tmp_path), "grep", "-I", "-oP", pattern],
++                            capture_output=True, text=True, encoding="utf-8")
++    assert result.returncode == 0, result.stderr
++    assert result.stdout.splitlines() == [
++        "citations.txt:`:12`", "citations.txt:`:13-15`", "citations.txt:`:16–18`"]
++
++
+ def test_every_tracked_file_carrying_the_citation_syntax_is_enumerated_by_the_fixer():
+     """⛔ THE LEDGER'S OWN ASK: 'a test that every file matching it is in the fixer's own list.'"""
+     listed = {f for f, _ in lc.carriers()}
+@@ -447,7 +462,7 @@ def test_the_detector_does_not_classify_a_file_that_merely_describes_it():
+     """
+     _SPECIMEN = "<!-- GENERATED by research/modalities/instrument_census.py -->"  # noqa: F841
+     by_path = dict(lc.carriers())
+-    me = os.path.relpath(os.path.abspath(__file__), ROOT)
++    me = os.path.relpath(os.path.abspath(__file__), ROOT).replace(os.sep, "/")
+     assert me in by_path, (
+         f"{me} carries the `:NNNN` syntax and must be enumerated as a carrier; it is not, so the "
+         f"specimen above is no longer doing its job."
+@@ -719,7 +734,7 @@ def test_the_module_does_not_classify_itself_as_a_generated_copy():
+     the wrong specimen, which is this repository's most-repeated defect.
+     """
+     by_path = dict(lc.carriers())
+-    me = os.path.relpath(os.path.join(MANUSCRIPTS, "line_citations.py"), ROOT)
++    me = os.path.relpath(os.path.join(MANUSCRIPTS, "line_citations.py"), ROOT).replace(os.sep, "/")
+     assert me in by_path, f"{me} no longer carries the `:NNNN` syntax, so this test measures nothing"
+     assert by_path[me] is None, (
+         f"line_citations.py classified ITSELF as generated by {by_path[me]!r}. It is not generated — its "

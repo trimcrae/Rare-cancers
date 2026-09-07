@@ -1,0 +1,11 @@
+{
+  "run_id": "20260905T121951Z-b093a5d8bc",
+  "checks": [],
+  "artifact_sha256": {},
+  "substantive_defects_found": null,
+  "repair_induced_defects": null,
+  "review_scope": "Operational failure reconciliation only: runner receipt, empty tracked working-tree status and raw stream errors inspected; no scientific output verified.",
+  "failure": "Repeated stream disconnected before completion: idle timeout waiting for websocket; outer runner terminated at 1800.078 seconds.",
+  "notification_failure": "Coordinator ended launch turn without completion watcher; six-hour heartbeat did not provide timely completion/failure notification.",
+  "next_action": "Preserve failed attempt, do not blindly redispatch identical contract. Before another worker run, establish completion/failure monitoring and use an explicitly reconciled retry or revised bounded contract. Atlas feasibility remains unanswered."
+}

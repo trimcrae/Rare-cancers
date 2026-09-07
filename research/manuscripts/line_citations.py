@@ -437,7 +437,7 @@ def carriers():
     syntax in prose and in a regex and are reported like any other carrier. An exclusion list is a typed
     fact, and the first thing a typed exclusion list does is grow a line for the file that actually broke.
     """
-    map_rel = os.path.relpath(MAP, ROOT)
+    map_rel = os.path.relpath(MAP, ROOT).replace(os.sep, "/")
     out = []
     for f in _tracked_files():
         if f == map_rel:
@@ -627,7 +627,7 @@ def verdict(found, gen_results, rewrote=None, needs_review=0):
     lines, code, clauses = [], EXIT_CLEAN, []
 
     if rewrote is not None:
-        clauses.append("rewrote %d citation(s) in %s" % (rewrote, os.path.relpath(MAP, ROOT)))
+        clauses.append("rewrote %d citation(s) in %s" % (rewrote, os.path.relpath(MAP, ROOT).replace(os.sep, "/")))
     if needs_review:
         clauses.append("LEFT %d drifted citation(s) for a reader" % needs_review)
         code = EXIT_WRONG
@@ -742,7 +742,7 @@ def main(argv=None):
           f"{len(needs_review)} drifted-but-unconfident · {len(by['ambiguous'])} ambiguous · "
           f"{len(by['not_found'])} quote not found · {len(by['quote_too_short'])} quote too short · "
           f"{len(by['no_quote'])} carry no quote · {len(by['inside_a_quote'])} inside a quotation")
-    print(f"  coverage: {checked} of {len(cites)} citations in {os.path.relpath(MAP, ROOT)} were resolved "
+    print(f"  coverage: {checked} of {len(cites)} citations in {os.path.relpath(MAP, ROOT).replace(os.sep, '/')} were resolved "
           f"to a line ({100.0 * checked / len(cites):.0f}%). The rest are NAMED above, not skipped.")
     # ⚠ REPORTED, NOT GATED, in check mode. This checker is a member of the fast six and its name is
     # "roadmap line citations resolve"; failing it because an unrelated cell of a generated view drifted

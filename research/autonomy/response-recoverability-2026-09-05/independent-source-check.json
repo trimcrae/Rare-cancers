@@ -1,0 +1,39 @@
+{
+  "checks": [
+    "Independently fetched four primary API records and compared outcome structure; all extracted myeloma values reproduced by existing function, while source retains strata/time/category distinctions.",
+    "TURANDOT outcomes3-6: same2 group names across ITT/PP and confirmed/unconfirmed definitions. ITT denominators285/279 exceed four-cell sums270/261 due additional source categories.",
+    "CLL NCT00858117 outcomes3/4: one group30, physical versus CT criteria; two outcome rows do not establish two independent arms.",
+    "GIST primary JSON reports denominator41 and enrollment34; source discrepancy preserved. Protocol printedpp52/54 independently inspected: disease-control primary rule, planned39/cutoff24; ORR is secondary. No actual source decision reversal established.",
+    "NCT00183820 protocol rendered printedpp21/22 independently inspected: interim threshold1 in11.1 versus3 in11.2. No stage-resolved outcome verification; do not choose one threshold or assert decision reversal."
+  ],
+  "turandot_primary_counts": [
+    {
+      "group": "Bevacizumab Plus Paclitaxel",
+      "reported_n": 285,
+      "categories": {
+        "Complete response": 10.0,
+        "Partial response": 115.0,
+        "Stable disease": 127.0,
+        "Progressive disease": 18.0,
+        "Not evaluable": 15.0
+      }
+    },
+    {
+      "group": "Bevacizumab Plus Capecitabine",
+      "reported_n": 279,
+      "categories": {
+        "Complete response": 2.0,
+        "Partial response": 74.0,
+        "Stable disease": 138.0,
+        "Progressive disease": 47.0,
+        "Not evaluable": 18.0
+      }
+    }
+  ],
+  "primary_sha256": {
+    "NCT00600340.json": "a90f10b96c537cbaac2ef3b78a3b51cafac4e15444c4b56af597a7398770ec00",
+    "NCT00756509.json": "d5299791e0229ae12e6eae31fbd682ad0729e178c180365c024a6c9042d291a7",
+    "NCT00858117.json": "3fea7af6bfcc3ebbe5842415b432a53476cd8b7ee0409a4257006f0480aaf9a2",
+    "NCT02440464.json": "257587c6fb709bfd78975765e3096912813e6d80fbb8817b543fa0a17c927756"
+  }
+}

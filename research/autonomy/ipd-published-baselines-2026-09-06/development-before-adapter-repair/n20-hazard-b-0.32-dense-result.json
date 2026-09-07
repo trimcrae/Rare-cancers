@@ -1,0 +1,549 @@
+{
+  "schema": "published-baseline-results-v1",
+  "input_file": "research\\autonomy\\ipd-published-baselines-2026-09-06\\development\\n20-hazard-b-0.32-dense-release.json",
+  "input_schema": "discrete-km-release-v1",
+  "package_versions": {
+    "IPDfromKM": "0.1.10",
+    "CIFresolve": "0.1.1",
+    "quadprog": "1.5.8",
+    "survival": "3.8.6"
+  },
+  "R": "R version 4.6.1 (2026-06-24 ucrt)",
+  "inputs": {
+    "a": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.75, 0.65000000000000002, 0.40999999999999998, 0.23999999999999999, 0.23999999999999999, 0.23999999999999999, 0.23999999999999999],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [20, 20, 15, 11, 7, 4, 4, 0],
+      "n": 20,
+      "events": 14
+    },
+    "b": {
+      "time": [0, 1, 2, 3, 4, 5, 6, 7],
+      "surv": [1, 0.75, 0.34999999999999998, 0.34999999999999998, 0.23000000000000001, 0.16, 0.080000000000000002, 0.080000000000000002],
+      "trisk": [0, 1, 2, 3, 4, 5, 6, 7],
+      "nrisk": [20, 20, 15, 6, 6, 3, 2, 0],
+      "n": 20,
+      "events": 17
+    }
+  },
+  "methods": {
+    "IPDfromKM": {
+      "status": "success",
+      "ipd": [
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.1"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.2"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.3"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.4"
+        },
+        {
+          "time": 1,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.5"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.6"
+        },
+        {
+          "time": 1.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.7"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.8"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.9"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.10"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.11"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.12"
+        },
+        {
+          "time": 3,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.13"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.14"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.15"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "a",
+          "_row": "a.16"
+        },
+        {
+          "time": 4.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.17"
+        },
+        {
+          "time": 4.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.18"
+        },
+        {
+          "time": 4.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.19"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "a",
+          "_row": "a.20"
+        },
+        {
+          "time": 1,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.1"
+        },
+        {
+          "time": 1,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.2"
+        },
+        {
+          "time": 1,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.3"
+        },
+        {
+          "time": 1,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.4"
+        },
+        {
+          "time": 1,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.5"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.6"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.7"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.8"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.9"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.10"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.11"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.12"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.13"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.14"
+        },
+        {
+          "time": 2,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.15"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.16"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.17"
+        },
+        {
+          "time": 2.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.18"
+        },
+        {
+          "time": 4,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.19"
+        },
+        {
+          "time": 6,
+          "event": 1,
+          "arm": "b",
+          "_row": "b.20"
+        },
+        {
+          "time": 6.5,
+          "event": 0,
+          "arm": "b",
+          "_row": "b.21"
+        }
+      ],
+      "logrank_chisq": 0.0021140246149322609,
+      "logrank_p": 0.96332736763918159,
+      "fit_details": {
+        "a": {
+          "preprocessed": [
+            {
+              "time": 0,
+              "surv": 1,
+              "id": 1,
+              "interval": 1
+            },
+            {
+              "time": 1,
+              "surv": 0.75,
+              "id": 2,
+              "interval": 2
+            },
+            {
+              "time": 2,
+              "surv": 0.65000000000000002,
+              "id": 3,
+              "interval": 3
+            },
+            {
+              "time": 3,
+              "surv": 0.40999999999999998,
+              "id": 4,
+              "interval": 4
+            },
+            {
+              "time": 4,
+              "surv": 0.23999999999999999,
+              "id": 5,
+              "interval": 5
+            },
+            {
+              "time": 5,
+              "surv": 0.23999999999999999,
+              "id": 6,
+              "interval": 6
+            },
+            {
+              "time": 6,
+              "surv": 0.23999999999999999,
+              "id": 7,
+              "interval": 7
+            },
+            {
+              "time": 7,
+              "surv": 0.23999999999999999,
+              "id": 8,
+              "interval": 8
+            }
+          ],
+          "riskmat": [
+            {
+              "interval": 1,
+              "lower": 1,
+              "upper": 1,
+              "trisk": 0,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 2,
+              "lower": 2,
+              "upper": 2,
+              "trisk": 1,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 2,
+              "event.hat": 5
+            },
+            {
+              "interval": 3,
+              "lower": 3,
+              "upper": 3,
+              "trisk": 2,
+              "nrisk": 13,
+              "nrisk.hat": 13,
+              "censor.hat": 0,
+              "event.hat": 2
+            },
+            {
+              "interval": 4,
+              "lower": 4,
+              "upper": 4,
+              "trisk": 3,
+              "nrisk": 11,
+              "nrisk.hat": 11,
+              "censor.hat": 0,
+              "event.hat": 4
+            },
+            {
+              "interval": 5,
+              "lower": 5,
+              "upper": 5,
+              "trisk": 4,
+              "nrisk": 7,
+              "nrisk.hat": 7,
+              "censor.hat": 3,
+              "event.hat": 3
+            },
+            {
+              "interval": 6,
+              "lower": 6,
+              "upper": 6,
+              "trisk": 5,
+              "nrisk": 1,
+              "nrisk.hat": 1,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 7,
+              "lower": 7,
+              "upper": 7,
+              "trisk": 6,
+              "nrisk": 1,
+              "nrisk.hat": 1,
+              "censor.hat": 1,
+              "event.hat": 0
+            },
+            {
+              "interval": 8,
+              "lower": 8,
+              "upper": 8,
+              "trisk": 7,
+              "nrisk": 0,
+              "nrisk.hat": 0,
+              "censor.hat": 0,
+              "event.hat": 0
+            }
+          ],
+          "precision": [0.0089999999999999993, 0.0070000000000000001, 0]
+        },
+        "b": {
+          "preprocessed": [
+            {
+              "time": 0,
+              "surv": 1,
+              "id": 1,
+              "interval": 1
+            },
+            {
+              "time": 2,
+              "surv": 0.34999999999999998,
+              "id": 2,
+              "interval": 3
+            },
+            {
+              "time": 3,
+              "surv": 0.34999999999999998,
+              "id": 3,
+              "interval": 4
+            },
+            {
+              "time": 4,
+              "surv": 0.23000000000000001,
+              "id": 4,
+              "interval": 5
+            },
+            {
+              "time": 5,
+              "surv": 0.16,
+              "id": 5,
+              "interval": 6
+            },
+            {
+              "time": 6,
+              "surv": 0.080000000000000002,
+              "id": 6,
+              "interval": 7
+            },
+            {
+              "time": 7,
+              "surv": 0.080000000000000002,
+              "id": 7,
+              "interval": 8
+            }
+          ],
+          "riskmat": [
+            {
+              "interval": 1,
+              "lower": 1,
+              "upper": 1,
+              "trisk": 0,
+              "nrisk": 20,
+              "nrisk.hat": 20,
+              "censor.hat": 5,
+              "event.hat": 0
+            },
+            {
+              "interval": 3,
+              "lower": 2,
+              "upper": 2,
+              "trisk": 3,
+              "nrisk": 2,
+              "nrisk.hat": 15,
+              "censor.hat": 3,
+              "event.hat": 10
+            },
+            {
+              "interval": 4,
+              "lower": 3,
+              "upper": 3,
+              "trisk": 4,
+              "nrisk": 2,
+              "nrisk.hat": 2,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 5,
+              "lower": 4,
+              "upper": 4,
+              "trisk": 5,
+              "nrisk": 1,
+              "nrisk.hat": 2,
+              "censor.hat": 0,
+              "event.hat": 1
+            },
+            {
+              "interval": 6,
+              "lower": 5,
+              "upper": 5,
+              "trisk": 6,
+              "nrisk": 1,
+              "nrisk.hat": 1,
+              "censor.hat": 0,
+              "event.hat": 0
+            },
+            {
+              "interval": 7,
+              "lower": 6,
+              "upper": 6,
+              "trisk": 7,
+              "nrisk": 0,
+              "nrisk.hat": 1,
+              "censor.hat": 1,
+              "event.hat": 1
+            },
+            {
+              "interval": 8,
+              "lower": 7,
+              "upper": 7,
+              "trisk": null,
+              "nrisk": null,
+              "nrisk.hat": 0,
+              "censor.hat": 0,
+              "event.hat": 0
+            }
+          ],
+          "precision": [0.048000000000000001, 0.035999999999999997, 0.089999999999999997]
+        }
+      },
+      "warnings": [],
+      "elapsed_seconds": 0.10999999999999988
+    },
+    "CIFresolve": {
+      "status": "failure",
+      "error": "invalid 'times' argument",
+      "warnings": ["longer object length is not a multiple of shorter object length", "longer object length is not a multiple of shorter object length"],
+      "elapsed_seconds": 0.0099999999999997868
+    }
+  }
+}

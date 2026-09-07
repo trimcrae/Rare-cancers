@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "utc": "2026-09-06T06:52:40.923326+00:00",
+  "manifest_sha256": "f5c5f16271e22ddf486739fc30080107829240db94486b8ce8695d596c7feff2",
+  "scope": "source hashes/lengths, primary article identifiers, gzip/CSV integrity, every count finite/nonnegative/integer, unique probe/sample IDs, exact full matrix decoding agreement, human column/GSM mapping, patient/biological/technical replication hierarchy, probe map equality across two matrices, deterministic regeneration and source dependency hashes",
+  "structural_output": {
+    "status": "passed",
+    "matrices": {
+      "GSE119630_ColonCancerReplicatesMaster.csv.gz": {
+        "probe_rows": 21111,
+        "sample_count": 60,
+        "count_cells_checked": 1266660
+      },
+      "GSE119630_HumanGeneCountsMaster.csv.gz": {
+        "probe_rows": 21111,
+        "sample_count": 59,
+        "count_cells_checked": 1245549
+      }
+    },
+    "between_human_matrices": {
+      "probe_id_sets_equal": true,
+      "probe_sequence_accession_mapping_equal": true,
+      "ordering_equal": false
+    },
+    "metadata": {
+      "series_sample_species_counts": {
+        "Homo sapiens": 119,
+        "Mus musculus": 15,
+        "Rattus norvegicus": 21
+      },
+      "human_samples": 119,
+      "all_human_samples_map_exactly_once": true,
+      "normal_libraries": 30,
+      "normal_within_patient_biological_units": 10,
+      "normal_patients": 5,
+      "healthy_donor_samples_identified": 0,
+      "normal_unit_description": "Two separately lysed normal-region samples per patient, each assayed three times; not 30 patients or 10 independent donors."
+    }
+  },
+  "expression_analysis_run": false,
+  "normal_or_full_gate_run": false,
+  "independent_coordinator_verification": "pending"
+}

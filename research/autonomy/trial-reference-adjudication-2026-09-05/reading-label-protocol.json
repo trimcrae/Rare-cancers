@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-09-05T19:08:04.516542+00:00",
+  "inputs_allowed_before_freeze": [
+    "label-protocol.json",
+    "selection.json",
+    "freeze-receipt.json",
+    "review-packet.json",
+    "referenced raw registry pages"
+  ],
+  "blinding": "Fresh model session; no prior reference, reader judgments, author labels, repair memo or coordinator verdict read. Diagnosis definitions and anchors disclosed. Initial oversized allowed packet read was truncated; partial raw text seen before this protocol; complete systematic reading begins after this file. Not human review or perfect blinding.",
+  "reading": "Read every saved full eligibility string, brief/detailed study description, conditions, design phase/purpose, and all arm/cohort descriptions for all 37 trials. Record exact raw JSON pointers, byte hashes and verbatim text evidence. Check every relevant cohort before aggregate label.",
+  "labels": [
+    "explicit_diagnosis_compatible",
+    "defining_fusion_compatible",
+    "fusion_class_compatible",
+    "broad_tumor_compatible",
+    "explicit_exclusion",
+    "insufficient_evidence"
+  ],
+  "rules": [
+    "Disease-level compatibility is conditional on all remaining clinical and protocol requirements.",
+    "Explicit diagnosis outranks exact defining fusion, molecular class, broad tumor within compatible cohorts.",
+    "Direct exclusion or closed positive histology lists restrict the same cohort; reconcile other cohorts before trial-level exclusion.",
+    "Additional biomarkers are unestablished in hypothetical diagnosis; ambiguous mutation versus fusion acceptance remains unresolved.",
+    "Registry hold language is conditional unless an unconditional hold is stated. Snapshot recruiting status is not verified current site or cohort availability.",
+    "Full external protocol unavailable: preserve uncertainty, do not infer unseen criteria.",
+    "Nononcology false hits receive explicit task-domain distinction. Study purpose is orthogonal to disease scope.",
+    "No unjudged records become negatives; 149-pair expansion is a separate task."
+  ],
+  "freeze": "Write independent-labels.json and source-evidence.json, then hash/timestamp freeze receipt before opening reference.json. Retain immutable independent labels in final adjudicated reference.",
+  "validation": "49 unique pairs, 33 metadata and 18 challenge memberships with two overlaps, 37 trials; preserve original strata and snapshots; resolve all source pointers, verify byte hashes and exact excerpts; reproducible script, manifest and run timing."
+}

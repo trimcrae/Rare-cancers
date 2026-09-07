@@ -1,0 +1,110 @@
+{
+  "date": "2026-09-06",
+  "status": "recommendation only; no graph or shared file edited",
+  "target_collection": "systems/graph/publications.json",
+  "id": "PUB-SURFACE-TARGETS",
+  "original_record": {
+    "id": "PUB-SURFACE-TARGETS",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/surface-targets/emc-surface-target-landscape.md"
+    },
+    "what_it_would_claim": "Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is \"bounded by that surrogate basis rather than by an EMC tissue measurement\", from \"one cell line and a translocation-sarcoma comparison set\". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).",
+    "blocked_by": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Two of six routes remain open and a nominated surface antigen is directly stainable and testable.",
+    "patient_path": "named_bench",
+    "unit": "full_paper"
+  },
+  "proposed_record": {
+    "id": "PUB-SURFACE-TARGETS",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    },
+    "what_it_would_claim": "A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-marker control, can be assessed using within-cohort tissue RNA ranks and prespecified sarcoma comparators. In the overlap-reduced Hofvander cohort of nine primary EMC specimens, CSPG4 alone meets the frozen tissue-validation allocation rule; its LGFMS contrast agrees with the original GSE24369 array contrast, but year-deletion sensitivity and DFSP context limit generalization. This supports a qualified rationale for EMC tissue protein and compartment validation, not validated surface expression, normal sparing, treatment selection or efficacy. All other fixed-panel results and discordant protein/normal-context evidence are retained.",
+    "blocked_by": [],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "The completed fixed-panel RNA analysis identifies a qualified CSPG4 tissue-validation rationale while preserving year dependence, comparator specificity and negative evidence. The patient path remains a specific tissue protein/compartment experiment; clinical benefit has not been established.",
+    "patient_path": "named_bench",
+    "unit": "full_paper"
+  },
+  "changed_fields": [
+    "document.file",
+    "what_it_would_claim",
+    "blocked_by",
+    "outcome_potential_why"
+  ],
+  "unchanged_fields_reason": {
+    "state": "Keep drafted: no submission/publication or review completion inferred.",
+    "target_venue": "Keep preprint: target, not release status.",
+    "outcome_potential": "Keep live_positive only as qualified experimental rationale, not a clinical-positive result.",
+    "patient_path": "Keep named_bench; systems_check.py4238 defines this as a specific decisive experiment a lab still needs to build, not an identified collaborator.",
+    "unit": "Keep full_paper.",
+    "route_grades": "No automatic route promotion, closure or blocker retirement."
+  },
+  "integration_conditions": [
+    "Canonical new manuscript did not yet exist when this audit started; update pointer in the same integration that creates it. This is referential integrity, not a new scientific acceptance gate.",
+    "Preserve old landscape as historical work; do not overwrite preregistrations, old reported values or authorization.",
+    "Regenerate existing graph views and run normal existing relevant checks after coordinator integration; no new gate introduced."
+  ],
+  "data_blocker_disposition": {
+    "id": "BLK-NO-EMC-DATA",
+    "publication_edge": "Remove PUB-SURFACE-TARGETS.blocked_by edge because endpoint now claims completed tissue-RNA prioritization, not EMC functional-genomic dependency validation.",
+    "global_state": "Do not globally retire or mass-remove dependencies. Functional/model applicability is route-specific.",
+    "definition_precision": "Current name/statement scopes functional genomics, but retired_by_action conflates lack of public matrices with broad EMC data scarcity. The statement that no fetchable EMC drug-response matrix exists is now factually stale: exact NCC screen221 and IC50 tables are committed. The assertion only5Zurich drug identities are readable is also stale: all40ordinal labels and original figures are preserved. Those corrections concern source availability, not proof of functional validity for all48referencing routes.",
+    "suggested_append_to_retired_by_action": "2026-09-06 source-scope correction: public NCC-EMC1-C1 supplementary drug-screen tables have now been recovered and preserved in research/autonomy/ncc-screen-source-2026-09-06/, including the reported221-drug screen and IC50 table. Zurich2023 Figure5 now supplies all40drug identities and ordinal response bands; exact numeric AUC/replicate information remains unresolved. These recoveries supersede the claims that no fetchable EMC response matrix exists and that35Zurich identities are unreadable. Tissue RNA from Hofvander2026 and GSE24369 supports the PUB-SURFACE-TARGETS computational manuscript and does not require this functional-data blocker. EMC dependency/target-engagement validation and broad model generalization remain unresolved; assess each route on the data it actually requires rather than automatically retiring every inherited dependency.",
+    "suggested_evidence_additions": [
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/result.md",
+      "research/autonomy/atlas-hofvander-source-2026-09-06/preservation-manifest.json",
+      "research/autonomy/atlas-original-array-source-2026-09-06/",
+      "research/autonomy/ncc-screen-source-2026-09-06/README.md",
+      "research/autonomy/zurich-ordinal-source-2026-09-06/README.md"
+    ],
+    "note": "Use a concrete file instead of directory if adding evidence to actual schema; directory here names integrated source packet."
+  },
+  "remaining_scientific_limits_not_new_publication_gates": [
+    "EMC malignant-cell versus stromal/pericyte CSPG4 protein localization and accessible epitope density are unestablished.",
+    "Normal tissue exposure/accessibility and any therapeutic window are unestablished; unmatched HPA RNA, historical3SEQ and pooled muscle2 cannot prove normal sparing.",
+    "No EMC target engagement, perturbational dependency, functional response to a chosen antigen-directed modality or clinical efficacy is inferred.",
+    "Cohort overlap exclusions are source-derived and partial; no universal patient crosswalk or guaranteed complete recruitment independence.",
+    "Year-matched support is sparse; removing2019 reverses CSPG4 matched summary. DFSP marginal contrast is not enriched.",
+    "CHRNA6 is prior-established RNA CISH, not new protein validation. PRAME primaryIHC0/5EMC,4NR4A3confirmed, remains negative evidence."
+  ],
+  "affected_route_ids_review_only": [
+    "RT-SSTR2",
+    "RT-B7H3",
+    "RT-CART-SURFACE",
+    "RT-PRAME-IMMTAC",
+    "RT-TCRT-CTA",
+    "RT-FAP-RLT"
+  ],
+  "route_note": "These6 routes point to this endpoint. RT-B7H3 is currently labelled primary, an old landscape relationship that should not be read as the new paper nominating B7-H3. Coordinator may change only its publication.role to contributing if needed for accurate display; do not invent a CSPG4 route or regrade therapy solely to satisfy a graph label. Generic claims that EMC RNA has never been measured are stale; protein/imaging/function requirements remain distinct.",
+  "prior_art_correction": {
+    "target": "FAP",
+    "citation": {
+      "pmid": "38964294",
+      "pmcid": "PMC11797935",
+      "doi": "10.1159/000539855",
+      "title": "Prognostic Value of Cancer-Associated Fibroblast Marker Expression in the Intratumoral and Marginal Areas of Soft Tissue Sarcoma",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11797935/"
+    },
+    "scope": "Primary Table1 includes1EMC among133sarcomas in a FAP/CD10/podoplanin IHC study. Existing graph records EMC-specific scores unavailable. Therefore do not claim no prior EMC FAP staining; say cohort inclusion is known but no EMC-specific score was verified. No outcome inferred, no mail request proposed."
+  },
+  "evidence_sources": [
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/result.md",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json",
+    "research/autonomy/atlas-prior-art-2026-09-06/",
+    "systems/graph/blockers.json",
+    "systems/graph/routes.json"
+  ]
+}

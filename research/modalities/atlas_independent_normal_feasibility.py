@@ -1,0 +1,427 @@
+"""Bounded metadata audit. Stdlib only; no expression arithmetic or remote access.
+
+Run with the runner-supplied Python; --check verifies the saved outputs without writing.
+JSON value hashes use UTF-8, sorted keys, compact separators, ensure_ascii=False,
+allow_nan=False. File hashes cover exact committed working-tree bytes.
+"""
+import argparse
+from collections import Counter
+from datetime import date
+import hashlib
+import itertools
+import json
+from pathlib import Path
+import re
+import subprocess
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / 'research/modalities/atlas-independent-normal-feasibility'
+FILES = {
+    'readiness': 'research/modalities/expression-validation-readiness.json',
+    'sensitivity': 'research/modalities/surface-address-sensitivity.json',
+    'series': 'research/modalities/geo-gse28866-brunner-series.json',
+    'normal': 'research/modalities/gse28866-tumour-vs-normal.json',
+    'hpa': 'research/modalities/emc-surface-normal-window.json',
+    'arrays': 'research/modalities/emc-expression-panels-inputs.json',
+    'search': 'research/modalities/emc-cohort-search.json',
+    'fourth': 'research/modalities/emc-fourth-cohort-quant-inputs.json',
+    'recommendation': 'research/autonomy/portfolio-2026-09-05/recommendation.md',
+    'history': 'research/autonomy/cycle-outcomes/20260905T121951Z-b093a5d8bc/verification.json',
+}
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, ensure_ascii=False,
+                      separators=(',', ':'), allow_nan=False).encode('utf-8')
+
+
+def sha(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def escape(value):
+    return str(value).replace('~', '~0').replace('/', '~1')
+
+
+def resolve(document, pointer):
+    value = document
+    for token in pointer.split('/')[1:] if pointer else []:
+        token = token.replace('~1', '/').replace('~0', '~')
+        value = value[int(token)] if isinstance(value, list) else value[token]
+    return value
+
+
+def stt(title):
+    # Preserve letter/parenthesized suffixes; do not fuzzy-merge specimen labels.
+    match = re.search(r'STT\d+[a-z]?(?:\(\d+\))?', title)
+    return match.group() if match else None
+
+
+def build():
+    docs, manifest, sources = {}, {}, {}
+    for key, path in FILES.items():
+        raw = (ROOT / path).read_bytes()
+        # A local edit to an input invalidates this bounded committed-input audit.
+        tracked = subprocess.check_output(['git', 'ls-files', '--error-unmatch', path], cwd=ROOT)
+        assert tracked.strip(), path
+        assert not subprocess.check_output(['git', 'diff', 'HEAD', '--', path], cwd=ROOT), path
+        docs[key] = json.loads(raw) if path.endswith('.json') else raw.decode('utf-8')
+        manifest[key] = {'path': path, 'file_sha256': sha(raw),
+                         'role': 'operational_history_only' if key == 'history' else
+                         'coordinator_premise' if key == 'recommendation' else 'committed_cache'}
+
+    def ref(key, pointer=''):
+        identifier = key + '#' + pointer
+        value = resolve(docs[key], pointer)
+        sources[identifier] = {'file': FILES[key], 'pointer': pointer,
+                               'file_sha256': manifest[key]['file_sha256'],
+                               'value_sha256': sha(canonical(value))}
+        return identifier
+
+    def fact(value, evidence, method='source_value', status='known'):
+        return {'value': value, 'status': status, 'method': method, 'evidence': evidence}
+
+    def get(key, pointer):
+        return fact(resolve(docs[key], pointer), [ref(key, pointer)])
+
+    def unknown(reason, evidence):
+        return fact(None, evidence, reason, 'unknown')
+
+    cohorts, sets = {}, {}
+    for filename, array in docs['arrays']['targets'].items():
+        name = array['gse']
+        p = '/targets/' + escape(filename)
+        roster = []
+        for i, row in enumerate(array['samples']):
+            record = {k: row[k] for k in ('gsm', 'title', 'annotation_verbatim')}
+            record['specimen_label'] = stt(row['title'])
+            record['reference_label_tokens'] = sorted(set(re.findall(r'\b(?:CRH-mRNA|CRH|UHR)\b', row['annotation_verbatim'])))
+            record['evidence'] = [ref('arrays', p + '/samples/' + str(i))]
+            roster.append(record)
+        r = docs['readiness']['cohorts'][name]
+        arms = {arm: [x['sample_id']['value'] for x in r['sample_records']
+                      if x['arm']['value'] == source_arm] for arm, source_arm in
+                [('EMC', 'EMC'), ('comparator', 'comparator'), ('excluded', 'excluded_from_cached_contrast')]}
+        assert set().union(*map(set, arms.values())) == {x['gsm'] for x in roster}
+        assert sum(map(len, arms.values())) == len(roster)
+        for label, count_key in [('EMC', 'EMC_sample_records'), ('comparator', 'comparator_sample_records'), ('excluded', 'excluded_sample_records')]:
+            assert len(arms[label]) == r['counts'][count_key]['value']
+        assert len({x['gsm'] for x in roster}) == array['n_samples']
+        assert all(len(g['values']) == len(roster) for g in array['genes'].values())
+        pools = [x['gsm'] for x in roster if 'pooled RNA' in x['annotation_verbatim']]
+        ev = [ref('arrays', p + '/samples'), ref('readiness', '/cohorts/' + name + '/sample_records')]
+        cohorts[name] = {
+            'unit': 'GSM array record; not a verified specimen or patient',
+            'roster': roster, 'arms': fact(arms, ev, 'reuse_readiness_arms_check_against_array_IDs'),
+            'cached_records': fact(len(roster), ev, 'distinct_exact_GSM_count'),
+            'series_reported_records': get('search', '/candidates/' + name + '/n_samples'),
+            'pooled_muscle_RNA_records': fact(pools, ev, 'literal_pooled_RNA_annotation'),
+            'unique_patients': unknown('No patient crosswalk; pools are not donor counts.', ev),
+            'unique_specimens': unknown('GSM and STT labels do not establish biological uniqueness.', ev),
+            'platform': get('arrays', p + '/platform'),
+            'assay_units': get('arrays', p + '/value_kind'),
+            'normalization_record': get('arrays', p + '/genome_wide_null/_the_statistic_is_the_panel_s_own'),
+            'normalization_limit': 'Cached probe averaging and per-array standardization are documented; full primary preprocessing is not supplied. z units do not harmonize technologies.',
+            'value_representation': fact({'gene_vectors': len(array['genes']), 'per_sample': True,
+                'separate_per_probe_vectors': False, 'vector_lengths_match_roster': True},
+                [ref('arrays', p + '/genes')], 'inspect_keys_and_vector_lengths_only_no_expression_arithmetic'),
+            'reference_channel': 'Single-channel; muscle pools are separate array records, not a second channel.' if name == 'GSE24369' else
+                'EMC has CRH-mRNA tokens, DFSP CRH, GIST UHR. Tokens do not establish identical reference composition, preparation or dye orientation.',
+        }
+        sets[name] = {'GSM': {x['gsm'] for x in roster}, 'STT_label': {x['specimen_label'] for x in roster if x['specimen_label']}}
+
+    # Resolve normal columns by exact title; EMC columns by exact STT token plus EMC label.
+    series = docs['series']['samples']
+    assert len({s['accession'] for s in series}) == docs['series']['n_samples_parsed']
+    groups = docs['normal']['sources'][0]['grouping']
+    assert groups == docs['normal']['sources'][1]['grouping']
+    libraries = []
+    for arm, field in [('EMC', 'emc_columns'), ('normal', 'normal_columns')]:
+        for j, column in enumerate(groups[field]):
+            matches = [(i, s) for i, s in enumerate(series) if
+                       (s['title'] == column if arm == 'normal' else
+                        stt(s['title']) == stt(column) and s['title'].endswith('_EMC'))]
+            assert len(matches) == 1, (column, matches)
+            i, sample = matches[0]
+            characteristics = dict(x.split(': ', 1) for x in sample['characteristics'])
+            libraries.append({'column': column, 'gsm': sample['accession'], 'specimen_label': stt(column),
+                'arm': arm, 'tissue': characteristics['tissue'],
+                'stage': characteristics.get('developmental stage'), 'patient_id': None,
+                'archive_method': characteristics.get('tissue archive method'),
+                'description': sample['description'], 'platform': sample['platform'],
+                'evidence': [ref('normal', '/sources/0/grouping/' + field + '/' + str(j)),
+                             ref('series', '/samples/' + str(i))]})
+    normal = [x for x in libraries if x['arm'] == 'normal']
+    emc = [x for x in libraries if x['arm'] == 'EMC']
+    assert {x['gsm'] for x in emc} == set(docs['normal']['_emc_samples_expected'])
+    assert len(normal) == groups['n_normal'] and len(emc) == groups['n_emc']
+    strata = Counter((x['stage'], x['tissue']) for x in normal)
+    stages = Counter(x['stage'] for x in normal)
+    broad_stages = Counter(x['stage'].split(',', 1)[0] for x in normal)
+    title_stages = Counter(x['column'].split('_')[1].lower() for x in normal)
+    assert broad_stages == title_stages
+    assert all(x['archive_method'] == 'FFPE' and 'Experiment type: 3SEQ' in x['description'] for x in libraries)
+    raw_columns = [x.rstrip('\r\n') for x in docs['normal']['sources'][1]['columns']['sample_columns']]
+    normalized_columns = [x.rstrip('\r\n') for x in docs['normal']['sources'][0]['columns']['sample_columns']]
+    extras = sorted(set(normalized_columns) - set(raw_columns))
+    assert set(raw_columns) <= set(normalized_columns)
+    assert len(set(raw_columns)) == groups['n_libraries'] == groups['n_tumour'] + groups['n_normal']
+    assert set(x['column'] for x in libraries) <= set(raw_columns)
+    duplicate_labels = {label: cols for label in sorted({stt(x) for x in raw_columns})
+                        if len(cols := [x for x in raw_columns if stt(x) == label]) > 1}
+    assert sorted(sum(duplicate_labels.values(), [])) == sorted(groups['technical_replicate_columns'])
+    ev = [ref('normal', '/sources/0/grouping'), ref('series', '/samples'), ref('normal', '/sources/1/columns/sample_columns')]
+    cohorts['GSE28866'] = {
+        'unit': 'Supplementary 3SEQ library column linked to GSM and STT label; run and patient IDs unavailable',
+        'roster_EMC_and_normal': libraries,
+        'counts': fact({'GEO_records': len(series), 'matrix_libraries': len(raw_columns),
+            'tumour_libraries': groups['n_tumour'], 'normal_libraries': len(normal), 'EMC_libraries': len(emc),
+            'normal_stage_counts': dict(sorted(stages.items())),
+            'normal_broad_stage_counts': dict(sorted(broad_stages.items())),
+            'distinct_matrix_STT_labels': len({stt(x) for x in raw_columns})}, ev, 'exact_ID_and_label_counts_not_patients'),
+        'normal_strata': fact([{'stage': k[0], 'tissue': k[1], 'libraries': v} for k, v in sorted(strata.items())], ev, 'count_metadata_stage_and_tissue'),
+        'technical_replicates': fact(duplicate_labels, [ref('normal', '/sources/1/columns/sample_columns'), ref('normal', '/sources/0/grouping/technical_replicate_columns')], 'same_exact_STT_label_and_documented_rep_columns'),
+        'unique_patients': unknown('Four EMC STT labels are not a patient crosswalk; normal donors and cross-organ reuse unknown.', ev),
+        'unique_specimens': unknown('91 distinct STT labels are labelled material units, not verified biological uniqueness.', ev),
+        'run_ids': unknown('GSM metadata and peak headers do not enumerate SRA runs.', ev),
+        'platform': get('series', '/platform_records/GPL10999'),
+        'normalization': get('series', '/design_vs_contents/overall_design_verbatim'),
+        'reference_channel': '3SEQ libraries; no two-colour reference channel. Normalized values are depth-scaled then square-root compressed, not TPM or ordinary fold changes.',
+        'cached_values': fact({'per_gene_fields': sorted({k for g in docs['normal']['per_gene']['values'].values() for k in g}),
+                              'per_library_gene_values_present': False,
+                              'scope': 'Arm medians over gene peaks and libraries; raw/normalized headers and first-row previews only, not full matrices.'},
+                             [ref('normal', '/per_gene/values'), ref('normal', '/per_gene/_contrast')], 'inspect_cached_value_schema'),
+        'header_discrepancy': fact({'reported_normalized_sample_columns': len(normalized_columns),
+                                   'actual_library_columns': len(raw_columns), 'extra_annotation_fields': extras},
+                                  [ref('normal', '/sources/0/columns'), ref('normal', '/sources/1/columns')], 'exact_column_set_difference_after_line_ending_trim'),
+        'design_count_discrepancy': get('series', '/design_vs_contents/n_samples_the_design_accounts_for'),
+        'design_count_disposition': 'Cached 6396 is not a sample count; use enumerated 93 libraries plus six non-matrix cell-line GSM records, totaling 99. Preserve the defective input unchanged.',
+        'packaging_caveat': get('normal', '/_why_the_series_matrix_looked_empty'),
+        'normal_scope_limit': get('normal', '/per_gene/_what_the_normal_arm_cannot_settle'),
+    }
+    sets['GSE28866'] = {'GSM': {x['accession'] for x in series}, 'STT_label': {stt(x['title']) for x in series if stt(x['title'])}}
+    rows = docs['fourth']['run_table']['rows']
+    fields = ['run_accession', 'experiment_accession', 'sample_accession', 'library_name', 'sample_alias']
+    identifiers = {f: sorted({r[f] for r in rows}) for f in fields}
+    assert set(identifiers['run_accession']) == set(docs['fourth']['runs'])
+    assert all(len(x) == len(rows) for x in identifiers.values())
+    fourth_ev = [ref('fourth', '/run_table/rows')]
+    cohorts['PRJNA1357027'] = {
+        'unit': 'Run, experiment, BioSample and library-name records; not verified patients',
+        'identifiers': fact(identifiers, fourth_ev, 'distinct_identifiers_by_namespace'),
+        'counts': fact({f: len(v) for f, v in identifiers.items()}, fourth_ev, 'distinct_identifiers_by_namespace'),
+        'roster': [{**{f: r[f] for f in fields}, 'evidence': [ref('fourth', '/run_table/rows/' + str(i))]} for i, r in enumerate(rows)],
+        'alias_discrepancies': fact([{f: r[f] for f in fields} for r in rows if r['library_name'] != r['sample_alias']], fourth_ev, 'exact_string_disagreement_not_corrected'),
+        'assay': fact(sorted({r['experiment_title'] for r in rows}), fourth_ev, 'distinct_depositor_titles'),
+        'normal_comparator': unknown('All run titles describe EMC; no normal arm enumerated. This is a cache/design bound, not absence of expression.', fourth_ev),
+        'unique_patients': unknown('No patient linkage or cross-study overlap documentation.', fourth_ev),
+        'unique_specimens': unknown('Distinct BioSamples do not prove distinct tissue specimens.', fourth_ev),
+        'normalization': unknown('No primary expression normalization protocol or comparable normal values in this input.', fourth_ev),
+        'reference_channel': 'Targeted TempO-Seq description, no two-colour reference; not interchangeable with conventional RNA-seq.',
+        'available_values': 'Run-level read-structure diagnostics and sequence-to-gene map; no sample-aligned normalized target-expression matrix in this input. Counts locator is not loaded.',
+        'counts_locator': get('fourth', '/_counts_live_in'),
+        'read_structure_gate': get('fourth', '/probe_gate/meaning'),
+        'mapping_unknowns': get('fourth', '/probe_map/⚠ unassigned_means'),
+    }
+    cohorts['GSE170983'] = {'alias': get('search', '/known_cohorts/GSE170983'),
+                          'disposition': 'Reported same Brunner deposit and four EMC samples; do not count as independent. Primary GSM alias crosswalk not supplied.'}
+    overlaps = []
+    for a, b in itertools.combinations(sets, 2):
+        overlaps.append({'cohorts': [a, b], 'exact_GSM_overlap': sorted(sets[a]['GSM'] & sets[b]['GSM']),
+            'exact_STT_label_overlap': sorted(sets[a]['STT_label'] & sets[b]['STT_label']),
+            'patient_overlap': None, 'independence': 'unidentified',
+            'reason': 'Nonmatching accession or literal label is not evidence of different patients. STT labels are not globally verified patient identifiers.',
+            'evidence': [ref('arrays', '/targets/' + escape(k) + '/samples') for k in docs['arrays']['targets'] if docs['arrays']['targets'][k]['gse'] in (a,b)] +
+                        ([ref('series', '/samples')] if 'GSE28866' in (a,b) else [])})
+    for name in sets:
+        overlaps.append({'cohorts': [name, 'PRJNA1357027'], 'exact_GSM_overlap': None,
+                         'exact_STT_label_overlap': None, 'patient_overlap': None, 'independence': 'unidentified',
+                         'reason': 'Fourth cohort has SRR/SRX/SAMN/Si identifiers, no shared verified patient namespace.', 'evidence': fourth_ev})
+
+    sensitivity_reuse = []
+    for p, platform in docs['sensitivity']['platforms'].items():
+        for gene, item in sorted(platform['addresses'].items()):
+            base = '/platforms/' + escape(p) + '/addresses/' + escape(gene)
+            sensitivity_reuse.append({'cohort': platform['series'], 'gene': gene,
+                'readable': get('sensitivity', base + '/readable'),
+                'unreadable_reason': get('sensitivity', base + '/unreadable_reason'),
+                'interpretation': 'Existing arithmetic retained upstream; no independent-validation inference or reranking.'})
+
+    contrasts = []
+    def contrast(cid, name, status, claim, reason, evidence):
+        contrasts.append({'id': cid, 'comparison': name, 'status': status,
+                          'identifiable_claim': claim, 'reason': reason, 'evidence': evidence})
+    ae = [ref('arrays', '/targets/' + escape(k) + '/samples') for k in docs['arrays']['targets']]
+    ne = [ref('normal', '/sources/0/grouping'), ref('normal', '/per_gene/_contrast'), ref('series', '/design_vs_contents/overall_design_verbatim')]
+    contrast('C1', 'GSE24369 EMC vs cached 29 sarcoma comparators', 'defensible',
+        'Descriptive within-platform RNA contrast for cached gene vectors and these sample records.',
+        'Six EMC records; comparator composition is 17 LGFMS, six desmoid and six myxofibrosarcoma (the readiness cache labels the last class fibrosarcoma). Not normal tissue, independent CHRNA6 validation, patient-level inference or diagnostic specificity beyond sampled histologies.', ae + [ref('readiness', '/cohorts/GSE24369/counts/class_counts')])
+    contrast('C2', 'GSE24369 EMC vs two skeletal-muscle pooled-RNA records', 'conditional',
+        'At most tumour records versus these particular RNA pools on GPL6244.',
+        'Per-record vectors exist, but pool donor composition, reuse, preparation and primary preprocessing are unresolved. Not two healthy patients, matched mesenchymal controls, or a population normal distribution.', ae)
+    contrast('C3', 'GSE4303 EMC vs three DFSP records', 'conditional',
+        'Within-platform relative RNA contrast only after reference compatibility is established.',
+        'CRH-mRNA vs CRH tokens suggest a narrower candidate arm but do not prove identical reference material or dye orientation. Ten EMC GSMs are not ten verified patients.', ae)
+    contrast('C4', 'GSE4303 EMC vs GIST, or all six cached comparators', 'unidentified',
+        'Cached arithmetic is a difference of recorded ratios, not an identified tissue-expression difference.',
+        'EMC CRH-mRNA and GIST UHR reference labels differ; histology and reference channel are confounded without a primary reference crosswalk/calibration. Sensitivity stability cannot repair this.', ae + [ref('sensitivity', '/method')])
+    contrast('C5', 'GSE4303 EMC vs its reference channel as normal tissue', 'unidentified',
+        'No tumour-versus-normal tissue claim.',
+        'Reference pool identity/composition is unresolved and not a sampled normal-tissue arm; negative ratios are not absent expression.', ae)
+    contrast('C6', 'GSE28866 EMC vs all 27 normal-organ libraries', 'defensible',
+        'The existing cache describes an aggregate RNA comparison against this mixed organ/stage library panel only.',
+        'Four EMC library labels and 27 normal labels are resolved on one 3SEQ platform. Cached medians mix adult/fetal tissues and peaks; no per-library uncertainty or patient inference is recoverable. Square-root compressed ratios are not RNA fold changes.', ne)
+    contrast('C7', 'GSE28866 EMC vs adult organ-specific normal strata', 'conditional',
+        'A within-study organ-specific descriptive RNA comparison could be specified after recovery.',
+        '17 adult and ten fetal library identities are recoverable; adult strata must remain separate. Full sample-aligned peak values, annotation/filtering provenance and donor/specimen linkage are missing from these caches. No analysis executed.', ne)
+    contrast('C8', 'GSE28866 EMC vs other sarcomas', 'conditional',
+        'Cross-histology RNA contrast, separate from normal-organ comparison.',
+        'Cache reports 32 other-sarcoma libraries; ESS and LMS each have a technical duplicate pair. Full per-library values and replicate handling are needed; arm median cannot establish independent specimens or histology-balanced specificity.', ne + [ref('normal', '/per_gene/values'), ref('normal', '/per_gene/_ties_to_technical_replicates')])
+    contrast('C9', 'GSE24369/GSE4303 tumours vs GSE28866 normal libraries', 'unidentified',
+        'No calibrated quantitative tumour-versus-normal contrast.',
+        'Single-channel intensity, reference-channel log ratios and depth-scaled square-root 3SEQ values are incompatible scales with cohort/technology confounding. Neither pooling nor z standardization resolves this.', ae + ne)
+    contrast('C10', 'PRJNA1357027 EMC vs internal or external normals', 'unidentified',
+        'No normal contrast from the supplied fourth-cohort metadata.',
+        'Only EMC-described targeted-assay runs are enumerated; no compatible normal arm or normalized per-sample matrix is supplied. HPA/3SEQ/array normals cannot be substituted.', fourth_ev + ne)
+    contrast('C11', 'Any EMC cohort vs HPA normal RNA', 'unidentified',
+        'Qualitative normal-organ RNA context only; no calibrated tumour/normal effect or therapeutic window.',
+        'HPA cache supplies categorical summaries and nullable nTPM fields, not linked donors or compatible tumour/normal measurements. RNA and subcellular tags cannot establish accessible surface protein or safety.', [ref('hpa', '/source'), ref('hpa', '/_note'), ref('hpa', '/antigens')])
+    contrast('C12', 'Cross-cohort independent tissue validation', 'unidentified',
+        'No independently validated atlas from these inputs.',
+        'GSE24369 is CHRNA6 discovery by coordinator premise; GSE170983 is a reported alias; other patient overlap is unresolved. Distinct studies and assay types do not prove independent tissue. Different comparator histologies do not estimate one shared specificity contrast.', [ref('recommendation'), ref('search', '/known_cohorts/GSE170983'), ref('readiness', '/identity_policy')])
+
+    result = {'schema_version': 1, 'resource': 'paper:PUB-SURFACE-TARGETS',
+        'decision': 'failed_gate_independent_validation_unidentified',
+        'task_outcome': 'completed_bounded_negative_feasibility',
+        'question': 'Can existing EMC tissue cohorts support independent validation with compatible normal contrasts?',
+        'claim_ceiling': 'Descriptive RNA differences within named cached assay/comparator records; no independently validated therapeutic-address atlas, surface-protein validation or therapeutic window.',
+        'status_definitions': {'defensible': 'Narrow descriptive claim identifiable from cached records; not biological validation.',
+                              'conditional': 'Named within-study comparison potentially recoverable with specified primary evidence.',
+                              'unidentified': 'Required independence or contrast cannot be identified from supplied inputs.'},
+        'premises': [
+            {'kind': 'coordinator_supplied_not_independently_primary_verified', 'value': 'GSE24369 is the CHRNA6 discovery cohort of the published tissue study; it cannot validate its own discovery.', 'evidence': [ref('recommendation')]},
+            {'kind': 'user_supplied_scope_rule_not_computed', 'value': 'PRAME is an intracellular HLA-presented address. HPA plasma-membrane tags do not validate accessible PRAME surface antigen or endogenous peptide-HLA presentation.', 'evidence': [ref('hpa', '/antigens/PRAME')]},
+            {'kind': 'user_supplied_inference_boundary', 'value': 'Bulk normal RNA cannot establish therapeutic window; RNA is not surface protein.', 'evidence': [ref('hpa', '/_note')]},
+        ],
+        'cohorts': cohorts, 'overlap_matrix': overlaps, 'feasibility_matrix': contrasts,
+        'reused_audits': {'readiness_decision': get('readiness', '/decision'),
+            'readiness_scope': get('readiness', '/scope'),
+            'scope_extension': 'The earlier CHRNA6 readiness input set did not enumerate these 3SEQ normal libraries. This audit adds the expressly allowed series/header metadata; it does not reverse CHRNA6 readiness or redo its arithmetic.',
+            'sensitivity_method': get('sensitivity', '/method'), 'readability': sensitivity_reuse},
+        'smallest_missing_primary_evidence': [
+            'Author/depositor run-GSM-library-specimen-patient crosswalk across the discovery tissue and candidate validation cohorts, including repeat lesions, technical replicates and GSE170983 alias mapping.',
+            'For the same-assay normal route: full GSE28866 peak-by-library matrix with peak/gene annotation, normalization/filtering provenance and normal donor/organ/stage linkage. Headers and pooled gene medians are insufficient for organ-specific comparison.',
+            'For the array alternatives: GSE24369 muscle pool composition/preparation and primary preprocessing; GSE4303 per-sample channel/dye and CRH/CRH-mRNA/UHR reference composition or calibration.',
+            'If using the fourth cohort: authoritative TempO-Seq assay/probe design, sample-aligned processed values and normalization provenance, a compatible normal arm, and resolution of Si21 library versus Si22 alias for SRR35940654.',
+        ],
+        'next_action': 'Stop. Resolve the patient-independence gate and recover same-assay primary normal evidence before proposing an atlas analysis; no new target estimates or ranking authorized here.',
+        'runtime_context': {'model': 'gpt-6-astra', 'reasoning_effort': 'medium', 'timeout_seconds': 1800,
+            'remaining_seconds_at_dispatch': 1782.11, 'dispatch_number': 1, 'max_rounds': 1, 'max_dispatches': 1,
+            'effective_dispatch_limit': 1, 'authentication': 'saved-chatgpt',
+            'python_executable': r'C:\Users\mcrae\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe',
+            'usage': None, 'remaining_subscription_capacity': None, 'elapsed_seconds': None,
+            'elapsed_note': 'Unknown in deterministic artifact; timeout is a configured budget, not elapsed time.'},
+        'base_revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+        'operational_history': get('history', '/failure'),
+        'operational_history_scope': 'Previous transport failure only; no scientific evidence or completed output.',
+        'hash_convention': 'File SHA256 over exact bytes; value SHA256 over UTF-8 sorted-key compact JSON with ensure_ascii=False and allow_nan=False. Recommendation pointer is empty: whole document as a JSON string.',
+        'source_manifest': manifest, 'sources': sources}
+    validate(result, docs)
+    return result
+
+
+def validate(result, docs):
+    for item in result['sources'].values():
+        key = next(k for k, p in FILES.items() if p == item['file'])
+        assert sha(canonical(resolve(docs[key], item['pointer']))) == item['value_sha256']
+        assert sha((ROOT / item['file']).read_bytes()) == item['file_sha256']
+    def walk(value):
+        if isinstance(value, dict):
+            if 'evidence' in value:
+                assert all(e in result['sources'] for e in value['evidence'])
+            if value.get('status') == 'unknown':
+                assert value['value'] is None
+            for item in value.values():
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+    walk(result)
+    for name in ('GSE24369', 'GSE4303', 'GSE28866', 'PRJNA1357027'):
+        assert result['cohorts'][name]['unique_patients']['value'] is None
+    assert all(r['patient_overlap'] is None for r in result['overlap_matrix'])
+    assert len({r['id'] for r in result['feasibility_matrix']}) == len(result['feasibility_matrix'])
+    assert all(r['status'] in result['status_definitions'] for r in result['feasibility_matrix'])
+
+
+def memo(result):
+    c = result['cohorts']['GSE28866']
+    strata = c['normal_strata']['value']
+    lines = ['---', 'id: DOC-ATLAS-INDEPENDENT-NORMAL-FEASIBILITY', 'status: live', 'title: Independent EMC atlas and normal-tissue feasibility', 'kind: memo',
+        'audience: [maintainers, autonomous research agents]',
+        'purpose: Identify the defensible contrast and independent-validation gate.',
+        'scope: Committed EMC cohort metadata and existing audits; no expression estimates.',
+        'date: 2026-09-05', 'last_verified: 2026-09-05', '---', '',
+        'The independent-validation gate fails with the supplied evidence. The bounded audit is complete; an independently validated therapeutic-address atlas is not established. Patient overlap remains unknown across candidate studies, and accession differences cannot resolve it. GSE24369 is CHRNA6 discovery by the coordinator-supplied premise, not independent validation of that discovery. The GSE170983 alias is a cached source assertion, not another cohort.', '',
+        'The identifiable claim is narrower: descriptive RNA differences within explicitly named assay and comparator records. Cross-histology comparisons address only the sampled histologies; tumour-versus-normal comparisons address only the sampled normal tissues. Neither establishes surface protein, peptide-HLA presentation or a therapeutic window. PRAME is an intracellular HLA-presented address (user-supplied scope rule); the HPA cache\'s plasma-membrane flag does not validate that mechanism.', '',
+        'GSE28866 resolves four EMC GSM/library/STT links: ' + ', '.join(x['gsm'] + '/' + x['specimen_label'] for x in c['roster_EMC_and_normal'] if x['arm'] == 'EMC') + '. Its 27 normal libraries are 17 adult and ten fetal, all annotated FFPE/3SEQ. These labels are not verified patient counts. Normal organs do not supply a matched normal mesenchymal lineage comparator. [Evidence: series#/samples; normal#/sources/0/grouping.]', '',
+        '| Normal stratum | Libraries |', '|---|---:|']
+    lines += [f"| {x['stage']} {x['tissue']} | {x['libraries']} |" for x in strata]
+    lines += ['', 'The 93 matrix libraries comprise 66 tumour and 27 normal libraries; two documented ESS/LMS duplicate pairs leave 91 distinct STT labels, not 91 verified patients. Six breast cell-line GSMs account for the remainder of the 99-record series. The normalized-header cache counts 96 “sample columns” because it includes hg18_coords, classification and differentially_expressed_cancer_type; matching the raw header resolves 93 actual libraries. Its separate design-count field of 6396 is also defective. Both source values are preserved and explicitly bounded in the JSON, without editing inputs.', '',
+        'The primary design text describes per-sample depth scaling by the sample mean, followed by square-root compression. Full peak matrices are named but not contained in these inputs: the gene cache retains only arm medians. This permits description of the existing mixed-panel contrast, not organ-specific estimates or patient uncertainty. The earlier readiness audit had a narrower input set; these additional metadata do not reverse its CHRNA6 no-go. Sensitivity results and unreadable entries are reused without recalculation. Their stability is not proof of reference-channel compatibility. [Evidence: normal#/per_gene/_contrast; series#/design_vs_contents/overall_design_verbatim; readiness#/scope; sensitivity#/method.]', '',
+        '| ID | Proposed comparison | Disposition and exact limit |', '|---|---|---|']
+    for row in result['feasibility_matrix']:
+        lines.append(f"| {row['id']} | {row['comparison']} | **{row['status']}** — {row['reason']} |")
+    lines += ['', 'GSE24369 has 42 cached array records: six EMC, 29 prior sarcoma comparators, five excluded solitary fibrous tumours and two skeletal-muscle pooled-RNA records (GSM600968/969). Those pools are potential same-platform normal material, with unknown donor composition and preparation. GSE4303 has 16 cached GPL3290 records of 36 series-reported records: ten EMC, three DFSP and three GIST. EMC annotations say CRH-mRNA, DFSP CRH and GIST UHR; shared-reference cancellation is not established. The 20 uncached series records are not assigned to an arm. [Evidence: arrays#/targets/*/samples; readiness#/cohorts/*/counts; search#/candidates/GSE4303/n_samples; exact pointers in JSON.]', '',
+        'The fourth-cohort table links 12 SRR runs, 12 SRX experiments, 12 SAMN BioSamples and 12 library names. Patient/specimen uniqueness is unknown. SRR35940654 retains library Si21 versus sample alias Si22. All run titles describe targeted TempO-Seq EMC; no compatible normal arm or normalized expression matrix is supplied here. Read-structure diagnostics and sequence matching are not a verified assay design or expression absence. [Evidence: fourth#/run_table/rows; fourth#/probe_gate/meaning; fourth#/probe_map/⚠ unassigned_means.]', '',
+        'The smallest primary evidence needed to reopen a route is:', '']
+    lines += [f'{i}. {x}' for i, x in enumerate(result['smallest_missing_primary_evidence'], 1)]
+    lines += ['', 'Stop here. No expression comparison, target ranking or normalization was executed. The failed prior run is operational history only. Later acquisition or experimental protein validation is outside this assignment.', '',
+        'Source keys, exact RFC 6901 JSON pointers, file SHA256s and canonical extracted-value SHA256s are in [the generated matrix](atlas-independent-normal-feasibility.json). Markdown source documents use the empty pointer and are hashed as a whole JSON string. Facts copied from caches, computed identifier counts and coordinator/user premises are labelled separately. Null means unknown, never zero expression.', '',
+        'Reproduce with the runner-supplied Python and `research/modalities/atlas_independent_normal_feasibility.py`; append `--check` for read-only byte comparison. Built-in checks cover committed inputs, pointer/hash integrity, array vector alignment, reused arm counts, exact library/GSM resolution, normal strata, technical duplicates, run identities and retained unknowns. Model: gpt-6-astra; effort: medium; one dispatch; configured budget: 1,800 seconds. Usage, live capacity and total elapsed time are unknown in this deterministic artifact. No publication-readiness claim.', '']
+    return '\n'.join(lines)
+
+
+def validate_metadata(text):
+    """Validate our deliberately restricted flat YAML subset without dependencies.
+
+    Plain scalar mappings plus a flow sequence of plain scalars are valid YAML.
+    Reject syntax outside that subset rather than pretending to parse arbitrary YAML.
+    """
+    head = text.split('---\n', 2)[1]
+    metadata = {}
+    for line in head.splitlines():
+        key, value = line.split(': ', 1)
+        assert re.fullmatch(r'[a-z_]+', key) and key not in metadata
+        if value.startswith('['):
+            assert value.endswith(']')
+            value = value[1:-1].split(', ')
+            assert all(re.fullmatch(r'[a-z ]+', item) for item in value)
+        else:
+            assert value and ': ' not in value and not any(c in value for c in '#{}[]&*!|>\"\'')
+        metadata[key] = value
+    assert {'kind', 'audience', 'purpose', 'scope', 'date', 'last_verified'} <= metadata.keys()
+    assert isinstance(metadata['audience'], list)
+    date.fromisoformat(metadata['date'])
+    date.fromisoformat(metadata['last_verified'])
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check', action='store_true')
+    args = parser.parse_args()
+    result = build()
+    validate_metadata(memo(result))
+    outputs = {OUT.with_suffix('.json'): (json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + '\n').encode('utf-8'),
+               OUT.with_suffix('.md'): memo(result).encode('utf-8')}
+    for path, content in outputs.items():
+        if args.check:
+            assert path.read_bytes() == content, 'Output differs: ' + str(path)
+        else:
+            path.write_bytes(content)
+        print(('VERIFIED ' if args.check else 'WROTE ') + path.name + ' sha256=' + sha(content))
+    print('PASS identifiers/counts, vector alignment, unknowns, committed inputs, source pointers/hashes, restricted YAML metadata; no expression arithmetic')
+
+
+if __name__ == '__main__':
+    main()

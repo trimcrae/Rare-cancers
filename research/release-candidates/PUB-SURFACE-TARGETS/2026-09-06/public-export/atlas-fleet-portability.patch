@@ -1,0 +1,130 @@
+diff --git a/research/modalities/account_orphan_alarm.py b/research/modalities/account_orphan_alarm.py
+index 1904b25fc..38ec217f5 100644
+--- a/research/modalities/account_orphan_alarm.py
++++ b/research/modalities/account_orphan_alarm.py
+@@ -419,7 +419,7 @@ ACCOUNT_LANES: list[dict] = [
+ # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+ def _et(ts: datetime.datetime | None) -> str | None:
+     """CLAUDE.md §1: every time reported is US Eastern, 12-hour. Converted here so no caller can forget."""
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
+ 
+ 
+ def _z(ts: datetime.datetime | None) -> str | None:
+diff --git a/research/modalities/alarm_state.py b/research/modalities/alarm_state.py
+index 11886bd2a..36721f6d1 100644
+--- a/research/modalities/alarm_state.py
++++ b/research/modalities/alarm_state.py
+@@ -82,7 +82,7 @@ UNMEASURED_VERDICTS = frozenset({
+ 
+ 
+ def _et(ts):
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
+ 
+ 
+ def _z(ts):
+diff --git a/research/modalities/assert_progress_fresh.py b/research/modalities/assert_progress_fresh.py
+index cc673d0e3..0f5a32a0a 100644
+--- a/research/modalities/assert_progress_fresh.py
++++ b/research/modalities/assert_progress_fresh.py
+@@ -42,7 +42,7 @@ DEFAULT_MAX_AGE_MIN = 10.0
+ 
+ 
+ def _et(ts: datetime.datetime) -> str:
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y")
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ")
+ 
+ 
+ def check(path: str, max_age_min: float, now: datetime.datetime | None = None) -> tuple[bool, str]:
+diff --git a/research/modalities/fleet_supervision_alarm.py b/research/modalities/fleet_supervision_alarm.py
+index 2d7b0f371..dbb8a6735 100644
+--- a/research/modalities/fleet_supervision_alarm.py
++++ b/research/modalities/fleet_supervision_alarm.py
+@@ -120,7 +120,7 @@ TICK_WORKFLOW = "step1-fanout-autoscale.yml"
+ 
+ 
+ def _et(ts: datetime.datetime) -> str:
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y")
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ")
+ 
+ 
+ def _parse_z(s: str) -> datetime.datetime | None:
+diff --git a/research/modalities/job_progress_monitor.py b/research/modalities/job_progress_monitor.py
+index 9a6e2c2a2..71f0b66ec 100644
+--- a/research/modalities/job_progress_monitor.py
++++ b/research/modalities/job_progress_monitor.py
+@@ -140,7 +140,7 @@ def _et(iso):
+     if not iso:
+         return "—"
+     dt = datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).astimezone(_ET)
+-    return dt.strftime("%-I:%M %p ET")
++    return dt.strftime("%I:%M %p ET").lstrip("0")
+ 
+ 
+ def analyse(cur, prev=None, total_units=None, now_iso=None, hang_min=25.0):
+diff --git a/research/modalities/lane_staleness_watch.py b/research/modalities/lane_staleness_watch.py
+index 97c41f709..48b088b5f 100644
+--- a/research/modalities/lane_staleness_watch.py
++++ b/research/modalities/lane_staleness_watch.py
+@@ -201,7 +201,7 @@ class LaneState:
+ 
+ 
+ def _et(ts: datetime.datetime | None) -> str | None:
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
+ 
+ 
+ def _z(ts: datetime.datetime | None) -> str | None:
+diff --git a/research/modalities/work_ledger.py b/research/modalities/work_ledger.py
+index 61a3b9922..be5204cd4 100644
+--- a/research/modalities/work_ledger.py
++++ b/research/modalities/work_ledger.py
+@@ -351,11 +351,11 @@ _FORBIDDEN_INPUT_TOKENS = ("bid", "price", "usd", "ceiling", "ratio", "basis", "
+ # small helpers — every one of them tri-state, because ABSENT IS NEVER A LEGAL GOOD VALUE
+ # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+ def _et(ts: datetime.datetime | None) -> str | None:
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET %b %-d, %Y") if ts else None
++    return ts.astimezone(ET).strftime("%I:%M %p ET %b %d, %Y").lstrip("0").replace(" 0", " ") if ts else None
+ 
+ 
+ def _et_short(ts: datetime.datetime | None) -> str:
+-    return ts.astimezone(ET).strftime("%-I:%M %p ET") if ts else "ETA unknown"
++    return ts.astimezone(ET).strftime("%I:%M %p ET").lstrip("0") if ts else "ETA unknown"
+ 
+ 
+ def _z(ts: datetime.datetime | None) -> str | None:
+diff --git a/research/modalities/tests/test_fleet_timestamp_portability.py b/research/modalities/tests/test_fleet_timestamp_portability.py
+new file mode 100644
+index 000000000..5dd570871
+--- /dev/null
++++ b/research/modalities/tests/test_fleet_timestamp_portability.py
+@@ -0,0 +1,28 @@
++"""Fleet reports preserve unpadded Eastern timestamps without GNU strftime flags."""
++import datetime
++import importlib
++
++import pytest
++
++
++@pytest.mark.parametrize("module", [
++    "account_orphan_alarm", "work_ledger", "lane_staleness_watch", "alarm_state",
++    "fleet_supervision_alarm", "assert_progress_fresh",
++])
++@pytest.mark.parametrize("utc,expected", [
++    ("2026-07-02T04:00:00+00:00", "12:00 AM ET Jul 2, 2026"),
++    ("2026-07-02T16:05:00+00:00", "12:05 PM ET Jul 2, 2026"),
++    ("2026-07-22T13:00:00+00:00", "9:00 AM ET Jul 22, 2026"),
++])
++def test_portable_fleet_timestamp(module, utc, expected):
++    assert importlib.import_module(module)._et(datetime.datetime.fromisoformat(utc)) == expected
++
++
++def test_short_timestamps_preserve_minutes_and_missing_values():
++    import job_progress_monitor as monitor
++    import work_ledger as ledger
++    ts = datetime.datetime.fromisoformat("2026-07-22T13:00:00+00:00")
++    assert ledger._et_short(ts) == "9:00 AM ET"
++    assert monitor._et("2026-07-22T13:00:00Z") == "9:00 AM ET"
++    assert ledger._et_short(None) == "ETA unknown"
++    assert ledger._et(None) is None

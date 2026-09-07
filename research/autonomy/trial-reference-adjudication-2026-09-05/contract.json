@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "created_utc": "2026-09-05T19:08:04.516542+00:00",
+  "reservation_confirmed_utc_approx": "2026-09-05T19:07:10Z",
+  "scientific_seconds_limit": 1800,
+  "base": "0efeaa1cbd9ee630042f60f4afa6251d4d99518b",
+  "worker_task": "01a072f6-562d-70e0-9bc0-e8f4a26dc49a",
+  "coordinator_task": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "objective": "Independently adjudicate all 49 frozen diagnosis-trial pairs against complete saved registry eligibility, descriptions and cohorts; freeze independent judgments before opening prior labels; compare and evidence-resolve discrepancies.",
+  "write_scope": "research/autonomy/trial-reference-adjudication-2026-09-05",
+  "offline": true,
+  "permissions": "workspace-write; no full-access claim",
+  "prohibited": [
+    "network",
+    "installation",
+    "deletion",
+    "outside-scope writes",
+    "escalation",
+    "nested workers",
+    "commits",
+    "preflight",
+    "performance-based label tuning"
+  ],
+  "endpoints": "Disease-level registry scope, conditional molecular/cohort scope and snapshot availability separately; never patient eligibility, treatment recommendation or clinical efficacy."
+}

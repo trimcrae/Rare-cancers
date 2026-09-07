@@ -1,0 +1,90 @@
+{
+  "utc": "2026-09-06T14:21:26.927252+00:00",
+  "independent_method": "pooled event/exit contingency table with decrementing risks, math.fsum; no worker imports; exact float ties",
+  "opened_development_members": [
+    "RealIPD/IPD/3027.csv",
+    "RealIPD/IPD/3011.csv",
+    "RealIPD/IPD/3016.csv",
+    "RealIPD/IPD/3008.csv",
+    "RealIPD/IPD/3022.csv",
+    "RealIPD/IPD/3028.csv",
+    "RealIPD/IPD/3019.csv",
+    "RealIPD/IPD/3014.csv",
+    "RealIPD/IPD/3025.csv",
+    "RealIPD/IPD/3010.csv"
+  ],
+  "reserved_outcome_members_opened": [],
+  "source_groups": 10,
+  "original_assignments": 30,
+  "planned_cases": 120,
+  "persisted_cases": 120,
+  "complete_execution": true,
+  "returned_reconstructions_verified": 240,
+  "dual_success": 120,
+  "original_reject_assignments": 1,
+  "incumbent_errors": 3,
+  "incumbent_error_sources": [
+    "TCGA-LUAD",
+    "TCGA-OV"
+  ],
+  "retained": 90,
+  "margin_error_ids": [
+    "3008-61003-2-sparse",
+    "3008-61003-3-sparse"
+  ],
+  "augmented_error_ids": [],
+  "source_gains": {
+    "TCGA-STAD": 0,
+    "TCGA-CESC": 0,
+    "TCGA-KIRC": 0,
+    "TCGA-LUAD": 2,
+    "TCGA-OV": 0,
+    "TCGA-UCEC": 0,
+    "TCGA-LGG": 0,
+    "TCGA-GBM": 0,
+    "TCGA-SARC": 0,
+    "TCGA-BRCA": 0
+  },
+  "leave_one_source_out_gains": {
+    "TCGA-STAD": 2,
+    "TCGA-CESC": 2,
+    "TCGA-KIRC": 2,
+    "TCGA-LUAD": 0,
+    "TCGA-OV": 2,
+    "TCGA-UCEC": 2,
+    "TCGA-LGG": 2,
+    "TCGA-GBM": 2,
+    "TCGA-SARC": 2,
+    "TCGA-BRCA": 2
+  },
+  "gate": {
+    "complete_planned_execution": true,
+    "at_least_8_incumbent_errors": false,
+    "at_least_3_error_sources": false,
+    "dual_success_at_least_80pct": true,
+    "primary_gain_at_least_2": true,
+    "primary_relative_gain_at_least_20pct": true,
+    "gain_at_least_2_sources": false,
+    "no_leave_one_source_out_reversal": true
+  },
+  "continue_to_held_out": false,
+  "summary_checked": true,
+  "max_absolute_differences": {
+    "original_u": 7.105427357601002e-15,
+    "original_v": 2.1316282072803006e-14,
+    "original_z": 8.881784197001252e-16,
+    "original_q": 4.440892098500626e-15,
+    "original_p": 5.551115123125783e-16,
+    "release": 0.0,
+    "reconstructed_u": 1.0658141036401503e-14,
+    "reconstructed_v": 7.105427357601002e-14,
+    "reconstructed_z": 1.9984014443252818e-15,
+    "reconstructed_q": 6.217248937900877e-15,
+    "reconstructed_p": 5.551115123125783e-16,
+    "R_Q": 3.597122599785507e-14,
+    "R_p": 7.882583474838611e-15
+  },
+  "discrepancies": [],
+  "elapsed_seconds": 1.5,
+  "scope": "Independent development arithmetic/provenance verification; not clinical validity, manuscript or ultra review"
+}

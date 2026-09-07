@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    
+
+    <meta charset="utf-8">
+    <meta name="description"
+          content="The information in the Mitelman Database of Chromosome Aberrations and Gene Fusions in Cancer relates cytogenetic changes and their genomic consequences, in particular gene fusions, to tumor characteristics, based either on individual cases or associations.">
+    <title>Mitelman Database Chromosome Aberrations and Gene Fusions in Cancer</title>
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148377238-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-148377238-1');
+    </script>
+    
+
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="shortcut icon" href="/static/favicon.png">
+    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
+    <!--bootstrap-->
+    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
+    <!--dataTables-->
+    <script type="text/javascript" src="/static/js/libs/datatables.min.js"></script>
+    <!--fontawesome-->
+    <script type="text/javascript" src="/static/js/libs/c53771aefd.js"></script>
+    <!--chosen js-->
+    <script type="text/javascript" src="/static/js/libs/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    
+<script type="text/javascript">
+    active_menu = 'case_search';
+    let kary_converted_list = assign_var([]);
+    let case_sex = assign_var('F');
+    prefix = 'case_details';
+    let criteria = {
+        'search_type': 'case_details',
+        'refno': "9736",
+        'caseno': "5",
+        'invno': "1"
+    };
+    let goto_kary_details_tab = assign_var(0);
+</script>
+<script type="text/javascript" src="/static/js/karyotype.js"></script>
+<script type="text/javascript" src="/static/js/libs/ideogram.min.js"></script>
+
+
+</head>
+
+
+<header>
+    <div class="sidenav">
+        <ul>
+            <li><a id='home_menu' href="/">Home</a></li>
+            <li><a id='search_menu' href="search_menu">Search <i class="fas fa-search"></i></a>
+            </li>
+            <li>
+                <ul>
+                    <li><a id='case_search' href="case_search">Cases Cytogenetics</a></li>
+                    <li><a id='mb_search' href="mb_search">Gene Fusions</a></li>
+                    <li><a id='clinical_search' href="clinical_search">Clinical Associations</a></li>
+                    <li><a id='recab_search' href="recab_search">Recurrent Chromosome Aberrations</a></li>
+                    <li><a id='ref_search' href="ref_search">References</a></li>
+                </ul>
+            </li>
+            <li><a id='data_browser' href="data_browser">Data Browser</a></li>
+            <li><a id='bq_data' href="bq_data">BigQuery and Data Analysis</a></li>
+            <li><a id='help_menu' href="help">User Guide</a></li>
+            <li><a id='about_menu' href="about">About</a></li>
+        </ul>
+    </div>
+</header>
+<body>
+<main>
+    
+<h1 class="search-header">Chromosome Aberration Case Info</h1>
+<div class="m-2 p-2">
+
+    <div class="row pb-2 result-div">
+        
+        <div data-sqlstm="SELECT
+ Reference.Abbreviation,
+ Reference.Journal,
+ Cytogen.RefNo,
+ Cytogen.CaseNo,
+ CytogenInv.KaryShort,
+ CytogenInv.KaryLong,
+ CytogenInv.InvNo,
+ CytogenInv.Clones,
+ Cytogen.Sex,
+ Cytogen.Age,
+ Cytogen.Series,
+ KoderG.Benamning AS Country,
+ KoderPM.Benamning AS PrevMorphName,
+ Cytogen.PrevMorph,
+ KoderPT.Benamning AS PrevTopoName,
+ Cytogen.PrevTopo,
+ Cytogen.PrevTreat AS PrevTreat,
+ KoderH.Benamning AS HerDis,
+ KoderM.Benamning AS MorphName,
+ Cytogen.Morph,
+ KoderTi.Benamning AS Tissue,
+ KoderK.Benamning AS TopoName,
+ Cytogen.Topo,
+ Cytogen.Immunology
+FROM
+ `mitelman-db.prod.Cytogen` Cytogen,
+ `mitelman-db.prod.CytogenInv` CytogenInv,
+ `mitelman-db.prod.Reference` Reference
+LEFT JOIN `mitelman-db.prod.Koder` KoderG 
+ON
+ (Cytogen.Country = KoderG.Kod AND KoderG.KodTyp = &#39;GEO&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderPM 
+ON
+ (Cytogen.PrevMorph = KoderPM.Kod AND KoderPM.KodTyp = &#39;MORPH&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderPT 
+ON
+ (Cytogen.PrevTopo = KoderPT.Kod AND KoderPT.KodTyp = &#39;TOP&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderH 
+ON
+ (Cytogen.HerDis = KoderH.Kod AND KoderH.KodTyp = &#39;HER&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderM 
+ON
+ (Cytogen.Morph = KoderM.Kod AND KoderM.KodTyp = &#39;MORPH&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderK 
+ON
+ (Cytogen.Topo = KoderK.Kod AND KoderK.KodTyp = &#39;TOP&#39;)
+LEFT JOIN `mitelman-db.prod.Koder` KoderTi 
+ON
+ (CytogenInv.Tissue = KoderTi.Kod AND KoderTi.KodTyp = &#39;TISSUE&#39;)
+WHERE Cytogen.RefNo = 9736
+AND Cytogen.RefNo = CytogenInv.RefNo 
+AND Cytogen.CaseNo = CytogenInv.CaseNo
+AND Cytogen.RefNo = Reference.RefNo
+AND Cytogen.CaseNo = &#39;5&#39;
+AND CytogenInv.InvNo = 1" class="d-none sql-stm-div"></div>
+        
+        <div class="col-6 backbutton-div text-start">
+            <button class="btn btn-outline-secondary back-button"><i class="fas fa-chevron-left"></i> Back
+            </button>
+        </div>
+        <div class="col-6 button-div text-end">
+            <button class="btn btn-secondary view-bqstm-button">View SQL Statement
+            </button>
+            <button class="btn btn-secondary download-button" data-tableid="case_details_result"><i
+                    class="fas fa-download"></i> Download
+            </button>
+        </div>
+    </div>
+    <ul class="nav nav-tabs" id="data-browser-tab">
+        <li class="nav-item">
+            <a class="nav-link active" id="case-info-tab" data-bs-toggle="tab" href="#case-info-div"
+               aria-controls="case-info-div" aria-selected="false">Case Details</a>
+        </li>
+        <li class="nav-item">
+
+            <a class="nav-link " id="kary-info-tab" data-bs-toggle="tab" href="#kary-info-div"
+               aria-controls="kary-info-div" aria-selected="true">Karyotype Details</a>
+        </li>
+    </ul>
+
+    <div class="tab-content tab-content-border">
+        <div id="case-info-div" class="tab-pane fade show active">
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="me-5 fw-bold">Ref No: 9736</span>
+                        <span class="me-5 fw-bold">Case No: 5</span>
+                        <span class="fw-bold">Inv No: 1</span>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong>Patient Characteristics</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Sex</div>
+                    <div class="col-sm-10">
+                        
+                        Female
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Age</div>
+                    <div class="col-sm-10">
+                        
+                        35
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Country</div>
+                    <div class="col-sm-10">
+                        
+                        Sweden
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Series</div>
+                    <div class="col-sm-10">
+                        
+                        Unselected
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Hereditary Disorder</div>
+                    <div class="col-sm-10">
+                        
+                        <span class="text-black-50">N/A</span>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>Present Tumor</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong>Previous Tumor</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Topography</div>
+                    <div class="col-sm-4">
+                        
+                        <a title="Click to see list of cases with this topography"
+                           href="/result?search_type=case&amp;topo_list=0902">
+                            Soft tissue
+                        </a>
+                        
+                    </div>
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Topography</div>
+                    <div class="col-sm-4">
+                        
+                        <span class="text-black-50">N/A</span>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Immunophenotype</div>
+                    <div class="col-sm-4">
+                        
+                        <span class="text-black-50">N/A</span>
+                        
+                    </div>
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Morphology</div>
+                    <div class="col-sm-4">
+                        
+                        <span class="text-black-50">N/A</span>
+                        
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Morphology</div>
+                    <div class="col-sm-4">
+                        
+                        <a title="Click to see list of cases with this morphology"
+                           href="/result?search_type=case&amp;morph_list=8625">
+                            Chondrosarcoma, myxoid
+                        </a>
+                        
+                    </div>
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Treatment</div>
+                    <div class="col-sm-4">
+                        
+                        <span class="text-black-50">N/A</span>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end">Tissue</div>
+                    <div class="col-sm-10">
+                        
+                        Tumor biopsy
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Ref. No</div>
+                    <div class="col-sm-11">
+                        9736
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Title</div>
+                    <div class="col-sm-11">
+                        Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Authors</div>
+                    <div class="col-sm-11">
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Panagopoulos+I"
+                               title="Click to see list of references with this author">Panagopoulos I</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Mertens+F"
+                               title="Click to see list of references with this author">Mertens F</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Isaksson+M"
+                               title="Click to see list of references with this author">Isaksson M</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Domanski+HA"
+                               title="Click to see list of references with this author">Domanski HA</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Brosj%E2%80%9D+O"
+                               title="Click to see list of references with this author">Brosj” O</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Heim+S"
+                               title="Click to see list of references with this author">Heim S</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Bjerkehagen+B"
+                               title="Click to see list of references with this author">Bjerkehagen B</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Sciot+R"
+                               title="Click to see list of references with this author">Sciot R</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Dal+Cin+P"
+                               title="Click to see list of references with this author">Dal Cin P</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Fletcher+JA"
+                               title="Click to see list of references with this author">Fletcher JA</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Fletcher+CDM"
+                               title="Click to see list of references with this author">Fletcher CDM</a>
+                        </div>
+                        
+                        <div>
+                            <a href="/result?search_type=ref&amp;inputAuth=Mandahl+N"
+                               title="Click to see list of references with this author">Mandahl N</a>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Journal</div>
+                    <div class="col-sm-11">
+                        <a href="/result?search_type=ref&amp;inputJournal=Genes+Chromosomes+Cancer"
+                           title="Click to see list of references with this journal">Genes Chromosomes Cancer</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Volume</div>
+                    <div class="col-sm-11">
+                        
+                        35:340-352
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-form-label col-sm-1 pt-0 text-end">Year</div>
+                    <div class="col-sm-11">
+                        
+                        2002
+                        
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-11">
+                        <a target="_blank" rel="noopener noreferrer"
+                           href="http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=12378528&amp;dopt=Abstract"
+                           title="Click to view this reference in PubMed">View
+                            in PubMed <i class="fas fa-external-link-square-alt"></i></a>
+                    </div>
+                </div>
+                
+                
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-11">
+                        <a href="/result?search_type=case&amp;inputRefNo=9736"
+                           title="Click to see list of cases with this reference">View All Cases Cytogenetics</a>
+                    </div>
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <div id="kary-info-div" class="tab-pane fade">
+            <div class="p-3 result-div">
+                <div data-sqlstm="SELECT
+ CytoConverted.Clone,
+ CytoConverted.Chr,
+ CytoConverted.Start,
+ CytoConverted.End,
+ CytoConverted.Type
+FROM `mitelman-db.prod.CytoConverted` CytoConverted
+WHERE CytoConverted.RefNo = 9736
+AND CytoConverted.CaseNo = &#39;5&#39;
+AND CytoConverted.InvNo = 1
+ORDER BY
+ CytoConverted.Clone,
+ CytoConverted.ChrOrd,
+ CytoConverted.Start;" class="d-none sql-stm-div"></div>
+                <div class="row">
+                    <div class="col-sm-2 pt-0 text-end"><strong>Karyotype</strong></div>
+                    <div class="col-sm-10 text-secondary">
+                        
+                        <div>
+                            <samp>46,XX,t(9;22)(q22;q12)</samp>
+                        </div>
+                        
+                    </div>
+                </div>
+                <br/>
+                
+                <div class="row">
+                    <div class="col-form-label col-sm-2 pt-0 text-end"></div>
+                    <div class="col-sm-10 text-muted text-sm font-italic">
+                        No relevant gain or loss has been found for this karyotype.
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="spinner" style="display: none;">
+        <div class="spinner-group d-flex justify-content-center">
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 0%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 10%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 20%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 30%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 40%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+            
+            <div class="spinner-grow" style="color:hsl(200, 40%, 50%)" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            
+        </div>
+    </div>
+    <div id="journal-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h2 class="modal-header">
+                    <div class="modal-title"><strong>Journal List</strong></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </h2>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bqstm-modal" tabindex="-1" role="dialog" aria-labelledby="view_bq_stmt_title"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="view_bq_stmt_title"><strong>View SQL Statement</strong> in BigQuery
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="bqstm" class="m-0 text-primary border bg-light rounded p-2"></pre>
+                    <div class="py-2 text-end">
+                        <div class="text-muted">Mitelman Database is a public dataset under BigQuery</div>
+                        <a data-bs-toggle="collapse" href="#about_bq_console" role="button" aria-expanded="false"
+                           class="collapse-link" aria-controls="about_bq_console">
+                            Learn how to view Mitelman DB and run SQLs in the BigQuery console
+                        </a>
+                    </div>
+                    <div id="about_bq_console" class="collapse bg-light rounded p-2 my-2">
+                        <div>In order to view Mitelman DB tables in BigQuery Google Cloud Console,</div>
+                        <div>
+                            <ul>
+                                <li>
+                                    Click the "Open BigQuery Console" button
+                                </li>
+                                <li>
+                                    Be logged in with a Google account
+                                </li>
+                                <li>Choose a <b>project</b> associated with your Google account.
+                                    <br>
+                                    Creating a project is easy - See
+                                    <a target="_blank" rel="noreferrer"
+                                       href="https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project"
+                                       class="sr-set">
+                                        How to Create a Project<span class="sr-only"> opens a new tab</span></a>.
+                                </li>
+                                <li>Use the "Copy" and the "Open BigQuery Console" buttons to utilize the SQL statement
+                                    under the BigQuery Cloud Console
+                                </li>
+                            </ul>
+                        </div>
+                        <div>Consider using
+                            <a target="_blank" rel="noopener noreferrer"
+                               href="https://cloud.google.com/free/docs/gcp-free-tier"
+                               class="sr-set">
+                                Google Cloud Platform Free-Tier
+                                <span class="sr-only"> opens a new tab</span></a> and run queries at no cost!
+                        </div>
+                        <div>*Visit <a target="_blank" rel="noopener noreferrer"
+                                       href="https://cloud.google.com/bigquery/docs/quickstarts/quickstart-cloud-console">BQ
+                            Quickstart using the Cloud Console</a> to learn more about BigQuery
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-primary copy-button"><i class="far fa-clipboard"></i>
+                            Copy
+                        </button>
+                        <button type="button" class="btn btn-primary copy-button open-bqconsole-btn">
+                            <svg fill="none" fill-rule="evenodd" height="15" viewBox="0 0 32 32" width="15"
+                                 xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet"
+                                 focusable="false">
+                                <path d="M8.627 14.358v3.69c.58.998 1.4 1.834 2.382 2.435v-6.125H8.62z"
+                                      fill="#fff"></path>
+                                <path d="M13.044 10.972v10.54c.493.073.998.12 1.516.12.473 0 .934-.042 1.386-.104V10.972h-2.902z"
+                                      fill="#fff"></path>
+                                <path d="M18.294 15.81v4.604a6.954 6.954 0 0 0 2.384-2.556v-2.05h-2.384zm5.74 6.233l-1.99 1.992a.592.592 0 0 0 0 .836L27 29.83c.23.23.606.23.836 0l1.992-1.99a.594.594 0 0 0 0-.837l-4.957-4.956a.593.593 0 0 0-.83 0"
+                                      fill="#fff"></path>
+                                <path d="M14.615 2C7.648 2 2 7.648 2 14.615 2 21.582 7.648 27.23 14.615 27.23c6.966 0 12.614-5.648 12.614-12.615C27.23 7.648 21.58 2 14.61 2m0 21.96a9.346 9.346 0 0 1-9.346-9.345 9.347 9.347 0 1 1 9.346 9.346"
+                                      fill="#fff"></path>
+                            </svg>
+                            Open BigQuery Console
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

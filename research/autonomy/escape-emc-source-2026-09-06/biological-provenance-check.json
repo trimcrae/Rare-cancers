@@ -1,0 +1,231 @@
+{
+  "peptide": "QSSSYGQQN",
+  "inputs": [
+    {
+      "path": "research/modalities/emc-fet-construct-designs.json",
+      "sha256": "726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b"
+    },
+    {
+      "path": "research/modalities/emc-construct-inputs.json",
+      "sha256": "9166e09ec8e9d0bb5e3356c4334dbb2789cb26ae98d21fe6093afa2b2d23c47b"
+    },
+    {
+      "path": "systems/graph/integrity.json",
+      "sha256": "36eba6d8cbcee49be6821bc3499dafe38ace9c4c61927cddb2af1fd7342fc415"
+    },
+    {
+      "path": "systems/graph/objects.json",
+      "sha256": "9d3228edd06a5a4f8d6260d21640cf6d24f29364c484a52487c28807a3f4e74c"
+    }
+  ],
+  "model_object": {
+    "id": "OBJ-MODEL-E7E3",
+    "kind": "modelled_construct",
+    "display_name": "The modelled EWSR1 e7 :: NR4A3 e3 construct",
+    "aliases": [
+      "EWSR1 e7 :: NR4A3 e3",
+      "EWSR1 e7::e3",
+      "emc_canonical_EWSR1_NR4A3",
+      "EWS_CUT = 264 :: NR4A3 resumed at res 2"
+    ],
+    "status": "modelled_not_reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 7 :: NR4A3 exon 3 \u2014 \u26d4 NOT A REPORTED FUSION TYPE. It pairs the 5\u2032 half of reported type 2 with the 3\u2032 half of reported type 1.",
+      "residue_level": "EWSR1(1\u2013264) :: NR4A3(1\u2013626), with no UTR-encoded segment",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "shares type 1's 3\u2032 exon only"
+      },
+      {
+        "object": "OBJ-FUS-T2",
+        "why": "shares type 2's 5\u2032 cut only, and omits type 2's 59 UTR-encoded residues"
+      }
+    ],
+    "notes": "\u26a0 THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files \u2014 see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix. \u26a0 THE `emc_canonical_EWSR1_NR4A3` ALIAS IS HISTORICAL AS OF 2026-09-02 (AUT-PD-208): emc-fet-idr-census.json no longer writes that key. It now carries every reported EWSR1::NR4A3 type under `emc_EWSR1_NR4A3_reported_types`, keyed by the sourced registry's ids, so the exon-7 record sits under `EWSR1_NR4A3_type2` and asserts nothing about which type is commonest. The alias is kept so the retired name stays searchable."
+  },
+  "integrity_conflict": {
+    "id": "OC-2",
+    "what": "'the canonical EMC fusion' names two incompatible objects, and one working module is built on the one that is not a reported fusion type.",
+    "files": [
+      "research/modalities/fusion_cofold.py",
+      "research/modalities/emc_fet_idr_census.py",
+      "research/modalities/fusion_object_inventory.py",
+      "research/manuscripts/program/emc-post-degrader-options.md",
+      "research/manuscripts/program/target-route-options.md",
+      "research/manuscripts/dependency/emc-atr-collaborator-package.md"
+    ],
+    "positions": [
+      "emc-atr-collaborator-package.md \u00a72.2 + appendix: 'canonical' now belongs to reported type 1 (EWSR1 e12 :: NR4A3 e3); the e7::e3 combination is not a reported type. The e7::e3 ARITHMETIC remains valid and remains the right comparator for EWSR1::FLI1 type 1.",
+      "Same file \u00a77.2: reported type 2 carries 59 UTR-encoded residues, so fusion_cofold.py's protein-level model (EWS_CUT = 264, 'NR4A3 resumed at res 2') is not type 2 either.",
+      "Same file, appendix: the \u00a71.3 off-by-two correction is NOT superseded \u2014 both reported types retain NR4A3 from its first coding exon, so AF-1, the C4 zinc finger and the LBD are present under either."
+    ],
+    "why_not_decided": "Changing which junction fusion_cofold.py models is a science decision with downstream reach (the neoantigen lane's seams, the IDR census's canonical row, R13's object) and at least three modules would have to move together. The registry's job is to make the three models nameable and separable; choosing between them is not a navigation-layer call.",
+    "owner": "research/manuscripts/nr4a3-program-map.md (R13 \u2014 'real biological object')"
+  },
+  "reported_architecture_construct_checks": [
+    {
+      "id": "EWSR1_NR4A3_type1",
+      "breakpoint_sources": [
+        {
+          "id": "PMC3335514",
+          "quote": "The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript."
+        },
+        {
+          "id": "PMC4055444",
+          "quote": "The most frequent are: type 1, for the fusion between exons 12 of EWS and 3 of CHN, and type 5, between exons 13 of EWS and 3 of CHN."
+        },
+        {
+          "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+          "quote": "EWSR1 exon 12 forward ... and NR4A3 reverse A exon 3 ... for the type 1 EWSR1-NR4A3 fusion (109 base pair product)"
+        },
+        {
+          "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+          "quote": "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)"
+        }
+      ],
+      "junction": {
+        "five_prime_gene": "EWSR1",
+        "five_prime_transcript": "ENST00000397938",
+        "five_prime_last_exon_retained_transcript_rank": 12,
+        "three_prime_gene": "NR4A3",
+        "three_prime_transcript": "ENST00000395097",
+        "three_prime_first_exon_retained_transcript_rank": 3,
+        "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+      },
+      "seam": {
+        "five_prime_residues_fully_encoded": 431,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 432,
+        "junction_context_aa": "TAKAAVEWFD|DMPCVQAQYS",
+        "junction_context_nt": "AATGGTTTGATG|ATATGCCCTGCG"
+      },
+      "protein_sequence_available": true,
+      "exact_peptide_present": false,
+      "scope": "Computed protein from source-supported exon architecture, not measured tumor protein"
+    },
+    {
+      "id": "EWSR1_NR4A3_type2",
+      "breakpoint_sources": [
+        {
+          "id": "PMC3335514",
+          "quote": "exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript"
+        },
+        {
+          "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+          "quote": "EWSR1 exon 7 forward ... and NR4A3 reverse B exon 2 ... for the type 2 fusion (201 base pair product)"
+        }
+      ],
+      "junction": {
+        "five_prime_gene": "EWSR1",
+        "five_prime_transcript": "ENST00000397938",
+        "five_prime_last_exon_retained_transcript_rank": 7,
+        "three_prime_gene": "NR4A3",
+        "three_prime_transcript": "ENST00000395097",
+        "three_prime_first_exon_retained_transcript_rank": 2,
+        "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+      },
+      "seam": {
+        "five_prime_residues_fully_encoded": 264,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 265,
+        "junction_context_aa": "SQQSSSYGQQ|KPTAEEGSPA",
+        "junction_context_nt": "ACGGGCAGCAGA|AGCCCACTGCGG"
+      },
+      "protein_sequence_available": true,
+      "exact_peptide_present": false,
+      "scope": "Computed protein from source-supported exon architecture, not measured tumor protein"
+    },
+    {
+      "id": "EWSR1_NR4A3_type5",
+      "breakpoint_sources": [
+        {
+          "id": "PMC4055444",
+          "quote": "type 5, between exons 13 of EWS and 3 of CHN"
+        },
+        {
+          "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+          "quote": "The most frequent EWS/CHN transcript (10 tumors), was fusion of exon 12 of EWS with exon 3 of CHN (type 1), followed by fusion of exon 13 of EWS with exon 3 of CHN (two cases; type 5)."
+        }
+      ],
+      "junction": {
+        "five_prime_gene": "EWSR1",
+        "five_prime_transcript": "ENST00000397938",
+        "five_prime_last_exon_retained_transcript_rank": 13,
+        "three_prime_gene": "NR4A3",
+        "three_prime_transcript": "ENST00000395097",
+        "three_prime_first_exon_retained_transcript_rank": 3,
+        "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+      },
+      "seam": {
+        "five_prime_residues_fully_encoded": 472,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 473,
+        "junction_context_aa": "GRGMPPPLRG|DMPCVQAQYS",
+        "junction_context_nt": "CACTCCGTGGAG|ATATGCCCTGCG"
+      },
+      "protein_sequence_available": true,
+      "exact_peptide_present": false,
+      "scope": "Computed protein from source-supported exon architecture, not measured tumor protein"
+    },
+    {
+      "id": "TAF15_NR4A3",
+      "breakpoint_sources": [
+        {
+          "id": "PMC3335514",
+          "quote": "In the TAF15-NR4A3 fusion transcript, exon 6 of TAF15 is fused exclusively to exon 3 of NR4A3"
+        },
+        {
+          "id": "PMC4055444",
+          "quote": "The chimeric gene RBP56/CHN is always formed by fusion between exons 6 of RBP56 and 3 of CHN."
+        },
+        {
+          "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+          "quote": "In tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN."
+        },
+        {
+          "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+          "quote": "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion"
+        }
+      ],
+      "junction": {
+        "five_prime_gene": "TAF15",
+        "five_prime_transcript": "ENST00000605844",
+        "five_prime_last_exon_retained_transcript_rank": 6,
+        "three_prime_gene": "NR4A3",
+        "three_prime_transcript": "ENST00000395097",
+        "three_prime_first_exon_retained_transcript_rank": 3,
+        "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+      },
+      "seam": {
+        "five_prime_residues_fully_encoded": 161,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 162,
+        "junction_context_aa": "QRENYSHHTQ|DMPCVQAQYS",
+        "junction_context_nt": "ACCACACACAAG|ATATGCCCTGCG"
+      },
+      "protein_sequence_available": true,
+      "exact_peptide_present": false,
+      "scope": "Computed protein from source-supported exon architecture, not measured tumor protein"
+    }
+  ],
+  "wild_type_checks": [
+    {
+      "gene": "EWSR1",
+      "transcript": "ENST00000397938",
+      "protein_length": 656,
+      "exact_peptide_present": false,
+      "scope": "Pinned canonical protein only; not a proteome-wide or isoform-wide absence claim"
+    },
+    {
+      "gene": "NR4A3",
+      "transcript": "ENST00000395097",
+      "protein_length": 626,
+      "exact_peptide_present": false,
+      "scope": "Pinned canonical protein only; not a proteome-wide or isoform-wide absence claim"
+    }
+  ]
+}

@@ -1,0 +1,2588 @@
+{
+  "synthetic": true,
+  "partition": "existing_development_only",
+  "inputs": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-frontier-20260906\\EMC-Research\\research\\autonomy\\ipd-bounds-development-2026-09-06\\development-releases.json",
+      "sha256": "b82e3df721f9f3705a0dbd2c1e68e5d724720c3a32f032a5629e6d6427d09172"
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\ipd-frontier-20260906\\EMC-Research\\research\\autonomy\\ipd-bounds-development-2026-09-06\\stress-releases.json",
+      "sha256": "cda2bf1fd3a33061202d2137acd2651a3ddd0f7402c1ad74d55ecc90fc05280e"
+    }
+  ],
+  "protocol_sha256": "bb4a4698d6e69c523c52c6b3984f2a50b9f79a2484f359536608dcbaa022757a",
+  "cases": [
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "46155629/35415349",
+          "46155629/35415349"
+        ],
+        "p_outer_approx": [
+          0.2536174667536924,
+          0.2536174667536924
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "46155629/35415349",
+            "a": [
+              [
+                1,
+                3
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "b": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                7
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 13,
+            "seconds": 0.0009754000057000667
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 10,
+            "seconds": 0.0005879999953322113
+          }
+        ],
+        "transitions": 227,
+        "expanded_states": 196,
+        "merged_histories": 31,
+        "peak_live_states": 81,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.03572319999511819,
+        "elapsed_seconds": 0.037793299998156726,
+        "tracemalloc_current_bytes": 29522,
+        "tracemalloc_peak_bytes": 48974,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "46155629/35415349",
+          "46155629/35415349"
+        ],
+        "p_outer_approx": [
+          0.2536174667536924,
+          0.2536174667536924
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "46155629/35415349",
+            "a": [
+              [
+                1,
+                3
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "b": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0007928999984869733
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0007086000114213675
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.0023879999935161322,
+        "elapsed_seconds": 0.004906499991193414,
+        "tracemalloc_current_bytes": 5654,
+        "tracemalloc_peak_bytes": 6672,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "17441354/77724223",
+          "7924697818/6518402919"
+        ],
+        "p_outer_approx": [
+          0.2701978589004691,
+          0.6357072261158468
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "373006265/378674119",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 9,
+            "seconds": 0.0007622999983141199
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 8,
+            "seconds": 0.0005298999894876033
+          }
+        ],
+        "transitions": 112,
+        "expanded_states": 87,
+        "merged_histories": 25,
+        "peak_live_states": 29,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.020912599997245707,
+        "elapsed_seconds": 0.022870500004501082,
+        "tracemalloc_current_bytes": 7740,
+        "tracemalloc_peak_bytes": 19836,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "7924697818/7101955187",
+          "7924697818/7101955187"
+        ],
+        "p_outer_approx": [
+          0.29081438898942286,
+          0.29081438898942286
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "7924697818/7101955187",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.00037560000782832503
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0003480000013951212
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.0016325000033248216,
+        "elapsed_seconds": 0.0028263999993214384,
+        "tracemalloc_current_bytes": 5618,
+        "tracemalloc_peak_bytes": 6408,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "28014525/1522489",
+          "28014525/1522489"
+        ],
+        "p_outer_approx": [
+          1.7901309087544364e-05,
+          1.7901309087544364e-05
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "28014525/1522489",
+            "a": [
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                11,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 9,
+            "seconds": 0.0005498999962583184
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0003823000006377697
+          }
+        ],
+        "transitions": 35,
+        "expanded_states": 29,
+        "merged_histories": 6,
+        "peak_live_states": 9,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.0062027999956626445,
+        "elapsed_seconds": 0.007642600001418032,
+        "tracemalloc_current_bytes": 6227,
+        "tracemalloc_peak_bytes": 9017,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "28014525/1522489",
+          "28014525/1522489"
+        ],
+        "p_outer_approx": [
+          1.7901309087544364e-05,
+          1.7901309087544364e-05
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "28014525/1522489",
+            "a": [
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                11,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.00042070000199601054
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.00035319999733474106
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.0015416000096593052,
+        "elapsed_seconds": 0.0028729000041494146,
+        "tracemalloc_current_bytes": 5379,
+        "tracemalloc_peak_bytes": 6192,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "1590196844584269677/524354373252159568693",
+          "450095780129571/12970530944487739"
+        ],
+        "p_outer_approx": [
+          0.8522227136759537,
+          0.9560829065227923
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "11189513679710933/383019995070971197",
+            "a": [
+              [
+                7,
+                5
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                5,
+                7
+              ]
+            ],
+            "b": [
+              [
+                8,
+                5
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                4,
+                3
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                4,
+                7
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 51,
+            "seconds": 0.005529200003365986
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 107,
+            "seconds": 0.00907780000125058
+          }
+        ],
+        "transitions": 16716,
+        "expanded_states": 5801,
+        "merged_histories": 10912,
+        "peak_live_states": 3242,
+        "covered_regions": 4,
+        "terminal_regions": 4,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 3.5280272999953013,
+        "elapsed_seconds": 3.543248100002529,
+        "tracemalloc_current_bytes": 624113,
+        "tracemalloc_peak_bytes": 3322365,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "336726424179539/40331023221815251",
+          "336726424179539/40331023221815251"
+        ],
+        "p_outer_approx": [
+          0.9271960318297983,
+          0.9271960318297983
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "336726424179539/40331023221815251",
+            "a": [
+              [
+                7,
+                5
+              ],
+              [
+                8,
+                5
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                5,
+                7
+              ]
+            ],
+            "b": [
+              [
+                8,
+                5
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                4,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                4,
+                7
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0005299999902490526
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0005003999976906925
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.0026577999960863963,
+        "elapsed_seconds": 0.004361200000857934,
+        "tracemalloc_current_bytes": 5078,
+        "tracemalloc_peak_bytes": 6288,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "4649518034251785/1539427919625506",
+          "137677131296496000/40195404801595471"
+        ],
+        "p_outer_approx": [
+          0.06420862922450142,
+          0.0822287843262502
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "540377919906902215/168207525804605786",
+            "a": [
+              [
+                9,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                7
+              ]
+            ],
+            "b": [
+              [
+                7,
+                1
+              ],
+              [
+                9,
+                2
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 12,
+            "seconds": 0.0013131000014254823
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 11,
+            "seconds": 0.0014465999993262812
+          }
+        ],
+        "transitions": 1786,
+        "expanded_states": 1101,
+        "merged_histories": 680,
+        "peak_live_states": 426,
+        "covered_regions": 6,
+        "terminal_regions": 6,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.38048770000750665,
+        "elapsed_seconds": 0.3837863000080688,
+        "tracemalloc_current_bytes": 27713,
+        "tracemalloc_peak_bytes": 239538,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "43406717952470797/13516320440580943",
+          "43406717952470797/13516320440580943"
+        ],
+        "p_outer_approx": [
+          0.07312554380621138,
+          0.07312554380621138
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "43406717952470797/13516320440580943",
+            "a": [
+              [
+                9,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                7
+              ]
+            ],
+            "b": [
+              [
+                7,
+                2
+              ],
+              [
+                9,
+                1
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0006004000024404377
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0006560000038007274
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.002896400008467026,
+        "elapsed_seconds": 0.004704799997853115,
+        "tracemalloc_current_bytes": 5452,
+        "tracemalloc_peak_bytes": 6380,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1479077716381/44271898419",
+          "315714738031/9304785629"
+        ],
+        "p_outer_approx": [
+          5.712034159363017e-09,
+          7.467943743550558e-09
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "315714738031/9304785629",
+            "a": [
+              [
+                6,
+                5
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                11
+              ]
+            ],
+            "b": [
+              [
+                27,
+                2
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 81,
+            "seconds": 0.004968300010659732
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 9,
+            "seconds": 0.0008439000084763393
+          }
+        ],
+        "transitions": 329,
+        "expanded_states": 247,
+        "merged_histories": 76,
+        "peak_live_states": 84,
+        "covered_regions": 7,
+        "terminal_regions": 7,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.061480699994717725,
+        "elapsed_seconds": 0.06782110000494868,
+        "tracemalloc_current_bytes": 16978,
+        "tracemalloc_peak_bytes": 56712,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1865180599/55119841",
+          "1865180599/55119841"
+        ],
+        "p_outer_approx": [
+          5.987762668814824e-09,
+          5.987762668814824e-09
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "1865180599/55119841",
+            "a": [
+              [
+                6,
+                5
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "b": [
+              [
+                27,
+                2
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0006304999988060445
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0005535999953281134
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.002192800006014295,
+        "elapsed_seconds": 0.004020700012915768,
+        "tracemalloc_current_bytes": 5316,
+        "tracemalloc_peak_bytes": 6152,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "state_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "382925/893"
+        ],
+        "p_outer_approx": [
+          2.954337835894698e-95,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "223799700792945679946951/80834293221257013897619",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                17,
+                7
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                10
+              ],
+              [
+                3,
+                18
+              ]
+            ],
+            "b": [
+              [
+                14,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                10,
+                9
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                3,
+                7
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 17,
+            "seconds": 0.001764600005117245
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 19,
+            "seconds": 0.0016680999979143962
+          }
+        ],
+        "transitions": 20721,
+        "expanded_states": 721,
+        "merged_histories": 0,
+        "peak_live_states": 20001,
+        "covered_regions": 20001,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 19677,
+        "completed_layers": 1,
+        "joint_seconds": 5.569603800002369,
+        "elapsed_seconds": 5.573728300005314,
+        "tracemalloc_current_bytes": 22723574,
+        "tracemalloc_peak_bytes": 22723753,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "374250571324638541696904/118901303395613204247811",
+          "374250571324638541696904/118901303395613204247811"
+        ],
+        "p_outer_approx": [
+          0.07603996835801277,
+          0.07603996835801277
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "374250571324638541696904/118901303395613204247811",
+            "a": [
+              [
+                5,
+                2
+              ],
+              [
+                14,
+                4
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                5,
+                26
+              ]
+            ],
+            "b": [
+              [
+                14,
+                3
+              ],
+              [
+                13,
+                4
+              ],
+              [
+                9,
+                4
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                5,
+                3
+              ],
+              [
+                5,
+                12
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0011898000084329396
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.000909099995624274
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.004670099995564669,
+        "elapsed_seconds": 0.007452099991496652,
+        "tracemalloc_current_bytes": 7386,
+        "tracemalloc_peak_bytes": 8134,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "time_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "5080230808387/118327179511"
+        ],
+        "p_outer_approx": [
+          5.662499012608886e-11,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "71468678652673694916621/5941167977285177055595",
+            "a": [
+              [
+                18,
+                0
+              ],
+              [
+                14,
+                3
+              ],
+              [
+                8,
+                7
+              ],
+              [
+                5,
+                13
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                8
+              ]
+            ],
+            "b": [
+              [
+                30,
+                0
+              ],
+              [
+                15,
+                1
+              ],
+              [
+                13,
+                4
+              ],
+              [
+                8,
+                4
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                3
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 109,
+            "seconds": 0.004795400003786199
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 27,
+            "seconds": 0.0018859999981941655
+          }
+        ],
+        "transitions": 20480,
+        "expanded_states": 11795,
+        "merged_histories": 138,
+        "peak_live_states": 11278,
+        "covered_regions": 8548,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 7206,
+        "completed_layers": 3,
+        "joint_seconds": 8.891329599995515,
+        "elapsed_seconds": 8.8986353000073,
+        "tracemalloc_current_bytes": 12017408,
+        "tracemalloc_peak_bytes": 12017591,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "95246908069293793999/8255808001414246505",
+          "95246908069293793999/8255808001414246505"
+        ],
+        "p_outer_approx": [
+          0.0006822619342436682,
+          0.0006822619342436682
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "95246908069293793999/8255808001414246505",
+            "a": [
+              [
+                18,
+                8
+              ],
+              [
+                12,
+                3
+              ],
+              [
+                7,
+                2
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                2,
+                16
+              ]
+            ],
+            "b": [
+              [
+                30,
+                2
+              ],
+              [
+                14,
+                1
+              ],
+              [
+                13,
+                3
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                5
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0010310999932698905
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.001000700009171851
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.00397289999818895,
+        "elapsed_seconds": 0.0066497999941930175,
+        "tracemalloc_current_bytes": 6679,
+        "tracemalloc_peak_bytes": 7345,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "3737032993794464/64909051427131",
+          "688191473347685/11589663506257"
+        ],
+        "p_outer_approx": [
+          1.2999908081450536e-14,
+          3.256037707576321e-14
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "211397939451/3561444059",
+            "a": [
+              [
+                18,
+                0
+              ],
+              [
+                13,
+                0
+              ],
+              [
+                12,
+                7
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                4,
+                11
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "b": [
+              [
+                52,
+                2
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 38,
+            "seconds": 0.003023500001290813
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 18,
+            "seconds": 0.0023541999980807304
+          }
+        ],
+        "transitions": 3645,
+        "expanded_states": 3549,
+        "merged_histories": 26,
+        "peak_live_states": 1401,
+        "covered_regions": 71,
+        "terminal_regions": 71,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 1.5702753000077792,
+        "elapsed_seconds": 1.5762948999908986,
+        "tracemalloc_current_bytes": 405471,
+        "tracemalloc_peak_bytes": 1342880,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1212413056333272/20850852573725",
+          "1212413056333272/20850852573725"
+        ],
+        "p_outer_approx": [
+          2.4325356061108292e-14,
+          2.4325356061108292e-14
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "1212413056333272/20850852573725",
+            "a": [
+              [
+                18,
+                6
+              ],
+              [
+                12,
+                2
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                12
+              ]
+            ],
+            "b": [
+              [
+                52,
+                2
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0012053999962517992
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0009669999999459833
+          }
+        ],
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "joint_seconds": 0.004005000009783544,
+        "elapsed_seconds": 0.006823899995652027,
+        "tracemalloc_current_bytes": 5256,
+        "tracemalloc_peak_bytes": 6160,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n80-k12-digits2",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "state_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "8957/12"
+        ],
+        "p_outer_approx": [
+          2.4129578033114307e-164,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "37667634145366277365347307/3114046297533281470678793",
+            "a": [
+              [
+                7,
+                0
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                12
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                1,
+                15
+              ]
+            ],
+            "b": [
+              [
+                9,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                10,
+                3
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                8
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 2713,
+            "seconds": 0.3517276999918977
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 743,
+            "seconds": 0.039815700001781806
+          }
+        ],
+        "transitions": 20541,
+        "expanded_states": 541,
+        "merged_histories": 0,
+        "peak_live_states": 20001,
+        "covered_regions": 20001,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 19806,
+        "completed_layers": 1,
+        "joint_seconds": 6.568786999996519,
+        "elapsed_seconds": 6.961273799999617,
+        "tracemalloc_current_bytes": 22864727,
+        "tracemalloc_peak_bytes": 22864905,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n200-k12-digits2",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "state_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer_approx": [
+          0,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "13006595687571093449512658463549780564/1482888651807831650633286926277767491",
+            "a": [
+              [
+                14,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                6,
+                28
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                10,
+                44
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                28,
+                0
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                5,
+                20
+              ],
+              [
+                3,
+                19
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                9
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 395,
+            "seconds": 0.013657799994689412
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 3013,
+            "seconds": 0.09516090000397526
+          }
+        ],
+        "transitions": 20000,
+        "expanded_states": 0,
+        "merged_histories": 0,
+        "peak_live_states": 20001,
+        "covered_regions": 20001,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 20000,
+        "completed_layers": 0,
+        "joint_seconds": 3.3820449999911943,
+        "elapsed_seconds": 3.4920152999984566,
+        "tracemalloc_current_bytes": 20836119,
+        "tracemalloc_peak_bytes": 20836629,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n80-k6-digits1",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "state_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "p_outer_approx": [
+          0,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "4939864690471732/1228303547192843",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                8,
+                7
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                7,
+                2
+              ],
+              [
+                6,
+                37
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                8,
+                5
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                29
+              ]
+            ]
+          }
+        },
+        "witness_searches": [
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 9,
+            "seconds": 0.0008950000046752393
+          },
+          {
+            "found": true,
+            "complete": true,
+            "reason": null,
+            "nodes": 7,
+            "seconds": 0.0007427999953506514
+          }
+        ],
+        "transitions": 20000,
+        "expanded_states": 0,
+        "merged_histories": 0,
+        "peak_live_states": 20001,
+        "covered_regions": 20001,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 20000,
+        "completed_layers": 0,
+        "joint_seconds": 3.068619099998614,
+        "elapsed_seconds": 3.070822199995746,
+        "tracemalloc_current_bytes": 19380556,
+        "tracemalloc_peak_bytes": 19381066,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n200-k20-digits2",
+      "result": {
+        "schema": "discrete-frontier-bounds-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "state_limit",
+        "decision": "unresolved_no_witness",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "105393/52"
+        ],
+        "p_outer_approx": [
+          0.0,
+          1.0
+        ],
+        "nonempty_proven": false,
+        "opposing_witnesses_found": false,
+        "witnesses": {},
+        "witness_searches": [
+          {
+            "found": false,
+            "complete": false,
+            "reason": "witness_time_limit",
+            "nodes": 43200,
+            "seconds": 2.0003005000035046
+          },
+          {
+            "found": false,
+            "complete": false,
+            "reason": "witness_time_limit",
+            "nodes": 46528,
+            "seconds": 2.0023002000089036
+          }
+        ],
+        "transitions": 20090,
+        "expanded_states": 90,
+        "merged_histories": 0,
+        "peak_live_states": 20001,
+        "covered_regions": 20001,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 7562,
+        "completed_layers": 1,
+        "joint_seconds": 4.079134300001897,
+        "elapsed_seconds": 8.082529000006616,
+        "tracemalloc_current_bytes": 22530952,
+        "tracemalloc_peak_bytes": 22531132,
+        "limits": {
+          "seconds_joint": 8,
+          "max_transitions": 100000,
+          "max_states": 20000,
+          "witness_seconds_per_arm": 2,
+          "witness_nodes_per_arm": 50000
+        }
+      }
+    }
+  ],
+  "elapsed_seconds": 41.910904500007746
+}

@@ -58,7 +58,7 @@ last_verified: 2026-08-09
 | 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
 | 6 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 7 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 100% of 2 | ○ `unwritten` |
-| 8 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **11.0** | 2 | 3 | 0 | 20% of 10 | ◐ `drafted` |
+| 8 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ⭐ could still help a patient | 🧪 bench, to build | **11.0** | 2 | 3 | 0 | 20% of 10 | ◐ `drafted` |
 | 9 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 10 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
 | 11 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **5.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |

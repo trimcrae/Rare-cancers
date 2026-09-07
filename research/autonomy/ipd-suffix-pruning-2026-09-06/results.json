@@ -1,0 +1,3312 @@
+{
+  "synthetic": true,
+  "partition": "existing_development_only",
+  "inputs": [
+    {
+      "path": "research\\autonomy\\ipd-bounds-development-2026-09-06\\development-releases.json",
+      "sha256": "b82e3df721f9f3705a0dbd2c1e68e5d724720c3a32f032a5629e6d6427d09172"
+    },
+    {
+      "path": "research\\autonomy\\ipd-bounds-development-2026-09-06\\stress-releases.json",
+      "sha256": "cda2bf1fd3a33061202d2137acd2651a3ddd0f7402c1ad74d55ecc90fc05280e"
+    }
+  ],
+  "protocol_sha256": "3dd794df4bd391cbaecb5dc87596d33dc75badc173d5c8bf47ad986428711624",
+  "solver_sha256": "999bc376eb8ca3047dbe31e83d2d156b43bfd70ca57d6ad43c8eaaf6d9efbcdb",
+  "cases": [
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "46155629/35415349",
+          "46155629/35415349"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.2536174667536924,
+          0.2536174667536924
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "46155629/35415349",
+            "a": [
+              [
+                1,
+                3
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "b": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                7
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 72,
+            "hits_true": 40,
+            "hits_false": 6,
+            "proved_true": 10,
+            "proved_false": 16,
+            "unknown_returns": 0,
+            "pruned_transitions": 16,
+            "successors_exhausted": 15,
+            "max_depth": 7,
+            "cache_entries": 26,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 109,
+            "hits_true": 68,
+            "hits_false": 3,
+            "proved_true": 14,
+            "proved_false": 24,
+            "unknown_returns": 0,
+            "pruned_transitions": 19,
+            "successors_exhausted": 21,
+            "max_depth": 7,
+            "cache_entries": 38,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 68,
+        "expanded_states": 37,
+        "merged_histories": 31,
+        "peak_live_states": 33,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 850,
+        "work_counts": {
+          "suffix_calls": 181,
+          "event_candidates": 422,
+          "censor_successors": 179,
+          "joint_pairs": 68
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 181,
+          "suffix_after_successor": 36,
+          "joint_after_successor": 68
+        },
+        "search_seconds": 0.019039000006159768,
+        "elapsed_seconds": 0.019777699999394827,
+        "tracemalloc_current_bytes": 25996,
+        "tracemalloc_peak_bytes": 38206,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "46155629/35415349",
+          "46155629/35415349"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.2536174667536924,
+          0.2536174667536924
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "46155629/35415349",
+            "a": [
+              [
+                1,
+                3
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "b": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 154,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 98,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.006683799991151318,
+        "elapsed_seconds": 0.007590799999888986,
+        "tracemalloc_current_bytes": 8056,
+        "tracemalloc_peak_bytes": 8632,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "17441354/77724223",
+          "7924697818/6518402919"
+        ],
+        "q_width": "502251207588933088/506637802080206937",
+        "p_outer_approx": [
+          0.2701978589004691,
+          0.6357072261158468
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "373006265/378674119",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 58,
+            "hits_true": 29,
+            "hits_false": 2,
+            "proved_true": 15,
+            "proved_false": 12,
+            "unknown_returns": 0,
+            "pruned_transitions": 12,
+            "successors_exhausted": 16,
+            "max_depth": 7,
+            "cache_entries": 27,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 71,
+            "hits_true": 30,
+            "hits_false": 23,
+            "proved_true": 8,
+            "proved_false": 10,
+            "unknown_returns": 0,
+            "pruned_transitions": 28,
+            "successors_exhausted": 12,
+            "max_depth": 7,
+            "cache_entries": 18,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 30,
+        "expanded_states": 15,
+        "merged_histories": 15,
+        "peak_live_states": 6,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 689,
+        "work_counts": {
+          "suffix_calls": 129,
+          "event_candidates": 403,
+          "censor_successors": 127,
+          "joint_pairs": 30
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 129,
+          "suffix_after_successor": 28,
+          "joint_after_successor": 30
+        },
+        "search_seconds": 0.014745599997695535,
+        "elapsed_seconds": 0.015685299993492663,
+        "tracemalloc_current_bytes": 11426,
+        "tracemalloc_peak_bytes": 13512,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "7924697818/7101955187",
+          "7924697818/7101955187"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.29081438898942286,
+          0.29081438898942286
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "7924697818/7101955187",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                1
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 184,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 128,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.0036798999935854226,
+        "elapsed_seconds": 0.004368800000520423,
+        "tracemalloc_current_bytes": 7620,
+        "tracemalloc_peak_bytes": 8160,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "28014525/1522489",
+          "28014525/1522489"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          1.7901309087544364e-05,
+          1.7901309087544364e-05
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "28014525/1522489",
+            "a": [
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                11,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 50,
+            "hits_true": 18,
+            "hits_false": 2,
+            "proved_true": 13,
+            "proved_false": 17,
+            "unknown_returns": 0,
+            "pruned_transitions": 17,
+            "successors_exhausted": 14,
+            "max_depth": 7,
+            "cache_entries": 30,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 25,
+            "hits_true": 18,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 18,
+        "expanded_states": 12,
+        "merged_histories": 6,
+        "peak_live_states": 8,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 420,
+        "work_counts": {
+          "suffix_calls": 75,
+          "event_candidates": 254,
+          "censor_successors": 73,
+          "joint_pairs": 18
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 75,
+          "suffix_after_successor": 20,
+          "joint_after_successor": 18
+        },
+        "search_seconds": 0.008193999994546175,
+        "elapsed_seconds": 0.008917600003769621,
+        "tracemalloc_current_bytes": 9021,
+        "tracemalloc_peak_bytes": 10729,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n20-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "28014525/1522489",
+          "28014525/1522489"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          1.7901309087544364e-05,
+          1.7901309087544364e-05
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "28014525/1522489",
+            "a": [
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                11,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 176,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 120,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.0037721999979112297,
+        "elapsed_seconds": 0.004504399999859743,
+        "tracemalloc_current_bytes": 7221,
+        "tracemalloc_peak_bytes": 7928,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "1590196844584269677/524354373252159568693",
+          "450095780129571/12970530944487739"
+        ],
+        "q_width": "215383993312775988572044910819130400/6801154624144609678213885192066755127",
+        "p_outer_approx": [
+          0.8522227136759537,
+          0.9560829065227923
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "11189513679710933/383019995070971197",
+            "a": [
+              [
+                7,
+                5
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                5,
+                7
+              ]
+            ],
+            "b": [
+              [
+                8,
+                5
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                4,
+                3
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                4,
+                7
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 306,
+            "hits_true": 32,
+            "hits_false": 155,
+            "proved_true": 13,
+            "proved_false": 106,
+            "unknown_returns": 0,
+            "pruned_transitions": 60,
+            "successors_exhausted": 213,
+            "max_depth": 7,
+            "cache_entries": 119,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 289,
+            "hits_true": 38,
+            "hits_false": 46,
+            "proved_true": 18,
+            "proved_false": 187,
+            "unknown_returns": 0,
+            "pruned_transitions": 106,
+            "successors_exhausted": 141,
+            "max_depth": 7,
+            "cache_entries": 205,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 41,
+        "expanded_states": 26,
+        "merged_histories": 12,
+        "peak_live_states": 15,
+        "covered_regions": 4,
+        "terminal_regions": 4,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 4040,
+        "work_counts": {
+          "suffix_calls": 595,
+          "event_candidates": 2811,
+          "censor_successors": 593,
+          "joint_pairs": 41
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 595,
+          "suffix_after_successor": 354,
+          "joint_after_successor": 41
+        },
+        "search_seconds": 0.08159729999897536,
+        "elapsed_seconds": 0.0826256000000285,
+        "tracemalloc_current_bytes": 51780,
+        "tracemalloc_peak_bytes": 52164,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "336726424179539/40331023221815251",
+          "336726424179539/40331023221815251"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.9271960318297983,
+          0.9271960318297983
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "336726424179539/40331023221815251",
+            "a": [
+              [
+                7,
+                5
+              ],
+              [
+                8,
+                5
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                5,
+                7
+              ]
+            ],
+            "b": [
+              [
+                8,
+                5
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                4,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                4,
+                7
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 251,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 195,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.005231100003584288,
+        "elapsed_seconds": 0.005979199995636009,
+        "tracemalloc_current_bytes": 7640,
+        "tracemalloc_peak_bytes": 8024,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "4649518034251785/1539427919625506",
+          "137677131296496000/40195404801595471"
+        ],
+        "q_width": "25054760292703546575376297310265/61877928392225190677181625683326",
+        "p_outer_approx": [
+          0.06420862922450142,
+          0.0822287843262502
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "540377919906902215/168207525804605786",
+            "a": [
+              [
+                9,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                7
+              ]
+            ],
+            "b": [
+              [
+                7,
+                1
+              ],
+              [
+                9,
+                2
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 256,
+            "hits_true": 32,
+            "hits_false": 121,
+            "proved_true": 16,
+            "proved_false": 87,
+            "unknown_returns": 0,
+            "pruned_transitions": 185,
+            "successors_exhausted": 36,
+            "max_depth": 7,
+            "cache_entries": 103,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 171,
+            "hits_true": 41,
+            "hits_false": 81,
+            "proved_true": 15,
+            "proved_false": 34,
+            "unknown_returns": 0,
+            "pruned_transitions": 94,
+            "successors_exhausted": 34,
+            "max_depth": 7,
+            "cache_entries": 49,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 42,
+        "expanded_states": 31,
+        "merged_histories": 6,
+        "peak_live_states": 13,
+        "covered_regions": 6,
+        "terminal_regions": 6,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 2859,
+        "work_counts": {
+          "suffix_calls": 427,
+          "event_candidates": 1965,
+          "censor_successors": 425,
+          "joint_pairs": 42
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 427,
+          "suffix_after_successor": 70,
+          "joint_after_successor": 42
+        },
+        "search_seconds": 0.05379769999126438,
+        "elapsed_seconds": 0.05629180000687484,
+        "tracemalloc_current_bytes": 34715,
+        "tracemalloc_peak_bytes": 35099,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "43406717952470797/13516320440580943",
+          "43406717952470797/13516320440580943"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.07312554380621138,
+          0.07312554380621138
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "43406717952470797/13516320440580943",
+            "a": [
+              [
+                9,
+                2
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                7
+              ]
+            ],
+            "b": [
+              [
+                7,
+                2
+              ],
+              [
+                9,
+                1
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 293,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 237,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.006328300005407073,
+        "elapsed_seconds": 0.007249200003570877,
+        "tracemalloc_current_bytes": 8214,
+        "tracemalloc_peak_bytes": 8598,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1479077716381/44271898419",
+          "315714738031/9304785629"
+        ],
+        "q_width": "214789731933561384340/411940524177659020551",
+        "p_outer_approx": [
+          5.712034159363017e-09,
+          7.467943743550558e-09
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "315714738031/9304785629",
+            "a": [
+              [
+                6,
+                5
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                11
+              ]
+            ],
+            "b": [
+              [
+                27,
+                2
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 399,
+            "hits_true": 173,
+            "hits_false": 8,
+            "proved_true": 104,
+            "proved_false": 114,
+            "unknown_returns": 0,
+            "pruned_transitions": 46,
+            "successors_exhausted": 173,
+            "max_depth": 7,
+            "cache_entries": 218,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 192,
+            "hits_true": 179,
+            "hits_false": 4,
+            "proved_true": 7,
+            "proved_false": 2,
+            "unknown_returns": 0,
+            "pruned_transitions": 4,
+            "successors_exhausted": 8,
+            "max_depth": 7,
+            "cache_entries": 9,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 179,
+        "expanded_states": 97,
+        "merged_histories": 76,
+        "peak_live_states": 84,
+        "covered_regions": 7,
+        "terminal_regions": 7,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 2714,
+        "work_counts": {
+          "suffix_calls": 591,
+          "event_candidates": 1355,
+          "censor_successors": 589,
+          "joint_pairs": 179
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 591,
+          "suffix_after_successor": 181,
+          "joint_after_successor": 179
+        },
+        "search_seconds": 0.06766150001203641,
+        "elapsed_seconds": 0.06882640000549145,
+        "tracemalloc_current_bytes": 60750,
+        "tracemalloc_peak_bytes": 97376,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n40-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1865180599/55119841",
+          "1865180599/55119841"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          5.987762668814824e-09,
+          5.987762668814824e-09
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "1865180599/55119841",
+            "a": [
+              [
+                6,
+                5
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                10
+              ]
+            ],
+            "b": [
+              [
+                27,
+                2
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 243,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 187,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.005021599994506687,
+        "elapsed_seconds": 0.005721199995605275,
+        "tracemalloc_current_bytes": 7430,
+        "tracemalloc_peak_bytes": 8000,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.18-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "369849556666/13896449649"
+        ],
+        "q_width": "369849556666/13896449649",
+        "p_outer_approx": [
+          2.483495886651107e-07,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "223799700792945679946951/80834293221257013897619",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                17,
+                7
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                10
+              ],
+              [
+                3,
+                18
+              ]
+            ],
+            "b": [
+              [
+                14,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                10,
+                9
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                3,
+                7
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 15575,
+            "hits_true": 1448,
+            "hits_false": 8620,
+            "proved_true": 126,
+            "proved_false": 5381,
+            "unknown_returns": 0,
+            "pruned_transitions": 8991,
+            "successors_exhausted": 5103,
+            "max_depth": 7,
+            "cache_entries": 5507,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 21885,
+            "hits_true": 2952,
+            "hits_false": 16119,
+            "proved_true": 307,
+            "proved_false": 2506,
+            "unknown_returns": 1,
+            "pruned_transitions": 16729,
+            "successors_exhausted": 2126,
+            "max_depth": 7,
+            "cache_entries": 2813,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 3028,
+        "expanded_states": 735,
+        "merged_histories": 0,
+        "peak_live_states": 2294,
+        "covered_regions": 2294,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 2266,
+        "completed_layers": 3,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 37459,
+          "event_candidates": 122055,
+          "censor_successors": 37458,
+          "joint_pairs": 3028
+        },
+        "stop_context": "suffix_calls",
+        "hook_counts": {
+          "suffix_entry": 37459,
+          "suffix_after_successor": 7229,
+          "joint_after_successor": 3028
+        },
+        "search_seconds": 4.259768200005055,
+        "elapsed_seconds": 4.473959700000705,
+        "tracemalloc_current_bytes": 4417993,
+        "tracemalloc_peak_bytes": 4418377,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.18-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_nonreject",
+        "outer_interval_decision": "stable_nonreject",
+        "q_outer": [
+          "374250571324638541696904/118901303395613204247811",
+          "374250571324638541696904/118901303395613204247811"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.07603996835801277,
+          0.07603996835801277
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_nonreject": {
+            "q": "374250571324638541696904/118901303395613204247811",
+            "a": [
+              [
+                5,
+                2
+              ],
+              [
+                14,
+                4
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                5,
+                26
+              ]
+            ],
+            "b": [
+              [
+                14,
+                3
+              ],
+              [
+                13,
+                4
+              ],
+              [
+                9,
+                4
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                5,
+                3
+              ],
+              [
+                5,
+                12
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 458,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 402,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.008584800001699477,
+        "elapsed_seconds": 0.00926070001150947,
+        "tracemalloc_current_bytes": 8272,
+        "tracemalloc_peak_bytes": 8656,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.32-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "405313943783742334497828096/52355156742845536382392253",
+          "57140413199969/4128775019011"
+        ],
+        "q_width": "1318145203484192940417502611070475507101/216162663276265964315448066545734121783",
+        "p_outer_approx": [
+          0.0001991002513799245,
+          0.005396224561400143
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "71468678652673694916621/5941167977285177055595",
+            "a": [
+              [
+                18,
+                0
+              ],
+              [
+                14,
+                3
+              ],
+              [
+                8,
+                7
+              ],
+              [
+                5,
+                13
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                8
+              ]
+            ],
+            "b": [
+              [
+                30,
+                0
+              ],
+              [
+                15,
+                1
+              ],
+              [
+                13,
+                4
+              ],
+              [
+                8,
+                4
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                3
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 30816,
+            "hits_true": 4468,
+            "hits_false": 19572,
+            "proved_true": 882,
+            "proved_false": 5894,
+            "unknown_returns": 0,
+            "pruned_transitions": 21551,
+            "successors_exhausted": 4474,
+            "max_depth": 7,
+            "cache_entries": 6776,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 26098,
+            "hits_true": 8704,
+            "hits_false": 16889,
+            "proved_true": 62,
+            "proved_false": 443,
+            "unknown_returns": 0,
+            "pruned_transitions": 16984,
+            "successors_exhausted": 391,
+            "max_depth": 7,
+            "cache_entries": 505,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 8721,
+        "expanded_states": 2515,
+        "merged_histories": 51,
+        "peak_live_states": 6157,
+        "covered_regions": 6156,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 780,
+        "completed_layers": 5,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 56914,
+          "event_candidates": 77453,
+          "censor_successors": 56912,
+          "joint_pairs": 8721
+        },
+        "stop_context": "joint_pairs",
+        "hook_counts": {
+          "suffix_entry": 56914,
+          "suffix_after_successor": 4865,
+          "joint_after_successor": 8721
+        },
+        "search_seconds": 4.967254400005913,
+        "elapsed_seconds": 5.655588599998737,
+        "tracemalloc_current_bytes": 10183872,
+        "tracemalloc_peak_bytes": 10184256,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.32-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "95246908069293793999/8255808001414246505",
+          "95246908069293793999/8255808001414246505"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          0.0006822619342436682,
+          0.0006822619342436682
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "95246908069293793999/8255808001414246505",
+            "a": [
+              [
+                18,
+                8
+              ],
+              [
+                12,
+                3
+              ],
+              [
+                7,
+                2
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                2,
+                16
+              ]
+            ],
+            "b": [
+              [
+                30,
+                2
+              ],
+              [
+                14,
+                1
+              ],
+              [
+                13,
+                3
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                5
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 456,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 400,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.008133700001053512,
+        "elapsed_seconds": 0.008820100003504194,
+        "tracemalloc_current_bytes": 8065,
+        "tracemalloc_peak_bytes": 8449,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.65-sparse",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "3737032993794464/64909051427131",
+          "688191473347685/11589663506257"
+        ],
+        "q_width": "1358900825379897234369080487/752274064550778995198058667",
+        "p_outer_approx": [
+          1.2999908081450536e-14,
+          3.256037707576321e-14
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "211397939451/3561444059",
+            "a": [
+              [
+                18,
+                0
+              ],
+              [
+                13,
+                0
+              ],
+              [
+                12,
+                7
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                4,
+                11
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "b": [
+              [
+                52,
+                2
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 2472,
+            "hits_true": 185,
+            "hits_false": 288,
+            "proved_true": 250,
+            "proved_false": 1749,
+            "unknown_returns": 0,
+            "pruned_transitions": 1183,
+            "successors_exhausted": 1033,
+            "max_depth": 7,
+            "cache_entries": 1999,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 289,
+            "hits_true": 255,
+            "hits_false": 16,
+            "proved_true": 7,
+            "proved_false": 11,
+            "unknown_returns": 0,
+            "pruned_transitions": 16,
+            "successors_exhausted": 17,
+            "max_depth": 7,
+            "cache_entries": 18,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 255,
+        "expanded_states": 179,
+        "merged_histories": 6,
+        "peak_live_states": 77,
+        "covered_regions": 71,
+        "terminal_regions": 71,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 27313,
+        "work_counts": {
+          "suffix_calls": 2761,
+          "event_candidates": 21538,
+          "censor_successors": 2759,
+          "joint_pairs": 255
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 2761,
+          "suffix_after_successor": 1050,
+          "joint_after_successor": 255
+        },
+        "search_seconds": 0.5650935000012396,
+        "elapsed_seconds": 0.5716804999974556,
+        "tracemalloc_current_bytes": 222860,
+        "tracemalloc_peak_bytes": 223244,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "development-releases.json",
+      "case_id": "n80-hazard-b-0.65-dense",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": true,
+        "reason": null,
+        "decision": "stable_reject",
+        "outer_interval_decision": "stable_reject",
+        "q_outer": [
+          "1212413056333272/20850852573725",
+          "1212413056333272/20850852573725"
+        ],
+        "q_width": "0",
+        "p_outer_approx": [
+          2.4325356061108292e-14,
+          2.4325356061108292e-14
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "1212413056333272/20850852573725",
+            "a": [
+              [
+                18,
+                6
+              ],
+              [
+                12,
+                2
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                6,
+                12
+              ]
+            ],
+            "b": [
+              [
+                52,
+                2
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 13,
+            "hits_true": 6,
+            "hits_false": 0,
+            "proved_true": 7,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 6,
+            "max_depth": 7,
+            "cache_entries": 7,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 6,
+        "expanded_states": 6,
+        "merged_histories": 0,
+        "peak_live_states": 2,
+        "covered_regions": 1,
+        "terminal_regions": 1,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 7,
+        "work_units": 475,
+        "work_counts": {
+          "suffix_calls": 26,
+          "event_candidates": 419,
+          "censor_successors": 24,
+          "joint_pairs": 6
+        },
+        "stop_context": null,
+        "hook_counts": {
+          "suffix_entry": 26,
+          "suffix_after_successor": 12,
+          "joint_after_successor": 6
+        },
+        "search_seconds": 0.008056799997575581,
+        "elapsed_seconds": 0.008806199999526143,
+        "tracemalloc_current_bytes": 7826,
+        "tracemalloc_peak_bytes": 8210,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n80-k12-digits2",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "8957/12"
+        ],
+        "q_width": "8957/12",
+        "p_outer_approx": [
+          2.4129578033114307e-164,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "37667634145366277365347307/3114046297533281470678793",
+            "a": [
+              [
+                7,
+                0
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                12
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                1,
+                15
+              ]
+            ],
+            "b": [
+              [
+                9,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                7,
+                1
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                10,
+                3
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                8
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 3656,
+            "hits_true": 4,
+            "hits_false": 54,
+            "proved_true": 109,
+            "proved_false": 3489,
+            "unknown_returns": 0,
+            "pruned_transitions": 62,
+            "successors_exhausted": 3581,
+            "max_depth": 13,
+            "cache_entries": 3598,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 12942,
+            "hits_true": 36,
+            "hits_false": 415,
+            "proved_true": 71,
+            "proved_false": 12410,
+            "unknown_returns": 10,
+            "pruned_transitions": 184,
+            "successors_exhausted": 12706,
+            "max_depth": 13,
+            "cache_entries": 12481,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 41,
+        "expanded_states": 3,
+        "merged_histories": 0,
+        "peak_live_states": 39,
+        "covered_regions": 39,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 5,
+        "completed_layers": 1,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 16598,
+          "event_candidates": 166765,
+          "censor_successors": 16596,
+          "joint_pairs": 41
+        },
+        "stop_context": "event_candidates",
+        "hook_counts": {
+          "suffix_entry": 16598,
+          "suffix_after_successor": 16287,
+          "joint_after_successor": 41
+        },
+        "search_seconds": 4.471413899998879,
+        "elapsed_seconds": 4.477618700009771,
+        "tracemalloc_current_bytes": 2464651,
+        "tracemalloc_peak_bytes": 2589453,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n200-k12-digits2",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "q_width": "infinity",
+        "p_outer_approx": [
+          0,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "13006595687571093449512658463549780564/1482888651807831650633286926277767491",
+            "a": [
+              [
+                14,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                14,
+                0
+              ],
+              [
+                6,
+                28
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                10,
+                44
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ],
+            "b": [
+              [
+                28,
+                0
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                5,
+                20
+              ],
+              [
+                3,
+                19
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                9
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 396,
+            "hits_true": 1,
+            "hits_false": 0,
+            "proved_true": 13,
+            "proved_false": 382,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 394,
+            "max_depth": 13,
+            "cache_entries": 395,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 36826,
+            "hits_true": 1,
+            "hits_false": 1562,
+            "proved_true": 241,
+            "proved_false": 35011,
+            "unknown_returns": 11,
+            "pruned_transitions": 0,
+            "successors_exhausted": 36794,
+            "max_depth": 13,
+            "cache_entries": 35252,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 20,
+        "expanded_states": 0,
+        "merged_histories": 0,
+        "peak_live_states": 21,
+        "covered_regions": 21,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 20,
+        "completed_layers": 0,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 37222,
+          "event_candidates": 125538,
+          "censor_successors": 37220,
+          "joint_pairs": 20
+        },
+        "stop_context": "event_candidates",
+        "hook_counts": {
+          "suffix_entry": 37222,
+          "suffix_after_successor": 37188,
+          "joint_after_successor": 20
+        },
+        "search_seconds": 5.809760699994513,
+        "elapsed_seconds": 5.816600300007849,
+        "tracemalloc_current_bytes": 4169899,
+        "tracemalloc_peak_bytes": 4170283,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n80-k6-digits1",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "unresolved",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "89093/125"
+        ],
+        "q_width": "89093/125",
+        "p_outer_approx": [
+          5.063758285598411e-157,
+          1.0
+        ],
+        "nonempty_proven": true,
+        "opposing_witnesses_found": false,
+        "witnesses": {
+          "stable_reject": {
+            "q": "4939864690471732/1228303547192843",
+            "a": [
+              [
+                5,
+                0
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                8,
+                7
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                7,
+                2
+              ],
+              [
+                6,
+                37
+              ]
+            ],
+            "b": [
+              [
+                5,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                8,
+                5
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                3,
+                29
+              ]
+            ]
+          }
+        },
+        "initial_feasibility": [
+          "TRUE",
+          "TRUE"
+        ],
+        "arms": {
+          "a": {
+            "calls": 2319,
+            "hits_true": 249,
+            "hits_false": 819,
+            "proved_true": 451,
+            "proved_false": 800,
+            "unknown_returns": 0,
+            "pruned_transitions": 924,
+            "successors_exhausted": 1073,
+            "max_depth": 7,
+            "cache_entries": 1251,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 35391,
+            "hits_true": 11787,
+            "hits_false": 17335,
+            "proved_true": 4177,
+            "proved_false": 2091,
+            "unknown_returns": 1,
+            "pruned_transitions": 18602,
+            "successors_exhausted": 4235,
+            "max_depth": 7,
+            "cache_entries": 6268,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 12552,
+        "expanded_states": 41,
+        "merged_histories": 990,
+        "peak_live_states": 11522,
+        "covered_regions": 11522,
+        "terminal_regions": 0,
+        "active_parent_retained": true,
+        "retained_children": 5962,
+        "completed_layers": 1,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 37710,
+          "event_candidates": 112030,
+          "censor_successors": 37708,
+          "joint_pairs": 12552
+        },
+        "stop_context": "event_candidates",
+        "hook_counts": {
+          "suffix_entry": 37710,
+          "suffix_after_successor": 5308,
+          "joint_after_successor": 12552
+        },
+        "search_seconds": 5.431949899997562,
+        "elapsed_seconds": 6.386680800002068,
+        "tracemalloc_current_bytes": 15259364,
+        "tracemalloc_peak_bytes": 15259748,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    },
+    {
+      "source": "stress-releases.json",
+      "case_id": "n200-k20-digits2",
+      "result": {
+        "schema": "discrete-suffix-frontier-v1",
+        "synthetic": true,
+        "complete_traversal": false,
+        "reason": "work_limit",
+        "decision": "unresolved_no_witness",
+        "outer_interval_decision": "unresolved",
+        "q_outer": [
+          "0",
+          "infinity"
+        ],
+        "q_width": "infinity",
+        "p_outer_approx": [
+          0,
+          1.0
+        ],
+        "nonempty_proven": false,
+        "opposing_witnesses_found": false,
+        "witnesses": {},
+        "initial_feasibility": [
+          "UNKNOWN"
+        ],
+        "arms": {
+          "a": {
+            "calls": 87146,
+            "hits_true": 0,
+            "hits_false": 69398,
+            "proved_true": 0,
+            "proved_false": 17735,
+            "unknown_returns": 13,
+            "pruned_transitions": 0,
+            "successors_exhausted": 87133,
+            "max_depth": 15,
+            "cache_entries": 17735,
+            "cache_unknown_entries": 0
+          },
+          "b": {
+            "calls": 0,
+            "hits_true": 0,
+            "hits_false": 0,
+            "proved_true": 0,
+            "proved_false": 0,
+            "unknown_returns": 0,
+            "pruned_transitions": 0,
+            "successors_exhausted": 0,
+            "max_depth": 0,
+            "cache_entries": 0,
+            "cache_unknown_entries": 0
+          }
+        },
+        "transitions": 0,
+        "expanded_states": 0,
+        "merged_histories": 0,
+        "peak_live_states": 1,
+        "covered_regions": 1,
+        "terminal_regions": 0,
+        "active_parent_retained": false,
+        "retained_children": 0,
+        "completed_layers": 0,
+        "work_units": 200000,
+        "work_counts": {
+          "suffix_calls": 87146,
+          "event_candidates": 25709,
+          "censor_successors": 87145
+        },
+        "stop_context": "event_candidates",
+        "hook_counts": {
+          "suffix_entry": 87146,
+          "suffix_after_successor": 87133
+        },
+        "search_seconds": 5.4696919999987585,
+        "elapsed_seconds": 5.472655200006557,
+        "tracemalloc_current_bytes": 1888314,
+        "tracemalloc_peak_bytes": 1893780,
+        "limits": {
+          "seconds_total_search": 12,
+          "max_work_units": 200000,
+          "max_transitions": 100000,
+          "max_joint_states": 20000,
+          "max_cache_entries": 100000,
+          "max_traced_bytes": 67108864,
+          "initial_witness": true,
+          "forced_stops": null
+        }
+      }
+    }
+  ],
+  "elapsed_seconds": 33.30869669999811
+}

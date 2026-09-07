@@ -1,0 +1,61 @@
+[
+  {
+    "position": 42,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "De novo or recurrent synovial sarcoma is explicitly included in the locally resectable abdominal-tumor study; metastatic lesions are excluded.",
+    "cohort_reconciliation": "The detailed description places SS in rare-tumor Cohort 3, an uncontrolled treatment cohort. Generic comparator arms do not prove a matched SS control group. Enrollment, masking and randomization wording are inconsistent across modules.",
+    "extra_biomarker_requirement": "No additional molecular gate is stated. Histologic assessment, resectability and implant-size constraints remain necessary.",
+    "protocol_uncertainty": "Eligibility/metadata say at most 18 but title/description say younger than 18. External protocol is unreviewed and live slots are unknown. Prior irinotecan is permitted only without documented progression during treatment; no clinical outcome is established.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "de novo or recurrent synovial sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Metastatic lesions."],
+      ["descriptionModule/detailedDescription", "Cohort 3: 20 participants with rare abdominal tumors including WT, GCT, eMRT, SS, DSRCT and FL-HCC, open label uncontrolled treatment arm to obtain additional safety and efficacy data."]
+    ]
+  },
+  {
+    "position": 43,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly named in conditions and is compatible with the NRSTS disease/risk definitions; it is not among excluded histologies.",
+    "cohort_reconciliation": "Low-, intermediate- and high-risk pathways depend on grade, size, resection and metastatic state. Some receive surgery/observation, others systemic therapy and/or radiation. CIC-DUX4 forces high-risk assignment for that diagnosis, not for SS, and is not a required fusion for inclusion.",
+    "extra_biomarker_requirement": "No additional SS molecular gate is stated. Exploratory HRD/genomic studies do not require a positive biomarker result.",
+    "protocol_uncertainty": "Age 1–30 is assessed at diagnostic biopsy. No prior NRSTS systemic therapy, anthracycline/ifosfamide or relevant TKI/radiation is permitted. External protocol and live risk-stratum availability are unverified. Risk cutoffs and arm/intervention mapping details must not be replaced by a single universal regimen.",
+    "task_domain": "oncology_risk_adapted_treatment_and_observation",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/21", "Synovial Sarcoma"],
+      ["eligibilityModule/eligibilityCriteria", "Patients must be 1-30 years at the time of the biopsy that established the diagnosis of NRSTS."],
+      ["eligibilityModule/eligibilityCriteria", "Patients must have had no prior systemic therapy for the treatment of the NRSTS"]
+    ]
+  },
+  {
+    "position": 44,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcomas are explicitly named in conditions and compatible with the STS eligibility, whose rhabdomyosarcoma/Ewing exclusions do not exclude SS.",
+    "cohort_reconciliation": "Single preoperative radiotherapy pathway with individualized proton versus photon selection, not random treatment allocation. Localized head/neck/extremity/girdle/trunk-wall disease and no locoregional/distant metastasis are required, with an uncertain-small-lung-nodule exception.",
+    "extra_biomarker_requirement": "No molecular entry gate is stated; biomarker investigations are exploratory.",
+    "protocol_uncertainty": "External protocol and live treatment availability are unverified. Age at least 18, travel/procedure capability, prior-radiation and clinical requirements remain applicable. No radiation superiority or safety is inferred.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["conditionsModule/conditions/3", "Synovial Sarcomas"],
+      ["eligibilityModule/eligibilityCriteria", "Histological diagnosis of STS, except rhabdomyosarcoma and Ewing sarcoma. Pleomorphic rhabdomyosarcomas are eligible."]
+    ]
+  },
+  {
+    "position": 45,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "Synovial sarcoma is explicitly listed for all groups. The study concerns ovarian tissue assessment/cryopreservation/reimplantation in cancer survivors, not antitumor treatment.",
+    "cohort_reconciliation": "Group 1 requests collection, Group 2 has banked tissue, Group 3 requests reimplantation with early menopause/menstrual irregularities. The malignant-ovary/sample exclusion applies to Groups 1/3, while Group 2 states no exclusions. Tissue-bank/site and oncologist-clearance requirements remain.",
+    "extra_biomarker_requirement": "Primary-tumor markers are identified for testing banked tissue; this is not a positive tumor biomarker gate admitting SS to a therapeutic cancer trial.",
+    "protocol_uncertainty": "Eligibility says over 18, and Group 1 under 38 at cryopreservation; metadata 18–38 does not resolve boundaries or other groups' upper limits. External PA105 and live availability are unverified; no transplant safety or fertility benefit is established.",
+    "task_domain": "oncology_survivorship_fertility_and_tissue_testing",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients with Ewing (ES) and synovial (SS) sarcoma"],
+      ["armsInterventionsModule/interventions/2/description", "Search for neoplastic cells in cryopreserved ovarian tissue"],
+      ["designModule/designInfo/primaryPurpose", "OTHER"]
+    ]
+  }
+]

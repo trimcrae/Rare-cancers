@@ -1,0 +1,49 @@
+[
+  {
+    "position": 1,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "The saved eligibility explicitly permits histologically verified relapsed or refractory DSRCT. This is disease-scope compatibility only.",
+    "cohort_reconciliation": "Phase 2 Part B2 is the DSRCT cohort. Until Phase 1 dose confirmation, its stated age range is 12–39; after confirmation it is 2–39. Title references osteosarcoma and the phase enum is PHASE2, while the detailed record describes phase-dependent WT/DSRCT cohorts. Neither the title nor phase enum resolves which cohorts or ages are currently open.",
+    "extra_biomarker_requirement": "No positive HER2-expression threshold is stated as a required inclusion criterion in the complete saved eligibility. HER2 IHC prediction of response is an exploratory objective; do not infer a biomarker gate from the drug mechanism. Prior HER2-targeted therapy is excluded.",
+    "protocol_uncertainty": "External protocol and active cohort availability are unverified. Relapsed/refractory status, prior treatment, measurable disease, surgical plans and all other clinical criteria still apply. Metadata age limits do not resolve the conditional age expansion.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Patients must have had histologic verification of Wilms tumor or desmoplastic small round cell tumor at original diagnosis or relapse"],
+      ["eligibilityModule/eligibilityCriteria", "Desmoplastic small round cell tumor: DSRCT patients with relapsed or refractory disease are eligible"],
+      ["descriptionModule/detailedDescription", "To evaluate whether HER2 expression as measured by immunohistochemistry (IHC) is predictive of response to DS-8201a in pediatric and young adult patients with WT or DSRCT."]
+    ]
+  },
+  {
+    "position": 2,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is explicitly included by tissue diagnosis in the saved eligibility and consistently named in the description. B7-H3 expression is a separate required gate, not established by diagnosis alone.",
+    "cohort_reconciliation": "Single phase 1 CAR-T treatment cohort for patients aged 1–24 with relapsed or refractory RMS, ES or DSRCT; description, eligibility and arm agree. Separate infusion exclusions apply after initial enrollment assessment.",
+    "extra_biomarker_requirement": "Tumor expression of B7-H3 is explicitly required; the saved inclusion list does not state an assay cutoff and no patient expression result is available.",
+    "protocol_uncertainty": "External protocol, biomarker assay threshold, manufacturing feasibility and live slots are not independently verified. Measurable cross-sectional disease is required and marrow-only detectable disease is expressly excluded. Other clinical and infusion criteria remain unassessed for an individual.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Tissue diagnosis of RMS, ES or DSRCT"],
+      ["eligibilityModule/eligibilityCriteria", "Expression of B7-H3 in the tumour"],
+      ["eligibilityModule/eligibilityCriteria", "Relapsed or refractory disease after one or multiple lines of previous treatment."],
+      ["eligibilityModule/eligibilityCriteria", "Patients with only bone marrow detectable disease (bone marrow aspirate or trephine) are NOT eligible for the study."]
+    ]
+  },
+  {
+    "position": 3,
+    "label": "explicit_diagnosis_compatible",
+    "rationale": "DSRCT is explicitly listed for Parts A and B (Phase 1), but not for the NF-associated MPNST-only Part C (Phase 2). The compatibility label is restricted to the saved Phase 1 scope.",
+    "cohort_reconciliation": "Eligibility lists DSRCT in Phase 1 Parts A/B and restricts Phase 2 Part C to progressive, relapsed, unresectable or metastatic NF-associated MPNST. Description and arms support this distinction. The PHASE2 design enum and overall RECRUITING status do not establish that the DSRCT-compatible Phase 1 parts are currently available.",
+    "extra_biomarker_requirement": "No additional molecular inclusion gate is stated for DSRCT in Parts A/B. The NF-associated MPNST requirement belongs to Part C and is not transferred to DSRCT.",
+    "protocol_uncertainty": "External protocol and active part/cohort are unverified. Patients must have disease refractory to/progressing after standard therapies, or no standard care options, plus all other clinical criteria. Overall registry status cannot establish live Phase 1 availability.",
+    "task_domain": "oncology_treatment",
+    "complete_saved_modules_read": true,
+    "quotes": [
+      ["eligibilityModule/eligibilityCriteria", "Part A and B (Phase 1): Patients with histologically confirmed soft tissue or bone sarcoma of the following subtypes:"],
+      ["eligibilityModule/eligibilityCriteria", "Desmoplastic small round blue cell tumor (DSRCT)"],
+      ["eligibilityModule/eligibilityCriteria", "Part C (Phase 2): Patients with progressive, relapsed, unresectable or metastatic NF associated MPNST."],
+      ["descriptionModule/briefSummary", "The phase 2 portion will be for patients with refractory/unresectable NF1-associated MPNST."]
+    ]
+  }
+]
