@@ -99,7 +99,7 @@ Downgraded on a measurement rather than on reasoning, which is the useful kind o
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument.
 
