@@ -2,7 +2,7 @@ name: Materialize audited EMC public source
 on:
   push:
     branches: ['codex/ci-stage/emc-tree-bridge-20260907']
-    paths: ['.ci-bridge/loader-input.json']
+    paths: ['.ci-bridge/recovery-source.json']
 permissions:
   contents: write
 concurrency:
@@ -17,8 +17,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: true
-      - name: Materialize exact public source tree
-        run: python3 .ci-bridge/materialize_public_source.py
+      - name: Verify existing exact public source recovered through connector
+        run: python3 .ci-bridge/verify_existing_public_source.py
       - name: Prepare minimal provenance repair in separate clean public worktree
         env:
           GIT_AUTHOR_NAME: github-actions[bot]
@@ -36,3 +36,4 @@ jobs:
             ${{ runner.temp }}/emc-provenance-evidence/
             ${{ runner.temp }}/emc-public-repair-ref.json
           if-no-files-found: error
+
