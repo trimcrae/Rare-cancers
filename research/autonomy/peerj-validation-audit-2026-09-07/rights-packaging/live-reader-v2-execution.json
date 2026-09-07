@@ -1,0 +1,29 @@
+{
+  "fresh_source_directory_verified_before_run": true,
+  "retrieval_script_sha256": "14bc30eb30106151f0b32d821ccdcb71c441618d09cdcba34d3110bcd3ae482d",
+  "commands": [
+    {
+      "phase": "retrieval",
+      "command": "python -X utf8 -B retrieve_sources.py --sources ../live-original-sources-v2",
+      "started_utc": "2026-09-07T21:40:42.322986+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-09-07T21:41:08.005613+00:00",
+      "elapsed_seconds": 25.683601700002328,
+      "stdout_file": "live-v2-retrieval.stdout.txt",
+      "stderr_file": "live-v2-retrieval.stderr.txt"
+    },
+    {
+      "phase": "verification",
+      "command": "python -X utf8 -B verify_metadata.py --sources ../live-original-sources-v2 --output live-results-v2",
+      "started_utc": "2026-09-07T21:41:08.006949+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-09-07T21:41:14.016680+00:00",
+      "elapsed_seconds": 6.009799099992961,
+      "stdout_file": "live-v2-verification.stdout.txt",
+      "stderr_file": "live-v2-verification.stderr.txt"
+    }
+  ],
+  "retry_attempts": 0,
+  "prior_zip_preserved": true,
+  "status": "passed"
+}

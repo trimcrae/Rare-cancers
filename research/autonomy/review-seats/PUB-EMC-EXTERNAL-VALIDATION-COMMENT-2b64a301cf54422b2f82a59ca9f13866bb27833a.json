@@ -1,0 +1,270 @@
+{
+  "paper": "PUB-EMC-EXTERNAL-VALIDATION-COMMENT",
+  "reviewed_commit": "2b64a301cf54422b2f82a59ca9f13866bb27833a",
+  "deliverable_digest": "b142316dcfe0d029c27e105780b83b62dc038c065454fb13315c8adc1b9e9a0c",
+  "document_sha256": "662f7af172b2c9b9afe682741a33ae44bc815c6e2ed8a5ec4a07c48c803f5ef2",
+  "blind": true,
+  "blind_definition": "Blind to authoring conversation and prior merit assessments; author identity is visible in the supplied manuscript. This is independent AI review, not anonymous human peer review.",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "ultra",
+  "actual_model": "gpt-6-astra",
+  "actual_reasoning_effort": "ultra",
+  "started_at": "2026-09-07T21:08:37Z",
+  "ended_at": "2026-09-07T21:21:07.130333+00:00",
+  "status": "complete",
+  "central_claim": "A recent extraskeletal myxoid chondrosarcoma (EMC) study proposed a three-gene prognostic panel and used external expression cohorts to support lineage specificity and cross-platform baseline comparability. We examined the original article, supplementary Figure S6 and the cited public cohort records. GSE6481 contains 105 soft-tissue tumor arrays with no deposited EMC diagnosis, whereas the article describes 19 EMC and 128 cartilaginous comparators. The figure separately labels 19 and 59 samples beneath a total of 147. These discrepancies leave the underlying lineage comparison unidentified; an accession or labeling error remains possible. Separately, within-cohort gene standardization removes location and scale differences before the cross-platform comparison. Non-significant tests of those standardized distributions cannot establish the original baseline comparability. Exact analysis inputs and a narrower interpretation are needed to make the external evidence reproducible and informative.",
+  "verdict": "supported",
+  "verdict_reason": "The frozen public cohort records cannot identify the published lineage comparison, and the printed sample counts contradict one another. Under the well-supported conventional gene-wise reading, separate cohort z-scoring discards location and scale; the general lack-of-equivalence and patient/platform-confounding criticisms do not depend on resolving the normalization axis. The exact external implementation is not recoverable, so a minor qualification of its attribution is recommended.",
+  "submission_merit": {
+    "decision": "merits_submission",
+    "reason": "This specific comment identifies an independently reproducible cohort-provenance defect underlying a repeated biological lineage claim, identifies a separate internal count discrepancy, and accurately limits what the cited normalization comparison establishes. The targeted evidence and proportionate request for correction/inputs are useful scientific correspondence even without a new biological or prognostic result. The generic standardization principle is not novel, but its specific application supplements the source audit. The recommendation is to submit as a focused scientific comment; E1 is a nonblocking precision suggestion.",
+    "scientific_submission_blocked": false,
+    "venue_acceptance_prediction": null
+  },
+  "blockers": [],
+  "p1s": [],
+  "editorial": [
+    {
+      "id": "E1",
+      "severity": "minor",
+      "category": "scientific attribution precision; nonblocking",
+      "artifact": "emc-external-validation-comment.md lines 54-62; corresponding preprint PDF page 2",
+      "outgoing_passage": "For a nonconstant gene measured in cohort C, the stated transformation is: [gene-wise cohort mean/SD formula] ... It follows from the reported method and does not depend on access to the external expression matrix.",
+      "source_evidence": "The original PeerJ XML, Methods / Cross-study comparison and external cohort evaluation, and Results / Cross-cohort analysis and lineage specificity of prognostic biomarkers, say \"within-dataset z-score transformation\". They do not explicitly give the normalization axis, formula, or centering reference. Figure S6C likewise says within-dataset z-scores. Recomputed gene-wise sample-SD z-scores for all three internal genes from original Data S1 have ranges and patterns consistent with the actual figure; this supports the usual gene-wise interpretation but is not recovery of the external code.",
+      "consequence": "The mathematical result is correct, but \"the stated transformation\" can imply that the original article explicitly specified the exact gene-wise formula. A different normalization axis/reference can preserve some gene-specific location contrasts. This is an attribution qualification, not a refutation of the broader failure-to-establish-comparability conclusion.",
+      "smallest_correction": "Introduce the formula with: \"If, as the wording and Figure S6C suggest, each gene was centered and scaled across samples separately within each cohort, the transformation is:\" Replace the last sentence of line 62 with \"Under this interpretation, the limitation follows algebraically without the external expression matrix.\" The existing request for the exact reference distribution at line 72 can remain.",
+      "blocking": false
+    }
+  ],
+  "p1_classification_note": "No scientific blocker and no separate P1 maintenance issue was identified. Missing regression tests for correct prose were not treated as a finding or submission gate.",
+  "checked_evidence": [
+    {
+      "artifact": "review-input.json and all nine listed files",
+      "check": "Independently recomputed all nine SHA256 values; all matched. Preserved the supplied five-file digest as the review identifier. The digest aggregation algorithm was not supplied, so no claim of separately recomputing that aggregate is made.",
+      "evidence": "input-hash-check.json"
+    },
+    {
+      "artifact": "emc-external-validation-comment-evidence.zip, manifest.json, both build stamps",
+      "check": "All 13 archive members match the supplied extraction byte-for-byte; all 12 inventory entries pass byte-size/hash checks. PDF build stamp pins the reviewed manuscript hash. Old evidence build source_commit is provenance for the unchanged bundle, not evidence of a different reviewed manuscript.",
+      "evidence": "zip-check.json; final-check-results.json"
+    },
+    {
+      "artifact": "complete original GSE6481_family.soft.gz",
+      "check": "Portable verifier plus independently written full-stream metadata scan reproduce 105 unique GSM records, exact series-roster membership and ten diagnosis counts. No deposited EMC or chondrosarcoma category exists. The count of 19 myxoid liposarcomas cannot identify the article authors' analysis cohort.",
+      "evidence": "GSE6481-independent-check.json; GSE6481-independent-raw-metadata.txt; evidence-copy/reproduced-results/GSE6481-metadata.json"
+    },
+    {
+      "artifact": "complete original GSE24369_family.soft.gz",
+      "check": "42 unique arrays: six EMC, 17 low-grade fibromyxoid sarcoma, six myxofibrosarcoma, six desmoid fibromatosis, five solitary fibrous tumor and two skeletal-muscle pooled RNA references. Six EMC + 34 other lesions + two references is correct. Arrays were not treated as independently verified unique patients.",
+      "evidence": "GSE24369-independent-check.json; GSE24369-independent-raw-metadata.txt"
+    },
+    {
+      "artifact": "original PeerJ article XML and original Figure S6 PNG",
+      "check": "Read pertinent Methods, Results, Discussion, limitations and supplement captions; visually inspected original Figure S6. Verified n=147 heading, n=19 EMC and n=59 comparators in each S6B plot, and S6C P-values 0.963, 0.888, 1. No plotted coordinates were digitized and no points were used as a patient roster. Confirmed source acknowledges overfitting/C-index 0.10 and declines external prognostic evaluation.",
+      "evidence": "peerj-21497-article-paragraphs.json; inspect-sources.stdout.txt; final-checks.stdout.txt"
+    },
+    {
+      "artifact": "original Nakayama publisher HTML and PubMed XML",
+      "check": "Both identify the actual 2007 Modern Pathology publication and 105 tumors; the publisher full text supplies the same ten-category counts. The supplied identifier-verification record was not used as a substitute for original-source evidence.",
+      "evidence": "publisher-3800794-text.txt; pubmed-17464315-paragraphs.json"
+    },
+    {
+      "artifact": "original Davis 2017 article XML",
+      "check": "Confirms six EMC patients in MI-ONCOSEQ; five of six biopsy samples passed all QC and one had poor RNA yield. The outgoing wording attributes six external profiles to the later article and does not claim that this reviewer confirmed six high-quality external expression profiles. No external sample matrix was available to adjudicate that selection.",
+      "evidence": "davis-2017-article-paragraphs.json"
+    },
+    {
+      "artifact": "Original supplementary packet retrieved from Europe PMC, bounded external-source check",
+      "check": "Named unresolved question: whether the packet contains external S6 sample-by-gene data or analysis code. Retrieved original ZIP with HTTP 200; its Figure S6 hash matches the frozen image. Inventory contains figures, two result-table DOCX files and one XLSX, with no analysis script. The only workbook has one sheet, 9501 rows and 13 columns, comprising a gene-symbol column and 12 internal Si sample columns. Both DOCX texts are internal statistical results. This supports the packet-specific absence statement, not a claim of absence elsewhere.",
+      "evidence": "supplement-retrieval.json; supplement-packet-inventory.json; supplement-packet-check.stdout.txt; supplement-followup.stdout.txt"
+    },
+    {
+      "artifact": "Algebra and rank-test interpretation",
+      "check": "Derived positive affine invariance for nonconstant vectors using recomputed mean and SD. Eight explicit synthetic checks pass for population/sample SD and positive rescaling/shifting. A separate synthetic n=12 versus n=6 example, each standardized to sample mean zero/SD one, gives Mann-Whitney U=61 and asymptotic two-sided P=0.0081564, confirming that standardization does not force the null result. These are synthetic arithmetic illustrations, not biological measurements or reproductions of S6 P-values.",
+      "evidence": "synthetic-algebra-check.json; final-check-results.json"
+    },
+    {
+      "artifact": "Internal Data S1 and normalization-axis plausibility",
+      "check": "Recomputed existing internal PXN/H1FX/TYMS gene-wise z-scores solely to check the stated-method interpretation. Sample-SD ranges are PXN -1.5065 to 2.1324, H1FX -1.1559 to 1.6583, TYMS -1.4591 to 1.5377; these are visually consistent with original S6C. External normalization remains unrecovered.",
+      "evidence": "internal-gene-transform-check.json"
+    },
+    {
+      "artifact": "Frozen four-page preprint PDF",
+      "check": "Rendered all four pages with pdftoppm at 110 dpi and actually inspected each rendered image. Text, formula blocks, references, page numbers and links are readable, with no clipping, collisions, missing glyphs or apparent omissions. Page 4 is references-only with whitespace, which is acceptable. No figure was newly generated for the outgoing manuscript.",
+      "evidence": "comment-page-1.png through comment-page-4.png; pdf-text.txt; pdf-info.stdout.txt; final-check-results.json"
+    }
+  ],
+  "executed_validation": [
+    {
+      "label": "inspect-sources",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/inspect_sources.py"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:10:16.169030+00:00",
+      "ended_at": "2026-09-07T21:10:17.065274+00:00",
+      "elapsed_seconds": 0.8964521000161767,
+      "exit_code": 0,
+      "stdout_file": "inspect-sources.stdout.txt",
+      "stderr_file": "inspect-sources.stderr.txt"
+    },
+    {
+      "label": "pdf-info",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/poppler/Library/bin/pdfinfo.exe",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/input/emc-external-validation-comment-preprint.pdf"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:10:38.539371+00:00",
+      "ended_at": "2026-09-07T21:10:38.645227+00:00",
+      "elapsed_seconds": 0.10619199997745454,
+      "exit_code": 0,
+      "stdout_file": "pdf-info.stdout.txt",
+      "stderr_file": "pdf-info.stderr.txt"
+    },
+    {
+      "label": "render-pdf",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/poppler/Library/bin/pdftoppm.exe",
+        "-png",
+        "-r",
+        "110",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/input/emc-external-validation-comment-preprint.pdf",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/comment-page"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:10:38.430871+00:00",
+      "ended_at": "2026-09-07T21:10:39.829193+00:00",
+      "elapsed_seconds": 1.399034199945163,
+      "exit_code": 0,
+      "stdout_file": "render-pdf.stdout.txt",
+      "stderr_file": "render-pdf.stderr.txt"
+    },
+    {
+      "label": "portable-verifier",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/evidence-copy/verify_metadata.py",
+        "--output",
+        "reproduced-results"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:10:38.428877+00:00",
+      "ended_at": "2026-09-07T21:10:44.691349+00:00",
+      "elapsed_seconds": 6.262404800043441,
+      "exit_code": 0,
+      "stdout_file": "portable-verifier.stdout.txt",
+      "stderr_file": "portable-verifier.stderr.txt"
+    },
+    {
+      "label": "independent-checks",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/independent_checks.py"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:12:14.992407+00:00",
+      "ended_at": "2026-09-07T21:12:20.803297+00:00",
+      "elapsed_seconds": 5.810052400047425,
+      "exit_code": 0,
+      "stdout_file": "independent-checks.stdout.txt",
+      "stderr_file": "independent-checks.stderr.txt"
+    },
+    {
+      "label": "supplement-packet-check",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/check_supplement_packet.py"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:13:36.513077+00:00",
+      "ended_at": "2026-09-07T21:13:40.342112+00:00",
+      "elapsed_seconds": 3.8290985000203364,
+      "exit_code": 0,
+      "stdout_file": "supplement-packet-check.stdout.txt",
+      "stderr_file": "supplement-packet-check.stderr.txt"
+    },
+    {
+      "label": "supplement-followup",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/supplement_followup.py"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:14:30.528078+00:00",
+      "ended_at": "2026-09-07T21:14:30.766801+00:00",
+      "elapsed_seconds": 0.23838530003558844,
+      "exit_code": 0,
+      "stdout_file": "supplement-followup.stdout.txt",
+      "stderr_file": "supplement-followup.stderr.txt"
+    },
+    {
+      "label": "final-checks",
+      "command": [
+        "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:/Users/mcrae/.codex/review-workspaces/emc-validation-comment-review-20260907/output/final_checks.py"
+      ],
+      "cwd": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-validation-comment-review-20260907\\output",
+      "started_at": "2026-09-07T21:16:14.350506+00:00",
+      "ended_at": "2026-09-07T21:17:21.481998+00:00",
+      "elapsed_seconds": 67.12807129998691,
+      "exit_code": 0,
+      "stdout_file": "final-checks.stdout.txt",
+      "stderr_file": "final-checks.stderr.txt"
+    }
+  ],
+  "charitable_alternatives": [
+    "A mistaken accession, figure-label typo, or undocumented cohort selection could explain the source discrepancy. The comment explicitly allows these possibilities and correctly does not allege that myxoid liposarcoma was relabeled as EMC.",
+    "The original authors may intend only qualitative agreement after putting each cohort on its own standardized scale. That is a legitimate descriptive aim, but a high P-value does not establish equivalence or technical interchangeability. The outgoing comment explicitly preserves the narrower absence-of-detected-differences interpretation.",
+    "The phrase within-dataset z-scoring does not explicitly state its axis. Gene-wise standardization is conventional and consistent with all three internal plot patterns, but a global or sample-wise normalization would remove a different set of contrasts. E1 makes this inference explicit without requiring unpublished code to support the comment.",
+    "Different patients, disease states and sample processing can yield similar or different expression distributions even on identical assays; unpaired patient cohorts cannot isolate a platform effect. Paired material is proposed as a more direct design, not asserted as existing evidence.",
+    "Some S6 inputs may exist outside the supplementary packet or be available on author request. The comment limits its absence claim to the inspected packet and requests clarification."
+  ],
+  "novelty_assessment": "The mathematical principle is elementary and established; no statistical-method novelty or new biological discovery should be claimed. The substantive contribution is the verifiable article-specific mismatch between the reported external lineage cohort and the actual deposited cohort, plus its consequences for interpretation. The supplied original article does not acknowledge this accession/count discrepancy. Global priority of the critique was not investigated.",
+  "claim_strength_assessment": "Proportionate: distinguishes metadata annotation from true patient histology, avoids inferring the actual analyzed cohort or diagnostic relabeling, distinguishes nonsignificance from equivalence, acknowledges already-published overfitting, and makes no clinical efficacy, safety, treatment or prognostic validation claim.",
+  "layout_assessment": "All four actual rendered pages inspected; suitable as a readable preprint/comment. No layout defect requiring correction found. Specific journal formatting or word-limit compliance was outside the supplied scope.",
+  "limitations": [
+    "The external sample-by-gene expression matrices and analysis scripts were not available. No original GEO fold change or P-value, no external S6C value, and no prognostic model was independently reproduced.",
+    "Complete deposited metadata establish annotations and array membership, not audited patient identities or independent pathology. A corrected accession or author clarification could resolve the lineage evidence problem.",
+    "The original paper does not specify the z-score axis/reference explicitly; the strong gene-wise reading is corroborated for internal values, not proven for external values.",
+    "Only a bounded primary-source supplementary-packet check was performed outside the frozen inputs. No authoring records, prior merit reviews or repository state were inspected, and no correspondence or publication occurred.",
+    "The five-file aggregate digest is preserved from review-input.json; all component SHA256 values were checked, but its unspecified aggregation convention was not reverse-engineered.",
+    "This single review assesses scientific submission merit, not likelihood of acceptance or exhaustive novelty relative to all subsequent literature. It is an AI review, not independent human peer review."
+  ],
+  "errors_and_interruptions": {
+    "interrupted": false,
+    "nonfatal_errors_file": "initial-tool-errors.json",
+    "summary": "An unavailable pdftotext command and an unsuccessful web-tool ZIP opener were handled with pypdf and a successful direct primary-source download respectively. All recorded validation subprocesses exited zero. The last verification required 67.13 seconds, ran to completion, and is not reported as a failure."
+  },
+  "input_scope": "Frozen manuscript/PDF/evidence ZIP and original primary reference sources. No authoring conversation or prior merit assessment supplied.",
+  "external_source_scope": "Only the original Europe PMC supplementary packet, to resolve the named packet-contents question; preserved bytes and receipt. Internal gene-wise transformation plausibility was then checked from its existing Data S1.",
+  "delegated": false,
+  "publication_or_contacts_performed": false,
+  "really_running": false,
+  "output_files": [
+    "review.md",
+    "review.json",
+    "review-status.json",
+    "validation-executions.jsonl",
+    "initial-tool-errors.json"
+  ]
+}

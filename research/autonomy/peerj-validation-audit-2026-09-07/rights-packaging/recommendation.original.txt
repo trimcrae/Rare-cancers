@@ -1,0 +1,47 @@
+# Rights classification for the frozen evidence ZIP
+
+**Recommendation:** keep the reviewed ZIP unchanged, but do not submit that mixed-source ZIP under a blanket CC0 statement. The minimal distribution option is a separate supplement containing the new verifier, source URLs/checksums and retrieval instructions, and the new factual verification outputs. Readers obtain the original GEO/PeerJ files from their official sources under the original terms. This is a distribution issue; the scientific findings and frozen review inputs are unchanged.
+
+The actual inspected ZIP is `emc-external-validation-comment-evidence.zip`, 38,619,421 bytes, SHA256 `6710a68ef38a9aa255e06a27d66d07fae72574ea892d6793fe02f317cb420f4e`. All 13 members were inspected by name/hash; its actual ATTRIBUTION and source manifest were extracted privately. The ZIP was not modified. No upload or license grant has been made.
+
+## What the policies establish
+
+[Qeios Publishing Policy](https://www.qeios.com/publishing-policy), last updated April 29, 2025, assigns CC BY 4.0 to research content and CC0 to associated data. The Data Sharing section includes raw/processed data, code, methods, protocols and software within the possible meaning of data. It encourages both supplementary uploads and external repositories, recognizes legal/ethical/privacy reasons for not sharing, and requires availability conditions to be stated. No express exception allowing a CC BY third-party source file inside a CC0 supplement was found. The associated-data wording is broad; moving the same ZIP to another host is not, by itself, a demonstrated exception to that policy.
+
+The original PeerJ XML expressly licenses the article under CC BY 4.0. The bundled original Figure S6 is attributed to the same article and license. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode.en), sections 2(a) and 3(a), permits sharing subject to its conditions, including retaining creator/copyright/license information and identifying modifications. Each recipient receives the original licensor's offer; the sharing license is non-sublicensable. A downstream uploader cannot replace those authors' attribution conditions with its own CC0 waiver. [CC0](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en) applies only to rights the affirmer owns and does not clear other persons' rights.
+
+[NCBI's Molecular Data Usage policy](https://www.ncbi.nlm.nih.gov/home/about/policies/) expressly covers gene-expression databases and places no NCBI restrictions on data use/distribution. It also says submitters transfer no rights to NCBI; therefore NCBI cannot transfer those rights onward or provide unrestricted permission. Its public-domain webpage rule is limited to government-created material and preserves possible third-party rights. [GEO's disclaimer](https://www.ncbi.nlm.nih.gov/geo/info/disclaimer.html) carries the same material qualification. No explicit license grant was found in the inspected metadata of either accession. This supports reuse under the stated guidance, not a claim that every original archive component is CC0.
+
+## Classification of the actual members
+
+| Members | Supported status | Distribution consequence |
+|---|---|---|
+| `sources/GSE6481_family.soft.gz` | Original submitter/platform material hosted by GEO; NCBI/GEO reuse and distribution guidance with retained third-party rights. No accession-specific CC0 grant found in inspected metadata. | Do not relabel the entire archive CC0. Prefer official-source retrieval for a Qeios companion package. |
+| `sources/GSE24369_family.soft.gz` | Same classification. Includes original submitted study/sample and Affymetrix platform material. | Same consequence; public accessibility alone is not the permission basis. |
+| `sources/peerj-21497-article.xml` | Third-party CC BY 4.0, explicitly stated in embedded permissions. | May be shared under its existing attribution conditions; cannot be included in an undifferentiated CC0 grant. |
+| `sources/peerj-21497-figure-s6.png` | Original Figure S6, attributed to the CC BY 4.0 PeerJ article; unaltered. | Preserve its CC BY terms or provide the original link/retrieval route. |
+| `results/GSE24369-metadata.json`, `results/GSE6481-metadata.json` | Mixed new audit structure/counts and copied source metadata. Both include complete `Series_overall_design` narrative paragraphs. | Do not treat the existing files as exclusively new authorship. In a separate distribution version, omit copied narrative blocks; original complete extracts can be regenerated locally. |
+| `verify_metadata.py` | New standard-library implementation; no third-party code library is bundled. It reads and checks original sources. | A rights holder can choose a license for rights held in this code; this review grants none. Supply it with retrieval instructions or a small downloader. |
+| `results/verification-summary.json`, `results/execution.json` | New factual audit counts/status, hashes and execution record; the summary retains source diagnostic labels. | Suitable content for the minimal new-output supplement, with provenance maintained and any dedication limited to rights actually held. |
+| `source-manifest.json`, `manifest.json` | New provenance/hash structure describing original files. A manifest is not a license grant for referenced content. | Supply a source URL/hash manifest; separately identify the licenses/conditions of externally retrieved files. Use a new manifest for the new distribution artifact. |
+| `README.md`, `ATTRIBUTION.md` | New explanatory writing and bibliographic/source-license attribution. | Retain source credit, but revise a separate distribution README to describe retrieval rather than claiming original sources are included. Any license choice covers only rights held in that writing. |
+
+The GSE metadata rights inspection skipped table bodies. Absence of a metadata license field is not a finding that all data, platform annotations, narrative descriptions or other archive components lack rights. No assertion of infringement or legal assurance is made.
+
+## Concrete minimal distribution option
+
+Create a new, separately named Qeios distribution supplement; preserve the current reviewed ZIP and its hash. Its contents would be:
+
+1. The unchanged verifier plus a small standard-library source downloader, or exact manual retrieval instructions. Retrieve the two official SOFT archives, the Europe PMC article XML, and only Figure S6 from the original supplementary archive; verify the frozen hashes before running. Source terms/attribution remain attached and are not rewritten. No reader is asked to grant CC0 over downloaded originals.
+2. Source URLs, identifiers, hashes and license/usage links; the factual count summary and execution record; optionally compact GSM/diagnosis/platform rosters with no copied narrative study-design fields. These do not require redistributing the original expression tables or publisher figure.
+3. A data-availability statement distinguishing the original third-party sources from the new verification materials. If the responsible rights holder elects Qeios's CC0 terms for the new materials, state that scope explicitly. This assessment does not make that election.
+
+The existing full rosters and four source files would be reconstructed locally, not silently represented as newly CC0 data. The current verifier needs all four source files; merely removing them without retrieval instructions would break reproducibility. Revalidate the new distribution wrapper and outputs against the frozen counts, then give it its own manifest. These are packaging checks, not new expression analysis or a change to the scientific findings.
+
+An alternative is to distribute the unchanged mixed-source archive separately with per-file terms and clear exclusion of third-party content from any blanket grant. The PeerJ portion already has a redistribution basis with attribution; the GEO reservations still apply. Because Qeios also refers broadly to associated data, its acceptance of that arrangement should not be presumed from the public policy. If its submission workflow requires an unconditional CC0 representation over original referenced materials, platform clarification is needed before making that representation. No contact was made here.
+
+## Retained evidence and access limits
+
+`retrievals.json` records successful ordinary HTTP 200 retrievals of the Qeios policy, CC BY legal code and CC0 legal code, with source bytes, URLs, UTC times and SHA256s under `sources/`. `frozen-bundle-inspection.json` records all ZIP member hashes, the embedded PeerJ permission statement, and the mixed-source narrative fields. The original attribution/source manifest are preserved as `bundled-ATTRIBUTION.md` and `bundled-source-manifest.json`.
+
+The independent NCBI check is in `ncbi/rights-check.md`, with the original policy HTML, receipt and accession metadata scan. The general NCBI policy returned HTTP 200. Direct GEO Disclaimer/FAQ requests displayed reCAPTCHA and were not retried; the worker used transparently identified official-URL indexed text for those pages. The general NCBI policy independently supports the material rights caveat. No account, DOI, license, upload, repository or frozen-deliverable mutation occurred.

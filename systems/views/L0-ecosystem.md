@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**14 strategy families · 83 routes · 21 blockers · 28 technology dependencies.**
+**14 strategy families · 84 routes · 21 blockers · 28 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -48,8 +48,8 @@ flowchart LR
   ST_CARE_DELIVERY["ST-CARE-DELIVERY ○ · 7 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
   ST_MORTALITY_MECHANISM["ST-MORTALITY-MECHANISM ◐ · 6 routes"]:::fam
+  ST_DISSEMINATION["ST-DISSEMINATION ○ · 5 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
-  ST_DISSEMINATION["ST-DISSEMINATION ○ · 4 routes"]:::fam
   ST_LOCOREGIONAL["ST-LOCOREGIONAL ○ · 4 routes"]:::fam
   ST_MICROENV["ST-MICROENV ○ · 4 routes"]:::fam
   ST_OCCUPANCY["ST-OCCUPANCY ○ · 4 routes"]:::fam
@@ -116,7 +116,7 @@ flowchart LR
 | **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 11 | ✓ blocked · computed | cheap_option |
 | **[ST-RADIOLIGAND](L1-st-radioligand.md)**<br/>Radioligand and theranostic approaches | A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology … | 2 | ○ blocked · concept | cheap_option |
 | **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 13 | ✓ blocked · computed | hedge |
-| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 4 | ○ ready · scoped | dissemination |
+| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 5 | ○ ready · scoped | dissemination |
 | **[ST-MICROENV](L1-st-microenv.md)**<br/>The tumour microenvironment and matrix as the target | The matrix is this disease's defining phenotype and the portfolio's prose has treated it almost entirely as an obstacle to delivery. It is also a manu… | 4 | ○ ready · concept | hedge |
 | **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 4 | ○ ready · concept | hedge |
 | **[ST-STRATEGY](L1-st-strategy.md)**<br/>Treatment strategy, scheduling and reachability | For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been… | 3 | ○ ready · concept | cheap_option |
@@ -133,8 +133,8 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 |---|---:|---:|
 | ○ `unwritten` | 3 | 10 |
 | ◔ `outlined` | 4 | 14 |
-| ◐ `drafted` | 25 | 57 |
-| ◉ `posted_preprint` | 1 | 2 |
+| ◐ `drafted` | 25 | 52 |
+| ◉ `posted_preprint` | 2 | 8 |
 
 ## What holds the portfolio down
 

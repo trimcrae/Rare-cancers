@@ -103,7 +103,7 @@ Blocked by the antigen search and the cold stroma rather than by the cell produc
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The cell-product reading of the same ranking, and the finding that the constraint is the antigen and the stroma rather than the CAR.
 

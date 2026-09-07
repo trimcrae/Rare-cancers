@@ -1,0 +1,124 @@
+{
+  "finished_utc": "2026-09-07T21:46:01.022066+00:00",
+  "zip_file": "emc-verification-supplement.zip",
+  "bytes": 18077,
+  "sha256": "5de6ed6c72f6ebe9b1589d934fdb8c4a79662355aa0c3e182e8ca9a0816e526f",
+  "manifest_sha256": "c24785fe9bd5335d48c2e954715ff15e1ee5cbea045abf153dd67c2c1c975bd7",
+  "members": 11,
+  "deterministic_double_build_identical": true,
+  "zip_integrity_and_member_hashes_passed": true,
+  "prior_zip_preserved": "0141b4b7673f43b11384aca28c69c35451cae7d81f5f519957d80a05abbadfdc",
+  "prior_zip_bytes": 15847,
+  "frozen_full_zip_unchanged": "6710a68ef38a9aa255e06a27d66d07fae72574ea892d6793fe02f317cb420f4e",
+  "actual_live_commands": [
+    {
+      "phase": "retrieval",
+      "command": "python -X utf8 -B retrieve_sources.py --sources ../live-original-sources-v2",
+      "started_utc": "2026-09-07T21:40:42.322986+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-09-07T21:41:08.005613+00:00",
+      "elapsed_seconds": 25.683601700002328,
+      "stdout_file": "live-v2-retrieval.stdout.txt",
+      "stderr_file": "live-v2-retrieval.stderr.txt"
+    },
+    {
+      "phase": "verification",
+      "command": "python -X utf8 -B verify_metadata.py --sources ../live-original-sources-v2 --output live-results-v2",
+      "started_utc": "2026-09-07T21:41:08.006949+00:00",
+      "exit_code": 0,
+      "finished_utc": "2026-09-07T21:41:14.016680+00:00",
+      "elapsed_seconds": 6.009799099992961,
+      "stdout_file": "live-v2-verification.stdout.txt",
+      "stderr_file": "live-v2-verification.stderr.txt"
+    }
+  ],
+  "failed_initial_run": {
+    "fresh_source_directory_verified_before_run": true,
+    "retrieval_script_sha256": "92f50fe7d52d20fa4c2817f70c63c343e49ccfe9f438cea79e15966a0ef07f78",
+    "commands": [
+      {
+        "phase": "retrieval",
+        "command": "python -X utf8 -B retrieve_sources.py --sources ../live-original-sources",
+        "started_utc": "2026-09-07T21:37:11.457186+00:00",
+        "exit_code": 1,
+        "finished_utc": "2026-09-07T21:37:17.354233+00:00",
+        "elapsed_seconds": 5.89738270000089,
+        "stdout_file": "live-retrieval.stdout.txt",
+        "stderr_file": "live-retrieval.stderr.txt"
+      }
+    ],
+    "retry_attempts": 0,
+    "prior_zip_preserved": true,
+    "status": "failed"
+  },
+  "exact_output_equivalence": {
+    "GSE6481": {
+      "compared_rows": 105,
+      "all_factual_roster_rows_identical": true,
+      "all_counts_and_checks_identical": true
+    },
+    "GSE24369": {
+      "compared_rows": 42,
+      "all_factual_roster_rows_identical": true,
+      "all_counts_and_checks_identical": true
+    }
+  },
+  "post_live_local_reuse_repair_test": {
+    "status": "passed",
+    "matching_transport_create_and_reuse": true,
+    "mismatched_transport_refused_and_unchanged": true,
+    "network_requests": 0,
+    "elapsed_seconds": 0.022995400009676814,
+    "input_kind": "Two original retained Europe PMC supplementary transport archives, no fabricated science data",
+    "final_downloader_sha256": "4d53779cf285da0ce4faf3c5d2d00c31c43a1e52a5715c5fa71654837c9961f4"
+  },
+  "all_distribution_differences": [
+    {
+      "file": "README.md",
+      "old_bytes": 4019,
+      "new_bytes": 4694,
+      "old_sha256": "6eebec9b982079da9c2b77b84cfb8252c2db1ca402b1281291fd62077553b575",
+      "new_sha256": "622a0223af875952dd054a54d2d929b76b79b2161e72687831a54d4cf499d026"
+    },
+    {
+      "file": "manifest.json",
+      "old_bytes": 1786,
+      "new_bytes": 1787,
+      "old_sha256": "f91b4d6a5336eee545779f4d653924dedff196f7320a79c68f698b3531ffb69d",
+      "new_sha256": "c24785fe9bd5335d48c2e954715ff15e1ee5cbea045abf153dd67c2c1c975bd7"
+    },
+    {
+      "file": "reproduction.json",
+      "old_bytes": 3775,
+      "new_bytes": 11765,
+      "old_sha256": "eb23e2ab068fbcb9e75efd4d1cbc342660846341d4aff3789d1980495e6558e1",
+      "new_sha256": "4fb969248a2ab156e64b171656d676fe9fd4db2f3580525e75db5bd90d9361b3"
+    },
+    {
+      "file": "results/execution.json",
+      "old_bytes": 374,
+      "new_bytes": 383,
+      "old_sha256": "86ecb3b881b208bd4ba35d548fbf142704ad26bb6de10c3f289a3b03c2ef4f6f",
+      "new_sha256": "54441a3b229a3f5b02c5e571ffb0a0f1902d738b0c78edd0aba3d5dfd83ba2c2"
+    },
+    {
+      "file": "retrieval-sources.json",
+      "old_bytes": 2392,
+      "new_bytes": 2593,
+      "old_sha256": "9ac3a61a006c17977c43b03fdd005cd94450db285f6c270f803c89d401e41c4a",
+      "new_sha256": "0e3950b0512674e51c6371779289f5632338310e2e3b74d47d5d9f35de7bab3b"
+    },
+    {
+      "file": "retrieve_sources.py",
+      "old_bytes": 4736,
+      "new_bytes": 5956,
+      "old_sha256": "92f50fe7d52d20fa4c2817f70c63c343e49ccfe9f438cea79e15966a0ef07f78",
+      "new_sha256": "4d53779cf285da0ce4faf3c5d2d00c31c43a1e52a5715c5fa71654837c9961f4"
+    }
+  ],
+  "original_sources_and_narrative_omitted": true,
+  "private_paths_absent_from_distribution": true,
+  "repository_writes": false,
+  "uploads": false,
+  "remaining_limit": "The final interruption-reuse helper was tested locally after the successful live run; both exact code hashes and that boundary are retained."
+}

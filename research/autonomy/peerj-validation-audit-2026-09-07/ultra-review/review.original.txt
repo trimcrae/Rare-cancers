@@ -1,0 +1,60 @@
+# Independent scientific submission review
+
+**Decision: central claim supported; this contribution merits submission as a focused scientific comment.** No scientific blockers or P1 maintenance issues were found. One minor, nonblocking wording qualification is recommended.
+
+Paper: `PUB-EMC-EXTERNAL-VALIDATION-COMMENT`  
+Reviewed commit: `2b64a301cf54422b2f82a59ca9f13866bb27833a`  
+Five-file deliverable digest: `b142316dcfe0d029c27e105780b83b62dc038c065454fb13315c8adc1b9e9a0c`  
+Manuscript SHA256: `662f7af172b2c9b9afe682741a33ae44bc815c6e2ed8a5ec4a07c48c803f5ef2`  
+Reviewer: gpt-6-astra; ultra reasoning. Started 2026-09-07T21:08:37Z; completed 2026-09-07T21:21:07.130333+00:00. Status: complete.
+
+This review was blind to the authoring conversation and prior merit assessments. It was not blind to the named author, whose identity appears in the manuscript. It is an independent AI assessment, not human peer review. No delegation, repository editing, publication or correspondence occurred.
+
+## Central claim, in full
+
+A recent extraskeletal myxoid chondrosarcoma (EMC) study proposed a three-gene prognostic panel and used external expression cohorts to support lineage specificity and cross-platform baseline comparability. We examined the original article, supplementary Figure S6 and the cited public cohort records. GSE6481 contains 105 soft-tissue tumor arrays with no deposited EMC diagnosis, whereas the article describes 19 EMC and 128 cartilaginous comparators. The figure separately labels 19 and 59 samples beneath a total of 147. These discrepancies leave the underlying lineage comparison unidentified; an accession or labeling error remains possible. Separately, within-cohort gene standardization removes location and scale differences before the cross-platform comparison. Non-significant tests of those standardized distributions cannot establish the original baseline comparability. Exact analysis inputs and a narrower interpretation are needed to make the external evidence reproducible and informative.
+
+## Scientific assessment and submission merit
+
+The cohort criticism is supported directly, independently and at the right level of certainty. Both a rerun of the supplied portable verifier and an independently written complete metadata scan recover 105 unique GSM records for GSE6481 with exact agreement to the series roster. Its ten diagnosis counts match manuscript line 42. Neither the deposited diagnosis fields nor the original Nakayama publication identify EMC or another chondrosarcoma category. This is a source-identification failure for the claimed comparison, not evidence that a particular alternative diagnosis was actually analyzed as EMC. Manuscript line 46 makes that distinction explicitly.
+
+The original Figure S6B visibly gives GSE6481 n=147 and, in each of the three comparisons, EMC n=19 and other chondrosarcomas n=59. The total of the group labels is 78. The original article instead reports 128 comparators. These discrepancies are accurately reproduced without digitizing plot coordinates or using visible points as a patient roster. The GSE24369 correction is also exact: six EMC arrays, 34 other-lesion arrays and two pooled muscle references. The comment appropriately avoids asserting that the description error necessarily changes an expression result.
+
+The algebra is correct for a nonconstant gene standardized across samples separately in each cohort. Recomputing its mean and standard deviation after any positive affine transformation leaves every z-score unchanged, for either sample or population SD. Thus location and scale contrasts eliminated by this transformation cannot be recovered from a test of the standardized vectors. Eight explicitly synthetic arithmetic checks pass. The comment also correctly says that standardization does not force matching shapes or a P-value of one. As a direct countercheck, two deliberately synthetic standardized vectors with n=12 and n=6 give Mann–Whitney U=61, asymptotic two-sided P=0.0081564. This is only a mathematical illustration, not biological evidence or reproduction of S6C.
+
+The precise normalization axis deserves the minor qualification below. The original Methods and Results call the procedure a within-dataset z-score transformation but do not explicitly write its axis or centering reference. Gene-wise cohort standardization is the natural reading. Existing internal Data S1 values transformed with sample SD give PXN, H1FX and TYMS ranges and patterns consistent with the original S6C image. That corroborates the interpretation without recovering the external code. Even if the axis proves different, a nonsignificant rank test does not establish a prespecified equivalence claim, and these unpaired patient cohorts do not isolate a platform effect.
+
+The most charitable interpretation is that the original authors intended descriptive similarity after separately putting the cohorts on a standardized scale. Such a description is defensible. Stronger claims that this comparison confirms baseline comparability or assay interchangeability are not established by it. The outgoing comment preserves that narrower descriptive interpretation and explicitly says the audit does not prove platform discordance. It likewise acknowledges the source article's already-published overfitting and refusal to present the external cohorts as meaningful prognostic validation.
+
+This is sufficient scientific substance for a comment. The contribution is an article-specific, reproducible source mismatch affecting a repeatedly used lineage interpretation, accompanied by an exact count discrepancy and a proportionate methodological qualification. It is not a new statistical method or biological discovery, and it does not need to pretend to be one. The comment asks for the actual accession, sample assignments, expression inputs, gene/probe mapping and normalization reference. These are useful, bounded corrections. I did not investigate global priority of the criticism or predict a particular journal's acceptance.
+
+## Findings
+
+**Scientific blockers:** none.  
+**P1 maintenance issues:** none.
+
+**E1 — minor, nonblocking attribution precision.** Artifact: manuscript lines 54–62 and PDF page 2. The outgoing introduction calls the per-gene cohort mean/SD formula “the stated transformation,” followed by “It follows from the reported method.” The original article specifies within-dataset z-scoring but not its axis/reference. The gene-wise interpretation is well supported by the context and the internal source/figure comparison; it is nevertheless an interpretation. Global or sample-wise normalization can preserve some gene-specific contrasts that per-gene cohort centering removes. The consequence is overprecision about what was explicitly reported, not a failure of the overall comparability criticism.
+
+Smallest correction: introduce the equation with “If, as the wording and Figure S6C suggest, each gene was centered and scaled across samples separately within each cohort, the transformation is:” and end that paragraph with “Under this interpretation, the limitation follows algebraically without the external expression matrix.” The existing request for the exact reference distribution at line 72 already provides the appropriate follow-up. No new experiment, external matrix, regression test or analysis is required to make this wording change.
+
+## Source fidelity, reproducibility and visual inspection
+
+All nine input SHA256 values match the frozen request. Every evidence ZIP member matches the supplied extraction, all 12 manifest entries match their hashes and byte sizes, and the regenerated metadata and verification-summary JSON are identical to the frozen results. The supplied five-file aggregate digest is retained as the review identifier; its aggregation algorithm was not supplied, so this review does not claim to have recomputed that aggregate independently.
+
+I read the relevant original PeerJ XML paragraphs and supplement caption, the original Nakayama publisher HTML and PubMed record, and the original Davis XML. Davis confirms six patients, with one poor-RNA-quality sample; the outgoing text attributes the later six-profile comparison to the later article and does not falsely assert that the audit confirmed six high-quality external profiles.
+
+One bounded question required an additional original source: whether the supplementary packet itself includes external S6 sample-by-gene data or analysis code. The supplied XML lists the supplements but does not supply their workbook contents. I retrieved the [original Europe PMC supplementary packet](https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles), preserved its bytes and HTTP receipt, and inspected its inventory, the sole workbook and both DOCX table texts. The workbook contains one 9501-row, 13-column sheet with gene symbols and 12 internal Si sample columns; the DOCX files contain internal statistical results. The packet has no external sample matrix or analysis script. Its original Figure S6 hash equals the frozen image. This supports the manuscript's explicitly packet-limited absence claim; it says nothing about material held elsewhere.
+
+The frozen four-page PDF was rendered with pdftoppm at 110 dpi, and all four actual page images were inspected. The title, text, inline formula blocks, declarations and references are readable, without clipping, overlap, missing glyphs or apparent omissions. Page numbering and reference hyperlinks are present. A references-only fourth page with whitespace is acceptable. No layout correction is required for this preprint; journal-specific formatting was not part of the evidence supplied.
+
+## Executed validation and retained records
+
+Every recorded validation subprocess completed with exit code 0. `validation-executions.jsonl` preserves exact argument arrays, working directory, actual UTC start/end times, elapsed seconds, exit codes and separate stdout/stderr files. The recorded runs cover input hashes/ZIP extraction/source parsing; portable verifier reproduction; PDF rendering and metadata; independent full-roster counts/publisher and PDF extraction/synthetic algebra; original packet retrieval and contents; internal method plausibility; and final manifest/result/rank-test/PDF-link checks. The final combined check took 67.13 seconds and completed normally.
+
+Two nonfatal preliminary tool errors are retained in `initial-tool-errors.json`: pdftotext was absent, so pypdf was used; the web tool could not open the ZIP endpoint, while a direct ordinary HTTP retrieval succeeded. The responses did not provide exact UTC times for those two calls, and none have been invented. No interruption is concealed as completion.
+
+## Limits
+
+The authors' external expression matrices, full normalization code and sample selection are not recovered. No original GEO fold change, external P-value or prognostic model was independently reproduced. Deposited annotations are not an audit of unique patients or pathology. A corrected accession or author clarification could resolve the lineage discrepancy. The gene-wise z-score axis remains an inference, strongest for the internal cohort; E1 addresses this directly. This single batch is a focused scientific review, not an exhaustive literature audit or a guarantee of journal acceptance.
+
+The complete machine-readable record, checked-evidence list, validation commands and limitations are in `review.json`. Nothing remains running for this review.

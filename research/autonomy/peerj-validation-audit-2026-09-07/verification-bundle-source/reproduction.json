@@ -1,0 +1,242 @@
+{
+  "prepared_utc": "2026-09-07T21:46:00.870077+00:00",
+  "derivation": {
+    "reviewed_full_archive_sha256": "6710a68ef38a9aa255e06a27d66d07fae72574ea892d6793fe02f317cb420f4e",
+    "reviewed_verifier_sha256": "e333ce0caf4bd164e93a6dd3cecceabf0466066caab6837644169d8009a05187",
+    "adaptation": "Same scientific verification predicates; separate original-source directory and factual-only emitted metadata."
+  },
+  "retrieval_validation": {
+    "mode": "successful_live_download_and_verification_with_preserved_initial_failure",
+    "initial_failed_run": {
+      "phase": "retrieval",
+      "command": "python -X utf8 -B retrieve_sources.py --sources ../live-original-sources",
+      "started_utc": "2026-09-07T21:37:11.457186+00:00",
+      "exit_code": 1,
+      "finished_utc": "2026-09-07T21:37:17.354233+00:00",
+      "elapsed_seconds": 5.89738270000089,
+      "stdout_file": "live-retrieval.stdout.txt",
+      "stderr_file": "live-retrieval.stderr.txt"
+    },
+    "initial_failure": "Only the supplementary transport hash differed; no Figure S6 bytes were captured or claimed equivalent in that failed run.",
+    "initial_transport_observation": {
+      "file": "peerj-21497-figure-s6.png",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles",
+      "rights": "CC BY 4.0; original third-party rights unchanged",
+      "started_utc": "2026-09-07T21:37:15.388928+00:00",
+      "http_status": 200,
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles",
+      "retrieved_bytes": 4457390,
+      "retrieved_sha256": "1b78e44db4fcf135aa4fc81c796a26c5150aa469160a2a5de30df973690e2916"
+    },
+    "successful_live_run": [
+      {
+        "phase": "retrieval",
+        "command": "python -X utf8 -B retrieve_sources.py --sources ../live-original-sources-v2",
+        "started_utc": "2026-09-07T21:40:42.322986+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-09-07T21:41:08.005613+00:00",
+        "elapsed_seconds": 25.683601700002328,
+        "stdout_file": "live-v2-retrieval.stdout.txt",
+        "stderr_file": "live-v2-retrieval.stderr.txt"
+      },
+      {
+        "phase": "verification",
+        "command": "python -X utf8 -B verify_metadata.py --sources ../live-original-sources-v2 --output live-results-v2",
+        "started_utc": "2026-09-07T21:41:08.006949+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-09-07T21:41:14.016680+00:00",
+        "elapsed_seconds": 6.009799099992961,
+        "stdout_file": "live-v2-verification.stdout.txt",
+        "stderr_file": "live-v2-verification.stderr.txt"
+      }
+    ],
+    "successful_http_receipt": {
+      "source_terms_unchanged": true,
+      "records": [
+        {
+          "file": "GSE6481_family.soft.gz",
+          "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE6nnn/GSE6481/soft/GSE6481_family.soft.gz",
+          "rights": "NCBI/GEO reuse and distribution guidance; possible submitter rights reserved; no CC0 grant asserted",
+          "started_utc": "2026-09-07T21:40:42.475707+00:00",
+          "http_status": 200,
+          "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE6nnn/GSE6481/soft/GSE6481_family.soft.gz",
+          "retrieved_bytes": 17646870,
+          "retrieved_sha256": "eec1f676f7b05f3115d2b04c926e6085a429350ec6b84a1d637ff27ae8375887",
+          "status": "downloaded_and_verified",
+          "bytes": 17646870,
+          "sha256": "eec1f676f7b05f3115d2b04c926e6085a429350ec6b84a1d637ff27ae8375887",
+          "finished_utc": "2026-09-07T21:40:52.246933+00:00"
+        },
+        {
+          "file": "GSE24369_family.soft.gz",
+          "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+          "rights": "NCBI/GEO reuse and distribution guidance; possible submitter rights reserved; no CC0 grant asserted",
+          "started_utc": "2026-09-07T21:40:52.246933+00:00",
+          "http_status": 200,
+          "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+          "retrieved_bytes": 20240336,
+          "retrieved_sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+          "status": "downloaded_and_verified",
+          "bytes": 20240336,
+          "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+          "finished_utc": "2026-09-07T21:41:03.628398+00:00"
+        },
+        {
+          "file": "peerj-21497-article.xml",
+          "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/fullTextXML",
+          "rights": "CC BY 4.0; original third-party rights unchanged",
+          "started_utc": "2026-09-07T21:41:03.628398+00:00",
+          "http_status": 200,
+          "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/fullTextXML",
+          "retrieved_bytes": 219239,
+          "retrieved_sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+          "status": "downloaded_and_verified",
+          "bytes": 219239,
+          "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+          "finished_utc": "2026-09-07T21:41:04.388797+00:00"
+        },
+        {
+          "file": "peerj-21497-figure-s6.png",
+          "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles",
+          "rights": "CC BY 4.0; original third-party rights unchanged",
+          "started_utc": "2026-09-07T21:41:04.388797+00:00",
+          "http_status": 200,
+          "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles",
+          "retrieved_bytes": 4457390,
+          "retrieved_sha256": "74d54a0f4c1db1424d650eaef131ea366f1652751fcd1d11d89af8791b355b64",
+          "container_reference_bytes": 4457390,
+          "container_reference_sha256": "cbbb84beccbb2a78f06bca1893c5838e7767a875a4ac740f7f921ea1f12bcedf",
+          "container_matches_reference": false,
+          "container_download_max_bytes": 16777216,
+          "container_identity_role": "Transport provenance; exact named member identity remains mandatory",
+          "archive_member": "peerj-14-21497-s008.png",
+          "archive_member_timestamp": [
+            2026,
+            9,
+            7,
+            22,
+            41,
+            4
+          ],
+          "transport_file": "transport/supplementaryFiles-74d54a0f4c1db1424d650eaef131ea366f1652751fcd1d11d89af8791b355b64.zip",
+          "status": "downloaded_and_verified",
+          "bytes": 833332,
+          "sha256": "29932259e722fa46b84f01e2b662bcd58b66a108db669eca5035913eb9d8df03",
+          "finished_utc": "2026-09-07T21:41:07.983466+00:00"
+        }
+      ]
+    },
+    "live_tested_downloader_sha256": "14bc30eb30106151f0b32d821ccdcb71c441618d09cdcba34d3110bcd3ae482d",
+    "final_downloader_sha256": "4d53779cf285da0ce4faf3c5d2d00c31c43a1e52a5715c5fa71654837c9961f4",
+    "post_live_local_repair": "Reuse an existing hash-named transport only when its bytes match exactly; fresh download/member-validation path unchanged.",
+    "post_live_local_check": {
+      "status": "passed",
+      "matching_transport_create_and_reuse": true,
+      "mismatched_transport_refused_and_unchanged": true,
+      "network_requests": 0,
+      "elapsed_seconds": 0.022995400009676814,
+      "input_kind": "Two original retained Europe PMC supplementary transport archives, no fabricated science data",
+      "final_downloader_sha256": "4d53779cf285da0ce4faf3c5d2d00c31c43a1e52a5715c5fa71654837c9961f4"
+    },
+    "live_downloader_executed": true,
+    "repair": "Exact original file hashes and unique named Figure S6 size/hash remain mandatory. Container reference hash/size are historical transport observations; actual transport is recorded and capped at 16 MiB."
+  },
+  "output_equivalence_to_reviewed_audit": {
+    "GSE6481": {
+      "sample_count": 105,
+      "all_counts_and_checks_identical": true,
+      "all_factual_roster_rows_identical": true,
+      "compared_rows": 105,
+      "omitted_fields": [
+        "series",
+        "platforms",
+        "roster.title",
+        "roster.source_name",
+        "roster.characteristics",
+        "roster.diagnosis_field"
+      ]
+    },
+    "GSE24369": {
+      "sample_count": 42,
+      "all_counts_and_checks_identical": true,
+      "all_factual_roster_rows_identical": true,
+      "compared_rows": 42,
+      "omitted_fields": [
+        "series",
+        "platforms",
+        "roster.title",
+        "roster.source_name",
+        "roster.characteristics",
+        "roster.diagnosis_field"
+      ]
+    }
+  },
+  "omitted_original_sources": [
+    {
+      "file": "GSE6481_family.soft.gz",
+      "bytes": 17646870,
+      "sha256": "eec1f676f7b05f3115d2b04c926e6085a429350ec6b84a1d637ff27ae8375887",
+      "included": false,
+      "reproduction": "Reader obtains original separately; rights unchanged"
+    },
+    {
+      "file": "GSE24369_family.soft.gz",
+      "bytes": 20240336,
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+      "included": false,
+      "reproduction": "Reader obtains original separately; rights unchanged"
+    },
+    {
+      "file": "peerj-21497-article.xml",
+      "bytes": 219239,
+      "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+      "included": false,
+      "reproduction": "Reader obtains original separately; rights unchanged"
+    },
+    {
+      "file": "peerj-21497-figure-s6.png",
+      "bytes": 833332,
+      "sha256": "29932259e722fa46b84f01e2b662bcd58b66a108db669eca5035913eb9d8df03",
+      "included": false,
+      "reproduction": "Reader obtains original separately; rights unchanged"
+    }
+  ],
+  "narrative_source_fields_distributed": false,
+  "license_scope": "Prepared first-party CC0 notice excludes rights in original sources; no source license is waived or changed.",
+  "packaging": "Sorted archive paths; fixed 2026-09-07 00:00:00 timestamps; regular file mode 0644; ZIP_DEFLATED level 9. Packaging is deterministic for the retained files.",
+  "live_network_retrieval_unverified": false,
+  "prior_offline_replay": {
+    "command": "python -X utf8 -B verify_metadata.py --sources ../local-original-sources --output results",
+    "elapsed_seconds": 6.0505080000148155,
+    "exit_code": 0,
+    "finished_utc": "2026-09-07T21:31:46.088510+00:00",
+    "network_access_required": false,
+    "python_version": "3.12.14",
+    "started_utc": "2026-09-07T21:31:40.038217+00:00",
+    "status": "passed"
+  },
+  "prior_source_reuse": "Fresh local replay used byte-identical originals copied from the reviewed full archive into a separate local directory.",
+  "actual_live_output_execution": {
+    "command": "python -X utf8 -B verify_metadata.py --sources ../live-original-sources-v2 --output live-results-v2",
+    "elapsed_seconds": 5.879992900008801,
+    "exit_code": 0,
+    "finished_utc": "2026-09-07T21:41:14.004279+00:00",
+    "network_access_required": false,
+    "python_version": "3.12.14",
+    "started_utc": "2026-09-07T21:41:08.123676+00:00",
+    "status": "passed"
+  },
+  "live_output_equivalence_to_reviewed_audit": {
+    "GSE6481": {
+      "compared_rows": 105,
+      "all_factual_roster_rows_identical": true,
+      "all_counts_and_checks_identical": true
+    },
+    "GSE24369": {
+      "compared_rows": 42,
+      "all_factual_roster_rows_identical": true,
+      "all_counts_and_checks_identical": true
+    }
+  },
+  "prior_distribution_zip_sha256": "0141b4b7673f43b11384aca28c69c35451cae7d81f5f519957d80a05abbadfdc"
+}

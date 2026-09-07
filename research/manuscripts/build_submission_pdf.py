@@ -77,6 +77,19 @@ LANDSCAPE_MIN_COLS = 8
 _TABLES_IN_COLUMN = False
 
 PAPERS = {
+    "emc-external-validation": {
+        "footer_text": "Not peer reviewed.",
+        "manuscript": "external-validation/emc-external-validation-comment.md",
+        "tables": None,
+        "references": None,
+        "stamp_sources": ("external-validation/emc-external-validation-comment.md",),
+        "figures": {},
+        "journal": {"article_type": "Scientific comment", "section": "",
+                    "preprint_note": "Scientific comment; not peer reviewed."},
+        "layout": {"tables_in_column": True, "backmatter_in_flow": True,
+                   "no_provenance_line": True},
+        "out": "external-validation/emc-external-validation-comment.pdf",
+    },
     "surface-tissue-rna": {
         "footer_text": "Not peer reviewed.",
         "supplementary_presentation": {

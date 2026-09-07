@@ -1,0 +1,31 @@
+diff --git a/research/manuscripts/external-validation/emc-external-validation-comment.md b/research/manuscripts/external-validation/emc-external-validation-comment.md
+index 6674004d4..1e2af146a 100644
+--- a/research/manuscripts/external-validation/emc-external-validation-comment.md
++++ b/research/manuscripts/external-validation/emc-external-validation-comment.md
+@@ -51,7 +51,7 @@ The other GEO cohort also needs a precise description. GSE24369 contains six EMC
+ 
+ For the sequencing comparison, the article describes 12 internal TempO-Seq profiles and six external MI-ONCOSEQ profiles, the latter from Davis and colleagues.[1,5] The gene values were transformed to z-scores within each dataset before a two-sided Mann-Whitney comparison. Figure S6C reports P-values of 0.963 for PXN, 0.888 for H1FX and 1 for TYMS. The article interprets these results as confirmation that normalization bridges the platforms and validates baseline comparability.
+ 
+-For a nonconstant gene measured in cohort C, the stated transformation is:
++If, as the wording and Figure S6C suggest, each nonconstant gene was centered and scaled across samples separately within each cohort, the transformation is:
+ 
+ `z_C(x_i) = (x_i - mean_C(x)) / s_C(x)`.
+ 
+@@ -59,7 +59,7 @@ If every value in that cohort is replaced by `a*x_i + b`, with `a > 0`, its mean
+ 
+ `z_C(a*x_i + b) = z_C(x_i)`.
+ 
+-Separate standardization therefore gives identical analyzed values after arbitrary cohort-specific location shifts or positive rescaling. A comparison of those values cannot identify the baseline differences that were removed. The invariance holds with either population or sample standard deviations, provided the same convention is used before and after transformation. It follows from the reported method and does not depend on access to the external expression matrix.
++Separate standardization therefore gives identical analyzed values after arbitrary cohort-specific location shifts or positive rescaling. A comparison of those values cannot identify the baseline differences that were removed. The invariance holds with either population or sample standard deviations, provided the same convention is used before and after transformation. Under this interpretation, the limitation follows algebraically without the external expression matrix.
+ 
+ Standardization does not force the distribution shapes to agree or force a Mann-Whitney P-value of 1. A rank comparison can still detect differences in the standardized distributions. However, failure to reject such a difference is not an equivalence assessment, and no equivalence margin is specified for the claimed baseline agreement. Moreover, the two datasets contain different patients, so their contrast combines biological and technical differences. Neither agreement nor disagreement can be attributed to platform alone.
+ 
+@@ -77,7 +77,7 @@ This is an article-specific comment based on the public record as inspected on 7
+ 
+ ## Data and code availability
+ 
+-The source audit records the original GEO metadata, complete sample rosters, article and figure locations, source SHA256 hashes and independent parsing checks. It is supplied with this comment. The original datasets remain available through GEO.[2,4] No new patient data, gene-expression estimates or survival outcomes were generated. The algebraic argument is stated in full above.
++The accompanying verification supplement provides source URLs and SHA256 hashes, scripts to retrieve and check the original public records, and deposited sample identifiers and diagnosis counts. Third-party source files are retrieved separately under their existing terms. The original datasets remain available through GEO.[2,4] No new patient data, gene-expression estimates or survival outcomes were generated. The algebraic argument is stated in full above.
+ 
+ ## Declarations
+ 

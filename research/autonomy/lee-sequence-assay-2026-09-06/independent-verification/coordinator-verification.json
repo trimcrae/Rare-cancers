@@ -1,0 +1,65 @@
+{
+  "observed_utc": "2026-09-06T22:51:39.911059+00:00",
+  "status": "scientific checkpoint independently verified; isolated source checkpoint, normal integration gate pending",
+  "base": "ac789abf1029d995c364d93a459f286595707568",
+  "worker_agent": "/root/lee_sequence_audit",
+  "independent_agent": "/root/lee_sequence_verify",
+  "requested_reasoning_effort": "medium",
+  "actual_model_and_effort": "not independently exposed by provider; no ultra-review claim",
+  "independent_checks": 245,
+  "independent_calculation_seconds": 0.4912901000061538,
+  "reviewed_author_manifest_sha256": "cdc2ff2b9759d7bf1bcdd1a508db61fa25576f27016873c4a9bded22b3da3486",
+  "corrected_author_manifest_sha256": "7bccfab2698402a3a3cb78d87857f358a27c8925d4df94937a3df16fde1e249a",
+  "correction": "Right-flank endpoint483\u2013509 corrected to483\u2013510;28nt. Actual coordinates, reconstruction and all six computed outputs unchanged.",
+  "current_author_manifest_entries_verified": 21,
+  "unchanged_computation_outputs": {
+    "junctions.json": "9caf298002590f2074d8ee34eb375f35924cdd6a4eff19fd6dfd53c35d7e780d",
+    "references.fasta": "80426050a3dda8950ca81aac013016567f310ea729eceb3c257f7187037ec090",
+    "primer-mappings.json": "1835ae698598ad68acc3e8fab509420c06ff22a6d5ca38da2a6cba1c3ec10141",
+    "design-mappings-and-outcomes.json": "dae71a7e99f34156816330a2b9798ebbb32bd41341f0527069c2a11da34f98f3",
+    "design-mappings.csv": "470f71c002e8cf03a75e33ad24dd38738a42fa508e64ab1f4a94904410c85581",
+    "checks.json": "e140cada30d74324fc8232a59fd2166e3b7fda5741d1b906fb2b6d71c8f7d7ba"
+  },
+  "independent_evidence_files": [
+    {
+      "file": "independent_check.py",
+      "bytes": 7940,
+      "sha256": "072220077edf04ca7f93a34967299fbd243bb24a0e10c612837a50a713b699d6"
+    },
+    {
+      "file": "independent-results.json",
+      "bytes": 16301,
+      "sha256": "37ae241fa17660f273c2520e06cfe698b27654efe4dc798cd12bcf129599699a"
+    },
+    {
+      "file": "review-original.txt",
+      "bytes": 5238,
+      "sha256": "c77b73932d327ed033aefd38bd9e20bae20177bdbc3c3de61b0c4d36b7e526db",
+      "original_source_name": "review.md"
+    }
+  ],
+  "review_script_scope": "Original actual reviewer script and outputs preserved byte-for-byte. Original environment paths are execution provenance. Packet analyze.py/verify.py reproduced deterministically in the recorded Windows runtime; cross-platform byte replay has not been verified.",
+  "publication_claim": "None. Enabling external siRNA checkpoint; no standalone preprint, ASO/EMC efficacy, second-parent sparing or empirical PCR specificity claim.",
+  "integration_gate": "Not run in this sparse writer. Do not mutate the currently FULL-tested atlas candidate. Keep resource until coherent integration.",
+  "whitespace_diagnostic": {
+    "exit": 2,
+    "crlf_aware_exit": 2,
+    "log_sha256": "4f04771c01b692311a2d727daeeebe0e79673f9ef8de9630c16439153189ff7a",
+    "finding": "The repository uses * -text to preserve scientific source hashes. Original GenBank records carry fixed-format trailing spaces; reviewed writer code has a blank final line. CRLF/native source bytes retained. No whitespace-pass or normal-preflight claim."
+  },
+  "document_metadata_repair": {
+    "finding": "Normal integration preflight failed systems D4 for three Markdown files missing purpose/scope/audience/freshness frontmatter.",
+    "diagnostic_sha256": "24b3578dc9c65f1fb0ab77aed6e2dc14ec46e83fef45da19746bbfbfbf876033",
+    "author_prose_bodies_sha256": {
+      "result.md": "9064c8bb273016371887195aa91e4f421a694456e85c3ef728d125b4b9bb161a",
+      "specification.md": "dd02a328806d1e59574acb94396b9ba847ec32785f6d46d010d5db424b6ff6d0"
+    },
+    "author_prose_bodies_unchanged": true,
+    "original_review_sha256": "c77b73932d327ed033aefd38bd9e20bae20177bdbc3c3de61b0c4d36b7e526db",
+    "original_review_preserved_as": "review-original.txt",
+    "review_wrapper": "review.md",
+    "prior_author_manifest_sha256": "7109aa0b60fd9b2ae47afb2e276a3c9d861e4d00cdb98059fb5051706cd72b00",
+    "new_author_manifest_sha256": "7bccfab2698402a3a3cb78d87857f358a27c8925d4df94937a3df16fde1e249a",
+    "scientific_outputs_changed": false
+  }
+}

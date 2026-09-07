@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**33 endpoints for 83 routes · 30 with a document · 3 unwritten.**
+**34 endpoints for 84 routes · 31 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -37,6 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
+| **PUB-SURFACE-TARGETS**<br/>[Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosa…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◉ `posted_preprint` | `preprint` | 6 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
@@ -44,6 +45,7 @@ last_verified: 2026-08-06
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-CLASSIFICATION**<br/>[One code, three diseases: what a registry cohort selected on ICD-O-3 mo…](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ◐ `drafted` | `internal_note` | 2 | ⛔ IT WILL NOT BE. Closed 2026-08-23 on trimcrae's instruction: 'this is not a paper. … |
+| **PUB-EMC-EXTERNAL-VALIDATION-COMMENT**<br/>[External evidence for an EMC prognostic gene panel: cohort identity and…](../../research/manuscripts/external-validation/emc-external-validation-comment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/program/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
@@ -57,7 +59,6 @@ last_verified: 2026-08-06
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
-| **PUB-SURFACE-TARGETS**<br/>[Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosa…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
@@ -88,6 +89,21 @@ The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at
 |---|---|---|
 | [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) | `primary` | The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away. |
 | [RT-ASO-ASK](L2-rt-aso-ask.md) — Junction knockdown + parental sparing in EMC lines ( | `contributing` | The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench. |
+
+### PUB-SURFACE-TARGETS — Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma
+
+**◉ `posted_preprint` · aimed at `preprint` · [`research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md`](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)**
+
+A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-marker control, can be assessed using within-cohort tissue RNA ranks and prespecified sarcoma comparators. In the overlap-reduced Hofvander cohort of nine primary EMC specimens, CSPG4 alone meets the frozen tissue-validation allocation rule; its LGFMS contrast agrees with the original GSE24369 array contrast, but year-deletion sensitivity and DFSP context limit generalization. This supports a qualified rationale for EMC tissue protein and compartment validation, not validated surface expression, normal sparing, treatment selection or efficacy. All other fixed-panel results and discordant protein/normal-context evidence are retained.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-B7H3](L2-rt-b7h3.md) — B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | `primary` | The prioritised surface-antigen ranking and the surrogate basis that bounds its negatives. |
+| [RT-CART-SURFACE](L2-rt-cart-surface.md) — CAR-T for EMC (surface-directed) | `contributing` | The cell-product reading of the same ranking, and the finding that the constraint is the antigen and the stroma rather than the CAR. |
+| [RT-FAP-RLT](L2-rt-fap-rlt.md) — FAP-targeted radioligand therapy (FAPI-RLT) | `contributing` | The stromal arm, which is the only row on the list that does not require the fusion biology to be solved and is also the least measured. |
+| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | `contributing` | The one antigen on the list whose therapeutic already exists clinically, which turns its row from a discovery into a check. |
+| [RT-SSTR2](L2-rt-sstr2.md) — SSTR2 / neuroendocrine theranostic | `contributing` | The theranostic receptor arm, framed as a cheap decisive negative rather than as a lead — there is no computation that strengthens it, only a measurement. |
+| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) — TCR-T / engineered T cells vs a cancer-testis antige | `contributing` | The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument. |
 
 ### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta
 
@@ -197,6 +213,16 @@ ICD-O-3 morphology code 9231/3 is read by published work as THREE mutually incom
 |---|---|---|
 | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — The diagnosis itself — code contamination and a name | `contributing` | The whole argument: one code read as two diseases, and a measured cost of diagnostic uncertainty. |
 | [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — Population cancer-registry microdata (SEER, NCDB) | `contributing` | The measurement that would size the contamination the classification paper can currently only demonstrate. |
+
+### PUB-EMC-EXTERNAL-VALIDATION-COMMENT — External evidence for an EMC prognostic gene panel: cohort identity and baseline comparability
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/external-validation/emc-external-validation-comment.md`](../../research/manuscripts/external-validation/emc-external-validation-comment.md)**
+
+The cited public GSE6481 accession does not identify the reported EMC-versus-chondrosarcoma comparison, and separate within-cohort gene standardization cannot establish the original baseline comparability claimed from the external sequencing comparison; the actual analyzed cohort remains unresolved.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-EMC-EXTERNAL-VALIDATION-AUDIT](L2-rt-emc-external-validation-audit.md) — External expression validation evidence in EMC | `primary` | An article-specific source and inference comment with complete accession metadata checks and a stated standardization invariance argument. |
 
 ### PUB-EMC-PROGRAM — Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3
 
@@ -354,21 +380,6 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agent | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
-
-### PUB-SURFACE-TARGETS — Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma
-
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md`](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)**
-
-A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-marker control, can be assessed using within-cohort tissue RNA ranks and prespecified sarcoma comparators. In the overlap-reduced Hofvander cohort of nine primary EMC specimens, CSPG4 alone meets the frozen tissue-validation allocation rule; its LGFMS contrast agrees with the original GSE24369 array contrast, but year-deletion sensitivity and DFSP context limit generalization. This supports a qualified rationale for EMC tissue protein and compartment validation, not validated surface expression, normal sparing, treatment selection or efficacy. All other fixed-panel results and discordant protein/normal-context evidence are retained.
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-B7H3](L2-rt-b7h3.md) — B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | `primary` | The prioritised surface-antigen ranking and the surrogate basis that bounds its negatives. |
-| [RT-CART-SURFACE](L2-rt-cart-surface.md) — CAR-T for EMC (surface-directed) | `contributing` | The cell-product reading of the same ranking, and the finding that the constraint is the antigen and the stroma rather than the CAR. |
-| [RT-FAP-RLT](L2-rt-fap-rlt.md) — FAP-targeted radioligand therapy (FAPI-RLT) | `contributing` | The stromal arm, which is the only row on the list that does not require the fusion biology to be solved and is also the least measured. |
-| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | `contributing` | The one antigen on the list whose therapeutic already exists clinically, which turns its row from a discovery into a check. |
-| [RT-SSTR2](L2-rt-sstr2.md) — SSTR2 / neuroendocrine theranostic | `contributing` | The theranostic receptor arm, framed as a cheap decisive negative rather than as a lead — there is no computation that strengthens it, only a measurement. |
-| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) — TCR-T / engineered T cells vs a cancer-testis antige | `contributing` | The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument. |
 
 ### PUB-SYNLETH — Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
 
@@ -586,6 +597,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◐ | `internal_note` | `contributing` |
 | [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◐ | `internal_note` | `contributing` |
+| [RT-EMC-EXTERNAL-VALIDATION-AUDIT](L2-rt-emc-external-validation-audit.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `reproducible_workflow` | **PUB-EMC-EXTERNAL-VALIDATION-COMMENT** ◐ | `preprint` | `primary` |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
@@ -630,12 +642,12 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-SCHEDULING](L2-rt-scheduling.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
-| [RT-B7H3](L2-rt-b7h3.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `primary` |
-| [RT-CART-SURFACE](L2-rt-cart-surface.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
-| [RT-FAP-RLT](L2-rt-fap-rlt.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
-| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
-| [RT-SSTR2](L2-rt-sstr2.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
-| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
+| [RT-B7H3](L2-rt-b7h3.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `primary` |
+| [RT-CART-SURFACE](L2-rt-cart-surface.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `contributing` |
+| [RT-FAP-RLT](L2-rt-fap-rlt.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `contributing` |
+| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `contributing` |
+| [RT-SSTR2](L2-rt-sstr2.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `contributing` |
+| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `preprint` | `contributing` |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-SYNLETH** ◐ | `internal_note` | `primary` |
 | [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ◐ | `preprint` | `primary` |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |

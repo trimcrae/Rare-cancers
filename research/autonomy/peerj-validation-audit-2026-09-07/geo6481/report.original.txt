@@ -1,0 +1,74 @@
+---
+id: GEO6481-INDEPENDENT-SOURCE-AUDIT-20260907
+title: Independent audit of the cited GSE6481 validation cohort
+kind: source-audit
+status: complete
+date: 2026-09-07
+scope: Public metadata, original publication identity, and published figure labels; no expression analysis
+---
+
+The complete official GSE6481 deposit contains **105 sample records, with no sample annotated as EMC or any chondrosarcoma**. Its source diagnosis counts reproduce the original publication's 105-tumor roster. This contradicts the later article's description of that accession as 19 EMC plus 128 other chondrosarcomas. It does **not** establish which dataset the later authors actually analyzed. A wrong accession, an incorrect figure label, or another unresolved provenance issue remains possible.
+
+The independently inspected Figure S6B has an additional label discrepancy: its heading states GSE6481 (n=147), while every plot labels the groups Other Chondrosarcomas (n=59) and EMC (n=19), totaling 78. Labels alone do not reveal the underlying sample selection.
+
+## Official source and complete sample audit
+
+Original source: [NCBI GEO GSE6481](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE6481); retained bytes came from the ordinary [official FTP HTTPS family SOFT archive](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE6nnn/GSE6481/soft/GSE6481_family.soft.gz). The browser challenge was not retried or solved.
+
+The archive GET returned HTTP 200 on 2026-09-07, 20:25:13–20:25:21 UTC. All 17,646,870 advertised bytes were retained. SHA256: `eec1f676f7b05f3115d2b04c926e6085a429350ec6b84a1d637ff27ae8375887`. Requested URL, final URL, timestamps, headers and elapsed time are in `retrieval.json`; preliminary successful HEAD receipts are in `head-receipts.json`. The FTP Last-Modified header is a bundle timestamp, not a claim that the study was conducted or published in 2026.
+
+`parse_geo.py` parses the complete metadata outside SOFT data tables. `count_and_verify.py` then checks every sample's Histology characteristic against its description and, using a separate direct scan of the compressed source, its source-name field. Every one of the 105 samples has exactly one Histology label; all three diagnostic fields agree. Both sample parsers reproduce the exact unique series roster. There are 105 unique source specimen IDs, which should not be interpreted as independently confirmed unique patients.
+
+| Deposited Histology label | Sample records |
+|---|---:|
+| Synovial sarcoma | 16 |
+| Myxoid liposarcoma | 19 |
+| Lipoma | 3 |
+| Well-differentiated liposarcoma | 3 |
+| Dedifferentiated liposarcoma | 15 |
+| Myxofibrosarcoma | 15 |
+| Leiomyosarcoma | 6 |
+| Malignant peripheral nerve sheath tumor | 3 |
+| Fibrosarcoma | 4 |
+| Malignant fibrous histiocytoma | 21 |
+| **Total** | **105** |
+
+The same counts appear in the series Overall design field. The original article calls the 19-case category myxoid/round-cell liposarcoma. The numerical coincidence with the later article's stated 19 EMC cases is **not evidence of relabeling**.
+
+All 105 records specify **GPL96, Affymetrix Human Genome U133A**, a one-channel expression microarray with 22,283 probe sets. They describe total RNA from surgically excised, cryopreserved soft-tissue tumors supplied by National Cancer Center Hospital, Japan. Deposited sampling-site labels are primary for 102 and mets for three. The deposited processing statement describes GCOS 1.3 scaling each experiment to mean signal 100. These are source protocol facts; no expression values were parsed or computed.
+
+Complete traceable outputs:
+
+- `source/GSE6481_family.soft.gz`: untouched official compressed archive.
+- `metadata.soft.txt` and `metadata.json`: metadata-only extraction, complete series/platform/sample records, original source line numbers.
+- `complete-sample-roster.json`: all 105 GSM IDs, source specimen IDs, raw diagnoses, source-name lines, platform and sampling-site labels.
+- `complete-count-audit.json`: both per-sample count methods, series-design comparison, zero missing labels, exact roster agreement and execution timing.
+- `parse_geo.py` and `count_and_verify.py`: successfully executed reproducible parsers; the latter asserts complete agreement rather than silently dropping unexpected records.
+
+## Independently checked original publication
+
+**Nakayama R, Nemoto T, Takahashi H, Ohta T, Kawai A, Seki K, Yoshida T, Toyama Y, Ichikawa H, Hasegawa T.** Gene expression analysis of soft tissue sarcomas: characterization and reclassification of malignant fibrous histiocytoma. *Modern Pathology*. 2007;20(7):749–759. DOI [10.1038/modpathol.3800794](https://www.nature.com/articles/3800794); [PMID 17464315](https://pubmed.ncbi.nlm.nih.gov/17464315/). Online 27 April 2007; July 2007 issue.
+
+The original article independently enumerates the same ten diagnostic groups totaling 105 tumors and concerns MFH classification. It supplies no EMC group. Its methods confirm HG-U133A/GCOS 1.3; GeneSpring GX7.2 subsequently applied per-gene median normalization across enrolled samples and log transformation. Publication identity, primary bytes, retrieval receipts, a separate parser, extracted facts and bounded access-failure dispositions are preserved in `publication/`.
+
+No accession mention or correction statement was found in that retrieved article. The original publication's PubMed XML contains no DataBank or CommentsCorrections element. These are document-limited observations, not an exhaustive assertion that no correction exists anywhere.
+
+## Exact comparison with the later source
+
+The coordinator-retained original [PeerJ article](https://peerj.com/articles/21497/) XML was copied byte-for-byte into `source/peerj-21497-article.xml` (219,239 bytes; SHA256 `2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768`). `inspect_peerj_source.py` records source paragraphs, all external links, supplementary descriptors and the independent figure-label inspection.
+
+| Evidence | Verified fact | Limit |
+|---|---|---|
+| PeerJ methods | GSE6481 is described as 19 EMC versus 128 other chondrosarcomas. | Actual input file and sample IDs are not supplied in this paragraph. |
+| Figure S6B original image | Heading 147; group labels 59 other chondrosarcomas and 19 EMC on all three plots. | This is a label inconsistency, not a reconstructed sample count. |
+| Official complete GSE6481 metadata | 105 records; all ten diagnoses and each sample's three diagnostic fields agree; no chondrosarcoma/EMC labels. | This establishes the deposited annotations, not an independent histopathology review. |
+| PMID17464315 original article | Same exhaustive 105-tumor roster, no EMC category. | It does not identify the dataset analyzed in PeerJ. |
+| PeerJ XML links | No related-article correction link. GitHub links refer to ASHLAR and StarDist image-analysis software. Data availability points to supplemental files and PRJNA1357027. | These links do not resolve the external cohort's accession or membership. This worker did not independently audit the Data S1 workbook; the coordinator owns that check. |
+
+Figure S6 was directly viewed at the coordinator's preserved `peerj-validation-source/figure-s6.png`; SHA256 `29932259e722fa46b84f01e2b662bcd58b66a108db669eca5035913eb9d8df03`. No plotted expression values or test results were extracted. Panel A's labels (GSE24369, 42 total, 36 Other Sarcomas and six EMC) were also observed, but the GSE24369 metadata audit belongs to the coordinator and is not claimed as an independent result here.
+
+## Bounded conclusion
+
+The cited accession cannot currently substantiate the described EMC-versus-chondrosarcoma comparison from its deposited annotations. The source gate requires the actual accession, complete selected GSM roster with diagnoses, and analysis input or code resolving the discrepancies. Until that provenance is established, this audit neither reconstructs the later analysis nor decides the truth of its expression findings. It supports a precise clarification/correction need; manuscript merit remains a separate assessment.
+
+No expression computation, new patient inference, correspondence, Git checkout changes, or additional source search was performed after this finite check. Retrieval failures are retained in the publication report; no challenged route was retried. No process remains running.

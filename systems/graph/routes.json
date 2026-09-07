@@ -9446,5 +9446,79 @@
       "No EMC series records any host factor, so every prevalence and every effect here is transferred from another population and none is a measurement in this disease.",
       "Nothing in this route asserts efficacy, safety, a therapeutic window or clinical readiness, and nothing in it is advice for any individual patient."
     ]
+  },
+  {
+    "id": "RT-EMC-EXTERNAL-VALIDATION-AUDIT",
+    "display_name": "External expression validation evidence in EMC",
+    "title": "External expression validation evidence in EMC",
+    "level": "L2",
+    "kind": "route",
+    "purpose": "Do the published external cohorts and normalization support the specific lineage and baseline-comparability claims assigned to them?",
+    "grade": {
+      "value": "Original source audit independently checked; baseline independent ultra review and final focused medium verification support the frozen comment. Linux full candidate verification pending.",
+      "owner": {
+        "file": "research/autonomy/peerj-validation-audit-2026-09-07/README.md"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DISSEMINATION",
+    "publication": {
+      "endpoint": "PUB-EMC-EXTERNAL-VALIDATION-COMMENT",
+      "role": "primary",
+      "contribution": "An article-specific source and inference comment with complete accession metadata checks and a stated standardization invariance argument."
+    },
+    "provenance": {
+      "owner": {
+        "file": "research/autonomy/peerj-validation-audit-2026-09-07/source-integration.json"
+      }
+    },
+    "state": {
+      "work_state": "in_work",
+      "authorization": "free",
+      "status": "active",
+      "maturity": "concept",
+      "confidence": "unknown",
+      "last_verified": "2026-09-07",
+      "running_job": "Release integration and verification owned by writing thread 01a07c22-89ff-7132-bfd4-7ae6740e516a; isolated release source preparation followed by existing Linux CI. No scientific computation."
+    },
+    "rationale": "Correctly distinguishing deposited cohort identity and transformed-distribution comparisons prevents the reported external evidence from being assigned support it does not establish.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "The accession, selected samples and source expression values actually used for Figure S6B remain unidentified."
+    ],
+    "required_validation": [
+      {
+        "what": "Independent ultra review of original-source fidelity, normalization inference, claim strength and submission merit, followed by focused repairs and full publication checks.",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "reproducible_workflow",
+      "missing": [
+        "Full candidate preflight and actual publication-bar evaluation"
+      ],
+      "why_not_higher": "Actual baseline ultra review and focused verification support the unchanged frozen deliverables; exact release full preflight and publication-bar evidence remain pending."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The original source discrepancy and stated normalization limitation can be evaluated now; a precise author clarification is separately coordinated.",
+      "revisit_trigger": [],
+      "cost_trend": "unknown"
+    },
+    "next": {
+      "best_next_action": "Verify the isolated release candidate on the existing Linux CI workflow, then evaluate the actual publication bar using the shared local historical objects and the exact fetched CI revision.",
+      "cost": "$0"
+    }
   }
 ]

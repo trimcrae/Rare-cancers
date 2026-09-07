@@ -1,0 +1,11 @@
+{
+  "utc": "2026-09-07T22:59:14.626070+00:00",
+  "failed_normal_source": "b9d214a4f17759e0a948df34d6e43c8f48e92b5e",
+  "failure": "systems_check [S1]: RT-EMC-EXTERNAL-VALIDATION-AUDIT state: 'running_job' is a required property",
+  "cause": "Release integrator omitted the required ownership descriptor while retaining work_state=in_work. This was an integration metadata defect, not a scientific finding.",
+  "repair": "Restore an accurate active release ownership descriptor; regenerate derived views. No schema or acceptance change.",
+  "old_routes_sha256": "c6edd29fd203b981f2a5106bd40e8205271bafddcf2c4bc38ef55e4c2d1c7c24",
+  "new_routes_sha256": "4fadc42c462e48fd4b1eca686386032814b195da2ffa1ebb2fd54011490acea5",
+  "nine_deliverables_unchanged": true,
+  "next": "Provide corrected source tree to coordinator for remote commit creation, fetch genuine remote source, regenerate ASO manifest from that source, then normal preflight. No second normal run yet."
+}

@@ -1,0 +1,72 @@
+{
+  "paper": "PUB-SURFACE-TARGETS",
+  "commit": "785cda386aa401c19439fdecd1bfdd5b03f56c0f",
+  "venue": "aixiv",
+  "act": "submit",
+  "clauses": [
+    {
+      "clause": "hardening_converged",
+      "label": "hardening converged (no blockers on this commit; P1s reported)",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "round 1 on 785cda386aa4: 0 blockers across 1 blind seat(s), 0 open P1s, and no earlier round on record fielded more (0 earlier round(s) with seat records, widest 0)"
+    },
+    {
+      "clause": "preflight_full_green",
+      "label": "PREFLIGHT_FULL=1 green on the posted commit",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "FULL run exit 0 on 785cda386aa4 at 2026-09-07T02:30:00Z, re-derived from research/autonomy/preflight-logs/785cda386aa401c19439fdecd1bfdd5b03f56c0f.log"
+    },
+    {
+      "clause": "claim_ceiling_honoured",
+      "label": "claim strength within the endpoint's ceiling",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "lint_claims clean over research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md at 785cda386aa4"
+    },
+    {
+      "clause": "identifiers_resolvable",
+      "label": "every identifier traces to a fetch or the ledger",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "lint_citations clean corpus-wide at 785cda386aa4, covering research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    },
+    {
+      "clause": "endpoint_declared",
+      "label": "the endpoint is a declared falsifiable claim",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "PUB-SURFACE-TARGETS claims: A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-m..."
+    },
+    {
+      "clause": "independent_adversarial_seat",
+      "label": "a blind adversarial seat finds the claim supported",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "blind seat on 785cda386aa4: supported, bound to research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    },
+    {
+      "clause": "readable_enough_to_review",
+      "label": "the outgoing text is readable and keeps its caution",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md: no sentence over 60w (longest 46w, mean 15.6w, FKGL 15.0), caution 11.5/1000w (no baseline pinned). ⚠ This says nothing about whether the prose is CLEAR."
+    },
+    {
+      "clause": "deliverable_is_buildable",
+      "label": "the deliverable has a registered renderer",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "build_submission_pdf.PAPERS builds 'surface-targets/emc-tissue-rna-prioritization.md' at 785cda386aa4"
+    }
+  ],
+  "authority": {
+    "ok": true,
+    "why": "granted: trimcrae, 2026-08-26, AskUserQuestion D1, verbatim: 'Broad: any paper meeting the bar' — 0 of 3 version(s) used"
+  },
+  "may_post": true,
+  "n_passed": 8,
+  "n_clauses": 8,
+  "_fail_closed": "UNVERIFIABLE and FAIL both block. They differ only in what to do next: go get the evidence, or stop. Neither is ever treated as a pass."
+}

@@ -69,6 +69,54 @@ intended candidate before asking the runner to inspect it. Worktrees, exact task
 logs, outcomes, and receipts are retained under `.cache/research-runs/` beside the primary clone.
 Preserve useful output in the repository before treating it as durable research progress.
 
+Before reserving a run or checking authentication, the runner estimates the selected committed
+file bytes and requires that amount plus **10 GiB of free headroom** on the run-directory volume.
+`--plan` reports the base commit, scope, file count, byte estimate, available space and capacity
+decision without creating a checkout or probing authentication. Each dispatched run retains that
+storage reading in its receipt. The estimate covers Git blob bytes; filesystem allocation, Git
+metadata, checkout filters and future generated output can differ. The headroom is a launch guard,
+not a reservation against other processes using the disk.
+
+The default scope remains the full committed tree. For a bounded task, repeat `--sparse-dir` with
+the tracked input directories it needs, first inspecting the plan:
+
+```text
+python scripts/research_run.py --plan --sparse-dir .claude --sparse-dir scripts --sparse-dir systems --sparse-dir research/autonomy/tests --sparse-dir research/manuscripts/aso
+```
+
+Pass the same directory arguments to the authorized launch command. Paths must be tracked
+repository-relative directories at that base; absolute paths, traversal and file paths are refused.
+The new worktree starts with `--no-checkout`; cone patterns are configured before `read-tree`
+populates its index and files. It never materializes a full checkout on the way to a sparse one.
+Cone mode also includes root files and direct files of ancestor directories. For example, selecting
+`research/autonomy/tests` includes the autonomy Python modules and protocol documents without
+including every dated research packet. Selecting `research/modalities/tests` still includes the
+large data files directly in `research/modalities`; inspect the reported estimate.
+
+Choose inputs from the actual task and its verification dependencies. Missing inputs are not
+permission to skip a check. Worker checks may be scoped to that task; the normal integration
+preflight and publication checks still run from a checkout containing all their required evidence.
+For ordinary read-only inventory or correspondence, reuse the coordinator checkout or a projectless
+workspace. A separate frozen read-only runner checkout is useful when a committed-base audit
+requires it. Scoped worktrees keep one repository's provenance and relative paths intact; splitting
+the repository is not required to reduce each worker's local footprint.
+
+For a manual writer, inspect the same `--plan` with the intended input directories and require
+`storage.capacity_available` before creating its tree. Use the reported `storage.base_commit`
+as `BASE`, absolute paths for `REPO` and `WORKTREE`, and a unique task branch and directory:
+
+```text
+git -C REPO worktree add -b codex/TASK --no-checkout WORKTREE BASE
+git -C WORKTREE sparse-checkout set --cone -- .claude scripts systems research/autonomy/tests research/manuscripts/aso
+git -C WORKTREE read-tree -mu BASE
+```
+
+Stop on any nonzero command exit. Use the same selected directories in the plan and checkout.
+Reserve the manual writer's resource with the existing `--reserve-resource` command before work
+begins. `read-tree` is necessary because `--no-checkout` can leave an empty index even after the
+sparse patterns have been set. It is an initialization step for a new empty worktree, not a command
+to reset a worktree containing edits.
+
 The enforced maxima are 1,800 seconds and one dispatch, including direct Python callers. Missing output, incomplete work,
 timeouts, authentication failure, and blocked tools produce distinct non-success outcomes.
 `completed` means the assigned task completed; it is never a publication verdict. The outcome's
@@ -85,6 +133,24 @@ preserving useful output, resolve the resource with `--release-resource --coordi
 and hash remain in ownership history. Use `abandoned` with an explicit reason file for discarded
 work; neither resolution deletes the original output. A completed task is never automatically
 treated as integrated or publication-ready.
+
+Reclaim a retained writer checkout only as an explicit coordinator cleanup, one run at a time.
+Match its completed receipt and run ID to the ownership history's `resolve_resource` entry with
+resolution `integrated`; verify the recorded evidence file and SHA256, confirm no current resource
+reservation refers to the worktree, and inspect the actual files under the shared coordinator lock.
+The history does not itself prove that every ignored or later-added file was integrated.
+Preserve useful changed, untracked and ignored bytes and their verification before removal. Keep
+the run directory's receipts, task/protocol snapshots, logs and outcomes. The known runner metadata
+under `worktree/.cache/research-run` may be preserved beside them, but another ignored cache is not
+automatically disposable. Inspect both `git status --porcelain --untracked-files=all` and
+`git ls-files --others --ignored --exclude-standard` in the exact target worktree.
+
+Once all useful output is preserved, verify the resolved target is exactly
+`.cache/research-runs/RUN-ID/worktree` of this clone, with no symlink or junction redirect, and that
+Git registers it as a linked worktree. Remove that checkout with `git worktree remove WORKTREE`
+only after it is clean and ignored content has been reconciled. If Git refuses, inspect the
+remaining work rather than adding `--force`. Do not delete the whole run directory, expire an
+owner by timestamp, or automatically delete work merely because its outcome says `completed`.
 
 `--recover --coordinator-id TASK-ID` acquires the existing OS lock and marks interrupted run
 receipts for reconciliation. It retains partial files, logs, worktrees and resource reservations.

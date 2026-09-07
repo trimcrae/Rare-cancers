@@ -1,0 +1,185 @@
+{
+  "paper": "PUB-EMC-EXTERNAL-VALIDATION-COMMENT",
+  "reviewed_commit": "9759f8dc48cb959d5c141e9b3af2ccbb26c3ceb2",
+  "deliverable_digest": "c5ab8b35f251b874ed33ddbef4c75fd1ce23c594c1c291ecef13fbaecca97c98",
+  "document_sha256": "efd80bb0964c33857c64d01b7c5c6a53b685dd00b5c8ee69eebd6008e3bed53a",
+  "blind": true,
+  "blind_definition": "Independent AI focused review blind to authoring conversation/history; author identity visible. Prior genuine independent ultra review, its scientific verdict and precise findings/repairs were explicitly supplied. This is not anonymous human review or a new full ultra pass.",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "actual_model": "gpt-6-astra",
+  "actual_reasoning_effort": "medium",
+  "started_at": "2026-09-07T22:04:30+00:00",
+  "started_at_precision": "Conservative approximate start of first input inspection, recorded retrospectively; first clock observation was 22:05:05 UTC.",
+  "ended_at": "2026-09-07T22:11:05.695836+00:00",
+  "elapsed_seconds": 395.695836,
+  "status": "complete",
+  "scope": "focused_verification",
+  "review_request": {
+    "scope": "focused_verification",
+    "lenses": [
+      "editorial_and_venue_packaging"
+    ],
+    "changed_claims": [
+      "E1: explicitly conditional per-gene within-cohort normalization interpretation, retaining nonconstant-gene condition and unchanged algebra.",
+      "Data availability describes original-source retrieval outside a first-party-only verification supplement; scientific roster/count predicates and source-file hashes unchanged.",
+      "LaTeX main source, registered PDF and final Markdown convey the same manuscript. Final retrieval code checks exact named Figure S6 bytes, preserving mutable container identity as provenance."
+    ],
+    "depends_on": [
+      "research/manuscripts/external-validation/emc-external-validation-comment.md",
+      "research/autonomy/peerj-validation-audit-2026-09-07/latex-packaging/content-equivalence-receipt.json",
+      "research/autonomy/peerj-validation-audit-2026-09-07/rights-packaging/verification-supplement-build-receipt.json",
+      "research/autonomy/peerj-validation-audit-2026-09-07/verification-bundle-integration.json",
+      "research/autonomy/review-seats/PUB-EMC-EXTERNAL-VALIDATION-COMMENT-2b64a301cf54422b2f82a59ca9f13866bb27833a.json"
+    ]
+  },
+  "baseline_linkage": {
+    "path": "input/baseline-ultra-review.json",
+    "sha256": "755e68accfff009c7c23880b09f619e4d082fd81e0d0fe01c2773c0dc65362ad",
+    "reviewed_commit": "2b64a301cf54422b2f82a59ca9f13866bb27833a",
+    "document_sha256": "662f7af172b2c9b9afe682741a33ae44bc815c6e2ed8a5ec4a07c48c803f5ef2",
+    "actual_model": "gpt-6-astra",
+    "actual_reasoning_effort": "ultra",
+    "scope": "Prior full independent scientific review preserved; current scope only editorial repairs and venue packaging dependencies."
+  },
+  "central_claim": "The cited deposited cohorts and inconsistent published sample counts do not identify the reported EMC lineage comparison. Under the explicitly conditional nonconstant-gene within-cohort standardization interpretation, original location and scale are removed, and nonsignificant rank tests of those standardized values cannot establish original baseline comparability or isolate a platform effect. Exact inputs and narrower interpretation are warranted.",
+  "verdict": "supported",
+  "verdict_reason": "Reaffirmed within focused scope: original metadata/factual predicates and article/figure discrepancy remain unchanged and reproducible; E1 makes the normalization attribution appropriately conditional while retaining the mathematically necessary domain and correct positive-affine invariance. Packaging preserves access to exact evidence without asserting source relicensing. No checked dependency undermines the prior central scientific judgment.",
+  "submission_merit": {
+    "decision": "merits_submission",
+    "reason": "The article-specific, reproducible cohort-provenance/count defect and proportionate request for exact analysis inputs remain useful scientific correspondence. The conditional standardization critique correctly limits the external comparison; it does not claim statistical novelty or clinical benefit. These substantive reasons preserve prior merit independently of adequate typography. This is not a prediction of acceptance."
+  },
+  "blockers": [],
+  "p1s": [],
+  "editorial": [],
+  "findings": [],
+  "resolved_prior_findings": [
+    {
+      "id": "E1",
+      "status": "resolved",
+      "reason": "Exact conditional attribution repairs applied, nonconstant-gene condition retained, limitations and algebra preserved."
+    }
+  ],
+  "checked_evidence": [
+    {
+      "artifact": "All frozen inputs and nine registered deliverables",
+      "check": "Every input listed in review-input.json has independently matching SHA256 and size. Final Markdown hash matches registered PDF build stamp. Digest retained as supplied; no claim of reverse-engineering its aggregation convention.",
+      "evidence": [
+        "input-hashes.json",
+        "inventory_inputs.py"
+      ]
+    },
+    {
+      "artifact": "Baseline manuscript and E1 repair",
+      "check": "Frozen original SHA256 662f7af172b2c9b9afe682741a33ae44bc815c6e2ed8a5ec4a07c48c803f5ef2 matches baseline document. Actual diff comprises the two conditional E1 attribution edits plus data availability. The nonconstant-gene domain condition remains. For a>0, centered numerator and nonzero SD both scale by a, proving the printed invariant with sample or population SD. Shape differences, non-equivalence of nonsignificance, unknown exact implementation and patient/platform confounding remain appropriately limited. No prose-pinning tests added.",
+      "evidence": [
+        "actual-manuscript.diff",
+        "original-relevant-paragraphs.json"
+      ]
+    },
+    {
+      "artifact": "First-party verification ZIP versus private ZIP",
+      "check": "All eleven member byte strings, CRC, compression size/type, file size, timestamp, attributes, flags, extra and comment fields equal. Only archive ordering differs among inspected container properties. All ten self-excluding manifest entries pass exact size/hash checks. No original source file or copied narrative study-description field is distributed.",
+      "evidence": [
+        "zip-equivalence.json",
+        "verification-inventory.json",
+        "verification/manifest.json"
+      ]
+    },
+    {
+      "artifact": "Scientific predicates and emitted factual metadata",
+      "check": "Read full verifier diff: scientific verification predicates unchanged; source location and output schema adapted. Final code offline replay against exact four original files passed. Both cohort output JSON objects equal packaged results exactly; all 105 and 42 factual roster rows, diagnosis counts, platforms and check predicates equal original full-audit fields. New platform_accessions equals original platform-count keys.",
+      "evidence": [
+        "verifier-adaptation.diff",
+        "metadata-equivalence.json",
+        "offline-verification.stdout.txt",
+        "verification/review-reproduced/verification-summary.json",
+        "executions.json"
+      ]
+    },
+    {
+      "artifact": "Live retrieval boundary and S6 transport repair",
+      "check": "Read retained initial failure, live-v2 receipts/logs and reproduction record. Retained live-tested downloader hash matches its declared identity. Independent diff shows final downloader only adds preserve_transport and uses it at the existing transport write. Exact named peerj-14-21497-s008.png occurs once in retained 4457390-byte container; size and SHA256 match frozen S6. Download bound is 16777216 bytes, duplicate member rejected, only named member read, no arbitrary extraction. Historical container SHA256 is correctly provenance rather than mandatory content identity. Final helper create/reuse and mismatch refusal tested locally using retained transport. Final script plan and matching-original reuse executed without network, then final verifier passed. This is not a final-exact-code live end-to-end test.",
+      "evidence": [
+        "transport-check.json",
+        "downloader-post-live.diff",
+        "plan.stdout.txt",
+        "offline-source-reuse.stdout.txt",
+        "rights/live-reader-v2-execution.json",
+        "rights/live-original-sources-v2/retrieval-receipt.json",
+        "verification/reproduction.json"
+      ]
+    },
+    {
+      "artifact": "Rights scope and availability wording",
+      "check": "Read supplied original NCBI usage-policy HTML, PeerJ XML permissions, CC BY 4 legal code, CC0 legal code and Qeios publishing policy. NCBI permits reuse/distribution while preserving possible submitter rights and has no rights to transfer. PeerJ original is CC BY with attribution; CC0 applies only to rights the affirmer holds. Qeios policy distinguishes CC BY works and CC0 data. First-party notice explicitly excludes third-party originals, and actual ZIP does not contain them or narrative extracts. Availability accurately describes separate source retrieval. This is bounded policy/source verification, not legal assurance or an ownership determination.",
+      "evidence": [
+        "ncbi-policy-text.txt",
+        "cc0-policy-text.txt",
+        "ccby-policy-text.txt",
+        "qeios-policy-text.txt",
+        "rights/bundled-peerj-permissions.xml",
+        "verification/CC0-NOTICE.txt",
+        "verification/README.md"
+      ]
+    },
+    {
+      "artifact": "Final Markdown, registered PDF and LaTeX QA PDF",
+      "check": "Final MD equals retained final venue source; supplied deterministic builder produces exact final TeX, which equals TeX in Tectonic evidence. Entire registered PDF normalized body including code math equals MD after excluding running headers/footer; all seven non-code-math segments appear in order in Tectonic extraction. Six link destinations agree. Both actual four-page PDFs rendered independently and all eight images inspected: readable prose, proper equations, no clipped or omitted text, collision or missing glyph. Layout differs acceptably. Registered PDF is identified by its exact delivered hash, not confused with Tectonic QA PDF. Retained Tectonic build log records exit 0; no new compile performed.",
+      "evidence": [
+        "pdf-content-check.json",
+        "registered-text.txt",
+        "tectonic-text.txt",
+        "registered-page-1.png",
+        "registered-page-2.png",
+        "registered-page-3.png",
+        "registered-page-4.png",
+        "tectonic-page-1.png",
+        "tectonic-page-2.png",
+        "tectonic-page-3.png",
+        "tectonic-page-4.png",
+        "latex/build-console.log"
+      ]
+    },
+    {
+      "artifact": "Scientific central claim dependency check",
+      "check": "Read relevant original PeerJ Methods/Results and inspected original S6. The article explicitly gives GSE6481 19 versus 128; S6B gives total147 and 19 versus59; exact metadata replay gives105 and no EMC diagnosis. Original Methods say within-dataset z-scores without explicit axis. These actual evidence points, conditional algebra and retained limitations support reaffirmation; typography alone is not the merit basis. No external expression estimate, survival endpoint or clinical effect was generated.",
+      "evidence": [
+        "original-relevant-paragraphs.json",
+        "full/sources/peerj-21497-figure-s6.png",
+        "metadata-equivalence.json",
+        "actual-manuscript.diff"
+      ]
+    }
+  ],
+  "limitations": [
+    "Focused verification using only frozen inputs and their retained originals; no new full-science ultra review, live retrieval, external research, account activity, contacts or publication.",
+    "Final exact downloader code was exercised with retained matching originals and locally for transport preservation; successful live end-to-end evidence applies to the preceding downloader version. Independent code diff bounds the change to the helper.",
+    "No external matrix, original external P-value, patient identity, prognostic performance, clinical efficacy or therapeutic safety reproduced.",
+    "Rights findings concern supplied policy text and actual package scope, not legal assurance or proof of ownership.",
+    "Nine-file digest retained from supplied review input; all component hashes verified independently.",
+    "Start timestamp is approximate and explicitly labeled; elapsed duration consequently approximate."
+  ],
+  "reviewer_errors": [
+    {
+      "stage": "first check.py invocation",
+      "issue": "Reviewer script inventory was named inspect.py and shadowed standard-library inspect during pypdf import. Renamed to inventory_inputs.py. No input changed.",
+      "resolved": true
+    },
+    {
+      "stage": "second check.py invocation",
+      "issue": "Reviewer comparison initially expected new derived platform_accessions in old schema. Adjusted to compare against sorted original platform_counts.",
+      "resolved": true
+    },
+    {
+      "stage": "PDF extraction comparison",
+      "issue": "Registered PDF running headers/footers interrupted raw prose segments. After explicitly removing repeated running title, Not peer reviewed and page numbers, full normalized body including all code math equals Markdown. Both actual PDFs visually checked.",
+      "resolved": true
+    }
+  ],
+  "delegated": false,
+  "publication_or_contacts_performed": false,
+  "really_running": false,
+  "output_root": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-resumed-backlog-20260907\\focused-comment-verification\\output",
+  "evidence_hashes_file": "review-evidence-hashes.json"
+}

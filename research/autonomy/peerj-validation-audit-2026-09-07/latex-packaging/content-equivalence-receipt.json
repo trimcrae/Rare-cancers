@@ -1,0 +1,65 @@
+{
+  "utc": "2026-09-07T21:31:22.211213+00:00",
+  "pages": 4,
+  "exact_two_E1_plus_availability_and_domain_restoration_only": true,
+  "deterministic_tex_matches": true,
+  "prose_comparison": "All non-code-math source segments located in order in PDF extraction after NFKC normalization and removal of whitespace/hyphens; math checked separately visually and against explicit converter mapping.",
+  "prose_segments": [
+    {
+      "segment": 0,
+      "found": true,
+      "characters": 4737
+    },
+    {
+      "segment": 1,
+      "found": true,
+      "characters": 37
+    },
+    {
+      "segment": 2,
+      "found": true,
+      "characters": 5
+    },
+    {
+      "segment": 3,
+      "found": true,
+      "characters": 15
+    },
+    {
+      "segment": 4,
+      "found": true,
+      "characters": 30
+    },
+    {
+      "segment": 5,
+      "found": true,
+      "characters": 14
+    },
+    {
+      "segment": 6,
+      "found": true,
+      "characters": 4832
+    }
+  ],
+  "all_prose_segments_match": true,
+  "hyperlinks_exact": true,
+  "hyperlinks": [
+    "https://doi.org/10.18632/oncotarget.15568",
+    "https://doi.org/10.7717/peerj.21497",
+    "https://orcid.org/0000-0002-1823-1451",
+    "https://pubmed.ncbi.nlm.nih.gov/17464315/",
+    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369",
+    "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE6481"
+  ],
+  "math_mapping": {
+    "z_C(x_i) = (x_i - mean_C(x)) / s_C(x)": "z_C(x_i) = \\frac{x_i-\\operatorname{mean}_C(x)}{s_C(x)}",
+    "a*x_i + b": "a x_i + b",
+    "a > 0": "a > 0",
+    "a*mean_C(x) + b": "a\\operatorname{mean}_C(x)+b",
+    "a*s_C(x)": "a s_C(x)",
+    "z_C(a*x_i + b) = z_C(x_i)": "z_C(a x_i+b)=z_C(x_i)"
+  },
+  "visual_QA": "All four 105-dpi page PNGs inspected: readable title, all prose and references, two displayed equations and four inline expressions; no clipping, overlap or missing glyph observed.",
+  "build": "Tectonic 0.17.0, actual exit 0; first attempt fontspec missing named font preserved, resolved by portable lmodern package; no source wording change.",
+  "limits": "Deterministic source-to-TeX conversion, not a claim of byte-identical PDFs across engines or timestamps. No independent scientific review performed."
+}

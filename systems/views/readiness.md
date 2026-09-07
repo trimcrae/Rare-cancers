@@ -43,6 +43,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TCIP](L2-rt-tcip.md) | ST-PROXIMITY | `preprint` | a NAMED-effector size comparison: the paired size result and everything derived from it (the within-class spread control, the pooled single/multi ratio, the interface-floor ablatio |
 | [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) | ST-IMMUNO | `preprint` | the Stage 0 computational items; any EMC tissue result |
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | ST-OCCUPANCY | `reproducible_workflow` | — |
+| [RT-EMC-EXTERNAL-VALIDATION-AUDIT](L2-rt-emc-external-validation-audit.md) | ST-DISSEMINATION | `reproducible_workflow` | Full candidate preflight and actual publication-bar evaluation |
 | [RT-6MP](L2-rt-6mp.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | ST-PROXIMITY | `internal_note` | a co-folder validated on assembly |
 | [RT-ALK-HIT](L2-rt-alk-hit.md) | ST-REPURPOSING | `internal_note` | a dependency prior for the named targets, which is queued and $0; an attribution experiment, which needs the model the screen ran on |

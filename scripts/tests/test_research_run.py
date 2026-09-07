@@ -23,6 +23,9 @@ class RunnerTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.directory = Path(self.temp.name)
+        disk = mock.patch.object(R.shutil, "disk_usage", return_value=mock.Mock(free=100 * 1024 ** 3))
+        disk.start()
+        self.addCleanup(disk.stop)
 
     def repo(self):
         repo = self.directory / "repo"

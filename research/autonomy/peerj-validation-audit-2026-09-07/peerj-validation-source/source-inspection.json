@@ -1,0 +1,492 @@
+{
+  "utc": "2026-09-07T20:22:58.661499+00:00",
+  "article": "C:\\Users\\mcrae\\.codex\\worktrees\\next-emc-paper-20260907\\EMC-Research\\research\\autonomy\\emc-temposeq-source-2026-09-07\\article.xml",
+  "article_sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+  "archive_sha256": "cbbb84beccbb2a78f06bca1893c5838e7767a875a4ac740f7f921ea1f12bcedf",
+  "selected_elements": [
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "We identified 550 differentially expressed genes and derived a three-gene prognostic candidate (PXN, TYMS, H1FX) that stratified patients by overall survival in the training cohort (log-rank P = 0.0099), despite internal validation indicating model overfitting. H1FX was significantly upregulated in EMC versus other cartilaginous tumors across independent datasets (P = 0.001). Immune profiling revealed higher B-cell infiltration in low-risk tumors (P = 0.005). Proof-of-concept mIF in two specimens suggested a spatially localized immunosuppressive microenvironment in the high-risk tumor, with increased exhausted CD3+CD8+PD1+ T cells (P = 6.4 × 10−5), FOXP3+ regulatory T cells (P = 0.006), and elevated PXN protein expression (P = 0.008). All mIF comparisons are within-specimen region of interest (ROI) analyses and should be interpreted as hypothesis-generating."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "cross-platform",
+        "H1FX"
+      ],
+      "text": "This integrated transcriptomic and spatial immune characterization identifies PXN, TYMS, and H1FX as exploratory EMC biomarker candidates, with PXN showing the most consistent cross-platform support. Immune microenvironment heterogeneity in EMC warrants further investigation. Given the small cohort and model overfitting, these findings are exploratory. Prospective validation in larger, multi-center cohorts is required."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "z-score"
+      ],
+      "text": "Although UQ normalization corrects for between-sample library size differences, penalized regression models such as Least Absolute Shrinkage and Selection Operator (LASSO) are sensitive to differences in predictor variance. Therefore, prior to prognostic model construction, normalized gene expression values were further standardized using z-score transformation. This step ensured that all genes were placed on a common mathematical scale (mean = 0, standard deviation = 1). This standardization enabled fair comparison of predictor effects and stable coefficient estimation during LASSO-based feature selection."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "cross-platform"
+      ],
+      "text": "Through a formal request to the journal editors, we obtained both the whole-transcriptome expression matrices and the matched clinical data for the six EMC cases profiled using the MI-ONCOSEQ platform by Davis et al. (2017). Although overall survival data were available for this cohort, the cases exhibited profound clinical heterogeneity, including diverse biopsy sites (e.g., primary tumors, pulmonary metastases, and gluteal metastases) and highly varied histories of systemic therapies and radiation. Given these severe clinical confounders and the extremely limited sample size (n = 6), evaluating prognostic outcomes in this subset was deemed statistically inappropriate. Consequently, this dataset was utilized strictly to test the baseline cross-platform reproducibility of our candidate genes."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369"
+      ],
+      "text": "To assess lineage specificity, we performed cross-study analyses using two independent, publicly available microarray datasets from the Gene Expression Omnibus (GEO) that lacked matched survival annotations. The first dataset, GSE24369, contains transcriptomic profiles comparing EMC tumors (n = 6) against other soft-tissue sarcoma (STS) subtypes (n = 36). The second dataset, GSE6481, directly compares EMC tumors (n = 19) against a broad background of other chondrosarcomas (n = 128)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "z-score",
+        "H1FX"
+      ],
+      "text": "Expression levels for the three LASSO-derived prognostic candidate genes (PXN, TYMS, and H1FX) were extracted and analyzed across these three external cohorts. For the GEO datasets, differential expression was evaluated between the EMC and non-EMC groups using the two-tailed Wilcoxon rank-sum test, with effect sizes reported as log2 fold-change (log2FC). To account for baseline technical differences between our internal TempO-Seq platform (log2CPM; n = 12) and the external MI-ONCOSEQ platform (Davis et al., log2[RPKM + 1]; n = 6), we applied a within-dataset z-score transformation to standardize the expression values prior to comparison. Statistical differences in the normalized expression distributions between these two independent platforms were evaluated using a two-sided Mann–Whitney U test."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "cross-platform"
+      ],
+      "text": "Collectively, while the lack of baseline survival annotations in the GEO cohorts and the significant clinical confounding factors in the Davis et al. dataset precluded direct validation of clinical outcomes, these cross-study evaluations allow us to rigorously establish the cross-platform reproducibility of baseline gene expression and the lineage specificity of our exploratory panel. Statistical analyses and visualizations were performed in R (v4.3.1) using the ggplot2 and ggpubr packages."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Immunofluorescence staining comprised two panels: single-plex immunofluorescence for biomarker protein expression quantification (PXN, TYMS, and H1FX) and multiplex immunofluorescence (mIF) for spatial immune cell phenotyping. Multiplex tissue-based cyclic immunofluorescence (t-CyCIF) was performed according to a previously described protocol (Lin et al., 2018)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "github"
+      ],
+      "text": "Multi-cycle fluorescence images were registered and stitched using ASHLAR (https://github.com/labsyspharm/ashlar). Nuclear segmentation was performed using StarDist (https://github.com/stardist/stardist). Cell classification and immune phenotyping were performed in QuPath software using threshold-based multi-marker co-expression criteria. Immune cell populations were defined as follows: B cells (CD20+), helper T cells (CD3+CD4+), cytotoxic T cells (CD3+CD8+), regulatory T cells/Tregs (CD3+CD4+FOXP3+), exhausted helper T cells (CD3+CD4+PD1+), and exhausted cytotoxic T cells (CD3+CD8+PD1+). PD1 positivity was not used as a standalone classification criterion; all PD1+ populations were strictly co-classified with definitive T-cell lineage markers (CD3, CD4, or CD8). Data were expressed as mean immune cell density (cells/mm2) for mIF and mean fluorescence intensity per cell for single-plex staining."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Given the absence of robust clinical predictors, we performed a univariate Cox regression analysis on the 550 differentially expressed genes. The analysis of the good- and poor-prognosis groups identified 14 genes potentially associated with EMC prognosis (P < 0.05; Table S2). ZSCAN21, TYMS, PXN, TRIM11, and H1FX were the top five genes with the highest HR (all >2). Higher expression of these genes was associated with reduced survival for EMC patients. Conversely, genes with an HR < 1, such as COL12A1, were associated with improved survival."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "z-score",
+        "H1FX"
+      ],
+      "text": "To explore potential prognostic panels and mitigate dimensionality in our small cohort, LASSO–Cox regression was used to select the most predictive features from the 14 candidate genes. Following z-score normalization of expression data, the LASSO algorithm identified a three-gene candidate panel comprising PXN, TYMS, and H1FX (Figs. S3A and S3B). Individual Kaplan–Meier survival analyses confirmed that higher expression of each of these three selected genes is associated with worse overall survival (Fig. S3C)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "\n\n\\documentclass[12pt]{minimal}\n\\usepackage{amsmath}\n\\usepackage{wasysym}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n\\usepackage{amsbsy}\n\\usepackage{upgreek}\n\\usepackage{mathrsfs}\n\\setlength{\\oddsidemargin}{-69pt}\n\\begin{document}\n\\begin{eqnarray*}\\text{Risk Score}& =& (1.16\\times PXN~\\mathrm{expression})+(1.58\\times H1FX~\\mathrm{expression})\\nonumber\\\\\\displaystyle & & +\\,(1.0\\times TYMS~\\mathrm{expression}). \\end{eqnarray*}\\end{document}Risk Score=1.16×PXNexpression+1.58×H1FXexpression+1.0×TYMSexpression.\n\n"
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "(A) The overall survival between the good- and poor-prognosis groups (P = 0.055). (B) The overall survival between the high- and low-risk groups (P = 0.0099). Training cohort, apparent performance only; optimism-corrected C-index 0.10; this plot reflects in-sample separation and should not be interpreted as evidence of generalizable prognostic discrimination. (C) Estimated abundances of immune cell infiltrates in high-risk and low-risk EMC groups, calculated using the TIMER algorithm. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; PXN, paxillin; TIMER, Tumor Immune Estimation Resource; TYMS, thymidylate synthase."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "To further refine prognostic stratification, a transcriptomic risk score was calculated using the three-gene LASSO–Cox model comprising PXN, TYMS, and H1FX. Patients were subsequently stratified into high- and low-risk groups based on this risk score. Kaplan–Meier survival analysis demonstrated that this gene-expression-based model effectively separated patients within this small training cohort by overall survival outcome, with the high-risk group showing markedly poorer survival (log-rank P = 0.0099; Fig. 3B)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "However, when a multivariable Cox regression model was constructed using this three-gene transcriptomic panel (PXN, TYMS, H1FX), the limitations of the cohort size became apparent. Given the small cohort size (n = 12) relative to the number of events (n = 5), the model demonstrated perfect apparent discrimination on the training data, yielding an apparent Concordance index (C-index) of 1.00. To quantify the degree of overfitting and evaluate model stability, rigorous internal validation was performed using 1,000 bootstrap resamples. The bootstrap analysis revealed an extreme mean optimism of 0.9013. Consequently, the optimism-corrected C-index dropped to 0.10. Model calibration was also assessed using bootstrap calibration plots generated at 1, 2, 3, 4, and 5 years (Fig. S5). Predicted survival probabilities were highly polarized, consistent with severe model overfitting; however, the directional separation between low-risk and high-risk groups remained consistent across all time points (Fig. S5). These validation metrics confirm that while the transcriptomic panel achieves complete separation in this specific training cohort, the multivariable model is heavily overfitted. This is a known mathematical limitation when applying multivariable regression to ultra-rare tumor datasets with limited events."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Consequently, while the individual biomarkers (PXN, TYMS, H1FX) suggest strong prognostic associations in EMC, the combined risk model lacks the generalizable stability required for clinical application. These findings should therefore be interpreted strictly as an exploratory, hypothesis-generating framework that identifies biological targets for future validation in larger, multicenter cohorts."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "cross-platform"
+      ],
+      "text": "To assess the cross-platform reproducibility of our 3-gene candidate and evaluate its lineage specificity, we analyzed three independent, publicly available datasets (Fig. S6)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369",
+        "H1FX"
+      ],
+      "text": "In the GSE24369 dataset, which compares the transcriptomic profiles of six EMC tumors against 36 other soft-tissue sarcomas (Fig. S6A), the signature genes suggested stable, uniform baseline expression. Expression did not differ between EMC and other sarcomas (PXN: log2FC = −0.02, P = 0.793; TYMS: log2FC = 0.02, P = 0.739; H1FX: log2FC = −0.26, P = 0.129). Conversely, evaluating the GSE6481 dataset, which compares 19 EMC tumors against 128 other cartilaginous tumors/chondrosarcomas (Fig. S6B) revealed distinct lineage-specific expression patterns. Crucially, H1FX was statistically significantly upregulated in EMC compared with other chondrosarcomas (log2FC = 0.64, P = 0.001). In contrast, PXN and TYMS showed non-significant trends toward lower expression in EMC relative to other chondrosarcomas (PXN: log2FC = −0.52, P = 0.061; TYMS: log2FC = −0.44, P = 0.085)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "z-score",
+        "cross-platform",
+        "H1FX"
+      ],
+      "text": "To further account for baseline technical differences and evaluate external consistency, we compared our internal TempO-Seq platform (Log2CPM; n = 12) against an external MI-ONCOSEQ platform dataset (Davis et al., Log2[RPKM + 1]; n = 6) by applying a within-dataset z-score transformation. Statistical evaluation using a two-sided Mann–Whitney U test demonstrated robust cross-platform consistency for all three biomarkers. As shown in Fig. S6C, the normalized expression distributions of PXN (P = 0.963), H1FX (P = 0.888), and TYMS (P = 1) did not significantly differ between our internal cohort and the external cohort. This confirms that our normalization strategy successfully bridges distinct sequencing platforms, validating the baseline comparability of these genes in an independent dataset."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "PXN protein expression was statistically significantly higher in the poor-prognosis (high-risk) sample across five ROIs (mean intensity: 7.73 vs 2.73; Wilcoxon rank-sum test on ROI-level measurements, P = 0.0079). This finding provides protein-level support for the transcriptomic data. TYMS showed a non-significant numerical trend toward higher expression in the poor-prognosis sample (mean intensity: 3.20 vs 2.86; P = 0.15). H1FX protein was not detected in either sample (mean intensity = 0.00 in both), suggesting potential RNA–protein discordance that may reflect technical limitations of FFPE-based IF for chromatin-associated nuclear proteins (Fig. 4B)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "(A) Representative hematoxylin and eosin (H&E) staining and single-plex immunofluorescence images illustrating the expression of H1FX, PXN and TYMS in two representative EMC tumors: one poor-prognosis case and one good-prognosis case. Nuclei are counterstained with DAPI. (B) Quantification of H1FX, PXN and TYMS fluorescence intensity across multiple regions of interest (ROIs) within each specimen. PXN showed higher signal intensity in ROIs from the poor-prognosis tumor, whereas TYMS displayed similar signal levels across both tumors. H1FX protein signal was not detectable under the assay conditions. (C) Representative multiplex immunofluorescence images illustrating immune cell composition in tumors classified as transcriptomic high-risk and low-risk. Markers shown include CD3, CD4, CD8, CD20, FOXP3, and PD1. (D) ROI-level quantification of immune cell densities (cells/mm2) within the analyzed specimens. Because ROIs represent technical replicates from individual tumors rather than independent biological samples, results are presented descriptively without formal statistical comparison between groups. Scale bars: 50 µm. Abbreviations: DAPI, 4′,6-diamidino-2-phenylindole; EMC, extraskeletal myxoid chondrosarcoma; H&E, hematoxylin and eosin; H1FX, H1 histone family member X; IF, immunofluorescence; mIF, multiplex immunofluorescence; PD1, programmed cell death protein1; PXN, paxillin; ROI, region of interest; TYMS, thymidylate synthase. Important note: All immunofluorescence data derive from two individual representative specimens only (one poor-prognosis and one good-prognosis case). P values shown in Fig. 4B reflect Wilcoxon rank-sum comparisons between ROIs (n = 5 ROIs per specimen) of these two individual cases and represent within-specimen regional variation only; they cannot be interpreted as biological group-level statistical evidence. Similarly, P values shown in Fig. 4D reflect ROI-level comparisons (n = 10 ROIs per specimen) between the same two representative specimens and must not be interpreted as cohort-level statistical differences. No formal statistical inference between patient groups is intended or possible from these two-sample immunofluorescence data."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "LASSO–Cox regression identified PXN, TYMS, and H1FX as a candidate prognostic gene set from 14 univariate-significant candidates. Given the small sample size of our cohort, this signature is intended to be an exploratory, hypothesis-generating model rather than a clinically applicable tool at this stage. Higher expression of all three genes was associated with poorer overall survival. This finding is consistent with their known oncogenic roles in other malignancies (Chamizo et al., 2015; Chen et al., 2021; Lee et al., 2014; Liu et al., 2024; Meng, Zhang & Xu, 2023)."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369"
+      ],
+      "text": "PXN is a focal adhesion scaffold protein that coordinates integrin signaling, cytoskeletal reorganization, and cell migration. Elevated PXN expression has been consistently associated with tumor invasion, metastasis, and poor prognosis across multiple cancer types, including hepatocellular carcinoma, ovarian cancer, and non-small cell lung cancer (Chen et al., 2021; Liu et al., 2023; Noh et al., 2021). In our cohort, PXN enrichment in mitotic spindle and cell motility pathways further supports its role in driving aggressive tumor behavior. Collectively, these findings position PXN as a biologically plausible and preliminarily supported marker of poor prognosis in EMC, warranting essential validation in larger, independent cohorts. TYMS (Thymidylate Synthase) catalyzes the reductive methylation of deoxyuridine monophosphate to thymidine monophosphate, a rate-limiting step in de novo DNA synthesis. Its overexpression is a well-established mechanism of resistance to fluoropyrimidine- and antifolate-based chemotherapies. It is also associated with aggressive tumor biology and poor prognosis in colorectal, lung, hepatocellular, and gastroenteropancreatic neuroendocrine tumors (Chamizo et al., 2015; Geng et al., 2024; Li et al., 2021; Pei et al., 2026; Zhang et al., 2020). In the sarcoma field, TYMS has been identified as a prognostic biomarker in retroperitoneal liposarcoma and uterine leiomyosarcoma (Rakic et al., 2023). Our finding of elevated TYMS in poor-prognosis EMC extends this association to an additional sarcoma subtype. While external cross-cohort analysis (GSE24369 and GSE6481) is consistent with the baseline TYMS expression in EMC, which is broadly comparable to other sarcomas, its distinct upregulation within the poor-prognosis subset of EMC suggests a potential role as an intra-tumoral risk stratification marker, pending external confirmation to rule out model overfitting. While TYMS is a known determinant of response to thymidylate synthase-targeting agents in other cancers, its clinical relevance in EMC remains untested; therefore, any therapeutic implications should be considered hypothesis-generating."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "H1FX"
+      ],
+      "text": "H1FX (H1 histone family member X) is a member of the linker histone H1 family, which regulates higher-order chromatin compaction and global gene expression. Dysregulation of H1 variants has been linked to altered chromatin accessibility, epithelial-to-mesenchymal transition (EMT), and cancer progression (Fyodorov et al., 2018; Izzo & Schneider, 2016; Saha & Dalal, 2021; Wei, Xu & Lau, 2020). Notably, in our cross-study validation, H1FX was significantly upregulated in EMC compared with other chondrosarcomas (GSE6481, P = 0.001). This finding suggests that H1FX acts not only as a prognostic driver within EMC but also as a distinct molecular feature separating EMC from other cartilaginous tumors. Notably, H1FX protein was not detected by immunofluorescence in either specimen. This represents a negative finding that weakens its immediate translational potential as a protein biomarker. While this may reflect technical limitations of detecting chromatin-associated proteins in FFPE tissue, it also raises the possibility that H1FX is not reliably expressed at the protein level in EMC. Alternative validation modalities, such as proximity ligation assay or mass spectrometry-based proteomics, may be required to confirm H1FX protein expression in future studies. Despite this limitation, the strong RNA-level prognostic signal reflected by its LASSO–Cox coefficient of 1.58 suggests that H1FX carries the greatest penalized contribution to the risk score within this specific dataset. However, such a high coefficient derived from a small cohort must be interpreted with caution due to the inherent susceptibility to model overfitting. Combined with its significant lineage-specific upregulation in EMC, these data support further exploratory investigation of H1FX as both a potential epigenetic hallmark and candidate prognostic driver of this tumor subtype, provided future studies can independently validate its role and overcome current sample size limitations."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "The statistical tools applied here, including the identification of PXN, TYMS, and H1FX as individually prognostic by univariate Cox regression, are more robust than the combined multivariable model. These individual associations are less susceptible to the overfitting that afflicts the composite risk score. The transcriptomic associations of individual genes with survival, supported by concordant protein and cross-study data where available, represent the most reliable findings of this study."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "The cross-cohort evaluation of our three-gene candidate (PXN, TYMS, H1FX) across three independent GEO cohorts refines the biological interpretation of these candidate biomarkers and supports their potential clinical value. Rather than functioning solely as general prognostic markers, this signature appears to capture complementary dimensions of tumor biology that may inform future, larger-scale risk stratification efforts."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369",
+        "H1FX"
+      ],
+      "text": "The cross-cohort analysis highlights the dual nature of our gene panel. In the GSE24369 dataset, the expression of all three genes in EMC was not statistically distinguishable from that in other soft-tissue sarcomas. However, when compared against cartilaginous tumors in the GSE6481 dataset, EMC exhibited a distinct transcriptional profile, most notably the significant upregulation of H1FX (P = 0.001). This aligns with the contemporary understanding that, despite its historical nomenclature, EMC is a distinct soft tissue entity with no true cartilaginous differentiation. In this context, H1FX may act as a lineage-enriched epigenetic anchor, distinguishing EMC from true cartilaginous tumors while simultaneously associating with poor prognosis within our cohort."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369"
+      ],
+      "text": "Conversely, PXN and TYMS showed stable baseline expression across the broad spectrum of soft-tissue sarcomas (GSE24369) and lower expression relative to classic chondrosarcomas (GSE6481). Within the EMC microenvironment, however, the upregulation of these two genes potentially demarcates highly aggressive, poorly responding tumors. Therefore, PXN and TYMS may serve as candidate indicators of high-risk intra-tumoral behavior rather than lineage definers."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "By integrating a lineage-specific feature (H1FX) with core drivers of tumor progression (PXN and TYMS), this three-gene panel provides a candidate multi-dimensional tool for future investigation. It is reliably detectable across independent technologies (microarray vs. TempO-Seq vs. MI-ONCOSEQ) and platforms (FFPE vs. fresh-frozen tissue), establishing a baseline foundation for future prospective validation."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "These exploratory findings carry several potential clinical implications, pending prospective validation. First, PXN protein expression, if confirmed in larger independent cohorts, could eventually serve as a routine immunohistochemical marker for EMC risk stratification alongside standard pathological assessment. Second, the identification of a T-cell-exhausted, Treg-infiltrated microenvironment in high-risk tumors raises the possibility of exploring immune checkpoint inhibitor (ICI) therapy in this subset of patients. While anti-PD-1/PD-L1 agents have shown activity in a subset of sarcoma patients, the PD1 co-expression identified in high-risk EMC provides a tissue-level target that warrants rigorous evaluation in future preclinical and clinical studies. Third, TYMS overexpression highlights a potential therapeutic vulnerability, as agents that target thymidylate synthase (such as 5-fluorouracil or pemetrexed) may have differential efficacy based on TYMS expression level. However, using TYMS to prospectively guide chemotherapy selection in EMC remains strictly theoretical at this stage and requires dedicated investigation. Fourth, functional validation using EMC cell line models such as H-EMC-SS should be pursued to evaluate whether PXN, TYMS, and H1FX directly regulate invasive behavior, proliferation, or chemotherapy resistance in EMC. Knockdown or overexpression studies targeting these genes in vitro, followed by in vivo xenograft validation, would provide mechanistic evidence to complement the transcriptomic and protein-level associations reported here."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "The dichotomization of patients at 8 years was chosen to create balanced groups (n = 6 per group) based on clinically meaningful follow-up intervals. However, this threshold should not be interpreted as a universal prognostic cutoff. In addition, H1FX protein was not detectable by immunofluorescence, preventing validation of this candidate biomarker at the protein level. Although the mIF panel enabled detailed characterization of immune cell phenotypes, it represents only a single temporal snapshot of the tumor microenvironment. It therefore cannot capture the dynamic evolution of immune responses throughout disease progression. Furthermore, functional validation of PXN, TYMS, and H1FX was not performed in this study. Evaluating the expression and functional effects of these proteins, including their impact on cell invasiveness, proliferation, and chemotherapy sensitivity, using available EMC cell line models such as H-EMC-SS, represents an important priority for future work. Such studies will be necessary to establish whether these transcriptomic associations reflect direct mechanistic drivers of aggressive tumor biology or are markers of broader oncogenic programs."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE24369"
+      ],
+      "text": "Another limitation concerns the cross-study comparison using the dataset GSE24369, which was originally designed for diagnostic rather than prognostic analysis and includes only a small number of EMC samples (n = 6). This restricts the ability to perform robust external validation using publicly available data."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "This study demonstrates that transcriptomic profiling of archival FFPE tissue is feasible in ultra-rare sarcomas such as EMC and can yield biologically informative signals. PXN, TYMS, and H1FX were identified as candidate prognostic biomarkers from an integrated RNA sequencing, immunofluorescence, and cross-study analysis, with PXN showing the most robust multi-level support. The immune microenvironment of EMC appears heterogeneous rather than immunologically inert, with a B-cell-enriched phenotype associated with a favorable prognosis and a spatially localized exhausted T-cell and regulatory T-cell profile observed in high-risk disease. These findings provide a foundation for future investigation of immune biology and potential therapeutic strategies in EMC. However, given the limited sample size and exploratory design, all results should be interpreted as hypothesis-generating and require validation in larger, multi-center cohorts before clinical translation."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "(A) Coefficient profiles of selected features as a function of the regularization parameter λ. (B) Partial likelihood deviance plotted against log(λ) using the LASSO–Cox regression model. (C) Kaplan–Meier survival curve stratified by the three-gene (PXN, TYMS, and H1FX) risk score. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; LASSO, Least Absolute Shrinkage and Selection Operator; OS, overall survival; PXN, paxillin; TYMS, thymidylate synthase."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "scripts"
+      ],
+      "text": "Grouped boxplots showing the estimated abundance of six canonical immune lineages (B cells, CD4+ T cells, CD8+ T cells, macrophages, neutrophils, and myeloid dendritic cells) stratified by prognostic risk group (low-risk, n = 6; high-risk, n = 6). To ensure cross-method robustness and mitigate algorithm-specific biases, immune infiltration was estimated from bulk RNA sequencing data using six orthogonal deconvolution algorithms (TIMER, CIBERSORT, CIBERSORT-ABS, EPIC, MCP-counter, and xCell). Algorithm-specific high-resolution subpopulations were logically aggregated into the six parent lineages to enable standardized cross-algorithm comparisons. Center lines denote the median, boxes represent the interquartile range, and individual patient estimates are overlaid as jittered points. Statistical differences between the risk groups were evaluated using the non-parametric two-sided Wilcoxon rank-sum test. Significance brackets above each plot display the raw P value, the rank-biserial correlation coefficient (R) indicating effect size, and the Benjamini–Hochberg false discovery rate (FDR) adjusted P value to account for multiple hypothesis testing across the 36 simultaneous comparisons. Abbreviations: CIBERSORT, Cell-Type Identification By Estimating Relative Subsets Of RNA Transcripts; CIBERSORT-ABS, CIBERSORT absolute mode; EMC, extraskeletal myxoid chondrosarcoma; EPIC, Estimating the Proportions of Immune and Cancer cells; FDR, false discovery rate; MCP-counter, Microenvironment Cell Populations-counter; TIMER, Tumor Immune Estimation Resource; xCell, a computational method for cell-type enrichment analysis."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369",
+        "z-score",
+        "H1FX"
+      ],
+      "text": "(A–B) Log2-normalized microarray expression intensities of the candidate genes (PXN, TYMS, and H1FX) across 25 independent EMC tumors sourced from two distinct publicly available cohorts (GSE24369, n = 6; GSE6481, n = 19). Horizontal black bars denote the median expression level, with error bars representing the interquartile range. The candidate genes show consistent baseline detection across these independent external cohorts, comparable to the levels observed in the primary study. (C) Comparison of normalized expression (Z-scores) between the primary study cohort (n = 12, TempO-Seq) and the external MI-ONCOSEQ dataset (n = 6, Davis et al., 2017). Statistical analysis indicates no significant differences in the expression levels of PXN, H1FX, and TYMS between platforms (Mann–Whitney U test, all P > 0.8), supporting the consistency of these transcriptomic markers across disparate sequencing technologies. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; PXN, paxillin; TempO-Seq, Templated Oligo-Sequencing; TYMS, thymidylate synthase."
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "matches": [
+        "Data Availability",
+        "data availability"
+      ],
+      "text": "The following information was supplied regarding data availability:"
+    },
+    {
+      "tag": "caption",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Three-gene prognostic candidate (H1FX, PXN, and TYMS) and immune cell infiltration in extraskeletal myxoid chondrosarcoma.(A) The overall survival between the good- and poor-prognosis groups (P = 0.055). (B) The overall survival between the high- and low-risk groups (P = 0.0099). Training cohort, apparent performance only; optimism-corrected C-index 0.10; this plot reflects in-sample separation and should not be interpreted as evidence of generalizable prognostic discrimination. (C) Estimated abundances of immune cell infiltrates in high-risk and low-risk EMC groups, calculated using the TIMER algorithm. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; PXN, paxillin; TIMER, Tumor Immune Estimation Resource; TYMS, thymidylate synthase."
+    },
+    {
+      "tag": "caption",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Immunofluorescence analysis of candidate biomarkers and the immune microenvironment in representative extraskeletal myxoid chondrosarcoma tumors.(A) Representative hematoxylin and eosin (H&E) staining and single-plex immunofluorescence images illustrating the expression of H1FX, PXN and TYMS in two representative EMC tumors: one poor-prognosis case and one good-prognosis case. Nuclei are counterstained with DAPI. (B) Quantification of H1FX, PXN and TYMS fluorescence intensity across multiple regions of interest (ROIs) within each specimen. PXN showed higher signal intensity in ROIs from the poor-prognosis tumor, whereas TYMS displayed similar signal levels across both tumors. H1FX protein signal was not detectable under the assay conditions. (C) Representative multiplex immunofluorescence images illustrating immune cell composition in tumors classified as transcriptomic high-risk and low-risk. Markers shown include CD3, CD4, CD8, CD20, FOXP3, and PD1. (D) ROI-level quantification of immune cell densities (cells/mm2) within the analyzed specimens. Because ROIs represent technical replicates from individual tumors rather than independent biological samples, results are presented descriptively without formal statistical comparison between groups. Scale bars: 50 µm. Abbreviations: DAPI, 4′,6-diamidino-2-phenylindole; EMC, extraskeletal myxoid chondrosarcoma; H&E, hematoxylin and eosin; H1FX, H1 histone family member X; IF, immunofluorescence; mIF, multiplex immunofluorescence; PD1, programmed cell death protein1; PXN, paxillin; ROI, region of interest; TYMS, thymidylate synthase. Important note: All immunofluorescence data derive from two individual representative specimens only (one poor-prognosis and one good-prognosis case). P values shown in Fig. 4B reflect Wilcoxon rank-sum comparisons between ROIs (n = 5 ROIs per specimen) of these two individual cases and represent within-specimen regional variation only; they cannot be interpreted as biological group-level statistical evidence. Similarly, P values shown in Fig. 4D reflect ROI-level comparisons (n = 10 ROIs per specimen) between the same two representative specimens and must not be interpreted as cohort-level statistical differences. No formal statistical inference between patient groups is intended or possible from these two-sample immunofluorescence data."
+    },
+    {
+      "tag": "caption",
+      "id": null,
+      "matches": [
+        "H1FX"
+      ],
+      "text": "Construction of the three-gene prognostic signature using LASSO Cox regression(A) Coefficient profiles of selected features as a function of the regularization parameter λ. (B) Partial likelihood deviance plotted against log(λ) using the LASSO–Cox regression model. (C) Kaplan–Meier survival curve stratified by the three-gene (PXN, TYMS, and H1FX) risk score. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; LASSO, Least Absolute Shrinkage and Selection Operator; OS, overall survival; PXN, paxillin; TYMS, thymidylate synthase."
+    },
+    {
+      "tag": "caption",
+      "id": null,
+      "matches": [
+        "scripts"
+      ],
+      "text": "Comparative immune cell infiltration analysis using a multi-algorithm ensemble approach in EMC (n = 12)Grouped boxplots showing the estimated abundance of six canonical immune lineages (B cells, CD4+ T cells, CD8+ T cells, macrophages, neutrophils, and myeloid dendritic cells) stratified by prognostic risk group (low-risk, n = 6; high-risk, n = 6). To ensure cross-method robustness and mitigate algorithm-specific biases, immune infiltration was estimated from bulk RNA sequencing data using six orthogonal deconvolution algorithms (TIMER, CIBERSORT, CIBERSORT-ABS, EPIC, MCP-counter, and xCell). Algorithm-specific high-resolution subpopulations were logically aggregated into the six parent lineages to enable standardized cross-algorithm comparisons. Center lines denote the median, boxes represent the interquartile range, and individual patient estimates are overlaid as jittered points. Statistical differences between the risk groups were evaluated using the non-parametric two-sided Wilcoxon rank-sum test. Significance brackets above each plot display the raw P value, the rank-biserial correlation coefficient (R) indicating effect size, and the Benjamini–Hochberg false discovery rate (FDR) adjusted P value to account for multiple hypothesis testing across the 36 simultaneous comparisons. Abbreviations: CIBERSORT, Cell-Type Identification By Estimating Relative Subsets Of RNA Transcripts; CIBERSORT-ABS, CIBERSORT absolute mode; EMC, extraskeletal myxoid chondrosarcoma; EPIC, Estimating the Proportions of Immune and Cancer cells; FDR, false discovery rate; MCP-counter, Microenvironment Cell Populations-counter; TIMER, Tumor Immune Estimation Resource; xCell, a computational method for cell-type enrichment analysis."
+    },
+    {
+      "tag": "caption",
+      "id": null,
+      "matches": [
+        "GSE6481",
+        "GSE24369",
+        "z-score",
+        "H1FX"
+      ],
+      "text": "Integrated exploratory evaluation of the three-gene expression panel in extraskeletal myxoid chondrosarcoma.(A–B) Log2-normalized microarray expression intensities of the candidate genes (PXN, TYMS, and H1FX) across 25 independent EMC tumors sourced from two distinct publicly available cohorts (GSE24369, n = 6; GSE6481, n = 19). Horizontal black bars denote the median expression level, with error bars representing the interquartile range. The candidate genes show consistent baseline detection across these independent external cohorts, comparable to the levels observed in the primary study. (C) Comparison of normalized expression (Z-scores) between the primary study cohort (n = 12, TempO-Seq) and the external MI-ONCOSEQ dataset (n = 6, Davis et al., 2017). Statistical analysis indicates no significant differences in the expression levels of PXN, H1FX, and TYMS between platforms (Mann–Whitney U test, all P > 0.8), supporting the consistency of these transcriptomic markers across disparate sequencing technologies. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; PXN, paxillin; TempO-Seq, Templated Oligo-Sequencing; TYMS, thymidylate synthase."
+    }
+  ],
+  "external_links": [
+    {
+      "text": "Creative Commons Attribution License",
+      "href": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "text": "PRJNA1357027",
+      "href": "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1357027/"
+    },
+    {
+      "text": "https://github.com/labsyspharm/ashlar",
+      "href": "https://github.com/labsyspharm/ashlar"
+    },
+    {
+      "text": "https://github.com/stardist/stardist",
+      "href": "https://github.com/stardist/stardist"
+    },
+    {
+      "text": "PRJNA1357027",
+      "href": "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1357027/"
+    },
+    {
+      "text": "PRJNA1357027",
+      "href": "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1357027/"
+    }
+  ],
+  "members": [
+    {
+      "name": "peerj-14-21497-g003.gif",
+      "bytes": 3235,
+      "sha256": "aa2de58a3c5d877b69986928f5bd6afa1c806dab026772a5ffe34bf60412e4ba"
+    },
+    {
+      "name": "peerj-14-21497-s003.png",
+      "bytes": 999046,
+      "sha256": "ba5e3947c0ed22655420dc143482ba6fb06eec54be16c5be7950c5f92820fa20"
+    },
+    {
+      "name": "peerj-14-21497-g005.gif",
+      "bytes": 5565,
+      "sha256": "9a456bd01e76f1597e3fd7d35d39a9650bbfa3a6355a856b315b4ccf903cd4ae"
+    },
+    {
+      "name": "peerj-14-21497-s006.pdf",
+      "bytes": 69312,
+      "sha256": "8474e81f68fc574da8a14850f67013e1df1c37ad89090922dfa57527196a8a26"
+    },
+    {
+      "name": "peerj-14-21497-g002.gif",
+      "bytes": 3014,
+      "sha256": "2ba8bb437257732f6a543133f1a48d5f55d807875d3453fb1c087c6cd1a88666"
+    },
+    {
+      "name": "peerj-14-21497-s009.xlsx",
+      "bytes": 1423709,
+      "sha256": "20165fd3ff09ec2d5a24b3c20b78515f42a3309119f248ed055c7484deb45e75"
+    },
+    {
+      "name": "peerj-14-21497-s004.pdf",
+      "bytes": 307030,
+      "sha256": "2db37c803103274a8f239f3cdb82185b914e38aa91a0d4d9920f1f99d7938d76"
+    },
+    {
+      "name": "peerj-14-21497-g004.jpg",
+      "bytes": 113206,
+      "sha256": "b3ca0f6424e94c6346a8641cf8a8ae848e39bf7668e247de7e6165bafaaefbcf"
+    },
+    {
+      "name": "peerj-14-21497-s008.png",
+      "bytes": 833332,
+      "sha256": "29932259e722fa46b84f01e2b662bcd58b66a108db669eca5035913eb9d8df03"
+    },
+    {
+      "name": "peerj-14-21497-s001.docx",
+      "bytes": 17272,
+      "sha256": "aa43464538b88350dd5967e6fe6b83220e5e257f403c36118e5a0a587561ddeb"
+    },
+    {
+      "name": "peerj-14-21497-g001.gif",
+      "bytes": 4131,
+      "sha256": "71f0e5a77b674b957dc4e9cdfd76a4baa5bced32b96bcf0b9c6439870fc01f8e"
+    },
+    {
+      "name": "peerj-14-21497-g001.jpg",
+      "bytes": 116320,
+      "sha256": "d5b3e1cd714ddc0e602823e9ea66ae58a668c1b82e89853397dbe19f0cad16c7"
+    },
+    {
+      "name": "peerj-14-21497-s005.png",
+      "bytes": 364906,
+      "sha256": "ef2cb57ccd4d596a3fff5605a74823ec9fcf3a34b7da38c3a99504e8a2c37744"
+    },
+    {
+      "name": "peerj-14-21497-s007.pdf",
+      "bytes": 355240,
+      "sha256": "e0bdcb7bae5fd5cb6d560f5487f5e429f09180e57a1a9e4d560939e4d7e51b86"
+    },
+    {
+      "name": "peerj-14-21497-g005.jpg",
+      "bytes": 36931,
+      "sha256": "ad06dce302d139228f7668ad7e65d23a94da9b3ed5257e8f3f39a518a02edba9"
+    },
+    {
+      "name": "peerj-14-21497-s002.docx",
+      "bytes": 17118,
+      "sha256": "0e05d6cd788cbbc5a4e3e9d02e99df2a9d0dfe2f727f6ce54bd38411e3d1df0a"
+    },
+    {
+      "name": "peerj-14-21497-e001.jpg",
+      "bytes": 3740,
+      "sha256": "968877b4e095b2ed35106536739d1feba3a4db0949eadb52b644b48beb9ea91b"
+    },
+    {
+      "name": "peerj-14-21497-g002.jpg",
+      "bytes": 49880,
+      "sha256": "40c8b7f1bbc73f39e0517c10795ad8e7cddb85d4ab381989c861b8721c7be088"
+    },
+    {
+      "name": "peerj-14-21497-g004.gif",
+      "bytes": 4990,
+      "sha256": "13dd6b21e62416f5a88700cdfa8e4d0de54a23b00e2b459d0998b77f45517df6"
+    },
+    {
+      "name": "peerj-14-21497-g003.jpg",
+      "bytes": 82368,
+      "sha256": "dc92f56016a7ae0dbf0a77cb8a73412c0c2203cf2f62118ca6eacfb1ee5e47b4"
+    }
+  ]
+}
