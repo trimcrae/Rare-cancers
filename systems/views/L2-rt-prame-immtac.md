@@ -111,7 +111,7 @@ The transcript-level confirm this route owed has been taken and is flat at the f
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◉ `posted_preprint` · aimed at `preprint`
 
 **This route contributes:** The one antigen on the list whose therapeutic already exists clinically, which turns its row from a discovery into a check.
 
