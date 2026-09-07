@@ -166,6 +166,11 @@ defects, duplicate work, and observed usage. Do not create work to reach a utili
 
 ## Distribution and continuity
 
+Use the [standing author declarations](author-declarations.json) for funding and competing
+interests. On 2026-09-07 Tristan D. McRae confirmed no funding and no competing interests for all
+papers in this program. Do not re-request these facts unless they change; this declaration does
+not establish ethics approval, exemption, waiver, affiliation or consent.
+
 Prepare reviewer-readable preprints, reusable data/code, accurate limitations, and venue metadata
 together. aiXiv remains an authorized distribution option within the existing grant, not evidence
 of scientific credibility. PUB-ASO remains excluded from automatic aiXiv posting. Recheck venue
