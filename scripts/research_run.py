@@ -32,6 +32,7 @@ API_ENV = ("OPENAI_API_KEY", "CODEX_API_KEY", "AZURE_OPENAI_API_KEY",
            "CODEX_ACCESS_TOKEN")
 DEFAULTS = {"timeout_seconds": 1800, "max_rounds": 1, "max_dispatches": 1,
             "reasoning_effort": "high"}
+CHECKOUT_HEADROOM_BYTES = 10 * 1024 ** 3
 OUTCOME_SCHEMA = {
     "type": "object", "additionalProperties": False,
     "properties": {
@@ -68,6 +69,80 @@ def repository(repo):
     root = Path(git(repo, "rev-parse", "--show-toplevel")).resolve()
     common = Path(git(root, "rev-parse", "--path-format=absolute", "--git-common-dir")).resolve()
     return root, common.parent / ".cache" / "research-runs"
+
+
+def checkout_storage(root, cache, base, sparse_dirs=None):
+    """Estimate committed checkout bytes, including cone-mode ancestor files."""
+    files = []
+    directories = set()
+    for entry in git(root, "ls-tree", "--full-tree", "-r", "-l", "-z", base).split("\0"):
+        if not entry:
+            continue
+        metadata, name = entry.split("\t", 1)
+        _, kind, _, size = metadata.split()
+        if kind != "blob":  # Worktree creation does not initialize submodules.
+            continue
+        files.append((name, int(size)))
+        parts = name.split("/")
+        directories.update("/".join(parts[:n]) for n in range(1, len(parts)))
+    selected = set()
+    for value in sparse_dirs or []:
+        if not isinstance(value, str):
+            raise Refused("Sparse directories must be repository-relative directory names.")
+        name = value.replace("\\", "/").rstrip("/")
+        if (not name or ":" in name or any(ord(c) < 32 for c in name)
+                or any(part in ("", ".", "..") or part.lower() == ".git"
+                       for part in name.split("/"))):
+            raise Refused(f"Invalid repository-relative sparse directory: {value!r}")
+        if name not in directories:
+            raise Refused(f"Sparse directory is not tracked at the selected base: {name}")
+        selected.add(name)
+    sparse_dirs = sorted(selected)
+    if sparse_dirs:
+        # Cone mode includes all root files and direct files of every ancestor.
+        ancestors = {""}
+        for name in sparse_dirs:
+            parts = name.split("/")
+            ancestors.update("/".join(parts[:n]) for n in range(1, len(parts)))
+        files = [(name, size) for name, size in files
+                 if name.rpartition("/")[0] in ancestors
+                 or any(name.startswith(directory + "/") for directory in sparse_dirs)]
+    volume_path = Path(cache).resolve()
+    while not volume_path.exists():
+        volume_path = volume_path.parent
+    free = shutil.disk_usage(volume_path).free
+    estimate = sum(size for _, size in files)
+    required = estimate + CHECKOUT_HEADROOM_BYTES
+    return {"base_commit": base, "mode": "sparse-cone" if sparse_dirs else "full",
+            "sparse_directories": sparse_dirs, "tracked_files": len(files),
+            "estimated_checkout_bytes": estimate, "headroom_bytes": CHECKOUT_HEADROOM_BYTES,
+            "required_free_bytes": required, "available_free_bytes": free,
+            "capacity_available": free >= required}
+
+
+def require_checkout_capacity(storage):
+    if not storage["capacity_available"]:
+        raise Refused("Insufficient disk space for the selected checkout plus 10 GiB headroom: "
+                      f"{storage['available_free_bytes'] / 1024 ** 3:.3f} GiB available, "
+                      f"{storage['required_free_bytes'] / 1024 ** 3:.3f} GiB required. "
+                      "Reconcile retained worktrees or select the required --sparse-dir inputs; "
+                      "no worker was dispatched.")
+
+
+def prepare_worktree(root, worktree, base, sparse_dirs, deadline):
+    """Populate only the requested scope; never make a full checkout first."""
+    def run(repo, *args):
+        return git(repo, *args, timeout=max(1, deadline - time.monotonic()))
+
+    run(root, "worktree", "add", "--detach", "--no-checkout", str(worktree), base)
+    if sparse_dirs:
+        run(worktree, "sparse-checkout", "set", "--cone", "--", *sparse_dirs)
+    else:
+        # A launch from a sparse caller still defaults to a full checkout.
+        run(worktree, "sparse-checkout", "disable")
+    # --no-checkout leaves an empty index; setting sparse paths alone does not
+    # populate it on all Git versions. read-tree applies the selected patterns.
+    run(worktree, "read-tree", "-mu", base)
 
 
 def settings(path):
@@ -323,7 +398,7 @@ def validate_task_contract(contract, resource):
 
 
 def launch(root, cache, codex, config, task, resource, env, read_only=False,
-           coordinator_id=None, task_contract=None):
+           coordinator_id=None, task_contract=None, sparse_dirs=None):
     config = validate_settings(config)
     with Coordinator(root, cache) as ownership:
         if not read_only:
@@ -345,11 +420,13 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False,
         if not protocol_path.is_file():
             raise Refused(f"Required operating protocol is missing: {PROTOCOL}")
         protocol = protocol_path.read_text(encoding="utf-8-sig")
+        base = git(root, "rev-parse", "HEAD")
+        storage = checkout_storage(root, cache, base, sparse_dirs)
+        require_checkout_capacity(storage)
         run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:10]
         directory = cache / run_id
         directory.mkdir()
         worktree = directory / "worktree"
-        base = git(root, "rev-parse", "HEAD")
         receipt = {"schema": "emc-local-research-run/1", "run_id": run_id,
                    "started_utc": utc_now(), "resource": resource, "model": MODEL,
                    "auth": "saved-chatgpt", "coordination": "one-local-clone-only",
@@ -357,6 +434,7 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False,
                    "mode": "read-only" if read_only else "workspace-write",
                    "legacy_and_remote_writers_stopped_acknowledged": not read_only,
                    "base_commit": base, "worktree": str(worktree), "limits": config,
+                   "storage": storage,
                    "task_sha256": hashlib.sha256(task.encode()).hexdigest(),
                    "protocol_sha256": hashlib.sha256(protocol.encode()).hexdigest(),
                    "rounds": [], "status": "starting", "automatic_publication": False}
@@ -365,6 +443,12 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False,
             ownership.reserve(coordinator_id, resource, run_id, receipt=receipt_path)
         write_json(receipt_path, receipt)
         prompt = task_prompt(task, protocol, resource, read_only)
+        if storage["mode"] == "sparse-cone":
+            prompt = ("This worktree has a sparse checkout of these tracked input directories: "
+                      + json.dumps(storage["sparse_directories"]) + ". "
+                      "Files outside that scope may be absent locally; their absence is not evidence "
+                      "of absence from the repository. Report missing task inputs before making "
+                      "claims that depend on them.\n\n" + prompt)
         (directory / "task.txt").write_text(task, encoding="utf-8")
         (directory / "protocol.md").write_text(protocol, encoding="utf-8")
         if task_contract is not None:
@@ -373,8 +457,7 @@ def launch(root, cache, codex, config, task, resource, env, read_only=False,
         deadline = started + config["timeout_seconds"]
         try:
             probe_auth(codex, env)
-            git(root, "worktree", "add", "--detach", str(worktree), base,
-                timeout=max(1, deadline - time.monotonic()))
+            prepare_worktree(root, worktree, base, storage["sparse_directories"], deadline)
             scratch = worktree / ".cache" / "research-run"
             scratch.mkdir(parents=True)
             schema = scratch / "outcome-schema.json"
@@ -467,6 +550,8 @@ def main(argv=None):
     parser.add_argument("--resolution", choices=("integrated", "abandoned"))
     parser.add_argument("--evidence", help="Durable verification/reason file for resolving retained output")
     parser.add_argument("--resource", help="Stable resource name, e.g. paper:PUB-ASO or process:ci")
+    parser.add_argument("--sparse-dir", action="append", default=[], metavar="DIRECTORY",
+                        help="Repeatable tracked input directory for a cone-mode sparse checkout; default is full")
     parser.add_argument("--read-only", action="store_true",
                         help="One sandboxed audit of a frozen checkout; can coexist with legacy writers")
     modes = parser.add_mutually_exclusive_group()
@@ -492,6 +577,8 @@ def main(argv=None):
                   "coordination_scope": "one-local-clone-only; not Claude or separate machines",
                   "execution_enabled": args.ack_local_cutover or args.read_only,
                   "mode": "read-only" if args.read_only else "workspace-write", "paid_api_fallback": False}
+        if args.plan or args.doctor:
+            report["storage"] = checkout_storage(root, cache, git(root, "rev-parse", "HEAD"), args.sparse_dir)
         if args.plan:
             print(json.dumps(report, indent=2))
             return 0
@@ -527,6 +614,7 @@ def main(argv=None):
             raise Refused("Use --codex with the native codex.exe path on Windows.")
         if args.doctor:
             try:
+                require_checkout_capacity(report["storage"])
                 probe_auth(codex, os.environ)
                 report["subscription_auth"] = "verified"
             except (Refused, subprocess.TimeoutExpired) as exc:
@@ -550,7 +638,7 @@ def main(argv=None):
             receipt_path, receipt = launch(root, cache, codex, config, task, args.resource,
                                            dict(os.environ), args.read_only, args.coordinator_id,
                                            json.loads(Path(args.task_contract).read_text(encoding="utf-8-sig"))
-                                           if args.task_contract else None)
+                                           if args.task_contract else None, args.sparse_dir)
         finally:
             signal.signal(signal.SIGTERM, previous_handler)
         print(json.dumps({"status": receipt["status"], "receipt": str(receipt_path),
