@@ -1,0 +1,54 @@
+name: Submit verified EMC tissue RNA article to aiXiv once
+on:
+  push:
+    branches: ['codex/ci-stage/emc-aixiv-publication-20260907']
+    paths: ['.ci-bridge/aixiv-submit-request.json']
+permissions:
+  contents: read
+concurrency:
+  group: emc-aixiv-publication-20260907
+  cancel-in-progress: false
+jobs:
+  submit:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: dispatch
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 785cda386aa401c19439fdecd1bfdd5b03f56c0f
+          path: source
+          persist-credentials: false
+      - name: Verify approved request bytes before one outward-facing call
+        working-directory: source
+        run: |
+          test "$(git rev-parse HEAD)" = 785cda386aa401c19439fdecd1bfdd5b03f56c0f
+          printf '%s  %s\n' 0a730c744b2813fa6bc324b61052c83d5733d7ce36bdee894019ac2b7e50a7ca scripts/aixiv_review.py | sha256sum --check
+          printf '%s  %s\n' 2b39580313d504bca3790b9c8da16e06e16e8e2a2708fb554903c3a6fad059fc research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf | sha256sum --check
+          printf '%s  %s\n' b84a41d4f50bf9e8807e65bb2af3755f1997dee65e99c712fbd75c17d21885c1 ../dispatch/.ci-bridge/aixiv-metadata.final.json | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/aixiv-publication"
+          cp ../dispatch/.ci-bridge/aixiv-submit-request.json "$RUNNER_TEMP/aixiv-publication/request.json"
+          cp ../dispatch/.ci-bridge/aixiv-metadata.final.json "$RUNNER_TEMP/aixiv-publication/metadata.json"
+      - name: Exactly one authorized public submission
+        working-directory: source
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: |
+          set +e
+          python3 scripts/aixiv_review.py submit --pdf research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf --meta ../dispatch/.ci-bridge/aixiv-metadata.final.json --public 1 --i-understand-this-is-outward-facing > "$RUNNER_TEMP/aixiv-publication/provider-response.stdout" 2> "$RUNNER_TEMP/aixiv-publication/provider-response.stderr"
+          rc=$?
+          printf '%s\n' "$rc" > "$RUNNER_TEMP/aixiv-publication/exit.txt"
+          cat "$RUNNER_TEMP/aixiv-publication/provider-response.stdout"
+          cat "$RUNNER_TEMP/aixiv-publication/provider-response.stderr" >&2
+          exit "$rc"
+      - name: Preserve original request and provider response
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aixiv-publication-${{ github.run_id }}
+          path: ${{ runner.temp }}/aixiv-publication/
+          if-no-files-found: error
