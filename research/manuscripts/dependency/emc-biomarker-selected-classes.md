@@ -46,8 +46,8 @@ five had the lookup been reported.
 estimated incidence this repository's clinical registry records as *well under 1 per million per
 year* ([`emc-clinical-registry.json`](../../data/emc-clinical-registry.json), `overview.howCommon`),
 a route that is quietly kept alive on an untested assumption consumes attention that has nowhere
-else to come from. **The field publishes almost none of
-these exclusions**, so each one gets re-proposed.
+else to come from. **The field publishes almost none of these exclusions**, so each one gets
+re-proposed.
 
 ⚠ **The four negatives are not equally strong, and the paper's central methodological claim is that
 saying so is the whole job.** One is a clean refutation of the selecting feature. Two are refutations
@@ -174,18 +174,22 @@ first-in-class inhibitor selects on the HR-deficient half (PMID 34179826).
 (*t* = 2.42 and 2.23), every readable member is higher on both, and the non-homologous end-joining
 contrast is flat on both (*t* = −0.19 and 0.16) — **so the elevation is specific against NHEJ.**
 ⚠ **It is not shown to be specific more broadly, and on GPL3290 it is not shown to be specific at all:**
-the homologous-recombination module rises *more* than the alt-EJ module there (+0.266 against +0.258 SD),
-so the two move together on that platform and only GPL6244 separates them (+0.087 against −0.044).
+the homologous-recombination module rises *more* than the alt-EJ module there (HR +0.266 against
+alt-EJ +0.258 SD), so the two move together on that platform and only GPL6244 separates them
+(alt-EJ +0.087 against HR −0.044).
 ⚠ **Three of the module's four members are single-strand-break and base-excision-repair factors**
-(LIG3, PARP1, XRCC1), and no contrast against that pathway was read. ⚠ **The route's own primary gene is
-the weakest reading in the module.** POLQ has no probe on GPL3290, so the module score there is computed
-over three of four genes and the drug target contributes nothing; on GPL6244 it is higher by 0.04 SD
-(*t* = 0.31) and sits at the **21st percentile** of that array. **The module carries this observation and
-the target gene does not.** Nothing in the literature explains the elevation in this disease.
+(LIG3, PARP1, XRCC1), and no contrast against that pathway was read.
 
-⛔ **The half that selects the class is not present.** The homologous-recombination arm is flat to mildly
-*higher* (*t* = −0.57 and 1.04), not down. The combination is absent, so the criterion this class is selected on is not met in these data. That
-is a statement about a selection criterion, not about whether the class would act in this disease.
+⚠ **The route's own primary gene is the weakest reading in the module.** POLQ has no probe on
+GPL3290, so the module score there is computed over three of four genes and the drug target
+contributes nothing; on GPL6244 it is higher by 0.04 SD (*t* = 0.31) and sits at the
+**21st percentile** of that array. **The module carries this observation and the target gene does
+not.** Nothing in the literature explains the elevation in this disease.
+
+⛔ **The half that selects the class is not present.** The homologous-recombination arm is flat to
+mildly *higher* (*t* = −0.57 and 1.04), not down. The combination is absent, so the criterion this
+class is selected on is not met in these data. That is a statement about a selection criterion, not
+about whether the class would act in this disease.
 
 ⚠ **Strength: the weakest negative in the paper, and its own reason for being weak is decisive.** An HR
 **defect** is usually a mutation, and can sit behind entirely normal HR transcript. So the half that came

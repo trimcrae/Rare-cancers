@@ -59,7 +59,8 @@ disease is directed almost entirely at preventing death from the tumour. How oft
 the tumour, and by what mechanism, has not been described.
 
 **Methods.** Six hundred open-access publications matching the disease were enumerated through
-Europe PMC and 328 full texts retrieved. Sentences containing a death cue were extracted mechanically
+Europe PMC, full-text retrieval was attempted for 400 under a pre-set cap, and 328 returned parsable
+text. Sentences containing a death cue were extracted mechanically
 and classified by reading, with the patient rather than the sentence as the unit; papers not about
 this disease were excluded, leaving 34. Cause-of-death splits reported on identical patients were
 extracted from a national registry cohort. Relative survival was computed under the Ederer II
@@ -76,11 +77,11 @@ of deaths in localised disease (4 of 13) and 10.0 per cent in disease metastatic
 10). The corresponding upper bound on what preventing every disease death could add was 6.7
 percentage points of survival in localised disease and 31.0 points in metastatic disease at a median
 follow-up of just over three years. Relative survival, which assigns no cause to any patient, gave a
-median competing share of 23.0 per cent across eight series-horizons, falling between the two stratum-specific cause-split values of 30.8
-and 10.0 per cent from the
-cause split; the two methods share no input. Observed non-sarcoma deaths matched background mortality
-for the cohort's age and sex (ratios 0.97 and 1.04, on four and one events). No publication reporting
-the growth rate of pulmonary metastases in this disease was found.
+median competing share of 23.0 per cent across eight series-horizons, falling between the two
+stratum-specific cause-split values of 30.8 and 10.0 per cent; the two methods share no input.
+Observed non-sarcoma deaths matched background mortality for the cohort's age and sex (ratios 0.97
+and 1.04, on four and one events). No publication reporting the growth rate of pulmonary metastases
+in this disease was found.
 
 **Conclusions.** The published record of this disease cannot say how most of its patients die. What it
 does say is that a substantial minority of deaths are not caused by the sarcoma, that this fraction is
@@ -135,7 +136,7 @@ to other diseases' patients; all analyses are restricted to the 34.
 Classification was performed by reading each sentence with its paper's context, and assigning one of:
 respiratory failure, locoregional complication, visceral metastasis complication, treatment-related
 death, competing non-cancer death, second malignancy, death from progressive disease without a stated
-mechanism, mechanism unstated, or not a patient death.
+mechanism, mechanism unstated, ambiguous attribution, or not a patient death.
 
 The unit of analysis is a patient or a reported patient group, never a sentence. One paper describes
 three deaths across seven sentences and another describes one death in four; counting sentences would
@@ -185,8 +186,9 @@ both changed a headline figure.
 ### 3.1 Statement of a mechanism in the published record
 
 Fifty-two deaths were described across 16 of the 34 papers. Fifteen (28.8 per cent) carried a stated
-mechanism. Twenty-eight were recorded with no mechanism beyond a vital status, and a further eight
-were attributed to progressive disease without further specification.
+mechanism. Twenty-eight were recorded with no mechanism beyond a vital status, a further eight
+were attributed to progressive disease without further specification, and one was left as ambiguous
+attribution.
 
 **Table 1.** Deaths in the open-access literature of this disease, by stated mechanism.
 
@@ -262,10 +264,10 @@ number of events.
 ### 3.5 Agreement between two independent estimates
 
 Relative survival gave a median competing share of 23.0 per cent across eight series-horizons (range
-12.1 to 45.4), against the registry cause split's 30.8 per cent in localised and 10.0 per cent in metastatic disease,
-which the relative-survival median falls between. The two share no input: one is
-published all-cause survival divided by a national life table, the other is counts of patients a
-registry assigned a cause to, and neither can be derived from the other.
+12.1 to 45.4). The registry cause split gave 30.8 per cent in localised and 10.0 per cent in
+metastatic disease, and the relative-survival median falls between the two. The two methods share no
+input: one is published all-cause survival divided by a national life table, the other is counts of
+patients a registry assigned a cause to, and neither can be derived from the other.
 
 One series was excluded from the band with relative survival of 0.9925, and one horizon of the same
 series produced relative survival above 1, meaning the cohort out-lived the general population. That
@@ -326,10 +328,9 @@ questions its research programme asks.
 
 ### 4.3 The population no tumour-directed approach addresses
 
-Between a tenth and a third of deaths after diagnosis are not caused by the sarcoma, depending on stage
-at diagnosis, and they occur at
-approximately the rate the cohort's age and sex predict. Two consequences follow, and only the first
-is established here.
+Between a tenth and a third of deaths after diagnosis are not caused by the sarcoma, depending on
+stage at diagnosis, and they occur at approximately the rate the cohort's age and sex predict. Two
+consequences follow, and only the first is established here.
 
 Established: the ceiling on antitumour benefit is correspondingly reduced, most severely in localised
 disease.
@@ -343,23 +344,26 @@ care in either direction.
 
 One class of supportive intervention does have direct randomised evidence elsewhere in oncology, and
 it is, among the intervention classes this study screened, the only non-antitumour class with a
-reported overall-survival benefit in cancer at
-all: early specialist palliative care integrated alongside standard oncologic care. The finding
-replicates rather than resting on one trial. In metastatic non-small-cell lung cancer, median overall
-survival was longer with early palliative care than with standard care alone in the founding trial
-(11.6 vs 8.9 months, p=0.02, PMID 20818875), and in two independent replications conducted in
-different health systems: a Mexican trial (18.1 vs 10.5 months, HR 1.5 [95% CI 1.04-2.3], p=.030,
-PMID 38558247) and a Chinese trial (HR 0.19 [95% CI 0.04-0.85], p=0.029, PMID 37781179; that report's
-own printed median survivals, 20.4 against 24.6 months, read inconsistently against its stated
-conclusion, and the discrepancy is in the source and is not resolved here). An earlier
-evidence synthesis found the survival claim resting on a thin base -- two studies -- before these two
-replications existed (PMID 32953543). Every one of these trials is in non-small-cell lung cancer, a
-disease whose median survival is measured in months; EMC's natural history is measured in decades, a
-population none of these trials enrolled and a transfer no trial has tested. Whether an effect
-measured over months of survival extends over a course of years, through what mechanism, and whether
-a sarcoma-specific trial of this intervention exists at all, are left here as open questions rather
-than assumed answers: a title-level search of the 25 records retrieved from this class of intervention
-found no sarcoma-specific palliative-care trial.
+reported overall-survival benefit in cancer at all: early specialist palliative care integrated
+alongside standard oncologic care.
+
+The finding replicates rather than resting on one trial. In metastatic non-small-cell lung cancer,
+median overall survival was longer with early palliative care than with standard care alone in the
+founding trial (11.6 vs 8.9 months, p=0.02, PMID 20818875), and in two independent replications
+conducted in different health systems: a Mexican trial (18.1 vs 10.5 months, HR 1.5 [95% CI
+1.04-2.3], p=.030, PMID 38558247) and a Chinese trial (HR 0.19 [95% CI 0.04-0.85], p=0.029,
+PMID 37781179; that report's own printed median survivals, 20.4 against 24.6 months, read
+inconsistently against its stated conclusion, and the discrepancy is in the source and is not
+resolved here). An earlier evidence synthesis found the survival claim resting on a thin base -- two
+studies -- before these two replications existed (PMID 32953543).
+
+Every one of these trials is in non-small-cell lung cancer, a disease whose median survival is
+measured in months; EMC's natural history is measured in decades, a population none of these trials
+enrolled and a transfer no trial has tested. Whether an effect measured over months of survival
+extends over a course of years, through what mechanism, and whether a sarcoma-specific trial of this
+intervention exists at all, are left here as open questions rather than assumed answers: a
+title-level search of the 25 records retrieved from this class of intervention found no
+sarcoma-specific palliative-care trial.
 
 ### 4.4 Lung-directed treatment
 
