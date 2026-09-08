@@ -861,9 +861,10 @@ COHORTS = [
             "(citations.huang2023.verification_note). The outcome denominators are the cases "
             "ASSIGNED TO EWSR1::NR4A3 OR TAF15::NR4A3 THAT ALSO HAVE FOLLOW-UP: 42 EWSR1::NR4A3 "
             "and 8 TAF15::NR4A3 (50 of the 53 followed, which are themselves 53 of the 58 in the "
-            "series; the remaining 3 followed cases are the miscellaneous group -- 2 TCF12, 1 "
-            "partner unidentified -- which is partner-assigned but which the paper does not carry "
-            "as an outcome arm and which is therefore in neither numerator nor denominator here)."
+            "series; the remaining 3 followed cases are two TCF12-ASSIGNED cases and one case "
+            "whose partner is UNIDENTIFIED -- note the unidentified case is not partner-assigned "
+            "at all -- and all three are excluded from the EWSR1 and TAF15 outcome arms, so they "
+            "are in neither numerator nor denominator here)."
         ),
         "strata": {
             "EWSR1::NR4A3": {
@@ -1353,8 +1354,9 @@ def _self_check(by_id: dict) -> None:
         "TAF15::NR4A3"
     ]["disease_specific_death"]["denom"] == 50, (
         "PMID 36948401: 50 EWSR1- or TAF15-assigned patients with follow-up (42 EWSR1 + 8 "
-        "TAF15); the remaining 3 of the 53 followed are the miscellaneous group (2 TCF12, 1 "
-        "partner unidentified), which is partner-assigned but carried by no outcome arm"
+        "TAF15); the remaining 3 of the 53 followed are two TCF12-assigned cases and one case "
+        "with an unidentified partner -- the unidentified case is not partner-assigned -- and "
+        "all three are carried by no outcome arm"
     )
     hp = by_id["huang-2023-prevalence"]["counts"]
     assert hp["EWSR1::NR4A3"] == 46 and hp["TAF15::NR4A3"] == 9, (
