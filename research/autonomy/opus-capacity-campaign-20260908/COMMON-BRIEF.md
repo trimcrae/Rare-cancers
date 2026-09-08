@@ -99,6 +99,19 @@ artifact. A restatement of existing repository content is not an artifact.
 
 ## Known, measured, and NOT worth rediscovering
 
+- **`pytest` IS INSTALLED in this container, and `python3 -m pytest` is the wrong command.**
+  W29f settled this by execution (2026-09-08T03:49Z): pytest 9.1.1 lives at `/root/.local/bin/pytest`,
+  a symlink into a **uv tool venv** whose shebang names `/root/.local/share/uv/tools/pytest/bin/python3`
+  — a different interpreter from `/usr/local/bin/python3`, with a different site-packages.
+  So `python3 -m pytest` correctly reports `No module named pytest` while `pytest` runs fine.
+  **Any claim in this campaign that "pytest is not installed, so no pass/fail is obtainable" is
+  measuring the wrong interpreter**, and every "a test compensates" claim resting on it is a source
+  reading that could have been a real run. The repository already documents this exact trap:
+  `scripts/tests/test_the_dep_probe_asks_the_interpreter_that_runs_the_tests.py` records incident
+  AUT-PD-026 (2026-08-15, 36 invented failures), and `scripts/preflight.sh` resolves `_PYTEST_PYTHON`
+  by branching on it. Run tests with `pytest`, never `python3 -m pytest`, and a skipped test is
+  still not a pass.
+
 - **`scripts/preflight.sh`'s systems step is red for reasons that have nothing to do with your change.**
   W31b measured (2026-09-08T03:34Z) that removing this campaign directory takes
   `systems/systems_check.py --check` from 172 ERROR to **0 ERROR, exit 0**, and that the
