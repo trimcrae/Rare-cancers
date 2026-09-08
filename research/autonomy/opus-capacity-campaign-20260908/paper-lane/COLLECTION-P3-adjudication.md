@@ -61,3 +61,21 @@ real negative result: it removes a candidate rather than creating one, and it is
 worker count is set by ready evidence rather than by slots.
 
 `/tmp/claude-0/p3-lane/` intact, nothing deleted, pending an exact-directory receipt.
+
+
+---
+
+# Wording correction, appended 2026-09-08 11:28 UTC
+
+Above I wrote that closing the stale flag was *"not a change to any manuscript claim"*. **That is
+imprecise and is corrected: `research/manuscripts/nr4a3-program-map.md` IS a manuscript file, and the
+parent changed one assertion in it by dated append**, preserving the original sentence. The accurate
+statement is: **one program-map assertion was closed by dated append**, and no *other* manuscript,
+gate, artifact or held scope was touched.
+
+**P3's scope, stated precisely and distinctly** from the named Brenca source/case-origin gate and the
+P6 proposal: its commands inspected the **committed** neoantigen artifacts, the route audit and the
+seam paragraph, and performed a **set union over stored peptides**. **No network, no patient mapping,
+no W25/GSE243553 continuation, no ASO regeneration, and no scientific-artifact edit.**
+
+This qualification does **not** reopen P3.
