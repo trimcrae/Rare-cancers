@@ -15,7 +15,7 @@ scope: >
   safety or clinical-readiness claim is made for any agent or combination.
 audience: [external reviewers, collaborators, maintainers, autonomous research agents]
 date: 2026-08-19
-last_verified: 2026-09-01
+last_verified: 2026-09-08
 ---
 
 # A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it

@@ -76,7 +76,8 @@ of deaths in localised disease (4 of 13) and 10.0 per cent in disease metastatic
 10). The corresponding upper bound on what preventing every disease death could add was 6.7
 percentage points of survival in localised disease and 31.0 points in metastatic disease at a median
 follow-up of just over three years. Relative survival, which assigns no cause to any patient, gave a
-median competing share of 23.0 per cent across eight series-horizons, spanning the two stratum-specific cause-split values of 30.8 and 10.0 per cent from the
+median competing share of 23.0 per cent across eight series-horizons, falling between the two stratum-specific cause-split values of 30.8
+and 10.0 per cent from the
 cause split; the two methods share no input. Observed non-sarcoma deaths matched background mortality
 for the cohort's age and sex (ratios 0.97 and 1.04, on four and one events). No publication reporting
 the growth rate of pulmonary metastases in this disease was found.
@@ -139,7 +140,7 @@ mechanism, mechanism unstated, or not a patient death.
 The unit of analysis is a patient or a reported patient group, never a sentence. One paper describes
 three deaths across seven sentences and another describes one death in four; counting sentences would
 have weighted the most verbose reports most heavily: the 34 papers carry 116 death sentences against
-52 patient deaths, and one paper describes a single patient across four.
+52 patient deaths.
 
 ### 2.3 Cause splits and the upper bound on antitumour benefit
 
@@ -242,10 +243,11 @@ One national registry cohort reported both cause counts on identical patients.
 | metastatic at diagnosis | 29 | 9 | 1 | 10.0 % | **31.0 points** |
 | combined (author's sum; not a pooled estimate — see note) | 163 | 18 | 5 | 21.7 % | 11.0 points |
 
-The combined row is the arithmetic sum of the two strata, shown for completeness only. It is not
-carried by the decomposition artifact, which reports the two strata separately and leaves its pooled
-cause-split field unset: the strata differ in follow-up (38 against 41 months) and in competing share
-by a factor of three, so a single pooled share describes neither.
+The combined row sums the two strata's counts and recomputes the last two columns from them, shown
+for completeness only. It is not carried by the decomposition artifact, which reports the two strata
+separately, and the field designed to hold a pooled cause split is left null: the strata differ in
+follow-up (38 against 41 months) and in competing share by a factor of three, so a single pooled
+share describes neither.
 
 At a median follow-up of just over three years, preventing every death from the sarcoma in the
 localised cohort would have added 6.7 percentage points of survival; in the cohort metastatic at
@@ -282,10 +284,10 @@ agree: observed non-sarcoma mortality of 20.0 per cent against 11.3 per cent exp
 1.77. That series pairs a survival-curve reading with a crude proportion on a different estimator, so
 the excess may be study non-comparability rather than competing death; the decomposition artifact
 states that a ratio far above 1 makes a competing-share figure unquotable, and no competing-share
-figure in this paper is taken from that pairing. The two ratios below are the horizon-matched checks
+figure in this paper is taken from that pairing. The two ratios above are the horizon-matched checks
 on the registry cohort, which is the only source of the ceilings reported here.
 
-These rest on four events and one event respectively. What they establish is consistency with
+Those two ratios rest on four events and one event respectively. What they establish is consistency with
 background mortality, not equality to it. The comparison is also one-sided: a general-population life
 table overstates background mortality for a cohort fit enough to reach and survive a sarcoma
 diagnosis, so it can refute the proposition that the gap is ordinary background mortality and cannot

@@ -202,9 +202,10 @@ Stated plainly, because each has a specific and non-obvious reach.
 4. **One staged body is not comparable and is not pooled.** `brd4_bd1`'s exit-atom exposure is 13.65 Å,
    outside the committed E3 range of 5.00–5.79 Å; `bcl6` at 5.44 Å is inside. `brd4_bd1`'s acceptance
    may not be pooled with or ranked against the others, and it is excluded from every pooled figure.
-`bcl6` is inside the comparable range but is excluded from every pooled figure as well, because the
-pooled contrast is a proxy statement a named effector may not be read into (SI §S1, *Pooling*). Every
-pooled number above is therefore computed on `birc2`, `mdm2`, `crbn` and `vhl` only.
+   `bcl6` is inside the comparable range but is excluded from every pooled figure as well, because
+   the pooled contrast is a proxy statement a named effector may not be read into (SI §S1,
+   *Pooling*). Every pooled number above is therefore computed on `birc2`, `mdm2`, `crbn` and `vhl`
+   only.
 5. **The named-effector result is narrower than it looks.** `bcl6` (7LWG, 243 residues) and `brd4_bd1`
    (4ZC9, 127) admit at every rung down to a 6-atom linker. But the paired size comparison, the
    within-class control and the floor ablation are computed on the **four committed bodies only**;

@@ -2707,7 +2707,7 @@ weight, with the following caveats made explicit rather than buried:
    kcal/mol; **that figure is superseded** — §2.10 carries the measured replacement and the reason the
    conclusion here is unchanged, which is that the binding limit is accuracy rather than resolution.)* That
    search **nominates**; it does not settle the question, and the causal test has since been run and returned
-   its pre-registered null (§2.10e, item (d) below).
+   its pre-registered null (§2.10e, and item 8(d) below).
    Degradation selectivity therefore rests, on current evidence, on the **binder** margin plus those
    nominated categorical handles (plus
    **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
@@ -2880,9 +2880,9 @@ frame-fraction clause **passes under the committed harmonized re-analysis** whil
 only at pre-harmonized weight. The frame-level generation-receptor dependency audit has now **CLOSED and FAILED** — the exact frame `denovo_401` was generated into does **not** clear D\* under the harmonized definition (§3).
 Gate 3A is supported only in the narrow persistence sense
 while **Gate 3B is unresolved**, and Gate 4 is an in-silico criterion, not physical binding. The 3A/3B split
-and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, labelled as such here and in
+and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, labelled as such here and disclosed in
 §2.3 and **not** folded silently into the original single-Rg gate definition. They are not entered in the
-prereg deviation log, whose last entry is dated 2026-07-01; the pre-registration itself is unaltered. The route is
+prereg deviation log, whose last dated content is 2026-07-01; the pre-registration itself is unaltered. The route is
 abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
 geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
 
@@ -2897,7 +2897,7 @@ ordered so that the free ones can end it before any GPU spend.
 | 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** — an exposed paralogue-unique cysteine within exit-vector reach, and three exposed paralogue-unique lysines (figures in §2.10). ⛔ **Read with the disclosure immediately below: the word *exposed* here is adjudicated by a cutoff (`EXPOSED_RSA = 0.25`) that FAILED its own positive control**, so this row is a pass *under a criterion known to produce false negatives*, not a categorical exclusion |
 | 1 | **Differential surface atlas.** No E3-reachable divergent surface ⇒ stop for free | $0 CPU | **pass** (46 differential-surface handles, §2.4) |
 | 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — basins exploit both categorical terms above their nulls, but the terms fire in only a small minority of each basin's placements; counts and fractions in §2.10, which is their only home |
-| 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | run 2026-08-02 | **NULL as pre-registered** — S = −0.1297 ± 0.3264 kcal/mol at 2 seeds per arm (§2.10e, [`nr4a3-5aks-reduction.json`](../../modalities/nr4a3-5aks-reduction.json)); bounds the wedge below ≈ 0.65 kcal/mol (2σ) and is **not a stop**, per (b) below. The instrument's own calibrator failed (§2.11), so this is a null from an uncalibrated method |
+| 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | priced; run 2026-08-02 | **NULL as pre-registered** — S = −0.1297 ± 0.3264 kcal/mol at 2 seeds per arm (§2.10e, [`nr4a3-5aks-reduction.json`](../../modalities/nr4a3-5aks-reduction.json)); bounds the wedge below ≈ 0.65 kcal/mol (2σ) and is **not a stop**, per (b) below. The instrument's own calibrator failed (§2.11), so this is a null from an uncalibrated method |
 
 ⛔ **DISCLOSURE — THE WORD *EXPOSED* IN TIER 0 RESTS ON A CRITERION THAT FAILED ITS OWN POSITIVE CONTROL,
 AND THE READER MUST HAVE THAT BEFORE READING THE ROW.** Tier 0's outcome is adjudicated by a fixed

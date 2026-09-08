@@ -328,12 +328,15 @@ the published PDF and added 50 EWSR1- or TAF15-assigned patients with follow-up 
 (§8). **The outcome denominator is narrower than the prevalence denominator of §3.5 and the two must not be
 read as the same population.** §3.5 pools every case with a named partner; the outcome pool carries only the
 two arms being contrasted, so Agaram's single TCF12 case and Huang's two TCF12 cases and one unidentified
-partner are in neither numerator nor denominator here. Pooled outcome n = 73 is therefore 23 + 50, not
-24 + 57. The two share no authors, no institutions and no continent, so §2.3 permits the pool.
+partner are in neither numerator nor denominator here, nor are the five Huang patients without
+follow-up (§4.7). The pooled outcome total is therefore 23 + 50, not 24 + 57. The two share no authors, no institutions and no continent, so §2.3 permits the pool.
 
 | endpoint | TAF15::NR4A3 | EWSR1::NR4A3 | gap | Fisher (post-hoc) |
 |---|---|---|---|---|
 | **disease-specific death** | **7/15 = 46.7 %** (95 % CI 24.8–69.9) | **6/58 = 10.3 %** (95 % CI 4.8–20.8) | **36.3 pts** | **0.0034** |
+
+*Note on the two 58s.* The 58 in this table is the pooled EWSR1 arm across both cohorts, 16 + 42. It is
+not Huang's 58-case series, which appears in §3.4 and §4.7 and is a different quantity.
 | local recurrence | 4/15 = 26.7 % (10.9–52.0) | 13/58 = 22.4 % (13.6–34.7) | 4.3 pts | 0.7389 |
 | distant metastasis after presentation | 5/15 = 33.3 % (15.2–58.3) | 14/58 = 24.1 % (15.0–36.5) | 9.2 pts | 0.5163 |
 
@@ -571,9 +574,15 @@ heterogeneity test — and that is a deliberate methodological decision recorded
 per-stratum patient and event counts that make τ² inestimable are stated once, in §2.5, rather than repeated
 here. Consequently the pooled figures
 here are **weighted descriptive summaries**, not meta-analytic estimates, and they carry none of the inferential
-guarantees a reader may associate with the word "pooled". Where only one cohort contributes — the entire
-TKI-response analysis — the "pool" is a **single-cohort Wilson interval**, stated as such rather than dressed as
-a synthesis of several.
+guarantees a reader may associate with the word "pooled". State positively what the interval does assume: every
+Wilson bound in §3.3 is computed on the **summed** counts, under a common-binomial approximation that treats
+the two cohorts' patients as one sample. Between-cohort variation therefore enters the point estimate through
+the denominator weights and enters the interval not at all, and no prediction-interval reading is available.
+This is a statement about what the construction omits, not a comparison: no two-study interval was
+computed, so nothing here establishes that these bounds are narrower than every valid one. The per-cohort
+ranges printed beside each row are the only heterogeneity signal offered, deliberately (§2.5). Where only one
+cohort contributes — the entire TKI-response analysis — the "pool" is a **single-cohort Wilson interval**,
+stated as such rather than dressed as a synthesis of several.
 
 **4.3 · Partner assignment is not uniformly molecularly confirmed across reports.** The four prevalence series
 did not use one assay, and **two of them do not state, in any source reachable here, which assay assigned the
@@ -697,6 +706,9 @@ record actually support?* — is not the individual question a clinician faces.
 - That the **crude prognostic contrast now has a magnitude**: pooled over the two cohorts publishing
   partner-stratified event counts, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8–69.9)** with TAF15
   against **6/58 = 10.3 % (4.8–20.8)** with EWSR1 — stated **only** together with the claim below, never alone.
+  Non-overlap of the two cohorts is argued from their reported institutions, author lists and geography
+  (§3.2); no patient-level verification was performed, and a third series is held out because the same
+  argument could not be made for it.
 - That the partner's prognostic effect **does not survive adjustment for tumour size** in the one series that
   ran a multivariable model (Huang 2023). The second series to test the partner (Paioli 2021) reaches no
   conventional significance on it, in an analysis in which size does and whose adjustment structure is

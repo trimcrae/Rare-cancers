@@ -82,12 +82,15 @@ This distinction matters and is easy to blur, so it is drawn explicitly.
   PubMed and NOT-SWEPT identifiers, in campaign report files under
   `research/autonomy/opus-capacity-campaign-20260908/reports/`. Pre-existing throughout this campaign,
   not introduced by this paper, and not repaired here. **Not all gates are green.**
-- `systems_check.py` exits **1** at **907 errors**. The count is identical before and after every
-  change this campaign made. ⚠ **907 systems errors on the cloud tree are not 907 paper defects.**
-  The narrower true statement, and the only one established, is that **no `systems_check` error names
-  any file this integration changed** — the two D11 errors that briefly did were introduced on the new
-  QA note and fixed. An error-by-error identity comparison across the two runs was **not** performed,
-  so equal totals do not establish that the same 907 errors are present in both.
+- `systems_check.py` exits **1** at **907 errors**. ⚠ **907 systems errors on the cloud tree are not
+  907 paper defects**, and the assurance here must be no wider than what was actually measured. What
+  was measured is one comparison, on one occasion: the ATR integration's **tracked** changes were
+  stashed and `systems_check` re-run, giving 907 both ways. That comparison does not cover every
+  change this campaign made, and the then-untracked QA note was present in **both** runs, so it bounds
+  the tracked ATR changes only. **Error identity was never compared**, so equal totals do not
+  establish that the same 907 errors are present in both runs, and no claim is made here about which
+  files the 907 name. Separately and narrowly: the two D11 errors that did name a file this
+  integration touched were introduced on the new QA note and fixed.
 
 **UNRUN, and explicitly so:**
 
@@ -117,8 +120,26 @@ No gate is weakened and no historical record is rewritten to establish this.
   second-person findings handled as ordinary correspondence formatting.
 
 **What is therefore ready:** a manuscript inside its recorded venue limits, with its companions,
-passing every gate that was run on it, with its unrun checks named. **What is not:** the full preflight,
-the render QA, and the submission authorization itself.
+passing the gates listed as run-and-passing above. That is not a statement that the repo-wide
+failures are irrelevant or somehow passed: `lint_citations` and `systems_check` both exit 1 on this
+tree, and a submission path that runs them will meet those failures whatever this manuscript's own
+state.
+
+**Next required steps, and what blocks each:**
+
+1. **An ultra-tier review.** The reviews in this package's chain ran at `CLAUDE_EFFORT=medium`.
+   **Medium reviews do not satisfy a required ultra review**, and no ultra review has been run on this
+   manuscript. UNRUN.
+2. **`scripts/preflight.sh`**, in the form the publication candidate requires. UNRUN.
+3. **Render and typeset QA**, including the figure at print size. UNRUN.
+4. **The repo-wide gate failures** above, which are pre-existing and not this paper's, but sit on the
+   path.
+
+**On submission permission:** it follows the existing grants and enforcers —
+`research/autonomy/publication-authority.json`, `publish_bar.py`, `scripts/zenodo_deposit.py` — and
+the user's standing authority. This handoff does **not** invent a new approval barrier; it records
+that the aiXiv standing grant does not cover a journal route, and leaves the applicable authorization
+to those enforcers and to the user.
 
 ## 6 · Open items carried, not resolved
 

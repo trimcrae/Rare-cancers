@@ -18,8 +18,10 @@ _backfilled: true
 > below is quoted from an already-committed pipeline output (`fusion-breakpoint-neoantigens.json`,
 > `hla-coverage.json`, and the §3.3 results table in [`novel-modalities.md`](../modality-census/novel-modalities.md));
 > nothing was re-run to write it. **Fusion-exclusive rationale, in one line:** the peptide spanning the
-> EWSR1→NR4A3 seam exists in *no* normal protein, so an immune response against it is both tumour-exclusive
-> *and* fusion-exclusive — the cleanest selectivity layer available, complementary to (not a replacement
+> EWSR1→NR4A3 seam is absent from wild-type EWSR1 and wild-type NR4A3, so an immune response against it
+> does not, at the sequence level, target either parent protein — a sequence-level statement checked
+> against those two proteins only and never against the human proteome, and therefore not a
+> proteome-wide absence claim and not a safety claim (§1, §4) — complementary to (not a replacement
 > for) the repo's NR4A3-LBD degrader, which is NR4A3-selective but **not** fusion-selective.
 
 **Author.** Tristan D. McRae — *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com

@@ -561,7 +561,7 @@ confident in both directions and is checkable in neither.
   `TR-VECTOR-TUMOUR-DELIVERY`, a delivery capability, while the reopening *observation* quoted in §4.4
   — a direct read of the fusion's binding specificity in EMC — lives in the route's `required_validation`
   and in its grade owner. For that route the enumerated field does not carry the condition §1 requires of
-  a contingent closure, which is exactly the failure mode §3.2 is meant to prevent.
+  a contingent closure, and §3.2's specificity rule does not catch it: the id names a capability, which that rule admits.
 - **No route here was reopened by anything.** The register has never yet exercised the reopening path,
   so the discipline in §3.2 is a design that has been enforced but not tested by a real revival.
 - **The route population is this repository's**, forty routes enumerated by one programme with no wet

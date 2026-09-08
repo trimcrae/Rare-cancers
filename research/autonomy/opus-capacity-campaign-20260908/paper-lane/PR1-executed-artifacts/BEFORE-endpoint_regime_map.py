@@ -53,11 +53,6 @@ OUT_REL = "research/manuscripts/endpoint/endpoint-regime-map.json"
 #: The null a single-arm oncology phase 2 conventionally tests against, and the one the 2019
 #: pazopanib EMC stratum registered. Sourced rather than chosen here.
 DESIGN_NULL = 0.05
-#: Number words for counts that are DERIVED and then read back inside a narrative
-#: sentence. Prose that states a count must not hand-write it: see G6.
-_COUNT_WORDS = ("zero", "one", "two", "three", "four", "five", "six", "seven",
-                "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
-                "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty")
 DESIGN_ALPHA = 0.05
 DESIGN_POWER = 0.80
 #: Bound on the design search. A rate close to the null needs an enormous single-arm trial, and the
@@ -353,14 +348,6 @@ def build():
                             if c["median_objective_response_pct"] <= 100 * DESIGN_NULL]
     coords_sorted = sorted(coords, key=lambda c: c["median_objective_response_pct"])
 
-    # G6's count is DERIVED from the rows G6 itself publishes, not hand-written. It was
-    # hand-written as "twelve" and the rows said thirteen (corrected 2026-09-08). Same subset as
-    # at_or_below_the_null, restricted to conditions that have a phase 2/3 arm at all.
-    low_corner_with_phase_2_3 = [c for c in at_or_below_the_null if c["phase_2_3_arms"]]
-    low_corner_still_zero_on_phase_2_3 = [
-        c for c in low_corner_with_phase_2_3
-        if c["median_objective_response_pct_phase_2_3_arms_only"] == 0.0]
-
     emc_d1 = emc["D1_same_patients_two_endpoints"]
     emc_p = _require(_require(emc_d1, "objective_response", "D1"),
                      "proportion_pct", "D1.objective_response")
@@ -499,8 +486,7 @@ def build():
                 "strings coarsen the map without biasing it is false."),
             "_but_the_finding_survives_the_restriction": (
                 "recomputing the response axis on phase 2 and phase 3 arms only leaves the median "
-                f"at 0.0% for {_COUNT_WORDS[len(low_corner_still_zero_on_phase_2_3)]} of the "
-                "fourteen conditions that have any phase 2/3 arm. Two "
+                "at 0.0% for twelve of the fourteen conditions that have any phase 2/3 arm. Two "
                 "have none at all. One, Solid Tumors, rises to 21.4%. The low corner is therefore "
                 "not an artefact of dose escalation, and the sensitivity is reported because the "
                 "objection is a good one rather than because it succeeds."),
