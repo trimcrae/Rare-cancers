@@ -589,10 +589,27 @@ small samples.
 ## 8. Extraskeletal myxoid chondrosarcoma, a worked extreme
 
 Extraskeletal myxoid chondrosarcoma is a translocation sarcoma, and one of the rarest diseases for
-which any prospective trial record exists. Over the 47 patients ever evaluated for response inside a prospective trial with
-protocol-defined assessment, objective response was 12.8% (6 of 47, Wilson 95% CI 6.0 to 25.2) and
-disease control 89.4% (42 of 47, 77.4 to 95.4), a gap of 76.6 percentage points composed entirely of
-36 patients with stable disease. Those figures and their sources are owned by the companion analysis
+which any prospective trial record exists. Pooled crudely across the three cohorts the companion
+analysis retains, covering three different regimens, over the 47 patients those reports name as
+response-evaluable, objective response was 12.8% (6 of 47, Wilson 95% CI 6.0 to 25.2) and disease
+control 89.4% (42 of 47, 77.4 to 95.4), a gap of 76.6 percentage points composed entirely of 36
+patients with stable disease. That 47 is a nominal total. Only 46 of those patients carry a
+best-response category: the IMMUNOSARC II abstract reports 23 response-evaluable patients whose
+categories sum to 22 (2 objective response, 18 stable, 2 progressive), and the source does not
+reconcile the difference. The missing classification is not imputed here, not identified with any
+patient, and no corrected observed patient set is claimed.
+
+Holding the reported event counts fixed and taking that cohort's denominator as the sum of its own
+categories gives 13.0% objective response (6.1 to 25.7), 91.3% disease control (79.7 to 96.6) and a
+gap of 78.3 points against the nominal 76.6, a shift of 1.7 points, in the direction that makes the
+headline the conservative reading. This is a denominator sensitivity over the same reported events,
+not a new dataset, a corrected observation or a fresh analysis; both figures are stored in
+`emc-endpoint-discordance.json`. The unaccounted-for outcome remains unknown and the source-quality
+limitation stands: the stable direction of the shift does not resolve either.
+
+This pooled example does not satisfy the complete four-cell identity section 2.3 asserts for every
+arm of the 552-arm corpus, and it is not admitted to that corpus. A shared nominal denominator is
+not a complete classification. Those figures and their sources are owned by the companion analysis
 ([`emc-endpoint-discordance.json`](./emc-endpoint-discordance.json)) and are not re-derived here.
 
 Placed against the 552 arms above, 76.6 points falls at the 88.9th percentile. The disease sits in
@@ -607,8 +624,14 @@ across between 31.8% and 73.9% of the conditions where that comparison is define
 
 Both cohorts completed and both are counted from their published reports rather than from registry
 postings, so this coordinate is not drawn from either accrual population and the mixture described
-in section 3.4 does not reach it. The worked example is in that narrow sense the cleanest point on
-the map, which is an accident of it being the one disease read from primary sources.
+in section 3.4 does not reach it. The worked example is therefore a report-derived external
+illustration rather than a point measured on the same instrument as the corpus, and it carries the
+denominator inconsistency above and a mixture of report tiers: the pazopanib and trabectedin cohorts
+are full published reports with central molecular confirmation and central radiology review
+respectively, while IMMUNOSARC II is conference-abstract evidence in the retained record. It is
+placed on shared axes for comparison and is not combined with the corpus. Nothing here is a
+treatment effect: there is no untreated control arm, the disease is indolent, and no causal claim
+about any regimen follows.
 
 ---
 
