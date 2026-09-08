@@ -781,3 +781,35 @@ to validate"` before any validation if the queue file is **absent** — a vacuou
   characters earlier in the same JSON string. **So changing `rx.search` to `rx.finditer` today would turn
   a green gate red on four sentences a human would call correct** — the coverage gap's current contents
   are clean, and repairing it in isolation makes the gate worse before it makes it better.
+
+### Two more measured results — 2026-09-08T05:01Z
+
+* ⭐ **The ASO guard's output-detector limitation is FALSE-ALARM-ONLY, so the guard's green stands (W76).**
+  Over all 77 deposited `.py`: **FALSE PASS = 0** (a genuine input mistaken for an output and skipped by
+  `:305`), confirmed by two independent checks — 35 `W ∩ P` pairs all written to their own resolved path
+  by a module-scope `Name`, and **0 write-`open` sites anywhere where a function-local name shadows a
+  resolved module-level path constant**. FALSE ALARM = 3 modules (2 surviving the filter chain, **0
+  chain-invoked**), of which only `junction_sirna.py` is a *pure* false alarm; the two
+  `fusion_neoantigen_invalidation.py` constants are read-modify-write and W66's TRUE-GAP grade for them
+  is right. The entire `:305` suppression surface on the 29 chain-invoked modules is **3 candidates, all
+  correct products**. So the scope limit can only *under*-populate the outputs set, which makes the guard
+  **stricter, never laxer** — W03j's 10/10 exit 0 is untouched by this axis. All three of the guard's
+  limitations are now characterised; the remaining question is outside the AST: whether the *published
+  archive* contains what `files[]` says, which needs the ZIP.
+* **All 15 `wilson()` implementations agree — 0 arithmetic divergences (W80).** Every one computes the
+  same Wilson score interval: **no continuity correction, no Wald approximation, no Agresti–Coull,
+  Jeffreys or Clopper–Pearson anywhere.** Two are bit-exact against the closed form at their own z
+  (`emc_locoregional_eligibility:137`, `emc_mortality_decomposition:317`); every other residual is fully
+  explained by that module's own `round()`. The two causes are presentational: **z is `1.96` in nine and
+  `1.959963984540054` in five** (one uses a truncated `1.959963985`), worth at most **7.4e-04 percentage
+  points** — below every artifact's reporting precision; and rounding granularity spans 1e-3 to none.
+  So **no committed artifact's published intervals are affected by a divergence.** ⚠ Behavioural
+  differences that are not arithmetic: `n=0` returns `[None,None]` in nine modules, a 3-tuple of `None`
+  in two, scalar `None` in one, **`(0.0, 1.0)` — a full-width interval — in `emc_mortality_decomposition`,
+  and **raises `ValueError`** in `emc_fusion_partner_pooling`. Six do not clamp to [0,1] (latent, not live
+  — no out-of-range or inverted bound occurred on 18 inputs), and `nr4a3_tcip_reach.wilson(0,10)`
+  serialises as **`-0.0`**. ⚠ The one control-value failure, `emc_fusion_partner_pooling`, is **not** an
+  arithmetic disagreement: it rounds its published output to 0.1 pp, coarser than the control's 1e-4.
+  ⚠ Also measured: **all 15 modules guard `main()` with `if __name__ == "__main__":`** — the in-source
+  comments in `emc_endpoint_alternatives.py:609` and `orr_dcr_reread.py:55` warning that import runs a
+  full build describe a hazard the guards now prevent.
