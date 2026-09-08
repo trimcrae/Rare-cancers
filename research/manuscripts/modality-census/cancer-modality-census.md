@@ -58,13 +58,13 @@ pointer, is [`systems/views/modality-census.md`](../../../systems/views/modality
 
 | verdict | classes | of which never searched here |
 |---|---:|---:|
-| ✓ `on_board` — a route already covers it | 41 | 0 |
+| ✓ `on_board` — a route already covers it | 42 | 1 |
 | ● `in_clinical_use` — the incumbent arsenal | 8 | 0 |
 | ✕ `already_rejected` — a prior document settled it | 33 | 0 |
 | ✕ `excluded` — this census closes it | 95 | 86 |
 | ⭑ `candidate` | 20 | 6 |
 | ⏸ `parked_capability` | 9 | 8 |
-| — `not_applicable` | 11 | 11 |
+| — `not_applicable` | 10 | 10 |
 
 **⭑ 111 of 217 classes had never been pointed at by any prior sweep here, and 14 of those are live.**
 
@@ -84,8 +84,8 @@ own theme). The table above is re-derived from the registry as it now stands, no
 *Superseded, retained: "112 of 217 classes had never been pointed at by any prior sweep here, and 18 of
 those are live," with the table reading `excluded 84/83`, `candidate 31/9`, `parked_capability 9/9`.*
 
-Two readings of that number are wrong and worth heading off. It is **not** a claim that 127 opportunities
-were missed — 84 of them are closed by this census on first inspection, which is what a denominator is
+Two readings of that number are wrong and worth heading off. It is **not** a claim that 111 opportunities
+were missed — 86 of them are closed by this census on first inspection, which is what a denominator is
 for. And it is **not** a criticism of the prior sweeps, which found things a census would not have: a
 search goes deep where it points, and this went wide everywhere. The complaint is only that width had
 never been measured.
@@ -134,8 +134,11 @@ reading the audit that audits it. Both errors are corrected; the grade now carri
 
 The audit that found them is [`census-novelty-audit.json`](../../modalities/census-novelty-audit.json),
 and it is deliberately noisy — a term match is not coverage, so it surfaces questions and decides
-nothing. ⚠ **It flagged 73 rows and only the 20 candidate rows were adjudicated**, because those are
-the ones anyone would act on. The remaining flags are recorded as unreviewed rather than silently
+nothing. ⚠ **It flagged 73 rows and adjudicates none of them** — every finding in the audit file is
+recorded `UNREVIEWED`, and the adjudication is recorded in the census row itself, in
+[`systems/graph/modalities.json`](../../../systems/graph/modalities.json). **Only the 20 candidate rows
+were adjudicated there**, because those are the ones anyone would act on. The remaining flags are left
+unreviewed rather than silently
 cleared, so the count of 111 should be read as *an upper bound that has been tightened once*, not as a
 settled figure.
 
@@ -202,8 +205,8 @@ which ones survive it.
 
 #### 3.2a · The lookups were run the same day, and the prediction held
 
-All six were graded on 2026-08-09 against the panel and its CI extension. **Five of the six were
-excluded and one survived** — which is what the caveat above predicted the theme would produce, and it
+All six were graded on 2026-08-09 against the panel and its CI extension. **Four of the six were
+excluded, one survived, and one stays open** — which is close to what the caveat above predicted the theme would produce, and it
 is worth recording that a prediction of mostly-negatives was made before the answers arrived rather
 than after.
 
@@ -212,7 +215,7 @@ than after.
 | PRMT5 / MAT2A | **survived** — the locus reads lower where powered, the methylosome higher on both platforms; it now has its own paper |
 | arginine deprivation | excluded — the selecting biomarker is *higher* in this disease on both platforms, not lower |
 | MDM2 antagonism | excluded — the p53 transcriptional output is lower on both, not the live axis the class needs |
-| MCL-1 / BCL-xL | excluded at the abundance level — all five druggable guardians are lower on both platforms |
+| MCL-1 / BCL-xL | **against at the abundance level** — all five druggable guardians are lower on both platforms. ⚠ **The class is not excluded and stays a candidate:** across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5 % and 75.8 % and BCL2 in 2.2 %, so the dependency prior points the opposite way to the abundance read, and the route was restored to open rather than down-graded (`census-route-expression-grading.json` → `RT-APOPTOSIS-DEP.route_action`) |
 | EZH2 / PRC2 | excluded — neither selecting shape present |
 | POLθ | excluded — the required *combination* is absent, because the homologous-recombination half is not there. ⚠ **Not because neither half is:** the alt-EJ half is present on both platforms. *Superseded, retained: "neither half of the required combination" — the verdict is unchanged, the reason given was wrong (`census-route-expression-grading.json` → `RT-POLQ.⚠_correction_2026_08_09`)* |
 
@@ -258,9 +261,12 @@ EMC; it says nobody has measured it, which is a different and more useful statem
 screen run on a patient-derived line of this disease. The hit does not establish which target produced
 it, because that agent inhibits several kinases, and the first step separates the observation from the
 hypothesis."* That first step has now been taken: re-reading the screen shows two of its three hits
-belong to a different single class already on the board, and ALK and ROS1 themselves cannot be read on
-either expression platform here, so the hit is unattributable to this class in principle. ⚠ The
-unreadability is an instrument statement, not a negative reading of either kinase — what closes the row
+belong to a different single class already on the board, and abundance cannot attribute a screen hit to
+a target in any case, so the hit is unattributable to this class in principle. ⚠ **This document said
+until now that neither kinase could be read on either platform, and the owning artifact retracted that
+on 2026-08-29:** ALK is readable on one of the two platforms and ROS1 on both, and where they are
+readable they sit unremarkably — which rules neither of them out and is a statement about the
+instrument rather than a negative reading. What closes the row
 is that the screen's own weight sits elsewhere
 ([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-ALK-ROS1`).
 
@@ -304,7 +310,8 @@ was developed for.
   considered that the answer might be dose *quality* rather than dose.
 
 ⚠ **One negative generalises across this whole theme and is carried rather than rediscovered.** Boron
-neutron capture was declined on boron atoms per unit volume in a matrix-dominated tumour. That
+neutron capture was declined on the low density of cells per unit volume in a matrix-dominated tumour:
+dose scales with boron atoms per unit volume, and the boron is delivered per cell. That
 cells-per-volume correction applies to every modality dosed per volume but delivered per cell, and it now
 carries to the Auger-emitter and radioimmunoconjugate rows as well.
 
@@ -344,8 +351,9 @@ ultra-rare disease is the whole question — a de-prioritisation with a stated b
 
 ### 3.8 · The first grading pass, and what it cost
 
-Six of the routes registered above turned out not to need their cheapest observation **run** at all.
-The genes were already read and committed in the repository's targeted expression panel, and nobody
+Sixteen of the routes registered above turned out not to need their cheapest observation **run** at all.
+The genes are read and committed in the repository's targeted expression panel — 479 of them as it now
+stands, after the extension §3.2a reports — and nobody
 had graded them against these routes because the routes did not exist when the panel was built. That
 is the census doing the one thing a census is for: the reading was on disk, and only the denominator
 made anyone go and look at it.
@@ -362,6 +370,8 @@ not restated here:
 | RET | **split** — the receptor holds; the module that switches it on is depleted on both platforms |
 | matrix-targeted immunocytokines | **present, not selective** — and the isoform that decides it is unreadable here |
 | orphan-receptor dormancy | **unread** — no probe maps to the receptor on either platform |
+| SGK1 (§3.3) | **discordant on the kinase, concordant on its substrate** — SGK1 itself is lower on one platform and higher on the other; its canonical substrate NDRG1 is higher on both, at the 98th percentile on one. ⚠ Every published SGK1→NDRG1 mechanism is a phosphorylation of NDRG1 protein, so the substrate elevation is not attributable to the kinase; the corroboration the route was registered for did not arrive |
+| chaperone dependency (§3.1) | **partly supported** — the HSP90 machine is higher on both platforms and the co-chaperones follow it, while the HSP70 arm and the heat-shock response go the other way on both. ⚠ An elevated chaperone machine is not evidence that the fusion is its client, which is the route's actual premise and a co-immunoprecipitation question |
 
 ⭐ **Two of these are worth more than a positive would have been.** The RET result qualifies the lane
 this census and the 2026-08-07 sweep both ranked highest: canonical signalling through that receptor
@@ -379,13 +389,17 @@ either platform. An unreadable gene is not an absent gene, and the pass reports 
 than letting a missing probe become a negative — the failure mode the source artifact's own governing
 rule exists to prevent.
 
-⚠ **Five of the six biomarker-selected classes in §3.2 are NOT in this pass**, because their selecting
-genes are not among the 243 the panel currently reads. Extending it is a free CI job and is the
-immediate next step; until it runs, those five rows are unexamined rather than open.
+⚠ **The panel extension this section named as its next step has since run.** All six biomarker-selected
+classes in §3.2 are now in this pass — their selecting genes are among the 479 the panel currently
+reads — and [§3.2a](#32a--the-lookups-were-run-the-same-day-and-the-prediction-held) reports what came
+back. *Superseded, retained: "Five of the six biomarker-selected classes in §3.2 are NOT in this pass,
+because their selecting genes are not among the 243 the panel currently reads. Extending it is a free
+CI job and is the immediate next step; until it runs, those five rows are unexamined rather than
+open."*
 
 ## 4 · What the census closes, and why that is the larger half
 
-Eighty-four classes are closed here on first inspection, and that is the census working rather than the
+Ninety-five classes are closed here on first inspection, and that is the census working rather than the
 census failing. Most fall into four recurring shapes, and naming the shapes is more useful than listing
 the rows:
 
