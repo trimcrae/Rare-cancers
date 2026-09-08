@@ -508,3 +508,65 @@ mentioned again.
 and against document frontmatter. W09j's disambiguation method is the one to reuse — map each hit line
 to its enclosing top-level `def`, then extract which `g["<collection>"]` keys that function actually
 indexes. Raw hit counts are not evidence.
+
+### Six more measured results — 2026-09-08T04:52Z. Take these as given.
+
+* ⛔ **W37c's escape prediction is CONFIRMED by execution (W61): 18 ERROR, all `[W1]`.** Green baseline
+  reproduced a fourth time (campaign directory outside the scan root → `0 ERROR · 87 WARN · 7 INFO`,
+  exit 0). Emptying the 15 graph collections → 136 (`[L2]`89 `[W1]`18 `[M2]`16 `[G2]`13); `--write-views`
+  → 123; **additionally emptying `emc-systems-map.json` (187 records) and the 16 `**R<n>**` roadmap rows,
+  then both modules' own remedies → 18, 100% `[W1]`, no new family.** So **105 of 123 surviving errors
+  are removable by editing a second home in the same commit**, and the `LANE-n` filesystem sweep is the
+  only anchor left standing. That is an argument for *not* giving it a generator. ⚠ Incidental and
+  important for anyone diffing two `systems_check` transcripts: the `[L4]` WARN block is emitted from a
+  `set` difference, so **its order varies between processes** — sort first or pin `PYTHONHASHSEED`, or
+  you will read nondeterminism as drift.
+* **The stale-watcher class has at least 104 members and 3 measured STALE (W57).** Of 13,506 string
+  leaves in `systems/graph/`, 104 fields state a quantity about a named JSON artifact outside the graph;
+  31 resolve to a comparable live value: **24 AGREES, 3 STALE, 4 UNCHECKABLE**. New beyond W26d's seed:
+  `objects.json OBJ-LINE-HEMCSS.notes` says a **30-entry** `read_by` sweep where `emc-systems-map.json`
+  carries **114** (and that sentence's own argument is that the graph must not hold a second copy);
+  `routes.json` route 81 attributes **162** to "death-cue sentences" where 162 is the *paper* count and
+  the sentence count is 577. ⛔ **A number-presence grep cannot detect this class** — W57 measured that
+  such a screen grades W26d's known-STALE case as corroborated. Resolve the key, never the number.
+  29 of the 31 sit under a key literal some executable contains, and **not one executable anywhere opens
+  the cited artifact and compares** — readership is not checkability.
+* **Manuscript-linter coverage splits by defect class, not by gate (W59).** `lint_citations.py:187` uses
+  `git ls-files --cached --others --exclude-standard` and covers **187/187** manuscripts; every other
+  prose gate is list- or model-scoped — `lint_claims` 36, `lint_submission_residue` 34,
+  `lint_consistency` 16, `lint_style` 13. **Union: 41 of 187 (21.9%); 146 manuscripts are in none.**
+  Verified by paired injections (byte-identical text in a covered and an unlisted file): a fabricated
+  PMID/DOI in an unlisted manuscript is CAUGHT; banned phrases, over-claiming and AI-residue are caught
+  only inside the set. ⭐ `lint_claims.py:249-252` is the repository's own statement of the principle —
+  *"coverage must follow the model, not a list someone remembers to extend"* — applied to
+  `systems/views/` and publication endpoints and **not** to the manuscript corpus. ⚠ Methodological:
+  a `lint_style` injection appended at EOF is not caught even in a covered file; inject after a `##`.
+* **The shrink-vs-growth asymmetry is a property of *inclusion* registries (W64).** 15 registries
+  classified: **4 are shrink-guarded but not growth-guarded** (`pinned-figures` `targets` and
+  `must_appear_in`, `lint_style.TARGETS`, `parser_guard`'s graph list). Exclusion lists (`DOC_SKIP`,
+  `ID_SKIP`, `TRANSIENT_DIRS`) do not exhibit it — opt-out means growth is covered by default — and
+  model-derived or walk-derived sets (`lint_claims` 137 effective, the preflight-gate enumeration
+  `[P1]`, the residue/readability baselines) are growth-guarded by construction. ⚠ `lint_style.TARGETS`
+  covers **8 of the 26** `publications.json` `document.file` entries, and `lint_readability.py:297` and
+  `lint_submission_residue.py:225` both re-use that one list, so its gap propagates to three gates.
+  ⚠ `artifact-refs.json`'s own `_why` claims *"It cannot silently grow"* — measured, it grows with a WARN.
+* **A green push/PR CI run proves 20 of 36 preflight gate units (W63).** Of 176 workflows, **exactly one
+  (`tests.yml`) is a general push/PR gate**, and it has no `|| true`, no `continue-on-error` and no
+  pipeline on any gate step. ⚠ Its `push:` is pinned to `main`, so **a push to this campaign branch
+  triggers no workflow at all.** 14 gate units are NOT-IN-CI on any trigger — including
+  `node scripts/validate-registry.mjs` (the clinical registry's only evidence-contract gate, running on
+  **zero** triggers), `receipt_schema --check`, `contract_check --check`, `derived_ids --check`, and 10
+  of the 18 generator `--check`s. The 7 `|| true` call sites all live on manual or feature-branch
+  workflows, so W47's finding weakens no push/PR gate; both workflows that run `preflight.sh` handle its
+  exit code correctly (`PIPESTATUS`/`set +e` + a final `exit 1`). Green preflight and green CI are
+  **overlapping, not nested** — `tests.yml` also enforces ~25 checks preflight never runs.
+* **The `km_risk_row_detect.py` precedent holds up (W65).** It measures band structure beneath a figure's
+  axis — nothing lexical — and the recorded claim is verified: **9/9 agreement** with the human reading
+  across the nine KM figures (2 `present`, 7 `absent`, 0 `undetermined`), and the control reproduces
+  8/8 separations, exit 0, including the two mutations that would make a structural rule useless.
+  ⭐ The strongest single row: on `morioka2016trabectedin` the text arm recovered the risk row's **values**
+  `['5','5','5','3','3','1','1','1']`, byte-identical to the eye reading transcribed two days earlier —
+  an independent second reading by a different method. ⚠ Scope: `present` is a statement about a
+  **graphic**, never about survival, and it says nothing about whether any digitized coordinate is right.
+  ⚠ The instrument's own input provenance is currently unfalsifiable here: its recipe names
+  `origin/literature-cache` at `cache_commit 454df711…`, and that ref does not exist in this checkout.
