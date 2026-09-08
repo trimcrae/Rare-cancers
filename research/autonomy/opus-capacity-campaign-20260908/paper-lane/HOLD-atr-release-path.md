@@ -133,20 +133,20 @@ artifact. Both touch either shared rendering code or the figure artifact, and ne
 editorial change. Once one is chosen and built, register, commit the PDF and stamp, and the guard
 goes green in that order.
 
-## The `target_venue` change, and why it is not permission
+## The `target_venue` decision, and why it is not permission
 
-`PUB-ATR-PANEL-ASK.target_venue` moved from `experimental_proposal` to `journal_submission` on
-2026-09-08, in the same batch as the claim-field corrections, so that the computational report which
-EXISTS is distinguishable in the graph from the experimental programme which has NOT been performed.
+**Settled 2026-09-08: `PUB-ATR-PANEL-ASK.target_venue` is `preprint`.** It was
+`experimental_proposal`, briefly `journal_submission`, and is now `preprint` — the release endpoint
+for the computational report that actually exists.
 
-The manuscript's own editorial block rejects the proposal formats by name — Registered Report Stage 1
-and Study Protocol on eligibility, Hypothesis/Perspective on fit — and then declares its venue as
-Genes, Chromosomes and Cancer, Research Article, with a bioRxiv preprint. `preprint` is a defensible
-alternative reading of the same block, since the report obtains its pre-commitment "by a dated
-preprint carrying the prediction table"; `journal_submission` is chosen because it is what the block
-declares, and the choice is recorded here rather than left implicit.
+The manuscript's own editorial block rejects the proposal formats by name (Registered Report Stage 1
+and Study Protocol on eligibility, Hypothesis/Perspective on fit) and declares Genes, Chromosomes and
+Cancer, Research Article, with a bioRxiv preprint. That journal destination remains possible and its
+history is preserved in the field's own dated correction; ⛔ **recording `preprint` here is NOT
+current journal-submission permission**, and the intermediate `journal_submission` value should not
+be read as having granted any.
 
-⛔ **This is a graph field for ordinary root adjudication and it is not publication permission.**
+⛔ **This is a settled graph field, not publication permission.**
 `blocked_by: ["BLK-NO-WET-LAB"]` is unchanged and still blocks the unperformed experimental
 programme; it was not cleared, and it must not be cleared to make a publication check pass. No
 preflight, production PDF QA, publish-bar step or venue action has been performed, and none is
@@ -154,10 +154,15 @@ implied by this field.
 
 A prose note beside the field was attempted and reverted: `publication.schema.json` sets
 `additionalProperties: false` on a publication row, so `target_venue_note` is not schema-legal. The
-rationale lives here instead. The edited row validates against the schema with no errors.
+rationale lives here instead. The edited row validates against the schema with no errors, and
+`blocked_by: ["BLK-NO-WET-LAB"]` is unchanged.
 
 ## Not claimed
 
-Full preflight was not run on this manuscript. No production PDF QA, no publish-bar step, no venue
-action. `target_venue` remains as recorded; a proposal to change it exists as a separate diff and is
-for ordinary root adjudication, not publication permission.
+Full preflight was not run on this manuscript. No publish-bar step and no venue action.
+`target_venue` is settled at `preprint` (above) — the earlier sentence here, saying a proposal to
+change it was still unapplied, is superseded and was stale.
+
+⚠ A production PDF has now been built and committed, and the figure was checked to be present on the
+page with its caption — but **print-size legibility remains unverified**, which is the one open item
+this record still carries.
