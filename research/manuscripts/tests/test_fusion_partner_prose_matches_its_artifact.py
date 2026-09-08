@@ -867,33 +867,55 @@ bind("§1.2's pair: outcome series identified, and how many publish per-partner 
      lambda a: (_word(len(_endpoint(a, OUT))),
                 _word(sum(1 for c in _endpoint(a, OUT) if c["pool"]))), fold=True)
 
-bind("§3.3's description of the Agaram cohort: cases tested and partner-assigned with follow-up",
-     r"Agaram 2014 \(MSKCC, (\d+) consecutive cases, (\d+) partner-assigned with follow-up\)",
-     lambda a: (str(_by_id(a)["agaram-2014-outcome"]["n_assessable"]), _followed(a, "agaram-2014-outcome")))
+bind("§3.3's description of the Agaram cohort: cases tested, partner-assigned, and EWSR1- or "
+     "TAF15-assigned",
+     r"Agaram 2014 \(MSKCC, (\d+) consecutive cases, (\d+) partner-assigned, (\d+) of them "
+     r"EWSR1 or TAF15\)",
+     lambda a: (str(_by_id(a)["agaram-2014-outcome"]["n_assessable"]),
+                _partner_assigned(a, "agaram-2014-prevalence"),
+                _ews_or_taf(a, "agaram-2014-outcome")))
 
 bind("§3.2's inclusion-table row for the Agaram cohort",
-     r"Agaram 2014 \(MSKCC\), (\d+) partner-assigned with follow-up",
-     lambda a: _followed(a, "agaram-2014-outcome"))
+     r"Agaram 2014 \(MSKCC\), (\d+) EWSR1- or TAF15-assigned of (\d+) partner-assigned",
+     lambda a: (_ews_or_taf(a, "agaram-2014-outcome"),
+                _partner_assigned(a, "agaram-2014-prevalence")))
 
 bind("§3.3's description of what Huang's table added",
-     r"added (\d+) partner-assigned patients with follow-up",
-     lambda a: _followed(a, "huang-2023-outcome"))
+     r"added (\d+) EWSR1- or TAF15-assigned patients with follow-up",
+     lambda a: _ews_or_taf(a, "huang-2023-outcome"))
 
 bind("§3.2's inclusion-table row for the Huang cohort",
-     r"Huang 2023 \(Taiwan\), (\d+) partner-assigned with follow-up of (\d+)",
-     lambda a: (_followed(a, "huang-2023-outcome"),
+     r"Huang 2023 \(Taiwan\), (\d+) EWSR1- or TAF15-assigned with follow-up, of (\d+) followed "
+     r"and (\d+) in the series",
+     lambda a: (_ews_or_taf(a, "huang-2023-outcome"),
+                str(_by_id(a)["huang-2023-outcome"]["n_with_followup"]),
                 str(_by_id(a)["huang-2023-outcome"]["n_assessable"])))
 
 
-def _followed(a, cid):
-    """The partner-assigned-with-follow-up count, DERIVED as the two arms' death denominators.
+def _ews_or_taf(a, cid):
+    """The EWSR1- or TAF15-ASSIGNED count, DERIVED as the two arms' death denominators.
 
     ⛔ NOT READ FROM A FIELD BESIDE IT. 23 and 50 are the sums of the arms the pool actually uses,
     and stating them as sums is what keeps them true the day an arm's denominator moves.
+
+    ⛔ RENAMED FROM `_followed` 2026-09-08, because the old name asserted something the artifact
+    does not carry. This sum is NOT "partner-assigned" — a TCF12 case is partner-assigned and is
+    in neither arm — and for Agaram it is not "with follow-up" either: `cohorts[agaram-2014-outcome]`
+    has no `n_with_followup` field at all. The number is unchanged; only the claim about it is.
     """
     s = _by_id(a)[cid]["strata"]
     return str(s["EWSR1::NR4A3"]["disease_specific_death"]["denom"]
                + s["TAF15::NR4A3"]["disease_specific_death"]["denom"])
+
+
+def _partner_assigned(a, cid):
+    """A cohort's partner-assigned denominator, DERIVED as its prevalence strata summed.
+
+    The WIDER denominator: every case with a named partner, TCF12 and TFG included. The prose
+    now states this beside the narrower `_ews_or_taf` sum at both Agaram sites, so the guard
+    binds both and the distinction between them cannot silently collapse again.
+    """
+    return str(sum(_by_id(a)[cid]["counts"].values()))
 
 
 bind("§4.7's statement of how much of the Huang cohort has follow-up",
@@ -905,10 +927,14 @@ bind("§4.7's statement of how much of the Huang cohort has follow-up",
 # checking the arithmetic from the prose alone met 58 - 5 = 53 against §3.2/§3.3's 50 and saw two
 # "one home" numbers disagreeing. They nest — the further 3 are the miscellaneous group the paper
 # carries as no outcome arm — and §4.7 now says so. The bridging count is bound to the SAME sum
-# `_followed` derives, so the sentence that explains the step cannot drift from the step.
+# `_ews_or_taf` derives, so the sentence that explains the step cannot drift from the step.
+# ⭐ 2026-09-08: the 53 is now CAPTURED rather than written into the pattern as a literal, so the
+# follow-up count in this sentence is bound to `n_with_followup` instead of merely anchoring it.
 bind("§4.7's bridge from Huang's follow-up count to the denominator the pooled table actually uses",
-     r"of those 53, the (\d+) that enter the pooled table are the partner-assigned ones",
-     lambda a: _followed(a, "huang-2023-outcome"))
+     r"of those (\d+), the (\d+) that enter the pooled table are those assigned to the two arms "
+     r"being contrasted",
+     lambda a: (str(_by_id(a)["huang-2023-outcome"]["n_with_followup"]),
+                _ews_or_taf(a, "huang-2023-outcome")))
 
 bind("§4.1's four size statements: largest series, pooled outcome n, TAF15 arm range, pooled arm",
      r"synthesis has (\d+) patients, the pooled outcome analysis rests on (\d+), and every TAF15 "

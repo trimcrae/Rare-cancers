@@ -858,11 +858,12 @@ COHORTS = [
         "counts_read_from": (
             "Table 1 of the published PDF, read by a human on 2026-08-08 after every automated "
             "fetch of the publisher's designated-free PDF returned HTTP 403 "
-            "(citations.huang2023.verification_note). The outcome denominators are the "
-            "partner-assigned cases WITH FOLLOW-UP: 42 EWSR1::NR4A3 and 8 TAF15::NR4A3 (50 of the "
-            "53 with follow-up; the remaining 3 are the miscellaneous group -- 2 TCF12, 1 partner "
-            "unidentified -- which the paper does not carry as an outcome arm and which is "
-            "therefore in neither numerator nor denominator here)."
+            "(citations.huang2023.verification_note). The outcome denominators are the cases "
+            "ASSIGNED TO EWSR1::NR4A3 OR TAF15::NR4A3 THAT ALSO HAVE FOLLOW-UP: 42 EWSR1::NR4A3 "
+            "and 8 TAF15::NR4A3 (50 of the 53 followed, which are themselves 53 of the 58 in the "
+            "series; the remaining 3 followed cases are the miscellaneous group -- 2 TCF12, 1 "
+            "partner unidentified -- which is partner-assigned but which the paper does not carry "
+            "as an outcome arm and which is therefore in neither numerator nor denominator here)."
         ),
         "strata": {
             "EWSR1::NR4A3": {
@@ -1351,8 +1352,9 @@ def _self_check(by_id: dict) -> None:
     assert hz["strata"]["EWSR1::NR4A3"]["disease_specific_death"]["denom"] + hz["strata"][
         "TAF15::NR4A3"
     ]["disease_specific_death"]["denom"] == 50, (
-        "PMID 36948401: 50 partner-assigned patients with follow-up (42 EWSR1 + 8 TAF15); the "
-        "remaining 3 of the 53 followed are the miscellaneous group"
+        "PMID 36948401: 50 EWSR1- or TAF15-assigned patients with follow-up (42 EWSR1 + 8 "
+        "TAF15); the remaining 3 of the 53 followed are the miscellaneous group (2 TCF12, 1 "
+        "partner unidentified), which is partner-assigned but carried by no outcome arm"
     )
     hp = by_id["huang-2023-prevalence"]["counts"]
     assert hp["EWSR1::NR4A3"] == 46 and hp["TAF15::NR4A3"] == 9, (
@@ -1546,6 +1548,17 @@ def build() -> dict:
     # time they have been put on one denominator, which is what makes a MAGNITUDE computable at
     # all. It is also the first place the size defeater has to travel with a number rather than
     # sitting in a limitations section -- see `defeater` on every pooled contrast.
+    def _assigned_with_counts(e: dict, t: dict) -> int:
+        """The size of a cohort's contribution to the outcome pool, DERIVED, never typed.
+
+        It is the sum of the two contrasted arms' own death denominators -- i.e. the cases the
+        source assigns to EWSR1::NR4A3 or TAF15::NR4A3 and carries as an outcome arm. It is NOT
+        "partner-assigned" (a TCF12 case is partner-assigned and is in neither arm), and for
+        Agaram 2014 it is NOT "with follow-up" either: that cohort records no follow-up count,
+        and `cohorts[agaram-2014-outcome]` carries no `n_with_followup` field to state one.
+        """
+        return e["disease_specific_death"]["denom"] + t["disease_specific_death"]["denom"]
+
     ag = by_id["agaram-2014-outcome"]["strata"]
     hu = by_id["huang-2023-outcome"]
     hus = hu["strata"]
@@ -1652,13 +1665,24 @@ def build() -> dict:
         "question": "Does the NR4A3 5' fusion partner predict disease-specific death, recurrence or metastasis?",
         "what_changed_2026_08_08": (
             "⭐ A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME. Until 2026-08-08 exactly one cohort "
-            "(Agaram 2014, 23 partner-assigned patients) published EMC outcome event counts by "
-            "NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and the file said so. "
-            "A human read Huang 2023's published PDF and extracted its Table 1, adding 50 "
-            "partner-assigned patients with follow-up from an independent country and institution "
-            "set. The outcome pool is now 73 patients across two non-overlapping cohorts. ⚠ THIS "
-            "IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS QUESTION -- see "
-            "`does_not_touch_the_response_question` below."
+            "(Agaram 2014, {ag} of its {agp} partner-assigned patients carried an EWSR1 or TAF15 "
+            "partner, and the source records no follow-up count for them) published EMC outcome "
+            "event counts by NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and "
+            "the file said so. A human read Huang 2023's published PDF and extracted its Table 1, "
+            "adding {hu} EWSR1- or TAF15-assigned patients with follow-up -- {hu} of the {huf} "
+            "followed, which are themselves {huf} of the {hun} in the series, the other {misc} "
+            "followed cases being 2 TCF12 and 1 unidentified partner -- from an independent "
+            "country and institution set. The outcome pool is now {tot} patients across two "
+            "non-overlapping cohorts. ⚠ THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS "
+            "QUESTION -- see `does_not_touch_the_response_question` below."
+        ).format(
+            ag=_assigned_with_counts(ews, taf),
+            agp=sum(by_id["agaram-2014-prevalence"]["counts"].values()),
+            hu=_assigned_with_counts(hu_ews, hu_taf),
+            huf=hu["n_with_followup"],
+            hun=hu["n_assessable"],
+            misc=hu["n_with_followup"] - _assigned_with_counts(hu_ews, hu_taf),
+            tot=_assigned_with_counts(ews, taf) + _assigned_with_counts(hu_ews, hu_taf),
         ),
         "does_not_touch_the_response_question": (
             "⛔ HUANG 2023 CONTAINS NO ANTIANGIOGENIC-TKI RESPONSE DATA AND MOVES ANALYSIS A BY "
@@ -1793,8 +1817,10 @@ def build() -> dict:
             "because the number is not published."
         ).format(tf=taf["mean_followup_months"], ef=ews["mean_followup_months"]),
         "verdict": (
-            "TWO cohorts, {n} patients with an assigned EWSR1 or TAF15 partner and follow-up, "
-            "from two continents with no shared authors. Pooled disease-specific death is "
+            "TWO cohorts, {n} patients assigned to EWSR1::NR4A3 or TAF15::NR4A3 -- Agaram "
+            "2014's {agn} of {agp} partner-assigned, for which the source records no follow-up "
+            "count, plus Huang 2023's {hun} of the {huf} followed -- from two continents with no "
+            "shared authors. Pooled disease-specific death is "
             "{te}/{tn} ({tp}%, 95% CI {tlo}-{thi}) with TAF15::NR4A3 against {ee}/{en} ({ep}%, "
             "95% CI {elo}-{ehi}) with EWSR1::NR4A3 -- a gap of {gap} percentage points, post-hoc "
             "Fisher exact two-sided p = {p}, and the first time this contrast has had a magnitude "
@@ -1812,6 +1838,10 @@ def build() -> dict:
             "partner separation once both cohorts are in ({lrt}% vs {lre}% and {mt}% vs {me}%)."
         ).format(
             n=pooled_dod["taf15_arm"]["denom"] + pooled_dod["comparator_arm"]["denom"],
+            agn=_assigned_with_counts(ews, taf),
+            agp=sum(by_id["agaram-2014-prevalence"]["counts"].values()),
+            hun=_assigned_with_counts(hu_ews, hu_taf),
+            huf=hu["n_with_followup"],
             te=pooled_dod["taf15_arm"]["events"],
             tn=pooled_dod["taf15_arm"]["denom"],
             tp=pooled_dod["taf15_arm"]["percent"],
