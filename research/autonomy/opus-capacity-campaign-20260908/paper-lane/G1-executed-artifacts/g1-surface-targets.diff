@@ -1,0 +1,51 @@
+--- /tmp/claude-0/g1-retained/BEFORE.md	2026-09-08 09:07:39.306572359 +0000
++++ /tmp/claude-0/g1-retained/AFTER.md	2026-09-08 09:09:58.442440677 +0000
+@@ -203,6 +203,15 @@
+ carries 4 EMC libraries, 27 normal-organ libraries (bowel, breast, colon, kidney, lung, uterus) and 32
+ non-EMC sarcoma libraries, and supplies both a lineage axis and the on-target off-tumour exposure axis.
+ 
++The two arms of the GPL3290 cohort were not processed alike, and the deposit's own annotations record
++it. All ten EMC arrays and the three dermatofibrosarcoma protuberans arrays name a "CRH" reference and
++an mRNA input ("STT3699-Myxoid Chondrosarcoma | CRH-mRNA", "STT3126-DFSP | CRH | STT3126-DFSP mRNA"),
++while the three gastrointestinal stromal tumour arrays name a "UHR" reference and a total-RNA input
++("STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA"). Half of that six-array comparator arm
++therefore differs from the EMC arm in both reference pool and RNA input, on a two-colour platform where
++every value is a log-ratio against the reference channel. No reprocessing or sensitivity analysis was
++run here, so the mismatch is disclosed rather than excluded.
++
+ The two axes are different questions and are not collapsed. The 27 normal libraries are visceral organs
+ containing almost no soft tissue, so a gene high in EMC against that panel is not thereby shown to be
+ EMC-specific rather than mesenchymal-lineage-specific; and a gene high against other sarcomas says
+@@ -377,11 +386,15 @@
+ times the other-sarcoma median. It moves strongly on GPL6244 (Δ = +0.885, *t* = 7.42) and not at all on
+ GPL3290 (Δ = −0.189, *t* = −0.40). The classifier records this as movement on one platform with
+ flatness on the other rather than as opposite signs, because the GPL3290 value is negative in sign but
+-flat in magnitude. The row does not replicate and is also not contradicted. Two candidate explanations
+-are live and neither is settled here: the GPL3290 comparator arm is n = 6 with an unusually high CSPG4
++flat in magnitude. The row does not replicate and is also not contradicted. Three candidate explanations
++are live and none is settled here: the GPL3290 comparator arm is n = 6 with an unusually high CSPG4
+ mean, and dermatofibrosarcoma protuberans is a dermal fibroblastic tumour while CSPG4 is a well-known
+ melanocytic and pericytic antigen, so a high comparator arm would flatten the contrast for reasons about
+-the comparator rather than about EMC. The sequencing row rests on one peak and n = 4, and the Human
++the comparator rather than about EMC. And half of that comparator arm, the three gastrointestinal
++stromal tumour arrays, was hybridised against a different reference pool and from a total-RNA rather
++than an mRNA input (Methods), so a processing mismatch on a log-ratio platform is a third unexcluded
++reason for a flat GPL3290 contrast; it does not show the reported contrast to be wrong. The sequencing
++row rests on one peak and n = 4, and the Human
+ Protein Atlas already places CSPG4 on the broad-liability list, so its normal-tissue behaviour beyond
+ those six organs is unaddressed. CSPG4 is therefore held open.
+ 
+@@ -476,7 +489,12 @@
+ cohorts have different comparator arms, so a gene can move in one and not the other because the
+ comparator changed rather than because EMC did, which is the worked explanation for CSPG4. GPL3290 is a
+ two-colour log-ratio platform, so an absolute level there means relative to the reference pool and only
+-the between-group contrast is interpretable. CD248, CD276, SSTR2, GPC2 and B4GALNT1 are unreadable on
++the between-group contrast is interpretable. That comparator arm is itself heterogeneous in processing:
++the three gastrointestinal stromal tumour arrays carry a different reference pool and a total-RNA input
++while the EMC and dermatofibrosarcoma protuberans arrays carry a common reference and mRNA (Methods), so
++every GPL3290 contrast reported here, including the +0.599 route-panel score that disagrees with
++GPL6244, rests on a partly mismatched comparison that this study neither reprocessed nor excluded.
++CD248, CD276, SSTR2, GPC2 and B4GALNT1 are unreadable on
+ GPL3290 and ALPPL2, CTAG1B, MAGEA3, NECTIN4 and SSX2 on both, and no statement above treats any of them
+ as low. Bulk archival tissue is not deconvolved, so a stromal or pericyte antigen can read high because
+ the compartment is present. Sample classification is string matching on the verbatim deposit annotation,
