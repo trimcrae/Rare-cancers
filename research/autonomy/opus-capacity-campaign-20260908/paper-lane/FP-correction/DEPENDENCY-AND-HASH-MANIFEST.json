@@ -1,0 +1,137 @@
+{
+  "_what": "Exact current FP dependencies and hashes after the 2026-09-08 narrower correction. Uncommitted working tree; the parent integrates.",
+  "_date": "2026-09-08",
+  "_review_capsule_input_commit": "f1a8a6c06a50101be5fb9251a113820015428789",
+  "_parked_frozen_candidate": "f44b75588fcd9666f8b96b71c2c88ebccb6095ac",
+  "_gse28866_locator_commit": "9f571e8170fb81dbe4d78515981ccb57c7a78b3e",
+  "_commands_run": [
+    "python3 research/manuscripts/emc_fusion_partner_pooling.py            -> exit 0, stderr empty",
+    "python3 research/manuscripts/emc_fusion_partner_pooling.py --check    -> exit 0",
+    "python3 -m pytest <5 FP test files> -q                                -> exit 1, 107 failed / 75 passed (PRESERVED)"
+  ],
+  "files": {
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md": {
+      "bytes": 86639,
+      "sha256": "e1dc9e691cf30d2fcf0e2dfdfc575d073387da5590534dfc4962196a7e47c32e"
+    },
+    "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json": {
+      "bytes": 107051,
+      "sha256": "f44c15048a6331c62d9d7e5ad96345721649789c13c0a15e60516b05755374c2"
+    },
+    "research/manuscripts/emc_fusion_partner_pooling.py": {
+      "bytes": 145580,
+      "sha256": "a0cb9e1d3a9e2ea1d240a5f33b9cbe9ba657906dbb690434b337a418b7e80a37"
+    },
+    "research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md": {
+      "bytes": 85254,
+      "sha256": "8502120e650fb41952d344a7d180cc2a6a3a83f4380a534d2b5fc7808b87b497"
+    },
+    "research/modalities/gse28866-tumour-vs-normal.json": {
+      "bytes": 27256,
+      "sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407"
+    },
+    "research/modalities/geo-gse28866-brunner-series.json": {
+      "bytes": 285899,
+      "sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958"
+    },
+    "research/manuscripts/fusion-output/gse28866-tumour-vs-normal-reading.md": {
+      "bytes": 9079,
+      "sha256": "b3583acb4aaf68f893d7e711b5eb0dd41f2d4a957ee156a7ac1f14ef0a44db89"
+    },
+    "systems/POLICY-evidence.md": {
+      "bytes": 22663,
+      "sha256": "b971355b40bebfdced8071d2c94ee53ec2af8b52a7128071f067d8e503c2cd59"
+    },
+    "research/manuscripts/tests/test_emc_fusion_partner_pooling_check.py": {
+      "bytes": 10578,
+      "sha256": "326c5d492b9afa954e522b8f4a9dc5405208f797f71d3db9c415490fa051cb9c"
+    },
+    "research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py": {
+      "bytes": 155018,
+      "sha256": "04d0ea95aa4fd09b729ad7ec3ac33a30e676a6299a92da187b1fc092a2d433bb"
+    },
+    "research/manuscripts/tests/test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py": {
+      "bytes": 41660,
+      "sha256": "386c2926d90d7c1db4dd2e3eb19bbc17ac00bad00c0da501112f3cd1a79db93a"
+    },
+    "research/manuscripts/tests/test_fusion_partner_author_years_are_bound_to_the_citation_map.py": {
+      "bytes": 14989,
+      "sha256": "a6b274940f2e915395f47685b2bfa49ea5fe58da2ddd5b9c6a4f4726bd8d3067"
+    },
+    "research/manuscripts/tests/test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py": {
+      "bytes": 24233,
+      "sha256": "43d8f96b2bf0042094f04c91f4e8b54f84391cd6b38737518ad8b4075c46a76c"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/F01-F12-RESPONSE-MAP.md": {
+      "bytes": 12726,
+      "sha256": "1bdb3d59455711d93172d75c9dfa6763ca66de0d2499ee1812b359667303076f"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/SOURCE-PROVENANCE-AND-EXCLUSIONS.md": {
+      "bytes": 6469,
+      "sha256": "179fa13a394de40a419f75d15ca9b80fbec3b19b8159f1d761dc8ea225d0d059"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/BLOCKERS-AND-HANDOFF.md": {
+      "bytes": 6970,
+      "sha256": "59eb34fe1ca576d3277d1f3b94b21c0ebf39f0b7d51ca5d6ce70a7dc2a6be60e"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/source-intake/lenz-2023-primary-abstract.json": {
+      "bytes": 2377,
+      "sha256": "682f8d34904b967cbe2e458ec995b093e667e643c2140481b7e535b64e59f52d"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/numeric-delta.txt": {
+      "bytes": 48797,
+      "sha256": "3365bf1ac4dd48e62d4cd0e5a3597d2a3941900f7f4f907701f3be1ca5dc7966"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/BEFORE-hashes.txt": {
+      "bytes": 534,
+      "sha256": "9fefd462efe2734f8a34c95a060927890f8158afadb896bd8eea6cfd36739252"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/AFTER-hashes.txt": {
+      "bytes": 845,
+      "sha256": "aa7878e9d94a9ebb4c7d1f51cb81f611a67c6d7638ee4f0f64ffe449c49a0e42"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/regeneration-stdout.txt": {
+      "bytes": 7380,
+      "sha256": "0616b074719395ebf8af390046c58d65606f35a7a8eea36aa4caa57e8f7dc611"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/regeneration-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/pytest-fp-checks-summary.txt": {
+      "bytes": 4451,
+      "sha256": "19989e0716e9972244e7011c7dc20b359717155200093c670604a0ecd42c0cbe"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/pytest-fp-checks-stdout.txt": {
+      "bytes": 350742,
+      "sha256": "0c8160befcb92b5667ee5520e426383a0392f47880ca41c3fe071ee9c2ea31a9"
+    },
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-correction/execution/check-writes-nothing-demonstration.txt": {
+      "bytes": 792,
+      "sha256": "4e88463921bab62feb8952c6824ae0068023be06c4eb5af286129c262c5738fc"
+    }
+  },
+  "retained_source_objects_on_literature_cache": {
+    "literature/emc-partner-events/epmc_search_taf15_fulltext.txt": {
+      "blob_sha1": "bfd551d768e80ae7c26863f71768c325d575f3c8",
+      "bytes": 553043,
+      "sha256": "158c5005e6493416d0620d4ab49975b67b0d9182e9fcc2d0c34a4aa9358d35ae",
+      "role": "authentic Lenz 2023 primary abstract - source hold CLOSED"
+    },
+    "literature/emc-partner-events/huang2023_epmc_core.txt": {
+      "role": "Huang 2023 abstract - the only verified Huang content"
+    },
+    "literature/emc-partner-events-r2/huang2023_modpath_fulltext.txt": {
+      "bytes": 235,
+      "role": "HTTP 403 anti-bot interstitial, NOT the article"
+    },
+    "literature/emc-partner-events-r2/huang2023_modpath_pdf.txt": {
+      "bytes": 226,
+      "role": "HTTP 403 anti-bot interstitial, NOT the article"
+    },
+    "literature/emc-partner-events-r2/huang2023_sciencedirect_pii.txt": {
+      "bytes": 874,
+      "role": "HTTP 403 error page, NOT the article"
+    }
+  }
+}

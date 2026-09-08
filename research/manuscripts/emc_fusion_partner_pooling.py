@@ -735,11 +735,20 @@ COHORTS = [
             "PAZOPANIB ARM IS: the held quotations run CLASSICAL -> SD/PR ('all responsive cases "
             "turned out to express the typical EWSR1-NR4A3 fusion'; 'all patients with the "
             "classical translocation had stable or responsive disease'), which does NOT license "
-            "SD/PR -> CLASSICAL. No source held here states the partner of the two "
-            "stable-disease patients, so this eight-patient arm may contain FUS, TCF12 or untyped "
-            "NR4A3-rearranged cases. The label EWSR1::NR4A3 stood here until 2026-09-08 and is "
-            "withdrawn (round-11 blind seat finding REF-B-2); the events and the denominator are "
-            "unchanged, because no count ever rested on the label."
+            "SD/PR -> CLASSICAL. \u2b50 CORRECTED 2026-09-08: A RETAINED SOURCE DOES CLASSIFY ALL "
+            "EIGHT. Davis 2017 (PMC5400622, retained copy line 14) states that the eight patients "
+            "with clinical benefit -- six partial responses AND the two stable diseases -- "
+            "harboured EWSR1-NR4A3. The claim that no held source types the two stable-disease "
+            "patients was FALSE and is withdrawn: it was produced by reading only that paper's "
+            "weaker discussion sentence. The correct record is therefore EIGHT EWSR1::NR4A3 CASES "
+            "AS REPORTED BY A SECONDARY SOURCE, not eight untyped cases. This does not upgrade a "
+            "secondary account to primary patient-level verification -- the 2014 primary is a "
+            "retained ABSTRACT, not a full text -- and it does not transfer to the pazopanib "
+            "arm, whose partner distribution no retained source gives. The stratum keeps the "
+            "label `non-TAF15` for a different and now explicitly stated reason: it is the label "
+            "under which this arm is combined with the pazopanib non-TAF15 remainder in the "
+            "conditional descriptive mixture, where the two arms must mean the same thing. The "
+            "events and denominator are unchanged."
         ),
         "assumptions": [
             "The two progressors are the two TAF15 patients. This IS licensed by the held "
@@ -747,23 +756,39 @@ COHORTS = [
             "(Stacchiotti 2020: 'no activity was observed in the two TAF15-NR4A3-positive "
             "patients included in the series'; Davis 2017: 'the two patients with the variant "
             "fusion, TAF15-NR4A3, had progressive disease on sunitinib').",
-            "No accessible source reports the partner of the eight non-TAF15 patients "
-            "individually. Two of them are separately established as EWSR1::NR4A3 by the 2012 "
-            "two-case report contained in this series; the other six are untyped in every source "
-            "held here.",
+            "\u2b50 CORRECTED 2026-09-08. Davis 2017 (PMC5400622:14) reports that all eight "
+            "clinical-benefit patients -- the 6 PR and the 2 SD -- harboured EWSR1-NR4A3. Two of "
+            "the eight are additionally established as EWSR1::NR4A3 by the 2012 two-case report "
+            "contained in this series. The provenance of the eight-case statement is SECONDARY "
+            "(an account of somebody else's cohort), and the primary 2014 report is retained here "
+            "as an abstract only, so this is a reported classification rather than a "
+            "patient-level verification. The superseded assumption -- 'no accessible source "
+            "reports the partner of the eight non-TAF15 patients individually' -- is retained "
+            "here as withdrawn.",
         ],
         "pool": False,
         "contextReason": "population-overlap",
         "overlap_note": (
-            "CANNOT BE SHOWN NON-OVERLAPPING WITH THE PAZOPANIB TRIAL, so POLICY-evidence.md s2.3 "
-            "puts the smaller cohort out of the headline. Three facts make the risk material rather "
-            "than theoretical: (1) Istituto Nazionale Tumori Milan ran this series and was a site of "
-            "the trial, with the same senior investigator; (2) the trial's entry criterion -- "
-            "NR4A3-translocated advanced EMC with RECIST progression in the previous 6 months -- is "
-            "satisfied by definition by this series' two progressors, who are exactly its two TAF15 "
-            "patients; (3) neither report states whether prior antiangiogenic therapy was permitted "
-            "or whether any patient appears in both, and the trial's full text is paywalled. Worst "
-            "case both TAF15 patients here are among the trial's three."
+            "NOT POOLED INTO THE PRIMARY ANALYSIS. \u2b50 THE RATIONALE WAS REWRITTEN 2026-09-08 "
+            "AND THE RETAINED ELIGIBILITY EVIDENCE IS NOW APPLIED TO IT. What the retained records "
+            "actually support: (1) Istituto Nazionale Tumori Milan ran this series and was a trial "
+            "site under the same senior investigator, so patient reuse is a real question rather "
+            "than a theoretical one; (2) the retained ClinicalTrials.gov v2 record for NCT02066285 "
+            "EXCLUDES patients who have received previous antiangiogenic agents "
+            "(nct02066285_ctgov_v2_full.txt, eligibilityModule), and sunitinib is an antiangiogenic "
+            "agent, so the trial's own written eligibility runs AGAINST these patients having "
+            "re-enrolled. That is protocol evidence, not an enrolment audit: it cannot establish "
+            "patient-level independence on its own, and protocol deviations are not excluded. "
+            "\u26d4 WITHDRAWN 2026-09-08: the claim that the trial's RECIST-progression-within-6-months "
+            "entry criterion is satisfied 'by definition' by this series' two progressors. "
+            "Progression recorded in an earlier series does not establish RECIST progression in "
+            "the six months before a later enrolment. (3) The primary reports remain unread here, "
+            "so no patient-level check exists in either direction. The cohort is kept out of the "
+            "primary analysis on a stated design ground -- the pazopanib trial is the larger, "
+            "prospective, single-protocol cohort -- and enters only a conditional descriptive "
+            "mixture that ASSUMES distinct patients. Two arms sharing the label non-TAF15 is "
+            "necessary for that mixture and is not sufficient to make two studies poolable: the "
+            "drugs, settings, eligibility and comparator response proportions differ."
         ),
     },
     {
@@ -894,133 +919,128 @@ COHORTS = [
     {
         "id": "huang-2023-outcome",
         "endpoint": "outcome_by_partner",
-        "label": "58 FISH-confirmed EMC, Taiwan (Table 1 outcome counts; follow-up available in 53)",
+        "label": "58 FISH-confirmed EMC, Taiwan (abstract-supported scope only)",
         "n_assessable": 58,
-        "n_with_followup": 53,
         "sourceId": "huang2023",
         "provenance": "primary",
         "populationKey": "taiwan-emc-series",
-        "counts_read_from": (
-            "Table 1 of the published PDF, read by a human on 2026-08-08 after every automated "
-            "fetch of the publisher's designated-free PDF returned HTTP 403 "
-            "(citations.huang2023.verification_note). The outcome denominators are the cases "
-            "ASSIGNED TO EWSR1::NR4A3 OR TAF15::NR4A3 THAT ALSO HAVE FOLLOW-UP: 42 EWSR1::NR4A3 "
-            "and 8 TAF15::NR4A3 (50 of the 53 followed, which are themselves 53 of the 58 in the "
-            "series; the remaining 3 followed cases are two TCF12-ASSIGNED cases and one case "
-            "whose partner is UNIDENTIFIED -- note the unidentified case is not partner-assigned "
-            "at all -- and all three are excluded from the EWSR1 and TAF15 outcome arms, so they "
-            "are in neither numerator nor denominator here)."
+        "pool": False,
+        "contextReason": "source-table-unverified",
+        "context_note": (
+            "\u26d4 THE TABLE 1 OUTCOME COUNTS THIS COHORT ONCE CONTRIBUTED ARE WITHDRAWN AS OF "
+            "2026-09-08 AND THIS COHORT IS NO LONGER POOLED. The retained holdings for PMID "
+            "36948401 are a Europe PMC core record carrying the abstract "
+            "(literature/emc-partner-events/huang2023_epmc_core.txt) and a failed-fetch manifest "
+            "recording HTTP 403 on the publisher's full-text and PDF routes "
+            "(literature/emc-partner-events-r2/huang2023_modpath_fulltext.txt and "
+            "huang2023_modpath_pdf.txt, re-inspected 2026-09-08: both are anti-bot interstitials, "
+            "not the article). A manifest of a denied route is not the denied document, and a "
+            "human narrative of a PDF read is not a retained original. The outcome cells, their "
+            "denominators, the hazard ratios, the mean-size comparison and the quoted Discussion "
+            "sentence were therefore author-transcribed assertions that no retained original "
+            "verifies. They are quarantined below rather than deleted, so the removal is auditable "
+            "and so nothing recomputes from them. THIS IS SCOPED ABSENCE, NOT A FINDING THAT THE "
+            "PUBLISHED COUNTS ARE WRONG."
         ),
-        "strata": {
-            "EWSR1::NR4A3": {
-                "disease_specific_death": {"events": 5, "denom": 42},
-                "alive_with_disease": {"events": 12, "denom": 42},
-                "no_evidence_of_disease": {"events": 25, "denom": 42},
-                "local_recurrence": {"events": 12, "denom": 42},
-                "distant_metastasis_any": {"events": 16, "denom": 42},
-                "distant_metastasis_at_presentation": {"events": 8, "denom": 42},
-                "distant_metastasis_after_presentation": {"events": 8, "denom": 42},
+        "abstract_supported": {
+            "_source": (
+                "Europe PMC core record for EXT_ID:36948401, retained at "
+                "literature/emc-partner-events/huang2023_epmc_core.txt. Everything in this block "
+                "is verbatim-supported by that abstract; nothing below it is."
+            ),
+            "series_size": 58,
+            "partner_counts": {
+                "EWSR1::NR4A3": 46,
+                "TAF15::NR4A3": 9,
+                "TCF12::NR4A3": 2,
+                "NR4A3-rearranged, partner not identified": 1,
             },
-            "TAF15::NR4A3": {
-                "disease_specific_death": {"events": 4, "denom": 8},
-                "alive_with_disease": {"events": 0, "denom": 8},
-                "no_evidence_of_disease": {"events": 4, "denom": 8},
-                "local_recurrence": {"events": 2, "denom": 8},
-                "distant_metastasis_any": {"events": 4, "denom": 8},
-                "distant_metastasis_at_presentation": {"events": 1, "denom": 8},
-                "distant_metastasis_after_presentation": {"events": 3, "denom": 8},
+            "taf15_size_association": {
+                "statement": "TAF15::NR4A3 was significantly associated with size >10 cm (78%, P = .025)",
+                "published_p": 0.025,
+            },
+            "reported_model": {
+                "endpoint": "disease-specific survival",
+                "univariate_factors_named": [
+                    "size >10 cm",
+                    "moderate-to-severe nuclear pleomorphism",
+                    "metastasis at presentation",
+                    "TAF15::NR4A3 fusion",
+                    "administration of chemotherapy",
+                ],
+                "remained_prognostically_independent": {
+                    "size >10 cm": 0.004,
+                    "metastasis at presentation": 0.032,
+                },
+                "taf15_status": (
+                    "The partner term did not remain conventionally significant in the reported "
+                    "multivariable analysis. \u26d4 THAT IS ALL THE ABSTRACT SUPPORTS. It does not "
+                    "establish that an independent association is absent, that a crude association "
+                    "is confounded, or that size explains the partner: no partner coefficient, "
+                    "confidence interval, event count, model specification or missing-data rule is "
+                    "available in any retained source, and size may itself lie on a "
+                    "fusion-driven causal path."
+                ),
             },
         },
-        "stratum_definition": (
-            "Final status is a three-way partition of each arm (NED / AWD / DOD) and the "
-            "disease-specific-death row is its DOD cell. Distant metastasis is a three-way "
-            "partition (present at presentation / developed subsequently / never) and the two "
-            "metastasis rows above are derived from it by ADDITION of published integers, never "
-            "from a percentage: `distant_metastasis_any` = at presentation + after presentation. "
-            "Local recurrence is a two-way partition (positive / negative). Every cell is an "
-            "explicit integer in Table 1, so POLICY-evidence.md s2.1(2) is satisfied."
-        ),
-        "size_covariate": {
-            "EWSR1::NR4A3": {"mean_cm": 7.3, "sd_cm": 4.7, "over_10cm": {"events": 12, "denom": 46}},
-            "TAF15::NR4A3": {"mean_cm": 13.7, "sd_cm": 6.2, "over_10cm": {"events": 7, "denom": 9}},
-            "published_p_size_mean": 0.024,
-            "published_p_size_over_10cm": 0.025,
-            "why_the_denominator_differs": (
-                "The size rows are over the WHOLE partner-assigned cohort (46 and 9), not over the "
-                "subset with follow-up (42 and 8), because size is a presenting feature and needs "
-                "no follow-up to be known. This is a covariate, not an outcome, and it is pooled "
-                "into nothing."
+        "withdrawn_2026_09_08": {
+            "_status": (
+                "QUARANTINED SOURCE-UNVERIFIED INPUTS. Retained verbatim as provenance for the "
+                "removal, NOT as usable quantities. Nothing in the artifact reads this block, and "
+                "no figure anywhere in this synthesis is computed from it."
             ),
-            "internal_inconsistency_recorded_not_resolved": (
-                "⚠ The paper prints the EWSR1 arm's >10 cm row as '12/46 (28%)' and 12/46 is "
-                "26.1%, not 28%. One of those three printed numbers is wrong and NOTHING HERE "
-                "GUESSES WHICH: a denominator of 43 would give 27.9% and a numerator of 13 would "
-                "give 28.3%, and POLICY-evidence.md s2.1(2) forbids back-deriving a count from a "
-                "percentage to close the gap. The integers as printed are recorded above and the "
-                "discrepancy is recorded here. The TAF15 side has no such problem -- 7/9 = 77.8% "
-                "and the paper prints 78%, which the independently-retrieved Europe PMC abstract "
-                "corroborates verbatim ('TAF15::NR4A3 was significantly associated with size "
-                ">10 cm (78%, P = .025)'). No figure in this file depends on the EWSR1 size cell."
+            "reopening_condition": (
+                "An authentic retained original of Table 1 / the full text, or an authoritative "
+                "source obtained through a separately authorised ordinary route, verified cell by "
+                "cell. A contemporaneous extraction record must not be reconstructed from these "
+                "values and labelled an original."
             ),
-        },
-        "published_p_values": {
-            "final_status_three_way": 0.047,
-            "distant_metastasis_three_way": 0.728,
-            "local_recurrence": 1.000,
-            "note": (
-                "The authors' own tests on their own tables, quoted as published. They are NOT "
-                "the post-hoc Fisher values this file computes on the two-arm contrasts, and the "
-                "two must not be conflated: the authors' status and metastasis p-values test "
-                "THREE-way tables, this file's test two-way ones."
-            ),
-        },
-        "multivariable_result": {
-            "endpoint": "disease-specific survival",
-            "independent_predictors": {
-                "size >10 cm": 0.004,
-                "metastasis at presentation": 0.032,
+            "removed_outcome_strata": {
+                "EWSR1::NR4A3": {
+                    "disease_specific_death": {"events": 5, "denom": 42},
+                    "alive_with_disease": {"events": 12, "denom": 42},
+                    "no_evidence_of_disease": {"events": 25, "denom": 42},
+                    "local_recurrence": {"events": 12, "denom": 42},
+                    "distant_metastasis_any": {"events": 16, "denom": 42},
+                    "distant_metastasis_at_presentation": {"events": 8, "denom": 42},
+                    "distant_metastasis_after_presentation": {"events": 8, "denom": 42},
+                },
+                "TAF15::NR4A3": {
+                    "disease_specific_death": {"events": 4, "denom": 8},
+                    "alive_with_disease": {"events": 0, "denom": 8},
+                    "no_evidence_of_disease": {"events": 4, "denom": 8},
+                    "local_recurrence": {"events": 2, "denom": 8},
+                    "distant_metastasis_any": {"events": 4, "denom": 8},
+                    "distant_metastasis_at_presentation": {"events": 1, "denom": 8},
+                    "distant_metastasis_after_presentation": {"events": 3, "denom": 8},
+                },
             },
-            "hazard_ratios": {"size >10 cm": 30.60, "metastasis at presentation": 8.14},
-            "taf15_status": "LOSES SIGNIFICANCE UNDER ADJUSTMENT",
-            "authors_own_words": (
-                "TAF15-positive EMCs had significantly shorter disease-free, metastasis-free and "
-                "disease-specific survival, which 'might be partly attributable to the "
-                "predominance of large tumors > 10 cm in TAF15-rearranged EMCs'."
-            ),
-            "why_this_travels_with_every_number_above": (
-                "⛔ THE DEFEATER IS NOT A FOOTNOTE. Every pooled prognostic figure this file "
-                "computes is a CRUDE, UNADJUSTED proportion, and this is the analysis that says "
-                "the crude quantity is confounded -- by a covariate the same table shows is "
-                "strongly partner-associated (78% of TAF15 tumours >10 cm against 26-28% of "
-                "EWSR1 ones, P = .025). A pooled magnitude quoted without it is a number the "
-                "source itself refuses."
+            "removed_denominators": {"n_with_followup": 53, "outcome_arms": "42 EWSR1 + 8 TAF15"},
+            "removed_size_cells": {
+                "EWSR1::NR4A3": {"mean_cm": 7.3, "sd_cm": 4.7, "over_10cm": {"events": 12, "denom": 46}},
+                "TAF15::NR4A3": {"mean_cm": 13.7, "sd_cm": 6.2, "over_10cm": {"events": 7, "denom": 9}},
+                "published_p_size_mean": 0.024,
+                "note": (
+                    "The 78% / P = .025 statement survives in `abstract_supported` because the "
+                    "abstract states it; the 7/9 and 12/46 integers, the means and P = .024 do not "
+                    "appear there and are withdrawn with the table. The old '12/46 printed as 28%' "
+                    "internal-inconsistency note goes with them: it was an observation about an "
+                    "unverified transcription."
+                ),
+            },
+            "removed_hazard_ratios": {"size >10 cm": 30.60, "metastasis at presentation": 8.14},
+            "removed_published_p_values": {
+                "final_status_three_way": 0.047,
+                "distant_metastasis_three_way": 0.728,
+                "local_recurrence": 1.000,
+            },
+            "removed_quotation": (
+                "The Discussion sentence previously quoted as the authors' own explanation "
+                "(\"might be partly attributable to the predominance of large tumors > 10 cm in "
+                "TAF15-rearranged EMCs\") is full-text-only and is withdrawn. It does not occur in "
+                "the retained abstract."
             ),
         },
-        "pool": True,
-        "pool_note": (
-            "Pooled with agaram-2014-outcome under POLICY-evidence.md s2.2. The two populations "
-            "are distinct on every available axis -- MSKCC (New York) versus 15 Taiwanese "
-            "institutions led from Chang Gung Memorial Hospital, no shared authors, no shared "
-            "referral network -- which is the same non-overlap argument the prevalence pool "
-            "already makes for these two series."
-        ),
-        "estimand_warning": (
-            "⚠ THE METASTASIS ENDPOINTS OF THE TWO POOLED COHORTS ARE MATCHED ON THEIR LABELS, "
-            "NOT ON A PUBLISHED DEFINITION. Agaram 2014 reports 'distant recurrence'; Huang 2023 "
-            "partitions distant metastasis into present-at-presentation and developed-later. This "
-            "file pools Agaram's distant recurrence with Huang's AFTER-PRESENTATION cell because "
-            "that is the closer reading of 'recurrence', and reports Huang's ANY-metastasis figure "
-            "separately and within-cohort only. Neither report states whether patients metastatic "
-            "at presentation were in its recurrence denominator, so the match is an assumption and "
-            "is labelled as one; both readings are printed so the conclusion can be checked at "
-            "either. Death and local recurrence carry no such ambiguity."
-        ),
-        "follow_up_warning": (
-            "Crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). This "
-            "cohort reports outcome only for the 53 of 58 with follow-up available and does not "
-            "publish per-arm mean follow-up, so the follow-up asymmetry that confounds the Agaram "
-            "cohort cannot be checked here in either direction."
-        ),
     },
     {
         "id": "suemitsu-2025-outcome",
@@ -1132,14 +1152,37 @@ COHORTS = [
     {
         "id": "lenz-2023-prevalence",
         "endpoint": "partner_prevalence",
-        "label": "Czech Republic, 12 successfully typed EMC of 17",
+        "label": "Czech Republic, 12 successfully typed EMC of a 17-case series",
         "sourceId": "lenz2023",
         "provenance": "primary",
         "populationKey": "czech-emc-series",
         "counts": {"EWSR1::NR4A3": 8, "TAF15::NR4A3": 2, "TCF12::NR4A3": 1},
+        "n_series_total": 17,
         "n_tested": 12,
         "not_partner_assigned": 1,
         "pool": True,
+        "ascertainment_flow": (
+            "THREE DIFFERENT DENOMINATORS, KEPT SEPARATE. 17 cases in the series; molecular "
+            "testing SUCCEEDED in 12; 11 of those 12 carry a NAMED partner. The 5 cases with no "
+            "successful molecular result are outside the assigned denominator entirely and are "
+            "not the same thing as the 1 NR4A3-positive case in which no partner was identified. "
+            "An earlier version of this record described the residue as one case and lost the "
+            "five; both are now recorded."
+        ),
+        "source_verification_2026_09_08": (
+            "\u2705 THE AUTHENTIC PRIMARY ABSTRACT IS RETAINED AND WAS READ ON 2026-09-08 through "
+            "ordinary existing-byte intake from this repository's own literature-cache branch "
+            "(literature/emc-partner-events/epmc_search_taf15_fulltext.txt, the Europe PMC record "
+            "for id 36563884; no retrieval was performed). It states verbatim: 'Molecular testing "
+            "was successfully performed in 12/17 cases' and 'Molecular assays revealed 8 "
+            "EWSR1::NR4A3 positive tumors (67%), 2 TAF15::NR4A3 positive tumors (17%), 1 "
+            "TCF12::NR4A3 positive tumor (8%) and 1 NR4A3 positive tumor (8%) in which no other "
+            "gene alteration was identified.' The counts above are those integers. The final "
+            "scientific review recorded this input as source-unverified because no Lenz primary "
+            "text had been located in the holdings it inspected; that hold is now CLOSED against "
+            "this exact retained record, separately from the bibliographic citation repair, which "
+            "was already closed."
+        ),
     },
     {
         "id": "paioli-2021-prevalence",
@@ -1207,7 +1250,7 @@ COHORTS = [
         "n_tested": 9,
         "not_partner_assigned": 0,
         "pool": False,
-        "contextReason": "outcome-is-the-inclusion-criterion",
+        "contextReason": "partner-ascertainment-enrichment",
         "counts_are_PATIENT_level_and_the_abstract_s_are_NOT": (
             "⛔ TWO DIFFERENT SETS OF INTEGERS EXIST IN THIS PAPER AND ONLY ONE OF THEM MAY BE "
             "POOLED. The abstract counts TUMOURS -- 'EWS-TEC (five cases, of which one was a novel "
@@ -1265,33 +1308,59 @@ COHORTS = [
             },
         },
         "context_note": (
-            "⛔ REFUSED AT POLICY-evidence.md s2.1(3), AND THE REFUSAL COSTS US THE HIGHER NUMBER. "
-            "Four of the nine patients are in this series BECAUSE the same group had already "
-            "published their fusion transcript (refs 7, 12, 15 above), so for those four the "
-            "outcome -- which partner, and whether a partner can be named at all -- IS the "
-            "inclusion criterion, which is the condition s2.1(3) exists to refuse. It is not an "
-            "argument from provenance: the enrichment is visible in the counts. The four "
-            "structurally-admitted patients are 3/4 variant-partner (2 TAF15 + 1 TCF12); the five "
-            "freely-admitted ones are 1/5. And the consequence that matters for a coverage "
-            "denominator is this series' partner-unassigned residue of ZERO, which is measured on "
-            "five patients and structural on the other four. ⚠ THE DIRECTION IS THE CHECK A READER "
-            "IS ENTITLED TO MAKE: a zero residue RAISES the arithmetic coverage ceiling, so "
-            "applying the rule costs coverage rather than buying it. What it would have produced "
-            "is computed -- never typed -- in research/manuscripts/aso_coverage_ladder.py, "
+            "⛔ NOT POOLED INTO THE PREVALENCE DENOMINATOR, ON A PARTNER-ASCERTAINMENT GROUND "
+            "REWRITTEN 2026-09-08. ⚠ *Superseded, retained: 'REFUSED AT POLICY-evidence.md "
+            "s2.1(3) ... for those four the outcome IS the inclusion criterion.'* That was too "
+            "strong twice over: material selected for cytogenetic study, including previously "
+            "reported fusion cases, is a selection on PARTNER ASCERTAINMENT, not on the mortality "
+            "outcome this synthesis contrasts; and tissue availability cannot uniquely disqualify "
+            "this series while Agaram 2014, whose own Methods select typical morphology and "
+            "available tissue for molecular study, is treated as independent of course. The "
+            "reproducible rule actually applied is narrower and is applied to every series: a "
+            "cohort is out of the PREVALENCE pool when a documented share of its patients entered "
+            "on an already-known partner assignment, because the partner share is then partly an "
+            "entry criterion. Four of these nine patients entered on a fusion transcript the same "
+            "group had already published (refs 7, 12, 15 above); those four are 3/4 "
+            "variant-partner against 1/5 among the five freely admitted, and the "
+            "partner-unassigned residue of zero is structural on that half of the cohort. ⚠ THE "
+            "DIRECTION IS THE CHECK A READER IS ENTITLED TO MAKE: a zero residue RAISES the "
+            "arithmetic coverage ceiling, so applying the rule costs coverage rather than buying "
+            "it. What it would have produced is computed -- never typed -- in "
+            "research/manuscripts/aso_coverage_ladder.py, "
             "`fifth_partner_cohort_deliberately_not_pooled`."
         ),
-        "⚠_it_also_reaches_the_outcome_pool_and_is_barred_there_too": (
-            "Table 1 publishes a free-text follow-up string per case ('LR 13 years; AWD 15 years', "
-            "'LR & pulmonary mets 8 years; TRD 10 years', ...) which joins to Table 3's partner "
-            "column, so a TAF15-vs-EWSR1 outcome arm could be CONSTRUCTED from it. It is not, on "
-            "two independent grounds: s2.1(3) as above, and s2.1(2) -- this paper publishes no "
-            "per-partner outcome EVENT COUNTS, only per-patient narrative, so any arm would be "
-            "this repository's extraction rather than the source's integers. ⛔ THE MOVE IT WOULD "
-            "MAKE IS NAMED SO THAT NOT MAKING IT IS VISIBLE: its three TAF15 patients record no "
-            "tumour-related death, which would pull the pooled TAF15 disease-specific-death arm "
-            "DOWN -- i.e. toward the null the multivariable analysis in huang-2023-outcome already "
-            "warns the crude proportions are confounded by."
-        ),
+        "recorded_outcomes_as_separate_descriptive_context": {
+            "_status": (
+                "⭐ REPORTED, NOT POOLED, AND THE OLD REASON FOR NOT REPORTING IT IS WITHDRAWN "
+                "(2026-09-08). ⚠ *Superseded, retained: an outcome arm 'is not' constructed here "
+                "on two grounds, s2.1(3) and extraction impossibility.* Extraction impossibility "
+                "is not an available reason: this synthesis reconstructs strata from published "
+                "case tables elsewhere, and refusing to do it here alone was inconsistent. Table 1 "
+                "publishes a per-case free-text follow-up string that joins to Table 3's partner "
+                "column, and the join is unambiguous. The counts below are therefore stated as "
+                "this repository's reading of published per-patient records, kept beside the "
+                "pooled analysis rather than inside it."
+            ),
+            "recorded_tumour_related_death": {
+                "TAF15::NR4A3": {"events": 0, "denom": 3},
+                "EWSR1::NR4A3": {"events": 1, "denom": 5},
+            },
+            "⛔_the_correction_that_matters": (
+                "THE COMPARATOR ARM IS NOT ZERO. EWSR1 case 7 records a tumour-related death at "
+                "ten years, so the recorded contrast is 0/3 against 1/5 and not 0/3 against 0/5. "
+                "The denominators are PATIENTS (five EWSR1, three TAF15, one TCF12 = nine), not "
+                "the ten tumours of the paper's title: cases 6-I and 6-II are two metastases from "
+                "one patient and are counted once."
+            ),
+            "limits": (
+                "Nine patients, four of them admitted on an already-published fusion transcript, "
+                "with follow-up windows that differ per patient and a ten-year event in the "
+                "comparator arm. The source's own discussion reports no apparent correlation with "
+                "prognosis and asks for longer follow-up and larger series. This is descriptive "
+                "context with sampling and follow-up limits. It is not evidence of equivalence, "
+                "and it is not required to be pooled with anything."
+            ),
+        },
     },
     # ---- mechanism / preclinical context, never pooled ---------------------
     {
@@ -1372,53 +1441,29 @@ def _self_check(by_id: dict) -> None:
     )
     assert dod == 4, "PMID 24746215: four patients died of disease in total (1 EWSR1 + 3 TAF15)"
 
-    # ---- Huang 2023 Table 1: every published partition must close on its own denominator ----
-    hg = by_id["huang-2023-outcome"]["strata"]
-    for partner, denom in (("EWSR1::NR4A3", 42), ("TAF15::NR4A3", 8)):
-        s = hg[partner]
-        assert (
-            s["no_evidence_of_disease"]["events"]
-            + s["alive_with_disease"]["events"]
-            + s["disease_specific_death"]["events"]
-            == denom
-        ), f"PMID 36948401 Table 1: NED + AWD + DOD must partition the {partner} arm ({denom})"
-        assert (
-            s["distant_metastasis_at_presentation"]["events"]
-            + s["distant_metastasis_after_presentation"]["events"]
-            == s["distant_metastasis_any"]["events"]
-        ), f"PMID 36948401 Table 1: metastasis at presentation + subsequent must equal any ({partner})"
-        assert s["distant_metastasis_any"]["events"] <= denom, "metastasis cannot exceed the arm"
-        for key in (
-            "disease_specific_death",
-            "alive_with_disease",
-            "no_evidence_of_disease",
-            "local_recurrence",
-            "distant_metastasis_any",
-            "distant_metastasis_at_presentation",
-            "distant_metastasis_after_presentation",
-        ):
-            assert s[key]["denom"] == denom, f"{partner}.{key} must sit on the arm's own denominator"
-
-    hz = by_id["huang-2023-outcome"]
-    assert hz["strata"]["EWSR1::NR4A3"]["disease_specific_death"]["denom"] + hz["strata"][
-        "TAF15::NR4A3"
-    ]["disease_specific_death"]["denom"] == 50, (
-        "PMID 36948401: 50 EWSR1- or TAF15-assigned patients with follow-up (42 EWSR1 + 8 "
-        "TAF15); the remaining 3 of the 53 followed are two TCF12-assigned cases and one case "
-        "with an unidentified partner -- the unidentified case is not partner-assigned -- and "
-        "all three are carried by no outcome arm"
+    # ---- Huang 2023: only the abstract-supported partner counts remain checkable ----
+    # ⛔ The Table 1 partition assertions that stood here until 2026-09-08 are REMOVED with their
+    # inputs. They re-derived published totals from strata that no retained original verifies, so
+    # they tested the internal coherence of an unverified transcription and nothing else. Their
+    # inputs are quarantined in cohorts[huang-2023-outcome].withdrawn_2026_09_08.
+    hab = by_id["huang-2023-outcome"]["abstract_supported"]
+    assert sum(hab["partner_counts"].values()) == hab["series_size"], (
+        "PMID 36948401 abstract: 46 + 9 + 2 + 1 must partition the 58-case series"
     )
     hp = by_id["huang-2023-prevalence"]["counts"]
-    assert hp["EWSR1::NR4A3"] == 46 and hp["TAF15::NR4A3"] == 9, (
-        "the outcome arms must be follow-up subsets of the prevalence counts in the same paper"
+    assert hp["EWSR1::NR4A3"] == hab["partner_counts"]["EWSR1::NR4A3"], (
+        "the prevalence counts must be the abstract's own partner counts"
     )
-    assert hz["strata"]["EWSR1::NR4A3"]["disease_specific_death"]["denom"] <= hp["EWSR1::NR4A3"]
-    assert hz["strata"]["TAF15::NR4A3"]["disease_specific_death"]["denom"] <= hp["TAF15::NR4A3"]
-    sz = hz["size_covariate"]
-    assert sz["EWSR1::NR4A3"]["over_10cm"]["denom"] == hp["EWSR1::NR4A3"], (
-        "the size covariate is over the whole partner-assigned arm, not the followed subset"
+    assert hp["TAF15::NR4A3"] == hab["partner_counts"]["TAF15::NR4A3"]
+
+    lz = by_id["lenz-2023-prevalence"]
+    assert sum(lz["counts"].values()) + lz["not_partner_assigned"] == lz["n_tested"], (
+        "PMID 36563884 abstract: 8 + 2 + 1 named partners plus 1 unassigned must equal the 12 "
+        "successfully tested cases"
     )
-    assert sz["TAF15::NR4A3"]["over_10cm"]["denom"] == hp["TAF15::NR4A3"]
+    assert lz["n_series_total"] == 17 and lz["n_tested"] == 12, (
+        "PMID 36563884 abstract: 17 cases in the series, molecular testing successful in 12"
+    )
 
 
 def _roster(endpoint: str) -> dict:
@@ -1600,331 +1645,187 @@ def build() -> dict:
     }
 
     # ---------------- analysis B: outcome by partner ------------------------
-    # TWO cohorts publish EMC outcome event counts by NR4A3 partner as of 2026-08-08. Agaram 2014
-    # was the only one until the Huang 2023 full text was read; the counts below are the first
-    # time they have been put on one denominator, which is what makes a MAGNITUDE computable at
-    # all. It is also the first place the size defeater has to travel with a number rather than
-    # sitting in a limitations section -- see `defeater` on every pooled contrast.
-    def _assigned_with_counts(e: dict, t: dict) -> int:
-        """The size of a cohort's contribution to the outcome pool, DERIVED, never typed.
-
-        It is the sum of the two contrasted arms' own death denominators -- i.e. the cases the
-        source assigns to EWSR1::NR4A3 or TAF15::NR4A3 and carries as an outcome arm. It is NOT
-        "partner-assigned" (a TCF12 case is partner-assigned and is in neither arm), and for
-        Agaram 2014 it is NOT "with follow-up" either: `cohorts[agaram-2014-outcome]` carries no
-        `n_with_followup` field, so this extraction holds no follow-up count for that cohort. That
-        is a gap in the retained extraction, not a claim about what the primary publication reports.
-        """
-        return e["disease_specific_death"]["denom"] + t["disease_specific_death"]["denom"]
-
+    # ⛔ REWRITTEN 2026-09-08. ONE cohort supplies source-verified per-partner outcome event
+    # counts: Agaram 2014. The Huang 2023 Table 1 counts that made a two-cohort pool possible
+    # between 2026-08-08 and 2026-09-08 are WITHDRAWN as source-unverified and quarantined in
+    # cohorts[huang-2023-outcome].withdrawn_2026_09_08, so there is no pooled prognostic
+    # magnitude, no pooled Fisher p, no comparator-arm heterogeneity spread and no size-confounding
+    # explanation left to compute. What remains is a single cohort's recorded counts, its own
+    # observation windows, and the other series reported beside it as separate descriptive context.
     ag = by_id["agaram-2014-outcome"]["strata"]
-    hu = by_id["huang-2023-outcome"]
-    hus = hu["strata"]
     ews, taf = ag["EWSR1::NR4A3"], ag["TAF15::NR4A3"]
-    hu_ews, hu_taf = hus["EWSR1::NR4A3"], hus["TAF15::NR4A3"]
 
-    def arm(key: str, s: dict) -> dict:
-        return wilson(s[key]["events"], s[key]["denom"])
+    def arm(key: str, s_: dict) -> dict:
+        return wilson(s_[key]["events"], s_[key]["denom"])
 
-    SIZE_DEFEATER = (
-        "⛔ THIS MAGNITUDE IS CRUDE AND UNADJUSTED, AND THE LARGER OF ITS TWO COHORTS PUBLISHES "
-        "THE ANALYSIS THAT DEFEATS IT. In Huang 2023's own multivariable model for "
-        "disease-specific survival, only size >10 cm (P = .004, HR 30.60) and metastasis at "
-        "presentation (P = .032, HR 8.14) remain independent; TAF15::NR4A3 LOSES SIGNIFICANCE "
-        "UNDER ADJUSTMENT. The same table shows why: 78% of TAF15 tumours were >10 cm against "
-        "the EWSR1 arm's 12/46 (P = .025). In the authors' own words the TAF15 survival "
-        "difference 'might be partly attributable to the predominance of large tumors > 10 cm in "
-        "TAF15-rearranged EMCs'. Paioli 2021 (n = 67) points the same way from a third cohort: a "
-        "trend only for the partner (DFS p = 0.08, DMFS p = 0.09) in an analysis where size "
-        "reaches p = 0.004. No figure in this block is adjusted for size, and none may be quoted "
-        "without this sentence beside it."
+    CRUDE_SCOPE = (
+        "⛔ WHAT THIS QUANTITY IS. A crude during-follow-up proportion of RECORDED events in one "
+        "consecutive surgical series, over observation windows that differ between the arms and "
+        "are not censored (POLICY-evidence.md s2.4). It is NOT a survival probability at a common "
+        "horizon, NOT an adjusted effect, NOT a prognosis and NOT an estimate of an independent "
+        "partner effect. Nothing here is adjusted for size, stage, grade, era or treatment, and "
+        "the interval is a marginal binomial interval on one arm, not an interval on the "
+        "difference."
     )
 
-    def pooled_contrast(name: str, ag_key: str, hu_key: str, note: str) -> dict:
-        t = wilson(
-            taf[ag_key]["events"] + hu_taf[hu_key]["events"],
-            taf[ag_key]["denom"] + hu_taf[hu_key]["denom"],
-        )
-        e = wilson(
-            ews[ag_key]["events"] + hu_ews[hu_key]["events"],
-            ews[ag_key]["denom"] + hu_ews[hu_key]["denom"],
-        )
-        c = contrast(name, t, e, note)
-        c["per_cohort"] = {
-            "agaram-2014-outcome": {
-                "TAF15::NR4A3": arm(ag_key, taf),
-                "EWSR1::NR4A3": arm(ag_key, ews),
-                "stratum_key": ag_key,
-            },
-            "huang-2023-outcome": {
-                "TAF15::NR4A3": arm(hu_key, hu_taf),
-                "EWSR1::NR4A3": arm(hu_key, hu_ews),
-                "stratum_key": hu_key,
-            },
-        }
-        c["heterogeneity_taf15_arm"] = heterogeneity(
-            [
-                {"cohort": "agaram-2014-outcome", "percent": arm(ag_key, taf)["percent"]},
-                {"cohort": "huang-2023-outcome", "percent": arm(hu_key, hu_taf)["percent"]},
-            ]
-        )
-        c["heterogeneity_comparator_arm"] = heterogeneity(
-            [
-                {"cohort": "agaram-2014-outcome", "percent": arm(ag_key, ews)["percent"]},
-                {"cohort": "huang-2023-outcome", "percent": arm(hu_key, hu_ews)["percent"]},
-            ]
-        )
-        c["defeater"] = SIZE_DEFEATER
+    def single(name: str, key: str, note: str) -> dict:
+        c = contrast(name, arm(key, taf), arm(key, ews), note)
+        c["scope"] = CRUDE_SCOPE
         return c
 
-    pooled_dod = pooled_contrast(
-        "dod_pooled_agaram2014_huang2023",
+    dod = single(
+        "dod_agaram2014",
         "disease_specific_death",
-        "disease_specific_death",
-        "Crude during-follow-up proportions, mixed follow-up, no censoring "
-        "(POLICY-evidence.md s2.4). Both cohorts report died-of-disease as a cell of a complete "
-        "final-status partition, so the endpoints match on a published definition, not a label.",
+        "Recorded died-of-disease, MSKCC consecutive series, follow-up reported for all 26 "
+        "patients. ⚠ ONE FURTHER EWSR1 PATIENT DIED OF UNKNOWN CAUSE (case 3) and is NOT in this "
+        "numerator; see `unknown_cause_death` below. The comparator denominator is therefore not "
+        "a set of patients all known to have survived without a disease-specific death.",
     )
-    pooled_lr = pooled_contrast(
-        "lr_pooled_agaram2014_huang2023",
+    lr = single(
+        "lr_agaram2014",
         "local_recurrence",
-        "local_recurrence",
-        "Crude during-follow-up proportions. Both cohorts report local recurrence as a two-way "
-        "positive/negative partition.",
+        "Recorded local recurrence after resection, same series and same denominators.",
     )
-    pooled_met = pooled_contrast(
-        "distant_metastasis_after_presentation_pooled_agaram2014_huang2023",
+    dr = single(
+        "dr_agaram2014",
         "distant_recurrence",
-        "distant_metastasis_after_presentation",
-        "⚠ MATCHED ON LABELS, NOT ON A PUBLISHED DEFINITION -- see "
-        "cohorts[huang-2023-outcome].estimand_warning. Agaram's 'distant recurrence' is pooled "
-        "with Huang's metastasis-developed-after-presentation cell; neither report states whether "
-        "a patient metastatic at presentation was inside its recurrence denominator.",
-    )
-
-    huang_met_any = contrast(
-        "distant_metastasis_any_huang2023_within_cohort",
-        arm("distant_metastasis_any", hu_taf),
-        arm("distant_metastasis_any", hu_ews),
-        "WITHIN-COHORT ONLY, deliberately not pooled: 'any distant metastasis, at presentation or "
-        "later' has no counterpart stratum in Agaram 2014. Printed because it is the reading on "
-        "which the authors' own published p-value (P = .728 on the three-way table) was computed.",
-    )
-    huang_met_presentation = contrast(
-        "metastasis_at_presentation_huang2023_within_cohort",
-        arm("distant_metastasis_at_presentation", hu_taf),
-        arm("distant_metastasis_at_presentation", hu_ews),
-        "WITHIN-COHORT ONLY. This is the covariate that IS independent in Huang's multivariable "
-        "model (P = .032, HR 8.14), and by partner it is 1/8 versus 8/42 -- i.e. the TAF15 arm "
-        "does not carry the excess of the one metastasis variable that survives adjustment.",
+        "Recorded distant recurrence. ⚠ The source does not state whether a patient metastatic at "
+        "presentation sat inside this denominator, so it is a recorded tally under the source's "
+        "own label and not an incident-metastasis risk.",
     )
 
     analysis_outcome = {
-        "question": "Does the NR4A3 5' fusion partner predict disease-specific death, recurrence or metastasis?",
-        "what_changed_2026_08_08": (
-            "⭐ A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME. Until 2026-08-08 exactly one cohort "
-            "(Agaram 2014, {ag} of its {agp} partner-assigned patients carried an EWSR1 or TAF15 "
-            "partner; the retained extraction for that cohort carries no separate follow-up-count "
-            "field, which is a gap in what was extracted here and not a finding about what the "
-            "primary publication reports) published EMC outcome "
-            "event counts by NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and "
-            "the file said so. A human read Huang 2023's published PDF and extracted its Table 1, "
-            "adding {hu} EWSR1- or TAF15-assigned patients with follow-up -- {hu} of the {huf} "
-            "followed, which are themselves {huf} of the {hun} in the series, the other {misc} "
-            "followed cases being 2 TCF12 and 1 unidentified partner -- from an independent "
-            "country and institution set. The outcome pool is now {tot} patients across two "
-            "cohorts whose non-overlap is ARGUED from the reported authors, institutions and "
-            "geography and is NOT patient-verified. ⚠ THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS "
-            "QUESTION -- see `does_not_touch_the_response_question` below."
-        ).format(
-            ag=_assigned_with_counts(ews, taf),
-            agp=sum(by_id["agaram-2014-prevalence"]["counts"].values()),
-            hu=_assigned_with_counts(hu_ews, hu_taf),
-            huf=hu["n_with_followup"],
-            hun=hu["n_assessable"],
-            misc=hu["n_with_followup"] - _assigned_with_counts(hu_ews, hu_taf),
-            tot=_assigned_with_counts(ews, taf) + _assigned_with_counts(hu_ews, hu_taf),
+        "question": (
+            "What per-partner outcome events do source-verified cohorts actually record, and over "
+            "what observation windows?"
+        ),
+        "what_changed_2026_09_08": (
+            "⛔ THE TWO-COHORT POOLED PROGNOSTIC MAGNITUDE IS WITHDRAWN. ⚠ *Superseded, retained: "
+            "'A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME ... the outcome pool is now 73 patients "
+            "across two cohorts', with pooled disease-specific death 7/15 against 6/58, a "
+            "36.3-point gap and post-hoc Fisher p = 0.0034.* Every figure in that sentence "
+            "depended on Huang 2023 Table 1 cells that no retained original verifies: the "
+            "holdings for that paper are an abstract record and a manifest recording HTTP 403 on "
+            "the publisher's routes. A denied-route manifest is not the denied document. The "
+            "inputs are removed rather than re-estimated, and they are quarantined in "
+            "cohorts[huang-2023-outcome].withdrawn_2026_09_08 so the removal is auditable. ⭐ THIS "
+            "IS AN INPUT REMOVAL, NOT A CHANGED OBSERVED CELL: no Agaram 2014 count below has "
+            "changed by one patient. THE WITHDRAWAL IS SCOPED ABSENCE AND NOT A FINDING THAT "
+            "HUANG'S PUBLISHED COUNTS ARE WRONG; it reopens if an authentic original is supplied."
         ),
         "does_not_touch_the_response_question": (
-            "⛔ HUANG 2023 CONTAINS NO ANTIANGIOGENIC-TKI RESPONSE DATA AND MOVES ANALYSIS A BY "
-            "ZERO. It is a pathology series with a survival analysis; the only systemic therapy it "
-            "reports is chemotherapy, as a prognostic covariate, not as a response endpoint and "
-            "not by partner. The TREATMENT-RESPONSE half of this page is still what it was: the "
-            "entire published TAF15::NR4A3 antiangiogenic experience is 3 to 5 patients with ZERO "
-            "responses, and a zero-event arm yields no magnitude at any denominator. "
-            "A_tki_objective_response is unchanged, word for word, by this integration. Anyone "
-            "reading the new prognostic magnitude as if it settled the response question has "
-            "conflated two different endpoints in two different populations."
+            "The response question (analysis A) and the outcome question are different endpoints "
+            "in different populations, and neither moves the other. Nothing in this block is "
+            "evidence about response to any drug."
         ),
         **_roster("outcome_by_partner"),
-        "non_overlap_argument": (
-            "MSKCC (New York, 26 consecutive cases) versus 15 Taiwanese institutions led from "
-            "Chang Gung Memorial Hospital (58 FISH-confirmed cases). No shared authors, no shared "
-            "referral network, different continents. POLICY-evidence.md s2.3 is satisfied on the "
-            "same grounds the prevalence pool already used for these two series."
-        ),
-        "disease_specific_death": pooled_dod,
-        "local_recurrence": pooled_lr,
-        "distant_metastasis_after_presentation": pooled_met,
-        "huang_only_metastasis_readings": {
-            "any_distant_metastasis": huang_met_any,
-            "metastasis_at_presentation": huang_met_presentation,
-            "published_three_way_p": hu["published_p_values"]["distant_metastasis_three_way"],
-        },
-        "single_cohort_contrasts_retained": {
-            "_why": (
-                "The per-cohort figures are kept because POLICY-evidence.md s2.2 requires the "
-                "cohorts be shown side by side, and because the 2026-08-07 version of this page "
-                "quoted the Agaram-only numbers -- a reader meeting those elsewhere must be able "
-                "to find them here rather than conclude they were dropped."
+        "source_verified_recorded_outcomes": {
+            "_cohort": "agaram-2014-outcome",
+            "_what_this_is": (
+                "The one cohort in this synthesis whose per-partner outcome event counts are "
+                "verified against a retained primary source (PMC4015728). Its arms are 16 "
+                "EWSR1::NR4A3 and 7 TAF15::NR4A3 of 24 partner-assigned cases in a 26-case "
+                "consecutive series; the single TCF12 case is carried by no arm. The source "
+                "supplies follow-up for all 26 patients."
             ),
-            "agaram2014": {
-                "disease_specific_death": contrast(
-                    "dod_agaram2014",
-                    arm("disease_specific_death", taf),
-                    arm("disease_specific_death", ews),
-                    "Single cohort (MSKCC). Crude during-follow-up proportions, mixed follow-up.",
-                ),
-                "local_recurrence": contrast(
-                    "lr_agaram2014",
-                    arm("local_recurrence", taf),
-                    arm("local_recurrence", ews),
-                    "Single cohort (MSKCC).",
-                ),
-                "distant_recurrence": contrast(
-                    "dr_agaram2014",
-                    arm("distant_recurrence", taf),
-                    arm("distant_recurrence", ews),
-                    "Single cohort (MSKCC).",
+            "disease_specific_death": dod,
+            "local_recurrence": lr,
+            "distant_recurrence": dr,
+            "observation_windows": {
+                "mean_followup_months": {
+                    "EWSR1::NR4A3": ews["mean_followup_months"],
+                    "TAF15::NR4A3": taf["mean_followup_months"],
+                },
+                "reading": (
+                    "The arms' mean observation windows differ about two-fold. ⛔ THE DIRECTION OF "
+                    "THE RESULTING BIAS IS NOT ESTABLISHED AND THIS FILE ONCE ASSERTED THAT IT "
+                    "WAS. In an uncensored during-follow-up analysis follow-up ends at death, so "
+                    "the shorter TAF15 window is partly produced by that arm's own deaths; death "
+                    "also precludes a later recorded recurrence. Neither effect can be signed "
+                    "from final counts alone without event ordering, and no censored analysis "
+                    "exists in the source that would separate them."
                 ),
             },
-            "huang2023": {
-                "disease_specific_death": contrast(
-                    "dod_huang2023",
-                    arm("disease_specific_death", hu_taf),
-                    arm("disease_specific_death", hu_ews),
-                    "Single cohort (Taiwan). The authors' own three-way final-status test on this "
-                    "table gives P = .047.",
-                ),
-                "local_recurrence": contrast(
-                    "lr_huang2023",
-                    arm("local_recurrence", hu_taf),
-                    arm("local_recurrence", hu_ews),
-                    "Single cohort (Taiwan). The authors' own test gives P = 1.000.",
-                ),
-                "distant_metastasis_after_presentation": contrast(
-                    "dr_huang2023",
-                    arm("distant_metastasis_after_presentation", hu_taf),
-                    arm("distant_metastasis_after_presentation", hu_ews),
-                    "Single cohort (Taiwan), subsequent metastasis only.",
-                ),
-            },
+            "unknown_cause_death": (
+                "⚠ KEPT DISTINCT, NEVER MERGED INTO EITHER ROW. Agaram 2014 records one EWSR1 "
+                "patient (case 3) who died of UNKNOWN cause. It is not a recorded "
+                "disease-specific death and is not counted as one; it is also not evidence that "
+                "the patient survived without one. Any reading of the comparator arm has to carry "
+                "this one unresolved case."
+            ),
+            "why_no_uncertainty_on_the_difference_is_printed": (
+                "⛔ MARGINAL INTERVAL OVERLAP IS NOT A TEST OR AN INTERVAL FOR THE DIFFERENCE, and "
+                "this synthesis no longer uses it as an inferential criterion. The Fisher values "
+                "attached to each contrast are post-hoc descriptive, and a non-significant one "
+                "establishes no null, no equivalence and no absence of partner separation: at "
+                "these denominators, clinically substantial differences in either direction remain "
+                "compatible with the recorded counts. The contrasts are reported as descriptive "
+                "differences of recorded proportions and license nothing further."
+            ),
         },
-        "metastasis_reading": (
-            "⚠ THE REVERSAL DOES NOT SURVIVE THE SECOND COHORT, AND WHAT REPLACES IT IS A NULL. "
-            "*Superseded, retained: 'THE DIRECTION REVERSES FOR METASTASIS ... the opposite of the "
-            "narrative repeated across the review literature that TAF15 tumours are the "
-            "metastasising ones.'* That statement was true of the ONE cohort then available and is "
-            "not true of the two now available. Agaram 2014 alone has distant recurrence {ade}/"
-            "{adn} ({adp}%) in EWSR1 against {atde}/{atdn} ({atdp}%) in TAF15 -- EWSR1 higher, the "
-            "reversal. Huang 2023 runs the other way ({hde}/{hdn} = {hdp}% EWSR1 against {htde}/"
-            "{htdn} = {htdp}% TAF15 for metastasis after presentation), i.e. in the reviews' own "
-            "direction. Pooled over both, the contrast is {pte}/{ptn} ({ptp}%) TAF15 against "
-            "{pee}/{pen} ({pep}%) EWSR1 -- a gap of {pgap} percentage points with overlapping "
-            "intervals and post-hoc Fisher p = {pfp}. ⭐ WHAT SURVIVES IS THE NEGATIVE, AND IT IS "
-            "NOW STRONGER THAN THE REVERSAL WAS: the largest series to test metastasis by partner "
-            "DIRECTLY reports P = .728 on its own three-way table, so the review literature's "
-            "metastasis claim (attributed here to PMC7563993 alone, Stacchiotti 2020, the only "
-            "actual review among the four PMCIDs previously cited for it; the other three were "
-            "MISATTRIBUTED rather than fabricated -- two are single-patient case reports and one "
-            "is a national-registry cohort, and none of them is review literature -- and have been "
-            "removed; Appendix A11 -- asserting lower metastasis or better "
-            "metastasis-free survival with EWSR1) is not established by "
-            "either cohort, in either direction. ⚠ AND THE ATTRIBUTION IS BY RECORD, NOT BY "
-            "QUOTATION: that review's metastasis sentence is quoted nowhere in this artifact, so the "
-            "provenance standard s8 asserts for every count is not met for this one claim, and it "
-            "rests on n = 1 review rather than on a literature. A single-cohort reversal quoted as a finding was "
-            "always one cohort from being overturned; a two-cohort null is a reading of the same "
-            "evidence that does not depend on which cohort you happened to have."
-        ).format(
-            ade=ews["distant_recurrence"]["events"],
-            adn=ews["distant_recurrence"]["denom"],
-            adp=arm("distant_recurrence", ews)["percent"],
-            atde=taf["distant_recurrence"]["events"],
-            atdn=taf["distant_recurrence"]["denom"],
-            atdp=arm("distant_recurrence", taf)["percent"],
-            hde=hu_ews["distant_metastasis_after_presentation"]["events"],
-            hdn=hu_ews["distant_metastasis_after_presentation"]["denom"],
-            hdp=arm("distant_metastasis_after_presentation", hu_ews)["percent"],
-            htde=hu_taf["distant_metastasis_after_presentation"]["events"],
-            htdn=hu_taf["distant_metastasis_after_presentation"]["denom"],
-            htdp=arm("distant_metastasis_after_presentation", hu_taf)["percent"],
-            pte=pooled_met["taf15_arm"]["events"],
-            ptn=pooled_met["taf15_arm"]["denom"],
-            ptp=pooled_met["taf15_arm"]["percent"],
-            pee=pooled_met["comparator_arm"]["events"],
-            pen=pooled_met["comparator_arm"]["denom"],
-            pep=pooled_met["comparator_arm"]["percent"],
-            pgap=abs(pooled_met["comparator_minus_taf15_percentage_points"]),
-            pfp=pooled_met["fisher_exact_two_sided_p"],
-        ),
-        "follow_up_caveat": (
-            "Agaram 2014's two arms differ about two-fold in mean follow-up ({tf} vs {ef} months) "
-            "and Huang 2023 publishes no per-arm follow-up at all, so the pooled proportions are "
-            "crude during-follow-up rates over cohorts whose observation windows are unequal and, "
-            "in one case, unstated (POLICY-evidence.md s2.4). Truncation biases AGAINST the TAF15 "
-            "arm accruing events in the Agaram cohort, which makes the death excess harder to "
-            "observe rather than easier; nothing equivalent can be said about the Huang cohort "
-            "because the number is not published."
-        ).format(tf=taf["mean_followup_months"], ef=ews["mean_followup_months"]),
-        "verdict": (
-            "TWO cohorts, {n} patients assigned to EWSR1::NR4A3 or TAF15::NR4A3 -- Agaram "
-            "2014's {agn} of {agp} partner-assigned, for which the retained extraction carries no "
-            "separate follow-up-count field, plus Huang 2023's {hun} of the {huf} followed -- from "
-            "two continents with no shared authors, a non-overlap ARGUED from those reported "
-            "author, institution and geography records rather than verified patient by patient. "
-            "Pooled disease-specific death is "
-            "{te}/{tn} ({tp}%, 95% CI {tlo}-{thi}) with TAF15::NR4A3 against {ee}/{en} ({ep}%, "
-            "95% CI {elo}-{ehi}) with EWSR1::NR4A3 -- a gap of {gap} percentage points, post-hoc "
-            "Fisher exact two-sided p = {p}, and the first time this contrast has had a magnitude "
-            "at all. Both cohorts point the same way on death ({c1}% and {c2}% TAF15 mortality "
-            "against {c3}% and {c4}% EWSR1). ⛔ AND THE MAGNITUDE ARRIVES WITH ITS OWN DEFEATER "
-            "ATTACHED, FROM THE LARGER COHORT'S OWN AUTHORS: adjusted for tumour size and "
-            "metastasis at presentation, TAF15::NR4A3 is NOT an independent predictor of "
-            "disease-specific survival (only size >10 cm, P = .004, HR 30.60, and metastasis at "
-            "presentation, P = .032, HR 8.14, remain), and 78% of TAF15 tumours were >10 cm "
-            "(P = .025). Paioli 2021 (n = 67) cannot reach significance on the partner at all "
-            "(DFS p = 0.08, DMFS p = 0.09) in an analysis where size reaches p = 0.004. So: THE "
-            "CRUDE PARTNER EFFECT ON DEATH IS REAL AND NOW MEASURED; THE INDEPENDENT PARTNER "
-            "EFFECT IS NOT ESTABLISHED AND THE ONE SERIES THAT TESTED IT SAYS THE PARTNER IS "
-            "STANDING IN FOR SIZE. Local recurrence and distant metastasis show no material "
-            "partner separation once both cohorts are in ({lrt}% vs {lre}% and {mt}% vs {me}%)."
-        ).format(
-            n=pooled_dod["taf15_arm"]["denom"] + pooled_dod["comparator_arm"]["denom"],
-            agn=_assigned_with_counts(ews, taf),
-            agp=sum(by_id["agaram-2014-prevalence"]["counts"].values()),
-            hun=_assigned_with_counts(hu_ews, hu_taf),
-            huf=hu["n_with_followup"],
-            te=pooled_dod["taf15_arm"]["events"],
-            tn=pooled_dod["taf15_arm"]["denom"],
-            tp=pooled_dod["taf15_arm"]["percent"],
-            tlo=pooled_dod["taf15_arm"]["ci95_lo_percent"],
-            thi=pooled_dod["taf15_arm"]["ci95_hi_percent"],
-            ee=pooled_dod["comparator_arm"]["events"],
-            en=pooled_dod["comparator_arm"]["denom"],
-            ep=pooled_dod["comparator_arm"]["percent"],
-            elo=pooled_dod["comparator_arm"]["ci95_lo_percent"],
-            ehi=pooled_dod["comparator_arm"]["ci95_hi_percent"],
-            gap=abs(pooled_dod["comparator_minus_taf15_percentage_points"]),
-            p=pooled_dod["fisher_exact_two_sided_p"],
-            c1=arm("disease_specific_death", taf)["percent"],
-            c2=arm("disease_specific_death", hu_taf)["percent"],
-            c3=arm("disease_specific_death", ews)["percent"],
-            c4=arm("disease_specific_death", hu_ews)["percent"],
-            lrt=pooled_lr["taf15_arm"]["percent"],
-            lre=pooled_lr["comparator_arm"]["percent"],
-            mt=pooled_met["taf15_arm"]["percent"],
-            me=pooled_met["comparator_arm"]["percent"],
+        "separate_descriptive_context_not_pooled": {
+            "_why": (
+                "These series bear on the same question and are reported at their own scope, with "
+                "their own endpoints, rather than merged. None of them is pooled, and none is "
+                "presented as confirming or refuting the cohort above."
+            ),
+            "huang-2023": (
+                "Abstract-supported only. It reports 58 FISH-confirmed EMC with 46 EWSR1, 9 "
+                "TAF15, 2 TCF12 and 1 unidentified partner; that TAF15::NR4A3 was significantly "
+                "associated with size >10 cm (78%, P = .025); that size >10 cm, nuclear "
+                "pleomorphism, metastasis at presentation, TAF15::NR4A3 and chemotherapy "
+                "administration each portended shorter univariate disease-specific survival; and "
+                "that only size >10 cm (P = .004) and metastasis at presentation (P = .032) "
+                "remained prognostically independent. ⛔ THAT THE PARTNER TERM DID NOT REMAIN "
+                "CONVENTIONALLY SIGNIFICANT DOES NOT ESTABLISH THAT AN INDEPENDENT ASSOCIATION IS "
+                "ABSENT, that any crude association is confounded, or that tumour size explains "
+                "the partner. No coefficient, interval, event count or model specification is "
+                "available in any retained source; the event count implied by a series this size "
+                "makes model instability a live concern; and size may itself lie on a "
+                "fusion-driven causal path rather than outside it. The words 'defeater', "
+                "'confounded' and 'absorbed' are withdrawn from this synthesis."
+            ),
+            "paioli-2021": (
+                "Abstract-supported only: 67 localised patients, 50 EWSR1 / 10 TAF15 / 1 TCF12 / "
+                "1 TFG, median follow-up 55 months, partner trends for DFS p = 0.08 and DMFS "
+                "p = 0.09, tumour size p = 0.004 for DMFS. ⛔ The abstract does not state an "
+                "adjustment structure, so this is NOT a second adjusted test, and its size "
+                "p-value concerns DISTANT METASTASIS-FREE SURVIVAL -- a different endpoint from "
+                "Huang's disease-specific survival. The two p-values must not be contrasted to "
+                "infer that one variable carries prognosis and the other does not."
+            ),
+            "suemitsu-2025": (
+                "Abstract-supported only: 18 patients, 14 EWSR1, 2 TAF15, 1 TCF12, 1 FUS, and no "
+                "statistically significant correlation between overall survival and fusion "
+                "subtype. With 2 TAF15 of 18 that is a series failing to establish an "
+                "association on its own endpoint, not evidence against one. MSK overlap with "
+                "Agaram 2014 is unresolved, which is why it is not merged."
+            ),
+            "sjogren-2003": (
+                "Nine patients (ten tumours), five EWSR1, three TAF15, one TCF12. Recorded "
+                "tumour-related deaths are 0/3 TAF15 against 1/5 EWSR1 -- the comparator arm is "
+                "not zero. Four of the nine entered on an already-published fusion transcript, "
+                "follow-up differs per patient, and the source's own discussion reports no "
+                "apparent correlation with prognosis while asking for longer follow-up. "
+                "Descriptive context with sampling and follow-up limits; not equivalence."
+            ),
+            "⛔_no_huang_dependent_sensitivity_is_computed": (
+                "A conditional addition of the Sjogren counts to the withdrawn Huang inputs would "
+                "have been 7/18 against 7/63, NOT the 7/18 against 6/63 an earlier round proposed "
+                "-- that proposal omitted the one EWSR1 tumour-related death the source records. "
+                "⛔ NEITHER FIGURE IS COMPUTED OR CARRIED HERE: both depend on Huang inputs this "
+                "synthesis has withdrawn. The corrected arithmetic is stated only so the earlier "
+                "wrong pair is not quoted from the record."
+            ),
+        },
+        "what_is_not_established": (
+            "⛔ NOT ESTABLISHED BY ANYTHING IN THIS BLOCK: an independent prognostic effect of the "
+            "NR4A3 5' partner; equivalence of local recurrence or metastasis between partners; a "
+            "common-horizon survival difference; a signed direction of follow-up bias; that "
+            "tumour size confounds, absorbs or explains a partner association; or that any of "
+            "these endpoints says anything about response to treatment. What IS supported is a "
+            "single source-verified series' recorded event counts, its observation windows, and "
+            "the separately reported findings of four other series at their own scope."
         ),
     }
 
@@ -1950,10 +1851,12 @@ def build() -> dict:
             "llombart-bosch-2022-prevalence": "abstract-only",
             "klubickova-2022-prevalence": "population-overlap with lenz-2023-prevalence",
             "sjogren-2003-prevalence": (
-                "outcome-is-the-inclusion-criterion (s2.1(3)): four of its nine patients are in "
-                "the series because the same group had already published their fusion transcript, "
-                "so their partner assignment is the entry ticket and its partner-unassigned "
-                "residue of zero is structural on that half of the cohort"
+                "partner-ascertainment-enrichment: four of its nine patients are in the series "
+                "because the same group had already published their fusion transcript, so for "
+                "those four the partner assignment is the entry ticket and the partner-unassigned "
+                "residue of zero is structural on that half of the cohort. This is selection on "
+                "PARTNER ASCERTAINMENT and is not a claim that the mortality outcome was the "
+                "inclusion criterion"
             ),
         },
         "non_overlap_argument": (
@@ -2092,15 +1995,18 @@ def build() -> dict:
     _extent = _stratum_extent(
         analysis_tki["primary_non_overlapping"]["contrast"],
         analysis_tki["secondary_assume_independent"]["contrast"],
-        analysis_outcome["disease_specific_death"],
-        analysis_outcome["local_recurrence"],
-        analysis_outcome["distant_metastasis_after_presentation"],
+        analysis_outcome["source_verified_recorded_outcomes"]["disease_specific_death"],
+        analysis_outcome["source_verified_recorded_outcomes"]["local_recurrence"],
+        analysis_outcome["source_verified_recorded_outcomes"]["distant_recurrence"],
     )
 
-    # Falsifier #5's threshold, derived from the pooled death contrast rather than asserted in prose.
-    _dod = analysis_outcome["disease_specific_death"]
-    _dod_taf = _dod["taf15_arm"]
-    dod_threshold = zero_death_patients_to_reconcile(_dod_taf, _dod["comparator_arm"])
+    # ⛔ REMOVED 2026-09-08: the "further zero-death TAF15 patients to reconcile the arms"
+    # threshold. It was derived from the withdrawn two-cohort pooled death contrast, and it was
+    # never a biological robustness criterion in the first place -- holding one arm fixed and
+    # asking when the other's point estimate falls under a marginal Wilson bound is one arithmetic
+    # convention among several that give different answers on the same counts. Nothing in this
+    # artifact computes it any more. `zero_death_patients_to_reconcile()` is retained in the
+    # generator, unused, with its own docstring recording that it is no longer called.
 
     doc = {
         "_schema": "emc-fusion-partner-pooling/1",
@@ -2111,7 +2017,7 @@ def build() -> dict:
             "table. Change a count in the script and regenerate; never edit a number here "
             "(CLAUDE.md rule 1)."
         ),
-        "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
+        "title": "Source-verified descriptive synthesis of published EMC partner-stratified systemic-therapy, outcome and prevalence data (EWSR1::NR4A3 vs TAF15::NR4A3)",
         "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
         "method": {
             "contract": "systems/POLICY-evidence.md s1-s2 (binding)",
@@ -2126,11 +2032,13 @@ def build() -> dict:
                 "between-study variance is not estimable at that scale, a tau-squared from these "
                 "counts would be an artefact, and quoting a random-effects interval would "
                 "manufacture precision the data cannot support. \u26a0 Superseded, retained: "
-                "'2-19 patients and 0-10 events per stratum' -- true of the TKI-response strata "
-                "alone, before Huang 2023's counts were pooled on 2026-08-08 and widened the "
-                "outcome denominators past nineteen. This range is now DERIVED from the analyses "
-                "on every regeneration (CLAUDE.md rule 1.1) rather than typed, which is what let "
-                "the old pair stand here after the manuscript retracted it."
+                "'2-19 patients and 0-10 events per stratum', and its 2026-08-08 replacement "
+                "widened by the since-withdrawn Huang 2023 outcome counts. The range is DERIVED "
+                "from the analyses on every regeneration (CLAUDE.md rule 1.1) rather than typed, "
+                "which is why it moved back on its own when those inputs were removed. \u26d4 "
+                "REFUSING A RANDOM-EFFECTS MODEL IS A JUDGEMENT ABOUT INTERPRETABILITY AT THIS "
+                "SCALE, NOT A CLAIM THAT SUCH A MODEL IS MATHEMATICALLY IMPOSSIBLE, and a "
+                "repository policy is not by itself a scientific pooling justification."
             ).format(**{"n": _extent["n_strata"], "dlo": _extent["denom_lo"],
                         "dhi": _extent["denom_hi"], "elo": _extent["events_lo"],
                         "ehi": _extent["events_hi"]}),
@@ -2152,8 +2060,11 @@ def build() -> dict:
                 "'usually attributed to' UNTIL 2026-08-28 AND HELD NO RECORD OF WHO ELSE "
                 "ATTRIBUTES IT THAT WAY -- the same unsourced-attribution class as manuscript "
                 "Appendix A11 and A30, caught here by the relation guard rather than by a reader. "
-                "Verified against the cached full text of both; the 2014 abstract does "
-                "not contain it. This matters for what the hedge IS: it was written in 2012, when "
+                "⚠ CORRECTED 2026-09-08: the retained 2014 record is an ABSTRACT, not a full "
+                "text, and this field previously claimed both had been checked as full texts. The "
+                "attribution to the 2012 report stands on the retained 2012 FULL TEXT "
+                "(PMC3534218), in which the sentence occurs; the 2014 retained abstract does not "
+                "contain it, which is all that record can support. This matters for what the hedge IS: it was written in 2012, when "
                 "the authors had only two EWSR1-positive responders and no TAF15 patient at all, so "
                 "it is their PRIOR that the fusion is not the mechanism -- not a retrospective "
                 "caveat added once the partner correlation appeared. It is by analogy to alveolar "
@@ -2162,61 +2073,71 @@ def build() -> dict:
             ),
             "reading": (
                 "The investigators who reported the correlation read it as a SURROGATE for something "
-                "downstream, not as a mechanism. Three later observations are consistent with that "
-                "reading and belong beside it: Huang 2023 found the partner's prognostic effect "
-                "absorbed by tumour size on multivariable analysis, Paioli 2021 could not reach "
-                "significance on it at all, and Bangerter 2022's matched ex vivo pair found drug "
-                "response partner-INDEPENDENT for the one drug class it tested. Any paper on this "
-                "lane must carry the hedge in its own abstract."
+                "downstream. ⛔ THAT WAS THEIR READING AS OF 2012. ⛔ CORRECTED 2026-09-08: THIS IS A DATED SEQUENCE OF "
+                "PUBLISHED HYPOTHESES, NOT A STATEMENT OF WHAT THE INVESTIGATORS NOW BELIEVE. The "
+                "same group's Brenca 2019 discussion proposes that the fusion-dependent "
+                "axon-guidance changes MAY AFFECT receptor signalling and sunitinib response -- a "
+                "later, fusion-mediated hypothesis that directly qualifies the 2012 prior. An "
+                "effect acting through a downstream pathway is still a fusion-mediated mechanism; "
+                "a drug need not bind the fusion protein for the fusion to influence response, so "
+                "'surrogate for something downstream' and 'fusion mechanism' are not opposites. "
+                "Three later observations belong beside the 2012 prior at their own scope: Huang "
+                "2023's reported multivariable analysis, in which the partner term did not remain "
+                "conventionally significant; Paioli 2021, which reaches only trends on the "
+                "partner; and Bangerter 2022's two patient-derived models, in which three "
+                "validated agents produced similar responses. None of the three establishes "
+                "absence of a fusion-mediated mechanism."
             ),
         },
-        "what_could_kill_this": [
-            "A single published TAF15::NR4A3 objective response on any antiangiogenic TKI. With a "
-            "denominator of 3-5, one response moves the point estimate to 20-33% and the contrast "
-            "disappears.",
-            "The Lancet Oncol 2019 full text showing that the pazopanib trial's non-TAF15 arm "
-            "contains non-EWSR1 partners, or that a TAF15 patient sat outside the evaluable 22.",
-            "Confirmation that the sunitinib series' TAF15 patients re-enrolled on the pazopanib "
-            "trial, which would collapse the world's TAF15 experience to three patients.",
-            "A partner-stratified reanalysis of any registry (SEER, the Japanese national registry, "
-            "the US Sarcoma Collaborative) showing no survival separation once size and stage are "
-            "adjusted for -- which is the direction Huang 2023 already points.",
-            (
-                "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is "
-                "not elevated. The pooled crude death contrast now rests on two cohorts whose "
-                "TAF15 arms are 7 and 8 patients. \u26a0 HOW LARGE SUCH A COHORT WOULD HAVE TO BE "
-                "DEPENDS ON THE CRITERION, AND ONLY ONE CRITERION IS COMPUTED HERE. Under the "
-                "SPECIFIC scenario of a cohort with NO disease-specific deaths at all, judged by "
-                "whether the pooled TAF15 POINT ESTIMATE falls to or below the comparator arm's "
-                "Wilson upper bound of {hi}%, with the comparator arm HELD FIXED at its observed "
-                "counts, it would take {k} further TAF15 patients -- a total TAF15 denominator of "
-                "{n} -- and a third cohort of 7 or 8 with zero deaths leaves the pooled estimate "
-                "at {p7}% and {p8}%. \u26d4 THAT IS ONE SCENARIO UNDER ONE CRITERION AND NOT A "
-                "COMPLETE ACCOUNTING. Four degrees of freedom are omitted from it: (1) the "
-                "criterion itself -- every other contrast in this synthesis is judged by INTERVAL "
-                "OVERLAP, under which the two arms reconcile at a far smaller cohort size, and "
-                "THAT COUNT IS NOT COMPUTED ANYWHERE IN THIS ARTIFACT; (2) comparator growth -- a "
-                "real third cohort would report both arms and move the comparator's own upper "
-                "bound; (3) a non-zero TAF15 death rate in the third cohort, which this scenario "
-                "does not cover; (4) adjustment, which belongs to the size-adjustment falsifier "
-                "below. \u26d4 THE EARLIER CLAIM THAT THE STATED CHOICES MADE THIS FALSIFIER "
-                "EASIER TO TRIGGER, AND THE COMPLETENESS IT IMPLIED, ARE WITHDRAWN (round-11 "
-                "blind seat finding STAT-B-2); no ranking of this falsifier against the others "
-                "here is asserted. The {k}/{n} pair is derived by "
-                "zero_death_patients_to_reconcile() from the counts in this artifact, not "
-                "asserted, and carries the scope above wherever it is quoted."
-            ).format(
-                k=dod_threshold["further_zero_death_taf15_patients_required"],
-                n=dod_threshold["total_taf15_denominator_required"],
-                hi=dod_threshold["comparator_ci95_hi_percent"],
-                p7=round(100.0 * _dod_taf["events"] / (_dod_taf["denom"] + 7), 1),
-                p8=round(100.0 * _dod_taf["events"] / (_dod_taf["denom"] + 8), 1),
+        "observations_that_would_reduce_the_uncertainty": {
+            "_replaces": (
+                "⛔ THE 'WHAT COULD KILL THIS' LIST IS WITHDRAWN AND REPLACED 2026-09-08. It was "
+                "written as falsification theatre rather than as a statement of what is uncertain: "
+                "it mis-stated how a new patient enters an estimate, it printed one arithmetic "
+                "convention as if it were a biological robustness threshold, it asserted that one "
+                "cohort could not overturn the pooled result, and several of its entries turned on "
+                "quantities this synthesis has now withdrawn. The list below states observations "
+                "that would actually reduce the uncertainties this synthesis has, with no claim "
+                "about which is decisive."
             ),
-            "Any size-adjusted partner analysis in which the partner DOES remain independent. That "
-            "would overturn the defeater rather than the effect, and it is the single result that "
-            "would turn the crude magnitude on this page into a claim about biology instead of a "
-            "claim about tumour size.",
-        ],
+            "⚠_how_a_new_patient_actually_enters": (
+                "A newly published UNIQUE responding TAF15 patient adds to BOTH the numerator AND "
+                "the denominator: 0/3 becomes 1/4 (25.0%) and 0/5 becomes 1/6 (16.7%). ⛔ The "
+                "superseded '20-33%' figures described changing an EXISTING patient's recorded "
+                "outcome, which is a different operation. Neither operation makes a descriptive "
+                "difference disappear by itself."
+            ),
+            "⚠_zero_death_thresholds_are_arithmetic_conventions": (
+                "Different reconciliation criteria on the SAME counts give different answers -- "
+                "comparing a point estimate against a comparator's marginal Wilson upper bound, "
+                "against its point estimate, or asking when marginal intervals first overlap are "
+                "three conventions, not three measurements of biological robustness, and a real "
+                "third cohort would contribute comparator patients and its own follow-up and "
+                "sampling design rather than holding one arm fixed. ⛔ THE CLAIM THAT ONE COHORT "
+                "COULD NOT OVERTURN THE RESULT IS WITHDRAWN UNQUALIFIED. No such threshold is "
+                "computed in this artifact."
+            ),
+            "would_reduce_uncertainty": [
+                "The pazopanib trial's full partner distribution and its partner-by-analysis-"
+                "population flow across the 26 treated, 23 modified-ITT and 22 evaluable patients, "
+                "including which population the four non-evaluable patients left and why.",
+                "The Huang 2023 Table 1 original, which would restore or refute a second "
+                "source-verified set of per-partner outcome counts and their follow-up categories, "
+                "endpoint definitions and cause-of-death handling.",
+                "Per-partner relapse and metastasis event counts behind Paioli 2021's DFS/DMFS "
+                "p-values, and the adjustment structure of the analysis that produced them.",
+                "Any partner-stratified report that publishes per-arm observation windows and "
+                "event ordering, which is what would let a competing-risk or censored reading "
+                "replace the crude during-follow-up proportions used here.",
+                "A partner-stratified analysis reporting the partner coefficient, its uncertainty, "
+                "the event count and the model specification -- adjusted significance or "
+                "non-significance without those does not settle whether an independent association "
+                "exists in either direction.",
+                "Any published TAF15::NR4A3 response or non-response on an antiangiogenic TKI, "
+                "reported with its partner, which is the observation this synthesis asks the field "
+                "for and the one that most directly narrows the response proportions.",
+            ],
+        },
         "resolved_2026_08_08": {
             "_what": (
                 "Items that were filed as unreachable and are not any more. Kept as a block rather "
@@ -2269,32 +2190,42 @@ def build() -> dict:
                 ),
             },
         },
-        "the_two_questions_this_page_answers_and_only_one_moved": {
+        "the_two_questions_this_page_answers": {
             "a_prognosis_by_partner": (
-                "MOVED on 2026-08-08. Huang 2023's Table 1 gives per-partner event counts, the "
+                "⛔ NO POOLED MAGNITUDE. ⚠ *Superseded, retained: 'MOVED on 2026-08-08 ... the "
                 "outcome pool is now two non-overlapping cohorts and 73 patients, and a crude "
-                "magnitude for disease-specific death exists for the first time -- carrying, "
-                "inseparably, the same paper's multivariable result that the partner is NOT an "
-                "independent predictor once tumour size is adjusted for. See "
+                "magnitude for disease-specific death exists for the first time.'* That rested on "
+                "Huang 2023 Table 1 cells no retained original verifies, and they are withdrawn "
+                "(2026-09-08). What the record supports is ONE source-verified cohort's recorded "
+                "per-partner event counts and observation windows, with four other series "
+                "reported separately at their own scope. No independent prognostic effect, no "
+                "equivalence and no size-confounding explanation is established. See "
                 "analyses.B_outcome_by_partner."
             ),
             "b_treatment_response_by_partner": (
-                "⛔ STILL BLOCKED, AND NOT BY ANYTHING HUANG 2023 COULD HAVE SUPPLIED. The "
-                "antiangiogenic-TKI question rests on 3 to 5 TAF15::NR4A3 patients with ZERO "
-                "reported responses, and a zero-event arm yields no magnitude at any denominator: "
-                "the Wilson upper bound on the TAF15 response rate still sits ABOVE the comparator "
-                "arm's own point estimate in both analyses. What would unblock it is one further "
-                "cohort reporting objective response by partner with integer counts, or the "
-                "Lancet Oncol 2019 full text's partner distribution -- neither of which Huang 2023 "
-                "contains, because it reports no antiangiogenic therapy at all. "
-                "analyses.A_tki_objective_response is unchanged by this integration."
+                "⛔ AN IMPRECISELY ESTIMATED RESPONSE ASSOCIATION, NOT AN ABSENT ONE. ⚠ "
+                "*Superseded, retained: 'a zero-event arm yields no magnitude at any "
+                "denominator', and 'zero of five is not a rate'.* BOTH ARE MATHEMATICALLY FALSE "
+                "and are withdrawn (2026-09-08). Zero responses among three or five patients IS "
+                "an observed proportion with a very wide uncertainty interval, and the "
+                "TAF15-minus-comparator differences of recorded response proportions are "
+                "computed in analyses.A_tki_objective_response like any other contrast on this "
+                "page. What is true is narrower and is the actual limit: the differences are "
+                "imprecise, the comparator arm's own point estimate lies inside the TAF15 arm's "
+                "interval in both analyses, and a treated-only comparison between partner groups "
+                "-- at any denominator -- CANNOT establish that the partner modifies treatment "
+                "benefit. That needs a treatment comparator and a treatment-by-partner analysis, "
+                "or a carefully bounded alternative design, and neither exists in this record. "
+                "What would narrow the proportions is a further cohort reporting objective "
+                "response by partner with integer counts, or the Lancet Oncol 2019 full text's "
+                "partner distribution."
             ),
             "why_this_block_exists": (
                 "Because the two are easy to conflate and the conflation would be an over-claim in "
                 "the direction the whole page is trying to avoid. A prognostic magnitude is not a "
                 "predictive one: knowing that TAF15 patients die more often, crudely and probably "
                 "because their tumours are bigger, says nothing about whether they respond to a "
-                "drug class."
+                "drug class. That remains true with the pooled magnitude withdrawn."
             ),
         },
         "retrieval_provenance": {

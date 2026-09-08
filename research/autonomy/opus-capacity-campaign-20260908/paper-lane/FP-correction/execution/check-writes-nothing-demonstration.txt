@@ -1,0 +1,11 @@
+=== manual demonstration that --check still refuses a hand edit and writes nothing
+--- baseline
+emc_fusion_partner_pooling --check: OK (committed artifact reproduces from the generator's counts)
+exit=0
+sha_before=fbb9d99feac03bd182cc896d45e21132e58a54a16577f87e03ae885d2a3f75e7
+--- perturb a live pooled event count (analyses.C_partner_prevalence.pooled.TAF15::NR4A3.events 28 -> 29)
+FAIL: /home/user/Rare-cancers/research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json differs from a fresh derivation. Regenerate it (python3 research/manuscripts/emc_fusion_partner_pooling.py).
+  differing top-level keys: analyses
+exit=1
+sha_after_check=d40cdbf58be1e416ac2505143da56f758de58ebee5beb2f185eabe075575cd46
+(the perturbed file must be unchanged by --check: writes-nothing assertion)

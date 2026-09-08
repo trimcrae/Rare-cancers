@@ -43,3 +43,62 @@
   ... truncated
 
 ### manuscript chars 97011 -> 96935
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'*'  +''
+  [delete] -'*'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'*'  +''
+  [delete] -'*'  +''
+  [delete] -'***'  +''
+  [delete] -'*'  +''
+  [delete] -'**'  +''
+  [insert] -''  +'15'
+  [delete] -'15'  +''
+  [insert] -''  +'16'
+  [delete] -'16'  +''
+  [insert] -''  +'17'
+  [delete] -'!Figure117'  +''
+  [replace] -'!Figure2'  +'18'
+  [replace] -'!Figure3'  +'19'
+  [replace] -'!Figure4'  +'20'
+  [replace] -'!Figure5'  +'2'
+  [delete] -'8'  +''
+  [insert] -''  +'22'
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [delete] -'19'  +''
+  [delete] -'**'  +''
+  [delete] -'**'  +''
+  [insert] -''  +'32'
+  [delete] -'20'  +''
+  [insert] -''  +'24'
+  [delete] -'21'  +''
+  [insert] -''  +'25'
+  ... truncated
+
+
+---
+⚠ READ THIS FILE'S LIMIT BEFORE QUOTING IT. The generator stops after 40 opcodes per format
+("... truncated"), so this file corroborates the token-level comparison rather than replacing it.
+The UNTRUNCATED comparison is `75-FINAL-text-layer-before-after-diff.txt`, which lists every
+opcode for both formats.
+
+What the 40 shown opcodes are, with every whitespace and line break removed on both sides — so a
+reflowed line, a moved hyphen and a re-wrapped column cannot appear as a difference:
+  · deletions of literal `**`, `*` and `***` — the markers that used to print;
+  · deletions of `!Figure 1` … `!Figure 5` — the stray bang and the dead link;
+  · page numbers moving as the page count changes;
+  · INSERTIONS ONLY, of text that was previously cut off the page: Table 9's `SEMA3C` header and
+    its nine `n, p …` readings plus `uninformative`, and the letter `e` restoring `percentil` to
+    `percentile` at the measure edge.
+No sentence, number or claim is replaced by a DIFFERENT one anywhere in the shown range.

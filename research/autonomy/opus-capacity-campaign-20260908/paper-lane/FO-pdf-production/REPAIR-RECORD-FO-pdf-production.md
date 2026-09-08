@@ -260,3 +260,18 @@ Another owner is writing them in this shared tree; they are the cause of the 87 
 this owner did not touch them.
 
 ⛔ Nothing was committed and nothing was pushed.
+
+---
+
+## 8 · Addendum — the whitespace-blind check finished
+
+`evidence/76-FINAL-squashed-content-diff.txt` compares the two formats with **every whitespace and
+line break removed on both sides**, so reflow, moved hyphens and re-wrapped columns cannot register
+as differences. It agrees with §2: the changes are deleted `**` / `*` / `***` markers, deleted
+`!Figure N` links, moving page numbers, and **insertions only** of text that was previously cut off
+the page — Table 9's `SEMA3C` header and its nine readings, and the `e` that restores `percentil`
+to `percentile` at the measure edge.
+
+⚠ **That file is truncated at 40 opcodes per format by its own generator** and is corroboration,
+not the primary evidence. The untruncated comparison is
+`evidence/75-FINAL-text-layer-before-after-diff.txt`.
