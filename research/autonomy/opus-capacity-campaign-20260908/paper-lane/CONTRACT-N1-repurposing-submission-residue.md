@@ -81,3 +81,14 @@ gate's stdout **and** stderr with exit code echoed. ⛔ **DELETE NOTHING**, incl
 
 Acceptance 6; either item proving already done on reading; any step needing a prohibited action; or
 **~40 tool calls / ~40 minutes**. Early with a supported result or block is success; padding is not.
+
+
+---
+
+# Timing qualification, appended 2026-09-08 11:16 UTC — original header preserved
+
+The header's `date -u` of **"~10:56 UTC"** is inconsistent with the original events and is corrected
+here rather than rewritten: the contract commit `d8fab1c8` landed at **~10:50 UTC**, the child ran
+**10:51:00.205Z -> 10:54:38.244Z**, and the parent's model verification was at **10:51:23 UTC**. The
+"~10:56" was an approximation written into the text ahead of the clock reading. **No contract term,
+bound, acceptance item or stop condition changes.**
