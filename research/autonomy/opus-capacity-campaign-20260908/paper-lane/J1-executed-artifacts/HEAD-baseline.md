@@ -80,26 +80,25 @@ preprint-deposit declarations.
 
 ## Abstract
 
-**Background.** Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma driven by the
-nuclear-transcription-factor fusion *EWSR1::NR4A3*. Cell-surface antigens offer a delivery axis gated
-differently from driver-directed routes, but EMC surface-antigen expression is not systematically
-mapped, leaving prioritisation to lineage surrogates.
+**Background.** Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma driven by the *EWSR1::NR4A3*
+fusion, a nuclear transcription factor. Cell-surface antigens offer a delivery axis gated differently
+from driver-directed routes, but EMC surface-antigen expression has not been systematically mapped, so
+prioritisation has run on lineage surrogates.
 
-**Methods.** A 2,826-gene surfaceome was ranked across a translocation-sarcoma DepMap class
-(76 lines) by a rank-based, Benjamini-Hochberg-corrected selectivity test, then filtered by a Human
-Protein Atlas normal-tissue prior. Priorities were tested in three EMC tumour-tissue cohorts:
-GSE24369 (6 EMC versus 29 sarcomas), GSE4303/GPL3290 (10 versus 6) and GSE28866 (4 EMC, 27
-normal-organ, 32 sarcoma libraries).
+**Methods.** A 2,826-gene human surfaceome was ranked across a translocation-sarcoma DepMap class
+(n = 76 lines) by a rank-based, Benjamini-Hochberg-corrected selectivity test, then filtered by a Human
+Protein Atlas normal-tissue prior. Those priorities were then tested in three EMC tumour-tissue cohorts:
+GSE24369 (6 EMC versus 29 sarcomas), GSE4303 on GPL3290 (10 versus 6) and GSE28866 (4 EMC, 27
+normal-organ and 32 sarcoma libraries).
 
-**Results.** Eight antigens were selective in the surrogate; B7-H3/CD276 was not (q = 1.0); the
+**Results.** Eight antigens were selective in the surrogate and B7-H3/CD276 was not (q = 1.0); the
 normal-tissue prior left no evaluated antigen both selective and restricted. In tumour tissue, none of
-the eight was concordantly elevated on both arrays; two were concordantly lower. None of eleven
-route-named therapeutic addresses was concordantly elevated. ALCAM rose on both arrays yet sat below the
-normal-organ median. CSPG4, never evaluated at stage 1, rose on one array and in the sequencing cohort,
-was uninformative, not negative, on the second, and is held open.
+the eight was concordantly elevated on both arrays and two were concordantly lower. None of eleven
+therapeutic addresses named by candidate routes was concordantly elevated. ALCAM rose on both arrays yet
+sat below the normal-organ median.
 
 **Conclusions.** Surrogate-derived surface priorities did not transfer to EMC tissue: the surrogate's
-negatives transferred, its positives did not.
+negatives transferred and its positives did not.
 
 ## Keywords
 
