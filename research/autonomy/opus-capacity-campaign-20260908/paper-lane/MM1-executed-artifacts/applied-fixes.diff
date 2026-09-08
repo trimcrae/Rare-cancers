@@ -1,0 +1,135 @@
+--- research/autonomy/opus-capacity-campaign-20260908/paper-lane/MM1-executed-artifacts/BEFORE-emc-mortality-mechanisms-paper.md	2026-09-08 13:06:45.620530467 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/MM1-executed-artifacts/AFTER-emc-mortality-mechanisms-paper.md	2026-09-08 13:06:45.622570580 +0000
+@@ -76,7 +76,7 @@
+ 10). The corresponding upper bound on what preventing every disease death could add was 6.7
+ percentage points of survival in localised disease and 31.0 points in metastatic disease at a median
+ follow-up of just over three years. Relative survival, which assigns no cause to any patient, gave a
+-median competing share of 23.0 per cent across eight series-horizons, against 21.7 per cent from the
++median competing share of 23.0 per cent across eight series-horizons, spanning the two stratum-specific cause-split values of 30.8 and 10.0 per cent from the
+ cause split; the two methods share no input. Observed non-sarcoma deaths matched background mortality
+ for the cohort's age and sex (ratios 0.97 and 1.04, on four and one events). No publication reporting
+ the growth rate of pulmonary metastases in this disease was found.
+@@ -115,7 +115,8 @@
+ 
+ Publications were enumerated through the Europe PMC REST interface using a disease query spanning the
+ condition's alternative names, restricted to records with open-access or Europe PMC full text. Six
+-hundred records were enumerated and full text retrieved for 400, of which 328 returned parsable text.
++hundred records were enumerated, full-text retrieval was attempted for 400 under a pre-set cap, and 328
++returned parsable text.
+ Reference lists, tables and figures were removed before analysis, because bibliographies contain other
+ papers' titles carrying death terms.
+ 
+@@ -137,7 +138,8 @@
+ 
+ The unit of analysis is a patient or a reported patient group, never a sentence. One paper describes
+ three deaths across seven sentences and another describes one death in four; counting sentences would
+-have inflated the total roughly threefold and weighted the most verbose reports most heavily.
++have weighted the most verbose reports most heavily: the 34 papers carry 116 death sentences against
++52 patient deaths, and one paper describes a single patient across four.
+ 
+ ### 2.3 Cause splits and the upper bound on antitumour benefit
+ 
+@@ -238,7 +240,12 @@
+ |---|---:|---:|---:|---:|---:|
+ | localised, surgically treated | 134 | 9 | 4 | 30.8 % | **6.7 points** |
+ | metastatic at diagnosis | 29 | 9 | 1 | 10.0 % | **31.0 points** |
+-| combined | 163 | 18 | 5 | 21.7 % | 11.0 points |
++| combined (author's sum; not a pooled estimate — see note) | 163 | 18 | 5 | 21.7 % | 11.0 points |
++
++The combined row is the arithmetic sum of the two strata, shown for completeness only. It is not
++carried by the decomposition artifact, which reports the two strata separately and leaves its pooled
++cause-split field unset: the strata differ in follow-up (38 against 41 months) and in competing share
++by a factor of three, so a single pooled share describes neither.
+ 
+ At a median follow-up of just over three years, preventing every death from the sarcoma in the
+ localised cohort would have added 6.7 percentage points of survival; in the cohort metastatic at
+@@ -253,7 +260,8 @@
+ ### 3.5 Agreement between two independent estimates
+ 
+ Relative survival gave a median competing share of 23.0 per cent across eight series-horizons (range
+-12.1 to 45.4), against 21.7 per cent from the registry cause split. The two share no input: one is
++12.1 to 45.4), against the registry cause split's 30.8 per cent in localised and 10.0 per cent in metastatic disease,
++which the relative-survival median falls between. The two share no input: one is
+ published all-cause survival divided by a national life table, the other is counts of patients a
+ registry assigned a cause to, and neither can be derived from the other.
+ 
+@@ -269,6 +277,14 @@
+ localised stratum (ratio 0.97, 95 per cent CI 0.38 to 2.41) and 3.4 against 3.3 per cent in the
+ metastatic stratum (ratio 1.04, 95 per cent CI 0.18 to 5.18).
+ 
++The same check computed on the one series carrying a ten-year within-series decomposition does not
++agree: observed non-sarcoma mortality of 20.0 per cent against 11.3 per cent expected, a ratio of
++1.77. That series pairs a survival-curve reading with a crude proportion on a different estimator, so
++the excess may be study non-comparability rather than competing death; the decomposition artifact
++states that a ratio far above 1 makes a competing-share figure unquotable, and no competing-share
++figure in this paper is taken from that pairing. The two ratios below are the horizon-matched checks
++on the registry cohort, which is the only source of the ceilings reported here.
++
+ These rest on four events and one event respectively. What they establish is consistency with
+ background mortality, not equality to it. The comparison is also one-sided: a general-population life
+ table overstates background mortality for a cohort fit enough to reach and survive a sarcoma
+@@ -279,7 +295,8 @@
+ 
+ A targeted search for the natural history, growth rate or doubling time of pulmonary metastases in
+ this disease returned zero records. Whether repeated local treatment of lung metastases can keep pace
+-with their progression depends on that rate, and it has not been measured.
++with their progression depends on that rate, and no measurement of it was found in the open-access
++record searched here.
+ 
+ ## 4. Discussion
+ 
+@@ -307,7 +324,8 @@
+ 
+ ### 4.3 The population no tumour-directed approach addresses
+ 
+-Between a fifth and a third of deaths after diagnosis are not caused by the sarcoma, and they occur at
++Between a tenth and a third of deaths after diagnosis are not caused by the sarcoma, depending on stage
++at diagnosis, and they occur at
+ approximately the rate the cohort's age and sex predict. Two consequences follow, and only the first
+ is established here.
+ 
+@@ -322,20 +340,23 @@
+ care in either direction.
+ 
+ One class of supportive intervention does have direct randomised evidence elsewhere in oncology, and
+-it is the only non-antitumour intervention class with a reported overall-survival benefit in cancer at
++it is, among the intervention classes this study screened, the only non-antitumour class with a
++reported overall-survival benefit in cancer at
+ all: early specialist palliative care integrated alongside standard oncologic care. The finding
+ replicates rather than resting on one trial. In metastatic non-small-cell lung cancer, median overall
+ survival was longer with early palliative care than with standard care alone in the founding trial
+ (11.6 vs 8.9 months, p=0.02, PMID 20818875), and in two independent replications conducted in
+ different health systems: a Mexican trial (18.1 vs 10.5 months, HR 1.5 [95% CI 1.04-2.3], p=.030,
+-PMID 38558247) and a Chinese trial (HR 0.19 [95% CI 0.04-0.85], p=0.029, PMID 37781179). An earlier
++PMID 38558247) and a Chinese trial (HR 0.19 [95% CI 0.04-0.85], p=0.029, PMID 37781179; that report's
++own printed median survivals, 20.4 against 24.6 months, read inconsistently against its stated
++conclusion, and the discrepancy is in the source and is not resolved here). An earlier
+ evidence synthesis found the survival claim resting on a thin base -- two studies -- before these two
+ replications existed (PMID 32953543). Every one of these trials is in non-small-cell lung cancer, a
+ disease whose median survival is measured in months; EMC's natural history is measured in decades, a
+ population none of these trials enrolled and a transfer no trial has tested. Whether an effect
+ measured over months of survival extends over a course of years, through what mechanism, and whether
+ a sarcoma-specific trial of this intervention exists at all, are left here as open questions rather
+-than assumed answers: a title-level search of the corpus retrieved for this class of intervention
++than assumed answers: a title-level search of the 25 records retrieved from this class of intervention
+ found no sarcoma-specific palliative-care trial.
+ 
+ ### 4.4 Lung-directed treatment
+@@ -376,7 +397,7 @@
+ 
+ The published record of extraskeletal myxoid chondrosarcoma does not say how most of its patients die.
+ Where it does, deaths from competing causes and second malignancies are the largest identifiable
+-category, and respiratory failure, though present, is not dominant. Between a fifth and a third of
++category, and respiratory failure, though present, is not dominant. Between a tenth and a third of
+ deaths after diagnosis are not caused by the sarcoma, a figure two independent methods agree on, and
+ those deaths occur at approximately background rate. The survival available to antitumour therapy is
+ 6.7 percentage points in localised disease and 31.0 in metastatic disease at three years. Research
+@@ -388,7 +409,7 @@
+ Both corrections changed a headline figure and are recorded because the superseded values were
+ circulated internally before they were withdrawn.
+ 
+-**A.1 Competing share, 39.4 per cent superseded by 21.7 per cent.** The first estimate paired a
++**A.1 Competing share, 39.4 per cent superseded by the stratum-specific 30.8 and 10.0 per cent.** The first estimate paired a
+ survival-curve reading against a crude death proportion from a different cohort. When one registry's
+ own cause counts on identical patients became available, the direct ratio replaced it. The direct
+ estimator has none of the weaknesses the first disclosed, and the change is a change of method rather

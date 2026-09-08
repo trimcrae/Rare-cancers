@@ -42,11 +42,9 @@ if the state is actually there.
 selecting feature is readable in expression data that has been public for years, and for none of the
 five had the lookup been reported.
 
-⭐ **The useful output of this paper is which classes the data rules OUT.** In a disease whose
-estimated incidence this repository's clinical registry records as *well under 1 per million per
-year* ([`emc-clinical-registry.json`](../../data/emc-clinical-registry.json), `overview.howCommon`),
-a route that is quietly kept alive on an untested assumption consumes attention that has nowhere
-else to come from. **The field publishes almost none of
+⭐ **The useful output of this paper is which classes the data rules OUT.** In a disease with perhaps a
+few hundred patients diagnosed per year worldwide, a route that is quietly kept alive on an untested
+assumption consumes attention that has nowhere else to come from. **The field publishes almost none of
 these exclusions**, so each one gets re-proposed.
 
 ⚠ **The four negatives are not equally strong, and the paper's central methodological claim is that
@@ -89,12 +87,7 @@ a re-fetch and a regeneration.
 
 Genes were read as a *z*-score against each array's own probe distribution; groups scored as the mean
 EMC-minus-comparator difference in standard-deviation units, with Welch *t* and no multiplicity
-correction. ⚠ **Every gene group scored below — the p53 transcriptional output group, PRC2, the
-SWI/SNF tumour-suppressor set, the alt-EJ, homologous-recombination and non-homologous-end-joining
-modules, and the guardian and BH3-only sensitiser sets — is a repository-curated pathway-membership
-list, not a published gene set or signature**, as the producing artifact states in its own
-`panels.<panel>.provenance` field. Membership was chosen to match what each class is selected on, and
-a differently-drawn membership could move a group score. Every figure quoted here is owned by
+correction. Every figure quoted here is owned by
 [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json), and the grading of each class
 against its own selection criterion by
 [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json). Class
@@ -156,8 +149,7 @@ The approved agent's registrational indication is selected by **loss of INI1/SMA
 — a SWI/SNF tumour-suppressor subunit — and the neighbouring argument for the class is PRC2 elevation.
 
 **Neither is there.** EZH2 is mildly higher on both platforms and the rest of PRC2 is flat (*t* = −0.22
-and 1.71); **no SWI/SNF tumour-suppressor subunit reads anywhere near a floor**, and the
-four-subunit group score for that set is flat (group *t* = −1.02 and −0.08).
+and 1.71); **no SWI/SNF tumour-suppressor subunit reads anywhere near a floor** (*t* = −1.02 and −0.08).
 
 ⚠ **Strength: weak, and this is the clearest case of the instrument missing the target.** The approved
 indication is selected by protein **loss**, which is frequently post-transcriptional. A normal
@@ -184,8 +176,7 @@ over three of four genes and the drug target contributes nothing; on GPL6244 it 
 the target gene does not.** Nothing in the literature explains the elevation in this disease.
 
 ⛔ **The half that selects the class is not present.** The homologous-recombination arm is flat to mildly
-*higher* (*t* = −0.57 and 1.04), not down. The combination is absent, so the criterion this class is selected on is not met in these data. That
-is a statement about a selection criterion, not about whether the class would act in this disease.
+*higher* (*t* = −0.57 and 1.04), not down. The combination is absent, so the class is not indicated.
 
 ⚠ **Strength: the weakest negative in the paper, and its own reason for being weak is decisive.** An HR
 **defect** is usually a mutation, and can sit behind entirely normal HR transcript. So the half that came
