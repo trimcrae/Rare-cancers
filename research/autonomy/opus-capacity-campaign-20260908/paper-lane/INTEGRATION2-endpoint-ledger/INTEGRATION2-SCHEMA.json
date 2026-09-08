@@ -1,0 +1,58 @@
+{
+ "component": "INTEGRATION2-endpoint-ledger",
+ "version": "v2",
+ "sibling_of": "../INTEGRATION-endpoint-ledger/",
+ "supersedes_nothing": "The v1 integration's contract, schema, builder, checks, census, tables and BOTH of its failure logs (RUN1-FAILING-checks.log, NEG-CONTROL-checks.log) are untouched evidence of what v1 asserted and of how its checks behaved. No v1 byte was opened for writing (check J16).",
+ "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+ "network_access": "none",
+ "grains": {
+  "spine": {"source": "CORRECTED-A-denominator-category-v2", "key": "(nct_id, om_index, group_id)", "rows": 552, "trials": 138},
+  "arm_attribution": {"source": "CORRECTED-C-arm-attribution-v2", "key": "(nct, om_title, group_title, evaluable_n)", "rows": 552, "note": "carries no om_index and no group_id"},
+  "observations": {"source": "CORRECTED-B-identity-selection-overlap (v1 observation ledger; B2 did not re-emit it)", "key": "obs_id = <nct>#om<om_index>#<results_group_id>", "rows": 16116},
+  "cohort_sets": {"source": "CORRECTED-B2-identity-overlap-inference-repair-v2", "key": "cohort_key = <nct>||<results_group_title_norm>", "rows": 8740, "competing_sets": 4464}
+ },
+ "joins": {
+  "A_to_C": {"bridge": "(nct, om_title, group_title)", "verified": "bijection over 552, check J2; evaluable_n agreement check J2b", "hazard": "a string bridge; a repeated title triple would break it and the check fails rather than choosing"},
+  "A_to_B": {"bridge": "obs_id constructed from A's own key", "partial_by_construction": true, "census": {"JOINED_UNIQUE": 458, "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48, "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46, "GROUP_ABSENT_IN_B_MEASURE": 0}, "b_only_observations": 15658}
+ },
+ "vocabularies": {
+  "integration_state": {
+   "BLOCKED": "at least one component-specific blocking condition on some axis. 550 rows",
+   "NO_COMPONENT_BLOCK_FOUND__NOT_AN_ELIGIBILITY_GRANT": "no component found a defect. 2 rows. NOT an eligible subset: the universal cross-observation disjointness condition and the unconfirmed job2/job3 chain still apply, and nothing may be computed from them"
+  },
+  "blocking_condition_axes": {
+   "AXIS_DENOMINATOR_CATEGORY": "A2: the record's denominator/category structure. 61 rows UNSUITABLE_FOR_PROPORTION",
+   "AXIS_ARM_ATTRIBUTION": "C2: whether a results group is linked to a registered arm by exact source evidence. 494 rows not SOURCE_CONFIRMED",
+   "AXIS_COMPARATOR_ROLE": "C2: whether the record supports a comparator role. Source-supported on 8 rows. NOT_CONTROL is not a state",
+   "AXIS_RECORD_IDENTITY": "B2: competing records in one cohort key whose semantic correspondence is unresolved. 309 rows, of which 48 are separated by text-derived fields only",
+   "AXIS_OBSERVATION_USABILITY": "B: the observation's own values at B's scope. 0 spine rows",
+   "AXIS_COVERAGE": "B never assessed the row at all. 94 rows",
+   "AXIS_CROSS_OBSERVATION_DISJOINTNESS": "no participantFlowModule in this cache. 552 rows, universal"
+  },
+  "cross_observation_disjointness_state": {
+   "UNVERIFIABLE_IN_THIS_CACHE__NO_PARTICIPANT_FLOW_MODULE": "whether two cohorts share patients cannot be established. Scope: LIMITS_POOLING_AND_UNIQUE_PATIENT_COUNTING_ACROSS_OBSERVATIONS_ONLY. It is NOT a statement that a within-record proportion is mathematically uncomputable"
+  },
+  "within_record_reporting_state": {
+   "SOURCE_VALUES_PRESENT_AT_B_SCOPE": "the individual observation's own values are present and readable at B's scope. 458 rows (54 of them alongside A2's structural unsuitability)",
+   "SOURCE_VALUES_NOT_USABLE_AT_B_SCOPE:<reason>": "B recorded a reason the observation's own values are not usable at its scope. 0 spine rows",
+   "NOT_ASSESSED_BY_B:<join state>": "outside B's corpus or title boundary. 94 rows",
+   "|A_RECORD_STRUCTURE_UNSUITABLE_AT_A_SCOPE": "appended where A2 found the record's structure unsuitable. A separate, A-scoped finding"
+  },
+  "cross_component_status": {
+   "CROSS_COMPONENT_CONSTRAINT:<code>": "two component states that are both true, about DIFFERENT axes, whose combination constrains what the record could ever support. 5 rows (A unsuitable + C arm source-confirmed)",
+   "CROSS_COMPONENT_STATUS:<code>": "two compatible component states on different axes. 802 entries",
+   "COVERAGE_GAP:ROW_NOT_ASSESSED_BY_B": "a component never covered the row. Neither agreement nor disagreement. 94 rows"
+  },
+  "contradictions_genuine": {
+   "SOURCE_INTERNAL_CONTRADICTION:SOLE_REGISTERED_ARM_VS_MULTIPLE_RESULTS_GROUPS": "one registered arm and several results groups in one measure. 83 rows",
+   "SOURCE_INTERNAL_CONTRADICTION:C_CONTESTED:<flag>": "two source fields state incompatible things about the same arm/comparator object. 8 entries",
+   "CROSS_COMPONENT_CONTRADICTION:A_B_DENOMINATOR_VALUE_DISAGREE": "two components read a different participant denominator from the same record. 0 observed; the test stays live"
+  },
+  "proportion_authorisation": {
+   "NO_PROPORTION_AUTHORISED_IN_THIS_INTEGRATION": "on all 552 rows. Independent of whether any given record could in principle be read"
+  }
+ },
+ "sentinel_columns_always_NOT_DERIVED": ["rate_derived", "unique_patient_total_derived", "control_comparison_derived", "cross_disease_capacity_bound_derived", "agent_independent_effect_derived"],
+ "endpoint_manuscript": {"status": "PARKED", "hold": "../HOLD-endpoint-extraction-validity.md", "findings_preserved": ["F1","F2","F3","F4","F5","F6","F7","F8","F9","F10"], "satisfied_by_this_ledger": false, "authorises_new_endpoint_selection": false},
+ "confirmation_status": {"job1_arithmetic_independently_confirmed": true, "job2_independently_confirmed": false, "job3_independently_confirmed": false}
+}

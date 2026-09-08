@@ -1,0 +1,43 @@
+CHECK RUN RECORD — INTEGRATION2-endpoint-ledger
+date (UTC): 2026-09-08T21:22:21Z
+host python: Python 3.11.15
+
+Every attempt is preserved in its own directory under CHECK-RUNS/ with cmd.txt, stdout, stderr
+and exit.txt holding the REAL exit code ($? of the python process; no pipes, no || true).
+
+== CHECK-RUNS/RUN-01-build-20260908T211545Z/
+   cmd : python3 build_integration2.py;
+   exit: 0
+== CHECK-RUNS/RUN-02-checks-20260908T211605Z/
+   cmd : python3 check_integration2.py;
+   exit: 1
+== CHECK-RUNS/RUN-03-checks-20260908T211653Z/
+   cmd : python3 check_integration2.py  # after J7/J12/J17 defect repairs;
+   exit: 0
+== CHECK-RUNS/RUN-04-negcontrol-20260908T211726Z/
+   cmd : python3 neg_control2.py;python3 check_integration2.py --dir NEG-CONTROL;
+   exit: build=0 checks=1
+== CHECK-RUNS/RUN-05-final-settled-tree-20260908T212201Z/
+   cmd : python3 build_integration2.py;python3 check_integration2.py;
+   exit: build=0 checks=0
+
+R1 · RUN-01 build      exit 0.
+R2 · RUN-02 checks     exit 1, 21/24 — THREE GENUINE CHECK DEFECTS, preserved in full:
+       J7  matched 'orr' as a substring inside the column name b_semantic_correspondence_evidence
+       J12 scanned the whole file and tripped on C2's historical change-map token
+           CHANGED_CLASS:NOT_CONTROL_ASSERTED->UNKNOWN carried verbatim in c_disposition_vs_v1
+       J17 searched for '**F1**' while HOLD-endpoint-extraction-validity.md writes '**F1 ·'
+     Repaired by making each check MORE precise; J7 and J12 are strictly STRONGER than before
+     (J7 now also fails on any proportion-shaped cell value anywhere in the ledger; J12 now also
+     fails if NOT_CONTROL appears in the change-map column other than as C2's CHANGED_CLASS token).
+     NO LEDGER VALUE WAS CHANGED TO MAKE A CHECK PASS.
+R3 · RUN-03 checks     exit 0, 24/24 after the check repairs.
+R4 · RUN-04 negcontrol build exit 0; checks over NEG-CONTROL/ exit 1 with 8 failures
+       (J3b J4 J5 J10 J11 J13 J14b J15) against six planted defects — see NEG-CONTROL/PLANTED-DEFECTS.json.
+R5 · RUN-05 final settled tree: build exit 0, checks exit 0, 25/25 (J0 added).
+
+R6 · No component was re-run. No job original, leaf file, or byte of INTEGRATION-endpoint-ledger/
+     was opened for writing. 25 input files re-hashed by J16, 0 changed.
+R7 · v1's RUN1-FAILING-checks.log and NEG-CONTROL-checks.log are present and hashed (J16b).
+R8 · scripts/preflight.sh NOT run: it is the commit gate and nothing is committed here.
+R9 · No network access at any point.

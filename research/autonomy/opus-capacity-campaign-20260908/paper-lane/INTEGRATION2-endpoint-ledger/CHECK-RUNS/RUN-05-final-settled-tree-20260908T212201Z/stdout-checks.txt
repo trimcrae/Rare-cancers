@@ -1,0 +1,26 @@
+PASS  J0_B2_set_file_has_the_same_cohort_keys_and_membership_as_the_B_v1_observation_ledger  v1_keys=8740 v2_keys=8740 symmetric_difference=0 membership_strings_differing=0
+PASS  J1_spine_is_552_unique_rows_bijective_with_A2  ledger_rows=552 distinct=552 A2_rows=552
+PASS  J1b_spine_row_key_set_identical_to_the_v1_integration  v2_keys=552 v1_keys=552 symmetric_difference=0
+PASS  J2_A_to_C_title_bridge_is_unique_on_both_sides_and_total  C_max_multiplicity=1 A_max_multiplicity=1 only_in_A=0 only_in_C=0
+PASS  J2b_C2_evaluable_n_key_component_agrees_with_A2_carried_job1_value  mismatches=0
+PASS  J3_A_to_B_join_state_recomputed_and_exhaustive  mislabelled=0 census={'TRIAL_OUTSIDE_B_CORPUS_SCOPE': 48, 'JOINED_UNIQUE': 458, 'MEASURE_OUTSIDE_B_TITLE_BOUNDARY': 46}
+PASS  J3b_covered_grains_preserved_552_458_94_15658  spine=552 joined=458 not_assessed=94 b_only=15658
+PASS  J4_every_B_observation_is_dispositioned_none_inner_joined_away  B_obs=16116 coverage_rows=16116 in_spine=458 B_only=15658
+PASS  J5_component_states_arrive_verbatim_and_no_component_overwrites_another  violations=0 first=[]
+PASS  J6_A_doubt_is_not_overwritten_by_C_confidence  rows_A_unsuitable_and_C_source_confirmed=5; all retain both states and stay BLOCKED
+PASS  J7_no_rate_proportion_unique_patient_capacity_or_effect_value_emitted  offending_columns=[]; proportion-shaped cells=0; sentinel columns=['rate_derived', 'unique_patient_total_derived', 'control_comparison_derived', 'cross_disease_capacity_bound_derived', 'agent_independent_effect_derived'] all NOT_DERIVED on 552/552 rows
+PASS  J8_job2_and_job3_unconfirmed_carried_on_every_row  552/552 rows carry job1=confirmed job2=false job3=false
+PASS  J9_disposition_map_covers_every_component_record_exactly_once  A=552 C=552 B=16210 (B = 16116 observations + 94 spine rows B never assessed)
+PASS  J10_competing_sets_retained_unresolved_and_never_selected  spine rows in a multi-observation cohort set=309; corpus-wide competing sets=4464
+PASS  J11_B2_non_identical_encoding_scope_propagated_without_semantic_nonduplication_claim  forbidden_semantic_tokens=[]; spine semantic_duplication_status census={'UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED': 309, 'NOT_APPLICABLE__SINGLE_OBSERVATION': 149}
+PASS  J12_no_retired_or_strengthened_state_appears_in_the_ledger  retired_tokens_present=[]; arm_link_states=['CONTESTED', 'LABEL_MATCH', 'PROPOSED', 'SOURCE_CONFIRMED', 'UNKNOWN_IN_THIS_CACHE', 'UNRESOLVED']
+PASS  J13_cross_observation_disjointness_and_within_record_reporting_are_separate_unknowns  all_rows_carry_both_axes=True within_record_states_citing_participant_flow=0 rows_without_exactly_one_disjointness_condition=0
+PASS  J13b_no_proportion_is_authorised_anywhere_in_this_integration  rows=552 census_rates_or_proportions_derived=0
+PASS  J14_contradiction_is_reserved_for_incompatible_claims_only  genuine_entries=91 genuine_rows=91 cross_component_entries=807 miscategorised_genuine=[] contradiction_words_in_status_register=[]
+PASS  J14b_genuine_contradiction_register_recomputed_from_the_components  recomputed_rows=91 register_rows=91 entries=91 disagreements=0
+PASS  J15_census_matches_recomputation_from_the_emitted_tables  differences={}
+PASS  J16_component_inputs_and_the_entire_v1_integration_are_unmodified  25 input files re-hashed, 0 changed: []
+PASS  J16b_v1_original_failing_and_negative_control_logs_still_present_and_hashed  v1 logs present=['RUN1-FAILING-checks.log', 'NEG-CONTROL-checks.log', 'CHECK-RUN-RECORD.txt'] missing=[]
+PASS  J17_endpoint_hold_and_its_ten_findings_preserved_and_not_satisfied_here  findings_found_in_hold=10/10 census_status=PARKED hold_satisfied=False
+PASS  J18_no_scientific_eligibility_subset_is_constructed_or_emitted  rows_without_a_component_specific_block=2 (named NOT_AN_ELIGIBILITY_GRANT, all still carrying the universal disjointness condition); subset_files=[]
+passed=25 failed=0 total=25
