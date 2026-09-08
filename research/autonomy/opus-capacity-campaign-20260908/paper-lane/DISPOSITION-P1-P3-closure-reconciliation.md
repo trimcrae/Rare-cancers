@@ -6,16 +6,57 @@ reconciliation, no new synthesis was commissioned, and no duplicate scientific r
 already returned under their existing contracts; this is a reconciliation of those returned contracts, read
 from their collected reports and from committed repository records.
 
-## Note on the supplied records, stated rather than asserted
+## Corrected input location — the evidence-4878 capsule WAS available and has now been consulted
 
-The supplied root `/tmp/claude-0/frozen-corpus/extracted/corpus/` is present and was inspected (members:
-`AGENTS.md CLAUDE.md README.md research scripts systems`). **No `evidence-4878` capsule and no closure-map
-member exists anywhere under `/tmp/claude-0/frozen-corpus/`** — `find -iname "*4878*"`, `-iname "*closure*"`
-and `-iname "*capsule*"` return no such object (the `*closure*` hits are unrelated repository files:
-`valb_triangle_closure.py` and siblings). The five `4878` hits inside the repository are a seat-regression
-record and three literature probe caches, none of them a closure map. I therefore reconciled against **the
-operative inventory conveyed in the orchestrator's message itself** plus the repository's own retained closure
-records, and I do **not** assert having read a local watch-state object or a capsule that is not available here.
+⛔ **CORRECTION, mechanical and scope-only.** My first lookup searched only
+`/tmp/claude-0/frozen-corpus/` and graded the capsule absent on that basis. **That search did not cover the
+capsule's recorded location and the grading was wrong.** The capsule is present and verifies against the
+retained record (`reports/W23-cross-output-synthesis-packet.md:137-148`):
+
+```
+/tmp/claude-0/w23/evidence-4878-exact-files.zip
+1137077 bytes   48 members   testzip: None
+sha256 32a802baa78c49bad8a0b6555d282230b618f9c97ebd046a98f9be23dd5aaa2f   [matches the record]
+git blob 2a069996273bdf7c53c6313340a86cc1495a5042  -> present in the object store, type blob, 1137077 bytes
+supporting-branch commit e657f414ae5d2fe69e22b564ef36d4b2e134cee9 -> reachable, type commit
+```
+
+No re-upload and no new source retrieval was performed; the existing local archive was used. Copies also exist
+in six other worker scratch trees under `.../inputs/evidence-4878-exact-files.zip`. This corrects a lookup
+scope **only** — it asserts no newly changed scientific input and reopens no failed gate.
+
+### What the capsule's closure records actually say for P1–P3
+
+Consulted from the supplied bytes: `terminal-integration.json` (9,287 B — six terminal runs, **three
+`abandoned`, three `integrated`**, matching the retained record) and the closure map
+`closed-source-and-ownership-map.md`, extracted from `initial-capacity-admission.zip`.
+
+- **Bearing on P1 and P3, verbatim:** *"Registry ICD-O classification paper: explicitly rejected by user. Not
+  reopened. Clinical conditional-recurrence, **RT/IPD synthesis**, trial-discoverability/response checkpoints
+  **did not admit the proposed paper**; methylation deprioritized. **Existing closures are scoped, not a claim
+  that all observational research is exhausted.** Start from `research/autonomy/clinical-methods-checkpoints-2026-09-07/`
+  and care-delivery source records."*
+  This **corroborates** both dispositions below and changes neither: the RT/IPD *synthesis* is unadmitted
+  (P1 application arm, P3 RT arm → STOP), and the closure is **scoped**, so it does not by itself extend to
+  P1's reporting-practice census or P3's site-denominator arm. It admits nothing further either.
+  ⚠ The pointer path `research/autonomy/clinical-methods-checkpoints-2026-09-07/` **does not exist in this
+  checkout**, and the map's frozen commit `93b75888…` is **not in this shallow clone's object store**. Those
+  records were not read here and are recorded as unread, not as absent.
+- **Bearing on P1's inverse-baseline closure, verbatim:** *"Paired Davis patient validation: completed negative
+  coverage checkpoint. … Promoter transfer failed; **inverse bounds 2/36 failed. No replay of these unchanged
+  gates or independent-cohort assumptions.**"*
+- **Bearing on P2, verbatim:** *"SEER official treatment-limitations HTML and Noone PMC4981219 XML preserved
+  privately … Specified non-sarcoma cancer sites and treatment modalities do not validate EMC parameters or
+  surgery capture. Unsupported plausible-EMC-value/age-gradient assertions and sparse-input repository-wide
+  absence claims are excluded. **Source availability is not paper admission.**"* This states the same rule the
+  P2 disposition applies below, and the six terminal-run dispositions repeat it (`abandoned`:
+  *"No new paper or numerical analysis admitted"*; *"Sparse-input rediscovery is not a new dataset or
+  independent cohort admission"*; *"Original proposal supplied descriptions but no code bodies"*).
+- **Capsule scope field, verbatim:** *"No new manuscript, clinical calculation, source retry or source-derived
+  quantitative claim. … Original program source closures remain intact."*
+
+**Net effect on the reconciliation: none of the three dispositions changes.** The capsule corroborates all
+three and supplies no changed scientific input. Nothing below was rewritten on the strength of it.
 
 ---
 
