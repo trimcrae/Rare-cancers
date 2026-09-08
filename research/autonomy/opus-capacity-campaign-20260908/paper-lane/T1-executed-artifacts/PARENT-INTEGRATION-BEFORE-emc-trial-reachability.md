@@ -222,25 +222,10 @@ where the number of options is small enough that each one carries weight.
   different fields: fusion and basket are free-text term searches, the sarcoma screen that returned
   526 is a condition search, and the unfielded sarcoma screen combines the two. The fusion screen
   came back at its page limit, so the pool is truncated, and that truncation is what makes these
-  counts floors. Which fields a free-text term search covers is not established here, though the
-  instrument is: the fusion and basket screens and the driver-gene searches were `query.term`
-  requests to the ClinicalTrials.gov REST API v2 `/api/v2/studies` endpoint, and the committed URL
-  manifests record each one verbatim — the fusion screen as
-  `query.term="gene fusion" OR "fusion-positive" OR "FET fusion" OR "translocation"` at
-  `pageSize=400`, which is why its pool is truncated. The `fields=` parameter on several of them
-  restricts what a response returns, not what the search reads. What that search reads is another
-  matter. It reaches past the conditions and interventions lists, since the driver-gene search above
-  returned trials that name the gene in neither — but which further field matched, title, summary,
-  description, keywords or eligibility text, those records cannot say, and the responses themselves
-  were not retained. The registry's own documentation of its search areas could not be read: that
-  host was unreachable from this work's network when it was tried on 2026-09-08. The descriptions
-  that were reachable are secondary — third-party documentation and search-engine summaries rather
-  than the registry's own specification — and they do not agree: several call `query.term` a general
-  full-text search over all study fields and place eligibility criteria within it, while the one
-  third-party API reference read in full says only "general full-text search" and does not say
-  whether eligibility text is included. Agreement among secondary sources is not confirmation, and
-  none of them describes the index as it stood on 2026-08-07, when these screens ran. So whether a
-  trial carrying its fusion language only in eligibility text could enter the pool is untested — §4's warning about instruments, pointed at this paper's
+  counts floors. Which fields a free-text term search covers is not established here: it reaches
+  past the conditions and interventions lists, since the driver-gene search above returned trials
+  that name the gene in neither. So whether a trial carrying its fusion language only in eligibility
+  text could enter the pool is untested — §4's warning about instruments, pointed at this paper's
   own numerator. Of the five records adjudicated, four were re-fetched and read on 2026-08-09 —
   two admit, one of them observationally, and two refuse — and NCT05918640 was confirmed
   separately on 2026-08-07.

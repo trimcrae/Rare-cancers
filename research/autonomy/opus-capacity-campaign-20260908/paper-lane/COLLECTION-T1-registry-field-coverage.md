@@ -67,3 +67,39 @@ deposit); the 2026-08-09 adjudication run's query URLs (pre-existing, unchanged)
 
 **Bounds held:** no closed care-delivery gate reopened, no term census replayed, no re-screening,
 counting, numerator work or per-trial lookup; no manuscript, registry or artifact edit; no git write.
+
+
+---
+
+# Parent integration, appended 2026-09-08 ~11:46 UTC — T1's caveat is now IN the manuscript
+
+**I verified T1's factual claims against the committed manifests before integrating any of them**, and
+one of my own suspicions was wrong:
+
+| T1's claim | parent check |
+|---|---|
+| endpoint `https://clinicaltrials.gov/api/v2/studies` | **confirmed** across the sweep manifests |
+| driver-gene screens use `query.term=NR4A3` / `EWSR1` | **confirmed** |
+| the **fusion** screen is `query.term="gene fusion" OR "fusion-positive" OR "FET fusion" OR "translocation"` at **`pageSize=400`** | **confirmed verbatim.** ⚠ I had suspected T1 conflated this with the **basket** screen, which is also at `pageSize=400`. **My suspicion was wrong** — both exist, and T1's attribution is right |
+| `fields=` restricts what is returned, not what is searched | **confirmed** — the parameter is present on those URLs |
+| the 526-trial screen used `query.cond` | **confirmed** |
+
+**Integrated into `research/manuscripts/care-delivery/emc-trial-reachability.md`.** The replacement
+keeps the paper's conclusion **verbatim** — "whether a trial carrying its fusion language only in
+eligibility text could enter the pool is **untested**" — and adds only what is now established: the
+exact endpoint and query, the `pageSize=400` that explains the truncated pool, the `fields=`
+clarification, the **unreachable-host fact dated 2026-09-08**, the **secondary** grade named as such,
+the **non-agreement** among those sources, and that none describes the index as it stood on the
+**2026-08-07** run date.
+
+**Token check:** exactly **two** tokens left the file — `here:` and `neither.` — both re-punctuated
+(`here,`, `neither —`). **No content was removed.** 220 tokens added.
+
+**Gates after integration:** `lint_consistency`, `lint_style`, `lint_claims`,
+`lint_submission_residue`, `lint_asymmetry`, `submission_metrics` all **exit 0**. **`lint_citations`
+exits 1** — pre-existing and repo-wide. **Not all gates are green.** This paper is not venue-graded by
+`submission_metrics`, so no word cap applies.
+
+⛔ **What this integration is not:** it does **not** reopen the four closed care-delivery source gates,
+does **not** replay the term census, adds **no** trial count or numerator claim, and asserts **no**
+field coverage. It records a source-method limitation **as** a limitation.
