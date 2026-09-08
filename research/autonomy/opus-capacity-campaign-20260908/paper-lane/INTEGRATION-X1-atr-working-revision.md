@@ -126,3 +126,46 @@ the seven authorized corrections, so it was not attempted. **Exact reopening con
 authorization to rewrite the abstract of this manuscript to at most 250 words, or a coordinator
 decision that the recorded 250-word limit does not bind this submission. Nothing else about the
 manuscript is blocked by this, and integration stands.
+
+---
+
+## Dated append — 2026-09-08, three coordinator corrections
+
+Nothing above is rewritten.
+
+**1 · The 341-word abstract is an ordinary authoring task, not an authorization blocker.** The
+BLOCKER record above is corrected: standing manuscript-advancement scope already permits ordinary
+useful writing, and shortening an abstract to a recorded formatting limit is exactly that. It was
+wrong to promote it into a permission gate, and it must not become a global work-selection gate.
+
+The **reopening condition is corrected** to: a faithful abstract of at most 250 words, measured by
+the actual declared counter. It is NOT fresh permission, and it is NOT relaxing the limit. A faithful
+short abstract proceeds through ordinary same-parent integration and checking; no new user, title or
+history approval is involved. The coordinator will assess the concrete wording when it exists.
+
+The 250-word target is the **recorded formatting constraint** carried in `submission-metrics.json`,
+whose own provenance field reads "search-derived; onlinelibrary.wiley.com serves a bot challenge to
+CI and to a real headless browser alike". It is not fresh publisher verification and nothing here
+claims it is.
+
+A bounded worker was already preparing that abstract when this correction arrived; it was reused
+rather than duplicated. Its brief requires the central computed results, the canonical-transcript and
+prediction-only scope, the reported-breakpoint versus measured-construct distinction, and the
+evaluated-grid limitation to survive the cut.
+
+**2 · The systems_check comparison was of COUNT, not of error IDENTITY.** The table above records
+907 errors before and after the tracked changes. That is a count, and a count alone. No
+error-by-error identity comparison was performed, so the equal totals do **not** establish that the
+same 907 errors are present in both runs. What is separately established, and is the narrower true
+statement, is that no `systems_check` error names any file this integration changed: the two D11
+errors that did were introduced on the new QA note and fixed. No broader comparison or audit was
+requested and none was run.
+
+**3 · The cover letter is a letter, not an errata list.** The C1 and C3 corrections had left it
+narrating this programme's earlier mistakes — "so the pair is not 'the two commonest'", and 59
+residues framed by what an earlier model lacked. Both were rewritten to state the correct facts
+plainly. The reported-breakpoint versus measured-construct distinction is preserved in full. The two
+`second-person` findings, which were pre-existing, were handled as routine correspondence
+formatting: "Thank you for considering this manuscript" became "With thanks for the editors'
+consideration of this manuscript", and "Yours sincerely" became "Sincerely". `lint_style` now exits 0
+on the letter. No scientific claim was added, removed or weakened.

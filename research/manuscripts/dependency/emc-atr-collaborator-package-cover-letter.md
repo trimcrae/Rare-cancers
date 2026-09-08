@@ -50,13 +50,12 @@ The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and
 junction literature the paper compiles includes the counted EMC series published in this journal.
 Two results should interest the readership independently of the proposed assay. Retained EWSR1 RG
 dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is
-the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes; type 2 is counted once in
-those series, so the pair is not "the two commonest". The three reported EWSR1::ATF1 breakpoints
-span 0.000 to 0.267 of retained RG; recruitment was measured on a construct whose breakpoint the
-source does not state, so that span describes reported breakpoints and not a measured range. And
-the type-2 junction places 177 nucleotides in the EWSR1 reading frame between the two moieties —
-one donated by EWSR1 across the seam and 176 supplied by *NR4A3* — encoding 59 residues that this
-programme's own earlier protein-level model did not contain. The manuscript also documents, and corrects, an exon-numbering
+the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes, and type 2 is counted once
+in those series. The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG,
+which describes reported breakpoints rather than a measured range: recruitment was measured on a
+construct whose breakpoint the source does not state. And the type-2 junction places 177 nucleotides
+in the EWSR1 reading frame between the two moieties, one donated by EWSR1 across the seam and 176
+supplied by *NR4A3*, encoding 59 residues. The manuscript also documents, and corrects, an exon-numbering
 error in this programme's own earlier work that silently deleted the AF-1 domain and the first zinc
 finger from every emitted junction, because the correction is the reason every boundary here carries
 its provenance and its self-check.
@@ -85,9 +84,9 @@ competing interests and received no funding.
 Should it help the editors, appropriate reviewer expertise would include fusion-gene structure and
 breakpoint annotation in sarcoma, FET-family fusion biology, and DNA damage response imaging.
 
-Thank you for considering this manuscript.
+With thanks for the editors' consideration of this manuscript.
 
-Yours sincerely,
+Sincerely,
 
 Tristan D. McRae
 Independent Researcher
