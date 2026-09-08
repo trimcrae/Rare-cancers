@@ -1,0 +1,106 @@
+{
+ "arm_link_state": {
+  "CANDIDATE": 10,
+  "CONFIRMED": 503,
+  "CONFIRMED_TYPE_ONLY": 26,
+  "UNKNOWN_IN_THIS_CACHE": 8,
+  "UNRESOLVED": 5
+ },
+ "arm_set_type_state": {
+  "ALL_ARMS_CONTROL_TYPED": 13,
+  "ALL_ARMS_NON_CONTROL_TYPED": 462,
+  "ARM_TYPE_ABSENT_IN_THIS_CACHE": 3,
+  "MIXED_ARM_TYPES": 68,
+  "NO_ARMS_REGISTERED_IN_THIS_CACHE": 6
+ },
+ "checks": [
+  {
+   "check": "row_count_equals_552",
+   "detail": "rows=552",
+   "result": "PASS"
+  },
+  {
+   "check": "key_set_identical_to_job3",
+   "detail": "only_new=0 only_job3=0",
+   "result": "PASS"
+  },
+  {
+   "check": "no_row_missing_a_prior_row",
+   "detail": "missing=0",
+   "result": "PASS"
+  },
+  {
+   "check": "confirmed_fields_only_when_CONFIRMED",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "substring_containment_never_confirmed",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "zero_arms_never_not_control",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "contested_never_resolved_to_a_side",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "candidate_control_carries_no_confirmed_type",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "CONFIRMED_always_binds_one_registered_arm",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "unknown_to_not_control_only_on_record_evidence",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "all_five_machine_states_distinct",
+   "detail": "{\"CANDIDATE\": 10, \"CONFIRMED\": 503, \"CONFIRMED_TYPE_ONLY\": 26, \"UNKNOWN_IN_THIS_CACHE\": 8, \"UNRESOLVED\": 5}",
+   "result": "PASS"
+  },
+  {
+   "check": "absent_modules_stay_absent_in_this_cache",
+   "detail": "occurrences across the 12 payloads: {'participantFlowModule': 0, 'armGroupLabels': 0} (0 expected; they were never fetched)",
+   "result": "PASS"
+  },
+  {
+   "check": "producer_makes_no_network_call",
+   "detail": "no network, http or subprocess module is imported by this producer; imports are: collections, csv, json, os, re, sys",
+   "result": "PASS"
+  }
+ ],
+ "checks_failed": 0,
+ "contested_rows": 5,
+ "control_status": {
+  "CONTESTED": 5,
+  "CONTROL_ACTIVE_COMPARATOR_CONFIRMED": 32,
+  "CONTROL_NO_INTERVENTION_CONFIRMED": 1,
+  "CONTROL_PLACEBO_CONFIRMED": 8,
+  "CONTROL_UNSPECIFIED_CANDIDATE_GROUP_TEXT_ONLY": 1,
+  "NOT_CONTROL_BY_ARM_SET_TYPE_INVARIANT": 26,
+  "NOT_CONTROL_CONFIRMED": 454,
+  "UNKNOWN_IN_THIS_CACHE": 25
+ },
+ "disposition_vs_job3": {
+  "CHANGED_CLASS:CONTROL_PROPOSED->CONTESTED": 2,
+  "CHANGED_CLASS:CONTROL_PROPOSED->CONTROL_SUPPORTED": 4,
+  "CHANGED_CLASS:NOT_CONTROL->CONTESTED": 3,
+  "CHANGED_CLASS:NOT_CONTROL->UNKNOWN": 9,
+  "CHANGED_CLASS:UNKNOWN->CONTROL_SUPPORTED": 16,
+  "CHANGED_CLASS:UNKNOWN->NOT_CONTROL": 245,
+  "UNCHANGED_CLASS": 273
+ },
+ "rows": 552,
+ "sole_arm_multi_results_group": 83
+}

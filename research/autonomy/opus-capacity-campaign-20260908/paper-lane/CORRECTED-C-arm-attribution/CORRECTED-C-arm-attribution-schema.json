@@ -1,0 +1,79 @@
+{
+ "id": "SCHEMA-CORRECTED-C-ARM-ATTRIBUTION",
+ "version": "1.0.0",
+ "date": "2026-09-08",
+ "status": "NEW SIBLING of CURATION-endpoint-arm-attribution-map.tsv. The Job 3 map is NOT replaced, NOT overwritten and NOT re-run. Both tables are evidence of their own actual runs.",
+ "row_key": {
+  "fields": ["nct", "om_title", "group_title", "evaluable_n"],
+  "note": "Byte-identical key construction to Job 3, so this table joins 1:1 to CURATION-endpoint-arm-attribution-map.tsv and to C2_arms in endpoint-corpus.json. Verified: 552 rows, 0 only-here, 0 only-there.",
+  "unique_on_triple": "(nct, om_title, group_title) is already unique across the 552 rows; evaluable_n is retained for key compatibility, not for disambiguation."
+ },
+ "independent_confirmation": "job2 and job3 were NEVER independently confirmed. This table corrects job3's arm-attribution logic; it does not confirm job3's, job2's or job1's other outputs, and the 552-key set itself is inherited from that unconfirmed chain.",
+ "cache_scope": "All source values come from the delivered immutable cache copy at cache revision 216bd1b5fb25a56b90ef3cc2373e1fe68322708f (12 payloads, sha256sum -c exit code 0). resultsSection.participantFlowModule and armsInterventionsModule.interventions[].armGroupLabels are ABSENT FROM THIS CACHE and were not fetched. Every state named *_IN_THIS_CACHE means unknown within this cache, NOT globally nonexistent.",
+ "enumerations": {
+  "arm_link_state": {
+   "_rule": "Five DISTINCT machine values. They are never collapsed, and no downstream consumer may treat any of them as another.",
+   "CONFIRMED": "the results group is linked to exactly ONE registered armGroup by byte-exact label, by a case/whitespace-only label identity, or by an explicit within-record relation (arm description, interventionNames, a record-asserted bijection/partition/complement). Only this state may populate confirmed_registry_arm_label / confirmed_registry_arm_type.",
+   "CONFIRMED_TYPE_ONLY": "arm IDENTITY is not resolved, but every registered arm in the record carries a non-control type, so the arm TYPE is invariant over the candidate set. Populates candidate fields only.",
+   "CANDIDATE": "a proposed link supported by label strings alone (substring containment, a punctuation/spacing/dose-token variant, or a leaf recovery whose recovered label does not bind to a single registered arm). PROPOSED, NEVER CONFIRMED.",
+   "CONTESTED": "reserved value in this enumeration; contestation is carried on control_status and contested_flag (see below), because it is a property of the control claim, not of the link.",
+   "UNRESOLVED": "registered arms exist and are described, but the record does not distinguish them from one another for this group.",
+   "UNKNOWN_IN_THIS_CACHE": "no arm groups registered in this cache, or no label relation of any kind in this cache."
+  },
+  "control_status": {
+   "_rule": "UNKNOWN_IN_THIS_CACHE is NEVER read as NOT_CONTROL. CONTESTED is NEVER counted as a comparator. A *_CANDIDATE_* value is NEVER counted as a control.",
+   "CONTROL_PLACEBO_CONFIRMED": "CONFIRMED link to an arm typed PLACEBO_COMPARATOR or SHAM_COMPARATOR.",
+   "CONTROL_NO_INTERVENTION_CONFIRMED": "CONFIRMED link to an arm typed NO_INTERVENTION.",
+   "CONTROL_ACTIVE_COMPARATOR_CONFIRMED": "CONFIRMED link to an arm typed ACTIVE_COMPARATOR. A treated comparator, NOT an untreated or placebo control.",
+   "CONTROL_PLACEBO_CANDIDATE_GROUP_TEXT_ONLY": "the group's own record states placebo/sham; no confirmed registry link. Proposed only.",
+   "CONTROL_NO_INTERVENTION_CANDIDATE_GROUP_TEXT_ONLY": "as above for no-intervention/observation language.",
+   "CONTROL_UNSPECIFIED_CANDIDATE_GROUP_TEXT_ONLY": "the group record says control/comparator without naming placebo; no confirmed registry link.",
+   "NOT_CONTROL_CONFIRMED": "CONFIRMED link to an arm typed EXPERIMENTAL or OTHER, with no contradicting control language in the group record.",
+   "NOT_CONTROL_BY_ARM_SET_TYPE_INVARIANT": "arm identity unresolved, but every registered arm in the record is typed EXPERIMENTAL/OTHER, so no assignment could make this group a control. Carries the stated assumption that the results group corresponds to some registered arm.",
+   "CONTESTED": "the group's own record states placebo or no-intervention while the CONFIRMED registry arm is typed EXPERIMENTAL or OTHER. Neither field wins. NOT counted as a comparator and NOT counted as NOT_CONTROL.",
+   "UNKNOWN_IN_THIS_CACHE": "control status is not determinable from this cache. Includes all 6 zero-registered-arm rows."
+  },
+  "arm_set_type_state": ["NO_ARMS_REGISTERED_IN_THIS_CACHE", "ARM_TYPE_ABSENT_IN_THIS_CACHE", "PARTIALLY_TYPED_IN_THIS_CACHE", "ALL_ARMS_NON_CONTROL_TYPED", "ALL_ARMS_CONTROL_TYPED", "MIXED_ARM_TYPES"],
+  "disposition_vs_job3": {
+   "_rule": "The change map compares SEMANTIC CLASSES ONLY (CONTROL_SUPPORTED / CONTROL_PROPOSED / NOT_CONTROL / CONTESTED / UNKNOWN). The four-class collapse exists for the change map and is never written back onto a row; each row keeps its full machine value.",
+   "values": ["UNCHANGED_CLASS", "CHANGED_CLASS:<old>-><new>", "NO_PRIOR_ROW"]
+  }
+ },
+ "normalisation_policy": {
+  "permitted_for_a_CONFIRMED_label_link": ["letter case", "whitespace (including whitespace runs and whitespace around punctuation)"],
+  "forbidden": ["punctuation insertion or removal", "internal hyphens", "brackets", "dosage units", "unit order", "spelling variants and suspected typos", "abbreviation expansion"],
+  "worked_refusal": "'3.2 mg/kg' and '3.2 kg/mg' are a dose and a unit, not a formatting variant, and are never merged on string similarity. A link across a suspected typo requires independent within-record identity evidence; where identity is not established, the alternatives and the ambiguity are retained.",
+  "no_split_rule": "Known-identical groups are not split, and different doses are not merged, merely to satisfy a scalar count."
+ },
+ "columns": [
+  {"name": "nct", "type": "string", "role": "key"},
+  {"name": "om_title", "type": "string", "role": "key"},
+  {"name": "group_title", "type": "string", "role": "key", "note": "ORIGINAL label, preserved verbatim. Never normalised in place."},
+  {"name": "evaluable_n", "type": "int", "role": "key"},
+  {"name": "era", "type": "string"},
+  {"name": "family", "type": "string", "note": "bor | placebo (which cached query family the record came from)"},
+  {"name": "n_arms_registered", "type": "int"},
+  {"name": "n_results_groups_in_om", "type": "int"},
+  {"name": "arm_set_type_state", "type": "enum"},
+  {"name": "registry_arm_types_in_record", "type": "string", "note": "all armGroup types in the record, ' | '-joined, verbatim"},
+  {"name": "arm_link_state", "type": "enum"},
+  {"name": "arm_link_evidence_code", "type": "enum-string"},
+  {"name": "arm_link_source", "type": "string", "note": "LABEL_IN_THIS_PRODUCER | DELIVERED_LEAF:<file>"},
+  {"name": "confirmed_registry_arm_label", "type": "string", "note": "EMPTY unless arm_link_state == CONFIRMED"},
+  {"name": "confirmed_registry_arm_type", "type": "string", "note": "EMPTY unless arm_link_state == CONFIRMED"},
+  {"name": "candidate_registry_arm_labels", "type": "string", "note": "proposed only; structurally separate from the confirmed fields"},
+  {"name": "candidate_registry_arm_types", "type": "string", "note": "proposed only"},
+  {"name": "candidate_evidence", "type": "string", "note": "the delivered leaf's own evidence string, quoted"},
+  {"name": "control_status", "type": "enum"},
+  {"name": "control_basis", "type": "string"},
+  {"name": "contested_flag", "type": "string", "note": "';'-joined: PLACEBO_OR_NOINT_TEXT_VS_NONCONTROL_REGISTRY_TYPE | GROUP_TITLE_IS_A_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN | PLACEBO_CLAIM_WITHOUT_PLACEBO_TYPED_ARM_IN_THIS_CACHE"},
+  {"name": "sole_arm_multi_results_group_flag", "type": "enum", "note": "YES where the trial registers exactly 1 arm but the outcome measure reports >1 results group -- the record's own contradiction of a one-arm reading"},
+  {"name": "job3_arm_match_quality", "type": "string", "role": "prior state, read-only"},
+  {"name": "job3_registry_arm_label", "type": "string", "role": "prior state, read-only"},
+  {"name": "job3_registry_arm_type", "type": "string", "role": "prior state, read-only"},
+  {"name": "job3_control_status", "type": "string", "role": "prior state, read-only"},
+  {"name": "disposition_vs_job3", "type": "enum"},
+  {"name": "group_description", "type": "string", "note": "first 400 chars, verbatim"}
+ ],
+ "fences": "This table carries no response rate, no unique-patient total, no control comparison and no clinical comparison. It is not a manuscript input in its present state; the endpoint manuscript stays parked."
+}
