@@ -73,3 +73,50 @@ P1–P3 closures and the P4–P6 intake limits all stay exact.
 
 **Ownership.** Campaign record owned by the one parent collector; no manuscript or shared-graph write. Durable
 artifacts to `/tmp/claude-0/s6-retained/`, verified before any cleanup, parent copies and commits.
+
+---
+
+# ⛔ NARROWING APPENDED 2026-09-08 06:34 UTC — two claims above were too strong
+
+**The decision text above is preserved unchanged.** The NO-GO on further synthetic sweeps and the correction
+that synthetic ease establishes no real-figure error bound both stand. Two claims in the S6 section are
+narrowed here.
+
+## 1. A matched pair tests the method on THAT pair — it does not validate the line
+
+The text above says one figure–truth pair *"converts every synthetic result above into a validated or refuted
+claim about real figures."* ⛔ **That is too strong and is withdrawn.** A single matched pair supports a test of
+the method **on that pair only** — one figure, one cohort, one endpoint, one journal's rendering. It cannot
+validate or refute *every* synthetic finding, and it establishes no general claim about real figures. Whether
+any result transfers beyond the pairs actually tested remains **UNKNOWN**, and the number of pairs needed for
+any broader statement is itself unestablished.
+
+## 2. A null result is a bounded source/reachability finding — not automatic paper merit
+
+The text above calls an empty class *"the decisive, publishable-grade negative that closes the line honestly."*
+⛔ **Also withdrawn.** Failing to find or reach such a pair is a **bounded statement about what was searched and
+what was reachable**, nothing more. It is **not** automatically publishable-grade, **not** paper merit, and
+**not** a manuscript admission. Symmetrically: **source availability is not paper admission either** — finding
+pairs admits no paper. Any paper-level consequence would need its own separate decision on its own evidence.
+
+## 3. Matched cohort/endpoint versus merely adjacent — the distinction is load-bearing
+
+A **matched** pair means the per-patient data covers **the same cohort and the same endpoint** as the survival
+figure, so it can serve as ground truth for that figure. An **adjacent** fragment — a per-subject table for a
+different subset, a swimmer plot of a different endpoint or a differently-defined population, patient-level
+data for some arms of a mixed cohort — **does not supply ground truth for that figure** and must not be graded
+as though it did. The two fragments this campaign already stumbled on are **candidates to be tested against this
+definition, not established pairs**, and either may fail it. Verdicts must state matched-versus-adjacent
+explicitly and default to the weaker reading when the source does not settle it.
+
+## 4. Closures are unaffected by any of this
+
+Every named closed and held source stays excluded — **including if it turns out to be one of the fragments that
+motivated this candidate**. These narrowings must not be used to broaden scope, revisit a closed route, or
+justify a retry. The `CLOSED-WORK.md` denied list, GSE4303/GSE28866, PMID 22592656, W25 / GSE243553 /
+primary-article / Results / novelty, the NR4A Perspective, the S1/S3 stops, the P1–P3 closures and the P4–P6
+limits all stand exactly as recorded.
+
+The running S6 contract otherwise continues unchanged: source identification only, no digitization,
+reconstruction, pooling or clinical dataset; retention and access-state recording as already permitted; no new
+manuscript or publication action; no controller, session, deadline or billing change.
