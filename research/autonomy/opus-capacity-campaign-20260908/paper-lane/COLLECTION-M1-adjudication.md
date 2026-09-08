@@ -102,3 +102,22 @@ that the resource exists and was not used, with the reason, remains accurate.
 
 `/tmp/claude-0/m1-lane/` **intact, nothing deleted**, pending an exact-directory receipt. In-repo copy
 `M1-executed-artifacts/` with a self-exclusive manifest.
+
+
+---
+
+# Correction appended 2026-09-08 11:04 UTC — no original was lost
+
+Above I recorded that `R03a_get_article_metadata.json` is "a verbatim transcription, NOT original
+bytes", with two disclosed omissions. **That remains true of that file — but it should not be read as
+a lost original, and any such reading is withdrawn.**
+
+**The complete original metadata tool-result string is inside the retained child JSONL**
+(`M1-executed-artifacts/ORIGINAL-CHILD-TRANSCRIPT-a5956710c3213c7aa.jsonl`), and has been losslessly
+extracted from it locally: **5,821 bytes**, sha256
+`9a1fb67ddbd8952602cd768b02f2fc48f94938b24ee9ff3474d3a3558466aa3f`, **including the per-author
+affiliation arrays and the legal notice** the separate transcription omitted.
+
+**So both exist and are preserved:** the byte-exact tool result inside the transcript, and the
+child's labelled transcription beside it. **No lost-original claim is warranted here**, and none is
+made. Nothing was re-run or re-fetched to establish this — it is a reading of already-retained bytes.
