@@ -89,7 +89,7 @@ The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at
 | [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) | `primary` | The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away. |
 | [RT-ASO-ASK](L2-rt-aso-ask.md) — Junction knockdown + parental sparing in EMC lines ( | `contributing` | The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench. |
 
-### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta
+### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)**
 
