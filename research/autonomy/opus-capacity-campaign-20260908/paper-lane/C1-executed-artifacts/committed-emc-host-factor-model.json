@@ -1,0 +1,328 @@
+{
+ "_readme": "What treating a common, independently treatable condition would be worth to a patient with EMC. TWO COMPARTMENTS, NEVER ONE NUMBER. Compartment B is death from causes other than EMC, where the patient is an ordinary person and general-population evidence transfers with a weak assumption. Compartment A is death caused by EMC, where no EMC evidence exists and the default is that NOTHING is claimed. Every effect size is anchored to a PMID present in the committed retrieval artifact; an anchored identifier means a fetch returned it, not that the paper supports the row. Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness in EMC, and nothing here is advice for any individual.",
+ "generated_by": "research/manuscripts/emc_host_factor_model.py",
+ "competing_share_of_deaths_used": 0.39399999999999996,
+ "competing_share_source": "research/manuscripts/emc-mortality-decomposition.json, within-series (Meis-Kindblom 1999) -- the only pairing measured on the same patients.",
+ "why_two_compartments": "A host factor acts on EMC deaths and on ordinary deaths through completely different evidence, and the second is far better supported. Reporting one blended number would let the strength of the compartment-B evidence silently license a compartment-A claim that nothing supports.",
+ "the_honest_ceiling": "Acting on compartment B alone, a host-factor intervention can only ever touch the share of deaths that are not EMC deaths. It is not a cancer treatment and must never be presented as one. What makes it worth registering is that it requires no new science, no wet lab and no collaborator -- which is not true of any other route in this portfolio.",
+ "bias_registry": {
+  "reverse_causation": "The disease causes the exposure rather than the reverse. Cancer causes weight loss, so low body mass looks lethal and high body mass looks protective. An analysis blind to this recommends weight GAIN to cancer patients.",
+  "obesity_paradox": "The specific, named form of the above in oncology, where measured associations between adiposity and survival run opposite to the causal effect.",
+  "collider_bias": "Conditioning on having the disease distorts associations among its causes, so a risk factor for incidence can appear protective for survival without any biological effect at all.",
+  "immortal_time": "A drug taken by people who survived long enough to take it manufactures a survival benefit out of the study design.",
+  "healthy_user": "People who take preventive medication and adhere to it differ systematically from those who do not, in ways that predict survival independently.",
+  "confounding_by_indication": "The condition prompting treatment is itself prognostic.",
+  "competing_risks_misestimation": "Using an estimator that censors other-cause deaths overstates the cause-specific incidence, which is precisely the two-compartment structure at issue here.",
+  "transportability": "The effect was measured in a population that differs from this one in ways that modify the effect, not merely in ways that shift the baseline."
+ },
+ "compartment_transfer_scale": {
+  "B": {
+   "multiplier_range": [
+    0.6,
+    1.0
+   ],
+   "means": "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary person, so a general-population effect applies with the weakest assumption in this repository. Not 1.0, because an EMC cohort is selected for having reached and survived a sarcoma diagnosis and is therefore fitter than the population the effect was measured in."
+  },
+  "A": {
+   "multiplier_range": [
+    0.0,
+    0.3
+   ],
+   "means": "EMC-specific death. No EMC evidence exists and sarcoma evidence is thin and confounded, so the lower bound is ZERO -- no effect -- and stays zero unless a row supplies direct evidence and says so."
+  }
+ },
+ "factors": [
+  {
+   "id": "HF-OBESITY",
+   "factor": "obesity (BMI >= 30)",
+   "intervention": "GLP-1 receptor agonist / incretin-based therapy",
+   "prevalence_in_cohort": 0.403,
+   "prevalence_basis": "US adults, NHANES August 2021-August 2023: obesity prevalence 40.3%, no significant sex difference, higher at ages 40-59 (NCHS Data Brief 508, PMID 39808758, doi 10.15620/cdc/159281; read via PubMed 2026-09-04). Imported -- no EMC series records BMI.",
+   "biases_that_apply": [
+    {
+     "bias": "reverse_causation",
+     "why_it_matters": "The disease causes the exposure rather than the reverse. Cancer causes weight loss, so low body mass looks lethal and high body mass looks protective. An analysis blind to this recommends weight GAIN to cancer patients."
+    },
+    {
+     "bias": "obesity_paradox",
+     "why_it_matters": "The specific, named form of the above in oncology, where measured associations between adiposity and survival run opposite to the causal effect."
+    },
+    {
+     "bias": "collider_bias",
+     "why_it_matters": "Conditioning on having the disease distorts associations among its causes, so a risk factor for incidence can appear protective for survival without any biological effect at all."
+    },
+    {
+     "bias": "transportability",
+     "why_it_matters": "The effect was measured in a population that differs from this one in ways that modify the effect, not merely in ways that shift the baseline."
+    }
+   ],
+   "compartments": {
+    "A": {
+     "share_of_all_deaths": 0.606,
+     "status": "NO_EVIDENCE",
+     "relative_risk_reduction_range": [
+      0.0,
+      0.0
+     ],
+     "transfer_note": "EMC-specific death. No EMC evidence exists and sarcoma evidence is thin and confounded, so the lower bound is ZERO -- no effect -- and stays zero unless a row supplies direct evidence and says so.",
+     "reading": "Nothing is claimed for this compartment. For compartment A that is the expected and honest state: no EMC-specific evidence exists."
+    },
+    "B": {
+     "share_of_all_deaths": 0.394,
+     "status": "MODELLED",
+     "pmid": "42292722",
+     "measured_in": "adults with heart failure in 14 randomised comparisons of GLP-1 RA vs placebo (six dedicated HF trials, eight CVOT heart-failure subgroups; 18,184 patients). The abstract states the all-cause mortality benefit was driven by the CVOT subgroups while dedicated HF trials showed directional harm, and grades it LOW certainty.",
+     "endpoint": "all-cause mortality",
+     "relative_risk_reduction_range": [
+      0.05,
+      0.21
+     ],
+     "transfer_multiplier_range": [
+      0.6,
+      1.0
+     ],
+     "transfer_note": "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary person, so a general-population effect applies with the weakest assumption in this repository. Not 1.0, because an EMC cohort is selected for having reached and survived a sarcoma diagnosis and is therefore fitter than the population the effect was measured in.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0118,
+      0.0827
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.0048,
+      0.0333
+     ]
+    }
+   }
+  },
+  {
+   "id": "HF-SMOKING",
+   "factor": "current cigarette smoking",
+   "intervention": "smoking cessation (behavioural and pharmacological support)",
+   "prevalence_in_cohort": 0.112,
+   "prevalence_basis": "US adults aged 45-64, NHIS 2023: current exclusive cigarette smoking 11.2% (95% CI 10.4-12.1); all adults 7.9% (7.5-8.4) (MMWR 74(7):118-121, PMID 40048400, doi 10.15585/mmwr.mm7407a3; full text read via PubMed Central 2026-09-04). The 45-64 band is used because the background-mortality check in the probe starts the cohort at age 55. Imported -- no EMC series records smoking.",
+   "biases_that_apply": [
+    {
+     "bias": "immortal_time",
+     "why_it_matters": "A drug taken by people who survived long enough to take it manufactures a survival benefit out of the study design."
+    },
+    {
+     "bias": "healthy_user",
+     "why_it_matters": "People who take preventive medication and adhere to it differ systematically from those who do not, in ways that predict survival independently."
+    },
+    {
+     "bias": "confounding_by_indication",
+     "why_it_matters": "The condition prompting treatment is itself prognostic."
+    },
+    {
+     "bias": "transportability",
+     "why_it_matters": "The effect was measured in a population that differs from this one in ways that modify the effect, not merely in ways that shift the baseline."
+    }
+   ],
+   "compartments": {
+    "A": {
+     "share_of_all_deaths": 0.606,
+     "status": "NO_EVIDENCE",
+     "relative_risk_reduction_range": [
+      0.0,
+      0.0
+     ],
+     "transfer_note": "EMC-specific death. No EMC evidence exists and sarcoma evidence is thin and confounded, so the lower bound is ZERO -- no effect -- and stays zero unless a row supplies direct evidence and says so.",
+     "reading": "Nothing is claimed for this compartment. For compartment A that is the expected and honest state: no EMC-specific evidence exists."
+    },
+    "B": {
+     "share_of_all_deaths": 0.394,
+     "status": "MODELLED",
+     "pmid": "41300991",
+     "measured_in": "patients with lung cancer who quit smoking at diagnosis, meta-analysis of non-randomised studies appraised with RoBANS 2 (searched to September 2024). The endpoint is OVERALL survival in a smoking-caused cancer, so the estimate mixes cancer and non-cancer death and transfers to EMC's compartment B only as a direction and an order of magnitude.",
+     "endpoint": "overall survival (all-cause mortality)",
+     "relative_risk_reduction_range": [
+      0.19,
+      0.32
+     ],
+     "transfer_multiplier_range": [
+      0.6,
+      1.0
+     ],
+     "transfer_note": "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary person, so a general-population effect applies with the weakest assumption in this repository. Not 1.0, because an EMC cohort is selected for having reached and survived a sarcoma diagnosis and is therefore fitter than the population the effect was measured in.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0449,
+      0.1261
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.005,
+      0.0141
+     ]
+    }
+   }
+  },
+  {
+   "id": "HF-CV-RISK",
+   "factor": "statin-eligible atherosclerotic cardiovascular risk (primary prevention)",
+   "intervention": "statin therapy",
+   "prevalence_in_cohort": 0.468,
+   "prevalence_basis": "US adults aged 40-75 without ASCVD, NHANES 2017-2020: 46.8% (95% CI 43.0-50.5) eligible for primary-prevention statin therapy under the 2018 AHA/ACC guideline, 31.8% under the 2022 USPSTF recommendation (PMID 36038004, doi 10.1016/j.pcad.2022.08.007). Under the 2026 guideline 56.6% of adults 30-79 are eligible and 17.8% already take a statin (PMID 42475062, doi 10.1001/jama.2026.11246). Both read via PubMed 2026-09-04. Imported; the already-treated fraction is not subtracted, so this prevalence overstates the untreated eligible share.",
+   "biases_that_apply": [
+    {
+     "bias": "transportability",
+     "why_it_matters": "The effect was measured in a population that differs from this one in ways that modify the effect, not merely in ways that shift the baseline."
+    },
+    {
+     "bias": "competing_risks_misestimation",
+     "why_it_matters": "Using an estimator that censors other-cause deaths overstates the cause-specific incidence, which is precisely the two-compartment structure at issue here."
+    },
+    {
+     "bias": "healthy_user",
+     "why_it_matters": "People who take preventive medication and adhere to it differ systematically from those who do not, in ways that predict survival independently."
+    }
+   ],
+   "compartments": {
+    "A": {
+     "share_of_all_deaths": 0.606,
+     "status": "ASSOCIATION_ONLY",
+     "pmid": "42324568",
+     "measured_in": "321 sarcoma patients pooled from seven phase II immunotherapy trials (median follow-up 47.4 months); time-dependent and baseline concomitant-medication analyses.",
+     "endpoint": "progression-free survival (baseline statin use: aHR 0.64, 0.47-0.87); the same abstract reports NO association with overall survival",
+     "association_hazard_ratio_range": [
+      0.47,
+      0.87
+     ],
+     "relative_risk_reduction_range": [
+      0.0,
+      0.0
+     ],
+     "transfer_note": "EMC-specific death. No EMC evidence exists and sarcoma evidence is thin and confounded, so the lower bound is ZERO -- no effect -- and stays zero unless a row supplies direct evidence and says so.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "reading": "An association between carrying the factor and dying is recorded here, and NOTHING is claimed from it: the estimate is not an intervention effect, and reverse causation alone can produce it with the sign intact."
+    },
+    "B": {
+     "share_of_all_deaths": 0.394,
+     "status": "MODELLED",
+     "pmid": "42068528",
+     "measured_in": "randomised primary-prevention statin trials pooled in a systematic review with meta-regression (searched to 20 January 2026); adults without established cardiovascular disease.",
+     "endpoint": "cardiovascular death",
+     "relative_risk_reduction_range": [
+      0.05,
+      0.29
+     ],
+     "transfer_multiplier_range": [
+      0.6,
+      1.0
+     ],
+     "transfer_note": "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary person, so a general-population effect applies with the weakest assumption in this repository. Not 1.0, because an EMC cohort is selected for having reached and survived a sarcoma diagnosis and is therefore fitter than the population the effect was measured in.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0118,
+      0.1143
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.0055,
+      0.0535
+     ]
+    }
+   },
+   "endpoint_caveat": "The compartment-B effect size is for CARDIOVASCULAR death, not all-cause death. Compartment B contains every non-EMC death, so applying this reduction to the whole compartment overstates it by the non-cardiovascular fraction of those deaths, which the mortality decomposition does not carry. Read the modelled band as an upper-bound shape, not an estimate."
+  },
+  {
+   "id": "HF-SARCOPENIA",
+   "factor": "sarcopenia / low skeletal muscle mass (CT-defined)",
+   "intervention": "resistance exercise and nutritional support (no drug; no trial effect on mortality retrieved)",
+   "prevalence_in_cohort": 0.195,
+   "prevalence_basis": "Lower bound of the sarcopenia prevalence range (19.5%-83.6%) reported across the 48 studies of solid cancers treated with immunotherapy in PMID 41977025 (in the probe). The lower bound is used deliberately, so the cohort band is conservative. No sarcoma-specific or EMC prevalence was retrieved.",
+   "biases_that_apply": [
+    {
+     "bias": "reverse_causation",
+     "why_it_matters": "The disease causes the exposure rather than the reverse. Cancer causes weight loss, so low body mass looks lethal and high body mass looks protective. An analysis blind to this recommends weight GAIN to cancer patients."
+    },
+    {
+     "bias": "collider_bias",
+     "why_it_matters": "Conditioning on having the disease distorts associations among its causes, so a risk factor for incidence can appear protective for survival without any biological effect at all."
+    },
+    {
+     "bias": "competing_risks_misestimation",
+     "why_it_matters": "Using an estimator that censors other-cause deaths overstates the cause-specific incidence, which is precisely the two-compartment structure at issue here."
+    },
+    {
+     "bias": "transportability",
+     "why_it_matters": "The effect was measured in a population that differs from this one in ways that modify the effect, not merely in ways that shift the baseline."
+    }
+   ],
+   "compartments": {
+    "A": {
+     "share_of_all_deaths": 0.606,
+     "status": "ASSOCIATION_ONLY",
+     "pmid": "40459648",
+     "measured_in": "1,699 sarcoma patients across 18 studies (liposarcoma the commonest histotype; chemotherapy in 89% of studies); seven studies pooled for overall survival. The abstract itself concludes the impact on OS 'still remains uncertain'.",
+     "endpoint": "overall survival (pooled HR 1.91, 95% CI 1.09-3.34); relapse-free survival not significant (HR 1.16, 0.85-1.59)",
+     "association_hazard_ratio_range": [
+      1.09,
+      3.34
+     ],
+     "relative_risk_reduction_range": [
+      0.0,
+      0.0
+     ],
+     "transfer_note": "EMC-specific death. No EMC evidence exists and sarcoma evidence is thin and confounded, so the lower bound is ZERO -- no effect -- and stays zero unless a row supplies direct evidence and says so.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "reading": "An association between carrying the factor and dying is recorded here, and NOTHING is claimed from it: the estimate is not an intervention effect, and reverse causation alone can produce it with the sign intact."
+    },
+    "B": {
+     "share_of_all_deaths": 0.394,
+     "status": "ASSOCIATION_ONLY",
+     "pmid": "41055780",
+     "measured_in": "prospective general-population cohorts pooled in a systematic review (searched to February 2024); dynapenic obesity defined by BMI versus normal BMI.",
+     "endpoint": "all-cause mortality (HR 1.33, 95% CI 1.16-1.53; 1.73 for the abdominal-obesity definition)",
+     "association_hazard_ratio_range": [
+      1.16,
+      1.53
+     ],
+     "relative_risk_reduction_range": [
+      0.0,
+      0.0
+     ],
+     "transfer_note": "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary person, so a general-population effect applies with the weakest assumption in this repository. Not 1.0, because an EMC cohort is selected for having reached and survived a sarcoma diagnosis and is therefore fitter than the population the effect was measured in.",
+     "exposed_patient_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "cohort_share_of_deaths_averted_range": [
+      0.0,
+      0.0
+     ],
+     "reading": "An association between carrying the factor and dying is recorded here, and NOTHING is claimed from it: the estimate is not an intervention effect, and reverse causation alone can produce it with the sign intact."
+    }
+   }
+  }
+ ],
+ "factors_not_entered": [
+  {
+   "factor": "type 2 diabetes / metformin",
+   "why": "The sarcoma_diabetes_metformin top 25 (27,157 hits) surfaced no sarcoma or general-population mortality estimate for glycaemic control or metformin -- the first hit is a pancreatic-cancer proteomics paper. Needs a targeted re-query, not an assumption."
+  },
+  {
+   "factor": "hypertension",
+   "why": "No query in the probe targets blood-pressure treatment and mortality; the probe was written around adiposity, smoking, lipids and comorbidity. Needs a new query in scripts/lit_host_factor_probe.py."
+  },
+  {
+   "factor": "physical inactivity / deconditioning as an intervention",
+   "why": "Retrieved only as sarcopenia associations (entered above at zero). No exercise-intervention mortality trial appeared in the top hits."
+  }
+ ],
+ "limits": [
+  "Prevalence of every host factor in an EMC cohort is UNKNOWN -- no EMC series records one -- so every prevalence here is imported from a general population and is an assumption, not a measurement.",
+  "A share of deaths averted is not a gain in life expectancy; converting the two needs a time horizon and a competing-risks structure this model does not have.",
+  "Every compartment-A entry that is not NO_EVIDENCE should be treated as the weakest part of this analysis, because the sarcoma literature behind it is small and confounded.",
+  "This model cannot detect the biases in its own inputs. The bias registry names what threatens each estimate; it does not correct for any of them."
+ ]
+}
