@@ -4,8 +4,13 @@ Read this in full before doing anything else. It binds every worker in this camp
 
 ## 1. Your environment and boundaries
 
-- Repository: `/home/user/Rare-cancers`. Frozen read commit:
-  `92abbcb905cacf07f14b238db50d1b98f6590374` (this checkout's HEAD). Treat the whole tree as
+- Repository: `/home/user/Rare-cancers`, branch `claude/confident-bardeen-ji76cd`.
+  **CORRECTED 2026-09-08T03:36Z (W35, measured): there is no frozen read commit.** HEAD advances
+  during this campaign as the coordinator collects reports — **record the HEAD you actually read**,
+  at start and at end. `92abbcb905cacf07f14b238db50d1b98f6590374` is the campaign's *start* commit,
+  not a pin, and the campaign directory does not exist at it (`git ls-tree -r --name-only 92abbcb --
+  research/autonomy/opus-capacity-campaign-20260908` returns 0 files), so this brief and
+  `CLOSED-WORK.md` are unreadable there. Read the working tree. Treat the whole tree as
   **read-only** except your own two paths.
 - **WRITE ISOLATION — CORRECTED 2026-09-08T01:52Z, this supersedes any write path named in your
   dispatch prompt.** You are **READ-ONLY on the Git working tree**. Disjoint paths inside one
@@ -48,7 +53,9 @@ Read this in full before doing anything else. It binds every worker in this camp
 ## 3. Mandatory prior-work check before claiming anything is new
 
 Search the actual tracked corpus first, e.g.
-`rg -n -i "<term>" --glob '!.git' | head -50`
+`rg -n -i "<term>" --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' | head -50`
+  **Campaign reports are not repository evidence.** If your only hit is a sibling's report, that is
+  not prior art and not a refutation (W35, 2026-09-08T03:36Z).
 and `git ls-files | rg -i "<term>"`. Then read `CLOSED-WORK.md` in this directory. If your
 proposed question turns out to be already answered or already closed, say so plainly and pivot
 to the nearest genuinely open question **inside your lane**, recording why.

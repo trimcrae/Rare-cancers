@@ -14,6 +14,16 @@ Every worker — active and newly dispatched — may read this corpus. It is **r
                         member-manifest.json, snapshot-provenance.json, tracked-file-map.txt
 ```
 
+**ROOT CORRECTION (W21b ~02:58Z, restated here by W35 2026-09-08T03:36Z because it previously
+lived only in WAVE-LOG.md): repository-relative paths live under
+`/tmp/claude-0/frozen-corpus/extracted/corpus/`, NOT under `.../extracted/`.** Searching the outer
+directory finds nothing and looks like absence. A path that resolves under `corpus/` is present; a
+path that does not is UNKNOWN, never absent.
+
+**The corpus is read-only by mode (`chmod -R a-w`), but workers run as root (`id -u` = 0), so the
+mode is a guard-rail, not enforcement (W35, measured: `test -w` on the corpus root returns
+writable). Do not write to it.**
+
 ## What was verified, with the actual commands
 
 | Check | Result |
