@@ -7,12 +7,14 @@ status: live
 canonical_for: ["the 2026-08-09 EMC biomarker-selected class exclusions"]
 purpose: >
   Ask, of five therapeutic classes that are given on a molecular state rather than on a histology,
-  whether that state is present in extraskeletal myxoid chondrosarcoma — and report that for four of
-  them the answer is no, with the strength of each negative stated separately.
+  what the available transcript-level evidence says about that state in extraskeletal myxoid
+  chondrosarcoma — and report that for four of them the proposed transcript-level selection argument
+  is unsupported or weakened by these observations, with the strength of each negative stated
+  separately and none of them amounting to exclusion of the class.
 scope: >
   L3. Two public archival expression series, 16 EMC tumours, transcript level only, plus a public
   sarcoma-line CRISPR dependency panel containing no EMC line. Reports no experiment in EMC cells, no
-  drug exposure and no patient.
+  drug exposure, and no new recruitment, sampling or clinical intervention.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
 last_verified: 2026-08-09
@@ -27,7 +29,9 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-MTAP-PRMT5]
 Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID 0000-0002-1823-1451.
 
 *Study type: a computational study of public archival expression data and a public dependency panel.
-No experiment was performed, no cell was cultured and no patient was studied.*
+No experiment was performed, no cell was cultured, and no new recruitment, sampling or clinical
+intervention was undertaken. The tumour-expression records analysed here were deposited publicly by
+others.*
 
 Nothing in this paper asserts efficacy, safety, a therapeutic window or clinical readiness for any
 agent in any disease. The analysis reads public transcript data from 16 archival tumours and a public
@@ -46,20 +50,25 @@ state: a lost enzyme, an intact pathway, a repair deficiency. That is structural
 ultra-rare disease, because it offers entry to a drug developed for someone else. It is only good news
 if the state is actually there.
 
-We asked that question for five such classes, and for four of them the state is absent. Each selecting
-feature is readable in expression data that has been public for years, and for none of the five had the
-lookup been reported.
+We asked that question for five such classes at the transcript level. For four of them the proposed
+transcript-level selection argument is unsupported or weakened by these observations, at four clearly
+different strengths, and for one it survives. Relative transcript abundance cannot establish that a
+protein or a mutation is absent, so none of the four is an exclusion of the class. Each selecting
+feature is readable in expression data that has been public for years, and among the sources this
+programme has retained we found no report of these lookups.
 
-The useful output of this paper is which classes the data rule out. In a disease whose estimated
+The useful output of this paper is which transcript-level selection arguments these data fail to
+support. In a disease whose estimated
 incidence this repository's clinical registry records as well under 1 per million per year
 ([`emc-clinical-registry.json`](../../data/emc-clinical-registry.json), `overview.howCommon`), a route
-quietly kept alive on an untested assumption consumes attention that has nowhere else to come from. The
-field publishes almost none of these exclusions, so each one gets re-proposed.
+quietly kept alive on an untested assumption consumes attention that has nowhere else to come from.
+No report of these negative lookups appears among the sources this programme has retained, and a route
+whose negative lookup is unrecorded gets re-proposed.
 
 The four negatives are not equally strong, and saying so is the paper's central methodological claim.
-One is a clean refutation of the selecting feature. Two are refutations of a *proxy* for a feature this
-instrument cannot see. One is a partial reading whose absent half is precisely the half a transcript
-cannot measure. They are reported separately for that reason and never summed.
+One reads clearly against the selecting feature itself, at transcript level. Two bear on a *proxy* for
+a feature this instrument cannot see. One is a partial reading whose absent half is precisely the half
+a transcript cannot measure. They are reported separately for that reason and never summed.
 
 ---
 
@@ -186,8 +195,8 @@ base-excision-repair factors (LIG3, PARP1, XRCC1), and no contrast against that 
 The route's own primary gene is the weakest reading in the module. POLQ has no probe on GPL3290, so the
 module score there is computed over three of four genes and the drug target contributes nothing; on
 GPL6244 it is higher by 0.04 SD (*t* = 0.31) and sits at the 21st percentile of that array. The module
-carries this observation and the target gene does not. Nothing in the literature explains the elevation
-in this disease.
+carries this observation and the target gene does not. No explanation for the elevation in this
+disease appears in the literature this programme has retained.
 
 The half that selects the class is not present. The homologous-recombination arm is flat to mildly
 *higher* (*t* = −0.57 and 1.04), not down. The combination is absent, so the criterion this class is
@@ -229,8 +238,10 @@ selectivity rather than for it.
 
 ## 3 · Claims not made
 
-- Not a claim that any of these agents would fail in this disease. Four selection criteria are unmet on
-  the evidence available; a class can act through a mechanism its biomarker does not capture.
+- Not a claim that any of these agents would fail in this disease, and not an exclusion of any class.
+  Four transcript-level selection arguments are unsupported on the evidence available; the selecting
+  measurement for each is a protein, a mutation or a functional assay that was not made here, and a
+  class can act through a mechanism its biomarker does not capture.
 - Not a substitute for the assays named above. For all five of them the deciding measurement is a
   protein, a mutation or a functional assay, and each is named in its own section.
 - Not generalisable beyond these 16 tumours on two array platforms of different generations, with
@@ -240,10 +251,10 @@ selectivity rather than for it.
 
 | # | claim | the observation that would kill it |
 |---|---|---|
-| F1 | ASS1 is not lost in EMC | ASS1 immunohistochemistry showing protein loss in an EMC series, which would override the transcript reading entirely |
+| F1 | ASS1 transcript does not read low in EMC relative to comparator sarcomas | ASS1 immunohistochemistry showing protein loss in an EMC series, which would override the transcript reading entirely |
 | F2 | the p53 axis is not transcriptionally live | a *TP53* sequence call plus a stress-response readout in the same tumours |
-| F3 | no SWI/SNF subunit is lost | INI1/SMARCB1 immunohistochemistry in an EMC series, the assay the approved indication actually uses |
-| F4 | the HR-down half is absent | a mutational or genomic-scar readout showing homologous-recombination deficiency behind normal transcript; the single most likely way this paper is wrong |
+| F3 | no SWI/SNF tumour-suppressor subunit reads low at transcript level | INI1/SMARCB1 immunohistochemistry in an EMC series, the assay the approved indication actually uses |
+| F4 | the HR-deficient half is not evident at transcript level | a mutational or genomic-scar readout showing homologous-recombination deficiency behind normal transcript; the single most likely way this paper is wrong |
 | F5 | the alt-EJ elevation is real | a third EMC series in which the alt-EJ module is null or lower |
 | F6 | guardian abundance is low with NOXA high | a third series reversing either direction |
 | F7 | the apoptotic question is unresolved | BH3 profiling on EMC tissue or a model: the decisive test, and the one this paper argues is worth running |
@@ -263,10 +274,10 @@ selectivity rather than for it.
   feature is one of those three rather than a transcript level.
 - The comparator arm is other sarcoma, so every statement is relative. A feature could be present in
   EMC and in its comparators alike and would read as absent here.
-- No EMC cell line carrying the fusion appears in any public dependency dataset, so the dependency axis
-  is a transfer from other sarcomas throughout and inherits that limit wherever it is used.
-- Nothing here has been tested in an EMC cell, and no agent in any of these five classes has been given
-  to a patient with this disease.
+- The public sarcoma-line dependency panel read here contains no EMC cell line carrying the fusion, so
+  the dependency axis is a transfer from other sarcomas throughout and inherits that limit wherever it
+  is used. These data hold no dependency reading in this disease at all.
+- Nothing here has been tested in an EMC cell, and no drug exposure was performed in this analysis.
 
 ---
 
@@ -283,7 +294,7 @@ for it that is not already deposited here, and no producer was run to write it.
 | the class definitions and their selecting features | [`biomarker-class-definitions-2026-08-09.json`](../../literature/biomarker-class-definitions-2026-08-09.json) |
 | the clinical registry rows this paper cites | [`emc-clinical-registry.json`](../../data/emc-clinical-registry.json) |
 
-The two scored gene groups are repo-curated pathway-membership lists, not published gene sets or
+The scored gene groups are repo-curated pathway-membership lists, not published gene sets or
 signatures. Each panel's own `provenance` field says so, and every group-level statistic here is a
 statement about a list this programme assembled.
 
@@ -293,7 +304,8 @@ No figure has been rendered for this paper. Its display items are the tables in 
 under the author's direction, and the author is responsible for the content. This manuscript has not
 been peer reviewed by a human reviewer.
 
-**Declarations.** Funding: none. Competing interests: none. Ethics approval and consent were not
-required and were not sought: this study analyses only public archival expression series and public
-dependency data, and involves no human participants, no identifiable data and no patient-level
-records.
+**Declarations.** Funding: none. Competing interests: none. Ethics: no ethics approval was sought and
+none was obtained for this analysis, and no institution or committee has determined whether any is
+required. The analysis reads public archival tumour-expression series and public dependency data
+deposited by others; it involved no new recruitment, no new sampling, no clinical intervention and no
+patient contact.
