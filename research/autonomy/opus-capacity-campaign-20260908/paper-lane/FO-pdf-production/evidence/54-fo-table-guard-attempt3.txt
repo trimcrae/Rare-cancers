@@ -1,0 +1,33 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_every_table_cell_survives_into_the_built_pdf[nr4a3-fusion-transcriptional-output.pdf] _
+
+build = 'nr4a3-fusion-transcriptional-output.pdf'
+
+    @pytest.mark.parametrize("build", BUILDS)
+    def test_every_table_cell_survives_into_the_built_pdf(build):
+        pdf = os.path.join(MANUSCRIPTS, "fusion-output", build)
+        stamp = pdf.rsplit(".pdf", 1)[0] + ".build-stamp.json"
+        assert os.path.exists(pdf) and os.path.exists(stamp), f"{build} has not been built"
+        #: ⚠ THE STAMP FIRST: reading a PDF built from an older source is a green measurement of the
+        #: wrong object, which is worse than no measurement.
+        for rel, want in json.load(open(stamp, encoding="utf-8"))["built_from"].items():
+            got = hashlib.sha256(open(os.path.join(MANUSCRIPTS, rel), "rb").read()).hexdigest()
+            assert got == want, f"{build} was built from a different version of {rel}"
+        text = _squash("".join(p.extract_text() for p in pypdf.PdfReader(pdf).pages))
+        cells = _cells()
+        assert len(cells) > 100, f"only {len(cells)} cells were collected — the parser missed the tables"
+        missing = [(line, cell) for line, cell in cells if _squash(cell) not in text]
+>       assert not missing, (
+            f"{build}: {len(missing)} table cells are not in the built page — a column that overflows "
+            "its container is cut at the paper's edge and takes its readings with it:\n  "
+            + "\n  ".join(f"line {line}: {cell!r}" for line, cell in missing[:12]))
+E       AssertionError: nr4a3-fusion-transcriptional-output.pdf: 2 table cells are not in the built page — a column that overflows its container is cut at the paper's edge and takes its readings with it:
+E           line 409: 'Brenca et al., J Pathol 2019;249(1):90–101 (PMID 31020999)'
+E           line 409: 'Filion et al., J Pathol 2009;217(1):83–93 (PMID 18855877)'
+E       assert not [(409, 'Brenca et al., J Pathol 2019;249(1):90–101 (PMID 31020999)'), (409, 'Filion et al., J Pathol 2009;217(1):83–93 (PMID 18855877)')]
+
+research/manuscripts/tests/test_the_fusion_output_tables_survive_their_column.py:104: AssertionError
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_the_fusion_output_tables_survive_their_column.py::test_every_table_cell_survives_into_the_built_pdf[nr4a3-fusion-transcriptional-output.pdf]
+1 failed, 1 passed in 3.23s

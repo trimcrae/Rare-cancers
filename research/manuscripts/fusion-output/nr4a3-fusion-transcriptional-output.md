@@ -959,62 +959,62 @@ search from 7 series to 22; the fourth returned zero again and is the only zero 
 absence. The negative above is the repaired search. The unrepaired one would have rested on two
 queries while reporting six (SI §S7).
 
-![Figure 1](../figures/fig1-size-matched-null.png)
+![Figure 1. A set score means nothing until an arbitrary set of the same size is scored too.](../figures/fig1-size-matched-null.png)
 
-> **Figure 1. A set score means nothing until an arbitrary set of the same size is scored too.** Grey
-> histogram: 4,000 random gene sets of exactly the observed size, drawn from the platform's own mapped
-> symbols under a fixed seed and scored identically to the real set. Shaded band: the central 95%.
-> Vertical line: the observed delta. The annotation gives the value the set had to reach to clear the
-> band and how far it got. Top row: the A+B direct-target set reaches 39% and 88% of its threshold.
-> Bottom row: the published EMC phenotype overshoots by 11.9× and 4.2×. **This null controls the
-> platform offset and set size, not gene–gene correlation**, so it is anti-conservative for coherent
-> sets; §3.5 supplies the complementary exact label-permutation test.
+**Figure 1. A set score means nothing until an arbitrary set of the same size is scored too.** Grey
+histogram: 4,000 random gene sets of exactly the observed size, drawn from the platform's own mapped
+symbols under a fixed seed and scored identically to the real set. Shaded band: the central 95%.
+Vertical line: the observed delta. The annotation gives the value the set had to reach to clear the
+band and how far it got. Top row: the A+B direct-target set reaches 39% and 88% of its threshold.
+Bottom row: the published EMC phenotype overshoots by 11.9× and 4.2×. **This null controls the
+platform offset and set size, not gene–gene correlation**, so it is anti-conservative for coherent
+sets; §3.5 supplies the complementary exact label-permutation test.
 
-![Figure 2](../figures/fig2-evidence-classes.png)
+![Figure 2. The entire published direct-target catalogue of an NR4A3 chimera is three genes.](../figures/fig2-evidence-classes.png)
 
-> **Figure 2. The entire published direct-target catalogue of an NR4A3 chimera is three genes.**
-> Counted across 2,276 retrieved full-text documents in five corpora (§3.11). **This is a count of
-> what has been published and retrieved, not of what exists** — a claim about a search. Class B
-> requires the transfer assumption that §3.2 shows failing in both directions.
+**Figure 2. The entire published direct-target catalogue of an NR4A3 chimera is three genes.**
+Counted across 2,276 retrieved full-text documents in five corpora (§3.11). **This is a count of
+what has been published and retrieved, not of what exists** — a claim about a search. Class B
+requires the transfer assumption that §3.2 shows failing in both directions.
 
-![Figure 3](../figures/fig3-per-sample-class-a.png)
+![Figure 3. Every tumour, per gene and per comparator stratum.](../figures/fig3-per-sample-class-a.png)
 
-> **Figure 3. Every tumour, per gene and per comparator stratum.** Each point is one tumour; the
-> horizontal bar is the arm mean. Values are within-array *z* against that sample's own probe
-> distribution. n = 6 EMC vs 29 comparators (GPL6244) and 10 vs 6 (GPL3290). **The two platforms
-> measure different quantities — single-channel intensity and two-colour log-ratio against a
-> reference pool — and are never pooled**, so no comparison across the two panels is licensed. The
-> comparator strata are drawn separately because *SEMA3C*'s contrast changes sign between them
-> (§3.6). No panel asserts that the fusion binds or drives any gene.
+**Figure 3. Every tumour, per gene and per comparator stratum.** Each point is one tumour; the
+horizontal bar is the arm mean. Values are within-array *z* against that sample's own probe
+distribution. n = 6 EMC vs 29 comparators (GPL6244) and 10 vs 6 (GPL3290). **The two platforms
+measure different quantities — single-channel intensity and two-colour log-ratio against a
+reference pool — and are never pooled**, so no comparison across the two panels is licensed. The
+comparator strata are drawn separately because *SEMA3C*'s contrast changes sign between them
+(§3.6). No panel asserts that the fusion binds or drives any gene.
 
-![Figure 4](../figures/fig4-instrument-convergence.png)
+![Figure 4. Independent instruments applied to the three published direct targets.](../figures/fig4-instrument-convergence.png)
 
-> **Figure 4. Independent instruments applied to the three published direct targets.** **The columns
-> are deliberately not commensurable and no glyph is scaled by effect size**, so no area comparison
-> across columns is possible: colour encodes only whether that instrument supported the gene, and each
-> cell prints its own statistic in its own units. The amber cell marks the reading that is *circular*
-> — *PPARG* on GPL3290, scored on the cohort from which high *PPARG* in EMC was first published
-> (§3.8) — which is neither support nor absence. The 3SEQ column carries no test: at n = 4 it is a
-> percentile within that deposit's own distribution. **The occupancy column is grey for all three
-> genes**, and is the only column on which no gene is supported: it reports the best empirical p any
-> of twelve informative NR4A experiments gives against that build's background panel (198 genes on
-> hg38, 200 on hg19), judged at a
-> Bonferroni threshold for those twelve. Eight are **NR4A1, a paralogue**; four are **wild-type NR4A3
-> in acinic cell carcinoma**, a different disease. Neither is the fusion (§3.11).
-> **No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no NR4A3-fusion
-> cistrome has been retrieved and that nothing at all has been deposited on EMC material under any
-> chromatin library strategy.
+**Figure 4. Independent instruments applied to the three published direct targets.** **The columns
+are deliberately not commensurable and no glyph is scaled by effect size**, so no area comparison
+across columns is possible: colour encodes only whether that instrument supported the gene, and each
+cell prints its own statistic in its own units. The amber cell marks the reading that is *circular*
+— *PPARG* on GPL3290, scored on the cohort from which high *PPARG* in EMC was first published
+(§3.8) — which is neither support nor absence. The 3SEQ column carries no test: at n = 4 it is a
+percentile within that deposit's own distribution. **The occupancy column is grey for all three
+genes**, and is the only column on which no gene is supported: it reports the best empirical p any
+of twelve informative NR4A experiments gives against that build's background panel (198 genes on
+hg38, 200 on hg19), judged at a
+Bonferroni threshold for those twelve. Eight are **NR4A1, a paralogue**; four are **wild-type NR4A3
+in acinic cell carcinoma**, a different disease. Neither is the fusion (§3.11).
+**No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no NR4A3-fusion
+cistrome has been retrieved and that nothing at all has been deposited on EMC material under any
+chromatin library strategy.
 
-![Figure 5](../figures/fig5-muscle-admixture-control.png)
+![Figure 5. The ENO3 muscle-admixture objection, and its answer.](../figures/fig5-muscle-admixture-control.png)
 
-> **Figure 5. The *ENO3* muscle-admixture objection, and its answer.** *ENO3* is muscle-specific
-> β-enolase and EMC arises in deep soft tissue of the limb. Horizontal axis: how muscle-restricted a
-> gene is, as its mean within-array percentile in the two pooled skeletal-muscle RNA samples GSE24369
-> contains. Vertical axis: the EMC − comparator difference in within-array percentile points. **The
-> two muscle samples are in neither arm and no contrast in this paper uses them**; they fix the scale
-> only. Three markers more muscle-restricted than *ENO3* sit at or below zero. **This bounds admixture
-> of differentiated skeletal muscle; it does not exclude a myogenic differentiation programme in the
-> tumour itself**, which would move a marker with no contaminating tissue present.
+**Figure 5. The *ENO3* muscle-admixture objection, and its answer.** *ENO3* is muscle-specific
+β-enolase and EMC arises in deep soft tissue of the limb. Horizontal axis: how muscle-restricted a
+gene is, as its mean within-array percentile in the two pooled skeletal-muscle RNA samples GSE24369
+contains. Vertical axis: the EMC − comparator difference in within-array percentile points. **The
+two muscle samples are in neither arm and no contrast in this paper uses them**; they fix the scale
+only. Three markers more muscle-restricted than *ENO3* sit at or below zero. **This bounds admixture
+of differentiated skeletal muscle; it does not exclude a myogenic differentiation programme in the
+tumour itself**, which would move a marker with no contaminating tissue present.
 
 ---
 

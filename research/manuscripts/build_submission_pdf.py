@@ -176,10 +176,56 @@ PAPERS = {
         "manuscript": "fusion-output/nr4a3-fusion-transcriptional-output.md",
         "references": None,
         "tables": None,
+        # ⛔ THE FIVE PANELS ARE STAMPED THROUGH `stamp_sources`, NOT THROUGH `figures`, for the
+        # same reason the ATR entry's one PNG is: `_write_build_stamp` hashes `paper["figures"]`
+        # values and this entry's is empty, so before 2026-09-08 the PDF was stamped current
+        # against a list naming only the markdown — five rendered artifacts unhashed. Redrawing
+        # any panel would have left both PDFs reading "current" against a stamp that could not
+        # see the change.
         "stamp_sources": (
             "fusion-output/nr4a3-fusion-transcriptional-output.md",
+            "figures/fig1-size-matched-null.png",
+            "figures/fig2-evidence-classes.png",
+            "figures/fig3-per-sample-class-a.png",
+            "figures/fig4-instrument-convergence.png",
+            "figures/fig5-muscle-admixture-control.png",
         ),
+        # ⚠ `figures` IS EMPTY AND THAT IS NOT AN OVERSIGHT — the same reading as `atr-panel-ask`.
+        # `split_figures` inlines an SVG from `figures/` against a legend in a `## Figure legends`
+        # section; this manuscript has no such section and sets each panel inline beside its own
+        # blockquote legend in §3.13 and §4. Declaring them here would raise
+        # `anchor not found: '## Figure legends'`, and the only artifacts are PNG and PDF, not SVG.
         "figures": {},
+        # ⭐ OPT-IN, ADDED 2026-09-08 AGAINST RASTERISED PAGES OF THE SHIPPED PDFs. Without this key
+        # the manuscript's five `![Figure N](../figures/…png)` lines reach the reader as a stray `!`
+        # and a blue hyperlink to a file that does not travel with the deposit — journal pp. 8–9 and
+        # manuscript pp. 17–19 printed `!Figure 1` … `!Figure 5` above five legends describing
+        # panels that were not on the page. Every legend's claims about colour, axes, points and
+        # greyed cells were unreadable, and the deposit asserted evidence it did not carry.
+        "inline_images": True,
+        # ⛔ FULL WIDTH IN THE JOURNAL BUILD, AND IT IS AN ASPECT-RATIO FACT ABOUT THESE FIVE FILES.
+        # They are 3261×1904, 3921×1351, 3291×1474, 4582×1455 and 2635×1538 px — 1.71 to 3.15 wide.
+        # The journal column measure is ~88 mm, so Figure 4 would print about 88 × 28 mm and its
+        # per-cell statistics could not be read. `column-span: all` is the treatment this
+        # stylesheet already gives a wide body table and the ATR raster. Nothing about any figure,
+        # its bytes or its legend changes; only the measure it is given.
+        # ⛔ AND TABLE 9 SPANS BOTH COLUMNS, MEASURED IN THE BUILT JOURNAL PDF ON BOTH SIDES OF
+        # THIS REPAIR (page 7, 2026-09-08). It is seven columns, which is under LANDSCAPE_MIN_COLS,
+        # so `render_table`'s `wide_body` rule never fired for it and it set at full body width
+        # inside an 88 mm column. In the SHIPPED build it sat in column two and its last column,
+        # SEMA3C, ran off the right edge of the paper — absent from the page and absent from the
+        # text layer, so nine occupancy readings the section argues from were unreadable. Once the
+        # panels reflowed the page it sat in column one instead and the same overflow printed
+        # straight over the prose beside it. Same defect, two symptoms, and the same treatment the
+        # ATR package's Supplementary Table S3 already gets: name the caption, give it the measure.
+        # ⛔ TABLE 3 IS THE SAME DEFECT AND IT IS OLDER. Five columns, again under
+        # LANDSCAPE_MIN_COLS, and its `citation` column runs off the right edge of the page in the
+        # SHIPPED journal build as well as this one (page 3/4, rasterised both sides): "Brenca et
+        # al., J Pathol 2019;249(1):90–101 (PMID 31020999)" is cut at the paper's edge, and in this
+        # build the en-dash itself stopped reaching the text layer. This one was NOT caused by the
+        # figure repair — it is a pre-existing overflow the repair made visible.
+        "layout": {"raster_full_width": True,
+                   "full_width_tables": ("Table 3.", "Table 9.")},
         "journal": {
             "article_type": "Original Research Article",
             "section": "",
@@ -1563,18 +1609,48 @@ def markdown_to_html(text, floats=None):
             start = re.match(r"^\s*(\d+)\.", line)
             attr = f' start="{start.group(1)}"' if ordered and start else ""
             out.append(f"<{tag}{attr}>")
+            #: ⛔⛔ AN ITEM IS RENDERED ONCE, FROM ITS WHOLE TEXT — NOT LINE BY LINE (found
+            #: 2026-09-08 by rasterising the built fusion-output pages, invisible to every text
+            #: probe that had read the document). This loop used to call `inline()` on the marker
+            #: line and then AGAIN on each continuation line, splicing the second result into the
+            #: `<li>` that the first had already closed. `inline()` is a whole-string parser: its
+            #: emphasis rules carry `re.S` precisely so a span may cross a line break. Feeding it
+            #: one physical source line at a time makes every span that wraps unclosable, and the
+            #: markup then PRINTS. Measured in the shipped journal PDF: §2.2's
+            #: "**five solitary fibrous tumours … samples**", §2.4's "**198 genes on hg38 and 200
+            #: on hg19**" and "**raw count is never reported as a finding**", §3.11's
+            #: "***ENO3* carries 2–4 peaks … not any carcinoma.**" and §4.2's "**It is not
+            #: specific to EMC …**" and "**The surviving gene is the pre-designated positive
+            #: control**" all reached the reader as literal asterisks — nine leaked pairs across
+            #: the two formats. A wrapped link, code span or escaped character had the same
+            #: exposure; bold is only where it happened to be visible.
+            #: ⚠ THE PARAGRAPH AND BLOCKQUOTE BRANCHES ALREADY DO THIS — they join their lines with
+            #: " " and call `inline()` once, which is why an identically-wrapped bold span in body
+            #: prose or in a figure legend printed correctly on the same page. This branch is now
+            #: the same shape; the join is the same single space it used to splice with, so an item
+            #: with no wrapped markup renders exactly as before.
+            item_lines = None
+
+            def _flush_item(item_lines):
+                li = inline(" ".join(item_lines))
+                out.append(('<li data-seq="1">' if 'class="seq"' in li else "<li>")
+                           + li + "</li>")
+
             while i < len(lines):
                 m = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", lines[i])
                 if not m:
-                    if lines[i].strip() and lines[i].startswith((" ", "\t")):
-                        out[-1] = out[-1][:-5] + " " + inline(lines[i].strip()) + "</li>"
+                    if item_lines is not None and lines[i].strip() \
+                            and lines[i].startswith((" ", "\t")):
+                        item_lines.append(lines[i].strip())
                         i += 1
                         continue
                     break
-                li = inline(m.group(3))
-                out.append(("<li data-seq=\"1\">" if 'class="seq"' in li else "<li>")
-                           + li + "</li>")
+                if item_lines is not None:
+                    _flush_item(item_lines)
+                item_lines = [m.group(3)]
                 i += 1
+            if item_lines is not None:
+                _flush_item(item_lines)
             out.append(f"</{tag}>")
             continue
 

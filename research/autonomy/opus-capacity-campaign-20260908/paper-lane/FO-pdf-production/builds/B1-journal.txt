@@ -1,0 +1,12 @@
+HEAD=5f40f49b4f41cb16a32862e607baeb060b333c6c
+dirty_at_build=89
+cmd: python3 research/manuscripts/build_submission_pdf.py --paper fusion-output --style journal
+--- stdout+stderr ---
+  ⚠ journal style: no deposited filename declared for emc-fourth-cohort-sra-2026-08-08.md, gse243553-eno3-overlap-2026-08-08.md, nr4a3-cistrome-search-2026-08-08.md, nr4a3-fusion-transcriptional-output-SI.md, nr4a3-fusion-transcriptional-output-cover-letter.md, nr4a3-fusion-transcriptional-output-repo-notes.md, nr4a3-fusion-transcriptional-output-submission-checklist.md — a reader is sent to a file that does not travel with the deposit
+Object count 4104 exceeds defined trailer size 4102
+/home/user/Rare-cancers/research/manuscripts/build_submission_pdf.py:2866: DeprecationWarning: remove_identicals is deprecated and will be removed in pypdf 7.0.0. Use remove_duplicates instead.
+  writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+/home/user/Rare-cancers/research/manuscripts/build_submission_pdf.py:2866: DeprecationWarning: remove_orphans is deprecated and will be removed in pypdf 7.0.0. Use remove_unreferenced instead.
+  writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+fusion-output [journal]: wrote research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.pdf (2096 KB, 16 pages; the handling statement is on every page)
+EXIT=0

@@ -769,15 +769,31 @@ def test_an_opted_in_paper_emits_an_img_carrying_its_caption():
     #: printing a stray `!` and a hyperlink to a file that does not travel with it (measured
     #: 2026-09-08, `IMG_TAGS: 0`), which is precisely when this guard has to speak rather than
     #: evaporate with its input.
-    key = next((k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")), None)
-    assert key is not None, (
+    #: ⛔ EVERY OPTED-IN PAPER, NOT `next(...)` (2026-09-08). This read the FIRST paper carrying the
+    #: flag and checked only that one. `fusion-output` then opted in — five panels that had been
+    #: printing as `!Figure N` and a dead hyperlink in both shipped PDFs — and because it sorts
+    #: ahead of `atr-panel-ask` in the registry it silently BECAME the sole subject here, so the
+    #: ATR deposit this guard was written for stopped being checked at the moment a second paper
+    #: needed checking. A guard that follows dict order rather than the registry is a guard whose
+    #: coverage a later edit can move without touching it.
+    keys = [k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")]
+    assert keys, (
         "no paper in the committed registry sets inline_images, so nothing exercises the "
         "raster-embedding path and this guard has no deposit to read. If the flag was dropped "
-        "deliberately, that is a change to the ATR deposit's figure and belongs in the same "
+        "deliberately, that is a change to a deposit's figures and belongs in the same "
         "commit as these two registry-side guards.")
+    for key in keys:
+        _assert_one_papers_images_carry_their_captions(key)
+
+
+def _assert_one_papers_images_carry_their_captions(key):
     paper = bsp.PAPERS[key]
+    source = open(os.path.join(bsp.HERE, paper["manuscript"]), encoding="utf-8").read()
+    expected = len(re.findall(r"^!\[[^\]]*\]\([^)\s]+\)\s*$", source, re.M))
+    assert expected, f"{key} opts into inline_images and its manuscript names no image"
     for style, page in _pages_for(paper).items():
-        assert page.count("<img") == 1, f"{key} ({style}) emitted {page.count('<img')} images"
+        assert page.count("<img") == expected, (
+            f"{key} ({style}) emitted {page.count('<img')} images for {expected} references")
         assert 'class="raster"' in page and 'src="data:image/png;base64,' in page, (
             f"{key} ({style}) did not embed the raster as a data URI — an external src does not "
             "survive the print path and prints as a blank box")
@@ -815,19 +831,29 @@ def test_the_embedded_bytes_are_the_figure_file_itself():
     #: ⛔ SAME UNREACHABLE SKIP AS ABOVE, SAME ANSWER (2026-09-08). An empty opt-in set means
     #: the embedded bytes this test checks are not being produced at all; that is the failure, not
     #: an excuse to decline.
-    key = next((k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")), None)
-    assert key is not None, (
+    #: ⛔ EVERY OPTED-IN PAPER AND EVERY PANEL, AND EACH PAYLOAD AGAINST THE FILE ITS OWN
+    #: MANUSCRIPT NAMES (2026-09-08). This checked the FIRST opted-in paper's FIRST payload against
+    #: one hard-coded filename, so a paper with five panels had four unchecked and a second
+    #: opted-in paper displaced the first entirely.
+    keys = [k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")]
+    assert keys, (
         "no paper in the committed registry sets inline_images, so no data URI is emitted and "
-        "nothing checks that the deposited figure's bytes are the figure file on disk.")
-    paper = bsp.PAPERS[key]
-    body, _ = bsp.assemble(paper, "manuscript")
-    payload = re.search(r'src="data:image/png;base64,([A-Za-z0-9+/=]+)"', body)
-    assert payload, "the opted-in paper emitted no base64 PNG payload"
-    raw = _b64.b64decode(payload.group(1))
-    assert raw[:8] == b"\x89PNG\r\n\x1a\n", "the embedded payload is not a PNG"
-    on_disk = os.path.join(bsp.FIGDIR, "emc-fusion-frame-fig1.png")
-    assert raw == open(on_disk, "rb").read(), (
-        "the embedded bytes differ from figures/emc-fusion-frame-fig1.png on disk")
+        "nothing checks that a deposited figure's bytes are the figure file on disk.")
+    for key in keys:
+        paper = bsp.PAPERS[key]
+        body, _ = bsp.assemble(paper, "manuscript")
+        payloads = re.findall(r'src="data:image/png;base64,([A-Za-z0-9+/=]+)"', body)
+        source = open(os.path.join(bsp.HERE, paper["manuscript"]), encoding="utf-8").read()
+        named = re.findall(r"^!\[[^\]]*\]\(([^)\s]+)\)\s*$", source, re.M)
+        assert payloads and len(payloads) == len(named), (
+            f"{key}: {len(payloads)} payloads for {len(named)} image references")
+        base = os.path.dirname(os.path.join(bsp.HERE, paper["manuscript"]))
+        for payload, ref in zip(payloads, named):
+            raw = _b64.b64decode(payload)
+            assert raw[:8] == b"\x89PNG\r\n\x1a\n", f"{key}: {ref} is not a PNG"
+            on_disk = os.path.normpath(os.path.join(base, ref))
+            assert raw == open(on_disk, "rb").read(), (
+                f"{key}: the embedded bytes differ from {ref} on disk")
 
 
 def test_an_absent_or_non_raster_image_fails_the_build():

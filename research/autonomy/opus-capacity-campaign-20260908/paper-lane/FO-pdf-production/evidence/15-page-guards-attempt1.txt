@@ -1,0 +1,35 @@
+.F..................................................                     [100%]
+=================================== FAILURES ===================================
+_________ test_every_stamped_pdf_renders_the_documents_its_stamp_names _________
+
+    def test_every_stamped_pdf_renders_the_documents_its_stamp_names():
+        """⛔ EVERY BUILT PDF IN THE REPOSITORY, NOT THE FOUR SOMEONE REMEMBERED TO LIST."""
+        stale = []
+        for rel, pdf in sorted(_every_stamped_pdf().items()):
+            stamp = pdf.rsplit(".pdf", 1)[0] + ".build-stamp.json"
+            if not os.path.exists(pdf):
+                stale.append(f"{rel}: the stamp exists and the PDF does not")
+                continue
+            built_from = json.load(open(stamp, encoding="utf-8"))["built_from"]
+            for src_rel, want in sorted(built_from.items()):
+                src = os.path.join(REPO, "research", "manuscripts", src_rel)
+                if not os.path.exists(src):
+                    stale.append(f"{rel}: names {src_rel}, which is missing")
+                elif hashlib.sha256(open(src, "rb").read()).hexdigest() != want:
+                    stale.append(f"{rel}: was built from a different version of {src_rel}")
+>       assert not stale, (
+            "a committed PDF renders a version of its source that is no longer on disk, so what a "
+            "depositor would upload is not what the repository says:\n  " + "\n  ".join(stale)
+            + "\n\nRebuild it — `bash scripts/regenerate_aso_chain.sh` rebuilds every paper, because "
+              "build_submission_pdf.py with no --paper builds all of them.")
+E       AssertionError: a committed PDF renders a version of its source that is no longer on disk, so what a depositor would upload is not what the repository says:
+E           fusion-output/nr4a3-fusion-transcriptional-output-manuscript.pdf: was built from a different version of fusion-output/nr4a3-fusion-transcriptional-output.md
+E           fusion-output/nr4a3-fusion-transcriptional-output.pdf: was built from a different version of fusion-output/nr4a3-fusion-transcriptional-output.md
+E         
+E         Rebuild it — `bash scripts/regenerate_aso_chain.sh` rebuilds every paper, because build_submission_pdf.py with no --paper builds all of them.
+E       assert not ['fusion-output/nr4a3-fusion-transcriptional-output-manuscript.pdf: was built from a different version of fusion-outpu...ranscriptional-output.pdf: was built from a different version of fusion-output/nr4a3-fusion-transcriptional-output.md']
+
+research/manuscripts/tests/test_pdf_text_layer_is_orderable.py:215: AssertionError
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_pdf_text_layer_is_orderable.py::test_every_stamped_pdf_renders_the_documents_its_stamp_names
+1 failed, 51 passed in 16.56s
