@@ -121,3 +121,38 @@ misrecognition rather than on a defect in the paper.
 `I1-executed-artifacts/` (35 files, 781,077 B) with its own self-exclusive manifest, holding the
 child's `orig/`, `work/`, `evidence/`, `shim/`, the diff, every captured stdout/stderr/exit code, and
 my two parent re-run JSONs. Cleanup of any directory awaits its own directory-specific receipt.
+
+---
+
+# Limitation RESOLVED, appended 2026-09-08 09:44 UTC — original text above preserved
+
+**The "not pytest-executed" limitation recorded above no longer holds. The tests have now been run
+under real pytest.** No network and no install was used: **pytest 9.1.1 and its dependencies were
+already present in the local uv cache** (`/root/.cache/uv/archive-v0/…` for `pytest`, `pluggy`,
+`iniconfig`, `packaging`, `pygments`). `python3 -m pytest` fails only because those paths are not on
+the default `sys.path`; adding them via `PYTHONPATH` runs the real thing.
+
+⚠ **The gap was mine, not the child's.** I recorded "no network to install pytest" without first
+checking whether pytest was already on the machine. "Blocked" was a claim I had not established, and
+the $0 reading disproved it.
+
+| run | command (with the cache paths on `PYTHONPATH`) | exit | result |
+|---|---|---|---|
+| new tests, fixed impl | `python3 -m pytest research/modalities/tests/test_lint_consistency_identifier_boundary.py -q` | **0** | **24 passed** |
+| existing suite, fixed impl | `python3 -m pytest research/modalities/tests/test_lint_consistency.py -q` | **0** | **27 passed** — no regression |
+| new tests, ORIGINAL impl | same, `LINT_CONSISTENCY_DIR` pointed at the retained `orig/` | **1** | **23 failed, 1 passed** — the tests do catch the bug |
+
+The existing suite is **fully green in the real tree** (27 passed), which also resolves the child's
+"26 passed / 1 failed": that failure was the path artifact of its isolated lane, exactly as it
+reported.
+
+## ⚠ The shim was not equivalent to pytest, and the numbers differ
+
+Against the original implementation the child's stdlib shim reported **12 passed / 12 failed**; real
+pytest reports **23 failed / 1 passed**. The parametrised predicate cases cannot even be collected
+against the original, because `_begins_mid_number` does not exist there — the shim absorbed that as
+passes. **Both runs agree on the conclusion** (the tests fail against the original and pass against
+the fix), and no integrated result rests on the shim, but the shim's counts should not be quoted as
+pytest's. The shim is retained as evidence of what the child actually ran, not as a substitute.
+
+Raw stdout/stderr for all three runs: `I1-executed-artifacts/parent-pytest/`.

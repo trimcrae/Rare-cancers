@@ -1,0 +1,650 @@
+FFFFFFFFFFFFFFF.FFFFFFFF                                                 [100%]
+=================================== FAILURES ===================================
+__________ test_the_measured_case_a_doi_does_not_state_the_card_ratio __________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_the_measured_case_a_doi_d0')
+
+    def test_the_measured_case_a_doi_does_not_state_the_card_ratio(tmp_path):
+        """THE BUG, in the shape it was found in: a bibliography line whose DOI happens to
+        contain the characters `2.102`. `emc-mtap-prmt5-hypothesis.md:673` was reported as
+        `superseded value '2.102' stated without marking it superseded`."""
+>       entry = _card_ratio_entry()
+                ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+__________________ test_a_bare_identifier_alone_does_not_fire __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_a_bare_identifier_alone_d0')
+
+    def test_a_bare_identifier_alone_does_not_fire(tmp_path):
+>       assert _run(tmp_path, f"doi {DOI_FIXTURE}\n", [_card_ratio_entry()]) == []
+                                                       ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+__________________ test_a_version_string_is_not_a_measurement __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_a_version_string_is_not_a0')
+
+    def test_a_version_string_is_not_a_measurement(tmp_path):
+        """`v1.2.102` — the digits follow a dot that itself follows a digit, so they continue an
+        identifier rather than beginning a value."""
+        assert _run(tmp_path, "pinned at openmm v1.2.102 in the rbfe env\n",
+>                   [_card_ratio_entry()]) == []
+                     ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+________ test_a_longer_number_ending_in_the_pattern_is_not_that_number _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_a_longer_number_ending_in0')
+
+    def test_a_longer_number_ending_in_the_pattern_is_not_that_number(tmp_path):
+        """`1442.102` is not `2.102`."""
+        assert _run(tmp_path, "the checkpoint index reached 1442.102 steps\n",
+>                   [_card_ratio_entry()]) == []
+                     ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+__________ test_the_card_ratio_this_rule_exists_to_catch_still_fires ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_the_card_ratio_this_rule_0')
+
+    def test_the_card_ratio_this_rule_exists_to_catch_still_fires(tmp_path):
+        """THE TRUE POSITIVE. Current value 1.745x; 2.102 is retired by the 2026-07-27
+        median-of-N re-anchoring. Stated flat, with no supersession marker, it is an ERROR."""
+        out = _run(tmp_path, "A 4090 does 2.102 times the work of a 3090 on this workload.\n",
+>                  [_card_ratio_entry()])
+                    ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+_ test_real_statements_of_the_retired_ratio_all_fire[the card ratio is 2.10x on the current estimator\n] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re0')
+text = 'the card ratio is 2.10x on the current estimator\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+_ test_real_statements_of_the_retired_ratio_all_fire[the card ratio is 2.10 \xd7 the 3090\n] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re1')
+text = 'the card ratio is 2.10 × the 3090\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+_ test_real_statements_of_the_retired_ratio_all_fire[| RTX 4090 / RTX 3090 | 2.102 | median |\n] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re2')
+text = '| RTX 4090 / RTX 3090 | 2.102 | median |\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+_______ test_real_statements_of_the_retired_ratio_all_fire[**2.102**\n] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re3')
+text = '**2.102**\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+________ test_real_statements_of_the_retired_ratio_all_fire[(2.102)\n] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re4')
+text = '(2.102)\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+_ test_real_statements_of_the_retired_ratio_all_fire[ratio 2.102, measured on six hosts\n] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re5')
+text = 'ratio 2.102, measured on six hosts\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+__ test_real_statements_of_the_retired_ratio_all_fire[the ratio is 2.102.\n] ___
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_real_statements_of_the_re6')
+text = 'the ratio is 2.102.\n'
+
+    @pytest.mark.parametrize("text", [
+        "the card ratio is 2.10x on the current estimator\n",       # first alternative, bare x
+        "the card ratio is 2.10 × the 3090\n",                      # unicode multiplication sign
+        "| RTX 4090 / RTX 3090 | 2.102 | median |\n",               # inside a table row
+        "**2.102**\n",                                              # markdown emphasis around it
+        "(2.102)\n",                                                # parenthesised
+        "ratio 2.102, measured on six hosts\n",                     # trailing comma
+        "the ratio is 2.102.\n",                                    # sentence-final full stop
+    ])
+    def test_real_statements_of_the_retired_ratio_all_fire(tmp_path, text):
+        """The formats the registry's targets actually use. A value adjacent to punctuation,
+        emphasis or a table pipe still BEGINS its own number, so the left-edge rule leaves it
+        alone."""
+>       assert len(_run(tmp_path, text, [_card_ratio_entry()])) == 1
+                                         ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+______________ test_a_marked_retraction_of_the_ratio_still_clears ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_a_marked_retraction_of_th0')
+
+    def test_a_marked_retraction_of_the_ratio_still_clears(tmp_path):
+        """The other direction, unchanged: a correctly-written retraction must not be flagged."""
+        assert _run(tmp_path, "The 4090/3090 ratio previously stood at 2.102; superseded "
+                              "2026-07-27 by the median-of-N re-anchoring to 1.745x.\n",
+>                   [_card_ratio_entry()]) == []
+                     ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+___ test_a_genuine_value_later_on_the_same_line_as_an_identifier_still_fires ___
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_a_genuine_value_later_on_0')
+
+    def test_a_genuine_value_later_on_the_same_line_as_an_identifier_still_fires(tmp_path):
+        """★ THE FIX MUST NOT INTRODUCE A FALSE NEGATIVE. The scan continues past a fragment
+        instead of stopping at it, so a real restatement sharing a line with a DOI is caught."""
+        text = (f"See doi {DOI_FIXTURE}; on that basis the card ratio is 2.102 and we plan "
+                "around it.\n")
+>       out = _run(tmp_path, text, [_card_ratio_entry()])
+                                    ^^^^^^^^^^^^^^^^^^^
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:52: in _card_ratio_entry
+    for e in lc.load_registry()["superseded"]:
+             ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+____________ test_the_registrys_truncating_digit_idiom_is_preserved ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-72/test_the_registrys_truncating_0')
+
+    def test_the_registrys_truncating_digit_idiom_is_preserved(tmp_path):
+        """`ladder_basis_0_004359`'s pattern is `0\\.00435\\d|0\\.00436\\b|\\$0\\.0043593` — the first
+        alternative deliberately matches the LEADING digits of a longer figure. The rule is
+        left-edge only precisely so this keeps firing."""
+>       entry = next((e for e in lc.load_registry()["superseded"]
+                                 ^^^^^^^^^^^^^^^^^^
+                      if e["id"] == "ladder_basis_0_004359"), None)
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+    def load_registry(path=REGISTRY):
+>       with open(path, encoding="utf-8") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/i1-pytest/origtree/pinned-figures.json'
+
+/tmp/claude-0/i1-pytest/origtree/lint_consistency.py:129: FileNotFoundError
+__ test_begins_mid_number_predicate[10.1016/j.jbc.2022.102434-17-2.102-True] ___
+
+line = '10.1016/j.jbc.2022.102434', start = 17, matched = '2.102'
+expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[1442.102-3-2.102-True] ____________
+
+line = '1442.102', start = 3, matched = '2.102', expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[v1.2.102-3-2.102-True] ____________
+
+line = 'v1.2.102', start = 3, matched = '2.102', expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_______ test_begins_mid_number_predicate[ratio 2.102 here-6-2.102-False] _______
+
+line = 'ratio 2.102 here', start = 6, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[(2.102)-1-2.102-False] ____________
+
+line = '(2.102)', start = 1, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+__________ test_begins_mid_number_predicate[**2.102**-2-2.102-False] ___________
+
+line = '**2.102**', start = 2, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_____ test_begins_mid_number_predicate[2.102 leads the line-0-2.102-False] _____
+
+line = '2.102 leads the line', start = 0, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_________ test_begins_mid_number_predicate[was $128 once-4-$128-False] _________
+
+line = 'was $128 once', start = 4, matched = '$128', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+=========================== short test summary info ============================
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_the_measured_case_a_doi_does_not_state_the_card_ratio
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_bare_identifier_alone_does_not_fire
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_version_string_is_not_a_measurement
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_longer_number_ending_in_the_pattern_is_not_that_number
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_the_card_ratio_this_rule_exists_to_catch_still_fires
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[the card ratio is 2.10x on the current estimator\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[the card ratio is 2.10 \xd7 the 3090\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[| RTX 4090 / RTX 3090 | 2.102 | median |\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[**2.102**\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[(2.102)\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[ratio 2.102, measured on six hosts\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_real_statements_of_the_retired_ratio_all_fire[the ratio is 2.102.\n]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_marked_retraction_of_the_ratio_still_clears
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_genuine_value_later_on_the_same_line_as_an_identifier_still_fires
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_the_registrys_truncating_digit_idiom_is_preserved
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[10.1016/j.jbc.2022.102434-17-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[1442.102-3-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[v1.2.102-3-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[ratio 2.102 here-6-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[(2.102)-1-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[**2.102**-2-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[2.102 leads the line-0-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[was $128 once-4-$128-False]
+23 failed, 1 passed in 0.33s
