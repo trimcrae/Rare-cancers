@@ -43,19 +43,41 @@ Pre-correction identities for the two F03 files are in `APPLIED-RECORD.md` and i
 `BEFORE-*` byte copies; the pre-residual manuscript identities are in `PST-residual/`. Both remain
 valid as history.
 
-## ⚠ One cited identity is NOT resolvable in this worktree
+## ⭐ CURRENT, 2026-09-08 — the cited review IS retained, with two exact locators
 
 The `_annotation_correction_2026-09-08` key attributes the finding to
 `FINAL-SCIENTIFIC-REVIEW-P-ST.md`, sha256
-`6dd9fd532e853d3ac5b1d8605dad79d585bdd1356598cc407eef8415adc4cf1a`.
+`6dd9fd532e853d3ac5b1d8605dad79d585bdd1356598cc407eef8415adc4cf1a`. **That artifact is retained, in
+two already-delivered input capsules.** I verified the bytes mechanically before writing this:
 
-**That file is not present in this repository under that name.** The hash is cited consistently
-across five lane documents, so the citation is internally coherent, but the artifact itself lives in
-the reviewer's packet and was never transported here. It is therefore **an identity, not a
-retrievable source, from inside this checkout.**
+| # | input commit | ZIP | ZIP bytes / sha256 | exact member | member bytes / sha256 |
+|---|---|---|---|---|---|
+| 1 | `c84baa862fc55bbbd609f433aa06690210c13e9c` | `research/autonomy/cloud-inputs-2026-09-08/pst-final-ultra-original-inputs.zip` | 76,537 / `6d3f3e6185069db20862873719e070824d5b0d9eb90592087a631749cc4af99c` | `FINAL-SCIENTIFIC-REVIEW-P-ST.md` | **53,772 / `6dd9fd53…adc4cf1a`** |
+| 2 | `92a3ba93c19ab8e4d4c54e87372b49d1f6c67469` | `research/autonomy/cloud-inputs-2026-09-08/pst-focused-residual-original-inputs.zip` | 361,616 / `8b99fef7298207b24c43ca48554e22df1464bfd9c7f8d06424e69393b7300174` | `pst-focused-verification-20260908/inputs/baseline/FINAL-SCIENTIFIC-REVIEW-P-ST.md` | **53,772 / `6dd9fd53…adc4cf1a`** |
 
-⛔ I did **not** invent a locator for it, and I did **not** alter the annotation key to remove or
-soften the citation — the key stays exactly as admitted. The limitation is recorded here instead.
+Capsule 1's ZIP: read from the git object store at its pin, size and sha256 exact, **CRC clean**,
+member read and hashed directly. Capsule 2: read from the read-only extraction this parent already
+made and verified when the P-ST residual author was dispatched (44/44 members byte-exact then).
+
+**Both members are byte-identical to each other and to the cited identity.** No source was acquired,
+no route retried, no new review opened — these are already-admitted inputs, reused.
+
+### ⛔ SUPERSEDED, written earlier the same day
+
+> *"One cited identity is NOT resolvable in this worktree … That file is not present in this
+> repository under that name. The hash is cited consistently across five lane documents, so the
+> citation is internally coherent, but the artifact itself lives in the reviewer's packet and was
+> never transported here. It is therefore an identity, not a retrievable source, from inside this
+> checkout."*
+
+**That went too far, and the overreach was mine.** The literal half was true — the file is not at a
+working-tree path under that name, and it still is not. But I searched only the working tree and
+then generalised from an absent path to an unavailable artifact. The capsules are retained inputs,
+one of which **I had already extracted and verified myself**. An absent working-tree path is not
+evidence of unavailability, and I should not have written it as though it were.
+
+The annotation key was not altered then and is not altered now — it stays exactly as admitted. What
+changes is only this binding's account of where the cited artifact can be found.
 
 ## The second failure is out of this correction's scope
 
