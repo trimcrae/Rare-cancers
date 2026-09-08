@@ -177,3 +177,37 @@ Also retired by measurement: the inherited claim that a `strategies.json` `limit
 "5–8 view pages". Measured range on W26c's four fields is **3 to 12** (`ST-REPURPOSING.limitations[1]`
 = 12 pages, `ST-RADIOLIGAND.limitations[0]` = 3). Fan-out tracks the size of the route family the
 strategy owns, not the file. Quote the measured number, not the range.
+
+### `inputs/` is untracked scratch, and it will fail `PREFLIGHT_FULL=1` — measured 2026-09-08T04:39Z
+
+W41 measured that `research/autonomy/opus-capacity-campaign-20260908/inputs/` is **gitignored** (this
+directory's own `.gitignore:10`): `git ls-files` returns 0 files under it, it is in no commit, and it
+does not exist in a fresh clone or in CI. It is the only non-cache ignored path in the whole tree.
+Consequences, all measured, none of them a repository defect:
+
+* All **9** `systems_check --check` errors attributed to `inputs/` are working-tree-only. Six are not
+  findings about this repository at all (3 link-depth artefacts, 2 `[D4]` over untracked scratch, 1
+  `[D6]` id collision); 3 are real dangling links inside the *capsule's* text, which no tracked file
+  contains. `git grep -l -F 'id: DOC-AUTONOMY-OPERATING-PROTOCOL' HEAD --` returns **exactly one**
+  tracked claimant, so the id-uniqueness invariant **holds** over the repository.
+* Gate 2 (`systems_check --check`) is red from the tracked `reports/` regardless — removing `inputs/`
+  would leave ~210 errors and rc=1. The 9 are ~4% of a gate that fails either way.
+* ⚠ **`PREFLIGHT_FULL=1` — the publication-candidate gate — additionally fails a pure-logic test for a
+  reason unconnected to any change**: `scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py::`
+  `test_every_tests_directory_in_the_repository_is_inside_some_budget` walks the root skipping only
+  `.git`, `node_modules`, `__pycache__` and dot-directories, and finds the two capsule `tests/`
+  directories under `inputs/source-index/` in no tier of `scripts/tier-budgets.json`. Anyone running
+  the full gate on this branch must expect that failure and must NOT "fix" it by widening a budget or
+  narrowing a walk. (W41's evidence is a verbatim replication of the assertion body, exit 1, not a
+  captured pytest run.)
+* Only `systems_check.py` sees `inputs/` at all: `lint_citations.py:187` and `emc_systems_map_check.py:351`
+  use `git ls-files --cached --others --exclude-standard`, which excludes ignored paths by construction,
+  and the other ten gates iterate declared collections or fixed globs.
+
+⚠ Separately, and worth a deliberate human check: `inputs/evidence-4878/research/autonomy/OPERATING_PROTOCOL.md`
+is a **divergent copy** of the live protocol — same `id: DOC-AUTONOMY-OPERATING-PROTOCOL`, same
+`last_verified: 2026-09-04`, but 74 lines present only in the copy and 1 only in the live file. The
+copy-only text includes procedural rules (a standing pre-submission "ultra-reasoning pass" requirement
+dated 2026-09-05, a "continue beyond a route-specific blocker" section) that appear in **no tracked file**
+at this HEAD. Which version is authoritative is **UNKNOWN**. Do not follow the copy: read
+`research/autonomy/OPERATING_PROTOCOL.md` from the working tree, as this brief already instructs.
