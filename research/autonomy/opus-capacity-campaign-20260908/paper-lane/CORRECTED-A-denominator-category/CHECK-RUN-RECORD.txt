@@ -1,0 +1,42 @@
+# CORRECTED-A check run record
+date_utc: 2026-09-08T19:33:38Z
+
+## R0 — cache integrity (no pipes; $? is the real exit code)
+$ sha256sum -c SHA256-MANIFEST.txt   # in the delivered cache dir
+ctg_results_bor_2022_2026.txt: OK
+files_OK: 13
+EXIT=0
+
+## R1 — build (read-only over the delivered cache; writes only this directory)
+$ python3 build_corrected_a.py
+EXIT=0
+
+## R2 — deterministic checks
+$ python3 check_corrected_a.py
+C1 PASS  key set is an exact bijection onto job 1's 552 delivered rows
+     rows=552 distinct_keys=552 job1_keys=552 missing=0 extra=0
+C10 PASS  delivered LEAF-QA evidence agrees with the read denominator wherever it covers a row
+     1937 leaf records agree, 0 disagree, over 319/552 rows the leaves cover
+C11 PASS  original job-1 and leaf evidence unmodified by this component
+     12 original input files re-hashed, 0 changed
+C12 PASS  artifact carries that job 2 and job 3 are NOT independently confirmed
+     schema.confirmation_status and summary both state job1 arithmetic confirmed, job2/job3 not
+C2 PASS  every required field populated on every row
+     0 empty required cells
+C3 PASS  declared schema matches every emitted header exactly
+     rows=51 categories=18 inventory=10 columns declared
+C4 PASS  column-26 relabelled without altering any value; the implied diagnostic emitted separately
+     job1 col26 carried byte-identical on 552/552; corrected label `evaluable_n_minus_reported_denominator` equals it on 552/552 and equals evaluable_n - reported_denominator on 552/552; the distinct new column `all_categories_sum_minus_reported_denominator` equals all_categories_sum - reported_denominator on 552/552 and DIFFERS from column 26 on 299/552 rows (the 552-299=253 agreeing rows are why the old header went unnoticed)
+C5 PASS  every denominator READ from denoms with hierarchical provenance, none inferred from cells
+     552/552 denominator_state=READ_FROM_SOURCE; provenance path well-formed on all rows; 253 rows happen to coincide numerically with the old cell sum (coincidence recorded, not a derivation)
+C6 PASS  no rate, proportion or percentage derived anywhere
+     0 rate-like output columns; rate_derived=NOT_DERIVED on 552/552; 0 non-integer or percent values in the numeric diagnostic columns
+C7 PASS  every source category preserved verbatim, one record each, none folded
+     3123 category records = sum(n_source_categories) over 552 rows; grain unique; per-row counts agree on 552/552; 0 folded titles among 123 distinct titles; named categories present verbatim: {'sCR': 1, 'VGPR': 1, 'CRh': 2, 'CRi': 2, 'PD': 13, 'NE': 6}
+C8 PASS  unresolved/unsuitable states are enumerated, machine-readable and consistent with the row
+     0 inconsistencies
+C9 PASS  this component's own source reading reproduces job 1's overwrite partition
+     mine cross/within/none/conflicting = 10/51/491/22; job 1 = 10/51/491/22
+
+12/12 checks passed
+EXIT=0

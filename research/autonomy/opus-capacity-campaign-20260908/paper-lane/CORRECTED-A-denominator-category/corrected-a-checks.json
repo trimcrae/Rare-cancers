@@ -1,0 +1,68 @@
+{
+ "component": "CORRECTED-A-denominator-category",
+ "checks": {
+  "C1": {
+   "check": "key set is an exact bijection onto job 1's 552 delivered rows",
+   "result": "PASS",
+   "detail": "rows=552 distinct_keys=552 job1_keys=552 missing=0 extra=0"
+  },
+  "C2": {
+   "check": "every required field populated on every row",
+   "result": "PASS",
+   "detail": "0 empty required cells"
+  },
+  "C3": {
+   "check": "declared schema matches every emitted header exactly",
+   "result": "PASS",
+   "detail": "rows=51 categories=18 inventory=10 columns declared"
+  },
+  "C4": {
+   "check": "column-26 relabelled without altering any value; the implied diagnostic emitted separately",
+   "result": "PASS",
+   "detail": "job1 col26 carried byte-identical on 552/552; corrected label `evaluable_n_minus_reported_denominator` equals it on 552/552 and equals evaluable_n - reported_denominator on 552/552; the distinct new column `all_categories_sum_minus_reported_denominator` equals all_categories_sum - reported_denominator on 552/552 and DIFFERS from column 26 on 299/552 rows (the 552-299=253 agreeing rows are why the old header went unnoticed)"
+  },
+  "C5": {
+   "check": "every denominator READ from denoms with hierarchical provenance, none inferred from cells",
+   "result": "PASS",
+   "detail": "552/552 denominator_state=READ_FROM_SOURCE; provenance path well-formed on all rows; 253 rows happen to coincide numerically with the old cell sum (coincidence recorded, not a derivation)"
+  },
+  "C6": {
+   "check": "no rate, proportion or percentage derived anywhere",
+   "result": "PASS",
+   "detail": "0 rate-like output columns; rate_derived=NOT_DERIVED on 552/552; 0 non-integer or percent values in the numeric diagnostic columns"
+  },
+  "C7": {
+   "check": "every source category preserved verbatim, one record each, none folded",
+   "result": "PASS",
+   "detail": "3123 category records = sum(n_source_categories) over 552 rows; grain unique; per-row counts agree on 552/552; 0 folded titles among 123 distinct titles; named categories present verbatim: {'sCR': 1, 'VGPR': 1, 'CRh': 2, 'CRi': 2, 'PD': 13, 'NE': 6}"
+  },
+  "C8": {
+   "check": "unresolved/unsuitable states are enumerated, machine-readable and consistent with the row",
+   "result": "PASS",
+   "detail": "0 inconsistencies"
+  },
+  "C9": {
+   "check": "this component's own source reading reproduces job 1's overwrite partition",
+   "result": "PASS",
+   "detail": "mine cross/within/none/conflicting = 10/51/491/22; job 1 = 10/51/491/22"
+  },
+  "C10": {
+   "check": "delivered LEAF-QA evidence agrees with the read denominator wherever it covers a row",
+   "result": "PASS",
+   "detail": "1937 leaf records agree, 0 disagree, over 319/552 rows the leaves cover"
+  },
+  "C11": {
+   "check": "original job-1 and leaf evidence unmodified by this component",
+   "result": "PASS",
+   "detail": "12 original input files re-hashed, 0 changed"
+  },
+  "C12": {
+   "check": "artifact carries that job 2 and job 3 are NOT independently confirmed",
+   "result": "PASS",
+   "detail": "schema.confirmation_status and summary both state job1 arithmetic confirmed, job2/job3 not"
+  }
+ },
+ "passed": 12,
+ "failed": 0,
+ "total": 12
+}

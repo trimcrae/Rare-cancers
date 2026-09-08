@@ -1,0 +1,33 @@
+job1_column_or_new	disposition	corrected_a_column(s)	note
+classification	CARRIED_VERBATIM	job1_classification_carried	Job 1's valid/ambiguous/unsupported verdict is carried unchanged. This component does not re-adjudicate it and does not adopt it as its own finding.
+overwrite_scope	SUPERSEDED_BY_STRUCTURED_FIELDS	producer_label_collision_within_class; producer_label_collision_across_classes	One prose-ish enum replaced by two integer counts plus the colliding label names, so collision is machine-readable rather than a single token. This component's independent reading reproduces job 1's 10/51/491 partition exactly (check C9).
+conflicting_overwrite	SUPERSEDED_BY_STRUCTURED_FIELD	producer_label_collision_value_conflicting	Boolean replaced by a count. Reproduces job 1's 22 rows (check C9).
+nct_id	CARRIED_AS_INPUT_KEY	input_key_nct_id	Actual input key, component 1.
+shard	CARRIED_VERBATIM	payload_shard	Also used to disambiguate studies that appear in more than one payload family, so the category grain stays 1:1 with the delivered row.
+query_family	WITHHELD	(none)	Family membership is a selection question owned by the identity/selection/overlap component. Not restated here.
+outcome_measure_index	CARRIED_AS_INPUT_KEY	input_key_om_index	Actual input key, component 2.
+outcome_measure_title	CARRIED_VERBATIM	om_title	
+outcome_measure_type	CARRIED_VERBATIM	om_type	
+param_type	CARRIED_VERBATIM	param_type	
+unit_of_measure	CARRIED_VERBATIM	unit_of_measure	
+time_frame	CARRIED_VERBATIM	time_frame	Carried, never inferred; overlapping time strata are a blocking reason code, not a merge.
+population_description	CARRIED_VERBATIM	population_description	Empty means the record states none. Absence of a reading is never stored as a reading of absence.
+group_id	CARRIED_AS_INPUT_KEY	input_key_group_id	Actual input key, component 3.
+group_title	CARRIED_VERBATIM	group_title	
+n_classes_in_om	CARRIED_VERBATIM	n_classes_in_om	
+classes_contributing	CARRIED_VERBATIM	contributing_class_indices; n_contributing_classes	Count added so multi-class merging is filterable.
+class_titles_contributing	CARRIED_VERBATIM	class_titles_contributing	
+cells_CR	REFRAMED	categories_kept_by_producer_with_values; full_category_vector	The four stored cells are no longer a taxonomy. Every source category is preserved under its own verbatim title, with class index, in full_category_vector; what the old producer kept is recorded separately as a description of the old run. CR/PR/SD/PD are NOT treated as a universal numerator vocabulary across response criteria.
+cells_PR	REFRAMED	categories_kept_by_producer_with_values; full_category_vector	As cells_CR.
+cells_SD	REFRAMED	categories_kept_by_producer_with_values; full_category_vector	As cells_CR.
+cells_PD	REFRAMED	categories_kept_by_producer_with_values; full_category_vector	As cells_CR.
+evaluable_n_sum_of_cells	CARRIED_VERBATIM_AS_OLD_EVIDENCE	job1_evaluable_n_sum_of_four_producer_cells	Retained byte-identical as evidence of the old run. It is NOT a denominator anywhere in this component and is never used as one.
+reported_denominator_participants	RE-READ_AND_CONFIRMED	reported_denominator_participants + denominator_provenance	Independently re-read from denoms[units=Participants].counts[groupId].value with its exact hierarchical path. 552/552 present. Agrees with every delivered LEAF-QA record that covers a row (1937/1937, check C10).
+all_categories_in_contributing_classes_sum	CARRIED_VERBATIM	job1_all_categories_in_contributing_classes_sum + all_categories_contributing_classes_sum	Job 1's value carried; this component's own recomputation emitted alongside.
+sum_minus_reported_denominator	RELABELLED_VALUES_UNCHANGED	evaluable_n_minus_reported_denominator (value) + job1_column26_original_label + job1_column26_value_carried_unchanged	THE COLUMN-26 CORRECTION. The old header said 'sum'; the value in all 552 rows is evaluable_n (the four producer cells) MINUS the reported denominator. The LABEL is corrected. NO VALUE IS ALTERED: the job-1 value is also carried byte-identical, and the old mislabelled shard files are left untouched as original evidence.
+(new)	ADDED	all_categories_sum_minus_reported_denominator	The full-vector diagnostic the old header wrongly implied, emitted as a DISTINCT column with its derivation stated: all_categories_contributing_classes_sum MINUS reported_denominator_participants. It differs from column 26 on 299 of 552 rows.
+categories_matched	SUPERSEDED_WITH_VALUES	categories_kept_by_producer_with_values	Titles now carry their class index and reported value, not titles alone.
+categories_dropped	SUPERSEDED_WITH_VALUES	categories_dropped_by_producer_with_values; dropped_response_bearing_categories_with_values; dropped_non_evaluable_categories_with_values; dropped_unclassified_categories_with_values	Dropped categories now carry values and are split into response-bearing / non-evaluable / unclassified. The split is a FLAG on the verbatim title; no title is folded into another category.
+reason	SUPERSEDED_BY_ENUMS	unresolved_reason_codes; advisory_flag_codes	Prose reason replaced by enumerated, machine-readable codes defined in corrected-a-schema.json. Blocking codes drive proportion_suitability; advisory codes travel with the row without blocking.
+source_pointer	CARRIED_AND_EXTENDED	source_pointer (row) + source_pointer (category table, to class and category index)	The row-level trace is preserved; the category table extends it to the exact class and category.
+(new)	ADDED	proportion_suitability; denominator_state; category_preservation_state; rate_derived; cache_revision; category_vector_source; leaf_qa_coverage; n_source_categories*; n_distinct_source_category_titles; full_category_vector	New machine-readable state, provenance and evidence-disposition fields.
