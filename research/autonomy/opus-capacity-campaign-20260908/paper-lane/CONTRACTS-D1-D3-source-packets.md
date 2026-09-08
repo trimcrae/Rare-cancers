@@ -252,3 +252,90 @@ regeneration, no variant, no guard bypass, no row withdrawal, no paper admission
 primary-prevention statins and dynapenic obesity are **not EMC evidence**; each transfers at most as a direction
 and an order of magnitude, and two of the four are associations rather than intervention effects. There is no
 wet lab.
+
+---
+
+# ORIGINAL-BYTE RETENTION + TWO INTERPRETATION CORRECTIONS — appended 2026-09-08 08:12 UTC
+
+No new source call, no worker restart, no re-query. Originals extracted from the **existing** transcripts.
+
+## Original child transcripts and original tool-response bodies, retained
+
+| packet | original JSONL | bytes | sha256 |
+|---|---|---:|---|
+| D1 | `ORIGINAL-CHILD-TRANSCRIPT-a0fe61bf16696d7e1.jsonl` | 215,062 | `d9925366fd9f74d355f077c857552658655f185619277a0da4cad60a8209694a` |
+| D2 | `ORIGINAL-CHILD-TRANSCRIPT-ac190a6eda3284f20.jsonl` | 170,444 | `b8e9df0a5515a40c349c2d4d46d047160bfadefddb3f6948ecfca472ecb2add2` |
+| D3 | `ORIGINAL-CHILD-TRANSCRIPT-af7a05c80c7133398.jsonl` | 194,777 | `39b5c97712e86c0cc6713ef4695b309a40960e5a5f4e92acfff4d8d690d37c7a` |
+
+Each packet's `original-tool-responses/` now holds the **unmodified PubMed / WebFetch response bodies** with
+tool name, exact input, tool-use id, byte count, sha256 and error flag in `INDEX.json`, verified by
+`sha256sum -c`. Inputs recorded exactly: D1 `{"pmids":["41300991","42340948"]}` and
+`{"pmc_ids":["PMC12651382","PMC13293439"]}`; D2 `{"pmids":["42068528"]}` and the `WebFetch`
+`https://doi.org/10.1007/s10557-026-07883-6`; D3 `{"pmids":["41055780"]}` and `{"pmc_ids":["PMC12504376"]}`.
+
+⭐ **D1's full-text response overflowed the inline cap**, so the body in the transcript is a 1,441-byte pointer.
+The **actual 80,373-byte original response** was recovered from the tool-results store and retained as
+`OVERFLOW-original-fulltext-response.json`, sha256 `7cb4aed118b146b5e9f1dc64db472150670d98179e00986f79385633a091a3ad`
+— and I confirmed by `cmp` that the child's own retained copy is **byte-identical** to it.
+
+⚠ **D2's "transcribed verbatim" metadata is now superseded as evidence.** Its `01-pubmed-…-metadata.json` is a
+manual structuring, and a self-description of fidelity is **not proof of original bytes**. The original
+7,458-byte PubMed response is retained beside it; where they differ, **the original governs**. D2's own
+`WebFetch` failure body is retained with `is_error=True`:
+`{"error_type":"EGRESS_BLOCKED","domain":"doi.org",...}`. D3's manual files carry the child's own disclosure
+that file 03 is an **in-session transcription, not raw bytes**; its original 28,653-byte full-text response is
+now retained alongside, and governs.
+
+**Access limitations preserved exactly:** D2 **abstract-only**, full text **unobserved**, one publisher-DOI
+route refused and not retried. D1 and D3 obtained **original full text** via PMC. No NCBI `WebFetch` route was
+attempted by any packet.
+
+## ⛔ Correction 1 — D2's transfer sentence, which I repeated in my own adjudication
+
+D2 wrote that the estimate transfers to EMC *"at most, as a direction (benefit) and an order of magnitude"*
+while also saying no clinical benefit may be inferred. **The first clause is not established by this packet, and
+I propagated it into my adjudication. Both are withdrawn.**
+
+What the packet supports is **only** the observed original **population, design and endpoint**: a pooled
+cardiovascular-death risk ratio of **0.81 (0.71–0.95)** from randomised **primary-prevention statin trials in
+adults without prior cardiovascular disease**, searched to 20 January 2026. It licenses **none** of the
+following, and no sentence of mine should be read as doing so: an **EMC effect direction**, an **EMC order of
+magnitude**, application to the **general non-EMC-death compartment**, or the model's chosen
+**`transfer_multiplier_range [0.6, 1.0]`**. Those are repository assumptions; the source speaks to none of them.
+
+Kept separate and intact: the **numerical match is valid** (RR, CI and P exactly as reported); the
+**full-text-unobserved / `EGRESS_BLOCKED`** limitation stands exactly as recorded; and the quotation's
+**unmarked P-value elision in the MACE clause is distinct** from the **cardiovascular-death clause, which the
+abstract matches word for word**.
+
+## ⛔ Correction 2 — D1's "drift" is not a replacement, and I verified the generator myself
+
+The current inputs contain **both** rows: `41300991` at `compartment: B`, `status: retrieved` (the cessation
+row) **and** `42340948` at `compartment: B_corroborating`, `status: association_only` (the exposure row).
+**Neither replaced the other**, and a file-level PMID difference between inputs and model output is **not**
+evidence of replacement. My earlier "the inputs drifted toward unanchored citations" is withdrawn as a
+replacement claim.
+
+**Generator selection, read from source rather than inferred:** `model_factor` does
+`ev = next((e for e in row.get("evidence", []) if e.get("compartment") == comp), None)` — an **exact** match on
+the compartment key. `"B_corroborating" != "B"`, so **`42340948` is never selected for compartment B**; it is
+carried in the inputs for direction and is not consumed by the model at all. The two rows have **different
+purposes** and the generator treats them that way.
+
+⚠ **And the deeper point, which neither packet establishes:** **neither identifier validity nor an association
+establishes the stored intervention interpretation.** That `41300991` is real and its number exact does not
+make a **cessation effect in already-diagnosed lung-cancer patients** an **intervention effect in an EMC
+cohort**; that `42340948` is real does not make an exposure contrast an intervention effect at all. The
+intervention reading remains **unestablished by these packets**.
+
+## Standing summary of exact support, mismatches and unknowns
+
+| row | source support | mismatch | unknown |
+|---|---|---|---|
+| HF-SMOKING `41300991` | identity, design, HR **0.74 (0.68–0.81)** exact; original **full text** | source-internal CI 0.68 (abstract) vs **0.67** (Results); early-stage-only; biochemically-confirmed subgroup **0.42 (0.11–1.62) n.s.**; trim-and-fill **0.80** | whether any of those qualifiers should bound the stored band |
+| HF-SMOKING `42340948` | identity, AHR **1.65 (1.51–1.81)** exact; original **full text** | an **exposure association**, no cessation contrast; point estimate stored only in prose | nothing — it is not consumed by the model |
+| HF-CV-RISK `42068528` | identity, design, RR **0.81 (0.71–0.95)**, P=0.008 exact; **abstract only** | unmarked `P < 0.001` elision in the MACE clause | full text, outcome-specific trial count, I², effect model, risk of bias — **unknown, not zero** |
+| HF-SARCOPENIA `41055780` | identity, **1.33 (1.16–1.53)** and **1.73 (1.38–2.16)** exact; original **full text** | **exposure construct**: dynapenic obesity (grip strength + obesity) vs the row's *"CT-defined low muscle mass"*; 1.73's CI omitted; prevalence keyed to a different exposure | whether the label or the source should govern — **owner's call** |
+
+**No generated model, correction, row withdrawal, manuscript or graph edit. C1 remains closed.** No new review
+cycle, source hunt, model variant, network or route bypass, or held retry.
