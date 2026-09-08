@@ -1,5 +1,5 @@
 {
- "_readme": "What the open-access EMC literature says about how its patients die. Every row is a PATIENT or reported patient group, never a sentence, and every quote has been asserted against the retrieval artifact verbatim before this file was written. Nothing here is a rate, an incidence or a prognosis: it is a description of what a body of case reports and small series chose to record, in a disease too rare for anything better to exist.",
+ "_readme": "What the open-access EMC literature says about how its patients die. Every row is a PATIENT or reported patient group, never a sentence; the totals are SUMMED REPORTED PATIENT INSTANCES, not distinct records and not unique people. Every quote has been asserted against the retrieval artifact verbatim before this file was written. Nothing here is a rate, an incidence or a prognosis: it is a description of what a body of case reports and small series chose to record, in a disease too rare for anything better to exist.",
  "generated_by": "research/manuscripts/emc_terminal_events.py",
  "sources": {
   "classification": "research/manuscripts/emc-terminal-events-classified.json",
@@ -28,13 +28,13 @@
   "visceral_metastasis_complication": 1
  },
  "⛔_records_that_are_not_documented_deaths": {
-  "patient_records_classified": 52,
-  "documented_deaths": 50,
-  "records_excluded_from_the_death_tally": 2,
+  "summed_reported_patient_instances": 52,
+  "documented_death_instances": 50,
+  "instances_excluded_from_the_death_tally": 2,
   "rows": [
    {
     "pmid": "23213584",
-    "death_status": "nonfatal_complication_not_a_death",
+    "death_status": "death_not_documented_complication_recorded",
     "mechanism_label_it_would_have_carried": "visceral_metastasis_complication",
     "n_patients": 1,
     "quote": "Due to persistent anemia and gastrointestinal bleeding, the patient case was presented to the multidisciplinary tumor board, and it was recommended to proceed with palliative small bowel tumor resection.",
@@ -42,31 +42,48 @@
    },
    {
     "pmid": "21941486",
-    "death_status": "death_not_documented",
+    "death_status": "death_not_documented_care_transition_recorded",
     "mechanism_label_it_would_have_carried": "mechanism_unstated",
     "n_patients": 1,
     "quote": "The patient consequently deteriorated clinically and was referred for palliative radiation and transitioned to supportive care.",
     "note": "Transition to supportive care recorded; the death itself and its mechanism are not described."
    }
   ],
-  "⛔_why_this_block_exists": "The 18 classified rows sum to a PATIENT-RECORD count, not a death count. Two rows state no death: one describes a small-bowel metastasis complication managed palliatively, the other a transition to supportive care. Both are excluded from every numerator and denominator below -- and the first also carried a named mechanism, so excluding it moves the numerator and the denominator together. Neither exclusion asserts that those patients survived; the record does not say."
+  "⛔_why_this_block_exists": "The 18 classified rows sum to SUMMED REPORTED PATIENT INSTANCES, not to a death count. Two rows document no death: one records a small-bowel metastasis complication and its palliative management, the other a clinical deterioration and a transition to supportive care. Both are excluded from every numerator and denominator below -- and the first also carried a stored mechanism label, so excluding it moves the numerator and the denominator together. ⛔ Neither exclusion asserts that those patients survived, and neither status is a claim about a patient: each says only what the record documents."
  },
  "headline": {
-  "patient_records_classified": 52,
-  "classified_deaths": 50,
-  "with_a_named_mechanism": 14,
+  "summed_reported_patient_instances": 52,
+  "documented_death_instances": 50,
+  "papers_contributing_a_documented_death": 14,
+  "with_a_stored_mechanism_label": 14,
   "mechanism_unstated": 27,
-  "proportion_with_named_mechanism": 0.28,
-  "⛔_not_unique_patients": "These are selected descriptive literature records -- case reports, small series and literature reviews that themselves collect earlier cases. Nothing here establishes that the summed patients are unique across reports or independent of one another, and no rate, incidence or denominator can be formed from them.",
+  "proportion_with_a_stored_mechanism_label": 0.28,
+  "⛔_what_the_stored_mechanism_label_count_is_not": "The stored mechanism label is LEGACY filing, not an observation. Of the 14 documented-death instances carrying one, 4 have a quoted sentence that names a specific terminal event or disease entity, and 10 state only a broad cause class -- a metastatic site, a setting, a disease attribution, or an exclusion such as 'non-EMC-related'. ⛔ These must NOT be described as observed mechanisms. The count and its proportion are unchanged and stand; only the description of what they are has been corrected. See mechanism_evidence_tiers.",
+  "⛔_not_unique_patients": "These are SUMMED REPORTED PATIENT INSTANCES from selected descriptive literature -- case reports, small series and literature reviews that themselves collect earlier cases. They are not distinct records and they are not unique people. Nothing here establishes that the summed instances are unique across reports or independent of one another, and no rate, incidence or denominator can be formed from them.",
   "⭐_the_finding": "The published record of this disease mostly does not say how its patients died. That is not a gap in this table -- it is the result. A treatment portfolio aimed at preventing a specific event cannot describe the event it is aimed at."
+ },
+ "mechanism_evidence_tiers": {
+  "⛔_read_this_before_any_tier_count": "A tier says what the retained quoted sentence STATES, independently of the row's legacy `label`. Tiers are assigned over documented-death instances only. `assigned_broad_cause_category` is conditional and inferred, not observed.",
+  "over_all_documented_death_instances": {
+   "no_cause_or_mechanism_stated": 27,
+   "assigned_broad_cause_category": 18,
+   "stated_terminal_mechanism": 4,
+   "attribution_ambiguous": 1
+  },
+  "within_the_instances_carrying_a_stored_mechanism_label": {
+   "assigned_broad_cause_category": 10,
+   "stated_terminal_mechanism": 4
+  },
+  "⚠_rows_whose_label_outruns_their_quote": "PMID 29977924 ('died due to lung metastases') is a broad cause, not a documented respiratory failure. PMID 35775709's hepatic-metastasis patient states metastasis at death, not a named visceral complication. PMID 35665108's two deaths from 'non-EMC-related factors' name no cause at all and do not establish a non-cancer death either. Their stored labels are retained as legacy filing and their tier records what the record actually says."
  },
  "competing_and_second_malignancy": {
   "count": 6,
-  "of_named_mechanism_deaths": 0.429,
+  "of_stored_mechanism_label_instances": 0.429,
   "⭐_reading": "Deaths from a competing cause or a second cancer are the largest identifiable mechanism category in this corpus. They recur across independent case series, and they converge with the registry cause-split computed separately in emc-mortality-decomposition.json. ⚠ Case reports over-select the notable, so this is not an incidence -- but the direction agrees with the registry, which is not a case-report artifact."
  },
  "respiratory": {
   "count": 3,
+  "⚠_only_two_of_the_three_name_respiratory_failure": "Two quoted sentences name pulmonary or respiratory failure. The third says the patient 'died due to lung metastases', which assigns a broad cause and names no terminal mechanism; it is tiered assigned_broad_cause_category.",
   "⛔_the_premise_this_does_not_support": "Respiratory failure from progressive pulmonary metastases is present in this corpus and is NOT its dominant named mechanism. One of the three respiratory deaths followed a tumour-embolic ischaemic stroke rather than pulmonary tumour burden. Lung is unambiguously EMC's dominant metastatic SITE; that is a different claim from lung failure being its dominant mode of death, and this corpus does not establish the second."
  },
  "aggregate_cause_splits": [
@@ -117,6 +134,7 @@
    "n_patients": 1,
    "label": "respiratory_failure",
    "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
    "quote": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
    "note": "The clearest respiratory death in the corpus. The same patient is described again in the paper's discussion as dying of respiratory failure; both sentences are one patient and are counted once."
   },
@@ -128,6 +146,7 @@
    "n_patients": 1,
    "label": "respiratory_failure",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "One patient died due to lung metastases.",
    "note": "Attributed to lung metastases as the cause of death. ⚠ Read as a respiratory death on the paper's own attribution; it does not name the physiological terminal event, so this is the weaker of the two respiratory rows."
   },
@@ -139,6 +158,7 @@
    "n_patients": 1,
    "label": "respiratory_failure",
    "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
    "quote": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
    "note": "⚠ Respiratory failure, but by an unusual route: EMC tumour emboli caused an acute ischaemic stroke treated by thrombectomy, and death followed 15 days later. Counted as respiratory because that is what the paper names, but the initiating event was embolic, not pulmonary tumour burden. A mechanism table that hid this would misrepresent it."
   },
@@ -153,6 +173,7 @@
    "n_patients": 1,
    "label": "locoregional_complication",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "The patient received adjuvant radiotherapy but died after 1 year of follow-up due to complications of locoregional tumor dissemination to the skull base.",
    "note": "Paediatric masticator-space EMC with a compromised superior margin. Four sentences, one patient. Death from local dissemination at an anatomically unforgiving site, not from distant metastasis."
   },
@@ -164,6 +185,7 @@
    "n_patients": 1,
    "label": "locoregional_complication",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "Only 1 out of the 11 patients who underwent PR died from local recurrence and spinal metastasis of primary intracranial EMC at 36 mo after surgery[ 9 ].",
    "note": "Primary intracranial EMC, a rare presentation where local control governs outcome."
   },
@@ -175,6 +197,7 @@
    "n_patients": 2,
    "label": "competing_non_cancer",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "In our research of the 16 primary intracranial EMC cases available in the literature, 3 did not have any information on the prognosis of patients, and in 2 cases, the patients died from non-EMC-related factors after surgery.",
    "note": "Two of sixteen collected intracranial cases died of causes the reviewers judged unrelated to EMC. ⚠ The paper does not name those causes, so the label records what it asserts and no more."
   },
@@ -186,6 +209,7 @@
    "n_patients": 1,
    "label": "emc_progressive_disease",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "The patient subsequently underwent radiation to the brain and failed systemic treatment with chemotherapy and immunotherapy, with the development of further metastases ultimately resulting in death.",
    "note": "Multi-site progression including brain metastases. No single terminal mechanism named."
   },
@@ -196,7 +220,8 @@
    ],
    "n_patients": 1,
    "label": "visceral_metastasis_complication",
-   "death_status": "nonfatal_complication_not_a_death",
+   "death_status": "death_not_documented_complication_recorded",
+   "mechanism_tier": "not_applicable_death_not_documented",
    "quote": "Due to persistent anemia and gastrointestinal bleeding, the patient case was presented to the multidisciplinary tumor board, and it was recommended to proceed with palliative small bowel tumor resection.",
    "note": "⚠ Not a death sentence. Small-bowel metastasis causing obstruction and bleeding, retained because it documents a mechanism of harm from non-pulmonary visceral metastasis that no other row carries. Counted in the mechanism table only as a complication, never as a death."
   },
@@ -208,6 +233,7 @@
    "n_patients": 2,
    "label": "treatment_related",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "Of the remaining five patients, two showed tumor recurrences and two died due to postoperative complications 2 , 14 , 15 , 17) .",
    "note": "Intracranial EMC literature review. Two postoperative deaths -- treatment-caused, in a series where the operation is at the skull base."
   },
@@ -220,6 +246,7 @@
    "n_patients": 1,
    "label": "second_malignancy",
    "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
    "quote": "The patient was followed for 126 months, after which he died from complications of unresectable colon cancer.",
    "note": "⭐ The single most informative row in the corpus. Metastatic EMC, alive at 126 months, dead of an unrelated colon cancer. A patient who lived more than a decade with metastatic sarcoma and was killed by a different disease."
   },
@@ -232,6 +259,7 @@
    "n_patients": 2,
    "label": "second_malignancy",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "Two patients with EMC died during follow-up from concurrent malignancies ( Table 2 ).",
    "note": "The same two patients are described again as dying 'from concurrent malignancies within the first few months after diagnosis'. One event, counted once."
   },
@@ -243,6 +271,7 @@
    "n_patients": 2,
    "label": "mechanism_unstated",
    "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
    "quote": "Both patients that presented with metastatic disease to the lungs died within 17 months ( Table 2 ).",
    "note": "Lung-metastatic at presentation, dead within 17 months, no mechanism given. ⚠ It is tempting to read these as respiratory deaths and the paper does not say so."
   },
@@ -254,12 +283,18 @@
    "n_patients": 3,
    "label": "mixed_see_note",
    "death_status": "documented_death",
+   "mechanism_tier": "split_see_split_mechanism_tiers",
    "quote": "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.",
    "note": "One sentence, three patients, three different stories: congestive heart disease in a patient with lung and skin metastases (attribution genuinely ambiguous), hepatic metastasis (EMC progression), and cerebral haemorrhage explicitly WITHOUT tumour recurrence at 9.5 years (a competing death). Split in the tally as 1 ambiguous, 1 visceral_metastasis_complication, 1 competing_non_cancer.",
    "split": {
     "ambiguous": 1,
     "visceral_metastasis_complication": 1,
     "competing_non_cancer": 1
+   },
+   "split_mechanism_tiers": {
+    "ambiguous": "attribution_ambiguous",
+    "visceral_metastasis_complication": "assigned_broad_cause_category",
+    "competing_non_cancer": "stated_terminal_mechanism"
    }
   },
   {
@@ -271,6 +306,7 @@
    "n_patients": 2,
    "label": "mechanism_unstated",
    "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
    "quote": "Two patients died of disease 8 months after the initial diagnosis.",
    "note": "'Died of disease' -- the canonical form of the corpus's dominant non-answer."
   },
@@ -288,6 +324,7 @@
    "n_patients": 3,
    "label": "mechanism_unstated",
    "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
    "quote": "Three patients died during the time-frame of the study, 1 was lost to follow up, and 9 are still alive.",
    "note": "Seven sentences describing the same three deaths, none naming a mechanism. The clearest single illustration of why sentence counting would have been wrong."
   },
@@ -300,6 +337,7 @@
    "n_patients": 7,
    "label": "emc_progressive_disease",
    "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
    "quote": "While recurrence developed in 5 (38.5%) of the patients during follow-up, lung metastasis (46.2%) was detected in 6 patients, and 7 patients (53.8%) died due to the disease and complications related to the disease.",
    "note": "Seven deaths attributed to disease and its complications collectively. No per-patient mechanism, so this cannot enter a mechanism table -- only a cause-attribution one."
   },
@@ -311,6 +349,7 @@
    "n_patients": 20,
    "label": "mechanism_unstated",
    "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
    "quote": "With a median follow-up time of 72 months, 20 patients have died.",
    "note": "The largest single block of deaths in the corpus, and all-cause: the paper does not split them by cause at all."
   },
@@ -321,7 +360,8 @@
    ],
    "n_patients": 1,
    "label": "mechanism_unstated",
-   "death_status": "death_not_documented",
+   "death_status": "death_not_documented_care_transition_recorded",
+   "mechanism_tier": "not_applicable_death_not_documented",
    "quote": "The patient consequently deteriorated clinically and was referred for palliative radiation and transitioned to supportive care.",
    "note": "Transition to supportive care recorded; the death itself and its mechanism are not described."
   }

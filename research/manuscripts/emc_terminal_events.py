@@ -13,7 +13,18 @@ it claims. A label whose quote has drifted is a clinical fact with no source, wh
 failure mode CLAUDE.md's first golden rule exists to prevent. The build fails rather than
 tallying.
 
-⛔ AND A ROW IS NOT AUTOMATICALLY A DEATH. Every individual_events row must carry an explicit
+⛔ AND A ROW IS NOT AUTOMATICALLY A DEATH, NOR IS A LABEL A MECHANISM. Every individual_events row
+must carry an explicit `death_status` AND an explicit `mechanism_tier`. The stored `label` is
+LEGACY: it says which bucket a row was filed in, not what its quoted sentence states. Most rows
+carrying a mechanism label state only a broad cause CLASS -- a metastatic site, a setting, a disease
+attribution, or an exclusion such as "non-EMC-related" -- and name no terminal mechanism.
+`mechanism_tier` records that difference so the tally cannot be read as observed mechanisms.
+
+⛔ AND THE TOTALS ARE SUMMED REPORTED PATIENT INSTANCES. They are not distinct records and they are
+not unique people: the contributing papers include literature reviews that collect previously
+published cases, and no cross-report de-duplication is possible from what was retrieved.
+
+Every individual_events row must carry an explicit
 `death_status`. Two retained rows describe a complication and a transition to supportive care
 without stating that the patient died; they are kept for the harm they document and are excluded
 from every death numerator AND denominator, including the named-mechanism count. The script
@@ -47,8 +58,18 @@ EMC_TITLE = re.compile(r"myxoid chondrosarcoma|chordoid sarcoma|NR4A3", re.I)
 # Mechanism labels, i.e. the labels that say something about HOW a patient died. A label
 # outside this set is a death whose mechanism the record does not give, or not a death.
 DOCUMENTED_DEATH = "documented_death"
-NON_DEATH_STATUSES = {"nonfatal_complication_not_a_death", "death_not_documented"}
+# ⛔ Both non-death statuses are statements about the RECORD, not about the patient. Neither
+# asserts that the patient survived; the record does not say.
+NON_DEATH_STATUSES = {"death_not_documented_complication_recorded",
+                      "death_not_documented_care_transition_recorded"}
 DEATH_STATUSES = {DOCUMENTED_DEATH} | NON_DEATH_STATUSES
+
+# Evidence tiers. `label` is legacy filing; the tier is what the quoted sentence states.
+TIER_STATED = "stated_terminal_mechanism"
+TIER_BROAD = "assigned_broad_cause_category"
+TIER_SPLIT = "split_see_split_mechanism_tiers"
+MECHANISM_TIERS = {TIER_STATED, TIER_BROAD, "no_cause_or_mechanism_stated",
+                   "attribution_ambiguous", "not_applicable_death_not_documented", TIER_SPLIT}
 
 MECHANISM_LABELS = {
     "respiratory_failure",
@@ -99,15 +120,26 @@ def verify_quotes(spec: dict, index: dict[str, list[str]]) -> list[str]:
 
 
 def verify_death_status(spec: dict) -> list[str]:
-    """Every individual_events row must SAY whether its quoted sentence documents a death.
-    Silence is not 'yes'. This is a refusal, not a default."""
+    """Every individual_events row must SAY whether its quoted sentence documents a death, and
+    what evidence tier its mechanism claim sits at. Silence is not 'yes' for either. This is a
+    refusal, not a default."""
     problems = []
     for row in spec.get("individual_events", []):
+        where = f"individual_events[{row['pmid']}/{row['label']}]"
         st = row.get("death_status")
         if st not in DEATH_STATUSES:
-            problems.append(
-                f"individual_events[{row['pmid']}/{row['label']}]: death_status is "
-                f"{st!r}; it must be one of {sorted(DEATH_STATUSES)}")
+            problems.append(f"{where}: death_status is {st!r}; it must be one of "
+                            f"{sorted(DEATH_STATUSES)}")
+        tier = row.get("mechanism_tier")
+        if tier not in MECHANISM_TIERS:
+            problems.append(f"{where}: mechanism_tier is {tier!r}; it must be one of "
+                            f"{sorted(MECHANISM_TIERS)}")
+        if tier == TIER_SPLIT:
+            st_tiers = row.get("split_mechanism_tiers") or {}
+            for lab in (row.get("split") or {}):
+                if st_tiers.get(lab) not in MECHANISM_TIERS - {TIER_SPLIT}:
+                    problems.append(f"{where}: split member {lab!r} has no recognised tier in "
+                                    f"split_mechanism_tiers")
     return problems
 
 
@@ -116,6 +148,8 @@ def tally(spec: dict) -> dict:
     papers: set[str] = set()
     record_papers: set[str] = set()
     non_death: list[dict] = []
+    by_tier: dict[str, int] = {}
+    tier_of_mechanism_label: dict[str, int] = {}
     n_records = 0
     for row in spec["individual_events"]:
         record_papers.add(row["pmid"])
@@ -134,12 +168,24 @@ def tally(spec: dict) -> dict:
         if row.get("split"):
             for lab, n in row["split"].items():
                 by_label[lab] = by_label.get(lab, 0) + n
+                t = row["split_mechanism_tiers"][lab]
+                by_tier[t] = by_tier.get(t, 0) + n
+                if lab in MECHANISM_LABELS:
+                    tier_of_mechanism_label[t] = tier_of_mechanism_label.get(t, 0) + n
         else:
             by_label[row["label"]] = by_label.get(row["label"], 0) + row["n_patients"]
+            t = row["mechanism_tier"]
+            by_tier[t] = by_tier.get(t, 0) + row["n_patients"]
+            if row["label"] in MECHANISM_LABELS:
+                tier_of_mechanism_label[t] = (
+                    tier_of_mechanism_label.get(t, 0) + row["n_patients"])
     return {"by_label": dict(sorted(by_label.items(), key=lambda kv: -kv[1])),
             "papers_contributing": len(papers),
             "papers_with_any_record": len(record_papers),
             "patient_records_total": n_records,
+            "by_tier": dict(sorted(by_tier.items(), key=lambda kv: -kv[1])),
+            "tier_of_mechanism_label": dict(sorted(tier_of_mechanism_label.items(),
+                                                   key=lambda kv: -kv[1])),
             "non_death_records": non_death}
 
 
@@ -165,13 +211,15 @@ def main() -> int:
     n_non_death = sum(r["n_patients"] for r in non_death)
     mech = {k: v for k, v in by_label.items() if k in MECHANISM_LABELS}
     n_mech = sum(mech.values())
+    tier_mech = counts["tier_of_mechanism_label"]
     n_unstated = by_label.get("mechanism_unstated", 0)
     competing = by_label.get("competing_non_cancer", 0) + by_label.get("second_malignancy", 0)
 
     payload = {
         "_readme": (
             "What the open-access EMC literature says about how its patients die. Every row is a "
-            "PATIENT or reported patient group, never a sentence, and every quote has been asserted "
+            "PATIENT or reported patient group, never a sentence; the totals are SUMMED REPORTED "
+            "PATIENT INSTANCES, not distinct records and not unique people. Every quote has been asserted "
             "against the retrieval artifact verbatim before this file was written. Nothing here is a "
             "rate, an incidence or a prognosis: it is a description of what a body of case reports "
             "and small series chose to record, in a disease too rare for anything better to exist."
@@ -199,31 +247,46 @@ def main() -> int:
         },
         "deaths_by_label": by_label,
         "⛔_records_that_are_not_documented_deaths": {
-            "patient_records_classified": n_records,
-            "documented_deaths": total_deaths,
-            "records_excluded_from_the_death_tally": n_non_death,
+            "summed_reported_patient_instances": n_records,
+            "documented_death_instances": total_deaths,
+            "instances_excluded_from_the_death_tally": n_non_death,
             "rows": non_death,
             "⛔_why_this_block_exists": (
-                "The 18 classified rows sum to a PATIENT-RECORD count, not a death count. Two rows "
-                "state no death: one describes a small-bowel metastasis complication managed "
-                "palliatively, the other a transition to supportive care. Both are excluded from "
-                "every numerator and denominator below -- and the first also carried a named "
-                "mechanism, so excluding it moves the numerator and the denominator together. "
-                "Neither exclusion asserts that those patients survived; the record does not say."
+                "The 18 classified rows sum to SUMMED REPORTED PATIENT INSTANCES, not to a death "
+                "count. Two rows document no death: one records a small-bowel metastasis "
+                "complication and its palliative management, the other a clinical deterioration "
+                "and a transition to supportive care. Both are excluded from every numerator and "
+                "denominator below -- and the first also carried a stored mechanism label, so "
+                "excluding it moves the numerator and the denominator together. ⛔ Neither "
+                "exclusion asserts that those patients survived, and neither status is a claim "
+                "about a patient: each says only what the record documents."
             ),
         },
         "headline": {
-            "patient_records_classified": n_records,
-            "classified_deaths": total_deaths,
-            "with_a_named_mechanism": n_mech,
+            "summed_reported_patient_instances": n_records,
+            "documented_death_instances": total_deaths,
+            "papers_contributing_a_documented_death": counts["papers_contributing"],
+            "with_a_stored_mechanism_label": n_mech,
             "mechanism_unstated": n_unstated,
-            "proportion_with_named_mechanism": (
+            "proportion_with_a_stored_mechanism_label": (
                 round(n_mech / total_deaths, 3) if total_deaths else None),
+            "⛔_what_the_stored_mechanism_label_count_is_not": (
+                "The stored mechanism label is LEGACY filing, not an observation. Of the "
+                f"{n_mech} documented-death instances carrying one, "
+                f"{tier_mech.get(TIER_STATED, 0)} have a quoted sentence that names a specific "
+                f"terminal event or disease entity, and {tier_mech.get(TIER_BROAD, 0)} state only "
+                "a broad cause class -- a metastatic site, a setting, a disease attribution, or an "
+                "exclusion such as 'non-EMC-related'. ⛔ These must NOT be described as observed "
+                "mechanisms. The count and its proportion are unchanged and stand; only the "
+                "description of what they are has been corrected. See mechanism_evidence_tiers."
+            ),
             "⛔_not_unique_patients": (
-                "These are selected descriptive literature records -- case reports, small series and "
-                "literature reviews that themselves collect earlier cases. Nothing here establishes "
-                "that the summed patients are unique across reports or independent of one another, "
-                "and no rate, incidence or denominator can be formed from them."
+                "These are SUMMED REPORTED PATIENT INSTANCES from selected descriptive literature "
+                "-- case reports, small series and literature reviews that themselves collect "
+                "earlier cases. They are not distinct records and they are not unique people. "
+                "Nothing here establishes that the summed instances are unique across reports or "
+                "independent of one another, and no rate, incidence or denominator can be formed "
+                "from them."
             ),
             "⭐_the_finding": (
                 "The published record of this disease mostly does not say how its patients died. "
@@ -231,9 +294,26 @@ def main() -> int:
                 "preventing a specific event cannot describe the event it is aimed at."
             ),
         },
+        "mechanism_evidence_tiers": {
+            "⛔_read_this_before_any_tier_count": (
+                "A tier says what the retained quoted sentence STATES, independently of the row's "
+                "legacy `label`. Tiers are assigned over documented-death instances only. "
+                "`assigned_broad_cause_category` is conditional and inferred, not observed."
+            ),
+            "over_all_documented_death_instances": counts["by_tier"],
+            "within_the_instances_carrying_a_stored_mechanism_label": tier_mech,
+            "⚠_rows_whose_label_outruns_their_quote": (
+                "PMID 29977924 ('died due to lung metastases') is a broad cause, not a documented "
+                "respiratory failure. PMID 35775709's hepatic-metastasis patient states metastasis "
+                "at death, not a named visceral complication. PMID 35665108's two deaths from "
+                "'non-EMC-related factors' name no cause at all and do not establish a non-cancer "
+                "death either. Their stored labels are retained as legacy filing and their tier "
+                "records what the record actually says."
+            ),
+        },
         "competing_and_second_malignancy": {
             "count": competing,
-            "of_named_mechanism_deaths": round(competing / n_mech, 3) if n_mech else None,
+            "of_stored_mechanism_label_instances": round(competing / n_mech, 3) if n_mech else None,
             "⭐_reading": (
                 "Deaths from a competing cause or a second cancer are the largest identifiable "
                 "mechanism category in this corpus. They recur across independent case series, and "
@@ -245,6 +325,11 @@ def main() -> int:
         },
         "respiratory": {
             "count": by_label.get("respiratory_failure", 0),
+            "⚠_only_two_of_the_three_name_respiratory_failure": (
+                "Two quoted sentences name pulmonary or respiratory failure. The third says the "
+                "patient 'died due to lung metastases', which assigns a broad cause and names no "
+                "terminal mechanism; it is tiered assigned_broad_cause_category."
+            ),
             "⛔_the_premise_this_does_not_support": (
                 "Respiratory failure from progressive pulmonary metastases is present in this corpus "
                 "and is NOT its dominant named mechanism. One of the three respiratory deaths "
@@ -269,9 +354,12 @@ def main() -> int:
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"  {len(emc_papers)} EMC papers, {counts['papers_with_any_record']} contributing a "
           f"classified record, {counts['papers_contributing']} a documented death")
-    print(f"  {n_records} patient records, {n_non_death} not documented deaths")
-    print(f"  {total_deaths} documented deaths: {n_mech} with a named mechanism, "
-          f"{n_unstated} unstated")
+    print(f"  {n_records} summed reported patient instances, {n_non_death} documenting no death")
+    print(f"  {total_deaths} documented-death instances: {n_mech} with a stored mechanism label "
+          f"({tier_mech.get(TIER_STATED, 0)} stated terminal mechanism, "
+          f"{tier_mech.get(TIER_BROAD, 0)} broad cause only), {n_unstated} unstated")
+    for k, v in counts["by_tier"].items():
+        print(f"    tier {v:>3}  {k}")
     for k, v in by_label.items():
         print(f"    {v:>3}  {k}")
     return 0

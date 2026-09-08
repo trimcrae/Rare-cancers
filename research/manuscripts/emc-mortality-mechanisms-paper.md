@@ -5,7 +5,7 @@ level: L3
 kind: manuscript
 status: live
 canonical_for:
-  - the proportion of deaths in the published extraskeletal myxoid chondrosarcoma record that carry a stated mechanism
+  - the proportion of documented-death instances in the published extraskeletal myxoid chondrosarcoma record that carry a stored mechanism label, and the evidence tier those labels rest on
   - the stratified upper bound on what antitumour therapy could add to survival in this disease
   - the convergence of relative survival and registry cause attribution as independent estimates of competing mortality
   - the absence of any published growth-rate measurement for pulmonary metastases in this disease
@@ -68,12 +68,15 @@ convention against a World Health Organization life table for the United States,
 cohort median age and sex ratio. Every quoted figure is asserted against its source artifact
 programmatically, and the analysis code and data are public.
 
-**Results.** Fifty-two patient records were classified in the disease's open-access literature. Fifty
-are documented deaths; two describe a complication and a transition to supportive care without stating
-that the patient died, and are excluded from every death count. Of the 50 documented deaths, 14 (28.0
-per cent) carried any stated mechanism. Among those 14, death from a competing cause or a second
-malignancy was the largest category (6 deaths, 43 per cent), exceeding respiratory failure (3 deaths), and one of the
-three respiratory deaths followed tumour-embolic ischaemic stroke rather than pulmonary tumour
+**Results.** Fifty-two summed reported patient instances were classified in the disease's open-access
+literature. Fifty are documented deaths; the other two record a complication and a transition to
+supportive care without documenting a death, and are excluded from every death count. Of the 50
+documented-death instances, 14 (28.0 per cent) carry a mechanism label. Only 4 of those 14 have a
+quoted sentence that names a specific terminal event or disease entity; the remaining 10 state a broad
+cause class only, such as a metastatic site, a treatment setting, or the exclusion 'non-EMC-related'.
+Among the 14, a competing cause or a second malignancy was the largest category (6 instances, 43 per
+cent), exceeding respiratory failure (3 instances, of which only 2 name respiratory failure), and one
+of the three followed tumour-embolic ischaemic stroke rather than pulmonary tumour
 burden. In the national registry cohort, deaths not attributed to the sarcoma comprised 30.8 per cent
 of deaths in localised disease (4 of 13) and 10.0 per cent in disease metastatic at diagnosis (1 of
 10). The corresponding upper bound on what preventing every disease death could add was 6.7
@@ -143,20 +146,29 @@ mechanism, mechanism unstated, ambiguous attribution, or not a patient death.
 The unit of analysis is a patient or a reported patient group, never a sentence. One paper describes
 three deaths across seven sentences and another describes one death in four; counting sentences would
 have weighted the most verbose reports most heavily: the 34 papers carry 116 death sentences against
-52 classified patient records.
+52 summed reported patient instances.
 
-A record is not a death unless the retained sentence says so, so every record carries an explicit
-death status. Two of the 52 do not document a death: one describes a small-bowel metastasis causing
-obstruction and bleeding, managed by palliative resection, and one records a clinical deterioration
-and a transition to supportive care. Both are retained for the harm they document and are excluded
-from every death numerator and denominator below. Because the first also carried a named mechanism,
-excluding it moves the numerator and the denominator together. Neither exclusion asserts that the
-patient survived; the record does not say.
+A record documents a death only if the retained sentence says so, so every row carries an explicit
+death status. Two of the 52 instances do not document a death: one records a small-bowel metastasis
+causing obstruction and bleeding, managed by palliative resection, and one records a clinical
+deterioration and a transition to supportive care. Both are retained for the harm they document and
+are excluded from every death numerator and denominator below. Because the first also carried a
+mechanism label, excluding it moves the numerator and the denominator together. Each status is a
+statement about what the record documents, not about the patient: neither exclusion asserts that the
+patient survived, and the record does not say.
+
+A mechanism label is likewise not a mechanism. Each row therefore also carries an evidence tier
+recording what its quoted sentence states: a specifically stated terminal mechanism, where the
+sentence names a physiological event or disease entity; an assigned broad cause category, where it
+gives only a cause class such as a metastatic site, a treatment setting, a disease attribution, or an
+exclusion such as 'non-EMC-related'; no cause or mechanism stated; or attribution ambiguous. The
+stored labels predate this tiering and are retained as filing, not as observation. A broad cause
+category is conditional and inferred; it is not an observed mechanism.
 
 These are selected descriptive reports -- case reports, small series, and literature reviews that
-themselves collect earlier cases. They are not established to describe unique patients across
-reports, they are not independent observations, and they have no denominator, so no rate is computed
-from them.
+themselves collect earlier cases. The totals are summed reported patient instances: they are not
+distinct records, they are not unique people, they are not independent observations, and they have no
+denominator, so no rate is computed from them.
 
 ### 2.3 Cause splits and the upper bound on antitumour benefit
 
@@ -200,17 +212,24 @@ both changed a headline figure.
 
 ### 3.1 Statement of a mechanism in the published record
 
-Fifty-two patient records were classified across 16 of the 34 papers. Fifty of them are documented
-deaths, described across 14 papers; the other two state no death (2.2). Of the 50 documented deaths,
-fourteen (28.0 per cent) carried a stated mechanism. Twenty-seven were recorded with no mechanism
-beyond a vital status, a further eight were attributed to progressive disease without further
-specification, and one was left as ambiguous attribution.
+Fifty-two summed reported patient instances were classified across 16 of the 34 papers. Fifty of them
+are documented deaths, across 14 papers; the other two document no death (2.2). Of the 50
+documented-death instances, fourteen (28.0 per cent) carry a mechanism label. Twenty-seven were
+recorded with no mechanism beyond a vital status, a further eight were attributed to progressive
+disease without further specification, and one was left as ambiguous attribution.
 
-**Table 1.** Documented deaths in the open-access literature of this disease, by stated mechanism.
-The two classified records that state no death are excluded from this table and are itemised beneath
-it.
+The 14 are not 14 observed mechanisms. Read against the retained quoted sentences, four name a
+specific terminal event or disease entity -- pulmonary failure, respiratory failure, cerebral
+haemorrhage, unresectable colon cancer -- and ten state a broad cause class only. Over all 50
+documented-death instances the evidence tiers are 4 specifically stated terminal mechanism, 18
+assigned broad cause category, 27 no cause or mechanism stated, and 1 ambiguous attribution.
 
-| category | documented deaths |
+**Table 1.** Documented-death instances in the open-access literature of this disease, by stored
+mechanism label. The label is the category a row was filed in, not what its quoted sentence states;
+Table 1a gives the evidence tier. The two classified instances that document no death are excluded
+from both tables and are itemised beneath them.
+
+| stored mechanism label | documented-death instances |
 |---|---:|
 | mechanism unstated | 27 |
 | progressive disease, mechanism unspecified | 8 |
@@ -221,13 +240,30 @@ it.
 | treatment-related | 2 |
 | visceral metastasis complication | 1 |
 | ambiguous | 1 |
-| **total documented deaths** | **50** |
+| **total documented-death instances** | **50** |
 
-Excluded from Table 1 and from every percentage in this paper: one record of a small-bowel metastasis
-with obstruction and bleeding managed by palliative resection, which would otherwise have entered the
-table as a visceral metastasis complication, and one record of a transition to supportive care in
-which the death itself is not described. The 52 classified records less those two give the 50
-documented deaths.
+**Table 1a.** The same 50 instances by what their quoted sentences state.
+
+| evidence tier | instances | of which carry a mechanism label |
+|---|---:|---:|
+| no cause or mechanism stated | 27 | 0 |
+| assigned broad cause category | 18 | 10 |
+| specifically stated terminal mechanism | 4 | 4 |
+| attribution ambiguous | 1 | 0 |
+| **total** | **50** | **14** |
+
+Three rows carry a label their quoted sentence does not support, and are tiered accordingly. One
+death recorded as respiratory failure states only that the patient 'died due to lung metastases', a
+broad cause. One death filed as a visceral metastasis complication states only that the patient had
+hepatic metastasis, naming no complication. Two deaths filed as competing non-cancer state only that
+the patients 'died from non-EMC-related factors', which names no cause and does not establish a
+non-cancer death either. Their labels are retained as legacy filing and are not re-assigned here.
+
+Excluded from both tables and from every percentage in this paper: one instance of a small-bowel
+metastasis with obstruction and bleeding managed by palliative resection, which would otherwise have
+entered Table 1 as a visceral metastasis complication, and one instance of a transition to supportive
+care in which no death is documented. The 52 summed reported patient instances less those two give
+the 50 documented-death instances.
 
 This is the study's first result rather than a limitation of it. A research programme directed at
 preventing a specific event cannot, from its own literature, describe that event in most of the
@@ -235,8 +271,11 @@ patients it has recorded.
 
 ### 3.2 Competing causes and second malignancies
 
-Among the 14 documented deaths with a stated mechanism, six were from a competing cause or a second
-malignancy, exceeding any disease-specific mechanism. These recur across separate reports, whose
+Among the 14 documented-death instances carrying a mechanism label, six were filed to a competing
+cause or a second malignancy, exceeding any disease-specific label. Of those six, one names the
+disease that killed (unresectable colon cancer) and one names the terminal event (cerebral
+haemorrhage); the other four state a broad cause class only, two of them as the bare exclusion
+'non-EMC-related'. These recur across separate reports, whose
 independence is not established (5): two patients died of
 concurrent malignancies within months of diagnosis in one series; a patient followed for 126 months
 with metastatic disease died of unresectable colon cancer; two of sixteen collected intracranial cases
@@ -249,9 +288,11 @@ to case-report selection.
 
 ### 3.3 Respiratory failure, and the distinction from metastatic site
 
-Three deaths were attributed to respiratory failure or to lung metastases. One followed tumour-embolic
-ischaemic stroke treated by thrombectomy, with death 15 days later, rather than progressive pulmonary
-tumour burden.
+Three documented-death instances were filed to respiratory failure. Only two name it: one 'died of
+pulmonary failure', one 'died of respiratory failure'. The third states only that the patient 'died
+due to lung metastases', a broad cause that names no terminal mechanism. Of the two that name it, one
+followed tumour-embolic ischaemic stroke treated by thrombectomy, with death 15 days later, rather
+than progressive pulmonary tumour burden.
 
 This distinction matters because the pulmonary dominance of this disease's metastatic pattern is well
 established and is easily transposed into an assumption about how patients die. The site of metastasis
@@ -341,8 +382,8 @@ patients has least to gain, and the stratum with most to gain is a minority.
 
 ### 4.2 What this says about the evidence base
 
-That fewer than a third of recorded deaths carry a stated mechanism is a finding about the literature
-rather than the disease. It has a practical consequence: every disease-specific survival figure in
+That fewer than a third of documented-death instances carry a mechanism label at all, and that only
+four of the fifty name a terminal event, is a finding about the literature rather than the disease. It has a practical consequence: every disease-specific survival figure in
 this disease rests on somebody having assigned a cause by an instrument no paper reports. The relative
 survival analysis was performed because it does not need that assignment, and its agreement with the
 cause split provides evidence that the assignment, where made, is not badly wrong.
@@ -406,10 +447,15 @@ Open-access full text is a convenience sample: 328 of 600 enumerated records wer
 non-open-access series are systematically older and larger. Case reports are written because a case
 was notable, over-representing unusual terminal events; this biases against the indolent,
 competing-cause picture the data nevertheless show. Counts of described patients have no denominator
-and support no rate. Nor are the records established to be unique or independent patients: two of the
-contributing papers are literature reviews that collect previously published intracranial cases, and
-any overlap between them, or between either and a primary report, is not detectable from what was
-retrieved.
+and support no rate. Nor are the totals distinct records or unique people: they are summed reported
+patient instances, and two of the contributing papers are literature reviews that collect previously
+published intracranial cases, so any overlap between them, or between either and a primary report, is
+not detectable from what was retrieved.
+
+The mechanism tiers are read from the retained quoted sentence alone. Where a paper states a cause
+elsewhere in its text that the retrieved sentence does not carry, the tier understates what that
+paper knows; no source was re-fetched to check, so the tiers bound what this corpus demonstrates
+rather than what its authors observed.
 
 The cause split rests on 13 and 10 deaths in two strata of one registry, at a median follow-up of
 just over three years, which is short relative to this disease's natural history. Follow-up censors
@@ -429,9 +475,11 @@ instrument it does not report.
 
 ## 6. Conclusion
 
-The published record of extraskeletal myxoid chondrosarcoma does not say how most of its patients die.
-Where it does, deaths from competing causes and second malignancies are the largest identifiable
-category, and respiratory failure, though present, is not dominant. Between a tenth and a third of
+The published record of extraskeletal myxoid chondrosarcoma does not say how most of its patients die,
+and where it assigns a cause it usually names a class rather than a mechanism: four of fifty
+documented-death instances name a terminal event. Among the instances it does label, competing causes
+and second malignancies are the largest category, and respiratory failure, though present, is not
+dominant. Between a tenth and a third of
 deaths after diagnosis are not caused by the sarcoma, a figure two independent methods agree on, and
 those deaths occur at approximately background rate. The survival available to antitumour therapy is
 6.7 percentage points in localised disease and 31.0 in metastatic disease at three years. Research
