@@ -97,3 +97,31 @@ publisher/cross-version/Appendix A blockers are untouched.
 
 `/tmp/claude-0/j1-lane/` **intact, nothing deleted**, pending an exact-directory receipt. In-repo copy
 `J1-executed-artifacts/` with a self-exclusive manifest.
+
+---
+
+# Scope narrowing, appended 2026-09-08 10:22 UTC — original finding preserved above
+
+**"The response's stated reason was never true" overreaches the evidence and is narrowed here.**
+
+What was actually inspected: the **committed Git history of this manuscript**. Across those
+revisions the tool-equivalent abstract count is **194 words with zero CSPG4 mentions**, which
+**mismatches** the response's "at 199 words of 200" and its "the clause is added".
+
+What that does **not** establish: what existed in any **uncommitted working copy, external draft, or
+separately reviewed version** at the time the response was written. Those were not inspected and
+cannot be settled from here.
+
+**Narrower reading, which is what stands:** *within the inspected committed history*, no revision
+shows 199 words or a CSPG4 clause in the Abstract, so the response's statement does not correspond to
+any committed state of the paper. Whether it corresponded to some uncommitted or external draft is
+**unknown, not disproved.**
+
+No search, rerun, or history-recovery exercise was performed for this narrowing, and none is planned.
+The response file remains unedited. This is not a blocker to further work.
+
+# Lifetime correction, same append
+
+The adjudication's span "10:02:22 → 10:07:26 UTC" is the **tool window**, not the child's full
+lifetime. The transcript's full span is **10:02:20.020Z → 10:08:14.816Z (~5 m 55 s)**. Tool pairs
+**22** and model strings **`claude-opus-5` only** are unchanged.
