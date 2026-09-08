@@ -157,6 +157,29 @@ A prose note beside the field was attempted and reverted: `publication.schema.js
 rationale lives here instead. The edited row validates against the schema with no errors, and
 `blocked_by: ["BLK-NO-WET-LAB"]` is unchanged.
 
+## ⛔ LEADING-PAPER HOLD, 2026-09-08: `S3 clipped in outgoing PDF`
+
+Root visually inspected all seven pages of the outgoing PDF at `1cd34ea1`, sha256
+`18e999a8e81a8b2e671040de69d108d468eeb20dd1de45e2f60f82149f4e7b73`.
+
+⭐ **The page-3 full-width figure is READABLE AND ACCEPTED** for this computational preprint layout.
+That closes the figure-legibility question for this PDF. The unused manuscript-style variant's
+5.42 pt smallest text is NOT a gate for it; that variant's limitation is recorded honestly above and
+is not a release requirement for a different output.
+
+⛔ **One concrete production defect remains: Supplementary Table S3 on page 6 is too wide for the
+right-hand column, and its TAF15 column is visibly clipped at the page edge.** Page 7 currently
+carries only that table's tail note.
+
+**Reopening condition, exactly:** a corrected actual proof of the rebuilt outgoing PDF in which every
+source cell of S3 and its caption sit within the page bounds at unchanged type size. Not a
+re-render, not a claim — an inspected proof. Type must not be shrunk to fit; that would trade this
+defect for the one just fixed.
+
+The repair is scoped to a full-width placement for this table behind this paper's own `PAPERS` entry,
+using the stylesheet's existing `column-span: all` mechanism. It is not a table-layout refactor, and
+two-column main tables that fit may stay where they are.
+
 ## Not claimed
 
 Full preflight was not run on this manuscript. No publish-bar step and no venue action.
