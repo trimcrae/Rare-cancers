@@ -156,3 +156,61 @@ the fix), and no integrated result rests on the shim, but the shim's counts shou
 pytest's. The shim is retained as evidence of what the child actually ran, not as a substitute.
 
 Raw stdout/stderr for all three runs: `I1-executed-artifacts/parent-pytest/`.
+
+---
+
+# Two corrections to my own pytest reporting, appended 2026-09-08 10:04 UTC — originals preserved
+
+**No test was re-run for having arrived late.** The native pytest execution pushed at `20f19e5f`
+stands and covers the integrated linter and both modules against the real repository fixture: **24
+passed** (new module) and **27 passed** (existing module), both exit 0. Those are unchanged and were
+not repeated. What follows corrects **my own characterisation**, and one genuinely defective run.
+
+## Correction 1 — my pre-fix run used an incomplete fixture, so it established nothing
+
+I reported "23 failed, 1 passed … so the tests do catch the bug". **That run was invalid, and the
+fault was mine:** I copied only `lint_consistency.py` into the comparison directory and **not
+`pinned-figures.json`**. Reading the retained log, its 23 failures decompose as **15
+`FileNotFoundError`** — the missing registry — and **8 `AttributeError`** for the absent
+`_begins_mid_number`. **Not one of the 23 was a reproduction of the DOI bug.** The original log is
+retained unaltered at `parent-pytest/new-vs-orig.out`.
+
+Re-run with the registry present (`parent-pytest/new-vs-orig-COMPLETE-FIXTURE.out`, exit 1):
+
+| outcome | count | what it means |
+|---|---|---|
+| **12 passed** | 12 | true-positive and clearing tests that fire correctly on the **original** too — as they should |
+| `test_begins_mid_number_predicate` | **8** | `AttributeError`: the helper does not exist pre-fix. **A missing-helper artifact, NOT a bug reproduction** |
+| `test_the_measured_case_a_doi_does_not_state_the_card_ratio`, `test_a_bare_identifier_alone_does_not_fire`, `test_a_longer_number_ending_in_the_pattern_is_not_that_number`, `test_a_version_string_is_not_a_measurement` | **4** | `AssertionError`: genuine behavioural differences — **these four are the independent reproductions** |
+
+**So the accurate claim is: four tests independently reproduce the identifier bug**, eight fail only
+because the new helper is absent, and twelve pass on both implementations. My "23 failures = the tests
+catch the bug" was an overclaim and is withdrawn.
+
+## Correction 2 — my criticism of the child's shim was wrong
+
+I wrote that the shim "was not equivalent to pytest", citing its 12 passed / 12 failed against
+pytest's 23 failed / 1 passed. **The shim's numbers were right and mine were wrong.** With a complete
+fixture, real pytest reports **12 failed / 12 passed against the original — exactly what the shim
+reported.** The discrepancy was my broken fixture, not the shim. That criticism is withdrawn; the
+shim's counts are corroborated, not contradicted. The earlier text stands above as the record of what
+I claimed.
+
+## Scope of the correction itself, stated so it is not overread
+
+The integrated change is a **left-edge numeric-fragment rule plus `finditer` continuation**. It
+addresses the observed **DOI interior** case while preserving the tested genuine assertions. **It is
+not a general identifier recogniser**: `v2.102` still fires (a letter is not numeric continuation),
+and a match that is a **prefix** of a longer number still fires, deliberately, to protect the
+registry's truncating idiom.
+
+## ⚠ Not all gates are green
+
+`lint_citations` **still exits 1 repo-wide and was NOT made green by I1** — it was never in scope.
+`lint_consistency` is green, five other gates are green, and both pytest modules pass; **that is not
+"all gates and tests green"** and must not be reported as such. The F1 source and publication
+blockers — publisher-level confirmation, cross-version identity/content, Appendix A [2]/[3] — remain
+open and untouched by any of this.
+
+All logs above, including the defective run, are retained; **no record has been rewritten to erase a
+failed attempt or an overclaim.**

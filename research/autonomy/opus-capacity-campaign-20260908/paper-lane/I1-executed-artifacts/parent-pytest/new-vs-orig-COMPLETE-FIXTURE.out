@@ -1,0 +1,244 @@
+FFFF............FFFFFFFF                                                 [100%]
+=================================== FAILURES ===================================
+__________ test_the_measured_case_a_doi_does_not_state_the_card_ratio __________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-73/test_the_measured_case_a_doi_d0')
+
+    def test_the_measured_case_a_doi_does_not_state_the_card_ratio(tmp_path):
+        """THE BUG, in the shape it was found in: a bibliography line whose DOI happens to
+        contain the characters `2.102`. `emc-mtap-prmt5-hypothesis.md:673` was reported as
+        `superseded value '2.102' stated without marking it superseded`."""
+        entry = _card_ratio_entry()
+        text = (f"Journal of Biological Chemistry 2022;298(10):102434. doi {DOI_FIXTURE}. "
+                "That record was identified from a search index and was not read here.\n")
+>       assert _run(tmp_path, text, [entry]) == []
+E       AssertionError: assert [{'rule': 'S-...ine': 1, ...}] == []
+E         
+E         Left contains one more item: {'rule': 'S-card_ratio_4090_over_3090_2_10', 'severity': 'ERROR', 'file': 'doc.md', 'line': 1, ...}
+E         Use -v to get more diff
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:89: AssertionError
+__________________ test_a_bare_identifier_alone_does_not_fire __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-73/test_a_bare_identifier_alone_d0')
+
+    def test_a_bare_identifier_alone_does_not_fire(tmp_path):
+>       assert _run(tmp_path, f"doi {DOI_FIXTURE}\n", [_card_ratio_entry()]) == []
+E       AssertionError: assert [{'rule': 'S-...ine': 1, ...}] == []
+E         
+E         Left contains one more item: {'rule': 'S-card_ratio_4090_over_3090_2_10', 'severity': 'ERROR', 'file': 'doc.md', 'line': 1, ...}
+E         Use -v to get more diff
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:93: AssertionError
+__________________ test_a_version_string_is_not_a_measurement __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-73/test_a_version_string_is_not_a0')
+
+    def test_a_version_string_is_not_a_measurement(tmp_path):
+        """`v1.2.102` — the digits follow a dot that itself follows a digit, so they continue an
+        identifier rather than beginning a value."""
+>       assert _run(tmp_path, "pinned at openmm v1.2.102 in the rbfe env\n",
+                    [_card_ratio_entry()]) == []
+E       AssertionError: assert [{'rule': 'S-...ine': 1, ...}] == []
+E         
+E         Left contains one more item: {'rule': 'S-card_ratio_4090_over_3090_2_10', 'severity': 'ERROR', 'file': 'doc.md', 'line': 1, ...}
+E         Use -v to get more diff
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:99: AssertionError
+________ test_a_longer_number_ending_in_the_pattern_is_not_that_number _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-73/test_a_longer_number_ending_in0')
+
+    def test_a_longer_number_ending_in_the_pattern_is_not_that_number(tmp_path):
+        """`1442.102` is not `2.102`."""
+>       assert _run(tmp_path, "the checkpoint index reached 1442.102 steps\n",
+                    [_card_ratio_entry()]) == []
+E       AssertionError: assert [{'rule': 'S-...ine': 1, ...}] == []
+E         
+E         Left contains one more item: {'rule': 'S-card_ratio_4090_over_3090_2_10', 'severity': 'ERROR', 'file': 'doc.md', 'line': 1, ...}
+E         Use -v to get more diff
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:105: AssertionError
+__ test_begins_mid_number_predicate[10.1016/j.jbc.2022.102434-17-2.102-True] ___
+
+line = '10.1016/j.jbc.2022.102434', start = 17, matched = '2.102'
+expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[1442.102-3-2.102-True] ____________
+
+line = '1442.102', start = 3, matched = '2.102', expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[v1.2.102-3-2.102-True] ____________
+
+line = 'v1.2.102', start = 3, matched = '2.102', expected = True
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_______ test_begins_mid_number_predicate[ratio 2.102 here-6-2.102-False] _______
+
+line = 'ratio 2.102 here', start = 6, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+___________ test_begins_mid_number_predicate[(2.102)-1-2.102-False] ____________
+
+line = '(2.102)', start = 1, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+__________ test_begins_mid_number_predicate[**2.102**-2-2.102-False] ___________
+
+line = '**2.102**', start = 2, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_____ test_begins_mid_number_predicate[2.102 leads the line-0-2.102-False] _____
+
+line = '2.102 leads the line', start = 0, matched = '2.102', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+_________ test_begins_mid_number_predicate[was $128 once-4-$128-False] _________
+
+line = 'was $128 once', start = 4, matched = '$128', expected = False
+
+    @pytest.mark.parametrize("line,start,matched,expected", [
+        ("10.1016/j.jbc.2022.102434", 17, "2.102", True),    # interior of an identifier
+        ("1442.102", 3, "2.102", True),                      # suffix of a longer number
+        ("v1.2.102", 3, "2.102", True),                      # after a digit-preceded dot
+        ("ratio 2.102 here", 6, "2.102", False),             # begins its own number
+        ("(2.102)", 1, "2.102", False),                      # punctuation is not a digit
+        ("**2.102**", 2, "2.102", False),
+        ("2.102 leads the line", 0, "2.102", False),         # start of line
+        ("was $128 once", 4, "$128", False),                 # non-digit-initial: never suppressed
+    ])
+    def test_begins_mid_number_predicate(line, start, matched, expected):
+        assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+>       assert lc._begins_mid_number(line, start, matched) is expected
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+research/modalities/tests/test_lint_consistency_identifier_boundary.py:187: AttributeError
+=========================== short test summary info ============================
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_the_measured_case_a_doi_does_not_state_the_card_ratio
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_bare_identifier_alone_does_not_fire
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_version_string_is_not_a_measurement
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_a_longer_number_ending_in_the_pattern_is_not_that_number
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[10.1016/j.jbc.2022.102434-17-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[1442.102-3-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[v1.2.102-3-2.102-True]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[ratio 2.102 here-6-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[(2.102)-1-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[**2.102**-2-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[2.102 leads the line-0-2.102-False]
+FAILED research/modalities/tests/test_lint_consistency_identifier_boundary.py::test_begins_mid_number_predicate[was $128 once-4-$128-False]
+12 failed, 12 passed in 0.26s
