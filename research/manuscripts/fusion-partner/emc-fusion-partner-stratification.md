@@ -575,7 +575,7 @@ per-stratum patient and event counts that make τ² inestimable are stated once,
 here. Consequently the pooled figures
 here are **weighted descriptive summaries**, not meta-analytic estimates, and they carry none of the inferential
 guarantees a reader may associate with the word "pooled". State positively what the interval does assume: every
-Wilson bound in §3.3 is computed on the **summed** counts, under a common-binomial approximation that treats
+Wilson bound in §3.3 is computed on the **summed** counts, under a common-binomial approximation that handles
 the two cohorts' patients as one sample. Between-cohort variation therefore enters the point estimate through
 the denominator weights and enters the interval not at all, and no prediction-interval reading is available.
 This is a statement about what the construction omits, not a comparison: no two-study interval was
