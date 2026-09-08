@@ -61,3 +61,44 @@ DOI or resolve the attribution question - correctly, as all three were outside i
 This is a **live precision defect in a committed manuscript**, and the same sentence is inherited by
 X1's candidate. **Both should be fixed together** under the coordinator's ATR decision rather than
 patched separately now.
+
+---
+
+## Dated append — 2026-09-08, coordinator qualifications and integration disposition
+
+Nothing above is rewritten. These are corrections and a disposition recorded after the memo was
+collected.
+
+**1 · "Every committed denominator is partner-assigned" is too broad.** Total-series and
+partner-assigned denominators are distinct and must be kept distinct. The pool's Agaram denominator
+of 24 excludes the 2 unassigned cases, whereas the quoted 1 of 26 uses the entire series; the Huang
+pool of 57 differs from that series' 58 in the same way.
+
+**2 · What the stored 5 of 154 supports.** It supports what the committed pool says. It is not a
+fresh verification of source validity, and it is not evidence that the pooled series are independent
+of one another.
+
+**3 · The proposed [6,9] citation was not adopted.** X1's reference 9 is already Okamoto, and the
+proposed Huang metadata attribution remains flagged. No new retrieval or metadata repair was
+requested or performed.
+
+**4 · Integration disposition (applied).** The narrow existing-reference alternative was adopted. The
+opening sentence of section 3.5 of `research/manuscripts/dependency/emc-atr-collaborator-package.md`
+now reads exactly:
+
+> TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene.
+
+This reports the retained Agaram observation without a population prevalence estimate. No new
+reference, no pooled 5/154 or confidence interval, no cohort-independence assertion and no
+Huang/Warmke attribution was inserted. Support is the existing retained quotation, not a new source
+retrieval or a revalidation of the pooled evidence. The denominator distinction in item 1 is recorded
+here and in
+`research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md`, not as a
+universal-denominator claim in the manuscript.
+
+**5 · "Introducing edit unrecoverable" is qualified.** The wording of the edit that introduced the
+earlier sentence was not recovered from the history examined at its squash and shallow-clone
+boundary. That is a limit of the examination performed, not a finding of global historical absence.
+Historical wording recovery was not a blocker to the approved new ATR revision.
+
+Y1 is CLOSED. No further source, history or metadata work on this question.
