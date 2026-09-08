@@ -1,17 +1,17 @@
 ---
 id: DOC-DEGRADER-METHODS-FAILURE-RECORD
-title: "The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish"
+title: "A retrospective audit of one computation-only degrader program's instrument records: what the methods did and did not establish about paralogue selectivity"
 level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: What is the honest, publishable content of a computation-only program's own failure record — which of its paralogue-selectivity claims did its instruments support, which did they not, and what is transferable to anyone else running a funnel like it?
-scope: The degrader program's instrument register and the known-answer control that graded each instrument, plus the four-way outcome taxonomy the record depends on. It deliberately restates NO figure — every number has one home in a committed artifact and is cited rather than typed. It makes no claim about EMC treatment.
+purpose: What can be said, from this program's own retained instrument records, about which of its paralogue-selectivity statements its methods supported and which they did not — reported at the scope those records actually reach.
+scope: A retrospective audit of the instrument records enumerated in §5 and in the supplementary per-instrument inventory, together with the quantitative results reproduced in §4. It is an audit of retained records, not a re-execution of the program. It makes no claim about EMC treatment.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-06
 last_verified: 2026-09-08
 ---
-# The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
+# A retrospective audit of one computation-only degrader program's instrument records: what the methods did and did not establish about paralogue selectivity
 
 **Preprint draft — not submitted, not posted.**
 
@@ -19,197 +19,271 @@ last_verified: 2026-09-08
 
 Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID 0000-0002-1823-1451.
 
-*Study type: an audit of a computation-only research program's own instruments, read from committed
-computational artifacts and public structural and literature records. No experiment was performed and no
-wet-lab work of any kind was carried out. Full declarations: [§11](#11--declarations).*
+*Study type: a retrospective audit of a computation-only research program's own instrument records, read
+from committed computational artifacts and public structural and literature records. No experiment was
+performed and no wet-lab work of any kind was carried out. Full declarations:
+[§12](#12--declarations).*
 
-> This is a preprint draft, and it **restates no figure on purpose**. Every quantity in the record already
-> has exactly one home in a committed artifact, and a second copy inside a manuscript is the most likely
-> place for a number to go stale and then be quoted. Each finding below therefore carries its **verdict
-> word**, its **mechanism in one line**, and a **pointer to the artifact that owns its numbers**.
+> **Revision note, 2026-09-08.** This draft is the coherent correction batch required by an independent
+> final scientific review of the frozen manuscript (commit `0b965a1279c81c10d9edc054842a33446e87762e`,
+> main SHA-256 `a9058b6c40e32549f878347b2d4f8c0ed3f8593320ce417ef29367179a7d0fe2`) and by the
+> adjudication that accepted all twelve of its findings. The earlier formulation claimed an
+> adequately-powered null, a causal effect bound, a uniquely diagnosed calibration failure, a complete
+> whole-program ascertainment, a within-repository false-positive rate, an excluded design class and a
+> refutation of an external publication. Each of those is withdrawn or narrowed here, with the retained
+> measurement kept and the interpretation corrected. The finding-by-finding response matrix is
+> `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/F01-F12-response-matrix.md`.
+> ⛔ **No original execution record, result file or protocol history was rewritten.** The corrections are
+> made in this manuscript and in explicitly dated corrective interpretations; the original bytes stand.
 
 ---
 
 ## 1 · Abstract (draft)
 
-Computational drug-discovery programs report the funnels that worked. This paper reports one that did not, in
-the form the field is short of: an **instrument-by-instrument audit**. Every method used to support a
-paralogue-selectivity statement was first put to a test whose answer was already known. The results —
-including the failures, the non-resolutions and the tests that were never run — are enumerated rather than
-discarded. The worked system is the nuclear receptor NR4A3 and a hypothesised bivalent degrader against it;
-the paper's subject is the **register**, not the target.
+Computational drug-discovery programs report the funnels that worked. This paper reports the retained
+instrument records of one that did not, as an **instrument-by-instrument retrospective audit** of a
+specified set of records rather than a survey of a field or of a method.
 
-Of the **twenty instruments this paper cites** — the `support` and `disclosed_failing` lists of
-`RT-METHODS-PAPER.instruments`, which is not the whole of the program's instrument register — four recovered
-their known answer within a stated scope and sixteen are carried as **disclosed failing** — the register's own word, which covers four materially different outcomes
-that the paper's central methodological argument is written to separate (§5.1). Three independent, preregistered
-attempts at a **positive control for paralogue-selectivity detection** are reported: an alchemical ternary
-cooperativity calibrator that recovered the **wrong sign**, an endpoint-MD sensitivity control that returned
-a **null on an adequately-powered design**, and a biological retrospective that was **covalency-confounded**
-and therefore could not have served at any sample size. None of the three succeeded. ⚠ A fourth known-answer test
-for this axis, `V4`, **is** built and staged — but it carries no result key, was never completed and is not
-authorised, so it grades nothing and leaves the claim ceiling exactly where the three failures put it. The
-direct consequence — stated here as it is stated in the program's own record — is that **every
-paralogue-selectivity statement the program can make is an unvalidated prediction**.
+The worked system is the nuclear receptor NR4A3 and a hypothesised bivalent degrader against it; the
+paper's subject is the **record**, not the target. The audit universe is fixed in §3 and its
+ascertainment limits are stated there: this is what one program retained, not what every program does.
 
-Two further results give the audit its shape. First, a preregistered causal test returned its **registered
-null**, and this paper argues at length that a preregistered null is **not** a fourth failure: conflating it
-with the three above is a category error, and the distinction is structural rather than charitable. Second,
-the program's **largest** retraction fell to a chain-ordering defect, a unit error and contaminated inputs —
-**no known-answer test catches any of those**, and the panel had persisted no trajectory, so they were
-correctable in principle and not in practice. The transferable prescription is therefore **two rules, not
-one**: test every instrument against a known answer *and* persist the primary artifact. The second is the
-more expensive rule and the one this program was missing.
+**The register's shape.** The route record this paper cites partitions **twenty** instruments into
+**four** carried as `support` and **sixteen** carried under the single administrative label
+`disclosed_failing` — a route bookkeeping word that covers materially different facts and is **not** a
+scientific failure rate (§5). The numbered instrument census carries **twenty-two** entries; `V2` and
+`V18` sit in the census and outside this route's partition, and the two counts are never summed. A
+complete per-instrument inventory, separating **control type**, **execution and eligibility**,
+**inferential outcome** and **claim scope**, is in the supplement.
 
-⛔ This paper makes **no** claim of proteome-wide selectivity, **no** efficacy claim for extraskeletal myxoid
-chondrosarcoma or any other disease, **no** safety or therapeutic-window claim, and asserts **no** clinical
-readiness. Nothing here is a treatment candidate.
+**Three recorded attempts at a positive control for paralogue-selectivity detection**, assembled
+retrospectively from the record rather than planned as a series: an alchemical ternary cooperativity
+calibrator that recovered the **wrong sign**; an endpoint-MD sensitivity control that **executed and did
+not meet its registered directional criterion**; and a biological retrospective that was
+**covalency-confounded** and therefore ineligible at any sample size. ⚠ They share code, structural
+assumptions and selection decisions, and two of them are applications of the same instrument, so they are
+**three recorded attempts, not three independent validations**. None succeeded. A fourth known-answer
+test for this axis, `V4`, is built and staged, carries no result key, was never completed and is not
+authorised. The consequence carried in the program's own record is that **every paralogue-selectivity
+statement the program can make is an unvalidated prediction**.
+
+**What the endpoint-MD control actually returned.** It executed with **6 versus 5** admitted model means
+and zero technical failures in either arm, gave a difference of **+0.4373 Å** in the direction opposite to
+the one its criterion required, and **p = 0.746753** on its exact one-sided permutation test. Its
+reference set of 462 label assignments has an attainable p-value **floor of 1/462**. ⛔ That floor is a
+**discreteness property of the reference set and not statistical power**: no effect size is established
+for this observable, the panel's own record states that the readout has no established quantitative link
+to degradation selectivity, and the co-fold input validation the panel assumed had not been implemented
+before it ran. The recorded outcome is a tier of `NULL` with a register control state of `fails` — an
+**executed calibration attempt that did not meet its criterion**, which is neither an absent control nor a
+powered demonstration of insensitivity.
+
+**Infrastructure defects, separated.** A chain-assignment defect caused a completed covalent feasibility
+panel's interface readouts to describe the wrong protein pair; two of its legs additionally tethered the
+electrophile to the wrong cysteine, which is a wrongly simulated physical system rather than a
+post-processing error; an nm/Å unit error and a chain-blind reactive-cysteine search sit alongside them;
+and a **separate** set of descriptive and shakeout co-folds was contaminated with the wrong E3 subunit,
+while the completed covalent panel's inputs were clean of that contamination. The existing tests **missed**
+these defects. A retained object census over two named storage prefixes finds no multi-frame coordinate
+file, so the corrected-interface readouts cannot be recomputed. ⚠ Persisted trajectories would have
+permitted that rescoring; they could **not** have repaired the legs that simulated the wrong tether.
+
+The transferable prescription is **two rules, not one**: test every instrument against a known answer
+*and* persist inputs, identities, code and parameter versions, and trajectories appropriate to the
+observable. The second is the more expensive rule and the one this program was missing.
+
+⛔ This paper makes **no** claim of proteome-wide selectivity, **no** efficacy claim for extraskeletal
+myxoid chondrosarcoma or any other disease, **no** safety or therapeutic-window claim, and asserts **no**
+clinical readiness. Nothing here is a treatment candidate. It also makes no claim that in-silico
+selectivity prediction fails in general, that any design class is impossible, or that any external
+publication is defective.
 
 ---
 
 ## 2 · The claim, stated once
 
-> A computation-only program can state, with its instruments' known-answer controls attached, exactly which of
-> its selectivity claims its methods were able to support and which they were not — and the disclosed failures,
-> each with its diagnosed mechanism, are the transferable result.
+> From one computation-only program's retained instrument records, it is possible to state which of its
+> paralogue-selectivity statements its methods were graded as supporting and which they were not, with
+> each instrument's control type, execution state, inferential outcome and claim scope reported
+> separately — and the enumerated failures, with the evidence that is retained for each, are the
+> transferable result.
 
-That sentence is owned by [`systems/graph/publications.json`](../../../systems/graph/publications.json) →
-`PUB-METHODS.what_it_would_claim` and is quoted here rather than restated in other words, so the endpoint and
-the manuscript cannot drift apart.
+**What the claim does NOT include, and it matters.** It is not a claim that in-silico selectivity
+prediction does not work. It is a claim about **one** program's instruments, on **one** target family, run
+by **one** author, and the honest generalisation is *"here is what happened when one program's records
+were audited this way"*, never *"this is what happens"*
+([§10.1](#101--n--1-and-the-paper-must-say-so-in-the-abstract)). It also does not claim that each failure
+has a uniquely identified cause: where the retained evidence does not separate candidate causes, the paper
+says so.
 
-**What the claim does NOT include, and it matters:** it is not a claim that in-silico selectivity prediction
-does not work. It is a claim about **one** program's instruments, on **one** target family, run by **one**
-author, and the honest generalisation is *"here is what happened when a full program was audited this way"*,
-never *"this is what happens"* ([§9.1](#91--n--1-and-the-paper-must-say-so-in-the-abstract)).
-
----
-
-## 3 · Why this is a paper and not a lab notebook
-
-Three reasons, in the order a referee will want them.
-
-**(a) The audit is complete, not selective.** Every instrument in the register carries the known-answer test
-it was put to — or an explicit `⛔ none` where no such test exists — and the register is **generated from the
-graph**, not hand-curated per paper
-([`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md), regenerated by
-`systems/systems_check.py --write-views`). A reader can therefore check the denominator. The usual objection
-to a negative methods paper — *"which failures did you leave out?"* — is answerable by construction here in a
-way it is not for a retrospective write-up.
-
-**(b) Each failure has a diagnosed mechanism, not just an outcome.** A wrong-sign calibrator whose miss is
-localised to an endpoint-state error is a different contribution from "the calibration did not work"; an
-adequately-powered null with a reference-set floor an order of magnitude under α is a different contribution
-from "we saw nothing". [§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one) and
-[§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) carry the mechanisms.
-
-**(c) The failures themselves are the transferable content.** Each carries a mechanism another group can act
-on without repeating the run: a wrong-sign cooperativity calibrator, an adequately-powered endpoint-MD null
-and a covalency-confounded retrospective ([§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one)),
-a scoring margin refuted by its own within-repo false-positive rate, and a benchmark whose *unbound* protocol
-supplied information its label implied it withheld ([§7.1](#71--what-it-can-do)). That is the
-contribution, and it stands on what this program measured.
-
-⚠ **What this paper does NOT assert is any claim about how often the field publishes negatives.** The earlier
-framing rested on the clause *"the field publishes almost none of them"*, which this repository cannot support
-with a measurement or a citation. It is **historical**: it survives in
-[`CLAUDE-history.md`](../../../CLAUDE-history.md) as a superseded standing view, and is quoted there rather
-than asserted here. No bibliometric survey was run, and none is proposed; nothing in the argument depends on
-one.
+⚠ **A divergence, disclosed rather than silently repaired.** The endpoint register
+[`systems/graph/publications.json`](../../../systems/graph/publications.json) → `PUB-METHODS` still
+carries the superseded formulation — *"exactly which"* and *"each with its diagnosed mechanism"* — which
+this revision no longer supports. That file is not this manuscript's to edit; an exact patch is filed at
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/`, and until it is
+applied the sentence above is this paper's claim and the register's field is the stale copy.
 
 ---
 
-## 4 · ⛔ THE SPINE — four outcomes that are routinely summed into one
+## 3 · Audit methods
 
-**This is the section the paper exists to write, and getting it wrong would be worse than not writing it.**
+**The audit universe.** The instruments audited here are the numbered instrument register — `V1` to `V22`
+— as carried by [`instrument-census.json`](../../modalities/instrument-census.json) /
+[`instrument-census.md`](../../modalities/instrument-census.md), generated from
+[roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table) and §3.2, together with the route
+partition [`systems/graph/routes.json`](../../../systems/graph/routes.json) → `RT-METHODS-PAPER.instruments`,
+which selects the twenty of them this paper cites. Time cutoff: records as they stand on the commit named
+in [§11](#11--provenance-versioned-locators-and-the-dependency-manifest).
 
-Four results in this program are routinely confused with one another. **Three of the four are nulls of some
-kind, and only two are failures.** Summing them into *"everything came back null"* is a category error, and
-the program's own record says so in advance: without the distinction, *"a predictable null becomes a verdict
-on the whole program through a category error"*.
+⛔ **Ascertainment, stated as a limit rather than as a strength.** The register is generated from the
+program's graph, so it is consistent with that graph; that is **not** evidence that every method the
+program ever used was discovered, registered or entered into it. The numbered census was itself added
+retrospectively, and it records that `V21` had been quoted for months before it acquired a row. The audit
+is therefore **complete with respect to the enumerated records** and makes **no claim of complete
+whole-program ascertainment**. The earlier draft's claim that the missing-failures objection is
+*"answerable by construction"* is withdrawn.
 
-⭐ **THE ONE HOME for the table below — including every figure it deliberately omits — is
-[roadmap → ⛔ THE ONE HOME FOR "WHICH CONTROLS FAILED"](../nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language).**
-This section states the *taxonomy* and the *argument*; it does not restate the verdicts' numbers.
+**Retrospective, not prospective.** The audit was assembled after the runs it describes. Individual
+gates and criteria within it were frozen before their own runs — several records carry an explicit
+pre-run freeze assertion — but a current freeze flag and a current version-control pin do not by
+themselves establish which rule existed before outcome access. Where a retained pre-outcome revision or
+amendment is identifiable it is named; otherwise the paper says only that **the retained protocol
+describes the rule as prespecified**, which is what the record supports. Two preregistration files carry
+backfilled metadata, and that is disclosed at the claims that depend on them (§6.4, §9.6).
 
-| # | result | instrument | outcome word | why it has that word |
-|---|---|---|---|---|
-| 1 | **valB_mini** — the alchemical ternary cooperativity calibrator | `V5` | ❌ **CONTROL FAILED** | it recovered the **wrong sign** of a known cooperativity, in every preregistered replicate, at a multiple of the statistical uncertainty large enough that a sampling deficit is excluded. A failure of accuracy, not of precision |
-| 2 | **selcal SMARCA2/4** — the endpoint-MD sensitivity control | `V11` | ❌ **CONTROL FAILED**, on an adequately-powered design | it did not detect a difference that is *known to exist and is published*, with no technical failures in either arm and a reference-set floor an order of magnitude below α. The design could have returned significance and did not |
-| 3 | **NR-V04 retrospective** — the biological holdout | `V11` | ⚠ **NON-RESOLUTION**, and never a candidate control | it returned `DISCORDANT`. It is also **covalency-confounded** — the published selectivity is attributed to a covalent bond at a cysteine the other two paralogues lack — so a geometry readout would have passed for the wrong reason **at any sample size** |
-| 4 | **RUNG 5a-KS** — the causal matched-pair kill switch | `V16` | ✅ **NOT A FAILURE — its PREREGISTERED null** | registered **in advance** as the LIKELY outcome and explicitly not a stop. It returned a **bound**, because its design condition was met |
-| — | **apo pose recovery** — the blind-docking benchmark | `V3` | ⚠ **INCONCLUSIVE by its own preregistered rule** | the protocol's own ceiling missed, so the run measured the **site selection** rather than the docking. A test that cannot resolve is a third outcome and this one has been mis-read as a failure |
+**Handling of contradictory and superseded records.** Where a narrative annotation in the program roadmap
+disagrees with the primary artifact it cites, this paper follows the **primary artifact** and records the
+disagreement. Four such disagreements are carried in §9 and in the corrective-interpretation note filed
+with this revision. Original raw execution outputs, result files and protocol histories are treated as
+**immutable evidence**: nothing in this batch rewrites them, and every correction is made either in this
+manuscript or in an explicitly dated corrective interpretation beside the original.
 
-### 4.1 · Why #4 is not a failure, structurally rather than charitably
+**Deterministic extraction.** The quantitative table in §4 and the supplementary per-instrument inventory
+are generated by
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py`, which
+reads the named committed records and copies named fields. It runs no simulation, docking, co-fold, fetch
+or re-analysis. Its input manifest, with sizes, SHA-256 digests and version-control blob identities, is
+`MF1-dependency-manifest.json` in the same directory.
 
-The distinction has to survive a hostile reading, so it is made on the instrument's construction and not on
-intent.
+⚠ **What this paper does NOT assert is any claim about how often the field publishes negatives.** The
+earlier framing rested on the clause *"the field publishes almost none of them"*, and on the residual
+phrase *"in the form the field is short of"*, neither of which this repository can support with a
+measurement or a citation. Both are removed. The first is preserved as a superseded standing view in
+[`CLAUDE-history.md`](../../../CLAUDE-history.md); no bibliometric survey was run, none is proposed, and
+nothing in the argument depends on one.
 
-The Tier-3 quantity `S` is an ordinary **non-covalent** alchemical double difference. **It models no bond in
-either leg.** The paralogue claim the program actually rests on is *categorical* — a chemistry present in one
-paralogue and absent in the others — so `S` is **structurally incapable of testing it**. What `S` can see is
-the *marginal* wedge, whose expected magnitude was registered in advance as likely to be unresolvable at the
-design's sampling. It came back as a **bound** rather than as a non-answer because its preregistered design
+---
+
+## 4 · The quantitative record
+
+⭐ **This section reverses the earlier draft's deliberate omission of its own numbers.** The previous
+version restated no figure, on the reasoning that a second copy is where a number goes stale. That
+reasoning is sound about drift and wrong about a preprint: a reader could not check a quantitative
+methodological argument without traversing a 616-kilobyte roadmap and a set of registers with different
+denominators, some of which contradict the artifacts they cite. The table below is therefore **generated
+from the named artifacts rather than typed**, so it cannot drift, and each row carries the interpretive
+limit that travels with its number.
+
+The full table, with every column, is
+[`MF1-quantitative-results.md`](../../autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-quantitative-results.md);
+it is reproduced in the supplement. The columns are: control/reference identity · operational criterion ·
+unit · eligible, excluded, failed and unrun counts · estimate · uncertainty type · actual result ·
+interpretive limit · source. The ten records it covers are the endpoint-MD sensitivity calibration, the
+5a-KS double difference, the valB_mini calibration and its closure triangle, the decoy pass-through, the
+generation-frame druggability gate, the `V1` descriptor over the generated ternaries, the cross-method
+pose attribution, the anti-target self-control, the covalent-panel object census, and the external
+benchmark preparation record.
+
+### 4.1 · The four quantities the argument turns on
+
+**(a) The endpoint-MD sensitivity control (`V11`).** Recorded in
+[`selcal-verdict.json`](../../modalities/selcal-verdict.json): arms of **6** and **5** admitted model
+means, **22** legs admitted, **0** rejected records, **0** technical failures in either arm; statistic
+**+0.4373 Å** (the sign opposite to the one the criterion required); exact one-sided permutation
+**p = 0.746753** over **462** arrangements, mirror **p = 0.255411**; recorded tier **`NULL`**; register
+control state **`fails`**. The reference set's attainable minimum p-value is **1/462 ≈ 0.0021645**.
+
+⛔ **What the floor is and is not.** It is the smallest p-value this design can produce, a property of
+the number of label arrangements. It is **not** power. No power calculation against an effect size was
+performed, and none is manufactured here from the observed effect. Three further limits are on the
+record and belong beside the number: the panel's own module states that this observable has **no
+established quantitative link to degradation selectivity**; the reference the criterion text names
+(**ACBI2**, Kofink *et al.* 2022) is not the reference the panel's own `reference` block establishes
+direction from (**PRT3789**, Cancer Research 2026, `doi:10.1158/0008-5472.can-25-1141`, not open access,
+so no magnitude is quotable); and the promised co-fold-versus-crystal validation of the panel's inputs
+**had not been implemented before the panel ran**, with all twelve scored co-folds recording low-quality
+target↔E3 placement. ⚠ The identity correction is made **here and in current summaries**; the original
+historical bytes of `selcal-verdict.json` and `selcal_panel.py` are unchanged and stand as the record of
+what was actually run.
+
+**(b) The 5a-KS ligand-side double difference `S` (`V16`).** Recorded in
+[`nr4a3-5aks-reduction.json`](../../modalities/nr4a3-5aks-reduction.json): **S = −0.1297 kcal/mol**, with
+a dispersion of **0.3264 kcal/mol** whose recorded kind is **`replicate_sd`** — a **two-seed** between-seed
+spread per arm, combined across arms. ⛔ **That is not a confidence interval, an equivalence test, a
+likelihood bound or a calibrated physical-effect bound**, and the earlier claim that this quantity
+excludes effects of roughly 0.65 kcal/mol at "2σ" is withdrawn. `S` is an **exploratory conditional
+estimate compatible with zero at the observed precision**, and its design's operational completion
 condition (seeds per arm) was met.
 
-⛔ **And the honest half of the same paragraph:** `S ≈ 0` is uninformative *about the method*, because `V16`
-**has no known-answer calibrator at all** and buying one is on nobody's rung. An uncalibrated instrument
-returning zero cannot distinguish *"there is no wedge effect"* from *"this method cannot resolve the wedge
-effect"*. The bound is reportable; the calibration is not, and the program's own ruling is that `S` may be
-read as a bound and may **not** be reported as calibrated.
+⚠ Two assumptions have to travel with it. First, **comparability**: the record flags
+`system_identity_problems` on particle count across the four legs. Differing water counts do not by
+themselves prove invalid physics, and cross-species systems need not have identical counts — but the
+manuscript may not treat the calculation as an unqualified bound while that flag is open. Second,
+**modelled causality and reference state**: the intervention here is on the **modelled ligand Hamiltonian,
+conditional on the chosen structures**. It is not a biological causal test of degradation or of covalent
+selectivity, and the first-order cancellation of the opening penalty inside a relative matched-pair
+quantity (§8.2 item 2) holds only under a common reference state and ensemble, which is an argument and is
+recorded as one. `V16` has **no known-answer calibrator at all**, so `S ≈ 0` cannot separate *"there is no
+wedge effect"* from *"this method cannot resolve the wedge effect"*.
 
-### 4.2 · What IS bad — and it is #1–#3 together, not #4
+**(c) The valB_mini calibration and its closure triangle (`V5`).** The calibration recovered the **wrong
+sign** in every one of three replicates, at an absolute error of **1.543 kcal/mol**
+([`valb-failure-propagation.json`](../../modalities/valb-failure-propagation.json)). That is the retained
+result and it stands: a **repeated wrong-sign operational calibration failure**.
 
-After **three** preregistered attempts there is **no working positive control for paralogue-selectivity
-detection**. The fourth candidate, `V4`, is **built and staged with no result** — never completed, not
-authorised (§5.1) — which is a different state from "not staged" and changes the claim ceiling by nothing.
-That, and not the preregistered null, is why every
-paralogue-selectivity statement the program makes is an **unvalidated prediction** — a consequence written
-into [`selectivity-resolution-options.md`](../../modalities/selectivity-resolution-options.md) §4 *before* the
-deciding run, so it could not be re-narrated afterwards, and machine-carried by
-`selcal_gate.NEXT_STEP_BY_TIER`.
+⛔ **What the closure triangle does not add.** The single-seed triangle
+([`valb-triangle-reduction.json`](../../modalities/valb-triangle-reduction.json)) reports
+**R_ternary = −0.0312**, **R_binary = −0.2440**, **R = +0.2128 kcal/mol**, with the record's own error-bar
+field reading `NONE QUOTED AT n=1`. The earlier draft, and the roadmap entry it follows, read a small
+residual as showing that the miss is an endpoint-state error and that more sampling will not fix it. That
+inference does not hold, for three reasons that are on the record. (i) The residual is **one linear
+contrast of six edge errors**: errors of 1, 2 and 3 on the three oriented edges close exactly while every
+edge is wrong, and a conservatively structured bias from shared incomplete sampling can telescope the same
+way. (ii) The closure artifact
+([`valb-triangle-closure.json`](../../modalities/valb-triangle-closure.json)) itself states that
+endpoint-state errors are **invisible** to closure — which makes it blind to that class, not diagnostic of
+it. (iii) The propagation record gives power ≈ **0.63** to detect an r0-sized path error at its own
+measured upper noise bound, which is not a clean exclusion; and its "upper bound" on the per-leg sigma
+from three replicates is not a confidence bound on the underlying variance. **Repetition of a wrong sign
+strengthens the observed calibration failure and does not identify its cause.** The claims of unique
+localisation, of excluded sampling error, and of no remediation by sampling are withdrawn from this paper
+and from the current summaries it asks a reader to treat as authoritative.
 
-⚠ **#1 and #2 are DIFFERENT INSTRUMENTS and neither invalidates the other's numbers.** One is alchemical
-ternary FEP; the other is endpoint-MD interface stability. **They fail differently, too:** one gets a known
-answer *backwards*, the other cannot see a known difference *at all*. Reading them as a single finding would
-overstate both, which is the same category error one level down.
+⚠ **Nor is convergence established.** The retained diagnostic account for this lane reports binary-arm
+ligand departure and a convergence state of `MEASURED_FAILURE`. A passed closure or forward/reverse
+antisymmetry statistic is a selected diagnostic, not a general convergence certificate, and the earlier
+draft's *"converged sampling … all present"* is corrected accordingly.
 
-### 4.3 · What the SMARCA2/4 null does not license
-
-⛔ **First, what the word NULL is doing here, because it invites exactly the wrong reading.**
-[`selcal-verdict.json`](../../modalities/selcal-verdict.json) records `tier: "NULL"` with
-*p* = 0.746753 and `technical_failures` of **0** in both arms. That label describes the **statistical
-result**: the instrument ran, nothing broke, and it did not separate the two paralogues. ⛔ **That is a
-FAILED CALIBRATION, not an absent one** — the known-answer control did not recover a known difference,
-and `V11`'s control state in the register is `fails`, not `none`. A NULL tier is not an absent control
-and not an absent verdict; it is a verdict, and the verdict is negative. Reading it as "no result" would
-quietly move this instrument into the no-control-exists row of §5.1, where it does not belong.
-
-Three bindings, all preregistered, all reproduced here because a methods paper that reports a null without
-its limits is doing the thing this paper criticises:
-
-1. ⛔ **It does not distinguish "the readout is blunt" from "this pair is hard."** The two bromodomains are
-   highly similar and the published selectivity turns on a single hydrogen bond, so the null is consistent
-   with both an insensitive endpoint and a genuinely narrow structural signal.
-2. ⛔ **A third reading, measured afterwards, is worse for the instrument than either registered one.** Both
-   registered readings assumed the simulated complexes were the complexes whose selectivity was published.
-   Scored against the deposited ternaries the panel was designed around, the co-folds reproduce the internal
-   E3 machinery well and the degradation-target↔E3 interface **not at all** — so the endpoint was never
-   exercised on the complexes in question, and the failing stage is ternary **generation** rather than
-   ranking. That makes the null **weaker** evidence about the readout, and it is **not** a route to reopening
-   any selectivity statement.
-3. ⛔ **The remediation is that there is none to buy.** The follow-on re-panel was **retired unrun**, because
-   its own power section already showed it underpowered against the separations this program has measured. A
-   gate that fails and returns "spend nothing further" is a legitimate outcome and is reported as one.
+**(d) The decoy pass-through (`V20`).** The archived canonical output
+(`results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json`, the one of three archived MM-GBSA arms that reproduces
+the committed constant) records **22 of 38** selected unrelated marketed drugs scoring a positive minimum
+margin against the closer paralogue under single-snapshot MM-GBSA. ⛔ **That is a positive-call rate among
+these selected decoys under this scoring configuration.** It is **not** a measured biological
+false-positive rate: the archive supplies computed scores and computational labels, not measured NR4A
+negative labels. The calibration module states that the distribution depends on the receptor frames used,
+and the same background is used elsewhere to identify an above-background candidate — so the finding is
+evidence **against reading `margin > 0` alone as a selectivity verdict**, and not evidence that no
+downstream method can extract useful information.
 
 ---
 
-## 5 · The instrument register — every instrument beside the control that graded it
+## 5 · The register, its two denominators, and what its labels mean
 
-⭐ **ONE HOME.** The machine-readable register is
-[`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md), generated from
-`systems/graph/*.json`; the **annotated** register — with each instrument's scope caveat in the words the
-program fixed for it — is [roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table). This section
-states the *architecture* of the register and does not copy either.
+⭐ **ONE HOME for the machine-readable register:**
+[`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md), generated
+from `systems/graph/*.json`; the annotated register is
+[roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table). This section states the architecture and
+the counting rules; the per-instrument detail is in the supplementary inventory.
 
 **The register's governing rule, and the paper's methodological thesis in one sentence:**
 
@@ -217,92 +291,226 @@ states the *architecture* of the register and does not copy either.
 > looks.** An instrument whose control **failed** and one that has **no control** are different facts — and
 > **neither is support.**
 
-Two corollaries the program had to learn and that a reader can take away directly:
+Two corollaries a reader can take away directly:
 
-- ⛔ **A `PASSES` means the instrument recovered *that* known answer. It never means the instrument supports
-  the claim the register points it at.** The register carries a scope column for exactly this reason, and it
-  is the verdict rather than a footnote: a structural descriptor that recovers one contact in one crystal
-  pair has recovered one contact in one crystal pair.
+- ⛔ **A `PASSES` means the instrument recovered *that* known answer. It never means the instrument
+  supports the claim the register points it at.** A structural descriptor that recovers one contact in one
+  crystal pair has recovered one contact in one crystal pair.
 - ⛔ **The claim-ceiling rule.** A requirement may never be claimed above the validation status of the
   weakest instrument that produces it. An instrument with no result sets the ceiling at *unvalidated
-  prediction*; one that failed sets it lower ([roadmap §2.3](../nr4a3-program-map.md#23--the-claim-ceiling-rule-stated-so-it-can-be-checked)).
+  prediction*; one whose control failed sets it lower
+  ([roadmap §2.3](../nr4a3-program-map.md#23--the-claim-ceiling-rule-stated-so-it-can-be-checked)).
 
-### 5.1 · The shape of the register, which is itself the result
+### 5.1 · Two denominators, an inclusion rule, and one administrative word
 
-The route record [`systems/graph/routes.json`](../../../systems/graph/routes.json) → `RT-METHODS-PAPER.instruments`
-partitions the instruments this paper cites into two lists, and **the partition is the paper's headline
-table**. ⚠ Its denominator is **the twenty instruments this route cites**, not every instrument the program
-has ever held: **four** are cited as `support` (`V1`, `V6`, `V8`, `V10`) and **sixteen** as `disclosed_failing`
-(`V3`, `V4`, `V5`, `V7`, `V9`, `V11`, `V12`, `V13`, `V14`, `V15`, `V16`, `V17`, `V19`, `V20`, `V21`, `V22`).
+The route record `RT-METHODS-PAPER.instruments` partitions the instruments **this paper cites** into two
+lists: **four** as `support` (`V1`, `V6`, `V8`, `V10`) and **sixteen** as `disclosed_failing` (`V3`, `V4`,
+`V5`, `V7`, `V9`, `V11`, `V12`, `V13`, `V14`, `V15`, `V16`, `V17`, `V19`, `V20`, `V21`, `V22`).
 
-⚠ **`disclosed_failing` is one word covering at least four different facts, and §4's taxonomy is what
-separates them.** The manuscript must render them separately or it will over-claim its own failure record:
+⚠ **The inclusion rule, stated so the denominator can be checked.** A numbered instrument enters this
+partition when the route cites it. **`V2` and `V18` are in the numbered census and outside this
+partition** — `V2` is the ternary generator given both sites, which is relevant to the assembly-route
+examples §7 discusses and was never pointed at this program's own system; `V18` is a set-membership screen
+with no control of any kind. So the numbered census carries **twenty-two** entries and the route partition
+**twenty**. ⛔ **The two counts are read from their own sources and are never added or subtracted to make
+a third.**
 
-| what the register means by `disclosed_failing` | examples | what it actually says |
+⛔ **`disclosed_failing` is an administrative route label, not a scientific failure total.** It covers at
+least five materially different facts, and the supplementary inventory separates them on four independent
+axes — control type and availability, execution and eligibility, inferential outcome, and claim scope —
+because the earlier draft's four-row table mixed those axes and lost information:
+
+| the fact underneath the label | examples | what it actually says |
 |---|---|---|
-| **a control that FAILED** | `V5`, `V7`, `V11`, `V12`, `V13`, `V17`, `V20`, `V21` | the instrument was put to a known answer and did not recover it |
-| **a control that could not RESOLVE** | `V3` (INCONCLUSIVE by its own rule), `V15` (mixed nulls), `V19` (one arm ran, the decisive arm is unrun) | the test was run and returned a third outcome |
-| **no control EXISTS** | `V9` (a self-check, not a known answer), `V14`, `V16`, `V22` | nothing has ever graded it, which is a hole and not a failure |
-| **the control was never RUN** | `V4` — the *selectivity* free-energy known-answer test, built and staged with no result, never completed and not authorised | ⛔ the single most uncomfortable row in the register: the one test designed to grade selectivity free energy directly is the one that was never bought |
+| **a known-answer control that DID NOT RECOVER** | `V5`, `V7`, `V12`, `V17`, `V21` | the instrument was put to an independently established answer and did not return it |
+| **a control that RAN AND DID NOT RESOLVE** | `V3` (inconclusive by its own rule), `V22`'s known-answer arm (zero gradeable of twelve listed) | the test executed and returned a third outcome |
+| **a NONDETECTION under a registered operational criterion** | `V11` | the instrument ran, nothing broke, and it did not separate the pair at its criterion — an executed calibration attempt, not an absent control and not a demonstration of insensitivity |
+| **a failed MECHANISM HYPOTHESIS, or a NEGATIVE control, which is not a known answer** | `V13` (a two-state opening hypothesis), `V15` (permutation nulls), `V19` (the scrambled-objective arm) | not a failed recovery of an independently established truth; `V19` additionally has one arm executed and its decisive generative arm **unrun**, which a single row cannot carry |
+| **no control EXISTS** | `V9` (a self-consistency diagnostic), `V14`, `V16` | nothing has ever graded it, which is a hole and not a failure |
+| **the control was never RUN** | `V4` — the *selectivity* free-energy known-answer test, built and staged with no result key, never completed and not authorised | ⛔ the single most uncomfortable row in the register: the one test designed to grade selectivity free energy directly is the one that was never bought |
 
-⭐ **Naming `V4` in the paper is not self-flagellation; it is the audit's integrity check.** A register that
-listed only the tests that ran would be exactly the selective reporting the paper is written against.
+⚠ **`V22` is the row the earlier draft got wrong, and it is instructive.** Saying *"no control exists"*
+for it is imprecise: a known-answer panel of twelve apo/holo pairs was **attempted** and returned **zero
+gradeable cases**, for four distinct recorded reasons (§7.2). An attempted control that returns no grade
+is a different fact from an absent control, and both are different from a control that returned an answer.
 
-### 5.2 · The four that passed, and what each one does not cover
+⭐ **Naming `V4` in the paper is not self-flagellation; it is the audit's integrity check.** A register
+that listed only the tests that ran would be exactly the selective reporting this audit is written
+against.
 
-The support column is short and every entry is narrow. Stating the narrowness in the paper is what makes the
-failure list credible.
+### 5.2 · The four that recovered their known answer, and what each does not cover
+
+The support column is short and every entry is narrow. Stating the narrowness is what makes the rest of
+the record credible.
 
 | id | what it recovered | ⛔ what that does **not** cover |
 |---|---|---|
-| `V1` | a published interface hydrogen bond, unaided, from two crystals | one contact in one pair. It grades no NR4A3 prediction, and it does not grade the endpoint readout `V11` |
+| `V1` | a published interface hydrogen bond, unaided, from two crystals | **one contact in one pair, under one polar-contact descriptor**, and the criterion was corrected after an initial miss on that same known answer, so it is an in-sample development and harness check. It grades no NR4A3 prediction and it does not grade the endpoint readout `V11` |
 | `V6` | a public relative-FEP benchmark, inside the field's accepted band | a **relative** quantity **within one pocket**, on **one charge model**. It is not a selectivity validation, and it does not transfer to the ternary or endpoint lanes, which run a different charge model |
 | `V8` | a hydration free energy | a solvation smoke test. It says nothing about a protein site |
 | `V10` | a published interface-mutation ΔΔG | a **large** effect. No benchmark in the register probes the regime that matters here — resolving a paralogue-scale difference between two closely related receptor states |
 
-⛔ **The `V6` line is the one most likely to be misread by a reader and was misread inside the program.** The
-published accuracy of the underlying protocol was established on one charge model; the ternary and endpoint
-lanes run another, and the split is physically forced rather than sloppiness. **The accuracy control for that
-second lane is `V5` — which failed.**
+⛔ **The `V6` line is the one most likely to be misread by a reader and was misread inside the program.**
+The published accuracy of the underlying protocol was established on one charge model; the ternary and
+endpoint lanes run another, and the split is physically forced rather than sloppiness. **The accuracy
+control for that second lane is `V5` — whose calibration failed.**
 
 ---
 
-## 6 · The 2026-08-03 sweep — three instruments assembled and assessed in one day
+## 6 · ⛔ THE SPINE — outcomes that are routinely summed into one
 
-A methods paper benefits from showing the audit *running*, not only its accumulated output. On a single day,
-**three instruments** were assessed for the first time — one put to its own never-run self-control, one given
-the independent comparator it had never had, one pointed at the receptor frame it had never been pointed at —
-and a fourth, preregistered gate landed alongside them. **All four returned a negative**, and the three
-instrument tests each ran at zero cost on free CPU. That is the practical argument of the whole paper:
-**the audit is cheap, and the program had simply not been running it.** (The gate is an analysis over models
-already held; it bought no new compute either.)
+**This is the section the paper exists to write, and getting it wrong would be worse than not writing
+it.** Five results in this program are routinely confused with one another. Summing them into
+*"everything came back null"* is a category error; so is summing them into *"everything failed"*.
 
-**(a) `V21`, the anti-target docking panel — fails its own cognate-ligand self-control.** Each panel receptor's
-own crystallographic ligand was re-docked through the identical protocol and graded against the pose-recovery
-criterion the program had already frozen elsewhere — **read from the existing module, not chosen for this
-test**. A minority of receptors miss, and because every published clause built on this panel is a *maximum*
-or an *every-survivor* statement over the whole panel, **one unreadable receptor changes all of them**: the
-artifact grades `panel_readable: false`. ⛔ **This reaches print** — the affected clauses are in the
-program's own SI. ⛔ **And the frozen rule holds:** a failing target may not be dropped, its box may not be
-re-centred, and no band may be lowered. The repair that was attempted was a *receptor-completeness* repair
-applied uniformly to passing and failing targets alike, and it did not restore readability.
+⭐ **The numbers for every row below are in [§4](#4--the-quantitative-record) and in the generated
+results table.** This section states the taxonomy and the argument.
+
+| # | result | instrument | outcome word | why it has that word |
+|---|---|---|---|---|
+| 1 | **valB_mini** — the alchemical ternary cooperativity calibrator | `V5` | ❌ **CONTROL DID NOT RECOVER** | it returned the **wrong sign** of a known cooperativity in every preregistered replicate, at 1.543 kcal/mol absolute error. An accuracy failure. ⚠ Its **cause is not identified**: closure cannot localise it (§4.1c) |
+| 2 | **selcal SMARCA2/4** — the endpoint-MD sensitivity control | `V11` | ⚠ **EXECUTED CALIBRATION ATTEMPT, CRITERION NOT MET** | it ran with no technical failures in either arm and did not separate a pair whose selectivity a primary source reports, at p = 0.746753 with the difference in the opposite direction. ⛔ **Not** an adequately-powered null: no effect size is established and the p-floor is discreteness, not power |
+| 3 | **NR-V04 retrospective** — the biological holdout | `V11` | ⚠ **INELIGIBLE, and never a candidate control** | it returned `DISCORDANT`. It is also **covalency-confounded** — the published selectivity is attributed to a covalent bond at a cysteine the other two paralogues lack — so a geometry readout would have passed for the wrong reason **at any sample size** |
+| 4 | **RUNG 5a-KS** — the causal matched-pair test | `V16` | ⚠ **EXPLORATORY ESTIMATE, ITS PREREGISTERED LIKELY OUTCOME** | registered **in advance** as the likely outcome and explicitly not a stop; its operational completion condition was met. ⛔ It returned an **estimate compatible with zero at two-seed dispersion**, **not** a bound and **not** proof of an absent wedge |
+| — | **apo pose recovery** — the blind-docking benchmark | `V3` | ⚠ **INCONCLUSIVE by its own preregistered rule** | the protocol's own ceiling missed, so the run measured the **site selection** rather than the docking. A test that cannot resolve is a distinct outcome and this one has been mis-read as a failure |
+
+### 6.1 · Why #4 is not a failure — and why it is not a bound either
+
+The distinction has to survive a hostile reading, so it is made on the instrument's construction rather
+than on intent.
+
+The Tier-3 quantity `S` is an ordinary **non-covalent** alchemical double difference. **It models no bond
+in either leg.** The paralogue claim the program actually rests on is *categorical* — a chemistry present
+in one paralogue and absent in the others — so `S` is **structurally incapable of testing it**. What `S`
+can see is the *marginal* wedge, whose expected magnitude was registered in advance as likely to be
+unresolvable at the design's sampling.
+
+⛔ **And the honest half of the same paragraph, corrected.** Prespecifying that a null is likely and is not
+a stop is a **decision rule**, not an equivalence result. It does not convert an uncalibrated estimator
+into a bound, and it does not establish that the marginal wedge is absent. What the design bought is a
+recorded estimate and its between-seed dispersion, reportable as such. `V16` has **no known-answer
+calibrator at all** and buying one is on nobody's rung; the program's own ruling is that `S` may not be
+reported as calibrated, and this revision adds that it may not be reported as a bound either.
+
+### 6.2 · What IS bad — and it is #1–#3 together, not #4
+
+After **three recorded attempts** there is **no working positive control for paralogue-selectivity
+detection**. The fourth candidate, `V4`, is **built and staged with no result** — never completed, not
+authorised (§5.1) — which is a different state from "not staged" and changes the claim ceiling by nothing.
+That, and not the preregistered estimate, is why every paralogue-selectivity statement the program makes
+is an **unvalidated prediction** — a consequence written into
+[`selectivity-resolution-options.md`](../../modalities/selectivity-resolution-options.md) §4 *before* the
+deciding run, and machine-carried by `selcal_gate.NEXT_STEP_BY_TIER`.
+
+⚠ **#1 and #2 are DIFFERENT INSTRUMENTS and neither invalidates the other's numbers.** One is alchemical
+ternary FEP; the other is endpoint-MD interface stability. They also fail differently: one returns a known
+answer *backwards*, the other does not separate a known pair at its criterion. Reading them as a single
+finding would overstate both.
+
+⛔ **But different instruments do not make three independent validations.** #2 and #3 are both `V11`
+applications sharing an E1 readout and a scorer; the alchemical and E1 lanes are different instruments and
+still share this program's code, its structural assumptions, its co-folding route and its selection
+decisions. They are **three recorded attempts assembled retrospectively**, and the paper does not label
+them independent confirmations of a single scientific proposition. §9.6 gives the shared dependencies
+explicitly.
+
+### 6.3 · What the SMARCA2/4 result does not license
+
+⛔ **First, what the recorded word NULL is doing, because it invites exactly the wrong reading.**
+[`selcal-verdict.json`](../../modalities/selcal-verdict.json) records `tier: "NULL"` with *p* = 0.746753
+and `technical_failures` of **0** in both arms. That label describes the **statistical result**: the
+instrument ran, nothing broke, and it did not separate the two paralogues at its criterion. ⛔ **That is a
+control that was executed and did not meet its criterion, not an absent one** — the register's control
+state for `V11` is `fails`, not `none`. Reading it as "no result" would quietly move this instrument into
+the no-control-exists row of §5.1, where it does not belong. ⛔ **And reading it as a powered demonstration
+of insensitivity would move it into a row that does not exist**, which is what the earlier draft did.
+
+Four bindings, all reproduced here because a methods paper that reports a negative without its limits is
+doing the thing this paper criticises:
+
+1. ⛔ **It does not distinguish "the readout is blunt" from "this pair is hard."** The two bromodomains are
+   highly similar and the published selectivity turns on a single hydrogen bond, so the result is
+   consistent with both an insensitive endpoint and a genuinely narrow structural signal.
+2. ⛔ **It does not establish sensitivity, because no effect size is established for this observable.**
+   The panel's own module states that this readout has no established quantitative link to degradation
+   selectivity. An attainable p-floor of 1/462 says the design *could* have produced a small p-value; it
+   says nothing about the probability of detecting a relevant alternative.
+3. ⛔ **A third reading, measured afterwards, is worse for the instrument than either registered one.**
+   Both registered readings assumed the simulated complexes were the complexes whose selectivity was
+   published. Scored against the deposited ternaries the panel was designed around, the co-folds reproduce
+   the internal E3 machinery well and the degradation-target↔E3 interface **not at all** — so the endpoint
+   was never exercised on the complexes in question, and the failing stage is ternary **generation** rather
+   than ranking. ⚠ A technically clean MD leg does not establish a physically correct input or an
+   adequately sampled observable. That makes this result **weaker** evidence about the readout, and it is
+   **not** a route to reopening any selectivity statement.
+4. ⛔ **The remediation is that there is none to buy.** The follow-on re-panel was **retired unrun**,
+   because its own power section already showed it underpowered against the separations this program has
+   measured. A gate that fails and returns "spend nothing further" is a legitimate outcome and is reported
+   as one.
+
+### 6.4 · The reference identity, corrected in place
+
+The panel's criterion text names **ACBI2** (Kofink *et al.* 2022) as the source of the difference to be
+detected, while the panel's own `reference` block establishes direction from **PRT3789**
+(`doi:10.1158/0008-5472.can-25-1141`) and separates a mechanism citation about the SMARCA2/SMARCA4 pair
+from a claim about PRT3789. ⛔ **The correction is made here and in the current summaries, and the
+historical bytes are preserved.** The primary publication is not open access, so no magnitude, DC50 pair
+or fold window is quoted anywhere in this paper, and the panel's own record forbids importing one from a
+secondary source.
+
+---
+
+## 7 · The 2026-08-03 sweep — three instruments assembled and assessed in one day
+
+A methods paper benefits from showing the audit *running*, not only its accumulated output. On a single
+day, **three instruments** were assessed for the first time — one put to its own never-run self-control,
+one given the independent comparator it had never had, one pointed at the receptor frame it had never been
+pointed at — and a fourth, preregistered gate landed alongside them. **All four returned a negative**, and
+the three instrument tests each ran at zero cost on free CPU. That is the practical argument of the whole
+paper: **the audit is cheap, and the program had simply not been running it.**
+
+⚠ This is also the clearest single piece of evidence for §3's ascertainment limit: three instruments that
+had been in use acquired their first grade on one day, and one of them — `V21` — had been quoted for
+months without a row in the census.
+
+### 7.1 · `V21`, the anti-target docking panel — does not recover its own cognate ligands
+
+Each panel receptor's own crystallographic ligand was re-docked through the identical protocol and graded
+against the pose-recovery criterion the program had already frozen elsewhere — **read from the existing
+module, not chosen for this test**. **7 of 10** receptors recover; `CYP3A4`, `PXR` and `PPARG` do not, and
+the artifact grades `panel_readable: false`. Because every published clause built on this panel is a
+*maximum* or an *every-survivor* statement over the whole panel, **one unreadable receptor changes all of
+them**. ⛔ **This reaches print** — the affected clauses are in the program's own SI. ⛔ **And the frozen
+rule holds:** a failing target may not be dropped, its box may not be re-centred, and no band may be
+lowered. The repair that was attempted was a *receptor-completeness* repair applied uniformly to passing
+and failing targets alike, and it did not restore readability. ⚠ The inability to justify whole-panel
+extrema from a panel with three unreadable members is the finding; it is scoped to this panel and licenses
+nothing else.
 One home: [`antitarget-selfcontrol.json`](../../modalities/antitarget-selfcontrol.json).
 
-**(b) `V22` against `V3` — two pose methods with disjoint scoring disagree.** The primary docking instrument
-had no independent comparator at all, which is why its INCONCLUSIVE could not be attributed. A
-scoring-independent second method was run beside it, at the same boxes, graded by the same kernel. **No
-system agrees within the recovery band**, and the disagreement decomposes as *same location, different
-orientation* — a small centroid separation against an inter-method RMSD near the cost of turning the
-molecule over. The requirement it serves is recorded `R5_resolved: false`, and the artifact's own sentence is
-the honest one: the pose is **not attributable — and it is now attributable-to-nothing for a measured reason
-rather than for the absence of a second opinion.**
-⚠ **What this does not license, in the artifact's words:** not that the pose is wrong, not that either method
-is wrong, and not that agreement would have meant correctness. Both methods are docking searches into a fixed
-receptor, so a shared receptor-conformer error survives both — which is why the artifact also names the third
-method (a generative co-fold committing coordinates) that would fail differently.
+### 7.2 · `V22` against `V3` — two pose methods with disjoint scoring disagree
+
+The primary docking instrument had no independent comparator at all, which is why its INCONCLUSIVE could
+not be attributed. A scoring-independent second method was run beside it, at the same boxes, graded by the
+same kernel. **No system agrees within the recovery band.**
+
+⛔ **The earlier draft's decomposition was wrong and is corrected.** It read the disagreement as *same
+location, different orientation*, from small centroid separations. The retained cavity attribution
+([`r5-cross-method-cavity-attribution.json`](../../modalities/r5-cross-method-cavity-attribution.json),
+consistent with [`pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json))
+measures **six systems, of which five are gradeable: four same-cavity and one different-cavity**, with the
+sixth ungradeable and therefore excluded from the denominator rather than scored as agreement. The site
+itself is two overlapping sub-pockets 9.853 Å apart, both inside the search sphere both engines were
+given. **The cavity call is receptor-conformer dependent**, so neither an orientation-only nor a
+location-only reading holds across the census. The requirement it serves is recorded `R5_resolved: false`.
+
+⚠ **What this does not license:** not that the pose is wrong, not that either method is wrong, and not
+that agreement would have meant correctness. Both methods are docking searches into a fixed receptor, so a
+shared receptor-conformer error survives both.
+
 ⚠ **And the known-answer half of that comparator produced ZERO GRADEABLE PAIRS.** The panel lists twelve
-apo/holo pairs, and ⛔ **twelve listed pairs are not twelve completed docking runs** — every one of them
-carries a recorded disposition short of a grade, and they are four different dispositions, not one:
+apo/holo pairs, and ⛔ **twelve listed pairs are not twelve completed docking runs** — every one carries a
+recorded disposition short of a grade, and they are four different dispositions, not one:
 
 | n | disposition, as recorded |
 |---:|---|
@@ -311,224 +519,373 @@ carries a recorded disposition short of a grade, and they are four different dis
 | 1 | **fetch** refusal, 1RXR→9QX6 — HTTP 404, no legacy PDB-format file is served for that entry, which the record itself flags as a file-format bias toward older entries rather than a scientific result |
 | 3 | **alignment** refusals — 1RXR→6LB4, 1DSZ→9GFE, 1DSZ→3KMR |
 
-⛔ **The unreadable-`dock.prm` cause belongs to the six UNRUN entries and to no others.** The remaining four
-did not fail for that reason, and an earlier version of this paragraph said they did. A zero gradeable is
-therefore not evidence that the arm was never attempted, and it is equally not evidence that twelve docking
-runs were performed and came back empty. Nothing was re-run to establish any of this; the dispositions above
-are read from the retained record as it stands.
+⛔ **The unreadable-`dock.prm` cause belongs to the six UNRUN entries and to no others.** The remaining
+four did not fail for that reason, and an earlier version of this paragraph said they did. A zero gradeable
+is therefore not evidence that the arm was never attempted, and it is equally not evidence that twelve
+docking runs were performed and came back empty. ⚠ **Six actual cross-method pose comparisons did
+execute**, which is why *"the method never ran"* would also be false. Nothing was re-run to establish any
+of this; the dispositions above are read from the retained record as it stands.
 
 Two homes: [`pose-second-method.json`](../../modalities/pose-second-method.json) and
 [`pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json).
 
-**(c) The generation-frame druggability gate — `GATE_A_FAIL_BELOW_DSTAR`.** The *exact receptor frame the
-de-novo campaign generated into* was scored under the harmonized detector and falls below the program's own
-preregistered druggability threshold. The one-line reading, which is the transferable one:
-**a candidate cannot be better than the pocket it was designed into.**
-One home: [`r3-generation-frame-harmonized.json`](../../modalities/r3-generation-frame-harmonized.json) → `verdict`.
+### 7.3 · The generation-frame druggability gate
 
-**(d) The same day, the ternary rebuild's preregistered three-arm gate returned `NO-GO`.** The
-assembly-route ternaries do not discriminate the target from its paralogues: of the three registered arms,
-the sequence-encoded arm passes, the reproducibility arm is INDETERMINATE with no column passing, and both
-tether-geometry conventions fail. ⛔ Whatever it says is **structural** — no free energy is computed, and
-nothing about affinity, degradation, efficacy or safety follows.
+The *exact receptor frame the de-novo campaign generated into* was scored under the harmonized detector
+and returns **0.259** against the program's own preregistered threshold **D\* = 0.53**, verdict
+`GATE_A_FAIL_BELOW_DSTAR`. ⛔ **The transferable reading, stated at its actual scope: this is the failure
+of one operational screening gate on one receptor frame.** It is not a demonstration that nothing binds
+this pocket, not a statement about ligand-induced states, and not a theorem about every molecule generated
+there. The earlier draft's one-line reading — *"a candidate cannot be better than the pocket it was
+designed into"* — is withdrawn as a universal claim; what the record supports is that **this program's own
+gate refused this frame**.
+One home: [`r3-generation-frame-harmonized.json`](../../modalities/r3-generation-frame-harmonized.json) →
+`verdict`.
+
+### 7.4 · The ternary rebuild's preregistered three-arm gate returned `NO-GO`
+
+The assembly-route ternaries do not discriminate the target from its paralogues: of the three registered
+arms, the sequence-encoded arm passes, the reproducibility arm is INDETERMINATE with no column passing,
+and both tether-geometry conventions fail. ⛔ Whatever it says is **structural** — no free energy is
+computed, and nothing about affinity, degradation, efficacy or safety follows.
 One home: [`nr4a3-5bt-gate.json`](../../modalities/nr4a3-5bt-gate.json) → `verdict` / `sentence`.
 
-⭐ **The deepening of (d), two days later, is the strongest single negative in the record, and it is strong
-because of the pairing.** The instrument used is `V1` — the one that **did** recover a published contact
-unaided, from two crystals. Run over every model of the focus arm, it finds **no**
-sequence-encoded discriminating contact in **any** of them. A descriptor that demonstrably can see a real
-contact, pointed at our system, returns none. **That is a null with a working detector behind it, which is
-exactly the configuration the other three positive-control attempts never reached.**
-One home: [`nr4a3-5bt-signature.json`](../../modalities/nr4a3-5bt-signature.json) → `sentence_replicated`.
+### 7.5 · The deepening of §7.4, scoped to its descriptor
+
+The instrument used is `V1`. Run over every model of the focus arm, it finds **no qualifying
+sequence-variable discriminating contact in any of the 16 NR4A3 models**.
+
+⛔ **The scope of that sentence is the whole of its content, and the earlier draft overstated it.** The
+descriptor is explicitly a **heavy-atom polar-contact proxy** — an N/O pair within 3.5 Å on a side-chain
+polar atom, at an aligned position where the residue itself differs — and not a measured hydrogen bond.
+Its known-answer recovery is **one contact in one crystal pair**, and the criterion was corrected after an
+initial miss on that same known answer, which makes it an in-sample development and harness check with a
+narrow scope. So the supported statement is: **these generated structures provide no contact-based
+justification, under this descriptor, for a selectivity claim.** ⛔ It is **not** established that no
+discriminating contact of any kind exists, that the descriptor is sensitive to hydrophobic contacts or
+energies, or that this is the "strongest" negative in the record — the earlier draft's unmeasured ranking
+is removed. ⚠ The structures themselves come from a co-folding route that scores DockQ 0.023–0.046 on the
+one system where a crystal exists to check it.
+One home: [`nr4a3-5bt-signature.json`](../../modalities/nr4a3-5bt-signature.json) →
+`sentence_replicated`.
 
 ---
 
-## 7 · What a computation-only program can and cannot establish about selectivity
+## 8 · What this program's records establish about the boundary
 
-The paper's second contribution is a **boundary**, drawn from this program's own experience rather than
-argued from first principles.
+The paper's second contribution is a **boundary**, drawn from this program's own retained records rather
+than argued from first principles. ⛔ **Every item below is a statement about what these records show, not
+about what any method can do in other hands.**
 
-### 7.1 · What it CAN do
+### 8.1 · What the records show a program CAN do
 
-1. **Grade its own instruments.** A known-answer test costs close to nothing and, in this program,
-   repeatedly changed what could be claimed — every instrument in §4's table was reclassified by the test it
-   was put to rather than by an argument about it. ⚠ **And the honest limit on that lesson, from this
-   program's own record: a known-answer test can itself fail to return a grade.** The known-answer arm of the
-   second pose method returned **zero gradeable pairs**
-   ([§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) (b)), and `V3`'s
-   control returned INCONCLUSIVE by its own rule. A test that returns no grade is cheap and is still not
-   free: it buys a disposition, not a verdict.
-2. **Exclude a design class on evidence.** A screening-grade scoring margin was refuted as a selectivity
-   verdict by pushing unrelated marketed drugs through the identical funnel and measuring the
-   false-positive rate — a within-repo null that killed a headline. A signal smaller than its own noise is
-   not recoverable by any downstream method.
-3. **Bound an effect size.** A preregistered null that meets its design condition returns a *bound*, which is
-   a quantitative statement and not an absence ([§4.1](#41--why-4-is-not-a-failure-structurally-rather-than-charitably)).
+1. **Grade its own instruments, cheaply.** A known-answer test costs close to nothing and, in this
+   program, repeatedly changed what could be claimed — every instrument in §6's table was reclassified by
+   the test it was put to rather than by an argument about it. ⚠ **And the honest limit on that lesson,
+   from this program's own record: a known-answer test can itself fail to return a grade.** The
+   known-answer arm of the second pose method returned **zero gradeable pairs** (§7.2) and `V3`'s control
+   returned INCONCLUSIVE by its own rule. A test that returns no grade is cheap and is still not free: it
+   buys a disposition, not a verdict.
+2. **Refute an operational rule on evidence.** Pushing 38 unrelated marketed drugs through the identical
+   funnel showed that **22 of 38** score a positive margin, which retires `margin > 0` as a selectivity
+   verdict in this pipeline. ⛔ **Stated at its scope:** that is a positive-call rate among selected decoys
+   under this scoring configuration, not a measured biological false-positive rate, and it does not
+   exclude a design class or show that a downstream method cannot extract information from these scores.
+   The earlier draft's *"exclude a design class"* and *"a signal smaller than its own noise is not
+   recoverable by any downstream method"* are withdrawn.
+3. **Report a conditional estimate with its dispersion.** A preregistered test that meets its operational
+   completion condition returns a recorded estimate and a recorded spread, which is a quantitative
+   statement and not an absence — ⛔ and, without a calibrator or an uncertainty analysis, is **not** a
+   bound (§6.1).
 4. **Calibrate a screen against a measured background.** A categorical screen was, until recently, an
-   enrichment over an *unmeasured* background — the exact shape that cost the program the result in (2).
-   Pushing unrelated close paralogue pairs through the identical pipeline converts *"the categorical gate
-   fired"* into *"the categorical gate fired against a measured background"* — the artifact's own reading of
-   what it bought. ⚠ The background so measured is a **nuclear-receptor** background, not a proteome one,
-   and the artifact states that as a limit.
-   ⛔ With the caveat that travels with it: the program's headline residue falls outside one of the two
-   preregistered scopes, and a preregistered window may **not** be widened after seeing what fell outside it.
-5. **Refute a published method's claim from that method's own released data.** A benchmark's *unbound*
-   protocol turned out to supply information the label implied it withheld, so the arms built on it were
-   re-labelled and the positive control moved to an honestly-labelled in-set case. **This is a finding about
-   the field's instrument, not about our target**, and it is the kind of content a methods venue exists for.
+   enrichment over an *unmeasured* background. Pushing unrelated close paralogue pairs through the
+   identical pipeline converts *"the categorical gate fired"* into *"the categorical gate fired against a
+   measured background"*. ⚠ The background so measured is a **nuclear-receptor** background, not a
+   proteome one, and the artifact states that as a limit. ⛔ With the caveat that travels with it: the
+   program's headline residue falls outside one of the two preregistered scopes, and a preregistered
+   window may **not** be widened after seeing what fell outside it.
 
-### 7.2 · What it CANNOT do — and the first item is permanent
+⛔ **Withdrawn from this list: "refute a published method's claim from that method's own released data."**
+See §9.5. The retained pointer does not establish the comparison that claim requires, so the claim is not
+made.
 
-1. ⛔ **Answer whether anything binds.** The requirement `R4` has **no in-silico instrument and never will**;
-   a bench measurement is the only answer. Under a permanent no-wet-lab regime that is a **structural**
-   limit, not a scheduling one, and every conditional statement in the program inherits it.
-2. ⛔ **Supply the opening penalty.** Selectivity computed only in matched pre-opened pockets can **miss or
-   reverse** the true ordering, because each paralogue may pay a different price to open. The program's
-   defensible position is to report everything **explicitly conditional on the chosen open states**.
-   ⚠ One narrowing, which the paper should carry because it is a real methodological point: the opening
-   penalty cancels to first order inside a **relative** matched-pair quantity, so it blocks the absolute
-   route and not the causal one — **an argument, and recorded as one, not a measurement.**
-3. ⛔ **Convert a within-run precision diagnostic into accuracy.** A closed thermodynamic cycle, converged
-   sampling and forward/reverse antisymmetry were all present in the calibrator that recovered the **wrong
-   sign**. Under every named error class the closure statistic is identically zero, so the cycle returns
-   clean whether or not the defect exists.
-4. ⛔ **Test a categorical mechanism with a non-covalent double difference** ([§4.1](#41--why-4-is-not-a-failure-structurally-rather-than-charitably)).
-5. ⛔ **Say anything proteome-wide.** The only off-target breadth this program holds is a ten-receptor panel,
-   and that panel is currently unreadable ([§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) (a)).
-   ⛔ **No proteome-wide selectivity claim is made or implied anywhere in this paper.**
+### 8.2 · What the records show a program CANNOT do — and the first item is permanent
 
-### 7.3 · One requirement-level lesson worth its own paragraph
+1. ⛔ **Answer whether anything binds.** The requirement `R4` has **no in-silico instrument** in this
+   program; a bench measurement is the only answer. Under a permanent no-wet-lab regime that is a
+   **structural** limit, not a scheduling one, and every conditional statement in the program inherits it.
+   ⚠ Stated as this program's position and not as a theorem about all computation.
+2. ⛔ **Supply the opening penalty.** Selectivity computed only in matched pre-opened pockets can **miss
+   or reverse** the true ordering, because each paralogue may pay a different price to open. The
+   defensible position is to report everything **explicitly conditional on the chosen open states**. ⚠ One
+   narrowing, carried because it is a real methodological point: the opening penalty cancels to first
+   order inside a **relative** matched-pair quantity — **under a common reference state and a common
+   ensemble**, which are assumptions and are recorded as such, not measurements. It blocks the absolute
+   route and not the conditional relative one.
+3. ⛔ **Convert a within-run precision diagnostic into accuracy.** A closed thermodynamic cycle and
+   forward/reverse antisymmetry were both recorded on the calibrator that returned the **wrong sign**.
+   Closure is identically zero for endpoint-state error, so it returns clean whether or not that defect
+   exists. ⚠ **And the converse does not follow:** a clean closure does not identify the cause, does not
+   exclude shared sampling bias, does not certify convergence, and does not show that more sampling cannot
+   help (§4.1c).
+4. ⛔ **Test a categorical mechanism with a non-covalent double difference** ([§6.1](#61--why-4-is-not-a-failure--and-why-it-is-not-a-bound-either)).
+5. ⛔ **Say anything proteome-wide.** The only off-target breadth this program holds is a ten-receptor
+   panel, and that panel is currently unreadable (§7.1). ⛔ **No proteome-wide selectivity claim is made or
+   implied anywhere in this paper.**
 
-The program stated its selectivity requirement **symmetrically** — *"selective over both paralogues"* — for
-months, and the biology does not say that. One paralogue is constrained by a named anti-target genotype that a
-non-selective degrader would reconstitute; the other is bounded in one direction and unbounded in the other.
-⛔ **The asymmetry runs opposite to the way the program had been reading it**: it holds *more* discriminating
-power against the paralogue whose sparing is evidence-mandatory and *less* against the one it has no bound on
-in either direction. ⛔ **And an absent knockout phenotype is not a safe one** — *unbounded* means the
-liability could be larger, not smaller. **Nothing here licenses degrading anything, and no safety statement
-is made.** The transferable point is that **a requirement written as one clause with two comparators hid a
-design target for months**, which is a cheap error for any program to repeat.
-One home: [roadmap §2.4](../nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+### 8.3 · One requirement-level lesson worth its own paragraph
 
----
+The program stated its selectivity requirement **symmetrically** — *"selective over both paralogues"* —
+for months, and the retained genetic evidence is **asymmetric**. ⛔ **The asymmetry is named, and it is not
+the one the program had been reading.**
 
-## 8 · The transferable content — what another group should take from this
+- **NR4A1** is the hard constraint: the combined `Nr4a1`/`Nr4a3` loss genotype carries a postnatal
+  lethality annotation with a primary citation (PMID 17515897; corroborated at PMID 29343483), and a
+  degrader that is not selective against NR4A1 raises a **concern about combined loss**. ⚠ It does **not**
+  "reconstitute a knockout genotype": no pharmacological equivalence between a germline null and adult
+  transient partial degradation is measured anywhere in this record, and that wording is withdrawn.
+- **NR4A2** is **no longer unbounded**. Complete germline `Nr4a2` loss has a phenotyped, primary-cited
+  survival consequence (neonatal lethality, complete penetrance; PMID 9092472, PMID 9608532), so there is
+  a floor under how much sparing is required
+  ([`nr4a2-sparing-bound.json`](../../modalities/nr4a2-sparing-bound.json)).
 
-This is the section that has to earn the paper. Each item is a general, checkable rule with an incident
-behind it.
-
-1. ⭐ **The prophylactic is TWO rules, not one.**
-   **(a) Test every instrument against a known answer before believing it** — cheap, and it caught real
-   defects here. **(b) PERSIST THE PRIMARY ARTIFACT.** ⛔ Rule (b) is the one this program was missing and
-   it is the more expensive of the two: the **largest** retraction in the record fell to a **chain-ordering
-   defect** (the wrong protein scored as the target), a **unit error**, and **contaminated inputs**. **No
-   known-answer test catches any of those.** The panel persisted no trajectory, so a read-only census found
-   objects and units and **zero trajectory files** — the defects were *"each correctable in principle and
-   none correctable in practice."*
-   ⚠ **Corollary, and it is the honest version:** *"every withdrawn claim came from an untested instrument"*
-   is **refuted** by this program's own record, and it was believed here for a while. A known-answer test is
-   **necessary and not sufficient**.
-2. **A within-run MBAR standard error is not reproducibility.** Across independent replicates of the same
-   calibrator the replicate SD ran several-fold larger than the per-leg MBAR SE. Quoting the latter as an
-   uncertainty understates it by exactly that factor.
-3. **Precision diagnostics are identically blind to endpoint-state error** ([§7.2](#72--what-it-cannot-do--and-the-first-item-is-permanent) item 3).
-4. **Zero events is not a zero rate.** A generative-confound control manufactured no survivors in its
-   scrambled arm — which **bounds** the manufactured rate by the rule of three at a multiple of the real
-   campaign's own rate, with a Fisher test at chance. The confound was **narrowed, not excluded**, and the
-   artifact's earlier reading of a zero point estimate as a measured zero is retired in place.
-5. **A positive control inside the model's training horizon is a harness check, not evidence of
-   generalisation** — and it should be labelled memorisation-permitting **by construction**, in the sentence
-   that reports it.
-6. ⛔ **A populated field is not a measured one.** Smoke-mode legs echoed a production parameter and a filled
-   result field **from their environment rather than from what ran**; a completeness count believed them and
-   a frozen gate emitted a verdict on them that had to be withdrawn in full. **Check the thing only a real
-   run can produce** — wall time, frame count, equilibration — never the thing a default can fill in. This
-   is an infrastructure lesson and it belongs in a methods paper, because the failure mode is invisible to
-   every scientific check in the pipeline.
-7. **An absent reading is not a reading of absence.** A collector that cannot read a leg reports the same
-   shape as a leg that is not moving, and the two demand opposite responses.
-8. ⭐ **A failing instrument is a harder result to publish than a hole, and a more useful one.** A hole says
-   nothing was built. A failing instrument says *this was built, this is the test it was put to, and this is
-   what it returned* — which is what lets somebody else decide whether to build it again.
+⛔ **The caveat that travels with both.** A germline mouse knockout bounds **developmental, complete,
+lifelong** loss of a gene; a degrader is an **adult, transient, incomplete** loss of a protein, and no
+source read here measures that. A knockout phenotype sets a ceiling of concern, never the expected effect
+of a molecule; and an absent knockout record is an absence of evidence, not evidence of tolerability.
+**Nothing here licenses degrading anything, and no safety statement is made.** The transferable point is
+that **a requirement written as one clause with two comparators hid a design target for months**, which is
+a cheap error for any program to repeat.
 
 ---
 
-## 9 · Honest scope and limitations
+## 9 · The infrastructure incidents, separated
 
-### 9.1 · n = 1, and the paper must say so in the abstract
+The earlier draft merged four distinct defects into one "largest retraction" and drew an incorrect
+universal lesson from the merger. ⛔ **They are separated here, each with the panel it actually affected**,
+because separating input, execution and analysis defects is the distinction this audit exists to teach.
+The word *largest* is removed: no measure of magnitude is defined for it.
+Primary source: [`nrv04-cofold-chain-forensics-2026-07-24.md`](../../modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
-**One pipeline, one target family, one author.** The audit is complete *within* that scope and generalises no
-further. The claim is *"here is what happened when a full program was audited this way"*, and the paper must
-not slide into *"this is what happens"* — which is the exact grammatical drift the program's own language
-linter exists to catch. **Every instrument verdict is a statement about this program's implementation of a
-method, never about the method's published accuracy in other hands.**
+### 9.1 · Contaminated inputs — the descriptive and shakeout co-folds, NOT the completed panel
 
-### 9.2 · The unsupported premise, removed 2026-09-08
+A module constant supplied the wrong UniProt accession, so co-folds built on 2026-07-11 carry **14-3-3ε in
+place of Elongin B**. The forensic record measures this per prefix: the `nrv04-descriptive-v3` and
+`nrv04-shakeout` assemblies are **affected**; the **completed covalent feasibility panel's inputs,
+regenerated on 2026-07-22 after the constant was corrected, are clean of this defect**. ⛔ **The earlier
+draft attributed the contamination to the completed panel. The retained source establishes the
+opposite**, and the claim is corrected here. What the contamination does cost is the exploratory co-fold
+ternary benchmark's *positive* paralogue separation, which is not supportable as stated from those
+assemblies.
 
-The sentence *"the field publishes almost none of them"* was carried in §3(c) as a position rather than a
-measurement, pending a cited bibliometric source. ⭐ **2026-09-08: it came out** — of this paper's prose and of
-its endpoint's `what_it_would_claim` field — rather than being kept open indefinitely against a survey nobody
-was going to run. The clause is preserved as a superseded standing view in
-[`CLAUDE-history.md`](../../../CLAUDE-history.md), labelled historical there; it is not asserted anywhere in
-the current text. Nothing else in the paper depended on it, and §3(c) now rests the contribution on the
-documented method failures themselves.
+### 9.2 · A wrong interface — post-processing, on the completed panel
 
-### 9.3 · The two inputs that were missing, both closed 2026-08-07
+A positional chain-split rule selected the last protein chain in sorted order and therefore took **Elongin
+C** as the degradation target. The completed panel's R1 (interface RMSD), R2 (recruitment) and R3 (lysine
+presentation) consequently describe the **Elongin C↔rest** interface rather than the intended VHL↔target
+interface, and R3 counted Elongin C's lysines. ⚠ The arithmetic reproduces exactly from the landed
+plateaus; **it is the interface being measured that is wrong**, which is the definition of a
+post-processing defect. Its GO verdict does not survive as stated. An nm/Å **unit error** and a chain-blind
+reactive-cysteine search sit in the same class.
 
-⭐ **Both were closed on 2026-08-07, both at $0, and both by committed artifacts.** The paragraph is kept
-rather than deleted because what each item was, and what closed it, is part of the record.
+### 9.3 · A wrongly simulated physical system — the warhead-only legs
 
-1. ✅ **The decoy null's primary run output is committed.** *Was:* the margins were committed in
-   `DECOY_2026_06_30` and the arithmetic redid from them, but the primary run output lived in object storage,
-   so the chain was not readable end-to-end from committed artifacts. *Now:* the surviving run objects are
-   mirrored under [`results/nr4a3-decoy/`](../../../results/nr4a3-decoy), and the chain is **checked rather
-   than asserted** — [`decoy-null-provenance.json`](../../modalities/decoy-null-provenance.json), generated by
-   [`decoy_null_provenance.py`](../../modalities/decoy_null_provenance.py), records which committed file the
-   quoted margins come from and verifies that it reproduces the constant. ⛔ **The verification is the
-   deliverable, not the copy:** more than one MM-GBSA arm was archived and only one is the run the constant
-   came from, so a file merely sitting in `results/` would not have said which arm the paper quotes.
-2. ✅ **A single committed instrument census exists**, carrying every instrument with its test, its result and
-   its **scope** — [`instrument-census.json`](../../modalities/instrument-census.json) /
-   [`instrument-census.md`](../../modalities/instrument-census.md), generated by
-   [`instrument_census.py`](../../modalities/instrument_census.py) from
-   [roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table) and §3.2 rather than transcribed, so it
-   stays true when those tables move. That per-instrument scope column is exactly what
-   [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) lacks.
-   ⚠ **The two registers do not share a denominator and must not be summed:** the census counts the
-   instruments the roadmap's tables carry, and §5.1's four/sixteen split counts only the instruments
-   `RT-METHODS-PAPER` cites. Each count is read from its own source and the two are never added.
+Two `warhead_only` legs tethered the electrophile to an **Elongin C cysteine 12.4 Å away**, because no
+nearer Sγ existed: the co-fold had not posed free celastrol in the target pocket at all. ⛔ **This is not a
+post-processing defect.** Those legs simulated a different physical system from the intended one, and no
+amount of retained coordinate data converts a trajectory of the wrong system into the counterfactual
+trajectory of the intended one.
 
-### 9.4 · What this paper does not claim
+### 9.4 · What persistence would and would not have repaired
+
+A read-only census over two named object prefixes — `nrv04-covalent-results/` and
+`nrv04-covalent-results-chainfix/` — finds **17 final per-leg readout records and zero multi-frame
+coordinate objects**: every persisted object is a single frame or a scalar already reduced against the
+chain split that was used
+([`nrv04-result-forensics.json`](../../modalities/nrv04-result-forensics.json)). ⚠ **That is a
+retrospective conclusion about the surveyed prefixes**, not a proof about every possible external copy of
+the data.
+
+⛔ **Two corrections to the lesson the earlier draft drew.**
+
+- **The claim that no known-answer test can catch these defects is withdrawn.** The forensic source says
+  the **existing** tests did not catch them, which is a different statement — and the fixes it lists are
+  precisely such tests: chain-identity matching by composition, an explicit contaminant-rejection
+  signature, a written-out chain split consumed by the driver, per-leg recording of the split actually
+  used, and regression tests pinning all of it. A known fixture with reordered chain identifiers, a
+  unit-scaled geometry fixture, or a verified chain-sequence reference detects exactly these errors.
+- **Persistence is not a universal repair.** Persisted trajectories would have permitted the §9.2
+  readouts to be **rescored** for the corrected interface. They would **not** have repaired §9.3.
+  Persistence must therefore cover inputs, chain and molecular identities, code and parameter versions,
+  *and* trajectories appropriate to the observable; trajectory storage alone is not sufficient.
+
+### 9.5 · The external benchmark claim, withdrawn
+
+The earlier draft claimed that this audit refuted a published method's claim from that method's own
+released data — that a benchmark's *unbound* protocol supplied information its label implied it withheld.
+The roadmap entry behind that claim asserts an identity of shipped and native ligand coordinates over 66
+atoms and points at [`selcal-deepternary-frame.json`](../../modalities/selcal-deepternary-frame.json). The
+actual fixed file is a **single SMARCA2 preparation record with 64 degrader atoms**, recording
+superposition, snapping and file readability — **not** the asserted 66-atom equality on a released
+benchmark case.
+
+⛔ **The refutation is therefore withdrawn.** A mismatch between one user's interpretation of a label and
+the released inputs is not, by itself, a refutation of a publication's explicit claim, and this repository
+does not currently hold the released-case coordinate comparison and the primary protocol statement that
+such a claim would require. ⚠ What survives is a finding about **this program's own assumed input
+protocol** and the consequent relabelling of the arms built on it, and the in-set positive control's scope
+— **memorisation-permitting by construction**, since the case sits inside the model's training horizon.
+**Reopening condition:** the exact already-retained released-case comparison, with pinned file identities
+and the primary text's statement of what the method withholds. No new source retrieval was performed or
+authorised for this revision.
+
+### 9.6 · The chronology and the shared dependencies, stated as a limit
+
+The abstract of the earlier draft said every method used to support a selectivity statement was **first**
+put to a test whose answer was already known. ⛔ **That is contradicted by this paper's own history and is
+withdrawn.** The actual mixture is: instruments assessed for the first time in August after months of use
+(§7); `V9`, `V14`, `V16` and `V18` with no known-answer calibrator at all; `V22` with an attempted panel
+that returned no gradeable case; and `V4` never run. What the record supports is that **the audit
+retrospectively assembled the grades that exist and enumerated the ones that do not**.
+
+**Shared dependencies of the three recorded attempts**, stated so a reader can judge independence: two of
+the three are `V11` applications sharing an E1 readout and the same permutation scorer; the third is a
+different instrument in the alchemical lane, but shares this program's structural inputs, co-folding
+route, selection decisions and code base. ⛔ **Different instruments or systems alone do not establish
+statistical or failure-mode independence.**
+
+**Preregistration, reported as a verifiable chronology where the record allows it.** Several criteria
+carry explicit pre-run freeze assertions, and the consequence sentence for the endpoint-MD result was
+written into `selectivity-resolution-options.md` §4 before the deciding run. ⚠ **But current freeze
+booleans and a current version-control pin do not establish which rule existed before outcome access.**
+One preregistration file carries a backfilled date of 2026-08-05 against an outcome timestamp of
+2026-08-02 in the corresponding verdict, and this paper does not present the individual freeze revisions,
+amendment timings or first-outcome-access records that a reader would need to check the strongest
+chronological claim. ⛔ **This is not evidence of post hoc registration**, and it is not claimed to be; it
+is a gap in what this paper can demonstrate, so the strong wording is replaced by *the retained protocol
+describes these rules as prespecified*. **Reopening condition:** identifiable pre-outcome rule versions
+and an explicit independence argument for the particular inferential claim. No new chronology audit was
+run.
+
+---
+
+## 10 · Honest scope and limitations
+
+### 10.1 · n = 1, and the paper must say so in the abstract
+
+**One pipeline, one target family, one author.** The audit is complete *within the enumerated records* and
+generalises no further. The claim is *"here is what happened when one program's records were audited this
+way"*, and the paper must not slide into *"this is what happens"*. **Every instrument verdict is a
+statement about this program's implementation of a method, never about the method's published accuracy in
+other hands.**
+
+### 10.2 · The unsupported premise, removed 2026-09-08
+
+The sentence *"the field publishes almost none of them"* was carried as a position rather than a
+measurement. ⭐ **2026-09-08: it came out** — of this paper's prose and of its endpoint's
+`what_it_would_claim` field — rather than being kept open indefinitely against a survey nobody was going
+to run. The residual phrase *"in the form the field is short of"* is removed in this revision for the same
+reason. The clause is preserved as a superseded standing view in
+[`CLAUDE-history.md`](../../../CLAUDE-history.md), labelled historical there; it is not asserted anywhere
+in the current text. Nothing else in the paper depends on it.
+
+### 10.3 · Two registers, two denominators
+
+⚠ **The two registers do not share a denominator and must not be summed:** the census counts the
+instruments the roadmap's tables carry (22), and §5.1's four/sixteen split counts only the instruments
+`RT-METHODS-PAPER` cites (20). Each count is read from its own source. The per-instrument supplement gives
+the mapping between them explicitly, including the two census entries outside the route partition.
+
+### 10.4 · The decoy chain's provenance, and what verification bought
+
+The margins are committed in a constant, and more than one MM-GBSA arm was archived — so a file merely
+sitting in `results/` would not have said which arm the paper quotes.
+[`decoy-null-provenance.json`](../../modalities/decoy-null-provenance.json), generated by
+[`decoy_null_provenance.py`](../../modalities/decoy_null_provenance.py), records which committed file the
+quoted margins come from and verifies that it reproduces the constant. ⭐ **The verification is the
+deliverable, not the copy.** This chain can be inspected end to end from its retained run outputs.
+
+### 10.5 · The unresolved limits, listed rather than dissolved
+
+⛔ These are the questions this paper leaves open, each with the reason it stays open.
+
+1. **The cause of the wrong-sign calibration failure is not identified.** Closure cannot separate the
+   candidate causes, and the retained evidence does not contain a discriminating measurement. Reopening
+   requires retained evidence that separates the proposed causes.
+2. **No effect size is established for the E1 observable**, so no statement about the sensitivity of that
+   readout is available at any sample size in this record.
+3. **`S` has no calibrator**, so its value cannot be read as evidence about the physical wedge in either
+   direction.
+4. **The corrected-interface readouts of the covalent panel cannot be recomputed** from what was retained
+   under the surveyed prefixes, and two of its legs cannot be repaired by any retained data.
+5. **Whole-program ascertainment is not established** (§3), so no failure *rate* over the program is
+   reported.
+6. **The chronology of prespecification is not fully demonstrable** from the retained files (§9.6).
+7. **No external publication is assessed** (§9.5).
+8. **`V4` is unrun and unauthorised**, so the selectivity free-energy axis has never been graded directly.
+
+### 10.6 · What this paper does not claim
 
 - ⛔ **No** proteome-wide selectivity claim, and no claim of selectivity against anything outside the
   paralogue family and the ten-receptor panel — which is itself currently unreadable.
 - ⛔ **No** efficacy claim for extraskeletal myxoid chondrosarcoma or any other disease. Nothing here is a
   treatment candidate and none of it is evidence of benefit.
 - ⛔ **No** safety claim, **no** therapeutic-window claim, **no** assertion of clinical readiness.
-- ⛔ **No** claim that any molecule discussed binds anything. `R4` is unanswered and cannot be answered
-  in silico.
-- ⚠ **Novelty is incremental.** Alchemical ternary-cooperativity free-energy calculation is an active
-  published area and the paper must cite and benchmark against that prior art rather than out-claim it; the
-  contribution here is the **audit** and the **failure record**, not the method.
+- ⛔ **No** claim that any molecule discussed binds anything. `R4` is unanswered and cannot be answered by
+  this program's instruments.
+- ⛔ **No** claim that any design class is impossible, that any pocket cannot be bound, or that any
+  downstream method is incapable of extracting information from a scoring distribution.
+- ⛔ **No** claim about an external publication's protocol or released data.
+- ⚠ **Novelty is incremental, and no field-frequency premise is asserted.** Alchemical ternary-cooperativity
+  free-energy calculation is an active published area; the contribution here is the **audit of one
+  program's records**, not the method. This draft does not survey prior art and does not claim priority
+  over it.
 - ⚠ Every quantity in the record is conditional on a hypothesised binary pose and a chosen receptor frame —
   a *double* conditionality that the manuscript states wherever it reports a number.
 
 ---
 
-## 10 · Provenance
+## 11 · Provenance, versioned locators and the dependency manifest
 
-The registers this draft is built from — none of whose contents it restates:
+**Version pin.** Every quantity in §4 and in the supplement is read from a committed artifact at the
+commit recorded in
+[`MF1-dependency-manifest.json`](../../autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-dependency-manifest.json),
+which lists each input's repository path, byte size, SHA-256 digest and version-control blob identity.
+⛔ **That manifest describes identities in this repository, not an accessible public archive.** No
+immutable repository or archive release has been checked or published for this manuscript, and none is
+claimed; the earlier draft's data-availability statement pointed only at relative paths and is corrected
+in [§12](#12--declarations).
 
-- [`nr4a3-program-map.md`](../nr4a3-program-map.md) — the scoreboard, the ⛔ ONE HOME control table, §2.2 the
-  requirement holes, §2.3 the claim-ceiling rule, §2.4 the asymmetric requirement, §3.1 the annotated
-  instrument table, §3.3 the corrected pattern, §3.4 the four instrument facts.
-- [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) — the generated
-  instrument register and its `allocate` relation.
+**Distinguishing the classes of record.** Four kinds of thing are cited in this paper and are not
+interchangeable: **original raw execution outputs** (leg records, run objects, verdict files as written by
+the run that produced them); **retained reductions** (reducer outputs such as the closure and
+5a-KS records); **narrative annotations** (the program roadmap and register views, which interpret the
+first two and in four identified places contradict them); and **new author extraction** (the generated
+results table, the per-instrument inventory and the dependency manifest of this revision, produced by the
+extraction script named in §3). Where a narrative annotation and a primary artifact disagree, this paper
+follows the artifact.
+
+**Primary references supported by retained sources.** `doi:10.1158/0008-5472.can-25-1141` (the
+SMARCA2-selective degradation reference the endpoint-MD panel's own record establishes direction from; not
+open access, so no magnitude is quoted); PMID 17515897 and PMID 29343483 (the combined NR4A1/NR4A3 loss
+genotype); PMID 9092472 and PMID 9608532 (complete germline Nr4a2 loss). ⚠ The register's benchmark known
+answers for `V6`, `V7`, `V8` and `V10` are cited in this repository through their retained benchmark
+records rather than through primary literature identifiers, and this paper does not assert primary
+citations it has not retrieved.
+
+**The registers this draft is built from:**
+
+- [`nr4a3-program-map.md`](../nr4a3-program-map.md) — the scoreboard, the control table, §2.3 the
+  claim-ceiling rule, §2.4 the asymmetric requirement, §3.1 the annotated instrument table. ⚠ Four of its
+  current interpretations are superseded by this revision (§4.1b, §4.1c, §7.2, §9.5); exact patches are
+  filed for the parent integrator at
+  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/`.
+- [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) — the
+  generated instrument register and its `allocate` relation.
 - [`systems/graph/routes.json`](../../../systems/graph/routes.json) `RT-METHODS-PAPER` ·
   [`systems/graph/publications.json`](../../../systems/graph/publications.json) `PUB-METHODS`.
-- [`paper-framing-options.md`](../program/paper-framing-options.md) §2.1 — the evidence table for this
-  framing and the two inputs it recorded as missing, both since closed
-  ([§9.3](#93--the-two-inputs-that-were-missing-both-closed-2026-08-07)).
+- [`instrument-census.json`](../../modalities/instrument-census.json) /
+  [`instrument-census.md`](../../modalities/instrument-census.md) — the 22-entry numbered census.
 - Artifacts, each verified present on this branch 2026-09-08:
   [`selcal-verdict.json`](../../modalities/selcal-verdict.json) ·
   [`nrv04-retro-verdict.json`](../../modalities/nrv04-retro-verdict.json) ·
@@ -540,22 +897,28 @@ The registers this draft is built from — none of whose contents it restates:
   [`nr4a3-5bt-gate.json`](../../modalities/nr4a3-5bt-gate.json) ·
   [`nr4a3-5bt-signature.json`](../../modalities/nr4a3-5bt-signature.json) ·
   [`valb-triangle-closure.json`](../../modalities/valb-triangle-closure.json) ·
+  [`valb-triangle-reduction.json`](../../modalities/valb-triangle-reduction.json) ·
+  [`valb-failure-propagation.json`](../../modalities/valb-failure-propagation.json) ·
   [`selcal-cofold-vs-crystal.json`](../../modalities/selcal-cofold-vs-crystal.json) ·
+  [`selcal-cofold-dockq.json`](../../modalities/selcal-cofold-dockq.json) ·
+  [`selcal-deepternary-frame.json`](../../modalities/selcal-deepternary-frame.json) ·
   [`selcal-deepternary-poscontrol.json`](../../modalities/selcal-deepternary-poscontrol.json) ·
   [`step1-fanout-map.json`](../../modalities/step1-fanout-map.json) ·
   [`categorical-decoy-null.json`](../../modalities/categorical-decoy-null.json) ·
   [`categorical-decoy-null-lbd.json`](../../modalities/categorical-decoy-null-lbd.json) ·
   [`nr4a2-sparing-bound.json`](../../modalities/nr4a2-sparing-bound.json) ·
-  [`valb-triangle-reduction.json`](../../modalities/valb-triangle-reduction.json) ·
-  [`selcal-cofold-dockq.json`](../../modalities/selcal-cofold-dockq.json) ·
   [`selcal-dockq-decoy-scale.json`](../../modalities/selcal-dockq-decoy-scale.json) ·
   [`selcal-interface-signature.json`](../../modalities/selcal-interface-signature.json) ·
   [`nrv04-cys-conservation.json`](../../modalities/nrv04-cys-conservation.json) ·
+  [`nrv04-result-forensics.json`](../../modalities/nrv04-result-forensics.json) ·
+  [`nrv04-cofold-chain-forensics-2026-07-24.md`](../../modalities/nrv04-cofold-chain-forensics-2026-07-24.md) ·
   [`apo-pose-recovery.json`](../../modalities/apo-pose-recovery.json) ·
   [`apo-pose-site-in-regime.json`](../../modalities/apo-pose-site-in-regime.json) ·
   [`pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json) ·
+  [`r5-cross-method-cavity-attribution.json`](../../modalities/r5-cross-method-cavity-attribution.json) ·
   [`nr4a-safety-genetics.json`](../../modalities/nr4a-safety-genetics.json) ·
   [`ternary-env-parity.json`](../../modalities/ternary-env-parity.json) ·
+  [`decoy-null-provenance.json`](../../modalities/decoy-null-provenance.json) ·
   [`selectivity_calibration.py`](../../modalities/selectivity_calibration.py).
 
 ⛔ No statement in this draft asserts NR4A3 selectivity, EMC efficacy, safety, a therapeutic window or
@@ -564,7 +927,7 @@ reported at the scope its own known-answer control earned.
 
 ---
 
-## 11 · Declarations
+## 12 · Declarations
 
 **Funding.** None. No grant, contract, sponsor or institutional support of any kind supported this work.
 
@@ -576,18 +939,23 @@ sampling and no intervention**. No ethics approval was sought and none was obtai
 determination of exemption was requested or issued, and none is reported here.
 
 **Use of artificial intelligence.** Claude (Anthropic) and OpenAI models were used, under the author's
-direction, to write and check the analysis code, to run the checks, and to draft this manuscript. The author
-directed the work, reviewed the outputs and is responsible for the content, including any error.
+direction, to write and check the analysis code, to run the checks, and to draft this manuscript. The
+author directed the work, reviewed the outputs and is responsible for the content, including any error.
 
-**Author contributions.** Sole author: conception, direction of the analyses, verification of the outputs and
-writing.
+**Author contributions.** Sole author: conception, direction of the analyses, verification of the outputs
+and writing.
 
-**Data and code availability.** Every quantity this manuscript would report is read from a committed artifact
-rather than typed here: each finding names the artifact that owns its numbers, and
-[§10](#10--provenance) lists the registers and artifacts the draft is built from. No new data were
-generated for this draft.
+**Data and code availability.** Every quantity in this manuscript is read from a committed artifact in
+this repository. §11 names those artifacts and the dependency manifest gives each one's path, byte size,
+SHA-256 digest and version-control blob identity at a named commit, together with the extraction script
+that produced the derived displays. ⛔ **No immutable public archive or repository release has been created
+or verified for this manuscript, and none is claimed to be accessible.** No new data were generated for
+this draft; the derived tables in §4 and the supplement are new author extraction from existing records.
+The original trajectories of the covalent feasibility panel do not exist under the surveyed prefixes
+(§9.4), which limits the class of conclusion that can be independently checked for that panel and is
+stated at the claims it limits rather than globally.
 
-**Scope.** ⛔ This is a record of what a computation-only program's instruments did and did not recover. It
-makes **no** claim of binding, potency, selectivity, efficacy, safety, therapeutic window or clinical
-readiness for any molecule or any disease, and a computational failure reported here is **not** evidence that
-a molecule or a route is impossible.
+**Scope.** ⛔ This is a retrospective audit of what one computation-only program's instruments did and did
+not recover, over the records enumerated in §3. It makes **no** claim of binding, potency, selectivity,
+efficacy, safety, therapeutic window or clinical readiness for any molecule or any disease, and a
+computational failure reported here is **not** evidence that a molecule or a route is impossible.

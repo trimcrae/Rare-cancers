@@ -1,0 +1,1 @@
+$ python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py

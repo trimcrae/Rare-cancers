@@ -1,3 +1,16 @@
+---
+id: DOC-MF1-TERMINATION-AND-RESUME-RECORD
+title: "MF1 owner — terminal-cause inspection and resume"
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: Record the parent's one inspection of the MF1 repair owner's mid-stream interruption, the evidence that it was an ordinary orchestration interruption rather than a stop or refusal, and the owner state preserved across it.
+scope: The MF1 repair owner's 2026-09-08 interruption and resume. Frontmatter added 2026-09-08 by the MF1 owner for document-registry hygiene; the body is the parent's and is unchanged.
+audience: [maintainers, autonomous research agents]
+date: 2026-09-08
+last_verified: 2026-09-08
+---
 # MF1 owner — terminal-cause inspection and resume
 
 **2026-09-08 ~21:05 UTC, parent. ONE inspection, as instructed. ⛔ No package was declared complete,

@@ -1,0 +1,182 @@
+{
+ "_what": "Frozen MF1 correction-batch package: the deliverable files and their identities.",
+ "_batch": "MF1 repair of the 2026-09-08 independent final scientific review, F01-F12, all accepted by root.",
+ "_reviewed_freeze": {
+  "commit": "0b965a1279c81c10d9edc054842a33446e87762e",
+  "main_sha256": "a9058b6c40e32549f878347b2d4f8c0ed3f8593320ce417ef29367179a7d0fe2",
+  "main_bytes": 46172,
+  "verified_byte_identical_before_edit": true
+ },
+ "_review_report_sha256": "f4a0aceec8fdea6a1da62de2dc36ef88637c6288c05f1cc7fc318b3c971b32be",
+ "_not_a_release": "Working-tree identities in this repository. No immutable public archive has been created, checked or published, and none is claimed. No commit and no push was made by this owner.",
+ "commit_at_freeze": "d5eb86e8093df671da081ea56b67dcfd79e1f0fe",
+ "deliverables": [
+  {
+   "path": "research/manuscripts/methods-record/degrader-methods-failure-record.md",
+   "bytes": 73844,
+   "sha256": "4a99804f9f50ac687ad709b5ea0aad4bc5c9a48a351934aa24ee94364a64430e"
+  },
+  {
+   "path": "research/manuscripts/methods-record/degrader-methods-failure-record-SI.md",
+   "bytes": 26791,
+   "sha256": "7e988f0a10118d9d1ec038e7d37c2b5d3527005c4f1f2b3b71971f95c04ea66a"
+  },
+  {
+   "path": "research/manuscripts/methods-record/corrective-interpretations-2026-09-08.md",
+   "bytes": 15137,
+   "sha256": "e77e8c8a0cccd1acc3633344f5fe250f4e5203cb181789eed185443ae700877c"
+  },
+  {
+   "path": "research/manuscripts/lint_claims.py",
+   "bytes": 54309,
+   "sha256": "49d2ad77b1ced0da659d861a9e9f1e7bcf9e3c5bd30dfd11e00d05b1eaed0a1b"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py",
+   "bytes": 36960,
+   "sha256": "446c4a65c5ffffe7927f1ff71a10e7c04074910c5f49b21c941096eca8835994"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-quantitative-results.md",
+   "bytes": 9406,
+   "sha256": "2662ead3d470517ff0f88b9fb608808ca5814d534388c57833f778660da7e751"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-instrument-inventory.md",
+   "bytes": 14660,
+   "sha256": "42c199d37b2952909db51fbb9ee40986fee79fcf8d7604448bac64071fc51065"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-dependency-manifest.json",
+   "bytes": 4349,
+   "sha256": "c763bad95ef612e9ce330340db6539ea2fe552740a5a6e1e5978cd156cc42959"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/F01-F12-response-matrix.md",
+   "bytes": 20148,
+   "sha256": "4df3ba59fb9235eb5ffad154afb2c2a30fe2034dde4fb280133a20e1a1ba87f2"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/CURRENT-SUMMARY-PATCHES.md",
+   "bytes": 11940,
+   "sha256": "d455f14daabe8937c26233c74ebc05e28bd011d52b3a137c5339de713074658a"
+  },
+  {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/checks/README.md",
+   "bytes": 4877,
+   "sha256": "1d929786edc5db21b10e8d7273321447847f632ed6cbad80de8fc653aaa92460"
+  }
+ ],
+ "check_artifacts": [
+  {
+   "name": "01-lint_consistency",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_consistency.py"
+  },
+  {
+   "name": "02-lint_claims",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_claims.py"
+  },
+  {
+   "name": "03-lint_citations",
+   "exit": 1,
+   "cmd": "$ python3 research/manuscripts/lint_citations.py"
+  },
+  {
+   "name": "04-lint_changed_prose",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_changed_prose.py"
+  },
+  {
+   "name": "05-systems_check",
+   "exit": 1,
+   "cmd": "$ python3 systems/systems_check.py --check"
+  },
+  {
+   "name": "06-emc_systems_map_check",
+   "exit": 1,
+   "cmd": "$ python3 research/manuscripts/emc_systems_map_check.py --check"
+  },
+  {
+   "name": "07-lint_submission_residue",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_submission_residue.py"
+  },
+  {
+   "name": "08-lint_readability",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_readability.py --report"
+  },
+  {
+   "name": "09-extract_rerun",
+   "exit": 0,
+   "cmd": "$ python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py"
+  },
+  {
+   "name": "10-lint_consistency-attempt2",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_consistency.py"
+  },
+  {
+   "name": "11-lint_claims-attempt2",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_claims.py"
+  },
+  {
+   "name": "12-lint_citations-attempt2",
+   "exit": 1,
+   "cmd": "$ python3 research/manuscripts/lint_citations.py"
+  },
+  {
+   "name": "13-lint_changed_prose-attempt2",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_changed_prose.py"
+  },
+  {
+   "name": "14-systems_check-attempt2",
+   "exit": 1,
+   "cmd": "$ python3 systems/systems_check.py --check"
+  },
+  {
+   "name": "15-emc_systems_map_check-attempt2",
+   "exit": 1,
+   "cmd": "$ python3 research/manuscripts/emc_systems_map_check.py --check"
+  },
+  {
+   "name": "16-lint_submission_residue-attempt2",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_submission_residue.py"
+  },
+  {
+   "name": "17-lint_readability-attempt2",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_readability.py --report"
+  },
+  {
+   "name": "18-lint_claims-owned-files",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_claims.py research/manuscripts/methods-record/degrader-methods-failure-record.md research/manuscripts/methods-record/degrader-methods-failure-record-SI.md research/manuscripts/methods-record/corrective-interpretations-2026-09-08.md research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/F01-F12-response-matrix.md research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/CURRENT-SUMMARY-PATCHES.md"
+  },
+  {
+   "name": "19-lint_claims-attempt3",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_claims.py"
+  },
+  {
+   "name": "20-systems_check-attempt3",
+   "exit": 1,
+   "cmd": "$ python3 systems/systems_check.py --check"
+  },
+  {
+   "name": "21-lint_consistency-attempt3",
+   "exit": 0,
+   "cmd": "$ python3 research/manuscripts/lint_consistency.py"
+  },
+  {
+   "name": "22-extract-final",
+   "exit": 0,
+   "cmd": "$ python3 .../extract_mf1_inventory.py  (final settle)"
+  }
+ ]
+}

@@ -88,6 +88,14 @@ DEFAULT_TARGETS = [
     # and the complete evidence catalogue with its per-row assay claims. Those are the sentences most
     # able to drift from "set-specific up against a size-matched null" into "PPARγ is active in EMC".
     "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+    # ⭐ ADDED 2026-09-08 — the methods-record supplement, for exactly the reason above. The MF1
+    # correction batch answering the independent final scientific review moved the paper's
+    # quantitative record OUT of the main and into a generated supplement, so half the paper's
+    # numbers -- with every interpretive-limit sentence attached to them -- would otherwise have
+    # left the linted set on the day they were written. `_publication_documents()` names one file
+    # per endpoint and would never have opened it. It is a GENERATED file, so a finding here is a
+    # finding about `MF1-repair/extract_mf1_inventory.py`, which is where the fix belongs.
+    "research/manuscripts/methods-record/degrader-methods-failure-record-SI.md",
     # Added 2026-08-02. The program map was linted by lint_consistency (pinned NUMBERS) but by
     # nothing that checks claim LANGUAGE -- which is how a table of bare "PASSES" verdicts and a
     # "Chemical basis: OK strong, and already measured" cell (whose owning artifact is not in this
