@@ -99,6 +99,29 @@ artifact. Both touch either shared rendering code or the figure artifact, and ne
 editorial change. Once one is chosen and built, register, commit the PDF and stamp, and the guard
 goes green in that order.
 
+## The `target_venue` change, and why it is not permission
+
+`PUB-ATR-PANEL-ASK.target_venue` moved from `experimental_proposal` to `journal_submission` on
+2026-09-08, in the same batch as the claim-field corrections, so that the computational report which
+EXISTS is distinguishable in the graph from the experimental programme which has NOT been performed.
+
+The manuscript's own editorial block rejects the proposal formats by name — Registered Report Stage 1
+and Study Protocol on eligibility, Hypothesis/Perspective on fit — and then declares its venue as
+Genes, Chromosomes and Cancer, Research Article, with a bioRxiv preprint. `preprint` is a defensible
+alternative reading of the same block, since the report obtains its pre-commitment "by a dated
+preprint carrying the prediction table"; `journal_submission` is chosen because it is what the block
+declares, and the choice is recorded here rather than left implicit.
+
+⛔ **This is a graph field for ordinary root adjudication and it is not publication permission.**
+`blocked_by: ["BLK-NO-WET-LAB"]` is unchanged and still blocks the unperformed experimental
+programme; it was not cleared, and it must not be cleared to make a publication check pass. No
+preflight, production PDF QA, publish-bar step or venue action has been performed, and none is
+implied by this field.
+
+A prose note beside the field was attempted and reverted: `publication.schema.json` sets
+`additionalProperties: false` on a publication row, so `target_venue_note` is not schema-legal. The
+rationale lives here instead. The edited row validates against the schema with no errors.
+
 ## Not claimed
 
 Full preflight was not run on this manuscript. No production PDF QA, no publish-bar step, no venue
