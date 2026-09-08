@@ -50,9 +50,15 @@ residual author's own `IDENTITIES.md` and its `checks/05-…/identities-after.tx
 **historical records of that run** and are left byte-unchanged; this file is the current binding
 beside them, not a replacement.
 
-`MF1-instrument-inventory.md` moved 25,317 → 26,385 B between the author's run and the settled run,
-because the settled run reads the corrected roadmap and regenerated census. That is the propagation
+`MF1-instrument-inventory.md` moved 25,317 → 26,385 B against the author's run, because the
+extraction now reads the corrected roadmap and the regenerated census. That is the propagation
 working, not a discrepancy.
+
+⭐ **Precisely which run moved it, corrected 2026-09-08:** that move happened at the
+**pre-settlement** run `10-…`, whose outputs were committed in `91609d30f`. The **settled** run
+`13-…` changed **only `MF1-dependency-manifest.json`** — the binding commit and the
+`bytes_match_head_blob` flags, 1-of-18-unbound to 0-of-18. An earlier sentence here attributed the
+inventory's move to the settled run; that attribution was wrong and this is the measured record.
 
 ## Preserved
 
