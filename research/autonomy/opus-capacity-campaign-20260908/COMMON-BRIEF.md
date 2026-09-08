@@ -99,6 +99,15 @@ artifact. A restatement of existing repository content is not an artifact.
 
 ## Known, measured, and NOT worth rediscovering
 
+- **The campaign's resolution rate is 0 of 89, and it is measured — do not re-measure it.**
+  W36 indexed 103 routed-but-unlanded items; W36b then checked **every** row against the tree
+  (2026-09-08T03:52Z): **87 confirmed still unlanded, 2 false report premises, 14 not checkable by
+  inspection, 0 landed.** The structural reason is stronger than the greps: at every HEAD checked,
+  `git diff --name-only 92abbcb HEAD | grep -v opus-capacity-campaign-20260908` returns **0 files** —
+  **no repository file outside this campaign directory has changed at all.** So no Tier-1/2/3 item
+  *could* have landed. Re-measuring this is the "repeatedly rewrite a correct paper" failure
+  CLAUDE.md §5 names. If you find a routed item, add it; do not re-verify the backlog.
+
 - **`origin/literature-cache` has never existed in this checkout, and that is not an incident.**
   W40 settled it (2026-09-08T03:49Z): neither `refs/heads/literature-cache` nor the remote-tracking
   ref exists, `.git/packed-refs` does not exist, the object `216bd1b5…` reports `missing` from
