@@ -5,6 +5,14 @@ kind: runbook
 status: live
 date: 2026-09-08
 purpose: Durable record of the admitted Opus capacity campaign — environment, model evidence, worker roster, and honest deviations.
+scope: >
+  The OPUS-CAPACITY-CAMPAIGN-20260908 run only: its measured environment, its worker roster and
+  wave structure, its evidence-retention obligations, and the deviations recorded against it. It is
+  NOT the campaign's scientific findings (those are the per-worker reports under `reports/` and the
+  paper-lane packets) and NOT a standing repository procedure (that is CLAUDE.md and the operating
+  protocol).
+audience: [maintainers, autonomous research agents]
+last_verified: unverified
 ---
 
 # OPUS-CAPACITY-CAMPAIGN-20260908

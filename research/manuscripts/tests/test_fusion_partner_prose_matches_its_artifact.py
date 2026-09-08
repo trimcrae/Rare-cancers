@@ -1360,6 +1360,27 @@ bind("Appendix A22's restatement of the same secondary-pool spread, which must n
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
               ["heterogeneity"]["spread_percent"])))
 
+# ⛔ §4.6 GAINED TWO SITES FOR ALREADY-BOUND QUANTITIES, 2026-09-08 (round-11 finding REF-B-2).
+# The limitation now withdraws the EWSR1 LABEL from the sunitinib comparator arm while stating that
+# no COUNT changes, so it restates 6/8, the per-cohort 75.0 % and the pooled 37.0 % at two new sites.
+# ⭐ BOUND RATHER THAN DECLARED, deliberately: the artifact owns all three, so a declaration would
+# have recorded a number this file can read as one it cannot. Both values below are derived from the
+# artifact — nothing is pasted in as a literal.
+bind("§4.6's first restatement of the sunitinib comparator arm, at the sentence that withdraws its "
+     "EWSR1 label without moving its count",
+     r"sunitinib series' (\d+/\d+) arm in the secondary analysis",
+     lambda a: _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]))
+
+bind("§4.6's explicit 'no count changes' triple — the one sentence in the paper that asserts a "
+     "label moved and three figures did not, so all three are read out of the artifact here",
+     r"the (\d+/\d+), the per-cohort (\d+\.\d+) % and the pooled (\d+\.\d+) % are unaffected",
+     lambda a: (
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["contrast"]["comparator_arm"]["percent"])))
+
 bind("§3.3's local-recurrence per-cohort rates — the DIRECTION FLIP the 4.3-point pooled gap was "
      "cancelling, stated as one construction so the two cohorts cannot drift apart",
      r"Agaram gives (\d+/\d+) = (\d+\.\d+) % TAF15 against (\d+/\d+) = (\d+\.\d+) % EWSR1; Huang "
@@ -2237,14 +2258,29 @@ def test_the_guard_binds_a_material_share_of_the_documents_figures(flat, art):
 #: correction "must not be applied by pattern" — the two papers are told apart only by their
 #: identifiers, which is precisely the surface nothing was reading.
 #:
-#: ⚠ SCOPE, STATED RATHER THAN LEFT TO BE DISCOVERED. Three notations, and they are the three the
-#: pooling artifact holds a structured field for: `pmid`, `doi`, `nct`. A PMC id is printed 23 times
-#: in this manuscript and the artifact has no `pmc` field, so a PMC id is OUTSIDE this census and is
-#: read only by `lint_citations`' provenance test. Widening to PMC would mean either inventing a
-#: home for it or declaring 23 sites, and both are worse than saying which surface is unread.
+#: ⛔⛔ SCOPE, AND THE THREE FALSE STATEMENTS THIS COMMENT USED TO MAKE (round-11 finding REG-B-1,
+#: repaired 2026-09-08). It read: "Three notations, and they are the three the pooling artifact holds
+#: a structured field for: pmid, doi, nct. A PMC id is printed 23 times in this manuscript and the
+#: artifact has no `pmc` field … Widening to PMC would mean either inventing a home for it or
+#: declaring 23 sites." Every clause of that was wrong, and the falsehood was LOAD-BEARING: it was
+#: the whole stated reason a surface went unread, three lines under a header saying attachment is
+#: the defect this document has already made — and register row A11's instance of that defect was
+#: itself about PMCIDs. Re-measured on the current revision, by counting rather than by recall:
+#:   * the artifact DOES hold `pmcid`, on 11 of its 17 citation records, `stacchiotti2020review`
+#:     -> PMC7563993 among them — so the home exists and nothing had to be invented;
+#:   * a PMC id is printed 12 times in the manuscript, not 23, and 25 times across the two prose
+#:     documents this guard actually reads;
+#:   * EVERY PMCID the manuscript prints is already owned by that field — 0 declarations — and the
+#:     only unowned ones are the 3 in the correction register, which are exactly the three papers
+#:     row A11 names in order to say they are NOT the review. Three declarations, not 23.
+#: ⭐ SO THE CENSUS IS WIDENED RATHER THAN RE-JUSTIFIED. `pmcid` joins `pmid`, `doi` and `nct` below,
+#: which puts PMC ids inside the ownership census AND inside the reference-entry swap test — the
+#: surface the finding proved was open, by swapping the real anchored PMCIDs of [7] Agaram 2014 and
+#: [11] Brenca 2019 and watching the whole suite stay green.
 _IDENT = re.compile(
     r"\bPMID[: ](?P<pmid>\d+)"              # a PubMed id, in both printed forms
     r"|\b(?P<nct>NCT\d{8})\b"               # a trial registration
+    r"|\b(?P<pmc>PMC\d+)\b"                 # a PubMed Central id, as both documents print it
     r"|\bdoi:? ?(?P<doi>10\.\d{4,9}/\S+)"   # a DOI, prefixed as the manuscript prefixes it
 )
 
@@ -2272,6 +2308,8 @@ def _identifiers(text):
             found.append(("pmid", m.group("pmid"), m.start(), m.end()))
         elif m.group("nct"):
             found.append(("nct", m.group("nct"), m.start(), m.end()))
+        elif m.group("pmc"):
+            found.append(("pmc", m.group("pmc"), m.start(), m.end()))
         else:
             found.append(("doi", _trim_doi(m.group("doi")), m.start(), m.end()))
     return found
@@ -2286,8 +2324,10 @@ def _identifier_owners(art):
     """
     owners = {}
     for key, citation in art["citations"].items():
-        for kind in ("pmid", "doi", "nct"):
-            value = citation.get(kind)
+        for kind in ("pmid", "doi", "nct", "pmc"):
+            #: ⚠ THE FIELD IS `pmcid` AND THE PRINTED NOTATION IS `pmc`; the census keys on the
+            #: notation, so the one place they differ is mapped here rather than renamed in either.
+            value = citation.get("pmcid" if kind == "pmc" else kind)
             if value:
                 owners.setdefault((kind, value.lower() if kind == "doi" else value), set()).add(key)
     return owners
@@ -2326,6 +2366,25 @@ DECLARED_IDENTIFIERS_NOT_POOLED = [
      "Masunaga 2025 (*J Orthop Surg Res*), named in §8 as one of the PMC records the retrieval "
      "sweep returned that is NOT a partner-stratified series. It is identified there so the sweep's "
      "yield can be audited, and it enters no analysis."),
+
+    #: ⛔ THE THREE PMCIDs THAT ROW A11 NAMES IN ORDER TO SAY THEY ARE NOT THE REVIEW. They are
+    #: printed only in the correction register, and only inside the row recording that the
+    #: metastasis claim was misattributed to four PMCIDs of which exactly one is a review. Giving
+    #: any of them a citation record would assert it is evidence this synthesis pools — the precise
+    #: opposite of what the row says — so each is declared, as the rows above are.
+    ("pmc", "PMC12398172",
+     "Masunaga 2025 (*J Orthop Surg Res*), a 171-patient registry cohort, named in correction "
+     "register A11 as one of the three PMCIDs the metastasis claim was WRONGLY attributed to. Its "
+     "DOI is declared below for the same reason."),
+
+    ("pmc", "PMC9131214",
+     "A single-patient intracranial EMC case report (*World J Clin Cases* 2022), named in "
+     "correction register A11 for the same reason. Its DOI is declared below."),
+
+    ("pmc", "PMC12376927",
+     "A single-patient buttock EMC case report, the third of A11's misattributed PMCIDs. It is "
+     "named in the register only to record that it is not review literature and makes no "
+     "metastasis claim."),
 
     ("doi", "10.12998/wjcc.v10.i13.4301",
      "A single-patient intracranial EMC case report (*World J Clin Cases* 2022), named in §8 for "

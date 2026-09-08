@@ -16,10 +16,19 @@ scope: >
   bounds them. It does NOT cover EMC treatment more broadly, and it makes no treatment recommendation.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-08
-last_verified: 2026-08-08
+last_verified: 2026-09-08
 related: [DOC-POLICY-EVIDENCE, DOC-GSE28866-READING]
 ---
 # Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis
+
+**Tristan D. McRae**
+
+Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID 0000-0002-1823-1451.
+
+*Study type: a pooled synthesis of counts published by others. No experiment was performed, no
+patient was recruited, sampled or contacted, and no new clinical data of any kind were generated.
+Every count analysed here was published by other investigators in a peer-reviewed report or a
+congress abstract.*
 
 **Preprint draft · no wet lab · no compute · $0.** **Lane:**
 [`emc-unexplored-treatment-lanes.md` §3.2](../program/emc-unexplored-treatment-lanes.md#32--fusion-variant-stratification)
@@ -72,10 +81,12 @@ different, because two cohorts now publish outcome event counts by partner** (Ag
 Huang 2023, PMID 36948401, whose Table 1 was read from the published PDF on 2026-08-08). Pooled over 73
 patients, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8–69.9)** with TAF15::NR4A3 against
 **6/58 = 10.3 % (95 % CI 4.8–20.8)** with EWSR1::NR4A3 — a 36.3-point gap, post-hoc Fisher p = 0.0034.
-That is the first magnitude this contrast has ever had. ⛔ **It arrives with its own defeater, from the larger cohort's own
+That is the first magnitude this contrast has in the sources this synthesis examined; no systematic search was run (§2.3a), so this is not a claim about the whole published record. ⛔ **It arrives with its own defeater, from the larger cohort's own
 authors:** adjusted for tumour size and metastasis at presentation, TAF15::NR4A3 is **not** an independent
 predictor of disease-specific survival, and 78 % of TAF15 tumours were > 10 cm. Local recurrence
-(26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) show no material separation. Pooling four
+(26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) are **not established by either cohort, in either
+direction** — the intervals overlap and the pooled gaps are compatible with a substantial TAF15 excess, so this is
+a failure to establish a difference and not a finding of none. Pooling four
 independent molecular series gives TAF15::NR4A3 in **28/154 = 18.2 % (95 % CI 12.9–25.0)** of partner-assigned
 EMC — an interval that **contains** the ≈20 % this document's own cited sources state and sits below the
 29.2 % of the single referral-centre series that is the high outlier of the four.
@@ -244,7 +255,12 @@ otherwise, and printing them with their status attached is more honest than with
   each of the three outcome rows, §3.5 for prevalence — and computed in the artifact's `heterogeneity` blocks,
   which are the one home of every one of these spreads.
 - **Hazard ratios, survival models, Kaplan–Meier.** No individual patient data exist for any cohort here, and
-  the two cohorts that ran time-to-event analyses publish p-values without event counts. No time-to-event
+  that is the binding reason. ⚠ *Superseded, retained: "the two cohorts that ran time-to-event analyses
+  publish p-values without event counts."* Neither half held: Huang 2023 ran a multivariable time-to-event
+  analysis **and** publishes the per-partner event counts §3.3 pools (§3.4, §4.7), and more than two of the
+  four series that test the partner against outcome ran survival analyses (§1.2). What is true is narrower:
+  Paioli 2021 publishes its time-to-event p-values without per-partner event counts (§3.2), and no cohort
+  publishes the individual patient data a survival model would need. No time-to-event
   quantity is estimated anywhere in this work.
 - **Back-derived counts.** Where a source gives only a percentage, no `{events, denom}` is inferred. Rounding
   invents data, and §2.1(2) forbids it.
@@ -344,7 +360,7 @@ Per cohort, on death, both point the same way: 3/7 = 42.9 % vs 1/16 = 6.2 % (Aga
 5/42 = 11.9 % (Huang). ⛔ **Local recurrence does not.** Agaram gives 2/7 = 28.6 % TAF15 against 1/16 = 6.2 %
 EWSR1; Huang gives 2/8 = 25.0 % against 12/42 = 28.6 % — a direction flip whose comparator-arm spread is
 **22.4 points** (`analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm`). The 4.3-point pooled gap in the table above
-is therefore a cancellation of two cohorts that disagree, not a small effect they share. **This is the first magnitude the prognostic contrast has ever had** — before Huang's
+is therefore a cancellation of two cohorts that disagree, not a small effect they share. **This is the first magnitude the prognostic contrast has in the sources this synthesis examined** (§2.3a: no database was queried, no search string was registered, no screening flow existed and no second reader checked inclusion, so no statement of the form "the first ever" is available here) — before Huang's
 table was read, the "pool" was a single-cohort Wilson interval and this document said so.
 
 ⛔ **AND IT MUST NEVER BE QUOTED WITHOUT THE ANALYSIS THAT DEFEATS IT, WHICH IS IN THE SAME PAPER.** These are
@@ -363,7 +379,7 @@ reviews' claim.** Agaram alone has distant
 recurrence 6/16 = 37.5 % in EWSR1 against 2/7 = 28.6 % in TAF15 — EWSR1 higher, the reversal. **Huang runs the
 other way** (8/42 = 19.0 % EWSR1 vs 3/8 = 37.5 % TAF15 for metastasis developing after presentation), i.e. in
 the reviews' own direction. Pooled, the gap is 9.2 points with overlapping intervals and post-hoc p = 0.5163.
-⭐ **What survives is the negative, and it is stronger than the reversal was.** The largest series to test
+⭐ **What survives is a failure to establish either direction, and it is more durable than the reversal was.** ⛔ That is not the same as establishing no difference: the artifact's `cohorts[agaram-2014-outcome].follow_up_warning` records that on exactly these two rows informative censoring by the competing event biases the higher-mortality arm **downward**, so an unestablished TAF15 excess on recurrence and metastasis remains fully available ([correction register](./emc-fusion-partner-correction-register.md) A32). The largest series to test
 metastasis by partner *directly* reports **P = .728** on its own three-way table. So the metastasis claim
 attributed to a single review **is not established by either cohort, in either direction**. That review is
 PMC7563993 alone — the only actual review among the four PMCIDs previously cited for it; the other three
@@ -620,9 +636,20 @@ the TAF15 arm has any events, and it is a change to a **pooling decision**, whic
 `COHORTS` table rather than in prose. The 3-to-5 range therefore still stands here, and the sentence above is
 now a statement about what is *unapplied*, not about what is *unknowable*.
 
-**4.6 · The comparator arm is not verified EWSR1.** In the primary analysis it is *non-TAF15* (§3.1). Treating
-it as an EWSR1 arm would attribute to EWSR1::NR4A3 a response rate that may include *FUS*, *TCF12* or untyped
-cases.
+**4.6 · Neither TKI comparator arm is verified EWSR1, and that applies to the secondary analysis too.** In the
+primary analysis the comparator is *non-TAF15* (§3.1). Treating it as an EWSR1 arm would attribute to
+EWSR1::NR4A3 a response rate that may include *FUS*, *TCF12* or untyped cases. ⚠ **The same caution applies to
+the sunitinib series' 6/8 arm in the secondary analysis, and this document previously scoped the caveat to the
+primary analysis alone.** The held quotations support that the two progressors are the two TAF15 patients, that
+*"all responsive cases turned out to express the typical EWSR1-NR4A3 fusion"*, and Davis 2017's *"all patients
+with the classical translocation had stable or responsive disease"* — which runs *classical → SD/PR* and does
+**not** license *SD/PR → classical*. **No source held here states the partner of the two stable-disease
+patients**, so that eight-patient arm can contain *FUS*, *TCF12* or untyped *NR4A3*-rearranged cases for exactly
+the reason the pazopanib arm is refused the EWSR1 label. No count changes; the 6/8, the per-cohort 75.0 % and the
+pooled 37.0 % are unaffected, and only the label they carry is withdrawn. ⛔ **The artifact still names that
+stratum `EWSR1::NR4A3`** in `cohorts[sunitinib-2014].strata` and `stratum_definition`; correcting it is a
+generator change and an artifact regeneration, and it has **not** been made — so the artifact and this
+limitation disagree on the label until it is.
 
 **4.7 · Crude proportions, mixed follow-up, no censoring — and one cohort does not publish its follow-up at
 all.** The outcome figures in §3.3 are during-follow-up proportions pooled over two cohorts: one whose arms
@@ -723,8 +750,12 @@ record actually support?* — is not the individual question a clinician faces.
 - That TAF15::NR4A3 affects **18.2 % (95 % CI 12.9–25.0)** of partner-assigned EMC — an interval over four
   independent series that **contains** the ≈20 % this document's own cited sources state ([4], [12]) and sits
   below the 29.2 % of the single referral-centre series that is the high outlier of the four.
-- That the field's own hedge is **misattributed**: the sentence quoted as the sunitinib series' caveat is from
-  the 2012 two-case report, written before any TAF15 patient existed.
+- That **this repository's own lane memo** misattributed the primary authors' hedge: the sentence it quoted as
+  the 2014 sunitinib series' caveat is from the 2012 two-case report, written before any TAF15 patient existed
+  (§3.8). ⚠ *Superseded, retained: "the field's own hedge is misattributed."* This repository holds no record
+  of who else attributes it that way, so naming an unidentified misattributing party was an attribution of the
+  kind [correction register](./emc-fusion-partner-correction-register.md) A30 and A33 already retracted. The
+  correction is to an internal memo, and it is stated here as one.
 - A concrete, zero-patient-cost ask of the field, stated in §6.
 
 **Does not claim.**
@@ -779,9 +810,18 @@ start reporting the partner rather than acting on it.*
    pooled experience assembled here. The threshold is derived in the generator
    (`zero_death_patients_to_reconcile()`) from the artifact's own counts, and it is the fifth entry of the
    artifact's `what_could_kill_this`. It is measured against the comparator arm's Wilson **upper** bound
-   rather than its point estimate, with that arm held fixed rather than allowed to grow; **both choices make
-   this falsifier easier to trigger**, because a growing comparator's own upper bound would fall and push the
-   threshold further away than the figure printed here.
+   rather than its point estimate, with that arm held fixed rather than allowed to grow, and each of those two
+   choices pushes the threshold **up** relative to its alternative — a growing comparator's own upper bound
+   would fall and move the threshold further away than the figure printed here.
+   ⚠ *Superseded, retained: "both choices make this falsifier easier to trigger."* That sentence was a
+   **completeness** claim about the accounting and it was not complete. A third choice is doing more work than
+   either: the TAF15 arm is summarised here by its **point estimate**, while every other contrast in this paper
+   is judged by its Wilson interval — and §3.3 and §5 use overlapping intervals as the marker of
+   non-establishment for the metastasis row. Judged by the standard the rest of the document applies, a third
+   zero-death cohort would reconcile the two arms at a far smaller size than 19 further patients. ⛔ **The
+   count under an interval-overlap criterion is not printed here**, because every threshold this section states
+   is derived in the generator from the artifact's counts and no such field exists; adding one is a generator
+   change and an artifact regeneration, and it has not been made.
 6. Any **size-adjusted** partner analysis in which the partner *does* remain independent. That would overturn
    the defeater rather than the effect, and it is the one result that would turn §3.3's crude magnitude into a
    claim about biology instead of a claim about tumour size.
@@ -920,6 +960,23 @@ Three facts a reader should be able to check without trusting this document:
 
 ---
 
+## Declarations
+
+**AI assistance.** Analysis and drafting were carried out with Claude (Anthropic) and OpenAI models
+under the author's direction, and the author is responsible for the content. This manuscript has not
+been peer reviewed by a human reviewer.
+
+**Declarations.** Funding: none. Competing interests: none. Ethics: no ethics approval was sought and
+none was obtained for this analysis, and no institution or committee has determined whether any is
+required. The analysis reads counts and outcomes published by other investigators in public reports;
+it involved no new recruitment, no new sampling, no clinical intervention and no patient contact.
+
+⛔ **Not a medical device, not clinical decision support, and not a treatment recommendation.** No
+claim of efficacy, safety, selectivity, a therapeutic window or clinical readiness is made or implied
+for any agent, in any patient group, at any line of therapy.
+
+---
+
 ## References
 
 [1] Stacchiotti S, Pantaleo MA, Astolfi A, et al. Activity of sunitinib in extraskeletal myxoid chondrosarcoma. *Eur J Cancer* 2014;50:1657–64. PMID 24703573. doi:10.1016/j.ejca.2014.03.013
@@ -940,7 +997,7 @@ Three facts a reader should be able to check without trusting this document:
 
 [9] Paioli A, Stacchiotti S, Campanacci D, et al. Extraskeletal myxoid chondrosarcoma with molecularly confirmed diagnosis: a multicenter retrospective study within the Italian Sarcoma Group. *Ann Surg Oncol* 2021;28:1142–50. PMID 32572850. doi:10.1245/s10434-020-08737-7
 
-[10] Lenz J, Klubíčková N, Ptáková N, et al. Extraskeletal myxoid chondrosarcoma: a study of 17 cases focusing on the diagnostic utility of INSM1 expression and presenting rare morphological variants associated with non-EWSR1::NR4A3 fusions. *Hum Pathol* 2023;132:88–97. PMID 36563884. doi:10.1016/j.humpath.2022.12.005
+[10] Lenz J, Klubíčková N, Ptáková N, et al. Extraskeletal myxoid chondrosarcoma: a study of 17 cases focusing on the diagnostic utility of INSM1 expression and presenting rare morphological variants associated with non-EWSR1::NR4A3 fusions. *Hum Pathol* 2023;134:19–29. PMID 36563884. doi:10.1016/j.humpath.2022.12.005
 
 [11] Brenca M, Stacchiotti S, Fassetta K, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. *J Pathol* 2019;249:90–101. PMID 31020999 · PMC6766969. doi:10.1002/path.5284
 

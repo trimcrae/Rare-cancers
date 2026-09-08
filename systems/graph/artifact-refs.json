@@ -38,6 +38,13 @@
       "produced_by": ".github/workflows/deepternary-blind-controls.yml",
       "why": "Genuinely unproduced — checked against every branch. Cited by the DeepTernary qualification protocol as the output of the blind-control audit, which has not been run. The work is open; the citation is a forward reference to it rather than a claim it exists.",
       "checked_on": "2026-08-05"
+    },
+    {
+      "artifact": "coverage-scan.json",
+      "disposition": "withdrawn",
+      "closed_by": "systems/graph/routes.json route 17 RT-JUNCTION-NEOANTIGEN `.grade.value`, re-graded 2026-08-28 against the committed artifacts: \"coverage_scan.py emits coverage-curve.json and epitope-allele-matrix.json and has never emitted a file named coverage-scan.json\". Both named outputs are present (research/modalities/coverage-curve.json, research/modalities/epitope-allele-matrix.json) and the re-grade records that re-running vaccine_construct.py and coverage_scan.py offline reproduces them byte-for-byte.",
+      "why": "NOT a missing artifact and NOT unfinished work: no producer in this repository has ever emitted this name, so there is nothing to fetch and nothing to run. `research/modalities/coverage_scan.py` writes coverage-curve.json and epitope-allele-matrix.json; `coverage-scan.json` is a name that only ever appeared in prose ABOUT that producer. No lane carries it in `produces[]` and adding it to one would assert an obligation that never existed. The two remaining mentions are records of the absence, not requests for the file: systems/graph/routes.json route 17 states in terms that the name was never emitted, and research/autonomy/opus-capacity-campaign-20260908/reports/W57-graph-vs-artifact-stale-watchers.md R.4 lists it under UNCHECKABLE as \"no such tracked file\". Deleting those citations would delete the record that the name is wrong, which is why the disposition is carried here instead.",
+      "checked_on": "2026-09-08"
     }
   ]
 }

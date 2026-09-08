@@ -166,7 +166,7 @@ SELF-CHECK PASSED
 EXIT=0
 ```
 
-**Honest note on a corrected first pass.** In `acceptor_blast_radius.py` my accessor guessed the acceptor field name from a candidate list (`acceptor_exon`, `acceptor_exon_rank`, `nr4a3_exon`, `acceptor`) and returned `None` for every atlas pair, so it printed `pairs at acceptor exon 2 : 0`. **That is a false negative and I did not report it as a result.** The real field is `acceptor_exon_start`. I inspected the record schema, then wrote `acceptor_grades.py` against the true field, which returned 77. I did not delete or weaken the assertion; the second script asserts strictly more (that all 38 emittable pairs are exon 3, that all 77 exon-2 pairs are `NON_CODING_ACCEPTOR`, and that the emittable count equals the pinned `n_emittable_junctions`). Both scripts are retained under `/tmp/claude-0/w03b/`.
+**Honest note on a corrected first pass.** In `/tmp/claude-0/w03b/acceptor_blast_radius.py` my accessor guessed the acceptor field name from a candidate list (`acceptor_exon`, `acceptor_exon_rank`, `nr4a3_exon`, `acceptor`) and returned `None` for every atlas pair, so it printed `pairs at acceptor exon 2 : 0`. **That is a false negative and I did not report it as a result.** The real field is `acceptor_exon_start`. I inspected the record schema, then wrote `/tmp/claude-0/w03b/acceptor_grades.py` against the true field, which returned 77. I did not delete or weaken the assertion; the second script asserts strictly more (that all 38 emittable pairs are exon 3, that all 77 exon-2 pairs are `NON_CODING_ACCEPTOR`, and that the emittable count equals the pinned `n_emittable_junctions`). Both scripts are retained under `/tmp/claude-0/w03b/`.
 
 **PROPOSED (NOT RUN):** `scripts/preflight.sh` (dispatch did not authorise it, and I made no change to gate); any regeneration of the panel; any network retrieval.
 
@@ -234,4 +234,4 @@ print("\nSELF-CHECK PASSED: the 38 are exactly the exon-3 EMITTABLE pairs;")
 print("every exon-2 pair is present in the atlas and graded NON_CODING_ACCEPTOR.")
 ```
 
-The full panel/lane/dependent checker `acceptor_blast_radius.py` is as quoted in the run above and retained at `/tmp/claude-0/w03b/acceptor_blast_radius.py`; note its atlas block uses the wrong field name and must be corrected to `acceptor_exon_start` before reuse.
+The full panel/lane/dependent checker is as quoted in the run above. ⚠ **It is not a file of this repository and never was**: this worker was read-only on the working tree, so both scripts were written to and run from the session scratch directory and are retained only at `/tmp/claude-0/w03b/acceptor_blast_radius.py` and `/tmp/claude-0/w03b/acceptor_grades.py`. They are cited by their full scratch paths throughout for that reason; note its atlas block uses the wrong field name and must be corrected to `acceptor_exon_start` before reuse.
