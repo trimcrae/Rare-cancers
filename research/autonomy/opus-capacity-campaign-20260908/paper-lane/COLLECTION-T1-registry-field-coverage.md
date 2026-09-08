@@ -103,3 +103,51 @@ exits 1** — pre-existing and repo-wide. **Not all gates are green.** This pape
 ⛔ **What this integration is not:** it does **not** reopen the four closed care-delivery source gates,
 does **not** replay the term census, adds **no** trial count or numerator claim, and asserts **no**
 field coverage. It records a source-method limitation **as** a limitation.
+
+
+---
+
+# Three source-grade qualifications, appended 2026-09-08 ~11:50 UTC — two of them corrected a LIVE manuscript claim
+
+## 1 · "read in full" overstated the retrieval — corrected in the manuscript
+
+The GitHub WebFetch result was a **targeted 861-character serialized extract, not full original file
+bytes**. It says `query.term` is *"General full-text search"*, does **not** identify the searched
+fields or eligibility, and states *"This document contains no mention of a fields parameter."*
+
+**The integrated manuscript text said "read in full". That was wrong and is now fixed**: it reads
+*"the one third-party API reference that could be retrieved returned only a targeted extract, which
+says 'General full-text search', does not identify the searched fields, and states that the document
+contains no mention of a `fields` parameter."* Originals preserved; **nothing was re-fetched to
+upgrade the claim.**
+
+## 2 · ⭐ An unsupported semantic claim reached the manuscript, and I withdrew it
+
+T1's proposal said the `fields=` parameter **"restricts what a response returns, not what the search
+reads"**, and **I integrated that**. It is **not established**: the committed request URLs show which
+parameters were *used*, not the API's *semantics*, and the GitHub extract **explicitly lacks** any
+mention of `fields`. **Attributing it to either source was wrong.**
+
+**Removed from the manuscript.** The text now says only that several requests carry a `fields=`
+parameter and that **"what that parameter does to the search, as opposed to the response, is not
+established by the manifests and is not asserted here."** No source hunt was run to rescue the claim —
+an unverified claim is dropped, not chased.
+
+## 3 · "Unresolvable in principle" exceeded the inspected evidence — narrowed
+
+Above I wrote that the 2026-08-07 coverage is **"unresolvable in principle"** and that raw responses
+**"were never committed"**. Both overreach. The supported statements are:
+
+- historical field coverage is **unestablished by the inspected current documentation and the retained
+  request lists**; and
+- raw responses **were not found in the inspected deposit**.
+
+⛔ I do **not** infer impossibility across historical specifications, other records, or all Git
+history. **No historical audit, crawl or recovery branch is opened.**
+
+## What stands
+
+**The identified instrument is useful evidence and is unchanged**: endpoint, the exact `query.term`
+strings, `pageSize=400` on the fusion screen, `query.cond` on the 526-trial screen. **The
+eligibility-coverage conclusion remains unresolved.** None of this undoes an observed source result,
+authorises the old census, or reopens a denied route.

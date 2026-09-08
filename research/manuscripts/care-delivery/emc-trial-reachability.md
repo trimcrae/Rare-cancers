@@ -227,9 +227,9 @@ where the number of options is small enough that each one carries weight.
   requests to the ClinicalTrials.gov REST API v2 `/api/v2/studies` endpoint, and the committed URL
   manifests record each one verbatim — the fusion screen as
   `query.term="gene fusion" OR "fusion-positive" OR "FET fusion" OR "translocation"` at
-  `pageSize=400`, which is why its pool is truncated. The `fields=` parameter on several of them
-  restricts what a response returns, not what the search reads. What that search reads is another
-  matter. It reaches past the conditions and interventions lists, since the driver-gene search above
+  `pageSize=400`, which is why its pool is truncated. Several of them also carry a `fields=`
+  parameter; what that parameter does to the search, as opposed to the response, is not established
+  by the manifests and is not asserted here. What the search reads is another matter. It reaches past the conditions and interventions lists, since the driver-gene search above
   returned trials that name the gene in neither — but which further field matched, title, summary,
   description, keywords or eligibility text, those records cannot say, and the responses themselves
   were not retained. The registry's own documentation of its search areas could not be read: that
@@ -237,8 +237,9 @@ where the number of options is small enough that each one carries weight.
   that were reachable are secondary — third-party documentation and search-engine summaries rather
   than the registry's own specification — and they do not agree: several call `query.term` a general
   full-text search over all study fields and place eligibility criteria within it, while the one
-  third-party API reference read in full says only "general full-text search" and does not say
-  whether eligibility text is included. Agreement among secondary sources is not confirmation, and
+  third-party API reference that could be retrieved returned only a targeted extract, which says
+  "General full-text search", does not identify the searched fields, and states that the document
+  contains no mention of a `fields` parameter. Agreement among secondary sources is not confirmation, and
   none of them describes the index as it stood on 2026-08-07, when these screens ran. So whether a
   trial carrying its fusion language only in eligibility text could enter the pool is untested — §4's warning about instruments, pointed at this paper's
   own numerator. Of the five records adjudicated, four were re-fetched and read on 2026-08-09 —
