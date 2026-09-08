@@ -84,3 +84,35 @@ started against the exact source **PMID 30373828 / PMC6243280 / DOI 10.1073/pnas
 ⚠ **Scope, stated in advance:** a source observation is **not** a claim of gene-table recovery and
 **not** scientific validation. Whatever is returned is recorded as what it is, with its original
 artifact and provenance, and an early stop on missing or blocked access is a successful result.
+
+
+---
+
+# Route tested 2026-09-08 10:45 UTC — measured result, and one withdrawal
+
+**M1 (`a5956710c3213c7aa`) tested the route.** Four first-party PubMed MCP calls for PMID 30373828 /
+PMC6243280, **all returning ok — no block, no refusal, no error.** They returned identifier
+resolution, metadata, abstract and **full text (46,010 characters)**, and **no supplementary-file
+listing and no membership table**. The body ends at
+`"Supplementary Material\n\nSupplementary File\n\nSupplementary File"` — two items acknowledged with
+no filename, caption, size, media type or URL — and the parent independently confirmed **zero**
+`http` and **zero** `ftp` occurrences in the returned text.
+
+**⭐ Withdrawal.** This record previously said *"PMC6243280 exists, so the article is open access"*.
+That was an inference from the presence of a PMCID and it is **contradicted by measurement**:
+`get_copyright_status` returned `license.is_open_access: false`, `open_access_count: 0`,
+`Copyright (c) 2018 the Author(s). Published by PNAS.` **A PMCID is not proof of open access.**
+
+**Status now.** The earlier wording "not yet obtained under the contracts then in force" is superseded
+by a measured result: **the tested route exposes prose but not supplementary assets**, so it cannot
+deliver this table. Scoped precisely — this is what **these tools** returned for **this identifier**,
+not a claim about any other route or about the table's availability in general.
+
+**Reopening condition, refined:** the membership table is committed here as gene-level data, obtained
+through a route that actually exposes **supplementary assets**. Retrying the PubMed full-text tool for
+this identifier is pointless and is not proposed; any different route would need its own
+authorisation, and the not-open-access status bears on what such a route could legitimately do. **None
+is proposed or implied here.**
+
+**Item 44 stays open.** No manuscript wording changes: the paper's statement that the resource exists
+and was not used, with the reason, remains accurate. Details in `COLLECTION-M1-adjudication.md`.
