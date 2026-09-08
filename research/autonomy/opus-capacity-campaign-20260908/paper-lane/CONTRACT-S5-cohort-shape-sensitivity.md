@@ -110,3 +110,76 @@ Verify-before-cleanup still binds, now against the new path: confirm the files e
 print the verification, do **not** delete that directory, delete only ordinary working scratch and only after
 verification passes, and keep everything if it fails. No git operation, manuscript edit, shared-graph edit or
 broad source edit by the child. All other bounds and every held/closed route stand exactly as recorded above.
+
+---
+
+# S5 — EXECUTED, collected and verified. **S4's density finding is partly REFUTED.**
+
+Child `a53b0d25fa5e70b56`, model verified from transcript as exactly `claude-opus-5`. Ran 06:19:12Z → 06:22:24Z
+(3 min 12 s); **executed experiment 0.864 s** against the 20-minute bound; 20 GiB free at both ends. 4 cohorts ×
+10 cells = **40 cells × 5 arms = 200 reconstructions**, exit 0, `stderr.txt` 0 bytes. All three contract pins
+verified at run time and matched. Thresholds imported and echoed unchanged (`MAX_KM_DEVIATION 0.05`,
+`REQUIRE_RISK_TABLE true`). **Deterministic, no seed** — and measured, not asserted: each cohort re-derived
+twice in-process and compared by canonical-JSON sha256, 4 of 4 identical.
+
+## Retention verified BEFORE any cleanup, both locations, nothing lost
+
+Durable location `/tmp/claude-0/s5-retained/` verified by the child's own `sha256sum -c SHA256SUMS.txt` — **7 of
+7 OK** — and re-verified by the parent. It was **not deleted**. Files written into the checkout *before* the
+mid-task location change were **left exactly as-is** per the clarification and are **byte-identical** to the
+retained copies (parent-verified, 6 of 6): `sweep5.py` `469222f6…`, `summarize5.py` `40d5dbe7…`,
+**`results.json` `4a465b1a…` (126,998 B, raw, all 40 cells × 5 arms, unabridged)**, `SUMMARY-TABLES.txt`
+`ffec705e…`, `RUNLOG.txt` `d0ae39c8…` (original timing bytes), `stderr.txt` `e3b0c442…` (empty as produced).
+The parent additionally collected the two files that existed only in the retained location — `MANIFEST.md`
+`04c1a4af…` and `SHA256SUMS.txt` `5eedaac1…`. **No missing bytes. No reconstruction of any kind.**
+
+## Paper-level result: the two S4 findings do not survive equally
+
+- **Extent — PERSISTS in direction, 4 of 4 shapes.** Exact arm improves monotonically 0.25 → 0.933 in every
+  cohort (−25→−7, −19→0, −33→−3, −42→−3). But extending to full axis made it **worse in 2 of 4**, so S4's
+  ordering with 1.00 best is a property of its five patients sitting at `t_max`, not of the instrument.
+  Magnitude is entirely shape-dependent: `early_censoring` reaches **exact recovery at 0.50 extent**;
+  `emc_anchor` never fully recovers at any extent.
+- ⛔ **Density — S4's claim does NOT generalise.** Its read-arm form fails in 1 of 4 shapes
+  (`uniform_censoring` is −2,−2,−3,−18,−2 — worst at 13 rows and recovered at 19). Its **exact-arm** form fails
+  in **3 of 4** (flat at every density). And a single rendering setting reorders it: **`line_width_4` — a
+  *degraded* 4-pixel curve — largely abolished the degradation**, `emc_anchor` at 19 rows −29 → **−11**,
+  `low_event` at 8/13/19 rows −48/−51/−49 → **−4/−3/−3**. ⭐ **A render that is worse by whole-curve error
+  (0.0612 vs 0.0292) reconstructed better by censored count.** On this grid S4's density result is better
+  described as a property of that cohort against that render than a property of the instrument.
+- **The admissibility floor still fails to police this class, now across four shapes:** 189 of 200 arms sat
+  under 0.05 and read `admissible: True`, including `low_event` losing **51 of 53** censorings at maxdev 0.0225
+  and `early_censoring` losing **41 of 41** at 0.0142.
+
+## Failures and nulls retained, not dropped
+
+`results.failures` = `[]` — no render refused, no exception in 200 reconstructions. **11 of 200 arms refused by
+`assess_quality`** on the unchanged floor (uniform_censoring rows 13 and 19; low_event rows 3), **0 of 40
+exact-coordinate arms refused**; no guard touched. **Pillow absent** — named, `km_digitize.jpeg_roundtrip`
+(`:1495-1501`), branch stopped, nothing installed; the JPEG branch is **UNKNOWN, not absent**.
+⚠ **A genuine null the child flagged against its own design:** `gridlines` and `lenient_matcher` produced
+**byte-identical digitized series to clean in all four cohorts** — gridlines are drawn at luma 215, above both
+matcher thresholds — so 2 of 3 read variations were **inert**, and the whole "rendering reorders the ranking"
+observation rests on `line_width_4` alone.
+
+## Independent reproduction of prior records
+
+Cohort hash `7deb0b9f…` and clean `digitized_sha256` `48af484b…` both reproduce S4's recorded values
+byte-for-byte, and the anchor's exact arm at rows 8 / extent 0.933 again returns `0 / −7 / 0.0009` — the
+committed `exact_coordinates_baseline`, now measured a second time under an independent child.
+
+## Limits, binding
+
+No clinical claim; cohorts are generated arithmetic and **no row is a patient**. A passing synthetic cell
+creates **no** reporting requirement. `⛔_direction_of_the_bound` applies to every figure — synthetic renders
+are easier than journal figures, so each bounds real-figure error only **from below**. **No universal journal
+requirement and no lower bound for real figures.** A general reporting requirement remains **UNKNOWN**. Four
+cohorts all at n=59, one renderer, uniform row placement only; they are not a sample and nothing estimates how
+often a shape occurs. **No manuscript, publication or clinical-result admission is created.**
+
+## Named successor — PROPOSED, NOT RUN, not authorized here
+
+Test whether **read-curve point count**, rather than row count, drives censored loss: hold cohort and risk
+table fixed and vary `render_km`'s figure `width` across a few fixed values on `emc_anchor` and `low_event`.
+Deterministic, Pillow-free, fixed prespecified scenarios — not draws, and not to be described as a
+distribution.
