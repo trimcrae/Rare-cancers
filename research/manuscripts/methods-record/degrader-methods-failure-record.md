@@ -120,11 +120,12 @@ adequately-powered null with a reference-set floor an order of magnitude under �
 from "we saw nothing". [§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one) and
 [§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) carry the mechanisms.
 
-**(c) The failures themselves are the transferable content.** Each of the four outcome classes in §4 carries
-a mechanism another group can act on without repeating the run: a wrong-sign cooperativity calibrator, an
-adequately-powered endpoint-MD null, a covalency-confounded retrospective, a scoring margin refuted by its own
-within-repo false-positive rate, and a benchmark whose *unbound* protocol supplied information its label
-implied it withheld. That is the contribution, and it stands on what this program measured.
+**(c) The failures themselves are the transferable content.** Each carries a mechanism another group can act
+on without repeating the run: a wrong-sign cooperativity calibrator, an adequately-powered endpoint-MD null
+and a covalency-confounded retrospective ([§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one)),
+a scoring margin refuted by its own within-repo false-positive rate, and a benchmark whose *unbound* protocol
+supplied information its label implied it withheld ([§7.1](#71--what-it-can-do)). That is the
+contribution, and it stands on what this program measured.
 
 ⚠ **What this paper does NOT assert is any claim about how often the field publishes negatives.** The earlier
 framing rested on the clause *"the field publishes almost none of them"*, which this repository cannot support
@@ -471,11 +472,11 @@ typesetting pass reads. Every path was verified to exist on this branch on 2026-
 |---|---|---|
 | Abstract, §4 | the four-way outcome table with all its figures | [roadmap → the scoreboard](../nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language), the ⛔ ONE HOME block |
 | Abstract, §5.1 | instrument counts, control status per instrument | [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md); support/disclosed split from [`systems/graph/routes.json`](../../../systems/graph/routes.json) → `RT-METHODS-PAPER.instruments` |
-| §4 row 1, §7.2, §8.2 | valB_mini ΔΔG_coop, target, replicate figures, replicate SD vs MBAR SE | [roadmap scoreboard](../nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language) rows `RUNG 2` and `RUNG 2 · replicates`; [`valb-triangle-reduction.json`](../../modalities/valb-triangle-reduction.json) |
+| §4 row 1, §7.2, §8 item 2 | valB_mini ΔΔG_coop, target, replicate figures, replicate SD vs MBAR SE | [roadmap scoreboard](../nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language) rows `RUNG 2` and `RUNG 2 · replicates`; [`valb-triangle-reduction.json`](../../modalities/valb-triangle-reduction.json) |
 | §4 row 1, §7.2 item 3 | the closure triangle's blindness result | [`valb-triangle-closure.json`](../../modalities/valb-triangle-closure.json) → `branch_A` |
 | §4 row 2, §4.3 | tier, statistic, exact and mirrored *p*, reference-set size and floor, technical failures, admitted legs | [`selcal-verdict.json`](../../modalities/selcal-verdict.json) |
 | §4.3 item 2 | co-fold vs crystal DockQ on internal machinery vs target interface | [`selcal-cofold-vs-crystal.json`](../../modalities/selcal-cofold-vs-crystal.json), [`selcal-cofold-dockq.json`](../../modalities/selcal-cofold-dockq.json) |
-| §4.3 item 2, §8.5 | the in-horizon positive control and the displacement calibration ladder | [`selcal-deepternary-poscontrol.json`](../../modalities/selcal-deepternary-poscontrol.json), [`selcal-dockq-decoy-scale.json`](../../modalities/selcal-dockq-decoy-scale.json) |
+| §4.3 item 2, §8 item 5 | the in-horizon positive control and the displacement calibration ladder | [`selcal-deepternary-poscontrol.json`](../../modalities/selcal-deepternary-poscontrol.json), [`selcal-dockq-decoy-scale.json`](../../modalities/selcal-dockq-decoy-scale.json) |
 | §4 row 3 | tier, *p*, arrangement count, min attainable *p*, per-arm means | [`nrv04-retro-verdict.json`](../../modalities/nrv04-retro-verdict.json) → `verdict`; secondaries in [`nrv04-retro-secondaries.json`](../../modalities/nrv04-retro-secondaries.json) |
 | §4 row 3 | the covalent confound — which paralogues carry the cysteine | [`nrv04-cys-conservation.json`](../../modalities/nrv04-cys-conservation.json) |
 | §4 row 4, §4.1 | `S`, its replicate SD, the resolvable-magnitude bound, per-arm means | [`nr4a3-5aks-reduction.json`](../../modalities/nr4a3-5aks-reduction.json) |

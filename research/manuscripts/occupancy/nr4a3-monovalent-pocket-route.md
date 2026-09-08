@@ -184,7 +184,7 @@ unchanged and is now STRONGER, not weaker — it was established on a construct 
 fusion turns out to RETAIN one (2026-08-06), so the LBD-borne module is available in the chimera without
 having to argue past a deletion that does not occur.* NOR-1 has two transactivation modules — an AF-1 that Wansa mapped, and an LBD-borne one that
 Zaienne's compounds demonstrably repress with no AF-1 in the construct. **⛔ CORRECTED 2026-08-06 — the fusion does NOT delete the AF-1** (*superseded, retained: "the fusion deletes the first"*): NR4A3 transcript exons 1-2 are non-coding, so the chimera RETAINS AF-1, DBD, hinge and LBD. What is true is that the AF-1 becomes INTERNAL, preceded by EWSR1(1-264). The fusion retains the first and
-keeps the second.**
+keeps the second.
 
 ⚠ **What this does NOT answer, and it is the real crux.** A Gal4-LBD chimera has **no competing
 transactivation domain** — the LBD is the only activating module, so the readout is maximally sensitive to
@@ -302,7 +302,7 @@ and the third cuts against the route:
    accuracy the [roadmap's MECHANISM-FIRST section](../nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged)
    owns. A monovalent antagonist's claim is a *functional-antagonism* claim: what must differ is
    occupancy-weighted output at a dose. **These are not the same object and this memo's contribution is to
-   say so precisely** — but see 2.
+   say so precisely** — but see item 2.
 2. ⛔ **It is still a ΔΔG.** Occupancy ratio at equilibrium is `exp(−ΔΔG/RT)`, so a non-covalent monovalent
    selectivity claim reduces to the same free-energy difference between two similar pockets. The
    requirement is reshaped in *what it is about*, not in *what instrument it needs*. Only the covalent form
@@ -331,7 +331,7 @@ returns one clean no, one qualified yes and one yes — and adds a fourth blocke
 
 | blocker | verdict for this route |
 |---|---|
-| **Does its central claim reduce to a ~1 kcal/mol ΔΔG?** | ⛔ **YES for the non-covalent form**, in full and without qualification (§4.2). **In principle no for the covalent form** — the categorical axis is set membership, not energy — **but §3 measures that window shut once the E3 arm is removed.** So the answer is *yes in whichever form you actually build*, which is the least comfortable of the possible answers |
+| **Does its central claim reduce to a ~1 kcal/mol ΔΔG?** | ⛔ **YES for the non-covalent form**, in full and without qualification (§4 item 2). **In principle no for the covalent form** — the categorical axis is set membership, not energy — **but §3 measures that window shut once the E3 arm is removed.** So the answer is *yes in whichever form you actually build*, which is the least comfortable of the possible answers |
 | **Does it need a generated ternary?** | ✅ **NO, and this is the route's genuine advantage — the largest single block in the program, deleted.** No second protein at any stage: no E3, no effector recruiter, no induced complex, no ubiquitin-transfer geometry. It retires `R9` (the roadmap's *"whole remaining gap"*), `R10`, `R11` and `R12` outright. ⭑ **It is strictly cleaner than the TCIP route on this axis** — [`target-route-options.md` route 6](../program/target-route-options.md) records that a TCIP still *"inherits the same induced-complex modelling problem as `R9`"*. A monovalent molecule inherits nothing of the kind |
 | **Does it need NR4A-paralogue discrimination?** | ⛔ **YES.** Reshaped, partly relocated, not removed (§4) |
 | ⭑ **AND a fourth, which only this route carries** | ⛔ **The LBD must be a functional handle in the FUSION.** Every other LBD-directed route — degrader, TCIP, covalent probe — needs only a **binder**. This one needs occupancy to change output in a chimera whose other end is a strong independent activator, and the program's delegated dTAG test does not answer it (§2.3) |
@@ -382,6 +382,8 @@ one that survived every test, by a single residue.**
 ⇒ **Net effect on this memo's grade: none, and that is the point.** `R4` was already this route's
 un-buyable dependency; the audit changes *which* of its grounds is load-bearing, not whether it holds.
 
+---
+
 ## 7 · Grade against the failure record
 
 **⭑ ★ REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the options memo's route 5 implies
@@ -407,7 +409,7 @@ about a monovalent *drug*, with one promotion inside it.**
   chimera* — which cannot be computed, cannot be bought (§6), and is not covered by the program's delegated
   dTAG test.
 - ⚠ **Its requirement is unsized.** Nobody has stated how much selectivity a monovalent NR4A3 antagonist
-  would need, so "the requirement is smaller" is not a claim this repo can currently make (§4.3).
+  would need, so "the requirement is smaller" is not a claim this repo can currently make (§4 item 3).
 
 **The practical consequence, stated so it can be acted on.** The **probe** framing of
 [`emc-post-degrader-options.md` route 5](../program/emc-post-degrader-options.md) is untouched by everything above
@@ -426,7 +428,7 @@ route board should carry the distinction rather than the hope.**
 | **2** | **Run the same paired configuration for the TCIP arm** (anchor + effector recruiter, no E3) | [`target-route-options.md` route 6](../program/target-route-options.md) | the machinery now exists and takes one more anchor set. ⚠ A TCIP is still bivalent, so it is a *different* second terminus, not this one — the result here does not transfer |
 | **3** | ✅ **DONE 2026-08-03 — the "Munck 2022" attribution is RESOLVED and retired.** It was **five** files, not four, and the name matches **no paper**: measured in CI against Europe PMC and PubMed (0 hits for any author Munck on NR4A3/NOR-1; the title resolves uniquely to PMID 35704774). Correction registered once in [`nr4a3-druggability-reconciliation.md` §5b](../../modalities/nr4a3-druggability-reconciliation.md), superseded attribution retained and quotable, every corrected site now carries the PMID, pinned by [`test_munck_attribution_retired.py`](../../modalities/tests/test_munck_attribution_retired.py) | citation integrity (§2.2) | it was a wrong author name on the paper the whole warhead lane is anchored to — and the cost was real: the evidence was unfindable to the repo's own sessions |
 | **4** | ✅ **DONE 2026-08-03 — re-fetched in CI and CONFIRMED, with one sharpening.** The plasmid is `pFA-CMV-hNOR-1-LBD` *"coding for the **hinge region and LBD** of the canonical isoform of NOR-1"*, and the Results call it *"a chimeric receptor composed of the human NOR-1 LBD and the Gal4 DNA binding domain from yeast"*. ⚠ **The construct is `hinge+LBD`, not `LBD` alone** — §2.3's conclusion is unaffected (both lie entirely outside the AF-1) but its scope should read `hinge+LBD`. Two independent 2026-08-03 fetches of PMC9542104 returned byte-identical bodies. Quotes and provenance: [`nr4a3-druggability-reconciliation.md` §5a](../../modalities/nr4a3-druggability-reconciliation.md) | §2.3, which is now load-bearing | a favourable finding accepted without checking is exactly the failure mode this repo has rules about |
-| **5** | **Ask the roadmap for an antagonism-window number**, or record explicitly that none exists | §4.3 | a requirement nobody has sized reads like a small requirement on every board it appears on |
+| **5** | **Ask the roadmap for an antagonism-window number**, or record explicitly that none exists | §4 item 3 | a requirement nobody has sized reads like a small requirement on every board it appears on |
 
 ---
 

@@ -39,69 +39,77 @@ the +7.1 T4L miss — per-replicate ΔG / λ-overlap / ESS / convergence publish
 <!-- SUPERSEDED editorial: the earlier degrader-title alternates are retired (see title change above). -->
 
 ## Abstract
-The NR4A nuclear receptors are orphan transcription factors long considered "undruggable" — their orthosteric
-pocket is occluded in crystal structures — and NR4A3, a gain-of-function driver of extraskeletal myxoid
-chondrosarcoma, has an experimental ligand-binding-domain structure only as a recently released apo
+The NR4A nuclear receptors are orphan transcription factors long considered "undruggable" — their
+orthosteric pocket is occluded in crystal structures — and NR4A3, a gain-of-function driver of extraskeletal
+myxoid chondrosarcoma, has an experimental ligand-binding-domain structure only as a recently released apo
 solution-NMR ensemble (PDB 8XTT, 2025). An fpocket analysis of the 20 deposited low-energy conformers shows
-**substantial geometric heterogeneity at the mapped orthosteric site**: most are strongly occluded, and a few
-exceed an empirical drug-bound reference boundary. These are low-energy structural models, **not**
-equilibrium-population samples. A three-independent-seed metadynamics workflow on an AlphaFold2 working model
-explores cavity-bearing "open-like" geometries, and short bias-free continuations from a selected geometry
-show **geometric persistence in 3/3 replicas**. Harmonized pocket-tracking detects the orthosteric pocket in
-every propagated frame of all three replicas, druggable at ≥ D\*=0.53 in **56 %/40 %/80 %** of frames per
-replica (**44/75 = 59 % pooled**). The replicas do **not** yet agree on a **common quantitative free-energy
-profile**. A falsification-heavy, pocket-conditioned generative campaign — chemical triage, an empirical decoy
-null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution — leaves a
-single candidate, **denovo_401**. **Initial three-replicate absolute-binding free-energy calculations
-conditional on selected opened conformers** probe its NR4A3-favoured preference, and favour NR4A3 over both
-paralogues in the AF2-opened states. A receptor-specific λ-overlap defect leaves the whole block provisional,
-its repair is scoped but held, and the engine's *absolute* scale is not validated. A completed
-**experiment-anchored (8XTT)
-recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly conformer-dependent** (+8.17 ± 0.98
-vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift larger than the selectivity margin), so
-the selectivity is reported as **conditional on the chosen opened conformers**; a matched experiment-anchored
-paralogue comparison is the flagged decisive follow-up. Separately, because a useful degradation window would
-require an induced-interface margin larger than these methods can resolve, we report a **mechanism-first
-prospective design stage** that searches instead for **categorical** paralogue differences — positions at
-which NR4A1/NR4A2 are structurally incapable rather than merely disfavoured. That stage identifies an exposed
-NR4A3-unique cysteine and three NR4A3-unique lysines whose paralogue side is a *sequence* fact independent of
-any receptor model. It finds that the chemistry axis is **one residue deep, with no geometric fallback**. It
-returns a **negative on E3-recruiter breadth**: structural stageability, not target availability, is the
-binding constraint, and widening the panel confirmed the incumbent recruiters rather than displacing them. It
-nominates orientation basins that exploit the categorical terms in only a **small minority** of placements.
-And it enumerates a **reversible-covalent-preferring virtual linker library** whose covalent handle is
-reported as an unresolved liability alongside the parent warhead's own pharmacology. Two
-ubiquitination-geometry parameters are corrected against solved intact assemblies rather than assumed.
-**A preregistered known-answer test of the ternary machinery itself — measured SPR cooperativity for a linker
-pyridine→benzene edge on SMARCA2/VHL — returns the wrong sign in all three preregistered replicates**
-(ΔΔG_coop = −0.599 kcal/mol at n = 3 vs a target of +0.944). **It does so with converged, structurally stable,
-forward/reverse-antisymmetric sampling and a closed cycle, which makes the miss ~34× the statistical
-uncertainty and therefore systematic rather than a sampling deficit that replicates could remove.**
-No cooperativity or
-ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
-prioritized candidate matrix rather than a quantitative prediction. **A second preregistered known-answer test
-asks whether the endpoint readout can detect paralogue selectivity that a primary source reports**: a
-sensitivity control run on SMARCA2 vs SMARCA4 with the PRT3789 chemotype, a pair with solved structures on
-both arms. **It returns a NULL on an adequately-powered design** (exact one-sided *p* = 0.7468; reference set
-of 462 arrangements with a floor of 0.00216 against α = 0.05; no technical failures). The observed separation
-runs opposite to the predicted direction but is not significant in either direction (mirrored
-*p* = 0.2554). **Every
-paralogue-selectivity statement in this work is therefore an unvalidated prediction**: all three attempts to
-establish a positive control for selectivity detection — the cooperativity calibrator above, a preregistered
-retrospective holdout that returned a non-resolution and is in any case covalency-confounded, and this
-control — have now been run and none succeeded. ⛔ A null of this kind **does not distinguish an insensitive
-readout from a genuinely narrow structural signal** and is not reported as though it did. The **causal test of whether any designed
-element creates discrimination has now been run against its pre-registered reading, and returns that reading's
-null**: S = −0.1297 ± 0.3264 kcal/mol (§2.10e), indistinguishable from zero, bounding a marginal wedge
-contribution only below ≈ 0.65 kcal/mol (2σ) and establishing nothing about smaller effects. Because the
-known-answer control above did not pass, this is a null from a method whose ability to resolve the effect it
-looked for is unestablished — weaker than a null, and that is the statement supported. This is a
-**computation-only** design and feasibility
-study: **no molecule was synthesized and no wet-lab validation was performed**. Its principal unresolved
-limitations are the consistency of pocket identification across structural models, the **structural-provenance
-dependence of the free-energy selectivity**, cross-replica convergence, and the atomic binding pose and
-ensemble-weighted selectivity. For the prospective stage, a further limitation is the double conditionality on
-a hypothesized warhead pose and a chosen receptor frame.
+**substantial geometric heterogeneity at the mapped orthosteric site**: most are strongly occluded, and a
+few exceed an empirical drug-bound reference boundary. These are low-energy structural models, **not**
+equilibrium-population samples.
+
+A three-independent-seed metadynamics workflow on an AlphaFold2 working model explores cavity-bearing
+"open-like" geometries, and short bias-free continuations from a selected geometry show **geometric
+persistence in 3/3 replicas**. Harmonized pocket-tracking detects the orthosteric pocket in every propagated
+frame of all three replicas, druggable at ≥ D\*=0.53 in **56 %/40 %/80 %** of frames per replica (**44/75 =
+59 % pooled**). The replicas do **not** yet agree on a **common quantitative free-energy profile**.
+
+A falsification-heavy, pocket-conditioned generative campaign — chemical triage, an empirical decoy null,
+multi-snapshot rescoring, independent-seed replication, and molecular-species resolution — leaves a single
+candidate, **denovo_401**. **Initial three-replicate absolute-binding free-energy calculations conditional
+on selected opened conformers** probe its NR4A3-favoured preference, and favour NR4A3 over both paralogues
+in the AF2-opened states. A receptor-specific λ-overlap defect leaves the whole block provisional, its
+repair is scoped but held, and the engine's *absolute* scale is not validated. A completed
+**experiment-anchored (8XTT) recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly
+conformer-dependent** (+8.17 ± 0.98 vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift
+larger than the selectivity margin), so the selectivity is reported as **conditional on the chosen opened
+conformers**; a matched experiment-anchored paralogue comparison is the flagged decisive follow-up.
+
+Separately, because a useful degradation window would require an induced-interface margin larger than these
+methods can resolve, we report a **mechanism-first prospective design stage** that searches instead for
+**categorical** paralogue differences — positions at which NR4A1/NR4A2 are structurally incapable rather
+than merely disfavoured. That stage identifies an exposed NR4A3-unique cysteine and three NR4A3-unique
+lysines whose paralogue side is a *sequence* fact independent of any receptor model. It finds that the
+chemistry axis is **one residue deep, with no geometric fallback**. It returns a **negative on E3-recruiter
+breadth**: structural stageability, not target availability, is the binding constraint, and widening the
+panel confirmed the incumbent recruiters rather than displacing them. It nominates orientation basins that
+exploit the categorical terms in only a **small minority** of placements. And it enumerates a
+**reversible-covalent-preferring virtual linker library** whose covalent handle is reported as an unresolved
+liability alongside the parent warhead's own pharmacology. Two ubiquitination-geometry parameters are
+corrected against solved intact assemblies rather than assumed.
+
+**A preregistered known-answer test of the ternary machinery itself — measured SPR cooperativity for a
+linker pyridine→benzene edge on SMARCA2/VHL — returns the wrong sign in all three preregistered replicates**
+(ΔΔG_coop = −0.599 kcal/mol at n = 3 vs a target of +0.944). **It does so with converged, structurally
+stable, forward/reverse-antisymmetric sampling and a closed cycle, which makes the miss ~34× the statistical
+uncertainty and therefore systematic rather than a sampling deficit that replicates could remove.** No
+cooperativity or ternary-complex quantity in this work is therefore calibrated, and the degrader stage is
+reported as a prioritized candidate matrix rather than a quantitative prediction.
+
+**A second preregistered known-answer test asks whether the endpoint readout can detect paralogue
+selectivity that a primary source reports**: a sensitivity control run on SMARCA2 vs SMARCA4 with the
+PRT3789 chemotype, a pair with solved structures on both arms. **It returns a NULL on an adequately-powered
+design** (exact one-sided *p* = 0.7468; reference set of 462 arrangements with a floor of 0.00216 against α
+= 0.05; no technical failures). The observed separation runs opposite to the predicted direction but is not
+significant in either direction (mirrored *p* = 0.2554). **Every paralogue-selectivity statement in this
+work is therefore an unvalidated prediction**: all three attempts to establish a positive control for
+selectivity detection — the cooperativity calibrator above, a preregistered retrospective holdout that
+returned a non-resolution and is in any case covalency-confounded, and this control — have now been run and
+none succeeded. ⛔ A null of this kind **does not distinguish an insensitive readout from a genuinely narrow
+structural signal** and is not reported as though it did.
+
+The **causal test of whether any designed element creates discrimination has now been run against its
+pre-registered reading, and returns that reading's null**: S = −0.1297 ± 0.3264 kcal/mol (§2.10e),
+indistinguishable from zero, bounding a marginal wedge contribution only below ≈ 0.65 kcal/mol (2σ) and
+establishing nothing about smaller effects. Because the known-answer control above did not pass, this is a
+null from a method whose ability to resolve the effect it looked for is unestablished — weaker than a null,
+and that is the statement supported.
+
+This is a **computation-only** design and feasibility study: **no molecule was synthesized and no wet-lab
+validation was performed**. Its principal unresolved limitations are the consistency of pocket
+identification across structural models, the **structural-provenance dependence of the free-energy
+selectivity**, cross-replica convergence, and the atomic binding pose and ensemble-weighted selectivity. For
+the prospective stage, a further limitation is the double conditionality on a hypothesized warhead pose and
+a chosen receptor frame.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is

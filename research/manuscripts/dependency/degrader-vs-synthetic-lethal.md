@@ -52,9 +52,12 @@ drives the recommendation in §3.
 
 **Why it's attractive.**
 - **Nuclear receptors are now a *proven* degradable class.** **Vepdegestrant (ARV-471), an
-  estrogen-receptor PROTAC, became the first FDA-approved PROTAC (⚠ this repository's two records disagree on the year: this memo says 2025, which is the year of the phase-3 VERITAC-2 publication, while `research/manuscripts/degrader/nr4a3-degrader-paper.md:156` records the FDA approval as 2026-05-01; not adjudicated here)** (VEPPANU; phase-3
+  estrogen-receptor PROTAC, became the first FDA-approved PROTAC** (VEPPANU; phase-3
   VERITAC-2). That first FDA-approved PROTAC targets a nuclear receptor — the same superfamily
   as NR4A3. [precedent]
+  ⚠ This repository's two records disagree on the year: this memo says 2025, which is the year of
+  the phase-3 VERITAC-2 publication, while `research/manuscripts/degrader/nr4a3-degrader-paper.md:156`
+  records the FDA approval as 2026-05-01; not adjudicated here.
 - **A ligandable handle exists in principle.** NR4A LBDs have a **collapsed orthosteric pocket**
   filled with bulky hydrophobic side chains (why they're "orphan"), consistent with our
   borderline 0.495 score — *yet* real small molecules bind the LBD: cytosporone B, celastrol,
@@ -132,8 +135,9 @@ drives the recommendation in §3.
 
 ## 2b. RESULT — DepMap transfer prior (computed this session)
 
-`depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models; 176 sarcoma models in
-the release, of which 91 carry CRISPR data and are the denominator of every number below —
+`depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models; 176 sarcoma models catalogued in
+the release, but every gene record carries `n_sarcoma = 91`, so 91 is the screened denominator of
+every number below —
 `depmap_sarcoma_dependency.py:79`;
 `depmap-sarcoma-dependency.json` + `.png`). The result is a **negative for the cheap BRD9 bet**:
 
@@ -147,9 +151,11 @@ the release, of which 91 carry CRISPR data and are the denominator of every numb
   strongly essential but *equally* outside sarcoma — pan-essential, not a therapeutic margin.
 - ⚠ **The same run read Route D's own target, and this memo prints it nowhere.** In
   `depmap-sarcoma-dependency.json`, NR4A3 is +0.02 in sarcoma with 0% of the 91 screened lines
-  dependent (`context_genes`). The "no DepMap line is EMC" caveat that qualifies that null is the
-  same caveat that qualifies the BRD9 null above, so the two routes must be read at equal strength:
-  neither is a measurement in EMC.
+  dependent (`context_genes`). No line in the panel supplies a CRISPR observation for EMC: the
+  single EMC-labelled line has no CRISPR gene-effect data at all, and the further curated record
+  that it does not harbour the fusion is suggestive and consistent, not definitive. That caveat
+  qualifies this NR4A3 null exactly as it qualifies the BRD9 null above, so the two routes must be
+  read at equal strength: neither is a measurement in EMC.
 - **Pipeline mechanics validated** by correct recovery of the pan-essential controls
   (CDK7/BRD4/CDK9, ~100% dependent everywhere). Two *selective*-dependency self-checks were weak:
   BRD9-in-synovial is an inherently modest DepMap signal (n=5, −0.13), and **SMARCB1-in-rhabdoid
@@ -168,6 +174,8 @@ EMC lines — the expensive path, gated by model availability. This re-weights t
 **toward the degrader route**, whose retained-LBD handle and class precedent now look comparatively
 stronger. (Caveat: "all sarcoma" is coarse and EMC is unrepresented; a negative transfer lowers,
 but does not eliminate, the prior — only a real EMC screen settles it.)
+
+---
 
 ## 3. Convergence and recommendation
 
@@ -189,10 +197,12 @@ experiment — the dTAG fusion-addiction test (Route D), the CRISPR screen and t
 step neither route escapes.
 
 **Verdict (updated 2026-06-21 after the §2b DepMap result).**
-- The DepMap transfer prior **came back negative**, so the "test an existing BRD9 degrader first"
-  shortcut is **no longer justified by transfer logic** — BRD9/ncBAF isn't a sarcoma dependency,
-  not even in Ewing. The synthetic-lethal route now requires the expensive de-novo CRISPR screen
-  in EMC models; do **not** spend a scarce wet-lab slot on a transfer-justified BRD9 test.
+- The DepMap transfer prior **came back negative** — a weak prior against BRD9 rather than a
+  settled negative, because §2b's only selectivity control came back weak. The "test an existing
+  BRD9 degrader first" shortcut is therefore **no longer justified by transfer logic** — BRD9/ncBAF
+  isn't a sarcoma dependency, not even in Ewing. The synthetic-lethal route now requires the
+  expensive de-novo CRISPR screen in EMC models; do **not** spend a scarce wet-lab slot on a
+  transfer-justified BRD9 test.
 - **The degrader route (NR4A3 LBD) is now the comparatively better-placed bet — because the
   comparator lost support, not because the degrader gained any.** No result in §2b is evidence for
   Route D; the same run returned a null on NR4A3 itself. Next *computational* steps
