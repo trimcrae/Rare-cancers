@@ -257,3 +257,73 @@ retrieval was performed. The Brenca closure is unchanged: those accessions and r
 **No scientific or paper novelty is inferred from standalone code success.** A lookup helper passing
 its own suite says nothing about EMC, and nothing here bears on efficacy, safety, selectivity or
 clinical readiness.
+
+## 2026-09-08 ~02:52Z — W11b execution packet fetched and inspected (transcription replaced by evidence)
+
+**This section replaces the transcribed execution provenance of the ~02:47Z section with bytes this
+coordinator actually fetched, hash-checked and read.** The packet was **not re-run**; every result
+below is read out of its retained records. Nothing in it was executed.
+
+**Transport, verified by this coordinator:**
+
+```
+git fetch origin codex/opus-cloud-inputs-20260908   →  ad34f06b..ba8b66ea
+git rev-parse …                 = ba8b66ea786eec2c7db6ac5ba391fa5f8fd413b5   (matches owner)
+git log --format='%H %P' -1     parent ad34f06b53c2fb41f0b3d7949239b8d2951ac61e   (matches owner)
+git cat-file blob ba8b66ea:research/autonomy/cloud-inputs-2026-09-08/w11b-execution-evidence.zip
+  size          97,191 bytes                                        (matches owner's 97191)
+  sha256        70da0993c8fe95e8764c31b5634ab7f430abe9e764e8809633a8f88887b8de8d   (MATCHES)
+  members       54                                                  (matches owner's 54)
+  zipfile.testzip()  → None                                         (all members CRC-clean)
+  unsafe paths  0        symlinks 0        uncompressed 309,338 bytes
+```
+
+Extracted **once**, read-only, to `/tmp/claude-0/w11b-exec/extracted/` — a separate context area
+**beside** the frozen corpus at `/tmp/claude-0/frozen-corpus/extracted/`. Neither overlays the working
+tree; no second copy was made. The six corpus parts are unchanged and were not re-fetched.
+
+**Owner-declared anchors, checked against the extracted bytes:**
+
+| Anchor | Declared | Measured here | |
+|---|---|---|---|
+| `final-summary.json` sha256 | `a4ffa5c0…9d21a3` | `a4ffa5c01a8cd4ef3419a77b120228083addd3435e1046dff249d488279d21a3` | **MATCH** |
+| `file-manifest.json` sha256 | `eff50342…5475e0` | `eff50342b2bbb02cbffa309b2df8c694cbfe6056c1256bb48b8b21e9625475e0` | **MATCH** |
+| packet excluding manifest | 53 files / 300,460 bytes | 53 files / 300,460 bytes | **MATCH** |
+
+The transport `phase4-verification.json` (sha256 `38c1a73a…e19d3c12`) is the **owner's** record and was
+**not supplied in this container**; it is recorded as an anchor and **not inspected**. No local path is
+invented for it.
+
+**What the packet's own records say** (read from `final-summary.json`, not re-run):
+
+- `cloud_commit` `47aac85f874a57a6f981c3432abcf16980968aec`; `report_sha256` `18f17d87…`,
+  `helper_sha256` `b3288598…`, `test_sha256` `49208917…` — the last two are **the same hashes W23
+  independently recomputed** from the collected W11b report body, so the executed files are the
+  delivered files.
+- **Initial attempts:** both terminated **exit 1 during pytest final cache-staging cleanup rejected by
+  a private TEMP guard** — *"not terminal passing test runs"*. Original stdout/stderr/argv retained in
+  `execution-result.json`. These failures are preserved, not discarded.
+- **Corrected positive:** `18 passed in 0.14s`, process **exit 0**, wall **0.734 s**.
+- **Corrected negative control** (the same tests against the **unchanged original** helper):
+  `7 failed 11 passed in 0.25s`, process **exit 1**, wall **0.688 s**, with all seven failing test
+  names recorded, and `negative_matches_reported_control_counts: true`.
+- `all_source_and_guard_hashes_unchanged: true`; the only change was `runtime_only_change` — the
+  pytest `cache_dir` placed inside a fresh run-specific TEMP; **no code, test or guard edit**.
+  `cleanup_events: 17`, all allowed; `network_events: 0`.
+- **The one authorized smoke query:** `PMID31020999` → **exit 0**, `0.141 s`, normalised `31020999`,
+  scheme `pmid`, 3 files, no scope warnings, **`state: unresolved_not_indexed`, `matches_count: 0`**,
+  inputs unchanged. This is the parser-coverage limit already recorded at ~02:47Z; it is **not**
+  evidence the source is absent and creates no repair obligation.
+
+**Files retained in the packet** include `report.original.md`, both `positive/` and `negative/` trees
+carrying the exact helper and test bodies, four `*.audit.jsonl` runtime audits, four
+`*.execution.json` receipts, both harness freezes, `run_exact.py` / `run_exact_2.py`,
+`runtime-safety/sitecustomize.py`, and the smoke receipt and stdout.
+
+**Nothing in the disposition changes.** Standalone repair verification is now **evidenced rather than
+transcribed**; the semantic coverage limit stands as a bounded observation; and **integration
+eligibility remains negative** — the confirmed writer baseline is **1497/1500** and the unchanged
+18-test addition projects **1515**. Wording elsewhere that a declared amendment is the only remaining
+path is **not** authority to raise the ceiling, and this coordinator does not raise it. The scientific
+owner retains any later integration disposition. The W23 packet remains **advisory**, and its pre-02:40
+body remains **historical** beside this later evidence.
