@@ -293,3 +293,77 @@ Corrections and cautions it establishes:
   proposing a new instrument.
 * An unread field is **undecidable, not false**. No worker has opened any link; every `verified: true`,
   `accessed` and `figure_checked: true` value is UNKNOWN.
+
+### Eight measured results — 2026-09-08T04:43Z. Take these as given.
+
+* **No campaign citation is broken (W50).** Complete census over 199 reports: 1,811 line-bearing
+  citations, 500 distinct cited files, **19 disagree line-for-line** between live and corpus (18
+  line-shifted, 1 append-only), **67 distinct affected citations across 19 reports**. Every one was
+  written from the live checkout and still resolves there as written; 64 of 67 also survive at a
+  *different* line in the corpus — which is the silent hazard, not a citation defect. 87 of 97
+  affected occurrences are in just three files: `systems/systems_check.py`,
+  `systems/views/L3-publications.md`, `systems/graph/publications.json` — **resolve those in the live
+  tree only.** The one row worth a human note: W09f's `L3-publications.md:96` is the sole citation
+  whose corpus-side text has no live counterpart (W09f's own claim is intact).
+* **`[B5]` is a five-member family (W31e).** Checks whose message claims about a field they never
+  dereference: `[B5]` (6/6 records), `[B6]` (over-counts "with a document" 30 vs a true 26),
+  `[B3]` (blind to 15 blockers named across 23 publications' `blocked_by`), `[L5]`, `[B9]` (says
+  "12 trigger(s)" for 12 *pairs* across 11 triggers). All in one seam: `publications.json` models
+  `blocked_by`/`why_not_written`/`document` and the checks read `state`. **No sixth instance exists**
+  among record-reasoning checks — do not re-census. ⚠ Also: `[B1]`–`[B5]`, `[P1]`, `[K1]`, `[K2]`,
+  `[X1]`, `[X4]` are each emitted by **two different functions**; a bare code is ambiguous.
+* **The `systems_check.py` anchor census is complete (W37c).** 72 code literals, 89 (code, function)
+  pairs: **2 VIEW-anchored, 35 GRAPH-only, 28 CROSS, 24 NON-GRAPH.** Emptying the graph silences the
+  35 without needing the regenerator at all; among CROSS families **direction decides** — "present in
+  the other home, absent from the graph" survives (`[L2]` 89, `[M2]` 16, `[W1]` 18), the reverse goes
+  vacuous. ⛔ **Named hazard:** giving the regenerator ownership of
+  `research/manuscripts/emc-systems-map.json` would make 89 of the 123 surviving errors escapable, and
+  it is the cheapest-sounding change (that file has **no** generator today — the roadmap and plan
+  extractors both run the *other* direction, and `extract_requirement_register.py` says so in its own
+  docstring: *"THE ROADMAP IS THE SOURCE, ALWAYS … never writes in the other direction."*). Also:
+  `--write-views --check` in ONE invocation skips `check_views` entirely (`:4568`), as does
+  `--no-view-check`.
+* **The regenerate-then-check escape is a real class (W45).** 26 modules enumerated (10 with an
+  explicit write flag, 17 whose regeneration mode is the *bare* invocation and `--check` is the added
+  flag); 10 tested by execution. **4 fully escape** — `emc_systems_map_check`, `emc_fet_idr_census`,
+  `atm_status_atri_stratification`, `emc_atr_vulnerability` (the last still emitted a scientific
+  verdict string and was certified `REPRODUCES` after 102,397 rows were removed from its inputs
+  cache, on a scratch copy — the live cache is populated and green). The discriminator is
+  **three-valued**: a cross-source anchor blocks it, an *in-source constant* blocks it
+  (`lint_readability` splits cleanly: its baseline-anchored errors dissolve, its 60-word-sentence
+  errors survive, exit stays 1), and an accidental crash blocks it (`emc_fet_frame_and_composition`
+  raises `KeyError`). A cross-source anchor is **sufficient, not necessary**.
+* **POLICY-evidence enforcement, measured by mutation not by reading (W48).** 41 mutations against
+  `validate-registry.mjs` on a sandbox copy: of 31 decidable predicates, **11 ENFORCED-AND-FALSIFIABLE,
+  4 WARN-ONLY, 3 ENFORCED-VACUOUSLY, 13 UNENFORCED**. `systems_check.py` enforces **none** of the 16
+  units (its only 4 references are the `[P1]` gate-ordinal documentation check). Independently
+  confirms the `:115` falsy-index defect W30d found. Vacuous rows: §2.1(2) integer-ness (`3.5` is a
+  `number`), §3's "≥2 positions" (one `mixed` satisfies it), §2.3 for `cohorts[0]`. ⚠ Also measured:
+  the `dataStatusBanner` ERROR fires only when `dataStatus === "SAMPLE_SYNTHETIC"`, so deleting the
+  banner outright on the live `partial-curated` registry is a **silent pass**.
+* **`pinned-figures.json` has no unread entries (W47).** 183 entries: **160 ENFORCED, 23
+  READ-BUT-NOT-COMPARED, 0 UNREAD**; 18 consumers enumerated at their use sites. The 23 are
+  `superseded` patterns matching nothing in any of the 29 targets — and unlike `subset_checks`
+  (`lint_consistency.py:571-578`, which errors when a pattern matches nothing), the superseded arm has
+  **no anti-inertness alarm**. ⚠ `.github/workflows/nr4a3-covalent-handle-ensemble.yml:88` runs the
+  gate under `|| true`, discarding the verdict.
+* **`lint_consistency.py` is a numeric-registry conformance checker, not a manuscript linter (W51).**
+  No glob and no directory walk exist in it; every file it reads is a literal path in
+  `pinned-figures.json`. Union file set: **31 paths, 16 of them `research/manuscripts/*.md` — 171 of
+  187 tracked manuscript `.md` files (91.4%) are outside every rule.** Six injections on a scratch
+  copy: a contradicted pinned value at a declared context is CAUGHT (exit 1) and an unmarked
+  superseded value is CAUGHT (exit 1); the same quantity stated at two different values is NOT caught,
+  a dead anchor/dead link is NOT caught, a pinned-value contradiction stated outside the declared
+  `context` is NOT caught, and both caught kinds are invisible one directory over. **`0 ERROR across
+  29 target file(s)` is a true statement that reads as a much stronger one.**
+* **The `[X4]` backlog is characterised for human triage (W46) — 301 ungraded signals, and nobody
+  should try to shrink it by deduplication (the available saving is 3 rows).** It arrived in five
+  batches; 130 queued 2026-08-08 and untouched, 111 queued 2026-09-04 (37% of the "backlog" is one
+  week old). 301/301 carry a resolvable identifier; **126 have an abstract already committed** in
+  `research/method-watch-trigger-hits.json`, 175 would need a retrieval. ⭐ The high-leverage tail is
+  **8 signals under 20 routes**: `TECH-EMC-MODEL-ACCESS` (1 signal, 10 routes),
+  `TECH-EMC-EXPRESSION-DATA` (2, 9 routes), `TECH-CLOUD-WET-LAB` (1, gates a *ready* route),
+  `TECH-COFOLD-ASSEMBLY` (3, 5 routes), `TECH-CHARGE-CHANGE-FEP` (1). ⚠ `TECH-CONDENSATE-RESOLUTION`
+  is 34 signals — 11% of the backlog — against a technology the graph records as unblocking **no
+  route, no blocker and no requirement**. Grading is reserved to a human (`MAINTENANCE.md:74`); no
+  worker may grade a signal.
