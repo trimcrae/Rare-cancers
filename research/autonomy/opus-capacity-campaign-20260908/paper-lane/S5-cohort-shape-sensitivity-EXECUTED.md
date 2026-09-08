@@ -311,3 +311,26 @@ Set: raw per-cell output durably written and verified, or a named missing capabi
 **One successor, and it follows directly from the strongest measured result rather than from an untested hunch:** the density effect was largely abolished by `line_width_4`, whose only observable difference is that the read curve carried roughly twice as many digitized points. The open question is whether **read-curve point count**, not row count, is what actually drives censored-count loss — testable by holding the cohort and risk table fixed and varying `render_km`'s `width` (figure pixel width, which changes time resolution without changing line rendering) across a few fixed values, then plotting censored recovery against the resulting point count. That is deterministic, Pillow-free, and again a set of **fixed prespecified scenarios**, not draws. It should be run on at least `emc_anchor` and `low_event`, since those are where the thick-line effect was largest, and it must not be described as a distribution.
 
 I did **not** write any manuscript, shared-graph, registry or other repository file, ran **no** git operation, ran **no** network/paid/GPU work, and touched **no** held or closed route.
+
+---
+
+## ⛔ COLLECTOR DISPOSITION APPENDED 2026-09-08 — one transfer claim in the report above is CORRECTED
+
+**The report above is preserved verbatim and is not rewritten.** This appendix corrects one sentence in it.
+
+Its Limitations section ends: *"Transfer limit: none of this constrains real journal figures except **from
+below**."* ⛔ **That is not established, and it conflicts with the binding contract.** Synthetic ease supports
+**no** bound on real-figure error in either direction — not an upper bound, and **not a lower bound either**.
+A synthetic render being easier than a journal figure is a statement about the *inputs*, not a proven ordering
+of *reconstruction error* on real figures; deriving a floor for real figures from it is exactly the inference
+the contract forbids.
+
+**The corrected transfer statement:** these results constrain **only** the measured synthetic scenarios.
+**No universal or general bound on real-figure reconstruction error is established here, in any direction.**
+Everything reported is **sensitivity across fixed prespecified scenarios** — not random replication, not a
+distribution, and not an inference beyond the cells actually measured. The same correction applies wherever
+`⛔_direction_of_the_bound` is quoted in this campaign's synthetic work: it describes the committed artifact's
+own caveat about its inputs, and it is not a licence to state a real-figure floor.
+
+Every measured number, failure, null and hash in the report above stands unchanged. Only this transfer
+inference is withdrawn.
