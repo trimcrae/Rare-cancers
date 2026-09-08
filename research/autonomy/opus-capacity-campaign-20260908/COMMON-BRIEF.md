@@ -99,6 +99,19 @@ artifact. A restatement of existing repository content is not an artifact.
 
 ## Known, measured, and NOT worth rediscovering
 
+- **`origin/literature-cache` has never existed in this checkout, and that is not an incident.**
+  W40 settled it (2026-09-08T03:49Z): neither `refs/heads/literature-cache` nor the remote-tracking
+  ref exists, `.git/packed-refs` does not exist, the object `216bd1b5…` reports `missing` from
+  `cat-file --batch-check`, and `.git/logs` has **zero** literature-cache trace — a state git does
+  not produce by deleting a branch. The checkout is **shallow** (42 grafts, `+refs/heads/*` fetch
+  spec), which is a sufficient ordinary explanation. An earlier report's line attributing a
+  `<sha>\t<refname>` output to `git branch -a --list` is a format mismatch (`git branch` prints
+  indented short names with no SHA); that shape comes from `git show-ref` or `git ls-remote`.
+  **Do not read this as a lost ref.** Whether the branch exists on the remote is UNKNOWN — do not
+  fetch to find out. Of nine consumers that resolve the ref, six fail loud, two degrade and say so
+  in their artifact, and one (`submission_citations.py:304,307`) is silent; that one is already
+  routed to its owner.
+
 - **`pytest` IS INSTALLED in this container, and `python3 -m pytest` is the wrong command.**
   W29f settled this by execution (2026-09-08T03:49Z): pytest 9.1.1 lives at `/root/.local/bin/pytest`,
   a symlink into a **uv tool venv** whose shebang names `/root/.local/share/uv/tools/pytest/bin/python3`
