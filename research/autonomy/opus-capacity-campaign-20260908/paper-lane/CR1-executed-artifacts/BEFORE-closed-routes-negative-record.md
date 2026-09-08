@@ -154,7 +154,7 @@ that blocker not at all.
 | # | route | closure kind | permanent | what reopens it |
 |---|---|---|---|---|
 | 1 | [RT-EWSR1-PROTEIN](../../../systems/views/L2-rt-ewsr1-protein.md) — target the EWSR1 half at the protein level | `definitional` | **yes** | nothing |
-| 2 | [RT-FET-LC-LIGAND](../../../systems/views/L2-rt-fet-lc-ligand.md) — a ligand for the shared FET low-complexity half | `definitional` | as filed, yes — contested ⚠ §4.1 | nothing, on the leg the register files the permanence on |
+| 2 | [RT-FET-LC-LIGAND](../../../systems/views/L2-rt-fet-lc-ligand.md) — a ligand for the shared FET low-complexity half | `definitional` | **yes** ⚠ see §4.1 | nothing, on the leg that carries the permanence |
 | 3 | [RT-DBD](../../../systems/views/L2-rt-dbd.md) — relocate to the DNA-binding domain | `arithmetic_over_fixed_fact` | **yes** | nothing |
 | 4 | [RT-RXR](../../../systems/views/L2-rt-rxr.md) — RXR-heterodimer modulation | `premise_false` | no | a contradicting primary measurement, named |
 | 5 | [RT-SYNPROMOTER](../../../systems/views/L2-rt-synpromoter.md) — fusion-driven synthetic promoter → suicide gene | `premise_false` | no | an EMC dataset reading the fusion's binding specificity |
@@ -204,14 +204,8 @@ below 1% ([`depmap-insilico-findings.md`](../../modalities/depmap-insilico-findi
 cell-line read, not EMC data**). This repository does not otherwise treat *"engages an essential
 protein"* as fatal by construction — a proteasome-inhibitor route is filed `ready` on a pan-essential
 target, and a RIPTAC route is parked rather than closed on a deliberately essential-protein mechanism.
-The route record files the permanence on the shared-region leg alone. **The audit that raised this did not
-agree, and its ruling was never applied:** X11 grades the route DEFECTIVE, because "engages wild-type
-EWSR1" does not by itself close a route in this register — `BLK-NOT-FUSION-SELECTIVE` is held by nine
-routes, three of which are live, and what separates the closed from the live ones is the DepMap
-dispensability trade, which X11 calls *"empirical, and it is what actually closes the route"*. On that
-reading the closure is not permanent. Whether *"worse"* is dropped from the grade or the closure re-filed
-as non-permanent is recorded as open and unruled
-([`AUDIT-2026-08-06-routes.md` X11](../../../systems/AUDIT-2026-08-06-routes.md)).
+So **the permanence rests on the shared-region leg alone**, and whether *"worse"* should be dropped from
+the grade is recorded as open ([`AUDIT-2026-08-06-routes.md` X11](../../../systems/AUDIT-2026-08-06-routes.md)).
 That is not a caveat added for modesty; it is the §3.1 test applied honestly, and it changes what the
 sentence may be quoted for.
 
@@ -268,14 +262,9 @@ rather than assumed silently.
 condition had previously been recorded as *"the published negative stands unchanged"* — an assertion
 with no reading behind it — while a 2025 primary paper on that exact question sat unread in the
 committed literature-target list. It was read: it studies **Nurr1–RXRα and Nur77–RXRγ only**, i.e. the
-two paralogues that *do* heterodimerise, and it says nothing about NR4A3. What is now a reading rather
-than an assumption is precisely that this one inspected paper does not contradict the 1996 negative —
-not that the negative has been re-established. The closure still rests on a single 1996 measurement that
-no retrieved source replicates, and the silence of one inspected source is not evidence that no
-contradicting evidence exists
-([`AUDIT-2026-08-06-routes.md` → RT-RXR](../../../systems/AUDIT-2026-08-06-routes.md)). **A trigger that
-is never checked is a closure with a decorative escape hatch; a trigger checked against one silent paper
-is a closure whose scan has run once.**
+two paralogues that *do* heterodimerise. The negative stands, and it is now a reading rather than an
+assumption ([`AUDIT-2026-08-06-routes.md` → RT-RXR](../../../systems/AUDIT-2026-08-06-routes.md)). **A
+trigger that is never checked is a closure with a decorative escape hatch.**
 
 ### 4.4 · Closed on a premise about this disease — RT-SYNPROMOTER, and the reason it is the reopenable example
 
@@ -300,14 +289,9 @@ Two things make this the paper's example of a closure that is **not** permanent:
   neomorphic binding element is firmly established, or merely unmeasured in EMC* — and that is the
   sentence that distinguishes a closed route from a data-blocked one. The named reopening observation
   is a direct read of the fusion's DNA-binding specificity in EMC; no instrument for it is built here.
-- **The reason it fails is an argument, not an experiment, and it is worth writing down as one.** The
-  statement *"EMC's fusion reads a normal NR4A response element, not a neomorphic one"* is an inference
-  from two committed facts — the chimera retains NR4A3's own zinc finger, and the whole NR4A family binds
-  the same NBRE/NurRE elements — and **no binding-specificity measurement in EMC exists**. The route
-  inherits `BLK-NO-EMC-DATA`, and its own `remaining_unknowns` records that the absence of a neomorphic
-  element may be *merely unmeasured*. It is worth a paragraph in the literature as a reasoned negative
-  expectation about this disease, not as a measured property of it. A closure can have a publishable
-  argument inside it.
+- **The reason it fails is itself a result.** The finding *"EMC's fusion reads a normal NR4A response
+  element, not a neomorphic one"* is a statement about this disease worth a paragraph in the literature
+  even though the route is not worth a programme. A closure can have a publishable positive inside it.
 
 ### 4.5 · Closed on a transfer prior — RT-HDAC-BET, and the consistency rule that re-filed it
 
@@ -329,7 +313,7 @@ measurement ([`AUDIT-2026-08-06-routes.md` X24](../../../systems/AUDIT-2026-08-0
 ⛔ **Scope, which the grade previously got wrong.** What is closed is the **fusion-selectivity** claim.
 Non-selective activity of these classes in EMC is **explicitly not closed**, and the repository holds a
 fact-checked ex-vivo result pointing the other way: a 221-drug high-throughput screen on the
-patient-derived line NCC-EMC1-C1 returned romidepsin and panobinostat among its reported hits
+patient-derived line NCC-EMC1-C1 returned romidepsin and panobinostat among its low-IC50 hits
 ([Iwata et al., *Human Cell* 2025, PMID 40580361](https://doi.org/10.1007/s13577-025-01250-7); the
 verification is logged in [`fact-check-log.md`](./fact-check-log.md)). The route's earlier grade said
 *"not an EMC result"*, which was false of that screen; it now says *"not a fusion-SELECTIVITY result"*,
@@ -553,15 +537,10 @@ confident in both directions and is checkable in neither.
   ([X9](../../../systems/AUDIT-2026-08-06-routes.md)). **This paper reports both as open and takes
   neither.** If the second is decided the other way, RT-6MP stops being a closure and this paper's §5
   becomes a section about a *retracted* closure, which is a smaller claim and still a true one.
-- **The revival triggers are ids, not searchable strings — and on one route the id names the wrong kind of
-  thing.** The four contingent routes name triggers such as `TR-NR4A3-DIRECTION-OF-EFFECT`, and the
-  reopening *conditions* are carried in prose on the route pages rather than in a trigger registry a scan
-  could read verbatim. The specificity rule in §3.2 is therefore satisfied by the prose and not by the
-  identifier. ⚠ RT-SYNPROMOTER is the sharper case: its registered `revival_trigger` is
-  `TR-VECTOR-TUMOUR-DELIVERY`, a delivery capability, while the reopening *observation* quoted in §4.4
-  — a direct read of the fusion's binding specificity in EMC — lives in the route's `required_validation`
-  and in its grade owner. For that route the enumerated field does not carry the condition §1 requires of
-  a contingent closure, which is exactly the failure mode §3.2 is meant to prevent.
+- **The revival triggers are ids, not searchable strings.** The four contingent routes name triggers
+  such as `TR-NR4A3-DIRECTION-OF-EFFECT`, and the reopening *conditions* are carried in prose on the
+  route pages rather than in a trigger registry a scan could read verbatim. The specificity rule in §3.2
+  is therefore satisfied by the prose and not by the identifier.
 - **No route here was reopened by anything.** The register has never yet exercised the reopening path,
   so the discipline in §3.2 is a design that has been enforced but not tested by a real revival.
 - **The route population is this repository's**, forty routes enumerated by one programme with no wet
