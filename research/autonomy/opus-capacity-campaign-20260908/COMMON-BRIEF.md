@@ -670,3 +670,53 @@ indexes. Raw hit counts are not evidence.
   because it recurses through the global name; count `os.path.exists` instead. ⚠ Nothing in the tree
   records how many pointer checks a run performed — the summary line prints objects/ERROR/WARN/INFO only,
   so a run verifying 781 pointers and one verifying 907 print an identical story.
+
+### Four more measured results — 2026-09-08T04:58Z
+
+* ⛔ **ESCAPE HOLDS WITH GIT (W74).** W45's UNKNOWN is settled. In a `.git`-present scratch copy where
+  `origin/main` resolves (`0dcb24c0`, a different commit from HEAD), `[C1]` and `[O4]` are **live and
+  passing, not unavailable** — the green baseline prints **0 WARN** — and the same three steps still end
+  at **exit 0 over 0 registry items, 0 ERROR, 0 WARN**. Mechanism, located: both checks are anchored in
+  another home but **iterate collections inside the emptied file** (`emc_systems_map_check.py:655`
+  `for c in m.get("claims", [])`; `:405`/`:510` returns before `_tracked_files()` is called). ⭐ This
+  refines the discriminator to a fourth value: **a cross-source anchor blocks the escape only if the
+  loop is driven from the non-emptied side.** ⚠ Also measured: **removing `.git` HIDES 5 real `[O4]`
+  errors** — a git-less `--check` is a weaker gate than CI runs, and W45/W37/arm-C all ran that weaker
+  one. Those 5 are this campaign's own footprint (five reports naming `H-EMC-SS`/`HEMCSS`/`ACH-001519`).
+* **5 of 33 dedicated checkers are invoked by nothing — 15.2% (W72).** Three are new beyond W09j's and
+  W30c's: `research/manuscripts/fet_notice_sync_check.py` (**exit 0**),
+  `research/manuscripts/figures/check_figure_specs.py` (**exit 1, `ModuleNotFoundError: PIL`** — a
+  container gap, not a content defect), and `scripts/validate-research.mjs` (**exit 0**, 14 candidates,
+  1 WARN). ⛔ `validate-research.mjs` is not merely unwired but **documented-out**: it is the only entry
+  in `fast_checks.py`'s `EXCLUDED` block whose comment does not name a covering surface — its three
+  siblings' comments all do. `lint_asymmetry.py` is invoked-but-never-aimed (its suite runs on
+  `tmp_path` corpora only, by its own docstring). ⚠ A fifth real gate exists outside the four surfaces:
+  `core.hooksPath` **is** `.githooks`, and `.githooks/pre-push` runs `push_guard.py` and
+  `prepush_ledger_guard.py`. ⚠ Grep traps recorded: `fast_checks.py:100-108` names four checkers inside
+  an **`EXCLUDED` tuple** that greps identically to a run; `preflight.sh:7` names a gate in a header
+  comment; and a `grep -v "/<basename>:"` self-filter silently deletes `tests/test_<basename>:` lines.
+* **The ledger's five content fields: 157 AGREES / 0 DISAGREES / 41 NOT-CARRIED / 4 NULL over 202
+  instances (W67).** W43's and W55's undecidable class shrinks by 157. ⚠ **75% of the title
+  corroboration is a transcription check, not an independent one** — 58 of 77 come from
+  `lit-targets-degrader-citations.json`, which the ledger itself names as the record it was copied from;
+  only 19 come from seven other artifacts by different routes. ⚠ Sharpening of W55: only **3 of 11**
+  `verified_pmid` values appear in an object that also carries the row's own identifier; the other 8 sit
+  in `citation-retraction-sweep.json` as standalone swept ids with no DOI, title or year, so the
+  DOI↔PMID linkage is asserted by the ledger and nothing else. ⚠ `verified_pmcid` has **0 AGREES and no
+  exercised path** — no positive control is possible for it. The instrument was shown capable of the
+  other answer on 4 of 5 fields via mutated scratch copies. Also: 8 works cited only from
+  `research/method-watch-autonomy-prior-art-2.md` are the ledger's entire uncorroborated surface, and
+  `research/modalities/e3-provenance-correction.json` is **tracked, named `.json`, and not valid JSON**
+  (Python-style adjacent-string concatenation at `:21-26`).
+* ⛔ **The fetch contributes nothing to any of W34c's three UNKNOWN verdicts (W75), and a networked
+  runner would not settle two of them.** `junction_aso.py:274` reads `TRANSCRIPT_SOURCE` at import with
+  default `"auto"`; `hla_coverage.py:311` pins it to `"cache"`, but `pgr_parent_engagement.py` and
+  `aso_noncoding_acceptor_designs.py` never do — so a bare `--check` regenerates `requested: "auto"`
+  against a committed `"cache"` and **the byte compare fails before the network is relevant at all**.
+  The 403 was swallowed by a documented fallback. **On a networked runner these two go red for MORE
+  reasons, not fewer** (`used_per_gene` becomes `"ensembl"`), so W34c's proposed CI resolution should be
+  retired. Fetch-sensitive surface: **10 of 148 leaves (pgr), 10 of 857 (aso_noncoding), 0 of 448
+  (hla_coverage)**. `hla_coverage.py --check` reads **2 of 448 leaves** and says so in its own success
+  line; its AFND half is UNKNOWN by construction — there is **no committed AFND or ISO cache** in the
+  tree. ⚠ `hla_coverage.py`'s advised remedy has **no `source_ok` guard on the write** (`:544-546`), so
+  running it offline would replace 16 regional tables with `{}` and `--check` would still exit 0.
