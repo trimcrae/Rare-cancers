@@ -302,3 +302,15 @@ the test suite (both fenced out of this task); any commit or push (the parent in
 | `R4-summary.json` | machine-readable summary, including the gate |
 | `R4-run-log.txt` | verbatim stdout plus the real exit code |
 | `R4-zero-handling-sensitivity.md` | this report |
+
+---
+
+## ⚠ DATED CORRECTION APPENDED 2026-09-08 — read with this file
+
+Root read and hash-verified this report and its run record, and issued interpretation corrections
+that apply to statements made here. They are recorded in
+`../CORRECTION-BATCH-20260908-R1-R4-FP-PDF.md` and are **not** reproduced here to avoid a second
+home for one fact.
+
+⛔ Nothing in this file's results, code, raw data or exit records was altered, re-run or recreated.
+The corrections concern what the numbers were said to mean, not the numbers.
