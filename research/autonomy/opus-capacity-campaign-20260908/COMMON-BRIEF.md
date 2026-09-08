@@ -744,3 +744,40 @@ to PRODUCER) and **env-knob paths** (`PREMRNA_OUT`, `GENOME_OUT`, `OUT_SUFFIX`, 
 ⚠ Source-read, not executed: `scripts/news_match.py:279-280` returns `"no queue committed yet — nothing
 to validate"` before any validation if the queue file is **absent** — a vacuous pass reachable by
 *deletion* rather than emptying, an operation W44's sweep did not test.
+
+### Two more measured results — 2026-09-08T05:00Z
+
+* **W45's 16 source-graded modules are now executed (W58): 4 ESCAPE, 4 CROSS-SOURCE ANCHOR, 4 ACCIDENTAL
+  CRASH, 3 N/A, 0 IN-SOURCE CONSTANT** (1 excluded and never invoked). Campaign total across W45+W58:
+  **26 enumerated, 25 executed, 8 full escapes.** ⭐ Two refinements to the discriminator: (1) the three
+  values are **tried in execution order, not exclusive** — `emc_prmt5_multiplicity` owns a deliberate
+  cross-cache refusal (`:568-575`, *"⛔ THE MERGE IS REFUSED unless the two caches agree…"*) and never
+  reached it because an `IndexError` fired first, so a one-shape census reports the **first** blocker,
+  not the strongest; (2) **the escape needs no external source file at all** — `alcam_precedent` and
+  `cd248_precedent` hold their source as an in-module `RECORDS` dict, so emptying it reddens the check,
+  the bare run rewrites the artifact from the emptied dict, and `--check` returns `REPRODUCES` at rc 0.
+  That is the mirror of `lint_readability`: **an in-source constant blocks the escape when the check
+  compares against it and enables it when the check re-derives from it. Direction decides.**
+  ⛔ **W45's `.git` confound is REFUTED for both modules it named.** With `.git` present,
+  `expression_validation_readiness` is still red because its pinned `BASE = 8c1f2925…` is **absent from
+  this shallow clone** (`git rev-parse --is-shallow-repository` → `true`), and `fusion_frame_trap` is
+  still red because `fusion-frame-trap-inputs.json` is **not tracked and does not exist**. ⚠ Nine of the
+  sixteen are `--check`-red on an untouched copy at `8a667406`. ⚠ Three of the four crashes are **one bug
+  in three files** — the same zip-by-index over a values list and a per-sample background list
+  (`emc_expression_panels`, `emc_prmt5_multiplicity`, `nr4a3_fusion_targets`). ⚠ `realised_spend.py:437-439`
+  returns 0 **unconditionally** — confirmed by execution; `junction_seam_retraction --check` is a true
+  universal over an **empty set** (0 artifacts carry its `BANNER_KEY`); `continuity` has **no write
+  operation at all**, so W45's Tier-B denominator over-counts by at least one.
+* **The setext defect has zero current reach; the first-match defect hides 4 correct corrections (W78).**
+  (a) Across the 29 `targets[]` there are **0 genuine setext headings** — all 28 naive candidates are the
+  closing `---` of a YAML frontmatter block, one per file, and **0 verdict flips** result even when all
+  28 are *granted* setext status (the nearest is 5 lines from any occurrence, against a ±2/±1-line
+  window). W56's finding is a real latent hazard against future prose, not a live false clear.
+  (b) The 77 never-examined occurrences span **11 files and 27 entry ids**; evaluated at their own
+  offsets, **73 of 77 would clear anyway** (61 PROXIMITY, 9 HEADING, 3 NEGATOR) and only 4 would flag.
+  ⛔ **All four are correctly-written corrections**, quoted and adjudicated: three in `pricing.md:246`
+  retract their own figures in the same clause (*"which is why ~$3–6 and ~$4–7 are each ~2.6× low"*),
+  and `degrader-paper-schedule.json:292`'s `x1.9` is covered by a bracketed `[both SUPERSEDED…]` 864
+  characters earlier in the same JSON string. **So changing `rx.search` to `rx.finditer` today would turn
+  a green gate red on four sentences a human would call correct** — the coverage gap's current contents
+  are clean, and repairing it in isolation makes the gate worse before it makes it better.
