@@ -50,8 +50,9 @@ The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and
 junction literature the paper compiles includes the counted EMC series published in this journal.
 Two results should interest the readership independently of the proposed assay. Retained EWSR1 RG
 dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is
-the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes, and type 2 is counted once
-in those series. The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG,
+the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes. Type 2 is 1 of 15
+fusion-positive cases in Okamoto [9]; the retrieved Panagopoulos abstract [7] does not state a type-2
+count, so no count across the two series is available. The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG,
 which describes reported breakpoints rather than a measured range: recruitment was measured on a
 construct whose breakpoint the source does not state. And the type-2 junction places 177 nucleotides
 in the EWSR1 reading frame between the two moieties, one donated by EWSR1 across the seam and 176

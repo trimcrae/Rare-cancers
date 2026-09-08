@@ -11,7 +11,7 @@ canonical_for:
   - the computed classification of TCF12 as a non-FET 5' partner
   - the five pre-specified DSB-recruitment predictions and their falsifiers
 purpose: >-
-  Compile the reported NR4A3-fusion junctions of extraskeletal myxoid chondrosarcoma from primary
+  Compile the reported NR4A3-fusion junctions of extraskeletal myxoid chondrosarcoma from published
   sources, translate them at the transcript level, place them on a published recruitment axis,
   classify the one non-FET 5' partner, and specify in advance the predictions, constructs, controls
   and falsifiers a group already running the assay would need to test them.
@@ -173,7 +173,8 @@ Extraskeletal myxoid chondrosarcoma (EMC) is a translocation sarcoma driven by a
 usually with the FET-family gene EWSR1. A recent report describes FET fusion oncoproteins as
 disrupting physiologic DNA repair, with recruitment to laser-induced double-strand breaks tracking
 retained FET RGG-rich content; EMC is the untested fourth transcription-factor-partner class there.
-The reported EMC junctions are compiled from primary sources, translated at transcript rather than
+The reported EMC junctions are compiled from published sources, reviews included, translated at
+transcript rather than
 coding-sequence level, and placed on that axis. Four sourced junctions (EWSR1 exons 12, 7 and 13;
 TAF15 exon 6) yield in-frame reading frames retaining the complete NR4A3 moiety. The EWSR1 exon 7 to
 NR4A3 exon 2 junction inserts 177 nucleotides in the EWSR1 frame, encoding 59 residues absent from
@@ -220,8 +221,8 @@ matched titles and abstracts rather than full text, so that zero establishes onl
 indexed on the pairing, and not that no such experiment has been done: a result inside a
 supplementary table of a larger FET-fusion paper would be invisible to it.
 
-This report supplies those three things. It compiles the reported EMC junctions from primary
-sources, computes the protein each produces, places EMC on the published dose axis, classifies the
+This report supplies those three things. It compiles the reported EMC junctions from published
+sources, primary reports and reviews alike, computes the protein each produces, places EMC on the published dose axis, classifies the
 one non-FET partner, and fixes five predictions with their falsifiers before any experiment.
 
 ---
@@ -351,7 +352,7 @@ annotation source rather than rely on the correspondence asserted here.
 | fusion | junction | counted frequency | sources |
 |---|---|---|---|
 | EWSR1::NR4A3 type 1 | EWSR1 e12 to NR4A3 e3 | commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes: 10 tumours, the most frequent transcript [7]; 11 of the 15 fusion-positive cases [9] | [4,5,6]; expressed as "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)" [3] |
-| EWSR1::NR4A3 type 2 | EWSR1 e7 to NR4A3 e2 | counted once in the two series that typed EWSR1 subtypes: 1 of the 15 fusion-positive cases [9], and absent from the counted types of [7] | [4,6] |
+| EWSR1::NR4A3 type 2 | EWSR1 e7 to NR4A3 e2 | 1 of 15 fusion-positive cases in Okamoto [9]; the retrieved Panagopoulos abstract [7] does not state a type-2 count | [4,6] |
 | EWSR1::NR4A3 type 5 | EWSR1 e13 to NR4A3 e3 | named the second most common transcript in [7], in two cases | [5,7] |
 | TAF15::NR4A3 | TAF15 e6 to NR4A3 e3 | the only reported coding junction; 3 of the 15 fusion-positive cases [9]; 4 of the 10 fusions in [10], which counts partner genes rather than EWSR1 subtypes | [4,5,7]; expressed as "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion" [3] |
 
@@ -518,11 +519,19 @@ Two readings are excluded. Retaining some RG content does not predict absence of
 commonest clear-cell type retains seven RG dipeptides and the mechanism was measured in that
 disease regardless, so the axis is a comparison and not a threshold. The placement of
 TAF15::NR4A3 was also open until this computation. TAF15's sourced exon 6 junction retains 161 residues
-and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
-window with 13 residues of margin, where the earlier sweep could report only a range of 100 to 170.
-Margin is the RG-free ceiling (174, the largest retained length carrying no RG
-dipeptide) minus the retained length (161), the convention the census uses; the distance to the
-first RG position is one greater.
+and TAF15's first complete RG dipeptide occupies residues 175 and 176, so the junction lies inside
+the strict zero-RG window with 14 residues of headroom, where the earlier sweep could report only
+a range of 100 to 170. The largest prefix of TAF15 carrying no complete RG dipeptide is 175
+residues: a prefix of 175 contains none and a prefix of 176 contains one, so the headroom is 175
+minus 161.
+
+A stored field disagrees, and the disagreement is a label rather than a measurement. The artifact
+carries 174 and 13. 174 is a conservative boundary: it ends one residue before the arginine that
+starts the first RG, so a prefix of that length cannot contain even the beginning of one. It is not
+the largest zero-complete-RG prefix, and 13 is not the complete-dipeptide headroom, although the
+field is labelled as though both were. The stored values and their history are left exactly as they
+are, and this paragraph is the current reading; a reader can reproduce the discrepancy by counting
+RG dipeptides in prefixes of 174, 175 and 176 residues of the cached TAF15 sequence.
 
 ### 3.5 TCF12 outside the FET compositional range
 
@@ -575,12 +584,14 @@ exactly as they were registered, and nothing below rewrites them; the correction
 are stated separately, as corrections, so that a reader can see both the registered claim and what is
 now known about it.
 
-*The margin convention in P3.* P3's registered basis states 14 residues of margin to TAF15's first RG
-at residue 175. Two conventions are in use and they differ by one. The census convention, used in
-section 3.4, is the RG-free ceiling (174, the largest retained length carrying no RG dipeptide) minus
-the retained length (161), which gives 13. The distance from the retained length to the first RG
-position (175 minus 161) is 14. Both describe the same junction and the same sequence; section 3.4
-states the census convention explicitly and P3 is left as registered.
+*The margin figure in P3.* P3's registered basis states 14 residues of margin to TAF15's first RG at
+residue 175, and that is the correct complete-dipeptide headroom: the largest prefix with no complete
+RG is 175 residues, the retained length is 161, and 175 minus 161 is 14. This was previously described
+here as one of two conventions differing by one, the other giving 13. That description was wrong. 13
+is not a second convention; it is the artifact's conservative 174-residue boundary, which stops before
+the arginine that opens the first RG and is labelled as though it were the largest RG-free prefix.
+Section 3.4 records the discrepancy and how to reproduce it. P3's registered wording is unchanged, as
+is every stored artifact byte.
 
 *Redundancy and equivalence within the registered set.* Two limitations of the set as registered are
 identified here and neither is repaired by editing it. P4's falsifier, "the pair showing no kinetic
@@ -600,15 +611,28 @@ manuscript carries five hypotheses, P1 to P5, with P5 held separately under
 not the same record, their entries are not word-for-word identical, and neither is edited here to
 agree with the other; a reader auditing a prediction should read the entry in the record they cite.
 
-P5 is the arm capable of falsifying the class argument. Four outcomes are distinguishable. TCF12::NR4A3
-not recruited while EWSR1::NR4A3 is recruited leaves the prediction standing and demonstrates FET
-specificity within one disease, which no experiment in reference 1 performs. Both recruited places
-the driver in something the two chimeras share that is not the FET low-complexity region, the
-obvious candidate being the NR4A3 moiety, which is why GFP-NR4A3 alone is a required control in the
-same run; that outcome refutes the class argument for EMC and the structural mechanism as stated.
-TCF12::NR4A3 recruited while EWSR1::NR4A3 is not inverts the structural argument. Neither recruited
-indicates that EMC does not inherit the lesion by this readout, a negative result that would spare
-other groups the experiment.
+P5 is the arm capable of falsifying the class argument, and what these patterns can carry is narrower
+than an earlier version of this section claimed. The predictions specify an ordering and a
+non-recruitment, and an ordering alone cannot assign a unique cause. Type 1 and type 2 differ in
+retained residues and junction segments other than RG content, so a kinetic difference between them is
+not attributable to RG dose by this design; and a partner-alone control shows what the partner does on
+its own, not that the other moiety is necessary. Four outcomes are distinguishable, and each is stated
+as what it is consistent with rather than what it demonstrates.
+
+TCF12::NR4A3 not recruited while EWSR1::NR4A3 is recruited leaves P5 standing. It is consistent with a
+FET-specific requirement and does not establish one, because the two chimeras differ in more than the
+presence of a FET N-terminus. Both recruited contradicts P5's exclusive prediction; it does not show
+that FET-mediated recruitment is absent in the EWSR1 chimera, since a shared phenotype is not evidence
+of a shared cause, and it does not by itself locate the driver in the NR4A3 moiety. GFP-NR4A3 alone is
+run in the same experiment because NR4A3's own behaviour is a fact worth having, not because
+recruitment of NR4A3 alone would remove the FET attribution. TCF12::NR4A3 recruited while EWSR1::NR4A3
+is not is inconsistent with the ordering the structural argument predicts. Neither recruited indicates
+that EMC does not inherit the lesion by this readout, a negative result that would spare other groups
+the experiment.
+
+P5 is untested until a TCF12::NR4A3 construct exists. No such construct is emitted, for the reason in
+section 3.1, and full-length GFP-TCF12 does not substitute for one: it is a partner-alone control and
+it cannot test a prediction about a fusion.
 
 Four things are explicitly not predicted. Retained RGG content is one input to recruitment kinetics
 rather than the only one; reference 1's own data show a second variable, EWSR1::ATF1 recruiting like
@@ -639,9 +663,10 @@ without which a delayed curve cannot be told from a poorly expressed construct.
 
 The four controls, their roles and their predictions are given in Supplementary Table S2.
 No TCF12::NR4A3 construct is emitted, for the reason in section 3.1. A laboratory holding a
-TCF12::NR4A3 case should sequence the junction; failing that, the arm runs with full-length
-GFP-TCF12, which tests the same question the control exists for, whether a non-FET N-terminus
-reaches a double-strand break at all.
+TCF12::NR4A3 case should sequence the junction. Without one, P5 cannot be run. Full-length GFP-TCF12
+answers a different and narrower question, whether a non-FET N-terminus reaches a double-strand break
+at all, and it is a partner-alone control rather than a stand-in for the fusion. A result from
+GFP-TCF12 leaves P5 untested.
 
 ---
 
@@ -732,15 +757,17 @@ Three supplementary tables are proposed. S1 and S2 carry content moved from the 
 change. S3 is new to this revision and is assembled from one committed artifact; it introduces no
 construct that the artifact does not already hold.
 
-**Supplementary Table S1.** Reference gene models, from the UniProt and Ensembl records retrieved into the input cache [8].
+**Supplementary Table S1.** Reference gene models, from the UniProt and Ensembl records retrieved into
+the input cache [8]. Transcript accessions are the ones the cache holds; the cache records its
+retrieval as 2026-08-12. No assembly, release or version suffix is given, because none is recorded.
 
 | gene | transcript | protein | transcript / coding exons | Ensembl matches UniProt |
 |---|---|---|---|---|
 | EWSR1 | ENST00000397938 | 656 aa | 17 / 17 | yes |
-| TAF15 | canonical | 592 aa | 16 / 16 | yes |
-| FUS | canonical | 526 aa | 15 / 15 | yes |
+| TAF15 | ENST00000605844 | 592 aa | 16 / 16 | yes |
+| FUS | ENST00000254108 | 526 aa | 15 / 15 | yes |
 | NR4A3 | ENST00000395097 | 626 aa | 8 / 6, exons 1-2 non-coding | yes |
-| TCF12 | canonical | 706 aa | 21 / 19 | no; UniProt Q99081 is 682 aa |
+| TCF12 | ENST00000333725 | 706 aa | 21 / 19 | no; UniProt Q99081 is 682 aa |
 
 **Supplementary Table S2.** Wild-type controls and their predictions. Full-length sequences are in the artifact
 under `wild_type_controls`.
@@ -749,8 +776,8 @@ under `wild_type_controls`.
 |---|---|---|
 | GFP-EWSR1, full length | fast-recruitment anchor, already held by any laboratory running the assay | rapid recruitment, as published. Failure to reproduce it makes nothing else in the run interpretable |
 | GFP-TAF15, full length | wild-type anchor for the TAF15::NR4A3 arm | rapid recruitment, as TAF15 carries its own C-terminal RGG region. Not previously reported in this assay, so a prediction rather than a reproduction |
-| GFP-NR4A3, full length | partner-alone control, the EMC analogue of reference 1's GFP-FLI1 control | no accumulation. Recruitment of NR4A3 alone would remove the attribution of the fusion's recruitment to the FET moiety |
-| GFP-TCF12, full length | partner-alone anchor for the P5 arm | no accumulation, TCF12 being non-FET by section 3.5 |
+| GFP-NR4A3, full length | partner-alone control, the EMC analogue of reference 1's GFP-FLI1 control | no accumulation. Recruitment of NR4A3 alone would show that the partner reaches breaks on its own; it would not by itself remove a FET contribution in the fusion, which a partner-alone control cannot isolate |
+| GFP-TCF12, full length | partner-alone control for a non-FET N-terminus | no accumulation, TCF12 being non-FET by section 3.5. It is not a TCF12::NR4A3 construct and does not test P5, which stays untested without one |
 
 **Supplementary Table S3.** Per-junction assembly coordinates for each reported junction with a
 sourced transcript-level breakpoint. Every cell is a verbatim copy of a recorded leaf of
