@@ -144,3 +144,36 @@ No source acquisition, no biological or statistical producer, no raw reanalysis,
 work, no broad corpus preflight, no new review baseline, no closed-route retry, no B4 retry, no
 publication, no figure rendering, no HPA query, no artifact regeneration, no subagents, no commit, no
 push. Real exit codes were preserved throughout; no check was skipped or weakened.
+
+
+---
+
+## ⚠ Addendum, 2026-09-08 — focused-verification residual batch R1 to R8
+
+Everything above records the F01–F13 batch as delivered and is retained unaltered. A single focused
+verification then held that candidate and set eight residuals. They were applied on 2026-09-08 as one
+coherent batch; the residual author's artifacts are in `../PST-residual/`.
+
+**Three statements above are now superseded and are corrected here rather than overwritten.**
+
+1. **Section 3, item 2 — "The annotation correction is specified, not applied."** It is **applied**, once,
+   by the sole integrating parent on 2026-09-08. `research/modalities/gse28866-tumour-vs-normal.json` is
+   now 28,606 B sha256 `386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee` and
+   `gse28866_tumour_vs_normal.py` is 31,856 B sha256
+   `404fe28582d9891a498b5407dc980e5ce7a16ac94a11eee267f7f6b7d8d4b46a`. Receipt and leaf-by-leaf
+   invariance record: `annotation-correction/APPLIED-2026-09-08/APPLIED-RECORD.md`.
+2. **Section 3 — "Files the parent must change to integrate."** Both manuscript paths have now been
+   written with the residual-corrected pair:
+   `research/manuscripts/surface-targets/emc-surface-target-landscape.md` (146,042 B, sha256
+   `371ec8d92c3238b09f2117e14613184c422db1f094e83f431bad07d46e93179e`) and
+   `emc-surface-target-landscape-si.md` (56,124 B, sha256
+   `290212776b2f103d64a270f12936245be00bfc6c97f5678b492589bc3680ad16`). No commit or push was made from
+   this lane; the parent still integrates. The baseline bytes remain in `frozen/` and in Git history.
+3. **Section 4 — the 54/0 check result.** That run is a **historical record of 2026-09-08 at HEAD
+   `a6a21fc5`** and is preserved verbatim. Re-running the same checker after the residual batch gives
+   **52 passed, 2 failed, exit 1** (`../PST-residual/checks/RUN-08-pst-checker/`). Both failures are
+   expected and are being left in place; neither check was weakened. See
+   `../PST-residual/CHECK-RUN-RECORD.txt` and `RESIDUAL-LIMITATIONS.md`.
+
+The word-count observation in Section 5 item 7 still applies and the main text has grown further, to
+146,042 B, largely in Methods, Data availability and the two dated appendix registers.

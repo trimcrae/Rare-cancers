@@ -35,17 +35,6 @@ performed and no wet-lab work of any kind was carried out. Full declarations:
 > `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/F01-F12-response-matrix.md`.
 > ⛔ **No original execution record, result file or protocol history was rewritten.** The corrections are
 > made in this manuscript and in explicitly dated corrective interpretations; the original bytes stand.
->
-> **Residual revision note, 2026-09-08 (second batch).** A single focused verification of that correction
-> batch closed four of its findings and returned five finite residuals, which root admitted and this
-> revision carries: **R1** the supplement's current claim scope and the roadmap → census → extraction →
-> supplement dependency (§3, §2); **R2** the withdrawal of pre-outcome chronology as fact and of literal
-> shared structural inputs (§3, §6.1, §6.2, §9.6); **R3** the register's benchmark identities and values,
-> the E1 exclusion stages, and the generated-versus-authored boundary (§4.1a, §4.2, §11); **R4** the
-> per-prefix result-object count (§9.4); **R5** the ligand boundary of the single-hydrogen-bond mechanism
-> (§6.3). ⛔ **None of this is a new measurement, a new review, a new source or a re-run experiment**, and
-> none of it lifts any scientific hold. The residual closure map and its evidence are at
-> `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/`.
 
 ---
 
@@ -127,22 +116,12 @@ were audited this way"*, never *"this is what happens"*
 has a uniquely identified cause: where the retained evidence does not separate candidate causes, the paper
 says so.
 
-⭐ **The disclosed divergence, updated 2026-09-08.** The endpoint register
-[`systems/graph/publications.json`](../../../systems/graph/publications.json) → `PUB-METHODS` carried the
-superseded formulation — *"exactly which"* and *"each with its diagnosed mechanism"* — which this revision
-does not support. ⭐ **That patch has now been applied** by the parent integrator at commit
-`a6a21fc591d2451038cdf53449b91e3990d59cfb`, together with the nine roadmap edits filed with it; the
-`what_it_would_claim` and `outcome_potential_why` fields now carry the scoped wording, and the instrument
-census and three generated views were regenerated from those sources.
-
-⚠ **Four current cells still diverge and are not closed by that commit**, so they are named rather than
-left to be discovered: the census `V16.scope_limit` and `V20.scope_limit`, the census `V11.result`
-(*"NULL, adequately powered"*), and the roadmap dependency row that still says *"with a quantified bound"*
-immediately before its own withdrawal. Each is superseded by §4.1 and by the dated corrective
-interpretations, and an exact **unapplied** patch for all four is filed for the same integrator at
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`. ⛔ **Until it is
-applied, this paper and the corrective-interpretation file are the current reading and those four cells
-are the stale copies.** Shared files are not this manuscript's to edit.
+⚠ **A divergence, disclosed rather than silently repaired.** The endpoint register
+[`systems/graph/publications.json`](../../../systems/graph/publications.json) → `PUB-METHODS` still
+carries the superseded formulation — *"exactly which"* and *"each with its diagnosed mechanism"* — which
+this revision no longer supports. That file is not this manuscript's to edit; an exact patch is filed at
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/`, and until it is
+applied the sentence above is this paper's claim and the register's field is the stale copy.
 
 ---
 
@@ -164,49 +143,27 @@ is therefore **complete with respect to the enumerated records** and makes **no 
 whole-program ascertainment**. The earlier draft's claim that the missing-failures objection is
 *"answerable by construction"* is withdrawn.
 
-**Retrospective, not prospective.** The audit was assembled after the runs it describes. ⚠ **Corrected
-2026-09-08 (R2).** Several of its gates and criteria carry an explicit pre-run freeze assertion, so **the
-retained protocol describes those rules as prespecified** — that attribution is what the record supports,
-and the earlier affirmative statement that they *were* frozen before their own runs is withdrawn. A
-current freeze flag and a current version-control pin do not by themselves establish which rule existed
-before outcome access, and no chronology audit was run for this revision. Where a retained pre-outcome
-revision or amendment is identifiable it is named; otherwise the paper says only that the retained
-protocol describes the rule as prespecified. Two preregistration files carry
+**Retrospective, not prospective.** The audit was assembled after the runs it describes. Individual
+gates and criteria within it were frozen before their own runs — several records carry an explicit
+pre-run freeze assertion — but a current freeze flag and a current version-control pin do not by
+themselves establish which rule existed before outcome access. Where a retained pre-outcome revision or
+amendment is identifiable it is named; otherwise the paper says only that **the retained protocol
+describes the rule as prespecified**, which is what the record supports. Two preregistration files carry
 backfilled metadata, and that is disclosed at the claims that depend on them (§6.4, §9.6).
 
 **Handling of contradictory and superseded records.** Where a narrative annotation in the program roadmap
 disagrees with the primary artifact it cites, this paper follows the **primary artifact** and records the
 disagreement. Four such disagreements are carried in §9 and in the corrective-interpretation note filed
-with this revision.
-
-⚠ **The display chain, stated because it was previously misread (R1, 2026-09-08).** The reader-facing
-displays are not independent of the shared registers. The actual dependency runs **roadmap §3.1/§3.2 →
-[`instrument-census.json`](../../modalities/instrument-census.json) → the MF1 extraction → the
-per-instrument inventory and the supplement.** The extraction does not read the roadmap directly, but it
-reads the census that is generated from it, so a roadmap correction does not reach the supplement until
-the census is regenerated and the extraction is re-run. ⛔ **The earlier patch instruction that the MF1
-extraction needed no regeneration because it does not read the roadmap was wrong and is withdrawn**; a
-dated supersession is filed beside it at
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/`.
-
-⛔ **Supersession is dated, and history is not rewritten.** Where a current row a reader reaches still
-carries a claim this revision withdraws, the withdrawal is dated at the row and the old wording is kept as
-an explicitly labelled **superseded historical annotation**, in a column separate from this paper's
-current claim scope — see the supplement's inventory. ⚠ **No wholesale rewrite of the historical roadmap
-is performed, proposed or authorised**; only the current statements a reader actually arrives at are
-corrected or explicitly superseded. Original raw execution outputs, result files and protocol histories are treated as
+with this revision. Original raw execution outputs, result files and protocol histories are treated as
 **immutable evidence**: nothing in this batch rewrites them, and every correction is made either in this
 manuscript or in an explicitly dated corrective interpretation beside the original.
 
-**Deterministic extraction, and its boundary.** The supplementary per-instrument inventory and the
-separate results file are generated by
+**Deterministic extraction.** The quantitative table in §4 and the supplementary per-instrument inventory
+are generated by
 `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py`, which
 reads the named committed records and copies named fields. It runs no simulation, docking, co-fold, fetch
-or re-analysis. ⚠ **It also carries an explicit author classification** — the four separated audit axes,
-the reading notes and the author-current scope column of §S2 — written out in the script so a reader can
-check the mapping rather than trust it. **The prose of this manuscript is authored, not generated.** Its
-input manifest, with sizes, SHA-256 digests of the bytes actually read, version-control blob identities
-and the recorded result of comparing the two, is `MF1-dependency-manifest.json` in the same directory.
+or re-analysis. Its input manifest, with sizes, SHA-256 digests and version-control blob identities, is
+`MF1-dependency-manifest.json` in the same directory.
 
 ⚠ **What this paper does NOT assert is any claim about how often the field publishes negatives.** The
 earlier framing rested on the clause *"the field publishes almost none of them"*, and on the residual
@@ -223,23 +180,9 @@ nothing in the argument depends on one.
 version restated no figure, on the reasoning that a second copy is where a number goes stale. That
 reasoning is sound about drift and wrong about a preprint: a reader could not check a quantitative
 methodological argument without traversing a 616-kilobyte roadmap and a set of registers with different
-denominators, some of which contradict the artifacts they cite. The table below is therefore **read from
-the named artifacts by the extraction script rather than typed**, and each row carries the interpretive
+denominators, some of which contradict the artifacts they cite. The table below is therefore **generated
+from the named artifacts rather than typed**, so it cannot drift, and each row carries the interpretive
 limit that travels with its number.
-
-⚠ **Corrected 2026-09-08 (R3) — what is generated and what is authored.** The earlier claim that this
-material *"cannot drift"* is withdrawn, and the boundary is drawn where it actually falls. The
-**supplement** and the separate results file are **deterministic extraction** of named fields from named
-committed inputs, **plus explicit author classification** — the script also carries hard-coded axis
-labels, descriptions and interpretive sentences, which is permissible author synthesis and not
-self-updating evidence. The **prose of this section is authored synthesis**, not generated output: the
-extraction writes the results file and the supplement, not these paragraphs. What replaces "cannot drift"
-is a **verifiable binding**: every input's path, byte count, SHA-256 of the bytes actually read, the
-version-control blob identity of the same path, and whether those two agree, are recorded in
-`MF1-dependency-manifest.json`. ⛔ A working-tree read plus a `HEAD` blob identity is **not** sufficient
-binding unless the bytes actually read match that blob, so the manifest now records that comparison
-explicitly instead of assuming it. The 17-versus-18 count corrected at §9.4 is a concrete instance of
-drift between authored prose and extracted display.
 
 The full table, with every column, is
 [`MF1-quantitative-results.md`](../../autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-quantitative-results.md);
@@ -259,20 +202,6 @@ means, **22** legs admitted, **0** rejected records, **0** technical failures in
 **+0.4373 Å** (the sign opposite to the one the criterion required); exact one-sided permutation
 **p = 0.746753** over **462** arrangements, mirror **p = 0.255411**; recorded tier **`NULL`**; register
 control state **`fails`**. The reference set's attainable minimum p-value is **1/462 ≈ 0.0021645**.
-
-⚠ **The exclusion account, completed 2026-09-08 (R3) — three different stages, reported separately.** The
-earlier text gave "22 admitted, 0 rejected records, 0 technical failures" without its excluded model, so
-the denominator read as if nothing had been excluded. The retained pre-registration's **AMENDMENT 1**
-records the stages explicitly
-([`selectivity-sensitivity-control-prereg.md`](../../modalities/selectivity-sensitivity-control-prereg.md)
-`:26–31`): the frozen design is **24 legs**; **one co-fold model, SMARCA4 seed 3 — 2 legs — was excluded
-before execution on a measured static input fault**, under a clause the document states was frozen in
-advance; the **admissible panel is 22 legs**, which is what executed. ⛔ **`rejected_records` = 0 is a
-collector-stage count and is a different stage from that model-level exclusion**; 0 technical failures is
-a third. ⚠ The sampling unit of the reported statistic is the **model mean** (6 versus 5), not the leg.
-⛔ This states an exclusion the record already holds; it makes no new eligibility decision, and the
-attribution that the excluding clause was frozen in advance is the retained protocol's, not an
-established chronology (§9.6).
 
 ⛔ **What the floor is and is not.** It is the smallest p-value this design can produce, a property of
 the number of label arrangements. It is **not** power. No power calculation against an effect size was
@@ -345,36 +274,6 @@ negative labels. The calibration module states that the distribution depends on 
 and the same background is used elsewhere to identify an above-background candidate — so the finding is
 evidence **against reading `margin > 0` alone as a selectivity verdict**, and not evidence that no
 downstream method can extract useful information.
-
-### 4.2 · The benchmark identities, reference values and results already in the register
-
-⭐ **Added 2026-09-08 (R3).** The earlier draft reported the *grades* of the known-answer benchmarks —
-"recovered within the accepted band", "large absolute bias", "approximately recovered", "recovered a large
-effect" — without the identities and numbers that let a reader judge them, although the frozen register
-already held both. They are copied here with their provenance.
-
-| instrument | benchmark identity, as the register names it | reference / known answer | result as recorded | discrepancy, as recorded | uncertainty type |
-|---|---|---|---|---|---|
-| `V5` | reproduce a known ternary cooperativity | **+0.944** kcal/mol | **−0.599** kcal/mol | absolute error **1.543**; **wrong sign in all 3 replicates** | ⚠ **unknown** — no uncertainty term is attached to either value in this row |
-| `V6` | TYK2 `ejm_31→ejm_42` relative-FEP benchmark ΔΔG | **−0.24** | **+0.37** | absolute error **0.61**, inside its operational **≈1 kcal/mol** band | ⚠ **unknown** |
-| `V7` | T4-lysozyme L99A + benzene, absolute binding free energy | **−5.2** kcal/mol (experimental) | **+1.90 ± 0.09** | under-binding by **≈ +7.1** kcal/mol | ⚠ a ± is quoted on the result only; **its kind is not established in the cited record** |
-| `V8` | methane hydration free energy (FreeSolv) | **+2.0** | **+1.60 ± 0.04** | *"approximately reproduced"* | ⚠ a ± is quoted on the result only; **its kind is not established in the cited record** |
-| `V10` | barnase–barstar Y29A interface mutation, against a published ΔΔG | **+3.4** | **+4.42 ± 1.08** | recovered a large effect | ⚠ a ± is quoted on the result only; **its kind is not established in the cited record** |
-
-**Provenance, stated exactly.** Every cell is copied from
-[`instrument-census.json`](../../modalities/instrument-census.json), fields `known_answer_test` and
-`result` of the named instrument — `V5` at `:69` and `:71`, `V6` at `:84` and `:86`, `V7` at `:98` and
-`:100`, `V8` at `:112` and `:114`, `V10` at `:140` and `:142` — and that census is itself generated from
-[roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table).
-
-⛔ **What these are and are not.** They are **retained register values**, not new measurements and not an
-independent verification of the primary experiments behind them. No benchmark was rerun, no primary
-benchmark source was retrieved, and no uncertainty was recomputed. Where the kind of a ± term is not
-established in the record it is marked **unknown** rather than named. ⛔ **The `V5` row's further phrase
-*"~34× the statistical uncertainty"* is deliberately omitted**: the register does not carry the estimand
-such a ratio would need, and the related SD-over-SE multiplier is withdrawn in C5 of the corrective
-interpretations. ⚠ A recovered benchmark still licenses nothing beyond its own scope — the fourth column
-of §5.2 and the supplement's claim-scope column are part of each of these rows.
 
 ---
 
@@ -472,7 +371,7 @@ results table.** This section states the taxonomy and the argument.
 | 1 | **valB_mini** — the alchemical ternary cooperativity calibrator | `V5` | ❌ **CONTROL DID NOT RECOVER** | it returned the **wrong sign** of a known cooperativity in every preregistered replicate, at 1.543 kcal/mol absolute error. An accuracy failure. ⚠ Its **cause is not identified**: closure cannot localise it (§4.1c) |
 | 2 | **selcal SMARCA2/4** — the endpoint-MD sensitivity control | `V11` | ⚠ **EXECUTED CALIBRATION ATTEMPT, CRITERION NOT MET** | it ran with no technical failures in either arm and did not separate a pair whose selectivity a primary source reports, at p = 0.746753 with the difference in the opposite direction. ⛔ **Not** an adequately-powered null: no effect size is established and the p-floor is discreteness, not power |
 | 3 | **NR-V04 retrospective** — the biological holdout | `V11` | ⚠ **INELIGIBLE, and never a candidate control** | it returned `DISCORDANT`. It is also **covalency-confounded** — the published selectivity is attributed to a covalent bond at a cysteine the other two paralogues lack — so a geometry readout would have passed for the wrong reason **at any sample size** |
-| 4 | **RUNG 5a-KS** — the causal matched-pair test | `V16` | ⚠ **EXPLORATORY ESTIMATE, THE OUTCOME ITS RETAINED PROTOCOL DESCRIBES AS PREREGISTERED** | ⚠ the retained protocol **describes** this outcome as registered in advance as the likely one and explicitly not a stop; the chronology itself is unestablished (§9.6). Its operational completion condition was met. ⛔ It returned an **estimate compatible with zero at two-seed dispersion**, **not** a bound and **not** proof of an absent wedge |
+| 4 | **RUNG 5a-KS** — the causal matched-pair test | `V16` | ⚠ **EXPLORATORY ESTIMATE, ITS PREREGISTERED LIKELY OUTCOME** | registered **in advance** as the likely outcome and explicitly not a stop; its operational completion condition was met. ⛔ It returned an **estimate compatible with zero at two-seed dispersion**, **not** a bound and **not** proof of an absent wedge |
 | — | **apo pose recovery** — the blind-docking benchmark | `V3` | ⚠ **INCONCLUSIVE by its own preregistered rule** | the protocol's own ceiling missed, so the run measured the **site selection** rather than the docking. A test that cannot resolve is a distinct outcome and this one has been mis-read as a failure |
 
 ### 6.1 · Why #4 is not a failure — and why it is not a bound either
@@ -483,12 +382,11 @@ than on intent.
 The Tier-3 quantity `S` is an ordinary **non-covalent** alchemical double difference. **It models no bond
 in either leg.** The paralogue claim the program actually rests on is *categorical* — a chemistry present
 in one paralogue and absent in the others — so `S` is **structurally incapable of testing it**. What `S`
-can see is the *marginal* wedge, whose expected magnitude ⚠ **the retained protocol describes as
-registered in advance** as likely to be unresolvable at the design's sampling. ⚠ **Corrected 2026-09-08
-(R2):** that is an attribution to the retained protocol, not an established chronology (§9.6).
+can see is the *marginal* wedge, whose expected magnitude was registered in advance as likely to be
+unresolvable at the design's sampling.
 
-⛔ **And the honest half of the same paragraph, corrected.** A recorded rule saying that a null is likely
-and is not a stop is a **decision rule**, not an equivalence result. It does not convert an uncalibrated estimator
+⛔ **And the honest half of the same paragraph, corrected.** Prespecifying that a null is likely and is not
+a stop is a **decision rule**, not an equivalence result. It does not convert an uncalibrated estimator
 into a bound, and it does not establish that the marginal wedge is absent. What the design bought is a
 recorded estimate and its between-seed dispersion, reportable as such. `V16` has **no known-answer
 calibrator at all** and buying one is on nobody's rung; the program's own ruling is that `S` may not be
@@ -500,13 +398,9 @@ After **three recorded attempts** there is **no working positive control for par
 detection**. The fourth candidate, `V4`, is **built and staged with no result** — never completed, not
 authorised (§5.1) — which is a different state from "not staged" and changes the claim ceiling by nothing.
 That, and not the preregistered estimate, is why every paralogue-selectivity statement the program makes
-is an **unvalidated prediction** — a consequence carried in
-[`selectivity-resolution-options.md`](../../modalities/selectivity-resolution-options.md) §4 and
-machine-carried by `selcal_gate.NEXT_STEP_BY_TIER`. ⚠ **Corrected 2026-09-08 (R2):** the retained
-protocol **describes** that consequence sentence as written before the deciding run; this paper does not
-present the revision, amendment-timing or first-outcome-access records that would establish it, and the
-earlier affirmative *"before the deciding run"* wording is withdrawn (§9.6). ⛔ **The reading of `S` and
-the program's stop decision do not depend on that chronology.**
+is an **unvalidated prediction** — a consequence written into
+[`selectivity-resolution-options.md`](../../modalities/selectivity-resolution-options.md) §4 *before* the
+deciding run, and machine-carried by `selcal_gate.NEXT_STEP_BY_TIER`.
 
 ⚠ **#1 and #2 are DIFFERENT INSTRUMENTS and neither invalidates the other's numbers.** One is alchemical
 ternary FEP; the other is endpoint-MD interface stability. They also fail differently: one returns a known
@@ -515,9 +409,8 @@ finding would overstate both.
 
 ⛔ **But different instruments do not make three independent validations.** #2 and #3 are both `V11`
 applications sharing an E1 readout and a scorer; the alchemical and E1 lanes are different instruments and
-still share this program's code, its structural **assumptions** and its selection decisions — ⚠ **not, as
-the earlier wording implied, one co-folding route or identical structural input artifacts (§9.6, corrected
-2026-09-08)**. They are **three recorded attempts assembled retrospectively**, and the paper does not label
+still share this program's code, its structural assumptions, its co-folding route and its selection
+decisions. They are **three recorded attempts assembled retrospectively**, and the paper does not label
 them independent confirmations of a single scientific proposition. §9.6 gives the shared dependencies
 explicitly.
 
@@ -535,17 +428,9 @@ of insensitivity would move it into a row that does not exist**, which is what t
 Four bindings, all reproduced here because a methods paper that reports a negative without its limits is
 doing the thing this paper criticises:
 
-1. ⛔ **It does not distinguish "the readout is blunt" from "this pair is hard."** The record does not
-   separate an insensitive E1 readout from an unsuitable or structurally narrow test, and the validity of
-   the panel's inputs is unresolved besides (point 3). ⚠ **Corrected 2026-09-08 (R5): the earlier sentence
-   *"the published selectivity turns on a single hydrogen bond"* is withdrawn at this point of use.** The
-   panel's own module attributes that single-hydrogen-bond statement to a mechanism citation about the
-   **SMARCA2BD/SMARCA4BD pair against VCB** (Kofink *et al.* 2022, `doi:10.1038/s41467-022-33430-6`,
-   PMC9551036) and records in the same field that it is *"NOT a claim about the reference ligand"* —
-   i.e. not about **PRT3789**, which is the reference this panel's `reference` block actually establishes
-   direction from (§6.4, `selcal_panel.py`). ⛔ **Transferring that mechanism to the PRT3789 panel is an
-   unestablished mechanistic rationale, not a finding**, no expected structural magnitude is inferred, and
-   the primary body of the PRT3789 reference was not retrieved.
+1. ⛔ **It does not distinguish "the readout is blunt" from "this pair is hard."** The two bromodomains are
+   highly similar and the published selectivity turns on a single hydrogen bond, so the result is
+   consistent with both an insensitive endpoint and a genuinely narrow structural signal.
 2. ⛔ **It does not establish sensitivity, because no effect size is established for this observable.**
    The panel's own module states that this readout has no established quantitative link to degradation
    selectivity. An attainable p-floor of 1/462 says the design *could* have produced a small p-value; it
@@ -813,20 +698,13 @@ trajectory of the intended one.
 
 ### 9.4 · What persistence would and would not have repaired
 
-A read-only census over two named object prefixes finds **17 final per-leg readout records under
-`nrv04-covalent-results/` and 1 under `nrv04-covalent-results-chainfix/` — 18 stored result objects across
-both — and zero multi-frame coordinate objects in either survey**: every persisted object is a single
-frame or a scalar already reduced against the chain split that was used
-([`nrv04-result-forensics.json`](../../modalities/nrv04-result-forensics.json), `by_class.leg_result.n`
-and `recompute_verdict.trajectory_objects_found` in each survey). ⛔ **Erratum, 2026-09-08 (R4): the
-earlier text reported 17 for the combined two-prefix census. 17 is the first-prefix count; the combined
-total is 18, and the supplement's 18 was right.** ⛔ **These are 18 stored result objects, not 18
-independent experiments and not 18 originally intended panel legs.** The erratum, and its attribution to
-the reviewer's and the adjudication's records rather than to the author alone, is
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/DENOMINATOR-ERRATUM.md`. ⚠ The
-count correction changes nothing about the absent-coordinate conclusion and implies no newly discovered
-trajectory. ⚠ **That conclusion is a retrospective one about the surveyed prefixes**, not a proof about
-every possible external copy of the data.
+A read-only census over two named object prefixes — `nrv04-covalent-results/` and
+`nrv04-covalent-results-chainfix/` — finds **17 final per-leg readout records and zero multi-frame
+coordinate objects**: every persisted object is a single frame or a scalar already reduced against the
+chain split that was used
+([`nrv04-result-forensics.json`](../../modalities/nrv04-result-forensics.json)). ⚠ **That is a
+retrospective conclusion about the surveyed prefixes**, not a proof about every possible external copy of
+the data.
 
 ⛔ **Two corrections to the lesson the earlier draft drew.**
 
@@ -852,12 +730,9 @@ superposition, snapping and file readability — **not** the asserted 66-atom eq
 benchmark case.
 
 ⛔ **The refutation is therefore withdrawn.** A mismatch between one user's interpretation of a label and
-the released inputs is not, by itself, a refutation of a publication's explicit claim, and the
-released-case coordinate comparison and primary protocol statement that such a claim would require were
-⚠ **not identified in the retained evidence used here** — corrected 2026-09-08 (R3) from the earlier
-repository-wide phrasing, which asserted a global absence this audit did not establish. The scope of that
-statement is the evidence actually inspected, and nothing follows about material elsewhere in this
-repository or outside it. ⚠ What survives is a finding about **this program's own assumed input
+the released inputs is not, by itself, a refutation of a publication's explicit claim, and this repository
+does not currently hold the released-case coordinate comparison and the primary protocol statement that
+such a claim would require. ⚠ What survives is a finding about **this program's own assumed input
 protocol** and the consequent relabelling of the arms built on it, and the in-set positive control's scope
 — **memorisation-permitting by construction**, since the case sits inside the model's training horizon.
 **Reopening condition:** the exact already-retained released-case comparison, with pinned file identities
@@ -875,33 +750,22 @@ retrospectively assembled the grades that exist and enumerated the ones that do 
 
 **Shared dependencies of the three recorded attempts**, stated so a reader can judge independence: two of
 the three are `V11` applications sharing an E1 readout and the same permutation scorer; the third is a
-different instrument in the alchemical lane, and it shares **this program's assumptions, its selection
-decisions and its code base**. ⚠ **Corrected 2026-09-08 (R2): shared assumptions and shared code are not
-literal identical structural inputs, and the earlier wording *"shares this program's structural inputs,
-co-folding route"* overstated the demonstrated relation.** The retained forensic account distinguishes
-them at the level of the actual inputs: the valB lane **resolves its chains from RCSB `8G1Q`**, while the
-NR-V04 assemblies come from a **different co-fold source**, whose Elongin B sequence was fetched from a
-module constant
-([`nrv04-cofold-chain-forensics-2026-07-24.md`](../../modalities/nrv04-cofold-chain-forensics-2026-07-24.md),
-the `e3-provenance-correction.json` passage). Exact common inputs are stated only where the record
-identifies them. ⛔ **This does not restore any independence claim: different instruments or systems alone
-do not establish statistical or failure-mode independence.**
+different instrument in the alchemical lane, but shares this program's structural inputs, co-folding
+route, selection decisions and code base. ⛔ **Different instruments or systems alone do not establish
+statistical or failure-mode independence.**
 
-**Preregistration, reported only at the attribution the record supports.** ⚠ **Corrected 2026-09-08
-(R2).** Several criteria carry explicit pre-run freeze assertions and the consequence sentence for the
-endpoint-MD result is recorded in `selectivity-resolution-options.md` §4 — so **the retained protocol
-describes these rules, outcomes and consequences as prespecified.** The affirmative claims that they
-*were* frozen before their own runs, that an expected magnitude *was* registered in advance, and that the
-consequence sentence *was* written before the deciding run are withdrawn as facts and kept only as that
-attribution. ⚠ **Current freeze booleans and a current version-control pin do not establish which rule
-existed before outcome access.** One preregistration file carries a backfilled date of 2026-08-05 against
-an outcome timestamp of 2026-08-02 in the corresponding verdict, and this paper does not present the
-individual freeze revisions, amendment timings or first-outcome-access records that a reader would need to
-check any chronological claim. ⛔ **This is not evidence of post hoc registration**, and it is not claimed
-to be; the actual chronology is **unestablished**, which is a gap in what this paper can demonstrate.
-**Reopening condition:** identifiable pre-outcome rule versions, amendments and outcome-access bindings
-that are already retained, plus an explicit independence argument for the particular inferential claim.
-⛔ **No new chronology audit was run or is proposed, and missing documentation is not a licence for one.**
+**Preregistration, reported as a verifiable chronology where the record allows it.** Several criteria
+carry explicit pre-run freeze assertions, and the consequence sentence for the endpoint-MD result was
+written into `selectivity-resolution-options.md` §4 before the deciding run. ⚠ **But current freeze
+booleans and a current version-control pin do not establish which rule existed before outcome access.**
+One preregistration file carries a backfilled date of 2026-08-05 against an outcome timestamp of
+2026-08-02 in the corresponding verdict, and this paper does not present the individual freeze revisions,
+amendment timings or first-outcome-access records that a reader would need to check the strongest
+chronological claim. ⛔ **This is not evidence of post hoc registration**, and it is not claimed to be; it
+is a gap in what this paper can demonstrate, so the strong wording is replaced by *the retained protocol
+describes these rules as prespecified*. **Reopening condition:** identifiable pre-outcome rule versions
+and an explicit independence argument for the particular inferential claim. No new chronology audit was
+run.
 
 ---
 
@@ -956,18 +820,9 @@ deliverable, not the copy.** This chain can be inspected end to end from its ret
    under the surveyed prefixes, and two of its legs cannot be repaired by any retained data.
 5. **Whole-program ascertainment is not established** (§3), so no failure *rate* over the program is
    reported.
-6. **The chronology of prespecification is unestablished** from the retained files: what the record
-   supports is that **the retained protocol describes these rules as prespecified** (§9.6). No chronology
-   audit was run and none is proposed.
-7. **No external publication is assessed** (§9.5), and the absence of the comparison such an assessment
-   would need is scoped to the evidence actually inspected, not asserted repository-wide.
+6. **The chronology of prespecification is not fully demonstrable** from the retained files (§9.6).
+7. **No external publication is assessed** (§9.5).
 8. **`V4` is unrun and unauthorised**, so the selectivity free-energy axis has never been graded directly.
-9. **Four current shared-register cells still carry withdrawn readings** and their correction is not this
-   manuscript's to apply (§2). Until the filed patch is applied, a reader arriving at those cells reaches
-   a superseded statement, which is why each is named here and dated in the supplement rather than left to
-   be discovered.
-10. **The benchmark uncertainty types in §4.2 are unknown** where the record does not establish them, so
-    no ± term there may be read as a standard error, a standard deviation or a confidence interval.
 
 ### 10.6 · What this paper does not claim
 
@@ -995,11 +850,7 @@ deliverable, not the copy.** This chain can be inspected end to end from its ret
 **Version pin.** Every quantity in §4 and in the supplement is read from a committed artifact at the
 commit recorded in
 [`MF1-dependency-manifest.json`](../../autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-dependency-manifest.json),
-which lists each input's repository path, byte size, the SHA-256 digest **of the bytes the extraction
-actually read**, the version-control blob identity of the same path at the recorded commit, and
-⭐ **`bytes_match_head_blob`, the explicit result of comparing the two** — added 2026-09-08 (R3), because
-a working-tree read plus a blob identity is not a binding unless the read bytes and the blob agree, and
-the earlier manifest recorded both without ever comparing them.
+which lists each input's repository path, byte size, SHA-256 digest and version-control blob identity.
 ⛔ **That manifest describes identities in this repository, not an accessible public archive.** No
 immutable repository or archive release has been checked or published for this manuscript, and none is
 claimed; the earlier draft's data-availability statement pointed only at relative paths and is corrected
@@ -1026,12 +877,9 @@ citations it has not retrieved.
 
 - [`nr4a3-program-map.md`](../nr4a3-program-map.md) — the scoreboard, the control table, §2.3 the
   claim-ceiling rule, §2.4 the asymmetric requirement, §3.1 the annotated instrument table. ⚠ Four of its
-  current interpretations are superseded by this revision (§4.1b, §4.1c, §7.2, §9.5); those patches were
-  **applied** by the parent integrator at `a6a21fc591d2451038cdf53449b91e3990d59cfb`. ⚠ **A second,
-  unapplied patch set** covering the four cells that commit did not reach — census `V16.scope_limit`,
-  census `V20.scope_limit`, census `V11.result` and the roadmap dependency row's *"with a quantified
-  bound"* clause — is filed for the same integrator at
-  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`.
+  current interpretations are superseded by this revision (§4.1b, §4.1c, §7.2, §9.5); exact patches are
+  filed for the parent integrator at
+  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/`.
 - [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) — the
   generated instrument register and its `allocate` relation.
 - [`systems/graph/routes.json`](../../../systems/graph/routes.json) `RT-METHODS-PAPER` ·

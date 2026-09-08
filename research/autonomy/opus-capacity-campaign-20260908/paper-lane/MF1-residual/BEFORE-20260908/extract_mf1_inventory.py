@@ -52,8 +52,6 @@ INPUTS = [
     "research/modalities/nr4a2-sparing-bound.json",
     "research/modalities/instrument-census.json",
     "research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md",
-    # added 2026-09-08 (residual R3): the source of the E1 exclusion stages quoted in the E1 row
-    "research/modalities/selectivity-sensitivity-control-prereg.md",
     "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json",
     "systems/graph/routes.json",
 ]
@@ -74,26 +72,6 @@ def git_blob(rel: str) -> str | None:
         return out.stdout.strip() or None
     except OSError:
         return None
-
-
-def head_blob_sha256(rel: str) -> str | None:
-    """SHA-256 of the bytes git holds for `rel` at HEAD, or None if there is no such blob.
-
-    ⭐ ADDED 2026-09-08 (residual R3). The earlier manifest recorded the SHA-256 of the
-    WORKING-TREE bytes beside the HEAD blob id and never compared them. A working-tree read
-    plus a blob identity is NOT a binding unless the bytes actually read match that blob, so
-    the comparison is now computed and recorded instead of assumed.
-    """
-    try:
-        out = subprocess.run(
-            ["git", "cat-file", "blob", f"HEAD:{rel}"], cwd=REPO,
-            capture_output=True, check=False,
-        )
-    except OSError:
-        return None
-    if out.returncode != 0:
-        return None
-    return hashlib.sha256(out.stdout).hexdigest()
 
 
 def head_commit() -> str:
@@ -145,21 +123,10 @@ def results_rows() -> list[dict]:
             criterion=f"one-sided exact permutation over model means, alternative "
                       f"`{sel['criterion']['alternative']}`, alpha {sel['criterion']['alpha']}",
             unit="model mean of the E1 interface-RMSD plateau, Å",
-            # ⭐ 2026-09-08 (residual R3): the three exclusion STAGES are reported separately.
-            # 24-leg frozen design, 2 legs (the SMARCA4 seed-3 model) excluded pre-execution on a
-            # recorded static input fault, 22 admitted — read from
-            # selectivity-sensitivity-control-prereg.md AMENDMENT 1 (:26–31), which is in INPUTS
-            # above and therefore hashed into the manifest. Collector-stage `rejected_records` and
-            # technical failures are DIFFERENT stages and are not summed with it.
-            counts=f"sampling unit = the co-fold MODEL: "
-                   f"{sel['models_per_arm']['selcal_smarca2']} vs "
-                   f"{sel['models_per_arm']['selcal_smarca4']} model means. Leg stages, reported "
-                   f"separately: frozen design 24 legs → 2 legs excluded before execution (the "
-                   f"SMARCA4 seed-3 model, recorded static input fault, "
-                   f"`selectivity-sensitivity-control-prereg.md` AMENDMENT 1) → "
-                   f"{sel['n_legs_admitted']} legs admitted. Technical failures 0 / 0 (a different "
-                   f"stage); collector `rejected_records` "
-                   f"{len(sel['rejected_records'])} (a third stage, NOT the model exclusion)",
+            counts=f"{sel['models_per_arm']['selcal_smarca2']} vs "
+                   f"{sel['models_per_arm']['selcal_smarca4']} models; "
+                   f"{sel['n_legs_admitted']} legs admitted; "
+                   f"technical failures 0 / 0; rejected records {len(sel['rejected_records'])}",
             estimate=f"difference of model means {sel['statistic']:+.4f} Å",
             uncertainty="no interval computed by the panel; the exact reference set has "
                         f"{sel['n_arrangements']} arrangements, attainable p floor "
@@ -319,15 +286,8 @@ def results_rows() -> list[dict]:
             criterion="can the reported readouts be recomputed for the corrected interface from "
                       "what was persisted?",
             unit="stored objects",
-            # ⭐ 2026-09-08 (residual R4): the per-prefix split is shown, not only the sum. 17 is
-            # the FIRST-prefix count; the combined total is 18 STORED RESULT OBJECTS — not 18
-            # independent experiments and not 18 intended panel legs.
-            counts=f"surveyed prefixes {prefixes}; per-prefix stored result objects "
-                   + " + ".join(
-                       f"{s['by_class'].get('leg_result', {}).get('n', 0)} under `{s['prefix']}`"
-                       for s in surveys.values())
-                   + f" = {n_leg} stored result objects across both (⛔ stored objects, NOT "
-                     f"independent experiments)",
+            counts=f"surveyed prefixes {prefixes}; "
+                   f"{n_leg} final per-leg readout records",
             estimate=f"{n_traj} multi-frame coordinate objects found under the surveyed prefixes",
             uncertainty="not applicable — an enumeration",
             outcome="corrected-interface readouts cannot be recomputed from the retained objects; "
@@ -484,58 +444,6 @@ AXES: dict[str, dict[str, str]] = {
 }
 
 
-# ---------------------------------------------------------------------------
-# 2b · the AUTHOR-CURRENT claim scope (residual R1, added 2026-09-08)
-# ---------------------------------------------------------------------------
-# ⛔ WHY THIS EXISTS. The census `scope_limit` field was previously rendered as the supplement's
-# FINAL, reader-facing CLAIM-SCOPE column. For V5, V11, V16 and V20 that field still carries
-# statements the main text explicitly withdraws, so the generated supplement was republishing
-# withdrawn claims as current limits. The dependency is roadmap -> instrument-census.json ->
-# this extraction -> the inventory/SI, and the roadmap and census are shared, parent-owned
-# files: exact unapplied patches for them are filed under MF1-residual/patches/.
-#
-# ⭐ The fix that is inside this lane's control: the census string is retained but demoted to an
-# explicitly labelled SUPERSEDED HISTORICAL ANNOTATION column, and the operative claim-scope
-# column is this author-current table, each entry naming the source that governs it. Where no
-# override exists the census string IS the current scope and is carried unchanged.
-# ⛔ No census, roadmap or original artifact byte is edited here.
-CURRENT_SCOPE: dict[str, str] = {
-    "V5": "⛔ nothing is supported for the selectivity axis. The retained result is a **repeated "
-          "wrong-sign operational calibration failure** (reference **+0.944**, result **−0.599**, "
-          "absolute error **1.543**, wrong sign in all 3 replicates). ⛔ **Its cause is NOT "
-          "identified**: the closure triangle is blind to endpoint-state error rather than "
-          "diagnostic of it, does not exclude shared sampling bias, does not certify convergence "
-          "and does not show that more sampling cannot help. ⛔ The register row's *\"~34× the "
-          "statistical uncertainty\"* is not carried: the estimand it would need is not in the "
-          "record.",
-    "V11": "⏸ parked — **no pass**. The recorded outcome is an **executed calibration attempt that "
-           "did not meet its registered directional criterion**, not an absent control and ⛔ "
-           "**NOT an adequately-powered null**: the attainable p floor 1/462 is a discreteness "
-           "property of the exact reference set, not power, and no effect size is established for "
-           "this observable. Panel input validity is unresolved. ⛔ `V5`'s wrong sign is not a "
-           "third E1 failure — different instrument.",
-    "V16": "⛔ **`S` may NOT be read as a bound and may NOT be reported as calibrated.** It is an "
-           "**exploratory conditional estimate** with a two-seed between-seed dispersion, "
-           "compatible with zero at the observed precision — not a confidence interval, "
-           "equivalence test, likelihood bound or calibrated effect bound. ⛔ **`S ≈ 0` does NOT "
-           "mean the marginal wedge is absent**; an uncalibrated instrument returning ≈0 cannot "
-           "separate 'no effect' from 'cannot resolve'. `S` is non-covalent and structurally "
-           "incapable of testing the categorical mechanism.",
-    "V20": "⛔ nothing beyond its own scope. **22 of 38 is a positive-call rate among these "
-           "selected decoys under this scoring configuration**, not a measured biological "
-           "false-positive rate. It is evidence against reading `margin > 0` alone as a "
-           "selectivity verdict. ⛔ **The universal claim that a signal smaller than its own noise "
-           "is not recoverable by any downstream method is WITHDRAWN**, and no design class is "
-           "excluded.",
-}
-
-#: The dated corrective interpretation that governs each row, so the supplement's scope column has
-#: a checkable home instead of a bare line number (residual R3).
-GOVERNING_NOTE: dict[str, str] = {
-    "V1": "C11", "V3": "C8", "V5": "C4, C5", "V11": "C1, C2, C14, C15", "V16": "C3, C13",
-    "V20": "C9", "V22": "C8",
-}
-
 #: Census cells carry Markdown links written relative to `research/modalities/`. Copied into a
 #: display that lives in another directory they resolve to nothing, and the repository link checker
 #: is right to fail them. The text is what the inventory needs, so the link wrapper is removed and
@@ -563,21 +471,9 @@ def inventory_rows():
         else:
             member = "⛔ **not in the route partition**"
         ax = AXES.get(vid, dict(control="—", execution="—", outcome="—", note="—"))
-        census_scope = delink(inst["scope_limit"])
-        override = CURRENT_SCOPE.get(vid)
-        note = GOVERNING_NOTE.get(vid)
-        rows.append(dict(
-            id=vid, instrument=delink(inst["instrument"]), member=member,
-            census_class=inst["verdict_class"], **ax,
-            known_answer=delink(inst["known_answer_test"]),
-            result=delink(inst["result"]),
-            current_scope=(override if override else census_scope),
-            scope_is_override=bool(override),
-            historical_scope=(census_scope if override
-                              else "— (the census string is carried unchanged as the current scope)"),
-            source=(f"`instrument-census.json` → `instruments[id={vid}]`"
-                    + (f"; corrective interpretation **{note}**" if note else "")),
-        ))
+        rows.append(dict(id=vid, instrument=delink(inst["instrument"]), member=member,
+                         census_class=inst["verdict_class"], **ax,
+                         scope=delink(inst["scope_limit"]), result=delink(inst["result"])))
     return rows, len(support), len(failing), len(census["instruments"])
 
 
@@ -592,40 +488,19 @@ def write_inventory(rows, n_support, n_failing, n_census) -> str:
            "partition are marked below. `disclosed_failing` is an ADMINISTRATIVE route label. It "
            "is **not** a scientific failure rate, and neither count is evidence that every method "
            "the program ever used was discovered, registered or included.", "",
-           "**The axes.** *Control type/availability* is what kind of grading standard exists at "
-           "all. *Execution/eligibility* is whether the graded run actually executed and was "
-           "eligible. *Inferential outcome* is the result conditional on execution. The first "
-           "three are an explicit **author classification** of the retained records — the mapping "
-           "table is in `extract_mf1_inventory.py` so it can be checked rather than trusted. "
-           "⭐ **Two further columns are new on 2026-09-08 (residual R1).** *Known answer* and "
-           "*result as recorded* are copied from the census's own `known_answer_test` and `result` "
-           "fields, so the numbers behind each grade are visible instead of only its verdict word. "
-           "⛔ **And the CLAIM SCOPE column is now the author-current scope**, not the census "
-           "string: for `V5`, `V11`, `V16` and `V20` the census `scope_limit` still carries "
-           "readings the main text withdraws, so those strings are retained in a separate, "
-           "explicitly labelled **superseded historical annotation** column and the operative "
-           "column states the current limit. Rows with no override carry the census string "
-           "unchanged as their current scope. The governing dated corrective interpretation and "
-           "the exact source field are in the last column.", "",
-           "⚠ **Reading the locators.** A bare `:NNNN` inside a quoted cell is a line range in "
-           "`research/manuscripts/nr4a3-program-map.md`, the document the census is generated "
-           "from. ⛔ Exact **unapplied** patches for the four shared cells named above are filed at "
-           "`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`; "
-           "until the parent integrator applies them those census cells remain the stale copies "
-           "and this column is the current reading.", "",
+           "**The four axes.** *Control type/availability* is what kind of grading standard exists "
+           "at all. *Execution/eligibility* is whether the graded run actually executed and was "
+           "eligible. *Inferential outcome* is the result conditional on execution. *Claim scope* "
+           "is quoted verbatim from the census's own scope column. The first three columns are an "
+           "explicit author classification of the retained records — the mapping table is in "
+           "`extract_mf1_inventory.py` so it can be checked rather than trusted.", "",
            "| id | instrument | route list | census class | control type / availability | "
-           "execution / eligibility | inferential outcome | known answer (census) | result as "
-           "recorded (census) | reading note | ⛔ claim scope — AUTHOR-CURRENT 2026-09-08 | ⚠ "
-           "superseded historical annotation (verbatim census `scope_limit`) | source / governing "
-           "correction |",
-           "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+           "execution / eligibility | inferential outcome | reading note | ⚠ claim scope "
+           "(verbatim from the census) |",
+           "|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
-        scope = r["current_scope"]
-        if r["scope_is_override"]:
-            scope = "⭐ **AUTHOR-CURRENT, supersedes the census cell:** " + scope
         cells = [f"**{r['id']}**", r["instrument"], r["member"], f"`{r['census_class']}`",
-                 r["control"], r["execution"], r["outcome"], r["known_answer"], r["result"],
-                 r["note"], scope, r["historical_scope"], r["source"]]
+                 r["control"], r["execution"], r["outcome"], r["note"], r["scope"]]
         out.append("| " + " | ".join(str(c).replace("\n", " ") for c in cells) + " |")
     out.append("")
     return "\n".join(out)
@@ -654,21 +529,13 @@ last_verified: 2026-09-08
 # Supplementary information: the per-instrument inventory and the quantitative record
 
 Supplement to [`degrader-methods-failure-record.md`](degrader-methods-failure-record.md). Both tables
-below are **deterministic extraction of named fields from named committed artifacts, plus explicit author
-classification** — the four audit axes, the reading notes and the author-current claim scope, all written
-out in the generating script so they can be checked rather than trusted.
+below are **generated from the committed artifacts**, so neither can drift from the records it reports.
+The generating script, its input list and the SHA-256 digest of every input are in
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/`.
 
-⚠ **Corrected 2026-09-08 (residual R3): the earlier claim that these tables "cannot drift" is withdrawn.**
-Generation is not a guarantee of self-updating evidence. What replaces it is a **verifiable binding**: the
-generating script, its input list, and for every input the byte count, the SHA-256 of the bytes actually
-read, the version-control blob identity of the same path and the explicit result of comparing the two, are
-in `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/MF1-dependency-manifest.json`.
-
-⛔ **This supplement adds no claim the main text does not make**, and ⭐ **as of 2026-09-08 it no longer
-republishes a withdrawn claim as a current limit**: the claim-scope column is the author-current scope,
-and any superseded census wording is carried beside it in an explicitly labelled historical column. Every
-interpretive limit column is part of the finding, not a caveat appended to it. ⛔ No quantity here is
-evidence of binding, potency, selectivity, efficacy, safety, therapeutic window or clinical readiness.
+⛔ **This supplement adds no claim the main text does not make.** Every interpretive limit column is
+part of the finding, not a caveat appended to it. ⛔ No quantity here is evidence of binding, potency,
+selectivity, efficacy, safety, therapeutic window or clinical readiness.
 
 ---
 
@@ -703,20 +570,6 @@ SI_FOOTER = """
    recovery of one specific known answer at the scope in the final column.
 4. ⚠ **The first three axis columns are an author classification** of retained records, not fields of
    any single artifact. The mapping table is written out in the generating script so it can be checked.
-5. ⛔ **The claim-scope column is the author-current scope as of 2026-09-08, not a census quotation.**
-   For `V5`, `V11`, `V16` and `V20` the shared census `scope_limit` field still carries readings the main
-   text withdraws; those strings are retained verbatim in the adjacent **superseded historical
-   annotation** column so nothing is deleted, and exact unapplied patches for the shared census and
-   roadmap cells are filed at
-   `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`. Rows without an
-   override carry the census string unchanged.
-6. ⚠ **A `known answer` and a `result` cell are the register's own values, not a new verification.**
-   They are copied from the census so a reader can judge each grade; no benchmark was rerun, no primary
-   benchmark source was retrieved, and where the kind of a ± term is not established in the record it is
-   not named. The `V5` register phrase *"~34× the statistical uncertainty"* is not carried forward as a
-   quantity — see corrective interpretation C5.
-7. ⛔ **This supplement is not a gate result, an all-green report or a scientific clearance.** The
-   retained check streams for this manuscript include failing runs, and none of them establishes closure.
 """
 
 
@@ -749,36 +602,18 @@ def main() -> int:
         "commit": head_commit(),
         "inputs": [],
     }
-    manifest["_binding_rule"] = (
-        "ADDED 2026-09-08 (residual R3). `sha256` is of the bytes this run actually read from the "
-        "working tree. `head_blob_sha256` is of the bytes git holds at the same path at `commit`. "
-        "`bytes_match_head_blob` is the comparison. A read plus a blob id is NOT a binding unless "
-        "these agree; where it is false the display is bound to the working tree only, and that is "
-        "stated rather than assumed."
-    )
-    n_unbound = 0
     for rel in INPUTS:
         p = REPO / rel
-        wt = sha256(p)
-        hb = head_blob_sha256(rel)
-        match = None if hb is None else (hb == wt)
-        if match is not True:
-            n_unbound += 1
         manifest["inputs"].append({
             "path": rel, "bytes": p.stat().st_size,
-            "sha256": wt, "git_blob": git_blob(rel),
-            "head_blob_sha256": hb, "bytes_match_head_blob": match,
+            "sha256": sha256(p), "git_blob": git_blob(rel),
         })
-    manifest["n_inputs_not_bound_to_head_blob"] = n_unbound
     (HERE / "MF1-dependency-manifest.json").write_text(
         json.dumps(manifest, indent=1, ensure_ascii=False) + "\n")
 
     print(f"results rows: {len(rows)}")
     print(f"inventory rows: {len(inv)}  route {n_sup}+{n_fail}  census {n_cen}")
     print(f"manifest inputs: {len(manifest['inputs'])} at commit {manifest['commit']}")
-    print(f"inputs NOT bound to their HEAD blob: {n_unbound} of {len(manifest['inputs'])}")
-    print(f"author-current scope overrides: {len(CURRENT_SCOPE)} "
-          f"({', '.join(sorted(CURRENT_SCOPE))})")
     return 0
 
 

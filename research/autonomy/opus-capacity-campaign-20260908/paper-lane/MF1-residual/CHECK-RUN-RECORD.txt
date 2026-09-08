@@ -1,0 +1,88 @@
+MF1 RESIDUAL — CHECK RUN RECORD
+2026-09-08. Every execution attempt this author made, in order, with its REAL measured exit code.
+Each has its own directory under checks/ holding command.txt, stdout.txt, stderr.txt, exit_code.txt.
+No pipes were used to obtain an exit code; each exit was captured from $? immediately after the command.
+No exit code is fabricated. No failing run is presented as a pass. Nothing was rerun to change a result.
+
+  #   directory                                          command                                                       EXIT   what it actually shows
+  --  -------------------------------------------------  ------------------------------------------------------------  -----  ----------------------
+  01  checks/01-compile-extract-script-20260908           python3 -m py_compile .../extract_mf1_inventory.py               0    The edited extraction script parses. This is a SYNTAX check only. It executed no extraction, wrote no display, and establishes nothing scientific.
+  02  checks/02-instrument-census-check-20260908          python3 research/modalities/instrument_census.py --check          0    "instrument_census --check: OK (22 instruments, 16 requirements)". NON-MUTATING. It shows the committed census is IN SYNC with the CURRENT, UNPATCHED roadmap. That is precisely why the one admitted census regeneration was NOT spent here: it would have produced no change. It is NOT a scientific clearance and grades nothing.
+  03  checks/03-build-roadmap-patch-20260908              python3 mkpatch-roadmap.py <out.patch>                            0    6 of 6 OLD target strings occur EXACTLY ONCE in the roadmap; 5 changed lines; 17,980-byte unified diff written. The script refuses to emit a patch if any target is not unique. NOTHING WAS APPLIED.
+  04  checks/04-git-apply-check-roadmap-patch-20260908    git apply --check -p1 .../0001-roadmap-four-live-residues.patch   0    The patch applies cleanly to the current tree. --check does NOT apply it. The roadmap was verified byte-identical afterwards (see IDENTITIES.md).
+  05  checks/05-MF1-extraction-THE-ONE-ADMITTED-20260908  python3 .../MF1-repair/extract_mf1_inventory.py                    0    THE ONE ADMITTED MF1 EXTRACTION. stdout: "results rows: 10 / inventory rows: 22  route 4+16  census 22 / manifest inputs: 18 at commit 8f1fe1c5e548dd016c21329d99a16e2db6d9719a / inputs NOT bound to their HEAD blob: 0 of 18 / author-current scope overrides: 4 (V11, V16, V20, V5)". stderr EMPTY. Before/after identities of all four written outputs are in the same directory (identities-before.txt, identities-after.txt).
+
+  ATTEMPTS THAT FAILED: none. Five attempts were made and five returned exit 0. Nothing was retried,
+  and no attempt was discarded, overwritten or omitted from this record.
+
+  RUNS DELIBERATELY NOT MADE
+  --------------------------
+  * The ONE admitted instrument-census METADATA UPDATE (`python3 research/modalities/instrument_census.py`)
+    was NOT SPENT. The census is GENERATED from the roadmap; the roadmap correction is parent-owned and
+    UNAPPLIED, and run 02 proves the committed census already matches the unpatched source. Running it now
+    would burn the single admitted operation for a no-op. Sequencing for the integrator: patches/README.md.
+  * No broad test suite, no scripts/preflight.sh, no lint sweep, no systems_check, no simulation, no
+    docking, no co-fold, no fetch, no benchmark re-run, no statistical re-analysis, no chronology audit,
+    no new review. None was authorised and none was performed.
+  * Nothing was committed, added or pushed. The parent integrates.
+
+======================================================================================================
+PRESERVED EXECUTION HISTORY OF THE EARLIER MF1 REPAIR — READ FROM THE RETAINED STREAMS, NOT RECONSTRUCTED
+======================================================================================================
+These are the ORIGINAL author attempts 01-22 retained under MF1-repair/checks/. This author READ them and
+corrected the summary that described them. ⛔ NOTHING WAS RERUN, and no old command is presented here as a
+contemporaneous record of an earlier execution.
+
+  05 / 14 / 20  systems_check                 EXIT 1 in all three.
+                Retained summary lines, verbatim from the streams:
+                  05: "620 objects across 15 collections · 2695 ERROR · 272 WARN · 6 INFO"
+                  14: "620 objects across 15 collections · 2667 ERROR · 272 WARN · 6 INFO"
+                  20: "620 objects across 15 collections · 2666 ERROR · 272 WARN · 6 INFO"
+                ⛔ ATTEMPT 14 STILL REPORTED THE MF1 TERMINATION MEMO'S MISSING FRONTMATTER — an
+                OWNED-FILE error — AND ATTEMPT 20 NO LONGER DID (verified: the TERMINATION-AND-RESUME-RECORD
+                path appears in 05 and 14 stdout and not in 20). The package README's claim that attempts 2
+                and 3 both had 2666 errors and no owned-file error is INACCURATE for attempt 2. Corrected in
+                DATED-SUPERSESSIONS-of-retained-package-notes.md; the README's bytes are unchanged.
+  03 / 12       lint_citations                EXIT 1. "lint_citation_types: 52 type claim(s) checked against
+                13 cached record(s), 13 error(s), 1 retraction advisory(ies)" and "13 type claim(s) disagree
+                with PubMed". The cited errors identify OTHER report paths, not MF1. This is neither a
+                scientific acceptance nor a rejection of MF1, and no source retrieval follows from it.
+  06 / 15       emc_systems_map_check         EXIT 1. "155 registry items · 6 ERROR · 0 WARN". No MF1
+                scientific clearance follows.
+  18            lint_claims (owned files)     EXIT 0. "0 ERROR, 6 WARN across 5 file(s)". PASSES WITH
+                WARNINGS. ⛔ It does NOT establish semantic closure: it did not catch the SI's contradictions.
+  19            lint_claims (default)         EXIT 0. "0 ERROR, 183 WARN across 138 file(s)". Broad corpus
+                output. PASSES WITH WARNINGS; no scientific conclusion.
+  04 / 13       lint_changed_prose            EXIT 0, "0 changed passage(s) over the working tree".
+                ⛔ ZERO CHANGED PASSAGES — this cannot substantiate that the repaired prose was checked.
+  08 / 17       lint_readability              EXIT 0. The output lists OTHER target documents.
+                ⛔ IT DID NOT ASSESS MF1. Advisory screen only.
+  09            extract_mf1_inventory.py      EXIT 0. "manifest inputs: 17 at commit 5f40f49b4f41cb16a32862
+                e607baeb060b333c6c" — AN EARLIER BINDING, distinct from the final frozen display.
+  22            extract_mf1_inventory.py      EXIT 0, against commit d5eb86e8093df671da081ea56b67dcfd79e1f0fe.
+                ⚠ ITS .cmd IS SHORTHAND: "$ python3 .../extract_mf1_inventory.py  (final settle)". The literal
+                invocation was NOT recorded and IS NOT RECONSTRUCTED. The README's claim that every command
+                file is exact is too strong.
+  01/02/07/10/11/16/21  other lints           EXIT 0. Retained unchanged.
+
+  REVIEWER BOOKKEEPING — TWO DISTINCT ATTEMPTS, BOTH PRESERVED
+    attempt 1: EXIT 1, empty stdout, 652 B cp1252 UnicodeEncodeError traceback
+               (sha256 49afbc96328c1c79a5132b45ac6a988f06c92cccc4e8ca82a5ab67d0e6b1cf07).
+    attempt 2: EXIT 0 under PYTHONIOENCODING=utf-8, its own 45,322 B stdout, empty stderr.
+    ⛔ NEITHER REPLACED THE OTHER. The failed run's original files stand.
+
+  INTAKE'S OWN PRE-COPY FAILURE, SCOPED AS SUCH
+    One inline Python display command failed at parse time, EXIT 1, an unterminated string literal caused by
+    shell quoting; it read no file and mutated nothing. Separately, the initial pre-copy failure concerned a
+    historical lint_claims.py reference located OUTSIDE the complete named directories, and is scoped to that.
+
+  SURVIVING b577 INTEGRATION ORIGINALS — NOT RECONSTRUCTED
+    instrument_census.stdout.txt  1,472 B  sha256 7422c39bb84a1b8f0a227cc13bd17cfd402f461261fcf9ac1a30935be73018e6
+    instrument_census.stderr.txt      0 B  GENUINELY EMPTY AT EXECUTION
+    instrument_census.exit.txt        2 B  MEASURED EXIT 0
+    patch-targets-as-applied.json 4,498 B  nine exact roadmap OLD/NEW pairs, graph occurrence counts [1,1]
+    ⛔ THE UNIQUENESS-VERIFICATION AND VIEW-COMMAND STREAMS DO NOT EXIST and are NAMED AS MISSING. They were
+    not recreated, and the commit narrative is not an execution log.
+
+⛔ NONE OF THE ABOVE — old or new — ESTABLISHES ALL-GREEN STATUS OR CURRENT SCIENTIFIC CLEARANCE FOR MF1.
+   The manuscript remains on HOLD. A green lint is not closure; a skipped or deselected test is not a pass.

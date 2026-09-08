@@ -148,25 +148,12 @@ the wrongly tethered legs.
 ## C7 · `nrv04-result-forensics.json` — the census is scoped to its surveyed prefixes
 
 **Unchanged in the artifact:** two surveys, `nrv04-covalent-results/` and
-`nrv04-covalent-results-chainfix/`; `by_class.leg_result.n` = **17** in the first survey and **1** in the
-second; `trajectory_objects_found: 0` in both `recompute_verdict` blocks.
+`nrv04-covalent-results-chainfix/`; 17 `leg_result` records; `trajectory_objects_found: 0` in both
+`recompute_verdict` blocks.
 
-⛔ **ERRATUM, 2026-09-08 (residual R4) — the denominator.** The first version of this entry, immediately
-above in the original bytes, said *"17 `leg_result` records"* for the **combined** two-prefix census. That
-is wrong: **17 is the first-prefix count and 1 is the chainfix count, so the combined total is 18 stored
-result objects**, which is what the generated supplement already reported and what the extraction script
-computes by summing the two survey counts. ⛔ **This mistake was not the author's alone**: it originates in
-the independent final review's own combined figure, was carried into the root adjudication of that review,
-and was then adopted here and in the main text. The original mistaken baseline and the root memo are left
-**immutable**; this dated erratum stands beside them. Full record:
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/DENOMINATOR-ERRATUM.md`.
-
-**Correct reading, 2026-09-08:** **17 stored result objects under the original prefix, 1 under the
-chainfix prefix, 18 across both**, with **zero** multi-frame coordinate objects in either survey. ⛔ They
-are **stored result objects, not independent experiments** and not originally intended panel legs. This
-supports a **retrospective conclusion about the surveyed prefixes**. It is not a proof about every
-possible external copy of the data, and it is not evidence about any prefix that was not surveyed. The
-corrected count does not alter the absent-coordinate conclusion.
+**Correct reading, 2026-09-08:** this supports a **retrospective conclusion about the surveyed prefixes**.
+It is not a proof about every possible external copy of the data, and it is not evidence about any prefix
+that was not surveyed.
 
 ---
 
@@ -240,70 +227,6 @@ authorised by this note.
 
 ---
 
-## C13 · `selectivity-sensitivity-control-prereg.md` and the other protocol files — prespecification is an attribution, not an established chronology
-
-*Added 2026-09-08 in the residual batch (R2).*
-
-**Unchanged in the artifacts:** the pre-registration's *"Written and committed BEFORE the first GPU leg"*
-assertion; its `_backfilled: true` frontmatter and `date: 2026-08-05`; the **AMENDMENT 1** entry dated
-2026-08-02; and `selectivity-resolution-options.md` §4's consequence sentence.
-
-**Superseded interpretation:** that individual gates and criteria *were* frozen before their own runs,
-that the expected magnitude of the wedge *was* registered in advance, and that the consequence sentence
-*was* written before the deciding run — each asserted as a fact.
-
-**Correct reading, 2026-09-08:** **the retained protocol describes these rules, outcomes and consequences
-as prespecified.** The actual chronology is **unestablished**: a current freeze flag, a current
-version-control pin and a backfilled date do not establish which rule existed before outcome access, and
-the retained files do not carry the individual freeze revisions, amendment timings or first-outcome-access
-records that would settle it. ⛔ This is **not** evidence of post hoc registration and is not offered as
-any. The narrow reading of `S` and the program's stop decision do not depend on the chronology.
-
-**Reopening condition:** identifiable pre-outcome rule versions, amendments and outcome-access bindings
-that are **already retained**. ⛔ No new chronology investigation is authorised by this note, and missing
-documentation is not a licence for one.
-
-## C14 · `selectivity-sensitivity-control-prereg.md` — the E1 exclusion stages are three, not one
-
-*Added 2026-09-08 in the residual batch (R3).*
-
-**Unchanged in the artifact:** the AMENDMENT 1 block at `:26–31` — *"The frozen design remains **24
-legs**; the admissible panel is **22**"* — excluding one co-fold model, **SMARCA4 seed 3**, on a measured
-**static input fault**, under a clause the document states was frozen in advance; and
-`selcal-verdict.json`'s `n_legs_admitted` 22 with an empty `rejected_records` list.
-
-**Superseded interpretation:** that "22 admitted legs, 0 technical failures, 0 rejected records" is a
-complete eligibility account, so that nothing was excluded.
-
-**Correct reading, 2026-09-08:** these are **different stages and must be reported separately**. The
-original design is **24 legs**; **2 legs — the SMARCA4 seed-3 model — were excluded before execution for a
-recorded static input fault**; **22 legs were admitted**. Zero `rejected_records` is a **collector-stage**
-count and is a different fact from the model-level exclusion; zero technical failures is a third. ⚠ The
-sampling unit for the reported statistic is the **model mean**, not the leg. ⛔ This entry adds an existing
-recorded exclusion; it makes no new eligibility decision and re-runs nothing.
-
-## C15 · `selcal_panel.py` — the single-hydrogen-bond mechanism does not transfer to PRT3789
-
-*Added 2026-09-08 in the residual batch (R5); it completes C2 at the point of use.*
-
-**Unchanged in the artifact:** `pair_mechanism_quote`, quoting Kofink *et al.* 2022
-(`doi:10.1038/s41467-022-33430-6`, PMC9551036) on *"the selectivity-inducing hydrogen bonding between
-Gln1469 of SMARCA2BD and VCB"*, and `pair_mechanism_source.note`, which states it is *"about the
-SMARCA2/SMARCA4 pair against VCB, not about PRT3789 … it is NOT a claim about the reference ligand."*
-
-**Superseded interpretation:** that, for the panel whose reference is PRT3789, *"the published selectivity
-turns on a single hydrogen bond."*
-
-**Correct reading, 2026-09-08:** the hydrogen-bond observation belongs to its **cited system and ligand
-context** — the SMARCA2BD/SMARCA4BD pair against VCB — and its transfer to the PRT3789 panel is an
-**unestablished mechanistic rationale**, not a finding. The manuscript's point-of-use sentence is
-withdrawn and replaced by the statement the record does support: the result does not separate an
-insensitive E1 readout from an unsuitable or structurally narrow test, with input validity unresolved as
-well. ⛔ No expected structural or Ångström magnitude is inferred, and no retrieval of the unavailable
-PRT3789 body was performed or is authorised.
-
----
-
 ## What this file does not do
 
 - ⛔ It does not modify any artifact it names. Every original byte stands.
@@ -313,13 +236,3 @@ PRT3789 body was performed or is authorised.
   `systems/graph/publications.json`. Those are shared files; exact patches are filed at
   `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/patches/CURRENT-SUMMARY-PATCHES.md`
   for the integrator to apply.
-  ⭐ **Status update, 2026-09-08 (residual batch).** Those thirteen edits **were applied** by the parent
-  integrator at commit `a6a21fc591d2451038cdf53449b91e3990d59cfb`, which changed seven files and
-  regenerated the instrument census and three views. ⛔ **Four current rows still carry the superseded
-  readings and are not closed by that commit** — the census `V16.scope_limit` and `V20.scope_limit`, the
-  census `V11.result` (*"NULL, adequately powered"*), and the roadmap dependency row that still says
-  *"with a quantified bound"* immediately before its withdrawal. A second, exact, **unapplied** patch set
-  for those four is filed at
-  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/` for the same
-  integrator. Until it is applied, **this file and the manuscript are the current reading** and those
-  four cells are the stale copies.
