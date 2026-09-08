@@ -27,7 +27,7 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-UNEXPLORED-LANES]
 **Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 Running title: PRMT5 in extraskeletal myxoid chondrosarcoma
 
@@ -67,8 +67,8 @@ OPEN AT SUBMISSION: reference author lists. research/literature/mtap-prmt5-emc-c
 title, journal, year, PMID, PMCID and DOI for every source but no author list, so most entries in the
 reference list below carry none; the two that do were taken from the prior-art screen record, which
 does carry author strings. Author lists must be completed from the source records at submission and
-must not be written from recollection. ORCID is absent from the repository and only the author can
-supply one.
+must not be written from recollection. The author's ORCID is 0000-0002-1823-1451 and now stands in
+the author block.
 IDENTIFIER FORMS. Six of the eleven references carry a PMCID and a DOI but no bare PMID, and that is
 not an oversight. lint_citations.py anchors a PMID only when a tracked artifact writes it as "PMID
 nnnnnnnn", as a pubmed.ncbi.nlm.nih.gov URL, as EXT_ID, or as a bare quoted key in a lit-targets
@@ -91,7 +91,9 @@ tumours across two platforms), a public sarcoma CRISPR dependency panel, and a s
 PRMT5's reported substrate motif in the fusion protein. The first rationale transfers from other
 EWSR1-fusion sarcomas, in which PRMT5 supports fusion-driven transcription. *PRMT5* reads higher in
 EMC than in the comparator arm on both platforms (*t* = 6.24 and 6.67; exact permutation *p* = 0.000142
-and 0.000125) and ranks first of the readable PRMT family members on both. Adjusting for a
+and 0.000125) and ranks first of the readable PRMT family members on both. Those *p* values are exact
+for the labelling of one gene; under a family-wise permutation correction the same contrast reaches
+0.21 and 0.238, so it is a ranking rather than a significant result. Adjusting for a
 twelve-gene proliferation score leaves that contrast nearly intact on the 35-tumour platform and
 removes most of it on the 16-tumour platform, so the two platforms disagree. In EWSR1 the eleven
 Gly-Arg-Gly sites all lie beyond residue 300; the commonest EMC fusion and the commonest clear cell
@@ -178,6 +180,21 @@ Two public archival series carry this histology in a form this array-based reade
 | GSE24369 | GPL6244 | 6 | 29 comparator sarcomas, including a FET-rearranged histology |
 | GSE4303 | GPL3290 | 10 | 6 |
 
+GSE24369 deposits 42 samples and this analysis scores 35 of them. The seven that are not scored are
+five solitary fibrous tumours, which no comparator pattern matched and whose exclusion was
+accidental rather than designed, and two pooled normal skeletal-muscle RNA samples, which are not
+tumours. Adding the five solitary fibrous tumours to the comparator arm moves *PRMT5* from
+*t* = 6.24 to 6.31 and *MTAP* from +0.69 to +0.70; the two pooled normal samples stay out.
+
+On GPL3290 every value is a ratio to a reference channel, and the deposit does not use one reference
+throughout. Its annotation records the ten EMC tumours and the three dermatofibrosarcoma
+protuberans comparators against a CRH reference and the three gastrointestinal stromal tumours
+against Universal Human Reference, so half the comparator arm differs from every EMC tumour in the
+denominator of the measurement as well as in the biology. Contrasts computed within each reference
+keep the direction of the pooled one, *PRMT5* reading *t* = 5.97 against the CRH arm and 4.32
+against the UHR arm on three comparators each. Whether the labels CRH and CRH-mRNA name one pool or
+two is not stated in the deposit.
+
 Each gene's value in each sample was converted to a *z*-score against that array's own full probe
 distribution, so a value is a position within an array rather than a quantity comparable across
 platforms. A group score is the mean of its member genes' *z*, contrasted between EMC and the
@@ -202,11 +219,20 @@ two-sided *p* is the fraction with |*t*| at least the observed value. No random 
 the value is exactly reproducible.
 
 The permutation is exact for the labelling and says nothing about how many genes were examined. That
-question is asked separately by computing the same statistic for every symbol the platform's probes
-map to (18,474 on GPL6244 and 14,402 on GPL3290) and placing each gene of interest in that
-distribution. The genome-wide computation runs at fetch time, when the full probe matrix exists, and
-re-derives from the raw matrix the statistic the panel computes from reduced per-gene values by a
+question is asked separately by computing the same statistic across the symbols the platform's probes
+map to and placing each gene of interest in that distribution. The placement reported in section 3.5
+scores 18,688 symbols on GPL6244 and 14,404 on GPL3290; on GPL3290, 14,928 symbols carry a probe, so
+524 of them yielded no statistic. The genome-wide computation runs at fetch time, when the full probe
+matrix exists, and re-derives from the raw matrix the statistic the panel computes from reduced per-gene values by a
 separate code path; the two agree for every gene on both platforms.
+
+A family-wise correction is computed by the same permutation. At each labelling Welch's *t* is
+recomputed for every gene in a family of 5,449 symbols on GPL6244 and 4,848 on GPL3290, the
+family-wide maximum |*t*| is recorded, and a gene's adjusted *p* is the fraction of labellings whose
+maximum reaches its observed value. All 8,008 labellings are enumerated on GPL3290, so that
+correction carries no sampling error; on GPL6244, 20,000 are drawn under a fixed seed and the
+Monte-Carlo standard error is reported beside the result. Each family is a subset of its array, so
+the adjusted value is a lower bound that adding symbols can only raise.
 
 ### 2.4 Confound adjustment
 
@@ -234,12 +260,14 @@ against the sum of its retained 5′ half and NR4A3's contribution.
 Every figure, table and number is regenerable from public data by scripts in the accompanying
 repository, and section 8 names the artifact that owns each value. Analysis, figures and drafting
 were carried out with substantial assistance from an AI coding agent operating on a version-
-controlled repository under the author's direction, using Anthropic Claude. The agent is not an
-author and cannot be one, and the author takes responsibility for the content. The author verified
-every reported value against the committed artifact that produced it, and specified the reads,
-thresholds and controls before the corresponding data were retrieved. Two of the corrections recorded in Appendix A, the closure of the
-locus rationale and the restatement of the fusion rationale on the gene rather than the group, were
-found during figure preparation, after the prose had been written the other way. Every bibliographic
+controlled repository under the author's direction, using Claude (Anthropic) and OpenAI models. An
+AI system is not an author and cannot be one, and the author takes responsibility for the content.
+Every statistic, percentile, count and dependency figure reported here was checked against the
+committed artifact that owns it, and the reads, thresholds and controls were specified before the
+corresponding data were retrieved. Where a value could not be reconciled it was corrected and
+registered in Appendix A, which includes one Methods count that traced to no artifact at all. Two of
+the corrections recorded there, the closure of the locus rationale and the restatement of the fusion
+rationale on the gene rather than the group, were found during figure preparation, after the prose had been written the other way. Every bibliographic
 identifier below was taken from a retrieval record and is checked against a tracked artifact by an
 automated linter.
 
@@ -329,9 +357,9 @@ observation rather than by sample size.
 **Figure 4.** Pooled group against single gene, per comparator class. One comparator class, low-grade
 fibromyxoid sarcoma, is FUS::CREB3L2 and therefore a FET-fusion control on whether the reading is
 simply what a fusion sarcoma looks like. Pooled across the four
-methylosome genes, EMC ranks second of four comparator classes, below desmoid fibromatosis, so the
-group does not separate this disease. *PRMT5* alone does, with a median of +1.30 against +1.05, +1.04
-and +0.94. Left-panel points are gene-by-sample values pooled across four genes, so they are not
+methylosome genes, EMC ranks second of the four classes on that array, below desmoid fibromatosis, so
+the group does not separate this disease. *PRMT5* alone does, with a median of +1.30 against +1.05,
++1.04 and +0.94. Left-panel points are gene-by-sample values pooled across four genes, so they are not
 independent observations and no test is run on them.
 
 The two figures illustrate the same methodological point in opposite directions. For the locus, a
@@ -352,6 +380,15 @@ GPL3290, against +0.263 and +0.816 SD.
 On GPL3290 the exact *p* cannot fall below 1/8,008 whatever the effect size: with 10 versus 6 tumours
 the resolution of the test is the sample size rather than the biology.
 
+Both values are exact for the labelling of one gene and correct nothing for the number of genes
+examined. Under the max-statistic permutation correction of section 2.3, *PRMT5*'s adjusted *p* is
+0.21 on GPL6244, with a Monte-Carlo standard error of 0.003, and 0.238 on GPL3290, where every
+labelling is enumerated; *MAT2A*'s is 0.98 and 0.97, and *CDKN2A*'s is 0.51 on GPL6244. Of every gene
+reported here, only *ENO3* on GPL3290 falls below a conventional threshold, at 0.0097. The transcript
+contrast therefore does not survive a family-wise correction on either platform. An adjusted *p* is
+not itself a result, and a value above a threshold does not make the underlying reading disappear;
+what it removes is any claim that these two series establish the contrast.
+
 Placing each gene of interest against every gene on its own array gives the following, with two
 instrument controls: *NR4A3*, the disease-defining fusion transcript, and *ENO3*, a published direct
 target of an NR4A3 fusion.
@@ -363,13 +400,16 @@ target of an NR4A3 fusion.
 | *WDR77* | +2.82, top 20.5% | unreadable |
 | *MTAP* | +0.69, top 74.0% | −2.27, top 26.1% |
 | *CDKN2A* | −5.40, top 3.5% | +1.33, top 49.3% |
-| *NR4A3* (control) | +4.66, top 5.9% | +1.70, top 38.5% |
+| *NR4A3* (control) | +4.66, top 5.9% | +1.70, top 38.5%, comparator arm of 2 |
 | *ENO3* (control) | +3.61, top 12.0% | +13.22, top 0.05% |
 
 The two controls do not behave alike. *ENO3* sits at the extreme of GPL3290, as a working
-instrument should show. *NR4A3* is only mid-table there, consistent with the probe-placement caveat
-the source artifact carries, since on a 3′-biased array the probe can sit in the region the fusion
-replaces; GPL3290's ranking should not be read as if every row on it were equally trustworthy.
+instrument should show. *NR4A3* is only mid-table there, and its GPL3290 entry is the weakest cell in
+the table. Nine EMC tumours and two comparators carry a value for that probe, which is below the
+panel's floor of three per arm, so the panel emits no contrast for it at all and the value quoted
+here comes from the genome-wide path, whose floor is two. A probe-placement caveat applies as well,
+since on a 3′-biased array the probe can sit in the region the fusion replaces. GPL3290's ranking
+should not be read as if every row on it were equally trustworthy.
 
 A rank is not a corrected *p*. It reports where a gene sits among all genes, controls no error rate,
 is computed over a distribution containing real biology rather than a null, and is inflated in
@@ -450,6 +490,12 @@ C-terminal half; the retained N-terminal segment contains none of them.
 length with its eleven GRG sites and its two RGG-rich regions; below it, each fusion's retained 5′
 segment on the same ruler. EWSR1::FLI1 is plotted in the same style and keeps no site, and it is the
 fusion in which a PRMT5 requirement has actually been shown to be fusion-dependent.
+
+Three EWSR1::ATF1 breakpoints are recorded on the same ruler, and the table above carries one of
+them. The commonest, at EWSR1 exon 8, retains 324 residues and four sites; a reported exon 10
+junction retains 348 residues and the same four; a reported exon 7 junction retains 264 residues and
+none. The match is therefore between two particular transcript types rather than between two
+diseases.
 
 The commonest EMC fusion and the commonest clear cell sarcoma fusion retain the same number of sites,
 at different breakpoints, by coincidence of where the RGG boxes fall. The transfer between the two
@@ -533,11 +579,11 @@ Outcome interpretations are fixed in advance.
 | result | interpretation |
 |---|---|
 | PRMT5 inhibition inactive in EMC models | the fusion rationale is dead, and the negative is worth publishing because the fusion-class transfer is the interesting claim |
-| PRMT5 inhibition active | a fusion-class-transferred vulnerability in this disease, not previously reported |
-| type 1 and type 2 constructs respond alike | PRMT5 acts on something other than the fusion protein, consistent with Ewing, and the motif count is irrelevant to who would be treated |
-| type 1 responds and type 2 does not | the fusion protein is the substrate, and EMC has a transcript-type-defined treatment group |
+| PRMT5 inhibition active | a fusion-class-transferred vulnerability in published EMC models, not previously reported, and not evidence of efficacy in a patient |
+| type 1 and type 2 constructs respond alike | PRMT5 acts on something other than the fusion protein, consistent with Ewing, and the motif count carries no information about transcript type |
+| type 1 responds and type 2 does not | the fusion protein is the substrate, and response in these models tracks transcript type |
 | MTAP protein retained across EMC cases | the *MTAP* rationale is dead and the locus reading was a *CDKN2A* shadow |
-| MTAP protein lost in a subset | a genetically selected treatment group in this disease, not previously defined |
+| MTAP protein lost in a subset | a genetically defined subset in which the MTAP-selected hypothesis could be tested, not previously described |
 
 Every branch is publishable and the negative branches are the more likely ones, which is what makes a
 hypothesis of this shape affordable in an ultra-rare disease.
@@ -554,15 +600,21 @@ hypothesis of this shape affordable in an ultra-rare disease.
 | F6 | MTAP protein is lost in some EMC | MTAP immunohistochemistry retained across an EMC series, the decisive test for the *MTAP* rationale and now the only thing that could reopen it |
 | F7 | the readings are not proliferation or cellularity effects | partially fired, on one platform. Section 3.6: adjustment leaves *PRMT5* largely intact on GPL6244 (6.24 to 5.23, *n* = 35) and takes most of the contrast on GPL3290 (6.67 to 2.71, *n* = 16), where the score is itself elevated in EMC. The platforms disagree, and this is the likeliest way the transcript half is wrong |
 | F8 | specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's; the near-universal dependency of section 3.3 makes this the likeliest way the fusion rationale fails |
-| F9 | the fusion-class transfer holds because the fusions are matched on PRMT5's motif | a corrected breakpoint that moves EMC type 1 or clear cell's commonest type off 4 retained sites; asserted in a test, so a revision fails the build rather than passing unnoticed. It would weaken the argument rather than the class, since the Ewing result stands with zero sites |
+| F9 | the fusion-class transfer holds because the fusions are matched on PRMT5's motif | a corrected breakpoint that moves EMC type 1 or clear cell's commonest type off 4 retained sites. Their equality is asserted in a test, so a revision to one of them fails the build rather than passing unnoticed. It would weaken the argument rather than the class, since the Ewing result stands with zero sites |
 | F10 | the fusion protein is itself the relevant PRMT5 substrate | contradicted at one point already: EWSR1::FLI1 retains no site and PRMT5 inhibition is still fusion-dependent there [3]. It is listed rather than deleted because the two-construct experiment would settle it in EMC directly |
 
 ### 4.4 Limitations
 
-The evidence base is sixteen tumours on two decade-old array platforms, with no correction for
-multiple testing. Two series are not a replication set, and the locus result rests on six tumours
-from one of them. The genome-wide placement of section 3.5 provides context for that limit rather
-than a correction of it.
+The evidence base is sixteen tumours on two decade-old array platforms. The primary contrasts are
+reported both uncorrected and after a family-wise permutation correction, and they do not survive it
+on either platform (section 3.5), so the transcript half of the fusion rationale is a ranking rather
+than a significant result. Two series are not a replication set, and the locus result rests on six
+tumours from one of them. The genome-wide placement of section 3.5 provides context for that limit
+rather than a correction of it.
+
+On the 16-tumour platform half the comparator arm was hybridised against a different reference pool
+from every EMC tumour (section 2.1). That is a second candidate explanation for the disagreement
+between platforms, alongside the proliferation one, and nothing available separates them.
 
 A transcript is not a copy number, which is why the proposed experiments carry more weight here than
 the readings do.
@@ -616,7 +668,8 @@ not supported at transcript level: the gene that carries the argument does not m
 powered, and the locus signal belongs to *CDKN2A*. The fusion rationale survives, stated on *PRMT5*
 rather than on the methylosome group, supported by a fusion-dependent PRMT5 requirement in a second
 EWSR1-fusion sarcoma and by a motif match between the commonest fusion of two diseases, and limited
-by a proliferation control that disagrees between platforms. Each rationale ends at an inexpensive
+by a proliferation control that disagrees between platforms and by a family-wise correction the
+transcript contrast does not clear on either. Each rationale ends at an inexpensive
 and decisive experiment, and neither has been run.
 
 ---
@@ -631,12 +684,20 @@ relationship with any entity developing them.
 one unaffiliated individual using public data and personal compute. No experiment was possible, and
 every claim here is therefore an argument from data generated by others.
 
-**Ethics.** No human subjects, no animal work and no identifiable patient data. Every dataset used is
-public and de-identified at source.
+**Ethics.** This is a secondary analysis of data that other investigators generated, deposited and
+released publicly. It recruited no participant, collected no new sample and applied no intervention.
+No ethics approval was sought or obtained for it, and no committee has made any determination about
+it. The archival expression series are human tumour samples deposited by their originating studies
+under those studies' own arrangements, and this work used them only in the de-identified form in
+which they are public.
 
 **Author contributions.** Sole author: conception, analysis, figures and writing.
 
-**Generative AI.** Section 2.6.
+**Generative AI.** Analyses, figures and drafting were carried out with substantial AI assistance,
+using Claude (Anthropic) and OpenAI models under the author's direction (section 2.6). Neither is an
+author. The author is responsible for the content, including every number and every citation.
+
+**Preprint status.** This manuscript has not been peer reviewed.
 
 ---
 
@@ -656,9 +717,11 @@ generated by the author is withheld, because this study creates no new measureme
 | item | location |
 |---|---|
 | Expression readings, every *z*, percentile and group score | [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) |
+| Series readability record of section 2.1, including the three series with no symbol-mapped platform | [`emc-atr-vulnerability.json`](../../modalities/emc-atr-vulnerability.json) |
 | Grading of this route against its selection criterion | [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) |
 | Sarcoma-line dependency prior | [`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) |
 | Control calculations of section 3.6 | [`emc-prmt5-route-controls.json`](../../modalities/emc-prmt5-route-controls.json) |
+| Family-wise correction, the sample exclusions of section 2.1 and the reference-channel split | [`emc-prmt5-multiplicity.json`](../../modalities/emc-prmt5-multiplicity.json) |
 | Substrate-motif counts and their double-entry checks | [`emc-prmt5-substrate-motif-map.json`](../../modalities/emc-prmt5-substrate-motif-map.json) |
 | Committed protein sequences and sourced breakpoints | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json), [`emc-fet-idr-census.json`](../../modalities/emc-fet-idr-census.json) |
 | Citation anchor, every identifier read from a retrieval | [`mtap-prmt5-emc-citations.json`](../../literature/mtap-prmt5-emc-citations.json) |
@@ -708,4 +771,7 @@ values that only ever appeared in the supplementary file, is in the SI appendix.
 | The methylosome **group** *t* (3.11, 3.89) quoted as the statistic the fusion rationale rests on | The gene's own *t* (6.24, 6.67), with the group figures retained in §3.1 as the group figures they are | §3.1 and §3.5 | The group score is not the unit the rationale depends on. The group figures are not withdrawn; they were the wrong ones to lead with |
 | Locus gene values of *MTAP* −0.023 / −0.389; *CDKN2A* −0.399 / +0.173; *CDKN2B* −0.096 | +0.053 / −0.607; −0.481 / +0.175; −0.136 | §3.2 | Cause not established, and an earlier explanation was wrong. *Superseded, retained: "a re-fetch ran on a NARROWER probe-to-symbol bridge (0.931 against 0.984), and a narrower bridge changes which probes map."* Checked against every committed version of the artifact, *MTAP* reads +0.053 in all of them, at bridge rates 0.984, 0.931 and 0.981, and always on one mapped probe. Bridge width does not move this gene. The −0.023 appears in no committed artifact, so it entered the prose from a source the repository cannot show |
 | "across 176 sarcoma cell lines" | "across the 91 screened sarcoma cell lines" | §3.3 and the abstract | A real error, in the direction that overstated the evidence base, and it was in four places including the abstract. The release lists 176 sarcoma models; only 91 carry CRISPR gene-effect data. The percentages themselves are unchanged, having always been computed on the screened subset, but they were attributed to a denominator almost twice its true size |
+| Genome-wide symbol counts of "18,474 on GPL6244 and 14,402 on GPL3290" | 18,688 scored on GPL6244; 14,404 scored of the 14,928 carrying a probe on GPL3290 | §2.3 and SI §S10 | The superseded pair appears in no committed artifact at any point in this repository's history. The values now printed are those [`emc-prmt5-route-controls.json`](../../modalities/emc-prmt5-route-controls.json) records under `genome_wide_placement.n_symbols_scored`, with the probe-carrying count from [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json). The old sentence also described a computation over every symbol with a probe, which is not what was run on GPL3290 |
+| §2.6 stated that the author "verified every reported value against the committed artifact that produced it" | a statement of what was checked, with the exception registered | §2.6 | The superseded sentence was falsified by the row above, since one Methods count traced to no artifact. A blanket verification claim is exactly the claim that incident refutes |
+| §3.5 and §4.4 reported the primary contrasts uncorrected, with no adjusted counterpart | the max-statistic adjusted values are reported beside them | Abstract, §2.3, §3.5, §4.4 | The correction was computable from data already committed. It changes how strong the transcript reading may be called: *PRMT5* reaches 0.21 and 0.238 adjusted, so the contrast does not survive it. Nothing measured was withdrawn; the uncorrected values stand where they stood |
 | The paper's own framing as a repository memo, with per-section warning banners and a five-figure inventory in the front matter | A journal Research Article in IMRaD form, with the warnings folded into the abstract's scope statement, section 4.4 and this appendix | throughout | The register was correct for a maintainer and wrong for a journal reader. Nothing measured was removed; the honest statements the pre-posting checklist requires to survive are all present in sections 3.2, 3.3, 3.6, 3.7, 4.1 and 4.4 |

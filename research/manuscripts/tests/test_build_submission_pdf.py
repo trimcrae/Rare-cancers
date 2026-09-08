@@ -761,9 +761,20 @@ def test_a_paper_without_inline_images_renders_byte_identically(key):
 
 def test_an_opted_in_paper_emits_an_img_carrying_its_caption():
     """The figure must arrive WITH its caption, not as a bare picture and not silently dropped."""
+    #: ⛔ AN EMPTY OPT-IN IS A FINDING, NOT A REASON TO STAND DOWN (2026-09-08). This site read
+    #: `if key is None: pytest.skip("no paper currently opts into inline_images")`, a branch that
+    #: has never once fired: `build_submission_pdf.PAPERS["atr-panel-ask"]` sets
+    #: `"inline_images": True` and that registry is committed. The skip could therefore only ever
+    #: fire on the tree where the flag had been lost — and losing it puts the ATR deposit back to
+    #: printing a stray `!` and a hyperlink to a file that does not travel with it (measured
+    #: 2026-09-08, `IMG_TAGS: 0`), which is precisely when this guard has to speak rather than
+    #: evaporate with its input.
     key = next((k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")), None)
-    if key is None:
-        pytest.skip("no paper currently opts into inline_images")
+    assert key is not None, (
+        "no paper in the committed registry sets inline_images, so nothing exercises the "
+        "raster-embedding path and this guard has no deposit to read. If the flag was dropped "
+        "deliberately, that is a change to the ATR deposit's figure and belongs in the same "
+        "commit as these two registry-side guards.")
     paper = bsp.PAPERS[key]
     for style, page in _pages_for(paper).items():
         assert page.count("<img") == 1, f"{key} ({style}) emitted {page.count('<img')} images"
@@ -801,9 +812,13 @@ def test_an_image_embedded_in_prose_fails_the_build_instead_of_printing_a_stray_
 def test_the_embedded_bytes_are_the_figure_file_itself():
     """A data URI that decodes to something else is a figure making a claim nothing supports."""
     import base64 as _b64
+    #: ⛔ SAME UNREACHABLE SKIP AS ABOVE, SAME ANSWER (2026-09-08). An empty opt-in set means
+    #: the embedded bytes this test checks are not being produced at all; that is the failure, not
+    #: an excuse to decline.
     key = next((k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")), None)
-    if key is None:
-        pytest.skip("no paper currently opts into inline_images")
+    assert key is not None, (
+        "no paper in the committed registry sets inline_images, so no data URI is emitted and "
+        "nothing checks that the deposited figure's bytes are the figure file on disk.")
     paper = bsp.PAPERS[key]
     body, _ = bsp.assemble(paper, "manuscript")
     payload = re.search(r'src="data:image/png;base64,([A-Za-z0-9+/=]+)"', body)

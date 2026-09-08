@@ -25,7 +25,7 @@ related: [DOC-FACT-CHECK-LOG, DOC-REPURPOSING-HYPOTHESES-REVIEW, DOC-PPARG-DIREC
 **Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
+ORCID: 0000-0002-1823-1451
 
 Running title: Repurposing candidates in EMC
 
@@ -56,8 +56,9 @@ construction: nodes are distinguished by outline weight and fill lightness rathe
 journal colour charge is avoidable without a redraw. Superseded, retained: it was a Mermaid source
 block, which no submission system renders.
 AUTHOR NAME: given as Tristan D. McRae to match the author block already committed in
-nr4a3-degrader-paper.md and response-endpoint-indolent-tumours.md. No ORCID is given because the
-repository carries none.
+nr4a3-degrader-paper.md and response-endpoint-indolent-tumours.md. The ORCID in the author block,
+0000-0002-1823-1451, was supplied by the author on 2026-09-08; the earlier note here, that no ORCID
+was given because the repository carried none, is superseded by that supply.
 OPEN ITEM CARRIED FROM fact-check-log.md: the anti-angiogenic class claim is still cited to a
 review rather than to primary EMC reports. Two candidate primaries were surfaced by CI search and
 are not cited here because no committed artifact carries their titles or author lists.
@@ -89,10 +90,14 @@ online-first record; it is cited here to the 2021 Nucleic Acids Research databas
 are standard.
 -->
 
-> *Declarations for preprint deposit.* Ethics approval and consent were not required and were not
-> sought: this work analyses only published literature and public databases, and involves no human
-> participants, no identifiable data and no patient-level records. Funding: none. Competing
-> interests: none. Data and code: section 7.
+> *Declarations for preprint deposit.* Author: Tristan D. McRae, independent researcher,
+> unaffiliated; trimcrae@gmail.com; ORCID 0000-0002-1823-1451. Ethics: this work is an analysis of
+> published literature and public databases. It recruited no participants, collected no new samples
+> and delivered no intervention; no ethics approval was sought and none was obtained, and no
+> determination that approval was not required is made here. Patient-level information appears only
+> as the cited publications already report it, for example in the single case report cited as
+> reference 7. Funding: none. Competing interests: none. Use of AI tools: sections 2.5 and 8. Data
+> and code: section 7.
 
 > *Scope of the claims.* This is a hypothesis-generating review. It asserts no efficacy, potency,
 > dose, safety, therapeutic window or clinical readiness for any agent in any disease, and it makes
@@ -148,9 +153,12 @@ and outcomes vary widely by era and by completeness of surgery [4].
 
 Surgery, with or without radiotherapy, controls localised disease, but no systemic therapy is
 established in advanced EMC. The most consistently active class is the anti-angiogenic multikinase
-inhibitors: a 2025 comprehensive review reports an objective response rate of 18% and a median
-progression-free survival of 19 months for pazopanib in a multicentre phase 2 study (NCT02066285),
-against a low objective response rate for anthracycline-based chemotherapy [1]. Clinical
+inhibitors: in the multicentre single-arm phase 2 trial of pazopanib in advanced EMC (NCT02066285),
+4 of 22 evaluable patients achieved a RECIST partial response, an objective response rate of 18%, with
+a median progression-free survival of 19 months, against a low objective response rate for
+anthracycline-based chemotherapy [1]. Those trial figures are taken from the 2025 comprehensive
+review and from this project's registry record of that trial; the trial report itself was not
+retrieved for this manuscript. Clinical
 next-generation sequencing of advanced EMC characteristically reveals no recurrent, directly
 actionable driver mutation beyond the defining fusion [5]. An imatinib-sensitive activating *KIT*
 mutation is rare, reported in 1 of 20 EMCs in one series [6] and in 2 of 48, approximately 4%, in
@@ -259,8 +267,9 @@ expectation was a null, because transcript abundance is a weak instrument for a 
 ### 2.5 Use of AI tools in the research process
 
 The candidate enumeration, the graph-model run, the two pre-specified in-silico tests and the
-citation-integrity checks described above were executed by an AI coding agent operating on a
-version-controlled repository under the author's direction, using Anthropic Claude. Every step is a
+citation-integrity checks described above were executed by AI coding agents operating on a
+version-controlled repository under the author's direction, using Anthropic Claude and OpenAI
+models. Every step is a
 committed script with a committed output artifact, so each result is re-derivable offline without
 any AI tool. The author specified the inclusion rules, the evidence tiers and both pre-specified
 tests before the corresponding data were retrieved, and verified every reported value against the
@@ -328,8 +337,8 @@ published trials, which section 4.1 sets out. Table 2 gives the detail, stronges
 | Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
 | VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
 | Zaltoprofen, and by extension pioglitazone (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
-| Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only 1 of 17 chemotherapeutics with high sensitivity, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax synergy [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
-| Venetoclax (BCL-2, apoptosis) | Ex vivo: sensitivity established in both EMC models, with no monotherapy response [13] | Yes |
+| Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only compound of the 40 screened that the authors place in their high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+| Venetoclax (BCL-2, apoptosis) | Ex vivo: moderate sensitivity in the screen, carried into dose-response testing in both EMC models, with no monotherapy response [13] | Yes |
 | HDAC inhibitors: romidepsin, panobinostat (epigenetic) | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14]. Histone deacetylase is named in the parent histology [9] | Yes for EMC |
 | Brigatinib (kinome screen hit) | Ex vivo: same EMC-line screen, mechanism unexplained [14] | Yes |
 | CDK4/6 inhibitors: palbociclib (cell cycle) | Genomic and immunohistochemical: CDK4 positive in 100% of a 31-case series, with *CDKN2A*/*CDKN2B* loss, and no functional test [8,5] | Yes |
@@ -354,8 +363,8 @@ than by mechanism alone, and testable with existing models or existing agents.
 
 | Lead | Why it qualifies as untried | EMC-specific functional evidence | A realistic test |
 |---|---|---|---|
-| PPARγ agonism with pioglitazone, motivated by zaltoprofen | untried; targets EMC lineage and differentiation biology; oral and globally available | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
-| Carfilzomib with doxorubicin, and with venetoclax | untried in EMC; a hit from an unbiased screen rather than a hypothesis. The class is not untried in sarcoma: bortezomib monotherapy was taken to phase II in recurrent or metastatic sarcoma [21] and carfilzomib to phase I in combination in relapsed or refractory solid tumours [22] (section 4.1) | Ex vivo: the only 1 of 17 chemotherapeutics in a 40-drug screen with high sensitivity, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax synergy [13]. Section 4.1 states what that screen did and did not cover | preclinical replication, then a combination arm on the existing anthracycline backbone |
+| PPARγ agonism with pioglitazone, motivated by zaltoprofen | untried; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
+| Carfilzomib with doxorubicin, and with venetoclax | untried in EMC; a hit from an unbiased screen rather than a hypothesis. The class is not untried in sarcoma: bortezomib monotherapy was taken to phase II in recurrent or metastatic sarcoma [21] and carfilzomib to phase I in combination in relapsed or refractory solid tumours [22] (section 4.1) | Ex vivo: the only compound of a 40-drug screen placed in the authors' high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. Section 4.1 states what that screen did and did not cover | preclinical replication, then a combination arm on the existing anthracycline backbone |
 | HDAC inhibitors (panobinostat, romidepsin); brigatinib | untried in EMC; hits from a second, independent EMC screen; histone deacetylase is prior art in the parent histology [9] | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14] | replication across further EMC models; the brigatinib hit is mechanistically unexplained and worth dissecting |
 | CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
 | BET and CDK7 to CDK9 inhibition; direct *NR4A3* modulation | most on-target, addressing the transcriptional addiction of the fusion | mechanism and analogy only, with no EMC functional data | a research programme rather than a near-term trial |
@@ -428,7 +437,8 @@ candidate resting on any direct EMC clinical evidence, and is graded T2: that ev
 case-level signal in EMC, one published *KIT* exon-11-mutant patient with 3 years of disease
 stabilisation [7]. The assembled record supplies a case-level signal and does not establish the
 prospective or substantial EMC clinical evidence that this paper's definitions require for T3. It
-is approved, well characterised and biomarker-defined. The
+is approved in other indications, is characterised in those settings, and is biomarker-defined here;
+no approval, indication or established activity in EMC is asserted for it. The
 realistic route is molecular pre-screening by sequencing for *KIT* mutations, followed by an
 expanded-access or n-of-1 study in the small mutation-defined minority who qualify, rather than
 general use. It is not a hypothesis awaiting promotion into the project's cited clinical registry:
@@ -478,7 +488,11 @@ myxoid, matrix-secreting tumour carries the folding and disposal burden that wou
 capacity limiting, with the grading rule committed before the data were retrieved. On the
 35-tumour platform (GSE24369) the rule fired on the unfolded-protein-response module at +2.11,
 while the secretory and matrix-load proxy, which is the module carrying the actual argument, was
-flat at −0.20. On the 16-tumour platform (GSE4303) every module was null.
+flat at −0.20. On the 16-tumour platform (GSE4303) the pre-specified reading returned its null:
+neither the load modules nor the proteasome machinery moved. Two modules outside that pair did move
+on that platform, the bounce-back and integrated-stress module at +3.56, which clears the threshold,
+and the degradative-alternatives module at +1.88, which does not; neither carries the
+proteostatic-load argument, and neither is evidence for it.
 
 *The class has clinical trial experience in sarcoma, and this menu did not previously record it.*
 Two published trials give proteasome inhibition to sarcoma patients, and neither abstract inspected
@@ -520,8 +534,13 @@ series that no computational work can supply.
 
 A caution about the underlying screen, carried from section 3, applies to every row that cites it.
 The 40-drug screen was run on USZ20-EMC1 alone; carfilzomib, doxorubicin and venetoclax were
-subsequently tested in both models, and venetoclax showed no monotherapy response [13]. The
-superseded reading of that screen is registered in Appendix A.
+subsequently tested in both models, and venetoclax showed no monotherapy response [13]. What that
+screen reports for each agent is an ordinal band, none, low to moderate, or good to high, rather
+than an AUC or an IC50, and five of the forty compounds are named in the accessible record while the
+remaining identities appear in a figure that has not been read here. The two combinations were
+scored synergistic in the *EWSR1*-fusion model and additive in the second model, so the combination
+reading is not uniform across the pair. The superseded reading of that screen is registered in
+Appendix A.
 
 ### 4.2 Shared infrastructure
 
@@ -552,8 +571,10 @@ Third, the graph foundation model used as an independent check diverged from the
 and enumeration-derived leads, ranking the most clinically active agents in EMC, pazopanib and
 sunitinib, in the bottom quartile of 7,957 drugs. We pre-specified a stress test to ask whether
 this simply reflects the rarity of EMC. Re-running the model on two commoner relatives did not
-rescue the leads: they ranked similarly low and the model reproduced the same implausible top hits,
-which were metabolic and lysosomal-storage-disease agents (Table 4). The divergence is therefore
+rescue the leads: they ranked similarly low, and the same implausible compounds recurred at the top,
+with five appearing in the top 15 of all three disease nodes, none of them an agent this menu
+considers, and with enzyme replacements for lysosomal storage disorders among the EMC top hits
+(Table 4). The divergence is therefore
 not attributable to the sparsity of EMC specifically; it is a general property of the indication
 ranking of this released checkpoint, which, being the held-out complex-disease split, also prevents
 any of the three diseases from serving as a clean data-rich control. It is reported as a limitation,
@@ -562,13 +583,17 @@ as authoritative here.
 
 *Table 4.* Sparsity stress test. Median percentile of the mechanism-derived and
 enumeration-derived agents in the 7,957-drug indication ranking of the model, per disease; higher
-is better.
+is better. The values are the exact-name re-derivation of the committed run, in which each queried
+agent is matched to itself: 28 of 33 queried agents resolve exactly, two are absent from the graph,
+and three (doxorubicin, apatinib and ifosfamide) were misresolved by the original substring matcher,
+so their true ranks are unknown and are not estimated here (section 7). A model rank is not evidence
+of activity, and no agent in this table is promoted to a candidate.
 
-| Disease | median percentile of our agents | best-ranked of our agents |
-|---|---|---|
-| Extraskeletal myxoid chondrosarcoma | 21.0 | doxorubicin, 74.7th percentile |
-| Chondrosarcoma | 17.7 | doxorubicin, 80.0th percentile |
-| Soft-tissue sarcoma | 17.4 | doxorubicin, 71.5th percentile |
+| Disease | median percentile of our agents | best exactly matched agent | pazopanib | sunitinib |
+|---|---|---|---|---|
+| Extraskeletal myxoid chondrosarcoma | 20.9 | masitinib, 52.4th percentile | 19.3 | 19.8 |
+| Chondrosarcoma | 17.6 | masitinib, 69.9th percentile | 14.5 | 12.8 |
+| Soft-tissue sarcoma | 17.0 | masitinib, 61.2th percentile | 18.5 | 16.8 |
 
 Fourth, biomarker-restricted candidates, imatinib in particular, apply only to a molecularly
 defined minority and must not be generalised.
@@ -642,7 +667,13 @@ All underlying data and the methods that generated them are open. The scored can
 the target-to-drug enumeration code and its output (`enumerate-drugs.mjs`,
 `target-drug-matrix.json`), and the graph-model run, outputs and write-up (`txgnn_predict.py`,
 `txgnn-emc-predictions.json`, `txgnn-relatives-comparison.json`, `txgnn-emc-findings.md`) are in
-the project repository. The two pre-specified proteasome tests are recorded in
+the project repository. Table 4 is quoted from the exact-name re-derivation of that run,
+`research/hypotheses/txgnn-exact-match-reanalysis.json`, which re-reads the committed outputs
+without re-running the model; the earlier substring-matched percentiles it corrects, and the three
+agent ranks it reports as unknown, are registered in Appendix A. Two cautions apply to reading the
+candidate dataset alongside this text: it records imatinib under the earlier tier label T3, whereas
+the grade adopted here is T2 (section 2.2), and its composite score orders nothing in this
+manuscript (section 3). The two pre-specified proteasome tests are recorded in
 `research/modalities/depmap-sarcoma-dependency.json` and
 `research/modalities/emc-proteostasis-read.json`, the expression panels they read in
 `research/modalities/emc-expression-panels.json`, the PPARγ adjudication in
@@ -658,11 +689,12 @@ analyses, performed the literature curation and verification, and wrote the manu
 independently and in a personal capacity.
 
 *Declaration of generative AI and AI-assisted technologies in the manuscript preparation process.*
-During the preparation of this work the author used Anthropic Claude in order to draft and revise
-manuscript text, to aggregate literature and to verify bibliographic identifiers against retrieval
-records. After using this tool the author reviewed and edited the content as needed and takes full
-responsibility for the content of the published article. The tool is not an author and cannot be
-one. Use of AI tools within the research process itself is described in section 2.5.
+During the preparation of this work the author used Anthropic Claude and OpenAI models in order to
+draft and revise manuscript text, to aggregate literature and to verify bibliographic identifiers
+against retrieval records. After using these tools the author reviewed and edited the content as
+needed and takes full responsibility for the content of the published article. The tools are not
+authors and cannot be. Use of AI tools within the research process itself is described in
+section 2.5.
 
 *Clinical review.* A sarcoma clinician or researcher has not been involved. Clinical collaboration
 is actively sought and is recommended, to review candidate plausibility and the clinical-registry
@@ -674,8 +706,11 @@ absence of such review.
 *Competing interests.* None. The work has no commercial sponsor and uses only public databases and
 agents that are already approved or off-patent.
 
-*Ethics.* No human participants, no identifiable data, no patient-level records, and no
-wet-laboratory work.
+*Ethics.* This is an analysis of published literature and public databases. It recruited no
+participants, collected no new samples, delivered no intervention and involved no wet-laboratory
+work. No ethics approval was sought and none was obtained, and no determination that approval was
+not required is made here. The patient-level information discussed above is confined to what the
+cited publications already report.
 
 *Acknowledgements.* The public resources this work builds on, with thanks: DGIdb; the TxGNN and
 PrimeKG project; DepMap; the Gene Expression Omnibus; the FDA and NCATS CURE ID registry; and the
@@ -733,4 +768,8 @@ dataset behind it, previously made.
 | A single ordered list of 14 candidates presented by the 0-to-18 composite triage score | The presentation is by evidence strength against novelty (Tables 1 to 3). The composite score remains in the dataset and orders nothing in the text | §3 | Summing evidence with novelty, tolerability and availability floats the already-known agent to the top, and the resulting order is easily misread as a discovery ranking |
 | The document's own status as an "earlier treatment-track draft, subsumed by the treatment roadmap, not for submission" | A submission text, rewritten to the target journal's review format | Document header | The header was repository scaffolding and does not belong in a manuscript. The relationship to the roadmap is recorded in the repository rather than in the paper |
 | **Reference 11 (TxGNN) cited as PMID 39148855** | **PMID 39322717**, with the full record: Huang K, Chandak P, Wang Q, Havaldar S, Vaid A, Leskovec J, et al. *Nat Med.* 2024;30:3601-3613. PMC11645266 | §9 reference 11 | A DOI-keyed retrieval on 2026-08-09 resolved the DOI carried in the same entry, 10.1038/s41591-024-03233-x, to PMID 39322717, and a query for `EXT_ID:39148855` returned no record ([`citation-corrections-2026-08-09.json`](../../literature/citation-corrections-2026-08-09.json)). ⚠ The superseded number was anchored in the provenance ledger and so passed gate 4: anchoring is evidence that a fetch happened and never that an identifier is the right one. Nothing attributed to the model in this document changes; only the identifier does |
+| Carfilzomib described as "the only 1 of 17 chemotherapeutics with high sensitivity", and the two combinations as showing "synergy" without qualification | The source's own claim is that carfilzomib was **the only compound of the 40** that its high-sensitivity band contains; and the two combinations scored **synergistic in the *EWSR1*-fusion model and additive in the second model**. The screen reports **ordinal bands**, not AUC or IC50 values, and 35 of the 40 compound identities are not in the accessible record | §3.1 Table 2, §3.2 Table 3, §4.1 | The "1 of 17" split cannot be checked against any artifact retained here: the roster lives in a figure and a supplementary table this project has not read, and the verbatim passages it does hold say "the only compound that showed high sensitivity" and give the combination scores per model. Narrowed 2026-09-08 to what the retained record literally supports |
+| The pazopanib figures given only as "a 2025 comprehensive review reports an objective response rate of 18% and a median progression-free survival of 19 months" | The same figures with the denominator the trial reports: **4 of 22 evaluable patients** achieved a RECIST partial response, 18%, median progression-free survival 19 months (NCT02066285), with the sourcing stated: the review and this project's registry record of the trial, not a retrieval of the trial report | §1.1 | A rate without its denominator cannot be checked by a reader, and the retained registry record carries both the fraction and the verbatim response sentence. Corrected 2026-09-08 |
+| Table 4 reported by substring matching: medians 21.0, 17.7 and 17.4, with "doxorubicin" as the best-ranked agent at the 74.7th, 80.0th and 71.5th percentiles | Exact-name medians **20.9** (EMC), **17.6** (chondrosarcoma) and **17.0** (soft-tissue sarcoma), with **masitinib** the best exactly matched agent at 52.4, 69.9 and 61.2. The three "doxorubicin" entries were **13-deoxydoxorubicin** (EMC and soft-tissue sarcoma) and **Zoptarelin doxorubicin** (chondrosarcoma), which are not doxorubicin; the true ranks of doxorubicin, apatinib and ifosfamide are **unknown** and are not estimated | §5 Table 4 and its surrounding paragraph | The original matcher tested a query as a substring against a descending ranking and returned the highest-scoring compound whose name contained it, so each published percentile was an upper bound. Re-derived from the committed outputs in [`txgnn-exact-match-reanalysis.json`](../../hypotheses/txgnn-exact-match-reanalysis.json) with no model re-run, and guarded by `research/manuscripts/tests/test_txgnn_exact_match.py`. The stress test's conclusion is unchanged: the relatives rank no better than EMC. Corrected 2026-09-08 |
+| "On the 16-tumour platform (GSE4303) **every module was null**" | The pre-specified reading is null, because neither the load modules nor the proteasome machinery moved; but two modules outside that pair did move, bounce-back and integrated stress at **+3.56**, which clears the pre-specified threshold of absolute t at least 2, and degradative alternatives at **+1.88**, which does not | §4.1 | "Every module was null" is not what the artifact records. [`emc-proteostasis-read.json`](../../modalities/emc-proteostasis-read.json) carries both values, and the null verdict it emits is scoped to the load modules and the machinery. Corrected 2026-09-08; the negative reading of the proteostatic-load rationale is unchanged |
 | The proteasome candidate presented as surviving on a published ex-vivo observation **alone**, and carried as **untried** without qualification | Untried **in EMC**, but the drug class is **not clinically untried in sarcoma**: bortezomib monotherapy reached a multicentre phase II in recurrent or metastatic sarcoma (Maki et al. 2005, reference 21) and carfilzomib reached a phase I in combination in relapsed or refractory leukaemia and non-CNS solid tumours (Boklan et al. 2025, reference 22). ⚠ Both are read at **abstract level only** — no full text was retrieved for either, so per-histology outcomes and response rates are **unread**. Neither record confirms nor refutes the candidate, and the two in-silico negatives in §4.1 are unchanged | §3.1 Tables 1 and 2, §3.2 Table 3, §4 tranche 3, §4.1, §5, §6, §9 references 21 and 22 | The preceding draft omitted these two class-level reports. A class-scoped query of the parent histology, run on 2026-08-28 and recorded in [`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json), returned both records. Corrected 2026-09-08 |

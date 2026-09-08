@@ -20,6 +20,16 @@ related: [DOC-EMC-MTAP-PRMT5]
 
 # Supplementary information
 
+**Tristan D. McRae**
+
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+
+Funding, competing interests, ethics, authorship and the generative-AI declaration are in section 6
+of the main text and apply to this supplement unchanged. No funding was received, the author
+declares no competing interests, and the work is a secondary analysis of public data for which no
+ethics approval was sought or obtained.
+
 *Supplement to "The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class
 rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests". Section
 numbers of the form 3.2 refer to the main text. Nothing here asserts efficacy, safety, a therapeutic
@@ -31,9 +41,19 @@ window or clinical readiness for any agent in any disease.*
 
 | source | what it is | what it can support | what it cannot |
 |---|---|---|---|
-| GSE24369 / GPL6244 | 6 EMC against 29 comparator sarcomas, single-channel intensity | a within-array contrast between EMC and its comparators | absolute expression; anything about protein |
-| GSE4303 / GPL3290 | 10 EMC against 6 comparators, two-colour cDNA log-ratio | the same contrast, independently | absolute levels, since every value is a ratio against a reference pool |
+| GSE24369 / GPL6244 | 6 EMC against 29 comparator sarcomas, 35 of the 42 samples deposited, single-channel intensity | a within-array contrast between EMC and its comparators | absolute expression; anything about protein |
+| GSE4303 / GPL3290 | 10 EMC against 6 comparators, two-colour cDNA log-ratio against two different reference pools | the same contrast, independently | absolute levels, since every value is a ratio against a reference pool |
 | DepMap sarcoma CRISPR panel, public 24Q4 release | 91 screened sarcoma cell lines, of 176 sarcoma models in the release | whether a gene is required in this tissue class | anything about EMC, since the panel contains no EMC line |
+
+Two facts about the arms sit behind that table and are stated in main text section 2.1. GSE24369
+deposits 42 samples and 35 are scored: five solitary fibrous tumours matched no comparator pattern
+and fell out accidentally, and two pooled normal skeletal-muscle RNA samples are not tumours.
+Including the five solitary fibrous tumours moves *PRMT5* from *t* = 6.24 to 6.31 and *MTAP* from
++0.69 to +0.70. On GPL3290 the ten EMC tumours and the three DFSP comparators are annotated against
+a CRH reference and the three GIST comparators against Universal Human Reference, so half the
+comparator arm carries a different denominator from every EMC tumour; within-reference contrasts
+keep the direction of the pooled one, *PRMT5* reading *t* = 5.97 and 4.32 on three comparators each.
+Both readings live in `emc-prmt5-multiplicity.json`.
 
 The third row is the binding limit of the whole study. No EMC cell line carrying the fusion appears
 in any public dependency dataset. The one line on the curated record labelled EMC is recorded by
@@ -48,8 +68,9 @@ distribution, so a value is a position within that array and not a quantity comp
 platforms. Each sample also carries its array percentile.
 
 Per group, a score is the mean of its member genes' *z*, contrasted between EMC and the comparator
-arm by Welch's *t* with Welch degrees of freedom. No multiplicity correction is applied anywhere, and
-every reported *t* must be read with that in mind.
+arm by Welch's *t* with Welch degrees of freedom. Every *t* in this file is uncorrected for the
+number of genes examined and must be read with that in mind. The family-wise correction of S10
+covers the primary contrasts only, and none of the group scores in S3 carries one.
 
 A curated group emits no score unless at least three genes are readable and coverage is at least 0.5.
 A group failing that floor is reported as underpowered with no score emitted, which is an instrument
@@ -76,7 +97,7 @@ strictest sense, because an array cannot see a methyl mark, so the abundance of 
 substrates says nothing about whether PRMT5 is acting on them. The proliferation and chondroid group
 scores in this table use the panel's own coverage rule and member list, while the adjustment in main
 text section 3.6 uses a twelve-gene and an eight-gene score with a per-sample coverage floor, so the
-two are close but not the same instrument (S11).
+two are close but not the same instrument (S10).
 
 The locus reading gene by gene, which closed that rationale:
 
@@ -112,13 +133,13 @@ nothing to select on.
 
 The group unit fails in both directions. For the locus, the group score reported a signal its
 decisive gene (MTAP) did not have. For the methylosome, the group score hid a signal its decisive
-gene (PRMT5) does have, since pooled across four genes EMC ranks second of four comparator classes
-while PRMT5 alone is highest. Neither is visible without reading the constituent genes, so a curated
-group score is treated here as a summary and not as a unit of evidence.
+gene (PRMT5) does have, since pooled across four genes EMC ranks second of the four classes on that
+array while PRMT5 alone ranks first. Neither is visible without reading the constituent genes, so a
+curated group score is treated here as a summary and not as a unit of evidence.
 
-MTAP reading as a non-dependency is the internal positive control. A biomarker should not be a
-dependency and a target should, and the panel separating them in the expected direction is weak
-evidence that it is being read correctly.
+MTAP reading as a non-dependency is the panel's internal control, which is how main text section 3.3
+describes it. A biomarker should not be a dependency and a target should, and the panel separating
+them in the expected direction is weak evidence that it is being read correctly.
 
 ## S5. Negative and internal controls
 
@@ -145,7 +166,7 @@ readings turn out to be artefacts of cellularity or growth fraction.
 |---|---|---|
 | 1, readings per tumour | `emc-expression-panels.json`, `gene_reads[*].per_sample` | every tumour is visible; medians are bars |
 | 2, the locus gene by gene | same | closed the MTAP rationale: MTAP flat, CDKN2A carrying the signal and reversing across platforms |
-| 3, dependency qualifier | `depmap-sarcoma-dependency.json` | argues against the proliferation reading |
+| 3, dependency qualifier | `depmap-sarcoma-dependency.json` | a growth effect is close to expected across sarcoma lines, so only an effect on fusion-driven transcription would be specific to this disease |
 | 4, pooled against single gene, per class | `emc-expression-panels.json` | pooled, EMC ranks second below desmoid; PRMT5 alone separates |
 | 5, the motif map | `emc-prmt5-substrate-motif-map.json` | the commonest EMC and clear cell fusions keep the same four sites, and EWSR1::FLI1, drawn beside them, keeps none |
 
@@ -181,8 +202,12 @@ Every number in the main text and in this supplement resolves to one of:
 - `research/modalities/census-route-expression-grading.json`, the grading of this route against its
   own selection criterion
 - `research/modalities/depmap-sarcoma-dependency.json`, the sarcoma-line dependency prior
+- `research/modalities/emc-atr-vulnerability.json`, the series readability record behind S1 and main
+  text section 2.1
 - `research/modalities/emc-prmt5-route-controls.json`, the control calculations of main text
   section 3.6
+- `research/modalities/emc-prmt5-multiplicity.json`, the family-wise correction of S10, the
+  deposited-sample exclusions and the reference-channel split of S1
 - `research/modalities/emc-prmt5-substrate-motif-map.json`, the motif counts of S9 and the two
   double-entry checks against the artifacts that already held the RG numbers
 - `research/modalities/emc-fet-construct-designs.json` and
@@ -253,16 +278,41 @@ intersection: requiring every member gene would drop GPL3290 from 16 samples to 
 to the definition would have reduced the sample without that being visible in the output. The floor
 stops a sample scoring off one stray gene while keeping all sixteen.
 
-The genome-wide null. The same statistic is computed for every symbol the platform's probes map to
-(18,474 and 14,402), and each gene of interest placed in that distribution. It is computed at fetch
-time because that is the only point at which the full probe matrix exists. It double-enters the
+The genome-wide null. The same statistic is computed across the symbols the platform's probes map to
+and each gene of interest is placed in that distribution. The placement main text section 3.5 reports
+scores 18,688 symbols on GPL6244 and 14,404 on GPL3290, out of 14,928 carrying a probe on the latter.
+It is computed at fetch time because that is the only point at which the full probe matrix exists. It double-enters the
 panel, since the null recomputes from the raw matrix, by a separate code path, the statistic the
 panel computes from reduced per-gene values, and a wanted gene's *t* must agree between them. It
 does, for every gene on both platforms.
 
+The family-wise correction. The arm labels are permuted exactly as the exact test permutes them,
+Welch's *t* is recomputed at each labelling for every gene in a family of 5,449 symbols on GPL6244
+and 4,848 on GPL3290, the family-wide maximum |*t*| is recorded, and a gene's adjusted *p* is the
+fraction of labellings whose maximum reaches its observed value. GPL3290 enumerates all 8,008
+labellings; GPL6244 draws 20,000 under a fixed seed and reports a Monte-Carlo standard error.
+
+| gene | platform | \|*t*\| | family-wise adjusted *p* |
+|---|---|---:|---:|
+| PRMT5 | GPL6244 | 6.24 | 0.208, standard error 0.003 |
+| PRMT5 | GPL3290 | 6.67 | 0.238, exact |
+| MAT2A | GPL6244 | 4.13 | 0.978 |
+| MAT2A | GPL3290 | 4.10 | 0.965 |
+| CDKN2A | GPL6244 | 5.40 | 0.508 |
+| MTAP | GPL6244 / GPL3290 | 0.69 / 2.27 | 1.000 / 1.000 |
+| NR4A3, control | GPL6244 | 4.66 | 0.850 |
+| ENO3, control | GPL6244 / GPL3290 | 3.61 / 13.22 | 1.000 / 0.0097 |
+
+Each family is a subset of its array, so every value above is a lower bound that adding symbols can
+only raise. The correction is a statement about how often a labelling of these samples produces a
+statistic this large somewhere in the family; it does not withdraw any reading, and it removes any
+claim that these two series establish the *PRMT5* contrast.
+
 Status. The PRMT family, the fuller proliferation set, the Sm substrates, the additional chondroid
 markers and the genome-wide null were added to the panel definition on 2026-08-09 and fetched the
-same day; every figure in main text sections 3.5 and 3.6 is read from that fetch.
+same day; every figure in main text sections 3.5 and 3.6 is read from that fetch. The family-wise
+correction and the two arm disclosures of S1 were computed on 2026-08-10 from the same committed
+fetch cache, with no re-fetch and no new measurement.
 
 ---
 
@@ -282,6 +332,11 @@ A carries the subset that lived in the main text.
 | §3.1/§S4, the dependency denominator | "across 176 sarcoma cell lines" | **"across the 91 screened sarcoma cell lines"** | ⛔ a real error, in the direction that overstated the evidence base, and it was in four places including the abstract. The release lists 176 sarcoma MODELS; only **91** carry CRISPR gene-effect data, and every per-gene record in the artifact says `n_sarcoma: 91`. The percentages themselves are unchanged — they were always computed on the screened subset — but they were being attributed to a denominator almost twice its true size. Caught 2026-08-09 by a later run that added a second gene group and printed the same 91 |
 | §7, the fusion-class transfer | "an assumption" | "argued rather than assumed" | a peer-reviewed fusion-dependent PRMT5 result in a second EWSR1-fusion sarcoma, and the motif match of §S9. ⚠ Still not an EMC observation |
 | §S5, the proliferation control | *Superseded, retained: "No proliferation-matched control exists."* | one is now run, and it disagrees between platforms | the in-silico substitute is reported in §S5 and in main text §3.6. It is a measurement, not a resolution |
+| §S10/main §2.3, the genome-wide symbol counts | 18,474 and 14,402 | **18,688 scored on GPL6244; 14,404 scored of the 14,928 carrying a probe on GPL3290** | ⛔ the superseded pair appears in **no committed artifact at any point in this repository's history**. The live values are what `emc-prmt5-route-controls.json` records under `genome_wide_placement.n_symbols_scored`, with the probe-carrying count from `emc-expression-panels.json`. The old sentence also claimed a computation over *every* symbol carrying a probe, which is not what ran on GPL3290 |
+| §S2, the blanket statement that no multiplicity correction is applied | *Superseded, retained: "No multiplicity correction is applied anywhere."* | a family-wise correction covering the primary contrasts is reported in §S10; the group scores of §S3 still carry none | ⛔ the correction was computable from data already committed and it is result-changing: *PRMT5* reaches **0.208 and 0.238** adjusted. No measured value was withdrawn — the uncorrected statistics stand exactly where they stood |
+| §S1, the arms | the two series described by their scored arms alone | additionally: 35 of GSE24369's 42 deposited samples are scored, and GPL3290 carries two different reference pools across the comparator arm | ⚠ both facts are in the committed record and neither was stated. Including the five solitary fibrous tumours moves *PRMT5* from 6.236 to 6.309; the within-reference contrasts keep the direction of the pooled one. Disclosure, not correction |
+| §S6, figure 3's reading | *Superseded, retained: "argues against the proliferation reading."* | a growth effect is close to expected across sarcoma lines, so only an effect on fusion-driven transcription would be specific to this disease | ⛔ the old wording inverted the argument the main text makes from the same figure, and a supplement that disagrees with its own paper on the meaning of a display item is the defect, not the wording |
+| §S4, MTAP as a control | *Superseded, retained: "the internal positive control."* | the panel's internal control | a non-dependency used as a control is not a positive control, and main text §3.3 already called it the internal control |
 | §S11 status line | *Superseded, retained: an earlier version reported the added panel members as pending.* | they were fetched on 2026-08-09 | the re-fetch landed the same day |
 | this file's own register | §S10, numbered in sequence with the method sections | Appendix S1 | `lint_style.py` exempts sections under an `Appendix` heading, because superseded-value bookkeeping is required by rule 1.2 and belongs in an appendix rather than in running text. The content is unchanged |
 | both files' register | repository house style throughout: glyph warnings, bold on the load-bearing clause, sentence-shaped headings, running commentary on the paper's own honesty | journal register in the running text, with the house-style rows preserved verbatim inside this appendix | the register was correct for a maintainer and wrong for a journal reader. No measured statement was removed. The rows above are left in their original wording rather than rewritten, because a corrections register that is itself edited is no longer a record |
