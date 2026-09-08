@@ -151,3 +151,40 @@ history. **No historical audit, crawl or recovery branch is opened.**
 strings, `pageSize=400` on the fusion screen, `query.cond` on the 526-trial screen. **The
 eligibility-coverage conclusion remains unresolved.** None of this undoes an observed source result,
 authorises the old census, or reopens a denied route.
+
+
+---
+
+# All four qualifications now applied to the MANUSCRIPT TEXT, appended 2026-09-08 ~11:54 UTC
+
+The earlier append corrected the adjudication and two manuscript sentences. **Two more lived on in the
+changed manuscript text and are now fixed there too** — the point being that a qualification recorded
+only in a receipt or a proposal has not been applied.
+
+| # | what the integrated text said | what it says now | landed |
+|---|---|---|---|
+| 1 | `fields=` "restricts what a response returns, not what the search reads" | *"what that parameter does to the search, as opposed to the response, is not established by the manifests and is not asserted here"* | `3be62db0` |
+| 2 | the reference was "read in full" | *"returned only a targeted extract"* | `3be62db0` |
+| 3 | *"the responses themselves **were not retained**"* | *"**no stored responses were found in the deposit inspected here**"* | **this commit** |
+| 4 | the secondary sources *"**do not agree**"* | *"they are **not confirmatory** … That extract is **less specific** than the other descriptions **rather than contradicting them**, so it neither corroborates nor refutes them"* | **this commit** |
+
+⭐ **On (4) specifically:** an extract that is silent about eligibility coverage **does not contradict**
+a source that describes it. Calling that "disagreement" was my error — the honest word is
+**insufficient / non-confirmatory**, or a **difference in specificity**. There is no actual
+contradictory statement on the record.
+
+⭐ **On (3):** the supported claim is about **the deposit inspected here** — not about all records, all
+history, or what was ever committed.
+
+**Preserved and unchanged:** the verified endpoint, the exact `query.term` strings, `pageSize=400` on
+the fusion screen, and the paper's original unresolved conclusion — *"whether a trial carrying its
+fusion language only in eligibility text could enter the pool is **untested**."* Token check for this
+delta: **16 tokens out, 31 in**, all inside the two corrected sentences.
+
+**No fresh source hunt, no rerun, no retry of a denied route, and no upgrade of any claim.** Gates:
+`lint_consistency`, `lint_style`, `lint_claims`, `lint_submission_residue`, `lint_asymmetry` all
+**exit 0**; `lint_citations` remains **exit 1**, pre-existing.
+
+**Reviewable as a later delta:** the before/after manuscript pair and the unified diff for **this**
+correction are retained beside the earlier integration pair, so both steps can be read separately.
+Original child source output is untouched.
