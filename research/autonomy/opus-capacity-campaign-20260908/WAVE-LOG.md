@@ -327,3 +327,61 @@ eligibility remains negative** — the confirmed writer baseline is **1497/1500*
 path is **not** authority to raise the ceiling, and this coordinator does not raise it. The scientific
 owner retains any later integration disposition. The W23 packet remains **advisory**, and its pre-02:40
 body remains **historical** beside this later evidence.
+
+## 2026-09-08 ~02:58Z — CORRECTION: the junction-source directory IS in the frozen corpus
+
+**Corrected, not deleted.** Two earlier entries in this log, and W23's packet, state that
+`research/autonomy/nr4a3-patient-junction-source-2026-09-07/` is absent from the verified frozen
+corpus. **That is FALSE.** The error was a path-root mistake by this coordinator: the
+repository-relative root of the supplied files is
+**`/tmp/claude-0/frozen-corpus/extracted/corpus/`**, not `/tmp/claude-0/frozen-corpus/extracted/`.
+Searching the outer directory finds nothing and looks like absence. The earlier text is retained
+above; this section supersedes it, and it supersedes it on evidence rather than on assertion.
+
+**Inspected here, in the extracted corpus, this coordinator's own `stat`/`sha256sum`:**
+
+| Corpus path (root `…/extracted/corpus/`) | bytes | sha256 |
+|---|---|---|
+| `research/autonomy/nr4a3-patient-junction-source-2026-09-07/README.md` | **7,227** | `55dc009f52373fa28faf9aa22037db552f9625aee7646f3d3d8957794e1750c2` |
+| `research/autonomy/nr4a3-patient-junction-source-2026-09-07/retrieval.json` | **3,870** | `a5216ca7edcf00694cf58625f85cf991f77d3b85aea1a19902aef998aefee273` |
+| `research/autonomy/next-paper-2026-09-07/additional-source-provenance/brenca-correction-pubmed.json` | **2,599** | `c83fbdbf5adb54721a59088f5db824d099960bc56d05b191019e74ea9a343172` |
+
+All three byte counts match the owner's, and all three are members of the **same** whole-ZIP already
+verified at sha256 `b474cd2f8a0e3fa3a253f5b3135379cb26c15222a94698fc411fd781f6346808`. The directory
+holds **13 files** in total: the two above plus `brenca-origin-gate.csv`, `compare_published_calls.py`,
+`coordinator-verification.json`, `delite-model-metadata.csv`, `published-call-comparison.json`,
+`recover.py`, and `sources/{brenca-article.xml, brenca-ena-runs.tsv, brenca-project.xml,
+delite-article.xml, urbini-article.xml}`. **This is inspection of already-supplied context — no
+re-upload, no new source request and no retrieval was performed.**
+
+The README's own front matter reads `id: DOC-NR4A3-PATIENT-JUNCTION-SOURCE-20260907`,
+`status: live`, `date: 2026-09-07`, and its opening paragraph states verbatim:
+
+> "The proposed original patient-read study did not pass its access and specimen-identity gate.
+> No raw reads were downloaded or aligned."
+
+**What is corrected, and what is not.**
+
+1. **Corrected:** every statement in this log and in W23 of the form *"absent from the frozen
+   corpus"* for this directory. The correct statement is: **absent from this cloud checkout at every
+   HEAD the campaign has read, present in the frozen corpus, and now read there.**
+2. **Corrected:** the SECONDARY grading of the ~02:40Z Brenca section is upgraded **only for the two
+   files actually opened here**; everything transcribed from the owner that this coordinator has
+   still not read stays SECONDARY.
+3. **NOT corrected, and unchanged:** W01b, W01e and W23 stated honestly that they had **not read**
+   these files, and that honesty is preserved rather than rewritten. Their reports stand.
+4. **NOT changed by this at all:** the Brenca closure. The accessions remain **already recovered and
+   DUPLICATE, never novelty**; the directory's own README records that its access-and-identity gate
+   was **not passed**; 23 ENA libraries are **not** 23 patients and the paper-stated specimen count
+   is 12. No cohort, independence or patient claim follows from this correction.
+5. **Operational consequence:** the same root-path correction must be applied before relying on any
+   repository-novelty claim made against the corpus — W23 rank 3's novelty search in particular was
+   run against the older remote checkout and the outer directory, so its scope must be restated
+   before it is used.
+
+W21b independently reached the same finding from the other direction, enumerating the 13 files as
+corpus-only and flagging that the incorrect standing fact was propagating through dispatch prompts.
+It also drafted two further corrections — to W01e's *"only EGA accession anywhere in the tree"*
+sentence (four more are live-tree, two more corpus-only; its substantive verdict survives) and to
+W13c's *"identified here for the first time"* for Giner 2022/2023 (the full citation is already in
+the live tree at two paths). Both are retained in `reports/W21b-*` for the owner.
