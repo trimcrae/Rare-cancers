@@ -13,9 +13,17 @@ selectivity axis. They are drawn in a separate, hatched "NOT EVALUATED" side ban
 selectivity scale at all, so that a missing value can never be read as a measured selectivity of
 zero. In the current artifacts those antigens are B4GALNT1 (GD2 synthase) and SSTR2.
 
-Deterministic: the only decorative freedom in the plot, the within-tier vertical offset, is
-derived from the gene's index in SHOW, so the same committed inputs render byte-identical output
-in any process, under any PYTHONHASHSEED, on any machine.
+Deterministic offset: the only decorative freedom in the plot, the within-tier vertical offset,
+is derived from the gene's index in SHOW. That formula depends on committed inputs alone -- not on
+Python's per-process hash seed, not on iteration order, not on the clock or an RNG -- so it yields
+the same offsets in any process and under any PYTHONHASHSEED. Measured: four separate processes
+with PYTHONHASHSEED unset, 12345 and 7 produced one identical PNG sha256, as did three further
+parent runs with the seed unset, 999 and 42.
+
+That is a statement about the OFFSET, not a promise of byte-identical PNGs anywhere. The rendered
+bytes also depend on the Matplotlib, Pillow, FreeType and font versions, the backend and other
+environment details, and no cross-machine rendering experiment was run. What is established is
+repeatable output across fresh processes and hash seeds IN THE RECORDED ENVIRONMENT.
 
 Reads the committed JSONs from the modalities-cache branch (CI has internet). matplotlib only.
 Output: emc-surface-prioritization.png
