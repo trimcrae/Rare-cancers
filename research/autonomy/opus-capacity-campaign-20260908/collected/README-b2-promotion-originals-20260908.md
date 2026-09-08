@@ -53,6 +53,22 @@ Two results are preserved **as failures**, unaltered and correctly labelled:
 repository working tree from episode 1. It stays in place on the container. `SANDBOX-EXCLUDED.txt`
 inside the archive records this.
 
+## ⚠ Episode 1's transcript is NOT in this archive — it ships separately
+
+The `child-jsonl/` set here contains `agent-a56ed0c3f3f470acc.jsonl`, whose first record is
+2026-09-08T14:43:22Z. ⛔ **That is the POST-RESTART episode alone and must not be read as covering
+both.**
+
+Episode 1's original transcript survives — `agent-a926deb4c243c5d6f.jsonl`, 128,414 bytes,
+2026-09-08T14:41:12.587Z to 14:42:03.499Z, 51 records, 15 tool calls, serving `claude-opus-5`. It was
+omitted from this archive by error and is shipped in
+`b2-episode1-original-20260908.tar.gz` (40,367 bytes, sha256
+`df35ac4fa8d01b019d71ea60098e1c412d1200c19ab02e5097d9e913ac30c311`), with
+`EPISODE-1-PROVENANCE.md` recording exactly what it contains and where it stops.
+
+Episode 1's only filesystem artifact is the excluded 673,696,076-byte `sandbox/` copy of the
+repository tree — noted below, and it is the whole of that episode's on-disk output.
+
 ## Promotion and finding lanes
 
 `lanes/pm-methods`, `pm-endpoint` (the frozen handoff, zero edits), `pm-tcip`, `pm-sl`, `pm-mono`,
