@@ -291,7 +291,7 @@ published trials, which section 4.1 sets out. Table 2 gives the detail, stronges
 | Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
 | VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
 | Zaltoprofen, and by extension pioglitazone (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
-| Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only 1 of 17 chemotherapeutics with high sensitivity, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax synergy [13]. The 40-drug screen ran on one model; see section 4.1. No EMC clinical evidence exists, but the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+| Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only 1 of 17 chemotherapeutics with high sensitivity, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax synergy [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
 | Venetoclax (BCL-2, apoptosis) | Ex vivo: sensitivity established in both EMC models, with no monotherapy response [13] | Yes |
 | HDAC inhibitors: romidepsin, panobinostat (epigenetic) | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14]. Histone deacetylase is named in the parent histology [9] | Yes for EMC |
 | Brigatinib (kinome screen hit) | Ex vivo: same EMC-line screen, mechanism unexplained [14] | Yes |
@@ -327,7 +327,7 @@ The entries in Table 3 converge on EMC-specific functional data. The PPARγ axis
 plus an in-vivo result, the proteasome and BCL-2 axis carries a patient-derived-model screen, and
 the HDAC and brigatinib hits come from a separate screen. None has been tried clinically in EMC. For
 the proteasome axis alone, that statement does not extend to the class, which has clinical trial
-experience in sarcoma outside EMC (section 4.1). That short list is the practical output of the
+experience in sarcoma (section 4.1). That short list is the practical output of the
 exercise.
 
 ### 3.3 The PPARγ axis and its unresolved direction
@@ -407,8 +407,7 @@ checking before any such design.
 pioglitazone, read with section 3.3), the cell-cycle candidate (CDK4/6), the epigenetic candidates
 (HDAC, BET, CDK7 to CDK9) and the apoptotic and proteostatic candidates (venetoclax, carfilzomib)
 rest on in-vivo or patient-derived-model screen signals rather than on EMC clinical data; for the
-proteasome candidate, section 4.1 sets out the class-level sarcoma trial experience that exists
-outside EMC. Their natural
+proteasome candidate, section 4.1 sets out the class-level sarcoma trial experience that exists. Their natural
 next step is replication in the existing patient-derived EMC models, prioritising hits that recur
 across models and that pair logically with the current anthracycline backbone, before any clinical
 consideration.
@@ -435,8 +434,8 @@ while the secretory and matrix-load proxy, which is the module carrying the actu
 flat at −0.20. On the 16-tumour platform (GSE4303) every module was null.
 
 *The class has clinical trial experience in sarcoma, and this menu did not previously record it.*
-Two published trials give proteasome inhibition to sarcoma patients outside EMC. Both are read here
-at abstract level only: no full text was retrieved for either, so enrolment denominators beyond
+Two published trials give proteasome inhibition to sarcoma patients, and neither abstract inspected
+here reports an EMC-specific result. Both are read here at abstract level only: no full text was retrieved for either, so enrolment denominators beyond
 those the abstracts state, per-histology outcomes and response rates are unread rather than absent.
 Maki and colleagues ran a multicentre phase II of bortezomib monotherapy in recurrent or metastatic
 sarcoma [21]. Its abstract reports one confirmed partial response among 21 evaluable patients on the
@@ -450,7 +449,9 @@ refractory leukaemia and non-CNS solid tumours, in patients aged 6 months to und
 reached in that stratum; a recommended phase 2 dose was defined; and the authors state that patients
 with sarcomas benefited most, warranting further evaluation. That is a dose-finding trial which is
 not sarcoma-specific, and whose abstract carries no response rate, no comparator and no sarcoma
-subgroup denominator. It is not an efficacy result, and neither trial is EMC data.
+subgroup denominator. It is not an efficacy result. Neither abstract reports an EMC-specific clinical result, and whether
+either trial enrolled an EMC patient remains unread: that is an absence in what was inspected, not a
+demonstrated exclusion of EMC participants.
 
 Neither trial settles this candidate in either direction. The 2005 study tested bortezomib, a
 different agent from carfilzomib in a different era and regimen, as a single agent, whereas the
@@ -534,11 +535,12 @@ testing rather than as a direction that can be stated (section 3.3).
 Sixth, the assessment that an agent is untried in EMC rests on a screen of titles and abstracts and
 on a curated corpus. An absence there means that nothing is indexed on that pairing, not that no
 such work exists, and a result buried in the supplementary material of a larger paper would be
-invisible to it. Those screens were also scoped to EMC pairings, so they could not return a trial
-that names neither EMC nor *NR4A3*, which is how the class-level sarcoma trials of proteasome
-inhibition [21,22] reached section 4.1 only after a query scoped to the parent histology was run.
-The same gap may hold for any other axis in Table 3, and a class-scoped search of the parent
-histology has been run here for the proteasome axis alone.
+invisible to it. Those screens were framed around EMC pairings, and the two class-level sarcoma
+reports of proteasome inhibition [21,22] were not in the preceding draft; they were returned by a
+query scoped to the parent histology and are disclosed in section 4.1. We do not claim that no
+screen run here could have returned them, nor that the other axes of Table 3 carry the same gap;
+what is on the record is that these two reports were absent from the earlier draft and that a
+parent-histology query has been run for the proteasome axis.
 
 Ethically, the chief risk is false hope: a plausible-sounding mechanism can be mistaken by a
 frightened patient for an available treatment. We address this structurally. A firewall keeps
@@ -568,7 +570,7 @@ A graph foundation model was run as an independent check, diverged from both oth
 stress-tested against the obvious explanation, and promoted no candidate. Two in-silico rationales
 advanced here for the proteasome candidate both failed; as section 4.1 states, that candidate rests
 on a published ex-vivo measurement made by others rather than on an argument made here, and the
-drug class it belongs to has been taken to trial in sarcoma outside EMC — read at abstract level,
+drug class it belongs to has been taken to trial in sarcoma — read at abstract level,
 and neither confirming nor refuting the candidate.
 
 The principal weakness is that no step of this work is a wet-laboratory experiment or a clinical
@@ -692,4 +694,4 @@ dataset behind it, previously made.
 | A single ordered list of 14 candidates presented by the 0-to-18 composite triage score | The presentation is by evidence strength against novelty (Tables 1 to 3). The composite score remains in the dataset and orders nothing in the text | §3 | Summing evidence with novelty, tolerability and availability floats the already-known agent to the top, and the resulting order is easily misread as a discovery ranking |
 | The document's own status as an "earlier treatment-track draft, subsumed by the treatment roadmap, not for submission" | A submission text, rewritten to the target journal's review format | Document header | The header was repository scaffolding and does not belong in a manuscript. The relationship to the roadmap is recorded in the repository rather than in the paper |
 | **Reference 11 (TxGNN) cited as PMID 39148855** | **PMID 39322717**, with the full record: Huang K, Chandak P, Wang Q, Havaldar S, Vaid A, Leskovec J, et al. *Nat Med.* 2024;30:3601-3613. PMC11645266 | §9 reference 11 | A DOI-keyed retrieval on 2026-08-09 resolved the DOI carried in the same entry, 10.1038/s41591-024-03233-x, to PMID 39322717, and a query for `EXT_ID:39148855` returned no record ([`citation-corrections-2026-08-09.json`](../../literature/citation-corrections-2026-08-09.json)). ⚠ The superseded number was anchored in the provenance ledger and so passed gate 4: anchoring is evidence that a fetch happened and never that an identifier is the right one. Nothing attributed to the model in this document changes; only the identifier does |
-| The proteasome candidate presented as surviving on a published ex-vivo observation **alone**, and carried as **untried** without qualification | Untried **in EMC**, but the drug class is **not clinically untried in sarcoma**: bortezomib monotherapy reached a multicentre phase II in recurrent or metastatic sarcoma (Maki et al. 2005, reference 21) and carfilzomib reached a phase I in combination in relapsed or refractory leukaemia and non-CNS solid tumours (Boklan et al. 2025, reference 22). ⚠ Both are read at **abstract level only** — no full text was retrieved for either, so per-histology outcomes and response rates are **unread**. Neither record confirms nor refutes the candidate, and the two in-silico negatives in §4.1 are unchanged | §3.1 Tables 1 and 2, §3.2 Table 3, §4 tranche 3, §4.1, §5, §6, §9 references 21 and 22 | Every literature screen behind this menu was scoped to EMC pairings, so a trial naming neither EMC nor *NR4A3* could not be returned by any of them. A class-scoped query of the parent histology, run on 2026-08-28 and recorded in [`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json), returned both records. Corrected 2026-09-08 |
+| The proteasome candidate presented as surviving on a published ex-vivo observation **alone**, and carried as **untried** without qualification | Untried **in EMC**, but the drug class is **not clinically untried in sarcoma**: bortezomib monotherapy reached a multicentre phase II in recurrent or metastatic sarcoma (Maki et al. 2005, reference 21) and carfilzomib reached a phase I in combination in relapsed or refractory leukaemia and non-CNS solid tumours (Boklan et al. 2025, reference 22). ⚠ Both are read at **abstract level only** — no full text was retrieved for either, so per-histology outcomes and response rates are **unread**. Neither record confirms nor refutes the candidate, and the two in-silico negatives in §4.1 are unchanged | §3.1 Tables 1 and 2, §3.2 Table 3, §4 tranche 3, §4.1, §5, §6, §9 references 21 and 22 | The preceding draft omitted these two class-level reports. A class-scoped query of the parent histology, run on 2026-08-28 and recorded in [`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json), returned both records. Corrected 2026-09-08 |
