@@ -33,7 +33,7 @@ All 552 rows changed in at least one shared column. Per column:
 | `blocking_conditions` | 552 | the universal `C_REGISTRY_SOURCE_JOIN_NOT_ESTABLISHED`, the new identity-assumption axis, and the renamed arm/comparator codes |
 | `c_comparator_role_basis` | 378 | C2 v3's own rewritten basis text, carried verbatim |
 | `c_arm_link_relation` | 190 | C2 v3, verbatim |
-| `c_registry_type_statement_assumption` | 190 | 58 → `ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES…_UNPROVED`; 132 → `ASSUMES_LABEL_FIELD_CORRESPONDENCE…_UNPROVED` |
+| `c_registry_type_statement_assumption` | 190 | **57** → `ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES…_UNPROVED`; **1** → `ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE…_UNPROVED`; 132 → `ASSUMES_LABEL_FIELD_CORRESPONDENCE…_UNPROVED` (⛔ **corrected 2026-09-08.** This row read "58 → …TWO_AGREEING…". The 58 `SOURCE_FIELD_MATCH` rows do **not** share one premise: C2's item-5 residual split them 57 two-agreeing + 1 description-only. The 190 total is unchanged.) |
 | `contradictions_genuine` | 91 | 91 rows go from a genuine code to `NONE`; the same 91 rows gain `unresolved_tensions` |
 | `c_arm_link_state` | 58 | `SOURCE_CONFIRMED` → `SOURCE_FIELD_MATCH` |
 | `c_disposition_vs_v1` | 41 | C2 v3's own change-map column, carried verbatim |

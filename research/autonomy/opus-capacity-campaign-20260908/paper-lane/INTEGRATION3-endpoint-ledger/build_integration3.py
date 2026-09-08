@@ -86,8 +86,15 @@ b_ncts = set(r['nct'] for r in BOBS)
 b_oms = set((r['nct'], r['om_index']) for r in BOBS)
 
 # v3 vocabulary. The strongest arm-link state C2 v3 emits is SOURCE_FIELD_MATCH, and v3 is
-# explicit that a field match is NOT a verified arm identity: it carries
-# ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED, and
+# explicit that a field match is NOT a verified arm identity.
+#
+# CORRECTED 2026-09-08: this comment used to say the state carries
+# ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED, as if all 58 rows did.
+# They do not. C2's item-5 residual established that SOURCE_FIELD_MATCH is reached by TWO
+# relations resting on DIFFERENT premises: 57 rows by two agreeing field matches, and 1 row
+# (NCT02994953) by a unique description-field match alone, which carries
+# ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED. The assumption is selected
+# from the relation, not from the state.
 # source_join_verification reads NOT_ESTABLISHED_... on all 552 rows. So this state is the
 # strongest *available* one, not a confirmation, and nothing is promoted from it.
 C_SOURCE_FIELD_MATCH = "SOURCE_FIELD_MATCH"
