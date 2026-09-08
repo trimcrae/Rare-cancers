@@ -1,0 +1,185 @@
+{
+ "id": "P-ST-reproducibility-packet",
+ "date": "2026-09-08",
+ "repository_commit_read": "a6a21fc591d2451038cdf53449b91e3990d59cfb",
+ "what_this_is": "A versioned, hash-manifested LOCAL packet of the exact scripts, derived inputs and source/mapping records that actually exist for the P-ST manuscript. Entries are repository-relative paths, not copies: the bytes are already versioned in this repository at the commit named above, and duplicating ~24 MB of derived inputs into a report directory would add no provenance.",
+ "no_public_locator": "No public immutable release locator (DOI, Zenodo record or equivalent) exists for this packet. None is claimed and none was created by this correction batch.",
+ "statistics_generator": "research/modalities/emc_tissue_read_statistics.py",
+ "statistics_generator_inputs": [
+  "research/modalities/emc-expression-panels.json",
+  "research/modalities/emc-expression-panels-inputs.json"
+ ],
+ "helper_dependency": "research/modalities/accession-symbol-cache.json (probe accession -> gene symbol resolution)",
+ "can_be_recalculated_offline_from_these_files": [
+  "Every array contrast (delta, Welch t, df, Welch two-sided p) on the 100-gene board",
+  "Every ordinary pointwise 95 % confidence interval",
+  "Every within-platform Benjamini-Hochberg q and its significance decision at alpha 0.05",
+  "The seven cross-platform state assignments",
+  "The three recorded sensitivity summaries",
+  "The nine curated panel scores and their uncorrected p values",
+  "The sequencing reductions and ratios FROM the retained grouped summaries"
+ ],
+ "cannot_be_reconstructed_from_anything_released_here": [
+  "The surrogate scan's rank-test p and q values: the artifact retains selected output rows, not the complete scanned universe, its per-line observations or its full p-value family",
+  "An audited probe-to-symbol mapping chain: accession-symbol-cache.json is a resolved lookup, not a platform-annotation audit trail with source versions and ambiguity handling",
+  "The sequencing values from their original public source: the original peak table GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz is not retained here",
+  "Per-sample sequencing values: gse28866-tumour-vs-normal.json stores group-level peak summaries only"
+ ],
+ "original_execution_artifacts_preserved_separately": [
+  "research/modalities/gse28866-tumour-vs-normal.json is an original producer output and is NOT edited by this correction batch; the aggregation-annotation repair is specified separately under annotation-correction/ and is not applied to this file by this lane",
+  "research/modalities/emc-surface-prioritization.png and emc_surface_figure.py are retained unaltered as the historical bytes of the omitted Figure 1"
+ ],
+ "missing_from_working_tree": [],
+ "entries": [
+  {
+   "path": "research/modalities/emc_tissue_read_statistics.py",
+   "group": "statistics generator and its dependencies (F11: the actual producer of every reported statistic)",
+   "bytes": 21058,
+   "sha256": "063d581566a3bb8d1eac20bb41aa8d22a14ff33be34a264090ae56c72bceceab"
+  },
+  {
+   "path": "research/modalities/emc-expression-panels.json",
+   "group": "statistics generator and its dependencies (F11: the actual producer of every reported statistic)",
+   "bytes": 13253561,
+   "sha256": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9"
+  },
+  {
+   "path": "research/modalities/emc-expression-panels-inputs.json",
+   "group": "statistics generator and its dependencies (F11: the actual producer of every reported statistic)",
+   "bytes": 7825041,
+   "sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8"
+  },
+  {
+   "path": "research/modalities/accession-symbol-cache.json",
+   "group": "statistics generator and its dependencies (F11: the actual producer of every reported statistic)",
+   "bytes": 2098842,
+   "sha256": "51c8eda21396fc1c78acae6f267438d2875c0492fe6d0343b27ab139391d6048"
+  },
+  {
+   "path": "research/modalities/emc-tissue-read-statistics.json",
+   "group": "statistics generator and its dependencies (F11: the actual producer of every reported statistic)",
+   "bytes": 90201,
+   "sha256": "3213777eefcea5c62f5cda457ca9e391dc63e7740ed58ec2aadf3cf120f12317"
+  },
+  {
+   "path": "research/modalities/emc_expression_panels.py",
+   "group": "array reader and its outputs",
+   "bytes": 193150,
+   "sha256": "05c343aa29162ec618539ec81cc2d648db923f21618093d59ae4dbe0eeec9cc5"
+  },
+  {
+   "path": "research/modalities/emc_gse4303_crosscheck.py",
+   "group": "array reader and its outputs",
+   "bytes": 12371,
+   "sha256": "be2645135a418b83fc02f51bc7177850ba3d524323287ad4a6a650a3e658a86e"
+  },
+  {
+   "path": "research/modalities/gse28866_tumour_vs_normal.py",
+   "group": "sequencing reader, its output and the originating source record",
+   "bytes": 30914,
+   "sha256": "6dcea81de63a4dd9ab66f39144b2ba531351efd9f1a8d51b233388456bfbdb78"
+  },
+  {
+   "path": "research/modalities/gse28866-tumour-vs-normal.json",
+   "group": "sequencing reader, its output and the originating source record",
+   "bytes": 27256,
+   "sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407"
+  },
+  {
+   "path": "research/modalities/geo-gse28866-brunner-series.json",
+   "group": "sequencing reader, its output and the originating source record",
+   "bytes": 285899,
+   "sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958"
+  },
+  {
+   "path": "research/modalities/emc_surfaceome_scan.py",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 27617,
+   "sha256": "fcbcff1e990d21235d323c4e9affcb042032cbb38080ba23c8f3e7d3211e46bb"
+  },
+  {
+   "path": "research/modalities/emc-surfaceome-scan.json",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 46945,
+   "sha256": "3180c4ba550350967f157fd9a1f15d13bd84e233c7fa16b3d2266842d0cb63c0"
+  },
+  {
+   "path": "research/modalities/emc_surface_normal_window.py",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 16575,
+   "sha256": "b476d7ea3d0523272f3136dec81836f7e7bd4da165034b63a8659f9583c40f69"
+  },
+  {
+   "path": "research/modalities/emc-surface-normal-window.json",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 34621,
+   "sha256": "0787c7f7279562dcd9eca96a0ae4578a27773477e21f2e8ae940200c25b09aab"
+  },
+  {
+   "path": "research/modalities/surfaceome_instrument_limits.py",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 25866,
+   "sha256": "ba6df1dfc40234f4f0c06646ecff44420416f49903b75cdaebd2822f19d428ff"
+  },
+  {
+   "path": "research/modalities/surfaceome-instrument-limits.json",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 15501,
+   "sha256": "1db6d18d91f074efddf4d2f2ed6b7d8daecf5d44a9d70801b872296433142e94"
+  },
+  {
+   "path": "research/modalities/emc_line_data_probe.py",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 8897,
+   "sha256": "a3ba8d321901e7f3201edc328aaf2b12bd037c100ca727055cc741bcd6161e04"
+  },
+  {
+   "path": "research/modalities/aso-delivery-antigen.json",
+   "group": "surrogate scan, normal-tissue heuristic and instrument limits",
+   "bytes": 53488,
+   "sha256": "eab3a6f5a7d7bcf6271bda3b3f0580b06e0d90bc553d5b75038af43eb4070287"
+  },
+  {
+   "path": "research/modalities/emc-surface-prioritization.png",
+   "group": "omitted Figure 1: historical bytes and renderer, retained unaltered (F08)",
+   "bytes": 128250,
+   "sha256": "130042b6afab8aea28874d37dd684cde96886ab25b488ab65b83dac391c439bd"
+  },
+  {
+   "path": "research/modalities/emc_surface_figure.py",
+   "group": "omitted Figure 1: historical bytes and renderer, retained unaltered (F08)",
+   "bytes": 8307,
+   "sha256": "de6046741734cec06d60379a88436f337d04c9babb934e53eefe0be3dd45f508"
+  },
+  {
+   "path": "research/literature/emc-prior-art-2026-08-09.json",
+   "group": "prior-art screens (F12)",
+   "bytes": 6597,
+   "sha256": "3c45960a14a99ce739b7643c2f73705e3d0b8900841af1a289f9e534379d4112"
+  },
+  {
+   "path": "research/literature/emc-prior-art-fulltext-screen-2026-08-10.json",
+   "group": "prior-art screens (F12)",
+   "bytes": 3827,
+   "sha256": "14303c873b8c12fb5dc9157477d867a719f5ad27e4df11d4e2029bf2a4874e5a"
+  },
+  {
+   "path": "research/modalities/emc_prior_art_fulltext_screen.py",
+   "group": "prior-art screens (F12)",
+   "bytes": 6531,
+   "sha256": "acbc572e5b2c843097a01a88b153dddfd33cd5ef149d8e37071826e8afa40b3b"
+  },
+  {
+   "path": "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
+   "group": "manuscript sources",
+   "bytes": 99615,
+   "sha256": "8931895d65bf6cc7de0d83b8cbd6c644b3eb664de221b56861a2a0940584df6f"
+  },
+  {
+   "path": "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md",
+   "group": "manuscript sources",
+   "bytes": 41853,
+   "sha256": "92a7c49fc406a391d519912108fe888dc499c635ec29d1c3f834445665cdafd1"
+  }
+ ]
+}
