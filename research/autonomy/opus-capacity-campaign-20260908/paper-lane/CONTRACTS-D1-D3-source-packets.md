@@ -339,3 +339,48 @@ intervention reading remains **unestablished by these packets**.
 
 **No generated model, correction, row withdrawal, manuscript or graph edit. C1 remains closed.** No new review
 cycle, source hunt, model variant, network or route bypass, or held retry.
+
+---
+
+# ⛔ FIVE BOUNDED QUALIFICATIONS — appended once, 2026-09-08 08:14 UTC
+
+Interpretation qualifications on already-retained evidence. **The original D1, D2 and D3 reports are preserved
+unchanged.** No new checking, query, child, source hunt, review cycle or cleanup was opened to satisfy these.
+
+**1. D1's transfer statement is withdrawn, on the same ground as D2's — and so is my broader parent version.**
+D1 wrote that its sources transfer to EMC "at most as a direction and an order of magnitude"; I wrote the same
+of all four sources in my adjudication. **Both are unsupported for EMC.** Cessation-associated survival among
+**non-randomised** lung-cancer cohorts is **not an established causal intervention effect**, in lung cancer or
+in EMC, and nothing in these packets licenses an EMC direction or magnitude. Support stops at each source's own
+observed population, design and endpoint.
+
+**2. Lack of statistical significance is not proof of no effect.** The biochemically-confirmed cessation
+subgroup — aHR **0.42 (0.11–1.62)** over 3 studies — is **imprecise, not null**. It must not be read as evidence
+that verified cessation has no effect, and I do not read it that way.
+
+**3. D3's "passes that anchor requirement" does not follow, and was never executed.** `check_anchors` was **NOT
+RUN** by any packet, and it still requires **membership in the unchanged canonical probe**. Observing a real
+source in original full text does **not** satisfy it: `41055780` remains **absent from the probe**, so the guard
+would still refuse. Source reality and guard satisfaction are different things, and only the first was
+established.
+
+**4. My "never consumed by the model at all" is too broad — corrected.** `B_corroborating` is excluded from
+**numeric compartment-B selection**, because `model_factor` matches the compartment key exactly. But
+`check_anchors` iterates **every** evidence row and skips only `status == "unretrieved"`, so a
+`B_corroborating` / `association_only` row **is** consumed by the guard. The accurate statement: `42340948`
+contributes **no number to any band**, and **does** participate in anchor checking.
+
+**5. CYC-0105: a conflict with the current probe, not a proven falsehood at creation.** The receipt's "all
+present in `emc-host-factor-probe.json`" conflicts with the probe **as it stands now** (three of four absent,
+measured). Whether it was true when the receipt was written has **not been independently checked**, and I did
+not open that check. So this is a **present-state conflict**, not an established false statement at creation —
+my earlier "the receipt's provenance claim is false" is narrowed accordingly.
+
+**6. Abstract and full text are one publication, not two witnesses.** D1 described "two independent PubMed
+retrievals agreeing" as validation. They are **two representations of the same article**; agreement between
+them is **internal consistency, not independent corroboration**. No claim in this lane rests on independent
+replication, and none should be written as if it did.
+
+**Standing:** C1 remains closed. **No model, input, probe, receipt, manuscript or graph correction is authorized
+by this message**, and none was made. The current source pass is complete; the qualified results stand as
+recorded for the orchestrator's separate decision.
