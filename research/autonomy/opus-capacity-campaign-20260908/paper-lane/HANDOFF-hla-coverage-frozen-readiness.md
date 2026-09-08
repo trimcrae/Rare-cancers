@@ -51,6 +51,16 @@ involving no new recruitment, sampling or intervention, and that no ethics appro
 obtained for it. ⛔ It invents **no** formal "not required" determination and makes **no** broad
 "no patient records" claim.
 
+## ⛔ FROZEN — an independent final review is running
+
+The converted manuscript at **47,368 bytes**, sha256
+`768398917208449a088c6d2aa9549d9162b4bbc9aa1c3584d13a55c1ac45af0c`, is **frozen** for one required
+independent review, `/root/hla_final_ultra` (`gpt-6-astra`, ultra), dispatched by root. ⛔ **Its
+science must not be mutated while that review runs.** The corrections below are to THIS HANDOFF's
+stale release-gap entries only; the reviewer holds that correction and does not wait for a new
+science sha. The reproducibility limit on the missing raw frequency and region-map inputs and the
+absent retrieval date stands, and `BLK-ANTIGEN-COLD` stands.
+
 ## Exact frozen revision
 
 - **Manuscript:** `research/manuscripts/neoantigen/hla-coverage-emc.md`, **47,368 bytes**, sha256
@@ -202,17 +212,23 @@ for the owner. ⚠ **The same test was already failing before this conversion**,
 
 **Release, and owned by the author:**
 
-6. ⚠ **Register.** The document is in repository register, not journal register (see the off-target
-   measurement above). If it goes out as a preprint, a register conversion is the same class of work
-   the biomarker paper needed — an owner decision and an authorship act, deliberately not made here.
+6. ⭐ **CLOSED 2026-09-08 — the register conversion is done.** This gap said the document sat in
+   repository register and that converting it was an unmade owner decision. It has since been
+   converted: explicit-path `lint_style` went from 159 ERROR to **0**, glyphs and administrative
+   narrative are out, and the sentence-form headings are recast. ⚠ What remains true is only gap 7:
+   the file is still outside `lint_style.TARGETS`, so the gate would not catch a future drift.
 7. ⚠ **Neither gate covers it.** It is in neither `lint_style.TARGETS` nor `lint_consistency`'s 29
    targets, and **no pinned figure binds it**; the clean results above are explicit-path measurements
    for the two that apply.
 8. ⛔ **No full `scripts/preflight.sh` and no `PREFLIGHT_FULL` receipt** exists for this revision.
-9. **Declarations exist but are thin** (§6: AI assistance, no funding, no competing interests, not a
-   medical device). There is no ethics statement of the form the biomarker and mortality papers now
-   carry. Adding one is ordinary metadata, not a scientific change, and is left to the owner with the
-   rest of the release decision.
+9. ⭐ **CLOSED 2026-09-08 — the declarations are complete.** This gap said section 6 was thin and
+   carried no ethics statement. Section 6 is now a full Declarations block: author contributions;
+   funding none; competing interests none; ethics stated as an analysis of public data with no new
+   recruitment, sampling or intervention and no approval sought or obtained for it; AI assistance by
+   Claude (Anthropic) and OpenAI models under the author's direction with the author responsible and
+   no human peer review claimed; and the not-a-medical-device statement retained. ⛔ It invents no
+   formal "not required" institutional determination and makes no broadened "no patient records"
+   claim.
 
 ## Prior dispositions, carried unchanged
 
@@ -220,7 +236,9 @@ for the owner. ⚠ **The same test was already failing before this conversion**,
   parent recorded a blocker rather than patching them, because a per-value patch reintroduces the
   drift the supersession banner recorded.
 - **HW1** then produced a whole-document projection rather than piecemeal substitution (362 → 479
-  lines, tables generated from the JSON, a 242-row source-key map), collected **for owner
+  lines, tables generated from the JSON, a source-key map of **242 LINES / MAP ENTRIES** — ⚠ **not
+  242 numeric data rows**; the entries are prose values, retained-unverified values and
+  auto-generated cells, each naming its artifact and key path), collected **for owner
   adjudication** in [`COLLECTION-HW1-hla-regeneration-candidate.md`](COLLECTION-HW1-hla-regeneration-candidate.md).
   It was integrated at `5f442c85`, which is the revision frozen here.
 - **S29-HLA-STALE** (2026-09-01) records the 3-vs-23 class-II panel defect in `hla-coverage.json` and

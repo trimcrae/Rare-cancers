@@ -39,6 +39,14 @@ repo-state findings". That conclusion is FALSE, and the count was one suite of t
 written from the tail of the log rather than from the whole of it. The 11/1780/1 figure is the
 **pure-logic and systems** suite alone.
 
+⭐ **The superseded version is retained as history, not deleted.** It is the file exactly as committed
+at **`6cd29f876b11492e01f4e2ea10752e1bf0dbc4f4`** — Git blob
+`df990561132c1ed2df3846acefb0865c3f9693bb`, 4,070 bytes, sha256
+`65ab5f85d9e72be2e71a8b7eb81b6f808b10b830632000d6e068264675c8eebc`, verified here by reading it back
+out of Git. This dated correction supersedes it in place, so the record carries one document id and
+no duplicate active document is created. The source full CI log is likewise unchanged: blob
+`a2f8c55f9a1b5250d33a2eac2d7b3a482b1af9da`, 304,602 bytes, `ca79eba2…3c3f`.
+
 The published log runs **three** pytest suites and three separate gate failures precede them. The
 corrected reading is below, against this exact log. The original failure evidence and the earlier
 observations are preserved rather than replaced: the eleven systems findings remain part of the
