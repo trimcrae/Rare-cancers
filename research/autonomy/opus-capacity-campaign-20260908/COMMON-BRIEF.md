@@ -264,3 +264,32 @@ Two corrections that must travel with any use of these numbers:
 literal, the frame degenerates to "any number" and the automatic transplant lands on whatever numeral
 comes first — producing inadmissible fixtures like `RTX 755.36 = 804.06`. 8 of 40 of the screen's calls
 rested on such a vacuous frame. A fixture is admissible only if its wording comes from committed text.
+
+### The unread-act-assertion class is censused at 34 fields — measured 2026-09-08T04:40Z
+
+W43 enumerated act-asserting fields by *reading the key space* of the clinical registry,
+`pinned-figures.json`, `systems/graph/*.json` and 986 provenance-carrying JSON files under
+`research/modalities/` and `research/manuscripts/`: **13 ENFORCED, 1 UNREAD-BUT-DECIDABLE, 20
+UNREAD-AND-UNDECIDABLE**, totalling **≈478 unread act-assertion records**. Do not re-census this.
+Corrections and cautions it establishes:
+
+* **Registry `verified` is 36 records, not 25** — 25 under `registry.citations`, plus 11 under
+  `studies.items[]`. W30c's core result (nothing reads it) stands with the denominator corrected;
+  the field is **36/36 UNEVAL**.
+* ⚠ **Do the grep per artifact, never per field name.** `verified_by` is ENFORCED in
+  `graph/requirements.json` (`systems_check.py:374,1006,1220,3939,3954`) and UNREAD for all 90
+  occurrences in `citation-provenance-ledger.json`. A name-level census overstates coverage.
+* ⚠ **Use a key-literal grep, not a substring grep.** Substring `verified` returns 5,088 hits,
+  almost all prose; `[\"']verified[\"']|\.verified\b` over `*.py *.mjs *.sh *.yml` returns 86.
+* **Four fields are called load-bearing by committed prose and read by nothing** (W30c found one):
+  registry `verified` (36), `open_access_full_text_retrieved` (58, 38 of them `false`),
+  `read_level` (16), `figure_checked` (17).
+* ⭐ **The repository already identified this class itself and answered it once.**
+  `research/modalities/emc_ipd_survival.py:220-228` states that *"an eye reading recorded in a JSON
+  field is unfalsifiable: nothing in the repository could disagree with it"* and records that on
+  2026-08-27 every such reading was re-taken by an instrument (`km_risk_row_detect.py`) that measures
+  band structure and can return present/absent/undetermined, agrees with the human reading on all
+  nine KM figures, and is shown capable of the other answer. Cite that precedent rather than
+  proposing a new instrument.
+* An unread field is **undecidable, not false**. No worker has opened any link; every `verified: true`,
+  `accessed` and `figure_checked: true` value is UNKNOWN.
