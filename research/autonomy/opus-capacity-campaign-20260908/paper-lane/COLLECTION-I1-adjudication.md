@@ -214,3 +214,45 @@ open and untouched by any of this.
 
 All logs above, including the defective run, are retained; **no record has been rewritten to erase a
 failed attempt or an overclaim.**
+
+---
+
+# Correction 3, appended 2026-09-08 10:10 UTC — the shim did NOT absorb the predicate cases
+
+At `20f19e5f` I wrote that the shim "absorbed that as passes", explaining its 12/12 against pytest's
+23/1. **That is contradicted by the shim's own retained log and is withdrawn.**
+
+`evidence/05-newtests-BEFORE-final.stdout` — the original shim run against the pre-fix code, retained
+unaltered — records **all eight predicate cases as FAILED**:
+
+```
+FAIL test_begins_mid_number_predicate[0] … [7]     ← all eight, explicitly FAILED
+FAIL test_a_bare_identifier_alone_does_not_fire
+FAIL test_a_longer_number_ending_in_the_pattern_is_not_that_number
+FAIL test_a_version_string_is_not_a_measurement
+FAIL test_the_measured_case_a_doi_does_not_state_the_card_ratio
+summary: 12 passed, 12 failed, 0 skipped
+exit=1
+```
+
+**The shim's accounting was correct in every respect** — its 12 failed / 12 passed is exactly what
+native pytest reports once the registry is present. My three successive claims about it were all
+wrong, and all three are now withdrawn: that it was non-equivalent, that it under-reported, and that
+it absorbed the predicate failures as passes.
+
+**Also corrected:** native pytest **did collect all 24 cases**. Its 23/1 was 15 missing-registry plus
+8 missing-helper **exceptions** — a fixture defect of mine, **not** an inability to collect, and not
+semantic reproduction. My phrasing "cannot even be collected" was wrong.
+
+**The distinct evidence, stated once and correctly:**
+
+| evidence | what it shows |
+|---|---|
+| fixed-code native runs — **24 passed**, **27 passed** | the integrated linter and both modules pass on the real repository fixture |
+| the original CLI before/after on the real tree — exit **1 → 0**, one finding removed, none added | the observed DOI interior case is addressed |
+| **four** semantic negative failures (corrected-fixture run) | the identifier-semantics tests genuinely reproduce the bug |
+| 8 missing-helper failures | an artifact of the helper's absence — **not** bug reproductions |
+| the invalid 23/1 run | preserved as the record of my fixture defect |
+
+No rerun, second shim, source lookup or log hunt was performed for this correction — it is a reading
+of one already-retained file.
