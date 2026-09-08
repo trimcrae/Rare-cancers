@@ -137,3 +137,123 @@ in the verified 5,996-file frozen corpus snapshot either. Every statement in thi
 therefore **SECONDARY — transcribed from the owner's correction, not read**. W01e independently
 confirmed the directory's absence and graded its own corrected row the same way. The coordinator
 should re-verify this section against `retrieval.json` when the branches are integrated.
+
+## 2026-09-08 ~02:45Z — writer-4878 tier baseline received; W11b integration disposition updated
+
+**Evidence update only.** No worker was dispatched for this, no gate was changed, and no integration
+occurred. This supersedes the projection arithmetic carried in the W23 synthesis packet's dispatch;
+it does not supersede any worker's own measurement of its own base.
+
+**Measured by the scientific owner on the actual writer 4878** — `scripts/tier_budget.py --check`,
+**exit 0**:
+
+| Tier | Measured | Ceiling | Files |
+|---|---|---|---|
+| commit-loop | **1497** | 1500 | 105 |
+| modalities | 7249 | 7500 | — |
+| paper-guards | 973 | 1000 | — |
+
+**Consequence for the unchanged 18-test W11b addition: 1497 + 18 = 1515 against an unchanged
+ceiling of 1500 — it exceeds by 15.** The earlier figure of 1484 was `1466 + 18` on the **cloud
+remote 92 base**, which is a different source tree, not a `count_dir` malfunction: three independent
+cloud workers (W11c at `b9a0257`, W11d and W17f at `7d08121`) each measured commit-loop at
+**1466/1500 across 102 files** on this checkout. The writer carries 3 more files and 31 more test
+functions than the cloud checkout. That difference is expected and is now confirmed from both sides.
+
+**Integration disposition, updated and stated as two separable things:**
+
+1. **Standalone repair verification is not blocked by this.** The owner has recovered the exact
+   inline W11b helper and test bodies and both declared hashes match; the reserved private executor
+   is running the deterministic standalone final/negative-control suites and one bounded real Brenca
+   identifier lookup. **Those results are pending. No pass may be claimed from started execution**,
+   and this coordinator is not duplicating that executor.
+2. **Eligibility for writer integration is, on the measured baseline, NEGATIVE as a whole.** 18 tests
+   do not fit in 3 functions of headroom. The three ways to make them fit are all refused here:
+   raising the ceiling to land the code is what `tier-budgets.json::_how_to_raise_a_ceiling` exists
+   to prevent; hiding tests from accounting is the shadowing failure `tier_budget.py::_shadowed`
+   detects; and a 30-case gate is an invented acceptance criterion. **None is taken.**
+
+**What the campaign measured that bears on the disposition, all on the cloud base and all read-only:**
+
+- **W11d** exhausted both sanctioned alternatives by measurement. *No cheaper tier exists*:
+  `scripts/tests` (commit-loop) is already the cheapest correct home; `modalities` has more headroom
+  (253) but is the most expensive tier to run and wrong by subject; `paper-guards` has identical
+  headroom and runs in the paper gate commit-loop is exempt from. *Nothing has stopped earning its
+  place*: **0 of 102 files and 0 of 1466 functions are unreached, 0 shadowed, 0 unparseable, 0
+  module-level skips** — W11d found and overturned its own nine-file false positive rather than
+  publishing it. It also recorded a latent hole: `count_dir` uses `os.listdir`, not `os.walk`, so a
+  test in a *subdirectory* of a tier directory would be budgeted by nothing while still running on
+  every push. **Measured unexploited (all five tier directories have zero subdirectories), and
+  explicitly not to be used as a routing manoeuvre.**
+- **W11d's recommendation, which survives the new baseline in shape but not in size:** land the
+  smallest useful subset rather than all of it, and re-run `tier_budget.py` after placement instead
+  of projecting. On the writer's 3 functions of headroom, even that subset is smaller than the
+  18-test pair.
+- **W17f** independently reproduced commit-loop **1466/1500** on this checkout and separately asks
+  for **8** functions of `modalities` headroom (7247 → 7255), which is a different tier and does not
+  compete with W11b's request.
+
+**Therefore: the honest disposition is that the W11b artifact and its standalone evidence are kept
+and remain available regardless of integration, and integration of the full 18-test addition is not
+eligible against the unchanged 1500 ceiling on the measured 1497 writer baseline.** A declared
+ceiling amendment with this measurement attached is the only remaining path, and it is the
+scientific owner's decision, not a worker's or this coordinator's. The owner retains integration
+authority; nothing here integrates, merges, or publishes anything.
+
+## 2026-09-08 ~02:47Z — owner's terminal execution of the W11b pair; and the bounded PMID smoke query
+
+**Evidence update only. No worker was dispatched for this, no test was re-run here, no gate was added
+or changed, no repair was made, and no route was reopened.** These are the **scientific owner's actual
+terminal measurements**, recorded as such. They are **not** this coordinator's execution and **not**
+the earlier worker's unverified claim; the two are kept distinct below.
+
+### 1 · Standalone execution of the hash-matched W11b helper/test pair — OWNER-MEASURED
+
+| Run | Result | Exit | Wall |
+|---|---|---|---|
+| Final helper + final tests | **18 passed** | **0** | 0.734 s |
+| **Negative control** — same tests against the **unchanged original** helper | **7 failed, 11 passed** | **1** | 0.688 s |
+
+The negative control is retained as evidence in its own right: the suite discriminates repaired from
+unrepaired, so the 18/18 is not a vacuous pass. **Initial harness attempts ended in pytest-cache
+cleanup and are retained, not deleted.** Only the runtime `cache_dir` was relocated under a verified
+private TEMP; **no supplied code, test or guard was changed** to obtain the pass. Exact executor
+packet paths and hashes will follow when supplied — **this log must not invent them**, and this
+coordinator did not perform, observe or duplicate that execution.
+
+This **supersedes** the standalone-verification line of the W23 packet (which correctly recorded
+W11b's own claim as the worker's, and explicitly declined to assert an execution it had not
+observed). W23's independent contribution stands: it extracted both bodies from the collected report,
+recomputed both sha256 values and matched W11b's declared hashes exactly
+(`b3288598…` helper, `49208917…` test), compiled both, and counted 18 test methods statically.
+
+### 2 · The one authorized real-source smoke query — bounded parser-coverage evidence
+
+Query for **PMID 31020999** over the retained README / `retrieval.json` / correction JSON returned
+**`unresolved_not_indexed`, zero matches, exit 0**. A literal `rg` by the owner found `31020999`
+present at `resultList.result[0].commentCorrectionList.commentCorrection[0].id` with `source='MED'`;
+the **explicitly named** `pmid` in that record is **34216030**, and the README names Brenca by
+**DOI 10.1002/path.5284**.
+
+**What this is:** an exact **semantic coverage limit** of the index — the identifier is retained, but
+it is reachable only as a comment-correction back-reference, not under the field the query reads.
+**What this is not:** it is **not** evidence the source is absent, **not** a newly required repair,
+and **not** grounds for a new gate or acceptance criterion. No repeat query, no new test and no
+retrieval was performed. The Brenca closure is unchanged: those accessions and routes remain
+**DUPLICATE**, and nothing here reopens them.
+
+### 3 · Disposition — the three things stay separate
+
+1. **Demonstrated standalone improvement** — established by the owner's terminal run above, with a
+   real negative control. Recorded as measured.
+2. **Exact semantic coverage limit** — recorded as a bounded observation about how one identifier is
+   reachable in the retained records. It creates no obligation.
+3. **Integration eligibility** — unchanged and **negative**. The confirmed writer baseline is
+   **1497/1500**; the unchanged 18-test addition projects **1515**, which exceeds the ceiling. It
+   cannot be integrated unchanged. **The ceiling is not raised, no test is hidden from the
+   accounting, and no invented gate is introduced.** Integration authority remains the scientific
+   owner's.
+
+**No scientific or paper novelty is inferred from standalone code success.** A lookup helper passing
+its own suite says nothing about EMC, and nothing here bears on efficacy, safety, selectivity or
+clinical readiness.
