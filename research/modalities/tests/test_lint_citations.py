@@ -31,10 +31,18 @@ def test_the_repository_currently_passes():
 
 
 def test_a_pmid_typed_from_memory_is_caught(monkeypatch):
-    """⛔ THE EXACT INCIDENT, REPRODUCED: an identifier in prose and in no fetch product."""
+    """⛔ THE EXACT INCIDENT, REPRODUCED: an identifier in prose and in no fetch product.
+
+    ⛔ DRIVES `provenance_check`, NOT `check` — CHANGED 2026-09-08 AND THE CHANGE IS THE POINT.
+    `check()` returns `max(provenance_rc, type_rc)`, so while the type guard is non-green for an
+    unrelated reason this assertion held no matter what the provenance logic did: a control that
+    passes for a reason it does not name is a constant wearing a control's costume. The axis under
+    test is provenance, so the axis driven is provenance. The WRAPPER's own obligation — a failure
+    if EITHER axis fails, over the whole corpus — is asserted separately below and is not weakened.
+    """
     monkeypatch.setattr(lc, "survey", lambda: (
         {"PMID": {"31415926": {"research/manuscripts/invented.md"}}}, {}))
-    assert lc.check() == 1
+    assert lc.provenance_check() == 1
 
 
 def test_and_that_control_can_actually_pass_when_the_identifier_is_anchored(monkeypatch):
@@ -47,7 +55,7 @@ def test_and_that_control_can_actually_pass_when_the_identifier_is_anchored(monk
     monkeypatch.setattr(lc, "survey", lambda: (
         {"PMID": {"31415926": {"research/manuscripts/invented.md"}}},
         {"PMID": {"31415926": {"research/modalities/some-fetch.json"}}}))
-    assert lc.check() == 0
+    assert lc.provenance_check() == 0
 
 
 def test_a_ledgered_identifier_stays_green(monkeypatch):
@@ -57,7 +65,7 @@ def test_a_ledgered_identifier_stays_green(monkeypatch):
     e = led["entries"][0]
     monkeypatch.setattr(lc, "survey", lambda: (
         {e["kind"]: {e["id"]: set(e["files"])}}, {}))
-    assert lc.check() == 0
+    assert lc.provenance_check() == 0
 
 
 def test_baseline_refuses_to_overwrite_an_existing_ledger():
@@ -331,7 +339,7 @@ def test_a_fabricated_arxiv_id_is_caught(monkeypatch):
     """⛔ THE CASE THE PATTERN EXISTS FOR: an arXiv id in prose and in no fetch product."""
     monkeypatch.setattr(lc, "survey", lambda: (
         {"ARXIV": {"2699.99999": {"research/method-watch-invented.md"}}}, {}))
-    assert lc.check() == 1
+    assert lc.provenance_check() == 1
 
 
 def test_and_that_control_can_actually_pass_when_the_arxiv_id_is_anchored(monkeypatch):
@@ -339,7 +347,7 @@ def test_and_that_control_can_actually_pass_when_the_arxiv_id_is_anchored(monkey
     monkeypatch.setattr(lc, "survey", lambda: (
         {"ARXIV": {"2699.99999": {"research/method-watch-invented.md"}}},
         {"ARXIV": {"2699.99999": {"research/method-watch-trigger-hits.json"}}}))
-    assert lc.check() == 0
+    assert lc.provenance_check() == 0
 
 
 def test_the_arxiv_pattern_still_matches_this_repositorys_own_prose():
@@ -408,3 +416,222 @@ def test_every_arxiv_ledger_row_records_how_it_was_checked():
     assert "_arxiv_class_added_2026_08_28" in led, (
         "the ledger must say, in one place, that the ARXIV rows post-date the baseline and why "
         "their status is what it is")
+
+
+# --------------------------------------------------------------------------------------------
+# THE TWO AXES, SEPARATED — P-CI, 2026-09-08
+#
+# ⛔⛔ THE DEFECT THESE PIN. `lint_citations.check()` returns `max(provenance_rc, type_rc)`, and
+# every negative control above used to drive it. Measured on this tree on 2026-09-08, with the type
+# guard red on 13 uncached type claims that have nothing to do with citation provenance:
+# `test_and_that_control_can_actually_pass_when_the_identifier_is_anchored`,
+# `test_and_that_control_can_actually_pass_when_the_arxiv_id_is_anchored` and
+# `test_a_ledgered_identifier_stays_green` were ALL RED while the provenance logic they exist to
+# test was working perfectly, and the two fabricated-identifier controls were GREEN for a reason
+# they do not name — `max()` would have returned 1 for them even with the anchoring check deleted.
+# A control that cannot go green, and a control that cannot go red, are both constants.
+# ⛔ WHAT IS *NOT* CHANGED: production. `check()` still walks the ENTIRE corpus and still fails if
+# EITHER axis fails; the matrix below is what says so, and it is the reason the split cannot be
+# read as "the gate now only checks provenance".
+# --------------------------------------------------------------------------------------------
+
+def _fabricated():
+    """Prose carries PMID 31415926; nothing retrieved it. The 2026-08-07 incident's shape."""
+    return ({"PMID": {"31415926": {"research/manuscripts/invented.md"}}}, {})
+
+
+def _anchored():
+    """The same identifier, present in a fetch product — the control's control."""
+    return ({"PMID": {"31415926": {"research/manuscripts/invented.md"}}},
+            {"PMID": {"31415926": {"research/modalities/some-fetch.json"}}})
+
+
+@pytest.mark.parametrize("type_rc", [0, 1, 2])
+def test_fabricated_and_anchored_are_red_and_green_on_the_provenance_axis_whatever_the_type_axis_says(
+        monkeypatch, type_rc):
+    """⛔⛔ THE EXACT REPAIR: the provenance verdict must be attributable to the ANCHORING.
+
+    The type axis is held at a known value — green, red, and the cannot-run 2 — and the provenance
+    axis must still separate a fabricated identifier from an anchored one in every one of them.
+    Before the split there was no way to state this: the only observable was `max()`.
+    """
+    monkeypatch.setattr(lc, "_type_check", lambda prose: type_rc)
+
+    monkeypatch.setattr(lc, "survey", _fabricated)
+    assert lc.provenance_check() == 1, "a fabricated identifier must red the provenance axis"
+
+    monkeypatch.setattr(lc, "survey", _anchored)
+    assert lc.provenance_check() == 0, (
+        "an ANCHORED identifier must green the provenance axis. If this is red, the red above is "
+        "not evidence about anchoring — it is the harness talking")
+
+
+def test_the_wrapper_alone_cannot_tell_the_two_apart_when_the_type_axis_is_red(monkeypatch):
+    """⚠ THE DEFECT ITSELF, ASSERTED SO THE SPLIT CANNOT BE 'SIMPLIFIED' BACK OUT.
+
+    This is not a demand that `check()` change — OR-ing the axes is correct and required. It is the
+    record of WHY the controls may not be written against it: with the type guard red, the wrapper
+    returns the same 1 for a fabricated identifier and for an anchored one, so an assertion on the
+    wrapper measures nothing about provenance.
+    """
+    monkeypatch.setattr(lc, "_type_check", lambda prose: 1)
+    monkeypatch.setattr(lc, "survey", _fabricated)
+    fabricated = lc.check()
+    monkeypatch.setattr(lc, "survey", _anchored)
+    anchored = lc.check()
+    assert fabricated == anchored == 1, (
+        "the wrapper distinguished them, so this comment is stale — re-derive which observable the "
+        "controls should use rather than deleting the test")
+
+
+@pytest.mark.parametrize("survey_fn,prov_rc", [(_anchored, 0), (_fabricated, 1)])
+@pytest.mark.parametrize("type_rc", [0, 1, 2])
+def test_the_wrapper_fails_when_either_axis_fails(monkeypatch, survey_fn, prov_rc, type_rc):
+    """⛔ PRODUCTION'S OBLIGATION, ACROSS THE WHOLE MATRIX: green only when BOTH axes are green.
+
+    ⛔ THE DIRECTION THAT MATTERS MOST IS `prov_rc == 0, type_rc != 0` — a wrapper 'simplified' to
+    return only the provenance axis would pass every other test in this file and would silently
+    retire the guard that caught the 2026-08-26 misattribution, whose identifiers were all real and
+    all anchored.
+    """
+    monkeypatch.setattr(lc, "_type_check", lambda prose: type_rc)
+    monkeypatch.setattr(lc, "survey", survey_fn)
+    assert lc.check() == max(prov_rc, type_rc)
+
+
+def test_the_wrapper_runs_the_type_axis_over_the_whole_prose_survey_it_computed(monkeypatch):
+    """⚠ The cost parameter must not become a corpus filter: the type guard gets `survey()`'s prose
+    half, entire and unmodified — the property `lint_citation_types.check`'s docstring depends on.
+    """
+    prose, anchors = _anchored()
+    seen = []
+    monkeypatch.setattr(lc, "survey", lambda: (prose, anchors))
+    monkeypatch.setattr(lc, "_type_check", lambda p: (seen.append(p), 0)[1])
+    assert lc.check() == 0
+    assert len(seen) == 1 and seen[0] is prose, (
+        "the type axis must run exactly once, on the object survey() returned")
+
+
+def test_a_missing_ledger_is_still_a_failure_and_still_short_circuits(monkeypatch):
+    """⛔ UNCHANGED BEHAVIOUR, PINNED THROUGH THE SPLIT. With no ledger the provenance axis cannot
+    answer at all; rc 2 is a failure and the gate returns it, exactly as it did before the split."""
+    monkeypatch.setattr(lc, "survey", _anchored)
+    monkeypatch.setattr(lc, "load_ledger", lambda: None)
+    monkeypatch.setattr(lc, "_type_check", lambda prose: (_ for _ in ()).throw(
+        AssertionError("the type axis must not run when the ledger is missing")))
+    assert lc.provenance_check() == 2
+    assert lc.check() == 2
+
+
+def test_the_ledger_is_still_excluded_from_the_anchor_scan_after_the_split():
+    """⛔ THE 2026-08-07 SELF-ANCHORING EXCLUSION IS LOAD-BEARING AND SITS IN `survey()`, which the
+    split did not touch. Asserted here as well because a refactor that moved the scan is exactly the
+    kind of change that would drop it, and the count that would result — 0 unanchored — is the one
+    number nobody re-examines."""
+    import inspect
+    src = inspect.getsource(lc.survey)
+    assert "ledger_rel" in src and "f not in (ledger_rel" in src
+
+
+# --------------------------------------------------------------------------------------------
+# the seven cross-form PMCID rows — what they bind, and what they do not claim
+# --------------------------------------------------------------------------------------------
+
+_INHERITED_MARK = "INHERITED FROM THE DOI ROW"
+
+
+def _crossform_rows(led):
+    return [e for e in led["entries"]
+            if e["kind"] == "PMCID" and str(e.get("checked_by", "")).startswith("Binding only")]
+
+
+def _doi_rows_by_pmcid(led):
+    out = {}
+    for e in led["entries"]:
+        if e["kind"] == "DOI" and e.get("verified_pmcid"):
+            out.setdefault(e["verified_pmcid"], []).append(e)
+    return out
+
+
+def test_the_cross_form_binding_is_exactly_seven_pmcid_keys_each_bound_to_one_prior_doi_row():
+    """⛔ THE SCOPE, AS DATA. Seven keys were added on 2026-09-08 and each one is the PMCID FORM of a
+    DOI already carried by a `verified` row in this same file. ⛔ THIS IS NOT SEVEN NEW WORKS AND NOT
+    SEVEN NEW VERIFICATIONS — no retrieval was performed to add any of them.
+    """
+    led = lc.load_ledger()
+    rows = _crossform_rows(led)
+    assert len(rows) == 7, "the cross-form class is seven ROWS; %d found" % len(rows)
+    assert len({e["key"] for e in rows}) == 7, "duplicate keys in the cross-form class"
+    src = _doi_rows_by_pmcid(led)
+    for e in rows:
+        parents = src.get(e["id"], [])
+        assert len(parents) == 1, (
+            "PMCID %s must be carried by exactly one prior DOI row's verified_pmcid; found %d"
+            % (e["id"], len(parents)))
+        assert parents[0]["status"] == "verified"
+        assert parents[0]["id"] in e["checked_by"], (
+            "PMCID %s does not name the DOI row it was read off" % e["id"])
+
+
+@pytest.mark.parametrize("field", ["verified_pmid", "verified_title", "verified_journal",
+                                   "verified_on", "verified_source", "verified_pmcid"])
+def test_every_inherited_metadata_field_is_the_doi_rows_own_value(field):
+    """⛔ INHERITED MEANS COPIED, NOT RE-DERIVED. A field that drifted from its DOI row would be a
+    second, uncorroborated assertion about the paper wearing the first one's provenance."""
+    led = lc.load_ledger()
+    src = _doi_rows_by_pmcid(led)
+    for e in _crossform_rows(led):
+        parent = src[e["id"]][0]
+        assert e.get(field) == parent.get(field), (
+            "PMCID %s.%s does not equal its DOI row's value" % (e["id"], field))
+
+
+def test_the_inherited_narrative_cannot_be_read_as_a_check_of_the_pmcid():
+    """⛔⛔ THE REPAIR THIS TASK EXISTS FOR. `verified_by` is the DOI row's narrative copied verbatim
+    — it describes a 2026-08-27 read of a DOI. Standing alone in a `kind: PMCID` row it reads as a
+    check performed ON THAT PMCID, which nobody performed. The prefix says so before the narrative
+    starts, so no reader reaches the inherited sentence without the qualification.
+    """
+    led = lc.load_ledger()
+    src = _doi_rows_by_pmcid(led)
+    for e in _crossform_rows(led):
+        vb = e["verified_by"]
+        assert vb.startswith(_INHERITED_MARK), (
+            "PMCID %s's verified_by opens with the DOI's own narrative and nothing marking it as "
+            "inherited" % e["id"])
+        assert "NOT A CHECK PERFORMED ON THIS PMCID" in vb
+        parent_narrative = src[e["id"]][0]["verified_by"]
+        assert vb.endswith(parent_narrative), (
+            "the inherited narrative must be the DOI row's, verbatim, after the prefix")
+        assert _INHERITED_MARK not in parent_narrative, (
+            "the DOI row is the source of the binding and must not itself claim to be inherited")
+
+
+def test_the_binding_adds_rows_and_adds_no_new_verified_work():
+    """⚠ ROW COUNT AND WORK COUNT ARE DIFFERENT QUANTITIES, AND CONFLATING THEM IS THE OVERCLAIM.
+
+    Seven ROWS were added. The works behind them were already in the ledger under their DOI form, so
+    the number of distinct verified WORKS is unchanged by this class: every inherited row's
+    `verified_pmid` is one another row already carries. Anyone reporting "seven" must say seven
+    what — seven cross-form keys, not seven newly verified papers.
+    """
+    led = lc.load_ledger()
+    rows = _crossform_rows(led)
+    others = [e for e in led["entries"] if e not in rows]
+    pmids_elsewhere = {e.get("verified_pmid") for e in others if e.get("verified_pmid")}
+    for e in rows:
+        assert e.get("verified_pmid") in pmids_elsewhere, (
+            "PMCID %s introduces a work no other ledger row carries — then it is not a binding"
+            % e["id"])
+    assert len({e["verified_pmid"] for e in rows}) == 7, "seven keys, seven already-known works"
+
+
+def test_the_ledger_says_in_one_place_that_the_cross_form_rows_are_not_a_new_verification():
+    """⛔ The class field is the one place a reader learns what these rows are. It must state that
+    no new check was performed and that no fetch product in this tree carries these PMCIDs."""
+    led = lc.load_ledger()
+    key = "_pmcid_crossform_class_added_2026_09_08"
+    assert key in led, "the cross-form class must be declared at the top level"
+    text = led[key]
+    assert "NOT A NEW VERIFICATION" in text.upper()
+    assert "no fetch product in this repository carries these PMCIDs" in text

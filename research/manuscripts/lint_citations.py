@@ -421,8 +421,34 @@ def _norm_stored_key(key):
     return _key(kind, ident)
 
 
-def check():
-    prose, anchors = survey()
+def provenance_check(prose=None, anchors=None):
+    """The PROVENANCE axis ALONE: is every prose identifier anchored or enumerated? rc 0 / 1 / 2.
+
+    ⛔⛔ WHY THIS FUNCTION EXISTS, AND IT IS A TESTABILITY DEFECT WITH TEETH (2026-09-08, P-CI).
+    This body used to live inside `check()`, whose return is `max(provenance_rc, type_rc)`. Every
+    negative control this gate has — a fabricated PMID that must go RED, and its paired anchored
+    control that must go GREEN so the red is attributable to the ANCHORING and not to the harness —
+    drove `check()`. So the moment the TYPE guard went non-green for an unrelated reason (a prose
+    type claim with no cached metadata, which is the tree's state today), `max()` returned 1 for
+    BOTH members of the pair: the fabricated control kept "passing" while proving nothing, and the
+    anchored control went red on an axis it does not test. Measured on this tree the same day:
+    `test_and_that_control_can_actually_pass_when_the_identifier_is_anchored`,
+    `test_and_that_control_can_actually_pass_when_the_arxiv_id_is_anchored` and
+    `test_a_ledgered_identifier_stays_green` were all red with the provenance logic they test
+    working correctly. A control that cannot go green is not a control, it is a constant — the
+    exact failure the negative-control discipline in `research/modalities/tests/
+    test_lint_citations.py` was written to prevent, reappearing one level up in the call graph.
+    ⛔ THIS IS NOT A PRODUCTION PATH AND MUST NEVER BECOME ONE. `check()` — what `preflight.sh` and
+    CI run — still scans the ENTIRE corpus and still fails if EITHER axis fails. Splitting the axes
+    so each can be OBSERVED alone is the repair; running only one of them in production would be
+    the 2026-08-26 defect (real, anchored identifiers cited as the wrong kind of paper) going
+    unchecked. `test_the_wrapper_fails_when_either_axis_fails` pins that.
+    ⚠ `prose`/`anchors` are the same cost parameter `lint_citation_types.check(prose=...)` carries:
+    `None` means "compute it", a caller that already holds `survey()`'s output hands it over. It is
+    NOT a way to narrow the corpus in production — `check()` passes what `survey()` returned, whole.
+    """
+    if prose is None or anchors is None:
+        prose, anchors = survey()
     un = unanchored(prose, anchors)
     led = load_ledger()
     if led is None:
@@ -453,6 +479,17 @@ def check():
         print("lint_citations: %d NEW unanchored identifier(s) — see errors above" % len(new),
               file=sys.stderr)
         rc = 1
+    return rc
+
+
+def _type_check(prose):
+    """Run the TYPE axis over `prose`. The ONE place `check()` reaches the second guard.
+
+    ⚠ EXTRACTED SO A TEST CAN HOLD THE TYPE AXIS AT A KNOWN VALUE while it varies the provenance
+    one — which is what makes "fabricated goes red, anchored goes green, REGARDLESS of an unrelated
+    type failure" an assertable statement rather than a hope. ⛔ It changes nothing about what
+    production runs: the same module, loaded the same way, over the same unfiltered `prose`.
+    """
     # ⭐⭐ THE TYPE GUARD RUNS FROM HERE, AND THE CALL SITE IS THE WIRING (added 2026-08-27,
     # AUT-PROP-007). ⛔ IT IS A THIRD AXIS, NOT A REFINEMENT OF THIS ONE. On 2026-08-26 a national
     # registry cohort and two single-patient case reports were cited as "the review literature";
@@ -480,7 +517,27 @@ def check():
     # ⛔ IT MUST BE `prose` AS `survey()` RETURNED IT, UNFILTERED: the sweep's coverage claim is that
     # it sees every prose identifier in the repository, and a narrowed dict would shrink the sweep
     # while its printed total went on describing the whole tree.
-    return max(rc, _types.check(prose=prose))
+    return _types.check(prose=prose)
+
+
+def check():
+    """⛔ PRODUCTION. The WHOLE corpus, BOTH axes, and a failure if EITHER of them fails.
+
+    ⚠ The two rcs are OR-ed (via `max`) so neither guard can hide the other — provenance answers
+    "did anybody retrieve this identifier", the type guard answers "is the paper behind it the KIND
+    of paper the sentence says it is", and a green on one is not evidence about the other.
+    ⭐ `survey()` is walked ONCE and its prose half is handed to both, which is the 21-s-per-commit
+    fix pinned by `test_the_citation_scan_is_not_run_twice.py`.
+    """
+    prose, anchors = survey()
+    rc = provenance_check(prose, anchors)
+    # ⛔ A MISSING LEDGER (rc 2) SHORT-CIRCUITS, EXACTLY AS IT DID BEFORE THE SPLIT. Without a
+    # ledger the provenance axis cannot answer at all, and 2 is already a failure; running the type
+    # guard afterwards could only lower nothing and would change this gate's output on a tree
+    # nobody can currently evaluate.
+    if rc == 2:
+        return rc
+    return max(rc, _type_check(prose))
 
 
 def baseline():
