@@ -612,6 +612,23 @@ def provenance_line(paper, style):
     commit, dirty, date = build_provenance()
     what = {"journal": "typeset preview", "manuscript": "submission format",
             "preprint": "preprint", "supplementary": "supplementary information"}[style]
+    #: ⭐ PER-PAPER OPT-IN, THE SAME FLAG THE TITLE AND SUBJECT ALREADY READ (2026-09-08). The map
+    #: above calls every `journal` build a "typeset preview" because for a paper that also ships a
+    #: `-manuscript.pdf`, the typeset render IS a preview of the file that travels. A paper carrying
+    #: `layout.is_outgoing_file` ships no such second file: its journal-style render is the document
+    #: that goes out. Printing "typeset preview" on page one of that file therefore MISNAMES THE
+    #: DOCUMENT KIND to the person holding it — read off page 1 of the built ATR package, which is
+    #: an outgoing preprint and said "typeset preview". It says "preprint" instead, which is what
+    #: `--style preprint` already prints and what the /Subject set at the `is_outgoing_file` site
+    #: below already tells a reader this file is; the two now agree.
+    #: ⛔ THE BUILD PROVENANCE ITSELF IS UNTOUCHED. Only the document-kind word changes: the date,
+    #: the commit and ", tree not clean at build time" all still print, and this is NOT the existing
+    #: `no_provenance_line` opt-out, which drops the line entirely. Scoped to the `journal` style
+    #: because that is the render this flag makes outgoing; `manuscript`, `preprint` and
+    #: `supplementary` already name themselves correctly and are left alone. No paper without the
+    #: flag is reached, so no other build moves.
+    if style == "journal" and (paper or {}).get("layout", {}).get("is_outgoing_file"):
+        what = "preprint"
     #: ⛔ A SUBMITTED PAPER DOES NOT CARRY ITS BUILD METADATA (reviewer read, 2026-08-20). The line
     #: is right for a document under internal review, where which commit rendered it is the
     #: question. On a manuscript going to an editor it is noise, and "tree not clean at build time"
