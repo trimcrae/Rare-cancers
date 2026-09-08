@@ -54,12 +54,14 @@ Figure-QA observations carried out of the Figure 1 caption during this integrati
 
 # Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
 
-**Tristan D. McRae**
+**Author:** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
-Running title: NR4A3 fusion models and DSB predictions
+**Running title:** NR4A3 fusion models and DSB predictions
+
+**Keywords:** extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; NR4A3 fusion; FET fusion; TAF15; TCF12; reading frame; RGG; double-strand break
 
 *A sequence-analysis report with a pre-specified prediction set. No experiment was performed and no
 reagent was made. Every sequence below is computed from public reference transcripts, and every
