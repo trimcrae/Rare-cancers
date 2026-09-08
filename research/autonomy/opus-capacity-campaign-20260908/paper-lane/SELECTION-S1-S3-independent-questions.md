@@ -185,3 +185,49 @@ conforming assignment carried forward.
 Session, model (`claude-opus-5`), deadline `2026-09-09T02:37:19Z`, collector and billing all unchanged. The
 writer / W25 primary-article / Results / novelty safety hold is untouched by this correction, as is every other
 closure named above.
+
+## S2 — **COMPLETE**, terminating on its missing-input criterion (branch b)
+
+Collected to `paper-lane/S2-reconstructability-requirement.md`. Contract honoured exactly: synthetic inputs
+only, no real curve inverted, no patient-level data produced or pooled, no closed-gate application, and no
+substitution of a different question when the intended one proved unanswerable.
+
+**Terminal dependency, named to file, line and parameter:** the retained control **has no risk-table density
+arm and no synthetic-ground-truth anchoring arm**, so it cannot yield a reporting requirement.
+`risk_times = [0.0, 24.0, 48.0, 72.0, 96.0, 120.0, 144.0, 168.0]` is a **hard-coded local inside
+`run_control()` at `research/modalities/km_digitize.py:1429`** — not a parameter, not a `SCENARIOS` key, not
+reachable from any caller — and the single `risk_table` derived from it at `:1430` is passed to the truth
+record, the exact-coordinates baseline **and all 16 scenarios**. The 16 scenarios vary only rendering and
+pixel-reading (line width, gridlines, ticks, CI band, second curve, resample, noise, JPEG, dashing,
+annotation placement, matcher leniency, `anchor_error_px`).
+
+⭐ **A distinction the question itself had blurred, and the sharper half of the result:** the control's
+`axis_anchor_off_by_one` perturbs the **pixel axis-calibration anchor**, not the **risk-table anchoring**
+(printed-vs-anchored first row). The latter exists only in `km-figure-readings.json recipes[0]` and is applied
+only by `digitize_recipe()` (`km_digitize.py:899-903`) — i.e. **exclusively over the real figure, where ground
+truth is unknown, and never in the control, where it is known by construction.** No measured
+error-versus-risk-table-anchoring figure exists anywhere in this repository.
+
+**The one datum on this axis, quoted from the committed artifact and not measured in this run:**
+`control.exact_coordinates_baseline` records that with **zero coordinate error anywhere**, `events_delta` is 0
+but `censored_delta_vs_truth` is **−7** — seven of 59 patients' censoring status lost to the risk table's
+**extent alone**, because censorings after the last printed risk time are unidentifiable. That demonstrates the
+dependency is real and load-bearing, and simultaneously that the control samples it at exactly one point
+(8 rows, extent 168/180 = 0.933). `⛔_direction_of_the_bound` travels with it: a synthetic render is easier
+than a journal figure, so this is a **floor** on what a real 8-row table loses.
+
+**Honest consequence:** the programme **cannot presently state what a journal would have to print** for a
+survival figure to be reconstructable at a stated error bound, because the only instrument that knows its own
+ground truth was built with the risk table held constant.
+
+**Receipt:** no computation was executed — the worker read the generator source (confirming `run_control()`,
+`cohort_size_sensitivity()` and `SCENARIOS` are pure and the only `open(...,"w")` is in `main()`'s
+non-`--check` branch) and read committed JSON. There is therefore no executed-code or parameter receipt to
+retain beyond the report itself, which is retained in full. Its proposed sweep is **PROPOSED (NOT RUN)** and is
+**not authorized or started** by this record.
+
+## Checkpoint close
+
+S1 **STOPPED**, S3 **STOPPED** (partials retained, no re-dispatch under any label), S2 **COMPLETE** on its
+missing-input criterion. Further selection **FAILED on this bounded pass**, recorded above rather than
+substituted with another artifact audit. No worker is running in this lane.
