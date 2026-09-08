@@ -1,0 +1,17 @@
+claim-coverage.json is stale — it is not what the live census computes:
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.sentences: committed 435, the census now reports 465
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.with_a_number: committed 303, the census now reports 325
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered: committed 435, the census now reports 465
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered_with_a_number: committed 303, the census now reports 325
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.sentences: committed 329, the census now reports 291
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.covered: committed 87, the census now reports 44
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number: committed 238, the census now reports 188
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number_covered: committed 85, the census now reports 43
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered: committed 242, the census now reports 247
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered_with_a_number: committed 153, the census now reports 145
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.sentences: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.with_a_number: committed 54, the census now reports 102
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered_with_a_number: committed 54, the census now reports 102
+Re-run `python3 research/manuscripts/claim_coverage.py --write` and commit the result in THIS change.
+⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the census harvests its patterns from that corpus, so widening a guard's regex moves `covered` with no manuscript byte touched. That edit and this artifact are a pair even though they live in different directories.

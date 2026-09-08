@@ -1,0 +1,14 @@
+# python3 research/manuscripts/lint_claims.py research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+Tue Sep  8 22:09:33 UTC 2026
+research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md:201: ERROR [R2-treats-cures] 'treats'
+    no treatment claim -- degradation is experimentally unvalidated
+    rule source: roadmap final deliverable: degradation experimentally unvalidated
+    context: **Approximate two-sided *p* and 95 % intervals are conditional arithmetic on the rounded published Δ/*t*/df** — the interval treats Δ ÷ *t* as the standard error and uses the printed rounded df, so bo
+
+research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md:394: WARN [R4-confirms] 'validated'
+    reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with
+    rule source: roadmap language discipline
+    context: the search claim and that hypothesis must be updated separately | | U6 | HSP90 paralogue single-knockout effects are low in these lines | a well-validated combined perturbation could challenge a propo
+
+lint_claims: 1 ERROR, 1 WARN across 1 file(s)
+EXIT=1

@@ -1,0 +1,27 @@
+Numeric-leaf comparison of emc-fusion-partner-pooling.json
+  before: BEFORE-20260908/ copy, 107051 B, sha256 f44c15048a6331c62d9d7e5ad96345721649789c13c0a15e60516b05755374c2
+  after : the one regeneration, 130554 B, sha256 e99df6396b895263dd7c3345da9ceed5d5eedab3af71587940d785e826653e2a
+  method: every numeric (non-bool) JSON leaf, addressed by full path.
+
+total numeric leaves before: 318   after: 331
+CHANGED: 0
+REMOVED: 0
+ADDED:   13
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/agaram-2014-prevalence/total_in_series 26
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/agaram-2014-prevalence/molecular_confirmation_or_successful_test 26
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/agaram-2014-prevalence/named_partner_assigned 24
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/agaram-2014-prevalence/followed_for_outcome 26
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/huang-2023-prevalence/total_in_series 58
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/huang-2023-prevalence/molecular_confirmation_or_successful_test 58
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/huang-2023-prevalence/named_partner_assigned 57
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/lenz-2023-prevalence/total_in_series 17
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/lenz-2023-prevalence/molecular_confirmation_or_successful_test 12
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/lenz-2023-prevalence/named_partner_assigned 11
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/paioli-2021-prevalence/total_in_series 67
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/paioli-2021-prevalence/molecular_confirmation_or_successful_test 67
+    /analyses/C_partner_prevalence/ascertainment_stages/per_series/paioli-2021-prevalence/named_partner_assigned 62
+
+Reading: every pre-existing numeric event cell, denominator, interval bound, difference and
+Fisher value is preserved unchanged. The only numeric-field change is the documented addition
+of the ascertainment_stages block required by R5. _generated_utc is a string and changes by
+design on every run.

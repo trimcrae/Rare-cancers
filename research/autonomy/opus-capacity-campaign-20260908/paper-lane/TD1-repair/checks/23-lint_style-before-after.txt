@@ -1,0 +1,16 @@
+# lint_style, frozen input vs repaired candidate (house style; exit 1 in BOTH — pre-existing glyph convention across this repo's manuscripts)
+Tue Sep  8 22:11:19 UTC 2026
+
+--- BEFORE (frozen fe316b44)
+
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-repair/BEFORE-emc-transcriptional-proteostatic-dependency.md  (2783 words, bold 18.0/1000, em-dash 10.4/1000)
+  bold-density=1, bold-midsentence=17, emdash-density=1, glyph=19, heading-style=4
+  ::error file=research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-repair/BEFORE-emc-transcriptional-proteostatic-dependency.md,line=38::[glyph] research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-repair/BEFORE-emc-transcriptional-proteostatic-dependency.md:38: decorative glyph '⛔' in manuscript body
+BEFORE_EXIT=1
+
+--- AFTER (repaired candidate)
+
+research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md  (5242 words, bold 20.6/1000, em-dash 4.0/1000)
+  bold-density=1, bold-midsentence=53, glyph=43, heading-style=2
+  ::error file=research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md,line=39::[glyph] research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md:39: decorative glyph '⛔' in manuscript body
+AFTER_EXIT=1

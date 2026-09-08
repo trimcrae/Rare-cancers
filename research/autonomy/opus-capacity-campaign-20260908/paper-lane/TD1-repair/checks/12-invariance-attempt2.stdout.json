@@ -1,0 +1,34 @@
+{
+ "n_checks": 441596,
+ "n_failed": 0,
+ "failures": [],
+ "n_failures_total": 0,
+ "note": "Structural invariance evidence only. Nothing here re-runs a producer or revalidates the science; it proves the shared-file patches are annotation-only.",
+ "checks_sample": [
+  {
+   "check": "research/modalities/census-route-expression-grading.json: original bytes match the ledger",
+   "pass": true,
+   "detail": "working tree drifted"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json: patched copy matches the ledger",
+   "pass": true,
+   "detail": "patched copy drifted"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json : key set preserved",
+   "pass": true,
+   "detail": "added=[] removed=[]"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json .pinned_figures_quoted_by_the_preprint: key set preserved",
+   "pass": true,
+   "detail": "added=[] removed=[]"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json .pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl6244: non-string leaf unchanged",
+   "pass": true,
+   "detail": "99 -> 99"
+  }
+ ]
+}

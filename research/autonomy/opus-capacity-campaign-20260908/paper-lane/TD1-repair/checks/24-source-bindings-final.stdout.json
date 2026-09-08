@@ -1,0 +1,1158 @@
+{
+ "generated_utc": "2026-09-08T22:14:15.117238+00:00",
+ "n_checks": 230,
+ "n_failed": 0,
+ "failures": [],
+ "checks": [
+  {
+   "check": "t-tail numeric calibration (Cauchy t=1 df=1 == 0.5)",
+   "pass": true,
+   "detail": "got 0.5000000000000004"
+  },
+  {
+   "check": "GPL6244 class counts",
+   "pass": true,
+   "detail": "{'EMC': 6, 'LGFMS': 17, 'desmoid_fibromatosis': 6, 'fibrosarcoma': 6, 'unclassified': 7}"
+  },
+  {
+   "check": "GPL3290 class counts",
+   "pass": true,
+   "detail": "{'DFSP': 3, 'EMC': 10, 'GIST': 3}"
+  },
+  {
+   "check": "5 solitary fibrous tumour records excluded as unclassified",
+   "pass": true,
+   "detail": "n=5"
+  },
+  {
+   "check": "2 pooled skeletal-muscle records excluded as unclassified",
+   "pass": true,
+   "detail": "n=2"
+  },
+  {
+   "check": "unclassified arm is exactly those 7",
+   "pass": true,
+   "detail": "n=7"
+  },
+  {
+   "check": "6 'fibrosarcoma'-binned records are annotated Myxofibrosarcoma",
+   "pass": true,
+   "detail": "['Myxofibrosarcoma 1 | s', 'Myxofibrosarcoma 2 | s', 'Myxofibrosarcoma 3 | s', 'Myxofibrosarcoma 4 | s', 'Myxofibrosarcoma 5 | s', 'Myxofibrosarcoma 6 | s']"
+  },
+  {
+   "check": "GPL3290 EMC reference label is CRH-mRNA on all 10",
+   "pass": true,
+   "detail": "{'DFSP': {'CRH'}, 'GIST': {'UHR'}, 'EMC': {'CRH-mRNA'}}"
+  },
+  {
+   "check": "GPL3290 DFSP reference label is CRH on all 3",
+   "pass": true,
+   "detail": "{'DFSP': {'CRH'}, 'GIST': {'UHR'}, 'EMC': {'CRH-mRNA'}}"
+  },
+  {
+   "check": "GPL3290 GIST reference label is UHR on all 3",
+   "pass": true,
+   "detail": "{'DFSP': {'CRH'}, 'GIST': {'UHR'}, 'EMC': {'CRH-mRNA'}}"
+  },
+  {
+   "check": "GPL3290 value_kind is a two-colour log-ratio vs a reference pool",
+   "pass": true,
+   "detail": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an abso"
+  },
+  {
+   "check": "GPL6244 value_kind is single-channel intensity",
+   "pass": true,
+   "detail": "single-channel intensity (an absolute level is interpretable"
+  },
+  {
+   "check": "exactly seven scored group memberships",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "membership transcriptional_cdk/cdk7_initiation_module",
+   "pass": true,
+   "detail": "live=['CDK7', 'CCNH', 'MNAT1']"
+  },
+  {
+   "check": "manuscript lists CDK7 for cdk7_initiation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists CCNH for cdk7_initiation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists MNAT1 for cdk7_initiation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership transcriptional_cdk/cdk9_elongation_module",
+   "pass": true,
+   "detail": "live=['CDK9', 'CCNT1', 'CCNT2', 'AFF4']"
+  },
+  {
+   "check": "manuscript lists CDK9 for cdk9_elongation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists CCNT1 for cdk9_elongation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists CCNT2 for cdk9_elongation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists AFF4 for cdk9_elongation_module",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership transcriptional_cdk/cdk12_13_processivity",
+   "pass": true,
+   "detail": "live=['CDK12', 'CDK13', 'CCNK']"
+  },
+  {
+   "check": "manuscript lists CDK12 for cdk12_13_processivity",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists CDK13 for cdk12_13_processivity",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists CCNK for cdk12_13_processivity",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership transcriptional_cdk/transcriptional_output_context",
+   "pass": true,
+   "detail": "live=['POLR2A', 'MYC', 'GTF2B', 'TAF1']"
+  },
+  {
+   "check": "manuscript lists POLR2A for transcriptional_output_context",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists MYC for transcriptional_output_context",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists GTF2B for transcriptional_output_context",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists TAF1 for transcriptional_output_context",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership chaperone_dependency/hsp90_machine",
+   "pass": true,
+   "detail": "live=['HSP90AA1', 'HSP90AB1', 'HSP90B1', 'TRAP1']"
+  },
+  {
+   "check": "manuscript lists HSP90AA1 for hsp90_machine",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists HSP90AB1 for hsp90_machine",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists HSP90B1 for hsp90_machine",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists TRAP1 for hsp90_machine",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership chaperone_dependency/co_chaperones",
+   "pass": true,
+   "detail": "live=['CDC37', 'AHSA1', 'STIP1', 'PTGES3', 'PPID']"
+  },
+  {
+   "check": "manuscript lists CDC37 for co_chaperones",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists AHSA1 for co_chaperones",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists STIP1 for co_chaperones",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists PTGES3 for co_chaperones",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists PPID for co_chaperones",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "membership chaperone_dependency/hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "live=['HSPA8', 'HSPA4', 'DNAJB1', 'HSPH1', 'HSF1']"
+  },
+  {
+   "check": "manuscript lists HSPA8 for hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists HSPA4 for hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists DNAJB1 for hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists HSPH1 for hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "manuscript lists HSF1 for hsp70_arm_and_stress_response",
+   "pass": true,
+   "detail": "missing from manuscript text"
+  },
+  {
+   "check": "unreadable members cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=['HSP90AA1']"
+  },
+  {
+   "check": "unreadable members co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=[]"
+  },
+  {
+   "check": "unreadable members hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=['HSPA8']"
+  },
+  {
+   "check": "unreadable members hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=['HSF1']"
+  },
+  {
+   "check": "fourteen printed group/platform readings",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "delta cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.2102"
+  },
+  {
+   "check": "t cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=3.688"
+  },
+  {
+   "check": "df cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=6.6"
+  },
+  {
+   "check": "coverage cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.00863359203464276 reviewer=0.008633592034642751"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk7_initiation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.07375304575399041,0.34664695424600955) reviewer=[0.07375304575399041, 0.34664695424600955]"
+  },
+  {
+   "check": "delta cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.045"
+  },
+  {
+   "check": "t cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.189"
+  },
+  {
+   "check": "df cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=5.7"
+  },
+  {
+   "check": "coverage cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.2816023772154411 reviewer=0.28160237721544157"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk9_elongation_module@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.04880253060683555,0.13880253060683556) reviewer=[-0.04880253060683552, 0.1388025306068355]"
+  },
+  {
+   "check": "delta cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.0418"
+  },
+  {
+   "check": "t cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.88"
+  },
+  {
+   "check": "df cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=6.8"
+  },
+  {
+   "check": "coverage cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.40888005790867143 reviewer=0.40888005790867143"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk12_13_processivity@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.15479281734248496,0.07119281734248498) reviewer=[-0.15479281734248493, 0.07119281734248492]"
+  },
+  {
+   "check": "delta transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.1983"
+  },
+  {
+   "check": "t transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=3.782"
+  },
+  {
+   "check": "df transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=7.5"
+  },
+  {
+   "check": "coverage transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.00605029863112789 reviewer=0.006050298631127874"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 transcriptional_output_context@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.07597272395364249,0.32062727604635755) reviewer=[0.07597272395364259, 0.32062727604635743]"
+  },
+  {
+   "check": "delta hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.0899"
+  },
+  {
+   "check": "t hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=3.857"
+  },
+  {
+   "check": "df hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=15.0"
+  },
+  {
+   "check": "coverage hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.0015515843639675986 reviewer=0.0015515843639675986"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 hsp90_machine@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.040219597058381205,0.13958040294161878) reviewer=[0.04021959705838125, 0.13958040294161875]"
+  },
+  {
+   "check": "delta co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.0809"
+  },
+  {
+   "check": "t co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.636"
+  },
+  {
+   "check": "df co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=7.6"
+  },
+  {
+   "check": "coverage co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.142462827959068 reviewer=0.1424628279590672"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 co_chaperones@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.03418478894426491,0.1959847889442649) reviewer=[-0.03418478894426491, 0.1959847889442649]"
+  },
+  {
+   "check": "delta hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.0853"
+  },
+  {
+   "check": "t hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-1.056"
+  },
+  {
+   "check": "df hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=7.5"
+  },
+  {
+   "check": "coverage hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.8"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.3237928633063045 reviewer=0.3237928633063045"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 hsp70_arm_and_stress_response@GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.27375481076854374,0.10315481076854373) reviewer=[-0.2737548107685436, 0.10315481076854359]"
+  },
+  {
+   "check": "delta cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.4966"
+  },
+  {
+   "check": "t cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=4.113"
+  },
+  {
+   "check": "df cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=9.6"
+  },
+  {
+   "check": "coverage cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.0022893323166533652 reviewer=0.002289332316653363"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk7_initiation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.22604930100438136,0.7671506989956186) reviewer=[0.22604930100438136, 0.7671506989956186]"
+  },
+  {
+   "check": "delta cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.1737"
+  },
+  {
+   "check": "t cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=2.258"
+  },
+  {
+   "check": "df cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=13.1"
+  },
+  {
+   "check": "coverage cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.04164108142516412 reviewer=0.041641081425164046"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk9_elongation_module@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.007639303231351174,0.33976069676864884) reviewer=[0.007639303231351452, 0.3397606967686485]"
+  },
+  {
+   "check": "delta cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.0751"
+  },
+  {
+   "check": "t cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.69"
+  },
+  {
+   "check": "df cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=13.5"
+  },
+  {
+   "check": "coverage cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.5018843335453373 reviewer=0.5018843335453373"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 cdk12_13_processivity@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.309353567771267,0.15915356777126702) reviewer=[-0.30935356777126694, 0.15915356777126693]"
+  },
+  {
+   "check": "delta transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.4709"
+  },
+  {
+   "check": "t transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=4.811"
+  },
+  {
+   "check": "df transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=9.8"
+  },
+  {
+   "check": "coverage transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.0007536478225566601 reviewer=0.0007536478225566599"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 transcriptional_output_context@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.2522052747339757,0.6895947252660243) reviewer=[0.2522052747339758, 0.6895947252660242]"
+  },
+  {
+   "check": "delta hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.6075"
+  },
+  {
+   "check": "t hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=3.465"
+  },
+  {
+   "check": "df hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=11.0"
+  },
+  {
+   "check": "coverage hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.75"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.0052863535018534335 reviewer=0.0052863535018534335"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 hsp90_machine@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(0.22161299141250468,0.9933870085874954) reviewer=[0.22161299141250534, 0.9933870085874947]"
+  },
+  {
+   "check": "delta co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.2511"
+  },
+  {
+   "check": "t co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=2.011"
+  },
+  {
+   "check": "df co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=12.0"
+  },
+  {
+   "check": "coverage co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.06734186419552846 reviewer=0.0673418641955283"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 co_chaperones@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.020953655658597914,0.5231536556585978) reviewer=[-0.020953655658597914, 0.5231536556585978]"
+  },
+  {
+   "check": "delta hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.1639"
+  },
+  {
+   "check": "t hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=-0.959"
+  },
+  {
+   "check": "df hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=5.9"
+  },
+  {
+   "check": "coverage hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=0.8"
+  },
+  {
+   "check": "p agrees with retained reviewer attempt-2 hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.3751911055800815 reviewer=0.3751911055800815"
+  },
+  {
+   "check": "interval agrees with retained reviewer attempt-2 hsp70_arm_and_stress_response@GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=(-0.5838190264894543,0.2560190264894543) reviewer=[-0.583819026489454, 0.256019026489454]"
+  },
+  {
+   "check": "illustrative Bonferroni-14 passes are exactly the three named in the manuscript",
+   "pass": true,
+   "detail": "[('hsp90_machine', 'GSE24369_series_matrix.txt.gz'), ('cdk7_initiation_module', 'GSE4303-GPL3290_series_matrix.txt.gz'), ('transcriptional_output_context', 'GSE4303-GPL3290_series_matrix.txt.gz')]"
+  },
+  {
+   "check": "no group clears the illustrative Bonferroni-14 threshold on BOTH platforms",
+   "pass": true,
+   "detail": "[]"
+  },
+  {
+   "check": "HSP70 approximate interval includes positive differences @GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "[-0.2737548107685436, 0.10315481076854359]"
+  },
+  {
+   "check": "HSP70 approximate interval includes positive differences @GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "[-0.583819026489454, 0.256019026489454]"
+  },
+  {
+   "check": "MYC delta @GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.0625"
+  },
+  {
+   "check": "other-three algebra agrees with retained reviewer attempt-2 @GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=-0.08976666666666666 reviewer=-0.08976666666666666"
+  },
+  {
+   "check": "MYC delta @GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "live=1.863"
+  },
+  {
+   "check": "other-three algebra agrees with retained reviewer attempt-2 @GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "mine=0.00686666666666665 reviewer=0.00686666666666665"
+  },
+  {
+   "check": "proliferation control list has 11 requested members",
+   "pass": true,
+   "detail": "['PCNA', 'TOP2A', 'CCNB1', 'RRM2', 'BUB1', 'AURKA', 'MCM2', 'TYMS', 'E2F1', 'CCNA2', 'CDK1']"
+  },
+  {
+   "check": "MKI67 proliferation_reference group is one gene and emits no score",
+   "pass": true,
+   "detail": "['MKI67']"
+  },
+  {
+   "check": "proliferation control stats @GSE24369_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "{'t': 0.441, 'df': 6.7, 'mean_a': 0.1789, 'mean_b': 0.0893, 'delta_a_minus_b': 0.0896}"
+  },
+  {
+   "check": "proliferation control stats @GSE4303-GPL3290_series_matrix.txt.gz",
+   "pass": true,
+   "detail": "{'t': 2.905, 'df': 14.0, 'mean_a': -1.1242, 'mean_b': -1.5701, 'delta_a_minus_b': 0.4459}"
+  },
+  {
+   "check": "DepMap release label is 24Q4",
+   "pass": true,
+   "detail": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv"
+  },
+  {
+   "check": "dependent threshold is -0.5",
+   "pass": true,
+   "detail": "-0.5"
+  },
+  {
+   "check": "catalogued sarcoma models = 176",
+   "pass": true,
+   "detail": "176"
+  },
+  {
+   "check": "dependency row CDK7",
+   "pass": true,
+   "detail": "{'gene': 'CDK7', 'sarcoma_mean': -1.847, 'rest_mean': -1.762, 'selectivity': 0.085, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.999, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "integer count uniquely compatible with rounded fraction, CDK7",
+   "pass": true,
+   "detail": "compatible=[91]"
+  },
+  {
+   "check": "selectivity is rest_mean - sarcoma_mean, CDK7",
+   "pass": true,
+   "detail": "{'gene': 'CDK7', 'sarcoma_mean': -1.847, 'rest_mean': -1.762, 'selectivity': 0.085, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.999, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "dependency row CDK9",
+   "pass": true,
+   "detail": "{'gene': 'CDK9', 'sarcoma_mean': -1.464, 'rest_mean': -1.447, 'selectivity': 0.017, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.994, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "integer count uniquely compatible with rounded fraction, CDK9",
+   "pass": true,
+   "detail": "compatible=[91]"
+  },
+  {
+   "check": "selectivity is rest_mean - sarcoma_mean, CDK9",
+   "pass": true,
+   "detail": "{'gene': 'CDK9', 'sarcoma_mean': -1.464, 'rest_mean': -1.447, 'selectivity': 0.017, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.994, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "dependency row HSP90AA1",
+   "pass": true,
+   "detail": "{'gene': 'HSP90AA1', 'sarcoma_mean': -0.23, 'rest_mean': -0.256, 'selectivity': -0.026, 'sarcoma_frac_dependent': 0.055, 'rest_frac_dependent': 0.052, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "integer count uniquely compatible with rounded fraction, HSP90AA1",
+   "pass": true,
+   "detail": "compatible=[5]"
+  },
+  {
+   "check": "selectivity is rest_mean - sarcoma_mean, HSP90AA1",
+   "pass": true,
+   "detail": "{'gene': 'HSP90AA1', 'sarcoma_mean': -0.23, 'rest_mean': -0.256, 'selectivity': -0.026, 'sarcoma_frac_dependent': 0.055, 'rest_frac_dependent': 0.052, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "dependency row HSP90AB1",
+   "pass": true,
+   "detail": "{'gene': 'HSP90AB1', 'sarcoma_mean': -0.348, 'rest_mean': -0.275, 'selectivity': 0.073, 'sarcoma_frac_dependent': 0.187, 'rest_frac_dependent': 0.119, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "integer count uniquely compatible with rounded fraction, HSP90AB1",
+   "pass": true,
+   "detail": "compatible=[17]"
+  },
+  {
+   "check": "selectivity is rest_mean - sarcoma_mean, HSP90AB1",
+   "pass": true,
+   "detail": "{'gene': 'HSP90AB1', 'sarcoma_mean': -0.348, 'rest_mean': -0.275, 'selectivity': 0.073, 'sarcoma_frac_dependent': 0.187, 'rest_frac_dependent': 0.119, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "dependency row CDC37",
+   "pass": true,
+   "detail": "{'gene': 'CDC37', 'sarcoma_mean': -1.093, 'rest_mean': -1.16, 'selectivity': -0.067, 'sarcoma_frac_dependent': 0.978, 'rest_frac_dependent': 0.987, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "integer count uniquely compatible with rounded fraction, CDC37",
+   "pass": true,
+   "detail": "compatible=[89]"
+  },
+  {
+   "check": "selectivity is rest_mean - sarcoma_mean, CDC37",
+   "pass": true,
+   "detail": "{'gene': 'CDC37', 'sarcoma_mean': -1.093, 'rest_mean': -1.16, 'selectivity': -0.067, 'sarcoma_frac_dependent': 0.978, 'rest_frac_dependent': 0.987, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "selectivity definition string in artifact says rest_mean - sarcoma_mean",
+   "pass": true,
+   "detail": "DepMap CRISPR (Chronos) selective-essentiality transfer prior for EWSR1::NR4A3 EMC, which has no DepMap line. Gene effec"
+  },
+  {
+   "check": "artifact records that EMC has no DepMap line",
+   "pass": true,
+   "detail": "DepMap CRISPR (Chronos) selective-essentiality transfer prior for EWSR1::NR4A3 E"
+  },
+  {
+   "check": "SMARCB1 rhabdoid control n/mean/frac as stated",
+   "pass": true,
+   "detail": "{'subtype_match': 'rhabdoid', 'n': 13, 'mean_gene_effect': -0.025, 'frac_dependent': 0.077}"
+  },
+  {
+   "check": "SMARCB1 rest-of-panel mean/frac as stated",
+   "pass": true,
+   "detail": "{'gene': 'SMARCB1', 'sarcoma_mean': -0.68, 'rest_mean': -0.832, 'selectivity': -0.152, 'sarcoma_frac_dependent': 0.758, 'rest_frac_dependent': 0.839, 'n_sarcoma': 91}"
+  },
+  {
+   "check": "SMARCB1 control FAILS its stated expected-positive criterion",
+   "pass": true,
+   "detail": "control is LESS dependent than the rest of the panel, opposite to _pass_criterion"
+  },
+  {
+   "check": "BRD9 synovial control values as stated",
+   "pass": true,
+   "detail": "{'subtype_match': 'synovial', 'n': 5, 'mean_gene_effect': -0.13, 'frac_dependent': 0.2}"
+  },
+  {
+   "check": "fet-ddr-axis-scan records emc_line.has_crispr_gene_effect = false",
+   "pass": true,
+   "detail": "False"
+  },
+  {
+   "check": "fifteen dated queries",
+   "pass": true,
+   "detail": "n=15"
+  },
+  {
+   "check": "search date is 2026-08-27",
+   "pass": true,
+   "detail": "'2026-08-27'"
+  },
+  {
+   "check": "Q15 returned 25 hits",
+   "pass": true,
+   "detail": "25"
+  },
+  {
+   "check": "Q15 outcome records that the hits were not individually screened",
+   "pass": true,
+   "detail": "A substantial WILD-TYPE FUS aggregation literature \u2014 category (a), and about con"
+  },
+  {
+   "check": "Q13 supplement membership recorded UNKNOWN",
+   "pass": true,
+   "detail": "PMID 25036637 (Taipale et al., Cell 2014). \u26a0 UNKNOWN whether FUS, EWSR1 or TAF15"
+  },
+  {
+   "check": "preprints/non-PubMed recorded NOT SEARCHED",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "manuscript reports Q15's 25 unscreened hits",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "manuscript reports Q13 supplement unknown",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "manuscript reports preprints/non-PubMed not searched",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "withdrawn phrase absent: 'disagree in opposite directions'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'opposite disagreement'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'most concordant elevation'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'largest t-statistics'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'nothing to select on'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'no selective handle'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'no selectivity appears anywhere'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'essentially no selectivity'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'internally contradictory'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'the reading shows none'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'not testable singly'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'one measurement, and it is not an expression question'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'no producer was run to write it'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'the whole literature'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'buries the chaperone'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'burying'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase absent: 'would have been wrong'",
+   "pass": true,
+   "detail": "still present"
+  },
+  {
+   "check": "withdrawn phrase 'absence of elevation' appears only in its explicit negation",
+   "pass": true,
+   "detail": "total=1 negated=1"
+  },
+  {
+   "check": "withdrawn phrase 'untestable singly' appears only in its explicit negation",
+   "pass": true,
+   "detail": "total=1 negated=1"
+  },
+  {
+   "check": "withdrawn phrase 'abundance and dependency disagree' appears only in its explicit negation",
+   "pass": true,
+   "detail": "total=1 negated=1"
+  },
+  {
+   "check": "required content present: 'unpaired'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'interpretation hold'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: '24Q4'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'gene effect < \u22120.5'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'Soft Tissue or Bone'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: '91 is the denominator'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: '176'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'fails its own criterion'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'uncalibrated assumption'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'exploratory'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'Bonferroni'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: \"CDC37's 97.8 % is the measured\"",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'no exhaustive clinical-exposure census'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'unweighted'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'not proliferation matching'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'Update conditions'",
+   "pass": true,
+   "detail": "missing"
+  },
+  {
+   "check": "required content present: 'References'",
+   "pass": true,
+   "detail": "missing"
+  }
+ ]
+}

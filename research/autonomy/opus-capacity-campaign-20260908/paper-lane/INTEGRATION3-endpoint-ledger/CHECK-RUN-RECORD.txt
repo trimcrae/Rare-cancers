@@ -1,0 +1,52 @@
+INTEGRATION3-endpoint-ledger — every execution attempt, in order, with its REAL exit code.
+Nothing here is reconstructed. Each directory under CHECK-RUNS/ holds the command, stdout,
+stderr and exit code as captured at the time.
+
+RUN-01-build-20260908T221548Z        python3 build_integration3.py              EXIT=0
+    First build. Emitted the ledger and census. Its stdout preserves the census as it stood
+    BEFORE the RUN-02 rename below; the census reported
+    retired_c2_v2_tokens_present_anywhere = 8.
+
+    Cause: a blocking code of MY OWN making,
+    AXIS_COMPARATOR_ROLE:C_TYPE_INFERRED_NOT_SOURCE_CONFIRMED, embeds the retired token
+    SOURCE_CONFIRMED as a substring of a negation. The strict retired-vocabulary scan was
+    right to flag it. I renamed my code to ...NOT_SOURCE_ESTABLISHED. I did NOT loosen the
+    matcher. RUN-01 is retained as the record of the flagged state.
+
+RUN-02-build-20260908T221624Z        python3 build_integration3.py              EXIT=0
+    Rebuild after the rename. retired_c2_v2_tokens_present_anywhere = 0.
+
+RUN-03-checks-20260908T221812Z       python3 check_integration3.py              EXIT=1
+    PRESERVED FAILURE — traceback, FileNotFoundError. J11 carried a hard-coded list of v2
+    output filenames. A check that cannot recompute its quantity must fail, and it did.
+    Fixed by retargeting the list to the v3 filenames and adding UNRESOLVED-TENSIONS3.tsv
+    to the scanned set.
+
+RUN-04-checks-20260908T221834Z       python3 check_integration3.py              EXIT=1
+    PRESERVED FAILURE — 30 passed, 1 failed.
+    J9_disposition_map_covers_every_component_record_exactly_once: C=0. The builder had
+    renamed the disposition component label CORRECTED-C-v2 -> CORRECTED-C-v3 and the check
+    still counted the old label. The check was correct and the label had genuinely moved;
+    the check was retargeted to the new label. No ledger value was changed to obtain a pass.
+
+RUN-05-checks-20260908T221846Z       python3 check_integration3.py              EXIT=0
+    31 passed, 0 failed. The settled result.
+
+RUN-06-negcontrol-20260908T221935Z   python3 neg_control3.py                    EXIT=0
+                                     python3 check_integration3.py --dir NEG-CONTROL  EXIT=1
+    REQUIRED FAILURE. Nine planted defects; the checks reject the copy with 17 passed,
+    14 failed. Three defects target this propagation specifically:
+      D7 retired SOURCE_CONFIRMED restored on an arm link        -> J12 failed
+      D8 a contested flag dropped while being demoted            -> J14c, K19, K20 failed
+      D9 a row left unblocked on arm attribution                 -> K21 failed
+    A demoted tension re-promoted into the genuine register (D5) -> J14, J14b failed.
+    Nothing outside NEG-CONTROL/ was written.
+
+scripts/preflight.sh is the repository commit gate and is run at commit time, not by this
+component.
+
+RUN-07-settled-build-20260908T222303Z   python3 build_integration3.py              EXIT=0
+RUN-08-settled-checks-20260908T222303Z  python3 check_integration3.py              EXIT=0
+    Settled re-derivation on the finished tree. All 19 emitted artifacts re-hashed
+    BYTE-IDENTICAL to the pre-run SHA256 file; 31 passed, 0 failed. The build is
+    deterministic from the pinned inputs.

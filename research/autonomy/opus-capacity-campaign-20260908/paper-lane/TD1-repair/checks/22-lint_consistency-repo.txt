@@ -1,0 +1,14 @@
+# repo-mode invocation (the file-argument form above exits 2: these tools take no path)
+# python3 research/manuscripts/lint_consistency.py
+Tue Sep  8 22:10:38 UTC 2026
+research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json: ERROR [A-key-missing] fusion_partner_dod_fisher_p: cannot read key 'analyses.B_outcome_by_partner.disease_specific_death.fisher_exact_two_sided_p' (KeyError)
+    python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)
+
+research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json: ERROR [A-key-missing] fusion_partner_dod_taf15_percent: cannot read key 'analyses.B_outcome_by_partner.disease_specific_death.taf15_arm.percent' (KeyError)
+    python3 research/manuscripts/emc_fusion_partner_pooling.py --write
+
+research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json: ERROR [A-key-missing] fusion_partner_dod_comparator_percent: cannot read key 'analyses.B_outcome_by_partner.disease_specific_death.comparator_arm.percent' (KeyError)
+    python3 research/manuscripts/emc_fusion_partner_pooling.py --write
+
+lint_consistency: 3 ERROR across 29 target file(s)
+EXIT=1

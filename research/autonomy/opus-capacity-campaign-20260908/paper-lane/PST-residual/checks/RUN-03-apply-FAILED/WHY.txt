@@ -1,0 +1,3 @@
+The script at this attempt resolved ROOT with parents[4], four levels above execution/, which lands on
+research/autonomy/. The candidate pair lives two levels up. FileNotFoundError, exit 1, nothing written.
+The fix was to correct the path constant to parents[2]; no anchor and no check was loosened.

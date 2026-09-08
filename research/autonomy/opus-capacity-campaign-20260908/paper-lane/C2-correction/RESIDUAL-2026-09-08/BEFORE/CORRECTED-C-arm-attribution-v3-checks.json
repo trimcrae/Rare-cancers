@@ -1,0 +1,278 @@
+{
+ "arm_link_relation": {
+  "DESCRIPTION_FIELD_MATCH_ONLY:DESC_BYTE_EXACT": 1,
+  "LABEL_FIELD_MATCH_ONLY:LABEL_BYTE_EXACT": 96,
+  "LABEL_FIELD_MATCH_ONLY:LABEL_CASE_WS_FOLD": 36,
+  "LEAF_CLAIMED_ARM_LABEL_ABSENT_FROM_THIS_RECORD": 1,
+  "LEAF_CLAIM_LEAF_CLAIMS_MULTIPLE_ARMS": 11,
+  "LEAF_CLAIM_NOT_VERIFIABLE_FROM_EXACT_SOURCE_FIELDS": 337,
+  "NO_ARM_GROUPS_REGISTERED_IN_THIS_CACHE": 6,
+  "NO_EXACT_SOURCE_RELATION_IN_THIS_CACHE": 7,
+  "TWO_AGREEING_FIELD_MATCHES:LABEL_BYTE_EXACT+DESC_BYTE_EXACT": 38,
+  "TWO_AGREEING_FIELD_MATCHES:LABEL_BYTE_EXACT+DESC_CASE_WS_FOLD": 3,
+  "TWO_AGREEING_FIELD_MATCHES:LABEL_CASE_WS_FOLD+DESC_BYTE_EXACT": 16
+ },
+ "arm_link_state": {
+  "CONTESTED": 1,
+  "LABEL_MATCH": 132,
+  "PROPOSED": 337,
+  "SOURCE_FIELD_MATCH": 58,
+  "UNKNOWN_IN_THIS_CACHE": 13,
+  "UNRESOLVED": 11
+ },
+ "checks": [
+  {
+   "check": "row_count_equals_552",
+   "detail": "rows=552",
+   "result": "PASS"
+  },
+  {
+   "check": "key_set_identical_to_v1",
+   "detail": "only_v2=0 only_v1=0",
+   "result": "PASS"
+  },
+  {
+   "check": "key_set_identical_to_job3",
+   "detail": "only_v2=0 only_job3=0",
+   "result": "PASS"
+  },
+  {
+   "check": "no_narrative_token_corroboration_predicate_remains",
+   "detail": "v1's token-corroboration tuple is absent from the executable body and no expression tests the leaf narrative. v3 correction: it is carried as a TRANSFORMED EXCERPT, not verbatim -- newlines become spaces, the text is cut at 400 characters and the TSV writer normalises tabs and newlines again. suspect_lines=0",
+   "result": "PASS"
+  },
+  {
+   "check": "no_unconditional_NOT_CONTROL_state_in_the_table",
+   "detail": "comparator_role and registry_type_statement carry no NOT_CONTROL value",
+   "result": "PASS"
+  },
+  {
+   "check": "every_conditional_type_statement_names_its_assumption_in_machine_state",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "an_arm_is_bound_only_by_SOURCE_FIELD_MATCH_or_LABEL_MATCH",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "a_bound_arm_always_had_exactly_one_candidate",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "two_or_more_candidates_never_select_the_first",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "SOURCE_FIELD_MATCH_only_from_an_exact_field_equality",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "every_PROPOSED_row_retains_a_locator",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "multi_arm_leaf_claims_are_split_not_read_as_one_absent_label",
+   "detail": "violations=0 (both '; ' and '|' separators are split)",
+   "result": "PASS"
+  },
+  {
+   "check": "zero_arms_stays_UNKNOWN_never_a_role_or_a_link",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "absent_arm_type_stays_its_own_value",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "placebo_text_vs_type_is_CONTESTED_not_resolved_to_a_side",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "bound_rows_carry_the_registered_type_verbatim",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "producer_makes_no_network_call",
+   "detail": "imports: collections, csv, json, os, re, sys",
+   "result": "PASS"
+  },
+  {
+   "check": "absent_registry_join_modules_stay_absent_in_the_ten_payload_files_read_here",
+   "detail": "occurrences across the 10 cached payload files this check actually reads (FILES = 5 BOR eras + 5 placebo eras): {'participantFlowModule': 0, 'armGroupLabels': 0} (0 expected; never fetched). v2 described the same loop as '12 payloads', which was wrong about its own scope; the observation is unchanged and stays scoped to these ten files. It is NOT a verified twelve-file absence, and no additional payload was audited to make this correction.",
+   "result": "PASS"
+  },
+  {
+   "check": "the_payload_scope_named_in_the_absence_check_equals_the_files_actually_read",
+   "detail": "FILES=10 distinct=10: ['ctg_results_bor_1999_2009', 'ctg_results_bor_2010_2013', 'ctg_results_bor_2014_2017', 'ctg_results_bor_2018_2021', 'ctg_results_bor_2022_2026', 'ctg_placebo_onc_1999_2009', 'ctg_placebo_onc_2010_2013', 'ctg_placebo_onc_2014_2017', 'ctg_placebo_onc_2018_2021', 'ctg_placebo_onc_2022_2026']",
+   "result": "PASS"
+  },
+  {
+   "check": "state_counts_partition_every_row_exactly_once",
+   "detail": "total=552 matched(SOURCE_FIELD_MATCH)=58 complement=494 complement_by_state={'CONTESTED': 1, 'LABEL_MATCH': 132, 'PROPOSED': 337, 'UNKNOWN_IN_THIS_CACHE': 13, 'UNRESOLVED': 11}",
+   "result": "PASS"
+  },
+  {
+   "check": "the_complement_is_total_minus_the_named_state_not_a_hand_listed_subset",
+   "detail": "58 + 494 == 552; v2 reported this complement as 362 because LABEL_MATCH (132 rows) was excluded from a hand-listed four-state subset. No row was promoted or moved.",
+   "result": "PASS"
+  },
+  {
+   "check": "label_only_and_description_supported_matches_stay_separate_strengths",
+   "detail": "LABEL_MATCH rows=132 are NOT counted as SOURCE_FIELD_MATCH rows=58; they are different evidence strengths and are never summed into one 'confirmed' figure",
+   "result": "PASS"
+  },
+  {
+   "check": "no_CONTESTED_row_retains_a_bound_arm_index",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "a_cleared_binding_keeps_its_candidate_its_evidence_and_its_locator",
+   "detail": "violations=0; rows exercising the contrary-description downgrade in this delivery=0 (the branch is checked by fixture, not by a delivered row)",
+   "result": "PASS"
+  },
+  {
+   "check": "zero_registered_arms_makes_link_type_and_role_all_UNKNOWN",
+   "detail": "violations=0; zero-arm rows=6 (UNKNOWN means not established in this cache, NOT that no comparator existed)",
+   "result": "PASS"
+  },
+  {
+   "check": "zero_arm_group_text_wording_is_kept_as_evidence_and_never_becomes_a_role",
+   "detail": "violations=0; zero-arm rows carrying comparator wording=0",
+   "result": "PASS"
+  },
+  {
+   "check": "every_carried_narrative_excerpt_names_the_transform_applied_to_it",
+   "detail": "violations=0; rows carrying an excerpt=367; rows observed AT the 400-char cap=0",
+   "result": "PASS"
+  },
+  {
+   "check": "no_column_in_this_table_calls_a_transformed_excerpt_verbatim_text",
+   "detail": "narrative columns: ['leaf_narrative_transformed_excerpt_not_parsed']",
+   "result": "PASS"
+  },
+  {
+   "check": "no_row_claims_explicit_registry_source_join_verification",
+   "detail": "violations=0; every row carries NOT_ESTABLISHED_REGISTRY_JOIN_FIELDS_ABSENT_FROM_THIS_CACHE",
+   "result": "PASS"
+  },
+  {
+   "check": "every_bound_row_names_its_unproved_identity_assumption",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "comparator_type_inferred_through_a_field_match_carries_the_identity_assumption",
+   "detail": "violations=0; type-inferred-via-source-field-match rows=8 (these are NOT independently clinically validated comparators)",
+   "result": "PASS"
+  },
+  {
+   "check": "no_machine_value_claims_independent_confirmation_from_two_textual_fields",
+   "detail": "banned tokens present=none",
+   "result": "PASS"
+  }
+ ],
+ "checks_failed": 0,
+ "comparator_role": {
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_PLACEBO": 2,
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_UNSPECIFIED": 4,
+  "COMPARATOR_PROPOSED_BY_LABEL_FIELD_MATCHED_ARM_TYPE": 13,
+  "COMPARATOR_TYPE_INFERRED_VIA_SOURCE_FIELD_MATCH": 8,
+  "CONTESTED": 4,
+  "NOT_ESTABLISHED_IN_THIS_CACHE": 166,
+  "UNKNOWN_IN_THIS_CACHE": 355
+ },
+ "comparator_role_identity_assumption": {
+  "": 531,
+  "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 13,
+  "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED": 8
+ },
+ "contested_flag_counts": {
+  "GROUP_TITLE_IS_A_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN": 2,
+  "LEAF_CLAIMED_ARM_LABEL_NOT_PRESENT_IN_REGISTERED_ARMS": 1,
+  "PLACEBO_CLAIM_WITHOUT_ANY_PLACEBO_TYPED_ARM_IN_THIS_CACHE": 2,
+  "PLACEBO_OR_NOINT_GROUP_TEXT_VS_NON_COMPARATOR_BOUND_TYPE": 3
+ },
+ "disposition_vs_v1": {
+  "CHANGED_CLASS:COMPARATOR_PROPOSED->CONTESTED": 1,
+  "CHANGED_CLASS:COMPARATOR_TYPE_INFERRED->COMPARATOR_PROPOSED": 17,
+  "CHANGED_CLASS:COMPARATOR_TYPE_INFERRED->UNKNOWN": 16,
+  "CHANGED_CLASS:CONTESTED->COMPARATOR_PROPOSED": 2,
+  "CHANGED_CLASS:NOT_CONTROL_ASSERTED->NOT_ESTABLISHED": 166,
+  "CHANGED_CLASS:NOT_CONTROL_ASSERTED->UNKNOWN": 314,
+  "UNCHANGED_CLASS:COMPARATOR_TYPE_INFERRED": 8,
+  "UNCHANGED_CLASS:CONTESTED": 3,
+  "UNCHANGED_CLASS:UNKNOWN": 25
+ },
+ "group_text_comparator_wording_unverified": {
+  "": 532,
+  "GROUP_TEXT_CONTROL_OR_COMPARATOR_WORDING": 5,
+  "GROUP_TEXT_PLACEBO_OR_SHAM_WORDING": 11,
+  "GROUP_TEXT_PLACEBO_OR_SHAM_WORDING;GROUP_TEXT_CONTROL_OR_COMPARATOR_WORDING": 2,
+  "GROUP_TEXT_PLACEBO_OR_SHAM_WORDING;GROUP_TITLE_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN": 2
+ },
+ "leaf_claim_state": {
+  "LEAF_CLAIMS_MULTIPLE_ARMS": 11,
+  "LEAF_CLAIMS_NO_ARM": 12,
+  "LEAF_LABEL_ABSENT_FROM_RECORD": 1,
+  "LEAF_LABEL_RESOLVES_UNIQUELY": 343,
+  "NO_LEAF": 185
+ },
+ "leaf_claim_verification": {
+  "": 185,
+  "LEAF_CLAIM_AGREES_WITH_SOURCE_RELATION": 6,
+  "NOT_VERIFIABLE_IN_THIS_CACHE": 18,
+  "NOT_VERIFIABLE_NO_REGISTERED_ARMS": 6,
+  "RETAINED_UNVERIFIED_WITH_LOCATOR": 337
+ },
+ "payload_files_read_by_the_absence_check": 10,
+ "registry_type_statement": {
+  "ALL_REGISTERED_ARMS_COMPARATOR_TYPED_CONDITIONAL": 13,
+  "ALL_REGISTERED_ARMS_NON_COMPARATOR_TYPED_CONDITIONAL": 320,
+  "ARM_SET_TYPE_NOT_UNIFORM_NO_TYPE_STATEMENT_POSSIBLE": 20,
+  "ARM_TYPE_ABSENT_IN_THIS_CACHE": 3,
+  "BOUND_ARM_REGISTERED_TYPE_IS_ACTIVE_COMPARATOR": 13,
+  "BOUND_ARM_REGISTERED_TYPE_IS_EXPERIMENTAL": 169,
+  "BOUND_ARM_REGISTERED_TYPE_IS_NO_INTERVENTION": 1,
+  "BOUND_ARM_REGISTERED_TYPE_IS_PLACEBO_COMPARATOR": 7,
+  "UNKNOWN_NO_ARMS_REGISTERED_IN_THIS_CACHE": 6
+ },
+ "rows": 552,
+ "rows_at_the_400_character_narrative_cap": 0,
+ "rows_in_PROPOSED_UNRESOLVED_CONTESTED_or_UNKNOWN": 362,
+ "rows_in_a_source_field_match_state": 58,
+ "rows_not_in_a_source_field_match_state": 494,
+ "rows_not_in_a_source_field_match_state_by_state": {
+  "CONTESTED": 1,
+  "LABEL_MATCH": 132,
+  "PROPOSED": 337,
+  "UNKNOWN_IN_THIS_CACHE": 13,
+  "UNRESOLVED": 11
+ },
+ "rows_with_a_cleared_contrary_description_binding": 0,
+ "source_join_verification": "NOT_ESTABLISHED_REGISTRY_JOIN_FIELDS_ABSENT_FROM_THIS_CACHE",
+ "v1_confirmed_by_label_now": {
+  "LABEL_MATCH": 132,
+  "SOURCE_FIELD_MATCH": 57
+ },
+ "v1_confirmed_by_narrative_token_now": {
+  "PROPOSED": 313,
+  "SOURCE_FIELD_MATCH": 1
+ },
+ "v2_not_source_confirmed_rows_withdrawn": {
+  "actual_complement_of_the_named_state": 494,
+  "cause": "v2 excluded the LABEL_MATCH rows from a hand-listed four-state subset while naming the field for the complement of one state",
+  "rows_moved_or_promoted_to_fix_it": 0,
+  "v2_reported": 362
+ }
+}

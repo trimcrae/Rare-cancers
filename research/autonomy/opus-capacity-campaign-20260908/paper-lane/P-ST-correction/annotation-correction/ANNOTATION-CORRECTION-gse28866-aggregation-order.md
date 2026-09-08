@@ -1,5 +1,21 @@
 # Annotation correction: the GSE28866 aggregation-order annotation contradicts the code that wrote it
 
+> ## ⭐ CURRENT, 2026-09-08 — **APPLIED**
+>
+> Root admitted these two edits and the sole integrating parent applied them on 2026-09-08.
+> The immutable binding, the exact diffs, the field map, the leaf-by-leaf all-value invariance
+> result and the real execution records are in
+> [`APPLIED-2026-09-08/APPLIED-RECORD.md`](APPLIED-2026-09-08/APPLIED-RECORD.md).
+>
+> Current bytes: `gse28866-tumour-vs-normal.json` 28,606 B sha256 `386a0351…a1962cee`;
+> `gse28866_tumour_vs_normal.py` 31,856 B sha256 `404fe285…d8d4b46a`.
+> The `PACKET-MANIFEST.json` and every dated packet artifact still record the **pre-correction**
+> identities and remain valid as history; they were deliberately not rewritten.
+>
+> Everything below is the specification **as root read it**, unchanged. Its "SPECIFIED, NOT
+> APPLIED" status line and its closing "neither edit is applied" measurement are the state at
+> the time of writing, superseded by this banner.
+
 **Finding:** P-ST-F03. **Owner:** P-ST correction lane, 2026-09-08.
 **Status: SPECIFIED, NOT APPLIED.** This lane holds no write authority outside its own directory and no
 commit authority. The two edits below are byte-exact and ready for the integrating owner to apply.

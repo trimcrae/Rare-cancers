@@ -1,0 +1,164 @@
+{
+ "component": "INTEGRATION3-endpoint-ledger",
+ "target_dir": "NEG-CONTROL",
+ "checks": [
+  {
+   "check": "J0_B2_set_file_has_the_same_cohort_keys_and_membership_as_the_B_v1_observation_ledger",
+   "result": "PASS",
+   "detail": "v1_keys=8740 v2_keys=8740 symmetric_difference=0 membership_strings_differing=0"
+  },
+  {
+   "check": "J1_spine_is_552_unique_rows_bijective_with_A2",
+   "result": "PASS",
+   "detail": "ledger_rows=552 distinct=552 A2_rows=552"
+  },
+  {
+   "check": "J1b_spine_row_key_set_identical_to_the_v1_integration",
+   "result": "PASS",
+   "detail": "v2_keys=552 v1_keys=552 symmetric_difference=0"
+  },
+  {
+   "check": "J2_A_to_C_title_bridge_is_unique_on_both_sides_and_total",
+   "result": "PASS",
+   "detail": "C_max_multiplicity=1 A_max_multiplicity=1 only_in_A=0 only_in_C=0"
+  },
+  {
+   "check": "J2b_C2_evaluable_n_key_component_agrees_with_A2_carried_job1_value",
+   "result": "PASS",
+   "detail": "mismatches=0"
+  },
+  {
+   "check": "J3_A_to_B_join_state_recomputed_and_exhaustive",
+   "result": "PASS",
+   "detail": "mislabelled=0 census={'TRIAL_OUTSIDE_B_CORPUS_SCOPE': 48, 'JOINED_UNIQUE': 458, 'MEASURE_OUTSIDE_B_TITLE_BOUNDARY': 46}"
+  },
+  {
+   "check": "J3b_covered_grains_preserved_552_458_94_15658",
+   "result": "FAIL",
+   "detail": "spine=552 joined=458 not_assessed=94 b_only=0"
+  },
+  {
+   "check": "J4_every_B_observation_is_dispositioned_none_inner_joined_away",
+   "result": "FAIL",
+   "detail": "B_obs=16116 coverage_rows=458 in_spine=458 B_only=0"
+  },
+  {
+   "check": "J5_component_states_arrive_verbatim_and_no_component_overwrites_another",
+   "result": "FAIL",
+   "detail": "violations=5 first=[('C', 'NCT00066222|OM5|OG000'), ('C', 'NCT00183820|OM0|OG000'), ('B2', 'NCT00298896|OM1|OG000')]"
+  },
+  {
+   "check": "J6_A_doubt_is_not_overwritten_by_C_confidence",
+   "result": "PASS",
+   "detail": "rows_A_unsuitable_and_C_arm_source_field_match=4; all retain both states and stay BLOCKED"
+  },
+  {
+   "check": "J7_no_rate_proportion_unique_patient_capacity_or_effect_value_emitted",
+   "result": "PASS",
+   "detail": "offending_columns=[]; proportion-shaped cells=0; sentinel columns=['rate_derived', 'unique_patient_total_derived', 'control_comparison_derived', 'cross_disease_capacity_bound_derived', 'agent_independent_effect_derived'] all NOT_DERIVED on 552/552 rows"
+  },
+  {
+   "check": "J8_job2_and_job3_unconfirmed_carried_on_every_row",
+   "result": "PASS",
+   "detail": "552/552 rows carry job1=confirmed job2=false job3=false"
+  },
+  {
+   "check": "J9_disposition_map_covers_every_component_record_exactly_once",
+   "result": "PASS",
+   "detail": "A=552 C=552 B=16210 (B = 16116 observations + 94 spine rows B never assessed)"
+  },
+  {
+   "check": "J10_competing_sets_retained_unresolved_and_never_selected",
+   "result": "FAIL",
+   "detail": "spine rows in a multi-observation cohort set=309; corpus-wide competing sets=4464"
+  },
+  {
+   "check": "J11_B2_non_identical_encoding_scope_propagated_without_semantic_nonduplication_claim",
+   "result": "FAIL",
+   "detail": "forbidden_semantic_tokens=[('LEDGER3-integrated-552.tsv', 'NOT_A_DUPLICATE')]; spine semantic_duplication_status census={'NOT_A_DUPLICATE': 1, 'UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED': 308, 'NOT_APPLICABLE__SINGLE_OBSERVATION': 149}"
+  },
+  {
+   "check": "J12_no_retired_or_strengthened_state_appears_in_the_ledger",
+   "result": "FAIL",
+   "detail": "retired_tokens_present=['SOURCE_CONFIRMED']; arm_link_states=['CONTESTED', 'LABEL_MATCH', 'PROPOSED', 'SOURCE_CONFIRMED', 'SOURCE_FIELD_MATCH', 'UNKNOWN_IN_THIS_CACHE', 'UNRESOLVED']"
+  },
+  {
+   "check": "J13_cross_observation_disjointness_and_within_record_reporting_are_separate_unknowns",
+   "result": "FAIL",
+   "detail": "all_rows_carry_both_axes=False within_record_states_citing_participant_flow=552 rows_without_exactly_one_disjointness_condition=0"
+  },
+  {
+   "check": "J13b_no_proportion_is_authorised_anywhere_in_this_integration",
+   "result": "PASS",
+   "detail": "rows=552 census_rates_or_proportions_derived=0"
+  },
+  {
+   "check": "J14_contradiction_is_reserved_for_incompatible_claims_only",
+   "result": "FAIL",
+   "detail": "genuine_entries=1 genuine_rows=1 tension_entries=90 tension_rows=90 cross_component_entries=807 miscategorised_genuine=['SOURCE_INTERNAL_CONTRADICTION:SOLE_REGISTERED_ARM_VS_MULTIPLE_RESULTS_GROUPS'] contradiction_words_in_status_register=[] contradiction_words_in_tension_codes=[] mis-prefixed_tensions=[]"
+  },
+  {
+   "check": "J14b_genuine_contradiction_register_recomputed_from_the_components",
+   "result": "FAIL",
+   "detail": "recomputed_rows=0 register_rows=1 entries=0 disagreements=1"
+  },
+  {
+   "check": "J14c_demoted_tension_register_recomputed_from_the_components",
+   "result": "FAIL",
+   "detail": "recomputed_rows=91 register_rows=90 entries=91 disagreements=1"
+  },
+  {
+   "check": "K19_every_v2_genuine_entry_survives_the_demotion_in_one_register_or_the_other",
+   "result": "FAIL",
+   "detail": "v2_entries=91 v3_entries=91 (genuine=1 tension=90) row_disagreements=3"
+  },
+  {
+   "check": "K20_demotion_changed_the_register_not_the_flags",
+   "result": "FAIL",
+   "detail": "sole_arm_YES: c2_v3=83 ledger=83; rows_with_contested_flags: c2_v3=8 ledger=7; contested_flag_tokens: c2_v3=8 ledger=7"
+  },
+  {
+   "check": "K21_v3_registry_join_is_unverified_on_every_row_so_arm_attribution_has_no_confirmed_complement",
+   "result": "FAIL",
+   "detail": "rows_without_the_universal_join_block=1 c2_v3_join_states=['NOT_ESTABLISHED_REGISTRY_JOIN_FIELDS_ABSENT_FROM_THIS_CACHE']"
+  },
+  {
+   "check": "K22_v2_counts_are_withdrawn_as_assertions_and_preserved_as_history",
+   "result": "PASS",
+   "detail": "census records the withdrawn 91/91/90; v2 files hashed in the manifest=8; v2 directory present=True"
+  },
+  {
+   "check": "J15_census_matches_recomputation_from_the_emitted_tables",
+   "result": "FAIL",
+   "detail": "differences={'b_observations_not_in_spine': (0, 15658), 'integration_state': ({'BLOCKED': 551, 'NO_COMPONENT_BLOCK_FOUND__NOT_AN_ELIGIBILITY_GRANT': 1}, {'BLOCKED': 552}), 'c_arm_link_state': ({'SOURCE_FIELD_MATCH': 59, 'SOURCE_CONFIRMED': 1, 'UNRESOLVED': 11, 'UNKNOWN_IN_THIS_CACHE': 13, 'PROPOSED': 337, 'LABEL_MATCH': 130, 'CONTESTED': 1}, {'CONTESTED': 1, 'LABEL_MATCH': 132, 'PROPOSED': 337, 'SOURCE_FIELD_MATCH': 58, 'UNKNOWN_IN_THIS_CACHE': 13, 'UNRESOLVED': 11}), 'a_proportion_suitability': ({'NOT_REFUTED_BY_THIS_COMPONENT': 492, 'UNSUITABLE_FOR_PROPORTION': 60}, {'NOT_REFUTED_BY_THIS_COMPONENT': 491, 'UNSUITABLE_FOR_PROPORTION': 61}), 'genuine_contradiction_entries': (1, 0), 'unresolved_tension_entries': (90, 91), 'unresolved_tension_kinds': ({'MAPPING': 83, 'EVIDENCE': 7}, {'EVIDENCE': 8, 'MAPPING': 83})}"
+  },
+  {
+   "check": "J16_component_inputs_and_the_entire_v1_integration_are_unmodified",
+   "result": "PASS",
+   "detail": "37 input files re-hashed, 0 changed: []"
+  },
+  {
+   "check": "J16b_v1_original_failing_and_negative_control_logs_still_present_and_hashed",
+   "result": "PASS",
+   "detail": "v1 logs present=['RUN1-FAILING-checks.log', 'NEG-CONTROL-checks.log', 'CHECK-RUN-RECORD.txt'] missing=[]"
+  },
+  {
+   "check": "J16c_v2_including_its_now_withdrawn_genuine_register_is_present_hashed_and_unmodified",
+   "result": "PASS",
+   "detail": "v2 files present=6/6 missing=[]; withdrawing a count must not alter one byte of v2"
+  },
+  {
+   "check": "J17_endpoint_hold_and_its_ten_findings_preserved_and_not_satisfied_here",
+   "result": "PASS",
+   "detail": "findings_found_in_hold=10/10 census_status=PARKED hold_satisfied=False"
+  },
+  {
+   "check": "J18_no_scientific_eligibility_subset_is_constructed_or_emitted",
+   "result": "PASS",
+   "detail": "rows_without_a_component_specific_block=1 (named NOT_AN_ELIGIBILITY_GRANT, all still carrying the universal disjointness condition); subset_files=[]"
+  }
+ ],
+ "passed": 17,
+ "failed": 14,
+ "total": 31
+}

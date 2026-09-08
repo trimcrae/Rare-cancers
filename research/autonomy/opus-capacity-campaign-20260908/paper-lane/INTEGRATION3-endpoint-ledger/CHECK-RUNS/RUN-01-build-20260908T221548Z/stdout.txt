@@ -1,0 +1,258 @@
+{
+ "a_advisory_flag_code_rows": {
+  "NONE": 64,
+  "NON_EVALUABLE_CATEGORY_DROPPED_BY_PRODUCER": 464,
+  "RESPONSE_ASSESSMENT_CATEGORY_TITLE_DROPPED_BY_PRODUCER": 101,
+  "UNCLASSIFIED_CATEGORY_DROPPED_BY_PRODUCER": 65
+ },
+ "a_proportion_suitability": {
+  "NOT_REFUTED_BY_THIS_COMPONENT": 491,
+  "UNSUITABLE_FOR_PROPORTION": 61
+ },
+ "a_rows_in": 552,
+ "agent_independent_effects_derived": 0,
+ "b_cohort_keys_in": 8740,
+ "b_distinction_basis": {
+  "": 94,
+  "INCLUDES_STRUCTURED_FIELD": 261,
+  "NONE": 149,
+  "TEXT_DERIVED_ONLY": 48
+ },
+ "b_encoding_identity_status": {
+  "": 94,
+  "NON_IDENTICAL_ENCODING_ON_PRESERVED_FIELDS": 309,
+  "SINGLE_OBSERVATION__NO_COMPARISON_MADE": 149
+ },
+ "b_join_state": {
+  "JOINED_UNIQUE": 458,
+  "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+  "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48
+ },
+ "b_observation_rows_in": 16116,
+ "b_observations_not_in_spine": 15658,
+ "b_semantic_duplication_status": {
+  "": 94,
+  "NOT_APPLICABLE__SINGLE_OBSERVATION": 149,
+  "UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED": 309
+ },
+ "blocking_condition_codes": {
+  "AXIS_ARM_ATTRIBUTION:C_ARM_LINK_NOT_SOURCE_FIELD_MATCHED:CONTESTED": 1,
+  "AXIS_ARM_ATTRIBUTION:C_ARM_LINK_NOT_SOURCE_FIELD_MATCHED:LABEL_MATCH": 132,
+  "AXIS_ARM_ATTRIBUTION:C_ARM_LINK_NOT_SOURCE_FIELD_MATCHED:PROPOSED": 337,
+  "AXIS_ARM_ATTRIBUTION:C_ARM_LINK_NOT_SOURCE_FIELD_MATCHED:UNKNOWN_IN_THIS_CACHE": 13,
+  "AXIS_ARM_ATTRIBUTION:C_ARM_LINK_NOT_SOURCE_FIELD_MATCHED:UNRESOLVED": 11,
+  "AXIS_ARM_ATTRIBUTION:C_REGISTRY_SOURCE_JOIN_NOT_ESTABLISHED": 552,
+  "AXIS_ARM_IDENTITY_ASSUMPTION:C_ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 132,
+  "AXIS_ARM_IDENTITY_ASSUMPTION:C_ASSUMES_THIS_RESULTS_GROUP_IS_A_SUBSET_OF_THE_REGISTERED_ARM_SET_MEMBERSHIP_UNPROVED": 333,
+  "AXIS_ARM_IDENTITY_ASSUMPTION:C_ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED": 58,
+  "AXIS_COMPARATOR_ROLE:C_COMPARATOR_PROPOSED_BY_GROUP_TEXT_PLACEBO": 2,
+  "AXIS_COMPARATOR_ROLE:C_COMPARATOR_PROPOSED_BY_GROUP_TEXT_UNSPECIFIED": 4,
+  "AXIS_COMPARATOR_ROLE:C_COMPARATOR_PROPOSED_BY_LABEL_FIELD_MATCHED_ARM_TYPE": 13,
+  "AXIS_COMPARATOR_ROLE:C_CONTESTED": 4,
+  "AXIS_COMPARATOR_ROLE:C_NOT_ESTABLISHED_IN_THIS_CACHE": 166,
+  "AXIS_COMPARATOR_ROLE:C_TYPE_INFERRED_NOT_SOURCE_CONFIRMED": 8,
+  "AXIS_COMPARATOR_ROLE:C_UNKNOWN_IN_THIS_CACHE": 355,
+  "AXIS_COVERAGE:B_NOT_ASSESSED:MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+  "AXIS_COVERAGE:B_NOT_ASSESSED:TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48,
+  "AXIS_CROSS_OBSERVATION_DISJOINTNESS:NO_PARTICIPANT_FLOW_MODULE_IN_THIS_CACHE": 552,
+  "AXIS_DENOMINATOR_CATEGORY:A_UNSUITABLE_FOR_PROPORTION": 61,
+  "AXIS_RECORD_IDENTITY:B_COMPETING_RECORDS_SEMANTIC_CORRESPONDENCE_UNRESOLVED": 309,
+  "AXIS_RECORD_IDENTITY:B_DISTINCTION_TEXT_DERIVED_ONLY": 48
+ },
+ "built_against": "C2-correction/CORRECTED-C-arm-attribution-v3-map.tsv",
+ "c_arm_link_state": {
+  "CONTESTED": 1,
+  "LABEL_MATCH": 132,
+  "PROPOSED": 337,
+  "SOURCE_FIELD_MATCH": 58,
+  "UNKNOWN_IN_THIS_CACHE": 13,
+  "UNRESOLVED": 11
+ },
+ "c_comparator_role": {
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_PLACEBO": 2,
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_UNSPECIFIED": 4,
+  "COMPARATOR_PROPOSED_BY_LABEL_FIELD_MATCHED_ARM_TYPE": 13,
+  "COMPARATOR_TYPE_INFERRED_VIA_SOURCE_FIELD_MATCH": 8,
+  "CONTESTED": 4,
+  "NOT_ESTABLISHED_IN_THIS_CACHE": 166,
+  "UNKNOWN_IN_THIS_CACHE": 355
+ },
+ "c_comparator_role_identity_assumption": {
+  "": 531,
+  "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 13,
+  "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED": 8
+ },
+ "c_join_state": {
+  "JOINED_UNIQUE": 552
+ },
+ "c_registry_type_statement_assumption": {
+  "": 29,
+  "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 132,
+  "ASSUMES_THIS_RESULTS_GROUP_IS_A_SUBSET_OF_THE_REGISTERED_ARM_SET_MEMBERSHIP_UNPROVED": 333,
+  "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED": 58
+ },
+ "c_rows_in": 552,
+ "c_source_join_verification": {
+  "NOT_ESTABLISHED_REGISTRY_JOIN_FIELDS_ABSENT_FROM_THIS_CACHE": 552
+ },
+ "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+ "component": "INTEGRATION3-endpoint-ledger",
+ "confirmation_status": {
+  "job1_arithmetic_independently_confirmed": true,
+  "job2_independently_confirmed": false,
+  "job3_independently_confirmed": false,
+  "note": "Only job 1 arithmetic was independently re-derived (VERIFY-job1-arithmetic.md). The 552-key spine, the disease attribution and the phase attribution are inherited from an unconfirmed chain. Correcting A, B and C does not confirm job 2 or job 3."
+ },
+ "control_comparisons_derived": 0,
+ "cross_component_status_codes": {
+  "COVERAGE_GAP:ROW_NOT_ASSESSED_BY_B": 94,
+  "CROSS_COMPONENT_CONSTRAINT:A_UNSUITABLE_WITH_C_ARM_SOURCE_FIELD_MATCH": 5,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_B_SET_SEMANTIC_CORRESPONDENCE_UNRESOLVED": 270,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_CONTESTED": 1,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_LABEL_MATCH": 125,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_PROPOSED": 289,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_UNKNOWN_IN_THIS_CACHE": 13,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_UNRESOLVED": 10
+ },
+ "cross_component_status_rows": 488,
+ "cross_disease_capacity_bounds_derived": 0,
+ "cross_observation_disjointness_state": {
+  "UNVERIFIABLE_IN_THIS_CACHE__NO_PARTICIPANT_FLOW_MODULE": 552
+ },
+ "disposition_map_rows": 17314,
+ "distinct_trials_in_spine": 138,
+ "eligibility_subsets_constructed": 0,
+ "endpoint_hold_findings_preserved": [
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10"
+ ],
+ "endpoint_hold_satisfied_by_this_ledger": false,
+ "endpoint_manuscript_status": "PARKED",
+ "flag_preservation_vs_c2_v3": {
+  "note": "Demotion changes the REGISTER a flag is counted in. It must not change how many flags exist. These pairs must be equal.",
+  "rows_with_contested_flags_carried_into_ledger": 8,
+  "rows_with_contested_flags_in_c2_v3": 8,
+  "sole_arm_multi_results_group_flag_YES_carried_into_ledger": 83,
+  "sole_arm_multi_results_group_flag_YES_in_c2_v3": 83
+ },
+ "genuine_contradiction_admission_test": "Two demonstrably mutually exclusive assertions about the same object at the same scope. Zero is a permissible result, not a failed quota.",
+ "genuine_contradiction_codes": {},
+ "genuine_contradiction_entries": 0,
+ "genuine_contradiction_rows": 0,
+ "grain_preservation_vs_v1": {
+  "b_join_state": {
+   "v1": {
+    "JOINED_UNIQUE": 458,
+    "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+    "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48
+   },
+   "v2": {
+    "JOINED_UNIQUE": 458,
+    "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+    "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48
+   },
+   "v3": {
+    "JOINED_UNIQUE": 458,
+    "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+    "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48
+   }
+  },
+  "b_observation_rows": {
+   "v1": 16116,
+   "v2": 16116,
+   "v3": 16116
+  },
+  "b_observations_not_in_spine": {
+   "v1": 15658,
+   "v2": 15658,
+   "v3": 15658
+  },
+  "note": "The propagation changes STATES and REGISTERS, never grains. Any movement in these numbers is a defect.",
+  "spine_row_keys_identical_v1": true,
+  "spine_row_keys_identical_v2": true,
+  "spine_rows": {
+   "v1": 552,
+   "v2": 552,
+   "v3": 552
+  }
+ },
+ "integration_state": {
+  "BLOCKED": 552
+ },
+ "network_access": "none",
+ "rates_or_proportions_derived": 0,
+ "retired_c2_v2_tokens_present_anywhere": 8,
+ "spine_rows": 552,
+ "supersedes_nothing": "INTEGRATION-endpoint-ledger/ (v1) and INTEGRATION2-endpoint-ledger/ (v2) are untouched evidence of what each asserted. This is a new explicitly versioned sibling. v2 remains readable as the record of the claims withdrawn here.",
+ "unique_patient_totals_derived": 0,
+ "unresolved_tension_codes": {
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:GROUP_TITLE_IS_A_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN": 2,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:LEAF_CLAIMED_ARM_LABEL_NOT_PRESENT_IN_REGISTERED_ARMS": 1,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:PLACEBO_CLAIM_WITHOUT_ANY_PLACEBO_TYPED_ARM_IN_THIS_CACHE": 2,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:PLACEBO_OR_NOINT_GROUP_TEXT_VS_NON_COMPARATOR_BOUND_TYPE": 3,
+  "UNRESOLVED_MAPPING_TENSION:SOLE_REGISTERED_ARM_VS_MULTIPLE_RESULTS_GROUPS": 83
+ },
+ "unresolved_tension_entries": 91,
+ "unresolved_tension_kinds": {
+  "EVIDENCE": 8,
+  "MAPPING": 83
+ },
+ "unresolved_tension_rows": 91,
+ "v1_contradiction_code_rows": {
+  "A_NOT_REFUTED_WHILE_B_SET_UNRESOLVED": 270,
+  "A_NOT_REFUTED_WHILE_C_ARM_CANDIDATE": 10,
+  "A_NOT_REFUTED_WHILE_C_ARM_CONFIRMED_TYPE_ONLY": 25,
+  "A_NOT_REFUTED_WHILE_C_ARM_UNKNOWN_IN_THIS_CACHE": 8,
+  "A_NOT_REFUTED_WHILE_C_ARM_UNRESOLVED": 5,
+  "A_UNSUITABLE_WHILE_C_ARM_CONFIRMED": 60,
+  "C_CONTESTED_FLAG_PRESENT": 7,
+  "C_SOLE_ARM_BUT_MULTIPLE_RESULTS_GROUPS": 83,
+  "ROW_NOT_ASSESSED_BY_B": 94
+ },
+ "v1_contradiction_rows_rederived": 562,
+ "v3_register_code_rows": {
+  "COVERAGE_GAP:ROW_NOT_ASSESSED_BY_B": 94,
+  "CROSS_COMPONENT_CONSTRAINT:A_UNSUITABLE_WITH_C_ARM_SOURCE_FIELD_MATCH": 5,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_B_SET_SEMANTIC_CORRESPONDENCE_UNRESOLVED": 270,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_CONTESTED": 1,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_LABEL_MATCH": 125,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_PROPOSED": 289,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_UNKNOWN_IN_THIS_CACHE": 13,
+  "CROSS_COMPONENT_STATUS:A_NOT_REFUTED_WITH_C_ARM_UNRESOLVED": 10,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:GROUP_TITLE_IS_A_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN": 2,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:LEAF_CLAIMED_ARM_LABEL_NOT_PRESENT_IN_REGISTERED_ARMS": 1,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:PLACEBO_CLAIM_WITHOUT_ANY_PLACEBO_TYPED_ARM_IN_THIS_CACHE": 2,
+  "UNRESOLVED_EVIDENCE_TENSION:C_CONTESTED:PLACEBO_OR_NOINT_GROUP_TEXT_VS_NON_COMPARATOR_BOUND_TYPE": 3,
+  "UNRESOLVED_MAPPING_TENSION:SOLE_REGISTERED_ARM_VS_MULTIPLE_RESULTS_GROUPS": 83
+ },
+ "withdrawn_v2_assertions": {
+  "note": "These INTEGRATION2 counts are WITHDRAWN AS ASSERTIONS of established contradiction. They are not erased: INTEGRATION2-endpoint-ledger/ is intact and remains the record of what v2 claimed, and every underlying flag is retained here in UNRESOLVED-TENSIONS3.tsv.",
+  "v2_genuine_contradiction_entries_claimed": 91,
+  "v2_genuine_contradiction_rows_claimed": 91,
+  "v2_v1_rows_called_genuine_claimed": 90,
+  "v3_families_demoted": {
+   "C_CONTESTED_FLAG_PRESENT": "UNRESOLVED_EVIDENCE_TENSION",
+   "C_SOLE_ARM_BUT_MULTIPLE_RESULTS_GROUPS": "UNRESOLVED_MAPPING_TENSION"
+  },
+  "v3_family_retained_and_live": {
+   "A_B_DENOMINATOR_VALUE_DISAGREE": "GENUINE_CONTRADICTION__RETAINED"
+  },
+  "v3_status_of_those_counts": "WITHDRAWN_AS_ASSERTIONS__PRESERVED_AS_HISTORY"
+ },
+ "within_record_reporting_state": {
+  "NOT_ASSESSED_BY_B:MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 45,
+  "NOT_ASSESSED_BY_B:MEASURE_OUTSIDE_B_TITLE_BOUNDARY|A_RECORD_STRUCTURE_UNSUITABLE_AT_A_SCOPE": 1,
+  "NOT_ASSESSED_BY_B:TRIAL_OUTSIDE_B_CORPUS_SCOPE": 42,
+  "NOT_ASSESSED_BY_B:TRIAL_OUTSIDE_B_CORPUS_SCOPE|A_RECORD_STRUCTURE_UNSUITABLE_AT_A_SCOPE": 6,
+  "SOURCE_VALUES_PRESENT_AT_B_SCOPE": 404,
+  "SOURCE_VALUES_PRESENT_AT_B_SCOPE|A_RECORD_STRUCTURE_UNSUITABLE_AT_A_SCOPE": 54
+ }
+}

@@ -1,0 +1,57 @@
+PASS  table-q-bindings 17 rows; all match
+PASS  q-decides-significance 173 rows checked
+PASS  F05-nonsig-intervals-excluding-zero GPL6244=14 GPL3290=8; text says 14 and 8
+PASS  F05-halfwidth-values median half-widths 0.25865 / 0.952475
+PASS  F05-halfwidth-wording half-width and full width stated separately
+PASS  tableS6-sequencing-bindings 6 genes; all match
+PASS  F11-sequencing-not-per-sample artifact stores grouped summaries; text says so
+PASS  F01-null-quantitative-fields 45 classified, 45 with both quantitative fields null
+PASS  F01-nine-liability-labels 9 liability labels
+PASS  F01-restricted-detected-in-many ['ALCAM', 'B4GALNT1', 'GPC3']
+PASS  F07-denominators 47 actionable, 18 flagged
+PASS  F02-eligibility-split 10/3/5; one-platform ['CD248', 'GPC2', 'ROR1']
+PASS  F02-zero-up-two-down up=[] down=['FGFR1', 'PTK7']
+PASS  F07-arrays-arithmetic 42 - 6 - 29 = 7 in live prose
+PASS  F08-original-png-untouched sha256 matches the reviewed bytes
+PASS  F08-no-figure-display-item no Figure 1 display item; omission stated
+PASS  F08-no-figure-call no in-text call to Figure 1
+PASS  F08-no-pixel-assertions printed assertions appear only inside the omission record; stray=[]
+PASS  absent/F01-window 
+PASS  absent/F01-decisive 
+PASS  absent/F02-transfer 
+PASS  absent/F02-notreproduced 
+PASS  absent/F03-readdensity 
+PASS  absent/F04-pointdifferent 
+PASS  absent/F05-ns-definition 
+PASS  absent/F05-exactp 
+PASS  absent/F06-knownanswers 
+PASS  absent/F06-licence 
+PASS  absent/F06-prespecified 
+PASS  absent/F07-neverevaluated 
+PASS  absent/F09-floor 
+PASS  absent/F09-saturated 
+PASS  absent/F10-artefact 
+PASS  absent/F12-discontinued 
+PASS  absent/F12-238 
+PASS  absent/F13-independent 
+PASS  present/F01 
+PASS  present/F01b 
+PASS  present/F02 
+PASS  present/F03 
+PASS  present/F03b 
+PASS  present/F04 
+PASS  present/F04b 
+PASS  present/F05 
+PASS  present/F06 
+PASS  present/F07 
+PASS  present/F08 
+PASS  present/F09 
+PASS  present/F10 
+PASS  present/F11 
+PASS  present/F12 
+PASS  present/F13 
+PASS  present/A7 
+FAIL  packet-manifest-reproduces 25 entries; ['research/modalities/gse28866_tumour_vs_normal.py CHANGED', 'research/modalities/gse28866-tumour-vs-normal.json CHANGED']
+
+53 passed, 1 failed
+FAILED: packet-manifest-reproduces

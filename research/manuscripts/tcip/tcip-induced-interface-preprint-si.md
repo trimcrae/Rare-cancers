@@ -1,75 +1,149 @@
 ---
 id: DOC-TCIP-INDUCED-INTERFACE-PREPRINT-SI
-title: Supporting Information — the induced-interface floor that proximity design inherits from degraders
+title: Supporting Information — an inherited minimum-contact filter in one rigid-body proximity sampler
 level: L4
 kind: manuscript
 status: live
 canonical_for: []
-purpose: Methods, complete tables and every control for the PUB-TCIP manuscript, so each headline number can be traced to the artifact that owns it and re-derived.
-scope: Methods and tables for the geometric enumeration and the structural census. It covers reproduction and controls. It covers no binding, potency, selectivity, transcriptional-output, efficacy, safety or clinical statement.
+purpose: Methods, complete tables, selection flow and provenance for the PUB-TCIP manuscript, so each reported number can be traced to the artifact that owns it, and so the two distinct contact predicates, the implemented proposal, the census selection flow and the limits of the retained records are readable without executing a script.
+scope: Methods and tables for the geometric enumeration inside one toolchain and for the exact-distance structural census over a selected entry list. It covers reproduction limits and descriptive controls. It establishes no predicate equivalence and no calibration, and it covers no binding, potency, selectivity, transcriptional-output, efficacy, safety or clinical statement.
 audience: [external reviewers, maintainers, autonomous research agents]
 date: 2026-08-07
+revised: 2026-09-08
 last_verified: 2026-09-08
 ---
 
 # Supporting Information
 
 **Companion to [`tcip-induced-interface-preprint.md`](./tcip-induced-interface-preprint.md).**
-Every number is read from a committed artifact; this file adds no measurement of its own. The decision
-view over the structural census, with the full provenance narrative, is
-[`tcip-interface-floor-sizing.md`](./tcip-interface-floor-sizing.md).
+Every number is read from a committed artifact; this file adds no measurement of its own.
+
+> **Revision of 2026-09-08.** Narrowed together with the main text. Every retained count, rate,
+> interval and source byte is unchanged; the claims drawn from them are narrower, and the withdrawals
+> are registered in Appendix A of the main text. The frozen version of this SI is repository revision
+> `f43f1495f40d8aff7b4f34bd385d55aac521a500`, 16,663 bytes, SHA256
+> `3483c0bbcbd94e4faa5b3de38da8010130b189336b79ac27cd08101c56748ba3`.
+> The dated decision view [`tcip-interface-floor-sizing.md`](./tcip-interface-floor-sizing.md) is a
+> historical 2026-08-07 record that still carries the wider framing withdrawn in this revision. It is
+> not an authority for any claim made here.
 
 ---
 
 ## S1 · Methods — the geometric enumeration
 
 **Artifact:** [`nr4a3-tcip-reach.json`](../../modalities/nr4a3-tcip-reach.json).
-**Code:** [`nr4a3_tcip_reach.py`](../../modalities/nr4a3_tcip_reach.py), scoring inherited unchanged from
-[`nr4a3_basin_search.py`](../../modalities/nr4a3_basin_search.py).
+**Code:** [`nr4a3_tcip_reach.py`](../../modalities/nr4a3_tcip_reach.py), scoring inherited unchanged
+from [`nr4a3_basin_search.py`](../../modalities/nr4a3_basin_search.py), at repository revision
+`f43f1495f40d8aff7b4f34bd385d55aac521a500`.
 
-Six bodies are staged from deposited coordinates and placed by rigid-body Monte Carlo from **fixed
-warhead exit-vector anchors** against a target distance field. A placement is accepted when it has no
-hard clash, no more than the permitted soft clashes, and at least `min_contact_residues` query points in
-the contact band.
+Six bodies are staged from deposited coordinates and placed by rigid-body Monte Carlo from fixed
+warhead exit-vector anchors against a target distance field.
 
-The paired comparison covers **576 cells** (body × warhead anchor × linker length) at **300 000 samples**
-per cell. The floor ablation re-runs the identical cells at the 12-atom rung with **only**
-`min_contact_residues` changed, at 30 000 samples per arm per pose.
+**The proposal, as implemented.** For a linker rung with shell bounds `L_min` and `L_max`, the
+radius is drawn as `r = L_min + (L_max - L_min) * U^(1/3)`; the direction is drawn uniformly on the
+sphere and the orientation uniformly over unit quaternions. The source comment at the radial draw
+describes it as uniform in the shell volume. For a non-zero inner radius that would require
+`r = (L_min^3 + U*(L_max^3 - L_min^3))^(1/3)`. At the committed 12-atom rung, `L_min = 3.75 Å` and
+`L_max = 15 Å`: the implemented draw puts probability **0.125** at or below the midpoint radius
+9.375 Å, where a uniform-volume draw would put **0.232142857**. This is recorded as a
+comment-to-implementation discrepancy. The retained run is not relabelled, and no rerun was
+performed.
+
+**The admission predicate, in full.** A proposal is discarded before scoring if the proposed exit
+point fails `pose_min_clearance_A` on the grid lower bound. Each query probe is then classified on
+`field.min_dist(probe) - field.cell_slack`, with `cell_slack = sqrt(3) × 0.9 / 2 = 0.7794228634 Å`
+for a 0.9 Å grid: below 3.0 Å hard clash (the loop breaks and the placement is rejected), 3.0–3.6 Å
+soft clash, 3.6–6.0 Å contact. The placement is accepted only when there is no hard clash, at most 6
+soft clashes, and at least `min_contact_residues` contact probes. The unit is the whole staged body,
+which may be multichain, against one target frame.
+
+**What the reported fractions are.** Observed proposal-acceptance fractions, conditional on the
+implemented proposal, on the twelve fixed anchors, on one target frame and distance field, and on the
+stated rung. They are not orientation-space volumes, equilibrium probabilities or linker-feasibility
+estimates. The artifact separately relates acceptance to a body-free grid-volume denominator; that
+quotient uses different measures on its two sides and is not read as a conditional survival
+probability anywhere in this paper.
+
+**Sampling.** The paired comparison covers **576 cells** (body × anchor × linker rung) at **300,000
+draws** per cell, 172,800,000 draws in total. The floor ablation re-runs the identical cells at the
+12-atom rung with only `min_contact_residues` changed, at **30,000 draws per arm per anchor**; each
+pooled class at each floor therefore aggregates 720,000 draws over two arms and twelve anchors.
+
+**Random streams, and what they permit.** The ablation reuses `random.Random(777 + pose_index)`
+across arms and across floors: a common-random-number design in which the arms share proposals and
+are **not** independent observations. No cross-arm joint acceptance counts are retained, so the joint
+covariance is unavailable and **no paired interval for the ratio can be computed from the retained
+records**. The stored class Wilson intervals are marginal, formed from pooled accepted/drawn counts,
+and they quantify neither ratio precision nor uncertainty across proteins, target conformations,
+anchors drawn from a biological population, or source structures; the anchor strata are fixed and
+heterogeneous rather than sampled biological units. The main enumeration uses a different per-cell
+seed, `20260725 + 1000×rung + crc32(arm) % 997 + anchor index`; its truncated salts collide for
+`bcl6` and `vhl`, which share seven anchor streams per rung and 56 across the eight rungs. The four
+pooled arms have distinct streams, so the four-body pooled comparison is unaffected; the collisions
+do mean the 576 cells are not all mutually independent. They are a design property, not evidence that
+a retained count is wrong.
 
 **Pooling.** The size contrast pools `single_domain = [birc2, mdm2]` against
-`multi_subunit = [crbn, vhl]`. `bcl6` and `brd4_bd1` are staged named effectors and are **excluded from
-every pooled figure** — `bcl6` because the pooled contrast is a proxy statement a named effector may not
-be read into, `brd4_bd1` additionally because its exit vector is not comparable (§S4).
+`multi_subunit = [crbn, vhl]`. `bcl6` and `brd4_bd1` are staged named bodies and are excluded from
+every pooled figure — `bcl6` because the pooled contrast is a proxy statement that a named effector
+may not be read into, `brd4_bd1` additionally because its exit vector is outside the committed
+comparability range (§S4).
 
-**Replication against the committed E3 run, disclosed with its own status.** The artifact carries a
-cross-check, `cross_checks.replicates_the_committed_E3_acceptance`, that compares this module's
-recomputed per-cell acceptance rates against the previously committed E3 run in
-`nr4a3-orientation-basins.json`. Its `status` field reads **DISAGREES**: over 24 compared cells, **19**
-committed rates fall inside the recomputed 95 % interval and **5** fall outside, against 1.20 expected
-by chance at a 95 % level. ⚠ We report the status verbatim rather than the artifact's own softer reading
-of it. **Nothing in this paper is computed by differencing the two runs.** The paired contrast, the
-within-class control and the floor ablation are all comparisons *within a single pass* — identical
-anchors, identical target frame, identical distance field, one body changed or one parameter changed —
-so a level offset between this module and the earlier committed run cancels in every ratio reported
-here. What the flag does bound is any reading of an **absolute** acceptance rate across the two runs,
-and this paper makes none.
+**Cross-run comparison, reported under its original rule.** The artifact carries
+`cross_checks.replicates_the_committed_E3_acceptance`, which compares this module's recomputed
+per-cell acceptance rates against the previously committed E3 run in
+`nr4a3-orientation-basins.json`. Its `status` field reads **`DISAGREES`**: over 24 compared cells,
+**19** committed rates fall inside the recomputed 95 % interval and **5** fall outside. The artifact
+records 1.20 as the number expected outside by chance at a 95 % level. That expectation assumes the
+committed rate is an exact reference and treats the 24 pointwise comparisons as one calibrated
+family. Neither holds: the old values are themselves Monte Carlo estimates at 1,000,000 draws per
+compared cell against 300,000 for the new ones, and the comparison was not calibrated as a
+family-level replication test. **The status stays `DISAGREES` under its original rule**, and it is
+reported here verbatim rather than under any softer reading.
 
-**Named effectors: which block owns those numbers.** The per-rung `bcl6` and `brd4_bd1` results quoted
-in §5.5 of the manuscript are read from the artifact's `★_named_effector` block and its
-`by_linker_atoms` table. ⚠ The same artifact's `verdict.★_the_named_effector` block still reads
-`status: NO_NAMED_EFFECTOR_STAGED`, `n_named_effectors_enumerated: 0`, `answer: "NOT ASKED — none
-staged"`. The two blocks contradict each other. The populated block is the one used, and it is
-corroborated by `body_geometry` (`bcl6` 243 residues, `brd4_bd1` 127) and by the per-rung
+The earlier version of this SI added that a level offset between the two runs cancels in every
+within-run ratio reported. **That assurance is withdrawn.** A common additive offset does not cancel
+in a ratio: `(a+c)/(b+c) = a/b` only when `c = 0` or `a = b`, and for example
+`0.00081/0.00090 = 0.90` becomes `0.91` when `0.00010` is added to both. A common multiplicative
+factor would cancel, but no such run-bias model is established by this cross-check, and the observed
+differences have mixed directions and magnitudes. What remains true and is relied on is narrower:
+every comparison this paper reports is made **within a single pass** — identical anchors, identical
+target frame, identical distance field, one body or one parameter changed. Cross-run reproducibility
+is unresolved, and no absolute acceptance rate is compared across the two runs.
+
+An external reviewer computed, as an explicitly illustrative diagnostic, that using both runs'
+marginal variances moves the count of standardized differences above 1.96 from five to three. That is
+an illustration of the omitted uncertainty. It is **not** a replacement acceptance test, it is not an
+author replication result, and it does not relabel the artifact.
+
+**Named bodies: which block owns those numbers, and the erratum.** The per-rung `bcl6` and
+`brd4_bd1` results are read from the artifact's `★_named_effector` block and its `by_linker_atoms`
+table, corroborated by `body_geometry` (`bcl6` 243 residues, `brd4_bd1` 127) and by the per-rung
 `per_arm_acceptance_rate` entries in `★_paired_body_size_comparison`, which carry the same values.
-The stale verdict field is **not** repaired here — that would mean editing or re-running a producer —
-and is routed to the artifact's owner.
+The same artifact's `verdict.★_the_named_effector` block reads `status: NO_NAMED_EFFECTOR_STAGED`,
+`n_named_effectors_enumerated: 0`, `answer: "NOT ASKED — none staged"`, and the generated reach
+Markdown repeats that statement.
+
+**Erratum, 2026-09-08.** The populated fields are authoritative for this paper; the derived verdict
+field is stale. The mechanism is identified in the source: the `--refresh-derived` branch of
+`nr4a3_tcip_reach.py` calls `verdict(...)` without the named-effector argument, which the verdict
+function then defaults to an empty result, while the full-build path supplies it. That produces a
+contradictory derived verdict without losing any sampled cell. Agreement among the populated block,
+`body_geometry` and the per-arm table is internal consistency within one artifact, not three
+independent validations, but the retained cell inventory and arm metadata do support reporting the
+named arms as present, and there is no basis for discarding them because a derived field defaulted.
+**No producer rerun and no named-arm or geometry re-run was performed, and none is scientifically
+necessary to resolve this.** The frozen artifact is left as it stands; this note is the erratum.
 
 **Determinism.** Per-cell seeds were originally derived from `hash(arm_id)`, which Python salts per
-process, so the artifact did not reproduce between runs. Fixed to `zlib.crc32` and verified: two full
-runs under `PYTHONHASHSEED=0` and `PYTHONHASHSEED=99` produce byte-identical JSON. The committed numbers
-are from the deterministic run. The ~0.13-wide swing that the defect produced is a fair estimate of how
-little the pooled ratio is worth, and is one reason §2a of the manuscript declines to report it as a
-size law.
+process, so the artifact did not reproduce between runs. The construction was changed to
+`zlib.crc32`, and the author record reports two full runs under `PYTHONHASHSEED=0` and
+`PYTHONHASHSEED=99` producing byte-identical JSON. That is a historical author-reported check: the
+two compared outputs were not available for inspection in this revision, and full JSON is not
+byte-identical in general when runtime and date fields are written. The committed numbers are from
+the deterministic run. The roughly 0.13-wide swing that the seeding defect produced is a record of
+how much the pooled ratio moved under a changed random input; it is not a calibrated estimate of
+uncertainty, and no uncertainty statement here rests on it.
 
 ## S2 · Methods — the structural census
 
@@ -77,62 +151,102 @@ size law.
 **Code:** [`nr4a3_induced_interface_census.py`](../../modalities/nr4a3_induced_interface_census.py).
 
 22 mmCIF entries were fetched in CI from `files.rcsb.org` (the development sandbox's egress proxy
-answers `403` on `CONNECT` to RCSB) and cached on the `literature-cache` branch. mmCIF rather than PDB
-format is used because the fetch pipeline passes bodies through an HTML stripper that collapses runs of
-spaces — harmless to whitespace-delimited mmCIF, fatal to the fixed-column PDB layout.
+answers `403` on `CONNECT` to RCSB) and cached on the `literature-cache` branch. mmCIF rather than
+PDB format is used because the fetch pipeline passes bodies through an HTML stripper that collapses
+runs of spaces — harmless to whitespace-delimited mmCIF, fatal to the fixed-column PDB layout.
 
-**The predicate is the sampler's, taken rather than restated.** For each of an arm's query points, the
-distance to the nearest heavy atom of the other chain is binned:
+**The census predicate is its own, and is not the sampler's.** For each query probe of one chain, the
+**exact** distance to the nearest heavy atom of the other chain is computed through a cell hash, with
+**no slack**, and binned:
 
-| band | outcome |
+| band | census outcome |
 |---|---|
-| `d < hard_clash_A` (3.0 Å) | hard clash — placement rejected outright |
-| `hard_clash_A ≤ d < soft_clash_A` (3.6 Å) | soft clash — a budget applies |
-| `soft_clash_A ≤ d ≤ contact_A` (6.0 Å) | **contact**, counted into `n_contact` |
-| `n_contact < min_contact_residues` (12) | rejected: *"a tethered pair, not an interface"* |
+| `d < 3.0 Å` | hard-clash band |
+| `3.0 Å ≤ d < 3.6 Å` | soft-clash band |
+| `3.6 Å ≤ d ≤ 6.0 Å` | **contact**, counted into `n_contact_points` |
 
-**Query points are two per residue: the CA and the side-chain centroid**, exactly as
+The census makes no accept/reject decision and applies no anchor clearance and no soft-clash budget.
+The sampler's predicate (§S1) classifies a **lower bound** on the same distance, on a whole body
+rather than a chain, and then applies a full admission rule. The radii and the query-point
+construction are the same; **the predicates are not**, and the difference is not an order-preserving
+offset. A probe at a grid-cell centre whose exact nearest-atom distance is 4.0 Å is a contact under
+the census and a soft clash under the sampler, whose lower bound for it is approximately 3.2206 Å;
+conversely, probes outside the exact 6.0 Å boundary can enter the sampler's contact band. No claim
+about how the sampler would score or admit any deposited complex is made anywhere in this paper.
+
+**Query probes are up to two per residue: the CA and the side-chain centroid**, exactly as
 `load_arm_from_registry` builds them (`query = ca_list + cb_list`, where the second list holds the
 centroid of every non-backbone atom and falls back to CA for glycine).
 
-> ⚠ **`min_contact_residues` counts POINTS, not residues, despite its name — so 12 points is as few as
-> 6 residues.** Every row below reports both. This is the discrepancy §6 of the manuscript declines to
-> resolve and reports at both readings.
+`min_contact_residues` is compared against a **probe** count despite its name, so a threshold of 12
+probes can be satisfied by between **six and twelve** distinct residues. Six is the minimum, not a
+maximum. Every row below reports probes and distinct residues separately, and no residue conversion
+is used in any claim.
 
-**The predicate is one-sided** — an arm is sampled against a target, not the reverse — so every pair is
-measured **both ways** and both numbers are reported. No orientation is promoted.
+**The census is one-sided per direction** — one chain's probes are scored against the other chain's
+atoms — so every pair is scored **both ways** and both numbers are reported. No orientation is
+promoted.
 
-**Two kinds of induced pair, kept distinguishable.** *Ligand-bridged* pairs (one molecule touches both
-partners — a PROTAC, a glue, rapamycin) are read off the coordinates. *Allosteric* pairs (an agonist
-inside one partner's pocket recruiting a coactivator, which no single structure can prove is
-ligand-dependent) are curated by name with a stated reason and labelled `allosteric_curated`, so a
-reader can drop them and recompute. Every entry's identity is verified from its own `_struct.title` and
-`_entity.pdbx_description` rather than from its accession.
+**Two kinds of induced pair, kept distinguishable.** *Ligand-bridged* pairs, where one molecule spans
+both partners, are read off the coordinates. *Allosteric* pairs, where an agonist inside one
+partner's pocket is associated with recruitment of a coactivator, are curated by name with a stated
+reason and labelled `allosteric_curated`, so a reader can drop them and recompute. **A curated
+classification is a name-level claim about the literature and is not coordinate evidence of ligand
+dependence**; the ten `allosteric_curated` pairs contributed by the five nuclear-receptor/coactivator
+entries do not themselves establish that those interfaces are ligand-dependent. Every entry's
+identity is verified from its own `_struct.title` and `_entity.pdbx_description` rather than from its
+accession.
+
+### S2a · Selection flow — how a chain pair reaches the reported set
+
+| stage | rule (source) | effect |
+|---|---|---|
+| 1 · entry | 22 fetched, 22 parsed; identity verified from the file | 22 entries |
+| 2 · chain eligibility | a chain is kept when at least half its atoms are amino-acid atoms and it carries at least 40 of them | protein chains only |
+| 3 · ligand eligibility | a heteroatom group that is not water and not in the excluded buffer-species list, with at least 12 heavy atoms; a chain is *touched* when a ligand heavy atom lies within 4.5 Å, and *spanned* when at least three do | bridging-ligand candidates |
+| 4 · zero-score filter | every chain pair is scored in both directions first; a pair with **zero** contact-band probes in **both** directions is dropped **before** induced pairs are chosen | removes pairs on their measured score |
+| 5 · induced-pair selection | a surviving pair is induced when a spanning ligand covers both chains, or when it is curated by name as allosteric; named constitutive pairs are excluded from the induced class | the reported set |
+
+Stage 4 is selection on the measured outcome, and it is material in a paper about a minimum contact
+score. Its effect is disclosed entry-by-entry for 9MZA in §S6a. Across the other 21 entries, the
+reviewer set comparison of retained ligand-spanned and curated candidates against the retained scored
+pairs found no further omissions.
 
 ## S3 · Table S1 — the census by class
 
 **22 entries fetched, 22 parsed**, every title and chain description verified from the file itself.
+Class membership overlaps: 9MZA is counted in both `tcip` and `induced_transcriptional`, so the class
+rows **cannot be summed as independent observations**.
 
-| class | entries | induced pairs | ligand-bridged / `allosteric_curated` | contact points, smaller direction | fails floor 12 in ≥1 direction | in BOTH |
+| class | entries | induced pairs | ligand-bridged / `allosteric_curated` | contact probes, smaller direction | below 12 in ≥1 direction | in BOTH |
 |---|---|---|---|---|---|---|
-| **`tcip`** — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | 2 / 0 | **6 – 6** | **2 of 2** | **2 of 2** |
-| `induced_transcriptional` — incl. 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 2 / **10** | 6 – 19 | 2 of 12 | 2 of 12 |
-| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 15 / 0 | 5 – 23 | **6 of 15** | 1 of 15 |
+| `tcip` — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | 2 / 0 | 6 – 6 | 2 of 2 | 2 of 2 |
+| `induced_transcriptional` — includes 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 2 / **10** | 6 – 19 | 2 of 12 | 2 of 12 |
+| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 15 / 0 | 5 – 23 | 6 of 15 | 1 of 15 |
 | `cid_proximity` — rapamycin, auxin, ABA, gibberellin | 7 | 7 | 4 / 3 | 11 – 53 | 1 of 7 | 0 of 7 |
 | `constitutive` — 7LWG BCL6 BTB homodimer (contrast, never pooled) | 1 | 1 | 1 / 0 | 64 | 0 | 0 |
 
-The fourth column is the split §S2 promises a reader can act on, read from
-`summary_over_induced_pairs.by_class` (`n_ligand_bridged_measured` / `n_allosteric_curated`). It matters
-most for `induced_transcriptional`: 10 of that class's 12 pairs are curated by name rather than measured
-as ligand-bridged, and both of its floor failures are the two 9MZA pairs, which are ligand-bridged. The
-`tcip` and `degrader_or_glue` rows — the two the manuscript's claims rest on — carry no curated pairs at
-all.
+"Below 12" throughout this SI means the retained exact-distance census score is below the value of
+the sampler's parameter. It does **not** mean the sampler rejects the pair, and no such rejection is
+claimed.
 
-## S4 · Table S2 — the 15 degrader/glue induced pairs
+The fourth column is read from `summary_over_induced_pairs.by_class`
+(`n_ligand_bridged_measured` / `n_allosteric_curated`). It matters most for
+`induced_transcriptional`: 10 of that class's 12 pairs are curated by name rather than measured as
+ligand-bridged, and both of its below-12 rows are the two 9MZA pairs, which are ligand-bridged. The
+`tcip` and `degrader_or_glue` rows carry no curated pairs.
+
+The `cid_proximity` and `induced_transcriptional` rows include short nuclear-receptor coactivator
+peptides, whose probe count is capped by how many residues the peptide has. They are reported and are
+not leaned on.
+
+## S4 · Table S2 — the 15 selected degrader/glue induced pairs
 
 All ligand-bridged and measured from coordinates; none curated. Ordered by the smaller direction.
+This is a selected entry list; repeated copies within an entry and related complexes across entries
+are dependent observations, and the count below is not a population rate.
 
-| entry | chains | contact points (min / max) | partners |
+| entry | chains | contact probes (min / max) | partners |
 |---|---|---|---|
 | **7Q2J** | C/D | **5 / 12** | pVHL + WD-repeat-containing protein |
 | **6SIS** | A/D | **10 / 11** | BRD4 + pVHL |
@@ -150,9 +264,11 @@ All ligand-bridged and measured from coordinates; none curated. Ordered by the s
 | 6H0F | B/C | 22 / 23 | cereblon + Ikaros |
 | 6H0F | H/I | 23 / 25 | cereblon + Ikaros |
 
-**Bold = below the floor of 12 in at least one direction: 6 of 15.** The rejected set is entirely the
-VHL-recruiting and SMARCA2 series; every cereblon ternary clears it. That the floor's failures cluster
-by recruiter rather than scattering is itself evidence it is uncalibrated rather than noisy.
+**Bold = smaller direction below 12: 6 of 15.** Those six rows are the VHL-recruiting and SMARCA2
+entries; the cereblon ternaries are all at or above it. That clustering is an observation about this
+selected list. It does not distinguish an uncalibrated cutoff from structural, construct or
+score-specific variation, it is not a noise test, and the earlier version's inference that it shows
+the threshold is uncalibrated rather than noisy is withdrawn.
 
 ### Exit-vector comparability (enumeration bodies)
 
@@ -167,30 +283,34 @@ Committed E3 exposure range: **5.00–5.79 Å**.
 | `mdm2` | E3 recruiter | 5.79 | yes |
 | `vhl` | E3 recruiter | 5.00 | yes |
 
-The exit-atom offset displaces a body relative to the target before any rotation, so an arm outside the
-committed range is **not comparable** and its acceptance may not be pooled with or ranked against the
-others. ⚠ The sign of that effect is not predictable and is not claimed: a larger offset both moves the
-body clear of the target (easier) and pushes it out of the shell it must occupy (harder). This bounds
-what may be said with `brd4_bd1`; it does not invalidate the arm.
+The exit-atom offset displaces a body relative to the target before any rotation, so an arm outside
+the committed range is not comparable and its acceptance is not pooled with or ranked against the
+others. The sign of that effect is not predictable and is not claimed: a larger offset both moves the
+body clear of the target and pushes it out of the shell it must occupy. This bounds what may be said
+with `brd4_bd1`; it does not invalidate the arm.
 
-## S5 · Table S3 — the 8 ladder rungs, and why the size axis is confounded
+## S5 · Table S3 — the 8 ladder rungs, and why the pooled contrast is confounded
 
-| linker atoms | shell hi (Å) | single/multi ratio | between-class contrast | within > between | 95 % CI overlap |
+| linker atoms | shell hi (Å) | single/multi ratio | between-class contrast | within > between | 95 % marginal CI overlap |
 |---|---|---|---|---|---|
-| 6 | 7.5 | 0.928 | 1.077 | **yes** | no |
-| 8 | 10.0 | 0.970 | 1.031 | **yes** | yes |
-| 10 | 12.5 | 0.891 | 1.122 | **yes** | no |
-| 12 | 15.0 | **0.877** | 1.140 | **yes** | no |
-| 14 | 17.5 | 0.858 | 1.165 | **yes** | no |
-| 16 | 20.0 | 0.890 | 1.124 | **yes** | no |
-| 20 | 25.0 | 0.936 | 1.069 | **yes** | no |
-| 24 | 30.0 | 0.972 | 1.029 | **yes** | yes |
+| 6 | 7.5 | 0.928 | 1.077 | yes | no |
+| 8 | 10.0 | 0.970 | 1.031 | yes | yes |
+| 10 | 12.5 | 0.891 | 1.122 | yes | no |
+| 12 | 15.0 | **0.877** | 1.140 | yes | no |
+| 14 | 17.5 | 0.858 | 1.165 | yes | no |
+| 16 | 20.0 | 0.890 | 1.124 | yes | no |
+| 20 | 25.0 | 0.936 | 1.069 | yes | no |
+| 24 | 30.0 | 0.972 | 1.029 | yes | yes |
 
-**The within-class spread exceeds the between-class contrast at 8 of 8 rungs** — up to **1.421×** within
-a class against at most **1.165×** between them. ⇒ the pooled contrast is confounded by individual body
-shape and may not be reported as a size law.
+The within-class spread exceeds the between-class contrast at 8 of 8 rungs — up to **1.421×** within
+a class against at most **1.165×** between them — so the pooled contrast is confounded and may not be
+reported as a size law. The CI column reports **marginal** intervals on the class rates; it is not a
+test of the ratio, for which the joint counts are not retained. **This design identifies no
+controlling variable.** With two bodies per class differing in shape, multimeric extent, ligand pivot
+and exit geometry as well as residue count, the observation neither establishes nor refutes a
+contribution of body size, and it does not identify shape or exit-vector geometry as a cause.
 
-### Floor ablation, per arm (12-atom rung, 30 000 samples/arm/pose)
+### Floor ablation, per arm (12-atom rung, 30,000 draws per arm per anchor)
 
 | arm | n_res | class | floor 12 | floor 6 | floor 0 |
 |---|---|---|---|---|---|
@@ -201,77 +321,215 @@ shape and may not be reported as a size law.
 | `mdm2` | 94 | single_domain | 0.000703 | 0.008031 | 0.067847 |
 | `vhl` | 340 | multi_subunit | 0.001025 | 0.008947 | 0.080550 |
 
-⚠ `bcl6` and `brd4_bd1` appear here because they ran in the same pass. They are **not** in the pooled
-rows of the manuscript's §2 table, and the ablation is a statement about the sampler's inherited
-parameter, not about any named effector.
+`bcl6` and `brd4_bd1` appear here because they ran in the same pass. They are not in the pooled rows
+of the manuscript's §4 table, and the ablation is a statement about the sampler's inherited parameter
+and not about any named effector.
 
-## S6 · Controls
+### Pooled counts and stored marginal intervals
 
-### Saturation — the instrument is not the story
+| floor | class | accepted / drawn | fraction | stored marginal Wilson 95 % |
+|---|---|---|---|---|
+| 12 | single_domain | 583 / 720,000 | 0.00080972 | [0.00074663, 0.00087814] |
+| 12 | multi_subunit | 651 / 720,000 | 0.00090417 | [0.00083735, 0.00097631] |
+| 6 | single_domain | 6,315 / 720,000 | 0.00877083 | [0.00855806, 0.00898885] |
+| 6 | multi_subunit | 5,632 / 720,000 | 0.00782222 | [0.00762134, 0.00802836] |
+| 0 | single_domain | 57,657 / 720,000 | 0.08007917 | [0.07945447, 0.08070835] |
+| 0 | multi_subunit | 45,990 / 720,000 | 0.06387500 | [0.06331249, 0.06444217] |
 
-`A1BUC` (TCIP3, **81 heavy atoms**) also spans the **two BCL6 protomers**, because the BTB lateral
-groove is formed *between* them. That pair is constitutive, is excluded by name from the induced class,
-and serves as the control:
+Ratios from the counts: **0.895545** at floor 12, **1.121271** at floor 6, **1.253686** at floor 0.
+Each arm's accepted count is non-decreasing as the filter is relaxed, and the retained marginal counts
+are nested accordingly; a ratio of two such functions need not be monotone, and three sampled floors
+do not establish monotonicity in the parameter.
 
-| pair | contact points |
+## S6 · Descriptive comparisons
+
+### Dynamic range
+
+| pair | contact probes |
 |---|---|
-| BCL6 BTB homodimer in **9MZA** (same file as the induced pair) | **66 / 71** |
-| the same homodimer in independent entry **7LWG** | **64 / 67** |
-| the induced BCL6·p300 pair in 9MZA | **6 / 7** |
+| BCL6 BTB homodimer in **9MZA**, chains A/C (same file as the reported pairs) | **71 / 66** |
+| the same homodimer in independent entry **7LWG**, chains A/B | **67 / 64** |
+| the reported BCL6·p300 pair in 9MZA, chains A/D | **6 / 7** |
 
-Two crystals, two depositions, one instrument, one answer: the constitutive interface reads an order of
-magnitude above the induced one. A predicate that could not read a large number would not have.
+The same census predicate takes large values on that large interface in both files. That is a
+dynamic-range and consistency observation. It does **not** establish the score's accuracy, its
+resolution at small interfaces, or its biological relevance: a coarse CA/centroid shell count can
+separate a large interface while describing a small one poorly. The score also counts only probes in
+the 3.6–6.0 Å shell — closer probes fall in the clash bands and are not counted as contacts — so it
+is not a count of atomic contacts, a buried surface area, or an interaction network.
 
-### Truncation — checked rather than assumed
+### Construct coverage
 
-Both partners are substantially resolved. The BCL6 chains contribute **244 and 246** query points
-(**122–123** residues); the p300 chains **224 and 226** (**112–113** residues). The small count is a
-property of the interface, not of a short chain. The bridging ligand contacts **33–42** atoms' worth of
-each partner — a large molecule creating a tiny protein–protein interface.
+The BCL6 chains contribute **244 and 246** query probes (**122–123** residues); the p300 chains
+**224 and 226** (**112–113**). Source metadata sharpens the boundaries: the deposited alignment maps
+BCL6 to UniProt residues **5–129** and p300 to **1040–1161**, with construct tags, and records BCL6
+sequence conflicts against the reference at positions **8, 67 and 84**; the entry reports **470
+modeled and 76 unmodeled** polymer monomers out of **546** deposited. These are source-reported
+totals describing how much of each construct contributed to the score. They do not establish that the
+relevant full-length interface is complete, that no unresolved segment matters, or that construct and
+crystal-context effects are excluded, and the earlier conclusion that the small count is therefore a
+property of the interface rather than of the instrument or of a short chain is withdrawn.
 
-### Independent copies
+### S6a · 9MZA — chain map, assembly and the complete candidate flow
 
-9MZA holds two crystallographically independent copies of the induced complex (chains A·D and B·C).
-Both read **6 and 7 contact points, 4 residues on each side**. Copies are reported separately and never
-averaged, so a single-copy artefact cannot hide.
+Entity 1 is B-cell lymphoma 6 protein on chains **A** and **C**; entity 2 is histone
+acetyltransferase p300 on chains **B** and **D**. `A1BUC` is the non-polymer ligand, present in two
+copies of **81 heavy atoms** each, one recorded on chain A and one on chain C. The author-defined
+assembly is a hetero 4-mer of stoichiometry **A2B2** over chains A–D under the identity operation,
+with fluorescence resonance energy transfer recorded in the source as author-provided assembly
+evidence — a source metadata assertion, not an experiment inspected here.
 
-## S7 · Why no calibration curve exists — the literature, counted
+| candidate pair | what | ligand spanning it | disposition |
+|---|---|---|---|
+| A/B | BCL6-A + p300-B | `A1BUC` on A | dropped at stage 4: zero contact-band probes in both directions; full profile not retained |
+| A/C | BCL6-A + BCL6-C | `A1BUC` on A | the constitutive BCL6 BTB homodimer; excluded by name from the induced class, retained as the control at 71 / 66 |
+| A/D | BCL6-A + p300-D | `A1BUC` on C | **retained and reported: 6 / 7, 4 and 4 residues** |
+| B/C | p300-B + BCL6-C | `A1BUC` on A | **retained and reported: 7 / 6, 4 and 4 residues** |
+| C/D | BCL6-C + p300-D | `A1BUC` on C | dropped at stage 4: zero contact-band probes in both directions; full profile not retained |
 
-Two Europe PMC sweeps, both run in CI, establish that the absence of a size-to-output relationship for
-transcriptional proximity is a property of the field rather than of this search.
+The omission of A/B and C/D is an inference from the displayed code and the retained record, which
+lists both as ligand-spanned candidates and does not carry them among the scored pairs. Their hard
+and soft profiles are not retained and are not reconstructed here. They must not be recoded as absent
+source, a parse failure, an absent ligand bridge, or biological inactivity. The reported denominator
+for this entry is therefore **two of four** non-constitutive ligand-spanned candidate pairs.
 
-**(a) The modality-wide sweep.** *Induced proximity / chemically induced dimerization / chemical inducer
-of proximity / TCIP* **AND** *transcription / transcriptional / gene expression / transcription factor*
-returned **100 records, 20 with open-access full text**. Across all 20 full texts the terms *buried
-surface area*, *interface area*, *contact residue*, *structure of the ternary/induced complex* and
-*residence time* occur **0 times**; `cooperativit*` occurs in one file, twice.
+**Ligand contacts, per copy.** Chain counts are heavy atoms of the ligand copy within 4.5 Å of that
+chain:
 
-**(b) The asymmetry against degraders, measured rather than asserted.** *Cooperativity / residence time /
-buried surface area / interface area* **AND** *induced proximity / molecular glue / PROTAC / ternary
-complex / degrader* returned **300 records, 51 with open-access full text**. Of those 51, **31** pair an
-interface property with a **degradation** readout; **6** pair one with anything transcription-shaped, and
-none of those six relates interface size to transcriptional output.
+| ligand copy | BCL6-A | p300-B | BCL6-C | p300-D |
+|---|---|---|---|---|
+| `A1BUC` on chain A | 33 | 42 | 18 | — |
+| `A1BUC` on chain C | 16 | — | 33 | 40 |
 
-⇒ **The field routinely relates the induced interface to output when the output is degradation, and does
-not when it is transcription.** That asymmetry is why the floor was inheritable in one direction and
-unsized in the other, and it is what makes a single deposited transcriptional structure worth this much.
+The 33/42 counts describe the **A/B** attachment and the 33/40 counts the **C/D** attachment — the
+two pairs dropped at stage 4. For the two reported interfaces the directional ligand-contact counts
+are **16 and 40** (A/D) and **42 and 18** (B/C). The earlier statement that the bridging ligand
+contacts 33–42 atoms' worth of each partner, written beside the reported interfaces, is corrected
+here.
 
-## S8 · Reproduction
+### Related interface instances
+
+9MZA holds two crystallographically distinct instances of the induced pair, A/D and B/C. Both read
+6 and 7 contact probes with 4 residues on each side. They are reported separately and never averaged.
+They sit inside **one** deposited A2B2 assembly and share a BCL6 dimer, so they are two related
+instances in one crystal form rather than two independent systems.
+
+## S7 · Search scope — bounded retrieval observations
+
+Two Europe PMC sweeps and three RCSB searches were run in CI on 2026-08-07 and are recorded in the
+dated decision view. They are reported here as bounded retrieval observations. **They establish no
+absence in any field, no matched prevalence, and no discovery exclusivity**, and the earlier version's
+conclusions to that effect are withdrawn.
+
+**What the retained index files establish.** Both retained indexes are arrays of bibliographic and
+abstract records with optional full-text file pointers:
+
+| retained index | records in the array | rows with a full-text file pointer |
+|---|---|---|
+| `literature/induced-proximity-transcription-2026-08-07/_index.json` | 100 | 20 |
+| `literature/induced-interface-vs-output-2026-08-07/_index.json` | 300 | 51 |
+
+These are **retained record and pointer counts**, verified at metadata level. Neither index carries a
+top-level query string, a request date, a total-hit count, a requested limit, a pagination or cursor
+history, or the original search-response envelope. Whether 100 and 300 are complete result totals or
+retrieval caps is therefore **unresolved by these bytes**. A separate retained Europe PMC response
+for a DOI-specific query carries `hitCount: 2`; that applies to that query only and says nothing
+about either sweep.
+
+**What is reported as historical and author-attributed.** The term counts across the 20 open-access
+full texts of the first corpus — zero occurrences of *buried surface area*, *interface area*,
+*contact residue*, *structure of the ternary/induced complex* and *residence time*, with
+`cooperativit*` in one file twice — and the classification of the 51 full texts of the second corpus
+into 31 pairing an interface property with a degradation readout and 6 with anything
+transcription-shaped, are **historical author-reported results**. The full-text files and their
+classifications are not in the source set retained for this revision, so they are carried with that
+status and no field-level conclusion is drawn from them.
+
+**Why these searches could not settle the question even with complete envelopes.** The two queries
+are not matched: one selects proximity and transcription terms, the other interface, cooperativity
+and residence-time terms, each chosen before its output was examined; each result set is selected
+again by open-access availability; and exact-term non-occurrence is not proof that a concept or an
+equivalent measurement is absent. A known-positive retrieval control tests that positive, not
+comprehensive sensitivity.
+
+**The RCSB searches.** Full-text `"KAT-TCIP"` and `"transcriptional chemical inducer of proximity"`
+are recorded as returning zero hits, and `"BCL6" AND "p300"` as returning a single identifier, 9MZA.
+The original response envelopes for these three queries are not in the retained source set, so they
+are reported as author-narrative outcomes. They show what those queries returned as recorded; they do
+not show that protein names are the only possible discovery route.
+
+**What original retained source bytes do support**, and what §7 and Appendix B of the main text cite
+them for: the identity, title, X-ray method and 2.1 Å resolution of 9MZA; deposition 2025-01-22 and
+release 2025-04-16; the entity-to-chain assignments; the A2B2 author-defined assembly with its
+author-provided FRET evidence field; and the primary-citation join to bioRxiv
+`10.1101/2025.03.14.643404` / PubMed `40166243`, with a Europe PMC record showing the Cell article
+`10.1016/j.cell.2026.06.037` (PMID 42476129) as an update of the preprint record. Only the two
+abstracts were read; neither full text is open access at Europe PMC and neither was read.
+
+**One retained file whose label must not be over-read.** The retained record named
+`rcsb_cite_pubmed_42476129.txt` reports **HTTP 400** and states that search is not enabled on the
+requested `rcsb_primary_citation.pdbx_database_id_PubMed` attribute. It is an **invalid-request
+outcome about an unsupported search attribute** — not a negative search, not an access denial, and
+not evidence about the existence of any structure or publication. No retry was made and none is
+needed; the valid citation join is the successful entry response.
+
+## S8 · Reproduction, and what does not close
+
+**Code revision.** `f43f1495f40d8aff7b4f34bd385d55aac521a500`.
+
+The census requires a corpus directory of files named `cif_<PDBID>.txt`:
 
 ```
-python3 research/modalities/nr4a3_induced_interface_census.py   # structural census, offline, $0
-python3 research/modalities/nr4a3_tcip_reach.py                 # geometric enumeration, CPU, $0
+python3 research/modalities/nr4a3_induced_interface_census.py <corpus-dir> [out.json]
 ```
 
-Both are deterministic and offline at analysis time. The coordinate corpus is on the `literature-cache`
-branch; the fetch inputs are on `ci-input/tcip-interface-floor-2026-08-07`.
+Invoked with no argument it prints its usage and returns exit code **2**. The command printed in the
+frozen SI omitted that argument and did **not** run the census; this is the correction.
+
+The enumeration entry point is:
+
+```
+python3 research/modalities/nr4a3_tcip_reach.py [--samples N] [--arms ID,ID] [--ablation-samples N] [--out PATH]
+```
+
+It additionally requires staged target and arm coordinates, both arm registries, helper modules and
+model-derived anchor inputs. Those are not enumerated by the settlement's eight dependency hashes.
+`literature-cache` and `ci-input/tcip-interface-floor-2026-08-07` are **branch names, not immutable
+versions** of every input, and the retained registries point at result paths rather than holding
+immutable copies of the coordinate inputs.
+
+**Three levels of reproduction, kept separate.**
+
+| level | status |
+|---|---|
+| the published tables from the retained JSON artifacts | reproduces by arithmetic |
+| re-execution of the census over the original corpus | requires the corpus directory, which is not retained as an immutable manifest |
+| re-execution of the original geometry and sampling | does not close: coordinate, registry and helper input closure is not retained |
+
+Stable seeding does not by itself make full JSON byte-identical between processes, because runtime
+and date fields are written into the output. Nothing here is publicly archived, and no complete
+computational closure is claimed.
+
+**Retained original source identities.** Seven original source files were delivered locally and
+matched by size, SHA256 and Git blob identity against their manifest; the authoritative mmCIF SHA256
+is `b81668a1eaeb1eb40e74c99b65f093f647fd78eec30cecf201aa83006bc75780`. The delivered `SHA256SUMS.txt`
+carries a stale **self**-entry — it declares the empty-file digest for itself, while its actual
+1,602-byte SHA256 is `de6eb0e6a8ab04bd83ac7b2b2a85b7693b2b762b2d3f5878d4f96a4ee7ea5610`. All seven
+source entries match their actual bytes. This is a self-reference bookkeeping defect in the manifest,
+recorded here rather than corrected by rewriting any source evidence; the same applies to the
+settlement's stale self-entry for `MANIFEST.md`, whose actual file is 15,854 bytes with SHA256
+`cff7b9317f3393a64e5f096aec0d8bf44ba1377087a395ebd580539484535e88`. All ten main/SI/dependency hashes
+in the settlement hash file match their actual bytes.
 
 ## S9 · Scope ceiling, restated
 
-This SI documents contact counting on deposited coordinates and rigid-body excluded-volume enumeration.
-It makes **no** claim about binding, potency, selectivity, transcriptional output, efficacy, safety,
-therapeutic window or clinical readiness, for any molecule whose structure is measured here. The
-structural bound is **n = 1 transcriptional CIP system in one crystal form** and bounds the inherited
-floor from **above only**: it does not establish a lower limit, a monotone relationship between interface
-size and transcriptional output, or a threshold below which such a system stops working. It is a
-modality-general parameter result and is not evidence about any disease.
+This SI documents exact-distance contact counting on a selected list of deposited coordinates and
+rigid-body proposal-acceptance enumeration inside one toolchain. It establishes **no equivalence**
+between the census predicate and the sampler's admission predicate, and therefore no statement about
+what that sampler would admit or reject on any deposited complex. It calibrates no interface floor
+and bounds none, in either direction. It makes **no** claim about binding, potency, selectivity,
+transcriptional output, efficacy, safety, therapeutic window or clinical readiness, for any molecule
+whose structure is measured here, and there is no wet-lab component of any kind. The structural
+material is one transcriptional CIP system in one crystal form, plus a selected list of degrader,
+glue and CID entries. It is a parameter and measurement-definition result, and it is not evidence
+about any disease.

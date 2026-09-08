@@ -1,0 +1,30 @@
+pooled_sd=0.019126  n_exceeding=14/55
+exceeding by construct: {'C360': 3, 'E264_E15': 2, 'E264': 2, 'E264_scr1': 1, 'E264_scr2': 2, 'E264_scr3': 1, 'E360': 2, 'N260': 1}
+signed drift (second_half - full): mean=-0.00030  sd=0.01778  n_pos=29 n_neg=26
+
+per-construct mean signed drift:
+  E264_scr1  n=2 mean=+0.01941
+  E264_scr2  n=2 mean=+0.00944
+  E264_scr3  n=2 mean=-0.00815
+  C360       n=5 mean=-0.00563
+  C161       n=5 mean=-0.00517
+  N260       n=5 mean=+0.00506
+  C264_scr2  n=2 mean=-0.00365
+  E264       n=5 mean=-0.00281
+  C264       n=5 mean=-0.00274
+  E360       n=5 mean=-0.00239
+  F212       n=5 mean=+0.00226
+  T161       n=5 mean=+0.00140
+  E264_E15   n=3 mean=-0.00127
+  C264_scr1  n=2 mean=+0.00085
+  C264_scr3  n=2 mean=+0.00082
+
+[A] reproduce committed: verdict=NO_SEPARATION sd=0.019126 thr=0.057378
+    matches committed sd: True  verdict match: True
+
+[B] second-half estimator: verdict=NO_SEPARATION
+    reasons: None
+    pooled_sd=0.024905 thr=0.074716
+    E264_vs_C264     dnu=-0.00291 sep=False p=0.8810 holm=False
+    E360_vs_C360     dnu=+0.01497 sep=False p=0.4444 holm=False
+    T161_vs_C161     dnu=-0.00017 sep=False p=0.9841 holm=False

@@ -1,0 +1,15 @@
+diff --git a/research/modalities/gse28866-tumour-vs-normal.json b/research/modalities/gse28866-tumour-vs-normal.json
+index 526084a99..9e1fd200b 100644
+--- a/research/modalities/gse28866-tumour-vs-normal.json
++++ b/research/modalities/gse28866-tumour-vs-normal.json
+@@ -505,7 +505,9 @@
+     "NR4A3"
+   ],
+   "per_gene": {
+-    "_contrast": "Median across a gene's 3SEQ peaks, then median across libraries in each arm. EMC n=4; normals n=27 (bowel/breast/colon/kidney/lung/uterus); other sarcomas = DDLPS, ESS, EWS, GIST, LMS, MLPS, SS.",
++    "_contrast": "For each 3SEQ peak, the median across the libraries in an arm; then the median across that gene's peaks. This is the order _extract implements; the reverse order was stated here in error and does not commute with it. Values are the deposit's own depth/sample-mean normalized scores AFTER a square-root compression applied by the depositors (see geo-gse28866-brunner-series.json, series_record.overall_design), so they are compressed summary scores and NOT linear abundances; a ratio of them is not a fold change and squaring it does not recover one. EMC n=4 libraries; normals n=27 libraries (17 adult, 10 fetal; bowel/breast/colon/kidney/lung/uterus, unequally weighted); other sarcomas = 32 libraries from 30 specimens (DDLPS, ESS, EWS, GIST, LMS, MLPS, SS; two specimens contribute duplicate libraries).",
++    "_contrast_superseded_2026-09-08": "Median across a gene's 3SEQ peaks, then median across libraries in each arm. EMC n=4; normals n=27 (bowel/breast/colon/kidney/lung/uterus); other sarcomas = DDLPS, ESS, EWS, GIST, LMS, MLPS, SS.",
++    "_annotation_correction_2026-09-08": "ANNOTATION ONLY. The reduction order stated in the superseded string is the reverse of the order _extract implements, and the deposit's square-root compression was not stated at the point of use. No value in this file was recomputed, no producer was re-run and no measurement changed; only the provenance annotation was repaired. Finding P-ST-F03 of FINAL-SCIENTIFIC-REVIEW-P-ST.md (sha256 6dd9fd532e853d3ac5b1d8605dad79d585bdd1356598cc407eef8415adc4cf1a).",
+     "_what_the_normal_arm_cannot_settle": "The normals are visceral organs with almost no soft tissue in them, so a gene high in EMC against THIS panel is not thereby shown to be EMC-specific rather than mesenchymal-lineage-specific. The normal arm is a normal-ORGAN EXPOSURE reading — the on-target/off-tumour axis — and the sarcoma arm is the lineage axis. Do not read either as the other.",
+     "_ties_to_technical_replicates": [
+       "ESS_STT5520_rep1",

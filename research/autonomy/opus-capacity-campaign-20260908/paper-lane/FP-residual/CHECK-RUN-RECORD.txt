@@ -1,0 +1,59 @@
+CHECK-RUN-RECORD — FP residual batch R1-R9, 2026-09-08
+Ordered list of EVERY execution attempt made by this author. Failures included.
+Each row has its own directory under checks/ with command.txt, stdout.txt, stderr.txt, exit_code.txt.
+Exit codes are the real measured status of the command (no pipes; nothing fabricated).
+
+1. checks/01-py-compile-producer                    exit 0
+   python3 -m py_compile research/manuscripts/emc_fusion_partner_pooling.py
+   Syntax check of the edited producer BEFORE any regeneration. Empty stdout, empty stderr.
+   Shows: the producer parses. Shows nothing about its output.
+
+2. checks/02-check-before-regeneration              exit 1   (EXPECTED FAILURE, PRESERVED)
+   python3 research/manuscripts/emc_fusion_partner_pooling.py --check
+   Run with the producer edited and the artifact still at its pre-batch bytes. Refused, naming the
+   differing top-level keys: analyses, citations, cohorts, method, resolved_2026_08_08,
+   retrieval_provenance, the_two_questions_this_page_answers.
+   Shows: --check compares against the committed file rather than against itself, and the producer
+   edits had genuinely not reached the artifact yet. It is NOT a defect and is retained as the
+   honest pre-regeneration state.
+
+3. checks/03-the-one-regeneration                   exit 0   <-- THE ONE ADMITTED REGENERATION
+   python3 research/manuscripts/emc_fusion_partner_pooling.py
+   Run ONCE, and only after every M / P / C change was in place. stderr 0 bytes. Complete stdout
+   retained (the producer prints the first 2400 characters of each analysis by design, so the
+   stdout is deliberately NOT a complete artifact).
+   before: 107051 bytes  sha256 f44c15048a6331c62d9d7e5ad96345721649789c13c0a15e60516b05755374c2
+   after:  130554 bytes  sha256 e99df6396b895263dd7c3345da9ceed5d5eedab3af71587940d785e826653e2a
+   (before-identity.txt / after-identity.txt in that directory)
+
+4. checks/04-check-after-regeneration               exit 0
+   python3 research/manuscripts/emc_fusion_partner_pooling.py --check
+   Re-derives in memory and compares; writes nothing. "OK (committed artifact reproduces from the
+   generator's counts)".
+   The same directory holds the numeric-leaf comparison of the artifact before vs after this batch:
+   0 numeric leaves CHANGED, 0 REMOVED, 13 ADDED - all 13 inside the new, documented
+   analyses.C_partner_prevalence.ascertainment_stages block. This is the evidence that every
+   pre-existing event cell and source exclusion is preserved.
+
+5. checks/05-r8-patch-apply-check                   exit 0
+   git apply --check -p1 .../patches/PUB-FUSION-PARTNER-current-claim-replacement.patch
+   Confirms the prepared R8 patch applies cleanly to the LIVE systems/graph/publications.json.
+   --check does not modify anything; the file is byte-unchanged (see IDENTITIES.md).
+
+WHAT WAS DELIBERATELY NOT RUN
+  - scripts/preflight.sh (the parent integrates; explicitly out of scope)
+  - the fusion-partner pytest modules or any other test sweep
+  - any second regeneration
+  - any network fetch, source retrieval or denied-route retry
+  - any biological producer, simulation or new clinical calculation
+  - git add / commit / push
+
+WHAT THESE RUNS DO NOT SHOW
+  These are execution records of THIS batch, on 2026-09-08. None of them is a record of any earlier
+  execution, and none of them supersedes, repeats or refreshes the four preserved historical limits
+  in RESIDUAL-LIMITATIONS.md section 3 - the 107-failed/75-passed run, the non-zero tracked-tree
+  result, the incomplete intermediate-hash demonstration, or the absent raw producer-exit sidecar.
+  In particular, run 3's measured exit 0 is a NEW record and is never presented as the missing
+  sidecar for the earlier author regeneration.
+  A green --check is a reproduction check of the artifact against its generator. It is not a
+  scientific verification, not a source check, and not a test-suite result.

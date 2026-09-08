@@ -2,7 +2,9 @@
 
 Date 2026-09-08. Owner: the single admitted C2 correction owner. Scope: the five finite C2 items in
 `C2-Integration2-and-PAB2-root-adjudication-20260908.md` (root memo, 9,183 B, read in full), applied
-as one settled curation derivation over the same inputs. No commit and no push were made from this
+as one settled correction BATCH over the same inputs. A batch is not one execution: it took two
+actual derivations (RUN-01 and the settled RUN-05) with the delta and test runs separate, and
+RUN-02's exit 1 is an original result that the later 21-pass run does not overwrite. No commit and no push were made from this
 lane; the parent integrates.
 
 **This is an inference and label correction over existing observations.** No new source
@@ -167,9 +169,15 @@ registered arm. The live machine vocabulary now says so:
 
 ## Row map — what actually changed in the data
 
-From `ROW-DELTA-v2-to-v3.tsv` (RUN-07, exit 0), over all 552 rows and every carried column except
+From `ROW-DELTA-v2-to-v3.tsv` (RUN-07, exit 0), over all 552 rows and every CARRIED column except
 the two free-prose columns (`comparator_role_basis`, `arm_link_source_locator`, whose text the
-corrections deliberately rewrite):
+corrections deliberately rewrite).
+
+⛔ **Scope of the three counts below, stated precisely.** They classify the **carried** columns only.
+**Outside** the classification, and therefore NOT covered by "IDENTICAL": the **two excluded prose
+columns** (378 of the changed strings are comparator-basis text) and the **14 columns added in v3**,
+which have no v2 counterpart to compare. **These counts are not proof of complete per-row semantic
+identity**, and must not be quoted as if they were.
 
 ```
 IDENTICAL         336

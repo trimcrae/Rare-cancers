@@ -1,0 +1,17 @@
+PASS  V1_row_count_unchanged_552  before=552 after=552
+PASS  V2_columns_unchanged  53 columns, identical order
+PASS  V3_all_552_keys_identical  added=0 removed=0
+PASS  V4_only_the_assumption_field_changed_and_on_exactly_one_row  changed cells by column={'registry_type_statement_assumption': 1}; rows changed=1
+PASS  V5_the_changed_row_is_the_description_only_NCT02994953_row  nct=NCT02994953 relation=DESCRIPTION_FIELD_MATCH_ONLY:DESC_BYTE_EXACT bound_arm_index=5
+        before=ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED
+        after =ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED
+PASS  V6_comparator_role_of_that_row_unchanged_NOT_ESTABLISHED  comparator_role=NOT_ESTABLISHED_IN_THIS_CACHE (unchanged)
+PASS  V7_assumption_partition_is_57_two_agreeing_1_description_only_132_label_only  { "ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 1, "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED": 132, "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED": 57 }
+PASS  V8_the_catch_all_relation_form_token_is_unused  rows carrying the unclassified-relation catch-all = 0 (expected 0)
+PASS  V9_every_arm_link_state_count_unchanged  {"CONTESTED": 1, "LABEL_MATCH": 132, "PROPOSED": 337, "SOURCE_FIELD_MATCH": 58, "UNKNOWN_IN_THIS_CACHE": 13, "UNRESOLVED": 11}
+PASS  V10_every_comparator_role_count_unchanged_including_the_8_inferred  COMPARATOR_TYPE_INFERRED_VIA_SOURCE_FIELD_MATCH=8 (unchanged)
+PASS  V11_every_binding_unchanged  bound_arm_index identical on all 552 rows
+PASS  V12_every_numeric_field_unchanged  fields checked: evaluable_n, n_arms_registered, n_results_groups_in_om, n_candidate_arms
+PASS  V13_every_flag_unchanged  contested tokens=8, sole_arm YES=83
+
+failed=0

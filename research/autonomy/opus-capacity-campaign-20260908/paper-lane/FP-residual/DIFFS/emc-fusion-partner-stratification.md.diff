@@ -1,0 +1,659 @@
+--- a/research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md
++++ b/research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md
+@@ -61,25 +61,34 @@
+ nothing here is a census of the literature. Counts are crude denominator-weighted proportions with Wilson
+ score 95 % intervals on explicit integer `{events, denom}` pairs, non-overlapping populations only, following
+ a pre-existing evidence contract. **Every quantitative input was checked against a retained source, and the
+-inputs that could not be verified were removed rather than carried** (§8).
++inputs that could not be verified were removed rather than carried** (§8). ⚠ *That verification is at the
++scope each source supports — a retained primary full text for some series, a retained primary abstract for
++others — and is stated per input rather than claimed uniformly; it is not a claim that every study's methods
++were read in full.*
+ 
+-**Results.** **Response.** Three reports give objective response by partner. In the pazopanib phase 2 trial
++**Results.** **Response.** Three reports give objective response by partner, and **every response figure below
++is a conditional reconstruction, not an established partner partition** (§3.1). In the pazopanib phase 2 trial
+ NCT02066285, no response is recorded among 3 reported *TAF15::NR4A3* patients against 4 of 19 among the
+-remaining evaluable patients — a difference of recorded proportions of 21.1 percentage points whose
+-uncertainty is very wide (TAF15 Wilson upper bound 56.1 %, which lies above the comparator's own point
+-estimate). In the sunitinib named-use series, no response is recorded among 2 *TAF15::NR4A3* patients against
+-6 of 8; a secondary source reports that all eight clinical-benefit patients carried *EWSR1::NR4A3*. Combining
+-the two series is a **conditional descriptive mixture** of different drugs, settings and eligibility, valid
+-only if no patient appears in both; it gives 0/5 against 10/27, a 37.0-point difference with a TAF15 upper
+-bound of 43.4 %. **A comparison confined to treated patients cannot establish that the partner modifies
+-treatment benefit, at any denominator.** **Outcome.** One cohort's per-partner outcome event counts are
+-source-verified: Agaram 2014 records disease-specific death in 3/7 *TAF15* against 1/16 *EWSR1* patients, with
+-one further *EWSR1* patient dead of unknown cause, local recurrence 2/7 against 1/16, and distant recurrence
+-2/7 against 6/16, over arms whose mean observation windows differ about two-fold. **The two-cohort pooled
+-prognostic magnitude previously reported here is withdrawn**, because the Huang 2023 Table 1 cells it rested
+-on are not verified by any retained original (§8). Four further series are reported separately at their own
+-scope. **Prevalence.** Across four molecular series with source-verified partner counts, *TAF15::NR4A3* is
+-recorded in **28/154 = 18.2 % (95 % CI 12.9–25.0)** of partner-assigned EMC.
++remaining evaluable patients — **0/3 versus 4/19 conditional** on all three TAF15 patients sitting inside the
++22 primary-endpoint-evaluable set, which no retained source establishes — a difference of recorded proportions
++of 21.1 percentage points whose uncertainty is very wide (TAF15 Wilson upper bound 56.1 %, which lies above
++the comparator's own point estimate). In the sunitinib named-use series, no response is recorded among 2
++*TAF15::NR4A3* patients against 6 of 8; a secondary source reports that all eight clinical-benefit patients
++carried *EWSR1::NR4A3*. Combining the two series is a **conditional descriptive mixture** of different drugs,
++settings and eligibility, valid only if no patient appears in both **and inheriting the evaluability
++assumption above**; it gives 0/5 against 10/27, a 37.0-point difference with a TAF15 upper bound of 43.4 %.
++The drug-specific counts are reported before the combined tally. **A comparison confined to treated patients
++cannot establish that the partner modifies treatment benefit, at any denominator.** **Outcome.** **One series
++carries the main event analysis** — Agaram 2014 records disease-specific death in 3/7 *TAF15* against 1/16
++*EWSR1* patients, with one further *EWSR1* patient dead of unknown cause, local recurrence 2/7 against 1/16,
++and distant recurrence 2/7 against 6/16, over arms whose mean observation windows differ about two-fold — and
++**a second series' per-partner outcome counts are separately source-verified and reported beside it as
++context**: Sjögren 2003 records tumour-related death in 0/3 *TAF15* against 1/5 *EWSR1* patients. **The
++two-cohort pooled prognostic magnitude previously reported here is withdrawn**, because the Huang 2023
++Table 1 cells it rested on are not verified by any retained original (§8). Three further series are described
++at their own abstract scope. **Prevalence.** Across four molecular series with source-verified named-partner
++counts, *TAF15::NR4A3* is recorded in **28/154 = 18.2 % (95 % CI 12.9–25.0)** of partner-assigned cases —
++a conditional share in selected series, not an estimate for all EMC.
+ 
+ **Conclusions.** What this synthesis contributes is a transparent accounting of a small, selected evidence
+ base: the denominators, the recorded events, the uncertain partner assignments, the overlap assumptions and
+@@ -117,7 +126,7 @@
+ | line of evidence | what it reports | what it does not do |
+ |---|---|---|
+ | **TKI response** | responders are reported as EWSR1, and the reported TAF15 patients did not respond [1,3,4,5,6] | no source computes an interval on either stratum, or reports how imprecise the difference is |
+-| **Outcome by partner** | TAF15 associated with worse disease-specific survival [7,8,9] | of the four series that test the partner against outcome, only one publishes per-partner event counts that a retained source verifies (§3.3); one publishes p-values only, one is an unresolved-overlap MSK series reporting no OS association by subtype, and one series' outcome table is not verifiable here (§8). None is adjusted in a way this synthesis can inspect |
++| **Outcome by partner** | TAF15 associated with worse disease-specific survival [7,8,9] | one series carries the main event analysis (§3.3) and a second series' per-partner counts are separately source-verified and reported beside it as context; of the others, one publishes p-values only, one is an unresolved-overlap MSK series failing to establish an OS association by subtype, and one series' outcome table is not verifiable here (§8). None is adjusted in a way this synthesis can inspect |
+ | **Partner prevalence** | TAF15 in roughly one EMC in five [7,8,9,10] | not pooled across series, so the share is stated as a point figure and no interval exists for it |
+ | **Mechanism** | an axon-guidance switch separates the two variants [11] | is not a clinical endpoint, and shares a consortium with the trials |
+ 
+@@ -143,17 +152,17 @@
+ say. Four consequences of doing that are not stated out loud by any individual source. First, the response
+ difference is imprecise enough that the comparator arm's own response proportion sits inside the TAF15 arm's
+ interval. Second, the partner comparisons available in treated cohorts are comparisons within treated
+-patients, which cannot establish a treatment interaction however large they are. Third, only one cohort's
+-per-partner outcome counts survive source verification, so the prognostic contrast is a single series'
+-recorded events rather than a pooled magnitude. Fourth, prevalence has an **interval** where the literature
+-carries point figures.
++patients, which cannot establish a treatment interaction however large they are. Third, no pooled prognostic
++magnitude survives: the main event analysis rests on a single series' recorded events, with a second
++source-verified series reported beside it rather than merged. Fourth, prevalence has an **interval** where the
++literature carries point figures.
+ 
+ ⚠ **It also keeps two questions apart that the literature blurs.**
+ 
+ | question | what the examined record supports | what is missing |
+ |---|---|---|
+-| **(a) PROGNOSIS by partner** | one source-verified series' recorded event counts, plus four other series described at their own scope (§3.3) | a second verifiable event-count cohort, per-arm follow-up, event ordering, and any adjusted analysis whose specification can be inspected (§3.4) |
+-| **(b) TREATMENT RESPONSE by partner** | recorded response proportions with wide uncertainty: 0 of 3 in the trial, 0 of 5 under a conditional mixture (§3.1) | a treatment comparator. A partner comparison among treated patients cannot separate prognosis from prediction |
++| **(a) PROGNOSIS by partner** | one series' recorded event counts in the main analysis, a second series' separately source-verified counts reported beside it, and three further series described at their own scope (§3.3) | a poolable second event-count cohort, per-arm follow-up, event ordering, and any adjusted analysis whose specification can be inspected (§3.4) |
++| **(b) TREATMENT RESPONSE by partner** | **conditionally reconstructed** response proportions with wide uncertainty: 0 of 3 in the trial (conditional on evaluability), 0 of 5 under a conditional mixture (§3.1) | a treatment comparator. A partner comparison among treated patients cannot separate prognosis from prediction |
+ 
+ **(a) and (b) are different endpoints in different populations, and neither moves the other.**
+ 
+@@ -277,11 +286,29 @@
+ examined** that give an objective-response outcome by *NR4A3* partner. One is the primary analysis; one enters
+ a conditional mixture only; one is contained in that series and is excluded from both (§3.2). ⚠ *No systematic
+ search was run (§2.3a), so this is a statement about the reports examined here, not about the literature.*
+-
+-| analysis | TAF15 arm | comparator arm | difference of recorded proportions | TAF15 95 % upper bound | Fisher (post-hoc) |
+-|---|---|---|---|---|---|
+-| **Primary** (pazopanib trial alone) | 0/3 = 0.0 % | 4/19 = 21.1 % | **21.1 pts** | **56.1 %** | 1.0 |
+-| **Conditional mixture** (both series, assumes distinct patients) | 0/5 = 0.0 % | 10/27 = 37.0 % — per cohort **21.1 %** (pazopanib, 4/19) and **75.0 %** (sunitinib, 6/8), spread **53.9 pts** | **37.0 pts** | **43.4 %** | 0.155 |
++⛔ **And the TAF15 denominators themselves are conditional reconstructions.** The reviews report three TAF15
++patients in the pazopanib trial and two in the sunitinib series and give **no partner-by-analysis-population
++flow**, so which analysis population contains those patients is not established by any source held here.
++Every proportion in this section is therefore labelled conditional where it appears, and the conditions are
++carried through the table, the artifact's contrast definitions and the verdict rather than stated once.
++
++⛔ **Every row of the table below is CONDITIONAL, and the conditions are stated in the row itself.** The
++drug-specific counts come first; the combined tally is a descriptive mixture and is not a class response
++proportion.
++
++| analysis | TAF15 arm | comparator arm | difference of recorded proportions | TAF15 95 % upper bound | Fisher (post-hoc) | what it is conditional on |
++|---|---|---|---|---|---|---|
++| **Pazopanib phase 2 NCT02066285** (primary analysis) | 0/3 = 0.0 % | 4/19 = 21.1 % | **21.1 pts** | **56.1 %** | 1.0 | **CONDITIONAL**: that all three reported TAF15 patients sit inside the 22 primary-endpoint-evaluable set. The trial reports 26 treated, 23 modified-ITT and 22 evaluable; no retained source gives a partner-by-analysis-population flow, and three of the exclusions between 26 and 22 are unaccounted for. Comparator is `non-TAF15`, not verified EWSR1 |
++| **Sunitinib named-use series** (reported separately, not the primary analysis) | 0/2 | 6/8 = 75.0 % | *not computed — see note* | *not computed* | *not computed* | **CONDITIONAL**: read from reviews and a secondary account, not from the primary report, which is held here as an abstract. A secondary source classifies all eight clinical-benefit patients as EWSR1::NR4A3; the arm still carries the `non-TAF15` label for the reason given below |
++| **Conditional descriptive mixture** (both series) | 0/5 = 0.0 % | 10/27 = 37.0 % — per cohort **21.1 %** (pazopanib, 4/19) and **75.0 %** (sunitinib, 6/8), spread **53.9 pts** | **37.0 pts** | **43.4 %** | 0.155 | **CONDITIONAL on all of**: no patient appears in both reports; the pazopanib evaluability assumption above, which the mixture inherits; and the two comparator arms' shared `non-TAF15` label meaning the same thing. ⛔ A shared label is not a scientific justification for a common response estimand across different drugs, settings and eligibility |
++
++⚠ *The sunitinib row shows the counts and the one derived rate the artifact already holds — its recorded
++`{events, denom}` cells at `cohorts[sunitinib-2014].strata`, and the 75.0 % per-cohort comparator rate at
++`analyses.A_tki_objective_response.secondary_assume_independent.heterogeneity`. **No interval, difference or
++Fisher value is computed for that series on its own**, and none is typed here: the cohort is not a primary
++analysis of this synthesis, no source performs that test, and computing one here would be a new statistic
++this revision does not make. The row exists so the drug-specific counts are visible before the combined
++tally, which is the display order the mixture's conditionality requires.*
+ 
+ ⭐ **These are differences of recorded response proportions, and they are imprecise.** ⚠ *Superseded,
+ retained: "a zero-event arm yields no magnitude at any denominator", and "zero of five is not a rate".* Both
+@@ -309,9 +336,15 @@
+   responded; they do not give a partner-by-analysis-population flow. **The 0/3 versus 4/19 table is therefore
+   conditional on all three TAF15 patients sitting inside the 22 evaluable**, and the three other exclusions
+   between 26 and 22 are unaccounted for in every source held here. No alternative partner assignment is
+-  invented for them; what is not reported is marked as not reported. If the one patient who died before the
++  invented for them; what is not reported is marked as not reported. ⛔ **One illustration is computed, and
++  it addresses ONE of those exclusions, not all of them.** If the single patient who died before the primary
+   analysis carried TAF15, the strata become 0/2 and 4/20 and the TAF15 upper bound rises to 65.8 %, outside
+-  the 43.4–56.1 % range quoted above — so that range is itself conditional.
++  the 43.4–56.1 % range quoted above. That figure assumes the rest of the population is otherwise unchanged,
++  and it **does not enumerate the three remaining exclusions between the 26 treated and the 22 evaluable**,
++  whose partners no retained source gives. It is therefore an illustration of one condition's sensitivity and
++  **not an exhaustive bound over the reconstruction**; the 43.4–56.1 % range is itself conditional, and
++  ⛔ *superseded, retained: any statement that "the truth lies between" the two analyses in the table.* That
++  claim treated overlap as the only unresolved condition and is **withdrawn**.
+ - ⭐ **The sunitinib series' eight non-progressing patients are reported as EWSR1 by a secondary source, and
+   an earlier version of this paper said no source classified them.** ⚠ *Superseded, retained: "No source held
+   here states the partner of the two stable-disease patients."* That was **false**. Davis 2017 states that the
+@@ -347,18 +380,24 @@
+ | TKI objective response | pazopanib phase 2, NCT02066285, 22 evaluable of 23 mITT of 26 treated | **yes** | explicit integers; larger prospective single-protocol cohort |
+ | TKI objective response | sunitinib named-use series, n = 10 | **no** | named-use series, different drug and setting; enters the conditional mixture only |
+ | TKI objective response | sunitinib two-case index report (PMID 23058004) | **no** | contained in the n = 10 series; both patients EWSR1::NR4A3 |
+-| outcome by partner | Agaram 2014 (MSKCC), 23 EWSR1- or TAF15-assigned of 24 partner-assigned | **yes** | explicit integer event counts by partner, verified against the retained primary source; the one TCF12 case is not carried as an outcome arm |
++| outcome by partner | Agaram 2014 (MSKCC), 23 EWSR1- or TAF15-assigned of 24 partner-assigned | **yes** | explicit integer event counts by partner, verified against the retained primary source; the one TCF12 case is not carried as an outcome arm. ⚠ This is the series **selected to carry the main event analysis**, not the only series whose counts are source-verified — see the Sjögren row |
+ | outcome by partner | Huang 2023 (Taiwan), 58-case series | **no** | ⛔ `source-table-unverified` — the outcome table this cohort once contributed is not verified by any retained original (§8). Its **abstract-supported** partner counts remain in the prevalence pool, and its reported model is described at abstract scope in §3.4 |
+ | outcome by partner | Paioli 2021 (Italian Sarcoma Group), n = 67 | **no** | `counts-not-reported` — p-values only. Its abstract's aggregate 35/67 relapse split is retrievable and still unusable: it is partner-blind, and splitting it across the 50/10 partner ratio would be a back-derived count, which §2.1(2) forbids |
+ | outcome by partner | Suemitsu 2025 [17] (MSK, n = 18, PMID 40828003) | **no** | `population-overlap-unresolved` — an MSK series, and Agaram 2014 is MSKCC; whether the two share patients has not been established. Reported here rather than omitted: *"no statistically significant correlation was detected between OS and fusion subtypes"*, with 2 TAF15 of 18, on a different endpoint — a series failing to establish an association, not evidence against one |
+-| outcome by partner **and** partner prevalence | Sjögren 2003 [16] (Göteborg, 10 tumours from **nine patients**; EWSR1 5, TAF15 3, TCF12 1) | **no** | `partner-ascertainment-enrichment` — four of the nine entered the series on a fusion transcript the same group had already published, so for those four the partner assignment is partly the entry ticket. ⭐ Its recorded outcomes are nonetheless **reported** in §3.3 rather than suppressed; the earlier reason for suppressing them — that extraction would have to be performed here — is withdrawn as inconsistent with how other strata in this paper were reconstructed |
+-| partner prevalence | Agaram 2014 (24 assigned) · Huang 2023 (57) · Lenz 2023 (11) · Paioli 2021 (62) | **yes** | four geographically distinct series, no shared authors between them, all four partner counts verified against a retained source (§8) |
+-| partner prevalence | Llombart-Bosch 2022 congress abstract (n = 31) | **no** | `abstract-only` — reports no third partner class, so its 5-case residue cannot be interpreted comparably |
++| outcome by partner **and** partner prevalence | Sjögren 2003 [16] (Göteborg, 10 tumours from **nine patients**; EWSR1 5, TAF15 3, TCF12 1) | **no** | `partner-ascertainment-enrichment` — four of the nine had their fusion transcripts published earlier by the same group, so for those four partner assignment preceded entry. ⚠ **That is a documented publication history, not a documented recruitment rule**: the retained Methods describe an extension of prior studies and distinguish previously reported from new material, and the partner-enrichment reading is stated here as an **inference**. ⭐ Its recorded outcomes are **source-verified and reported** in §3.3 rather than suppressed; the earlier reason for suppressing them — that extraction would have to be performed here — is withdrawn as inconsistent with how other strata in this paper were reconstructed |
++| partner prevalence | Agaram 2014 (24 assigned) · Huang 2023 (57) · Lenz 2023 (11) · Paioli 2021 (62) | **yes** | four geographically distinct series, no shared authors between them, all four **named-partner** counts verified against a retained source (§8). ⚠ Verification is of the counts, at the scope each source supports — a primary full text for Agaram, primary abstracts for the other three — and is **not** a claim that each study's methods were read in full |
++| partner prevalence | Llombart-Bosch 2022 congress abstract (n = 31) | **no** | `abstract-only` — a **congress abstract rather than a peer-reviewed report**, which is the stated ground. ⚠ Its 5-case residue is unexplained, but so is Paioli's, so an unexplained residue is **not** the discriminating reason and is not used as one |
+ | partner prevalence | Klubíčková 2022 congress abstract (n = 11) | **no** | `population-overlap` — same Czech group and institutions as Lenz 2023 |
+-| mechanism | Brenca 2019 axon-guidance switch (7 EWSR1 vs 5 TAF15 tumours, plus engineered cell models) | **no** | not a clinical endpoint — and same consortium as both TKI reports, so not an independent replication |
+-| preclinical | Bangerter 2022 model pair | **no** | two models from two different patients; see §3.7 |
++| mechanism | Brenca 2019 axon-guidance switch (7 EWSR1 vs 5 TAF15 tumours, plus engineered cell models) | **no** | not a clinical endpoint — the binding reason. It also shares a consortium with both TKI reports, so it is not an **external** replication; ⚠ that bears on independence of investigators only and does not negate its experimental evidence or its independent biological replicates (§3.6) |
++| preclinical | Bangerter 2022 two models | **no** | two models from two **different** patients, not a matched or isogenic pair; see §3.7 |
++
++### 3.3 · Outcome by partner — one series in the main event analysis, and four reported beside it
+ 
+-### 3.3 · Outcome by partner — one source-verified series, and four reported beside it
++⚠ **The section title is a statement about this synthesis's selection, not about the sources.** ⛔ *Superseded,
++retained: "one source-verified series, and four reported beside it."* **Two** of the five series' per-partner
++outcome counts are verified against retained primary sources — Agaram 2014 and Sjögren 2003. One of them
++carries the displayed event contrasts and the other is reported as separate descriptive context, and that is
++a **selection judgement made here**, argued below, rather than a difference in what the sources contain.
+ 
+ ⛔ **The two-cohort pooled prognostic magnitude previously reported in this section is withdrawn.**
+ ⚠ *Superseded, retained: "Pooled over 73 patients, disease-specific death is 7/15 = 46.7 % (95 % CI
+@@ -370,7 +409,7 @@
+ inputs are removed rather than re-estimated, and this is scoped absence rather than a finding that the
+ published counts are wrong.** They return if an authentic original is supplied.
+ 
+-**What remains is one cohort whose per-partner event counts are verified against a retained primary source.**
++**What carries the main event analysis is one cohort, chosen for that role here.**
+ Agaram 2014 is a consecutive MSKCC series of 26 cases, 24 partner-assigned, of which 16 are *EWSR1::NR4A3* and
+ 7 *TAF15::NR4A3*; the single TCF12 case is carried by no arm. The source reports follow-up for all 26
+ patients.
+@@ -422,10 +461,13 @@
+ - **Sjögren 2003** [16] (nine patients, ten tumours): recorded tumour-related deaths are **0/3 with TAF15 against
+   1/5 with EWSR1** — the comparator arm is not zero, because *EWSR1* case 7 records a tumour-related death at
+   ten years. The denominators are **patients**, not the ten tumours of the paper's title: cases 6-I and 6-II
+-  are two metastases from one patient and are counted once. Four of the nine entered on an already-published
+-  fusion transcript, follow-up differs per patient, and the source's own discussion reports no apparent
+-  correlation with prognosis while asking for longer follow-up and larger series. ⛔ **This is descriptive
+-  context with sampling and follow-up limits. It is not evidence of equivalence, and it is not pooled.**
++  are two metastases from one patient and are counted once. ⭐ **These counts are verified against the retained
++  primary source, exactly as Agaram's are**; they are reported separately because of this synthesis's own
++  selection judgement about partner ascertainment (below), not because the source is weaker. Four of the nine
++  had their fusion transcripts published earlier by the same group, follow-up differs per patient, and the
++  source's own discussion reports no apparent correlation with prognosis while asking for longer follow-up and
++  larger series. ⛔ **This is descriptive context with sampling and follow-up limits. It is not evidence of
++  equivalence, and it is not pooled.**
+ 
+ ⛔ **No Huang-dependent sensitivity is computed.** A conditional addition of the Sjögren counts to the
+ withdrawn Huang inputs would have been **7/18 against 7/63**, not the 7/18 against 6/63 an earlier round
+@@ -439,21 +481,32 @@
+ these counts do not establish a null: at these denominators, clinically substantial differences in either
+ direction remain compatible with the recorded events.
+ 
+-### 3.4 · What the reported adjusted analyses do and do not establish
++### 3.4 · The reported prognostic analyses, and what they do and do not establish
+ 
+-Two series tested the partner against tumour size, and neither is external to this synthesis: Huang 2023
+-contributes to the prevalence pool of §3.5, and Paioli 2021 likewise. **Neither found the partner to reach
+-conventional significance for prognosis in the analysis it reports.**
+-
+-- **Huang 2023** (PMID 36948401, n = 58, Taiwan): the abstract reports a multivariable analysis of
+-  disease-specific survival in which only size > 10 cm (P = .004) and metastasis at presentation (P = .032)
+-  remained prognostically independent, and reports *TAF15::NR4A3* significantly associated with size > 10 cm
+-  (78 %, P = .025).
+-- **Paioli 2021** (PMID 32572850, n = 67, Italian Sarcoma Group): the partner shows only trends for DFS
+-  (p = 0.08) and DMFS (p = 0.09), in an analysis where size reaches p = 0.004. ⚠ *Whether that analysis was
+-  adjusted is not recorded in any source held here, and its size p-value concerns **distant metastasis-free
+-  survival** — a different endpoint from Huang's disease-specific survival. The two p-values cannot be
+-  contrasted to infer that one variable carries prognosis and the other does not.*
++⚠ *Superseded, retained: the heading "What the reported adjusted analyses do and do not establish", and the
++opening sentences "Two series tested the partner against tumour size … Neither found the partner to reach
++conventional significance for prognosis in the analysis it reports."* **Both were wrong as written, and are
++withdrawn.** Paioli's adjustment structure is not stated in anything held here, so it is not established as an
++adjusted analysis at all; and Huang's abstract **does** report a univariate association of the partner with
++shorter disease-specific survival before its multivariable statement, so "neither found the partner to reach
++conventional significance" misdescribes it. What follows states each series' reported analyses separately.
++Neither series is external to this synthesis: both contribute to the prevalence pool of §3.5.
++
++- **Huang 2023** (PMID 36948401, n = 58, Taiwan), at abstract scope. **Univariate:** size > 10 cm,
++  moderate-to-severe nuclear pleomorphism, metastasis at presentation, *TAF15::NR4A3* and administration of
++  chemotherapy each portended shorter disease-specific survival — so the partner **is** reported as
++  univariately associated with the outcome. **Multivariable:** only size > 10 cm (P = .004) and metastasis at
++  presentation (P = .032) remained prognostically independent. **Separately**, *TAF15::NR4A3* is reported
++  significantly associated with size > 10 cm (78 %, P = .025) within that cohort. The three statements are
++  distinct and are not combined here into a single verdict about the partner.
++- **Paioli 2021** (PMID 32572850, n = 67, Italian Sarcoma Group), at abstract scope: the partner shows trends
++  for DFS (p = 0.08) and DMFS (p = 0.09), and size reaches p = 0.004 for DMFS. ⛔ **Whether any of that was
++  adjusted is not recorded in any source held here**, so this is not a second adjusted test and is not a
++  "third independent negative test" of the partner — ⛔ *superseded, retained: that description, wherever this
++  paper and its artifact applied it.* A p-value above a conventional threshold is not a negative result. The
++  size p-value concerns **distant metastasis-free survival**, a different endpoint from Huang's
++  disease-specific survival, and **the two series' p-values cannot be contrasted to infer that one variable
++  carries prognosis and the other does not.**
+ 
+ ⛔ **That the partner term did not remain conventionally significant does not establish that an independent
+ association is absent, that any crude association is "real" and then "explained", or that tumour size
+@@ -462,8 +515,11 @@
+ Those readings are withdrawn, and so are the words *defeater*, *confounded* and *absorbed* wherever this
+ paper applied them to the partner. The reasons are specific. No partner coefficient, confidence interval,
+ event count, model specification or missing-data rule is available in any retained source, so attenuation and
+-precision cannot be assessed. The abstract names five univariate candidate predictors, and at the death count
+-a series of this size implies, model instability is a material concern. And an association between size and
++precision cannot be assessed. The abstract names five univariate candidate predictors, and small cohorts with
++several candidate variables warrant a cautious concern about model stability. ⛔ *Superseded, retained: "at
++the death count a series of this size implies".* **A series' size does not reveal its event count**, the event
++count is not published in anything held here, and model adequacy, precision and overfitting therefore cannot
++be assessed at all rather than assessed pessimistically. And an association between size and
+ partner does not make size a confounder: tumour size may be a consequence of fusion-driven biology, or lie on
+ a causal path between the partner and the outcome, in which case adjusting for it removes part of the effect
+ being estimated. Conversely, a significant partner term in some future adjusted analysis would not turn an
+@@ -479,23 +535,50 @@
+ ### 3.5 · Partner prevalence — how many patients this would touch
+ 
+ **The ascertainment flow has four separate denominators and they are not interchangeable:** the total series
+-size, the cases in which molecular characterisation succeeded, the cases assigned a named partner, and the
+-cases followed for outcome. The prevalence figures below are computed over **named-partner assigned cases
+-only**, and each series' own flow is stated so the conditioning is visible.
++size, the cases in which molecular confirmation succeeded, the cases assigned a named partner, and the cases
++followed for outcome. The prevalence figures below are computed over **named-partner assigned cases only**,
++and each series' own flow is stated so the conditioning is visible.
++
++⛔ **The molecular-confirmation column is corrected here, and it is NOT the same set of integers as the
++named-partner column.** ⚠ *Superseded, retained: a "molecularly characterised" column reading **24 / 57 / 12 /
++62**, which duplicated the named-partner counts for three of the four series.* That printed one stage twice
++and hid the distinction on which this section's whole account of the denominator rests. The corrected
++molecular-confirmation counts are **26 / 58 / 12 / 67**; the named-partner counts, which are what the
++prevalence arithmetic uses, are **24 / 57 / 11 / 62** and are **unchanged**. ⚠ **So not every number in this
++paper is invariant under this revision:** the confirmation-stage cells moved and the named-partner cells did
++not, and 28/154 = 18.2 % is untouched for that reason.
+ 
+-| series | total in series | molecularly characterised | named partner (the denominator used) | not partner-assigned |
+-|---|---|---|---|---|
+-| Agaram 2014 (MSKCC, USA) | 26 | 24 | 24 | 2 |
+-| Huang 2023 (Taiwan) | 58 | 57 | 57 | 1 |
+-| Lenz 2023 (Czech Republic) | 17 | **12** | **11** | 1 of the 12, plus **5 with no successful molecular result** |
+-| Paioli 2021 (Italian Sarcoma Group) | 67 | 62 | 62 | 5 |
+-
+-⭐ **The Lenz row is corrected here.** An earlier version described that series' unassigned residue as one
+-case and lost the five cases in which molecular testing did not succeed at all. Both are now recorded, and
+-they are different things. ✅ **Its partner counts are also now verified against the authentic primary
++| series | total in series | molecular confirmation succeeded | named partner (the denominator used) | not partner-assigned | followed for outcome |
++|---|---|---|---|---|---|
++| Agaram 2014 (MSKCC, USA) | 26 | **26** | 24 | 2 | 26 |
++| Huang 2023 (Taiwan) | 58 | **58** | 57 | 1 | **unknown** |
++| Lenz 2023 (Czech Republic) | 17 | **12** | **11** | 1 of the 12, plus **5 with no successful molecular result** | **unknown** |
++| Paioli 2021 (Italian Sarcoma Group) | 67 | **67** | 62 | 5 (unexplained by the abstract) | **unknown** |
++
++**What each confirmation cell means, per series, because the assay and the result definition differ:**
++
++- **Agaram 2014 — 26.** All 26 received *NR4A3*/*EWSR1* FISH and all 26 had an *NR4A3* rearrangement (retained
++  full text, line 626); two of them had no identified 5′ partner. Follow-up is reported for all 26.
++- **Huang 2023 — 58.** FISH confirmed 58 EMC (primary abstract); one was *NR4A3*-rearranged with no identified
++  partner.
++- **Lenz 2023 — 12.** 17 in the series, molecular testing successful in 12, of which one was *NR4A3*-positive
++  with no other identified alteration. This is the one series where all three stages differ.
++- **Paioli 2021 — 67.** The 67 were identified under an inclusion rule requiring a molecularly confirmed
++  *NR4A3* rearrangement, so confirmation and series total coincide **by construction**; named-partner counts
++  account for 62 and **the five-case residue is not explained by the abstract**.
++
++⛔ **The outcome-followed column is unknown for three of the four series and is printed as unknown.** Huang's
++previously printed 53-followed figure came from the withdrawn Table 1 reading (§4.7a, §8) and **is not
++reinstated to complete this table**.
++
++⭐ **The Lenz row's residue was also corrected.** An earlier version described that series' unassigned residue
++as one case and lost the five cases in which molecular testing did not succeed at all. Both are now recorded,
++and they are different things. ✅ **Its partner counts are also now verified against the authentic primary
+ abstract**, which states molecular testing successful in 12 of 17 and *"8 EWSR1::NR4A3 positive tumors (67 %),
+ 2 TAF15::NR4A3 positive tumors (17 %), 1 TCF12::NR4A3 positive tumor (8 %) and 1 NR4A3 positive tumor (8 %)
+-in which no other gene alteration was identified"* (§8).
++in which no other gene alteration was identified"* (§8). ⛔ **That closes a count-source question only.** It
++establishes nothing about clinical selection, patient independence or population representativeness in that
++series.
+ 
+ | partner | pooled count | share of partner-assigned EMC | 95 % CI (Wilson) |
+ |---|---|---|---|
+@@ -504,19 +587,25 @@
+ | TCF12::NR4A3 | 5/154 | 3.2 % | 1.4–7.4 |
+ | TFG::NR4A3 | 1/154 | 0.6 % | 0.1–3.6 |
+ 
+-Per-cohort TAF15 share ranges 15.8 – 29.2 % (spread 13.4 points). That is the population any
+-partner-stratified decision would move: large enough for the question to matter, small enough to explain why
+-every series' TAF15 arm is 2–10 patients.
++Per-cohort TAF15 share ranges 15.8 – 29.2 % (spread 13.4 points). ⛔ *Superseded, retained: "That is the
++population any partner-stratified decision would move."* **This is a conditional share among assigned cases
++in four selected series and is not an estimate for any clinical population**, so it does not size the group a
++decision would touch. What it does show is why every series' TAF15 arm is 2–10 patients, and therefore why
++every contrast in this paper is imprecise.
+ 
+ ⛔ **This is the share among assigned patients in four selected series, and it is not an estimate for all
+ EMC.** The conditional fraction needs no missing-at-random assumption; generalising it to the whole disease
+ does, and nothing here supports that step. The Wilson interval is conditional on a binomial sampling model
+ over the pooled counts: it does not account for study selection, differential molecular ascertainment or
+ between-study variation, and it cannot supply representative-population precision. ⚠ **Nor does this synthesis
+-sign the direction of the missing-case bias, and an earlier version did.** If variant partners are
+-systematically harder to type the pooled TAF15 share would be an underestimate; but a break-apart workflow
+-could equally fail to assign other rare partners, which would push the other way, and referral enrichment has
+-no established direction without a specified selection mechanism.
++sign the direction of the missing-case bias, and an earlier version did.** ⚠ **And "variant partners" is made
++specific here, because two different missingness stories have opposite implications.** If **TAF15** cases
++were preferentially missed the pooled TAF15 share would be an underestimate; if a break-apart workflow
++preferentially failed to assign **other rare partners** — *TCF12*, *TFG*, *FUS* — the TAF15 share among
++assigned cases would be pushed **up**, which is the opposite direction. Referral enrichment has no established
++direction without a specified selection mechanism. ⚠ **Each of these is a hypothesis about a selection
++mechanism, labelled as one; none is an identified bias in this evidence set**, and the net direction is left
++unsigned rather than assumed.
+ 
+ ⚠ **The pooled interval contains the share this document's own cited sources state.** The disease review [4]
+ and the introduction of the model paper [12] both put the TAF15 share at about 20 %, which falls **inside**
+@@ -526,12 +615,17 @@
+ setting where morphologically unusual, high-grade tumours are over-represented — which is what
+ *TAF15::NR4A3* tends to be. The two excluded congress abstracts bracket the pooled estimate (7 of 26
+ partner-assigned in Valencia; 1 of 9 in Pilsen/Znojmo), and Sjögren 2003 sits above it at 3/9 = 33.3 % at
+-patient level. Sjögren is held out of this denominator because four of its nine patients entered on an
+-already-published fusion transcript, so its partner share is partly an entry criterion; **that exclusion moves
+-the estimate away from the highest published shares rather than toward them**, and is named here for that
+-reason. ⚠ *Superseded, retained: the description of that exclusion as "outcome-is-the-inclusion-criterion".*
+-Selection on cytogenetic material and prior publication is selection on **partner ascertainment**, not on the
+-mortality outcome this synthesis contrasts, and the same rule is applied to every series in the table.
++patient level. Sjögren is held out of this denominator because four of its nine patients had their fusion
++transcripts published earlier by the same group, so its partner share is **plausibly** partly an entry
++criterion; **that exclusion moves the estimate away from the highest published shares rather than toward
++them**, and is named here for that reason. ⚠ *Superseded, retained: the description of that exclusion as
++"outcome-is-the-inclusion-criterion".* Selection on cytogenetic material and prior publication is selection on
++**partner ascertainment**, not on the mortality outcome this synthesis contrasts. ⚠ *Superseded, retained:
++"and the same rule is applied to every series in the table."* **What is applied uniformly is this synthesis's
++own stated criterion, which is a selection judgement made here.** It is not established that every included
++study recruited under a comparable rule, and no source states one; Agaram 2014's own Methods likewise select
++typical morphology and available tissue, which is why tissue availability alone could not disqualify Sjögren
++while leaving Agaram unexamined.
+ 
+ ### 3.6 · Mechanism, and what a third expression cohort does and does not add
+ 
+@@ -576,10 +670,16 @@
+    broad. An expression cohort with **linked clinical outcomes and partner annotation** could inform a
+    clinical association; what this particular deposit cannot do is inform one, because it has neither.
+ 
+-⚠ **And Brenca 2019 is not an independent replication of the clinical correlation.** It shares its senior
+-investigators and consortium (Milan/Aviano) with both TKI reports. Shared investigators do not negate an
+-experiment, but they mean this is the same group explaining its own clinical observation, and it should be
+-distinguished from external replication.
++⚠ **And Brenca 2019 is not an *external* replication of the clinical correlation.** It shares its senior
++investigators and consortium (Milan/Aviano) with both TKI reports. ⛔ **Four things are kept apart here, and
++an earlier version collapsed them.** *Investigator independence*: this is the same group, so it is not
++external replication. *Patient or sample overlap*: unestablished in either direction. *Experimental
++replication*: the source reports independent biological replicates, and **shared authorship does not negate
++them or the experimental evidence**. *Endpoint relevance*: an effect in engineered cell systems is not a
++clinical response endpoint, which is the binding limitation and is a matter of design rather than of
++authorship. What Brenca supports is a mechanistic hypothesis in the systems it measured, with the
++protein-abundance and construct limits stated above; it does not validate a clinical treatment interaction,
++and it is not dismissed by author overlap alone.
+ 
+ ### 3.7 · The one model pair, and what two patients can bound
+ 
+@@ -590,9 +690,12 @@
+ "matched" describes each model's correspondence with its own native tumour, not matching of patients across
+ partners.
+ 
+-**The authors report partner-independent responses.** Verbatim: *"Both models independent of the NR4A3 fusion
+-partner showed high sensitivity to carfilzomib"*, and *"Similar drug responses were seen in both models,
+-independent of the fusion partner from NR4A3."*
++**The authors describe their two models' responses as partner-independent.** Verbatim: *"Both models
++independent of the NR4A3 fusion partner showed high sensitivity to carfilzomib"*, and *"Similar drug responses
++were seen in both models, independent of the fusion partner from NR4A3."* ⛔ **This synthesis does not carry
++that forward as a general partner-independence result.** Two models from two different patients, differing in
++tumour history and other alterations, cannot supply a controlled test of partner dependence; what the
++sentences describe is similar responses to three specified validation agents in two unmatched models.
+ 
+ ⚠ **Read the screen's shape before its result.** The 40-drug panel was **not** run on the pair. Verbatim:
+ *"A medium throughput drug screen using 40 drugs was conducted with USZ20-EMC1 at passage 5."* Only three
+@@ -676,9 +779,11 @@
+ the inferential guarantees a reader may associate with the word "pooled". Every Wilson bound is computed on
+ the **summed** counts under a common-binomial approximation that treats the contributing patients as one
+ sample, so between-cohort variation enters the point estimate through the denominator weights and enters the
+-interval not at all, and no prediction-interval reading is available. Where only one cohort contributes — the
+-entire response analysis, and now the outcome analysis as well — the figure is a **single-cohort Wilson
+-interval**, stated as such.
++interval not at all, and no prediction-interval reading is available. Where only one cohort contributes — the **primary** response
++analysis (the pazopanib trial alone; the conditional mixture of §3.1 combines two), and the outcome analysis —
++the figure is a **single-cohort Wilson interval**, stated as such. ⚠ *Superseded, retained: "the entire
++response analysis".* **The response section is not single-cohort throughout**: its conditional mixture pools
++two cohorts under stated assumptions, and describing the whole section as one cohort's was inaccurate.
+ 
+ **4.3 · Partner assignment is not uniformly molecularly confirmed across reports.** The four prevalence series
+ did not use one assay, and two of them do not state, in any source reachable here, which assay assigned the
+@@ -704,7 +809,8 @@
+ record excludes patients who have received previous antiangiogenic agents, which runs against the sunitinib
+ series' patients having re-enrolled on the trial (§3.1). That is protocol evidence and not an enrolment
+ audit: registries publish eligibility criteria, not enrolment decisions, and protocol deviations are not
+-excluded. The primary reports remain unread here, so no patient-level check exists in either direction, and
++excluded. The primary **full texts** remain unread here — their abstracts were read — so no patient-level
++check exists in either direction, and
+ the conditional mixture in §3.1 is reported as conditional for that reason.
+ 
+ **4.6 · The response comparator arms are labelled `non-TAF15`, and the label is doing specific work.** In the
+@@ -737,23 +843,39 @@
+ report, are not corrected for the several endpoints reported here, and license nothing. A non-significant
+ value among them establishes no null and no equivalence.
+ 
+-**4.9 · Publication and referral bias run in a direction that favours the hypothesis.** A perfect response
+-split is more publishable than a mixed one, and a two-patient report of a striking response is what began this
+-literature. The cohort carrying the recorded outcome contrast is consultation material rather than a
+-population sample: Agaram 2014 is a tertiary sarcoma referral centre and is also the prevalence high outlier
+-(§3.5), so selection toward morphologically unusual — that is, TAF15-like — tumours plausibly inflates the arm
+-whose events carry that contrast. Neither bias can be corrected here.
+-
+-**4.10 · The mechanism is not independent of the clinical observation.** Brenca 2019 shares its consortium
+-with both TKI reports (§3.6). A mechanism proposed by the same investigators who reported the correlation is
+-context, not corroboration.
+-
+-**4.11 · Data vintage is unrecorded for the outcome series.** Agaram 2014 publishes a follow-up range (2–99
+-months) and no accrual window. Per the evidence contract, vintage is marked **absent** rather than inferred
+-from a publication year. What the sources do state are two *treatment* windows, neither of them a diagnosis
+-window: Paioli 2021, which enters the prevalence pool and not the outcome section, was surgically treated
+-1989–2016, and the pazopanib trial enrolled 24 Jun 2014 – 17 Jan 2017. The synthesis therefore spans an era in
+-which EMC systemic options changed materially, and no number here has been adjusted to compensate.
++**4.9 · Publication and referral selection are real and their net direction is not identified.** ⚠
++*Superseded, retained: the heading "Publication and referral bias run in a direction that favours the
++hypothesis."* **That signed a direction this evidence set does not identify, and it is withdrawn.** The
++mechanisms remain worth stating as **hypotheses**: a perfect response split is more publishable than a mixed
++one, and a two-patient report of a striking response is what began this literature; the cohort carrying the
++recorded outcome contrast is consultation material rather than a population sample, since Agaram 2014 is a
++tertiary sarcoma referral centre and is also the prevalence high outlier (§3.5), so selection toward
++morphologically unusual — that is, TAF15-like — tumours is plausible. ⛔ **But a higher proportion of a partner
++in a selected sample does not by itself establish bias in that partner's death proportion**, no source
++specifies the selection mechanism, and the net direction is therefore left **unsigned**. Neither bias can be
++corrected here.
++
++**4.10 · The mechanism is not an *externally* replicated confirmation of the clinical observation.** Brenca
++2019 shares its consortium with both TKI reports (§3.6). ⚠ *Superseded, retained: "A mechanism proposed by
++the same investigators who reported the correlation is context, not corroboration."* **That dismissed
++experimental evidence by authorship, which is not a valid ground.** The accurate statement separates the
++issues: shared investigators mean this is not *external* replication; the binding limitation is instead one of
++**endpoint and design** — engineered cell systems and partner-associated tumour profiling are not a clinical
++treatment-interaction test, whoever performs them — and the source's own independent biological replicates
++stand on their own.
++
++**4.11 · Data vintage is partly recorded and partly unknown.** ⚠ *Superseded, retained: "Agaram 2014 publishes
++a follow-up range (2–99 months) and no accrual window", and the marking of its vintage as **absent**.* **The
++window is stated in the source and was missed here.** Agaram 2014's retained Methods (line 169) identify its
++cases **between 2000 and 2013**. That is a **case-identification window** and is recorded as one: it is not a
++statement of any individual patient's diagnosis date, and not a treatment window. The paper also publishes a
++follow-up range of 2–99 months. What the other sources state are two *treatment* windows, neither of them a
++diagnosis window: Paioli 2021 was surgically treated 1989–2016, and the pazopanib trial enrolled 24 Jun 2014 –
++17 Jan 2017. ⚠ *Superseded, retained: "Paioli 2021, which enters the prevalence pool and not the outcome
++section."* **Paioli is reported in the outcome section** (§3.3, §3.4) at abstract scope; what is true is that
++it is **not numerically pooled** into any outcome figure, which is a different statement. The synthesis
++therefore spans an era in which EMC systemic options changed materially, and no number here has been adjusted
++to compensate.
+ 
+ **4.12 · No treatment recommendation is made, and none follows.** ⛔ Nothing in this document recommends,
+ supports or opposes giving or withholding sunitinib, pazopanib or any other agent to any patient or patient
+@@ -774,26 +896,34 @@
+   partner response together, and the 2025 review [15] connects morphology, partner and therapy again. Agaram's
+   own abstract already gave 1/16 against 3/7 died-of-disease. The selection here is non-systematic (§2.3a), so
+   nothing in this paper is a census of the field.
+-- That the recorded objective-response evidence is **0 of 3 TAF15::NR4A3 patients in the trial, and 0 of 5
+-  under a conditional mixture**, with differences of recorded proportions of 21.1 and 37.0 percentage points
+-  whose uncertainty is wide enough that the comparator's own point estimate lies inside the TAF15 arm's
+-  interval (95 % upper bound 43.4–56.1 %, itself conditional on the evaluability assumption of §3.1).
++- That the recorded objective-response evidence is **0 of 3 TAF15::NR4A3 patients in the trial and 0 of 5
++  under a conditional descriptive mixture — both conditional reconstructions**, the first on all three TAF15
++  patients sitting inside the 22 evaluable and the second on that assumption plus distinct patients across two
++  drugs and settings. The differences of recorded proportions are 21.1 and 37.0 percentage points, and their
++  uncertainty is wide enough that the comparator's own point estimate lies inside the TAF15 arm's interval
++  (95 % upper bound 43.4–56.1 %, itself conditional). **Observed differences exist; the population magnitudes
++  they estimate are imprecise; and a treated-only contrast cannot establish treatment effect modification.**
+ - That a **partner comparison among treated patients cannot establish a predictive treatment interaction**,
+   at any denominator, because it has no untreated comparator.
+-- That **one cohort's per-partner outcome event counts are source-verified**: Agaram 2014 records
+-  disease-specific death 3/7 with TAF15 against 1/16 with EWSR1, with one further EWSR1 patient dead of
+-  unknown cause; local recurrence 2/7 against 1/16; distant recurrence 2/7 against 6/16, over arms whose mean
+-  observation windows differ about two-fold. These are recorded counts in one referral series, stated with
+-  their limits and never as a prognosis.
++- That **one series carries the main event analysis**: Agaram 2014 records disease-specific death 3/7 with
++  TAF15 against 1/16 with EWSR1, with one further EWSR1 patient dead of unknown cause; local recurrence 2/7
++  against 1/16; distant recurrence 2/7 against 6/16, over arms whose mean observation windows differ about
++  two-fold. These are recorded counts in one referral series, stated with their limits and never as a
++  prognosis. **And that a second series' per-partner counts are separately source-verified and reported beside
++  it as context** — Sjögren 2003's 0/3 TAF15 against 1/5 EWSR1 recorded tumour-related deaths. Which of the
++  two carries the displayed contrasts is **this synthesis's selection judgement**, not a difference in what
++  the sources contain.
+ - That the previously reported **two-cohort pooled prognostic magnitude is withdrawn**, because the Huang 2023
+   Table 1 cells it rested on are not verified by any retained original (§4.7a, §8). This is scoped absence and
+   not a finding that the published counts are wrong.
+ - That in the analyses Huang 2023 and Paioli 2021 report, **an independent prognostic association of the
+   partner was not established** — which is not the same as showing that none exists, and does not establish
+   that tumour size explains a partner association (§3.4).
+-- That *TAF15::NR4A3* is recorded in **18.2 % (95 % CI 12.9–25.0)** of partner-assigned EMC across four
+-  series whose partner counts are source-verified — a share among assigned patients in selected series, not an
+-  estimate for all EMC (§3.5).
++- That *TAF15::NR4A3* is recorded in **18.2 % (95 % CI 12.9–25.0)** of partner-assigned cases across four
++  series whose **named-partner** counts are source-verified — a conditional share among assigned cases in
++  selected series, not an estimate for all EMC and not the size of any clinical population (§3.5). The
++  molecular-confirmation stage behind those denominators is **26 / 58 / 12 / 67** and is a different set of
++  integers from the named-partner **24 / 57 / 11 / 62** the arithmetic uses.
+ - That **this repository's own lane memo** misattributed the 2012 hedge to the 2014 report, and that the
+   published record on mechanism is a **dated sequence of hypotheses** rather than a statement of current
+   investigator belief (§3.8).
+@@ -821,10 +951,11 @@
+ - **Not** a meta-analysis with heterogeneity modelling (§4.2).
+ 
+ **Endpoint for [`systems/views/L3-publications.md`](../../../systems/views/L3-publications.md):**
+-*The NR4A3 5′ fusion partner is a candidate — not established — stratification variable in EMC. One
+-source-verified series records more disease-specific deaths in its TAF15 arm; the reported adjusted analyses
+-do not establish an independent partner effect in either direction; and the entire examined
+-antiangiogenic-response evidence base is three to five TAF15 patients with no recorded responses, which is a
++*The NR4A3 5′ fusion partner is a candidate — not established — stratification variable in EMC. One series
++carries the main event analysis and records more disease-specific deaths in its TAF15 arm, with a second
++source-verified series reported beside it rather than pooled; the reported prognostic analyses do not
++establish an independent partner effect in either direction; and the antiangiogenic-response evidence
++examined here is a conditional reconstruction over three to five TAF15 patients with no recorded responses, a
+ difference of proportions too imprecise to act on. The field should start reporting the partner alongside
+ response and outcome rather than acting on it.*
+ 
+@@ -874,14 +1005,16 @@
+ 
+ **The ask.** Report the *NR4A3* partner alongside response **and** outcome in every EMC systemic-therapy and
+ outcome report, and publish the partner-stratified counts from the trials and series that already hold them.
+-**Three documents remain unread here and would materially extend the poolable evidence at zero new patient
+-cost:**
++**Three documents remain unread here.** ⚠ *Superseded, retained: the column heading "what it holds", and the
++statements that each "carries" a particular table or "would close both questions".* **An unread document's
++contents are not verified**, so the column below names **the evidence that would resolve the open question**,
++not what these papers are asserted to contain. Whether each supplies it is unknown here.
+ 
+-| document | what it holds | why it is not readable here |
++| document | what evidence would resolve the open question | why it is not readable here |
+ |---|---|---|
+-| Stacchiotti 2019, *Lancet Oncol* (PMID 31331701) | the pazopanib trial's full partner distribution and prior-therapy table | closed access: `oa_status: closed`, zero open locations recorded, and of the listed institutional handles four are metadata-only while the fifth is unread behind an anti-bot challenge rather than measured empty |
+-| Paioli 2021, *Ann Surg Oncol* (PMID 32572850) | per-partner relapse and metastasis counts behind the DFS/DMFS p-values, n = 67 | closed access: the institutional repository records state that no file is attached |
+-| Huang 2023, *Mod Pathol* (PMID 36948401), Table 1 and full text | the per-partner outcome counts, follow-up categories and endpoint definitions withdrawn from this synthesis in §4.7a | designated free by the publisher (`oa_status: bronze`) but returning HTTP 403 to every automated fetch behind an anti-bot challenge. ⚠ A paywall needs an author or an institution; a bot block needs a reader with a browser and a retained original |
++| Stacchiotti 2019, *Lancet Oncol* (PMID 31331701) | the pazopanib trial's full partner distribution **with** its partner-by-analysis-population flow across the 26 treated / 23 mITT / 22 evaluable, and a patient-level prior-therapy record | closed access: `oa_status: closed`, zero open locations recorded, and of the listed institutional handles four are metadata-only while the fifth is unread behind an anti-bot challenge rather than measured empty |
++| Paioli 2021, *Ann Surg Oncol* (PMID 32572850) | per-partner relapse and metastasis counts behind the DFS/DMFS p-values, the adjustment structure that produced them, and an account of the five cases of 67 with no named partner | closed access: the institutional repository records state that no file is attached |
++| Huang 2023, *Mod Pathol* (PMID 36948401), Table 1 and full text | an authentic original of the per-partner outcome counts, verified at cell, endpoint, denominator, follow-up and cause-of-death level, which is what would restore or refute the inputs withdrawn in §4.7a | designated free by the publisher (`oa_status: bronze`) but returning HTTP 403 to every automated fetch behind an anti-bot challenge. ⚠ A paywall needs an author or an institution; a bot block needs a reader with a browser and a retained original |
+ 
+ ✅ **`NCT02066285`'s eligibility text is readable and has been applied** (§3.1, §4.5): ClinicalTrials.gov v2,
+ Exclusion Criteria, verbatim *"Patients who have received previous antiangiogenic agents"*. It is the
+@@ -915,8 +1048,12 @@
+ python3 research/manuscripts/emc_fusion_partner_pooling.py
+ ```
+ 
+-**Verified this session:** re-running the generator on this checkout reproduces the committed artifact
+-**byte-for-byte apart from its `_generated_utc` stamp**. Changing a count means changing it in the generator's
++**Measured 2026-09-08, after the residual correction batch:** the generator was run once on this checkout and
++the committed artifact is that run's output; `--check` then re-derived it in memory and reported no
++difference. The exact command, its complete stdout and stderr, its measured exit status and the before/after
++file identities are retained under
++`research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-residual/checks/`. **The artifact reproduces
++byte-for-byte apart from its `_generated_utc` stamp.** Changing a count means changing it in the generator's
+ `COHORTS` table and regenerating — the artifact carries `_do_not_hand_edit` for that reason, and a figure typed
+ into this document that disagrees with it is the defect.
+ 
+@@ -928,10 +1065,18 @@
+ ```
+ 
+ It runs in continuous integration on every push, and
+-`research/manuscripts/tests/test_emc_fusion_partner_pooling_check.py` perturbs the real committed artifact on
+-disk — a pooled event count, a Wilson bound, a per-cohort stratum — and asserts that `--check` refuses each
+-**and writes nothing**. That last assertion is the point: a check that regenerates its own reference would
+-return 0 precisely because it had just made the file match.
++`research/manuscripts/tests/test_emc_fusion_partner_pooling_check.py` is **written to** perturb the real
++committed artifact on disk — a pooled event count, a Wilson bound, a per-cohort stratum — and assert that
++`--check` refuses each **and writes nothing**. That last assertion is the design point: a check that
++regenerates its own reference would return 0 precisely because it had just made the file match.
++
++⛔ **What that guard's current state actually is, stated rather than implied.** The last retained run of the
++five fusion-partner test modules ended **107 failed / 75 passed** with a recorded non-zero exit, and its
++failure prefix is deleted-key errors raised **before several of the named mutations reach `--check` at all**.
++So the paragraph above describes what the guard does when it runs to completion; it is **not** a measurement
++that every listed mutation is currently exercised against a live `--check`, and it is not a claim that the
++suite is green. That failing run is preserved as evidence and is not reconstructed or declared stale here, and
++guard maintenance is deliberately out of scope for this revision, which changes scientific claims only.
+ 
+ **Licensing.** Each citation entry records the source's licence and it is respected; the raw-text
+ `literature-cache` branch is never republished.
+@@ -970,7 +1115,11 @@
+ integers §3.5 pools, and they also correct that series' ascertainment flow: 17 in the series, 12
+ characterised, 11 with a named partner, and **five cases with no successful molecular result** that an
+ earlier version of this paper omitted. This is separate from, and additional to, the bibliographic repair of
+-that citation.
++that citation. ⛔ **What that closure does and does not establish.** It closes a **count-source** question:
++the integers this synthesis pools from that series are now read from an authentic retained primary abstract.
++It establishes **nothing** about clinical selection in that series, about patient independence from any other
++series, or about population representativeness, and it is not evidence that no original existed elsewhere —
++the earlier absence finding was bounded to the holdings then inspected.
+ 
+ **Three facts a reader should be able to check without trusting this document:**
+ 
+@@ -1040,9 +1189,18 @@
+ 
+ [15] Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, et al. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol* 2025. PMC12504171. doi:10.1007/s00432-025-06316-5
+ 
+-[16] Sjögren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G. Cytogenetic and molecular analyses of extraskeletal myxoid chondrosarcoma: further evidence for the involvement of *EWSR1*, *TAF2N* and *TCF12* in a subset of tumors. *Am J Pathol* 2003;162:781–92. PMC1868116. doi:10.1016/S0002-9440(10)63875-8
++[16] Sjögren H, Meis-Kindblom JM, Örndal C, Bergh P, Ptaszyński K, Åman P, Kindblom LG, Stenman G. Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma — cytogenetic, molecular genetic, and cDNA microarray analyses. *Am J Pathol* 2003;162:781–92. PMID 12598313 · PMC1868116. doi:10.1016/S0002-9440(10)63875-8
++
++[17] Suemitsu Y, Chang HY, Saoud C, Dermawan JK, Hameed M, Singer S, Tap WD, Antonescu CR. Secondary genetic alterations in extraskeletal myxoid chondrosarcoma. *Genes Chromosomes Cancer* 2025;64(8). PMID 40828003. doi:10.1002/gcc.70076
+ 
+-[17] Suemitsu M, Agaram NP, Dickson BC, et al. Extraskeletal myxoid chondrosarcoma: secondary genetic alterations and clinicopathologic correlation in 18 cases. *Genes Chromosomes Cancer* 2025. PMID 40828003. doi:10.1002/gcc.70076
++⚠ *References [16] and [17] were corrected on 2026-09-08 from the retained primary metadata, not from
++recollection. Superseded, retained: [16]'s title "Cytogenetic and molecular analyses of extraskeletal myxoid
++chondrosarcoma: further evidence for the involvement of EWSR1, TAF2N and TCF12 in a subset of tumors" with the
++author list "Sjögren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G"; and [17]'s title "Extraskeletal
++myxoid chondrosarcoma: secondary genetic alterations and clinicopathologic correlation in 18 cases" with the
++first author "Suemitsu M". Neither matched the article the synthesis actually reads. The artifact's own
++citation records* (`citations.sjogren2003`, `citations.suemitsu2025`) *carried the correct metadata
++throughout, and these entries now agree with them.*
+ 
+ ---
+ 

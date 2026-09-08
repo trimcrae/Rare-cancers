@@ -1,0 +1,380 @@
+--- research/autonomy/opus-capacity-campaign-20260908/paper-lane/PST-residual/BEFORE-2026-09-08/revised--emc-surface-target-landscape.md	2026-09-08 21:44:35.981488083 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/P-ST-correction/revised/emc-surface-target-landscape.md	2026-09-08 22:45:48.194554918 +0000
+@@ -96,8 +96,8 @@
+ **Background.** Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma driven by the
+ nuclear-transcription-factor fusion *EWSR1::NR4A3*. Cell-surface antigens offer a delivery axis gated
+ differently from driver-directed routes. Public EMC surface-antigen expression has not been assembled
+-into a map that this work's bounded prior-art retrieval could find, and prioritisation for this disease
+-has in practice run on lineage surrogates.
++into a map that this work's bounded prior-art retrieval could find, and prioritisation in this
++programme has in practice run on lineage surrogates.
+ 
+ **Methods.** A 2,826-gene surfaceome, 2,692 genes of which were present in the expression matrix and
+ stated as scanned, was ranked across a translocation-sarcoma DepMap class (76 class members, of which
+@@ -176,8 +176,10 @@
+ That assumption is tested here. Three EMC tumour-tissue cohorts are readable at no cost, two of them
+ only after a probe-to-symbol accession bridge was built. The study therefore has two stages: a
+ surrogate-based prioritisation, and the test of that prioritisation against the disease it was built
+-for. Surrogate-based target lists are routinely built for rare tumours, and the outcome when the
+-tumour itself is measured is rarely reported.
++for. This programme built its surrogate-based list that way, and what follows is the outcome when the
++tumour itself was measured. No claim is made here about how often such lists are built elsewhere, or
++about how often their outcomes are reported: the bounded retrieval described above cannot support a
++field-wide frequency statement in either direction.
+ 
+ ## Methods
+ 
+@@ -220,10 +222,16 @@
+ 
+ Five limits of this instrument were computed (Supplementary Note S1). The scanned
+ population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment. An antigen
+-carried only by stroma reads at the floor, demonstrated by LRRC15, an established sarcoma
+-cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate programme behind it, at
+-`frac_expressed` 0.0; the limit is narrower than "the scan cannot see stroma", because CD248 and
+-PDGFRB, also called stromal antigens, are selectivity-significant here. A glycan such as oncofetal
++carried only by stroma has no compartment in this population in which it could be counted. LRRC15, an
++established sarcoma cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate
++programme behind it, reads at `frac_expressed` 0.0, which means that no scanned line exceeded the
++chosen expression threshold: a threshold result, not a calibrated detector floor, and not a
++demonstration that a missing compartment caused the reading. FAP reads at `frac_expressed` 0.16 with
++0.56 of class lines detectable, so it is not measured here as a stroma-only antigen. CD248 and PDGFRB,
++also called stromal antigens, are selectivity-significant here, which shows there is something in the
++culture to measure and does not resolve which compartment contributes their signal in bulk tumour.
++Missing compartment coverage is one explanation compatible with these readings rather than a cause
++separated from the alternatives by any measurement here. A glycan such as oncofetal
+ chondroitin sulfate is the product of a biosynthetic pathway rather than of one gene [14], and so
+ cannot be ranked. CSPG4 has no per-gene row in the selectivity scan, which is the coverage gap
+ discussed in Results; it is classified by the normal-tissue prior, and the recorded limit's field
+@@ -395,8 +403,9 @@
+ 
+ Analysis code, data processing and manuscript drafting were carried out with substantial assistance
+ from a large language model under the author's direction. No large language model is an author, and
+-none is accountable for the work. Every number in this manuscript is reproducible offline from the
+-artifacts named in the data availability statement, without any language model.
++none is accountable for the work. The numbers reported in this manuscript are traceable to the
++artifacts named in the data availability statement, which state exactly what can and cannot be
++recalculated from them; no language model is required for any of it.
+ 
+ The verification actually performed on this text is stated rather than asserted in general. Each
+ printed contrast, *q*, confidence interval, panel score, normal-tissue verdict, cross-platform state,
+@@ -405,7 +414,9 @@
+ manuscript against artifact. It is not an independent reproduction of the pipeline that produced the
+ artifacts from their public sources, and no such reproduction is claimed. What can and cannot be
+ recalculated offline is stated exactly under Data availability: the retained derived records support
+-recalculation of the reported contrasts, corrections and reductions, while the surrogate scan's complete
++recalculation of the reported array contrasts and corrections, and retrieval of the final gene-level
++sequencing medians together with ratio and descriptive-band arithmetic over them, while the per-library
++values and per-peak arm medians that the sequencing reduction consumed, the surrogate scan's complete
+ gene universe, its per-line observations and its rank-test *p* values, the full probe-annotation audit
+ trail for the arrays, and the original sequencing peak table are **not** in hand, so the results that
+ depend on those inputs are not independently reproducible from what is released.
+@@ -414,10 +425,12 @@
+ 
+ ### Stage-1 selectivity and the normal-tissue prior
+ 
+-Two nested sets are reported throughout, and they are different estimands rather than competing
+-answers. The **classic-antigen subset** is the long-standing protein antigens listed in Table 1, the ones a
++Two overlapping sets are reported throughout, and they are different estimands rather than competing
++answers. The **classic-antigen subset** is the 18 long-standing protein antigens listed in Table 1, the ones a
+ reader of the sarcoma target literature would expect to see scored. The **retained actionable-antigen
+-set** is all 47 antigens the scan carries a per-gene row for, and it contains the classic subset.
++set** is all 47 antigens the scan carries a per-gene row for. The two sets **overlap in 15 antigens and
++neither contains the other**: CSPG4, B4GALNT1 and SSTR2 are classic antigens with no retained
++selectivity row.
+ Within the classic subset, selectivity was significant for nine antigens: CDH11, KIT, CD248, FGFR1,
+ NCAM1, GPC2, PTK7, MCAM and EPHB4. Across the whole retained set, 18 of the 47 were selectivity
+ significant, the further nine being ALK, DLL3, ENPP1, FGFR4, PDGFRA, PDGFRB, ROR1, SLC34A2 and STEAP1.
+@@ -433,16 +446,23 @@
+ 
+ B7-H3, the field's default surface target for sarcoma, is not significantly selective in these data.
+ Nothing here measures B7-H3 protein, its surface localisation or its distribution between tumour and
+-normal cells, so this result removes a transcriptomic rationale for treating B7-H3 as the obvious first
+-choice and settles nothing about the protein either way.
+-
+-FAP needs a further caution, and CD248 shows where that caution stops. The surrogate instrument holds
+-no fibroblast compartment, and an antigen that only fibroblasts carry reads at the floor: LRRC15, an
+-established sarcoma fibroblast antigen, reads at an expressed fraction of 0.0, and FAP at 0.16. A
+-verdict on FAP from this instrument is therefore a statement about tumour cells in culture rather than
+-about FAP in an EMC tumour. CD248 and PDGFRB, also called stromal antigens, are selectivity-significant
+-here because mesenchymal tumour cells transcribe them, so their readings are not subject to the same
+-caution.
++normal cells. What this result establishes is that these particular contrasts provide no significant
++evidence of upward enrichment for B7-H3; no target-selection utility, equivalence bound, ranking
++accuracy or protein criterion has been defined here that would license removing the transcriptomic case
++for it, and it settles nothing about the protein either way.
++
++FAP needs a further caution. The surrogate instrument's scanned population is monoculture and holds no
++fibroblast compartment, so an antigen carried only by fibroblasts has no compartment here in which it
++could be counted. LRRC15, an established sarcoma fibroblast antigen, reads at an expressed fraction of
++0.0 — no scanned line exceeded the chosen threshold — while FAP reads at an expressed fraction of 0.16
++with 0.56 detectable, so FAP is not measured here as a stroma-only antigen. A verdict on FAP from this
++instrument is a statement about tumour cells in culture rather than about FAP in an EMC tumour. CD248
++and PDGFRB, also called stromal antigens, are selectivity-significant here, which shows that
++mesenchymal tumour cells transcribe them in culture; it does not identify which compartment
++contributes their signal in a bulk EMC tumour, so their bulk-tissue readings carry the same
++compartment ambiguity. Missing compartment coverage remains a compatible explanation for the low
++stromal-antigen readings and is not an identified cause. The separate limitation that no scanned line
++supplies authenticated EMC evidence is stated in Appendix A and is not merged into this one.
+ 
+ The normal-tissue annotation narrows the historical list, and what it can support is bounded by what
+ it observed. Among the nine selectivity-flagged classic antigens, none carries a stored RESTRICTED label. Over the wider retained set the **stored-label intersection** is not empty but holds one member:
+@@ -506,9 +526,11 @@
+ which excludes zero — a *q* decision, not an interval containing zero). PDGFRB is significantly lower on
+ GPL6244 and non-significant on GPL3290; ROR1 is significantly lower on the single platform that reads
+ it. CD248, GPC2 and ROR1 are readable on one platform only. KIT, NCAM1, MCAM, EPHB4, PDGFRA and DLL3 are
+-non-significant on both, which means *q* >= 0.05 on each platform and not that the antigen is absent: on
+-GPL3290 the median half-width of the ordinary 95 % interval is 0.957 standard deviation units, so a
+-non-significant row there is compatible with a substantial difference in either direction.
++non-significant on both, which means *q* >= 0.05 on each platform and not that the antigen is absent.
++Each row's own pointwise interval, printed in Table 3, states what that row's data exclude; the GPL3290
++median half-width of 0.957 standard deviation units describes typical imprecision on that platform and
++does not determine any particular gene's interval, and some non-significant rows have intervals that
++exclude zero.
+ 
+ The two classic antigens the surrogate called non-selective do not simply transfer either. EGFR is
+ significantly lower in EMC on GPL6244 (Δ = −0.619, *q* = 0.044) but not on GPL3290 after correction
+@@ -574,8 +596,10 @@
+ both arrays, and the comparator arm is why that matters: GSE24369 compares EMC with desmoid fibromatosis
+ and myxofibrosarcoma, fibroblastic lesions in which FAP is expected to be high, and EMC itself sits at
+ the 88th percentile of that array's own probe distribution, so this is not a reading that EMC lacks
+-FAP. It indicates instead that a FAP-directed route cannot claim EMC as a selectively FAP-rich
+-indication among soft-tissue tumours; the whole 13-gene stromal and matrix panel has a negative point
++FAP. What these particular contrasts establish is the absence of statistically significant evidence
++that EMC is FAP-rich relative to these comparator arms; that is not a route-level or indication
++decision, and no equivalence test was performed, so the negative non-significant panel estimate bounds
++nothing. The whole 13-gene stromal and matrix panel has a negative point
+ estimate in EMC on both platforms, neither of which is significant (Δ = −0.328, *t* = −1.89,
+ *p* = 0.095; Δ = −0.467, *t* = −1.80, *p* = 0.097). PRAME reads low in every readable cohort, on rank rather than on any calibrated detection limit:
+ the 30th percentile of the GPL6244 probe distribution with Δ near zero, the 11th percentile of GPL3290
+@@ -588,8 +612,10 @@
+ exploratory. The 12-gene antigen-presentation composite is lower in EMC than in comparator sarcomas on
+ GPL6244 (Δ = −0.216, *t* = −2.90, *p* = 0.022, 12 of 12 readable) and has a negative, non-significant
+ estimate on GPL3290 (Δ = −0.228, *t* = −0.84, *p* = 0.433, 11 of 12). Panel *p* values are **not**
+-entered into any multiplicity correction: the 17 available panel tests across the nine curated panels are
+-uncorrected and exploratory (Supplementary Table S5). The panel is a repository-curated transcript
++entered into any multiplicity correction: the **16 scored panel contrasts** across the nine curated
++panels — nine on GPL6244 and seven on GPL3290 — are uncorrected and exploratory (Supplementary
++Table S5). The somatostatin-receptor family and the HLA-presented-intracellular-antigen panels fall
++below the coverage floor on GPL3290, emit no score there, and are therefore not tests. The panel is a repository-curated transcript
+ composite of mixed function, including the regulator CIITA, and not a measurement of surface
+ peptide-HLA. A reduced composite on one platform without panel multiplicity control does not establish
+ defective class-I presentation and does not show that a peptide-HLA-directed route would fail; it is a
+@@ -606,8 +632,8 @@
+ 
+ ### SSTR2 and the GD2 proxy
+ 
+-EMC's reported neuroendocrine differentiation motivated two candidate targets absent from previous EMC
+-surface discussions: SSTR2, the target of approved somatostatin-receptor radioligand therapy [18], and GD2, a
++EMC's reported neuroendocrine differentiation motivated two candidate targets that this work's bounded
++prior-art retrieval did not find addressed in EMC surface discussions: SSTR2, the target of approved somatostatin-receptor radioligand therapy [18], and GD2, a
+ surface glycolipid with mature cell-product and antibody platforms. Both now have EMC-tissue readings,
+ and the readings are unsupportive without being decisive.
+ 
+@@ -626,23 +652,25 @@
+ B4GALNT1 is a synthase, so this is a proxy for a proxy and cannot exclude the antigen.
+ 
+ These readings change the prior without changing the gate. The hypothesis was that EMC's reported
+-neuroendocrine phenotype might extend to SSTR2 surface expression at a level worth imaging, and the
+-first EMC transcript readings show no elevation over other soft-tissue tumours and no striking
+-absolute signal. The gate is unchanged: a peptide-receptor radioligand route depends on absolute
++neuroendocrine phenotype might extend to SSTR2 surface expression at a level worth imaging; the EMC
++transcript readings reported here show no significant elevation over the comparator soft-tissue
++tumours, and cross-probe rank and transformed summary scores cannot express an absolute receptor level
++in either direction. The gate is unchanged: a peptide-receptor radioligand route depends on absolute
+ receptor protein density and on the tumour-to-normal uptake ratio, and no quantity in this study
+-measures either. A single somatostatin-receptor
+-positron-emission-tomography scan, or an SSTR2 immunohistochemical stain on archival EMC, remains the
+-cheap decisive measurement, and these readings lower the prior for it rather than removing the reason to
+-perform it.
++measures either. A single somatostatin-receptor positron-emission-tomography scan would observe tracer
++uptake in the material scanned, and an SSTR2 immunohistochemical stain would observe protein and its
++localisation in the sampled tissue; either would be cheap, and neither would decide population
++expression, a therapeutic window, or the suitability of the route. These readings lower the prior for
++such a measurement rather than removing the reason to perform it.
+ 
+-### CSPG4, a gene outside the stage-1 scan
++### CSPG4, a gene with no retained selectivity result
+ 
+ CSPG4 has no per-gene row in the retained selected output of the surrogate instrument, and whether it
+ was ever scanned is undecidable because the artifact stores gene counts rather than the gene list. It is
+-present in the normal-tissue annotation artifact, so "absent from the surrogate instrument's retained
+-selectivity rows" is the exact statement and "absent from every committed artifact" is not. Its absence
+-from the empty selective-and-restricted intersection is therefore a measured coverage gap rather than a
+-rejection. It matters because CSPG4 is one of the two carrier proteoglycans named by the founding
++present in the normal-tissue annotation artifact, so "no retained selectivity result" is the exact
++statement and "absent from every committed artifact" is not. Its absence from the empty
++selective-and-restricted intersection of the **classic subset** — the full retained intersection is not
++empty and contains DLL3 — is therefore a measured coverage gap rather than a rejection. It matters because CSPG4 is one of the two carrier proteoglycans named by the founding
+ oncofetal-chondroitin-sulfate work, and the surfaceome seed held only the other one, CD44.
+ 
+ In EMC tissue CSPG4 is the largest row in the sequencing deposit on the deposited score scale, with an
+@@ -652,11 +680,14 @@
+ descriptive ratios of square-root-compressed deposited summaries, carry no test, and are not linear
+ expression folds; squaring them would not recover one, because the transformation and the two-stage
+ median reduction do not commute. It rises
+-significantly on GPL6244 (Δ = +0.885, *t* = 7.42, 95 % CI 0.61 to 1.16, *q* = 0.0017) and is flat on
+-GPL3290 (Δ = −0.189, *t* = −0.40, 95 % CI −1.23 to 0.86, *q* = 0.764), where the interval is wide
+-enough to be compatible with a substantial change in either direction. The classifier records this as movement on one platform with
+-flatness on the other rather than as opposite signs, because the GPL3290 value is negative in sign but
+-flat in magnitude. The row does not replicate and is also not contradicted. Three candidate explanations
++significantly on GPL6244 (Δ = +0.885, *t* = 7.42, 95 % CI 0.61 to 1.16, *q* = 0.0017) and is
++non-significant on GPL3290 (Δ = −0.189, *t* = −0.40, 95 % CI −1.23 to 0.86, *q* = 0.764), a negative
++point estimate whose interval runs from −1.23 to +0.86 and therefore excludes little in either
++direction. The stored classifier label records this as movement on one platform with "flatness" on the
++other rather than as opposite signs, because the GPL3290 estimate is negative in sign and small in
++magnitude; that label is a banding convention over an imprecise non-significant estimate, not an
++equivalence result, and it does not establish a biologically flat or silent state. The row does not
++replicate and is also not contradicted. Three candidate explanations
+ are live and none is settled here: the GPL3290 comparator arm is n = 6 with an unusually high CSPG4
+ mean, and dermatofibrosarcoma protuberans is a dermal fibroblastic tumour while CSPG4 is a well-known
+ melanocytic and pericytic antigen, so a high comparator arm would flatten the contrast for reasons about
+@@ -664,11 +695,13 @@
+ stromal tumour arrays, was hybridised against a different reference pool and from a total-RNA rather
+ than an mRNA input (Methods), so a processing mismatch on a log-ratio platform is a third unexcluded
+ reason for a flat GPL3290 contrast; it does not show the reported contrast to be wrong. That third
+-reason was tested. In the reference-matched sensitivity analysis, which drops the three
+-gastrointestinal stromal tumour arrays and leaves ten EMC against three dermatofibrosarcoma
++reason was examined in a recorded sensitivity analysis. Dropping the three
++gastrointestinal stromal tumour arrays and leaving ten EMC against three dermatofibrosarcoma
+ protuberans arrays processed the same way, CSPG4 is Δ = −0.518, *t* = −1.84, 95 % CI −1.15 to 0.11,
+-*q* = 0.182 — still not significant, still not positive, and so the processing mismatch does not by
+-itself account for the flat GPL3290 contrast. In the second sensitivity analysis, which adds the five
++*q* = 0.182: after excluding the mismatched samples the point estimate stays negative and the contrast
++stays non-significant. That is what the recorded analysis did. A non-significant result in a
++three-versus-ten comparison does not settle whether the processing mismatch contributes to the GPL3290
++contrast. In the second sensitivity analysis, which adds the five
+ solitary fibrous tumour arrays to the GPL6244 comparator arm, the GPL6244 elevation is unchanged
+ (Δ = +0.927, *q* = 0.0011). The sequencing row rests on one peak and 4 EMC libraries, and the normal-tissue heuristic labels CSPG4
+ tissue-enhanced, that is detected broadly with a peak rather than restricted, over a record whose
+@@ -761,9 +794,10 @@
+ readings that lower a prior without excluding an antigen. B7-H3/CD276 is not selective in the surrogate
+ (q = 1.0), its GPL6244 tissue contrast is negative but not significant after correction (*q* = 0.088),
+ it is unreadable on GPL3290, and in the sequencing cohort its EMC median is above both the normal-organ
+-and the other-sarcoma medians as untested ratios; taken together those readings remove the
+-transcriptomic case for treating it as the obvious first EMC address and do not establish that it is
+-low, absent, or unsuitable. The exploratory stromal panel's estimate is negative on both platforms
++and the other-sarcoma medians as untested ratios; taken together those readings supply no significant
++evidence of upward enrichment that would support treating it as the obvious first EMC address. They do
++not remove the transcriptomic case for it, and they do not establish that it is low, absent, or
++unsuitable. The exploratory stromal panel's estimate is negative on both platforms
+ without reaching significance on either. PRAME reads at a low rank in every readable cohort, which is a
+ rank and not a detection limit. Second, a lineage marker whose evidence is
+ strong on one array and directional on the other: ALCAM is significantly elevated against comparator
+@@ -835,15 +869,19 @@
+ which was not estimated anywhere in this work. Panel-level scores are uncorrected and exploratory. The
+ study's resolution is limited by the wider platform: the median **half-width** of the ordinary 95 %
+ interval is 0.259 standard deviation units on GPL6244 and 0.957 on GPL3290 — full widths of about 0.52
+-and 1.90 — so a non-significant row on GPL3290 excludes very little and should be read as uninformative
+-rather than as an absence. Ordinary pointwise intervals are not multiplicity-adjusted, so a
++and 1.90 — so non-significant rows on GPL3290 are typically imprecise. That median describes the
++platform and does not determine any particular gene's interval: each row's own printed interval states
++what that row excludes, and 14 GPL6244 and 8 GPL3290 non-significant rows have intervals excluding
++zero. Ordinary pointwise intervals are not multiplicity-adjusted, so a
+ non-significant *q* does not imply that the printed interval contains zero, and neither the median
+ half-width nor the smallest significant effect is a power or equivalence analysis. Five of the 18 selectivity-flagged antigens have no row on the tissue board at all and are unmeasured
+ here, and three more carry only one platform's contrast. Six carry no normal-tissue record. These
+-missing-evidence states are distinct and are kept distinct throughout: no normal-tissue record; no
+-retained selectivity result; no row on the tissue board; a contrast excluded for insufficient comparator
+-observations; a measured but non-significant contrast; and a significant decrease. None of them is a low
+-or negative reading. On the surrogate side, no verified EMC observation enters it, the surrogate is
++states are distinct and are kept distinct throughout. Four of them are unavailable-evidence states: no
++normal-tissue record; no retained selectivity result; no row on the tissue board; and a contrast
++excluded for insufficient comparator observations. None of those four is a low or negative reading. A
++measured but non-significant contrast is a measurement that did not meet the *q* decision rather than
++an unavailable one, and **a significant decrease is a measured negative contrast**: it is a low reading
++in that comparison, it must not be relabelled as missing evidence, and it establishes no absence. On the surrogate side, no verified EMC observation enters it, the surrogate is
+ lineage-generic, the scanned gene list was never recorded — so absence from the retained selected output
+ is not proof that a gene was never evaluated — and the instrument has no stromal compartment. The
+ reproducibility limits in Data availability bind every result: the scan's complete universe, per-line
+@@ -1032,9 +1070,10 @@
+ Derived per-gene values and verbatim deposit annotations are committed as `emc-expression-panels.json`
+ (`reads.read_8_SURFACE_ANTIGEN`, `reads.control`, `gene_reads`), which retains per-sample derived gene
+ values, probe identifiers and sample labels for the arrays, and as `gse28866-tumour-vs-normal.json`
+-(`per_gene.values`), which retains **group-level peak summaries and not per-sample values** — an earlier
+-version of this statement described the sequencing artifact as carrying per-sample values and was
+-wrong. Every *p*, ordinary 95 % confidence interval, within-platform Benjamini-Hochberg *q*, corrected
++(`per_gene.values`), which retains **final gene-level arm medians with peak and library counts, and not
++per-sample or per-peak values** — an earlier version of this statement described the sequencing
++artifact as carrying per-sample values and was wrong, and a later one described it as carrying
++group-level peak summaries, which invited the same misreading. Every *p*, ordinary 95 % confidence interval, within-platform Benjamini-Hochberg *q*, corrected
+ cross-platform state, panel *p* and sensitivity analysis reported here is committed as
+ `emc-tissue-read-statistics.json`. The per-antigen lineage and normal-organ summaries are committed as
+ `aso-delivery-antigen.json`. The surrogate stage is committed as `emc-surfaceome-scan.json`,
+@@ -1046,9 +1085,12 @@
+ 
+ **What can and cannot be reproduced.** From the retained derived records a reader can recalculate
+ offline: every array contrast, interval and within-platform Benjamini-Hochberg decision reported here;
+-the cross-platform state assignments; the three sensitivity summaries; the panel scores; and the
+-sequencing reductions from the retained grouped summaries. A reader **cannot** reproduce, from anything
+-released here: the surrogate scan's rank-test *p* and *q* values, because the artifact retains selected
++the cross-platform state assignments; the three sensitivity summaries; the panel scores; and, from the
++retained final gene-level sequencing medians, retrieval of those medians together with ratio and
++descriptive-band arithmetic over them. A reader **cannot** reproduce, from anything released here: the
++two-stage sequencing reduction that produced those medians — the median across libraries per peak,
++then the median across a gene's peaks — because the per-library values and the separate per-peak arm
++medians are not retained; the surrogate scan's rank-test *p* and *q* values, because the artifact retains selected
+ output rows rather than the complete scanned universe, its per-line observations or its full *p*-value
+ family; the array probe-to-symbol mapping as an audited chain, because the accession cache is a resolved
+ lookup rather than a complete platform-annotation audit trail with source versions and ambiguity
+@@ -1059,8 +1101,10 @@
+ 
+ **Code availability.** The statistics reported in this paper are generated by
+ `emc_tissue_read_statistics.py`, which consumes `emc-expression-panels.json` and
+-`emc-expression-panels-inputs.json` and depends on `accession-symbol-cache.json` for probe-to-symbol
+-resolution. The other producers are `emc_expression_panels.py`, `gse28866_tumour_vs_normal.py`,
++`emc-expression-panels-inputs.json`; those two files are its declared inputs and the only files its
++main reads, and it imports only the standard library. `accession-symbol-cache.json` is upstream
++probe-to-symbol mapping provenance for those inputs and is carried in the packet for that reason; it is
++not a runtime dependency of this statistics step. The other producers are `emc_expression_panels.py`, `gse28866_tumour_vs_normal.py`,
+ `emc_surfaceome_scan.py`, `emc_surface_normal_window.py`, `surfaceome_instrument_limits.py`,
+ `emc_line_data_probe.py` and `emc_gse4303_crosscheck.py`. `emc_surface_figure.py` produced the omitted
+ Figure 1 and reads a mutable remote cache, so re-running it does not reproduce the retained image; it is
+@@ -1276,7 +1320,7 @@
+ | The list of **significantly-selective antigens** | ⚠ **NOT REPRODUCED, and recounted 2026-09-08.** The set is nine within the classic-antigen subset and 18 across the retained actionable set; the earlier "eight" omitted CD248. Of the 18, five have no row on the tissue board, and none of the 13 that do is concordantly higher on both arrays; two (FGFR1, PTK7) are concordantly lower |
+ | The conclusion that the **selective-and-restricted intersection is empty** | ⚠ **RE-SCOPED TWICE.** It was computed over a set that did not contain CSPG4, a measured coverage gap rather than a rejection. ⚠ **AMENDED 2026-09-08:** the statement holds for the classic-antigen subset. Over the full retained actionable set the intersection contains exactly one antigen, DLL3 |
+ | The finding that **GSE4303 is unusable** | ⛔ **SUPERSEDED BY AN INSTRUMENT CHANGE, not by new data.** Superseded text, retained verbatim: *"The only usable, dedicated public EMC tumour transcriptome we could identify, GSE4303, is a seven-platform two-colour cDNA-clone microarray (three EMC samples per platform) whose values are reference-pool log-ratios and whose probes lack gene symbols; zero shortlist genes resolved. It cannot rank surface antigens."* One of its seven platforms, GPL3290, is now readable through an accession bridge; the earlier "zero shortlist genes resolved" was a property of the symbol lookup rather than of the deposit |
+-| The **collaboration request** | ✅ **SURVIVES, with a changed ask.** Superseded sentence, retained verbatim: *"Those models are now the ONLY route to real EMC data for this analysis"*, true on 2026-08-05 and not true once GPL3290 became readable. The decisive missing datum is now **protein and surface localisation**, plus a cohort large enough to carry a distribution |
++| The **collaboration request** | ✅ **SURVIVES, with a changed ask.** Superseded sentence, retained verbatim: *"Those models are now the ONLY route to real EMC data for this analysis"*, true on 2026-08-05 and not true once GPL3290 became readable. The missing measurements are now **protein and surface localisation**, plus a cohort large enough to carry a distribution |
+ 
+ ⭑ **The general lesson.** A search that cannot see its own subject will still return a ranked list, and the
+ list will look like a result. Nothing in the original ranking was miscomputed and every stage-1 number is
+@@ -1391,7 +1435,7 @@
+ | F07 | The rank test ran across 76 lines; "never evaluated"; 13 of 18 with a tissue reading; "the remaining 13 arrays"; a residual fibrosarcoma label | 76 is class membership and 45 are the expression-bearing lines the tested rows use. The successive denominators 2,826 / 2,692 / 47 / 18 and the classic 18/15/9 are kept separate. Ten of the 18 carry both contrasts, three one, five none. "No retained selectivity result" replaces "never evaluated" for CSPG4, B4GALNT1 and SSTR2, and absence from retained selected output is not proof a gene was never evaluated. 42 − 6 − 29 = **7** remaining arrays. "Fibrosarcoma" becomes myxofibrosarcoma |
+ | F08 | Figure 1, a 13-gene prioritisation plot, with a caption describing it as drawn over Table 1 | **The figure is omitted from this version and not replaced.** It omitted five current Table 1 rows (ALCAM, CD248, CSPG4, ERBB2, LRRC15) and printed "clean window", "target-worthy" and a "NOT EVALUATED" band inside the image, none of which the retained evidence supports, and its quadrant boundary used a positive selectivity effect rather than the *q*-based decision. A caption-only patch could not repair assertions printed in pixels. The original PNG (`research/modalities/emc-surface-prioritization.png`, 1610 x 896, SHA256 `130042b6afab8aea28874d37dd684cde96886ab25b488ab65b83dac391c439bd`) and its renderer and provenance are retained unaltered as historical bytes; no renderer was run and nothing was redrawn |
+ | F09 | PRAME "at the floor of every readable cohort"; a saturated background for VCAN; stroma caused the LRRC15 reading; one measurement would discriminate the four explanations | Array percentiles are ranks across probes and not calibrated detection limits or evidence of saturation. Absent stroma is consistent with the LRRC15 reading but is not shown to have caused it, and FAP is detectable in 56 % of class lines. Compartment attributions are hypotheses. A spatial or single-cell measurement bears on the compartment explanation only; it does not resolve the comparator, culture or platform explanations |
+-| F10 | The three-gene intersection carried the correction's error rate; panel trends supported functional conclusions; the route-panel disagreement was partly a coverage artefact | The two per-platform Benjamini-Hochberg families are retained and internally consistent; their intersection is an operational concordance and **no joint replicability FDR was estimated**. The 17 available panel tests are exploratory and uncorrected, with differing membership and coverage between platforms. No class-I presentation failure, peptide-HLA route failure or demonstrated coverage artefact is asserted |
++| F10 | The three-gene intersection carried the correction's error rate; panel trends supported functional conclusions; the route-panel disagreement was partly a coverage artefact | The two per-platform Benjamini-Hochberg families are retained and internally consistent; their intersection is an operational concordance and **no joint replicability FDR was estimated**. The panel contrasts are exploratory and uncorrected, with differing membership and coverage between platforms. ⚠ **Erratum, 2026-09-08:** the count is **16 scored contrasts** — nine on GPL6244 and seven on GPL3290 — not the 17 stated here previously; the somatostatin-receptor family and HLA-presented-intracellular-antigen panels are unscored on GPL3290 and stay unscored. The superseded number originated in the review this batch answers and was carried into the first revision; no score or test has been added, and every panel value is unchanged. No class-I presentation failure, peptide-HLA route failure or demonstrated coverage artefact is asserted |
+ | F11 | "Every number is reproducible offline from the artifacts named"; per-sample sequencing values; a data statement that omitted the statistics generator | Data availability now names `emc_tissue_read_statistics.py` and its inputs and helper dependency, states that the sequencing artifact holds group-level summaries rather than per-sample values, and separates what can be recalculated offline from retained derived records from what cannot be reconstructed back to the original public source: the scan's complete universe, per-line observations and *p*-value family; an audited probe-annotation chain; and the original peak table. A local hash-manifested packet exists; **no public immutable locator exists or is claimed** |
+ | F12 | A prior-art screen establishing that nothing is indexed; 238 full texts; a discontinued CD56 programme and modality-class performance claims | The searches are bounded retrieval and screening outcomes and support no field-wide first, absence or frequency claim. The corpus is 237 retained text files plus an index. The originating deposits are credited, with the GEO summary record's links GSE24369 → PMID 21536545, GSE28866 → PMID 22929540 and GSE4303 → PMID 15920699 — links only, establishing no article's full text or metadata. The lorvotuzumab discontinuation claim and the modality-class performance claim are removed. The unavailable B4 PNAS supplement scope stays closed |
+ | F13 | Three independent readouts resolved the H-EMC-SS identity; presence in the filtered fusion file made the missing call "a reading of absence" | The withdrawal of H-EMC-SS as authenticated EMC evidence stands. They are three information sources with related error mechanisms, not independent confirmations. Presence in the filtered file establishes that the model was represented and that this filtered caller reported no qualifying call; it is not verified biological absence. Dropping the line bounds stored mean effects and does not rederive the rank-test or Benjamini-Hochberg decisions |
+@@ -1401,6 +1445,30 @@
+ above replace both descriptions. Its substantive corrections — the three concordant genes, the 9/18
+ set definitions, the myxofibrosarcoma label and the CSPG4 scan-versus-prior distinction — stand.
+ 
++### Appendix A8 — Focused-verification residual batch (2026-09-08): residuals R1 to R8
++
++One focused verification of the F01-F13 batch held the returned candidate and set out eight residuals.
++This register records what those residuals changed in the two documents. The superseded positions are
++retained here verbatim; the corrected positions are what both documents now say. No new measurement,
++statistic, search or source was made for this batch, and every previously reported value is unchanged.
++
++| Residual | Superseded position, retained here | What both documents now say |
++|---|---|---|
++| R1 | The stromal floor was "demonstrated by LRRC15"; SI Note S1 L2 was headed "the stromal floor demonstrated" and said LRRC15 and FAP show what a stroma-only antigen looks like; CD248 and PDGFRB were exempted from the compartment caution because mesenchymal tumour cells transcribe them | LRRC15's expressed fraction of 0.0 means that no scanned line exceeded the chosen threshold: a threshold result, not a calibrated detector floor and not a demonstrated cause. FAP reads 0.16 expressed and 0.56 detectable, so it is not measured here as stroma-only. CD248 and PDGFRB culture expression shows there is something in the culture to measure and does not resolve which compartment contributes their bulk-tumour signal. Missing compartment coverage is one compatible explanation, not an identified cause. The line-authentication limitation is kept separate |
++| R2 | A non-significant surrogate result "removes a transcriptomic rationale" and "the transcriptomic case"; a FAP-directed route "cannot claim EMC as a selectively FAP-rich indication"; SSTR2 showed "no striking absolute signal" and a scan or stain was "the cheap decisive measurement"; CSPG4 was "flat" on GPL3290 and "silent there"; a non-significant row was read through the median half-width; PRAME's zero pooled normal median was described as absence from normal organs | These particular contrasts provide no significant evidence of upward enrichment; no target-selection utility, equivalence bound or protein criterion licenses removing a transcriptomic case, and no route-level or indication decision follows. Cross-probe ranks and transformed summary scores cannot express an absolute receptor level. A scan or stain would observe uptake, or protein and its localisation, in the material sampled; neither decides population expression, a therapeutic window or route suitability. The GPL3290 CSPG4 estimate is a negative, imprecise, non-significant contrast (Δ = −0.189, 95 % CI −1.23 to +0.86, *q* = 0.764) and the stored "flat" label is a banding convention, not an equivalence result or a biological state. A median half-width describes typical platform imprecision and does not determine any particular gene's interval. A zero pooled median over an unequally weighted adult and fetal panel is not absence in any contributing library, organ, or in normal organs generally. Every estimate, *q* and recorded sensitivity analysis is preserved unchanged |
++| R3 | The classic-antigen subset and the retained 47-antigen set were called nested, the latter containing the former; CSPG4 was "a gene the surrogate stage never evaluated" and "outside the stage-1 scan"; "the empty selective-and-restricted intersection" was unscoped; missing observations, a non-significant contrast and a significant decrease were grouped as none being a low or negative reading | The two sets **overlap in 15 antigens and neither contains the other**: CSPG4, B4GALNT1 and SSTR2 are classic antigens with no retained selectivity row. The nine-classic and 18-total selectivity flags are unchanged. "No retained selectivity result" is used throughout, including headings and SI summaries, and never "never evaluated" or "outside the scan". The empty stored-label intersection is scoped to the **classic subset**; the full retained intersection contains DLL3. Unavailable-evidence states, a measured non-significant contrast and a significant decrease are three different things, and a significant decrease is a measured negative contrast |
++| R4 | "Every number in this manuscript is reproducible offline"; the sequencing artifact held "group-level peak summaries"; the "sequencing reductions" could be recalculated from the retained grouped summaries; the statistics generator "depends on `accession-symbol-cache.json`" | The artifact retains **final gene-level arm medians with peak and library counts**. From them a reader can retrieve those medians and compute ratios and descriptive bands; the two-stage reduction that produced them — median across libraries per peak, then median across a gene's peaks — **cannot** be recalculated, because the per-library values and the separate per-peak arm medians are not retained. Retained per-sample derived array values remain recalculable. `accession-symbol-cache.json` is upstream probe-to-symbol mapping provenance, not a runtime dependency of the statistics step, whose declared inputs are the two panel JSONs |
++| R5 | Surrogate-based target lists "are routinely built for rare tumours" and their outcomes "rarely reported"; prioritisation "for this disease" has run on lineage surrogates; SSTR2 and GD2 were "absent from previous EMC surface discussions"; "the first EMC transcript readings" | Frequency, prior-absence and priority statements are limited to the bounded retrieval described in Methods and to this programme's own chronology. The deposits reanalysed here are credited as prior work by their depositors. No further search was made for this batch |
++| R6 | "The 17 available panel tests" (main Results, SI Table S5 caption, SI Note S5, Appendix A7 register) | **16 scored panel contrasts: nine on GPL6244 and seven on GPL3290.** The somatostatin-receptor family and the HLA-presented-intracellular-antigen panels fall below the coverage floor on GPL3290, emit no score there, and remain unscored. Every panel value in Table S5 is unchanged, and no score or test was added to justify the superseded count. The erratum is the reviewer's and the adjudicating root's own, inherited from the accepted baseline; it is corrected here rather than attributed to a later author. The substantive qualification — panels are exploratory and uncorrected, and no joint replicability FDR was estimated — is unchanged |
++| R7 | The local reproducibility packet's two manuscript entries were the pre-correction 99,615-byte main and 41,853-byte SI | The revised pair is bound as current by exact path, bytes and SHA256 in the residual batch's current-packet record, with the baseline pair retained as historical inputs and the packet manifest left unedited as a dated historical identity record. The already-held GEO summary record `geo_esummary_emc.txt` (30,740 B) is located exactly there; it carries sample titles and source PMIDs and does **not** provide a probe audit or the primary papers' full texts. No public immutable release locator exists, none is claimed, and none is a prerequisite for this local packet |
++| R8 | The F03 aggregation-order annotation was **specified, not applied** | The sole integrating parent applied it once, on 2026-09-08, as an annotation-only additive change to `gse28866-tumour-vs-normal.json` and the `_contrast` literal in `gse28866_tumour_vs_normal.py`, with the superseded string retained verbatim inside the artifact. The whole JSON was compared leaf by leaf in both directions: two keys added, one value changed, none removed, and no leaf moved outside the three annotation keys. No producer, normalisation, recalibration, inversion or renderer was executed. The dated packet manifest still records the pre-correction identities and is valid as history of what was checked when |
++
++⚠ **What this residual batch does not establish.** It adds no measurement and repairs no missing
++evidence. The broader validated normal-tissue window, a quantified transfer task, a calibrated null,
++an identified compartment, absolute surface abundance and any clinical prioritisation remain
++unavailable on the evidence and design conditions already recorded. This batch narrows the claims to
++what the retained records support; it does not lift the hold on the stronger ones.
++
+ ⚠ **What this batch does not establish.** It does not validate the normal-tissue heuristic, define or
+ estimate a transfer task, recover the original sequencing scale, reproduce any analysis from its
+ original public source, establish prespecification, or estimate a joint replicability false-discovery

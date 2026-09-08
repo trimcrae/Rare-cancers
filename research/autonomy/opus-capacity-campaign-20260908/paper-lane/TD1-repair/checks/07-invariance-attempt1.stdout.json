@@ -1,0 +1,39 @@
+{
+ "n_checks": 441593,
+ "n_failed": 4,
+ "failures": [
+  "E: every copy of the transcriptional_cdk question moved together: old_copies=3 new=1",
+  "GP: generator literal agrees with the corrected displayed annotation routes.RT-TXN-CDK.observed: the generator no longer produces the displayed string",
+  "GP: generator literal agrees with the corrected displayed annotation routes.RT-TXN-CDK.verdict: the generator no longer produces the displayed string",
+  "GP: generator literal agrees with the corrected displayed annotation routes.RT-TXN-CDK.the_dependency_screen_ran_and_it_closed_the_window: the generator no longer produces the displayed string"
+ ],
+ "n_failures_total": 4,
+ "note": "Structural invariance evidence only. Nothing here re-runs a producer or revalidates the science; it proves the shared-file patches are annotation-only.",
+ "checks_sample": [
+  {
+   "check": "research/modalities/census-route-expression-grading.json: original bytes match the ledger",
+   "pass": true,
+   "detail": "working tree drifted"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json: patched copy matches the ledger",
+   "pass": true,
+   "detail": "patched copy drifted"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json : key set preserved",
+   "pass": true,
+   "detail": "added=[] removed=[]"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json .pinned_figures_quoted_by_the_preprint: key set preserved",
+   "pass": true,
+   "detail": "added=[] removed=[]"
+  },
+  {
+   "check": "research/modalities/census-route-expression-grading.json .pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl6244: non-string leaf unchanged",
+   "pass": true,
+   "detail": "99 -> 99"
+  }
+ ]
+}

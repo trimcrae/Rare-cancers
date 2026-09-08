@@ -1,0 +1,73 @@
+TCIP F01-F13 author repair — ordered execution record
+Worktree: /home/user/Rare-cancers   Branch: claude/confident-bardeen-ji76cd   Date: 2026-09-08
+
+Every attempt made by this lane is listed, including two of my own invocation errors. Each row has a
+directory under checks/ holding command.txt, stdout.txt, stderr.txt and exit_code.txt as captured.
+Exit codes are the real ones ($? of the command, no pipes). All checks were run AFTER the coherent
+edits to both manuscripts had settled, except rows 01, 07 and 10, which measure the BEFORE bytes
+retained in this directory.
+
+01  checks/01-lint_style-BEFORE            exit 0
+    python3 research/manuscripts/lint_style.py --report <BEFORE main> <BEFORE si>
+    Report mode, exits 0 by design. Measured: main 3,252 words, bold 25.2/1000, em-dash 12.3/1000;
+    SI 2,084 words, bold 41.7/1000, em-dash 14.4/1000. Total 99 findings across the two files.
+
+02  checks/02-lint_style-AFTER             exit 0
+    python3 research/manuscripts/lint_style.py --report <revised main> <revised si>
+    Measured: main 5,943 words, bold 8.9/1000, em-dash 4.2/1000 (no density violations remain on the
+    main text); SI 4,873 words, bold 24.0/1000, em-dash 6.4/1000. Total 82 findings across the two.
+
+03  checks/03-lint_style-AFTER-check       exit 1
+    python3 research/manuscripts/lint_style.py <revised main> <revised si>
+    FAILS. This is the repository's house-register convention (bold-midsentence, glyph,
+    heading-style, and on the SI the bold/em-dash density limits), NOT a scientific defect. Neither
+    TCIP file is in this linter's TARGETS list, so it is not enforced on them by preflight or CI;
+    exit 1 here is the result of pointing the linter at a file that is not enrolled in that gate.
+    Measured before/after in rows 01 and 02: 99 findings -> 82, with main-text bold density 25.2 ->
+    8.9 per 1000 and em-dash 12.3 -> 4.2 per 1000. Nothing was weakened to obtain a pass, and the
+    linter's TARGETS list was not touched.
+
+04  checks/04-lint_claims-AFTER            exit 0
+    python3 research/manuscripts/lint_claims.py <revised main> <revised si>
+    PASSES: 0 ERROR, 2 WARN. Both warnings are the R4-confirms advisory on the verb "establishes",
+    in "What the source establishes is narrower" (M 1) and "What the primary abstract establishes"
+    (M 7). Both sentences state what a source says, which is the intended use; left as written.
+
+05  checks/05-lint_citations-AFTER         exit 2
+    python3 research/manuscripts/lint_citations.py <revised main> <revised si>
+    MY ERROR, retained. This linter takes no file arguments; argparse rejected them. Re-issued
+    correctly as row 08.
+
+06  checks/06-lint_consistency-AFTER       exit 2
+    python3 research/manuscripts/lint_consistency.py <revised main> <revised si>
+    MY ERROR, retained. Same cause: the linter takes only --json/--repo. Re-issued as row 09.
+
+07  checks/07-lint_style-BEFORE-check      exit 1
+    python3 research/manuscripts/lint_style.py <BEFORE main> <BEFORE si>
+    FAILS, as the revised files do. Recorded so the row-03 failure is not read as a regression: the
+    frozen text failed the same non-enforced convention, with more findings.
+
+08  checks/08-lint_citations-repo          exit 1
+    python3 research/manuscripts/lint_citations.py
+    FAILS repo-wide: 1,918 prose identifiers, 516 unanchored, plus the advisory retraction-sweep
+    rows. Pre-existing repository state. Neither revised TCIP file appears anywhere in its output
+    (grep for "tcip-induced-interface-preprint" returns 0 matches), so this failure is not
+    attributable to this repair. Nothing was changed to make it pass.
+
+09  checks/09-lint_consistency-repo        exit 1
+    python3 research/manuscripts/lint_consistency.py
+    FAILS repo-wide: 3 ERROR across 29 target files, all three [A-key-missing] on
+    research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json. Unrelated to TCIP; no TCIP
+    pinned figure is registered, which is itself recorded in Appendix A item 1 of the manuscript.
+    Nothing was changed to make it pass.
+
+10  checks/10-lint_claims-BEFORE           exit 0
+    python3 research/manuscripts/lint_claims.py <BEFORE main> <BEFORE si>
+    "OK - 2 file(s) clean". Recorded so the two AFTER warnings in row 04 are visible as new advisory
+    findings rather than inherited ones.
+
+NOT RUN, deliberately
+    scripts/preflight.sh                 — the contract forbids it; the parent integrates.
+    any producer, sampler, census or figure run — forbidden by the contract's fences.
+    lint_readability.py, lint_asymmetry.py, the repository test suite — outside the finite,
+      directly relevant set for this change; not run, and therefore not reported as passing.

@@ -1,0 +1,27 @@
+diff --git a/research/modalities/gse28866_tumour_vs_normal.py b/research/modalities/gse28866_tumour_vs_normal.py
+index 4be4e151f..9db1d5f19 100644
+--- a/research/modalities/gse28866_tumour_vs_normal.py
++++ b/research/modalities/gse28866_tumour_vs_normal.py
+@@ -472,9 +472,19 @@ def main(argv=None):
+         try:
+             per_gene, missing, _ = _extract(fetched["normalized_36048_peaks"], WANTED)
+             doc["per_gene"] = {
+-                "_contrast": ("Median across a gene's 3SEQ peaks, then median across libraries in "
+-                              "each arm. EMC n=4; normals n=27 (bowel/breast/colon/kidney/lung/"
+-                              "uterus); other sarcomas = DDLPS, ESS, EWS, GIST, LMS, MLPS, SS."),
++                "_contrast": ("For each 3SEQ peak, the median across the libraries in an arm; then "
++                              "the median across that gene's peaks. This is the order _extract "
++                              "implements; the reverse order was stated here in error and does not "
++                              "commute with it. Values are the deposit's own depth/sample-mean "
++                              "normalized scores AFTER a square-root compression applied by the "
++                              "depositors (see geo-gse28866-brunner-series.json, "
++                              "series_record.overall_design), so they are compressed summary scores "
++                              "and NOT linear abundances; a ratio of them is not a fold change and "
++                              "squaring it does not recover one. EMC n=4 libraries; normals n=27 "
++                              "libraries (17 adult, 10 fetal; bowel/breast/colon/kidney/lung/"
++                              "uterus, unequally weighted); other sarcomas = 32 libraries from 30 "
++                              "specimens (DDLPS, ESS, EWS, GIST, LMS, MLPS, SS; two specimens "
++                              "contribute duplicate libraries)."),
+                 "_what_the_normal_arm_cannot_settle": (
+                     "The normals are visceral organs with almost no soft tissue in them, so a gene "
+                     "high in EMC against THIS panel is not thereby shown to be EMC-specific rather "

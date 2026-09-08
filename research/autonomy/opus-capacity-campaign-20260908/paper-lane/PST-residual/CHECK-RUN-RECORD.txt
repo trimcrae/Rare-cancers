@@ -1,0 +1,108 @@
+P-ST RESIDUAL BATCH R1-R8 — ORDERED EXECUTION RECORD
+Date: 2026-09-08. Repository root: /home/user/Rare-cancers. Branch: claude/confident-bardeen-ji76cd.
+Every attempt is listed, failures included. Exit codes are the real ones ($? with no pipes).
+No test was skipped, deselected, loosened or re-labelled. scripts/preflight.sh was NOT run
+(out of scope for this lane: no commit is made from here). No producer, normalisation,
+recalibration, inversion or renderer was executed anywhere in this batch.
+
+--------------------------------------------------------------------------------------------
+RUN-01-panel-count-FAILED                                                            EXIT = 1
+  python3 count_panels.py   (body preserved as count_panels_FAILED.py)
+  First attempt to count scored panel contrasts. It assumed panel_scores_with_p.rows was a
+  LIST of row dicts; it is a DICT keyed by panel name, so r['platform'] indexed a string.
+  TypeError, nothing produced. Preserved, not deleted.
+
+RUN-02-panel-count                                                                   EXIT = 0
+  python3 count_panels.py   (corrected to the artifact's actual structure)
+  Read the stored `scored` flags — no calculation. Result:
+      GPL6244 scored=9 unscored=0
+      GPL3290 scored=7 unscored=2  ['hla_presented_intracellular_antigens_NOT_surface',
+                                    'somatostatin_receptor_family']
+      SCORED CONTRAST TOTAL = 16
+  This is the measured basis of the sixteen-panel erratum.
+
+RUN-03-apply-FAILED                                                                  EXIT = 1
+  python3 .../PST-residual/execution/apply_pst_residual.py
+  FileNotFoundError: the script resolved its root with parents[4], four levels above
+  execution/, landing on research/autonomy/. NOTHING WAS WRITTEN — the script reads both
+  files before editing anything. Fixed by correcting the path constant to parents[2].
+  No anchor and no check was loosened. See WHY.txt in that directory.
+
+RUN-04-apply                                                                         EXIT = 0
+  python3 .../PST-residual/execution/apply_pst_residual.py
+  38 exact-match edits applied: 25 to the candidate main, 13 to the candidate SI.
+  Every anchor had to match EXACTLY ONCE or the script exits non-zero without writing.
+      main  132,856 B ebce0a9d… -> 137,848 B 6b0b6c81…
+      SI     54,084 B 105fc873… ->  56,124 B 29021277…
+
+RUN-05-apply-part2                                                                   EXIT = 0
+  python3 .../PST-residual/execution/apply_pst_residual_part2.py
+  1 exact-match edit: the new dated Appendix A8 residual register (R1-R8) inserted into the
+  main text before the "What this batch does not establish" note.
+      main  137,848 B 6b0b6c81… -> 146,042 B 371ec8d9…
+
+RUN-06-integrate                                                                     EXIT = 0
+  cp the candidate pair to research/manuscripts/surface-targets/, then cmp + sha256sum both.
+  cmp reported no differences; canonical and candidate copies are byte-identical:
+      main 146,042 B 371ec8d92c3238b09f2117e14613184c422db1f094e83f431bad07d46e93179e
+      SI    56,124 B 290212776b2f103d64a270f12936245be00bfc6c97f5678b492589bc3680ad16
+
+RUN-07-diffs                                                                         EXIT = 0
+  diff -u for four manuscript files (each individual diff exits 1 because the files differ;
+  the recorded 1s are in stdout.txt and are expected). Wrote DIFFS/:
+      residual--emc-surface-target-landscape.md.diff                 380 lines
+      residual--emc-surface-target-landscape-si.md.diff              156 lines
+      integration-baseline-to-current--…landscape.md.diff          1,355 lines
+      integration-baseline-to-current--…landscape-si.md.diff         568 lines
+
+RUN-08-pst-checker                                                       EXIT = 1  (EXPECTED)
+  python3 .../P-ST-correction/execution/check_pst_correction.py . \
+          .../P-ST-correction/revised .../P-ST-correction/packet/PACKET-MANIFEST.json
+  52 passed, 2 failed.
+    FAIL F11-sequencing-not-per-sample — the check requires the literal string
+         "group-level peak summaries and not per-sample values", which R4 required to be
+         replaced. Its artifact half still holds and was re-verified in RUN-11. The check is
+         a LIMITED hardcoded string check; it was NOT modified.
+    FAIL packet-manifest-reproduces — names exactly four CHANGED entries: the two files the
+         parent's F03 application changed, and the two manuscript paths R7 integration
+         changed. PACKET-MANIFEST.json is a dated historical identity record and was
+         deliberately NOT rewritten. tableS6-sequencing-bindings still PASSES (6 genes, all
+         match) — the binding that would move if any measured value had moved.
+  Neither failure was made to pass. No guard, matcher, floor, pin or manifest was weakened.
+
+RUN-09-diffs-records                                                                 EXIT = 0
+  diff -u for the two lane record files (each exits 1; recorded in stdout.txt). Wrote
+      residual--F01-F13-RESPONSE-MAP.md.diff, residual--CORRECTION-RECORD-P-ST.md.diff
+
+RUN-10-residual-integrity                                                            EXIT = 1
+  python3 .../PST-residual/execution/check_pst_residual.py
+  49 passed, 1 failed: R6-text-says-16. THIS AUTHOR'S OWN EXPECTATION WAS WRONG — it asserted
+  one occurrence of "16 scored panel contrasts" in the main text, but there are two (Results
+  plus the Appendix A8 register row) and a third "16 scored contrasts" in the Appendix A7
+  erratum row. The manuscript text was NOT changed to satisfy the check; the check's expected
+  constants were corrected to the measured, intended invariant (live prose 1, main including
+  the two dated registers 3, SI 2) with the reason recorded in the script. Both runs kept.
+
+RUN-11-residual-integrity                                                            EXIT = 0
+  python3 .../PST-residual/execution/check_pst_residual.py
+  50 passed, 0 failed. What it established:
+    R6  artifact scored 9 GPL6244 + 7 GPL3290 = 16; both GPL3290 unscored states still
+        printed in Table S5; all 10 Table S5 table lines BYTE-IDENTICAL to the pre-residual
+        candidate; "17 available panel" survives only inside the dated Appendix A8 register.
+    R8  both live files match the parent's applied receipt exactly (28,606 B 386a0351… and
+        31,856 B 404fe285…), and all three annotation keys are present, including the
+        verbatim superseded string.
+    R4  every per_gene.values record carries n_peaks and the three arm medians and NO
+        per-sample / per-library / per-peak field (19 genes); main and SI both state the
+        retrieval-and-ratio boundary and the unavailable two-stage reduction; the accession
+        cache is described as upstream mapping provenance.
+    R1-R5  20 withdrawn phrasings absent from live prose; 13 corrected phrasings present.
+    R3  nine-classic and 18-total selectivity flags still stated.
+    R7  canonical and candidate pair identical at the bound bytes/hashes; geo_esummary_emc.txt
+        present at 30,740 B sha256 1726d018… .
+    F08 original PNG sha256 unchanged; no Figure 1 display item.
+--------------------------------------------------------------------------------------------
+
+FINAL STATE: 11 attempts. 7 exit 0, 4 exit 1 (RUN-01 and RUN-03 this author's own errors,
+fixed without loosening anything; RUN-08 the two expected and deliberately retained failures;
+RUN-10 this author's own wrong expected constant, corrected to the measured truth).

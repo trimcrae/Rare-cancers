@@ -184,8 +184,12 @@ Rasterised with `ghostscript` (no `pdftoppm`, no `pdftotext` in this environment
    stands ~55 mm tall and its per-cell statistics are near the bottom of what prints legibly.
    **Legibility is unverified**: nothing here was read at 100 %, and no figure was redrawn.
    The same caveat the ATR stylesheet already records applies with more force.
-2. ⚠ In the journal build **Figure 1 sits at the foot of p10 with its legend continuing onto p11.**
-   `break-inside: avoid` binds the figure, not figure-plus-legend.
+2. ⛔ **SUPERSEDED 2026-09-08 — this was wrong.** It read: *"In the journal build Figure 1 sits at
+   the foot of p10 with its legend continuing onto p11. `break-inside: avoid` binds the figure, not
+   figure-plus-legend."* Root **directly viewed journal p10** and found **Figure 1's full legend on
+   p10; it is not split across p10–11.** The `break-inside` observation about what the rule binds
+   stands as a statement about the rule; the page-split it was offered as evidence for did not
+   happen. See `DISPOSITION-root-2026-09-08.md`.
 3. ⚠ In manuscript style `figure.figure { break-before: page }` gives each panel its own page, so
    pp. 19–21 carry a panel, its legend and white space. That is the house rule for display items;
    it was not changed.

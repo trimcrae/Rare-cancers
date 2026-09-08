@@ -1,0 +1,17 @@
+R2 · CHECK-RUN-RECORD — ordered execution attempts, real exit codes
+container: Linux 6.18.44-fc-v24, python 3.11.15, 4 CPUs; recorded 2026-09-08T22:50Z-22:56Z
+every attempt made is listed; none omitted; no exit code is reconstructed
+
+EXIT        CHECK / COMMAND
+1     01-import-calvados                   python3 -c "import calvados; print(calvados.__version__, calvados.__file__)"
+1     02-import-openmm                     python3 -c "import openmm; print(openmm.__version__)"
+1     03-import-mdanalysis                 python3 -c "import MDAnalysis; print(MDAnalysis.__version__)"
+1     04-import-mdtraj                     python3 -c "import mdtraj; print(mdtraj.__version__)"
+0     05-pip-list-grep                     python3 -m pip list 2>&1 | grep -Ei "calvados|openmm|mdtraj|MDAnalysis|numpy|scipy|pandas"; exit ${PIPESTATUS[0]}
+0     06-find-calvados-onfs                find / -xdev -iname "*calvados*" -not -path "*/Rare-cancers/*" 2>/dev/null | head -50
+2     07-conda-envs                        command -v conda micromamba mamba; ls -d /opt/conda /opt/miniconda* 2>&1
+0     08-cpu-and-gpu                       nproc; command -v nvidia-smi || echo "nvidia-smi absent"
+0     09-proxy-env                         env | grep -Ei "proxy" | sed "s#//[^@]*@#//<redacted>@#"
+0     10-selftest-frozen-module            cd /home/user/Rare-cancers && python3 research/modalities/emc_condensate_calvados.py --selftest
+0     11-scorer-reproduce-and-second-half  cd /home/user/Rare-cancers && python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-condensate-convergence/scripts/sensitivity_second_half.py
+0     12-drift-bound                       cd /home/user/Rare-cancers && python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-condensate-convergence/scripts/drift_bound.py

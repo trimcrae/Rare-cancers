@@ -78,8 +78,18 @@ UNVERIFIED together with its locator, never promoted and never silently dropped.
 There is no confirmation quota. v1's 503 CONFIRMED is not a target. A substantial fall in
 confirmation is the expected and correct consequence of deleting a token test.
 
-WHAT v2 CHANGES, RULE BY RULE
+WHAT v2 CHANGES, RULE BY RULE  [HISTORICAL -- written for v2; see the CURRENT note below]
 -----------------------------
+ * CURRENT, 2026-09-08 -- two assertions in the v2 rules below are no longer accurate of this
+   producer, and are marked rather than silently retokenised:
+     - rule 1 "carried through verbatim": v3 carries the leaf narrative as a LABELLED TRANSFORMED
+       EXCERPT, not verbatim text (column leaf_narrative_transformed_excerpt_not_parsed; test T7).
+     - rule 2 "two independent exact field identities": the label and the description are two
+       fields of the SAME record and their agreement is NOT independent confirmation of identity
+       (test T8). v3 names the premise in registry_type_statement_assumption instead, and since
+       2026-09-08 names it PER RELATION -- two-agreeing, label-only and description-only are three
+       distinct unproved premises, not two.
+   The v2 text is left exactly as written below because it is the record of what v2 asserted.
  1. Leaf narrative tokens can never confirm. `verify_leaf_claim` reads the leaf's claimed arm
     LABEL and checks it against the record's arm labels; the narrative text is carried through
     verbatim as evidence-for-a-human but is never parsed for meaning.
@@ -324,14 +334,20 @@ def decide_link(gtitle, gdesc, armgroups, leafrec):
                                           if claim_state != "NO_LEAF" else "")
         return out
 
-    # ---- two independent exact field identities agreeing on one arm = SOURCE_FIELD_MATCH ---------
+    # ---- two agreeing exact FIELD CORRESPONDENCES on one arm = SOURCE_FIELD_MATCH ---------------
+    # Not "two independent identities": the label and the description are two fields of the SAME
+    # record, written by the same depositor, so their agreement is not independent confirmation and
+    # does not prove arm identity. The premise travels in registry_type_statement_assumption.
     if lab_i is not None and des_i is not None and lab_i == des_i:
         out.update(arm_link_state="SOURCE_FIELD_MATCH",
                    arm_link_relation="TWO_AGREEING_FIELD_MATCHES:%s+%s" % (lab_code, des_code),
                    arm_link_source="SOURCE_RECORD", bound_arm_index=lab_i, n_candidate_arms=1,
                    candidate_arm_indices=str(lab_i),
                    arm_link_locator="%s[%d].label and %s[%d].description" % (AG, lab_i, AG, lab_i))
-    # ---- a unique description-field identity alone is an explicit within-record identity -------
+    # ---- a unique description-FIELD CORRESPONDENCE alone: a within-record relation ---------------
+    # Explicit in the record, but still a text correspondence and NOT a proven identity, and it rests
+    # on a different premise from the two-agreeing case. It carries its own relation-specific
+    # assumption (ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED).
     elif lab_n == 0 and des_i is not None:
         out.update(arm_link_state="SOURCE_FIELD_MATCH",
                    arm_link_relation="DESCRIPTION_FIELD_MATCH_ONLY:%s" % des_code,
@@ -456,13 +472,31 @@ def decide_comparator(link, gtitle, gdesc, armgroups, arm_set_type_state, types)
         wording.append("GROUP_TITLE_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN")
     group_text_wording = ";".join(wording)
 
-    # v3 correction (root item 5): a group-arm relationship computed from agreeing SOURCE FIELDS is
-    # a text correspondence, not a registry assertion of identity. Any comparator TYPE read through
-    # such a relationship carries that unproved assumption in machine state, on both strengths.
-    identity_assume = ("" if not linked else
-                       "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED"
-                       if link["arm_link_state"] == "LABEL_MATCH" else
-                       "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED")
+    # v3 correction (root item 5): a group-arm relationship computed from SOURCE FIELDS is a text
+    # correspondence, not a registry assertion of identity, at every strength. Any comparator TYPE
+    # read through such a relationship carries that unproved assumption in machine state.
+    #
+    # RESIDUAL CORRECTION, 2026-09-08: the assumption is derived from the ACTUAL RELATION, not from
+    # the state. SOURCE_FIELD_MATCH is reached two different ways -- 57 rows by two agreeing field
+    # matches, and 1 row by a unique description-field match alone -- and those rest on DIFFERENT
+    # unproved premises. Selecting on the state alone gave the description-only row a two-agreeing
+    # assumption it does not have. The relation is the thing that knows, so the relation selects.
+    # A cleared contrary-description binding prefixes the relation; strip the prefix before reading
+    # it, so a cleared row is classified by the relation that actually survived.
+    rel = link["arm_link_relation"].split("CONTRARY_DESCRIPTION_BINDING_CLEARED:", 1)[-1] \
+        if linked else ""
+    identity_assume = (
+        "" if not linked else
+        "ASSUMES_LABEL_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED"
+        if rel.startswith("LABEL_FIELD_MATCH_ONLY") else
+        "ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED"
+        if rel.startswith("DESCRIPTION_FIELD_MATCH_ONLY") else
+        "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED"
+        if rel.startswith("TWO_AGREEING_FIELD_MATCHES") else
+        # honest catch-all: a bound row whose relation is none of the three named forms. It names
+        # the gap rather than defaulting to the strongest premise. Expected count in the delivered
+        # map is ZERO, and the census reports it so that a future producer change cannot hide here.
+        "ASSUMES_THE_RECORDED_GROUP_ARM_RELATION_IS_ARM_IDENTITY_UNPROVED_RELATION_FORM_UNCLASSIFIED")
 
     # registry type statement -- separate from any clinical role, with its assumption named
     if len(armgroups) == 0:

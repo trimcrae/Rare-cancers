@@ -1,0 +1,13 @@
+max |per-run drift| = 0.05188 ; separation threshold = 0.05738
+
+primary pairs: current |dnu|, worst-case |dnu| if BOTH construct means shift by their
+own observed mean drift in the most separating direction, and by +/- max per-run drift:
+  E264_vs_C264   |dnu|=0.00283  obs-drift-worst=0.00838  adversarial(+/-max)=0.10660  thr=0.05738  clears=False/True
+  E360_vs_C360   |dnu|=0.01173  obs-drift-worst=0.01975  adversarial(+/-max)=0.11550  thr=0.05738  clears=False/True
+  T161_vs_C161   |dnu|=0.00674  obs-drift-worst=0.01331  adversarial(+/-max)=0.11051  thr=0.05738  clears=False/True
+
+instrument control E264_E15 - E264 = +0.08190  (needs >= 0.05738) margin=+0.02452
+second-half: E264_E15 - E264 = +0.08344 (needs >= 0.07472) margin=+0.00872
+
+nu range over all runs: 0.4256 .. 0.5716  (NU_BROKEN (0.15, 0.95), NU_EXPECTED (0.3, 0.75))
+nu_second_half range: 0.4171 .. 0.5744

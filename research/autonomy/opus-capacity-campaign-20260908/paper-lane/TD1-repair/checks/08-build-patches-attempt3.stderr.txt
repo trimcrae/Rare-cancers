@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-repair/checks/build_shared_patches.py", line 355, in <module>
+    gp, hi, good = replace_entry(gp, lo, hi, key, new, f"GP {route}.{key}")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-repair/checks/build_shared_patches.py", line 332, in replace_entry
+    rendered = "\n" + py_literal(indent, key, new_value).rstrip("\n")
+                      ^^^^^^^^^^
+NameError: name 'py_literal' is not defined

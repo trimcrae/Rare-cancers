@@ -1,0 +1,81 @@
+wrote /home/user/Rare-cancers/research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json
+
+== A_tki_objective_response
+{
+ "question": "Does the NR4A3 5' fusion partner predict objective response to an antiangiogenic TKI in advanced EMC?",
+ "endpoint": "RECIST objective response (partial or complete) on sunitinib or pazopanib",
+ "cohorts_identified": 3,
+ "cohorts_pooled_primary": 1,
+ "cohorts_excluded": {
+  "sunitinib-2014": "population-overlap (POLICY-evidence.md s2.3) -- cannot be shown distinct from the pazopanib trial",
+  "sunitinib-2012-two-cases": "population-overlap (POLICY-evidence.md s2.3) -- contained in the 2014 series"
+ },
+ "primary_non_overlapping": {
+  "definition": "POLICY-conformant headline: only cohorts that can be shown non-overlapping. Overlap with the sunitinib series cannot be excluded, so the smaller series is held out and the pazopanib trial stands alone. \u26d4 THIS CONTRAST IS ITSELF A CONDITIONAL RECONSTRUCTION (stated at first appearance, 2026-09-08, R2). The trial's primary report distinguishes 26 treated, 23 modified-ITT and 22 primary-endpoint evaluable; the retained reviews place three TAF15 patients in the trial and report that none responded, WITHOUT giving a partner-by-analysis-population flow. 0/3 versus 4/19 is therefore CONDITIONAL ON all three TAF15 patients sitting inside the 22 evaluable, and the three other exclusions between 26 and 22 are unaccounted for in every source held here. It is not an established partner partition of the evaluable cohort.",
+  "contrast": {
+   "id": "tki_response_pazopanib_only",
+   "taf15_arm": {
+    "events": 0,
+    "denom": 3,
+    "proportion": 0.0,
+    "percent": 0.0,
+    "ci95_lo_percent": 0.0,
+    "ci95_hi_percent": 56.1,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_arm": {
+    "events": 4,
+    "denom": 19,
+    "proportion": 0.2105,
+    "percent": 21.1,
+    "ci95_lo_percent": 8.5,
+    "ci95_hi_percent": 43.3,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_minus_taf15_percentage_points": 21.1,
+   "fisher_exact_two_sided_p": 1.0,
+   "fisher_note": "POST-HOC DESCRIPTIVE ONLY. Not prespecified, not performed in any source report, not corrected for the multiple endpoints on this page, and not used to license any claim.",
+   "note": "Single-cohort intervals; no between-study weighting is involved."
+  }
+ },
+ "secondary_assume_independent": {
+  "definition": "\u26d4 CONDITIONAL DESCRIPTIVE MIXTURE (label applied at every live site, 2026-09-08, R2). Crude denominator-weighted tally of both 
+
+== B_outcome_by_partner
+{
+ "question": "What per-partner outcome events do source-verified cohorts actually record, and over what observation windows?",
+ "what_changed_2026_09_08": "\u26d4 THE TWO-COHORT POOLED PROGNOSTIC MAGNITUDE IS WITHDRAWN. \u26a0 *Superseded, retained: 'A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME ... the outcome pool is now 73 patients across two cohorts', with pooled disease-specific death 7/15 against 6/58, a 36.3-point gap and post-hoc Fisher p = 0.0034.* Every figure in that sentence depended on Huang 2023 Table 1 cells that no retained original verifies: the holdings for that paper are an abstract record and a manifest recording HTTP 403 on the publisher's routes. A denied-route manifest is not the denied document. The inputs are removed rather than re-estimated, and they are quarantined in cohorts[huang-2023-outcome].withdrawn_2026_09_08 so the removal is auditable. \u2b50 THIS IS AN INPUT REMOVAL, NOT A CHANGED OBSERVED CELL: no Agaram 2014 count below has changed by one patient. THE WITHDRAWAL IS SCOPED ABSENCE AND NOT A FINDING THAT HUANG'S PUBLISHED COUNTS ARE WRONG; it reopens if an authentic original is supplied.",
+ "does_not_touch_the_response_question": "The response question (analysis A) and the outcome question are different endpoints in different populations, and neither moves the other. Nothing in this block is evidence about response to any drug.",
+ "cohorts_identified": 4,
+ "cohorts_pooled": 1,
+ "pooled_cohorts": [
+  "agaram-2014-outcome"
+ ],
+ "cohorts_excluded": {
+  "huang-2023-outcome": "source-table-unverified (POLICY-evidence.md s2.1/s2.3) -- see cohorts[huang-2023-outcome].context_note",
+  "suemitsu-2025-outcome": "population-overlap-unresolved (POLICY-evidence.md s2.1/s2.3) -- see cohorts[suemitsu-2025-outcome].context_note",
+  "paioli-2021-outcome": "counts-not-reported (POLICY-evidence.md s2.1/s2.3) -- see cohorts[paioli-2021-outcome].context_note"
+ },
+ "\u26a0_roster_scope": "\u26d4 WHAT THE ROSTER COUNTS ABOVE DO AND DO NOT MEAN (added 2026-09-08, residual batch R6). `cohorts_identified`, `cohorts_pooled` and `cohorts_excluded` are DERIVED by _roster() from the COHORTS objects carrying `endpoint: outcome_by_partner`. That is a SCHEMA scope, not a claim about which sources report per-partner outcomes. ONE FURTHER SERIES WITH SOURCE-VERIFIED PER-PARTNER OUTCOME COUNTS IS NOT COUNTED HERE: Sjogren 2003, whose cohort object carries 
+
+== C_partner_prevalence
+{
+ "question": "How many EMC patients would a TAF15-vs-EWSR1 stratification actually touch?",
+ "denominator_convention": "Partner-assigned cases only. Each cohort's NR4A3-rearranged-but-partner-unassigned residue is recorded in its `not_partner_assigned` field and excluded from both numerator and denominator, because the series do not report that residue comparably.",
+ "ascertainment_stages": {
+  "_added": "\u26d4 ADDED 2026-09-08 (residual batch R5). MOLECULAR CONFIRMATION AND NAMED-PARTNER IDENTIFICATION ARE DIFFERENT STAGES AND THIS SYNTHESIS ONCE PRINTED THE SECOND TWICE. \u26d4 *Superseded, retained: a 'molecularly characterised' column reading 24 / 57 / 12 / 62, which duplicated the named-partner counts for three of the four series.* THE TWO SETS OF INTEGERS ARE NOT THE SAME AND NOT ALL NUMBERS HERE ARE INVARIANT: the molecular-confirmation / successful-test counts are 26 / 58 / 12 / 67 and the named-partner counts are 24 / 57 / 11 / 62. The named-partner counts are what the prevalence arithmetic uses and THEY ARE UNCHANGED, so 28/154 = 18.2 % (95 % CI 12.9-25.0) is unchanged. The corrected column is the confirmation stage, which was wrong.",
+  "_definitions": {
+   "total_in_series": "Cases the report describes as its series.",
+   "molecular_confirmation_or_successful_test": "Cases in which the reported molecular workup succeeded in establishing an NR4A3-rearranged tumour. The exact assay and result definition differs by series and is stated per row; these are NOT one harmonised criterion.",
+   "named_partner_assigned": "Cases in which a 5' partner gene was identified and named. THIS IS THE PREVALENCE DENOMINATOR.",
+   "followed_for_outcome": "Cases with outcome follow-up reported. \u26d4 THIS STAGE IS UNKNOWN FOR THREE OF THE FOUR SERIES and is recorded as unknown rather than filled in. Huang's 53-followed figure is NOT reinstated here: it came from the withdrawn Table 1 reading and no retained original supports it."
+  },
+  "per_series": {
+   "agaram-2014-prevalence": {
+    "total_in_series": 26,
+    "molecular_confirmation_or_successful_test": 26,
+    "named_partner_assigned": 24,
+    "followed_for_outcome": 26,
+    "assay_and_result_definition": "All 26 received NR4A3/EWSR1 FISH and all 26 had an NR4A3 rearrangement (retained full text, line 626). Two of the 26 had no identified 5' partner. Follow-up is reported for all 26."
+   },
+   "huang-2023-pre

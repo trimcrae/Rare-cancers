@@ -254,7 +254,11 @@ def t5a():
 
 
 def t5b():
-    # a description-only identity is also a genuine explicit within-record relation, with a path
+    # a description-only correspondence is an explicit within-record RELATION with a field path --
+    # and it rests on its OWN premise, not the two-agreeing one. Before the 2026-09-08 residual
+    # correction this fixture stopped at decide_link and so never exercised the assumption that
+    # decide_comparator propagates, which is exactly how the wrong token survived on the one
+    # delivered description-only row.
     ai = [arm("A1", "ACTIVE_COMPARATOR", "Docetaxel 75 mg/m2 every 3 weeks"),
           arm("A2", "EXPERIMENTAL", "Study drug every 3 weeks")]
     link = v3.decide_link("Chemotherapy", "Docetaxel 75 mg/m2 every 3 weeks", ai, None)
@@ -262,6 +266,14 @@ def t5b():
     assert link["arm_link_relation"] == "DESCRIPTION_FIELD_MATCH_ONLY:DESC_BYTE_EXACT", link
     assert link["arm_link_locator"] == (
         "protocolSection.armsInterventionsModule.armGroups[0].description"), link
+    role, basis, stmt, assume, btype, flags, role_assume, wording = v3.decide_comparator(
+        link, "Chemotherapy", "Docetaxel 75 mg/m2 every 3 weeks", ai,
+        "MIXED_ARM_TYPES", ["ACTIVE_COMPARATOR", "EXPERIMENTAL"])
+    assert assume == "ASSUMES_DESCRIPTION_FIELD_CORRESPONDENCE_IS_ARM_IDENTITY_UNPROVED", assume
+    assert assume != "ASSUMES_TWO_AGREEING_SOURCE_FIELD_MATCHES_ARE_ARM_IDENTITY_UNPROVED", assume
+    # if this relation ever supplies a comparator TYPE, the SAME relation-specific premise travels
+    if role_assume:
+        assert role_assume == assume, (role, role_assume, assume)
 
 
 def t5c():
@@ -416,7 +428,7 @@ for name, fn in [("T1_narrative_token_without_corroboration_cannot_confirm", t1)
                  ("T4c_bound_non_comparator_type_is_NOT_ESTABLISHED_not_proof_of_absence", t4c),
                  ("T4d_zero_arms_absent_type_and_contested_stay_distinct_values", t4d),
                  ("T5a_exact_source_backed_supported_relation_stays_recorded", t5a),
-                 ("T5b_description_only_identity_is_confirmed_with_a_field_path", t5b),
+                 ("T5b_description_only_relation_carries_its_OWN_relation_specific_assumption", t5b),
                  ("T5c_case_whitespace_label_match_stays_LABEL_MATCH_with_its_assumption", t5c),
                  ("T5d_dosage_unit_difference_is_not_normalised_into_equivalence", t5d),
                  ("T2e_a_cleared_binding_does_not_leave_a_stale_leaf_agreement", t2e),

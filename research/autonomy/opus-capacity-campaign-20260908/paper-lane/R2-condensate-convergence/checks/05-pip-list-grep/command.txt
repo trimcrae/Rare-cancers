@@ -1,0 +1,1 @@
+python3 -m pip list 2>&1 | grep -Ei "calvados|openmm|mdtraj|MDAnalysis|numpy|scipy|pandas"; exit ${PIPESTATUS[0]}
