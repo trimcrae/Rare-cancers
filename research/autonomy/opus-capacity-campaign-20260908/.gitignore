@@ -1,0 +1,10 @@
+# Fetched input capsules and their extractions are NOT committed here.
+#
+# Both capsules already exist as committed blobs on the supporting-input branch
+# `codex/opus-cloud-inputs-20260908`, so re-committing them would duplicate ~2.9 MiB
+# of identical bytes on this branch. Their provenance — origin ref, commit, byte
+# size and SHA256, all verified by the coordinator before extraction — is recorded
+# in MANIFEST.md, which is committed. Re-fetch with:
+#   git show b6028870553164c179e90f1014857db9bd7e335f:research/autonomy/cloud-inputs-2026-09-08/source-index-cloud-inputs.zip
+#   git show e657f414ae5d2fe69e22b564ef36d4b2e134cee9:research/autonomy/cloud-inputs-2026-09-08/evidence-4878-exact-files.zip
+inputs/

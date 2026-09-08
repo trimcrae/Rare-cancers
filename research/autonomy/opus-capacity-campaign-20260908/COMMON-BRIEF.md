@@ -1,0 +1,84 @@
+# Common worker brief — OPUS-CAPACITY-CAMPAIGN-20260908
+
+Read this in full before doing anything else. It binds every worker in this campaign.
+
+## 1. Your environment and boundaries
+
+- Repository: `/home/user/Rare-cancers`. Frozen read commit:
+  `92abbcb905cacf07f14b238db50d1b98f6590374` (this checkout's HEAD). Treat the whole tree as
+  **read-only** except your own two paths.
+- **WRITE ISOLATION — CORRECTED 2026-09-08T01:52Z, this supersedes any write path named in your
+  dispatch prompt.** You are **READ-ONLY on the Git working tree**. Disjoint paths inside one
+  shared working tree do not satisfy `AGENTS.md`, so no worker writes into the repository at all.
+  Instead you **draft in response**: return your complete report as the body of your final
+  response, and the coordinator (the single collector) writes it to disk. Any code you author is
+  returned inline in fenced blocks, not written into the tree.
+  You MAY write scratch files under `/tmp/claude-0/` if you need to execute code — run it there,
+  outside the repository, and quote the real command, environment and exit code.
+  Do not touch `main`, other workers' files, frozen deliverables, preregistrations,
+  `systems/graph/`, the clinical registry, or shared coordination state (`cycle-tasks.json`,
+  claims, receipts, health, hardening-state).
+- **No git write operations at all**: no commit, branch, checkout, worktree, stash, push, merge,
+  PR. The coordinator integrates. Do not run `scripts/preflight.sh` unless your dispatch says to.
+- No paid API, no GPU spend, no alternative model, no contacting humans, no publication, no
+  posting to aiXiv/Qeios/journals, no external correspondence.
+- Bounded run — this is a **target you self-observe, not a limit the harness enforces**: aim to
+  finish within roughly 40 minutes and roughly 40 tool calls, and report your actual counts.
+  **Return as soon as your stop condition is met** — do not pad, do not invent extra work,
+  do not sleep.
+
+## 2. Scientific integrity (non-negotiable)
+
+- Never invent facts, sources, citations, patient data, measurements, accessions, or test
+  results. Every claim traces to a retrievable source or a computation you actually ran.
+- Distinguish **primary evidence / prediction / association / experimental validation**. No
+  computational result establishes clinical efficacy, safety, selectivity, therapeutic window,
+  or clinical readiness. There is no wet lab; no reagent design.
+- **Actual test evidence = command + environment + exit code**, quoted from a run you performed.
+  Anything you did not execute must be labelled `PROPOSED (NOT RUN)`. A skipped test is not a
+  pass. Never weaken a check to make something pass. You may not author or relax your own
+  acceptance criteria.
+- Preserve negative results and scope limitations exactly as they stand.
+- If you hit a content-policy refusal, **stop that branch, record it verbatim, and do not
+  rephrase, reroute, or relabel it.** Report the refusal in your deliverable.
+- Access controls are respected: a 403/paywall is an honest unrecovered source, not a hurdle to
+  circumvent. Do not replay a route already recorded as denied without a genuinely new route.
+- A missing file, absent abstract, or empty search is **UNKNOWN, not proof of absence.**
+
+## 3. Mandatory prior-work check before claiming anything is new
+
+Search the actual tracked corpus first, e.g.
+`rg -n -i "<term>" --glob '!.git' | head -50`
+and `git ls-files | rg -i "<term>"`. Then read `CLOSED-WORK.md` in this directory. If your
+proposed question turns out to be already answered or already closed, say so plainly and pivot
+to the nearest genuinely open question **inside your lane**, recording why.
+
+## 4. Deliverable format (your report file)
+
+**Return this as your final response body** (do not write it into the repository). Sections in
+this order:
+
+1. `## Worker` — worker ID, lane, and **model evidence**. State your model identity explicitly
+   as a **SELF-REPORT (not independently verified)**, and paste the literal output of
+   `env | grep -i -E 'claude|anthropic|model' | sed -E 's/(TOKEN|KEY|SECRET)[^=]*=.*/\1=<redacted>/I'`
+   and `date -u` at start and end. Do not assert a served model as observed fact; the coordinator
+   extracts the actual per-child runtime model from the transcript.
+2. `## Question` — the one concrete question you actually pursued, and why it is open.
+3. `## Prior-work check` — the exact `rg`/`git ls-files` commands you ran and what they showed;
+   which closed items you confirmed you are not replaying.
+4. `## Method / inputs` — exact files, accessions, URLs, tools, versions.
+5. `## Result` — what you actually found. Tables with units, n, and uncertainty definitions.
+   Mark every row `PRIMARY`, `SECONDARY`, `PREDICTION`, or `UNKNOWN`.
+6. `## Validation evidence` — commands run, environment, exit codes, verbatim key output.
+   Separate `RUN` from `PROPOSED (NOT RUN)`.
+7. `## Limitations` — including transfer limits, denominator gaps, and what this cannot claim.
+8. `## Stop condition` — the condition you set, and whether it was met, not met, or blocked.
+9. `## Tool-call and wall-clock count actually used`, then `## Next concrete action` — one specific successor task for this lane, or an honest
+   "no viable successor in this lane, because …".
+
+## 5. What counts as a useful artifact
+
+A retrievable, source-traceable finding; a working script with a real test run; a reproducible
+table built from committed or public data; a precise, evidence-backed negative result; or a
+concrete diagnosis of a real defect with the smallest correct repair. A plan alone is not an
+artifact. A restatement of existing repository content is not an artifact.
