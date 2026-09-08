@@ -897,3 +897,82 @@ evidence.
 
 Full deliverable, including the drafted Results and Limitations: `paper-lane/P1-PUB-IPD-SURVIVAL-paper-step.md`.
 No manuscript file was created; that is an owner act, not a campaign-worker act.
+
+### ⛔ CORRECTION to the eligibility read above — `publications.json` is NOT the authoritative record (P2, 05:12Z)
+
+My candidate-by-candidate eligibility table was read from `systems/graph/publications.json` alone. **That was
+an incomplete read**, and P2 found the record that overrides it. `research/autonomy/research-ledger.json` holds
+publish decisions that the graph record does not reflect:
+
+- **`PUB-CARE-DELIVERY` is ANSWERED — NO, three times over.** Ledger **AUT-064** (`state: done`, serving
+  PUB-CARE-DELIVERY): *"⛔ The publish decision is ANSWERED — no. The margin finding restates the printed
+  conclusion of its own largest source's abstract (PMID 40885991 …), so it fails the consequence test …
+  **The next action is to fold the denominator sensitivity … into a short internal record, not a paper.**"*
+  **AUT-042**: *"⛔ ANSWERED — do NOT write the proposed note."* **AUT-057**: *"⛔ ANSWERED — publish nothing
+  standalone."* The prescribed internal record was then written, on 2026-09-02, as
+  `research/manuscripts/care-delivery/emc-care-delivery-endpoint-decision.md` §6.1–§6.2, under its own header:
+  *"⛔ NEITHER OF THESE IS A PAPER, AND NEITHER BECOMES ONE HERE."*
+- The ledger also records the user's verbatim answer of **2026-09-01** to a group question naming five PUB rows,
+  PUB-CARE-DELIVERY and PUB-LOCOREGIONAL among them: **"ASO only today."** Consistent with CLAUDE.md §0.
+  `publish_bar --paper PUB-CARE-DELIVERY` read **0/7** — every clause open, including `endpoint_declared`.
+
+**Consequence, applied:** `PUB-CARE-DELIVERY` is **NOT eligible** and no further paper-lane work is dispatched
+on it. Reopening AUT-064's recorded "no" is an owner act; no worker may take it, and this campaign does not.
+P2's dispatch is retained as the audit that surfaced the decision — its drafted prose is a re-derivation for
+auditability, explicitly not a paper section, and must not be moved into a submission text.
+
+**Two committed homes disagree and neither was edited** (workers are read-only; routing is an owner call):
+`PUB-CARE-DELIVERY.why_not_written` presents an answered publish question as an open one, and names four of the
+six artifacts it alludes to. Separately, `PUB-LOCOREGIONAL.why_not_written` says primary anatomical site was
+never curated, while `emc_locoregional_eligibility.py:52-56` marks that exact sentence *"Superseded, retained"*
+and names `emc-site-curation.json` as having resolved it on 2026-08-25/27.
+
+**The corrected eligibility count is five, not six.** Scope of this correction, stated exactly: only
+PUB-CARE-DELIVERY carries a recorded publish-decision "no". `PUB-LOCOREGIONAL`'s AUT-058 answers **one route**
+(RT-RT-INTENSIFY, already written up as `emc-radioresistance-reappraisal.md`), not the paper; AUT-042's
+DO-NOT-WRITE is likewise route-scoped (RT-METASTASECTOMY). No publish-decision "no" was found for
+PUB-IPD-SURVIVAL, PUB-KINASE-LEADS, PUB-MATRIX-ADDRESS or PUB-NR-OUTSIDE-NR4A3.
+
+### Paper-lane result 2 — `PUB-CARE-DELIVERY` NOT WRITABLE (P2)
+
+Two independent sufficient reasons: (1) the publish decision above; (2) the title's second half
+(*"what the literature has been looking at instead"*) has no measurement and cannot acquire one here.
+**Exact failed condition, measured with local refs only:** no local ref, no local object, no working-tree path
+and no frozen-corpus member resolves `literature/emc-care-delivery-and-classification/`; the clone is shallow
+(**44** grafts, up from the 42/43 quoted earlier — it grows with the campaign's own commits) and
+`literature-cache` was never fetched here. The two reflog hits for the string are this campaign's own commit
+messages. Per §2 this is **UNKNOWN about the remote, not absent.**
+**Exact reopening input:** `refs/heads/literature-cache` on origin →
+`git fetch --no-tags origin literature-cache:refs/remotes/origin/literature-cache`, then
+`git ls-tree -r --name-only origin/literature-cache -- literature/emc-care-delivery-and-classification/ | wc -l`
+(expect **554**), then a term census with a committed receipt. A network act, outside worker authority and
+outside this container's egress. **No substitute corpus was used and nothing was inferred from the absence.**
+All four named extraction artifacts **exist and reproduce**: 196 (= 171−15+40), 271 (= 59+171+41), 45
+(= 48 numeric HRs − 3 complete-separation non-estimates), 4 printed medians. ⚠ The 45-coefficient transcription
+check is itself **UNSUPPORTED from this checkout** — its source texts live on the same unreachable branch.
+
+### Paper-lane result 3 — `PUB-LOCOREGIONAL` WRITABLE NOW, with a numerator already in hand (P3)
+
+Both headline pools reproduce exactly from the committed registry: distant metastasis **36.3% (94/259,
+Wilson 30.7–42.3, k=3, range 29.1–46.1)**; local recurrence **27.0% (88/326, 22.5–32.1, k=4, range
+11.9–48.2)**. All eight `{events,denom}` are `int`, so W53/W60's missing integer check is **latent, not live**,
+on today's registry.
+⭐ **The record's premise is superseded by its own module.** `emc_locoregional_eligibility.py:52-56` sets
+`primary_anatomical_site_distribution.computable = True`, marks the old `False` *"Superseded, retained"*, and
+names `emc-site-curation.json`. The extremity fraction exists and **has never been written into any prose in
+this repository**: **71.6% strict (194/271, 65.9–76.6)** vs **84.5% inclusive (229/271, 79.7–88.3)** — and the
+**12.9-point gap between the two readings is wider than the sampling interval on either**, so the binding
+uncertainty is a category boundary (shoulder/groin/axilla/buttock, 35 patients one series files under trunk),
+not a denominator. Neither reading may be quoted as "the" extremity fraction.
+Two of the three stated negatives are narrower than the record reads: `registry.fields.site` exists and 4/4
+`registry.patients` carry it, and `china2016`'s free-text note carries "lower limb 60%" — so *"no cohort
+carries a poolable integer site count"* is what is true; and **time-to-metastasis exists as printed summary
+statistics** (masunaga median 16 mo, IQR 10–31, n=39; chiusole 5.9 y; bishop 28 mo) — what is missing is
+per-patient timing. Lesion burden is confirmed absent everywhere.
+**Genuinely missing:** RT-LUNG-DIRECTED's numerator. The two exclusive partitions (27/29, 12/13) are **upper
+bounds** — "had lung metastases" states involvement, not confinement — one series' rows are non-exclusive
+(23+4+14 over 26, with table and text disagreeing by one and two patients), and drilon2008, the only series
+drawing the distinction in its own words, prints **63% confined vs 80% lung-first**, percentage-only, which
+§2.1(2) forbids converting to counts. The specified curation step (drilon2008 `PMC2779719` table render) is
+**expected to shrink the route's eligible fraction**, not grow it.
+Full deliverables: `paper-lane/P2-…md`, `paper-lane/P3-…md`. No manuscript file was created.
