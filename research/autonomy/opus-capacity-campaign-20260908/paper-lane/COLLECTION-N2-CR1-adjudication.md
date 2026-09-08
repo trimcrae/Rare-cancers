@@ -91,3 +91,27 @@ This paper has never had a style pass and does not pass `lint_style`.
 `lint_consistency` 0 ERROR across 29 files. `lint_claims` clean on both. `lint_submission_residue`
 exits 0 with no stale rows. Neither verdict generalises: each is specific to its own paper, and
 neither says anything about the readiness of any other manuscript.
+
+---
+
+## Dated append — 2026-09-08, coordinator correction to CR1's §4.4 wording
+
+The coordinator read the complete applied N2 and CR1 diffs and returned one exact same-parent
+correction, now applied.
+
+§4.4 said "**no binding-specificity measurement in EMC exists**". It now reads "no binding-specificity
+measurement in EMC **is identified in the retained closure evidence**". The distinction is the one
+this campaign keeps insisting on: what the inspected record contains is not the same as what exists.
+The original wording made a universal claim about the world from an inspection of one closure file.
+No source call was made, no route was reopened, and the closed-route disposition is unchanged.
+
+**Glyphs removed.** The single extra `lint_style` error each on the closed-routes paper and the
+biomarker paper came from `⚠` glyphs my applied text introduced. Those three glyphs are gone and the
+same qualifications are carried in plain prose — the RT-SYNPROMOTER trigger mismatch, the contested
+RT-FET-LC-LIGAND row, and the repo-curated gene-group provenance all still say exactly what they said.
+
+The closed-routes paper is now at **97** `lint_style` errors against **98** before any of this work,
+and the biomarker paper is at **48**, its exact pre-edit baseline. Neither has had a whole-paper style
+pass and neither passes `lint_style`; none was attempted here, and none is implied by these numbers.
+
+`lint_consistency` remains 0 ERROR across 29 files.

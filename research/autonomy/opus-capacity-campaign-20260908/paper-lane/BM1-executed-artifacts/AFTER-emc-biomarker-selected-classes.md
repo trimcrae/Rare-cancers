@@ -89,7 +89,7 @@ a re-fetch and a regeneration.
 
 Genes were read as a *z*-score against each array's own probe distribution; groups scored as the mean
 EMC-minus-comparator difference in standard-deviation units, with Welch *t* and no multiplicity
-correction. ⚠ **Every gene group scored below — the p53 transcriptional output group, PRC2, the
+correction. **Every gene group scored below — the p53 transcriptional output group, PRC2, the
 SWI/SNF tumour-suppressor set, the alt-EJ, homologous-recombination and non-homologous-end-joining
 modules, and the guardian and BH3-only sensitiser sets — is a repository-curated pathway-membership
 list, not a published gene set or signature**, as the producing artifact states in its own

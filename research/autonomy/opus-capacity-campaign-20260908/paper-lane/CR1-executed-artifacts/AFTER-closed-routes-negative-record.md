@@ -154,7 +154,7 @@ that blocker not at all.
 | # | route | closure kind | permanent | what reopens it |
 |---|---|---|---|---|
 | 1 | [RT-EWSR1-PROTEIN](../../../systems/views/L2-rt-ewsr1-protein.md) — target the EWSR1 half at the protein level | `definitional` | **yes** | nothing |
-| 2 | [RT-FET-LC-LIGAND](../../../systems/views/L2-rt-fet-lc-ligand.md) — a ligand for the shared FET low-complexity half | `definitional` | as filed, yes — contested ⚠ §4.1 | nothing, on the leg the register files the permanence on |
+| 2 | [RT-FET-LC-LIGAND](../../../systems/views/L2-rt-fet-lc-ligand.md) — a ligand for the shared FET low-complexity half | `definitional` | as filed, yes — contested, see §4.1 | nothing, on the leg the register files the permanence on |
 | 3 | [RT-DBD](../../../systems/views/L2-rt-dbd.md) — relocate to the DNA-binding domain | `arithmetic_over_fixed_fact` | **yes** | nothing |
 | 4 | [RT-RXR](../../../systems/views/L2-rt-rxr.md) — RXR-heterodimer modulation | `premise_false` | no | a contradicting primary measurement, named |
 | 5 | [RT-SYNPROMOTER](../../../systems/views/L2-rt-synpromoter.md) — fusion-driven synthetic promoter → suicide gene | `premise_false` | no | an EMC dataset reading the fusion's binding specificity |
@@ -303,7 +303,7 @@ Two things make this the paper's example of a closure that is **not** permanent:
 - **The reason it fails is an argument, not an experiment, and it is worth writing down as one.** The
   statement *"EMC's fusion reads a normal NR4A response element, not a neomorphic one"* is an inference
   from two committed facts — the chimera retains NR4A3's own zinc finger, and the whole NR4A family binds
-  the same NBRE/NurRE elements — and **no binding-specificity measurement in EMC exists**. The route
+  the same NBRE/NurRE elements — and **no binding-specificity measurement in EMC is identified in the retained closure evidence**. The route
   inherits `BLK-NO-EMC-DATA`, and its own `remaining_unknowns` records that the absence of a neomorphic
   element may be *merely unmeasured*. It is worth a paragraph in the literature as a reasoned negative
   expectation about this disease, not as a measured property of it. A closure can have a publishable
@@ -557,7 +557,7 @@ confident in both directions and is checkable in neither.
   thing.** The four contingent routes name triggers such as `TR-NR4A3-DIRECTION-OF-EFFECT`, and the
   reopening *conditions* are carried in prose on the route pages rather than in a trigger registry a scan
   could read verbatim. The specificity rule in §3.2 is therefore satisfied by the prose and not by the
-  identifier. ⚠ RT-SYNPROMOTER is the sharper case: its registered `revival_trigger` is
+  identifier. RT-SYNPROMOTER is the sharper case: its registered `revival_trigger` is
   `TR-VECTOR-TUMOUR-DELIVERY`, a delivery capability, while the reopening *observation* quoted in §4.4
   — a direct read of the fusion's binding specificity in EMC — lives in the route's `required_validation`
   and in its grade owner. For that route the enumerated field does not carry the condition §1 requires of
