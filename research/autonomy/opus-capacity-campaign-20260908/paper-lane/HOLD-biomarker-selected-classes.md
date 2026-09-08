@@ -24,6 +24,11 @@ four-negative / one-survivor paper is **PARKED**.
 ⭐ **The arithmetic is not what failed.** The review reproduced **16 group/platform scores**, **86 gene
 comparisons** and **54 Git-copy integrity checks**, and they pass. **The central inference does not.**
 
+⛔ **What those checks reach, added 2026-09-08 from the retained `root-adjudication.md`.** They bridge
+retained cached values to summary statistics. They do **not** establish the original raw-data
+collection pipeline, biological pathway activity, clinical selection validity, or any therapeutic
+window — and **no current regulatory status is independently verified**.
+
 - **Held revision:** the frozen candidate handed over at `796fcdf0` — manuscript
   `fe4f95abb1476c95cf60ea21a2570692328de0ada379f6c542329599b566c766`, 21,448 bytes, together with the
   five source artifacts hashed in
@@ -99,9 +104,15 @@ The exact original report — **30,660 bytes**, sha256
 `7396531d30f8ff7b3b283c748e359cb60b683fce0247b24eb748a1ab9f93de8e` — together with root's full
 adjudication and the small original scripts, results, process notes and support records, is being
 transported unchanged by the sole collector. **54 already Git-bound source copies are excluded** and
-**no script is re-run**. ⛔ Ordinary work does not wait on that packet, and this hold is complete
-without it; the digests above are recorded as sent and will be verified on intake, as the endpoint
-packet was.
+**no script is re-run**.
+
+⭐ **ARRIVED AND VERIFIED, 2026-09-08.** The packet is retained and every hash checks out — see
+[`RECEIPT-biomarker-final-review-originals-intake.md`](RECEIPT-biomarker-final-review-originals-intake.md).
+The report is present at exactly 30,660 bytes with the sha256 above, and `root-adjudication.md` is
+retained beside it. ⭐ I read that adjudication against this hold: **the F01–F09 mapping written here
+before the packet arrived agrees with it**, and the one thing it added is the scope-of-checks
+paragraph above. The transfer manifest states plainly that it does **not** independently confirm the
+served model; the review's model and its ultra execution are root-owned.
 
 ## What this hold is not
 
