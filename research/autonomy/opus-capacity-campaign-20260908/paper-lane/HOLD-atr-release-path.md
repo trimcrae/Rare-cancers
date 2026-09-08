@@ -228,6 +228,22 @@ journal-submission authority. Every other registered paper keeps the two-build w
 for them: `aso-journal`, `fusion-output` and `vaccine-path` all read `is_outgoing_file=None` and
 retain `[typeset preview]`. Builder module: 110 passed.
 
+## Current outgoing artifact, and the next release step
+
+The outgoing PDF at `be39c96f` is sha256 `42a7c4eefff20d00…`, 9 pages. ⚠ **It is NOT the
+`a11ae7c6…` build named in the S3 originals receipt** — that hash was the S3-repair build at
+`9ec78c4f`, and the deposit-metadata correction rebuilt the file afterwards. Both are real builds of
+the same scientific bytes; the receipt binds the earlier one and this record names the current one so
+neither is mistaken for the other.
+
+⛔ **The next release step is a candidate-bound FULL PREFLIGHT and `publish_bar` via the existing
+authorized route** — not another review and not a broad unscoped baseline. It must not be started
+against an unsettled candidate: the ATR focused verification is still running, and the deposit
+metadata only just settled.
+
+⚠ `systems_check.py --check` currently reports **2,394 ERROR / 271 WARN**. No full-preflight pass is
+implied by any check recorded here.
+
 ## Not claimed
 
 Full preflight was not run on this manuscript. No publish-bar step and no venue action.

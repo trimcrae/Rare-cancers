@@ -80,8 +80,10 @@ in settled §8.
   type claims, **all 200 inside `research/autonomy/opus-capacity-campaign-20260908/` and none in this
   or any other live manuscript**. ⚠ Its summary line says "type claim(s) disagree with PubMed", which
   is wrong: every one of the 13 is `MISSING` — no cached metadata — and **zero** are `MISMATCH`.
-- ⛔ `systems_check.py --check` reports 2,394 ERROR / 270 WARN, measured identical with and without
-  this session's changes. Pre-existing, not cleared.
+- ⛔ `systems_check.py --check` reports **2,394 ERROR / 271 WARN**. ⚠ This handoff first recorded
+  270 WARN; that figure was already stale when written — records added later in the session raised
+  it by one. The ERROR count is the one measured identical with and without this session's changes.
+  Pre-existing, not cleared, and no full-preflight pass is implied by it.
 
 ## The one editorial preparation, identified and NOT silently applied
 
@@ -95,6 +97,27 @@ One further observation, left alone deliberately: §8 names three cohorts but st
 two (22 and 23), leaving the third as 47 − 45 = 2 for the reader to infer. It is arithmetically
 consistent and owned by the companion JSON (`per_cohort`), and §8 is closed, so adding the third size
 would be new content in a settled section.
+
+## ⛔ FROZEN — an independent review is running, with PRELIMINARY findings
+
+The independent final scientific review of this package is **active** against revision
+`9c6f4a80fc2fd69ee71ad6124c8de03e6e1af395`. All 21 package inputs and the manuscript are **frozen**
+and must not be edited, substituted or regenerated while it runs.
+
+⚠ **It has reported PRELIMINARY findings, and they are NOT an adjudicated correction batch.** As
+relayed:
+
+1. The producer defines `evaluable_n` as the **sum of outcome cells**, while the manuscript describes
+   it as **the reported denominator**. Those are not necessarily the same quantity.
+2. Repeated trial/arm outcome-measure records may affect the **unit of analysis**.
+
+⛔ **No repair has been attempted and none will be until one complete batched report arrives and is
+adjudicated.** Specifically: no exploratory fix, no second review commissioned, and no widening of a
+paper-specific finding into a programme-wide pause. Other papers continue on their own scopes.
+
+If these findings survive adjudication they are material — a denominator definition mismatch and a
+unit-of-analysis question both bear on figures this paper leads with. That is a reason to wait for
+the complete report, not a reason to start guessing at it now.
 
 ## What this handoff is not
 
