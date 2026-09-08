@@ -14,7 +14,7 @@ date: 2026-09-08
 last_verified: 2026-09-08
 ---
 
-# ⭐ CLEARED 2026-09-08 — the corrected tally is 50 documented deaths
+# ⭐ CLEARED 2026-09-08 — 50 documented-death instances, and the unit is named
 
 **Resolved.** Neither 52 nor 51 was right, and the answer is neither.
 
@@ -26,17 +26,43 @@ before applying: exactly **two** of the 18 rows state no death.
 - **PMID 21941486**, label `mechanism_unstated`, n = 1 — "transitioned to supportive care"; the death
   is not described.
 
-So: **50 documented deaths**, **14** with a named mechanism, **27** unstated. The share is
-**28.0 %**, not 28.8 % and not 29.4 %. Check: 14 + 27 + 8 emc-progressive + 1 ambiguous = 50.
+So: **50 documented-death instances across 14 papers**, **14** carrying a mechanism label, **27**
+unstated. The share is **28.0 %**, not 28.8 % and not 29.4 %. Check: 14 + 27 + 8 emc-progressive +
+1 ambiguous = 50, and 14/50 = 0.28, both matching the stored categories.
+
+⚠ **The unit is SUMMED REPORTED PATIENT INSTANCES.** Not 50 distinct records, and not 50 unique
+people. Every description of this count must say so — the earlier phrase "a count of records" was
+itself imprecise, since one record can report several patient instances.
 
 ⛔ **Neither exclusion asserts that the patient survived.** Both are statements about what the
 record documents.
 
-⚠ **The 50 is a count of RECORDS, not of people.** Two of the contributing reports are literature
-reviews collecting previously published intracranial cases, and whether they share patients with each
-other or with two case reports is undetectable from what was retrieved. The paper now says so, and
-"recur across independent reports" became "recur across separate reports, whose independence is not
+⚠ **Overlap is undetectable from what was retrieved.** Two of the contributing reports are
+literature reviews collecting previously published intracranial cases, and whether they share patients
+with each other or with two case reports cannot be determined here. The paper says so, and "recur
+across independent reports" became "recur across separate reports, whose independence is not
 established".
+
+## ⛔ STILL OPEN on this paper: the evidence tier of "14 with a stated mechanism"
+
+The arithmetic is closed; **the semantics are not.** Three rows do not say what their label claims:
+
+- **PMID 29977924** — "died due to lung metastases" is a **broad cause**, not a documented
+  physiological respiratory failure.
+- **PMID 35775709**, the hepatic-metastasis member — states metastasis at death, **not a named
+  visceral complication**.
+- **PMID 35665108** — two deaths from "non-EMC-related factors" **name no cause at all**, and do not
+  establish a non-cancer death either.
+
+So "14 with a stated mechanism" overstates the retained quotes. A correction is running that
+separates **documented death** from **assigned broad cause category** from **specifically stated
+terminal mechanism**, discloses which categories are conditional or inferred rather than observed,
+and treats the stored labels as legacy where that is the honest description. ⛔ It invents no new
+named-mechanism numerator and runs no source hunt.
+
+Also being corrected: **PMID 23213584's label `nonfatal_complication_not_a_death` asserts survival**,
+which the record does not support. It becomes record-scoped wording that states only what the record
+documents.
 
 ⚠ **PMID 21941486 cannot be classified from what is retained** — the sentence proves neither death
 nor survival. It is labelled `death_not_documented`, which is a statement about the record.
