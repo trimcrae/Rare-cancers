@@ -1,0 +1,125 @@
+{
+  "_worker": "S6",
+  "_campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+  "_written_utc": "2026-09-08T06:5xZ (see run-log.json for exact date -u)",
+  "_question": "Published series printing BOTH a survival figure AND the patient-level data behind it, so a curve-digitization method could be validated against real ground truth.",
+  "_definition_of_hit": "figure-truth pair in ONE accessible source: a survival figure PLUS per-patient time+event data for the same patients (per-subject table, swimmer plot, or supplementary IPD).",
+  "_prohibitions_observed": "No reconstruction, no digitization, no inversion, no pooling, no patient-level dataset produced. No clinical claim. Cataloguing only.",
+  "_retrieval_route": "PubMed MCP tools only (search_articles, get_article_metadata, convert_article_ids, get_full_text_article). No other network.",
+  "_route_limitation_that_governs_every_verdict": "mcp__PubMed__get_full_text_article returns narrative text ONLY. It strips table contents, figure images and figure/table numbers (inline citations collapse to '()' or 'Table.'). The two halves of a figure-truth pair live exactly in the stripped material. Therefore NO verdict below is confirmed by direct inspection of a table or a figure through this route; verdicts rest on (a) the repository's own committed artifacts for the two known fragments, and (b) narrative text that names a per-patient table or a KM figure.",
+  "candidates": [
+    {
+      "id": "morioka2016trabectedin",
+      "pmid": "27418251",
+      "pmcid": "PMC4946242",
+      "doi": "10.1186/s12885-016-2511-y",
+      "title": "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraskeletal myxoid chondrosarcoma and mesenchymal chondrosarcoma",
+      "disease": "EMCS (2) + MCS (3) in trabectedin arm; MCS (3) in BSC arm",
+      "access_state": "OPEN ACCESS in PMC. Narrative full text RETRIEVED under this worker via PubMed MCP (2026-09-08). Tables and figures NOT delivered by that route.",
+      "figure": {
+        "what": "Fig. 1 Kaplan-Meier plot of progression-free survival, two arms (trabectedin, best supportive care)",
+        "endpoint": "PFS",
+        "n_in_figure": 8,
+        "numbers_at_risk_row_printed": true,
+        "risk_row_source": "research/modalities/emc-ipd-survival.json -> candidate_sources[].figure_finding.risk_table_printed (trabectedin 0..21 mo, BSC at 0); committed repository artifact, NOT re-measured by S6"
+      },
+      "ground_truth": {
+        "form": "per-subject efficacy table (Table 2, 'Summary of efficacy'), trabectedin group",
+        "n_covered_confirmed": 2,
+        "n_covered_claimed_by_repo_record": "per-subject efficacy for the trabectedin group; the repository transcribed 2 EMCS rows (PFS 13.0/7.4 mo, OS 26.4/10.4 mo, both uncensored) verified against the PDF text layer of page 4",
+        "coverage_of_BSC_arm": "UNKNOWN - not established by any evidence S6 retrieved",
+        "supporting_narrative_retrieved_by_S6": "The article's Results address subjects individually by number ('subject No. 1', 'No. 2', 'No. 3') and state 'Clinical information of these subjects is presented in Table'; one MCS subject was still on treatment at cutoff and two of five were alive, so per-patient censoring status is stated in prose as well."
+      },
+      "both_halves_reachable_at_0": "YES for a human with a browser (PMC open access, CC BY). NOT through the PubMed MCP route alone, which delivers neither the table nor the figure.",
+      "verdict": "FULL PAIR (arm-level), STRONGEST KNOWN CANDIDATE - contents not directly inspected by S6",
+      "caveats": [
+        "The truth half is confirmed at n=2 (the two EMCS subjects) by the repository's committed transcription; full coverage of the 5-subject trabectedin arm is asserted by the repository record, and coverage of the 3-subject BSC arm is UNKNOWN.",
+        "n is tiny (8 across both arms). A validation of a digitizer against this pair would be a single-figure, small-n check, not a bound.",
+        "The curve is over a mixed-histology arm; it is NOT an EMC cohort curve. No clinical reading of any kind follows.",
+        "NOT the denied 'Trabectedin/RT 2018' item (DOI 10.4172/clinical-practice.1000433); different paper, not on the CLOSED-WORK denied list."
+      ]
+    },
+    {
+      "id": "fice2022emc",
+      "pmid": "35251555",
+      "pmcid": "PMC8891938",
+      "doi": "10.1177/20363613221079754",
+      "title": "Extraskeletal myxoid chondrosarcoma: A case series and review of the literature",
+      "disease": "EMC, single institution, n=15",
+      "access_state": "OPEN ACCESS in PMC (Rare Tumors). Narrative full text RETRIEVED under this worker 2026-09-08. Tables and figures NOT delivered by that route.",
+      "figure": {
+        "what": "Kaplan-Meier overall survival and disease-specific survival; Methods states 'Overall survival and disease-specific survival (DSS) was defined using Kaplan-Meier methods'; the 1/5/10-year OS and DSS sentences each end in a stripped parenthetical citation consistent with a figure or table reference",
+        "endpoint": "OS and DSS",
+        "n_in_figure": 15,
+        "numbers_at_risk_row_printed": "UNKNOWN - not measurable through this route",
+        "figure_existence": "PROBABLE, NOT CONFIRMED. The stripped '()' could cite a table rather than a figure."
+      },
+      "ground_truth": {
+        "form": "probable per-patient table",
+        "evidence": "Results states verbatim: 'Additional treatment characteristics can be seen for each patient in.' (trailing table citation stripped by the route). Narrative also gives per-patient facts (time to first local recurrence 11 years; two patients dead of concurrent malignancy; both metastatic-at-presentation patients died within 17 months).",
+        "whether_time_and_event_status_are_printed_per_patient": "UNKNOWN"
+      },
+      "both_halves_reachable_at_0": "Article is open access, so YES for a human with a browser; NOT confirmable through the PubMed MCP route.",
+      "verdict": "PARTIAL - PROBABLE PAIR, UNVERIFIED",
+      "caveats": [
+        "n=15 with 4 deaths; the authors state the cohort was too small for meaningful statistical analysis.",
+        "The exact blocker is that this route cannot render the table or the figure. Confirming or refuting this candidate needs one look at the PMC HTML table and figure, which S6 had no admitted route to."
+      ]
+    },
+    {
+      "id": "martinbroto2020immunosarc1",
+      "pmid": null,
+      "pmcid": "PMC7674086",
+      "doi": null,
+      "title": "ImmunoSarc phase 1/2 (sunitinib + nivolumab), cited in the repository record",
+      "disease": "mixed-histology sarcoma trial, 49 in the analysis population, 4 EMC",
+      "access_state": "Known-retained in the repository (CC BY-NC figure, NOT committed). S6 did not re-fetch it.",
+      "figure": {
+        "what": "Figure 3 per-patient PFS swimmer plot, coloured by histology",
+        "km_curves_printed": 0,
+        "numbers_at_risk_row_printed": "not applicable - no KM curve exists in the paper",
+        "source": "research/modalities/emc-ipd-survival.json -> candidate_sources[].figure_finding.km_figures = 0"
+      },
+      "ground_truth": {
+        "form": "the swimmer plot IS the per-patient data (49 bars, 37 events, 12 censorings per research/modalities/km-swimmer-readings.json)"
+      },
+      "both_halves_reachable_at_0": "The truth half yes; the figure half DOES NOT EXIST.",
+      "verdict": "NOT A PAIR for KM-digitizer validation. It carries the truth half with no curve to digitize. Usable only to validate a swimmer-plot reader, which it already was (5 printed quantities agreed).",
+      "caveats": [
+        "This is one of the two fragments the campaign had already stumbled on. Asked against the S6 criterion it fails, because the paper prints no survival curve."
+      ]
+    },
+    {
+      "id": "giani2023dsrct",
+      "pmid": "36951537",
+      "pmcid": "PMC10225189",
+      "doi": "10.1002/cam4.5829",
+      "title": "Long-term survivors with desmoplastic small round cell tumor (DSRCT): retrospective single-institution case series",
+      "disease": "DSRCT, n=38",
+      "access_state": "PMCID exists; full text NOT RUN by S6 (tool budget).",
+      "figure": {"what": "EFS and OS by Kaplan-Meier (stated in abstract)", "numbers_at_risk_row_printed": "UNKNOWN"},
+      "ground_truth": {"form": "per-patient survival times printed in the abstract for the 5 long-term survivors only (37, 39, 53, 64, 209 months)", "coverage": "5 of 38"},
+      "both_halves_reachable_at_0": "UNKNOWN",
+      "verdict": "PARTIAL - per-patient data for a 5-patient subgroup, not for the cohort behind the curve.",
+      "caveats": ["Full-text screening NOT RUN. A subgroup-only truth cannot validate a whole-curve reconstruction."]
+    },
+    {
+      "id": "shiba2018ehe",
+      "pmid": "30340559",
+      "pmcid": "PMC6194639",
+      "doi": "10.1186/s12885-018-4934-0",
+      "title": "Clinical characteristics of Japanese patients with epithelioid hemangioendothelioma: a multicenter retrospective study",
+      "disease": "epithelioid hemangioendothelioma, n=42, 13 centres",
+      "access_state": "OPEN ACCESS; narrative full text RETRIEVED by S6 2026-09-08.",
+      "figure": {"what": "Kaplan-Meier OS overall, by symptom status, and by Ki-67 index (three figure citations in the narrative)", "numbers_at_risk_row_printed": "UNKNOWN"},
+      "ground_truth": {"form": "NONE at patient level. Every table cited in the narrative is an aggregate summary ('The patient characteristics are summarized in Table', 'The details of the presenting symptoms ... are summarized in Table')."},
+      "both_halves_reachable_at_0": "figure half yes; truth half absent",
+      "verdict": "NOT A PAIR",
+      "caveats": ["Illustrates the size rule below: a 42-patient multicentre series summarises rather than lists."]
+    }
+  ],
+  "structural_finding": {
+    "size_rule": "OBSERVED, NOT PROVEN: within the small screened set, per-patient rows appear only in very small reports (trial sub-analyses of 5-8 subjects; single-institution case series around 15), while series of 40+ print aggregate tables and are exactly the series large enough for a digitization method to matter. The figure-truth pair and the figure worth digitizing pull in opposite directions.",
+    "search_instrument_limit": "PubMed indexes titles, abstracts and MeSH. It does NOT index table contents or figure captions. 'swimmer plot' AND sarcoma returns 0 records although the campaign holds a retained sarcoma swimmer plot. The class being enumerated is therefore, in principle, not searchable through this admitted route; it is only screenable article by article."
+  }
+}

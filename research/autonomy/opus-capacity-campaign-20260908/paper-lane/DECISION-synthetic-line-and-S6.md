@@ -199,3 +199,81 @@ not padded.**
 All holds and closures stand exactly: S1/S3 stops, P1–P3 closures, P4–P6 limits, the NR4A/P6 successor
 exclusion, and the W25 / primary-article / Results / novelty safety hold. No manuscript, publication, clinical
 claim, controller, session, deadline or billing change arises from any of this.
+
+---
+
+# S6 EVIDENCE RETENTION + SCOPE CORRECTIONS — appended 2026-09-08 06:44 UTC
+
+Mechanical retention from the **existing child transcript only**. No new source lookup, no query re-run, no
+analysis, no regenerated grading. S6's branch stays finished.
+
+## 1. Original PubMed tool-response bodies retained — 14 of 14
+
+Extracted **unchanged** from the child transcript's `tool_result` blocks (not rewritten, not summarised) into
+`paper-lane/S6-executed-artifacts/original-tool-responses/`, each paired with its tool name and verbatim input
+in `INDEX.json`, hashed in `SHA256SUMS-original-responses.txt`:
+
+| response | tool | bytes | sha256 (head) |
+|---|---|---:|---|
+| `01-get_full_text_article-PMC4946242.txt` | `mcp__PubMed__get_full_text_article` | 19,107 | `71e5542cf78c2630` |
+| `07-get_full_text_article-PMC8891938.txt` | same | 20,609 | `a13897e56f21d273` |
+| `14-get_full_text_article-PMC6194639.txt` | same | 17,074 | `29044957099606df` |
+| 7 × `search_articles` | `mcp__PubMed__search_articles` | 648–2,089 | `78fced2d…`, `a91e4dca…`, `4c6a0464…`, `52dc1b15…`, `19ed73df…`, `76aab4f7…`, `e7c93280…` |
+| 2 × `convert_article_ids` | `mcp__PubMed__convert_article_ids` | 1,786 / 1,794 | `41df5a14…`, `5edd3c2b…` |
+| 2 × `get_article_metadata` | `mcp__PubMed__get_article_metadata` | 46,490 / 21,201 | `93f83217…`, `9b382f41…` |
+
+The three narrative full-text bodies are now reviewable in the original, so any reader can check the child's
+curated quotations against them — **and can confirm directly that they contain no table contents and no figure
+images**, which is the basis for the standing rule that **no verdict here is a table- or figure-based verdict**.
+
+## 2. ⭐ The superseded `candidates.json` v1 bytes ARE recoverable, and are retained
+
+The earlier "v1 not byte-preserved" gap is **closed**. The v1 write survives as the heredoc body of the
+original Bash `tool_use` input in the child transcript, recovered without re-running anything and retained at
+`paper-lane/S6-executed-artifacts/candidates.v1-ORIGINAL-BYTES.json` — **10,668 bytes, sha256
+`7b18d2a900e95e41316dc163de73b9e3af084e6e2f9ef5fd48919f24ab92cf07`**, parses as valid JSON, carries
+`_written_utc: "2026-09-08T06:5xZ (see run-log.json for exact date -u)"` and **lacks**
+`_coordinator_narrowing_applied` — confirming it is the pre-narrowing grading. **v2 (`6117cbce…`) is unchanged**
+and both are now retained side by side.
+
+## 3. Scope correction — the query evidence is about THESE queries, not about PubMed
+
+⛔ My earlier line *"PubMed cannot search this class at all"* is **too strong and is withdrawn.** What the
+records support: **these seven queries, returning these fields, did not surface the class**, and the one
+directly diagnostic observation is that `sarcoma AND swimmer plot AND (…)` returned **0 records** while the
+campaign holds a retained sarcoma swimmer plot — evidence that **the fields these queries searched** do not
+index figure captions or table contents. That is a limitation of the queries and the returned fields, **not a
+proof about PubMed's capabilities in general**, and other query formulations or indexes are **UNKNOWN**, not
+excluded.
+
+## 4. Count reconciliation, from existing records only — and it does not fully reconcile
+
+`queries.json → not_run` and `failures-and-refusals.md` list **15** PMC identifiers; `screened-identifiers.json
+→ screening_totals.pmc_available_but_not_screened` and my own earlier disposition say **13**. Reading the
+per-item dispositions already in `screened-identifiers.json`, the 15-item list is **heterogeneous** and at least
+five of its members are not "available but unscreened":
+
+- `PMC10225189` — *"CANDIDATE — graded ADJACENT in candidates.json; full text NOT RUN"* (a graded candidate);
+- `PMC10660714` — **REJECT**, ASPS imaging-features study, subject is imaging;
+- `PMC5105269` — **REJECT**, single case report, one patient cannot carry a curve;
+- `PMC4713678` — **REJECT**, urothelial carcinoma, EMC only as a histologic mimic — off-topic;
+- `PMC5574947` — *"NOT RUN **as a pair candidate**"*, a screening judgement rather than an unexamined item.
+
+⚠ **Those categories account for the direction of the discrepancy but not for its exact size:** 15 minus the
+one graded and the three rejects is 11, and minus the pair-candidate judgement is 10 — **neither equals 13**.
+So `pmc_available_but_not_screened: 13` is **not reproducible from the per-item dispositions**, and my earlier
+disposition repeated the 13 uncritically. Recorded as an **unreconciled internal inconsistency in the child's
+own records**. **No extra source search was run to resolve it**, and none should be.
+
+## 5. Timestamps — use the run-log, not the placeholder
+
+Authoritative: `run-log.json` / the child's own `date -u`, **06:31:03 → 06:36:56 UTC**. `candidates.json`
+carries the literal placeholder `"2026-09-08T06:5xZ"` in `_written_utc` (in both v1 and v2) and it **must not be
+quoted as a time**; the file itself points to the run-log for the exact reading.
+
+## 6. Unchanged
+
+`candidates.json` v2, `queries.json`, `screened-identifiers.json`, `failures-and-refusals.md`, `run-log.json`
+and the child's report are **untouched**; the durable source directory `/tmp/claude-0/s6-retained/` is **not
+deleted**; the child-transcript model evidence (observed set exactly `claude-opus-5`) is retained in
+`S6-MODEL-START-RECEIPT.md`. No verdict was changed by this retention pass.
