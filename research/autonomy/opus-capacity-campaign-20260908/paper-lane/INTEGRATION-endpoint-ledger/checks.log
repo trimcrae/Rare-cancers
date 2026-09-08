@@ -1,0 +1,34 @@
+I1_spine_is_552_unique_rows_bijective_with_A: PASS
+     ledger_rows=552 distinct=552 A_rows=552
+I2_A_to_C_title_bridge_is_unique_on_both_sides_and_total: PASS
+     C_max_multiplicity=1 A_max_multiplicity=1 only_in_A=0 only_in_C=0
+I2b_C_evaluable_n_key_component_agrees_with_A_carried_job1_value: PASS
+     mismatches=0
+I3_A_to_B_join_state_recomputed_and_exhaustive: PASS
+     mislabelled=0 census={'TRIAL_OUTSIDE_B_CORPUS_SCOPE': 48, 'JOINED_UNIQUE': 458, 'MEASURE_OUTSIDE_B_TITLE_BOUNDARY': 46}
+I4_every_B_observation_is_dispositioned_none_inner_joined_away: PASS
+     B_obs=16116 coverage_rows=16116 in_spine=458 B_only=15658
+I5_no_component_state_is_overwritten_in_the_integrated_row: PASS
+     violations=0
+I6_A_doubt_is_not_overwritten_by_C_confidence: PASS
+     rows_where_A_unsuitable_and_C_confirmed=60; all retain both states and stay BLOCKED=True
+I6b_contradiction_file_matches_the_row_level_codes: PASS
+     contradiction_rows=562
+I7_no_rate_proportion_unique_patient_or_effect_column_emitted: PASS
+     offending_columns=[]; NOT_DERIVED-only sentinel columns=['LEDGER-integrated-552.tsv:unique_patient_total_derived', 'LEDGER-integrated-552.tsv:control_comparison_derived']; all-three sentinels on 552/552 rows
+I8_job2_and_job3_unconfirmed_carried_on_every_row_and_in_census: PASS
+     552/552 rows carry job1=confirmed, job2=false, job3=false
+I9_disposition_map_covers_every_component_record_exactly_once: PASS
+     A=552 C=552 B=16210 (B = 16116 observations + 94 spine rows B never assessed)
+I10_competing_and_duplicate_records_retained_not_collapsed: PASS
+     spine rows in a multi-observation cohort set=309; all retain siblings, unresolved states and NOT_SELECTED_BY_DESIGN=True
+I11_sole_arm_contradiction_retained_no_one_arm_model_forced: PASS
+     rows flagged sole-arm-but-multiple-results-groups=83, all retained
+I12_disjointness_unverifiable_carried_on_every_row: PASS
+     552/552 rows, including the 105 with no component-specific block
+I13_census_matches_recomputation_from_the_emitted_tables: PASS
+     differences={}
+I14_component_inputs_unmodified_by_this_integration: PASS
+     8 input files re-hashed, 0 changed
+
+16/16 checks passed, 0 failed

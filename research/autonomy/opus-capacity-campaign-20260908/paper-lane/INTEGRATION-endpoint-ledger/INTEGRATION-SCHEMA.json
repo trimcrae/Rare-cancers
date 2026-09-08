@@ -1,0 +1,221 @@
+{
+ "id": "SCHEMA-INTEGRATION-ENDPOINT-LEDGER",
+ "version": "1.0.0",
+ "date": "2026-09-08",
+ "status": "PROPOSED source-bound curation ledger and transparent accounting. NEW SIBLING of CORRECTED-A, CORRECTED-B and CORRECTED-C. It supersedes nothing, replaces nothing and re-runs nothing. It is NOT scientific acceptance of any component, any row or any manuscript claim.",
+ "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+ "network_access": "none",
+ "confirmation_status": {
+  "job1_arithmetic_independently_confirmed": true,
+  "job1_confirmation_record": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VERIFY-job1-arithmetic.md",
+  "job2_independently_confirmed": false,
+  "job3_independently_confirmed": false,
+  "carried_on_every_row": true,
+  "note": "Only job 1's arithmetic was ever independently re-derived. Job 2 (identity/selection/overlap) and job 3 (arm attribution) were NEVER independently confirmed. The 552-key spine itself, and the disease and phase attributions attached to it, are inherited from that unconfirmed chain. Nothing in this integration confirms them; CORRECTED-A, -B and -C each say the same, and this ledger repeats it per row rather than only in prose."
+ },
+ "grains_and_the_join": {
+  "problem": "The three components DO NOT SHARE ONE GRAIN. Any single-table result is therefore a stated join, never an implicit one.",
+  "CORRECTED_A": {
+   "grain": "(input_key_nct_id, input_key_om_index, input_key_group_id)",
+   "rows": 552,
+   "scope": "job 1's 552 delivered contract rows"
+  },
+  "CORRECTED_C": {
+   "grain": "(nct, om_title, group_title, evaluable_n)",
+   "rows": 552,
+   "scope": "the same 552 records as A, but keyed by TITLE STRINGS; C carries no om_index and no results-group id"
+  },
+  "CORRECTED_B": {
+   "grain": "obs_id = '<nct>#om<om_index>#<results_group_id>'",
+   "rows": 16116,
+   "cohort_set_grain": "(nct, normalised results-group title)",
+   "cohort_sets": 8740,
+   "scope": "every results-group observation in 4,235 results-bearing trials whose measure title matches job 2's response-title regex \u2014 a much larger and differently bounded corpus"
+  },
+  "A_to_C_bridge": {
+   "key": "(nct, om_title, group_title)",
+   "status": "DERIVED BRIDGE, verified, not declared by either component",
+   "verification": "check I2: multiplicity 1 on both sides, symmetric difference 0, so the bridge is a bijection over all 552 rows; check I2b: C's evaluable_n key component equals A's carried job-1 value on 552/552",
+   "hazard": "the bridge is a string key. It happens to be unique here; it is NOT a general-purpose key, and any future record with a repeated (nct, om_title, group_title) would break it. The check would fail rather than silently pick one."
+  },
+  "A_to_B_bridge": {
+   "key": "obs_id constructed from A's own (nct, om_index, group_id)",
+   "status": "PARTIAL BY CONSTRUCTION \u2014 458 of 552 join; 94 do not",
+   "non_join_states": {
+    "TRIAL_OUTSIDE_B_CORPUS_SCOPE": "48 rows in 21 trials: the trial does not appear in B's ledger at all",
+    "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": "46 rows in 17 trials: the trial is in B, the outcome measure is not \u2014 job 2's response-title regex does not match it",
+    "GROUP_ABSENT_IN_B_MEASURE": "0 rows"
+   },
+   "rule": "The 94 are NEVER inner-joined away. They stay in the spine with b_join_state recorded and a B_NOT_ASSESSED blocking condition. Conversely the 15,658 B observations with no A/C counterpart are emitted in COVERAGE-b-observations.tsv rather than dropped."
+  },
+  "known_hazard_carried_from_both_A_and_B": "The 8 delivered leaf TSVs are schema-incompatible as delivered (4 distinct headers in QB, 4 in QC; B check C16b). B harmonised them under a recorded mapping; this integration consumes B's harmonised output and does not re-harmonise."
+ },
+ "tables": {
+  "LEDGER-integrated-552.tsv": {
+   "grain": "one row per spine record (A's 552 keys)",
+   "rows": 552,
+   "columns": [
+    "integration_row_key",
+    "a_row_key",
+    "nct_id",
+    "om_index",
+    "group_id",
+    "obs_id_b_form",
+    "om_title",
+    "group_title",
+    "payload_shard",
+    "cache_revision",
+    "a_present",
+    "a_reported_denominator_participants",
+    "a_denominator_state",
+    "a_denominator_provenance",
+    "a_n_source_categories",
+    "a_n_categories_kept_by_producer",
+    "a_category_preservation_state",
+    "a_proportion_suitability",
+    "a_unresolved_reason_codes",
+    "a_advisory_flag_codes",
+    "a_evaluable_n_minus_reported_denominator",
+    "a_all_categories_sum_minus_reported_denominator",
+    "a_job1_classification_carried",
+    "a_leaf_qa_coverage",
+    "c_join_state",
+    "c_join_bridge",
+    "c_arm_link_state",
+    "c_arm_link_evidence_code",
+    "c_confirmed_registry_arm_label",
+    "c_confirmed_registry_arm_type",
+    "c_candidate_registry_arm_labels",
+    "c_control_status",
+    "c_contested_flag",
+    "c_sole_arm_multi_results_group_flag",
+    "c_arm_set_type_state",
+    "c_disposition_vs_job3",
+    "b_join_state",
+    "b_cohort_key",
+    "b_n_observations_in_cohort_set",
+    "b_sibling_observation_ids",
+    "b_unresolved_states",
+    "b_selection_status",
+    "b_duplicate_encoding_candidate",
+    "b_denominator_state",
+    "b_denominator_value_participants",
+    "b_reporting_status_state",
+    "b_usable_for_proportion",
+    "b_unusable_reason",
+    "b_endpoint_constructs",
+    "b_assessment_criteria",
+    "b_noncollection_statement",
+    "integration_state",
+    "blocking_conditions",
+    "contradictions_retained",
+    "job1_arithmetic_independently_confirmed",
+    "job2_independently_confirmed",
+    "job3_independently_confirmed",
+    "rate_derived",
+    "unique_patient_total_derived",
+    "control_comparison_derived",
+    "source_pointer"
+   ],
+   "rule": "a_* columns are CORRECTED-A verbatim, c_* are CORRECTED-C verbatim, b_* are CORRECTED-B verbatim. No component's value is ever rewritten by another's (check I5)."
+  },
+  "COVERAGE-b-observations.tsv": {
+   "grain": "one row per CORRECTED-B response observation",
+   "rows": 16116,
+   "columns": [
+    "obs_id",
+    "nct",
+    "om_index",
+    "results_group_id",
+    "in_integrated_552",
+    "coverage_state",
+    "cohort_key",
+    "n_observations_in_cohort_set",
+    "unresolved_states",
+    "denominator_state",
+    "denominator_value_participants",
+    "reporting_status_state",
+    "usable_for_proportion",
+    "unusable_reason"
+   ],
+   "rule": "the 15,658 records that exist in B and in neither A nor C are marked B_ONLY__NO_DENOMINATOR_CATEGORY_OR_ARM_COMPONENT. They are neither resolved nor excluded here."
+  },
+  "DISPOSITION-MAP.tsv": {
+   "grain": "one row per (component, component record)",
+   "rows": 17314,
+   "columns": [
+    "component",
+    "component_grain",
+    "component_record_key",
+    "integration_row_key",
+    "disposition",
+    "reason"
+   ],
+   "rule": "every A row (552), every C row (552) and every B observation (16,116) appears exactly once, plus the 94 spine rows B never assessed (check I9)."
+  },
+  "CONTRADICTIONS.tsv": {
+   "grain": "one row per (spine row, contradiction code)",
+   "rows": 562,
+   "columns": [
+    "integration_row_key",
+    "contradiction_code",
+    "a_state",
+    "a_unresolved_reason_codes",
+    "c_arm_link_state",
+    "c_control_status",
+    "c_contested_flag",
+    "b_join_state",
+    "b_usable_for_proportion",
+    "b_unresolved_states",
+    "resolution",
+    "source_pointer"
+   ],
+   "rule": "resolution is always BOTH_STATES_STAND__NEITHER_COMPONENT_OVERWRITES_THE_OTHER."
+  },
+  "INTEGRATION-CENSUS.json": {
+   "rule": "every count recomputed from the emitted tables by check I13, not asserted."
+  },
+  "INTEGRATION-CHECKS.json": {
+   "rule": "machine record of the 16 checks; check_integration.py exits 1 if any fails."
+  }
+ },
+ "enumerations": {
+  "integration_state": {
+   "BLOCKED": "at least one component holds a component-specific blocking condition for this record (447 rows).",
+   "NO_COMPONENT_BLOCK_FOUND__NOT_AN_ELIGIBILITY_GRANT": "no component-specific block was found (105 rows). This is the ABSENCE of a found defect, not a grant. Every one of these rows still carries B_DISJOINTNESS_UNVERIFIABLE_NO_PARTICIPANT_FLOW, still sits on the unconfirmed job2/job3 chain, and still has no approved rule for choosing among competing records."
+  },
+  "blocking_conditions": {
+   "A_DENOMINATOR_OR_CATEGORY_UNSUITABLE": "CORRECTED-A marked the row UNSUITABLE_FOR_PROPORTION (61).",
+   "C_ARM_LINK_NOT_CONFIRMED:<state>": "CORRECTED-C did not confirm the arm link (CONFIRMED_TYPE_ONLY 26, CANDIDATE 10, UNKNOWN_IN_THIS_CACHE 8, UNRESOLVED 5).",
+   "C_CONTROL_STATUS_CONTESTED": "the group's own record says placebo/no-intervention while the confirmed registry arm is typed non-control (5). Neither field wins.",
+   "C_CONTROL_STATUS_UNKNOWN_IN_THIS_CACHE": "control status not determinable from this cache (25). NEVER read as not-control.",
+   "C_CONTROL_STATUS_CANDIDATE_ONLY": "control claimed by group text only, no confirmed registry link (1).",
+   "B_COMPETING_RECORDS_UNRESOLVED": "the row's B cohort key holds more than one competing observation and no selection rule is approved (309).",
+   "B_NOT_ASSESSED:<state>": "the row is outside B's corpus or title boundary, so identity, repetition and overlap were never assessed for it (94).",
+   "B_OBSERVATION_NOT_USABLE_FOR_PROPORTION": "B marked the joined observation unusable (0 rows \u2014 a finding, not an assumption).",
+   "B_DISJOINTNESS_UNVERIFIABLE_NO_PARTICIPANT_FLOW": "UNIVERSAL, on all 552 rows: the cache carries no participantFlowModule, so no two cohorts can be shown to be distinct patient sets."
+  },
+  "contradictions_retained": {
+   "A_UNSUITABLE_WHILE_C_ARM_CONFIRMED": "60 rows. A's doubt about the denominator/category structure and C's confidence in the arm link are BOTH true statements about different things. Neither is allowed to cancel the other; the row stays BLOCKED (check I6).",
+   "A_NOT_REFUTED_WHILE_C_ARM_<state>": "48 rows. A found no blocking defect; C could not confirm the arm. Both stand.",
+   "A_NOT_REFUTED_WHILE_B_SET_UNRESOLVED": "270 rows. A found no blocking defect; B holds competing records for the same cohort with no approved way to choose.",
+   "A_NOT_REFUTED_WHILE_B_OBSERVATION_UNUSABLE": "0 rows.",
+   "A_B_DENOMINATOR_VALUE_DISAGREE": "0 rows \u2014 A's read denominator and B's independently read denominator agree on all 458 joined rows.",
+   "C_CONTESTED_FLAG_PRESENT": "7 rows carrying C's contested_flag text.",
+   "C_SOLE_ARM_BUT_MULTIPLE_RESULTS_GROUPS": "83 rows where the trial registers one arm but the measure reports several results groups \u2014 the record's own contradiction of a one-arm reading.",
+   "ROW_NOT_ASSESSED_BY_B": "94 rows: a coverage gap, recorded as such and not as agreement."
+  }
+ },
+ "fences": {
+  "derived_here": "NOTHING beyond curation states. rate_derived, unique_patient_total_derived and control_comparison_derived are the literal NOT_DERIVED on 552/552 rows, and check I7 fails if any forbidden-named column ever holds another value.",
+  "forbidden_and_absent": [
+   "response rate or proportion",
+   "cross-disease capacity bound",
+   "agent-independent effect",
+   "control comparison",
+   "unique-patient total",
+   "revised endpoint manuscript"
+  ],
+  "manuscript_status": "The endpoint manuscript stays PARKED. It was not read and not edited by this integration."
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "component": "INTEGRATION-endpoint-ledger",
+ "checks": [
+  {
+   "check": "I1_spine_is_552_unique_rows_bijective_with_A",
+   "result": "PASS",
+   "detail": "ledger_rows=552 distinct=552 A_rows=552"
+  },
+  {
+   "check": "I2_A_to_C_title_bridge_is_unique_on_both_sides_and_total",
+   "result": "PASS",
+   "detail": "C_max_multiplicity=1 A_max_multiplicity=1 only_in_A=0 only_in_C=0"
+  },
+  {
+   "check": "I2b_C_evaluable_n_key_component_agrees_with_A_carried_job1_value",
+   "result": "PASS",
+   "detail": "mismatches=0"
+  },
+  {
+   "check": "I3_A_to_B_join_state_recomputed_and_exhaustive",
+   "result": "PASS",
+   "detail": "mislabelled=0 census={'TRIAL_OUTSIDE_B_CORPUS_SCOPE': 48, 'JOINED_UNIQUE': 458, 'MEASURE_OUTSIDE_B_TITLE_BOUNDARY': 46}"
+  },
+  {
+   "check": "I4_every_B_observation_is_dispositioned_none_inner_joined_away",
+   "result": "PASS",
+   "detail": "B_obs=16116 coverage_rows=16116 in_spine=458 B_only=15658"
+  },
+  {
+   "check": "I5_no_component_state_is_overwritten_in_the_integrated_row",
+   "result": "PASS",
+   "detail": "violations=0"
+  },
+  {
+   "check": "I6_A_doubt_is_not_overwritten_by_C_confidence",
+   "result": "PASS",
+   "detail": "rows_where_A_unsuitable_and_C_confirmed=60; all retain both states and stay BLOCKED=True"
+  },
+  {
+   "check": "I6b_contradiction_file_matches_the_row_level_codes",
+   "result": "PASS",
+   "detail": "contradiction_rows=562"
+  },
+  {
+   "check": "I7_no_rate_proportion_unique_patient_or_effect_column_emitted",
+   "result": "PASS",
+   "detail": "offending_columns=[]; NOT_DERIVED-only sentinel columns=['LEDGER-integrated-552.tsv:unique_patient_total_derived', 'LEDGER-integrated-552.tsv:control_comparison_derived']; all-three sentinels on 552/552 rows"
+  },
+  {
+   "check": "I8_job2_and_job3_unconfirmed_carried_on_every_row_and_in_census",
+   "result": "PASS",
+   "detail": "552/552 rows carry job1=confirmed, job2=false, job3=false"
+  },
+  {
+   "check": "I9_disposition_map_covers_every_component_record_exactly_once",
+   "result": "PASS",
+   "detail": "A=552 C=552 B=16210 (B = 16116 observations + 94 spine rows B never assessed)"
+  },
+  {
+   "check": "I10_competing_and_duplicate_records_retained_not_collapsed",
+   "result": "PASS",
+   "detail": "spine rows in a multi-observation cohort set=309; all retain siblings, unresolved states and NOT_SELECTED_BY_DESIGN=True"
+  },
+  {
+   "check": "I11_sole_arm_contradiction_retained_no_one_arm_model_forced",
+   "result": "PASS",
+   "detail": "rows flagged sole-arm-but-multiple-results-groups=83, all retained"
+  },
+  {
+   "check": "I12_disjointness_unverifiable_carried_on_every_row",
+   "result": "PASS",
+   "detail": "552/552 rows, including the 105 with no component-specific block"
+  },
+  {
+   "check": "I13_census_matches_recomputation_from_the_emitted_tables",
+   "result": "PASS",
+   "detail": "differences={}"
+  },
+  {
+   "check": "I14_component_inputs_unmodified_by_this_integration",
+   "result": "PASS",
+   "detail": "8 input files re-hashed, 0 changed"
+  }
+ ],
+ "passed": 16,
+ "failed": 0,
+ "total": 16
+}

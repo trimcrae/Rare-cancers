@@ -1,0 +1,82 @@
+{
+ "a_proportion_suitability": {
+  "NOT_REFUTED_BY_THIS_COMPONENT": 491,
+  "UNSUITABLE_FOR_PROPORTION": 61
+ },
+ "a_rows_in": 552,
+ "b_cohort_keys_in": 8740,
+ "b_join_state": {
+  "JOINED_UNIQUE": 458,
+  "MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+  "TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48
+ },
+ "b_observation_rows_in": 16116,
+ "b_observations_not_in_spine": 15658,
+ "blocking_condition_codes": {
+  "A_DENOMINATOR_OR_CATEGORY_UNSUITABLE": 61,
+  "B_COMPETING_RECORDS_UNRESOLVED": 309,
+  "B_DISJOINTNESS_UNVERIFIABLE_NO_PARTICIPANT_FLOW": 552,
+  "B_NOT_ASSESSED:MEASURE_OUTSIDE_B_TITLE_BOUNDARY": 46,
+  "B_NOT_ASSESSED:TRIAL_OUTSIDE_B_CORPUS_SCOPE": 48,
+  "C_ARM_LINK_NOT_CONFIRMED:CANDIDATE": 10,
+  "C_ARM_LINK_NOT_CONFIRMED:CONFIRMED_TYPE_ONLY": 26,
+  "C_ARM_LINK_NOT_CONFIRMED:UNKNOWN_IN_THIS_CACHE": 8,
+  "C_ARM_LINK_NOT_CONFIRMED:UNRESOLVED": 5,
+  "C_CONTROL_STATUS_CANDIDATE_ONLY": 1,
+  "C_CONTROL_STATUS_CONTESTED": 5,
+  "C_CONTROL_STATUS_UNKNOWN_IN_THIS_CACHE": 25
+ },
+ "c_arm_link_state": {
+  "CANDIDATE": 10,
+  "CONFIRMED": 503,
+  "CONFIRMED_TYPE_ONLY": 26,
+  "UNKNOWN_IN_THIS_CACHE": 8,
+  "UNRESOLVED": 5
+ },
+ "c_control_status": {
+  "CONTESTED": 5,
+  "CONTROL_ACTIVE_COMPARATOR_CONFIRMED": 32,
+  "CONTROL_NO_INTERVENTION_CONFIRMED": 1,
+  "CONTROL_PLACEBO_CONFIRMED": 8,
+  "CONTROL_UNSPECIFIED_CANDIDATE_GROUP_TEXT_ONLY": 1,
+  "NOT_CONTROL_BY_ARM_SET_TYPE_INVARIANT": 26,
+  "NOT_CONTROL_CONFIRMED": 454,
+  "UNKNOWN_IN_THIS_CACHE": 25
+ },
+ "c_join_state": {
+  "JOINED_UNIQUE": 552
+ },
+ "c_rows_in": 552,
+ "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+ "component": "INTEGRATION-endpoint-ledger",
+ "confirmation_status": {
+  "job1_arithmetic_independently_confirmed": true,
+  "job2_independently_confirmed": false,
+  "job3_independently_confirmed": false,
+  "note": "Only job 1 arithmetic was independently re-derived (VERIFY-job1-arithmetic.md). The 552-key spine, the disease attribution and the phase attribution are inherited from an unconfirmed chain."
+ },
+ "contradiction_codes": {
+  "A_NOT_REFUTED_WHILE_B_SET_UNRESOLVED": 270,
+  "A_NOT_REFUTED_WHILE_C_ARM_CANDIDATE": 10,
+  "A_NOT_REFUTED_WHILE_C_ARM_CONFIRMED_TYPE_ONLY": 25,
+  "A_NOT_REFUTED_WHILE_C_ARM_UNKNOWN_IN_THIS_CACHE": 8,
+  "A_NOT_REFUTED_WHILE_C_ARM_UNRESOLVED": 5,
+  "A_UNSUITABLE_WHILE_C_ARM_CONFIRMED": 60,
+  "C_CONTESTED_FLAG_PRESENT": 7,
+  "C_SOLE_ARM_BUT_MULTIPLE_RESULTS_GROUPS": 83,
+  "ROW_NOT_ASSESSED_BY_B": 94
+ },
+ "contradiction_rows": 562,
+ "control_comparisons_derived": 0,
+ "cross_disease_capacity_bounds_derived": 0,
+ "disposition_map_rows": 17314,
+ "integration_state": {
+  "BLOCKED": 447,
+  "NO_COMPONENT_BLOCK_FOUND__NOT_AN_ELIGIBILITY_GRANT": 105
+ },
+ "network_access": "none",
+ "rates_or_proportions_derived": 0,
+ "rows_with_at_least_one_contradiction": 459,
+ "spine_rows": 552,
+ "unique_patient_totals_derived": 0
+}

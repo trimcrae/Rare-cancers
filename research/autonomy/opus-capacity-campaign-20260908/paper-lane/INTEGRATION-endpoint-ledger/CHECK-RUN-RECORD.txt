@@ -1,0 +1,60 @@
+# INTEGRATION-endpoint-ledger — check run record (real exit codes)
+date_utc: 2026-09-08T19:47:43Z
+
+No pipes are used on any command below, so $? is the real exit status of the command shown.
+No EXIT line was written that was not actually emitted by a command run here.
+No network call was made. Nothing was committed or pushed.
+
+## R1 - producers compile
+$ python3 -m py_compile build_integration.py check_integration.py
+EXIT=0
+
+## R2 - build (read-only over CORRECTED-A/-B/-C; writes only this directory)
+$ python3 build_integration.py
+EXIT=0
+
+## R3 - deterministic checks (the script exits 1 if any check fails)
+$ python3 check_integration.py
+EXIT=0
+     16/16 checks passed, 0 failed  (transcript: checks.log, machine record: INTEGRATION-CHECKS.json)
+
+## R4 - the checks are able to FAIL: first real run of check I7
+The first execution of check_integration.py returned EXIT=1 on a genuine defect in the
+check itself: I7 was a NAME-only test and rejected this ledger's own NOT_DERIVED sentinel
+columns. Transcript retained verbatim at RUN1-FAILING-checks.log (15/16 passed, 1 failed).
+The guard was made STRICTER, not weaker: I7 now tests the VALUES of every forbidden-named
+column and fails if any such column ever holds anything but the literal NOT_DERIVED.
+
+## R5 - negative control: a deliberately corrupted copy is REJECTED
+A copy of the four emitted tables was mutated in the two ways this integration is forbidden
+to commit: (1) one row's CORRECTED-A UNSUITABLE_FOR_PROPORTION state overwritten with
+NOT_REFUTED because CORRECTED-C had confirmed its arm; (2) the 15,658 B-only observations
+silently inner-joined away from the coverage table.
+$ INTEGRATION_DIR=<mutated copy> python3 check_integration.py
+EXIT=1
+     12/16 passed, 4 failed: I4, I5, I6b, I13  (transcript: NEG-CONTROL-checks.log)
+
+## R6 - component inputs byte-unchanged after everything above
+$ python3 -c '<re-hash every file in INPUT-MANIFEST.json>'
+OK   CORRECTED-A-denominator-category/corrected-a-checks.json
+OK   CORRECTED-A-denominator-category/corrected-a-rows.tsv
+OK   CORRECTED-A-denominator-category/corrected-a-summary.json
+OK   CORRECTED-B-identity-selection-overlap/artifacts/CHECKS.json
+OK   CORRECTED-B-identity-selection-overlap/artifacts/LEDGER-response-observations.tsv
+OK   CORRECTED-B-identity-selection-overlap/artifacts/RELATED-SETS-unresolved.tsv
+OK   CORRECTED-C-arm-attribution/CORRECTED-C-arm-attribution-checks.json
+OK   CORRECTED-C-arm-attribution/CORRECTED-C-arm-attribution-map.tsv
+EXIT=0
+
+## R7 - job1/job2/job3 originals and the 16 leaf files: not read-modified, not re-run
+$ python3 -c '<sha256 of the job originals>'
+1d7e8e18b7ad4c437b5a9776b76cfa8e7dd83ca1897f954dfada9c040497bbec CURATION-endpoint-arm-attribution-map.tsv
+b99d2af392ec70704cbc61adc41c6aa43ed209b7c940c8e5c4af487afa29e4b4 CURATION-endpoint-arm-attribution-derive.py
+89666f3fc907bf606a5617bbd0426a8c8a7a05849e900a9059160c627b92ad85 CURATION-endpoint-measurement-contract-summary.json
+EXIT=0
+
+## R8 - not run, and why
+scripts/preflight.sh was NOT run: it is the commit gate and this integration commits nothing.
+No component was re-run. No job1/job2/job3 producer was executed. No leaf file was regenerated.
+No source re-audit of CORRECTED-A/-B/-C internals was performed; their own check records stand
+as evidence of their own runs and are cited, not re-derived.
