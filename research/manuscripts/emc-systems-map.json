@@ -1841,6 +1841,180 @@
           "use": "Round-8 citations seat verifies the banner's ceralasertib -0.005 / berzosertib +2.048 residual LN_IC50 for ACH-001519 trace to emc-atr-vulnerability-inputs.json at this pin. Verdict accept, 0 blockers, 1 P1.",
           "classification": "unaffected",
           "why_unaffected": "Provenance, not identity: the seat asks whether the cited artifact says what the sentence says it says. That holds whatever the line is, and the seat files nothing about fusion status or EMC membership."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/COMMON-BRIEF.md",
+          "use": "The campaign brief's own summary of two findings ABOUT the registry: W57's stale `objects.json OBJ-LINE-HEMCSS.notes` read_by count, and W74's report that this checker is red. The alias appears only inside those quoted findings.",
+          "classification": "unaffected",
+          "why_unaffected": "A use of the REGISTRY, not of the model. The brief quotes the read_by count and the checker's own [O4] output; it takes no expression, dependency, sensitivity or phenotype reading from ACH-001519 and asserts nothing about what the line is. None of the four `may_not_ground` claim classes appears in the file. Re-labelling the line changes no sentence in it."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W05-patient-independence-audit.md",
+          "use": "Row 7 of the patient-independence inventory: lists 'H-EMC-SS / ACH-001519, n=1' as a candidate patient unit and REJECTS it.",
+          "classification": "unaffected",
+          "why_unaffected": "The row's own verdict is 'a cell line, not a cohort ... UNKNOWN as a patient unit', it cites OBJ-LINE-HEMCSS as an already-disputed identity, and it records 'Not pursued; that dispute is separately owned and I am not reopening it.' The audit therefore counts the line toward NO patient total and grounds no EMC claim. The dispute is the stated reason for the exclusion, so a re-labelling could only strengthen a conclusion already drawn."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W05c-identifier-namespace-matrix.md",
+          "use": "One sentence in the closed-work section, naming the H-EMC-SS identity dispute among the items the report explicitly did NOT reopen.",
+          "classification": "unaffected",
+          "why_unaffected": "The single mention is a statement of NON-use: 'I did not touch ... the H-EMC-SS identity dispute.' No row, tier, intersection or namespace finding in the report is derived from the model."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W07d-lane7-vocabulary-stability.md",
+          "use": "Row 4 of the 17-PMID classification table: PMID 32948981 is described, per the source, as a preclinical H-EMC-SS xenograft study.",
+          "classification": "unaffected",
+          "why_unaffected": "The line is named only in the report's description of what the cited paper used, and the row's verdict EXCLUDES that paper from the evidence base: '0 patients (murine)', 'NO-AE-DATA (contains no EMC patients)', 'its safety language must never be read across to any patient'. No adverse-event count, union size or grade in the report depends on the line's identity, and the report takes no expression, dependency or phenotype reading from it. Recording which model a cited paper used is not a repository claim that the model is EMC."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W07h-assumed-composition-rows.md",
+          "use": "Row 12 of the assumed-composition inventory: quotes evidence item EV-HIGUCHI-2023's own `what_it_supports` text, which names H-EMC-SS.",
+          "classification": "unaffected",
+          "why_unaffected": "The quoted text already carries the dispute verbatim -- '(OBJ-LINE-HEMCSS), identity disputed -- the curated record does not support its EMC identity' -- and the row's finding is that whether the mouse experiment used that line is UNREAD. The report asserts an unknown, not a reading; it is an inventory OF assumptions and this row records the assumption rather than relying on one."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W57-graph-vs-artifact-stale-watchers.md",
+          "use": "Finding S2: `systems/graph/objects.json` -> `OBJ-LINE-HEMCSS.notes` states a 30-entry read_by while the live map has 114. The alias appears as the record's id in that comparison.",
+          "classification": "unaffected",
+          "why_unaffected": "A measurement of REGISTRY staleness -- one number inside one sentence of a graph note, against the live map -- not a reading of the model. The report takes no biological reading from ACH-001519 and its S2 conclusion is unchanged by whatever the identity dispute later resolves to. NOTE: the stale `notes` count S2 reports is a systems/graph field this pass does not touch, and registering these campaign uses moves the live count further from it."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W74-escape-holds-with-git.md",
+          "use": "The escape-hold list: item 1 reports that `emc_systems_map_check.py --check` is red with 5 [O4] errors and quotes the three aliases the sweep matched.",
+          "classification": "unaffected",
+          "why_unaffected": "A report OF THIS CHECKER'S OWN OUTPUT. The aliases appear because the report prints the failing sweep, exactly as the checker prints them. It makes no claim about the line, and it is the document that first recorded this failure rather than silencing it."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/reports/W87-complete-campaign-footprint.md",
+          "use": "The campaign footprint census: records that the [O4] count grew from W74's 5 to 7 and lists the seven naming files, one of which is the brief's own quotation.",
+          "classification": "unaffected",
+          "why_unaffected": "A count of the campaign's own files that trip the sweep -- a measurement of the guard, not a use of the model. No EMC reading, grade or number in the footprint report rests on ACH-001519."
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/G1-executed-artifacts/AFTER.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (G1 post-edit snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/G1-executed-artifacts/BEFORE.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (G1 pre-edit snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/AFTER.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (J1 post-edit snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/BEFORE.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (J1 pre-edit snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/HEAD-baseline.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (J1 HEAD-baseline snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/K1-executed-artifacts/post/emc-surface-target-landscape.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (K1 post snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/K1-executed-artifacts/pre/emc-surface-target-landscape.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (K1 pre snapshot) of DOC-EMC-SURFACE-TARGET-LANDSCAPE, the preprint whose live copy this registry classes `invalidated`. It carries the same naming sites: the surrogate-class definition, reference 15, and Appendix A1. Same document, same use, therefore the same classification.",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (E1 post-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.BEFORE.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (E1 pre-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/AFTER.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (N1 post-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/BEFORE.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (N1 pre-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/AFTER.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (O1 post-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/BEFORE.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (O1 pre-edit snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/BASELINE-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (R2 baseline snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/CANDIDATE-A-T2-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (R2 candidate-A/T2 snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-CAPTION-VARIANT/INTEGRATION-AFTER-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 caption-variant integration AFTER snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-CAPTION-VARIANT/INTEGRATION-BEFORE-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 caption-variant integration BEFORE snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-CAPTION-VARIANT/VARIANT-CANDIDATE-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 caption-variant candidate snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/BASELINE-committed-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 committed-baseline snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/R2-original-proposal/CANDIDATE-A-T2-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 copy of the R2 original proposal) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/V1-CANDIDATE-repurposing-hypotheses.md",
+          "use": "Campaign EVIDENCE SNAPSHOT (V1 candidate snapshot) of DOC-REPURPOSING-HYPOTHESES, whose live copy this registry classes `survives_relabelled`. It carries the same three naming sites: the PPARgamma candidate row, the section-3.3 Cellosaurus sentence, and the section-5 limitation row. Same document, same use, therefore the same classification.",
+          "classification": "survives_relabelled",
+          "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
         }
       ],
       "distinct_from": [

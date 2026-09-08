@@ -228,7 +228,32 @@ journal-submission authority. Every other registered paper keeps the two-build w
 for them: `aso-journal`, `fusion-output` and `vaccine-path` all read `is_outgoing_file=None` and
 retain `[typeset preview]`. Builder module: 110 passed.
 
-## Current outgoing artifact, and the next release step
+## ⭐ CURRENT, 2026-09-08 — the accepted outgoing PDF and the failed release gate
+
+**This is the current state of this record. The section that follows it, below the rule, is
+HISTORICAL and SUPERSEDED and is retained only as history.**
+
+- **Accepted outgoing PDF: the `e218` build — 787,814 bytes, sha256
+  `cf58041288a07b58dcc2d6658667ac5d5f978c3fa92f5c690b057fac3820e00a`.** This supersedes the `be39c96f`
+  build named below.
+- **The `618` release gate FAILED, and that failure is current.** The accepted failure inventory is the
+  corrected CI result record; the release check is red, not green.
+
+⛔ Both facts above are recorded from root's adjudication. **No review, no render, no PDF rebuild and
+no preflight was re-run to produce this section**, and none is authorised by it. It asserts nothing
+about legibility, about scientific content, or about any release permission — the release remains HELD.
+
+---
+
+## ⛔ HISTORICAL / SUPERSEDED — outgoing artifact and next release step, as recorded earlier on 2026-09-08
+
+⚠ **Everything from here to `## Not claimed` is superseded by the section above and must not be read as
+current.** In particular the three statements it makes — that the `be39c96f` PDF is the current
+outgoing artifact, that "the ATR focused verification is still running", and that print-size legibility
+is the one open item — were all correct when written and are **no longer the current position**. They are
+kept because deleting them would delete the record of what was believed and when.
+
+### ⛔ SUPERSEDED · "Current outgoing artifact, and the next release step" (as written earlier 2026-09-08)
 
 The outgoing PDF at `be39c96f` is sha256 `42a7c4eefff20d00…`, 9 pages. ⚠ **It is NOT the
 `a11ae7c6…` build named in the S3 originals receipt** — that hash was the S3-repair build at
