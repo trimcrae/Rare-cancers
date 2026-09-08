@@ -1,0 +1,19 @@
+=== START ===
+date_utc: Tue Sep  8 11:55:32 UTC 2026
+HEAD: f5a16b5bd571df8ae56964e40f3248eccddb9276
+git status --porcelain: (empty)
+
+=== END ===
+date_utc: Tue Sep  8 11:58:16 UTC 2026
+HEAD: 869879a609f78bc5737f5f0bc4f59b00c877640c
+git status --porcelain:
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-CAPTION-VARIANT/
+(empty above == nothing shared changed)
+
+NOTE on the two deltas, neither of them W1's:
+- HEAD advanced f5a16b5 -> 869879a during this lane: the coordinator/other workers committed. W1
+  made no git write of any kind (read-only git: rev-parse, status, show).
+- The single untracked path, research/autonomy/.../paper-lane/V1-CAPTION-VARIANT/, belongs to
+  worker V1, not W1. W1 wrote only under /tmp/claude-0/w1-lane/ and deleted nothing.
+- The pinned input research/modalities/emc-fet-construct-designs.json is byte-identical at both
+  revisions: sha256 726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b, 73,415 B.
