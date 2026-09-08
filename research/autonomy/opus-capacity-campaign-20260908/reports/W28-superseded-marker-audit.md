@@ -1,6 +1,7 @@
-<!-- collected by the OPUS-CAPACITY-CAMPAIGN-20260908 parent collector at 2026-09-08T03:27:23Z UTC
+<!-- collected by the OPUS-CAPACITY-CAMPAIGN-20260908 parent collector at 2026-09-08T03:29:18Z UTC
      agent id a6a1b65b4de0c424e ; transcript /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/subagents/agent-a6a1b65b4de0c424e.jsonl
      OBSERVED runtime model set in that transcript: ["claude-opus-5"] (asserted exactly [claude-opus-5])
+     NOTE: this worker returned a report plus one or more dated addenda; all substantive turns are concatenated in order.
      the worker was read-only on the tree; this file is the parent's write -->
 
 Stop condition met. Report follows.
@@ -313,3 +314,38 @@ One background job (`bh5m26ymp`, the first tree-wide `superseded[]` reachability
 ## Next concrete action
 
 **One specific successor task, for the owner of `research/manuscripts/pinned-figures.json`:** decide whether `research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md` should be added to `targets[]`, then re-run `python3 research/manuscripts/lint_consistency.py` and adjudicate the errors it raises — starting with the two live printings of the withdrawn Wilson intervals at `:58` and `:246-248`, which entry `vaccine_coverage_wilson_intervals` records as retired on 2026-08-22 by the statistics seat for invalid single-binomial pooling across AFND populations. That is a single-file scope change with a single verification command, and it converts the one confirmed inverse defect into either a repair or a recorded decision. It is a **submission-blocker class** finding for the vaccine-path manuscript (a current statistic the repository's own registry says is withdrawn), not maintenance — but the repair is the paper owner's to make, not mine.
+
+---
+
+Addendum to W28. The background job I recorded as "produced no output file" had in fact completed; its output exists at `/tmp/claude-0/.../tasks/bh5m26ymp.output` (5,007 bytes, exit 0). **That correction is on me — my report's tool-call table understated it.** Its results corroborate Part 3 and add one finding.
+
+## Corroboration
+
+The job independently reproduces Part 2 and Part 3's structure: `superseded entries: 81`, `bad regex: 0`, `pattern matches NOWHERE in the 29 target files: 23` — the same 81/0/23 I reported.
+
+**One number differs and I am not going to reconcile it by picking a favourite.** `valb_rung_band_8_78_22_28` shows **501** tree-wide hits in the background job versus the **632** I reported from foreground run #12. The two runs used different denominators — my #12 scanned the 6,927 tracked **non-target** files under a 6 MB cap and a fixed extension list; the background job's sweep was over a differently-filtered set. Both confirm the substantive point (a bare-number pattern `8\.78|22\.28` matching in the hundreds, against the registry `_README`'s own "KEEP PATTERNS TIGHT … prefer a multi-token pattern over a bare number"). The exact count is **approximate, method-dependent, between ~500 and ~650**; treat neither figure as exact.
+
+## New finding: 6 dead guards
+
+Six `superseded[]` patterns match **zero times across all 7,741 tracked files**. I did not take this from the job — I re-ran it independently over `git ls-files` and confirm all six at 0:
+
+```
+   0  ternary_lane_valb_cohort3_rates            1\.528\s*[x×]|1\.574\s*[x×]|\$0\.005214/ns|\$0\.005369/ns
+   0  realised_spend_before_orphan_leak          \+\$2\.31 attested|best estimate is \*\*\$79\.59\*\*
+   0  realised_spend_before_retro_orphan_leak    \+\$22\.31 attested|best estimate is \*\*\$99\.59\*\*
+   0  realised_spend_omitted_the_selcal_lane     \$77\.28 machine-ledgered|…|realised spend \$77\.28
+   0  aso_thermo_cross_margin_discordance        composition reverses the\s+order in\s+([0-9]{1,2}\.[0-9])\s*%\s*of cross-margin
+   0  vaccine_e7_coverage_stated_without_a_panel predicted to be presented on HLA-B\\?\*15:01 alone|\| B\\?\*15:01 alone \|
+```
+
+**This is not by itself a defect — zero hits is the success case.** A guard on a retired value should end at zero once the value is purged. What it does mean is that these six guards are now **inert**: they can no longer distinguish "the bad value is gone" from "the regex broke and would not fire even if the value returned." Nothing in the repository tests a guard's ability to still catch its own target.
+
+Three of the six are visibly brittle in ways that matter for that distinction: they pin exact markdown emphasis (`best estimate is \*\*\$79\.59\*\*`), an exact table-cell shape (`\| B\*15:01 alone \|`), or a doubled escape (`HLA-B\\?\*15:01`) that only makes sense against markdown-escaped source. Any of those breaks on a reformat while the underlying claim survives.
+
+**One near-miss I flag but do not assert.** `vaccine_e7_coverage_stated_without_a_panel` targets the phrase "presented on HLA-B\*15:01 alone". The paper I identified in Part 3, `research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md:246`, reads *"is now presented on **B\*15:01 alone**"* — the same claim shape without the `HLA-` prefix, so the pattern does not fire. Whether that guard was meant to catch this line is **UNKNOWN** — I would need the entry's `current`/`retired_by` text to say, and the file is outside `targets[]` regardless, so the guard would never have run on it. I record it as a coincidence worth the owner's eye, not as a second confirmed defect.
+
+## Effect on the delivered report
+
+Parts 1, 2 and 4 are unchanged. Part 3's conclusion is unchanged and slightly strengthened: the same scope gap that let the withdrawn Wilson intervals survive at `:58` and `:246-248` also means six guards sit at zero with no way to tell inert from working.
+
+**Successor action is unchanged and absorbs this:** when the owner decides whether to add `fusion-junction-neoantigen-paper.md` to `targets[]` and re-runs `lint_consistency.py`, the same pass should check whether the six dead guards still match the text they were written against — a one-off fixture per guard, not a standing test. Still the paper owner's call; still no write from me. My write isolation held: nothing under `/home/user/Rare-cancers` was modified, `git status --porcelain` remains empty.
