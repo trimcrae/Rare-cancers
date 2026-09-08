@@ -86,3 +86,27 @@ journal requirement or lower bound for real figures may be drawn from synthetic 
 
 **Output ownership:** artifacts are campaign records owned by the parent collector. They are not a manuscript,
 not a shared-graph edit, and confer no publication or clinical-result admission.
+
+---
+
+## Mechanical ownership clarification, delivered to the RUNNING child at 2026-09-08 06:22Z — no restart
+
+Sent to child `a53b0d25fa5e70b56` in flight; **no replacement worker, no duplicate calculation, no re-plan.**
+Scientific design, grid, runtime bound, acceptance criteria, worker and model are all **unchanged**.
+
+**Change:** the child's assigned durable location moves **outside the shared checkout** to
+`/tmp/claude-0/s5-retained/`, which is **exempt from cleanup until the parent collector has verified it**. The
+child writes raw JSON (all cells, all arms, unabridged), exact executed code, resolved grid/parameters/
+seeds-or-explicit-no-seed, hashes, runtime and every failure **there**, and now writes nowhere inside
+`/home/user/Rare-cancers` at all. **The parent alone copies, verifies and commits** into
+`paper-lane/S5-executed-artifacts/`. This preserves the repository's separate-writer / one-collector rule.
+
+**Anything already written inside the checkout is preserved as-is.** The child was instructed not to delete,
+move or rewrite such a file to satisfy the new rule, and to report its path and hash so the parent collects it.
+**No output is discarded to retrofit a location rule.** State at the time the clarification was sent:
+`paper-lane/S5-executed-artifacts/` was empty and `git status --porcelain` clean, so nothing was at risk.
+
+Verify-before-cleanup still binds, now against the new path: confirm the files exist and hash as recorded,
+print the verification, do **not** delete that directory, delete only ordinary working scratch and only after
+verification passes, and keep everything if it fails. No git operation, manuscript edit, shared-graph edit or
+broad source edit by the child. All other bounds and every held/closed route stand exactly as recorded above.

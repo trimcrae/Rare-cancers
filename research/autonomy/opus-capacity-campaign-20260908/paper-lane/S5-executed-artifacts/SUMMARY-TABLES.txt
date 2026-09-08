@@ -1,0 +1,244 @@
+
+### emc_anchor__terminal_censoring  sha256=7deb0b9f61a765f8
+truth n=59 ev=18 cen=41 median=168.0 min=3.0 max=180.0 last_obs_is_event=False n_at_tmax=5
+  render clean__strict_matcher            ok=True refusal=None maxerr=0.0292 offstep=0.0012 pts=20
+  render line_width_4__strict_matcher     ok=True refusal=None maxerr=0.0612 offstep=0.0012 pts=38
+  render gridlines__strict_matcher        ok=True refusal=None maxerr=0.0292 offstep=0.0012 pts=20
+  render clean__lenient_matcher_luma175   ok=True refusal=None maxerr=0.0292 offstep=0.0012 pts=20
+  -- density@extent0.933
+     key        | arm    | evD cenD medD  maxdev adm
+     3          | exact                          |   +0    -7    -40.0  0.0094 OK
+     3          | clean__strict_matcher          |   +2   -10  -40.031  0.0248 OK
+     3          | line_width_4__strict_matcher   |   +1    -9  -40.312  0.0141 OK
+     3          | gridlines__strict_matcher      |   +2   -10  -40.031  0.0248 OK
+     3          | clean__lenient_matcher_luma175 |   +2   -10  -40.031  0.0248 OK
+     5          | exact                          |   +0    -7    -40.0  0.0069 OK
+     5          | clean__strict_matcher          |   +0    -8  -40.031  0.0086 OK
+     5          | line_width_4__strict_matcher   |   +0    -8  -58.312  0.0067 OK
+     5          | gridlines__strict_matcher      |   +0    -8  -40.031  0.0086 OK
+     5          | clean__lenient_matcher_luma175 |   +0    -8  -40.031  0.0086 OK
+     8          | exact                          |   +0    -7    -40.0  0.0009 OK
+     8          | clean__strict_matcher          |   +0   -15  -72.094  0.0183 OK
+     8          | line_width_4__strict_matcher   |   +0    -8  -40.312  0.0132 OK
+     8          | gridlines__strict_matcher      |   +0   -15  -72.094  0.0183 OK
+     8          | clean__lenient_matcher_luma175 |   +0   -15  -72.094  0.0183 OK
+     13         | exact                          |   +0    -7    -40.0  0.0013 OK
+     13         | clean__strict_matcher          |   +1   -20  -84.188  0.0254 OK
+     13         | line_width_4__strict_matcher   |   +0    -9  -40.312  0.0233 OK
+     13         | gridlines__strict_matcher      |   +1   -20  -84.188  0.0254 OK
+     13         | clean__lenient_matcher_luma175 |   +1   -20  -84.188  0.0254 OK
+     19         | exact                          |   +0   -11    -58.0  0.0025 OK
+     19         | clean__strict_matcher          |   +0   -29  -107.25  0.0152 OK
+     19         | line_width_4__strict_matcher   |   +0   -11  -58.312  0.0154 OK
+     19         | gridlines__strict_matcher      |   +0   -29  -107.25  0.0152 OK
+     19         | clean__lenient_matcher_luma175 |   +0   -29  -107.25  0.0152 OK
+  -- extent@rows8
+     key        | arm    | evD cenD medD  maxdev adm
+     0.25       | exact                          |   +6   -25    -84.0  0.0099 OK
+     0.25       | clean__strict_matcher          |   +6   -34  -84.188  0.0112 OK
+     0.25       | line_width_4__strict_matcher   |   +6   -25  -84.469   0.011 OK
+     0.25       | gridlines__strict_matcher      |   +6   -34  -84.188  0.0112 OK
+     0.25       | clean__lenient_matcher_luma175 |   +6   -34  -84.188  0.0112 OK
+     0.5        | exact                          |   +2   -16    -72.0  0.0163 OK
+     0.5        | clean__strict_matcher          |   +2   -20  -84.188  0.0144 OK
+     0.5        | line_width_4__strict_matcher   |   +2   -16  -72.375  0.0165 OK
+     0.5        | gridlines__strict_matcher      |   +2   -20  -84.188  0.0144 OK
+     0.5        | clean__lenient_matcher_luma175 |   +2   -20  -84.188  0.0144 OK
+     0.75       | exact                          |   +0   -10    -58.0  0.0222 OK
+     0.75       | clean__strict_matcher          |   +1   -15  -72.094  0.0211 OK
+     0.75       | line_width_4__strict_matcher   |   +1   -10  -58.312  0.0242 OK
+     0.75       | gridlines__strict_matcher      |   +1   -15  -72.094  0.0211 OK
+     0.75       | clean__lenient_matcher_luma175 |   +1   -15  -72.094  0.0211 OK
+     0.933      | exact                          |   +0    -7    -40.0  0.0009 OK
+     0.933      | clean__strict_matcher          |   +0   -15  -72.094  0.0183 OK
+     0.933      | line_width_4__strict_matcher   |   +0    -8  -40.312  0.0132 OK
+     0.933      | gridlines__strict_matcher      |   +0   -15  -72.094  0.0183 OK
+     0.933      | clean__lenient_matcher_luma175 |   +0   -15  -72.094  0.0183 OK
+     1.0        | exact                          |   +0    -5    -18.0  0.0018 OK
+     1.0        | clean__strict_matcher          |   +0   -11  -58.031  0.0191 OK
+     1.0        | line_width_4__strict_matcher   |   +0    -9  -58.312  0.0132 OK
+     1.0        | gridlines__strict_matcher      |   +0   -11  -58.031  0.0191 OK
+     1.0        | clean__lenient_matcher_luma175 |   +0   -11  -58.031  0.0191 OK
+
+### early_censoring  sha256=524fab9ed618d927
+truth n=59 ev=18 cen=41 median=124.0 min=2.0 max=169.0 last_obs_is_event=True n_at_tmax=0
+  render clean__strict_matcher            ok=True refusal=None maxerr=0.0563 offstep=0.0024 pts=20
+  render line_width_4__strict_matcher     ok=True refusal=None maxerr=0.0548 offstep=0.0048 pts=22
+  render gridlines__strict_matcher        ok=True refusal=None maxerr=0.0563 offstep=0.0024 pts=20
+  render clean__lenient_matcher_luma175   ok=True refusal=None maxerr=0.0563 offstep=0.0024 pts=20
+  -- density@extent0.933
+     key        | arm    | evD cenD medD  maxdev adm
+     3          | exact                          |   +0    +0      0.0     0.0 OK
+     3          | clean__strict_matcher          |   +1    -1    -0.25  0.0263 OK
+     3          | line_width_4__strict_matcher   |   +1    -1    4.531  0.0261 OK
+     3          | gridlines__strict_matcher      |   +1    -1    -0.25  0.0263 OK
+     3          | clean__lenient_matcher_luma175 |   +1    -1    -0.25  0.0263 OK
+     5          | exact                          |   +0    +0      0.0     0.0 OK
+     5          | clean__strict_matcher          |   +2   -41    -0.25  0.0256 OK
+     5          | line_width_4__strict_matcher   |   +1   -40    0.594  0.0168 OK
+     5          | gridlines__strict_matcher      |   +2   -41    -0.25  0.0256 OK
+     5          | clean__lenient_matcher_luma175 |   +2   -41    -0.25  0.0256 OK
+     8          | exact                          |   +0    +0      5.0  0.0106 OK
+     8          | clean__strict_matcher          |   +0   -35    4.812  0.0226 OK
+     8          | line_width_4__strict_matcher   |   +1   -36    0.594  0.0232 OK
+     8          | gridlines__strict_matcher      |   +0   -35    4.812  0.0226 OK
+     8          | clean__lenient_matcher_luma175 |   +0   -35    4.812  0.0226 OK
+     13         | exact                          |   +0    +0      0.0     0.0 OK
+     13         | clean__strict_matcher          |   +0   -40    4.812   0.019 OK
+     13         | line_width_4__strict_matcher   |   +0   -40    4.531  0.0195 OK
+     13         | gridlines__strict_matcher      |   +0   -40    4.812   0.019 OK
+     13         | clean__lenient_matcher_luma175 |   +0   -40    4.812   0.019 OK
+     19         | exact                          |   +0    +0      0.0     0.0 OK
+     19         | clean__strict_matcher          |   +0   -41    -0.25  0.0142 OK
+     19         | line_width_4__strict_matcher   |   -1   -40    0.594  0.0332 OK
+     19         | gridlines__strict_matcher      |   +0   -41    -0.25  0.0142 OK
+     19         | clean__lenient_matcher_luma175 |   +0   -41    -0.25  0.0142 OK
+  -- extent@rows8
+     key        | arm    | evD cenD medD  maxdev adm
+     0.25       | exact                          |  +19   -19      5.0  0.0135 OK
+     0.25       | clean__strict_matcher          |  +19   -41    4.812  0.0135 OK
+     0.25       | line_width_4__strict_matcher   |  +19   -41    4.531  0.0128 OK
+     0.25       | gridlines__strict_matcher      |  +19   -41    4.812  0.0135 OK
+     0.25       | clean__lenient_matcher_luma175 |  +19   -41    4.812  0.0135 OK
+     0.5        | exact                          |   +0    +0      5.0  0.0029 OK
+     0.5        | clean__strict_matcher          |   +0   -38    4.812  0.0095 OK
+     0.5        | line_width_4__strict_matcher   |   +0   -38    4.531  0.0119 OK
+     0.5        | gridlines__strict_matcher      |   +0   -38    4.812  0.0095 OK
+     0.5        | clean__lenient_matcher_luma175 |   +0   -38    4.812  0.0095 OK
+     0.75       | exact                          |   +0    +0      5.0  0.0083 OK
+     0.75       | clean__strict_matcher          |   +0   -38    4.812  0.0123 OK
+     0.75       | line_width_4__strict_matcher   |   +0   -38    4.531  0.0147 OK
+     0.75       | gridlines__strict_matcher      |   +0   -38    4.812  0.0123 OK
+     0.75       | clean__lenient_matcher_luma175 |   +0   -38    4.812  0.0123 OK
+     0.933      | exact                          |   +0    +0      5.0  0.0106 OK
+     0.933      | clean__strict_matcher          |   +0   -35    4.812  0.0226 OK
+     0.933      | line_width_4__strict_matcher   |   +1   -36    0.594  0.0232 OK
+     0.933      | gridlines__strict_matcher      |   +0   -35    4.812  0.0226 OK
+     0.933      | clean__lenient_matcher_luma175 |   +0   -35    4.812  0.0226 OK
+     1.0        | exact                          |   +0    +0      5.0  0.0083 OK
+     1.0        | clean__strict_matcher          |   +0   -38    4.812  0.0182 OK
+     1.0        | line_width_4__strict_matcher   |   -1   -37    4.531  0.0322 OK
+     1.0        | gridlines__strict_matcher      |   +0   -38    4.812  0.0182 OK
+     1.0        | clean__lenient_matcher_luma175 |   +0   -38    4.812  0.0182 OK
+
+### uniform_censoring  sha256=3ca5af0e5ef9fb2c
+truth n=59 ev=17 cen=42 median=157.1 min=5.4 max=174.6 last_obs_is_event=False n_at_tmax=0
+  render clean__strict_matcher            ok=True refusal=None maxerr=0.0729 offstep=0.0009 pts=19
+  render line_width_4__strict_matcher     ok=True refusal=None maxerr=0.0682 offstep=0.0009 pts=36
+  render gridlines__strict_matcher        ok=True refusal=None maxerr=0.0729 offstep=0.0009 pts=19
+  render clean__lenient_matcher_luma175   ok=True refusal=None maxerr=0.0729 offstep=0.0009 pts=19
+  -- density@extent0.933
+     key        | arm    | evD cenD medD  maxdev adm
+     3          | exact                          |   +0    -3     -2.9  0.0135 OK
+     3          | clean__strict_matcher          |   -1    -2   -2.975  0.0473 OK
+     3          | line_width_4__strict_matcher   |   -1    -2   -3.256  0.0495 OK
+     3          | gridlines__strict_matcher      |   -1    -2   -2.975  0.0473 OK
+     3          | clean__lenient_matcher_luma175 |   -1    -2   -2.975  0.0473 OK
+     5          | exact                          |   +0    -3     -2.9  0.0111 OK
+     5          | clean__strict_matcher          |   -1    -2   -2.975  0.0388 OK
+     5          | line_width_4__strict_matcher   |   -1    -2   -3.256  0.0431 OK
+     5          | gridlines__strict_matcher      |   -1    -2   -2.975  0.0388 OK
+     5          | clean__lenient_matcher_luma175 |   -1    -2   -2.975  0.0388 OK
+     8          | exact                          |   +0    -3     -2.9  0.0146 OK
+     8          | clean__strict_matcher          |   +0    -3   -2.975   0.039 OK
+     8          | line_width_4__strict_matcher   |   +0    -3   -3.256  0.0279 OK
+     8          | gridlines__strict_matcher      |   +0    -3   -2.975   0.039 OK
+     8          | clean__lenient_matcher_luma175 |   +0    -3   -2.975   0.039 OK
+     13         | exact                          |   +0    -3     -2.9  0.0163 OK
+     13         | clean__strict_matcher          |   -1   -18  -20.412   0.056 FAIL ['km_deviation 0.056 exceeds floor 0.05']
+     13         | line_width_4__strict_matcher   |   +1    -6   -3.256  0.0491 OK
+     13         | gridlines__strict_matcher      |   -1   -18  -20.412   0.056 FAIL ['km_deviation 0.056 exceeds floor 0.05']
+     13         | clean__lenient_matcher_luma175 |   -1   -18  -20.412   0.056 FAIL ['km_deviation 0.056 exceeds floor 0.05']
+     19         | exact                          |   +0    -3     -2.9  0.0046 OK
+     19         | clean__strict_matcher          |   -1    -2   -2.975  0.0548 FAIL ['km_deviation 0.0548 exceeds floor 0.05']
+     19         | line_width_4__strict_matcher   |   -1    -2   -3.256  0.0641 FAIL ['km_deviation 0.0641 exceeds floor 0.05']
+     19         | gridlines__strict_matcher      |   -1    -2   -2.975  0.0548 FAIL ['km_deviation 0.0548 exceeds floor 0.05']
+     19         | clean__lenient_matcher_luma175 |   -1    -2   -2.975  0.0548 FAIL ['km_deviation 0.0548 exceeds floor 0.05']
+  -- extent@rows8
+     key        | arm    | evD cenD medD  maxdev adm
+     0.25       | exact                          |  +11   -33    -37.9  0.0091 OK
+     0.25       | clean__strict_matcher          |  +11   -33  -38.131  0.0095 OK
+     0.25       | line_width_4__strict_matcher   |  +11   -33  -38.412  0.0096 OK
+     0.25       | gridlines__strict_matcher      |  +11   -33  -38.131  0.0095 OK
+     0.25       | clean__lenient_matcher_luma175 |  +11   -33  -38.131  0.0095 OK
+     0.5        | exact                          |   +6   -22    -37.9  0.0131 OK
+     0.5        | clean__strict_matcher          |   +5   -22  -38.131  0.0123 OK
+     0.5        | line_width_4__strict_matcher   |   +5   -22  -38.412  0.0135 OK
+     0.5        | gridlines__strict_matcher      |   +5   -22  -38.131  0.0123 OK
+     0.5        | clean__lenient_matcher_luma175 |   +5   -22  -38.131  0.0123 OK
+     0.75       | exact                          |   +1   -11    -23.3  0.0172 OK
+     0.75       | clean__strict_matcher          |   +1   -22  -38.131   0.019 OK
+     0.75       | line_width_4__strict_matcher   |   +1   -11  -23.787  0.0225 OK
+     0.75       | gridlines__strict_matcher      |   +1   -22  -38.131   0.019 OK
+     0.75       | clean__lenient_matcher_luma175 |   +1   -22  -38.131   0.019 OK
+     0.933      | exact                          |   +0    -3     -2.9  0.0146 OK
+     0.933      | clean__strict_matcher          |   +0    -3   -2.975   0.039 OK
+     0.933      | line_width_4__strict_matcher   |   +0    -3   -3.256  0.0279 OK
+     0.933      | gridlines__strict_matcher      |   +0    -3   -2.975   0.039 OK
+     0.933      | clean__lenient_matcher_luma175 |   +0    -3   -2.975   0.039 OK
+     1.0        | exact                          |   +0    -6    -20.4  0.0024 OK
+     1.0        | clean__strict_matcher          |   +0    -6  -20.412  0.0045 OK
+     1.0        | line_width_4__strict_matcher   |   +0    -6  -20.694  0.0057 OK
+     1.0        | gridlines__strict_matcher      |   +0    -6  -20.412  0.0045 OK
+     1.0        | clean__lenient_matcher_luma175 |   +0    -6  -20.412  0.0045 OK
+
+### low_event  sha256=44f23fd9e1986425
+truth n=59 ev=6 cen=53 median=None min=5.4 max=174.6 last_obs_is_event=False n_at_tmax=0
+  render clean__strict_matcher            ok=True refusal=None maxerr=0.1251 offstep=0.001 pts=8
+  render line_width_4__strict_matcher     ok=True refusal=None maxerr=0.1204 offstep=0.001 pts=14
+  render gridlines__strict_matcher        ok=True refusal=None maxerr=0.1251 offstep=0.001 pts=8
+  render clean__lenient_matcher_luma175   ok=True refusal=None maxerr=0.1251 offstep=0.001 pts=8
+  -- density@extent0.933
+     key        | arm    | evD cenD medD  maxdev adm
+     3          | exact                          |   +0    -3     None  0.0215 OK
+     3          | clean__strict_matcher          |   +1    -4     None  0.1015 FAIL ['km_deviation 0.1015 exceeds floor 0.05']
+     3          | line_width_4__strict_matcher   |   +1    -4     None  0.1062 FAIL ['km_deviation 0.1062 exceeds floor 0.05']
+     3          | gridlines__strict_matcher      |   +1    -4     None  0.1015 FAIL ['km_deviation 0.1015 exceeds floor 0.05']
+     3          | clean__lenient_matcher_luma175 |   +1    -4     None  0.1015 FAIL ['km_deviation 0.1015 exceeds floor 0.05']
+     5          | exact                          |   +0    -3     None  0.0006 OK
+     5          | clean__strict_matcher          |   +2   -30     None  0.0163 OK
+     5          | line_width_4__strict_matcher   |   +2    -5     None  0.0211 OK
+     5          | gridlines__strict_matcher      |   +2   -30     None  0.0163 OK
+     5          | clean__lenient_matcher_luma175 |   +2   -30     None  0.0163 OK
+     8          | exact                          |   +0    -3     None  0.0003 OK
+     8          | clean__strict_matcher          |   +1   -48     None  0.0197 OK
+     8          | line_width_4__strict_matcher   |   +1    -4     None  0.0244 OK
+     8          | gridlines__strict_matcher      |   +1   -48     None  0.0197 OK
+     8          | clean__lenient_matcher_luma175 |   +1   -48     None  0.0197 OK
+     13         | exact                          |   +0    -3     None  0.0003 OK
+     13         | clean__strict_matcher          |   +0   -51     None  0.0225 OK
+     13         | line_width_4__strict_matcher   |   +0    -3     None  0.0225 OK
+     13         | gridlines__strict_matcher      |   +0   -51     None  0.0225 OK
+     13         | clean__lenient_matcher_luma175 |   +0   -51     None  0.0225 OK
+     19         | exact                          |   +0    -3     None  0.0003 OK
+     19         | clean__strict_matcher          |   +0   -49     None  0.0337 OK
+     19         | line_width_4__strict_matcher   |   +0    -3     None  0.0337 OK
+     19         | gridlines__strict_matcher      |   +0   -49     None  0.0337 OK
+     19         | clean__lenient_matcher_luma175 |   +0   -49     None  0.0337 OK
+  -- extent@rows8
+     key        | arm    | evD cenD medD  maxdev adm
+     0.25       | exact                          |   +6   -42     None  0.0098 OK
+     0.25       | clean__strict_matcher          |   +6   -49     None  0.0105 OK
+     0.25       | line_width_4__strict_matcher   |   +6   -42     None  0.0105 OK
+     0.25       | gridlines__strict_matcher      |   +6   -49     None  0.0105 OK
+     0.25       | clean__lenient_matcher_luma175 |   +6   -49     None  0.0105 OK
+     0.5        | exact                          |   +4   -28     None   0.015 OK
+     0.5        | clean__strict_matcher          |   +4   -51     None  0.0147 OK
+     0.5        | line_width_4__strict_matcher   |   +4   -28     None   0.015 OK
+     0.5        | gridlines__strict_matcher      |   +4   -51     None  0.0147 OK
+     0.5        | clean__lenient_matcher_luma175 |   +4   -51     None  0.0147 OK
+     0.75       | exact                          |   +1   -13     None  0.0003 OK
+     0.75       | clean__strict_matcher          |   +1   -49     None  0.0032 OK
+     0.75       | line_width_4__strict_matcher   |   +1   -13     None  0.0066 OK
+     0.75       | gridlines__strict_matcher      |   +1   -49     None  0.0032 OK
+     0.75       | clean__lenient_matcher_luma175 |   +1   -49     None  0.0032 OK
+     0.933      | exact                          |   +0    -3     None  0.0003 OK
+     0.933      | clean__strict_matcher          |   +1   -48     None  0.0197 OK
+     0.933      | line_width_4__strict_matcher   |   +1    -4     None  0.0244 OK
+     0.933      | gridlines__strict_matcher      |   +1   -48     None  0.0197 OK
+     0.933      | clean__lenient_matcher_luma175 |   +1   -48     None  0.0197 OK
+     1.0        | exact                          |   +0    -6     None  0.0003 OK
+     1.0        | clean__strict_matcher          |   +0   -48     None  0.0112 OK
+     1.0        | line_width_4__strict_matcher   |   +0    -6     None  0.0112 OK
+     1.0        | gridlines__strict_matcher      |   +0   -48     None  0.0112 OK
+     1.0        | clean__lenient_matcher_luma175 |   +0   -48     None  0.0112 OK
