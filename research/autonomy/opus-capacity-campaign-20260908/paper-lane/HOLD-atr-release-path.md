@@ -95,7 +95,24 @@ The original PNG, PDF and provenance JSON are retained unmodified, with hashes, 
 scientific inputs, and take the PNG, PDF and stamp it produces; then the targeted provenance check
 and a visual QA. No biological producer, no new alignment, no sweep.
 
-## BLOCKED · registration in `build_submission_pdf.PAPERS`
+## ⭐ CLEARED 2026-09-08 · registration in `build_submission_pdf.PAPERS`
+
+**Resolved by option B2 — commit `0e542b84`.** Per-paper opt-in raster handling was added to the
+existing builder, the paper is registered, and the production PDF and its build stamp are committed
+alongside so the `committed_artifact` guard is green rather than armed-and-red. `pytest` over the
+builder module: 110 passed, exit 0. The built PDF carries the figure on page 2 at full native
+2220×2670 with its caption on the same page. Unflagged papers render byte-identically, reproduced by
+the parent independently of the worker's report.
+
+⛔ **One item remains open and it is a real one: PRINT LEGIBILITY IS UNVERIFIED.** The figure is
+placed at 149.75 × 180.15 mm in manuscript style and 74.97 × 90.13 mm in the journal column. The
+corresponding 377 and 752 dpi say only that no resampling penalty is imposed; they are not evidence
+that the figure's smallest type is readable at either size, and the journal column is the harder
+case. Verification needs a person reading a proof at 100%, or the drawing script's font sizes carried
+through this scale and checked against a minimum print type size. Neither has been done. **No dpi
+figure in this record may be quoted as if legibility were established.**
+
+### The block as it stood, retained
 
 The registration entry itself is prepared and applies cleanly. It is deliberately **not** applied,
 for two measured reasons.
