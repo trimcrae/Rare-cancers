@@ -118,7 +118,7 @@ way it is not for a retrospective write-up.
 localised to an endpoint-state error is a different contribution from "the calibration did not work"; an
 adequately-powered null with a reference-set floor an order of magnitude under α is a different contribution
 from "we saw nothing". [§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one) and
-[§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-graded-in-one-day) carry the mechanisms.
+[§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) carry the mechanisms.
 
 **(c) The failures themselves are the transferable content.** Each of the four outcome classes in §4 carries
 a mechanism another group can act on without repeating the run: a wrong-sign cooperativity calibrator, an
@@ -192,6 +192,15 @@ overstate both, which is the same category error one level down.
 
 ### 4.3 · What the SMARCA2/4 null does not license
 
+⛔ **First, what the word NULL is doing here, because it invites exactly the wrong reading.**
+[`selcal-verdict.json`](../../modalities/selcal-verdict.json) records `tier: "NULL"` with
+*p* = 0.746753 and `technical_failures` of **0** in both arms. That label describes the **statistical
+result**: the instrument ran, nothing broke, and it did not separate the two paralogues. ⛔ **That is a
+FAILED CALIBRATION, not an absent one** — the known-answer control did not recover a known difference,
+and `V11`'s control state in the register is `fails`, not `none`. A NULL tier is not an absent control
+and not an absent verdict; it is a verdict, and the verdict is negative. Reading it as "no result" would
+quietly move this instrument into the no-control-exists row of §5.1, where it does not belong.
+
 Three bindings, all preregistered, all reproduced here because a methods paper that reports a null without
 its limits is doing the thing this paper criticises:
 
@@ -250,7 +259,7 @@ separates them.** The manuscript must render them separately or it will over-cla
 |---|---|---|
 | **a control that FAILED** | `V5`, `V7`, `V11`, `V12`, `V13`, `V17`, `V20`, `V21` | the instrument was put to a known answer and did not recover it |
 | **a control that could not RESOLVE** | `V3` (INCONCLUSIVE by its own rule), `V15` (mixed nulls), `V19` (one arm ran, the decisive arm is unrun) | the test was run and returned a third outcome |
-| **no control EXISTS** | `V9` (a self-check, not a known answer), `V14`, `V16`, `V22` | nothing has ever graded it, which is a hole and not a failure. ⛔ These carry `known_answer_control.state: "none"` — the artifact's NULL tier — which is not the same record as `state: "fails"`. A null says no verdict exists; a failure says a verdict exists and is negative. Summing the two would inflate the failure count, and separating them is what this taxonomy is for |
+| **no control EXISTS** | `V9` (a self-check, not a known answer), `V14`, `V16`, `V22` | nothing has ever graded it, which is a hole and not a failure |
 | **the control was never RUN** | `V4` — the *selectivity* free-energy known-answer test, built and staged with no result, never completed and not authorised | ⛔ the single most uncomfortable row in the register: the one test designed to grade selectivity free energy directly is the one that was never bought |
 
 ⭐ **Naming `V4` in the paper is not self-flagellation; it is the audit's integrity check.** A register that
@@ -275,10 +284,10 @@ second lane is `V5` — which failed.**
 
 ---
 
-## 6 · The 2026-08-03 sweep — three instruments assembled and graded in one day
+## 6 · The 2026-08-03 sweep — three instruments assembled and assessed in one day
 
 A methods paper benefits from showing the audit *running*, not only its accumulated output. On a single day,
-**three instruments** were graded for the first time — one put to its own never-run self-control, one given
+**three instruments** were assessed for the first time — one put to its own never-run self-control, one given
 the independent comparator it had never had, one pointed at the receptor frame it had never been pointed at —
 and a fourth, preregistered gate landed alongside them. **All four returned a negative**, and the three
 instrument tests each ran at zero cost on free CPU. That is the practical argument of the whole paper:
@@ -308,14 +317,22 @@ rather than for the absence of a second opinion.**
 is wrong, and not that agreement would have meant correctness. Both methods are docking searches into a fixed
 receptor, so a shared receptor-conformer error survives both — which is why the artifact also names the third
 method (a generative co-fold committing coordinates) that would fail differently.
-⚠ **And the known-answer half of that comparator did not produce a grade, which is a different fact from
-not having been attempted.** The census records `n_pairs_attempted: 12` with `n_gradeable: 0`, and its own
-summary sentence reads "NOTHING — the arm did not run." The fields beneath that sentence are more specific
-than it is: 2 pairs were excluded by a pre-registered rule and 6 carry an unrun status, which leaves the
-remainder attempted without reaching a grade, for the named cause — a protocol file the run could not read.
-⛔ **A zero gradeable out of twelve attempted is therefore not by itself evidence that the arm was never
-attempted**, and this paper does not report it as one. Nothing was re-run to establish that; the attempt and
-execution status above are read from the retained record as it stands.
+⚠ **And the known-answer half of that comparator produced ZERO GRADEABLE PAIRS.** The panel lists twelve
+apo/holo pairs, and ⛔ **twelve listed pairs are not twelve completed docking runs** — every one of them
+carries a recorded disposition short of a grade, and they are four different dispositions, not one:
+
+| n | disposition, as recorded |
+|---:|---|
+| 2 | excluded by the pre-registered rule **R2b** — the holo ligand is covalently linked (5Y41, 5YD6), and a non-covalent dock cannot reproduce a covalent pose |
+| 6 | `second_method._status: "UNRUN — rDock's dock.prm is not readable"` |
+| 1 | **fetch** refusal, 1RXR→9QX6 — HTTP 404, no legacy PDB-format file is served for that entry, which the record itself flags as a file-format bias toward older entries rather than a scientific result |
+| 3 | **alignment** refusals — 1RXR→6LB4, 1DSZ→9GFE, 1DSZ→3KMR |
+
+⛔ **The unreadable-`dock.prm` cause belongs to the six UNRUN entries and to no others.** The remaining four
+did not fail for that reason, and an earlier version of this paragraph said they did. A zero gradeable is
+therefore not evidence that the arm was never attempted, and it is equally not evidence that twelve docking
+runs were performed and came back empty. Nothing was re-run to establish any of this; the dispositions above
+are read from the retained record as it stands.
 
 Two homes: [`pose-second-method.json`](../../modalities/pose-second-method.json) and
 [`pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json).
@@ -386,7 +403,7 @@ argued from first principles.
    clean whether or not the defect exists.
 4. ⛔ **Test a categorical mechanism with a non-covalent double difference** ([§4.1](#41--why-4-is-not-a-failure-structurally-rather-than-charitably)).
 5. ⛔ **Say anything proteome-wide.** The only off-target breadth this program holds is a ten-receptor panel,
-   and that panel is currently unreadable ([§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-graded-in-one-day) (a)).
+   and that panel is currently unreadable ([§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) (a)).
    ⛔ **No proteome-wide selectivity claim is made or implied anywhere in this paper.**
 
 ### 7.3 · One requirement-level lesson worth its own paragraph

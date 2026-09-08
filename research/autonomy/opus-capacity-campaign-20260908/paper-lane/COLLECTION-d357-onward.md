@@ -1,8 +1,32 @@
+---
+id: DOC-OPUS-CAMPAIGN-COLLECTION-D357
+title: "Original-evidence collection record, d3578362 onward"
+level: L4
+kind: index
+status: live
+purpose: >
+  Index the worker-lane originals, parent execution extracts and capsule intake that exist locally
+  for this campaign from commit d3578362 onward, so a collector can issue a directory-specific
+  receipt against exact paths, byte counts and hashes.
+scope: >
+  L4. An INDEX only. It does not substitute for any original, authorises no deletion, and makes no
+  scientific claim. Paths under /tmp/claude-0/ are worker lanes on this container's local disk.
+audience: [maintainers, autonomous research agents]
+date: 2026-09-08
+last_verified: 2026-09-08
+---
+
 # Original-evidence collection record, d3578362 onward
 
 Written 2026-09-08 by the parent (sole shared-integration owner). This is an INDEX of originals that
 exist locally and awaits a directory-specific collector receipt for each path named. It is **not** a
 substitute for those originals and nothing below authorises deleting any of them.
+
+⚠ **Every filename in the lane column below is a file inside that worker's own `/tmp/claude-0/…`
+directory on this container — a worker's editing or probing script, kept as evidence of how it
+worked.** None of them is a repository script, none lives under `research/`, `systems/`, `scripts/`
+or `.github/workflows/`, and none is an instruction for a reader to run. They are named so a
+collector can verify the lane's contents, not so anyone can follow a pointer into this repository.
 
 ## 1 · Worker lane originals, retained intact
 

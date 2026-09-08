@@ -1,3 +1,20 @@
+---
+id: DOC-OPUS-CAMPAIGN-HOLD-ATR-RELEASE
+title: "PUB-ATR-PANEL-ASK — paper-specific hold and its reopening conditions"
+level: L4
+kind: memo
+status: live
+purpose: >
+  Record what is done on the ATR collaborator package's release path, what is blocked, and the exact
+  condition under which each blocked item reopens, so no reader has to infer readiness from silence.
+scope: >
+  L4. Release path and provenance only. It changes no scientific claim, clears no blocker, and is not
+  publication permission.
+audience: [maintainers, external reviewers]
+date: 2026-09-08
+last_verified: 2026-09-08
+---
+
 # PUB-ATR-PANEL-ASK — paper-specific HOLD, and its exact reopening condition
 
 Dated 2026-09-08. Written by the paper owner. This records what is done, what is blocked, and the
