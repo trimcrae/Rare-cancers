@@ -1,0 +1,37 @@
+diff --git a/research/modalities/census-route-expression-grading.json b/research/modalities/census-route-expression-grading.json
+index eac5f0a47..b45a35a4e 100644
+--- a/research/modalities/census-route-expression-grading.json
++++ b/research/modalities/census-route-expression-grading.json
+@@ -1218,8 +1218,8 @@
+           }
+         }
+       },
+-      "observed": "The CDK7 initiation module is HIGHER in EMC on BOTH platforms, and so is the general transcriptional-output group, both with the largest t-statistics in this pass. The CDK9 elongation module is higher on both but weakly. MYC is up on both.",
+-      "verdict": "SUPPORTED — the most concordant elevation in the census, on both platforms.",
++      "observed": "The CDK7 initiation module and the general transcriptional-output group both read HIGHER in EMC on both platform records, at nominal uncorrected significance. The CDK9 elongation module is higher on both but weakly. MYC is up on both. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F7: \"both with the largest t-statistics in this pass\" is withdrawn — no reproducible, scientifically meaningful census-wide ranking criterion was defined for it. ⚠ F2: the GPL3290 record is under an interpretation hold, its deposited reference labels differing by group (CRH-mRNA for the EMC arm, CRH for DFSP, UHR for GIST) with comparability across them not established.",
++      "verdict": "SUPPORTED ON ABUNDANCE, EXPLORATORY — elevated on both platform records, uncorrected for multiple testing. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F7: the superlative \"the most concordant elevation in the census\" is withdrawn as an undefined rank; F2: the GPL3290 record is under an interpretation hold.",
+       "what_this_does_not_settle": "⛔ THIS IS THE ROW WHERE ABUNDANCE IS FURTHEST FROM THE QUESTION. Every cell transcribes; elevated transcriptional machinery in a transcriptionally driven tumour is close to a tautology, and it says nothing about a WINDOW against normal tissue, which is the whole objection to this class. A general-transcription elevation is also exactly what higher cellularity or proliferation would produce.",
+       "sarcoma_dependency_prior": {
+         "CDK7": {
+@@ -1239,8 +1239,8 @@
+           "fraction_of_sarcoma_lines_dependent": 0.011
+         }
+       },
+-      "the_dependency_screen_ran_and_it_closed_the_window": "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT AGAINST THE ROUTE. Across the 91 screened sarcoma lines (of 176 sarcoma models) CDK7 and CDK9 are dependencies in 100% of them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-essential: the elevation seen in EMC buys no window, because every line needs these genes. The abundance result stands and is now known to be uninformative about the question, which is what this row warned it would be.",
+-      "route_action": "down-grade: supported on abundance, closed on the axis that matters"
++      "the_dependency_screen_ran_and_it_closed_the_window": "⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F1/F3: THE DEPENDENCY SCREEN DID NOT CLOSE THIS WINDOW, and the earlier text under this field name is superseded (the key itself is retained unchanged for consumer stability). What is measured: across the 91 screened sarcoma-lineage lines (of 176 catalogued Soft Tissue/Bone models) in DepMap 24Q4, CDK7 and CDK9 have Chronos gene effects below the -0.5 dependency threshold in 100% of them, with mean gene effects of -1.85 and -1.46 and cancer-line mean differences (non-sarcoma minus sarcoma) of +0.085 and +0.017 reported without a precision estimate. ⛔ That is a broad binary dependency in NON-EMC cancer lines. It does not establish equal continuous effects, absence of subgroup heterogeneity, absence of a graded response to partial inhibition, absence of a selectable phenotype, or a tumour-versus-normal window — a cancer-versus-cancer comparison cannot supply one. No line here contributes a CRISPR observation for EMC, so nothing in it decides an EMC-specific dependency, and the expression and dependency readings are UNPAIRED: no relationship between them is estimated.",
++      "route_action": "hold: elevated on abundance in archival EMC-labelled specimens; broad non-selective dependency in non-EMC cancer lines; unpaired, and unmeasured in EMC. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F1/F3: \"closed on the axis that matters\" is withdrawn."
+     },
+     "RT-CHAPERONE": {
+       "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
+@@ -1373,8 +1373,8 @@
+           }
+         }
+       },
+-      "observed": "The HSP90 machine is HIGHER in EMC on BOTH platforms and the co-chaperones follow it. ⚠ The HSP70 arm and heat-shock response go the OTHER way on both, which is not what a general stress response looks like.",
+-      "verdict": "PARTLY SUPPORTED — the HSP90 arm only, and the stress-response arm contradicts it.",
++      "observed": "The HSP90 machine reads HIGHER in EMC on both platform records and the co-chaperones follow it in direction, the co-chaperone contrasts not reaching nominal significance. ⚠ The HSP70-arm-and-heat-shock group gives negative point estimates on both, NEITHER distinguishable from zero and both with approximate intervals that include positive differences. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F4: \"go the OTHER way on both, which is not what a general stress response looks like\" is withdrawn. This is no clear evidence of a positive contrast for this curated list — not absence of elevation, not an equivalence result, and not contradictory biology.",
++      "verdict": "PARTLY SUPPORTED, EXPLORATORY — the HSP90 arm only; the stress-response arm gives no clear evidence in either direction. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F4: \"the stress-response arm contradicts it\" is withdrawn.",
+       "what_this_does_not_settle": "An elevated chaperone machine is not evidence that the fusion is its client, which is the route's actual premise and a co-immunoprecipitation question. The split between the HSP90 and HSP70 arms is interesting and unexplained, and this data cannot explain it.",
+       "route_action": "keep; the premise needs a client experiment, not more abundance"
+     },

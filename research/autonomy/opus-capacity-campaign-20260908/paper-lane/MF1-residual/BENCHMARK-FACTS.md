@@ -43,19 +43,53 @@ That census is **generated, never transcribed**, from `research/manuscripts/nr4a
 `research/modalities/instrument_census.py`. `instrument_census.py --check` returned **exit 0** on
 2026-09-08 (`checks/02-…`), so the committed census is in sync with its roadmap source.
 
-## ⚠ A transposition in the commissioning records, recorded rather than propagated
+## ⭐ CURRENT, 2026-09-08 — the transposition is in the DERIVED CONTRACT only
 
-The root adjudication memo and the derived contract state these pairs with **reference and result
-swapped** for all five instruments — e.g. *"V5 result +0.944 vs reference −0.599"*, *"V7 … result −5.2 vs
-+1.90 ± 0.09"*. The retained primary source and the focused verification report both give the opposite
-orientation, and the arithmetic only closes that way: the `V5` reference is **+0.944**, the result is
-**−0.599**, and |+0.944 − (−0.599)| = **1.543**, which is the recorded absolute error. `V7`'s reference is
-the **experimental −5.2** and the computed result is **+1.90 ± 0.09**, which is why the recorded bias is
-**under-binding by ≈ +7.1**.
+**Which record is wrong: the derived contract, not the root memo.**
 
-⛔ **The manuscript follows the retained source, not the transposed restatement.** The root memo and the
-contract are left **immutable**; this note is the dated record of the discrepancy. No value was changed to
-make it fit, and the five magnitudes themselves are identical under either orientation.
+The 6,819-byte root adjudication memo states the five pairs **in source order — reference first, then
+result**: *V5 +0.944 versus −0.599; V6 −0.24 versus +0.37; V7 −5.2 versus +1.90; V8 +2.0 versus +1.60;
+V10 +3.4 versus +4.42.* That is correct and matches the retained source.
+
+The transposition was introduced downstream, in
+`CONTRACT-MF1-R1-R5-residual-author.md` (9,259 B, sha256
+`4f93302c8e335415e48ddf8b92ed0a4dab01d38306c313888233193e5d9e37e4`), **written by the integrating
+parent**, whose table **swapped the "reference" and "result" column headings** while copying the
+memo's values. The error is the parent's, not root's.
+
+**What determines the orientation: the named source fields, and only those.** In
+`research/modalities/instrument-census.json`, `instruments[4]` (`V5`) reads
+`known_answer_test = "reproduce a known cooperativity, **+0.944** kcal/mol"` and
+`result = "**−0.599** — wrong sign in all 3 replicates"`. The field names settle it directly.
+
+⛔ **WITHDRAWN: "the arithmetic only closes that way."** That argument was invalid. **Absolute error
+is symmetric** — |+0.944 − (−0.599)| and |−0.599 − (+0.944)| are both 1.543 — so it cannot
+distinguish reference from result and never could. The conclusion happens to be right, but it does
+not rest on that reasoning and must not be defended with it.
+
+⛔ **WITHDRAWN: the quoted restatements.** This file previously attributed *"V5 result +0.944 vs
+reference −0.599"* and *"V7 … result −5.2 vs +1.90 ± 0.09"* to the root memo and the contract as
+quotations. **Neither document contains those sentences.** They were constructed to illustrate the
+transposition and should never have been presented inside quotation marks as the source's own words.
+
+⛔ **The manuscript follows the retained source and is unchanged.** The root memo and the contract
+stay **immutable**. No benchmark value was altered, the five rows above stand exactly as recorded,
+and the five magnitudes are identical under either orientation. No new source, benchmark or review
+was used to reach this.
+
+### ⛔ SUPERSEDED, written earlier the same day
+
+> *"A transposition in the commissioning records, recorded rather than propagated. The root
+> adjudication memo and the derived contract state these pairs with reference and result swapped for
+> all five instruments — e.g. "V5 result +0.944 vs reference −0.599", "V7 … result −5.2 vs +1.90 ±
+> 0.09". The retained primary source and the focused verification report both give the opposite
+> orientation, and the arithmetic only closes that way … ⛔ The manuscript follows the retained
+> source, not the transposed restatement. The root memo and the contract are left immutable; this
+> note is the dated record of the discrepancy."*
+
+Three faults in that passage: it blamed the **root memo**, which was correct; it rested on the
+**symmetric-arithmetic** argument, which proves nothing; and it presented **invented quotations** as
+the sources' own words.
 
 ## What is deliberately omitted
 

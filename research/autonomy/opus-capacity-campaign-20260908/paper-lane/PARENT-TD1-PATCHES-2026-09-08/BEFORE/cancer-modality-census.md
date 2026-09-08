@@ -183,11 +183,7 @@ named as a tier, never assessed against any EMC data, and never given one."* The
 observation — a pan-sarcoma DepMap dependency screen — arrived the same day it was registered and went
 against it: across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 100% of them, which is
 the definition of pan-essential. EMC's transcript-level elevation of the transcriptional CDK machinery
-(⛔ **superlative withdrawn 2026-09-08.** This read *"the most concordant elevation the whole census
-found, on both readable platforms"*. Both halves are withdrawn: the census-wide superlative was never
-established, and the corroborating platform — GPL3290 — was withdrawn as corroboration under the TD1
-interpretation hold, so the elevation rests on GPL6244 alone. No replacement ranking is asserted and
-no new analysis was run.) is real, but it buys
+(the most concordant elevation the whole census found, on both readable platforms) is real, but it buys
 no window against normal tissue, because every sarcoma line needs these genes regardless of fusion
 status. This closes the class on the evidence available here — transcript-level and small — as a
 de-prioritisation with a stated basis, not a proof of impossibility

@@ -5,7 +5,7 @@ level: L3
 kind: manuscript
 status: live
 canonical_for:
-  - the measured induced-interface size of deposited chemically-induced complexes under nr4a3_basin_search's own contact predicate
+  - the measured induced-interface size of deposited chemically-induced complexes under this toolchain's census metric (⛔ RETIRED 2026-09-08 — this read "under nr4a3_basin_search's own contact predicate", which is false: the census metric is not that sampler's predicate. See the banner below.)
   - the disposition of BLK-TCIP-INTERFACE-FLOOR
 purpose: >
   Retire or escalate BLK-TCIP-INTERFACE-FLOOR. The blocker's own retired_by_action asks for a
@@ -37,6 +37,27 @@ last_verified: unverified
 > are **described and routed, never applied by hand** — [§7](#7--graph-edits--described-and-routed-not-applied).
 
 ---
+
+> ## ⛔ SUPERSEDED IN PART, 2026-09-08 — read the revised main and SI first
+>
+> The TCIP F01–F13 author batch **narrowed or withdrew** claims that this memo still states in their
+> wider form. The current statements are in
+> [`tcip-induced-interface-preprint.md`](tcip-induced-interface-preprint.md) and
+> [`tcip-induced-interface-preprint-si.md`](tcip-induced-interface-preprint-si.md); where this file
+> disagrees with them, **they are current and this file is history.**
+>
+> Itemised with anchors in
+> `research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-repair/SIZING-MEMO-CARRYOVER.md`.
+> Among them: predicate equivalence, "fails that floor", "the field routinely relates…", "findable
+> only by its two proteins", the 33–42 ligand statement beside the reported interfaces, the
+> truncation conclusion, and the "floor is BOUNDED" disposition.
+>
+> **Only one claim is retired outright here**, in `canonical_for` above: that the census measures
+> under `nr4a3_basin_search`'s own contact predicate. It does not. **The original dated body, its
+> sources and its history below are retained unchanged** — this is a banner and one front-matter
+> correction, not a rewrite. No source was retrieved, no test or producer was run, and no new
+> measurement was made.
+
 
 ## 1 · The one-line answer
 

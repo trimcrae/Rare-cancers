@@ -1,0 +1,41 @@
+diff --git a/research/modalities/emc_expression_panels.py b/research/modalities/emc_expression_panels.py
+index e48f8b38f..d260a5d3f 100644
+--- a/research/modalities/emc_expression_panels.py
++++ b/research/modalities/emc_expression_panels.py
+@@ -601,9 +601,11 @@ PANELS = {
+     },
+     "transcriptional_cdk": {
+         "read_id": "read_13_TXN_CDK",
+-        "question": "Is the transcriptional CDK machinery elevated in EMC — the dependency a fusion "
+-                    "oncoprotein whose entire mechanism is transactivation would be expected to "
+-                    "impose, and the class the census found no prior search had ever named?",
++        "question": ("Is the transcriptional CDK machinery elevated in EMC — the dependency a fusion "
++                     "oncoprotein whose described mechanism is transactivation might be expected to "
++                     "impose? ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F8: the earlier "
++                     "clause \"and the class the census found no prior search had ever named\" is withdrawn, "
++                     "because this programme's dated searches bound what was inspected, not what exists."),
+         "provenance": CURATED + " Membership is the transcription-associated CDK modules — the "
+                                 "CDK7/CAK initiation module, the CDK9/P-TEFb elongation module and "
+                                 "the CDK12/13 processivity pair — plus the polymerase itself as a "
+@@ -617,12 +619,15 @@ PANELS = {
+         },
+         "direction_that_supports_the_lane": "transcriptional CDK modules UP in EMC relative to "
+                                             "comparator sarcomas",
+-        "what_it_cannot_settle": "⛔ DEPENDENCY IS NOT ABUNDANCE, AND HERE THE GAP IS UNUSUALLY WIDE. "
+-                                 "Every cell transcribes, so these genes are expressed everywhere, "
+-                                 "and a tumour can be exquisitely dependent on a module it expresses "
+-                                 "at ordinary levels. A flat read therefore does NOT exclude the "
+-                                 "class; only a dependency screen would. This read can raise the "
+-                                 "hypothesis and cannot lower it much.",
++        "what_it_cannot_settle": ("⛔ DEPENDENCY IS NOT ABUNDANCE, AND HERE THE GAP IS UNUSUALLY WIDE. Every cell "
++                                  "transcribes, so these genes are expressed everywhere, and a tumour can be "
++                                  "exquisitely dependent on a module it expresses at ordinary levels. A flat read "
++                                  "therefore does NOT exclude the class. ⚠ Corrected 2026-09-08 (TD1 final review, root "
++                                  "adjudication) F1/F3: \"only a dependency screen would\" is withdrawn — a dependency "
++                                  "screen in NON-EMC lines does not exclude the class for EMC either. The two readings "
++                                  "are unpaired, and only a perturbation observation in a fusion-positive EMC model "
++                                  "bears on an EMC-specific dependency. This read can raise the hypothesis and cannot "
++                                  "lower it much."),
+     },
+     "chaperone_dependency": {
+         "read_id": "read_14_CHAPERONE",
