@@ -26,8 +26,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5276 (no limit found) |
-| Abstract | 249 words (limit 250) |
+| Word count, main text | 6386 (no limit found) |
+| Abstract | 282 words (limit 250) |
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |
 | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
@@ -35,6 +35,8 @@ last_verified: 2026-08-10
 | Anonymized copy | none built for this paper |
 | Supplemental material, for review | none |
 | Fee route | VERIFIED |
+
+> **Over a stated limit:** abstract_words 282 > 250
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
@@ -65,10 +67,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3153 (no limit found) |
-| Abstract | 238 words (limit 250) |
-| Display items | 7 (0 figures, 7 tables) |
-| References | 8 |
+| Word count, main text | 6577 (no limit found) |
+| Abstract | 245 words (limit 250) |
+| Display items | 6 (1 figures, 5 tables) |
+| References | 10 |
 | Cover letter | `dependency/emc-atr-collaborator-package-cover-letter.md` |
 | Supplementary file | none |
 | Anonymized copy | none built for this paper |
@@ -77,13 +79,16 @@ last_verified: 2026-08-10
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
-**Figures to upload** — none; this paper's display items are all tables.
+**Figures to upload**
+
+- `emc-fusion-frame-fig1.png` — raster present, vector present
 
 **Files to upload, one per portal slot** — not one composed PDF
 
 | file | what it is | why it is on this list |
 |---|---|---|
 | `dependency/emc-atr-collaborator-package-cover-letter.md` | cover letter | every portal asks for one |
+| `figures/emc-fusion-frame-fig1.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
 
 ⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
@@ -93,10 +98,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5030 (limit 8000) |
+| Word count, main text | 6460 (limit 8000) |
 | Abstract | 238 words (limit 250) |
 | Display items | 1 (1 figures, 0 tables) (limit 6) |
-| References | 20 |
+| References | 22 |
 | Cover letter | `repurposing/repurposing-hypotheses-cover-letter.md` |
 | Supplementary file | none |
 | Anonymized copy | none built for this paper |
@@ -124,8 +129,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 4755 (limit 5000) |
-| Abstract | 194 words (limit 200) |
+| Word count, main text | 7255 (limit 5000) |
+| Abstract | 347 words (limit 200) |
 | Display items | 6 (1 figures, 5 tables) (limit 8) |
 | References | 18 (limit 80) |
 | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
@@ -133,6 +138,8 @@ last_verified: 2026-08-10
 | Anonymized copy | none built for this paper |
 | Supplemental material, for review | none |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
+
+> **Over a stated limit:** main_words 7255 > 5000; abstract_words 347 > 200
 
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
 
