@@ -1,8 +1,6 @@
-<!-- collected by the OPUS-CAPACITY-CAMPAIGN-20260908 parent collector at 2026-09-08T03:27:23Z UTC
-     agent id a0a3c52ea717e506f ; transcript /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/subagents/agent-a0a3c52ea717e506f.jsonl
-     OBSERVED runtime model set in that transcript: ["claude-opus-5"] (asserted exactly [claude-opus-5])
-     NOTE: this worker returned a report plus dated corrections; all substantive turns are concatenated in order.
-     the worker was read-only on the tree; this file is the parent's write -->
+<!-- collected 2026-09-08T03:34:17Z by campaign coordinator; agent id a0a3c52ea717e506f; transcript /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/subagents/agent-a0a3c52ea717e506f.jsonl;
+     OBSERVED child model set: ['claude-opus-5']; concatenated 2 assistant turns;
+     worker was read-only (no repository writes) -->
 
 Stop condition met. Report follows.
 
