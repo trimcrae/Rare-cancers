@@ -91,3 +91,72 @@ own coverage is manuscript-versus-artifact provenance only: it did not verify th
 matches what the producers would emit today, and it did not audit the external references. Its
 suggested successor task — re-running the three AND-gate CPU models into a scratch path and diffing
 against the committed artifacts — is recorded here as a candidate, not opened.
+
+---
+
+## Dated append — 2026-09-08, two corrections to this record
+
+Nothing above is rewritten, and Z1's original report is preserved verbatim inside its retained
+transcript (23,502 B, sha256
+`24c4ce503fc6d65144216d1f6233bf3f2461a00d59f067d36bcd6481265e7da8`).
+
+### 1 · My verdict tally was wrong
+
+I wrote "38 MATCH, 2 MISMATCH, 2 NO SOURCE LOCATED". That is **42**, not 44, and it is not what Z1's
+table says. Read off the original table's own labels, the correct summary is:
+
+| verdict | rows |
+|---|---|
+| MATCH | **40** |
+| MISMATCH | **1** — row 23, the linker-EM window range |
+| MIXED | **1** — row 39: the 0.76 kcal/mol **value** MATCHes; its **status label** was stale, and that half is the MISMATCH |
+| NO SOURCE LOCATED | **2** — rows 41 and 44 |
+| **total numeric rows** | **44** |
+
+Plus **two non-numeric defects** Z1 flagged separately: the truncated frontmatter title, and the
+sentence adjacent to the paper's own erratum. Those sit outside the 44 and are not part of the tally.
+
+My error was collapsing row 39's two halves into one MISMATCH and then losing two rows in the
+arithmetic. The corrected summary above governs; the earlier one does not.
+
+### 2 · Two of the six fixes are precision refinements, not newly discovered false numbers
+
+The record above described the window range as one that "excludes its own measured minimum". Both
+halves of that are wrong and are withdrawn:
+
+- **The approximation marker matters.** "~10-11×" and "~9×10⁻³ M" carry a tilde. An approximation is
+  not made false by a nearby value it rounds; "~10-11×" does not exclude 9.9, and "~9×10⁻³" does not
+  misstate 9.43×10⁻³. Neither was a false numeric claim. The precise wording is better and is kept,
+  but the rationale is **precision refinement**, not the discovery of a numeric error.
+- **"Measured" is the wrong word.** 9.9 and 9.43×10⁻³ are **computed outputs of a committed CPU
+  artifact** over illustrative assumed inputs. They are not measured biological minima, and nothing
+  here establishes the artifact's source validity or that its producer would emit the same values
+  today.
+
+The other four fixes are not in this category and stand as recorded: the truncated title, the stale
+"provisional pending the unbiased release run" status label, the facing count asserted as fact and
+attributed to a file holding no facing data, and the inherited "engageable" parentheticals. Those are
+attribution and status defects, not rounding.
+
+### 3 · Two housekeeping notes
+
+Z1's proposed re-run of the three AND-gate CPU models against their committed artifacts remains a
+**proposed next step only**. It is not opened, and no producer replay, audit or science run was
+performed for this correction.
+
+The views that carry the AND-gate title were synchronised at commit `4992bca5` after Z1's completed
+frontmatter title, through the ordinary view workflow. `L3-publications.md` and `L2-rt-andgate.md`
+changed in that string alone and the diff was inspected.
+
+### 4 · Parent-side execution evidence, retained
+
+`Z1-executed-artifacts/` originally held the child JSONL, before/after copies, the applied diff and
+the style outputs — the child's evidence, not the parent's. The parent's own re-derivations, mutation
+commands, gate invocations and their stdout for both the Z1 and the AB1 collections existed only in
+the parent session transcript, because they were shell heredocs and unredirected output.
+
+`EXTRACTED-FROM-PARENT-TRANSCRIPT-z1-and-ab1-parent-execution.txt` retains **29 Bash calls**
+verbatim, bounded to timestamps at or after 2026-09-08T12:46:00. It is an extraction from a parent
+transcript, labelled as such in its own header, and **not** a complete parent execution transcript.
+Exit codes are partial, exactly as for the X1 integration set. Nothing was re-run and no absent
+original was recreated.
