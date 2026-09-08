@@ -74,13 +74,13 @@ Nothing blocks it. It is the only route in the portfolio with no scientific bloc
 
 ## Where this route ends — the paper
 
-**[PUB-METHODS](L3-publications.md)** — [The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)
+**[PUB-METHODS](L3-publications.md)** — [A retrospective audit of one computation-only degrader program's instrument records: what the methods did and did not establish about paralogue selectivity](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The whole paper: the program's disclosed failures, each with the known-answer control that produced it.
 
-**The paper would claim:** A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures, each with its diagnosed mechanism, are the transferable result.
+**The paper would claim:** From one computation-only program's retained instrument records, it is possible to state which of its paralogue-selectivity statements its methods were graded as supporting and which they were not, with each instrument's control type, execution state, inferential outcome and claim scope reported separately — and the enumerated failures, with the evidence retained for each, are the transferable result.
 
 ## Strategic timing — the wait equation
 

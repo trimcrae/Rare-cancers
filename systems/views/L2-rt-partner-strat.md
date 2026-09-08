@@ -104,7 +104,7 @@ The synthesis is complete and reproducible, and nothing blocks posting it. What 
 
 ## Where this route ends — the paper
 
-**[PUB-FUSION-PARTNER](L3-publications.md)** — [Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md)
+**[PUB-FUSION-PARTNER](L3-publications.md)** — [Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a source-verified descriptive synthesis](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

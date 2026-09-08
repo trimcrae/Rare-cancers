@@ -49,7 +49,7 @@ last_verified: 2026-08-06
 | **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-HLA-COVERAGE**<br/>[Modelled HLA coverage of predicted EWSR1::NR4A3 junction binders in ext…](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-METHODS**<br/>[A retrospective audit of one computation-only degrader program's instru…](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/modality-census/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-MORTALITY-MECHANISM**<br/>[What kills patients with extraskeletal myxoid chondrosarcoma, and the s…](../../research/manuscripts/emc-mortality-mechanisms-paper.md) | ◐ `drafted` | `preprint` | 6 | — |
@@ -229,7 +229,7 @@ A gene-set read on a small rare-tumour expression series is uninterpretable unti
 |---|---|---|
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) — The fusion's transcriptional output, read in EMC tis | `primary` | The whole paper: the evidence-typed catalogue of every published NR4A3 / NR4A3-fusion transcriptional target with the verbatim sentence per gene, the size-matched empirical null that makes any gene-set read on these platforms interpretable, the four instrument controls, the three-cohort per-gene concordance reading with its ceiling, and the measured absence of any retrieved NR4A3-fusion cistrome. |
 
-### PUB-FUSION-PARTNER — Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis
+### PUB-FUSION-PARTNER — Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a source-verified descriptive synthesis
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md`](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md)**
 
@@ -253,11 +253,11 @@ If a public junction epitope were presented, the fraction of the patient populat
 |---|---|---|
 | [RT-VACCINE](L2-rt-vaccine.md) — Fusion-junction vaccine / HLA-coverage paper | `primary` | The population-coverage computation, which stands on its own as an eligibility ceiling even while the antigen above it is void. |
 
-### PUB-METHODS — The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
+### PUB-METHODS — A retrospective audit of one computation-only degrader program's instrument records: what the methods did and did not establish about paralogue selectivity
 
 **◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/methods-record/degrader-methods-failure-record.md`](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)**
 
-A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures, each with its diagnosed mechanism, are the transferable result.
+From one computation-only program's retained instrument records, it is possible to state which of its paralogue-selectivity statements its methods were graded as supporting and which they were not, with each instrument's control type, execution state, inferential outcome and claim scope reported separately — and the enumerated failures, with the evidence retained for each, are the transferable result.
 
 | route | role | what it contributes |
 |---|---|---|

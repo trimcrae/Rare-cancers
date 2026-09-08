@@ -69,7 +69,7 @@
       "known_answer_test": "reproduce a known cooperativity, **+0.944** kcal/mol",
       "has_known_answer_test": true,
       "result": "**−0.599** — wrong sign in all 3 replicates, ~34× the statistical uncertainty",
-      "scope_limit": "⛔ nothing. [§Validation architecture](#validation-architecture-the-five-requirements) calls it *\"the highest-value dollar in the plan\"* and it **failed**; the closure triangle localises the miss to an **endpoint-state** error, so more sampling will NOT fix it",
+      "scope_limit": "⛔ nothing. [§Validation architecture](#validation-architecture-the-five-requirements) calls it *\"the highest-value dollar in the plan\"* and it **failed**; ⛔ **corrected 2026-09-08 (F03): the closure triangle does NOT localise the miss** — it is blind to endpoint-state error rather than diagnostic of it, and does not exclude shared sampling bias",
       "state_verbatim": "✓ complete — **FAILS, systematically**",
       "verdict_class": "FAILS",
       "serves": [
@@ -224,7 +224,7 @@
       "instrument": "The causal matched-pair test `S` (RUNG 5a-KS, ligand-side double difference, §2.10e)",
       "known_answer_test": "⛔ **none — it has no known-answer calibrator**",
       "has_known_answer_test": false,
-      "result": "**S = −0.1297 ± 0.3264 kcal/mol** — its **preregistered null**, registered in advance as the LIKELY outcome and explicitly **not** a stop. It is a **BOUND**: the design could only have resolved *\"a wedge contribution of roughly \\|S\\| ≳ 0.65 kcal/mol (2σ)\"*",
+      "result": "**S = −0.1297 ± 0.3264 kcal/mol** — its **preregistered null**, registered in advance as the LIKELY outcome and explicitly **not** a stop. ⛔ **Corrected 2026-09-08 (F02): it is NOT a bound** — an exploratory conditional estimate with a two-seed between-seed dispersion, compatible with zero at the observed precision",
       "scope_limit": "⛔ **`S` may be read as a bound and may NOT be reported as calibrated** (Open decision 13). `S` is non-covalent and therefore **structurally incapable** of testing the categorical mechanism; `S ≈ 0` means the *marginal* wedge is absent, and STOP applies only if the categorical axis has ALSO failed",
       "state_verbatim": "✓ complete — **preregistered null, uncalibrated**",
       "verdict_class": "COMPLETE_UNCALIBRATED",
@@ -368,7 +368,7 @@
         "V22"
       ],
       "best_available_status": "INCONCLUSIVE — ⛔ and its site arm is now **0 of 14 in regime, by two independent transfer routes**, while the pose itself is **not singular** across 6 same-method poses",
-      "hole_verbatim": "**no usable answer, and it got worse on 2026-08-03** ⭑ **AND IT NOW HAS A SECOND INSTRUMENT, WHICH IS WHAT MAKES THE READING ATTRIBUTABLE:** `V22` (rDock) disagrees with `V3` on 6 of 6 systems at median **6.696 Å**, and disagrees in ORIENTATION rather than in location. ⛔ Two disjoint scoring functions failing to converge on the same receptors says the non-convergence is the SYSTEM's, not one function's — it does not say either pose is wrong, and it does not fill this cell.",
+      "hole_verbatim": "**no usable answer, and it got worse on 2026-08-03** ⭑ **AND IT NOW HAS A SECOND INSTRUMENT, WHICH IS WHAT MAKES THE READING ATTRIBUTABLE:** `V22` (rDock) disagrees with `V3` on 6 of 6 systems at median **6.696 Å**, ⛔ **corrected 2026-09-08 (F09a): the disagreement is MIXED, not orientation-only** — 4 same-cavity and 1 different-cavity among 5 gradeable systems, with 1 ungradeable excluded from the denominator, so the cavity call is itself receptor-conformer dependent. ⛔ Two disjoint scoring functions failing to converge on the same receptors says the non-convergence is the SYSTEM's, not one function's — it does not say either pose is wrong, and it does not fill this cell.",
       "hole_class": "NO_USABLE_ANSWER"
     },
     {
