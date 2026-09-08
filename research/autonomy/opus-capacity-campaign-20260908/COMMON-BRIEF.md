@@ -859,3 +859,41 @@ failed gate, does not infer novelty from a missing selected input, and does not 
 
 **Infrastructure audits are not refilled from this point.** The 20-worker target does not justify invented
 eligibility or redundant work; the concurrency figure follows the eligible-work count, not the reverse.
+
+### Paper-lane result 1 — `PUB-IPD-SURVIVAL` is WRITABLE NOW (P1, collected 05:12Z)
+
+All 13 quantitative assertions in the endpoint's current (non-superseded) record resolve to a committed
+artifact; **none graded UNSUPPORTED**. `emc_ipd_survival.py --check` exits 0 (write-freedom of the check path
+read in source first). The headline negative — *there is no pooled time-to-event dataset* — is carried by the
+generated artifact itself (`emc-ipd-survival.json` → `pooled.⛔_this_is_not_a_pool`), not by an author's
+assertion. `BLK-NO-CURATED-CLINICAL-DATA` remains true and **does not block this paper**: it is the paper's
+subject, not its obstacle.
+
+Verified: 7 curves with no numbers-at-risk row across `masunaga2025` (3, n=171) and `chiusole2020` (4, n=59),
+with per-figure verdicts and `pdf_sha256` committed; 11 patients / 9 events / median 7.984996 mo against a
+printed 8 the reconstruction never saw; 4 swimmer-plot patients with 5 passing external checks; 2 patients
+transcribed from a printed table; `CURVES == []` enforced by `test_emc_ipd_survival.py:165`; the error control
+at worst 0.0636 / off-step 0.0035, explicitly a LOWER bound.
+
+⚠ **One wording defect found, repairable in prose with no new input:** the record says *"series reachable at
+no cost"*, but `seer270_2022` (n=270) is Unpaywall **gold** and graded `free_to_read_but_not_retrieved` — a
+larger free-to-read series exists whose figures were never seen. The true predicate is "the two largest series
+**whose figures could be retrieved and read**". Fix the predicate; do not drop the row.
+
+⚠ **A judgement inside the headline number, which must stay visible:** the 11-patient reconstruction anchors
+the risk table at N=11 rather than using its printed first row `[2,10]`; taken verbatim the reconstruction
+misses the floor and contradicts the paper's own caption. Both tables are retained in
+`km-figure-readings.json`. Pixel-internal corroboration: first two steps read 0.9097/0.8188 vs 0.9091/0.8182
+for N=11 (miss 0.0007) and 0.900/0.800 for N=10 (miss 0.0188), against a worst off-step error of 0.0035.
+
+**Not required to write it** (so nobody blocks on them): independent re-digitization of the stacchiotti2013
+figure, and retrieval of `seer270_2022` — its absence is a reported census outcome, not a gap.
+
+**Two disclosed re-derivation gaps, to travel with the paper:** the swimmer-plot figure is CC BY-NC 4.0 and is
+NOT committed, so those 4 readings are not re-runnable from a bare checkout; and the admissibility artifact's
+`reads_from.retrieval_rounds` points at `origin/literature-cache`, which has never existed in this checkout —
+the per-figure verdicts, captions and digests ARE committed, so this is a re-derivation route, not the
+evidence.
+
+Full deliverable, including the drafted Results and Limitations: `paper-lane/P1-PUB-IPD-SURVIVAL-paper-step.md`.
+No manuscript file was created; that is an owner act, not a campaign-worker act.
