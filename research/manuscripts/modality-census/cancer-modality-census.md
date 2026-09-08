@@ -17,11 +17,22 @@ scope: >
   ruling — where a class was already settled, the row points at the document that settled it.
 audience: [maintainers, autonomous research agents, external reviewers]
 date: 2026-08-09
-last_verified: 2026-08-09
+last_verified: 2026-09-08
 related: [DOC-TAX-MODALITY, DOC-EMC-UNEXPLORED-LANES, DOC-ARCHITECTURE]
 ---
 
 # What oncology can do, and what reaches EMC
+
+**Author:** Tristan D. McRae
+
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+
+> **Scope of every absence statement in this document.** Where this document says that a class was
+> never searched, never followed, never asked or never connected, the statement is about the corpus
+> retained in this repository — the three prior sweeps named in §1, their committed probe files, and
+> the artifacts cited in each row. It is not a statement about the literature, which has not been
+> exhaustively retrieved for any class here. §6 restates this as a limit.
 
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness — for any class,
 > in any verdict, including the ones that survive.** Every candidate below is a hypothesis with a named
@@ -98,11 +109,15 @@ here to a validation of the method:
 | `drug_mechanism` | 162 | 86 | 53 % |
 | `delivery_and_conjugate` | 26 | 18 | 69 % |
 | `physical_locoregional` | 15 | 3 | 20 % |
-| `strategy_and_architecture` | 14 | 4 | 28 % |
+| `strategy_and_architecture` | 14 | 4 | 29 % |
+
+Share is never-searched ÷ classes, rounded to the nearest whole percent. *Superseded, retained: the
+`strategy_and_architecture` share read 28 %, which was 4/14 = 28.6 % truncated rather than rounded;
+the count it derives from is unchanged.*
 
 ⚠ **And the corrected table no longer says what the first one did.** Before the audit, the physical
 and strategy bands read 53 % and 54 % never-searched, which looked like confirmation that the
-previously-invisible categories were the unexplored ones. After it they read 20 % and 28 % — the
+previously-invisible categories were the unexplored ones. After it they read 20 % and 29 % — the
 LOWEST of the four — because the 2026-08-07 sweep had probed those bands thoroughly and this census
 had failed to notice. The bands that are genuinely under-searched are `delivery_and_conjugate` and
 `drug_mechanism`, which is the opposite of the original reading. *Superseded, retained: the 58/69/53/54
@@ -189,9 +204,9 @@ selecting feature is readable in expression data this repository already holds. 
 theme unusually cheap: these are lookups, not experiments. ⭐ **All six were run on 2026-08-09 and
 [§3.2a](#32a--the-lookups-were-run-the-same-day-and-the-prediction-held) records what came back.**
 
-| class | what selects it | why it was never asked |
+| class | what selects it | why it was never asked here |
 |---|---|---|
-| PRMT5 / MAT2A | co-deletion of a metabolic locus | the copy state has never been read in this disease |
+| PRMT5 / MAT2A | co-deletion of a metabolic locus | no source retained here reads the copy state in this disease |
 | arginine deprivation | silencing of one biosynthetic enzyme | the class reads as "metabolic", and metabolic classes were dismissed as a group |
 | MDM2 antagonism | wild-type p53 and a quiet genome | the profile is unusual enough that the class rarely finds it |
 | MCL-1 / BCL-xL | which anti-apoptotic protein a model depends on | the result implying it was already held and never followed |
@@ -228,7 +243,7 @@ with a primed state, which would make the combination-only result *more* interes
 and abundance cannot distinguish those, because apoptotic dependency is which protein holds the
 effectors. The observation stands; the MCL-1-dominance reading of it does not.
 
-### 3.3 · Kinase leads with EMC-specific evidence that nobody followed
+### 3.3 · Kinase leads with EMC-specific evidence that no retained source follows
 
 Two classes where an observation in this disease already exists and has simply been left. Both were
 surfaced by the 2026-08-07 sweep as lanes and never became routes; registering them is the follow-on that
@@ -237,7 +252,9 @@ as lanes"* — RET and ALK/ROS1, the other two, took their cheapest observation 
 closed each of them; see below.
 
 - **SGK1** — positive across a full small series of tumours with an internal negative control, published
-  two decades ago, never followed by anyone.
+  two decades ago, and no follow-up appears among the sources retained here. No systematic retrieval
+  was run for follow-up work on this class, so this is a gap in the retained corpus rather than a
+  measured absence in the literature.
 - **DNA-PK** — curated interaction evidence on the driver protein itself, and it needs neither a pocket
   ligand nor a ternary complex.
 
@@ -345,10 +362,12 @@ Not new agents — changes to what a patient receives. Scheduling (adaptive and 
 reachability routes: eligibility defined by fusion family rather than histology, and the access pathways
 by which a published hypothesis becomes a treated patient. *Superseded, retained: "Scheduling..., sequencing,
 and the two reachability routes"* — **sequencing is closed**, on evidence base rather than plausibility.
-Optimal treatment sequencing is a real clinical question in this disease, and the published record
-cannot answer any form of it: no randomised evidence exists for any systemic therapy, every pooled
-denominator is under sixty patients worldwide, and the between-cohort response range is wide enough that
-this repository's own pooling refuses to emit a single all-regimen figure. ⛔ **The refusal is the
+Optimal treatment sequencing is a real clinical question in this disease, and the record curated in
+this repository's clinical registry cannot answer any form of it: no randomised evidence for any
+systemic therapy appears among the series that registry retains, every pooled denominator it holds is
+under sixty patients, and the between-cohort response range is wide enough that this repository's own
+pooling refuses to emit a single all-regimen figure. Those are properties of the curated corpus, not
+a verified census of the world literature. ⛔ **The refusal is the
 contribution** — this closes the class as an analysis target while making the negative itself
 publishable
 ([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-SEQUENCING`).
@@ -368,8 +387,9 @@ A hormone-responsive 5′ partner can import a druggable transcriptional input t
 otherwise have, and there is a reported instance of exactly that with durable benefit."* ⛔ **That
 second lane is closed, on reach rather than on mechanism.** The class needs a hormone-responsive 5′
 fusion partner to import the hormonal input, and the partner-frequency arithmetic says one is reported
-in a single EMC patient in the world literature, and in none of the partner-genotyped cases the cited
-cohorts cover. The mechanism survives; what fails is the number of patients it could reach, which for an
+in a single EMC patient across the sources this repository retains, and in none of the partner-genotyped
+cases the cited cohorts cover. The denominator is those cohorts, not the world literature. The
+mechanism survives; what fails is the number of patients it could reach, which for an
 ultra-rare disease is the whole question — a de-prioritisation with a stated basis, not a proof
 ([`systems/graph/modalities.json`](../../../systems/graph/modalities.json) → `MOD-SERM-SERD`).
 
@@ -476,9 +496,46 @@ may be called previously searched.
   like this can offer.
 - **`never_searched` is a statement about this repository, not about the field.** It says no sweep here
   pointed at a class. Others may have looked at it in this disease, and where they have, the honest next
-  step is to find that work rather than to treat the class as unexamined.
+  step is to find that work rather than to treat the class as unexamined. The same restriction governs
+  every other absence statement in this document, including the ones phrased as "never followed",
+  "never asked" or "never connected": each is scoped to the sweeps and artifacts retained here, and none
+  of them rests on an exhaustive retrieval of the literature. A census assembled from a selected corpus
+  can report what that corpus contains and cannot report what the field contains.
 - **The candidate list is not ranked against the existing board.** Registering these as routes puts them
   on the same axes as the other routes, which is where ranking belongs. Nothing here claims a new
   candidate outranks an existing one.
 - **Nothing here has been tested.** Every candidate carries a cheapest next observation precisely because
   none of them has had one yet.
+
+## 7 · Declarations
+
+**Author.** Tristan D. McRae, independent researcher, unaffiliated. Correspondence:
+trimcrae@gmail.com. ORCID 0000-0002-1823-1451. Sole author, responsible for the content.
+
+**Funding.** None.
+
+**Competing interests.** None.
+
+**Ethics.** This is an analysis of public data and of computed artifacts already held in this
+repository. No new recruitment, sampling or intervention was carried out for it, and no new human
+material was collected. No ethics approval was sought and none was obtained; no determination that
+approval was unnecessary has been made by any committee, and none is claimed here. Patient numbers
+quoted in the text are counts reported in published series and curated into this repository's
+clinical registry; no individual-level record was newly obtained or generated.
+
+**AI assistance.** Enumeration, grading, verification and drafting were carried out with substantial
+assistance from Claude (Anthropic) and OpenAI models under the author's direction. The author is
+responsible for every claim, including those produced with that assistance.
+
+**Data and artifacts.** Every count and verdict printed above is derived from four committed
+artifacts, and each is re-derivable from them without re-running any producer:
+
+| artifact | what this document takes from it |
+|---|---|
+| [`systems/graph/modalities.json`](../../../systems/graph/modalities.json) | the 217 rows, their verdicts, bands, groups and `prior_coverage`; §2's two tables and §5's 33 `already_rejected` rows |
+| [`research/modalities/census-novelty-audit.json`](../../modalities/census-novelty-audit.json) | §2.1's 73 flagged rows, all recorded `UNREVIEWED` |
+| [`research/modalities/census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) | §3's per-route verdicts, the 16 graded routes of §3.8, and the sarcoma dependency fractions quoted in §3.1 and §3.2a |
+| [`research/modalities/emc-expression-panels.json`](../../modalities/emc-expression-panels.json) | the 479 genes the panel reads, and the two expression platforms every "both platforms" statement refers to |
+
+The rendered register is [`systems/views/modality-census.md`](../../../systems/views/modality-census.md),
+generated from the first of those files.

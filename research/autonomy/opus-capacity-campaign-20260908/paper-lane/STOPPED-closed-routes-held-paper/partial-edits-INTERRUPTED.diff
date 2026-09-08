@@ -1,0 +1,229 @@
+diff --git a/research/manuscripts/methods-record/closed-routes-negative-record.md b/research/manuscripts/methods-record/closed-routes-negative-record.md
+index 76e7c05a..dc602f68 100644
+--- a/research/manuscripts/methods-record/closed-routes-negative-record.md
++++ b/research/manuscripts/methods-record/closed-routes-negative-record.md
+@@ -9,7 +9,7 @@ purpose: Turns seven register entries into one argument an outside reader can us
+ scope: The seven routes filed against publication endpoint PUB-CLOSED-ROUTES. It covers the GROUNDS of each closure and the taxonomy that separates them; it covers no positive result, no molecule and no clinical statement.
+ audience: [maintainers, external reviewers, autonomous research agents]
+ date: 2026-08-06
+-last_verified: 2026-08-06
++last_verified: 2026-09-08
+ ---
+ 
+ # Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search
+@@ -38,8 +38,12 @@ last_verified: 2026-08-06
+ > ⛔ **Nothing here is a molecule, a dose, a treatment recommendation or a statement about activity or
+ > tolerability in a patient**, and none is implied. A closed route says only that a particular
+ > *surface* is not the way; it says nothing about whether this disease can be treated. That
+-> distinction is asserted as a standing claim ceiling on the route families themselves
+-> ([`L1-st-fusion-direct.md`](../../../systems/views/L1-st-fusion-direct.md)) and it binds this paper.
++> distinction is carried as a standing claim ceiling on one of the three route families these seven belong to —
++> *"That a route is closed says nothing about whether the disease can be treated — only that this surface is
++> not the way"* ([`L1-st-fusion-direct.md`](../../../systems/views/L1-st-fusion-direct.md)) — and it binds this
++> paper on all seven. ⚠ The other two families these routes sit under, `ST-REPURPOSING` and `ST-NUCLEIC-ACID`,
++> carry no such sentence in their generated views; on those four routes the ceiling is asserted here rather
++> than inherited.
+ 
+ ---
+ 
+@@ -178,11 +182,18 @@ by a feature the tumour shares with normal cells cannot discriminate for the tum
+ - The EWSR1 half of the fusion **is wild-type EWSR1 sequence**, so a ligand for it engages wild-type
+   EWSR1 by construction. The closure is a statement about what the object is, and no method advance,
+   dataset or capability reopens it.
+-- The shared FET low-complexity region is the same statement at class scope: all three of EMC's common
+-  fusions carry a FET low-complexity domain, which is what makes a ligand for it attractive — the
+-  widest possible coverage, sidestepping the NR4A family entirely — and is *also* precisely why it
+-  cannot discriminate. The low-complexity region is present breakpoint-independently
+-  ([`fusion-object-inventory.json`](../../modalities/fusion-object-inventory.json)).
++- The shared FET low-complexity region is the same statement at class scope: EMC's three FET-family
++  fusions — EWSR1::NR4A3, TAF15::NR4A3 and FUS::NR4A3, each registered as an object
++  ([`systems/graph/objects.json`](../../../systems/graph/objects.json)) — all carry a FET low-complexity
++  domain, which is what makes a ligand for it attractive — the widest possible coverage, sidestepping the
++  NR4A family entirely — and is *also* precisely why it cannot discriminate. EWSR1 low-complexity sequence
++  is retained under **every** breakpoint window that retains the DBD: all nine cut at EWSR1 residue 193 or
++  later, and `K144` is classed `INVARIANT`, present 9 of 9
++  ([`fusion-object-inventory.json`](../../modalities/fusion-object-inventory.json) → `plausible_breakpoints`,
++  `inventory.rows`). ⚠ **The region's *extent* is not breakpoint-independent, and the artifact says so:** of
++  the 16 reactive residues it enumerates in the `EWSR1 prion-like low-complexity / EAD` domain, 15 are classed
++  `BREAKPOINT_DEPENDENT` and only `K144` is invariant. The closure needs only the first fact — that the
++  retained sequence is wild-type EWSR1 — and does not need the second.
+ 
+ **Registering both separately is deliberate and is not duplication.** They are reached from different
+ directions — one targets EWSR1 *as EWSR1*, the other targets the low-complexity region *as a shared
+@@ -206,8 +217,8 @@ protein"* as fatal by construction — a proteasome-inhibitor route is filed `re
+ target, and a RIPTAC route is parked rather than closed on a deliberately essential-protein mechanism.
+ The route record files the permanence on the shared-region leg alone. **The audit that raised this did not
+ agree, and its ruling was never applied:** X11 grades the route DEFECTIVE, because "engages wild-type
+-EWSR1" does not by itself close a route in this register — `BLK-NOT-FUSION-SELECTIVE` is held by nine
+-routes, three of which are live, and what separates the closed from the live ones is the DepMap
++EWSR1" does not by itself close a route in this register — `BLK-NOT-FUSION-SELECTIVE` was, on the date of that
++audit, held by nine routes, three of them live, and what separates the closed from the live ones is the DepMap
+ dispensability trade, which X11 calls *"empirical, and it is what actually closes the route"*. On that
+ reading the closure is not permanent. Whether *"worse"* is dropped from the grade or the closure re-filed
+ as non-permanent is recorded as open and unruled
+@@ -314,8 +325,10 @@ Two things make this the paper's example of a closure that is **not** permanent:
+ Lowering the expression of the driver with a broad epigenetic agent is not fusion-selective by
+ construction: the mechanism does not distinguish the chimera from anything else the drug class affects.
+ There is a direct sibling precedent for the *activity* — vorinostat lowers EWSR1::ATF1 expression in
+-clear cell sarcoma — and this repository's own DepMap read finds BET/CDK pan-essential with no
+-selectivity window.
++clear cell sarcoma — and this repository's own DepMap read finds BRD4, CDK7 and CDK9
++broadly essential across cell lines with no sarcoma-selective window
++([`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) →
++`genes_by_group` → `BET / transcriptional`).
+ 
+ **This route was filed `definitional` and was re-filed `premise_false` on 2026-08-06**, and the reason
+ is §3.2's third rule rather than any new biology. The closure names no fact about an object; it rests
+@@ -383,8 +396,8 @@ revival trigger, never retry**:
+ ### 5.2 · What was measured
+ 
+ NR4A3's canonical transcript ENST00000395097 has eight exons, six of them coding. **Transcript exons 1
+-and 2 are entirely non-coding** — `coding_nt_in_exon: 0` for both, `first_transcript_exon_is_coding:
+-false` — so the literature's *"NR4A3 exon 3"* **is protein residue 1**
++and 2 are entirely non-coding** — `coding_nt_in_exon: 0` and `is_coding: false` for both, and
++`coding_vs_transcript_numbering.nr4a3_first_transcript_exon_is_coding: false` — so the literature's *"NR4A3 exon 3"* **is protein residue 1**
+ ([`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json), Ensembl REST, run in CI for $0). An
+ independent gene model built for a different purpose agrees: NR4A3's 5′ UTR on the same transcript is
+ **699 nt**, long enough to consume two whole exons
+@@ -402,21 +415,32 @@ transcript is reported as EWSR1 exons 1–12 fused to **NR4A3 exons 3–8**, and
+ described as splicing into a cryptic exon *"prior to the NR4A3 ATG"* — both of which place the start
+ codon in exon 3 (`EV-PMC6766969`, `EV-PMC3335514`).
+ 
+-⭐ **A third, independent source states the retention directly rather than at the exon level, and it was
+-found by accident (2026-08-08).** Huang SC et al., *Mod Pathol* 2023 (PMID 36948401,
+-doi 10.1016/j.modpat.2023.100161) — a 15-institution Taiwanese EMC series read for an entirely different
+-purpose, the per-partner outcome counts folded into
+-[`emc-fusion-partner-stratification.md`](../fusion-partner/emc-fusion-partner-stratification.md) — describes the *NR4A3*
+-fusions as containing **"the transactivation domain of the N-terminal partners and the whole coding sequence
+-of NR4A3"**. *The whole coding sequence* is the same statement as "NR4A3 is retained from residue 1", reached
+-with no exon arithmetic at all, by pathologists describing the fusion rather than by a gene-model computation.
+-**That is corroboration of a different kind from the two above, which is why it is worth recording:** the
+-exon-level literature agreement and the Ensembl audit are both *coordinate* claims and could in principle
+-share a coordinate error; a prose statement about protein content cannot. ⚠ Read from the published PDF by a
+-human, because the publisher's edge returns HTTP 403 to automated fetchers while designating the same PDF free
+-— provenance in [`emc-fusion-partner-pooling.json`](../fusion-partner/emc-fusion-partner-pooling.json) → `citations.huang2023`.
+-⚠ And it corroborates the **retention**, not any particular patient-level breakpoint: the caveat immediately
+-below is untouched by it.
++⛔ ***Retracted attribution, retained (CLAUDE.md §1).*** This paragraph previously read: *"A third,
++independent source states the retention directly rather than at the exon level, and it was found by accident
++(2026-08-08). Huang SC et al., Mod Pathol 2023 (PMID 36948401) … describes the NR4A3 fusions as containing
++'the transactivation domain of the N-terminal partners and the whole coding sequence of NR4A3' … That is
++corroboration of a different kind from the two above."* **On a re-read of the retained evidence on 2026-09-08
++that attribution does not resolve and is withdrawn.** No artifact in this repository carries that sentence,
++or any quotation, under Huang 2023: the record this paper named as its provenance
++([`emc-fusion-partner-pooling.json`](../fusion-partner/emc-fusion-partner-pooling.json) → `citations.huang2023`)
++documents a human read of that paper's **Table 1 per-partner event counts** on 2026-08-08 — the read itself is
++real, and its 403-behind-a-free-PDF provenance is recorded there — but it holds no protein-content quotation.
++No new retrieval was performed to try to recover one.
++
++⚠ **What the retained evidence does carry is the same phrase from a source already cited two paragraphs above,
++so it is a second reading of one source and not a third, independent one.** Brenca M et al., *J Pathol* 2019
++(PMID 31020999, PMC6766969 — the `EV-PMC6766969` already cited for the exon-level agreement) states verbatim:
++*"Both T-N and T-N* encode the whole coding sequence of NR4A3 (exons 3–8)"*
++([`nr4a3-intron2-cryptic-exon.json`](../../modalities/nr4a3-intron2-cryptic-exon.json) →
++`source_paper.quote_construct`; the same verbatim, with its line-level source attribution, in
++[`emc-test-article-routes.json`](../../modalities/emc-test-article-routes.json) → `routes[R3]`). ⛔ **Three
++things this does not do, all of which the retracted paragraph claimed.** It is not independent of the
++exon-level agreement above, because it is the same paper. It is not free of exon arithmetic, because the
++sentence itself is stated *as* "exons 3–8". And it is made about the two **TAF15**::NR4A3 constructs, T-N and
++T-N*, not about EWSR1::NR4A3. **So the retention claim in this section rests on the Ensembl exon audit and the
++exon-level literature, and on nothing of a different evidentiary kind.** That is a weaker support than this
++paper previously printed, and the correction is recorded rather than absorbed — it is the §5.6 rule 2 failure
++("citing an artifact is not reading it") occurring inside the section that states the rule.
+ 
+ ⚠ **What this does not settle**, stated because the artifacts state it: the *patient-level* breakpoint
+ is not pinned by exon arithmetic, and only a primary breakpoint report can pin it. The claim above is
+@@ -429,7 +453,7 @@ fusion's reported transactivation of a PPARG-promoter response element (`EV-FILI
+ **The repository had already resolved this on 2026-08-02 — one day before the closure was written —
+ inside the very artifact the closure cites.**
+ [`target-route-census.json`](../../modalities/target-route-census.json) →
+-`fusion_model_disagreement.resolution` reads *"NR4A3 exon 3 begins at residue 1 … the chimera retains
++`fusion_model_disagreement.resolution._the_corrected_junction` reads *"NR4A3 exon 3 begins at residue 1 … the chimera retains
+ the AF1, the DBD, the hinge and the LBD."* The closure cited a different section of the same file — a
+ lysine/cysteine composition count — and never reached the two rows below it that resolved the junction
+ the other way.
+@@ -461,8 +485,9 @@ Two grounds survive, and the second is one the record never made:
+    than the one on file.
+ 
+ **And it is filed `premise_false`, not `definitional`, because it rests on a prior rather than a
+-demonstration** — no direct loss-of-function experiment for 6-MP on this fusion exists in any EMC cell
+-line. The route accordingly carries a named reopening observation: a primary measurement of 6-MP's
++demonstration** — **no direct loss-of-function experiment for 6-MP on this fusion is identified in the
++retained closure evidence**, and the route record states the same. Neither that record nor this paper
++searched exhaustively for one. The route accordingly carries a named reopening observation: a primary measurement of 6-MP's
+ direction of effect **on the fusion**, not on wild-type NR4A3.
+ 
+ ⚠ **The correction also opened a question that did not exist before.** In the chimera the AF-1 is
+@@ -529,10 +554,10 @@ confident in both directions and is checkable in neither.
+ | a permanent blocker may not name a retiring technology | [`systems/systems_check.py`](../../../systems/systems_check.py) → `check_blockers` `[B1]` |
+ | zinc-finger vs LBD paralogue identity | [`target-route-census.json`](../../modalities/target-route-census.json) → `zinc_finger_window.identity`, `paralogue_identity_by_domain` |
+ | NR4A3 exons 1–2 are non-coding; exon 3 encodes residue 1 | [`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json) |
+-| the same retention, stated as protein content by an independent source rather than as coordinates | Huang SC et al., *Mod Pathol* 2023, PMID 36948401 — *"the transactivation domain of the N-terminal partners and the whole coding sequence of NR4A3"*; provenance in [`emc-fusion-partner-pooling.json`](../fusion-partner/emc-fusion-partner-pooling.json) → `citations.huang2023` |
++| ⛔ that a *third, independent* source states the retention as protein content — **withdrawn 2026-09-08, see §5.2**; the only retained verbatim (*"Both T-N and T-N\* encode the whole coding sequence of NR4A3 (exons 3–8)"*) belongs to `EV-PMC6766969`, already counted above, and is stated about the TAF15 constructs | [`nr4a3-intron2-cryptic-exon.json`](../../modalities/nr4a3-intron2-cryptic-exon.json) → `source_paper.quote_construct` |
+ | NR4A3's 5′ UTR is 699 nt on the same transcript — the independent corroboration | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) → `gene_models.NR4A3.utr5_len` |
+-| the junction resolution that predated the RT-6MP closure by one day | [`target-route-census.json`](../../modalities/target-route-census.json) → `fusion_model_disagreement.resolution` |
+-| AF-1 retained in all 9 DBD-retaining breakpoint windows; the FET low-complexity region present breakpoint-independently | [`fusion-object-inventory.json`](../../modalities/fusion-object-inventory.json) → `plausible_breakpoints` |
++| the junction resolution that predated the RT-6MP closure by one day | [`target-route-census.json`](../../modalities/target-route-census.json) → `fusion_model_disagreement.resolution._the_corrected_junction` |
++| AF-1 retained in all 9 DBD-retaining breakpoint windows (9 of 18 arithmetically possible); EWSR1 low-complexity sequence retained in all 9, `K144` `INVARIANT` 9/9, while 15 of the 16 enumerated residues in that domain are `BREAKPOINT_DEPENDENT` | [`fusion-object-inventory.json`](../../modalities/fusion-object-inventory.json) → `plausible_breakpoints`, `inventory.rows` |
+ | 6-MP enhances NR4A3 activity and does not bind the LBD | [`published-warhead-registry.json`](../../modalities/published-warhead-registry.json) → `mercaptopurine_6` |
+ | wild-type EWSR1 essentiality as a surrogate cell-line read | [`depmap-insilico-findings.md`](../../modalities/depmap-insilico-findings.md) |
+ | the BET/CDK sarcoma-wide dependency read behind RT-HDAC-BET | [`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) |
+@@ -564,9 +589,10 @@ confident in both directions and is checkable in neither.
+   a contingent closure, and §3.2's specificity rule does not catch it: the id names a capability, which that rule admits.
+ - **No route here was reopened by anything.** The register has never yet exercised the reopening path,
+   so the discipline in §3.2 is a design that has been enforced but not tested by a real revival.
+-- **The route population is this repository's**, forty routes enumerated by one programme with no wet
+-  lab. A different search would have closed a different seven, and the taxonomy is the transferable
+-  part rather than the list.
++- **The route population is this repository's** — **83 routes** enumerated by one programme with no wet
++  lab, of which these seven are the closures filed against this endpoint
++  ([`systems/graph/routes.json`](../../../systems/graph/routes.json), counted 2026-09-08). A different
++  search would have closed a different seven, and the taxonomy is the transferable part rather than the list.
+ 
+ ---
+ 
+@@ -595,3 +621,44 @@ The Ewing synthetic-promoter precedents cited in §4.4, and the MS0621 FET low-c
+ §4.1, are held with their links by
+ [`emc-post-degrader-options.md`](../program/emc-post-degrader-options.md) routes 14 and 15 and are not
+ re-listed here.
++
++
++---
++
++## 11 · Preprint metadata
++
++**Author.** Tristan D. McRae. Independent researcher, unaffiliated. ORCID
++[0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451). Correspondence: trimcrae@gmail.com.
++Sole author; sole guarantor of the content.
++
++**Funding.** None. No grant, institutional, commercial or in-kind support was received for this work.
++The manuscript records its own compute cost as $0 (§0 role block): no GPU, no rental, no wet lab and
++no new computation.
++
++**Competing interests.** None declared.
++
++**AI assistance, declared.** Claude (Anthropic) and OpenAI models were used under the author's direction
++for literature reading against committed artifacts, verification of printed quantities against the files
++they name, drafting and revision. **The author directed the work and is responsible for all of it**,
++including every claim, every retraction recorded here and every error that remains. Model output was not
++treated as evidence: each quantity in §8 resolves in a committed artifact, and where it did not, the claim
++was withdrawn rather than kept — see the retracted attribution in §5.2.
++
++**Ethics.** This is an analysis of public data and of records already committed to a public research
++repository. **No new recruitment, sampling, consent process or intervention was undertaken for it, and no
++ethics approval was sought or obtained.** ⛔ No institutional determination that approval was "not required"
++was sought, made or is implied here. The clinical facts the manuscript cites are published aggregate
++findings from other groups' papers, cited to those papers.
++
++**Data and code availability.** Every artifact, route record, checker and audit this manuscript cites is
++committed to the repository the manuscript lives in, at the paths given in §8; the closure vocabulary is
++`systems/graph/integrity.json` → `_closure_model` and the route records are `systems/graph/routes.json`.
++The primary literature is third-party and is cited to its own publishers; two sources (Huang 2023, Iwata
++2025) are publisher-hosted and were not redistributed here.
++
++**Author contributions.** Sole author: conception, analysis, verification against artifacts, drafting,
++revision, and the decision to submit.
++
++**Reporting scope.** ⛔ No efficacy, safety, tolerability, therapeutic-window, dosing or clinical
++recommendation is made or implied, for any agent, route or patient population named here. §7 states this
++in full and it is not weakened by anything in this section.

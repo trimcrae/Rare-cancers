@@ -15,11 +15,21 @@ scope: >
   drug exposure and no patient.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
-last_verified: 2026-08-27
+last_verified: 2026-09-08
 related: [DOC-MODALITY-CENSUS, DOC-EMC-BIOMARKER-SELECTED]
 ---
 
 # Transcriptional and proteostatic dependency of a fusion transcription factor
+
+**Tristan D. McRae**
+
+Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com.
+ORCID 0000-0002-1823-1451.
+
+*Study type: a computational study of public archival tumour-expression series and a public
+sarcoma-line CRISPR dependency panel. No experiment was performed, no cell was cultured, and no new
+recruitment, sampling or clinical intervention was undertaken. The records analysed here were
+deposited publicly by others.*
 
 > ⛔ **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent
 > in any disease.** This paper reads public transcript data from 16 archival tumours and a public
@@ -36,7 +46,7 @@ this disease:
 **The driver's entire mechanism is transactivation.** A cancer whose driver is a transcription factor
 may depend disproportionately on the general transcriptional machinery — the *transcriptional addiction*
 argument (PMID 28187285), made druggable by covalent CDK7 inhibitors (PMID 25043025) and demonstrated in
-defined tumour types (PMID 26406377).
+one defined tumour type (PMID 26406377).
 
 **The driver is a chimera of two domains that never evolved together**, which is a folding problem
 before it is a signalling one. ⚠ The step from there to *chimeric proteins are disproportionately
@@ -58,7 +68,10 @@ first would have produced a confident and wrong answer in both cases** — in op
 
 Two public series (GSE24369 on GPL6244: 6 EMC vs 29 comparator sarcomas; GSE4303 on GPL3290: 10 vs 6),
 read as *z*-scores against each array's own probe distribution and scored as group means of the
-EMC-minus-comparator difference, Welch *t*, uncorrected for multiple testing. Figures are owned by
+EMC-minus-comparator difference, Welch *t*, uncorrected for multiple testing. Where a group is called
+*significant* below, that means an uncorrected two-sided *p* < 0.05 at the Welch degrees of freedom the
+artifact itself prints beside each *t*; the artifact computes no *p* and applies no correction, and
+neither does this paper. Figures are owned by
 [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) and the per-route grading by
 [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json).
 ⚠ **Both scored groups are repo-curated pathway-membership lists, not published gene sets or
@@ -74,7 +87,9 @@ models**, but every gene read here carries `n_sarcoma = 91`, so **91 lines are a
 91 is the denominator under every dependency percentage below. The 176 is a catalogue size, not a
 sample size.
 ⛔ **No line in it supplies a CRISPR observation for this disease.** The single line carrying the EMC
-label has no CRISPR gene-effect data at all, which settles the point on its own; the further curated
+label has no CRISPR gene-effect data at all
+([`fet-ddr-axis-scan.json`](../../modalities/fet-ddr-axis-scan.json), `emc_line.has_crispr_gene_effect
+= false`), which settles the point on its own; the further curated
 record that it does not harbour the fusion is *suggestive and consistent, not definitive* in the
 repository's own words, and this paper does not rest on it or treat that line's disease identity as
 resolved. So every dependency figure is a **transfer from other sarcomas**, and the honest bound is
@@ -85,7 +100,9 @@ not a small sample but no observation in this disease. Class definitions are anc
 
 **Abundance.** The CDK7 initiation module is higher in EMC on **both** platforms (*t* = 3.69 and 4.11),
 and so is the transcriptional output context (*t* = 3.78 and 4.81). The elongation module is higher on
-both, significant on one (*t* = 1.19 and 2.26); the processivity kinases show **no clear elevation**
+both, significant on one (*t* = 1.19 and 2.26; the second clears the criterion narrowly, at an
+uncorrected two-sided *p* = 0.04, and would not survive Bonferroni correction across the fourteen
+group readings this paper prints); the processivity kinases show **no clear elevation**
 (*t* = −0.88 and −0.69, neither significant — negative, but not a decrease this reading can claim). This is the most
 concordant elevation in the whole census, and read alone it looks like support.
 
@@ -104,17 +121,24 @@ ultra-rare cancer whose only realistic path is an argument for *why this disease
 ## 3 · The chaperone half — an internally contradictory elevation
 
 **Abundance, and the contradiction.** The HSP90 machine reads higher in EMC on **both** platforms
-(*t* = 3.86 and 3.46), and the co-chaperones likewise (*t* = 1.64 and 2.01). ⛔ **But the HSP70 arm and
-the heat-shock response go the other way on both** (*t* = −1.06 and −0.96).
+(*t* = 3.86 and 3.46), and the co-chaperones likewise in direction (*t* = 1.64 and 2.01, neither
+significant by the criterion above). ⛔ **The HSP70 arm and the heat-shock response — which the artifact
+scores as one group, not two — show no elevation on either platform** (*t* = −1.06 and −0.96; the
+direction is negative on both, but neither reading is significant, so what is reported here is an
+absence of elevation and not a decrease this reading can claim).
 
 ⚠ **Neither arm is read at full gene coverage, and the split is between two incompletely read groups.**
-The HSP90 machine is 4 of 4 genes readable on GPL6244 but only **3 of 4** on GPL3290 (coverage 0.75) —
-and GPL3290 is where its effect size is largest (0.61 SD units against 0.09). The HSP70 arm is **4 of 5**
-on both platforms (coverage 0.8). A missing member of either list could move either direction.
+The HSP90 machine is 4 of 4 genes readable on GPL6244 but only **3 of 4** on GPL3290 (coverage 0.75),
+the unreadable member being *HSP90AA1* — and GPL3290 is where its effect size is largest (0.61 SD units
+against 0.09). The HSP70 and heat-shock group is **4 of 5** on both platforms (coverage 0.8), but not
+the same 4: *HSPA8* has no probe on GPL6244 and *HSF1* none on GPL3290, so the two platforms are not
+reading the same list, and the heat-shock transcription factor itself is absent from the platform that
+carries the larger HSP90 effect. An unreadable gene is a missing probe, not a gene shown to be
+unexpressed. A missing member of either list could move either direction.
 
 That split is the finding. The route's premise is a standing proteostatic load created by an unstable
-chimera — and a cell under standing proteostatic load should raise its stress response, not lower it.
-**The prediction and the reading disagree.**
+chimera, and a cell under standing proteostatic load would be expected to raise its stress response.
+**The prediction expects elevation; the reading shows none.**
 
 ⚠ **And the obvious refutation does not hold either**, which is why this is reported as unresolved
 rather than closed: the malignancy-supporting HSF1 programme is *distinct from* the classical heat-shock
@@ -148,7 +172,7 @@ it is not specific to this disease.
 
 ## 5 · What would settle each
 
-**For the transcriptional half — nothing computational, and that is the point.** The class is closed on
+**For the transcriptional half — nothing computational settles it.** The class is closed on
 selectivity, and no expression or dependency reading can reopen it. Only a demonstration that the fusion
 creates a *specific* transcriptional vulnerability, rather than a general one, would — and that is a
 model experiment.
@@ -178,7 +202,7 @@ the queries that returned nothing, are in
 | F1 | the CDK7 module is elevated in EMC | a third EMC series in which it is null or lower |
 | F2 | transcriptional CDKs offer no selectivity in this tissue class | a sarcoma-selective dependency for CDK7 or CDK9 in a larger or better-powered panel |
 | F3 | the HSP90 machine is elevated in EMC | a third series reversing it |
-| F4 | the HSP70 and heat-shock arms are not elevated | a third series in which they rise with the HSP90 machine — which would restore the standing-load reading |
+| F4 | the HSP70 and heat-shock group (scored as one) is not elevated | a third series in which it rises with the HSP90 machine — which would restore the standing-load reading |
 | F5 | the chimera's clientship is untested | a published co-immunoprecipitation for any FET-family fusion protein — **the cheapest way this paper is superseded** |
 | F6 | the HSP90 paralogues' low dependency reflects redundancy | a dual-knockout showing the machine is genuinely dispensable in sarcoma lines |
 | F7 | neither reading is a proliferation artefact | a series matched on proliferation in which both contrasts disappear |
@@ -194,3 +218,35 @@ the queries that returned nothing, are in
 - **The comparator arm is other sarcoma**, so every abundance statement is relative.
 - **Nothing here has been tested in an EMC cell**, and no agent in either class has been given to a
   patient with this disease.
+
+## 8 · Data, evidence and declarations
+
+Every value in this paper is read from artifacts committed in this repository. Nothing was retrieved
+for it that is not already deposited here, and no producer was run to write it.
+
+| what it supplies | artifact |
+|---|---|
+| the scored expression panels, per platform, with their group means, *t*, Welch df and per-gene readability | [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) |
+| the per-route grading, including the census verdict quoted for the transcriptional half | [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) |
+| the public sarcoma-line CRISPR panel: mean gene effects, dependent fractions, selectivity, `n_sarcoma` and the catalogued model count | [`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) |
+| the record that the one EMC-labelled DepMap model carries no CRISPR gene-effect data | [`fet-ddr-axis-scan.json`](../../modalities/fet-ddr-axis-scan.json) |
+| the class definitions, and the background citations in the summary and section 3 (PMIDs 28187285, 25043025, 26406377, 22863008) | [`txn-dependency-class-definitions-2026-08-09.json`](../../literature/txn-dependency-class-definitions-2026-08-09.json) |
+| the chaperone-clientship search, its fifteen dated queries and their hit counts, and every PMID in section 5 | [`fet-fusion-chaperone-clientship-2026-08-27.json`](../../literature/fet-fusion-chaperone-clientship-2026-08-27.json) |
+
+The scored gene groups are repo-curated pathway-membership lists, not published gene sets or
+signatures; each panel's own `provenance` field says so, and every group-level statistic here is a
+statement about a list this programme assembled. No figure has been rendered for this paper; its
+display items are the tables in the running text.
+
+**Author contribution.** T.D.M. is the sole author and is responsible for the design, the analysis,
+the interpretation and the manuscript.
+
+**AI assistance.** Analysis and drafting were carried out with Claude (Anthropic) and OpenAI models
+under the author's direction, and the author is responsible for the content. No AI tool is an author.
+This manuscript has not been peer reviewed by a human reviewer.
+
+**Declarations.** Funding: none. Competing interests: none. Ethics: no ethics approval was sought and
+none was obtained for this analysis, and no institution or committee has determined whether any is
+required. The analysis reads public archival tumour-expression series and a public cell-line
+dependency panel deposited by others; it involved no new recruitment, no new sampling, no clinical
+intervention and no patient contact.
