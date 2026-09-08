@@ -570,3 +570,32 @@ indexes. Raw hit counts are not evidence.
   **graphic**, never about survival, and it says nothing about whether any digitized coordinate is right.
   ⚠ The instrument's own input provenance is currently unfalsifiable here: its recipe names
   `origin/literature-cache` at `cache_commit 454df711…`, and that ref does not exist in this checkout.
+
+### Two more measured results — 2026-09-08T04:53Z
+
+* **`is_cleared` is characterised (W56).** Three disjuncts: a 28-char same-line NEGATOR lookback, a
+  PROXIMITY window (±2/±1 lines, ±200 chars, ATX-heading lines blanked length-preservingly except the
+  match's own), and an unbounded HEADING-aboutness scan. **No entry identity is passed to `is_cleared`
+  at all**, and marker matching is bare case-insensitive substring — so a marker for supersession A does
+  clear a match for supersession B, demonstrated end-to-end with the real linter plus a negative control.
+  Path split over the 246: PROXIMITY 220, HEADING 17, NEGATOR 9; a total regression un-covers **58
+  entries / 246 occurrences at once**, the proximity limb alone 193. Slack: 44 unbounded (heading path),
+  202 finite with median **160 chars** and a minimum of **7**; 96 of 220 rest on a single marker
+  occurrence and **25 of 246 rest only on an ordinary English word** (`carried`, `once `, `previously`…).
+  ⚠ `_WINDOW_CHARS` has **13 characters of margin** against its own regression test — widening 200→213
+  re-admits the measured 2026-08-05 false clear with the suite still green. ⛔ Two defects found:
+  the 2026-08-05 heading-blanking narrowing **does not see setext headings** (`## X superseded` correctly
+  fails to clear; the same words underlined with `---` do clear), and `check_superseded:604` uses
+  `rx.search` — **first match per line only** — so 77 registered occurrences on committed target lines
+  are never examined, **4 of them uncleared** (`pricing.md:246` ×3, `degrader-paper-schedule.json:292`).
+  The tree exercises 323 occurrences, not 246; fold that into any future inertness question.
+* **The ASO guard's second escape route is the larger surface but the milder defect (W66).** Measured
+  from the shipped helpers: the manifest deposits **77 `.py`**, `_invoked(_script())` covers **29**, so
+  **48 (62%) are never opened by the guard** — and on 34 of them the resolver has no blind spot at all,
+  it simply is never asked. Replicating the guard's exact filter chain over those 48 yields **3 modules,
+  6 artifacts: 5 genuine undeposited inputs + 1 false alarm.** ⚠ Severity is lower than route 1's:
+  none of the three is chain-invoked, so none of these reads happens when a reader runs
+  `regenerate_aso_chain.sh`. Route 1's four remain the sharper defect. ⛔ A **third** limitation, new:
+  `_names_opened_for_writing` (`:333-336`) records only `open()` whose first arg is a module-scope
+  `ast.Name`, so `junction_sirna.py` — which writes through a **local** `out` while naming the same file
+  in a module-level `OUT` — is classed as reading an input it actually creates.
