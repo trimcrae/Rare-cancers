@@ -16,14 +16,16 @@ I re-derived the exact extent from `CURATION-endpoint-arm-attribution-map.tsv` m
   `control_basis = "trial registers 0 arm group(s)"`.
 - Those are every row in the 552 whose `n_arms_registered` is 0. There are no others.
 
-Two of the three were reached by leaves and checked against the cached record; the third,
-**NCT02825420**, carries the same status and basis but was not reached by any leaf, so its record
-has not been read here:
+**Updated 2026-09-08, later the same day: all three have now been read.** The note first recorded
+NCT02825420 as unreached; Q-D group 2 subsequently reached it and reports `armGroups` empty — zero
+registered arms, so no `armGroupType` exists anywhere in that record. The three:
 
 - **NCT00389805** — `protocolSection.armsInterventionsModule` is the empty object `{}`. The record
   nonetheless reports **two** results groups with different bortezomib schedules, so "single arm" is
   contradicted by the record it is drawn from.
 - **NCT04539327** — `armsInterventionsModule` is `{}`; the study is OBSERVATIONAL / CASE_ONLY.
+- **NCT02825420** — `armGroups` is empty. Read by Q-D group 2, which independently reached the same
+  conclusion as the other two leaves without seeing this note.
 
 ## What this does and does not establish
 
