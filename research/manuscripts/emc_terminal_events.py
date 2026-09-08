@@ -65,7 +65,16 @@ NON_DEATH_STATUSES = {"death_not_documented_complication_recorded",
 DEATH_STATUSES = {DOCUMENTED_DEATH} | NON_DEATH_STATUSES
 
 # Evidence tiers. `label` is legacy filing; the tier is what the quoted sentence states.
+# ⛔ TIER_STATED'S NAME IS LEGACY AND IS BROADER THAN IT READS (root, 2026-09-08, reading the
+# actual quotes). It holds a quote that names a physiological terminal EVENT and a quote that names
+# a DISEASE ENTITY without naming the event -- PMID 32963861's "died from complications of
+# unresectable colon cancer", whose complications are not themselves named. Those are different
+# evidence. STATED_TYPES splits them so no output, and no sentence drafted from an output, can
+# shorten this tier's count to "four named terminal mechanisms".
 TIER_STATED = "stated_terminal_mechanism"
+STATED_EVENT = "named_terminal_event"
+STATED_ENTITY = "named_disease_entity"
+STATED_TYPES = {STATED_EVENT, STATED_ENTITY}
 TIER_BROAD = "assigned_broad_cause_category"
 TIER_SPLIT = "split_see_split_mechanism_tiers"
 MECHANISM_TIERS = {TIER_STATED, TIER_BROAD, "no_cause_or_mechanism_stated",
@@ -140,6 +149,16 @@ def verify_death_status(spec: dict) -> list[str]:
                 if st_tiers.get(lab) not in MECHANISM_TIERS - {TIER_SPLIT}:
                     problems.append(f"{where}: split member {lab!r} has no recognised tier in "
                                     f"split_mechanism_tiers")
+                if st_tiers.get(lab) == TIER_STATED and (
+                        row.get("split_stated_types") or {}).get(lab) not in STATED_TYPES:
+                    problems.append(f"{where}: split member {lab!r} is in {TIER_STATED} and must "
+                                    f"declare a split_stated_types entry in {sorted(STATED_TYPES)}")
+        #: ⛔ SILENCE IS NOT "a terminal event". A row whose quote is in the stated tier must say
+        #: which of the two things that quote actually names, because the tier holds both and the
+        #: difference is the whole point of the tier (see TIER_STATED's comment).
+        elif tier == TIER_STATED and row.get("stated_type") not in STATED_TYPES:
+            problems.append(f"{where}: mechanism_tier is {TIER_STATED} but stated_type is "
+                            f"{row.get('stated_type')!r}; it must be one of {sorted(STATED_TYPES)}")
     return problems
 
 
@@ -149,6 +168,7 @@ def tally(spec: dict) -> dict:
     record_papers: set[str] = set()
     non_death: list[dict] = []
     by_tier: dict[str, int] = {}
+    by_stated_type: dict[str, int] = {}
     tier_of_mechanism_label: dict[str, int] = {}
     n_records = 0
     for row in spec["individual_events"]:
@@ -170,12 +190,18 @@ def tally(spec: dict) -> dict:
                 by_label[lab] = by_label.get(lab, 0) + n
                 t = row["split_mechanism_tiers"][lab]
                 by_tier[t] = by_tier.get(t, 0) + n
+                if t == TIER_STATED:
+                    st = row["split_stated_types"][lab]
+                    by_stated_type[st] = by_stated_type.get(st, 0) + n
                 if lab in MECHANISM_LABELS:
                     tier_of_mechanism_label[t] = tier_of_mechanism_label.get(t, 0) + n
         else:
             by_label[row["label"]] = by_label.get(row["label"], 0) + row["n_patients"]
             t = row["mechanism_tier"]
             by_tier[t] = by_tier.get(t, 0) + row["n_patients"]
+            if t == TIER_STATED:
+                st = row["stated_type"]
+                by_stated_type[st] = by_stated_type.get(st, 0) + row["n_patients"]
             if row["label"] in MECHANISM_LABELS:
                 tier_of_mechanism_label[t] = (
                     tier_of_mechanism_label.get(t, 0) + row["n_patients"])
@@ -184,6 +210,7 @@ def tally(spec: dict) -> dict:
             "papers_with_any_record": len(record_papers),
             "patient_records_total": n_records,
             "by_tier": dict(sorted(by_tier.items(), key=lambda kv: -kv[1])),
+            "by_stated_type": dict(sorted(by_stated_type.items(), key=lambda kv: -kv[1])),
             "tier_of_mechanism_label": dict(sorted(tier_of_mechanism_label.items(),
                                                    key=lambda kv: -kv[1])),
             "non_death_records": non_death}
@@ -301,6 +328,20 @@ def main() -> int:
                 "`assigned_broad_cause_category` is conditional and inferred, not observed."
             ),
             "over_all_documented_death_instances": counts["by_tier"],
+            "within_the_stated_terminal_mechanism_tier": {
+                "counts": counts["by_stated_type"],
+                "⛔_why_this_split_exists": (
+                    f"This tier holds {counts['by_tier'].get(TIER_STATED, 0)} instances and they "
+                    "are NOT all named terminal mechanisms. "
+                    f"{counts['by_stated_type'].get(STATED_EVENT, 0)} quote a physiological "
+                    "terminal event -- pulmonary failure, respiratory failure, cerebral "
+                    f"haemorrhage. {counts['by_stated_type'].get(STATED_ENTITY, 0)} quotes a "
+                    "disease entity and does not name the terminal event: 'died from "
+                    "complications of unresectable colon cancer', where the complications are not "
+                    "themselves named. ⛔ Any prose shortening this tier to 'four terminal "
+                    "mechanisms' or 'four name a terminal event' is wrong for that instance."
+                ),
+            },
             "within_the_instances_carrying_a_stored_mechanism_label": tier_mech,
             "⚠_rows_whose_label_outruns_their_quote": (
                 "PMID 29977924 ('died due to lung metastases') is a broad cause, not a documented "
@@ -315,9 +356,15 @@ def main() -> int:
             "count": competing,
             "of_stored_mechanism_label_instances": round(competing / n_mech, 3) if n_mech else None,
             "⭐_reading": (
-                "Deaths from a competing cause or a second cancer are the largest identifiable "
-                "mechanism category in this corpus. They recur across independent case series, and "
-                "they converge with the registry cause-split computed separately in "
+                "Deaths filed to a competing cause or a second cancer are the largest LEGACY "
+                "FILING category among the instances carrying a stored mechanism label -- not an "
+                "identified mechanism category. ⛔ Of the six, one quote names a terminal event "
+                "(cerebral haemorrhage) and one names a disease entity (unresectable colon "
+                "cancer); the other four state a broad class only, two of them as the bare "
+                "exclusion 'non-EMC-related', which does not establish a non-cancer death. They "
+                "recur across separate reports whose INDEPENDENCE IS UNKNOWN -- reviews in this "
+                "corpus collect earlier cases, so the same patient may appear twice. They converge "
+                "with the registry cause-split computed separately in "
                 "emc-mortality-decomposition.json. ⚠ Case reports over-select the notable, so this "
                 "is not an incidence -- but the direction agrees with the registry, which is not a "
                 "case-report artifact."
@@ -332,8 +379,10 @@ def main() -> int:
             ),
             "⛔_the_premise_this_does_not_support": (
                 "Respiratory failure from progressive pulmonary metastases is present in this corpus "
-                "and is NOT its dominant named mechanism. One of the three respiratory deaths "
-                "followed a tumour-embolic ischaemic stroke rather than pulmonary tumour burden. "
+                "and is NOT its dominant named mechanism. ⚠ 'The three' here are the three "
+                "instances FILED to the respiratory-failure label, only two of which name it; one "
+                "of those two followed a tumour-embolic ischaemic stroke rather than pulmonary "
+                "tumour burden. "
                 "Lung is unambiguously EMC's dominant metastatic SITE; that is a different claim from "
                 "lung failure being its dominant mode of death, and this corpus does not establish "
                 "the second."

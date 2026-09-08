@@ -36,26 +36,28 @@ and check table remain accurate as written and are not restated here.
 
 These three are what make the revision major. They are not wording problems.
 
-**F1 · `evaluable_n` is a derived sum, not a reported denominator.** The producer computes
-`evaluable_n` as the **sum of the outcome cells**. The manuscript describes it as the denominator the
-trial **reported**. Those are two different quantities, and every rate the paper computes on
-`evaluable_n` inherits the difference. Nothing here establishes what the reported denominators are;
-this finding says the manuscript's stated definition is not the one the code implements.
+**F1 · The denominator is circular, and category values can be overwritten across source classes.**
+Two parts, one finding. The producer computes `evaluable_n` as the **sum of the outcome cells**,
+while the manuscript describes it as the denominator the trial **reported** — a rate whose
+denominator is built from its own numerator's cells is circular, and every rate computed on
+`evaluable_n` inherits that. Alongside it, the extraction path permits a value drawn from one source
+class to **overwrite** the value held for another, so a stored category value does not reliably
+identify which class it came from. Nothing here establishes what the reported denominators are; the
+finding is that the manuscript's stated definition is not the one the code implements.
 
-**F2 · Extraction can overwrite category values across source classes.** The extraction path permits
-a value drawn from one source class to overwrite the value held for another, so a stored category
-value does not reliably identify which class it came from. This is a defect in how the cache was
-built, not a presentation choice.
+**F2 · Repeated assessment records and arm multiplicity.** The 552 records are not 552 independent
+units: they include **repeated arms**, **ITT and per-protocol** measures of the same arm, and
+**confirmed and unconfirmed** measures of the same arm. The unit of analysis is therefore not the one
+the paper's rates assume.
 
-**F3 · The 552 records are not 552 independent units.** The record set includes **repeated arms**,
-**ITT and per-protocol measures of the same arm**, and **confirmed and unconfirmed measures of the
-same arm**. Beyond that, whole-trial attributes are assigned to each record: the trial-level
-**condition** and **phase** are stamped onto every record from that trial, so, for example, the
-**23 cervical records are all one mixed phase I/II trial**, not 23 cervical units at a single phase.
+**F3 · Whole-trial condition and phase are assigned to each record.** Trial-level attributes are
+stamped onto every record from that trial, so — for example — the **23 cervical records are all one
+mixed phase I/II trial**, not 23 cervical units at a single phase.
 
-⚠ **465 distinct NCT/title strings is diagnostic only.** It tells you the record set is not 552
-distinct trials. It is **not** a corrected unique-arm count and must never be used as one, in this
-paper or downstream.
+⚠ **465 is diagnostic only.** It counts **distinct NCT/title strings — distinct arm titles and
+records**, not trials, and it is **not** a replacement trial count or a corrected unique-arm count.
+**138 unique trials is already known**, and neither number is a validated unit of analysis for this
+paper.
 
 ⛔ **Do NOT invent percentage-row contamination.** Root checked the frozen rows and **every one has
 unit `Participants`**. There is no actual percentage-row contamination to report, and asserting one

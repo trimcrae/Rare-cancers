@@ -70,6 +70,13 @@
    "stated_terminal_mechanism": 4,
    "attribution_ambiguous": 1
   },
+  "within_the_stated_terminal_mechanism_tier": {
+   "counts": {
+    "named_terminal_event": 3,
+    "named_disease_entity": 1
+   },
+   "⛔_why_this_split_exists": "This tier holds 4 instances and they are NOT all named terminal mechanisms. 3 quote a physiological terminal event -- pulmonary failure, respiratory failure, cerebral haemorrhage. 1 quotes a disease entity and does not name the terminal event: 'died from complications of unresectable colon cancer', where the complications are not themselves named. ⛔ Any prose shortening this tier to 'four terminal mechanisms' or 'four name a terminal event' is wrong for that instance."
+  },
   "within_the_instances_carrying_a_stored_mechanism_label": {
    "assigned_broad_cause_category": 10,
    "stated_terminal_mechanism": 4
@@ -79,12 +86,12 @@
  "competing_and_second_malignancy": {
   "count": 6,
   "of_stored_mechanism_label_instances": 0.429,
-  "⭐_reading": "Deaths from a competing cause or a second cancer are the largest identifiable mechanism category in this corpus. They recur across independent case series, and they converge with the registry cause-split computed separately in emc-mortality-decomposition.json. ⚠ Case reports over-select the notable, so this is not an incidence -- but the direction agrees with the registry, which is not a case-report artifact."
+  "⭐_reading": "Deaths filed to a competing cause or a second cancer are the largest LEGACY FILING category among the instances carrying a stored mechanism label -- not an identified mechanism category. ⛔ Of the six, one quote names a terminal event (cerebral haemorrhage) and one names a disease entity (unresectable colon cancer); the other four state a broad class only, two of them as the bare exclusion 'non-EMC-related', which does not establish a non-cancer death. They recur across separate reports whose INDEPENDENCE IS UNKNOWN -- reviews in this corpus collect earlier cases, so the same patient may appear twice. They converge with the registry cause-split computed separately in emc-mortality-decomposition.json. ⚠ Case reports over-select the notable, so this is not an incidence -- but the direction agrees with the registry, which is not a case-report artifact."
  },
  "respiratory": {
   "count": 3,
   "⚠_only_two_of_the_three_name_respiratory_failure": "Two quoted sentences name pulmonary or respiratory failure. The third says the patient 'died due to lung metastases', which assigns a broad cause and names no terminal mechanism; it is tiered assigned_broad_cause_category.",
-  "⛔_the_premise_this_does_not_support": "Respiratory failure from progressive pulmonary metastases is present in this corpus and is NOT its dominant named mechanism. One of the three respiratory deaths followed a tumour-embolic ischaemic stroke rather than pulmonary tumour burden. Lung is unambiguously EMC's dominant metastatic SITE; that is a different claim from lung failure being its dominant mode of death, and this corpus does not establish the second."
+  "⛔_the_premise_this_does_not_support": "Respiratory failure from progressive pulmonary metastases is present in this corpus and is NOT its dominant named mechanism. ⚠ 'The three' here are the three instances FILED to the respiratory-failure label, only two of which name it; one of those two followed a tumour-embolic ischaemic stroke rather than pulmonary tumour burden. Lung is unambiguously EMC's dominant metastatic SITE; that is a different claim from lung failure being its dominant mode of death, and this corpus does not establish the second."
  },
  "aggregate_cause_splits": [
   {
@@ -135,6 +142,7 @@
    "label": "respiratory_failure",
    "death_status": "documented_death",
    "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_terminal_event",
    "quote": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
    "note": "The clearest respiratory death in the corpus. The same patient is described again in the paper's discussion as dying of respiratory failure; both sentences are one patient and are counted once."
   },
@@ -159,6 +167,7 @@
    "label": "respiratory_failure",
    "death_status": "documented_death",
    "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_terminal_event",
    "quote": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
    "note": "⚠ Respiratory failure, but by an unusual route: EMC tumour emboli caused an acute ischaemic stroke treated by thrombectomy, and death followed 15 days later. Counted as respiratory because that is what the paper names, but the initiating event was embolic, not pulmonary tumour burden. A mechanism table that hid this would misrepresent it."
   },
@@ -247,6 +256,7 @@
    "label": "second_malignancy",
    "death_status": "documented_death",
    "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_disease_entity",
    "quote": "The patient was followed for 126 months, after which he died from complications of unresectable colon cancer.",
    "note": "⭐ The single most informative row in the corpus. Metastatic EMC, alive at 126 months, dead of an unrelated colon cancer. A patient who lived more than a decade with metastatic sarcoma and was killed by a different disease."
   },
@@ -295,6 +305,9 @@
     "ambiguous": "attribution_ambiguous",
     "visceral_metastasis_complication": "assigned_broad_cause_category",
     "competing_non_cancer": "stated_terminal_mechanism"
+   },
+   "split_stated_types": {
+    "competing_non_cancer": "named_terminal_event"
    }
   },
   {

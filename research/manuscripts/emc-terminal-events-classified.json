@@ -5,18 +5,24 @@
 
   "_inclusion": "Papers whose TITLE names extraskeletal myxoid chondrosarcoma, chordoid sarcoma or NR4A3. The probe enumerated 600 open-access papers matching EMC anywhere in indexed text, and 162 of those carried a death-cue sentence -- but only 34 are actually ABOUT this disease. The rest match because EMC appears in a differential diagnosis or a citation, and their deaths are other diseases' patients. Restricting to the 34 is the conservative choice and it is stated rather than silently applied.",
 
+  "⛔_labels_are_filing_categories_not_observations": "Every definition in `_labels` describes WHAT A ROW WAS FILED AS, not what its quoted sentence observes. Three rows carry a label their quote does not support -- see ⚠_rows_whose_label_outruns_their_quote in the producer output -- and the labels are retained as legacy filing rather than re-assigned. `mechanism_tier` and `stated_type` are the fields that say what the record actually states.",
   "_labels": {
-    "emc_progressive_disease": "Death attributed to progressive EMC, mechanism not further specified than tumour progression.",
-    "respiratory_failure": "Death where respiratory or pulmonary failure is explicitly named as the terminal event.",
-    "locoregional_complication": "Death from local or regional tumour dissemination rather than distant metastasis.",
-    "visceral_metastasis_complication": "Death from the consequences of metastasis to a named non-pulmonary organ.",
-    "treatment_related": "Death from a complication of treatment, including postoperative death.",
-    "competing_non_cancer": "Death from a cause unrelated to any malignancy.",
-    "second_malignancy": "Death from a different cancer in a patient with EMC.",
+    "emc_progressive_disease": "Filed where the paper attributes death to progressive EMC, with no mechanism beyond tumour progression.",
+    "respiratory_failure": "Filed where the paper attributes death to respiratory or pulmonary failure. ⚠ Two of the three instances filed here name it; the third states only 'died due to lung metastases'.",
+    "locoregional_complication": "Filed where the paper attributes death to local or regional tumour dissemination rather than distant metastasis.",
+    "visceral_metastasis_complication": "Filed where the paper attributes death to metastasis in a named non-pulmonary organ. ⚠ The one instance filed here states metastasis at death and names no complication.",
+    "treatment_related": "Filed where the paper attributes death to a complication of treatment, including postoperative death.",
+    "competing_non_cancer": "Filed where the paper places the death outside its malignancy. ⚠ Two of the three instances filed here state only 'non-EMC-related factors', which names no cause and does not establish a non-cancer death.",
+    "second_malignancy": "Filed where the paper attributes death to a different cancer in a patient with EMC.",
     "mechanism_unstated": "A death the paper records without naming any mechanism beyond 'of disease' or 'died'.",
     "not_a_patient_death": "The sentence contains a death cue but describes no patient death here -- a methods definition, a survival-analysis convention, another disease's cohort, or a negative statement."
   },
 
+  "_stated_type": {
+    "⛔_scope": "Applies to documented-death instances in the `stated_terminal_mechanism` tier ONLY, and is read off the retained quote with no new source consulted.",
+    "named_terminal_event": "The quoted sentence names the physiological event the patient died of -- 'pulmonary failure', 'respiratory failure', 'cerebral hemorrhage'.",
+    "named_disease_entity": "The quoted sentence names a disease entity as the cause and does NOT name the terminal event -- 'died from complications of unresectable colon cancer', where the complications themselves are not named."
+  },
   "_death_status": {
     "documented_death": "The retained quoted sentence states that the patient or reported patient group died. Only these rows enter the death tally.",
     "death_not_documented_complication_recorded": "⛔ A STATEMENT ABOUT THE RECORD, NOT ABOUT THE PATIENT. The retained quoted sentence documents a complication and its management and does not document a death. It does NOT document survival either, and nothing here asserts that the patient lived. Retained for the harm it documents; EXCLUDED from every death numerator and denominator, including the stored-mechanism-label count.",
@@ -25,7 +31,8 @@
 
   "_mechanism_tier": {
     "⛔_why_this_field_exists": "The stored `label` on each row is LEGACY: it was assigned by reading, and for most rows it is more specific than the retained quoted sentence literally supports. `label` therefore says which bucket a row was filed in; `mechanism_tier` says what the quoted sentence actually states. The headline count of 14 instances carrying a stored mechanism label is unchanged and stands; it must NOT be described as 14 observed mechanisms.",
-    "stated_terminal_mechanism": "The retained quoted sentence names a specific physiological event or disease entity as the cause of death (for example 'pulmonary failure', 'respiratory failure', 'cerebral hemorrhage', 'unresectable colon cancer').",
+    "stated_terminal_mechanism": "⛔ THE KEY NAME IS LEGACY AND IS BROADER THAN IT READS. The retained quoted sentence names either a specific physiological terminal EVENT or a specific DISEASE ENTITY as the cause of death. Those two are not the same evidence and this tier does not merge them: read `stated_type` on each row. A quoted sentence naming a disease entity whose complications are not themselves named ('complications of unresectable colon cancer') states an entity, not a terminal event, and must never be reported as a named terminal mechanism.",
+    "⛔_do_not_shorten_this_tier": "The count of this tier is NOT a count of named terminal mechanisms. Any prose that shortens it to 'four terminal mechanisms' or 'four name a terminal event' is wrong for the disease-entity row and is the defect this field exists to prevent.",
     "assigned_broad_cause_category": "The retained quoted sentence assigns a broad cause CLASS -- a metastatic site, a setting, a disease attribution, or an exclusion such as 'non-EMC-related' -- and names no terminal mechanism. Conditional and inferred, not observed.",
     "no_cause_or_mechanism_stated": "The retained quoted sentence records a death and gives neither a cause class nor a mechanism.",
     "attribution_ambiguous": "The retained quoted sentence describes a death whose attribution the record leaves genuinely unresolved.",
@@ -39,6 +46,7 @@
       "label": "respiratory_failure",
       "death_status": "documented_death",
       "mechanism_tier": "stated_terminal_mechanism",
+      "stated_type": "named_terminal_event",
       "quote": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
       "note": "The clearest respiratory death in the corpus. The same patient is described again in the paper's discussion as dying of respiratory failure; both sentences are one patient and are counted once."
     },
@@ -55,6 +63,7 @@
       "label": "respiratory_failure",
       "death_status": "documented_death",
       "mechanism_tier": "stated_terminal_mechanism",
+      "stated_type": "named_terminal_event",
       "quote": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
       "note": "⚠ Respiratory failure, but by an unusual route: EMC tumour emboli caused an acute ischaemic stroke treated by thrombectomy, and death followed 15 days later. Counted as respiratory because that is what the paper names, but the initiating event was embolic, not pulmonary tumour burden. A mechanism table that hid this would misrepresent it."
     },
@@ -111,6 +120,7 @@
       "label": "second_malignancy",
       "death_status": "documented_death",
       "mechanism_tier": "stated_terminal_mechanism",
+      "stated_type": "named_disease_entity",
       "quote": "The patient was followed for 126 months, after which he died from complications of unresectable colon cancer.",
       "note": "⭐ The single most informative row in the corpus. Metastatic EMC, alive at 126 months, dead of an unrelated colon cancer. A patient who lived more than a decade with metastatic sarcoma and was killed by a different disease."
     },
@@ -142,7 +152,8 @@
         "ambiguous": "attribution_ambiguous",
         "visceral_metastasis_complication": "assigned_broad_cause_category",
         "competing_non_cancer": "stated_terminal_mechanism"
-      }
+      },
+      "split_stated_types": {"competing_non_cancer": "named_terminal_event"}
     },
     {
       "pmid": "22569967", "sentence_indices": [0, 1], "n_patients": 2,

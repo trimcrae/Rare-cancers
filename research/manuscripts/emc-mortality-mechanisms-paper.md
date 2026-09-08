@@ -72,8 +72,11 @@ programmatically, and the analysis code and data are public.
 literature. Fifty are documented deaths; the other two record a complication and a transition to
 supportive care without documenting a death, and are excluded from every death count. Of the 50
 documented-death instances, 14 (28.0 per cent) carry a mechanism label. Only 4 of those 14 have a
-quoted sentence that names a specific terminal event or disease entity; the remaining 10 state a broad
-cause class only, such as a metastatic site, a treatment setting, or the exclusion 'non-EMC-related'.
+quoted sentence that names a specific terminal event or a disease entity, and those 4 are not
+alike: three name a terminal event and the fourth names a disease entity, 'complications of
+unresectable colon cancer', whose complications are not themselves named. The remaining 10 state a
+broad cause class only, such as a metastatic site, a treatment setting, or the exclusion
+'non-EMC-related'.
 Among the 14, a competing cause or a second malignancy was the largest category (6 instances, 43 per
 cent), exceeding respiratory failure (3 instances, of which only 2 name respiratory failure), and one
 of the three followed tumour-embolic ischaemic stroke rather than pulmonary tumour
@@ -158,12 +161,17 @@ statement about what the record documents, not about the patient: neither exclus
 patient survived, and the record does not say.
 
 A mechanism label is likewise not a mechanism. Each row therefore also carries an evidence tier
-recording what its quoted sentence states: a specifically stated terminal mechanism, where the
-sentence names a physiological event or disease entity; an assigned broad cause category, where it
+recording what its quoted sentence states: a specific terminal event or disease entity stated, where
+the sentence names a physiological terminal event or names a disease entity; an assigned broad cause
+category, where it
 gives only a cause class such as a metastatic site, a treatment setting, a disease attribution, or an
 exclusion such as 'non-EMC-related'; no cause or mechanism stated; or attribution ambiguous. The
 stored labels predate this tiering and are retained as filing, not as observation. A broad cause
-category is conditional and inferred; it is not an observed mechanism.
+category is conditional and inferred; it is not an observed mechanism. The first tier holds two
+different kinds of evidence, so each of its rows also records which it is -- a named terminal event
+or a named disease entity -- and the tier's count is never reported as a count of named terminal
+mechanisms. The tier's key in the artifact, `stated_terminal_mechanism`, is legacy and is broader
+than it reads.
 
 These are selected descriptive reports -- case reports, small series, and literature reviews that
 themselves collect earlier cases. The totals are summed reported patient instances: they are not
@@ -219,10 +227,13 @@ recorded with no mechanism beyond a vital status, a further eight were attribute
 disease without further specification, and one was left as ambiguous attribution.
 
 The 14 are not 14 observed mechanisms. Read against the retained quoted sentences, four name a
-specific terminal event or disease entity -- pulmonary failure, respiratory failure, cerebral
-haemorrhage, unresectable colon cancer -- and ten state a broad cause class only. Over all 50
-documented-death instances the evidence tiers are 4 specifically stated terminal mechanism, 18
-assigned broad cause category, 27 no cause or mechanism stated, and 1 ambiguous attribution.
+specific terminal event or a disease entity and ten state a broad cause class only. The four are not
+alike either, and the tier does not merge them: three name the physiological event the patient died
+of -- pulmonary failure, respiratory failure, cerebral haemorrhage -- and the fourth names a disease
+entity without naming the event, 'died from complications of unresectable colon cancer', where the
+complications are not themselves named. Over all 50 documented-death instances the evidence tiers are
+4 with a specific terminal event or disease entity stated (3 event, 1 entity), 18 assigned broad
+cause category, 27 no cause or mechanism stated, and 1 ambiguous attribution.
 
 **Table 1.** Documented-death instances in the open-access literature of this disease, by stored
 mechanism label. The label is the category a row was filed in, not what its quoted sentence states;
@@ -248,7 +259,7 @@ from both tables and are itemised beneath them.
 |---|---:|---:|
 | no cause or mechanism stated | 27 | 0 |
 | assigned broad cause category | 18 | 10 |
-| specifically stated terminal mechanism | 4 | 4 |
+| specific terminal event or disease entity stated (3 event, 1 entity) | 4 | 4 |
 | attribution ambiguous | 1 | 0 |
 | **total** | **50** | **14** |
 
@@ -383,7 +394,8 @@ patients has least to gain, and the stratum with most to gain is a minority.
 ### 4.2 What this says about the evidence base
 
 That fewer than a third of documented-death instances carry a mechanism label at all, and that only
-four of the fifty name a terminal event, is a finding about the literature rather than the disease. It has a practical consequence: every disease-specific survival figure in
+three of the fifty name a terminal event, with a fourth naming a disease entity and not the event,
+is a finding about the literature rather than the disease. It has a practical consequence: every disease-specific survival figure in
 this disease rests on somebody having assigned a cause by an instrument no paper reports. The relative
 survival analysis was performed because it does not need that assignment, and its agreement with the
 cause split provides evidence that the assignment, where made, is not badly wrong.
@@ -476,8 +488,9 @@ instrument it does not report.
 ## 6. Conclusion
 
 The published record of extraskeletal myxoid chondrosarcoma does not say how most of its patients die,
-and where it assigns a cause it usually names a class rather than a mechanism: four of fifty
-documented-death instances name a terminal event. Among the instances it does label, competing causes
+and where it assigns a cause it usually names a class rather than a mechanism: of fifty
+documented-death instances, three name a terminal event and one more names a disease entity without
+naming the event. Among the instances it does label, competing causes
 and second malignancies are the largest category, and respiratory failure, though present, is not
 dominant. Between a tenth and a third of
 deaths after diagnosis are not caused by the sarcoma, a figure two independent methods agree on, and
