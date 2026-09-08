@@ -1,28 +1,48 @@
 ---
 id: DOC-FUSION-SELECTIVE-ANDGATE-DEGRADER-PAPER
-title: A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
+title: A coincidence-detection ("AND-gate") bivalent degrader design for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+purpose: >
+  Propose, and bound, a coincidence-detection ("AND-gate") bivalent-degrader design intended to
+  discriminate the EWSR1::NR4A3 fusion protein from wild-type NR4A3, and report the CPU equilibrium
+  models that size the proposed window.
+scope: >
+  In-silico design proposal. Three committed CPU/stdlib equilibrium models (avidity, linker effective
+  molarity, cooperative ternary) with illustrative inputs, plus retained structural annotations. No
+  wet-lab work, no synthesised molecule, no cellular or animal data, and therefore no demonstrated
+  selectivity, therapeutic window, efficacy, potency or safety.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-09-08
 ---
-# A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
+# A coincidence-detection ("AND-gate") bivalent degrader design for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
+
+Tristan D. McRae. Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com.
+ORCID [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451). Author, ethics, funding and
+disclosure statements are in §10.
 
 > **In-silico design / feasibility draft (2026-06).** No wet lab; **no molecule synthesized; NO new
-> GPU/AWS run was performed for this draft.** The *only* new computation cited here is a CPU/stdlib
-> avidity model — [`../modalities/fusion-andgate-selectivity-model.json`](../../modalities/fusion-andgate-selectivity-model.json)
-> (produced by [`../modalities/andgate_selectivity_model.py`](../../modalities/andgate_selectivity_model.py)).
-> **The fusion-exclusivity rationale in one line:** an LBD-binding degrader cannot tell the fusion from
-> wild-type NR4A3 (the LBD is the *same* sequence in both); a bivalent ligand whose two arms are each
-> individually too weak — arm 1 on the shared NR4A3 LBD, arm 2 on the *fusion-restricted* EWSR1
-> low-complexity domain / its condensate — engages, by **avidity, only the chain that presents both
-> features at once**, i.e. only the fusion, sparing wild-type NR4A3 and its tumour-suppressor role.
+> GPU/AWS run was performed for this draft.** The new computation cited here is three CPU/stdlib
+> equilibrium models, each a script and its committed output: the avidity model
+> ([`andgate_selectivity_model.py`](../../modalities/andgate_selectivity_model.py), output
+> [`fusion-andgate-selectivity-model.json`](../../modalities/fusion-andgate-selectivity-model.json)),
+> the linker effective-molarity model
+> ([`andgate_linker_em.py`](../../modalities/andgate_linker_em.py), output
+> [`fusion-andgate-linker-em.json`](../../modalities/fusion-andgate-linker-em.json)), and the
+> cooperative ternary model
+> ([`andgate_degradation_model.py`](../../modalities/andgate_degradation_model.py), output
+> [`fusion-andgate-degradation-model.json`](../../modalities/fusion-andgate-degradation-model.json)).
+> **The design rationale in one line:** an LBD-binding degrader cannot tell the fusion from
+> wild-type NR4A3 (the LBD is the *same* sequence in both); the design therefore proposes a bivalent
+> ligand whose two arms are each individually too weak — arm 1 on the shared NR4A3 LBD, arm 2 on the
+> EWSR1 low-complexity domain / its condensate — so that avidity would engage only a chain presenting
+> both features at once. Whether such a molecule discriminates the fusion from wild-type NR4A3 is
+> untested. Nothing in this draft demonstrates fusion selectivity, sparing of wild-type NR4A3 or of
+> normal cells, a therapeutic window, efficacy, potency or safety; the gate is a design proposal
+> evaluated in an equilibrium model, not a validated mechanism.
 > Every Kd/EM input to the model is an **illustrative assumption**, not a measured affinity, and is
 > flagged as such throughout. Every clinical claim is cited or flagged. Nothing here is a validated drug
 > or clinical evidence.
@@ -53,27 +73,29 @@ ligand-binding domain (LBD)** to an E3 ligase ([`nr4a3-degrader-paper.md`](./nr4
 That LBD sequence is **identical in the fusion and in wild-type NR4A3** — the fusion retains a near-intact
 LBD — so the agent is NR4A3-selective (it can be tuned to spare the NR4A1/NR4A2 paralogues) but **not
 fusion-selective**: it also removes tumour-suppressive wild-type NR4A3, whose loss is implicated in AML and
-in HCC/breast/lymphoma [Mullican 2007; Safe & Karki 2021]. This manuscript designs the protein-level route
-to the feature the LBD degrader structurally cannot reach: **true fusion-exclusivity.** We exploit
+in HCC/breast/lymphoma [Mullican 2007; Safe & Karki 2021]. This manuscript proposes a protein-level design
+aimed at the feature the LBD degrader structurally cannot reach: fusion-exclusivity. The design principle is
 **coincidence detection (an "AND-gate")**. Arm 1 binds the shared NR4A3 LBD (the opened cryptic pocket of
 the companion paper); arm 2 binds the EWSR1 low-complexity/transactivation
 domain (LC/IDR) or its phase-separated micro-environment — a feature whose *fusion-specificity comes from its
 cis-adjacency to the NR4A3-LBD*, NOT from the LC domain being unique to the chimera (WT EWSR1 has it too; see
-Erratum). Each arm is chosen
-**deliberately too weak** to occupy its target alone. Only the fusion presents *both* features on one
-polypeptide, so once one arm engages, the second arm's high effective concentration (effective molarity,
-EM) drives bivalent, avidity-enhanced binding; wild-type NR4A3, seen by arm 1 only, stays largely unbound.
-We quantify this with a CPU effective-molarity model (the only new computation here). In a base case with
-illustrative arm affinities Kd1 = 10 µM (LBD), Kd2 = 100 µM (EWS-LC) and EM = 1 mM, the fusion is engaged
-at an avidity Kd ≈ 1 µM and is bound 5.5× more than wild-type NR4A3 — a **binding** window tunable to
-~11× by raising EM (shorter/optimised linker) or weakening the single arms. We are explicit that (i) the
+Erratum). Each arm is specified too weak to occupy its target alone. Only the fusion presents *both* features on one
+polypeptide, so in the model, once one arm engages, the second arm's high effective concentration (effective
+molarity, EM) drives bivalent, avidity-enhanced binding, while wild-type NR4A3 — seen by arm 1 only —
+stays largely unbound.
+We size this with a CPU effective-molarity model, one of the three CPU models reported here (§3). In a base case with
+illustrative arm affinities Kd1 = 10 µM (LBD), Kd2 = 100 µM (EWS-LC) and EM = 1 mM, the modelled fusion is
+engaged at an avidity Kd ≈ 1 µM and is bound 5.5× more than modelled wild-type NR4A3 — a computed
+**binding** window that the same model raises to ~11× by raising EM (shorter/optimised linker) or
+weakening the single arms. These are properties of the model, not measurements of any molecule. We are explicit that (i) the
 inputs are assumptions, not affinities; (ii) this is a *binding* window, not a *degradation* window
 (degradation selectivity is additionally set by the ternary complex); and (iii) the hard, unproven part is
 arm 2 — the EWS-LC domain is intrinsically disordered (mean pLDDT 38.8, 98.1% of residues < 50;
 [`novel-modalities.md`](../modality-census/novel-modalities.md) §2) with no pocket, so arm 2 cannot be a classical pocket
 ligand and must be an emerging condensate-partitioning / IDR-contacting moiety. We lay out the deferred
-(GPU-requiring) in-silico program and the decisive experiment for others. The AND-gate logic generalises
-to any fusion that joins a ligandable domain to an IDR — the FET-fusion sarcomas broadly.
+(GPU-requiring) in-silico program and the decisive experiment for others. The design principle would
+generalise to any fusion that joins a ligandable domain to an IDR — the FET-fusion sarcomas broadly — with
+the same unproven arm-2 problem in each case.
 
 ---
 
@@ -101,11 +123,11 @@ wild-type NR4A3 is **tumour-suppressive** outside EMC — combined Nr4a1/Nr4a3 l
 [Mullican 2007], and NR4A3 is tumour-suppressive in HCC/breast/lymphoma [Safe & Karki 2021]. An ideal EMC
 agent would remove the fusion while leaving wild-type NR4A3 intact.
 
-No single shared epitope can deliver that, because the only fusion-unique *protein* feature is the
-**juxtaposition** of the EWSR1 LC domain and the NR4A3 LBD on one chain — neither half is itself unique to
+No single shared epitope can deliver that, because the fusion-unique *protein* feature this program has
+identified is the **juxtaposition** of the EWSR1 LC domain and the NR4A3 LBD on one chain — neither half is itself unique to
 the fusion (wild-type EWSR1 has the LC domain; wild-type NR4A3 has the LBD). The design problem is
 therefore not "find a fusion-only pocket" but "**detect the co-occurrence** of two non-unique features on
-one molecule." That is exactly what a coincidence-detecting bivalent ligand does.
+one molecule." That is what a coincidence-detecting bivalent ligand is designed to do.
 
 ---
 
@@ -125,28 +147,34 @@ version) an E3-recruiting element. Coincidence is enforced by avidity.
   the independent replicas, which assign 16.0, 0.06 and 0.83 kcal/mol at the fixed reference Rg,
   leaving Gate 3B unresolved)
   [see [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md) F1–F5]. Arm 1 binds the LBD
-  that the fusion and wild-type NR4A3 share. **Crucially, here we want this arm *weak*** — strong enough to
+  that the fusion and wild-type NR4A3 share. Here the arm is specified *weak* — strong enough to
   contribute to avidity on the fusion, too weak to occupy wild-type NR4A3 on its own.
 
-- **Arm 2 — the fusion-restricted anchor.** Arm 2 binds the **EWSR1 low-complexity / transactivation
+- **Arm 2 — the EWSR1-LC anchor.** Arm 2 binds the **EWSR1 low-complexity / transactivation
   domain** (residues 1–264 of the fusion's EWS portion) or, more realistically, the **condensate
-  micro-environment** that this prion-like IDR nucleates [Boulay 2017]. This feature is present only in the
-  fusion: wild-type NR4A3 has no EWS LC domain. Arm 2 is the harder arm (§4) precisely because the LC
-  domain is disordered and pocket-less.
+  micro-environment** that this prion-like IDR nucleates [Boulay 2017]. Wild-type NR4A3 carries no EWS-LC
+  domain, but the LC domain is not itself fusion-unique — wild-type EWSR1 carries it too (see the
+  Erratum), so an arm-2 ligand alone would also engage wild-type EWSR1; only the cis adjacency of the two
+  features on one chain is fusion-specific. Arm 2 is the harder arm (§4) because the LC domain is
+  disordered and pocket-less.
 
 - **The coincidence logic.** On the **fusion**, both features sit on one chain. Once either arm binds, the
   partner arm is held at a high local concentration — the **effective molarity (EM)** — so the second
   engagement is intramolecular and avidity-enhanced; the apparent bivalent dissociation constant follows
   the standard tethered-ligand relation **Kd_avidity ≈ Kd1·Kd2 / EM** (valid when EM ≫ Kd2). On
   **wild-type NR4A3**, there is no arm-2 partner, so only arm 1 can engage — **monovalently, at the weak
-  Kd1**. Choosing both arms weak enough that neither meaningfully occupies its target alone means wild-type
-  NR4A3 (arm 1 only) stays largely unbound, while the fusion (both arms, avidity) is engaged. The molecule
-  thus computes a logical AND over "LBD present" and "EWS-LC present" — true only for the fusion.
+  Kd1**. Choosing both arms weak enough that neither meaningfully occupies its target alone would leave
+  wild-type NR4A3 (arm 1 only) largely unbound while the fusion (both arms, avidity) is engaged, so the
+  molecule would compute a logical AND over "LBD present" and "EWS-LC present". That is the intended
+  behaviour under the §3 two-species equilibrium model; it has not been observed for any molecule. Note
+  also what that model does not contain: it scores wild-type NR4A3 as an arm-1-only species and does not
+  represent the in-trans failure mode of the Erratum — one ligand bridging wild-type NR4A3 and wild-type
+  EWSR1 as two separate proteins — so nothing in §3 excludes it.
 
-This is the only one of the three protein-level fusion-unique routes (the other two being a juxtaposition-
-created composite surface, and a condensate-conditional degrader) that converts two *individually
-non-selective* contacts into a *selective* one purely through geometry/avidity, without requiring a
-genuinely fusion-unique pocket to exist.
+Of the three protein-level fusion-unique routes this program has considered (the other two being a
+juxtaposition-created composite surface, and a condensate-conditional degrader), this is the one that would
+convert two *individually non-selective* contacts into a *selective* one through geometry/avidity alone,
+without requiring a genuinely fusion-unique pocket to exist.
 
 ---
 
@@ -174,9 +202,10 @@ real compound.
 | wild-type NR4A3 fraction bound | 0.091 |
 | **fusion-vs-wild-type window** | **5.5×** |
 
-So with each arm individually weak, wild-type NR4A3 — engaged only monovalently by arm 1 — stays ~9%
-bound, while avidity pulls the fusion to ~50% bound: a **5.5× binding window** from arms that, alone, would
-be dismissed as too weak to develop.
+So in the model, with each arm individually weak, wild-type NR4A3 — engaged only monovalently by arm 1 —
+stays ~9% bound while avidity pulls the fusion to ~50% bound: a computed **5.5× binding window** from arms
+that, alone, would be dismissed as too weak to develop. The window is a ratio of modelled occupancies at
+assumed affinities, not a measured selectivity.
 
 **The window is tunable.** Sweeping the effective molarity (the key linker-geometry knob) at fixed arms:
 
@@ -197,7 +226,7 @@ story from the other side: making arm 1 *weaker* (Kd1 100 µM) drops wild-type o
 the window to ~9×, while making arm 1 *strong* (Kd1 1 µM) lifts wild-type to 50% bound and collapses the
 window to 1.8× — confirming the design rule.
 
-**EM is not a free parameter — it is set by the linker, and the physics is encouraging.** A second
+**EM is not a free parameter — it is set by the linker.** A second
 CPU/stdlib model ([`andgate_linker_em.py`](../../modalities/andgate_linker_em.py) →
 [`fusion-andgate-linker-em.json`](../../modalities/fusion-andgate-linker-em.json)) grounds EM in ideal-chain
 polymer physics: for a flexible linker of contour length L\_c and Kuhn length ~0.5 nm, the coincident-site
@@ -205,9 +234,9 @@ effective molarity EM = (3/(2π·L\_c·b))^{3/2}·(1e24/N\_A). Over the synthesi
 ~1.5 M (1 nm, ~3 PEG units) down to ~9.4×10⁻³ M (30 nm, ~86 units) — and, fed back into the avidity model,
 the fusion-vs-WT window stays **9.9 to 11.0× across the entire range** (10.8× at 10 nm, 9.9× even
 at 30 nm).
-The design reading: because even a long tether keeps EM well above the weak arm-2 Kd (100 µM), the window
-is **robust to linker length** rather than fragile — the ceiling (~11×) is set by arm-1 strength, not the
-linker, so widening it means *weakening arm 1*, not shortening the tether. Honest caveat: this EM is the
+The design reading, within this model: because even a long tether keeps EM well above the weak arm-2 Kd
+(100 µM), the modelled window is **insensitive to linker length** rather than fragile — its ceiling (~11×)
+is set by arm-1 strength, not by the linker, so widening it means *weakening arm 1*, not shortening the tether. Honest caveat: this EM is the
 *coincident-site upper bound*; a mobile, disordered EWS-LC anchor will realise a lower EM, so these are
 optimistic ceilings (the §4 mobility point).
 
@@ -222,14 +251,18 @@ ternary complex, we modelled whether the binding window survives into *degradati
 [`fusion-andgate-degradation-model.json`](../../modalities/fusion-andgate-degradation-model.json)): a
 cooperative 1:1:1 target–degrader–E3 equilibrium where the fusion is engaged at the avidity Kd and
 wild-type NR4A3 at the weak monovalent Kd1, with the **E3 arm and cooperativity shared** (both present the
-same LBD/E3 handle). The result is sobering and honest: the degradation window **does not inherit the full
-binding window** — it peaks near it (~6.8×) only at **low, sub-saturating** degrader and **erodes toward
-~1× at saturating dose** (the hook effect — ternary falling as the degrader separately saturates target and
-E3 — hits *both* species), and it **shrinks with stronger positive cooperativity** (5.4× at α=1 → 1.7× at
-α=30, because cooperativity proportionally rescues the weaker-binding wild-type). Design implications: run
+same LBD/E3 handle). The modelled degradation window does not inherit the binding window, and over the
+dose range modelled it never rises: it falls monotonically from 6.77× at the lowest dose modelled (3 nM,
+a boundary value rather than an interior maximum) through 5.72× at 100 nM to 2.66× at 1 µM — the dose of
+maximal ternary formation in this model — and to 1.01× at 1 mM, as the hook effect (ternary falling as the
+degrader separately saturates target and E3) hits *both* species. It also shrinks with stronger positive
+cooperativity, evaluated at that 1 µM peak-ternary dose: 5.41× at α=1, 2.66× at α=10 (the model's default)
+and 1.73× at α=30, because cooperativity proportionally rescues the weaker-binding wild-type. Design
+implications hold only within the model: run
 the AND-gate at **sub-saturating dose** and avoid strong cooperativity; and since the shared E3 side cannot
-add selectivity, **all** of it must come from the avidity arm. So degradation selectivity is *narrower and
-more dose-fragile* than the binding window — a genuine caveat, not a footnote.
+add selectivity, **all** of it must come from the avidity arm. So in this model degradation selectivity is
+*narrower and more dose-fragile* than the binding window — a caveat, not a footnote. Whether a real
+degrader behaves this way is untested.
 
 **Two honest caveats, stated up front, not buried:**
 1. **This is a binding window, not a degradation window.** Occupancy selectivity is necessary but not
@@ -288,7 +321,7 @@ geometry is specified here but **deferred**:
    for the whole design.
 
 These are GPU-class jobs (MD on the folded+disordered fusion, ternary docking) and are explicitly *not*
-run here; the single new computation in this paper is the CPU avidity model of §3.
+run here; the new computation in this paper consists of the three CPU equilibrium models of §3.
 
 ---
 
@@ -304,21 +337,25 @@ Computation cannot validate this; a wet-lab group would:
 1. **Then, synthesise a candidate** AND-gate bivalent degrader (arm 1 = opened-LBD warhead, arm 2 =
    condensate/IDR anchor, linker + E3 handle).
 2. **Test fusion-vs-wild-type degradation selectivity** in EMC cells (fusion+) versus control cells
-   expressing wild-type NR4A3 only: measure loss of fusion protein vs loss of wild-type NR4A3, confirming
-   the AND-gate spares the latter. This converts the §3 *binding* window into the *degradation* window the
-   design actually needs.
+   expressing wild-type NR4A3 only: measure loss of fusion protein vs loss of wild-type NR4A3, to test
+   whether the AND-gate spares the latter — an open question, not an expected result. Only such an
+   experiment can convert the §3 *binding* window into the *degradation* window the design would need.
 
 ---
 
-## 7. Selectivity & safety
+## 7. Intended selectivity layers and their limits
 
-The design's whole point is a safety improvement the LBD degrader cannot offer:
+The design aims at a discrimination the LBD degrader cannot offer. Nothing in this section is a safety
+result. There is no wet lab behind this manuscript, no molecule, and no cellular, animal or clinical
+data; a computed occupancy ratio is not a therapeutic window and does not establish that any normal cell
+or tissue would be spared.
 
-- **Fusion-exclusive — spares wild-type NR4A3.** Because wild-type NR4A3 is engaged only monovalently by a
-  deliberately weak arm 1, it is largely untouched; this avoids depleting NR4A3's **tumour-suppressor**
-  function elsewhere (the AML liability of combined Nr4a1/Nr4a3 loss [Mullican 2007]; NR4A3's
-  tumour-suppressive roles in HCC/breast/lymphoma [Safe & Karki 2021]). This is the central advantage over
-  the shared-LBD degrader.
+- **Intended fusion-selectivity — the aim is to spare wild-type NR4A3.** Because wild-type NR4A3 is
+  engaged only monovalently by a weak arm 1, the §3 model leaves it largely unbound; the design intent is
+  to avoid depleting NR4A3's **tumour-suppressor** function elsewhere (the AML liability of combined
+  Nr4a1/Nr4a3 loss [Mullican 2007]; NR4A3's tumour-suppressive roles in HCC/breast/lymphoma [Safe & Karki
+  2021]). This intended advantage over the shared-LBD degrader is a property of the design and of the
+  model, not an observed one: no molecule has been made and no sparing has been measured.
 - **Addresses the paralogue axis too — asymmetrically, and as a specification only.** Arm 1 can
   additionally carry the companion paper's NR4A3-vs-paralogue selectivity handles
   ([`nr4a-selectivity.json`](../../modalities/nr4a-selectivity.json): 7 divergent Pocket-5
@@ -333,11 +370,20 @@ The design's whole point is a safety improvement the LBD degrader cannot offer:
   uncommitted, unconfirmed facing set noted above; the 7-of-7 and 6-of-7 divergence counts do not
   ([roadmap §2.4](../nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)).
   Both halves are unvalidated predictions in the companion program — no positive control for selectivity
-  detection has passed. ⚠ *Superseded, retained: "**Spares paralogues too** … the agent can be both
+  detection has passed. The NR4A2-sparing half is also **inverted for one retained EMC subset**: this
+  repository retains case reports of EMC driven by an NR4A2 fusion rather than an NR4A3 fusion
+  (*FUS::NR4A2*, verbatim at
+  [`lit-targets-aso-breakpoint-census.json`](../aso/lit-targets-aso-breakpoint-census.json);
+  *HSPA8::NR4A2*, recorded at
+  [`emc-unexplored-treatment-lanes.md`](../program/emc-unexplored-treatment-lanes.md)). For such a
+  patient, sparing NR4A2 would spare the driver. The prevalence of that subset is **unknown** here — the
+  retained evidence is case reports with no denominator — so this is a scope limit on the specification,
+  not a frequency claim. ⚠ *Superseded, retained: "**Spares paralogues too** … the agent can be both
   fusion-selective and **paralogue-selective**", which asserted one achieved property over both.*
-- **Net:** the AND-gate adds fusion-vs-wild-type-NR4A3 discrimination on top of the existing
-  NR4A3-vs-paralogue discrimination, narrowing the on-target liability surface from "all NR4A3" to "fusion
-  NR4A3 only."
+- **Net, as designed:** the AND-gate would add fusion-vs-wild-type-NR4A3 discrimination on top of the
+  specified NR4A3-vs-paralogue discrimination, narrowing the on-target liability surface from "all NR4A3"
+  to "fusion NR4A3 only." Both layers are unvalidated design specifications; neither has been
+  demonstrated, and the narrowing is therefore a target for the experiments of §6, not a result.
 
 ---
 
@@ -354,14 +400,25 @@ The design's whole point is a safety improvement the LBD degrader cannot offer:
 4. **The model inputs are illustrative.** Kd1, Kd2 and EM are assumptions chosen from literature ranges to
    probe the design principle; they are not measured affinities and predict no specific molecule.
 5. **No molecule, no GPU run.** Nothing was synthesized; the ternary/linker/condensate computations (§5)
-   are deferred GPU work; the only new result here is the CPU avidity model.
+   are deferred GPU work; the only new results here are the three CPU equilibrium models of §3.
+6. **Nothing here is demonstrated in a biological system.** There is no wet lab behind this manuscript and
+   no cellular, animal or clinical data. Fusion selectivity, sparing of wild-type NR4A3 or of normal
+   cells, a therapeutic window, efficacy, potency and safety are all undemonstrated, and no computation
+   reported here can establish any of them.
+7. **The in-trans failure mode is not modelled.** The §3 models represent wild-type NR4A3 as an
+   arm-1-only species. They contain no species in which one bivalent ligand bridges wild-type NR4A3 and
+   wild-type EWSR1 as two separate proteins — the dominant failure mode named in the Erratum — so the
+   computed windows are upper bounds with respect to it.
+8. **The second-arm blocker stands.** No validated, selective, cell-active, chemically-tractable EWSR1-LC
+   or junction ligand is known to this program (Erratum). Until one exists, the AND-gate degrader is a
+   research hypothesis, not a synthesis-ready design.
 
 ---
 
 ## 9. Broader indications
 
-The AND-gate logic is **target-general**: it works for *any* fusion that joins a **ligandable domain** (for
-arm 1) to an **IDR / condensate-forming partner** (for arm 2) on one chain, where neither half is itself
+The AND-gate logic is **target-general** as a design principle: it is stated for *any* fusion that joins a
+**ligandable domain** (for arm 1) to an **IDR / condensate-forming partner** (for arm 2) on one chain, where neither half is itself
 fusion-unique but their *co-occurrence* is. The FET-fusion sarcomas are the natural set — Ewing sarcoma
 (EWSR1::FLI1), desmoplastic small round cell tumour (EWSR1::WT1), clear-cell sarcoma (EWSR1::ATF1), myxoid
 liposarcoma (FUS::DDIT3), and others — all fuse a FET prion-like IDR (the same class as the EWS-LC arm-2
@@ -369,6 +426,28 @@ target here) to a DNA-binding/effector partner that may furnish arm 1 [Boulay 20
 prion-like-domain biology]. In each case the same coincidence-detection principle could, in principle, spare
 the wild-type partners while removing the chimera — making EMC the worked example for a class-wide protein-
 level fusion-exclusivity strategy. (These remain motivation, not demonstrated efficacy.)
+
+---
+
+## 10. Author, ethics, funding and disclosure
+
+- **Author.** Tristan D. McRae, independent researcher, unaffiliated. Correspondence:
+  trimcrae@gmail.com. ORCID 0000-0002-1823-1451. Sole author, responsible for the content of this
+  manuscript, including every claim and every number in it.
+- **Funding.** None.
+- **Competing interests.** None declared.
+- **AI assistance.** Claude (Anthropic) and OpenAI models assisted with drafting this manuscript and with
+  writing and running the analysis code it cites. The author is responsible for the result.
+- **Ethics.** This work is a computational analysis of public data and of computations run in this
+  repository. It involved no new recruitment, no new sampling and no intervention. No ethics approval was
+  sought and none was obtained; no committee has made any determination about this work, and none is
+  asserted here.
+- **Data and code availability.** The three CPU models and their committed outputs are
+  `andgate_selectivity_model.py` with `fusion-andgate-selectivity-model.json`, `andgate_linker_em.py`
+  with `fusion-andgate-linker-em.json`, and `andgate_degradation_model.py` with
+  `fusion-andgate-degradation-model.json` (all under `research/modalities/`). The structural annotations
+  quoted in §2–§4 come from `nr4a3-structure-assessment.json` and `nr4a-selectivity.json` in the same
+  directory. All are stdlib-only and CPU-only.
 
 ---
 
@@ -413,8 +492,8 @@ results), [`novel-modalities.md`](../modality-census/novel-modalities.md) §2 (E
 (the §3 CPU avidity model).
 
 *Medical-integrity note: no clinical fact, statistic, citation, or affinity in this draft is fabricated.
-The §3 numbers are the real committed output of the CPU avidity model, whose Kd/EM **inputs are illustrative
-assumptions** (so flagged in the model, the abstract, §3, §8) — they demonstrate the design principle and
+The §3 numbers are the committed output of the three CPU models, whose Kd/EM/α **inputs are illustrative
+assumptions** (so flagged in the models, the abstract, §3, §8) — they demonstrate the design principle and
 predict no real compound. The opened-pocket arm-1 result is cited at the honest, red-teamed weight (biased-MD
 peak, basin-breathing, provisional). No molecule was synthesized and no GPU/AWS run was performed for this
 draft. Any reference not in the repo's verified pool is flagged for verification before submission.*

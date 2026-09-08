@@ -5,12 +5,15 @@ level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+purpose: >
+  State the fusion-exclusive immunotherapy rationale for EMC and quantify what the committed
+  breakpoint-neoantigen and HLA-coverage artifacts do and do not support.
+scope: >
+  In-silico only. Predicted peptide-MHC binding and pooled population allele frequencies; no wet lab,
+  no mass spectrometry, no T-cell data, and no efficacy, safety, eligibility or readiness claim.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-09-08
 ---
 # Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunotherapy rationale from breakpoint-resolved epitope prediction and HLA population coverage
 
@@ -65,8 +68,9 @@ e7::NR4A3 e3 public junction (B\*15:01 alone; 8.51%, 95% CI 8.26–8.76%) and **
 strong-binder alleles pooled (27.4%, 95% CI 26.6–28.1%), with **large regional variation** (1.4%
 Melanesia to 60% Northern Europe). ⚠ *Superseded, retained (updated 2026-08-22): "The class-II (CD4
 helper) arm and the combined both-arms figure are **withdrawn pending regeneration** of the class-II
-demo, which still rests on the retracted seam (§3)."* The class II demo has since been rebuilt on
-the transcript model and the arm is reported and negative. ⚠ *Superseded, retained (corrected
+demo, which still rests on the retracted seam (§3)."* The class-II demo has since been rebuilt on
+the transcript model, so the arm is reported rather than withdrawn — and what it reports is thin: one
+strong predicted helper binder on one DRB1 allele (§3). ⚠ *Superseded, retained (corrected
 2026-08-28): "the both-arms figure is not computed rather than withdrawn".* It is computed: the
 class-II branch evaluates once an allele qualifies, and one does. Both have one home,
 [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4. The honest conclusion is
@@ -181,7 +185,10 @@ NR4A3 resumes at **Met1** as an internal residue. The novel residue is junction-
 e7, `GAT` = **Asp** at e9/e10/e12/e13 — a distinction no CDS-space model can express at all. Each junction
 yields **38** spanning peptides absent from both parents; across the five, **11 distinct predicted binders**,
 **4** of them strong by presentation percentile (values quoted from
-[`fusion-breakpoint-neoantigens.json`](../../modalities/fusion-breakpoint-neoantigens.json)):
+[`fusion-breakpoint-neoantigens.json`](../../modalities/fusion-breakpoint-neoantigens.json), which
+records its own provenance: transcripts ENST00000397938 (EWSR1, 656 aa) and ENST00000395097
+(NR4A3, 626 aa); MHCflurry package 2.1.4 with models release 2.2.0, over ten class-I alleles and
+peptide lengths 8–11; strong = presentation percentile ≤ 0.5, weak = ≤ 2.0):
 
 | predicted epitope | HLA | affinity (nM) | pres. %ile | call | junction | in N / 5 |
 |---|---|---|---|---|---|---|
@@ -217,15 +224,30 @@ return no strong binder at all**. Two consequences follow, both faithful to the 
    as a public epitope is an empirical cohort question (§5) that prediction cannot settle — and even if it
    is, the addressable fraction is now under a tenth of patients, not a third.
 
-> ⛔ **STILL WITHDRAWN, and deliberately not restored: the TAF15 worked example and the seam-evenness
+> ⛔ **STILL WITHDRAWN and not restored: the TAF15 worked example and the seam-evenness
 > tie-breaker.** This section previously cited `SVVRTDSLK`/A\*11:01 and `QSVVRTDSL`/B\*08:01 for the
 > **TAF15::NR4A3** variant (~16% of EMC), and offered `SSYGQQIVR` (6 EWSR1 + 3 NR4A3 residues) as a
-> "more foreign" alternative to `QQIVRTDSL`. All four peptides span the retracted `…VVRTDS…` seam.
-> `patient_neoepitopes.py`, which produced them, still builds its chimera through
-> `fusion_breakpoints.gene_model` — the CDS/protein instrument — so the TAF15 panel carries the same
-> coordinate defect and has **not** been regenerated. The *structural* point it was making (a
+> "more foreign" alternative to `QQIVRTDSL`. All four peptides span the retracted `…VVRTDS…` seam, and
+> none of them occurs in the novel-peptide set of any corrected junction; they are not quotable.
+>
+> ⚠ *Superseded, retained (corrected 2026-09-08): "`patient_neoepitopes.py`, which produced them, still
+> builds its chimera through `fusion_breakpoints.gene_model` — the CDS/protein instrument — so the TAF15
+> panel carries the same coordinate defect and has not been regenerated."* Both halves of that reading
+> are now wrong, and the withdrawal above stands on the seam alone rather than on them.
+> `patient_neoepitopes.py` builds its chimera through `junction_aso.transcript_model` /
+> `mrna_junction_generic` and grades it with `junction_aso.grade_junction` — the two functions that
+> produced the corrected population artifact — and reaches `fusion_breakpoints.gene_model` only to fetch
+> the two parent proteins its novelty filter subtracts. A TAF15 demonstration has since been regenerated
+> on that corrected model
+> ([`patient-neoepitopes-taf15-demo.json`](../../modalities/patient-neoepitopes-taf15-demo.json)): one
+> junction, TAF15 exon 4 :: NR4A3 exon 3, transcript coordinates, seam codon Asp, context
+> `GYSSYGQSQS|DMPCVQAQYS`, 38 junction-spanning peptides, screened against a four-allele demonstration
+> HLA set (A\*02:01, A\*11:01, B\*07:02, B\*08:01) — and it returns **no strong binder**: a single weak
+> call, `SQSDMPCVQA`/A\*02:01, 1048.0 nM, presentation %ile 1.877. That is one exon pair against one
+> demonstration allele set, not a TAF15 panel and not a patient result, so it restores no withdrawn
+> peptide and supports no TAF15 coverage figure. The *structural* point the old example was making (a
 > TAF15-fusion patient is not served by an EWSR1 construct) is untouched and is a statement about exon
-> identity, not about any peptide; the peptides themselves are not quotable.
+> identity, not about any peptide.
 
 ---
 
@@ -264,9 +286,12 @@ coverage ranges from **1.4% (Melanesia)** and **~14% (South-eastern Asia)** to *
 the e7::e3 public junction ranges from **0.8%** (Northern Africa) and **~2%** (Sub-Saharan Africa) to
 **~15% (Eastern Asia)** / **~16% (Northern Europe)**. The regional ordering has also changed with the
 allele set: it now tracks B\*15:01 rather than A\*11:01, so the earlier claim that the public junction
-peaks in Melanesia no longer holds — Melanesia is now near the bottom (0.9%). A global figure therefore
-overstates benefit for some patients and understates it for others; coverage must be confirmed for the
-target population.
+peaks in Melanesia no longer holds — Melanesia is now near the bottom (0.9%). Two sub-regions carry
+no value rather than a low one: `hla-coverage.json` returns null for any-strong coverage in
+Micronesia and for e7::e3 coverage in Micronesia and Polynesia, because the constituent alleles have
+no pooled AFND frequency there. A null is missing data, not a zero, and it is not evidence of low
+coverage in those populations. A global figure therefore overstates benefit for some patients and
+understates it for others; coverage must be measured in the target population.
 
 **CD4 help is the limiting arm, and the regenerated screen makes it MORE limiting rather than less.**
 ⚠ *Superseded, retained (corrected 2026-08-28): "The DRB1 helper alleles presenting a strong class-II
@@ -274,8 +299,9 @@ junction binder (DRB1\*03:01, DRB1\*07:01) cover **28.4% globally** (95% CI 27.9
 the seam correction".* ⛔ That reading was the pre-regeneration one and this paper's own banner forbids
 it. The figure appears nowhere in `hla-coverage.json` today, and neither named allele is among that
 file's `class_ii_cd4_helper_alleles` — both are still listed as SCREENED, and neither presents a strong
-binder at the corrected seam. The rebuilt screen finds ONE strong class-II binder on ONE allele, and the
-coverage that follows is several-fold SMALLER than the retired figure. The current class-II and
+binder at the corrected seam. The rebuilt screen (MHCnuggets 2.4.1, 15-mers, 23 declared class-II alleles, every one of them
+scored) finds ONE strong class-II binder on ONE allele, and the coverage that follows is
+several-fold SMALLER than the retired figure. The current class-II and
 both-arms numbers have one home,
 [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4, and are not re-typed here.
 The paragraph the correction replaced is retained below as the record of the withdrawal:
@@ -330,9 +356,9 @@ patients carry ≥1" — the recomputed coverage does not support it, and a pers
 whether the individual patient carries a presenting allele, not by a global mean.* §3 sizes that bound at
 8.5% for the single public junction and 27.4% pooled across strong-binder alleles.
 
-**(b) TCR-T (engineered T cells).** A T-cell receptor isolated against a validated junction epitope, then
-transduced into the patient's T cells, delivers the same fusion-exclusive specificity as a cell therapy
-rather than a vaccine — useful where an endogenous response is weak (the cold-tumour problem, §6).
+**(b) TCR-T (engineered T cells).** A T-cell receptor isolated against a junction epitope that has
+passed the wet-lab steps of §5, then transduced into the patient's T cells, delivers the same
+fusion-exclusive specificity as a cell therapy rather than a vaccine — useful where an endogenous response is weak (the cold-tumour problem, §6).
 Fusion-directed TCR approaches are being explored in other sarcomas. For a recurrent public junction
 (e7::e3), a single TCR against `NMPCVQAQY`/B\*15:01 or `QQNMPCVQAQY`/B\*15:01 could in principle serve the
 allele-matched subset that §3 sizes (**≈8.5%** on the public junction). ⚠ *Superseded, retained:
@@ -432,18 +458,43 @@ neoantigen and the same "personalised-by-necessity, platform-already-in-humans" 
 honest caveats travel with it (mostly-self junctions, binding ≠ immunogenicity, partial and population-
 dependent coverage), so generalisation is a reason to build the engine once and reuse it across the
 fusion-driven sarcoma family — with EMC as the worked, fusion-exclusive entry point, not the endpoint. This
-fusion-exclusive immune axis and the NR4A3-selective degrader axis are complementary routes to the same
-disease; pursuing both, on non-overlapping selectivity premises, is the portfolio rationale.
+fusion-exclusive immune axis and the predicted NR4A-paralogue-selective degrader axis are complementary
+routes to the same disease; pursuing both, on non-overlapping selectivity premises, is the portfolio rationale.
 
 ---
 
-## 8. Author contributions, competing interests, funding
+## 8. Preprint metadata: author, ethics, funding, competing interests, AI assistance
 
-Independent, unfunded work by a single non-clinician author, with AI assistance (Claude) for drafting,
-code, and structuring; all clinical and biological claims are cited and require sarcoma-immunology /
-immunogenetics review before any submission. No competing interests. No funding. **A sarcoma immuno-
-oncology collaborator and a route to validation (immunopeptidomics + T-cell assays) are explicitly
-sought** — this program is designed to be handed to one.
+**Author and affiliation.** Tristan D. McRae, independent researcher, unaffiliated.
+ORCID 0000-0002-1823-1451. Correspondence: trimcrae@gmail.com.
+
+**Author contributions.** Sole author. The author designed the analysis, read the committed artifacts,
+wrote the manuscript, and is responsible for its content, including any error.
+
+**Funding.** None. This work received no funding from any agency, institution, or company.
+
+**Competing interests.** None declared.
+
+**Ethics.** This is a computational analysis of public reference data: annotated human transcript
+sequences, published peptide-MHC binding predictors, and pooled allele frequencies from the Allele
+Frequency Net Database. It involved no new recruitment, no new sampling, and no intervention. No
+ethics approval was sought and none was obtained. Nothing here is a statement about the ethics
+review any prospective study built on it would require, and the wet-lab program in §5 is written to
+be run for a consenting patient inside a trial or IRB framework that this work does not supply.
+
+**AI assistance.** The author used AI assistance — Claude (Anthropic) and OpenAI models — for
+drafting, code, and structuring. The author reviewed the output, retained responsibility for every
+claim, and is accountable for the manuscript as submitted.
+
+**Scope of the claims.** Every quantity here is a prediction or a population frequency, and predicted
+peptide-MHC binding is a screen: it is not presentation, not immunogenicity, and not a measured
+epitope. There is no wet-lab, mass-spectrometric, or T-cell evidence in this work, and it supports no
+claim about efficacy, safety, selectivity in a patient, eligibility, or clinical readiness. All
+clinical and biological claims require sarcoma-immunology and immunogenetics review before any
+submission.
+
+**Collaboration sought.** A sarcoma immuno-oncology collaborator and a route to wet-lab testing
+(immunopeptidomics plus T-cell assays) are sought; this program is designed to be handed to one.
 
 ---
 
