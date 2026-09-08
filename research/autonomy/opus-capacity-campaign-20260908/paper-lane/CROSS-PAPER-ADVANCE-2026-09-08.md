@@ -258,3 +258,60 @@ retrieval outside worker authority; host-factor prevalence in a real EMC cohort 
 `BLK-NO-EMC-DATA`. A2 also flags that any write-up in this family must **resolve the key, not the number**, per
 W57's recorded 162-vs-577 hazard on route 81. No clinical efficacy, safety, selectivity, therapeutic-window or
 readiness claim is made anywhere; there is no wet lab.
+
+---
+
+# A3 RESULT — 8 of 14 strategy `next` fields are STALE; ranked #1 is executable. Collected 07:28 UTC.
+
+Child `ab2376c8974b3232b`, observed transcript model `claude-opus-5`, 07:11:04 → ~07:18 UTC (25 tool calls).
+No repository write, no git operation, no network. Durable artifacts `sha256sum -c` **2 of 2 OK** in
+`/tmp/claude-0/a3-retained/` (not deleted) and again after copying: `strategy-next-adjudication.json`
+`02fc3b6b…` (10,330 B), `authorization-boundary-inspection.md` `c0d21d28…` (3,604 B).
+It reported one command's **exit 128** verbatim (a `git rev-parse` run with cwd inside the scratch directory)
+rather than smoothing it — the hash verification in that same command completed first.
+
+## The layer has not been re-read in a month, measured
+
+**8 of 14 `next` fields are STALE** — recorded open, already answered by committed artifacts. 9 rows carry
+`last_verified: 2026-08-05` and 5 carry `2026-08-09`, while **every artifact that answers a `next` is dated
+2026-08-07 or later**, and P1/P3/P5's work today answers three more. A3 correctly refuses to call that a paper:
+*"a bookkeeping observation and not a paper — which is why it is not my decision."*
+
+## ⭐ Ranked #1, and parent-corroborated: the awaited input ARRIVED and refuses what it was awaited for
+
+`ST-REPURPOSING.next` reads: *"Watch for a fetchable public EMC expression dataset — the single input that
+would convert most of this family from class-inherited argument to measurement."* **The dataset arrived**
+(PRJNA1357027 / SRP640302, n=12 FFPE, public since 2025-11-11) and is committed as a gene table —
+**parent-verified `gene_counts_sha256 = 8aa3064a97a496a8…`**. And the same artifact **refuses the conversion**,
+in its own words, which I read directly: *"⛔ NO DIFFERENTIAL-EXPRESSION RESULT IS COMPUTED OR REPORTED FROM
+THIS COHORT, AND THAT IS THE FINDING RATHER THAN A GAP"* — six versus six, five d.f. per arm, one batch, FFPE
+spanning 1997–2020, no adjustable covariate.
+
+**So the live question is not "has data arrived" but whether any committed EMC dataset can support a per-agent
+expression-based repurposing claim at all.** Parent-verified the coverage gap too: `ST-REPURPOSING` owns **11**
+routes, and the existing `emc-fourth-cohort-route-readout.json` adjudicates 16 routes of which **only
+`RT-TRABECTEDIN`** is one of them.
+
+## Authorization inspection — the row is NOT stale, and it is a human NO
+
+`BLK-SELECTIVITY-CONTROL-UNAUTHORIZED`'s stated reason **matches the live enforcer exactly**:
+`autonomy-state.json → gpu_spend_prohibited` is `active: True`, set `2026-09-02T16:35:00Z` by
+`trimcrae, in session`, scoped to *"every GPU rental, fleet, fan-out and dispatch … at any price, including $0
+free-credit lanes and including a resume of a previously started run"*, with `gpu_ban.py` failing closed.
+**The missing condition is a human authorization that was asked and answered NO — named, and stopped.** A3 also
+records the blocker's own warning that re-deriving the price *"has rediscovered the 2026-09-02 mistake rather
+than found new work"*, and took no action on it.
+
+## A tempting cross-cut A3 recorded and correctly did NOT take
+
+Placing P5's only concordant cross-platform negative (the PAPS sulfate-donor module) against W02k's
+random-panel null would be informative — **and it is forbidden**: further lane-2 statistics on
+`emc-expression-panels.json`, with its named reopening input DENIED. It recorded it and stopped, ran no
+statistic, and withdrew nothing from P5's finding.
+
+## Parent refinement before execution — A3's "10 uncovered routes" is an upper bound
+
+Of the 11 `ST-REPURPOSING` routes, several are **excluded by named holds, not by label**: `RT-RET` and
+`RT-ALK-HIT` are **P4's `PUB-KINASE-LEADS` leads**; `RT-HORMONE-PARTNER` is **P6's unauthorized manuscript**;
+`RT-HDAC-BET` is a **parked negative (`AUT-029`)**. The executing worker must apply those exclusions itself and
+**report the actual adjudicable count** rather than assuming 10.
