@@ -1,0 +1,258 @@
+== body_geometry ==
+{
+ "birc2": {
+  "arm_id": "birc2",
+  "recruiter": "BIRC2",
+  "n_residues": 92,
+  "chains": [
+   "A"
+  ],
+  "centroid_A": [
+   12.59,
+   -6.65,
+   -10.54
+  ],
+  "ca_radius_max_A": 23.74,
+  "ca_radius_median_A": 11.83,
+  "exit_atom_to_centroid_A": 13.3,
+  "exit_atom_to_nearest_CA_A": 5.47,
+  "size_class": "single_domain"
+ },
+ "mdm2": {
+  "arm_id": "mdm2",
+  "recruiter": "MDM2",
+  "n_residues": 94,
+  "chains": [
+   "A"
+  ],
+  "centroid_A": [
+   16.44,
+   7.51,
+   8.42
+  ],
+  "ca_radius_max_A": 21.33,
+  "ca_radius_median_A": 12.3,
+  "exit_atom_to_centroid_A": 12.52,
+  "exit_atom_to_nearest_CA_A": 6.91,
+  "size_class": "single_domain"
+ },
+ "vhl": {
+  "arm_id": "vhl",
+  "recruiter": "VHL",
+  "n_residues": 340,
+  "chains": [
+   "B",
+   "C",
+   "D"
+  ],
+  "centroid_A": [
+   3.61,
+   0.1,
+   3.52
+  ],
+  "ca_radius_max_A": 43.27,
+  "ca_radius_median_A": 22.75,
+  "exit_atom_to_centroid_A": 38.07,
+  "exit_atom_to_nearest_CA_A": 9.24,
+  "size_class": "multi_subunit"
+ },
+ "crbn": {
+  "arm_id": "crbn",
+  "recruiter": "CRBN",
+  "n_residues": 1183,
+  "chains": [
+   "A",
+   "B"
+  ],
+  "centroid_A": [
+   70.36,
+   55.79,
+   0.85
+  ],
+  "ca_radius_max_A": 60.55,
+  "ca_radius_median_A": 31.63,
+  "exit_atom_to_centroid_A": 52.44,
+  "exit_atom_to_nearest_CA_A": 9.38,
+  "size_class": "multi_subunit"
+ },
+ "bcl6": {
+  "arm_id": "bcl6",
+  "recruiter": "BCL6",
+  "n_residues": 243,
+  "chains": [
+   "A",
+   "B"
+  ],
+  "centroid_A": [
+   15.11,
+   -6.23,
+   -25.96
+  ],
+  "ca_radius_max_A": 33.91,
+  "ca_radius_median_A": 18.16,
+  "exit_atom_to_centroid_A": 17.68,
+  "exit_atom_to_nearest_CA_A": 8.87,
+  "size_class": "multi_subunit"
+ },
+ "brd4_bd1": {
+  "arm_id": "brd4_bd1",
+  "recruiter": "BRD4",
+  "n_residues": 127,
+  "chains": [
+   "A"
+  ],
+  "centroid_A": [
+   -11.49,
+   3.42,
+   -9.81
+  ],
+  "ca_radius_max_A": 24.72,
+  "ca_radius_median_A": 13.94,
+  "exit_atom_to_centroid_A": 36.74,
+  "exit_atom_to_nearest_CA_A": 17.27,
+  "size_class": "single_domain"
+ }
+}
+== named_effector ==
+{
+ "_what": "per-rung admissibility for each STAGED, NAMED transcriptional effector, computed from that arm's own cells only",
+ "effector_arms": {
+  "bcl6": {
+   "effector": "BCL6",
+   "effector_role": "transcriptional repressor (BTB/POZ zinc-finger); the BTB domain is the corepressor-recruiting module and carries the ligandable lateral groove",
+   "source_pdb_id": "7LWG",
+   "n_residues": 243,
+   "chains": [
+    "A",
+    "B"
+   ],
+   "size_class_by_residue_count": "multi_subunit",
+   "shortest_linker_atoms_with_any_admissible_placement": 6,
+   "admits_within_the_12_atom_gate": true,
+   "admits_within_the_chemically_routine_24_atoms": true
+  },
+  "brd4_bd1": {
+   "effector": "BRD4",
+   "effector_role": "BET-family transcriptional co-activator / acetyl-lysine reader; bromodomain 1 is the ligandable module",
+   "source_pdb_id": "4ZC9",
+   "n_residues": 127,
+   "chains": [
+    "A"
+   ],
+   "size_class_by_residue_count": "single_domain",
+   "shortest_linker_atoms_with_any_admissible_placement": 6,
+   "admits_within_the_12_atom_gate": true,
+   "admits_within_the_chemically_routine_24_atoms": true
+  }
+ },
+ "_still_a_size_class_statement": [
+  "the PAIRED SIZE COMPARISON (`\u2605_paired_body_size_comparison`) and everything derived from it \u2014 the within-class spread control, the pooled single/multi ratio and the interface-floor ablation \u2014 are computed on the four committed bodies ONLY. `birc2` and `mdm2` remain size-and-shape PROXIES there and nothing about a named effector may be read off them.",
+  "the interface-floor ablation is a statement about the SAMPLER's inherited degrader parameter, not about any effector; it is unchanged by staging one.",
+  "`admits` remains a gate that no tested body has failed, so a named effector admitting is not evidence of anything beyond excluded volume."
+ ],
+ "by_linker_atoms": {
+  "6": {
+   "bcl6": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00061528,
+    "acceptance_ci95": [
+     0.00059019,
+     0.00064143
+    ],
+    "body_cost": 0.001569
+   },
+   "brd4_bd1": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00035417,
+    "acceptance_ci95": [
+     0.00033526,
+     0.00037414
+    ],
+    "body_cost": 0.000903
+   }
+  },
+  "8": {
+   "bcl6": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00068667,
+    "acceptance_ci95": [
+     0.00066013,
+     0.00071426
+    ],
+    "body_cost": 0.001596
+   },
+   "brd4_bd1": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00039556,
+    "acceptance_ci95": [
+     0.00037554,
+     0.00041664
+    ],
+    "body_cost": 0.00092
+   }
+  },
+  "10": {
+   "bcl6": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00076056,
+    "acceptance_ci95": [
+     0.00073261,
+     0.00078957
+    ],
+    "body_cost": 0.001636
+   },
+   "brd4_bd1": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00041139,
+    "acceptance_ci95": [
+     0.00039097,
+     0.00043288
+    ],
+    "body_cost": 0.000885
+   }
+  },
+  "12": {
+   "bcl6": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00076472,
+    "acceptance_ci95": [
+     0.00073669,
+     0.00079382
+    ],
+    "body_cost": 0.00155
+   },
+   "brd4_bd1": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00043444,
+    "acceptance_ci95": [
+     0.00041344,
+     0.00045651
+    ],
+    "body_cost": 0.00088
+   }
+  },
+  "14": {
+   "bcl6": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.000845,
+    "acceptance_ci95": [
+     0.00081551,
+     0.00087555
+    ],
+    "body_cost": 0.001622
+   },
+   "brd4_bd1": {
+    "n_poses": 12,
+    "n_poses_with_any_admissible_placement": 12,
+    "acceptance_rate": 0.00047167,
+    "acceptance_ci95": [
+     0.00044976

@@ -1,0 +1,91 @@
+............F........................................................... [ 30%]
+........................................................................ [ 60%]
+........................................................................ [ 90%]
+.......................                                                  [100%]Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.11/dist-packages/pytest/__main__.py", line 9, in <module>
+    raise SystemExit(_console_main())
+                     ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/config/__init__.py", line 253, in _console_main
+    code = _main(prog=_get_prog_name(sys.argv))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/config/__init__.py", line 229, in _main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 167, in _multicall
+    raise exception
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/main.py", line 377, in pytest_cmdline_main
+    return wrap_session(config, _main)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/main.py", line 365, in wrap_session
+    config.hook.pytest_sessionfinish(
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 167, in _multicall
+    raise exception
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/logging.py", line 888, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/terminal.py", line 961, in pytest_sessionfinish
+    result = yield
+             ^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+  File "/usr/local/lib/python3.11/dist-packages/_pytest/warnings.py", line 119, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pluggy/_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/manuscripts/tests/conftest.py", line 30, in pytest_sessionfinish
+    tracked_tree_guard.assert_tree_unchanged()
+  File "/home/user/Rare-cancers/research/manuscripts/tests/tracked_tree_guard.py", line 261, in assert_tree_unchanged
+    raise AssertionError(
+AssertionError: the test run CHANGED tracked files that it did not find changed:
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/P-AB-coverage-binding/evidence/RUN11-RUN12-TERMINATION-RECORD.md
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/BEFORE-emc-transcriptional-proteostatic-dependency.md
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/DIFF-TD1-scope-repair.patch
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/FREEZE-for-final-review.md
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/00-start-state.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/01-preflight-default.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/02-baseline-producers-without-TD1-edit.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/03-producers-after-TD1-edit.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_asymmetry.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_changed_prose.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_citations.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_claims.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_consistency.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/04-lint_style.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/05-lint_consistency-repo.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/06-lint_readability.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/checks/07-lint_style-before-after.txt
+  A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-dependency/frozen/HASHES.sha256
+  M  research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+
+No test may write to the tree (AUT-PD-186). Inspect `git diff` before reverting — the change is evidence, and a tamper value restored quietly is how a falsified number reaches a commit. The fix is to mutate a copy under `tmp_path`; see research/manuscripts/tests/test_endpoint_producers_check.py.
+
+
+[P-AB owner note, appended without altering the captured run above] The `F` at ~30% is the
+pre-existing staleness failure of `test_claim_coverage_has_not_regressed`, already red at the base
+commit (RUN03). The traceback is `conftest.pytest_sessionfinish -> tracked_tree_guard.assert_tree_unchanged`,
+which fired because ANOTHER live owner (TD1) wrote `research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md`
+and its lane files while this run was in flight. Neither is caused by this lane. No exit code is
+claimed for the summary line, because the session-finish hook aborted before one was printed.

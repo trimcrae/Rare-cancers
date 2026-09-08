@@ -1,0 +1,104 @@
+.FFF....F                                                                [100%]
+=================================== FAILURES ===================================
+_ test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[comment_only] _
+
+case = 'comment_only'
+census_tests = <function census_tests.<locals>.build at 0x7f747ebc2660>
+
+    @pytest.mark.parametrize("case", sorted(CASES))
+    def test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document(case, census_tests):
+        witness = census_tests(case)
+        harvested = cc._test_patterns(FICTIONAL)
+        named = {w for _h, _p, w in harvested}
+        if case in CREDITED:
+            assert named == {witness}, (
+                f"{case}: the document is named in executable code, so this guard must stay in scope — "
+                f"dropping it would be coverage lost to where a filename happens to be written")
+            assert any(p == PATTERN for _h, p, _w in harvested), (
+                f"{case}: the guard is in scope but its executable literal was not harvested")
+        else:
+>           assert not named, (
+                f"{case}: the document is named ONLY in prose the interpreter never evaluates, and the "
+                f"census credited {sorted(named)} with reading it. A mention in a comment or a docstring "
+                f"is how a guard that opens no such file becomes a witness for it.")
+E           AssertionError: comment_only: the document is named ONLY in prose the interpreter never evaluates, and the census credited ['test:test_comment_only.py'] with reading it. A mention in a comment or a docstring is how a guard that opens no such file becomes a witness for it.
+E           assert not {'test:test_comment_only.py'}
+
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py:95: AssertionError
+_ test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[docstring_only] _
+
+case = 'docstring_only'
+census_tests = <function census_tests.<locals>.build at 0x7f747e9d4180>
+
+    @pytest.mark.parametrize("case", sorted(CASES))
+    def test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document(case, census_tests):
+        witness = census_tests(case)
+        harvested = cc._test_patterns(FICTIONAL)
+        named = {w for _h, _p, w in harvested}
+        if case in CREDITED:
+            assert named == {witness}, (
+                f"{case}: the document is named in executable code, so this guard must stay in scope — "
+                f"dropping it would be coverage lost to where a filename happens to be written")
+            assert any(p == PATTERN for _h, p, _w in harvested), (
+                f"{case}: the guard is in scope but its executable literal was not harvested")
+        else:
+>           assert not named, (
+                f"{case}: the document is named ONLY in prose the interpreter never evaluates, and the "
+                f"census credited {sorted(named)} with reading it. A mention in a comment or a docstring "
+                f"is how a guard that opens no such file becomes a witness for it.")
+E           AssertionError: docstring_only: the document is named ONLY in prose the interpreter never evaluates, and the census credited ['test:test_docstring_only.py'] with reading it. A mention in a comment or a docstring is how a guard that opens no such file becomes a witness for it.
+E           assert not {'test:test_docstring_only.py'}
+
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py:95: AssertionError
+_ test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[function_docstring_only] _
+
+case = 'function_docstring_only'
+census_tests = <function census_tests.<locals>.build at 0x7f747e9d4680>
+
+    @pytest.mark.parametrize("case", sorted(CASES))
+    def test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document(case, census_tests):
+        witness = census_tests(case)
+        harvested = cc._test_patterns(FICTIONAL)
+        named = {w for _h, _p, w in harvested}
+        if case in CREDITED:
+            assert named == {witness}, (
+                f"{case}: the document is named in executable code, so this guard must stay in scope — "
+                f"dropping it would be coverage lost to where a filename happens to be written")
+            assert any(p == PATTERN for _h, p, _w in harvested), (
+                f"{case}: the guard is in scope but its executable literal was not harvested")
+        else:
+>           assert not named, (
+                f"{case}: the document is named ONLY in prose the interpreter never evaluates, and the "
+                f"census credited {sorted(named)} with reading it. A mention in a comment or a docstring "
+                f"is how a guard that opens no such file becomes a witness for it.")
+E           AssertionError: function_docstring_only: the document is named ONLY in prose the interpreter never evaluates, and the census credited ['test:test_function_docstring_only.py'] with reading it. A mention in a comment or a docstring is how a guard that opens no such file becomes a witness for it.
+E           assert not {'test:test_function_docstring_only.py'}
+
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py:95: AssertionError
+________ test_the_stripper_blanks_prose_without_moving_any_code_offset _________
+
+    def test_the_stripper_blanks_prose_without_moving_any_code_offset():
+        """⛔ Blanking rather than deleting is what keeps a name from being spliced out of existence."""
+        import ast
+        src = ('"""doc with tokens."""\n'
+               '# a comment naming things\n'
+               'X = "keep-this-literal"  # trailing\n')
+>       code = cc._executable_source(src, ast.parse(src))
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'claim_coverage' has no attribute '_executable_source'
+
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py:121: AttributeError
+=============================== warnings summary ===============================
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_a_docstring_is_never_harvested_as_an_executable_pattern[code_reference]
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_a_docstring_is_never_harvested_as_an_executable_pattern[comment_only]
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_a_docstring_is_never_harvested_as_an_executable_pattern[docstring_only]
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_a_docstring_is_never_harvested_as_an_executable_pattern[function_docstring_only]
+  <unknown>:1: DeprecationWarning: invalid escape sequence '\s'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[comment_only]
+FAILED research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[docstring_only]
+FAILED research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[function_docstring_only]
+FAILED research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_the_stripper_blanks_prose_without_moving_any_code_offset
+4 failed, 5 passed, 4 warnings in 0.07s

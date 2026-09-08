@@ -1,0 +1,41 @@
+                bad = True
+                break
+        if bad:
+            n_pre_reject += 1
+            continue
+        n_hard = n_soft = n_contact = 0
+        moved = []
+        for (qx, qy, qz) in q:
+            dx, dy, dz = qx - px, qy - py, qz - pz
+            tp = (r0[0] * dx + r0[1] * dy + r0[2] * dz + ox,
+                  r1[0] * dx + r1[1] * dy + r1[2] * dz + oy,
+                  r2[0] * dx + r2[1] * dy + r2[2] * dz + oz)
+            moved.append(tp)
+            dd = md(tp) - slack
+            if dd < hard:
+                n_hard += 1
+                if n_hard:
+                    break
+            elif dd < soft:
+                n_soft += 1
+            elif dd <= contact:
+                n_contact += 1
+        if n_hard or n_soft > max_soft or n_contact < min_contact:
+            continue
+        cb_moved = moved[arm["n_ca"]:]        # `query` is ca_list + cb_list; n_ca is stored, never inferred
+        accepted.append({
+            "R": R, "anchor_e3": ae, "span_A": d,
+            "n_soft": n_soft, "n_contact": n_contact,
+            "cb": cb_moved,
+            "landmarks": G.transform_points(lm_pts, R, pivot, ae),
+            "ring": G.transform_points([arm["ring"]], R, pivot, ae)[0] if arm["ring"] else None,
+            "cullin": G.transform_points([arm["cullin"]], R, pivot, ae)[0] if arm["cullin"] else None,
+            "tanchor": (G.transform_points([arm["tanchor"]], R, pivot, ae)[0]
+                        if arm.get("tanchor") else None),
+        })
+    return accepted, {"n_samples": n_samples, "n_accepted": len(accepted),
+                      "n_prescreen_rejected": n_pre_reject,
+                      "acceptance_rate": round(len(accepted) / max(1, n_samples), 6)}
+
+
+# ---------------------------------------------------------------------------------------------------------

@@ -1,0 +1,26 @@
+research/modalities/nr4a3-tcip-reach.md:65:the exit-atom offset displaces a body relative to the target before any rotation, so an arm whose exposure sits outside the committed arms' range is NOT COMPARABLE with them and its acceptance may not be pooled with or ranked against theirs. ⚠ The SIGN is not predictable and is not claimed: a larger offset both moves the body clear of the target (easier) and pushes it out of the shell it must sit in (harder). This does not invalidate such an arm — it bounds what may be said with it.
+research/modalities/nr4a3-tcip-reach.md:67:| arm | partner class | ligand | heavy atoms | exit-atom exposure (Å) | inside the committed E3 range |
+research/modalities/nr4a3-tcip-reach.md:69:| `bcl6` | transcriptional effector | YN7 | 45 | 5.44 | True |
+research/modalities/nr4a3-tcip-reach.md:71:| `brd4_bd1` | transcriptional effector | 4MW | 55 | 13.65 | False |
+research/modalities/nr4a3-tcip-reach.md:76:Committed E3 exposure range: **5.0–5.79 Å**. Effector arms inside it: `bcl6`. Outside it: `brd4_bd1` (13.65 Å).
+research/modalities/nr4a3-tcip-route-memo.md:68:| `bcl6` | **BCL6** | BTB/POZ zinc-finger **transcriptional repressor** | 7LWG, 1.30 Å X-ray | BTB **homodimer**, chains A+B, residues 7–128, **243 residues** | YN7 (OICR-12694), 45 heavy atoms | C29, 5.44 Å exposed |
+research/modalities/nr4a3-tcip-route-memo.md:69:| `brd4_bd1` | **BRD4** | BET **transcriptional co-activator** / acetyl-lysine reader, bromodomain 1 | 4ZC9, 0.99 Å X-ray | chain A, residues 42–168, **127 residues** | 4MW, 55 heavy atoms | O2, 13.65 Å exposed |
+research/modalities/nr4a3-tcip-route-memo.md:116:exit exposure as *exactly* 8.00 Å, which was the distance field's **clamp**, not a measurement, so the
+research/modalities/nr4a3-tcip-route-memo.md:121:| `bcl6` | C29, 5.44 Å | C31, 5.33 Å | **0.11 Å — a near tie** | C29–N30 = 1.37 Å, C29–C31 = 2.23 Å ⇒ both atoms are in the **same terminal moiety**, so the exit *direction* is unchanged by the tie |
+research/modalities/nr4a3-tcip-route-memo.md:122:| `brd4_bd1` | O2, 13.65 Å | O4, 12.92 Å | 0.73 Å | O2–C10 = 1.22 Å (a carbonyl); one atom within 0.5 Å of the max |
+research/modalities/nr4a3-tcip-route-memo.md:125:exact, the maximum is 5.44 Å against an 8 Å clamp, and the two candidates are 2.23 Å apart on the same group.
+research/modalities/nr4a3-tcip-route-memo.md:246:- **⚠ Exit-vector exposure is a real confounder and is now measured, not assumed** — the sampler places a
+research/modalities/nr4a3-tcip-route-memo.md:249:  **5.00–5.79 Å**. `bcl6` sits at **5.44 Å — inside it**, so it is comparable to the four committed arms on
+research/modalities/nr4a3-tcip-route-memo.md:250:  the property that would otherwise do the work. `brd4_bd1` sits at **13.65 Å — outside it**, so its
+research/modalities/nr4a3-tcip-route-memo.md:255:  — was written into this module and then contradicted: `brd4_bd1` at 13.65 Å accepted **less** than `bcl6`
+research/modalities/nr4a3-tcip-route-memo.md:256:  at 5.44 Å, because a large offset also pushes the body out of the shell it has to sit in. Two mechanisms
+research/modalities/nr4a3-tcip-route-memo.md:328:   dimer measured rather than assumed. Its exit-vector exposure sits inside the committed E3 arms' range,
+research/modalities/nr4a3-tcip-route-memo.md:467:  "note": "The input RT-TCIP was blocked on: staged rigid bodies for NAMED transcriptional effectors, so the route can speak about an effector rather than a size class. BCL6 BTB homodimer (7LWG, chains A+B, 243 res, ligand YN7) and BRD4 BD1 (4ZC9, 127 res, ligand 4MW). Discovery is by UniProt accession — this module supplies NO PDB id — and the rigid body is DERIVED from the chains the chosen ligand actually contacts, because the BCL6 groove spans the dimer and a one-chain body would be half a binding site. ⚠ The body is the LIGAND-BINDING DOMAIN, not the protein, and no DNA or chromatin is present, so any admitting answer computed on it is an UPPER bound. ⚠ brd4_bd1's exit-atom exposure (13.65 A) is OUTSIDE the committed E3 arms' range (5.00-5.79 A) and its acceptance may not be pooled with or ranked against theirs; bcl6 (5.44 A) is inside it. The citation that motivates the CHOICE of effector (10.1021/jacs.5c05634) has NOT cleared verify-refs and supplies no number."
+=== grep repo-wide for exit exposure field ===
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/TC1-executed-artifacts/ORIGINAL-CHILD-TRANSCRIPT-a355f60ee97164428.jsonl
+research/modalities/nr4a3_effector_stage.py
+research/modalities/nr4a3-tcip-reach.json
+research/modalities/nr4a3-effector-arm-registry.json
+research/modalities/__pycache__/nr4a3_effector_stage.cpython-311.pyc
+research/modalities/__pycache__/nr4a3_tcip_reach.cpython-311.pyc
+research/modalities/nr4a3_tcip_reach.py

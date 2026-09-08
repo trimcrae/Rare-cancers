@@ -209,3 +209,106 @@ def test_the_results_headline_counts_are_the_corpus_artifacts_own(paper):
         f"the manuscript states {sorted(stated)} arms-from-trials where endpoint-corpus.json's "
         f"C6_counts holds ({arms}, {trials}). These are the denominators every rate in the paper "
         f"divides by, so a drift here misstates the whole Results section.")
+
+
+#: The verbatim abstracts this section's two records were fetched with, keyed by PMID. Held in
+#: `endpoint/natural-history-inputs.json` beside the manuscript, and quoted below by EXTRACTION
+#: rather than by a number retyped here — a constant retyped into a guard is the same hand copy the
+#: guard exists to check.
+_POOLED_ANALYSIS = "39620931"
+_PHASE_II_TRIAL = "37777684"
+
+#: Where each quantity is read out of its own abstract. `Patients (n = 282)` and
+#: `Three prospective observational studies` are Colombo 2025's own words; `100 patients were
+#: enrolled` is Bonvalot 2023's.
+_ABSTRACT_QUANTITY = {
+    _POOLED_ANALYSIS: {
+        "patients": r"Patients \(n = (\d+)\)",
+        "studies": r"(Three|Two|Four|Five|Six) prospective observational studies",
+    },
+    _PHASE_II_TRIAL: {
+        "patients": r"(\d+) patients were enrolled",
+    },
+}
+
+
+def _abstract_quantity(pmid, field):
+    records = _load("natural-history-inputs.json")["records"]
+    assert pmid in records, (
+        f"PMID {pmid} is no longer in natural-history-inputs.json, so section 6.1's quantities have "
+        f"no fetched source and this guard cannot bind them")
+    abstract = records[pmid].get("abstract_verbatim") or ""
+    found = re.findall(_ABSTRACT_QUANTITY[pmid][field], abstract)
+    assert len(set(found)) == 1, (
+        f"`{_ABSTRACT_QUANTITY[pmid][field]}` no longer reads exactly one {field} value out of PMID "
+        f"{pmid}'s retained abstract (found {sorted(set(found))}); the record changed shape, and a "
+        f"guard that silently stops finding its source is a guard that stops checking")
+    return found[0]
+
+
+#: Where section 6.1's prose states each quantity. Every site is listed, because a binding that
+#: holds at one of two mentions leaves the other free to drift.
+#: ⛔ Each pattern is a capture around a DIGIT RUN or a COUNT WORD, never a wildcard over it: the
+#: point is that perturbing 282, 100 or "three" in the manuscript turns this red.
+#: ⚠ EVERY LOCATOR IS WHITESPACE-TOLERANT. The manuscript is hard-wrapped, so a phrase this guard
+#: reads sits across a newline as often as not, and a locator that tolerates only a single space
+#: fails on a reflow — which is a red gate on a correct tree, the failure mode that gets a guard
+#: loosened. `\s+` is not a wildcard over any quantity: the captures below still surround a digit
+#: run or a count word.
+_PROSE_SITE = {
+    (_POOLED_ANALYSIS, "patients"): [
+        r"whether\s+its\s+(\d+)\s+patients\s+overlap",
+        r"Netherlands\s+and\s+France\s+followed\s+(\d+)\s+patients",
+    ],
+    (_POOLED_ANALYSIS, "studies"): [
+        r"pooled\s+analysis\s+draws\s+on\s+(\w+)\s+prospective\s+observational\s+studies",
+        r"A\s+pooled\s+analysis\s+of\s+(\w+)\s+prospective\s+observational\s+active-surveillance",
+    ],
+    (_PHASE_II_TRIAL, "patients"): [
+        r"overlap\s+the\s+(\d+)\s+below",
+        r"placed\s+(\d+)\s+patients\s+on\s+active\s+surveillance",
+    ],
+}
+
+
+@pytest.mark.parametrize("pmid,field", sorted(_PROSE_SITE))
+def test_the_outside_corpus_desmoid_counts_are_the_fetched_abstracts_own(paper, pmid, field):
+    """Section 6.1's 282, 100 and three-study counts equal what the two abstracts actually say.
+
+    ⛔⛔ THESE THREE QUANTITIES WERE UNBOUND, AND THE CENSUS SAID OTHERWISE (2026-09-08, P-AB).
+    `claim-coverage` credited the sentence that carries them to `test_aso_abstract_is_bounded.py`,
+    a guard that never opens this manuscript — it names this file once, inside its module docstring,
+    narrating a historical mistake, and `_test_patterns` scoped a test's harvested literals with a
+    plain substring search over the whole source. So a MENTION IN A DOCSTRING credited that guard
+    with reading a document it does not open, and the pattern that matched keys on
+    "not … patients … report", which is wildcard exactly where the numbers are: no perturbation of
+    282, 100 or "three" could change whether it matched. The scope defect is fixed in
+    `claim_coverage._test_patterns`; this is the binding that makes the credit real.
+
+    ★ THE SOURCE IS THE FETCH RECORD, NOT A CONSTANT. Both counts are read back out of the
+    verbatim abstracts retained in `endpoint/natural-history-inputs.json` — Colombo 2025's
+    "Patients (n = 282)" and "Three prospective observational studies", Bonvalot 2023's "100
+    patients were enrolled" — so this guard binds the prose to what the API returned rather than to
+    a number a previous reader typed twice.
+
+    ⛔ WHAT THIS DOES NOT CLAIM, STATED BECAUSE THE SENTENCE IT GUARDS IS ABOUT EXACTLY THIS. Two
+    counts matching their own sources is not evidence that the 282 and the 100 are disjoint
+    patients. The manuscript says the overlap "is stated in neither report and is unknown here",
+    and that remains the position; nothing here may be read as narrowing it.
+
+    ⚠ AND IT IS A NUMBER CHECK, NOT A CLAIM CHECK. It cannot tell whether the right quantity is
+    quoted for the right cohort — only that each stated value still equals the value its own
+    retained abstract holds, at every site the prose states it.
+    """
+    expected = _abstract_quantity(pmid, field)
+    for pattern in _PROSE_SITE[(pmid, field)]:
+        stated = re.findall(pattern, paper)
+        assert stated, (
+            f"section 6.1 no longer states `{pattern}`; either the sentence was reworded and this "
+            f"guard must be re-homed, or the quantity was dropped — an unmatched locator is not a "
+            f"pass")
+        assert {s.lower() for s in stated} == {expected.lower()}, (
+            f"the manuscript states {sorted(set(stated))} for `{pattern}` where PMID {pmid}'s "
+            f"retained abstract in natural-history-inputs.json says {expected!r}. Section 6.1 is "
+            f"the paper's only evidence that the natural-history confound has been measured, so a "
+            f"drift here misstates the one measurement it rests on.")

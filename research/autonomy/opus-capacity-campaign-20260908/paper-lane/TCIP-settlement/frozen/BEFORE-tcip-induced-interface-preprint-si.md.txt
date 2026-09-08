@@ -9,7 +9,7 @@ purpose: Methods, complete tables and every control for the PUB-TCIP manuscript,
 scope: Methods and tables for the geometric enumeration and the structural census. It covers reproduction and controls. It covers no binding, potency, selectivity, transcriptional-output, efficacy, safety or clinical statement.
 audience: [external reviewers, maintainers, autonomous research agents]
 date: 2026-08-07
-last_verified: 2026-09-08
+last_verified: 2026-08-07
 ---
 
 # Supporting Information
@@ -40,29 +40,6 @@ per cell. The floor ablation re-runs the identical cells at the 12-atom rung wit
 `multi_subunit = [crbn, vhl]`. `bcl6` and `brd4_bd1` are staged named effectors and are **excluded from
 every pooled figure** — `bcl6` because the pooled contrast is a proxy statement a named effector may not
 be read into, `brd4_bd1` additionally because its exit vector is not comparable (§S4).
-
-**Replication against the committed E3 run, disclosed with its own status.** The artifact carries a
-cross-check, `cross_checks.replicates_the_committed_E3_acceptance`, that compares this module's
-recomputed per-cell acceptance rates against the previously committed E3 run in
-`nr4a3-orientation-basins.json`. Its `status` field reads **DISAGREES**: over 24 compared cells, **19**
-committed rates fall inside the recomputed 95 % interval and **5** fall outside, against 1.20 expected
-by chance at a 95 % level. ⚠ We report the status verbatim rather than the artifact's own softer reading
-of it. **Nothing in this paper is computed by differencing the two runs.** The paired contrast, the
-within-class control and the floor ablation are all comparisons *within a single pass* — identical
-anchors, identical target frame, identical distance field, one body changed or one parameter changed —
-so a level offset between this module and the earlier committed run cancels in every ratio reported
-here. What the flag does bound is any reading of an **absolute** acceptance rate across the two runs,
-and this paper makes none.
-
-**Named effectors: which block owns those numbers.** The per-rung `bcl6` and `brd4_bd1` results quoted
-in §5.5 of the manuscript are read from the artifact's `★_named_effector` block and its
-`by_linker_atoms` table. ⚠ The same artifact's `verdict.★_the_named_effector` block still reads
-`status: NO_NAMED_EFFECTOR_STAGED`, `n_named_effectors_enumerated: 0`, `answer: "NOT ASKED — none
-staged"`. The two blocks contradict each other. The populated block is the one used, and it is
-corroborated by `body_geometry` (`bcl6` 243 residues, `brd4_bd1` 127) and by the per-rung
-`per_arm_acceptance_rate` entries in `★_paired_body_size_comparison`, which carry the same values.
-The stale verdict field is **not** repaired here — that would mean editing or re-running a producer —
-and is routed to the artifact's owner.
 
 **Determinism.** Per-cell seeds were originally derived from `hash(arm_id)`, which Python salts per
 process, so the artifact did not reproduce between runs. Fixed to `zlib.crc32` and verified: two full
@@ -113,20 +90,13 @@ reader can drop them and recompute. Every entry's identity is verified from its 
 
 **22 entries fetched, 22 parsed**, every title and chain description verified from the file itself.
 
-| class | entries | induced pairs | ligand-bridged / `allosteric_curated` | contact points, smaller direction | fails floor 12 in ≥1 direction | in BOTH |
-|---|---|---|---|---|---|---|
-| **`tcip`** — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | 2 / 0 | **6 – 6** | **2 of 2** | **2 of 2** |
-| `induced_transcriptional` — incl. 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 2 / **10** | 6 – 19 | 2 of 12 | 2 of 12 |
-| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 15 / 0 | 5 – 23 | **6 of 15** | 1 of 15 |
-| `cid_proximity` — rapamycin, auxin, ABA, gibberellin | 7 | 7 | 4 / 3 | 11 – 53 | 1 of 7 | 0 of 7 |
-| `constitutive` — 7LWG BCL6 BTB homodimer (contrast, never pooled) | 1 | 1 | 1 / 0 | 64 | 0 | 0 |
-
-The fourth column is the split §S2 promises a reader can act on, read from
-`summary_over_induced_pairs.by_class` (`n_ligand_bridged_measured` / `n_allosteric_curated`). It matters
-most for `induced_transcriptional`: 10 of that class's 12 pairs are curated by name rather than measured
-as ligand-bridged, and both of its floor failures are the two 9MZA pairs, which are ligand-bridged. The
-`tcip` and `degrader_or_glue` rows — the two the manuscript's claims rest on — carry no curated pairs at
-all.
+| class | entries | induced pairs | contact points, smaller direction | fails floor 12 in ≥1 direction | in BOTH |
+|---|---|---|---|---|---|
+| **`tcip`** — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | **6 – 6** | **2 of 2** | **2 of 2** |
+| `induced_transcriptional` — incl. 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 6 – 19 | 2 of 12 | 2 of 12 |
+| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 5 – 23 | **6 of 15** | 1 of 15 |
+| `cid_proximity` — rapamycin, auxin, ABA, gibberellin | 7 | 7 | 11 – 53 | 1 of 7 | 0 of 7 |
+| `constitutive` — 7LWG BCL6 BTB homodimer (contrast, never pooled) | 1 | 1 | 64 | 0 | 0 |
 
 ## S4 · Table S2 — the 15 degrader/glue induced pairs
 

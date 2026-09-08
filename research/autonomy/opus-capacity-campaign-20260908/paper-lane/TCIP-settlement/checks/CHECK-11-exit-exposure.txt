@@ -1,0 +1,300 @@
+('/paired_placement_envelope/cells[12]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[15]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[16]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[21]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[26]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[29]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[30]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[32]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[33]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[36]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[38]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[40]/span_A_min', 5.79)
+('/paired_placement_envelope/cells[40]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[41]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[42]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[46]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[47]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[49]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[51]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[54]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[55]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[56]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[57]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[58]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[59]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[60]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[61]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[62]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[65]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[67]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[68]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[74]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[78]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[79]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[90]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[93]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[108]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[112]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[115]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[122]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[123]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[124]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[128]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[131]/span_A_min', 5.04)
+('/paired_placement_envelope/cells[131]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[134]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[135]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[136]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[140]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[141]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[142]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[143]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[145]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[147]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[148]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[149]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[150]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[151]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[152]/min_backbone_atoms_realised', 5)
+('/paired_placement_envelope/cells[153]/min_backbone_atoms_realised', 5)
+---- keys of cross_checks ----
+{
+ "reproduces_the_committed_pose_ensemble": {
+  "status": "AGREES",
+  "n_compared": 12,
+  "max_abs_delta_A": 0.0,
+  "source_of_truth": "research/modalities/nr4a3-orientation-basins.json -> pose_ensemble"
+ },
+ "committed_accepted_anchors_are_admissible": {
+  "status": "HOLDS",
+  "n_committed_anchors_tested": 232,
+  "n_failing": 0,
+  "failures": [],
+  "_rule": "a committed accepted anchor must be admissible under this module's anchor test",
+  "source_of_truth": "research/modalities/nr4a3-orientation-basins.json -> meta_basins_ranked"
+ },
+ "replicates_the_committed_E3_acceptance": {
+  "status": "DISAGREES",
+  "n_cells_compared": 24,
+  "n_committed_outside_ci95": 5,
+  "n_expected_outside_ci95_by_chance": 1.2,
+  "_reading": "19 of 24 committed rates fall inside this module's recomputed 95 % interval; 5 outside against 1.20 expected by chance at a 95 % level. That is agreement, and a status of DISAGREES here would require materially more than the interval's own false-positive rate.",
+  "cells": [
+   {
+    "arm": "crbn",
+    "pose": "exitvec_00",
+    "committed_rate": 0.000845,
+    "recomputed_rate": 0.000817,
+    "ci95": [
+     0.000714,
+     0.000919
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_01",
+    "committed_rate": 0.000939,
+    "recomputed_rate": 0.00091,
+    "ci95": [
+     0.000802,
+     0.001018
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_02",
+    "committed_rate": 0.001166,
+    "recomputed_rate": 0.000953,
+    "ci95": [
+     0.000843,
+     0.001064
+    ],
+    "committed_inside_ci": false
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_03",
+    "committed_rate": 0.001036,
+    "recomputed_rate": 0.001063,
+    "ci95": [
+     0.000947,
+     0.00118
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_04",
+    "committed_rate": 0.00094,
+    "recomputed_rate": 0.000857,
+    "ci95": [
+     0.000752,
+     0.000961
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_05",
+    "committed_rate": 0.00105,
+    "recomputed_rate": 0.001077,
+    "ci95": [
+     0.000959,
+     0.001194
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_06",
+    "committed_rate": 0.001124,
+    "recomputed_rate": 0.00109,
+    "ci95": [
+     0.000972,
+     0.001208
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_07",
+    "committed_rate": 0.000962,
+    "recomputed_rate": 0.001023,
+    "ci95": [
+     0.000909,
+     0.001138
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_08",
+    "committed_rate": 0.001106,
+    "recomputed_rate": 0.001137,
+    "ci95": [
+     0.001016,
+     0.001257
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_09",
+    "committed_rate": 0.001014,
+    "recomputed_rate": 0.000957,
+    "ci95": [
+     0.000846,
+     0.001067
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_10",
+    "committed_rate": 0.000928,
+    "recomputed_rate": 0.00108,
+    "ci95": [
+     0.000962,
+     0.001198
+    ],
+    "committed_inside_ci": false
+   },
+   {
+    "arm": "crbn",
+    "pose": "exitvec_11",
+    "committed_rate": 0.001003,
+    "recomputed_rate": 0.00111,
+    "ci95": [
+     0.000991,
+     0.001229
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_00",
+    "committed_rate": 0.001003,
+    "recomputed_rate": 0.00102,
+    "ci95": [
+     0.000906,
+     0.001134
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_01",
+    "committed_rate": 0.001169,
+    "recomputed_rate": 0.00107,
+    "ci95": [
+     0.000953,
+     0.001187
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_02",
+    "committed_rate": 0.001432,
+    "recomputed_rate": 0.001293,
+    "ci95": [
+     0.001165,
+     0.001422
+    ],
+    "committed_inside_ci": false
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_03",
+    "committed_rate": 0.001362,
+    "recomputed_rate": 0.00143,
+    "ci95": [
+     0.001295,
+     0.001565
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_04",
+    "committed_rate": 0.001205,
+    "recomputed_rate": 0.001163,
+    "ci95": [
+     0.001041,
+     0.001285
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_05",
+    "committed_rate": 0.001444,
+    "recomputed_rate": 0.001313,
+    "ci95": [
+     0.001184,
+     0.001443
+    ],
+    "committed_inside_ci": false
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_06",
+    "committed_rate": 0.001392,
+    "recomputed_rate": 0.00145,
+    "ci95": [
+     0.001314,
+     0.001586
+    ],
+    "committed_inside_ci": true
+   },
+   {
+    "arm": "vhl",
+    "pose": "exitvec_07",
+    "committed_rate": 0.001265,
+    "recomputed_rate": 0.001337,
+    "ci95": [
+     0.001206,
+     0.

@@ -1,0 +1,358 @@
+{
+ "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md": {
+  "Analyses were carried out with AI assistance (see section 2.4).* **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ],
+  "**Methods.** Under a protocol frozen before retrieval, we assembled trial arms from ClinicalTrials.gov posted results.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ],
+  "**Results.** 552 arms from 138 trials carried a complete table.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ],
+  "**Conclusions.** A response summary discards a large, measurable share of what a trial observed, and returns nothing in almost half of arms.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ],
+  "The narrower claim stands: at these arm sizes a zero is frequently uninterpretable, and it is nonetheless reported as a result. --- The census shares its denominator with the analysis above by construction.": [
+   "test:test_aso_abstract_is_bounded.py"
+  ],
+  "Two records, both in desmoid fibromatosis, and not established as being on disjoint patients: the pooled analysis draws on three prospective observational studies of which one is French, and whether its 282 patients overlap the 100 below is stated in neither report and is unknown here.": [
+   "test:test_aso_abstract_is_bounded.py"
+  ],
+  "The missing classification is not imputed here, not identified with any patient, and no corrected observed patient set is claimed.": [
+   "test:test_aso_abstract_is_bounded.py"
+  ],
+  "PMID 20231676. doi 10.1200/jco.2009.26.3541. 7. van den Bent MJ, Wefel JS, Schiff D, Taphoorn MJ, Jaeckle K, et al.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ],
+  "PMID 27714541. doi 10.1007/s10549-016-4001-y. --- Per [CLAUDE.md](../../../CLAUDE.md) rule 1.2, a corrected value is registered rather than dropped, and the live text above carries only the current value.": [
+   "test:test_endpoint_manuscript_figures.py"
+  ]
+ },
+ "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md": {
+  "**54 of the preprint's sentences mention HR/BRCA/PARP** \u2014 all 54 stored \u2014 and these are the load-bearing ones, **quoted as preprint text**: \u26d4 **The published version rewords every one of these, so they must not be read as its words.** Throughout, \"ES\" becomes \"Ewing sarcoma\" and \"EWSR1-FLI1\" becomes \"EWSR1::FLI1\"; the second quotation appears there as a **section heading and a figure caption rather than a running sentence**; and the last is **split across a paragraph** by the publisher.": [
+   "test:test_the_readability_splitter_breaks_where_a_sentence_does.py"
+  ],
+  "They were read off the published article by hand and are reported as read rather than as computed; the CI run named next is what would move them into the artifact. \u26a0 **How many of the PUBLISHED version's sentences mention HR/BRCA/PARP is UNKNOWN here**: producing it needs one CI run of `atr_hrd_sarcoma_series.py --fetch`, which now asks Europe PMC for PMID 41811428 first and falls back to the preprint only by name.": [
+   "test:test_the_readability_splitter_breaks_where_a_sentence_does.py"
+  ]
+ },
+ "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md": {
+  "**No read on such a series is interpretable until it is calibrated against a size-matched random gene set drawn from the same platform's own genes.** That calibration is the instrument this paper supplies; it costs one seeded resampling, it is drawn in **Figure 1**, and it is applied to this work's own headline result rather than only to other people's.": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "The complete class-A catalogue \u2014 every gene for which an NR4A3 chimera has been shown to bind DNA.** Three genes are the whole of class A, and this is the most consequential number in the report (**Figure 2**).": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "**Figure 4** summarises which instrument supports which gene.": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "**The muscle-admixture objection, and its answer (Figure 5).** *ENO3* is muscle-specific \u03b2-enolase and EMC arises in deep soft tissue of the limb, so admixed skeletal muscle is the first alternative explanation a reader should reach for.": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "Second, and conversely, the stratified panel is where a gene can most easily be flattered: with five contrasts per gene on GPL6244 and no correction across them (Limitation 8), the least favourable stratum is the honest summary, which is what **Figure 4** reports.": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "**Figure 4** puts the ordering on one screen.": [
+   "test:test_build_submission_pdf.py"
+  ],
+  "The unrepaired one would have rested on two queries while reporting six (SI \u00a7S7). ![Figure 1](../figures/fig1-size-matched-null.png) ![Figure 2](../figures/fig2-evidence-classes.png) ![Figure 3](../figures/fig3-per-sample-class-a.png) ![Figure 4](../figures/fig4-instrument-convergence.png) ![Figure 5](../figures/fig5-muscle-admixture-control.png) --- A target gene that is up in EMC is consistent with the fusion driving it, and equally consistent with: (a) EMC's cell of origin expressing it; (b) EMC's myxoid, hypocellular architecture; (c) a platform-wide offset; (d) the gene being a generic proliferation or matrix gene; (e) the anatomical site EMC arises in.": [
+   "test:test_build_submission_pdf.py"
+  ]
+ },
+ "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md": {
+  "**Results.** **Three** reports give objective response by partner and **one enters the primary pool**: the pazopanib phase 2 trial NCT02066285 (PMID 31331701).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The sunitinib named-use series (PMID 24703573) cannot be shown distinct from that trial, so it is held out of the primary analysis for population overlap and enters only the secondary analysis that assumes independence; the two-case index report (PMID 23058004) is contained in that series and is excluded from both \u2014 neither for lacking partner data (\u00a73.2).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**No TAF15::NR4A3 patient was found to have been reported responding to an antiangiogenic TKI in the sources this synthesis examined** (\u00a72.3a \u2014 no systematic search was run, so this is not a claim that no such report exists) \u2014 0 of 3 in the primary analysis, 0 of 5 if the two reports are independent.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Post-hoc Fisher exact two-sided p = 0.155 pooled, 1.0 for the trial alone.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**On prognosis the picture is different, because two cohorts now publish outcome event counts by partner** (Agaram 2014, PMID 24746215; and Huang 2023, PMID 36948401, whose Table 1 was read from the published PDF on 2026-08-08).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Pooled over 73 patients, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8\u201369.9)** with TAF15::NR4A3 against **6/58 = 10.3 % (95 % CI 4.8\u201320.8)** with EWSR1::NR4A3 \u2014 a 36.3-point gap, post-hoc Fisher p = 0.0034.": [
+   "pin:fusion_partner_dod_fisher_p",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "That is the first magnitude this contrast has in the sources this synthesis examined; no systematic search was run (\u00a72.3a), so this is not a claim about the whole published record. \u26d4 **It arrives with its own defeater, from the larger cohort's own authors:** adjusted for tumour size and metastasis at presentation, TAF15::NR4A3 is **not** an independent predictor of disease-specific survival, and 78 % of TAF15 tumours were > 10 cm.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Local recurrence (26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) are **not established by either cohort, in either direction** \u2014 the intervals overlap and the pooled gaps are compatible with a substantial TAF15 excess, so this is a failure to establish a difference and not a finding of none.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Pooling four independent molecular series gives TAF15::NR4A3 in **28/154 = 18.2 % (95 % CI 12.9\u201325.0)** of partner-assigned EMC \u2014 an interval that **contains** the \u224820 % this document's own cited sources state and sits below the 29.2 % of the single referral-centre series that is the high outlier of the four.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The concrete, zero-patient-cost ask is that the partner be reported alongside response in every EMC systemic-therapy report, and that the two remaining unreachable tables be published in partner-stratified form. --- EMC is an ultra-rare soft-tissue sarcoma, and it is molecularly defined: *\"EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3 rearrangement\"* [12].": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Sunitinib produced responses in a named-use series [1] after an index two-patient report [2], and pazopanib was taken into a dedicated single-arm phase 2 trial, NCT02066285, which reported 4 objective responses among 22 evaluable patients [3].": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "They are named here: \u00a73.3's \"**Two** cohorts publish EMC outcome event counts by *NR4A3* partner\"; \u00a75's \"the only two cohorts that publish event counts by partner\"; its claims bullet's \"the two cohorts publishing partner-stratified event counts\"; and \"the largest series to test metastasis by partner *directly*\" (\u00a73.3, \u00a75, [correction register](./emc-fusion-partner-correction-register.md) A7).": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "**No database (PubMed, Europe PMC, Embase) was queried with a registered search string across a defined date range, no PRISMA-style screening flow was run, and no second reader checked the inclusion decisions.** Two sentences in this paper are most at risk of being read as a census, and both are stated more absolutely than that process can support.": [
+   "test:test_a_quantity_written_as_a_word_is_bound_too.py",
+   "test:test_the_census_bound_names_the_sentences_it_counts.py",
+   "test:test_the_readability_splitter_breaks_where_a_sentence_does.py"
+  ],
+  "Across the TKI-response and outcome-by-partner strata (\u00a73.1, \u00a73.3) the per-stratum denominator runs from three (TAF15, primary TKI analysis) to fifty-eight (EWSR1, pooled outcome) and the event count from zero (TAF15 response, either analysis) to fourteen (EWSR1 distant metastasis).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The development environment's egress proxy refuses CONNECT to Europe PMC, NCBI and ClinicalTrials.gov (verified this session: curl exit 56, HTTP 000).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Two further features of the primary analysis matter and are easy to lose: - **Neither comparator arm is verified EWSR1.** All four pazopanib responders are reported as EWSR1::NR4A3, but no accessible source gives the trial's full partner distribution, so the 19 comparator patients may include *FUS*, *TCF12* or untyped *NR4A3*-rearranged cases.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The two arms are poolable in the secondary analysis *because* they are both `non-TAF15` arms. - **A sensitivity analysis on the one unevaluable patient does not rescue anything.** If the patient who died before the primary analysis carried TAF15, the strata become 0/2 and 4/20; the TAF15 upper bound rises to 65.8 % and the contrast weakens.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Agaram 2014 (MSKCC, 26 consecutive cases, 24 partner-assigned, 23 of them EWSR1 or TAF15) was the only one until 2026-08-08, when Huang 2023's Table 1 was read from the published PDF and added 50 EWSR1- or TAF15-assigned patients with follow-up from 15 Taiwanese institutions (\u00a78).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Per cohort, on death, both point the same way: 3/7 = 42.9 % vs 1/16 = 6.2 % (Agaram) and 4/8 = 50.0 % vs 5/42 = 11.9 % (Huang). \u26d4 **Local recurrence does not.** Agaram gives 2/7 = 28.6 % TAF15 against 1/16 = 6.2 % EWSR1; Huang gives 2/8 = 25.0 % against 12/42 = 28.6 % \u2014 a direction flip whose comparator-arm spread is **22.4 points** (`analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm`).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Huang 2023's own multivariable model for disease-specific survival retains only **size > 10 cm (P = .004, HR 30.60)** and **metastasis at presentation (P = .032, HR 8.14)**; **TAF15::NR4A3 loses significance under adjustment**.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The same table shows the mechanism: **78 % of TAF15 tumours were > 10 cm** against 12/46 of EWSR1 ones (P = .025), and mean size was 13.7 \u00b1 6.2 cm vs 7.3 \u00b1 4.7 cm (P = .024).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "In the authors' own words, the TAF15 survival difference *\"might be partly attributable to the predominance of large tumors > 10 cm in TAF15-rearranged EMCs.\"* That sentence was transcribed in the same human PDF read as the counts, and carries the same provenance caveat (\u00a74.7a).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "So the honest reading is: **the crude partner effect on death is real and now measured; the independent partner effect is not established, and the one series positioned to test it says the partner is standing in for size.** \u26a0 **The metastasis reversal does not survive the second cohort \u2014 and what replaces it is a null, not the reviews' claim.** Agaram alone has distant recurrence 6/16 = 37.5 % in EWSR1 against 2/7 = 28.6 % in TAF15 \u2014 EWSR1 higher, the reversal.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Pooled, the gap is 9.2 points with overlapping intervals and post-hoc p = 0.5163. \u2b50 **What survives is a failure to establish either direction, and it is more durable than the reversal was.** \u26d4 That is not the same as establishing no difference: the artifact's `cohorts[agaram-2014-outcome].follow_up_warning` records that on exactly these two rows informative censoring by the competing event biases the higher-mortality arm **downward**, so an unestablished TAF15 excess on recurrence and metastasis remains fully available ([correction register](./emc-fusion-partner-correction-register.md) A32).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The largest series to test metastasis by partner *directly* reports **P = .728** on its own three-way table.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "That review is PMC7563993 alone \u2014 the only actual review among the four PMCIDs previously cited for it; the other three were **misattributed rather than fabricated** and have been removed ([correction register](./emc-fusion-partner-correction-register.md) A11). \u26a0 *That review's verbatim sentence is not held in this repository, so the attribution is by record and not by quotation.* *The standard \u00a78 asserts for every count is not met for this one claim, and it rests on n = 1 rather than on a literature.* A single-cohort reversal quoted as a finding was always one cohort away from being overturned; a two-cohort null does not depend on which cohort you happen to hold.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Paioli 2021, the only cohort treating metastasis as a **time-to-event** endpoint, agrees that nothing is established: DMFS p = 0.09. \u26a0 **Two estimand caveats, both of which bound the table above.** First, the metastasis row is matched on **labels, not on a published definition**: Agaram reports \"distant recurrence\", Huang partitions metastasis into present-at-presentation and developed-later, and neither states whether a patient metastatic at presentation sat inside its recurrence denominator.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "This document pools Agaram's recurrence with Huang's *after-presentation* cell and reports Huang's *any-metastasis* figure (4/8 vs 16/42) within-cohort only, so the reading can be checked at either.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Second, **follow-up is unequal and, in one cohort, unstated**: Agaram's arms differ about two-fold in mean follow-up (21.7 vs 43.3 months) and Huang publishes no per-arm follow-up at all. \u26d4 **The direction of that bias is not established, and this paper previously asserted that it was.** In an uncensored during-follow-up analysis follow-up *ends at death*, so the TAF15 arm's shorter mean observation is partly **produced by** its own 3/7 deaths \u2014 the same three deaths cannot be both the effect and the reason the effect is impressive.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Two series tested the partner as a prognostic factor against tumour size, and neither is external to this synthesis: Huang 2023 is one of the two cohorts pooled in \u00a73.3 and Paioli 2021 one of the four pooled in \u00a73.5.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "**Neither found the partner to carry the prognosis.** \u26a0 *They did not test it the same way, and this paper previously said they did.* Huang 2023 reports an explicit **multivariable** model in which the partner loses significance \u2014 that is the analysis \u00a73.3, \u00a74.1a and \u00a75 mean by \"the one series that ran that model\".": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "Its full text is closed (\u00a76), so whether that contrast was adjusted is UNKNOWN rather than established, and it is not counted as a second multivariable result. - **Huang 2023** (PMID 36948401, n = 58, Taiwan): TAF15::NR4A3 shortens disease-specific survival on univariate analysis and **loses significance on multivariable analysis**.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Only size > 10 cm (P = .004, **HR 30.60**) and metastasis at presentation (P = .032, **HR 8.14**) remain independent \u2014 and TAF15::NR4A3 is itself associated with size > 10 cm (78 %, P = .025) and with mean size (13.7 vs 7.3 cm, P = .024). - **Paioli 2021** (PMID 32572850, n = 67, Italian Sarcoma Group): NR4A3-EWS shows only a **trend** for DFS (p = 0.08) and DMFS (p = 0.09), in the same analysis where **size reaches p = 0.004**. \u26a0 *Whether that analysis was multivariable is not recorded anywhere in this repository \u2014 the abstract does not say and the full text is closed.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**The partner may be a marker for a big tumour rather than for a biology**, and nothing in the published record separates those two readings. \u26a0 **One arithmetic inconsistency in Huang's size row, recorded rather than resolved.** The paper prints the EWSR1 arm's > 10 cm cell as *12/46 (28 %)*, and 12/46 is 26.1 %.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "One of those three printed numbers is wrong; a denominator of 43 gives 27.9 % and a numerator of 13 gives 28.3 %, and \u00a72.1(2) forbids back-deriving a count from a percentage to close the gap.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The TAF15 side has no such problem: 7/9 = 77.8 %, printed as 78 %, and independently corroborated verbatim in the Europe PMC abstract record.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**No figure in this document depends on the EWSR1 size cell.** Pooling four independent molecular series \u2014 MSKCC (USA), Taiwanese institutions, Czech Republic and the Italian Sarcoma Group, whose complete author lists \u2014 5, 20, 18 and 16 names, held unabridged in the artifact's `citations` records \u2014 intersect in nobody, on surname-plus-initials or on surname alone, and whose affiliations share no referral network: Per-cohort TAF15 share ranges 15.8 \u2013 29.2 % (spread 13.4 points).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "That is the population any partner-stratified decision would move: large enough for the question to matter, small enough to explain why every series' TAF15 arm is 2\u201310 patients. \u26a0 **The pooled interval contains the share this document's own cited sources state, and sits below the one referral cohort's.** The two sources in the reference list that give a general TAF15 share \u2014 the disease review [4] and the introduction of the model-derivation paper [12] \u2014 both put it at about 20 %, which falls **inside** 12.9\u201325.0.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Agaram 2014 is that cohort and the high outlier of the four (29.2 % of assigned cases, against 15.8\u201318.2 % elsewhere) \u2014 and a tertiary sarcoma referral centre is exactly the setting where morphologically unusual, high-grade, hard-to-classify tumours are over-represented, which is what TAF15::NR4A3 tends to be.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The two excluded congress abstracts bracket the pooled estimate rather than contradicting it (7 of 26 partner-assigned in Valencia; 1 of 9 in Pilsen/Znojmo). \u26d4 **A third prevalence series is excluded and it does not bracket the estimate \u2014 it sits above it.** Sj\u00f6gren 2003 is 3/9 = **33.3 %** TAF15 at patient level, above Agaram's 29.2 %, the highest of the four pooled series, and is held out under \u00a72.1(3) because four of its nine patients entered the series on an already-published fusion transcript, so partner assignment is their entry ticket (\u00a73.2).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Pooling it would give **31/163 = 19.0 %** and a per-cohort range of 15.8 \u2013 33.3 %.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Brenca 2019 [11] profiled 7 EWSR1-NR4A3 and 5 TAF15-NR4A3 EMC and reported an axon-guidance switch: class 4\u20136 semaphorins and pro-tumorigenic guidance cues higher in TAF15, growth-inhibitory class 3 semaphorins higher in EWSR1, recapitulated in cells engineered to express either chimera.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Verbatim: *\"SEMA3C, SEMA3G, and RELN were more expressed in EWSR1 tumors\"*, and, from a chromatin affinity purification experiment, *\"the ability of NR4A3 to recognize the SEMA3C target region was retained by the EWSR1-NR4A3 chimera but was impaired by TAF15-NR4A3\"*. \u26d4 **A third EMC expression cohort replicates SEMA3C, and it does not touch the clinical claim.** GSE28866 (3SEQ) is the only $0-reachable deposit carrying EMC libraries alongside normal tissue; in it SEMA3C reads **1.8\u00d7 normal tissue and 1.7\u00d7 other sarcomas** across 4 EMC libraries, on a platform sharing no probe design with the two arrays this repository had already read.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**A partner-blind EMC cohort being SEMA3C-high is what an ~78 % EWSR1 population would look like under Brenca's own model**, so the observation is *consistent* with the mechanism and carries no information about the contrast. 3.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**n = 4 EMC libraries, medians of per-peak medians of read density, transcript only.** No interval, no test, no protein, no localisation. 4.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Verbatim: *\"A medium throughput drug screen using 40 drugs was conducted with USZ20-EMC1 at passage 5.\"* Only three agents \u2014 carfilzomib, doxorubicin and venetoclax \u2014 went forward to a **validation** step that used both models, and it is that step, not the 40-drug screen, that the partner-independence sentences describe.": [
+   "test:test_the_readability_splitter_breaks_where_a_sentence_does.py"
+  ],
+  "The investigators who reported the correlation do not believe the fusion causes it: \u26a0 **The quote is from the 2012 two-case report (PMID 23058004), not the 2014 series (PMID 24703573) this repository's own lane memo attached it to.** Verified against the cached full text of both.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The prognostic effect is absorbed by tumour size in the one series that ran a multivariable model (\u00a73.4).": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "The intervals printed here are wide because the evidence is thin, and they are printed at that width deliberately: the pooled TAF15 mortality interval spans 24.8\u201369.9 %, which is a range, not a prognosis.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Adjusted for tumour size and metastasis at presentation, the partner is **not** an independent predictor of disease-specific survival in the one series that ran that model, and 78 % of that series' TAF15 tumours were > 10 cm.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Nothing here is adjusted for size, stage, era, treatment or **grade**, and size is not the only competing explanation the source itself offers: Huang 2023's univariate disease-specific-survival analysis names five factors \u2014 *\"Size >10 cm, moderate-to-severe nuclear pleomorphism, metastasis at presentation, TAF15::NR4A3 fusion, and the administration of chemotherapy\"* \u2014 of which this synthesis stratifies by partner only the fusion.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Nuclear pleomorphism is tested by partner nowhere here, although Agaram 2014 is titled for that very association and [correction register](./emc-fusion-partner-correction-register.md) A4 records its 80 % high-grade variant group; chemotherapy allocation by partner is published by neither pooled cohort.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**4.3 \u00b7 Partner assignment is not uniformly molecularly confirmed across reports.** The four prevalence series did not use one assay, and **two of them do not state, in any source reachable here, which assay assigned the 5\u2032 partner in which case.** Agaram 2014 typed by FISH with RT-PCR junction typing; Huang 2023 describes a FISH-typed cohort; Lenz 2023 reports only that molecular typing succeeded in 12 of 17 cases; Paioli 2021 reports only that the diagnoses were molecularly confirmed.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Each series also carries a *NR4A3*-rearranged-but-partner-unassigned residue (2, 1, 1 and 5 cases respectively) which is excluded from both numerator and denominator, because the series do not describe those residues comparably.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "A **public registry** carries the answer and it was retrieved on 2026-08-08: NCT02066285's exclusion criteria read *\"Patients who have received previous antiangiogenic agents\"*, corroborated on the EU Clinical Trials Register (\u00a76).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Treating it as an EWSR1 arm would attribute to EWSR1::NR4A3 a response rate that may include *FUS*, *TCF12* or untyped cases. \u26a0 **The same caution applies to the sunitinib series' 6/8 arm in the secondary analysis, and this document previously scoped the caveat to the primary analysis alone.** The held quotations support that the two progressors are the two TAF15 patients, that *\"all responsive cases turned out to express the typical EWSR1-NR4A3 fusion\"*, and Davis 2017's *\"all patients with the classical translocation had stable or responsive disease\"* \u2014 which runs *classical \u2192 SD/PR* and does **not** license *SD/PR \u2192 classical*.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "No count changes; the 6/8, the per-cohort 75.0 % and the pooled 37.0 % are unaffected, and only the label they carry is withdrawn. \u2b50 **The artifact and the generator now carry the correction too, so the label agrees on both sides of the boundary.** `cohorts[sunitinib-2014].strata` names that stratum **`non-TAF15`**, `stratum_definition` states the directional reason in the artifact's own words, the secondary pool's per-cohort key reads **`sunitinib-2014 (non-TAF15 arm)`**, and a new `cohorts[sunitinib-2014].assumptions` records both what the sources *do* license (the two progressors are the two TAF15 patients) and what they do not (the partner of the eight is untyped, except for the two patients the 2012 report separately types as EWSR1::NR4A3).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**A comparison of a TAF15 arm against a *verified EWSR1* arm does not exist anywhere in this synthesis and is not claimed.** **4.7 \u00b7 Crude proportions, mixed follow-up, no censoring \u2014 and one cohort does not publish its follow-up at all.** The outcome figures in \u00a73.3 are during-follow-up proportions pooled over two cohorts: one whose arms differ roughly two-fold in mean follow-up (43.3 vs 21.7 months) and one that publishes no per-arm follow-up, so the same check cannot be run on it in either direction.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Huang 2023 also reports outcome only for the 53 of 58 patients with follow-up available, and the five without are in neither numerator nor denominator; of those 53, the **50** that enter the pooled table are those assigned to the two arms being contrasted \u2014 EWSR1::NR4A3 or TAF15::NR4A3 \u2014 the other three being two *TCF12* cases, which are partner-assigned but carried by no arm here, and one whose partner was not identified (`cohorts[huang-2023-outcome].counts_read_from`).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The two hazard ratios quoted anywhere in this document (HR 30.60 for size, HR 8.14 for metastasis at presentation) are **Huang 2023's own published values, reported because they are the defeater** \u2014 no hazard ratio, survival curve or individual prognosis is derived anywhere in this work, and none should be derived from it.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "That record nonetheless corroborates its substance independently: *\"only size >10 cm (P = .004) and metastasis at presentation (P = .032) remained prognostically independent\"*; *\"TAF15::NR4A3 was significantly associated with size >10 cm (78%, P = .025)\"*.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**The single most quotable number in this document, p = 0.0034 (\u00a73.3, the pooled disease-specific-death contrast), is this section's real subject and must not be read as inferential**: it is a post-hoc description of a 7-versus-6-event table across two cohorts, not a prespecified test, and \u00a74.1a states its confound.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**4.11 \u00b7 Data vintage, and it is unrecorded on the half that carries the outcome contrast.** \u26d4 **Neither pooled outcome cohort reports a diagnosis period.** Agaram 2014 publishes a follow-up range (2\u201399 months) and no accrual window; Huang 2023 publishes neither.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The *NR4A3* 5\u2032 partner is still a **candidate** stratification variable; it is a candidate on the strength of one crude, confounded prognostic contrast and a directionally consistent but statistically inconclusive treatment signal, not on convergent independent evidence. - That the pooled objective-response evidence is **0 of 3\u20135 TAF15::NR4A3 patients**, with a 95 % upper bound of 43.4\u201356.1 % \u2014 **directionally consistent and statistically inconclusive**, a distinction no existing review makes. - That the **crude prognostic contrast now has a magnitude**: pooled over the two cohorts publishing partner-stratified event counts, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8\u201369.9)** with TAF15 against **6/58 = 10.3 % (4.8\u201320.8)** with EWSR1 \u2014 stated **only** together with the claim below, never alone.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "Non-overlap of the two cohorts is argued from their reported institutions, author lists and geography (\u00a73.2); no patient-level verification was performed, and a third series is held out because the same argument could not be made for it. - That the partner's prognostic effect **does not survive adjustment for tumour size** in the one series that ran a multivariable model (Huang 2023).": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "So the magnitude above is a **crude, confounded** quantity that the larger of its own two cohorts declines to attribute to the partner. - That the metastasis association asserted by **one review** (Stacchiotti 2020, PMC7563993 \u2014 the only source this synthesis holds for it, by record and not by quotation; \u00a73.3, [correction register](./emc-fusion-partner-correction-register.md) A11) **is not established by either cohort with counts, in either direction**.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The two disagree on sign, the pooled gap is 9.2 points with overlapping intervals, and the largest series to test it directly reports P = .728.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**That is a refutation of an n = 1 attribution, not of a literature.** - That TAF15::NR4A3 affects **18.2 % (95 % CI 12.9\u201325.0)** of partner-assigned EMC \u2014 an interval over four independent series that **contains** the \u224820 % this document's own cited sources state ([4], [12]) and sits below the 29.2 % of the single referral-centre series that is the high outlier of the four. - That **this repository's own lane memo** misattributed the primary authors' hedge: the sentence it quoted as the 2014 sunitinib series' caveat is from the 2012 two-case report, written before any TAF15 patient existed (\u00a73.8). \u26a0 *Superseded, retained: \"the field's own hedge is misattributed.\"* This repository holds no record of who else attributes it that way, so naming an unidentified misattributing party was an attribution of the kind [correction register](./emc-fusion-partner-correction-register.md) A30 and A33 already retracted.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**The 46.7 % vs 10.3 % contrast is a crude proportion and is not a prognosis, an adjusted effect, or a reason to treat two patients differently.** - **Not** that the prognostic result says anything about treatment response.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "They are different endpoints in different populations: the prognosis pool is 73 surgically managed patients from two pathology series, and the response question is 3\u20135 patients given an antiangiogenic TKI for advanced disease.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "It tracks disease-specific death across the only two cohorts that publish event counts by partner, and it is not independent of tumour size in the one series that ran a multivariable model.": [
+   "test:test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py"
+  ],
+  "**One published TAF15::NR4A3 objective response on any antiangiogenic TKI.** With a denominator of 3\u20135, a single response moves the point estimate to 20\u201333 % and the contrast disappears.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The pooled crude death contrast rests on two TAF15 arms of 7 and 8 patients. \u26a0 **One such cohort would not overturn it, and that belongs in the falsifier rather than outside it.** A third cohort of 7 or 8 TAF15 patients with no disease-specific deaths at all still leaves the pooled point estimate at **31.8 %** and **30.4 %**, against the comparator arm's Wilson upper bound of **20.8 %**.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "Reconciling the two would take **19 further TAF15 patients with zero deaths \u2014 a total TAF15 denominator of 34**, more than twice the pooled experience assembled here.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**Two documents remain unreachable and would materially extend the world's poolable evidence at zero new patient cost:** \u2705 **Huang 2023 (PMID 36948401) is off this list as of 2026-08-08, and the reason it was on it was wrong.** It was filed \"paywalled\".": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "It is **bronze open access**: Unpaywall and OpenAlex independently designate a free publisher-hosted *published-version* PDF (`oa_status: bronze`, `oa_date: 2023-03-21`), and what blocked every automated fetch was an **anti-bot challenge returning HTTP 403**, not a subscription.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**The narrower ask that replaces the old one is therefore not aimed at Huang's authors at all; it is aimed at publishers whose anti-bot edge makes a paper they have designated free unreadable by any automated reader.** \u2705 **`NCT02066285`'s eligibility text is also off the list.** It was retrieved from two independent registries on 2026-08-08 and it answers the question: ClinicalTrials.gov v2, Exclusion Criteria, verbatim *\"Patients who have received previous antiangiogenic agents\"*, corroborated on the EU Clinical Trials Register under EudraCT 2013-005456-15 (GEIS-32) as principal exclusion criterion 3, on a record first entered 2014-02-27 against an actual start of 2014-06.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "**Licensing.** Each citation entry records the source's licence and it is respected; the raw-text `literature-cache` branch is never republished. --- The development sandbox's egress proxy returns 403 on CONNECT to Europe PMC, NCBI and ClinicalTrials.gov (verified this session: curl exit 56, HTTP 000).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "That was necessary because the publisher's edge blocks automation while designating the same PDF free: Unpaywall and OpenAlex independently report `is_oa: true`, `oa_status: bronze`, `journal_is_oa: false` with a single publisher-hosted `publishedVersion` PDF (`oa_date: 2023-03-21`), and three separate automated fetches of it returned **HTTP 403** behind an anti-bot challenge (`literature/emc-partner-events-r2/_manifest.json`).": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "The Europe PMC core record for `EXT_ID:36948401` (HTTP 200, `literature/emc-partner-events/huang2023_epmc_core.txt`) returns doi:10.1016/j.modpat.2023.100161, the exact title above, *Mod Pathol* 36(7):100161, and `authorString: \"Huang SC, Lee JC, Hsu YC, \u2026 Huang HY.\"` with first author **Shih-Chiang Huang, Department of Anatomic Pathology, Linkou Chang Gung Memorial Hospital, Taoyuan, Taiwan**.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "What does exist artifact-wide is `retrieval_provenance.cache_slugs_used`, a flat list of the nine cache slugs this synthesis read from, which does not bind a slug to a count.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 24703573. doi:10.1016/j.ejca.2014.03.013 [2] Stacchiotti S, Dagrada GP, Morosi C, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 23058004 \u00b7 PMC3534218. doi:10.1186/2045-3329-2-22 [3] Stacchiotti S, Ferrari S, Redondo A, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 31331701 \u00b7 NCT02066285. doi:10.1016/S1470-2045(19)30319-5 (erratum *Lancet Oncol* 2019;20(10):e559, PMID 31579002) [4] Stacchiotti S, Baldi GG, Morosi C, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 32967265 \u00b7 PMC7563993. doi:10.3390/cancers12092703 [5] Jacobs C, Lapeire L.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 33799327 \u00b7 PMC7999686. doi:10.3390/diagnostics11030512 [6] Davis EJ, Wu YM, Robinson D, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 28423517 \u00b7 PMC5400622. doi:10.18632/oncotarget.15568 [7] Agaram NP, Zhang L, Sung YS, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 24746215 \u00b7 PMC4015728. doi:10.1016/j.humpath.2014.01.007 [8] Huang SC, Lee JC, Hsu YC, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 36948401. doi:10.1016/j.modpat.2023.100161 [9] Paioli A, Stacchiotti S, Campanacci D, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 32572850. doi:10.1245/s10434-020-08737-7 [10] Lenz J, Klub\u00ed\u010dkov\u00e1 N, Pt\u00e1kov\u00e1 N, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 36563884. doi:10.1016/j.humpath.2022.12.005 [11] Brenca M, Stacchiotti S, Fassetta K, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 31020999 \u00b7 PMC6766969. doi:10.1002/path.5284 [12] Bangerter JL, Harnisch KJ, Chen Y, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMID 36316541 \u00b7 PMC9813045. doi:10.1007/s13577-022-00818-x [13] Llombart-Bosch A, Giner F, Machado I, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMC9379246. doi:10.1007/s00428-022-03379-4 [14] Klub\u00ed\u010dkov\u00e1 N, Lenz J, Michal M, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "PMC9379246. doi:10.1007/s00428-022-03379-4 [15] Remiszewski P, Falkowski S, Szumera-Cie\u0107kiewicz A, et al.": [
+   "test:test_fusion_partner_prose_matches_its_artifact.py"
+  ]
+ }
+}

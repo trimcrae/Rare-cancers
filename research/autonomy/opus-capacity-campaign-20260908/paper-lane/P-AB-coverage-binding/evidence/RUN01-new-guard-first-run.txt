@@ -1,0 +1,25 @@
+        a number a previous reader typed twice.
+    
+        ⛔ WHAT THIS DOES NOT CLAIM, STATED BECAUSE THE SENTENCE IT GUARDS IS ABOUT EXACTLY THIS. Two
+        counts matching their own sources is not evidence that the 282 and the 100 are disjoint
+        patients. The manuscript says the overlap "is stated in neither report and is unknown here",
+        and that remains the position; nothing here may be read as narrowing it.
+    
+        ⚠ AND IT IS A NUMBER CHECK, NOT A CLAIM CHECK. It cannot tell whether the right quantity is
+        quoted for the right cohort — only that each stated value still equals the value its own
+        retained abstract holds, at every site the prose states it.
+        """
+        expected = _abstract_quantity(pmid, field)
+        for pattern in _PROSE_SITE[(pmid, field)]:
+            stated = re.findall(pattern, paper)
+>           assert stated, (
+                f"section 6.1 no longer states `{pattern}`; either the sentence was reworded and this "
+                f"guard must be re-homed, or the quantity was dropped — an unmatched locator is not a "
+                f"pass")
+E           AssertionError: section 6.1 no longer states `the pooled analysis draws on (\w+) prospective observational studies`; either the sentence was reworded and this guard must be re-homed, or the quantity was dropped — an unmatched locator is not a pass
+E           assert []
+
+research/manuscripts/tests/test_endpoint_manuscript_figures.py:301: AssertionError
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_endpoint_manuscript_figures.py::test_the_outside_corpus_desmoid_counts_are_the_fetched_abstracts_own[39620931-studies]
+========================= 1 failed, 2 passed in 0.07s ==========================

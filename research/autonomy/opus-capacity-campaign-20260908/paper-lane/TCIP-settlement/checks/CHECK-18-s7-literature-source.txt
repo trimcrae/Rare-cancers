@@ -1,0 +1,71 @@
+load-bearing new row**, and it is corroborated by the article's own Data Availability Statement,
+which lists **GEO accessions only** (`GSE290895` RNA-seq, `GSE290894` ChIP-seq, `GSE290893`
+ATAC-seq) and **no structural accession of any kind**. A paper that deposited a structure of its
+induced complex would say so there. That materially reduces what the unread SI could have held —
+without pretending it was read.
+
+⚠ **An absent reading is not a reading of absence, and this section is a reading of absence in the
+two copies that exist.** The SI itself remains unread. What follows does not depend on it.
+
+---
+
+## 3 · Task 2 — widening, and where the answer actually was
+
+Two Europe PMC sweeps and one structural census, all in CI:
+
+**(a) The modality-wide literature sweep.** `TITLE_ABS` search over *induced proximity / chemically
+induced dimerization / chemical inducer of proximity / TCIP* **AND** *transcription / transcriptional
+/ gene expression / transcription factor* returned **100 records, 20 with open-access full text**
+(corpus `literature/induced-proximity-transcription-2026-08-07` on `literature-cache`; the run's
+known-positive control PMID was required and returned). Across all 20 full texts, the terms *buried
+surface area*, *interface area*, *contact residue*, *structure of the ternary/induced complex* and
+*residence time* occur **0 times**; `cooperativit*` occurs in one file, twice. The modality's
+literature does not characterise its own induced interface.
+
+**(a′) And the asymmetry against degraders is measurable, not impressionistic.** A second sweep —
+*cooperativity / residence time / buried surface area / interface area* **AND** *induced proximity /
+molecular glue / PROTAC / ternary complex / degrader* — returned **300 records, 51 with open-access
+full text** (corpus `literature/induced-interface-vs-output-2026-08-07`). Of those 51, **31 pair an
+interface property with a DEGRADATION readout** (`DC50`/`Dmax`/ubiquitination/degradation
+efficiency); **6** pair one with anything transcription-shaped, and reading those six, none is a
+transcriptional-proximity system relating interface size to transcriptional output — they are
+degrader papers that mention a reporter, an MD study of a DNA-binding cooperativity, and one
+unrelated receptor paper. ⇒ **The field routinely relates the induced interface to output when the
+output is degradation, and does not when it is transcription.** That is why the floor was
+inheritable in one direction and unsized in the other, and it is what makes one deposited
+transcriptional structure worth this much.
+
+**(b) The one exception, found in an abstract.** *"A bivalent molecular glue linking lysine
+acetyltransferases to oncogene-induced cell death"* (Nix et al., **Cell 2026**, PMID 42476129, DOI
+`10.1016/j.cell.2026.06.037`; bioRxiv preprint `10.1101/2025.03.14.643404`) states, verbatim:
+
+> *"The crystal structure of the chemically induced p300–BCL6 complex reveals how chance
+> protein–protein interactions may be exploited to confer the potency and selectivity of KAT-TCIPs."*
+
+That is `MISSING-3`'s object: a **structurally characterised** induced interface in a system whose
+readout is transcriptional/epigenetic — and on **BCL6**, the same effector
+[`nr4a3_effector_stage.py`](../../modalities/nr4a3_effector_stage.py) already staged from 7LWG.
+
+**(c) Finding the coordinates without the paper.** Neither the Cell article nor its preprint is open
+access at Europe PMC (`isOpenAccess: N`, `inEPMC: N`), so the accession was sought from RCSB rather
+than from the text. RCSB's search index, queried in CI:
+
+- full-text `"KAT-TCIP"` → **HTTP 204, zero hits**
+- full-text `"transcriptional chemical inducer of proximity"` → **HTTP 204, zero hits**
+- full-text `"BCL6"` **AND** `"p300"` → **`total_count: 1`, identifier `9MZA`**
+
+⚠ **Worth recording on its own:** the structure exists and is **invisible to the modality's own
+name**. It is findable only by its two proteins.
+
+**(d) The join was verified from the deposition, not assumed.** `9MZA`'s own
+`rcsb_primary_citation` reads *"A Bivalent Molecular Glue Linking Lysine Acetyltransferases to
+Oncogene-induced Cell Death."*, bioRxiv `10.1101/2025.03.14.643404`, PubMed `40166243`, authors
+Nix · Gourisankar · Sarott · … · Crabtree; deposited 2025-01-22, released 2025-04-16, `struct.title`
+*"Chemically Hijacked BCL6-TCIP3-p300 Complex"*. **The entry says which paper it belongs to.**
+
+---
+
+## 4 · The measurement
+
+`nr4a3_induced_interface_census.py` applies `nr4a3_basin_search`'s **own** predicate to deposited
+coordinates: per residue two query points (CA + side-chain centroid, exactly as

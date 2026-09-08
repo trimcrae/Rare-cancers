@@ -1,0 +1,86 @@
+eld from the arm changes no accepted placement",
+   "_why_this_is_not_a_code_reading": "a mechanism read off source is a hypothesis; this is the controlled reproduction that discriminates it"
+  },
+  "exit_vector_comparability": {
+   "status": "FLAGS",
+   "committed_E3_exposure_range_A": [
+    5.0,
+    5.79
+   ],
+   "effector_arms_inside_that_range": [
+    "bcl6"
+   ],
+   "effector_arms_outside_it": [
+    {
+     "arm_id": "brd4_bd1",
+     "exit_atom_exposure_A": 13.65
+    }
+   ],
+   "rows": [
+    {
+     "arm_id": "bcl6",
+     "partner_class": "transcriptional effector",
+     "ligand_het": "YN7",
+     "ligand_n_heavy": 45,
+     "exit_atom_exposure_A": 5.44,
+     "inside_the_committed_E3_range": true
+    },
+    {
+     "arm_id": "birc2",
+     "partner_class": "E3 ubiquitin-ligase recruiter",
+     "ligand_het": "1BG",
+     "ligand_n_heavy": 38,
+     "exit_atom_exposure_A": 5.04,
+     "inside_the_committed_E3_range": true
+    },
+    {
+     "arm_id": "brd4_bd1",
+     "partner_class": "transcriptional effector",
+     "ligand_het": "4MW",
+     "ligand_n_heavy": 55,
+     "exit_atom_exposure_A": 13.65,
+     "inside_the_committed_E3_range": false
+    },
+    {
+     "arm_id": "crbn",
+     "partner_class": "E3 ubiquitin-ligase recruiter",
+     "ligand_het": "RN6",
+     "ligand_n_heavy": 59,
+     "exit_atom_exposure_A": 5.11,
+     "inside_the_committed_E3_range": true
+    },
+    {
+     "arm_id": "mdm2",
+     "partner_class": "E3 ubiquitin-ligase recruiter",
+     "ligand_het": "HTZ",
+     "ligand_n_heavy": 46,
+     "exit_atom_exposure_A": 5.79,
+     "inside_the_committed_E3_range": true
+    },
+    {
+     "arm_id": "vhl",
+     "partner_class": "E3 ubiquitin-ligase recruiter",
+     "ligand_het": "759",
+     "ligand_n_heavy": 69,
+     "exit_atom_exposure_A": 5.0,
+     "inside_the_committed_E3_range": true
+    }
+   ],
+   "_reading": "the exit-atom offset displaces a body relative to the target before any rotation, so an arm whose exposure sits outside the committed arms' range is NOT COMPARABLE with them and its acceptance may not be pooled with or ranked against theirs. \u26a0 The SIGN is not predictable and is not claimed: a larger offset both moves the body clear of the target (easier) and pushes it out of the shell it must sit in (harder). This does not invalidate such an arm \u2014 it bounds what may be said with it."
+  }
+ },
+ "refusals": [],
+ "unread_inputs": [],
+ "runtime_s": 8805.6,
+ "verdict": {
+  "\u2605_the_named_effector": {
+   "_what": "what the enumeration can say about a NAMED transcriptional effector, as opposed to a body of effector SIZE. This is the distinction the route memo turns on.",
+   "status": "NO_NAMED_EFFECTOR_STAGED",
+   "n_named_effectors_enumerated": 0,
+   "effectors": {},
+   "answer": "NOT ASKED \u2014 none staged",
+   "\u26a0_the_gate_still_cannot_fail": "a named effector admitting is the same gate the proxies already passed at every rung. What changed is WHOSE excluded volume was tested, not how discriminating the test is.",
+   "_what_remains_a_size_class_statement": []
+  },
+  "\u2605_the_size_axis": {
+   "_what": "the paired comparison that can return either way: does a single-domain effector-size second terminus get MORE, LESS o

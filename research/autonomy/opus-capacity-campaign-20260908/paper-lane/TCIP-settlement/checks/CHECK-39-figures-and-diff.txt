@@ -1,0 +1,143 @@
+=== search for any rendered TCIP figure ===
+(no output above = none found)
+=== figure producers naming tcip ===
+=== unified diff of my edits ===
+ .../tcip/tcip-induced-interface-preprint-si.md     | 46 ++++++++++++++++++----
+ .../tcip/tcip-induced-interface-preprint.md        | 26 +++++++++---
+ 2 files changed, 58 insertions(+), 14 deletions(-)
+diff --git a/research/manuscripts/tcip/tcip-induced-interface-preprint-si.md b/research/manuscripts/tcip/tcip-induced-interface-preprint-si.md
+index dfcc947b7..20cfb6a29 100644
+--- a/research/manuscripts/tcip/tcip-induced-interface-preprint-si.md
++++ b/research/manuscripts/tcip/tcip-induced-interface-preprint-si.md
+@@ -9,7 +9,7 @@ purpose: Methods, complete tables and every control for the PUB-TCIP manuscript,
+ scope: Methods and tables for the geometric enumeration and the structural census. It covers reproduction and controls. It covers no binding, potency, selectivity, transcriptional-output, efficacy, safety or clinical statement.
+ audience: [external reviewers, maintainers, autonomous research agents]
+ date: 2026-08-07
+-last_verified: 2026-08-07
++last_verified: 2026-09-08
+ ---
+ 
+ # Supporting Information
+@@ -41,6 +41,29 @@ per cell. The floor ablation re-runs the identical cells at the 12-atom rung wit
+ every pooled figure** — `bcl6` because the pooled contrast is a proxy statement a named effector may not
+ be read into, `brd4_bd1` additionally because its exit vector is not comparable (§S4).
+ 
++**Replication against the committed E3 run, disclosed with its own status.** The artifact carries a
++cross-check, `cross_checks.replicates_the_committed_E3_acceptance`, that compares this module's
++recomputed per-cell acceptance rates against the previously committed E3 run in
++`nr4a3-orientation-basins.json`. Its `status` field reads **DISAGREES**: over 24 compared cells, **19**
++committed rates fall inside the recomputed 95 % interval and **5** fall outside, against 1.20 expected
++by chance at a 95 % level. ⚠ We report the status verbatim rather than the artifact's own softer reading
++of it. **Nothing in this paper is computed by differencing the two runs.** The paired contrast, the
++within-class control and the floor ablation are all comparisons *within a single pass* — identical
++anchors, identical target frame, identical distance field, one body changed or one parameter changed —
++so a level offset between this module and the earlier committed run cancels in every ratio reported
++here. What the flag does bound is any reading of an **absolute** acceptance rate across the two runs,
++and this paper makes none.
++
++**Named effectors: which block owns those numbers.** The per-rung `bcl6` and `brd4_bd1` results quoted
++in §5.5 of the manuscript are read from the artifact's `★_named_effector` block and its
++`by_linker_atoms` table. ⚠ The same artifact's `verdict.★_the_named_effector` block still reads
++`status: NO_NAMED_EFFECTOR_STAGED`, `n_named_effectors_enumerated: 0`, `answer: "NOT ASKED — none
++staged"`. The two blocks contradict each other. The populated block is the one used, and it is
++corroborated by `body_geometry` (`bcl6` 243 residues, `brd4_bd1` 127) and by the per-rung
++`per_arm_acceptance_rate` entries in `★_paired_body_size_comparison`, which carry the same values.
++The stale verdict field is **not** repaired here — that would mean editing or re-running a producer —
++and is routed to the artifact's owner.
++
+ **Determinism.** Per-cell seeds were originally derived from `hash(arm_id)`, which Python salts per
+ process, so the artifact did not reproduce between runs. Fixed to `zlib.crc32` and verified: two full
+ runs under `PYTHONHASHSEED=0` and `PYTHONHASHSEED=99` produce byte-identical JSON. The committed numbers
+@@ -90,13 +113,20 @@ reader can drop them and recompute. Every entry's identity is verified from its
+ 
+ **22 entries fetched, 22 parsed**, every title and chain description verified from the file itself.
+ 
+-| class | entries | induced pairs | contact points, smaller direction | fails floor 12 in ≥1 direction | in BOTH |
+-|---|---|---|---|---|---|
+-| **`tcip`** — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | **6 – 6** | **2 of 2** | **2 of 2** |
+-| `induced_transcriptional` — incl. 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 6 – 19 | 2 of 12 | 2 of 12 |
+-| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 5 – 23 | **6 of 15** | 1 of 15 |
+-| `cid_proximity` — rapamycin, auxin, ABA, gibberellin | 7 | 7 | 11 – 53 | 1 of 7 | 0 of 7 |
+-| `constitutive` — 7LWG BCL6 BTB homodimer (contrast, never pooled) | 1 | 1 | 64 | 0 | 0 |
++| class | entries | induced pairs | ligand-bridged / `allosteric_curated` | contact points, smaller direction | fails floor 12 in ≥1 direction | in BOTH |
++|---|---|---|---|---|---|---|
++| **`tcip`** — 9MZA, BCL6·TCIP3·p300 | 1 | 2 | 2 / 0 | **6 – 6** | **2 of 2** | **2 of 2** |
++| `induced_transcriptional` — incl. 9MZA and 5 nuclear-receptor/coactivator entries | 6 | 12 | 2 / **10** | 6 – 19 | 2 of 12 | 2 of 12 |
++| `degrader_or_glue` — 8 PROTAC / molecular-glue ternaries | 8 | 15 | 15 / 0 | 5 – 23 | **6 of 15** | 1 of 15 |
++| `cid_proximity` — rapamycin, auxin, ABA, gibberellin | 7 | 7 | 4 / 3 | 11 – 53 | 1 of 7 | 0 of 7 |
++| `constitutive` — 7LWG BCL6 BTB homodimer (contrast, never pooled) | 1 | 1 | 1 / 0 | 64 | 0 | 0 |
++
++The fourth column is the split §S2 promises a reader can act on, read from
++`summary_over_induced_pairs.by_class` (`n_ligand_bridged_measured` / `n_allosteric_curated`). It matters
++most for `induced_transcriptional`: 10 of that class's 12 pairs are curated by name rather than measured
++as ligand-bridged, and both of its floor failures are the two 9MZA pairs, which are ligand-bridged. The
++`tcip` and `degrader_or_glue` rows — the two the manuscript's claims rest on — carry no curated pairs at
++all.
+ 
+ ## S4 · Table S2 — the 15 degrader/glue induced pairs
+ 
+diff --git a/research/manuscripts/tcip/tcip-induced-interface-preprint.md b/research/manuscripts/tcip/tcip-induced-interface-preprint.md
+index 9eee01b19..7a67ed943 100644
+--- a/research/manuscripts/tcip/tcip-induced-interface-preprint.md
++++ b/research/manuscripts/tcip/tcip-induced-interface-preprint.md
+@@ -10,7 +10,7 @@ purpose: The manuscript for publication endpoint PUB-TCIP. A modality-general pa
+ scope: Rigid-body geometric enumeration and contact counting on deposited coordinates. It covers what an inherited parameter costs a modality it was not written for. It is NOT a disease-specific result and makes no binding, potency, selectivity, transcriptional-output, efficacy, safety, therapeutic-window or clinical claim.
+ audience: [external reviewers, maintainers, autonomous research agents]
+ date: 2026-08-07
+-last_verified: 2026-08-07
++last_verified: 2026-09-08
+ ---
+ 
+ # The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP
+@@ -46,9 +46,11 @@ new recruitment, sampling or intervention took place.*
+ Chemically induced proximity can be designed with tooling built for targeted protein degradation; the
+ rigid-body proximity sampler examined here is one such instance. That tooling carries a parameter with
+ no recorded derivation: a minimum induced-interface size, below which a candidate placement is scored
+-as a tethered pair rather than a complex. The parameter is a **degrader's** requirement — a PROTAC
+-must build a cooperative target·E3 interface across which ubiquitin is transferred — and it is applied
+-unchanged when the recruited partner is a transcriptional effector instead of a ligase.
++as a tethered pair rather than a complex. The parameter's only committed provenance is a
++**degrader**-recruitment sampler; the reading that it encodes a PROTAC's need for a cooperative
++target·E3 interface across which ubiquitin is transferred is our reconstruction of the intent, not a
++derivation the source records. It is applied unchanged when the recruited partner is a transcriptional
++effector instead of a ligase.
+ 
+ We show that this inherited floor, and not steric bulk, produces the apparent geometric penalty against
+ smaller second termini. In a paired rigid-body enumeration run from identical anchors, single-domain
+@@ -87,8 +89,8 @@ A bivalent molecule that recruits a transcriptional effector to a target — a t
+ inducer of proximity, TCIP — is geometrically a PROTAC with the ligase swapped out. That similarity is
+ why proximity-design tooling transfers to it, and it is also the trap.
+ 
+-Rigid-body proximity samplers score a candidate placement on excluded volume plus a **minimum induced
+-interface**. In the sampler used here the parameter is `min_contact_residues = 12`, carrying the comment
++The rigid-body proximity sampler examined here scores a candidate placement on excluded volume plus a
++**minimum induced interface**; its parameter is `min_contact_residues = 12`, carrying the comment
+ *"below this it is a tethered pair, not an interface"*. The comment records no derivation, and the parameter's only
+ committed provenance is a degrader-recruitment sampler (`nr4a3_basin_search.PARAMS`). The reading
+ offered here — that ubiquitin transfer requires a cooperative, buried target·E3 interface, and that a
+@@ -96,6 +98,12 @@ placement merely holding two proteins near each other will not deliver it — is
+ the intent, not a justification the source states. What the source does establish is narrower and
+ sufficient: the value has no recorded derivation of any kind, transcriptional or otherwise.
+ 
++⚠ How widely other proximity samplers impose a floor of this kind was not surveyed. The inheritance this
++paper documents is therefore a property of **one toolchain** — `nr4a3_tcip_reach.py` takes its scoring
++unchanged from `nr4a3_basin_search.py` (SI §S1) — and not a measured feature of the field. The floor is
++also an **operational filter**: it decides which candidate placements that code admits, and no result
++below converts it into a requirement biology imposes (§5).
++
+ A TCIP's productive event is not ubiquitin transfer. Whether it requires a comparable induced interface,
+ a smaller one, or a different quantity altogether has not been established. One reading — offered as a
+ hypothesis, not as something this paper establishes or that any source retrieved here states — is that
+@@ -210,6 +218,12 @@ and this paper does not assess it.
+ 
+ Stated plainly, because each has a specific and non-obvious reach.
+ 
++Before the list, the distinction the rest of it rests on. The floor of 12 is an **operational filter
++inside one sampler** — the criterion by which that code admits or rejects a candidate placement — and
++nothing measured here makes it a statement about what induced proximity biologically requires. Every
++"fails the floor" below and above means *would be rejected by this sampler's predicate*, never *is too
++small to work*. The threshold selected the cases; it did not test them.
++
+ 1. **The structural bound bounds from ABOVE only.** It shows the floor is not necessary. It does **not**
+    establish a lower limit, a monotone size-to-output relationship, or a threshold below which such a
+    system stops working. **n = 1 system, one crystal form**; two crystallographically independent copies

@@ -1,0 +1,173 @@
+............F................                                            [100%]
+=================================== FAILURES ===================================
+____________________ test_claim_coverage_has_not_regressed _____________________
+
+    def test_claim_coverage_has_not_regressed():
+        """⛔ A TOOL THAT NOBODY RUNS PROTECTS EXACTLY AS MUCH AS A BROKEN ONE.
+    
+        `claim_coverage.py` exists because fifteen rounds of iteration could not converge while surfaces
+        with zero instruments kept being discovered one lens at a time. Its value is entirely in being
+        re-run: a rewrite that drops a bound construction silently un-covers the sentence it bound, which
+        is the same failure the census was written to expose.
+        """
+        if not os.path.exists(COVERAGE):
+            pytest.fail("claim-coverage.json is missing — run "
+                        "`python3 research/manuscripts/claim_coverage.py --write` and commit it")
+    
+        # ⛔⛔ THIS RATCHET USED TO COMPARE TWO COMMITTED CONSTANTS AND MEASURE NOTHING (round 16 seat 5,
+        # 2026-08-22). It read the committed `claim-coverage.json` and compared it to the floors above —
+        # both checked-in values. A census change regenerates the JSON with `--write`, so the artifact and
+        # the floor move together and the gate stays green through exactly the regression it exists to
+        # catch. A populated field is not a measured one.
+        # ★ The census is now RUN HERE, and the committed artifact is checked against that live reading,
+        # so a stale deposit artifact fails as loudly as a lost binding.
+        # ⛔ AND IT IS CHECKED FOR EVERY CENSUSED DOCUMENT, NOT FOR THE ONES THAT HAVE A FLOOR
+        # (2026-08-26). Looping over `COVERAGE_FLOOR` here would have re-created, one level down, the
+        # defect this whole change removes: the artifact would carry 32 documents and four of them would
+        # be checked, so a manuscript nobody had floored could go stale in a committed record and the
+        # gate would say nothing. A populated field is not a measured one (CLAUDE.md §4).
+        # ⚠ ALL FOUR FIELDS, not just the two the floors use: `sentences` and `with_a_number` are
+        # committed too, and a committed number nothing compares is exactly the kind of plausible-looking
+        # record that carried a fabricated verdict out of this repository once already.
+        live = {}
+        for paper in claim_coverage.PAPERS:
+            rows = claim_coverage.census(paper)
+            numbered = [r for r in rows if r["has_number"]]
+            cov = sum(1 for r in rows if r["covered"])
+            ncov = sum(1 for r in numbered if r["covered"])
+            live[paper] = {"sentences": len(rows), "covered": cov,
+                           "with_a_number": len(numbered), "with_a_number_covered": ncov,
+                           "uncovered": len(rows) - cov,
+                           "uncovered_with_a_number": len(numbered) - ncov}
+    
+        committed = json.load(io.open(COVERAGE, encoding="utf-8"))["papers"]
+        stale = [f"{p}.{f}: committed {committed.get(p, {}).get(f)!r}, census now reports {v!r}"
+                 for p, fields in live.items() for f, v in fields.items()
+                 if committed.get(p, {}).get(f) != v]
+        # ⛔ AND IN THE OTHER DIRECTION TOO. A document dropped from the census — a publication retired
+        # from the graph, a companion file renamed — leaves its old counts sitting in the artifact
+        # looking like a live reading of a document nothing measures any more.
+        stale += [f"{p}: in the committed artifact but no longer censused, so its numbers are a reading "
+                  f"of nothing" for p in sorted(set(committed) - set(live))]
+>       assert not stale, (
+            "claim-coverage.json disagrees with what claim_coverage.py now computes:\n  "
+            + "\n  ".join(stale)
+            + "\n\nThe committed census is a deposit artifact and is out of date. Re-run "
+              "`python3 research/manuscripts/claim_coverage.py --write` and commit it in this change.")
+E       AssertionError: claim-coverage.json disagrees with what claim_coverage.py now computes:
+E           research/manuscripts/care-delivery/emc-trial-reachability.md.sentences: committed 101, census now reports 115
+E           research/manuscripts/care-delivery/emc-trial-reachability.md.with_a_number: committed 26, census now reports 30
+E           research/manuscripts/care-delivery/emc-trial-reachability.md.uncovered: committed 101, census now reports 115
+E           research/manuscripts/care-delivery/emc-trial-reachability.md.uncovered_with_a_number: committed 26, census now reports 30
+E           research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md.sentences: committed 102, census now reports 128
+E           research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md.with_a_number: committed 85, census now reports 101
+E           research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md.uncovered: committed 102, census now reports 128
+E           research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md.uncovered_with_a_number: committed 85, census now reports 101
+E           research/manuscripts/degrader/nr4a3-degrader-paper.md.sentences: committed 1181, census now reports 1197
+E           research/manuscripts/degrader/nr4a3-degrader-paper.md.with_a_number: committed 868, census now reports 872
+E           research/manuscripts/degrader/nr4a3-degrader-paper.md.uncovered: committed 1178, census now reports 1194
+E           research/manuscripts/degrader/nr4a3-degrader-paper.md.uncovered_with_a_number: committed 865, census now reports 869
+E           research/manuscripts/dependency/degrader-vs-synthetic-lethal.md.sentences: committed 47, census now reports 74
+E           research/manuscripts/dependency/degrader-vs-synthetic-lethal.md.with_a_number: committed 40, census now reports 58
+E           research/manuscripts/dependency/degrader-vs-synthetic-lethal.md.uncovered: committed 47, census now reports 74
+E           research/manuscripts/dependency/degrader-vs-synthetic-lethal.md.uncovered_with_a_number: committed 40, census now reports 58
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.sentences: committed 145, census now reports 253
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.covered: committed 0, census now reports 8
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.with_a_number: committed 84, census now reports 161
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.with_a_number_covered: committed 0, census now reports 8
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.uncovered: committed 145, census now reports 245
+E           research/manuscripts/dependency/emc-atr-collaborator-package.md.uncovered_with_a_number: committed 84, census now reports 153
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.sentences: committed 175, census now reports 181
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.covered: committed 2, census now reports 0
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.with_a_number: committed 136, census now reports 137
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.with_a_number_covered: committed 2, census now reports 0
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.uncovered: committed 173, census now reports 181
+E           research/manuscripts/dependency/emc-atr-vulnerability-assessment.md.uncovered_with_a_number: committed 134, census now reports 137
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.sentences: committed 49, census now reports 113
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.covered: committed 5, census now reports 6
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.with_a_number: committed 27, census now reports 38
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.with_a_number_covered: committed 5, census now reports 6
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.uncovered: committed 44, census now reports 107
+E           research/manuscripts/dependency/emc-biomarker-selected-classes.md.uncovered_with_a_number: committed 22, census now reports 32
+E           research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.sentences: committed 30, census now reports 51
+E           research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.with_a_number: committed 17, census now reports 21
+E           research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered: committed 30, census now reports 51
+E           research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered_with_a_number: committed 17, census now reports 21
+E           research/manuscripts/emc-mortality-mechanisms-paper.md.sentences: committed 133, census now reports 182
+E           research/manuscripts/emc-mortality-mechanisms-paper.md.with_a_number: committed 38, census now reports 54
+E           research/manuscripts/emc-mortality-mechanisms-paper.md.uncovered: committed 133, census now reports 182
+E           research/manuscripts/emc-mortality-mechanisms-paper.md.uncovered_with_a_number: committed 38, census now reports 54
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.sentences: committed 268, census now reports 280
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.covered: committed 7, census now reports 10
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.with_a_number: committed 105, census now reports 110
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.with_a_number_covered: committed 4, census now reports 8
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.uncovered: committed 261, census now reports 270
+E           research/manuscripts/endpoint/response-endpoint-indolent-tumours.md.uncovered_with_a_number: committed 101, census now reports 102
+E           research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.sentences: committed 420, census now reports 435
+E           research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.with_a_number: committed 293, census now reports 303
+E           research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered: committed 420, census now reports 435
+E           research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered_with_a_number: committed 293, census now reports 303
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.sentences: committed 303, census now reports 329
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.covered: committed 91, census now reports 87
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number: committed 219, census now reports 238
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number_covered: committed 88, census now reports 85
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered: committed 212, census now reports 242
+E           research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered_with_a_number: committed 131, census now reports 153
+E           research/manuscripts/methods-record/closed-routes-negative-record.md.sentences: committed 114, census now reports 122
+E           research/manuscripts/methods-record/closed-routes-negative-record.md.with_a_number: committed 71, census now reports 75
+E           research/manuscripts/methods-record/closed-routes-negative-record.md.uncovered: committed 114, census now reports 122
+E           research/manuscripts/methods-record/closed-routes-negative-record.md.uncovered_with_a_number: committed 71, census now reports 75
+E           research/manuscripts/methods-record/degrader-methods-failure-record.md.sentences: committed 107, census now reports 124
+E           research/manuscripts/methods-record/degrader-methods-failure-record.md.with_a_number: committed 51, census now reports 54
+E           research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered: committed 107, census now reports 124
+E           research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered_with_a_number: committed 51, census now reports 54
+E           research/manuscripts/modality-census/cancer-modality-census.md.sentences: committed 101, census now reports 123
+E           research/manuscripts/modality-census/cancer-modality-census.md.with_a_number: committed 34, census now reports 45
+E           research/manuscripts/modality-census/cancer-modality-census.md.uncovered: committed 101, census now reports 123
+E           research/manuscripts/modality-census/cancer-modality-census.md.uncovered_with_a_number: committed 34, census now reports 45
+E           research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md.sentences: committed 223, census now reports 265
+E           research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md.with_a_number: committed 123, census now reports 143
+E           research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md.uncovered: committed 222, census now reports 264
+E           research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md.uncovered_with_a_number: committed 122, census now reports 142
+E           research/manuscripts/neoantigen/emc-vaccine-development-path.md.sentences: committed 651, census now reports 659
+E           research/manuscripts/neoantigen/emc-vaccine-development-path.md.with_a_number: committed 334, census now reports 337
+E           research/manuscripts/neoantigen/emc-vaccine-development-path.md.uncovered: committed 624, census now reports 632
+E           research/manuscripts/neoantigen/emc-vaccine-development-path.md.uncovered_with_a_number: committed 307, census now reports 310
+E           research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md.sentences: committed 110, census now reports 128
+E           research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md.with_a_number: committed 79, census now reports 87
+E           research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md.uncovered: committed 110, census now reports 128
+E           research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md.uncovered_with_a_number: committed 79, census now reports 87
+E           research/manuscripts/neoantigen/hla-coverage-emc.md.sentences: committed 90, census now reports 222
+E           research/manuscripts/neoantigen/hla-coverage-emc.md.with_a_number: committed 56, census now reports 113
+E           research/manuscripts/neoantigen/hla-coverage-emc.md.uncovered: committed 90, census now reports 222
+E           research/manuscripts/neoantigen/hla-coverage-emc.md.uncovered_with_a_number: committed 56, census now reports 113
+E           research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md.sentences: committed 74, census now reports 78
+E           research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md.with_a_number: committed 55, census now reports 59
+E           research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md.uncovered: committed 74, census now reports 78
+E           research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md.uncovered_with_a_number: committed 55, census now reports 59
+E           research/manuscripts/repurposing/repurposing-hypotheses.md.sentences: committed 216, census now reports 259
+E           research/manuscripts/repurposing/repurposing-hypotheses.md.with_a_number: committed 101, census now reports 123
+E           research/manuscripts/repurposing/repurposing-hypotheses.md.uncovered: committed 216, census now reports 259
+E           research/manuscripts/repurposing/repurposing-hypotheses.md.uncovered_with_a_number: committed 101, census now reports 123
+E           research/manuscripts/surface-targets/emc-surface-target-landscape.md.sentences: committed 301, census now reports 381
+E           research/manuscripts/surface-targets/emc-surface-target-landscape.md.with_a_number: committed 153, census now reports 216
+E           research/manuscripts/surface-targets/emc-surface-target-landscape.md.uncovered: committed 301, census now reports 381
+E           research/manuscripts/surface-targets/emc-surface-target-landscape.md.uncovered_with_a_number: committed 153, census now reports 216
+E           research/manuscripts/tcip/tcip-induced-interface-preprint.md.sentences: committed 92, census now reports 117
+E           research/manuscripts/tcip/tcip-induced-interface-preprint.md.with_a_number: committed 48, census now reports 59
+E           research/manuscripts/tcip/tcip-induced-interface-preprint.md.uncovered: committed 92, census now reports 117
+E           research/manuscripts/tcip/tcip-induced-interface-preprint.md.uncovered_with_a_number: committed 48, census now reports 59
+E         
+E         The committed census is a deposit artifact and is out of date. Re-run `python3 research/manuscripts/claim_coverage.py --write` and commit it in this change.
+E       assert not ['research/manuscripts/care-delivery/emc-trial-reachability.md.sentences: committed 101, census now reports 115', 'res...uscripts/degrader/fusion-selective-andgate-degrader-paper.md.with_a_number: committed 85, census now reports 101', ...]
+
+research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py:385: AssertionError
+=============================== warnings summary ===============================
+research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py: 28 warnings
+research/manuscripts/tests/test_the_census_reads_every_publication_endpoint.py: 30 warnings
+  <unknown>:2: DeprecationWarning: invalid escape sequence '\d'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed
+1 failed, 28 passed, 58 warnings in 54.30s

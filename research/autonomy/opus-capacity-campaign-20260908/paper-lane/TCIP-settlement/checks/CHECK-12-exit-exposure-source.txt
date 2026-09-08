@@ -1,0 +1,114 @@
+research/modalities/atm-status-atri-inputs.json:336:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:2184:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:2805:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:3243:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:3712:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:3760:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:5152:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:7858:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:9794:     "GcContent": "0.4139650872817955",
+research/modalities/atm-status-atri-inputs.json:11646:     "GcContent": "0.4413965087281795",
+research/modalities/atm-status-atri-inputs.json:12065:     "GcContent": "0.4413965087281795",
+research/modalities/atm-status-atri-inputs.json:12263:     "GcContent": "0.4413965087281795",
+research/modalities/atm-status-atri-inputs.json:12417:     "GcContent": "0.4413965087281795",
+research/modalities/atm-status-atri-inputs.json:12519:     "GcContent": "0.4413965087281795",
+research/modalities/atm-status-atri-inputs.json:12768:     "GcContent": "0.4139650872817955",
+research/modalities/atm-status-atri-inputs.json:12817:     "GcContent": "0.4139650872817955",
+research/modalities/atm-status-atri-inputs.json:15090:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:15188:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:17253:     "GcContent": "0.3441396508728179",
+research/modalities/atm-status-atri-inputs.json:17754:     "GcContent": "0.3441396508728179",
+--- exit_ fields ---
+{
+ "_what": "the fraction of each linker-length reach shell in which a second terminus's exit atom can sit at all \u2014 the sampler's OWN anchor test on a deterministic grid",
+ "_test": "field3.min_dist(b) - cell_slack >= pose_min_clearance_A = 3.4 \u00c5, the predicate `sample_placements` uses, evaluated on a 1.0 \u00c5 lattice instead of by Monte-Carlo",
+ "pooled": {
+  "6": {
+   "shell_hi_A": 7.5,
+   "mean_fraction_admissible": 0.3921,
+   "min_fraction_admissible": 0.27208,
+   "max_fraction_admissible": 0.66494,
+   "n_poses_with_any": 12
+  },
+  "8": {
+   "shell_hi_A": 10.0,
+   "mean_fraction_admissible": 0.43013,
+   "min_fraction_admissible": 0.25804,
+   "max_fraction_admissible": 0.67764,
+   "n_poses_with_any": 12
+  },
+  "10": {
+   "shell_hi_A": 12.5,
+   "mean_fraction_admissible": 0.46486,
+   "min_fraction_admissible": 0.25822,
+   "max_fraction_admissible": 0.65014,
+   "n_poses_with_any": 12
+  },
+  "12": {
+   "shell_hi_A": 15.0,
+   "mean_fraction_admissible": 0.49341,
+   "min_fraction_admissible": 0.27396,
+   "max_fraction_admissible": 0.6399,
+   "n_poses_with_any": 12
+  },
+  "14": {
+   "shell_hi_A": 17.5,
+   "mean_fraction_admissible": 0.52082,
+   "min_fraction_admissible": 0.30192,
+   "max_fraction_admissible": 0.63998,
+   "n_poses_with_any": 12
+  },
+  "16": {
+   "shell_hi_A": 20.0,
+   "mean_fraction_admissible": 0.54618,
+   "min_fraction_admissible": 0.34281,
+   "max_fraction_admissible": 0.65297,
+   "n_poses_with_any": 12
+  },
+  "20": {
+   "shell_hi_A": 25.0,
+   "mean_fraction_admissible": 0.60302,
+   "min_fraction_admissible": 0.46169,
+   "max_fraction_admissible": 0.68319,
+   "n_poses_with_any": 12
+  },
+  "24": {
+   "shell_hi_A": 30.0,
+   "mean_fraction_admissible": 0.66459,
+   "min_fraction_admissible": 0.5914,
+   "max_fraction_admissible": 0.71126,
+   "n_poses_with_any": 12
+  }
+ },
+ "per_pose": {
+  "exitvec_00": {
+   "6": {
+    "shell_hi_A": 7.5,
+    "n_grid_points": 1540,
+    "n_admissible": 423,
+    "fraction_admissible": 0.27468
+   },
+   "8": {
+    "shell_hi_A": 10.0,
+    "n_grid_points": 3918,
+    "n_admissible": 1011,
+    "fraction_admissible": 0.25804
+   },
+   "10": {
+    "shell_hi_A": 12.5,
+    "n_grid_points": 7966,
+    "n_admissible": 2057,
+    "fraction_admissible": 0.25822
+   },
+   "12": {
+    "shell_hi_A": 15.0,
+    "n_grid_points": 13896,
+    "n_admissible": 3807,
+    "fraction_admissible": 0.27396
+   },
+   "14": {
+    "shell_hi_A": 17.5,
+    "n_grid_points": 22324,
+    "n_admissible": 6740,
+    "fraction_admissible": 0.30192
+   }

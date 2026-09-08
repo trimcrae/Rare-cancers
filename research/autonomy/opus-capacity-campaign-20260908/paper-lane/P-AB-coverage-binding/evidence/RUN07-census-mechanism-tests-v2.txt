@@ -1,0 +1,36 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_a_docstring_is_never_harvested_as_an_executable_pattern _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-235/test_a_docstring_is_never_harv0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4cba57ab50>
+
+    def test_a_docstring_is_never_harvested_as_an_executable_pattern(tmp_path, monkeypatch):
+        """The harvest half, separately: a regex that IS a docstring binds nothing at runtime.
+    
+        ⛔ The module below is in scope by an executable name, so the only question left is whether the
+        pattern is credited — and the pattern appears exactly once, as a function's docstring. At HEAD
+        it was harvested and could mark a sentence covered; nothing evaluates it.
+        """
+        d = tmp_path / "harvest"
+        d.mkdir()
+        (d / "test_harvest.py").write_text(
+            f'PAPER = "{FICTIONAL}"\n'
+            f'def test_x():\n'
+            f'    r"{PATTERN}"\n'
+            f'    assert PAPER\n', encoding="utf-8")
+        monkeypatch.setattr(cc, "TESTS", str(d))
+        harvested = cc._test_patterns(FICTIONAL)
+>       assert {w for _h, _p, w in harvested} == {"test:test_harvest.py"}, (
+            "the fixture module must be in scope by its executable `PAPER`, or this test proves nothing")
+E       AssertionError: the fixture module must be in scope by its executable `PAPER`, or this test proves nothing
+E       assert set() == {'test:test_harvest.py'}
+E         
+E         Extra items in the right set:
+E         'test:test_harvest.py'
+E         Use -v to get more diff
+
+research/manuscripts/tests/test_the_census_credits_only_executable_references.py:117: AssertionError
+=========================== short test summary info ============================
+FAILED research/manuscripts/tests/test_the_census_credits_only_executable_references.py::test_a_docstring_is_never_harvested_as_an_executable_pattern
+1 failed, 5 passed in 0.09s

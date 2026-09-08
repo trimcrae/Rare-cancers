@@ -1,0 +1,60 @@
+def load_arm_from_registry(rec):
+    """Turn one staged registry record into the rigid body + anchors the search moves."""
+    path = os.path.join(REPO, rec["receptor_pdb"])
+    order, res = parse_multichain_pdb(path)
+    keys, ca_l, cb_l, aa_l = [], [], [], []
+    for key in order:
+        r = res[key]
+        cav = next((xyz for nm, xyz in r["atoms"] if nm == "CA"), None)
+        if cav is None:
+            continue
+        side = [xyz for nm, xyz in r["atoms"] if nm not in BACKBONE]
+        keys.append(key)
+        ca_l.append(cav)
+        cb_l.append(G.centroid(side) if side else cav)
+        aa_l.append(r["aa"])
+    query = ca_l + cb_l
+    ring = rec.get("ring") or {}
+    return {
+        "arm_id": rec["arm_id"], "recruiter": rec["recruiter"], "crl": rec.get("crl"),
+        "keys": keys, "ca": ca_l, "cb": cb_l, "n_ca": len(ca_l),
+        "aa": aa_l, "query": query,
+--- scoring band chain ---
+    this affordable at $0 and what stops the sampler wasting its budget on placements no linker could realise.
+    """
+    a_t = tuple(pose["anchor_xyz"])
+    L_max = G.contour_length_from_atoms(params["linker_max_atoms"], params["linker_rise_per_atom_A"])
+    L_min = G.contour_length_from_atoms(params["linker_min_atoms"], params["linker_rise_per_atom_A"])
+    hard, soft, contact = params["hard_clash_A"], params["soft_clash_A"], params["contact_A"]
+    max_soft, min_contact = params["max_soft_clashes"], params["min_contact_residues"]
+
+    pivot = arm["anchor"]
+    q = arm["query"]
+    nq = len(q)
+    pre = _prescreen_indices(arm, prescreen_n)
+    pre_pts = [q[i] for i in pre]
+    lm_idx = G.farthest_point_sample(arm["ca"], params["n_landmarks"])
+    lm_pts = [arm["ca"][i] for i in lm_idx]
+
+    md = field3.min_dist
+    slack = field3.cell_slack
+    accepted = []
+    n_pre_reject = 0
+    for _ in range(n_samples):
+        d = L_min + (L_max - L_min) * (rng.random() ** (1.0 / 3.0))    # uniform in the shell VOLUME
+        v = G.random_unit_vector(rng)
+        ae = (a_t[0] + v[0] * d, a_t[1] + v[1] * d, a_t[2] + v[2] * d)
+        if md(ae) - slack < params["pose_min_clearance_A"]:
+            continue                                                    # the E3 ligand would be inside NR4A3
+        R = G.quat_to_matrix(G.random_quaternion(rng))
+        r0, r1, r2 = R
+        px, py, pz = pivot
+        ox, oy, oz = ae
+        bad = False
+        for (qx, qy, qz) in pre_pts:
+            dx, dy, dz = qx - px, qy - py, qz - pz
+            tx = r0[0] * dx + r0[1] * dy + r0[2] * dz + ox
+            ty = r1[0] * dx + r1[1] * dy + r1[2] * dz + oy
+            tz = r2[0] * dx + r2[1] * dy + r2[2] * dz + oz
+            if md((tx, ty, tz)) - slack < hard:
+                bad = True

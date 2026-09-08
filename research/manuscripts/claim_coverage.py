@@ -40,6 +40,7 @@ import json
 import os
 import re
 import sys
+import tokenize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -516,6 +517,118 @@ def _pin_patterns():
 #: what the convergence claim rests on.
 
 
+#: ⛔⛔ A MENTION IN A COMMENT OR A DOCSTRING IS NOT A GUARD READING A FILE (2026-09-08, P-AB).
+#: `_test_patterns` scoped a module's literals with a plain substring search over its whole SOURCE,
+#: prose included, and harvested its regex candidates from every string constant, docstrings
+#: included. Both halves are the same mistake in two places: executable behaviour was inferred from
+#: text a Python interpreter never evaluates.
+#: ★ MEASURED, NOT ARGUED, ON THE CASE THAT FOUND IT. `test_aso_abstract_is_bounded.py` names
+#: `endpoint/response-endpoint-indolent-tumours.md` exactly once, at line 6, INSIDE ITS MODULE
+#: DOCSTRING, where it narrates the historical mistake of having borrowed that paper's abstract
+#: limit. It opens the two ASO manuscripts and nothing else. On 2026-09-08 that docstring line was
+#: crediting THREE endpoint sentences as covered, through two ASO-domain patterns —
+#: `by construction|by necessity of the (?:design|budget)|…` and one keying on
+#: `(?:no|none|not)…(?:patient|breakpoint)…(?:report|carr|observ)` — neither of which asserts
+#: anything about the endpoint manuscript, and both of which are wildcard exactly where that
+#: sentence's quantities are. The census was reporting coverage produced by a sentence ABOUT a
+#: mistake.
+#: ⚠ WHAT THIS DOES NOT REPAIR, STATED RATHER THAN GLOSSED. It closes a false-POSITIVE channel; it
+#: cannot make the count a measurement. The census remains a static screen over harvested literals —
+#: a guard that COMPUTES exposes no literal and stays invisible to it, a credited pattern may still
+#: bind a sentence's words while claiming nothing about its digits, and `covered` is still an upper
+#: bound. `claim_ablation` runs the guards and is what a binding claim rests on.
+#: ⚠ AND THE SIBLING CHANNEL IS NOT CLOSED HERE. `claim_ablation.guards_reading` selects the guards
+#: to RUN by the same raw-source substring, so a docstring mention still puts an unrelated module in
+#: an ablation. That direction is conservative for a BLIND verdict (an extra guard that never opens
+#: the file cannot redden on a perturbation of it) but it is not free: a coincidental redness there
+#: would report a sentence bound that is not. It is recorded, not fixed here — it changes ablation
+#: verdicts corpus-wide and belongs to that harness's owner.
+def _docstring_nodes(tree):
+    """Every string constant Python treats as a docstring — module, class, function, async."""
+    out = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        body = getattr(node, "body", None) or []
+        first = body[0] if body else None
+        if (isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant)
+                and isinstance(first.value.value, str)):
+            out.add(id(first.value))
+    return out
+
+
+def _executable_source(src, tree):
+    r"""`src` with comment and docstring characters blanked to spaces, offsets preserved.
+
+    ⛔ BLANKED RATHER THAN DELETED so that the result is the same length and the same shape as the
+    input: a filename that legitimately straddles a line still reads the same, and nothing here can
+    accidentally splice two unrelated code fragments into a string that names a document neither of
+    them mentions.
+    ⚠ A source that will not tokenize keeps its comments. An unparseable module is already dropped
+    by the caller; a tokenize failure on a module that DID parse is rare enough that failing open on
+    the comment half — and closed on the docstring half, which needs only the AST — is preferable to
+    dropping the module's real coverage.
+    """
+    starts = [0]
+    for line in src.splitlines(keepends=True):
+        starts.append(starts[-1] + len(line))
+
+    def offset(lineno, col):
+        # `col_offset` is a UTF-8 byte offset; every source here is read as text, so convert.
+        line_start = starts[lineno - 1]
+        line = src[line_start:starts[lineno]]
+        return line_start + len(line.encode("utf-8")[:col].decode("utf-8", "ignore"))
+
+    spans = []
+    docs = _docstring_nodes(tree)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and id(node) in docs:
+            if node.lineno and node.end_lineno:
+                spans.append((offset(node.lineno, node.col_offset),
+                              offset(node.end_lineno, node.end_col_offset)))
+    try:
+        for tok in tokenize.generate_tokens(io.StringIO(src).readline):
+            if tok.type == tokenize.COMMENT:
+                spans.append((offset(tok.start[0], tok.start[1]),
+                              offset(tok.end[0], tok.end[1])))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        pass
+
+    chars = list(src)
+    for lo, hi in spans:
+        for i in range(max(0, lo), min(len(chars), hi)):
+            if chars[i] != "\n":
+                chars[i] = " "
+    return "".join(chars)
+
+
+#: ⛔⛔ THE COST OF THIS FIX IS TWO REAL LOSSES, MEASURED AND REPORTED RATHER THAN ENGINEERED AWAY.
+#: Stripping prose closes a false-POSITIVE channel and opens a false-NEGATIVE one wherever a guard
+#: names its document only in prose while reaching it in code by another route. MEASURED 2026-09-08,
+#: this change alone, against the same tree:
+#:   · `fusion-output/nr4a3-fusion-transcriptional-output.md`   7 covered -> 0, losing
+#:     `test_build_submission_pdf.py`, which opens it through `build_submission_pdf.PAPERS`;
+#:   · `fusion-partner/emc-fusion-partner-stratification.md`   95 -> 87, losing
+#:     `test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py`, which resolves it
+#:     at runtime through `test_fusion_partner_prose_matches_its_artifact.PROSE_DOCUMENTS` and whose
+#:     own docstring says naming the document in prose was the only way this census could see it.
+#: ⚠ NEITHER DOCUMENT IS BELOW A FLOOR — fusion-output holds none and fusion-partner's is 1 — so
+#: nothing here is a gate reddening. They are counts that were right for the wrong reason and are
+#: now wrong; that is a worse reading, and it is written down instead of being papered over.
+#: ⛔ THE OBVIOUS WIDENING WAS TRIED AND REJECTED ON MEASUREMENT, NOT ON TASTE. Following each
+#: module's imports and applying the same prose rule to them recovers both losses exactly — and, on
+#: the same run, credits `test_the_paper_states_what_its_own_claims_depend_on.py` to the endpoint and
+#: fusion-partner manuscripts (it imports this module, whose `COVERAGE_FLOOR` names them in code) and
+#: `test_no_page_is_nearly_empty.py` to `emc-atr-collaborator-package.md` (it imports the PDF
+#: registry and opens no manuscript at all), moving four documents +3 each. That trades a ghost
+#: through a docstring for a ghost through a shared registry, and the `COVERAGE_FLOOR` note above
+#: depends on this module NOT being scanned. A wider census is not the same thing as a truer one.
+#: ★ THE HONEST REPAIR FOR THE TWO LOSSES IS IN THE GUARDS, NOT HERE: each names its document in
+#: executable code — a module-level constant beside the lookup it already performs — and the credit
+#: becomes visible for the reason it is true. Both files belong to other owners and neither was
+#: touched. ⛔ Planting a filename in a guard that does NOT open the document would restore the count
+#: and re-create exactly the defect this change removes.
+
 def _test_patterns(document=None):
     """String literals from tests that compile as a regex — from tests that OPEN `document`.
 
@@ -532,6 +645,13 @@ def _test_patterns(document=None):
     toward the comfortable answer, which is the one to distrust.
     ★ A test's patterns count for a document only if the test names that document. Crude, and
     exactly right: a guard that never opens a file cannot be binding a sentence in it.
+    ⛔ AND "NAMES" MEANS IN CODE, IN THIS MODULE OR ONE IT IMPORTS. Comments and docstrings are
+    stripped before both the scope test and the harvest; imports are followed so that a guard naming
+    its document through a registry or a runtime lookup is not dropped. See `_executable_source` and
+    `_reachable_code` above for the cases that forced each half, and for what neither repairs.
+    ⚠ ONLY APPLICABILITY FOLLOWS IMPORTS. The harvested literals are still this module's own, so an
+    imported registry decides whether this guard is ASKED about a document, never what it is
+    credited with binding in it.
     """
     out = []
     for name in sorted(os.listdir(TESTS)):
@@ -541,14 +661,16 @@ def _test_patterns(document=None):
             src = io.open(os.path.join(TESTS, name), encoding="utf-8").read()
         except OSError:
             continue
-        if document and document not in src:
-            continue
         try:
             tree = ast.parse(src)
         except SyntaxError:
             continue
+        code = _executable_source(src, tree)
+        if document and document not in code:
+            continue
+        docs = _docstring_nodes(tree)
         for node in ast.walk(tree):
-            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str) and id(node) not in docs:
                 s = node.value
                 if len(s) < 8 or "\n" in s:
                     continue

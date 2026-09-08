@@ -1,0 +1,165 @@
+n_entries 22
+_floor_under_test {
+ "min_contact_residues": 12,
+ "contact_A": 6.0,
+ "soft_clash_A": 3.6,
+ "hard_clash_A": 3.0,
+ "note": "min_contact_residues counts QUERY POINTS, and there are two per residue (CA + side-chain centroid), so 12 points is as few as 6 residues."
+}
+_not_measured [
+ "cooperativity",
+ "residence time",
+ "affinity",
+ "transcriptional output",
+ "efficacy",
+ "selectivity",
+ "safety",
+ "clinical readiness"
+]
+SUMMARY: {
+ "floor_under_test": 12,
+ "_reading": "min_direction_range is the range, over this class's induced pairs, of the SMALLER of the two directional contact counts; a pair whose smaller count is below the floor is one the sampler would reject in at least one of the two orientations it could be posed in.",
+ "by_class": {
+  "cid_proximity": {
+   "n_induced_pairs": 7,
+   "n_ligand_bridged_measured": 4,
+   "n_allosteric_curated": 3,
+   "entries": [
+    "1FAP",
+    "2P1Q",
+    "2ZSH",
+    "3FAP",
+    "3JRQ",
+    "3KDJ",
+    "4DRI"
+   ],
+   "pairs_below_floor_in_at_least_one_direction": 1,
+   "pairs_below_floor_in_both_directions": 0,
+   "min_direction_range": [
+    11,
+    53
+   ],
+   "max_direction_range": [
+    13,
+    55
+   ],
+   "_why": {
+    "1FAP": "FKBP12-rapamycin-FRB, the chemical inducer of dimerization that the rapamycin-regulated transcription systems are built on",
+    "2P1Q": "auxin bridging TIR1 and the IAA7 degron",
+    "2ZSH": "gibberellin GA3: the GID1-DELLA CID pair",
+    "3FAP": "FKBP12-rapalog-FRB",
+    "3JRQ": "abscisic acid: the PYL1-ABI1 CID pair, second entry",
+    "3KDJ": "abscisic acid: the PYL1-ABI1 CID pair",
+    "4DRI": "FKBP51-rapamycin-FRB; a paralogue of the same ternary"
+   }
+  },
+  "induced_transcriptional": {
+   "n_induced_pairs": 12,
+   "n_ligand_bridged_measured": 2,
+   "n_allosteric_curated": 10,
+   "entries": [
+    "1FM9",
+    "1GWR",
+    "2PRG",
+    "3DZY",
+    "3ERD",
+    "9MZA"
+   ],
+   "pairs_below_floor_in_at_least_one_direction": 2,
+   "pairs_below_floor_in_both_directions": 2,
+   "min_direction_range": [
+    6,
+    19
+   ],
+   "max_direction_range": [
+    7,
+    32
+   ],
+   "_why": {
+    "1FM9": "ligand-bound PPARg:RXRa with SRC-1 NR boxes",
+    "1GWR": "oestradiol-bound ERa with the TIF2 NR-box-3 peptide",
+    "2PRG": "rosiglitazone-bound PPARg with an SRC-1 NR box",
+    "3DZY": "intact PPARg:RXRa on DNA with an NCOA2 peptide",
+    "3ERD": "DES-bound ERa with the GRIP1 NR-box-II peptide",
+    "9MZA": "'Chemically Hijacked BCL6-TCIP3-p300 Complex' - the bivalent molecule A1BUC (TCIP3, 81 heavy atoms) bridging the BCL6 BTB domain and p300. VERIFIED from the deposition's own rcsb_primary_citation, not from the paper: bioRxiv 10.1101/2025.03.14.643404 / PubMed 40166243, 'A Bivalent Molecular Glue Linking Lysine Acetyltransferases to Oncogene-induced Cell Death' (Nix, Gourisankar, ... Crabtree), released 2025-04-16 at 2.1 A"
+   }
+  },
+  "degrader_or_glue": {
+   "n_induced_pairs": 15,
+   "n_ligand_bridged_measured": 15,
+   "n_allosteric_curated": 0,
+   "entries": [
+    "5FQD",
+    "5T35",
+    "6BN7",
+    "6BOY",
+    "6H0F",
+    "6HAX",
+    "6SIS",
+    "7Q2J"
+   ],
+   "pairs_below_floor_in_at_least_one_direction": 6,
+   "pairs_below_floor_in_both_directions": 1,
+   "min_direction_range": [
+    5,
+    23
+   ],
+   "max_direction_range": [
+    11,
+    25
+   ],
+   "_why": {
+    "5FQD": "lenalidomide molecular glue bridging CRBN and CK1a",
+    "5T35": "PROTAC MZ1 bridging BRD4 BD2 and pVHL",
+    "6BN7": "PROTAC dBET23 bridging CRBN and BRD4 BD1",
+    "6BOY": "PROTAC dBET6 bridging CRBN and BRD4 BD1",
+    "6H0F": "pomalidomide molecular glue bridging CRBN and IKZF1 ZF2",
+    "6HAX": "PROTAC 2 bridging SMARCA2 bromodomain and pVHL",
+    "6SIS": "macrocyclic PROTAC 1 bridging a BRD4 bromodomain and pVHL",
+    "7Q2J": "PROTAC bridging WDR5 and pVHL"
+   }
+  },
+  "constitutive": {
+   "n_induced_pairs": 1,
+   "n_ligand_bridged_measured": 1,
+   "n_allosteric_curated": 0,
+   "entries": [
+    "7LWG"
+   ],
+   "pairs_below_floor_in_at_least_one_direction": 0,
+   "pairs_below_floor_in_both_directions": 0,
+   "min_direction_range": [
+    64,
+    64
+   ],
+   "max_direction_range": [
+    67,
+    67
+   ],
+   "_why": {
+    "7LWG": "the BCL6 BTB HOMODIMER this route already staged as its effector arm; the dimer is constitutive, so its interface is a contrast and is never pooled as induced"
+   }
+  },
+  "tcip": {
+   "n_induced_pairs": 2,
+   "n_ligand_bridged_measured": 2,
+   "n_allosteric_curated": 0,
+   "entries": [
+    "9MZA"
+   ],
+   "pairs_below_floor_in_at_least_one_direction": 2,
+   "pairs_below_floor_in_both_directions": 2,
+   "min_direction_range": [
+    6,
+    6
+   ],
+   "max_direction_range": [
+    7,
+    7
+   ],
+   "_why": {
+    "9MZA": "'Chemically Hijacked BCL6-TCIP3-p300 Complex' - the bivalent molecule A1BUC (TCIP3, 81 heavy atoms) bridging the BCL6 BTB domain and p300. VERIFIED from the deposition's own rcsb_primary_citation, not from the paper: bioRxiv 10.1101/2025.03.14.643404 / PubMed 40166243, 'A Bivalent Molecular Glue Linking Lysine Acetyltransferases to Oncogene-induced Cell Death' (Nix, Gourisankar, ... Crabtree), released 2025-04-16 at 2.1 A"
+   }
+  }
+ }
+}

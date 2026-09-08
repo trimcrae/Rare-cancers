@@ -1,0 +1,26 @@
+119:    "min_contact_residues": 12,      # below this it is a tethered pair, not an interface
+554:    max_soft, min_contact = params["max_soft_clashes"], params["min_contact_residues"]
+--- context ---
+    "reach_scan_max_atoms": 60,      # ceiling of the EXACT min-length scan. Beyond a PEG6-diacid-scale
+                                     # backbone (~24) nothing is a design answer; 60 exists only so an
+                                     # unreachable cysteine is reported as unreachable rather than as a number.
+
+    # --- steric acceptance (coarse rigid-body; residue-level, stated as such)
+    "hard_clash_A": 3.0,             # a CA/CB centre this close to another protein's heavy atom is an overlap
+    "soft_clash_A": 3.6,             # 3.0-3.6 A is relievable by side-chain rotamer adjustment
+    "max_soft_clashes": 6,
+    "contact_A": 6.0,                # CB within 6.0 A of a target heavy atom = interface residue
+    "min_contact_residues": 12,      # below this it is a tethered pair, not an interface
+
+    # --- transfer zone (term (b))
+    "e2_cap_half_angle_deg": 60.0,   # the RING-E2 module swings; the zone is an ARC, not a point
+    "n_e2_samples": 48,
+    "ring_to_e2_cys_A": 25.0,        # overridden by the MEASURED value when the registry has one
+    "ring_to_e2_cys_range_A": [18.0, 32.0],   # sensitivity sweep, always reported
+    # THE TRANSFER DISTANCE IS CALIBRATED, NOT GUESSED — and the calibration moved it a long way. The default
+    # below was an assumption (~10 A, "the lysine has to reach the thioester"). The staging step measures it
+    # instead, from a solved CRL ubiquitylation assembly, and gets a NEAREST substrate lysine 17.1 A from the
+--- load_arm_from_registry query build ---
+460:def load_arm_from_registry(rec):
+473:        cb_l.append(G.centroid(side) if side else cav)
+609:        cb_moved = moved[arm["n_ca"]:]        # `query` is ca_list + cb_list; n_ca is stored, never inferred

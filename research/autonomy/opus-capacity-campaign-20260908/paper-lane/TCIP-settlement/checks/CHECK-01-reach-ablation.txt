@@ -1,0 +1,153 @@
+== ablation keys: ['_what', 'linker_atoms', 'samples_per_arm_pose', 'committed_floor', 'by_floor', 'ratio_at_the_committed_floor', 'ratio_with_no_interface_floor', '★_the_sign_inverts', '★_reading', '⛔_what_this_does_not_settle', 'source_of_the_committed_floor']
+{
+ "_what": "the same cells at the same linker length with ONLY the sampler's interface floor changed \u2014 floor 0 is the pure steric question (clearance + clash), the committed floor adds the degrader's induced-interface requirement",
+ "linker_atoms": 12,
+ "samples_per_arm_pose": 30000,
+ "committed_floor": 12,
+ "by_floor": {
+  "12": {
+   "min_contact_residues": 12,
+   "per_arm": {
+    "bcl6": {
+     "n_accepted": 280,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00077778
+    },
+    "birc2": {
+     "n_accepted": 330,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00091667
+    },
+    "brd4_bd1": {
+     "n_accepted": 163,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00045278
+    },
+    "crbn": {
+     "n_accepted": 282,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00078333
+    },
+    "mdm2": {
+     "n_accepted": 253,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00070278
+    },
+    "vhl": {
+     "n_accepted": 369,
+     "n_samples": 360000,
+     "acceptance_rate": 0.001025
+    }
+   },
+   "single_domain_acceptance": 0.00080972,
+   "single_domain_ci95": [
+    0.00074663,
+    0.00087814
+   ],
+   "multi_subunit_acceptance": 0.00090417,
+   "multi_subunit_ci95": [
+    0.00083735,
+    0.00097631
+   ],
+   "ratio_single_over_multi": 0.896
+  },
+  "6": {
+   "min_contact_residues": 6,
+   "per_arm": {
+    "bcl6": {
+     "n_accepted": 2226,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00618333
+    },
+    "birc2": {
+     "n_accepted": 3424,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00951111
+    },
+    "brd4_bd1": {
+     "n_accepted": 3008,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00835556
+    },
+    "crbn": {
+     "n_accepted": 2411,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00669722
+    },
+    "mdm2": {
+     "n_accepted": 2891,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00803056
+    },
+    "vhl": {
+     "n_accepted": 3221,
+     "n_samples": 360000,
+     "acceptance_rate": 0.00894722
+    }
+   },
+   "single_domain_acceptance": 0.00877083,
+   "single_domain_ci95": [
+    0.00855806,
+    0.00898885
+   ],
+   "multi_subunit_acceptance": 0.00782222,
+   "multi_subunit_ci95": [
+    0.00762134,
+    0.00802836
+   ],
+   "ratio_single_over_multi": 1.121
+  },
+  "0": {
+   "min_contact_residues": 0,
+   "per_arm": {
+    "bcl6": {
+     "n_accepted": 21361,
+     "n_samples": 360000,
+     "acceptance_rate": 0.05933611
+    },
+    "birc2": {
+     "n_accepted": 33232,
+     "n_samples": 360000,
+     "acceptance_rate": 0.09231111
+    },
+    "brd4_bd1": {
+     "n_accepted": 85657,
+     "n_samples": 360000,
+     "acceptance_rate": 0.23793611
+    },
+    "crbn": {
+     "n_accepted": 16992,
+     "n_samples": 360000,
+     "acceptance_rate": 0.0472
+    },
+    "mdm2": {
+     "n_accepted": 24425,
+     "n_samples": 360000,
+     "acceptance_rate": 0.06784722
+    },
+    "vhl": {
+     "n_accepted": 28998,
+     "n_samples": 360000,
+     "acceptance_rate": 0.08055
+    }
+   },
+   "single_domain_acceptance": 0.08007917,
+   "single_domain_ci95": [
+    0.07945447,
+    0.08070835
+   ],
+   "multi_subunit_acceptance": 0.063875,
+   "multi_subunit_ci95": [
+    0.06331249,
+    0.06444217
+   ],
+   "ratio_single_over_multi": 1.254
+  }
+ },
+ "ratio_at_the_committed_floor": 0.896,
+ "ratio_with_no_interface_floor": 1.254,
+ "\u2605_the_sign_inverts": true,
+ "\u2605_reading": "at the committed floor the single-domain pool accepts 0.896\u00d7 the multi-subunit pool; with the interface floor removed it accepts 1.254\u00d7. The sign INVERTS, so the single-domain penalty is entirely the interface floor and not steric bulk: on clash alone the smaller body gets MORE orientation space, exactly as the 'one fewer/smaller terminus is a smaller problem' intuition says. The committed floor is a DEGRADER'S requirement, so a TCIP read at that floor is being charged for an induced interface nobody has shown the modality needs.",
+ "\u26d4_what_this_does_not_settle": "which floor is right for a transcriptional CIP. This module measures the answer at both and refuses to pick \u2014 `BLK-UNSIZED-REQUIREMENT` is the route's own record that nobody has written the specification down, and an interface floor is exactly that kind of unwritten requirement.",
+ "source_of_the_committed_floor": "nr4a3_basin_search.PARAMS['min_contact_residues']"
+}

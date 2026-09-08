@@ -10,7 +10,7 @@ purpose: The manuscript for publication endpoint PUB-TCIP. A modality-general pa
 scope: Rigid-body geometric enumeration and contact counting on deposited coordinates. It covers what an inherited parameter costs a modality it was not written for. It is NOT a disease-specific result and makes no binding, potency, selectivity, transcriptional-output, efficacy, safety, therapeutic-window or clinical claim.
 audience: [external reviewers, maintainers, autonomous research agents]
 date: 2026-08-07
-last_verified: 2026-09-08
+last_verified: 2026-08-07
 ---
 
 # The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP
@@ -46,11 +46,9 @@ new recruitment, sampling or intervention took place.*
 Chemically induced proximity can be designed with tooling built for targeted protein degradation; the
 rigid-body proximity sampler examined here is one such instance. That tooling carries a parameter with
 no recorded derivation: a minimum induced-interface size, below which a candidate placement is scored
-as a tethered pair rather than a complex. The parameter's only committed provenance is a
-**degrader**-recruitment sampler; the reading that it encodes a PROTAC's need for a cooperative
-target·E3 interface across which ubiquitin is transferred is our reconstruction of the intent, not a
-derivation the source records. It is applied unchanged when the recruited partner is a transcriptional
-effector instead of a ligase.
+as a tethered pair rather than a complex. The parameter is a **degrader's** requirement — a PROTAC
+must build a cooperative target·E3 interface across which ubiquitin is transferred — and it is applied
+unchanged when the recruited partner is a transcriptional effector instead of a ligase.
 
 We show that this inherited floor, and not steric bulk, produces the apparent geometric penalty against
 smaller second termini. In a paired rigid-body enumeration run from identical anchors, single-domain
@@ -89,20 +87,14 @@ A bivalent molecule that recruits a transcriptional effector to a target — a t
 inducer of proximity, TCIP — is geometrically a PROTAC with the ligase swapped out. That similarity is
 why proximity-design tooling transfers to it, and it is also the trap.
 
-The rigid-body proximity sampler examined here scores a candidate placement on excluded volume plus a
-**minimum induced interface**; its parameter is `min_contact_residues = 12`, carrying the comment
+Rigid-body proximity samplers score a candidate placement on excluded volume plus a **minimum induced
+interface**. In the sampler used here the parameter is `min_contact_residues = 12`, carrying the comment
 *"below this it is a tethered pair, not an interface"*. The comment records no derivation, and the parameter's only
 committed provenance is a degrader-recruitment sampler (`nr4a3_basin_search.PARAMS`). The reading
 offered here — that ubiquitin transfer requires a cooperative, buried target·E3 interface, and that a
 placement merely holding two proteins near each other will not deliver it — is our reconstruction of
 the intent, not a justification the source states. What the source does establish is narrower and
 sufficient: the value has no recorded derivation of any kind, transcriptional or otherwise.
-
-⚠ How widely other proximity samplers impose a floor of this kind was not surveyed. The inheritance this
-paper documents is therefore a property of **one toolchain** — `nr4a3_tcip_reach.py` takes its scoring
-unchanged from `nr4a3_basin_search.py` (SI §S1) — and not a measured feature of the field. The floor is
-also an **operational filter**: it decides which candidate placements that code admits, and no result
-below converts it into a requirement biology imposes (§5).
 
 A TCIP's productive event is not ubiquitin transfer. Whether it requires a comparable induced interface,
 a smaller one, or a different quantity altogether has not been established. One reading — offered as a
@@ -217,12 +209,6 @@ and this paper does not assess it.
 ## 5 · What this does not establish
 
 Stated plainly, because each has a specific and non-obvious reach.
-
-Before the list, the distinction the rest of it rests on. The floor of 12 is an **operational filter
-inside one sampler** — the criterion by which that code admits or rejects a candidate placement — and
-nothing measured here makes it a statement about what induced proximity biologically requires. Every
-"fails the floor" below and above means *would be rejected by this sampler's predicate*, never *is too
-small to work*. The threshold selected the cases; it did not test them.
 
 1. **The structural bound bounds from ABOVE only.** It shows the floor is not necessary. It does **not**
    establish a lower limit, a monotone size-to-output relationship, or a threshold below which such a
