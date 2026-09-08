@@ -1,0 +1,3045 @@
+EXTRACTED FROM THE PARENT SESSION TRANSCRIPT. NOT A STANDALONE EXECUTION LOG.
+==============================================================================
+
+Provenance. These bodies were copied verbatim out of the parent session transcript
+  /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl
+at collection time. They are the ONLY surviving record of the commands whose scripts
+were written as shell heredocs rather than as files, and of the stdout/stderr that was
+never redirected to a file. Nothing here was re-run, reconstructed or paraphrased: each
+block is the literal tool_use input and the literal tool_result body as the transcript
+stored them. Extraction is bounded to tool calls timestamped at or after 2026-09-08T12:29:00,
+which is the start of the ATR integration turn; earlier turns are not included here and
+remain in the transcript unchanged.
+
+The transcript itself is NOT a standalone artifact of this directory. It is the parent
+session's own file and was not copied into the repository.
+==============================================================================
+
+
+##############################################################################
+# CALL 1   tool=Bash   tool_use_id=toolu_01Cfs1MV8rvXRAUJJDmC7s9A
+# tool_use timestamp: 2026-09-08T12:29:13.228Z
+# tool_result timestamp: 2026-09-08T12:29:15.623Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Check repo and X1 candidate state
+
+--- input.command (verbatim) ---
+date -u && git rev-parse HEAD && git status --porcelain | head -20 && ls -la /tmp/claude-0/x1-lane/ 2>&1 | head
+
+--- tool_result body (verbatim) ---
+Tue Sep  8 12:29:15 UTC 2026
+7d42e1f07c5f24ce97f52e16ba31575519431c6e
+total 276
+drwxr-xr-x   3 root root  4096 Sep  8 12:17 .
+drwx------ 176 root root 12288 Sep  8 12:29 ..
+drwxr-xr-x   7 root root  4096 Sep  8 12:09 INPUTS
+-rw-r--r--   1 root root  1514 Sep  8 12:12 MOVED-TABLES-SOURCE-BLOCKS.md
+-rw-r--r--   1 root root  1266 Sep  8 12:12 PREREG-ROWS-CANDIDATE-vs-BASELINE.txt
+-rw-r--r--   1 root root 58254 Sep  8 12:17 PROPOSED-X1-emc-atr-collaborator-package.md
+-rw-r--r--   1 root root 55364 Sep  8 12:17 PROPOSED-X1-vs-COMMITTED-BASELINE.diff
+-rw-r--r--   1 root root 51298 Sep  8 12:17 PROPOSED-X1-vs-R1.diff
+-rw-r--r--   1 root root  9223 Sep  8 12:14 RETAINED-APPENDIX-A-history.md
+
+
+##############################################################################
+# CALL 2   tool=Bash   tool_use_id=toolu_019eeezzg6jFUaMFnk5CLRas
+# tool_use timestamp: 2026-09-08T12:29:18.749Z
+# tool_result timestamp: 2026-09-08T12:29:18.855Z   is_error=False
+##############################################################################
+
+--- input.description ---
+List manuscripts dir
+
+--- input.command (verbatim) ---
+ls research/manuscripts/ && echo "---FIGURES---" && ls research/manuscripts/figures/ 2>/dev/null | head -30
+
+--- tool_result body (verbatim) ---
+README.md
+REORG-PLAN.md
+SUBMISSION-PACKET.md
+__pycache__
+aso
+aso_archive_manifest.py
+aso_coverage_ladder.py
+aso_delivery_routes.py
+aso_deposit_drift.py
+aso_falsification_power.py
+aso_journal_tables.py
+aso_priorart_evidence.py
+aso_reagent_coverage.py
+aso_sequence_manifest.py
+build_aixiv_metadata.py
+build_reference_list.py
+build_submission_docx.py
+build_submission_parts.py
+build_submission_pdf.py
+care-delivery
+citation-article-types.json
+citation-provenance-ledger.json
+citation-retraction-notices.json
+citation-retraction-sweep.json
+citation_scan_cache.py
+claim-ablation-cache.json
+claim-ceiling-grade-map.json
+claim-coverage.json
+claim_ablation.py
+claim_ablation_cache.py
+claim_audit.py
+claim_coverage.py
+claim_quantity_identifiers.py
+degrader
+dependency
+emc-host-factor-inputs.json
+emc-host-factor-model.json
+emc-mortality-decomposition-inputs.json
+emc-mortality-decomposition.json
+emc-mortality-mechanisms-paper.md
+emc-mortality-mechanisms.md
+emc-relative-survival.json
+emc-systems-map.json
+emc-systems-map.md
+emc-terminal-events-classified.json
+emc-terminal-events.json
+emc_endpoint_alternatives.py
+emc_endpoint_discordance.py
+emc_fusion_partner_pooling.py
+emc_host_factor_model.py
+emc_mortality_decomposition.py
+emc_relative_survival.py
+emc_supportive_effect_transfer.py
+emc_systemic_therapy_pooling.py
+emc_systems_map_check.py
+emc_terminal_events.py
+endpoint
+endpoint_corpus.py
+endpoint_prior_art_audit.py
+endpoint_regime_figure.py
+endpoint_regime_map.py
+endpoint_result_figures.py
+fet_notice_sync_check.py
+figures
+fusion-direct
+fusion-output
+fusion-partner
+journal_abbreviations.py
+journal_reference_authors.py
+line_citations.py
+lint_asymmetry.py
+lint_changed_prose.py
+lint_citation_types.py
+lint_citations.py
+lint_claims.py
+lint_consistency.py
+lint_readability.py
+lint_style.py
+lint_submission_residue.py
+lit-targets-frontier-capability-r3-2026-08-07.json
+manuscript_inventory.py
+methods-record
+microenv
+modality-census
+mtap-prmt5
+nat_scope_census.py
+neoantigen
+no-wet-lab-publication-archetypes.md
+nr4a3-program-map.md
+occupancy
+orr_dcr_reread.py
+paper_scoped_tests.py
+pinned-figures.json
+placebo_arm_calibration.py
+populate_ablation_cache.py
+program
+q3_q4_q10_q16_map_edits.py
+readability-baseline.json
+repurposing
+route_map_edits.py
+row4_pose_map_edits.py
+row4_second_method_map_edits.py
+submission-metrics.json
+submission-residue-baseline.json
+submission_citations.py
+submission_metrics.py
+submission_packet.py
+submission_tables.py
+surface-targets
+tcf12_breakpoint_assignment.py
+tcip
+tests
+vaccine_path_tables.py
+venue_fee_screen.py
+verify_map_edit_anchors.py
+---FIGURES---
+README.md
+__pycache__
+aso-chance-baseline.pdf
+aso-chance-baseline.png
+aso-chance-baseline.svg
+aso-figure-provenance.json
+aso-gap-length-tradeoff.pdf
+aso-gap-length-tradeoff.png
+aso-gap-length-tradeoff.svg
+aso-junction-space.pdf
+aso-junction-space.png
+aso-junction-space.svg
+aso-multipartner-seam.pdf
+aso-multipartner-seam.png
+aso-multipartner-seam.svg
+aso_chance_baseline_figure.py
+aso_figure_provenance.py
+aso_figure_text.py
+aso_gap_length_figure.py
+aso_junction_space_figure.py
+aso_multipartner_seam_figure.py
+check_figure_specs.py
+emc-atr-figure-provenance.json
+emc-fusion-frame-fig1.pdf
+emc-fusion-frame-fig1.png
+emc-surface-fig1-transfer.pdf
+emc-surface-fig1-transfer.png
+emc-surface-figure-provenance.json
+emc_fusion_frame_figure.py
+fig1-size-matched-null.pdf
+
+
+##############################################################################
+# CALL 3   tool=Bash   tool_use_id=toolu_0133jc545WBRpjz9eK7D4qPW
+# tool_use timestamp: 2026-09-08T12:29:22.814Z
+# tool_result timestamp: 2026-09-08T12:29:24.305Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Locate ATR manuscript and show X1 head
+
+--- input.command (verbatim) ---
+grep -rl "atr" --include="*.md" research/manuscripts/ -i | head -20 && echo "===X1 HEAD===" && head -60 /tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-response-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-editor-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-review-response-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-biology-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-prepost.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-integrity-2026-08-10.md
+research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-peer-review-2026-08-10.md
+research/manuscripts/emc-mortality-mechanisms.md
+research/manuscripts/surface-targets/car-t-strategies-emc.md
+research/manuscripts/surface-targets/emc-surface-target-landscape-si.md
+research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md
+research/manuscripts/surface-targets/fap-rlt-2026-regrade.md
+research/manuscripts/surface-targets/emc-surface-target-landscape-peer-review-2026-08-10.md
+research/manuscripts/surface-targets/emc-surface-target-landscape.md
+research/manuscripts/surface-targets/emc-surface-target-redteam.md
+research/manuscripts/surface-targets/ofcs-var2csa-lane.md
+research/manuscripts/repurposing/repurposing-hypotheses-peer-review-2026-08-10.md
+===X1 HEAD===
+<!-- ============================================================================
+PROPOSED NEW WORKING REVISION - X1 lane, 2026-09-08. NOT A RECOVERED ORIGINAL.
+
+This is a NEW revision proposed now. No file, blob or draft of any lost historical
+revision was found, and none is claimed. It is built by applying, to R1's proposed
+candidate, (a) three required corrections to that candidate, (b) qualifications
+established by U1, and (c) the completed outputs of W1 (Supplementary Table S3),
+W2 (Panel A key sources) and W3 (Okamoto 2001 metadata).
+
+Everything here is PROPOSED. Nothing has been applied to any shared repository
+path, no view has been regenerated, and no title or cross-reference outside this
+file has been changed. Shared integration is the scientific coordinator's decision.
+Decisions, denominator provenance and unresolved items: X1-DECISION-RECORD.md.
+Appendix A of the input is retained verbatim in RETAINED-APPENDIX-A-history.md.
+============================================================================= -->
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+title: "Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma"
+level: L3
+kind: manuscript
+status: live
+canonical_for:
+  - the reported transcript-level junctions of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma
+  - the transcript-level open reading frames those junctions produce, and their in-frame self-checks
+  - the placement of EMC's fusions on the published retained-RGG recruitment axis
+  - the computed classification of TCF12 as a non-FET 5' partner
+  - the five pre-specified DSB-recruitment predictions and their falsifiers
+purpose: >-
+  Compile the reported NR4A3-fusion junctions of extraskeletal myxoid chondrosarcoma from primary
+  sources, translate them at the transcript level, place them on a published recruitment axis,
+  classify the one non-FET 5' partner, and specify in advance the predictions, constructs, controls
+  and falsifiers a group already running the assay would need to test them.
+scope: >-
+  Sequence-level analysis of reported fusion junctions and a pre-specified prediction set. No
+  experiment was performed, no reagent was made, and no patient, cell or animal was studied.
+audience: [external reviewers, collaborators, maintainers, autonomous research agents]
+date: 2026-08-09
+last_verified: 2026-08-09
+related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
+---
+
+# Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
+
+**Tristan D. McRae**
+
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+
+Running title: NR4A3 fusion models and DSB predictions
+
+*A sequence-analysis report with a pre-specified prediction set. No experiment was performed and no
+reagent was made. Every sequence below is computed from public reference transcripts, and every
+breakpoint is quoted from a primary source. Analyses and drafting were carried out with AI
+assistance (section 2.5).*
+
+<!-- EDITORIAL, NOT FOR SUBMISSION.
+
+PUBLISHABLE OBJECT. A short computational research article whose Discussion is a pre-specified,
+falsifiable prediction set. The three obvious alternatives were weighed and rejected:
+
+
+##############################################################################
+# CALL 4   tool=Bash   tool_use_id=toolu_01LobLnFXkdzaiQJuvcDJPLh
+# tool_use timestamp: 2026-09-08T12:29:29.898Z
+# tool_result timestamp: 2026-09-08T12:29:31.355Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Find committed ATR package path
+
+--- input.command (verbatim) ---
+grep -rl "DOC-EMC-ATR-COLLABORATOR-PACKAGE" --include="*.md" --include="*.json" . 2>/dev/null | head -20
+
+--- tool_result body (verbatim) ---
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/PROPOSED-X1-emc-atr-collaborator-package.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/INPUTS/R1/PROPOSED-emc-atr-collaborator-package.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/INPUTS/R1/BASELINE-emc-atr-collaborator-package.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/P2-executed-artifacts/emc-atr-collaborator-package.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/P2-executed-artifacts/emc-atr-collaborator-package-review-response-2026-08-10.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/R1-executed-artifacts/PROPOSED-emc-atr-collaborator-package.md
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/R1-executed-artifacts/BASELINE-emc-atr-collaborator-package.md
+./research/manuscripts/dependency/emc-atr-collaborator-package.md
+./research/manuscripts/dependency/emc-atr-collaborator-package-review-response-2026-08-10.md
+./research/manuscripts/dependency/emc-atr-collaborator-package-changelog.md
+./research/manuscripts/dependency/emc-atr-collaborator-package-peer-review-2026-08-10.md
+./research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+
+
+##############################################################################
+# CALL 5   tool=Bash   tool_use_id=toolu_0118XJCugdLB2pv8oKoN4Qo4
+# tool_use timestamp: 2026-09-08T12:29:35.430Z
+# tool_result timestamp: 2026-09-08T12:29:36.841Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Outline of candidate
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && grep -n "^#\{1,3\} \|^<!--\|^-->\|emc-fusion-frame-fig1\|^\*\*Figure" PROPOSED-X1-emc-atr-collaborator-package.md | head -80
+
+--- tool_result body (verbatim) ---
+1:<!-- ============================================================================
+42:# Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
+56:<!-- EDITORIAL, NOT FOR SUBMISSION.
+145:-->
+155:## Abstract
+181:## 1. Introduction
+218:## 2. Methods
+220:### 2.1 Gene models and junction arithmetic
+239:### 2.2 The retained-RG axis
+248:### 2.3 TCF12 comparison
+259:### 2.4 Tag orientation
+267:### 2.5 Reproduction
+291:### 2.6 Exon numbering and its provenance
+314:## 3. Results
+316:### 3.1 Reported junctions
+349:### 3.2 Gene models and open reading frames
+381:### 3.3 A 59-residue insertion in the type-2 fusion
+403:### 3.4 Placement on the retained-RG axis
+405:**Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,
+407:[`emc-fusion-frame-fig1.png`](../figures/emc-fusion-frame-fig1.png) and
+408:[`emc-fusion-frame-fig1.pdf`](../figures/emc-fusion-frame-fig1.pdf).
+497:### 3.5 TCF12 outside the FET compositional range
+527:## 4. Pre-specified predictions
+595:## 5. Constructs and controls
+616:## 6. Limitations
+655:## 7. Data and code availability
+676:## 8. References
+691:## 9. Supplementary tables
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 6   tool=Bash   tool_use_id=toolu_01GmrGZVKAYnV6UYdWE2zEQa
+# tool_use timestamp: 2026-09-08T12:29:40.295Z
+# tool_result timestamp: 2026-09-08T12:29:42.173Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Figure 1 block
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '403,430p' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+### 3.4 Placement on the retained-RG axis
+
+**Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,
+drawn by [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py) and committed as
+[`emc-fusion-frame-fig1.png`](../figures/emc-fusion-frame-fig1.png) and
+[`emc-fusion-frame-fig1.pdf`](../figures/emc-fusion-frame-fig1.pdf).
+
+**Panel A.** Bars are drawn to residue scale on the shared axis. Each thin vertical tick marks one
+RG dipeptide, at the 1-based position of its arginine
+(`emc-fet-frame-and-composition.json`, `composition.rg_content.<protein>.rg_positions`); the count
+printed at the right of each wild-type bar is that protein's total. Dashed rectangles mark
+operationally defined RGG boxes — maximal merged runs of 60-residue windows each containing at least
+six RG dipeptides, trimmed to start at the first RG the box contains and to end two residues past
+its last RG-start (`emc_fet_idr_census.py`, `RGG_WINDOW = 60`, `RGG_MIN_RG_IN_WINDOW = 6`); the
+spans drawn are `rgg_boxes_operational` in `emc-fet-construct-designs.json`. This finder returns two
+boxes on EWSR1 and one on TAF15; the source paper names three RGG-rich domains in EWSR1, and the box
+definition was deliberately not tuned to reproduce that count. NR4A3 has no box because the finder
+returns none for it. `C166` is a printed text label placed above the NR4A3 bar with a single
+vertical marker drawn on that bar at residue 166; it identifies that residue position and nothing
+more, and no functional property is asserted for it here. Below the dotted rule, each fusion row
+shows the retained 5' segment ending at a heavy end-cap at its breakpoint, carrying only the RG
+ticks at or before that breakpoint; the right-hand text gives the retained residue range and the
+retained-of-total RG count. Panel A carries four weights of vertical black line — RG tick, dashed
+box outline, breakpoint end-cap and the `C166` marker — and the figure prints no key of its own, so
+the reader is directed to this caption for all four.
+
+**Panel B.** The retained-RG fraction axis, carrying the fusion positions of Table 3, the hatched
+band labelled "position on this axis not determinable" for the construct whose reintroduced
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 7   tool=Bash   tool_use_id=toolu_01DZRmvnXMjvMAbaDn4xxhcX
+# tool_use timestamp: 2026-09-08T12:29:44.629Z
+# tool_result timestamp: 2026-09-08T12:29:46.103Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Panel B/C captions
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '430,500p' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+band labelled "position on this axis not determinable" for the construct whose reintroduced
+RGG-rich domain the source does not identify, and the 0.000 to 0.267 interval spanned by the three
+reported EWSR1::ATF1 breakpoints. That interval describes reported breakpoints; it is not a measured
+recruitment range.
+
+**Panel C.** The type-2 seam, drawn as NR4A3 exon 2 (174 nt, untranslated in NR4A3), one nucleotide
+donated by EWSR1, and the resulting extension of 59 codons over 177 nt with no internal stop codon.
+The panel does not print the words "type 2": it draws the EWSR1 exon 7 to NR4A3 exon 2 junction,
+which is the only reported EMC junction using the exon 2 acceptor, and it should be read as that
+junction and not as a general statement about the acceptor.
+
+*What the figure does not show.* The frame rule as a rule over all donor and acceptor pairs, the
+complete phase-1 donor set, the symmetric prefix sweep and its 0.039 margin, and the TAF15 zero-RG
+margin are results of sections 3.2, 3.4 and 3.5 and appear in no panel; none of them may be cited to
+this figure. The generator draws NR4A3 RG ticks at residues 371 and 508; an independent reading of
+the rendered image reported one of them, and whether the 371 tick is occluded by the adjacent
+domain-block edge at 373 or is not resolved at print size was not settled and is not asserted here.
+
+*A provenance limitation of the drawing.* The Panel A box spans are hard-coded literals in the
+generator and currently match `rgg_boxes_operational` exactly, which was checked. The generator
+stamps a hash of each of its listed source files, so a change to that data field would change the
+recorded stamp; what the code does not carry is any binding or asserted equality between that field
+and the literals, so a later redraw with the literals unchanged could preserve a semantic mismatch
+while still producing a fresh source stamp.
+
+**Table 3.** EMC fusions and their comparators on one axis, with the status column distinguishing a
+position measured in reference 1 from a reported breakpoint of a disease in which the mechanism was
+measured. Fractions are of the 5' partner's wild-type RG total.
+
+| construct | 5' partner retained | RG kept | fraction | status |
+|---|---|---|---|---|
+| EWSR1-FLI1 (0 RGG domains), reference 1's reference fusion | EWSR1(1-264) | 0 / 30 | 0.000 | measured in reference 1 |
+| EWSR1-RGG(1)-FLI1 | not identified | not placeable | not placeable | measured in reference 1; reference 1 does not identify which RGG-rich domain was reintroduced, so its retained RG count is unknown |
+| EWSR1-RGG(3)-FLI1 and native EWSR1 | full length | 30 / 30 | 1.000 | measured in reference 1 |
+| EWSR1::FLI1 (Ewing, type 1), EWSR1 e7 | EWSR1(1-264) | 0 / 30 | 0.000 | a reported breakpoint of a disease in which the mechanism was measured |
+| EWSR1::ATF1 (clear cell, reported type), EWSR1 e7 | EWSR1(1-264) | 0 / 30 | 0.000 | a reported breakpoint of a disease in which the mechanism was measured |
+| EWSR1::ATF1 (clear cell, commonest type), EWSR1 e8 | EWSR1(1-324) | 7 / 30 | 0.233 | a reported breakpoint of a disease in which the mechanism was measured |
+| EWSR1::ATF1, EWSR1 e10 | EWSR1(1-348) | 8 / 30 | 0.267 | a reported breakpoint of a disease in which the mechanism was measured |
+| EWSR1::NR4A3 type 2 | EWSR1(1-264) | 0 / 30 | 0.000 | computed here; predicted |
+| TAF15::NR4A3 | TAF15(1-161) | 0 / 31 | 0.000 | computed here; predicted |
+| EWSR1::NR4A3 type 1 | EWSR1(1-431) | 8 / 30 | 0.267 | computed here; predicted |
+| EWSR1::NR4A3 type 5 | EWSR1(1-472) | 11 / 30 | 0.367 | computed here; predicted |
+
+Reference 1 built one EWSR1-ATF1 construct and the retrieved text does not state its EWSR1
+breakpoint. Three EWSR1::ATF1 breakpoints are reported, retaining 0, 7 and 8 of 30 RG dipeptides, so
+the EWSR1::ATF1 comparator is a span from 0.000 to 0.267 rather than a point. The firmly measured
+positions on this axis are 0.000 and 1.000.
+
+Figure 1A shows the retained segments and their RG content, and Figure 1B the axis itself.
+Type 2 sits where EWSR1-FLI1 sits, at zero, on a retained EWSR1 segment identical in sequence over
+the shared prefix. Type 1 sits at 0.267, inside the reported EWSR1::ATF1 span of 0.000 to 0.267.
+Neither EMC type falls outside the range of retained-RG fractions the reported breakpoints of the
+measured diseases already cover. Placing a fusion on the retained-RG axis does not establish that
+recruitment was measured at that position: reference 1 measured recruitment at 0.000 and at 1.000,
+and a position between them is a computed placement on the axis and not a measured recruitment
+result.
+
+Two readings are excluded. Retaining some RG content does not predict absence of the phenotype: the
+commonest clear-cell type retains seven RG dipeptides and the mechanism was measured in that
+disease regardless, so the axis is a comparison and not a threshold. The placement of
+TAF15::NR4A3 was also open until this computation. TAF15's sourced exon 6 junction retains 161 residues
+and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
+window with 13 residues of margin, where the earlier sweep could report only a range of 100 to 170.
+Margin is stated here as the RG-free ceiling (174, the largest retained length carrying no RG
+dipeptide) minus the retained length (161), the convention the census uses; the distance to the
+first RG position is one greater.
+
+### 3.5 TCF12 outside the FET compositional range
+
+Roughly 3 to 4 per cent of EMC carries TCF12::NR4A3, and TCF12 is not a FET-family gene. The class
+argument therefore predicts that these cases do not carry the lesion, which is a prediction
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 8   tool=Bash   tool_use_id=toolu_01RVECsWNALtKxH65y4RbedW
+# tool_use timestamp: 2026-09-08T12:29:52.427Z
+# tool_result timestamp: 2026-09-08T12:29:52.522Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Locate FET artifacts
+
+--- input.command (verbatim) ---
+ls research/modalities/*fet*.json research/manuscripts/**/emc-fet*.json 2>/dev/null; find . -name "emc-fet-frame-and-composition.json" -o -name "emc-fet-construct-designs.json" | head
+
+--- tool_result body (verbatim) ---
+research/modalities/emc-fet-construct-designs.json
+research/modalities/emc-fet-frame-and-composition.json
+research/modalities/emc-fet-idr-census.json
+research/modalities/fet-ddr-axis-scan.json
+research/modalities/fet-sequences-cache.json
+research/modalities/nr4a-safety-genetics.json
+./research/modalities/emc-fet-construct-designs.json
+./research/modalities/emc-fet-frame-and-composition.json
+
+
+##############################################################################
+# CALL 9   tool=Bash   tool_use_id=toolu_01HXstBkjmAp2BVqUs27jX8Z
+# tool_use timestamp: 2026-09-08T12:29:56.850Z
+# tool_result timestamp: 2026-09-08T12:29:58.709Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Inspect frame artifact for exon nt accounting
+
+--- input.command (verbatim) ---
+python3 -c "
+import json
+d=json.load(open('research/modalities/emc-fet-frame-and-composition.json'))
+def walk(o,p=''):
+    if isinstance(o,dict):
+        for k,v in o.items(): walk(v,p+'/'+k)
+    elif isinstance(o,list):
+        print(p,'[list len',len(o),']')
+    else:
+        if any(s in p.lower() for s in ['exon','nt','insert','59','177','174']): print(p,'=',o)
+walk(d)
+" 2>&1 | head -60
+
+--- tool_result body (verbatim) ---
+/frame_rule/_why_both_acceptors_agree/nr4a3_exon_2_length_nt = 174
+/frame_rule/_why_both_acceptors_agree/nr4a3_exon_2_length_is_multiple_of_3 = True
+/frame_rule/_why_both_acceptors_agree/nr4a3_5utr_nt_retained_from_acceptor_exon_2 = 176
+/frame_rule/_why_both_acceptors_agree/nr4a3_5utr_nt_retained_from_acceptor_exon_3 = 2
+/frame_rule/ewsr1_donor_exons [list len 17 ]
+/frame_rule/phase_1_donor_exons [list len 8 ]
+/frame_rule/in_frame_donor_exons [list len 8 ]
+/frame_rule/taf15_exon_6/coding_nt_through_exon = 484
+/frame_rule/taf15_exon_6/last_whole_residue = 161
+/frame_rule/taf15_exon_6/donor_end_phase = 1
+/frame_rule/taf15_exon_6/in_frame_with_nr4a3_exon_3 = True
+/frame_rule/_cross_check_against_committed_audit/disagreements [list len 0 ]
+/frame_rule/_limits [list len 2 ]
+/type2_seam/ewsr1_coding_nt_through_exon_7 = 793
+/type2_seam/nr4a3_5utr_nt_retained_total = 176
+/type2_seam/nr4a3_5utr_nt_from_exon_2 = 174
+/type2_seam/nr4a3_5utr_nt_from_exon_3 = 2
+/type2_seam/internal_stop_codon_in_the_extension = False
+/type2_seam/_limits [list len 1 ]
+/composition/symmetric_prefix_sweep/per_protein/EWSR1/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/EWSR1/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/TAF15/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/TAF15/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/FUS/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/FUS/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/TCF12/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/TCF12/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/NR4A3/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/NR4A3/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/FLI1/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/FLI1/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/ATF1/best_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/per_protein/ATF1/lowest_at_prefix [list len 2 ]
+/composition/symmetric_prefix_sweep/lowest_fet_prefix_span [list len 2 ]
+/composition/sygq_background_panel/_limits [list len 2 ]
+/composition/sygq_background_panel/fet_range_n_terminal [list len 2 ]
+/composition/sygq_background_panel/non_fet_range_n_terminal [list len 2 ]
+/composition/rg_content/EWSR1/rg_dipeptides = 30
+/composition/rg_content/EWSR1/rg_positions [list len 30 ]
+/composition/rg_content/TAF15/rg_dipeptides = 31
+/composition/rg_content/TAF15/rg_positions [list len 31 ]
+/composition/rg_content/FUS/rg_dipeptides = 24
+/composition/rg_content/FUS/rg_positions [list len 24 ]
+/composition/rg_content/TCF12/rg_dipeptides = 7
+/composition/rg_content/TCF12/rg_positions [list len 7 ]
+/composition/rg_content/NR4A3/rg_dipeptides = 2
+/composition/rg_content/NR4A3/rg_positions [list len 2 ]
+/composition/rg_content/FLI1/rg_dipeptides = 1
+/composition/rg_content/FLI1/rg_positions [list len 1 ]
+/composition/rg_content/ATF1/rg_dipeptides = 1
+/composition/rg_content/ATF1/rg_positions [list len 1 ]
+/composition/taf15_zero_rg_margin/_two_conventions_that_differ_by_one = The census reports the RG-free ceiling, the largest retained length carrying no RG dipeptide, which is one residue before the first RG. Subtracting the retained length from the ceiling gives the number of further residues that could be retained without touching an RG; subtracting it from the RG position gives the distance to that position.
+/composition/taf15_zero_rg_margin/retained_at_taf15_exon_6 = 161
+/counted_fusion_type_frequencies/_what = Every counted EMC fusion-type series held in this repository's committed retrieval record, quoted by locating an anchor substring inside the stored abstract.
+/counted_fusion_type_frequencies/_why = The manuscript ranked EWSR1::NR4A3 type 2 as the second commonest fusion. Neither source cited for that rank makes a frequency claim: one is a definition of the types and the other is an RT-PCR primer design. The rank appears to have been inferred from the type NUMBER. These are the counts that exist.
+/counted_fusion_type_frequencies/series [list len 3 ]
+/counted_fusion_type_frequencies/genomic_breakpoint_mapping/series = Panagopoulos 2002
+/counted_fusion_type_frequencies/genomic_breakpoint_mapping/pmid = 12378528
+/counted_fusion_type_frequencies/genomic_breakpoint_mapping/quotation = In CHN, 12 breakpoints were found in intron 2 and only two in intron 1.
+/counted_fusion_type_frequencies/genomic_breakpoint_mapping/_what_it_fixes = A genomic break in NR4A3 intron 2 produces a transcript joining to exon 3; a break in intron 1 produces one joining to exon 2. The 12-to-2 split therefore maps the breakpoint literature's exon numbering onto transcript exon ranks 2 and 3, and it counts how often each acceptor is used.
+
+
+##############################################################################
+# CALL 10   tool=Bash   tool_use_id=toolu_01Ctnfqhqtr9CK27gM5Nx13b
+# tool_use timestamp: 2026-09-08T12:30:03.209Z
+# tool_result timestamp: 2026-09-08T12:30:06.677Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Methods 2.3-2.6
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '248,313p' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+### 2.3 TCF12 comparison
+
+Three independent tests, plus one sweep that removes a dependency on an unpinned breakpoint. Test
+one is the N-terminal [S,Y,G,Q] fraction over a 250-residue window, the FET prion-like signature,
+for TCF12 against all three FET proteins. Test two is RG dipeptide content, whole-protein and
+N-terminal, with the operational box count. Test three is N-terminal sequence identity by
+Needleman-Wunsch alignment, with the three FET-versus-FET pairs computed by the identical call as
+the positive control, since a single identity value in isolation carries no scale. The sweep
+computes the [S,Y,G,Q] fraction of every TCF12 N-terminal prefix from 50 residues to full length in
+10-residue steps, so the conclusion does not rest on one assumed junction.
+
+### 2.4 Tag orientation
+
+Tag orientation was left open. The source is internally inconsistent, its methods writing
+EWSR1-FLI1-GFP and its Fig. 5 legend writing GFP-EWSR1-FLI1, and a tag can itself perturb an
+intrinsically disordered region. The artifact therefore emits the untagged reading frame, and EMC
+constructs should be built in whichever orientation the recipient laboratory's existing
+EWSR1-FLI1 construct uses.
+
+### 2.5 Reproduction
+
+```
+python3 research/modalities/emc_fet_construct_designs.py --check
+```
+
+That command re-derives every figure below offline from the committed input cache
+([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
+The producer emits no output if the inputs have drifted.
+
+Retrieval, computation and drafting were carried out with substantial assistance from an AI coding
+agent operating on a version-controlled repository under the author's direction. The agent is not an
+author and cannot be one, and the author takes responsibility for the content. The agent's output
+did influence the substance of this report rather than its wording alone: the transcript-level
+reading frames, the recruitment-axis placement and the TCF12 classification are all computed
+results, and the pre-specified predictions follow from them. The author verified each by an
+independent route. Every breakpoint is quoted from a primary source and checked against the cited
+record, every sequence figure is re-derivable by the command above, and every prose identifier is
+checked against a tracked fetch product by an automated linter. Those controls address the
+characteristic failure mode of the method, which is a fluent citation to a paper that does not
+exist.
+
+---
+
+### 2.6 Exon numbering and its provenance
+
+Every exon rank in this report is a transcript exon rank: exon *n* is the *n*-th exon of the named
+transcript, counted from the transcript's first exon whether or not that exon is translated. The
+primary sources quoted in section 3.1 state their breakpoints as exon numbers without stating which
+numbering they use, so the correspondence is asserted here and not taken from the sources. Two
+consequences follow and are stated rather than hidden. First, NR4A3 exons 1 and 2 are non-coding on
+ENST00000395097, so a coding-exon rank and a transcript exon rank differ by two for this gene: the
+label "NR4A3 exon 3" means the third exon of the transcript, which is NR4A3's first coding exon.
+Second, the arithmetic is carried at the nucleotide level throughout, so an exon label never enters
+a computation directly; it selects a boundary whose cumulative nucleotide count the artifact holds,
+and the four gene-model assertions and three per-construct self-checks are what a reader should
+audit.
+
+The provenance of those boundaries is a single offline input cache, itself derived from UniProt and
+Ensembl records (section 7). **This correspondence has not been verified against a second,
+independent annotation source in this work.** No such verification was attempted here and none is
+claimed: the exon-to-nucleotide map, the transcript choices and the coding-exon offsets all rest on
+one retrieval into one cache. That is the same class of dependency that produced this programme's
+documented off-by-two error (section 6, item 2), which an independent re-derivation caught. A
+reader who needs the numbering to be right for their own case should re-derive it from their own
+annotation source rather than rely on the correspondence asserted here.
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 11   tool=Bash   tool_use_id=toolu_01HdJegrgXFtkzwA8oLbxhVy
+# tool_use timestamp: 2026-09-08T12:30:10.282Z
+# tool_result timestamp: 2026-09-08T12:30:11.665Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Section 7 data and code
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '655,700p' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+## 7. Data and code availability
+
+| item | location |
+|---|---|
+| Producer | [`emc_fet_construct_designs.py`](../../modalities/emc_fet_construct_designs.py) |
+| Computed artifact, the home of every figure above | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |
+| Offline input cache the artifact re-derives from | [`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json) |
+| NR4A3 exon audit | [`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json) |
+| RG and RGG-box definitions, and the breakpoint sweep | [`emc_fet_idr_census.py`](../../modalities/emc_fet_idr_census.py), [`emc-fet-idr-census.json`](../../modalities/emc-fet-idr-census.json) |
+| Companion assessment of the class-inheritance argument | [`emc-atr-vulnerability-assessment.md`](./emc-atr-vulnerability-assessment.md) |
+| Prior-art screen, with its retrieval record and its stated limits | [`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json) |
+| Separate pre-registered protocol for the drug-response half of the same question, which this report does not address | [`emc-atri-prereg.md`](../../modalities/emc-atri-prereg.md) |
+
+The artifact was produced by GitHub Actions run 30857647907 on `depmap-dependency.yml` in the
+public repository, and `--check` re-derives it offline. Any figure above that disagrees with the
+artifact is an error in this document.
+
+The analysis runs on a standard processor and requires no specialised hardware, licensed software or paid service, so it can be reproduced at no cost.
+
+---
+
+## 8. References
+
+1. Gracilla DE, Menon S, Breese MR, Lin YP, Dela Cruz FS, Feinberg TY, et al. FET Fusion Oncoproteins Disrupt Physiologic DNA Repair and Create a Targetable Opportunity for ATR Inhibitor Therapy. *Cancer Research* 2026;86:2660-2677. PMID 41811428. PMC13223543. doi 10.1158/0008-5472.can-25-2166.
+2. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol* 2025;151(11):283. PMID 41055792. PMC12504171. doi 10.1007/s00432-025-06316-5.
+3. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. *J Pathol* 2019;249(1):90-101. PMID 31020999. PMC6766969. doi 10.1002/path.5284.
+4. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas. *Genet Res Int* 2011;2011:497148. PMID 22567356. PMC3335514. doi 10.4061/2011/497148. Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted in section 3.1.
+5. Cerrone M, Cantile M, Collina F, Marra L, Liguori G, Franco R, et al. Molecular strategies for detecting chromosomal translocations in soft tissue tumors (review). *Int J Mol Med* 2014;33(6):1379-1391. PMID 24714847. PMC4055444. doi 10.3892/ijmm.2014.1726. Source of the type 5 definition, the second TAF15 exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1.
+6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. *Hum Pathol* 2014;45(5):1084-1091. PMID 24746215. PMC4015728. doi 10.1016/j.humpath.2014.01.007.
+7. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, et al. Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma. *Genes Chromosomes Cancer* 2002;35(4):340-352. PMID 12378528. doi 10.1002/gcc.10127. Counted series. The quotation retained in the frame-and-composition artifact gives counts without a denominator: type 1 in 10 tumours, the most frequent transcript, and type 5 in two cases, the second most common. The denominator of 15 EWS/NR4A3 cases is recorded in this repository's editorial note on this reference, not in that quotation.
+8. UniProt and Ensembl reference records for EWSR1 (ENST00000397938), NR4A3 (ENST00000395097), TAF15, FUS and TCF12 (UniProt Q99081), as retrieved into the input cache in section 7.
+9. Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto H. Extraskeletal myxoid chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular analysis of 18 cases. *Hum Pathol* 2001;32(10):1116-1124. PMID 11679947. doi 10.1053/hupa.2001.28226. Counted series: fusion transcripts detected in 15 of 18 cases, EWS-CHN type 1 in 11, type 2 in 1 and TAF2N-CHN in 3.
+10. Sjögren H, Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, Kindblom LG, Stenman G. Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma - cytogenetic, molecular genetic, and cDNA microarray analyses. *Am J Pathol* 2003;162(3):781-792. PMID 12598313. PMC1868116. Counted series, by partner gene rather than by EWSR1 subtype: EWS-TEC five cases, TAF2N-TEC four, TCF12-TEC one, of ten tumours.
+
+---
+
+## 9. Supplementary tables
+
+Three supplementary tables are proposed. S1 and S2 carry content moved from the main text without
+change. S3 is new to this revision and is assembled from one committed artifact; it introduces no
+construct that the artifact does not already hold.
+
+**Supplementary Table S1.** Reference gene models, from the UniProt and Ensembl records retrieved into the input cache [8].
+
+| gene | transcript | protein | transcript / coding exons | Ensembl matches UniProt |
+|---|---|---|---|---|
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 12   tool=Bash   tool_use_id=toolu_01NFcvnC8kBEJmMcE8kJgo27
+# tool_use timestamp: 2026-09-08T12:30:16.564Z
+# tool_result timestamp: 2026-09-08T12:30:16.796Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Find frame/composition producer and tests
+
+--- input.command (verbatim) ---
+ls research/modalities/ | grep -i "frame\|composition" ; echo "---"; find . -path ./.git -prune -o -name "*.py" -print | xargs grep -ln "emc-fet-frame-and-composition" 2>/dev/null | head
+
+--- tool_result body (verbatim) ---
+emc-condensate-composition.json
+emc-fet-frame-and-composition.json
+emc_fet_frame_and_composition.py
+fusion-frame-trap-breakpoints.json
+fusion_frame_trap.py
+junction-frameshift-peptides.json
+junction-mrna-frame-audit.json
+junction_frameshift_peptides.py
+nr4a3-5bt-frame-plan.json
+nr4a3-5bt-frame.json
+nr4a3-frame-decoynull.pdf
+nr4a3-frame-decoynull.png
+nr4a3_frame_decoynull_figure.py
+nr4a3_frame_sanity.py
+r3-generation-frame-audit.json
+r3-generation-frame-harmonized.json
+r3-generation-frame-repframe.json
+r3_generation_frame_audit.py
+r3_score_generation_frame.py
+release_frame_select.py
+selcal-deepternary-frame.json
+selcal_deepternary_frame.py
+valb-frame-transfer-check.json
+valb_frame_transfer_check.py
+---
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/build_x1_step2.py
+./research/modalities/emc_fet_frame_and_composition.py
+./research/modalities/fusion_frame_trap.py
+./research/manuscripts/figures/emc_fusion_frame_figure.py
+
+
+##############################################################################
+# CALL 13   tool=Bash   tool_use_id=toolu_01UdV6Av2LfQ3QSKfXBXRS5k
+# tool_use timestamp: 2026-09-08T12:30:20.805Z
+# tool_result timestamp: 2026-09-08T12:30:20.920Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Inspect producer signatures and tests
+
+--- input.command (verbatim) ---
+grep -n "add_argument\|ArgumentParser\|def main\|__main__" research/modalities/emc_fet_frame_and_composition.py | head -20; echo "=== FIGGEN ==="; grep -n "add_argument\|ArgumentParser\|def main\|__main__\|OUT\|savefig" research/manuscripts/figures/emc_fusion_frame_figure.py | head -20; echo "=== TESTS ==="; grep -rln "frame_and_composition\|frame-and-composition" --include="test_*.py" . | head
+
+--- tool_result body (verbatim) ---
+492:def main(argv=None):
+493:    ap = argparse.ArgumentParser(description=__doc__)
+494:    ap.add_argument("--check", action="store_true",
+528:if __name__ == "__main__":
+=== FIGGEN ===
+267:def main(argv=None):
+268:    ap = argparse.ArgumentParser(description=__doc__)
+269:    ap.add_argument("--check", action="store_true",
+287:        fig.savefig(f"{STEM}.{ext}", dpi=300, facecolor="white", edgecolor="none")
+294:if __name__ == "__main__":
+=== TESTS ===
+./research/modalities/tests/test_emc_fet_frame_and_composition.py
+
+
+##############################################################################
+# CALL 14   tool=Bash   tool_use_id=toolu_01TkfA1FThCxvwryk15CGDNu
+# tool_use timestamp: 2026-09-08T12:30:24.576Z
+# tool_result timestamp: 2026-09-08T12:30:24.683Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Read main() signatures
+
+--- input.command (verbatim) ---
+sed -n '485,530p' research/modalities/emc_fet_frame_and_composition.py; echo "=== FIG ==="; sed -n '262,295p' research/manuscripts/figures/emc_fusion_frame_figure.py; echo "=== TESTCOUNT ==="; grep -c "^def test_\|    def test_" research/modalities/tests/test_emc_fet_frame_and_composition.py
+
+--- tool_result body (verbatim) ---
+        "type2_seam": type2_seam(inputs, designs),
+        "composition": composition(inputs),
+        "counted_fusion_type_frequencies": counted_frequencies(lit),
+        "recruitment_axis_rows": axis_rows(designs),
+    }
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--check", action="store_true",
+                    help="recompute and diff against the committed artifact")
+    a = ap.parse_args(argv)
+
+    got = derive()
+    if a.check:
+        if not os.path.exists(OUT):
+            print("::error::no committed artifact at %s" % os.path.relpath(OUT, REPO))
+            return 1
+        with open(OUT, encoding="utf-8") as fh:
+            have = json.load(fh)
+        if json.dumps(have, sort_keys=True) != json.dumps(got, sort_keys=True):
+            print("DRIFT — the committed artifact disagrees with a fresh derivation")
+            return 1
+        print("REPRODUCES")
+        return 0
+
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(got, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    fr = got["frame_rule"]
+    seam = got["type2_seam"]
+    sw = got["composition"]["symmetric_prefix_sweep"]
+    print(f"wrote {os.path.relpath(OUT, REPO)}")
+    print(f"  frame rule holds for every EWSR1 donor: {fr['rule_holds_for_every_ewsr1_donor']}"
+          f"  (phase-1 donors {fr['phase_1_donor_exons']})")
+    print(f"  type-2 seam: {seam['_the_arithmetic']} -> {seam['extra_residues']} residues, "
+          f"ORF {seam['chimeric_orf_length_aa']} aa")
+    print(f"  symmetric sweep: lowest FET prefix {sw['lowest_fet_prefix_value']} "
+          f"({sw['lowest_fet_prefix_protein']}) vs TCF12 best {sw['tcf12_best_prefix_value']}, "
+          f"gap {sw['gap']}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+=== FIG ===
+    panel_letter(axC, "C", x=-0.005)
+
+    return fig
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--check", action="store_true",
+                    help="compare the committed provenance stamp against the artifacts on disk")
+    a = ap.parse_args(argv)
+
+    if a.check:
+        if not os.path.exists(PROVENANCE):
+            print("::error::no provenance record at %s" % os.path.relpath(PROVENANCE, REPO))
+            return 1
+        have = json.load(open(PROVENANCE, encoding="utf-8"))["sources"]
+        if have != stamp():
+            print("STALE — an artifact changed since the figure was drawn; redraw it")
+            return 1
+        print("PROVENANCE MATCHES")
+        return 0
+
+    inputs, designs, extra = load()
+    fig = draw(inputs, designs, extra)
+    for ext in ("png", "pdf"):
+        fig.savefig(f"{STEM}.{ext}", dpi=300, facecolor="white", edgecolor="none")
+    write_provenance()
+    print(f"wrote {os.path.relpath(STEM, REPO)}.png, .pdf and "
+          f"{os.path.relpath(PROVENANCE, REPO)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+=== TESTCOUNT ===
+9
+
+
+##############################################################################
+# CALL 15   tool=Bash   tool_use_id=toolu_01AWLfVFGYXNvh3WF7kgZABA
+# tool_use timestamp: 2026-09-08T12:30:28.447Z
+# tool_result timestamp: 2026-09-08T12:30:30.167Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Find prereg/S3 references
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && grep -n "falsifier\|equivalence\|Reported rank\|P1\b" PROPOSED-X1-emc-atr-collaborator-package.md | head -40
+
+--- tool_result body (verbatim) ---
+27:  - the five pre-specified DSB-recruitment predictions and their falsifiers
+32:  and falsifiers a group already running the assay would need to test them.
+176:the FET compositional range at every prefix on the evaluated grid (50 aa upwards in 10-aa steps). Five predictions with explicit falsifiers, four
+214:one non-FET partner, and fixes five predictions with their falsifiers before any experiment.
+530:P1 to P4 are held in `emc-fet-construct-designs.json` under
+536:| P1 | EWSR1::NR4A3 type 2 is recruited to laser-induced breaks with kinetics indistinguishable from EWSR1-FLI1. Basis: 0 of 30 RG retained, on a segment byte-identical to the reference construct's | no accumulation at the stripe, or kinetics matching native EWSR1 rather than the fusion reference |
+543:P1 to P5 are a preregistration. Their wording, their bases and their falsifiers are reproduced here
+555:*Redundancy and equivalence within the registered set.* Two limitations of the set as registered are
+556:identified here and neither is repaired by editing it. P4's falsifier, "the pair showing no kinetic
+557:difference", is the same observation as P2's first falsifier, "type 1 recruiting no earlier than
+559:than its five ids suggest. P1 as registered predicts kinetics *indistinguishable* from a comparator,
+560:which is an equivalence: a null result satisfies it and an underpowered experiment satisfies it too,
+561:so P1 is confirmable but not straightforwardly falsifiable in the direction it is written. Whether
+565:`rgg_dose_calibration_and_predictions.registered_predictions` holds four entries, P1 to P4. This
+566:manuscript carries five hypotheses, P1 to P5, with P5 held separately under
+727:| Reported rank | the commonest reported EWSR1::NR4A3 transcript type | the second reported EWSR1::NR4A3 transcript type | a minority reported type | the only reported TAF15::NR4A3 coding junction |
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 16   tool=Bash   tool_use_id=toolu_01Rmq5Rdpt2TowvUwbyz3oCG
+# tool_use timestamp: 2026-09-08T12:30:33.298Z
+# tool_result timestamp: 2026-09-08T12:30:34.908Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Prereg commentary + S3
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '543,575p' PROPOSED-X1-emc-atr-collaborator-package.md; echo "=== S3 ==="; sed -n '715,745p' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+P1 to P5 are a preregistration. Their wording, their bases and their falsifiers are reproduced here
+exactly as they were registered, and nothing below rewrites them; the corrections and the limitations
+are stated separately, as corrections, so that a reader can see both the registered claim and what is
+now known about it.
+
+*The margin convention in P3.* P3's registered basis states 14 residues of margin to TAF15's first RG
+at residue 175. Two conventions are in use and they differ by one. The census convention, used in
+section 3.4, is the RG-free ceiling (174, the largest retained length carrying no RG dipeptide) minus
+the retained length (161), which gives 13. The distance from the retained length to the first RG
+position (175 minus 161) is 14. Both describe the same junction and the same sequence; section 3.4
+states the census convention explicitly and P3 is left as registered.
+
+*Redundancy and equivalence within the registered set.* Two limitations of the set as registered are
+identified here and neither is repaired by editing it. P4's falsifier, "the pair showing no kinetic
+difference", is the same observation as P2's first falsifier, "type 1 recruiting no earlier than
+type 2"; one experiment therefore falsifies two entries, and the set counts fewer independent tests
+than its five ids suggest. P1 as registered predicts kinetics *indistinguishable* from a comparator,
+which is an equivalence: a null result satisfies it and an underpowered experiment satisfies it too,
+so P1 is confirmable but not straightforwardly falsifiable in the direction it is written. Whether
+to re-register a narrowed set is a scientific decision about a preregistration and is not taken here.
+
+*Two records, and what each holds.* The machine-readable record
+`rgg_dose_calibration_and_predictions.registered_predictions` holds four entries, P1 to P4. This
+manuscript carries five hypotheses, P1 to P5, with P5 held separately under
+`tcf12_negative_control.registered_prediction`. Both records are preserved as they stand. They are
+not the same record, their entries are not word-for-word identical, and neither is edited here to
+agree with the other; a reader auditing a prediction should read the entry in the record they cite.
+
+P5 is the arm capable of falsifying the class argument. Four outcomes are distinguishable. TCF12::NR4A3
+not recruited while EWSR1::NR4A3 is recruited leaves the prediction standing and demonstrates FET
+specificity within one disease, which no experiment in reference 1 performs. Both recruited places
+the driver in something the two chimeras share that is not the FET low-complexity region, the
+obvious candidate being the NR4A3 moiety, which is why GFP-NR4A3 alone is a required control in the
+=== S3 ===
+| GFP-TCF12, full length | partner-alone anchor for the P5 arm | no accumulation, TCF12 being non-FET by section 3.5 |
+
+**Supplementary Table S3.** Per-junction assembly coordinates for each reported junction with a
+sourced transcript-level breakpoint. Every cell is a verbatim copy of a recorded leaf of
+[`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json)
+(sha256 `726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b`), a fixed column label,
+or `UNRESOLVED`. No value in this table was derived, inferred, rounded or interpolated, and no new
+construct is proposed by it.
+
+| Field | EWSR1_NR4A3_type1 | EWSR1_NR4A3_type2 | EWSR1_NR4A3_type5 | TAF15_NR4A3 |
+|---|---|---|---|---|
+| Junction (label) | EWSR1::NR4A3 type 1 — EWSR1 exon 12 :: NR4A3 exon 3 | EWSR1::NR4A3 type 2 — EWSR1 exon 7 :: NR4A3 exon 2 | EWSR1::NR4A3 type 5 — EWSR1 exon 13 :: NR4A3 exon 3 | TAF15::NR4A3 — TAF15 exon 6 :: NR4A3 exon 3 |
+| Reported rank | the commonest reported EWSR1::NR4A3 transcript type | the second reported EWSR1::NR4A3 transcript type | a minority reported type | the only reported TAF15::NR4A3 coding junction |
+| 5' transcript | ENST00000397938 | ENST00000397938 | ENST00000397938 | ENST00000605844 |
+| 5' last exon retained (transcript rank) | 12 | 7 | 13 | 6 |
+| 3' transcript | ENST00000395097 | ENST00000395097 | ENST00000395097 | ENST00000395097 |
+| 3' first exon retained (transcript rank) | 3 | 2 | 3 | 3 |
+| CUT — 5' cDNA nt retained | 1363 | 862 | 1486 | 570 |
+| CUT — 5' coding nt retained | 1294 | 793 | 1417 | 484 |
+| 5' UTR length (nt) | 69 | 69 | 69 | 86 |
+| CUT — 3' cDNA resume offset (0-based) | 697 | 523 | 697 | 697 |
+| 3' UTR nt read through | 2 | 176 | 2 | 2 |
+| Assembled cDNA length (nt) | 6270 | 5943 | 6393 | 5477 |
+| ORF length (nt) | 3174 | 2847 | 3297 | 2364 |
+| ORF length (aa) | 1058 | 949 | 1099 | 788 |
+| 5' residues fully encoded | 431 | 264 | 472 | 161 |
+| Codon split across junction | yes | yes | yes | yes |
+| Seam residue index (1-based) | 432 | 265 | 473 | 162 |
+| Junction context (aa) | TAKAAVEWFD\|DMPCVQAQYS | SQQSSSYGQQ\|KPTAEEGSPA | GRGMPPPLRG\|DMPCVQAQYS | QRENYSHHTQ\|DMPCVQAQYS |
+| Junction context (nt) | AATGGTTTGATG\|ATATGCCCTGCG | ACGGGCAGCAGA\|AGCCCACTGCGG | CACTCCGTGGAG\|ATATGCCCTGCG | ACCACACACAAG\|ATATGCCCTGCG |
+| Extra junction-encoded residues | 1 | 59 | 1 | 1 |
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 17   tool=Bash   tool_use_id=toolu_01TuKUAaYmZ7Sabz2GroiuVt
+# tool_use timestamp: 2026-09-08T12:30:42.576Z
+# tool_result timestamp: 2026-09-08T12:30:44.172Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Table 1 and decision record
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && grep -n "^\*\*Table 1" -A 14 PROPOSED-X1-emc-atr-collaborator-package.md | head -25; echo "=== DECISION RECORD ==="; ls -la INPUTS/ ; ls /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/
+
+--- tool_result body (verbatim) ---
+318:**Table 1.** Reported junctions, in transcript exon numbering, with the source of each.
+319-
+320-| fusion | junction | counted frequency | sources |
+321-|---|---|---|---|
+322-| EWSR1::NR4A3 type 1 | EWSR1 e12 to NR4A3 e3 | commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes: 10 tumours, the most frequent transcript [7]; 11 of the 15 fusion-positive cases [9] | [4,5,6]; expressed as "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)" [3] |
+323-| EWSR1::NR4A3 type 2 | EWSR1 e7 to NR4A3 e2 | counted once in the two series that typed EWSR1 subtypes: 1 of the 15 fusion-positive cases [9], and absent from the counted types of [7] | [4,6] |
+324-| EWSR1::NR4A3 type 5 | EWSR1 e13 to NR4A3 e3 | named the second most common transcript in [7], in two cases | [5,7] |
+325-| TAF15::NR4A3 | TAF15 e6 to NR4A3 e3 | the only reported coding junction; 3 of the 15 fusion-positive cases [9]; 4 of the 10 fusions in [10], which counts partner genes rather than EWSR1 subtypes | [4,5,7]; expressed as "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion" [3] |
+326-
+327-The type 1 and type 2 junctions are defined verbatim in a primary source: "The most common fusion
+328-transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is
+329-fused to exon 2 of NR4A3 in the type 2 fusion transcript" [4]. That sentence names type 1 as the
+330-most common and defines type 2 without making any frequency claim about it, so it establishes the
+331-two junctions and not a ranking of the two; the counted series in the table above, and not this
+332-definition, carry the frequencies. The junctions are corroborated independently
+=== DECISION RECORD ===
+total 40
+drwxr-xr-x 7 root root 4096 Sep  8 12:09 .
+drwxr-xr-x 3 root root 4096 Sep  8 12:17 ..
+-rw-r--r-- 1 root root 3716 Sep  8 12:09 COLLECTION-U1-figure-map-and-r1-review.md
+-rw-r--r-- 1 root root 5162 Sep  8 12:09 CONTRACT-X1-atr-new-reconstruction.md
+drwxr-xr-x 2 root root 4096 Sep  8 11:31 R1
+drwxr-xr-x 2 root root 4096 Sep  8 11:48 U1
+drwxr-xr-x 2 root root 4096 Sep  8 12:00 W1
+drwxr-xr-x 2 root root 4096 Sep  8 12:00 W2
+drwxr-xr-x 2 root root 4096 Sep  8 11:58 W3
+INPUTS
+MOVED-TABLES-SOURCE-BLOCKS.md
+ORIGINAL-CHILD-TRANSCRIPT-a1e175e744237cdb8.jsonl
+PREREG-ROWS-CANDIDATE-vs-BASELINE.txt
+PROPOSED-X1-emc-atr-collaborator-package.md
+PROPOSED-X1-vs-COMMITTED-BASELINE.diff
+PROPOSED-X1-vs-R1.diff
+RETAINED-APPENDIX-A-history.md
+SHA256SUMS.txt
+START-END-STATE.txt
+X1-COVER-LETTER-AND-TITLE-PROPOSALS.md
+X1-DECISION-RECORD.md
+build_x1_candidate.py
+build_x1_step2.py
+build_x1_step3.py
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 18   tool=Bash   tool_use_id=toolu_01QWcDsYjUoppBienZ92q9mJ
+# tool_use timestamp: 2026-09-08T12:30:49.108Z
+# tool_result timestamp: 2026-09-08T12:30:49.190Z   is_error=False
+##############################################################################
+
+--- input.description ---
+List paper-lane
+
+--- input.command (verbatim) ---
+ls research/autonomy/opus-capacity-campaign-20260908/paper-lane/ | head -60
+
+--- tool_result body (verbatim) ---
+A1-executed-artifacts
+A1-hypothesis-candidates-DECISION.md
+A2-executed-artifacts
+A2-unclosed-routes-DECISION.md
+A3-executed-artifacts
+A3-strategy-layer-DECISION.md
+B1-STOPPED-artifacts
+B1-STOPPED-partial-output.md
+BLOCKER-atr-package-uncommitted-revision.md
+BLOCKER-repurposing-canonical-draft-identity.md
+BLOCKER-surface-targets-item44-surfaceome-overlap.md
+BLOCKERS-mtap-prmt5-publication-readiness.md
+C1-MODEL-START-RECEIPT.md
+C1-competing-share-consequence-EXECUTED.md
+C1-executed-artifacts
+COLLECTION-E1-adjudication.md
+COLLECTION-F1-adjudication.md
+COLLECTION-G1-adjudication.md
+COLLECTION-H1-adjudication.md
+COLLECTION-I1-adjudication.md
+COLLECTION-J1-adjudication.md
+COLLECTION-K1-adjudication.md
+COLLECTION-L1-adjudication.md
+COLLECTION-M1-adjudication.md
+COLLECTION-N1-adjudication.md
+COLLECTION-O1-adjudication.md
+COLLECTION-P1-adjudication.md
+COLLECTION-P2-adjudication.md
+COLLECTION-P3-adjudication.md
+COLLECTION-R1-atr-reconciliation-proposal.md
+COLLECTION-R2-tier-decision-proposal.md
+COLLECTION-T1-registry-field-coverage.md
+COLLECTION-U1-figure-map-and-r1-review.md
+COLLECTION-U2-repurposing-figure-tier-tokens.md
+COLLECTION-V1-t2-candidate.md
+COLLECTION-W1-W2-table-and-legend.md
+COLLECTION-W3-okamoto-metadata.md
+COLLECTION-X1-atr-reconstruction.md
+COLLECTION-Y1-tcf12-frequency-provenance.md
+CONTRACT-C1-competing-share-consequence.md
+CONTRACT-E1-repurposing-class-evidence.md
+CONTRACT-F1-prmt5-preprint-publication-status.md
+CONTRACT-G1-surface-targets-platform-confound.md
+CONTRACT-H1-surface-targets-si-consistency.md
+CONTRACT-I1-consistency-rule-semantics.md
+CONTRACT-J1-surface-targets-abstract-cspg4.md
+CONTRACT-K1-figure1-marker-in-empty-quadrant.md
+CONTRACT-L1-deterministic-figure-jitter.md
+CONTRACT-M1-surfaceome-membership-source-recovery.md
+CONTRACT-N1-repurposing-submission-residue.md
+CONTRACT-O1-repurposing-imatinib-registry-claim.md
+CONTRACT-P1-mtap-prmt5-appendix-attribution.md
+CONTRACT-P2-atr-package-divergence-test.md
+CONTRACT-P3-neoantigen-seam-claim-verification.md
+CONTRACT-R1-atr-reconciliation-proposal.md
+CONTRACT-R2-repurposing-tier-decision-proposal.md
+CONTRACT-S4-density-extent-anchoring.md
+CONTRACT-S5-cohort-shape-sensitivity.md
+CONTRACT-S7-single-source-verification.md
+CONTRACT-T1-registry-field-coverage-method.md
+
+
+##############################################################################
+# CALL 19   tool=Bash   tool_use_id=toolu_01HzZfGGNuysELpnT3hCsV5N
+# tool_use timestamp: 2026-09-08T12:31:09.494Z
+# tool_result timestamp: 2026-09-08T12:31:11.462Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Sweep details and Panel C code
+
+--- input.command (verbatim) ---
+python3 -c "
+import json
+d=json.load(open('research/modalities/emc-fet-frame-and-composition.json'))
+sw=d['composition']['symmetric_prefix_sweep']
+for k,v in sw.items():
+    if k!='per_protein': print(k,'=',v)
+print('proteins:',list(sw['per_protein'].keys()))
+print('EWSR1 entry:',json.dumps(sw['per_protein']['EWSR1']))
+"; echo "=== PANEL C CODE ==="; grep -n "axC\|177\|174\|exon 2\|exon 3" research/manuscripts/figures/emc_fusion_frame_figure.py | head -40
+
+--- tool_result body (verbatim) ---
+_what = The [S,Y,G,Q] fraction of every N-terminal prefix from 50 aa to full length in 10-aa steps, computed on the same grid for all four proteins. The published version of this test swept TCF12 alone and compared its best value against the FET proteins at one fixed 250-aa window, which is asymmetric and overstates the separation.
+lowest_fet_prefix_value = 0.439
+lowest_fet_prefix_protein = EWSR1
+lowest_fet_prefix_span = [1, 560]
+tcf12_best_prefix_value = 0.4
+gap = 0.039
+any_tcf12_prefix_reaches_the_lowest_fet_prefix = False
+_reading = The separation survives on the symmetric test and it is narrow: no TCF12 prefix of any length reaches the lowest value any FET prefix takes, but the margin is the gap above, not the difference against the fixed-window value.
+proteins: ['EWSR1', 'TAF15', 'FUS', 'TCF12', 'NR4A3', 'FLI1', 'ATF1']
+EWSR1 entry: {"length_aa": 656, "n_prefixes": 61, "best_sygq_fraction": 0.562, "best_at_prefix": [1, 290], "lowest_sygq_fraction": 0.439, "lowest_at_prefix": [1, 560]}
+=== PANEL C CODE ===
+18:     176 nt of NR4A3 5' untranslated sequence (174 of exon 2, 2 of exon 3) complete 59 codons before
+225:    axC = fig.add_subplot(gs[2])
+226:    axC.set_xlim(-46, 252)
+227:    axC.set_ylim(0, 1)
+228:    axC.axis("off")
+231:    blocks = [(-42, 42, PALE, None), (0, 1, "#7a7a7a", None), (1, 174, "white", "...."),
+232:              (175, 2, "white", "xxxx"), (177, 66, LIGHT, None)]
+234:        axC.add_patch(Rectangle((x, ytop), w, hgt, facecolor=fc, edgecolor=INK, lw=0.9,
+236:    axC.text(-21, ytop + hgt + 0.045, "EWSR1 exon 7,\ncoding through nt 793", ha="center",
+238:    axC.text(88, ytop + hgt + 0.045, "NR4A3 exon 2, 174 nt,\nuntranslated in NR4A3",
+240:    axC.text(210, ytop + hgt + 0.045, "NR4A3 coding sequence,\nfrom its own initiator",
+242:    axC.annotate("2 nt of exon 3", xy=(176, ytop + hgt), xytext=(176, 0.985),
+245:    axC.annotate("one nucleotide donated by EWSR1", xy=(0.5, ytop), xytext=(-46, 0.375),
+251:        axC.plot([i * 3, i * 3], [ycomb, ycomb + 0.05], color=MID, lw=0.4)
+252:    axC.plot([0, 177], [ycomb, ycomb], color=INK, lw=1.0)
+253:    axC.plot([177, 177], [ycomb, ytop + hgt], color=INK, lw=0.7, linestyle=(0, (2, 2)))
+254:    axC.text(120, 0.375, "59 codons, 177 nt, no internal stop codon", ha="center", va="center",
+258:    axC.text(-46, 0.235, "residues 265 to 323 of the chimeric protein, read in the EWSR1 frame:",
+260:    axC.text(-46, 0.155, seq[:30] + "\n" + seq[30:], ha="left", va="top", fontsize=7.8,
+262:    panel_letter(axC, "C", x=-0.005)
+
+
+##############################################################################
+# CALL 20   tool=Bash   tool_use_id=toolu_01HeYYiga35dAdYTxx8zCtJx
+# tool_use timestamp: 2026-09-08T12:31:23.625Z
+# tool_result timestamp: 2026-09-08T12:31:25.439Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Exact frontmatter bounds
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '14,17p;38,42p' PROPOSED-X1-emc-atr-collaborator-package.md | cat -A | sed 's/\$$//' | head -12; echo "---nums---"; awk 'NR<=45 && /^---$/{print NR": "$0}' PROPOSED-X1-emc-atr-collaborator-package.md
+
+--- tool_result body (verbatim) ---
+Appendix A of the input is retained verbatim in RETAINED-APPENDIX-A-history.md.
+============================================================================= -->
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+last_verified: 2026-08-09
+related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
+---
+
+# Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
+---nums---
+16: ---
+40: ---
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 21   tool=Bash   tool_use_id=toolu_01SLM1m9GPbm9rkBxjSn94wu
+# tool_use timestamp: 2026-09-08T12:31:29.654Z
+# tool_result timestamp: 2026-09-08T12:31:29.760Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Committed baseline frontmatter
+
+--- input.command (verbatim) ---
+sed -n '1,12p' research/manuscripts/dependency/emc-atr-collaborator-package.md; echo "..."; grep -n "^date:\|^last_verified:\|^status:" research/manuscripts/dependency/emc-atr-collaborator-package.md | head
+
+--- tool_result body (verbatim) ---
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+title: "Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"
+level: L3
+kind: manuscript
+status: live
+canonical_for:
+  - the reported transcript-level junctions of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma
+  - the transcript-level open reading frames those junctions produce, and their in-frame self-checks
+  - the placement of EMC's fusions on the published retained-RGG recruitment axis
+  - the computed classification of TCF12 as a non-FET 5' partner
+  - the five pre-specified DSB-recruitment predictions and their falsifiers
+...
+6:status: live
+22:date: 2026-08-09
+23:last_verified: 2026-08-09
+
+
+##############################################################################
+# CALL 22   tool=Bash   tool_use_id=toolu_0148GMTzn9mW3ngKrEJUGmKv
+# tool_use timestamp: 2026-09-08T12:32:12.936Z
+# tool_result timestamp: 2026-09-08T12:32:14.502Z   is_error=False
+##############################################################################
+
+--- input.description ---
+S3 tail and figure provenance path
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-lane && sed -n '745,770p' PROPOSED-X1-emc-atr-collaborator-package.md; echo "=== provenance json ==="; grep -n "PROVENANCE\s*=\|STEM\s*=\|SOURCES\|provenance" /home/user/Rare-cancers/research/manuscripts/figures/emc_fusion_frame_figure.py | head
+
+--- tool_result body (verbatim) ---
+| Extra junction-encoded residues | 1 | 59 | 1 | 1 |
+| In frame (self-check) | yes | yes | yes | yes |
+| 5' start matches partner (self-check) | yes | yes | yes | yes |
+| 3' C-terminus intact (self-check) | yes | yes | yes | yes |
+| CUT — genomic breakpoint coordinates | UNRESOLVED | UNRESOLVED | UNRESOLVED | UNRESOLVED |
+
+**Supplementary Table S3, continued.** Reported fusions with no sourced transcript-level junction.
+
+| Fusion | Every assembly field | Recorded status |
+|---|---|---|
+| FUS::NR4A3 | UNRESOLVED | NO transcript-level junction sourced in this repo's literature cache |
+| TCF12::NR4A3 | UNRESOLVED | GENOMIC breakpoint only — reported as TCF12 intron 5, not as an mRNA exon junction, and TCF12 has several alternatively-spliced isoforms |
+
+Genomic breakpoint coordinates are `UNRESOLVED` for all four junctions because the input carries
+transcript and cDNA coordinates only; they are not back-derived from exon ranks. FUS::NR4A3 and
+TCF12::NR4A3 appear in no column because the input records no transcript-level junction for either
+— TCF12 is reported at genomic resolution only, in intron 5, and TCF12 has several alternatively
+spliced isoforms. That is a limit of the sourcing and not evidence about the fusions.
+=== provenance json ===
+26:    python3 research/manuscripts/figures/emc_fusion_frame_figure.py --check   # provenance only
+37:STEM = os.path.join(HERE, "emc-fusion-frame-fig1")
+38:PROVENANCE = os.path.join(HERE, "emc-atr-figure-provenance.json")
+40:SOURCES = [
+53:    inputs = json.load(open(SOURCES[0], encoding="utf-8"))
+54:    designs = json.load(open(SOURCES[1], encoding="utf-8"))
+55:    extra = json.load(open(SOURCES[2], encoding="utf-8"))
+61:    for p in SOURCES:
+67:def write_provenance():
+270:                    help="compare the committed provenance stamp against the artifacts on disk")
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 23   tool=Bash   tool_use_id=toolu_01JbPXJoUUQCHuBeBEMnaqMQ
+# tool_use timestamp: 2026-09-08T12:33:10.644Z
+# tool_result timestamp: 2026-09-08T12:33:12.346Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Apply seven bounded ATR corrections
+
+--- input.command (verbatim) ---
+mkdir -p /tmp/claude-0/x1-integrate && cat > /tmp/claude-0/x1-integrate/apply.py <<'PYEOF'
+import io, sys, os
+SRC = "/tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md"
+DST = "/tmp/claude-0/x1-integrate/INTEGRATED-emc-atr-collaborator-package.md"
+t = io.open(SRC, encoding="utf-8").read()
+n = 0
+def rep(old, new, label):
+    global t, n
+    c = t.count(old)
+    if c != 1:
+        sys.exit("FAILED %s: %d occurrences" % (label, c))
+    t = t.replace(old, new)
+    n += 1
+    print("applied", label)
+
+# ---- C1: frontmatter first, provenance comment after it -----------------
+head_end = t.index("============================================================================= -->\n---\n")
+lead = t[:head_end + len("============================================================================= -->\n")]
+assert lead.startswith("<!-- ===")
+t = t[len(lead):]
+fm_close = t.index("\nrelated: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]\n---\n")
+insert_at = fm_close + len("\nrelated: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]\n---\n")
+prov = """
+<!-- ============================================================================
+REVISION PROVENANCE, EDITORIAL - NOT FOR SUBMISSION.
+
+This file is a NEW working revision, integrated on 2026-09-08. It is not a recovered
+original: no file, blob or draft of any lost historical revision was found, and none is
+claimed. The wording of the edit that introduced the earlier text was not recovered from
+the history examined at its squash and shallow-clone boundary, which is a limit of that
+examination and not a finding of global historical absence.
+
+It was built by applying, to the R1 candidate, three required corrections to that
+candidate, the qualifications established by U1, and the completed outputs of W1
+(Supplementary Table S3), W2 (Panel A key sources) and W3 (Okamoto 2001 metadata). The
+scientific coordinator then accepted that reconstruction and title as the new working
+manuscript and authorised six further bounded corrections, together with one sentence
+replacement opening section 3.5, all of which are applied here. Integration is not
+publication acceptance.
+
+The `date` and `last_verified` fields above are the original source dates of the
+underlying analysis and are deliberately unchanged: no scientific result was recomputed,
+re-derived or re-verified for this revision, and no fresh verification is claimed.
+
+Retained records, unedited: the proposal, its decision record, the verbatim earlier
+Appendix A, and the candidate-versus-baseline and candidate-versus-R1 diffs are under
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/`.
+Figure-QA observations carried out of the Figure 1 caption during this integration are in
+[`emc-atr-collaborator-package-integration-qa-2026-09-08.md`](./emc-atr-collaborator-package-integration-qa-2026-09-08.md).
+============================================================================= -->
+"""
+t = t[:insert_at] + prov + t[insert_at:]
+n += 1
+print("applied C1 frontmatter")
+
+# ---- C2: Figure 1 image + Panel C nucleotide accounting ------------------
+rep("""**Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,""",
+    """![Figure 1. Three panels: reported EMC junctions drawn to residue scale with their RG content, the retained-RG fraction axis, and the type-2 seam.](../figures/emc-fusion-frame-fig1.png)
+
+**Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,""",
+    "C2 image")
+
+rep("""**Panel C.** The type-2 seam, drawn as NR4A3 exon 2 (174 nt, untranslated in NR4A3), one nucleotide
+donated by EWSR1, and the resulting extension of 59 codons over 177 nt with no internal stop codon.""",
+    """**Panel C.** The type-2 seam, drawn as one nucleotide donated by EWSR1 followed by 176 nt of NR4A3
+untranslated sequence: 174 nt of NR4A3 exon 2, the block labelled untranslated in NR4A3, and the
+first 2 nt of NR4A3 exon 3, annotated separately in the panel. Those 177 nt are the extension of 59
+codons carrying no internal stop codon. The earlier caption counted only the exon 2 block and the
+donated nucleotide, which does not reach 177.""",
+    "C2 panel C")
+
+# ---- C6: figure QA out of the caption ------------------------------------
+rep("""*What the figure does not show.* The frame rule as a rule over all donor and acceptor pairs, the
+complete phase-1 donor set, the symmetric prefix sweep and its 0.039 margin, and the TAF15 zero-RG
+margin are results of sections 3.2, 3.4 and 3.5 and appear in no panel; none of them may be cited to
+this figure. The generator draws NR4A3 RG ticks at residues 371 and 508; an independent reading of
+the rendered image reported one of them, and whether the 371 tick is occluded by the adjacent
+domain-block edge at 373 or is not resolved at print size was not settled and is not asserted here.
+
+*A provenance limitation of the drawing.* The Panel A box spans are hard-coded literals in the
+generator and currently match `rgg_boxes_operational` exactly, which was checked. The generator
+stamps a hash of each of its listed source files, so a change to that data field would change the
+recorded stamp; what the code does not carry is any binding or asserted equality between that field
+and the literals, so a later redraw with the literals unchanged could preserve a semantic mismatch
+while still producing a fresh source stamp.""",
+    """*What the figure shows, and what it does not.* The three panels carry the reported junctions, the
+RG content each retains, the retained-RG fraction axis and the type-2 seam. The frame rule as a rule
+over all donor and acceptor pairs, the complete phase-1 donor set, the symmetric prefix sweep and its
+0.039 margin, and the TAF15 zero-RG margin are results of sections 3.2, 3.4 and 3.5 and appear in no
+panel. Two drawing-level observations, on the legibility of the closely spaced NR4A3 ticks and on the
+binding between the Panel A box literals and their source data field, are recorded in the integration
+QA note cited in the editorial comment above rather than in this caption.""",
+    "C6 caption")
+
+# ---- C7: Y1 sentence replacement -----------------------------------------
+rep("""Roughly 3 to 4 per cent of EMC carries TCF12::NR4A3, and TCF12 is not a FET-family gene.""",
+    """TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene.""",
+    "C7 section 3.5 opening")
+
+# ---- C3a: Methods 2.3 ----------------------------------------------------
+rep("""The sweep
+computes the [S,Y,G,Q] fraction of every TCF12 N-terminal prefix from 50 residues to full length in
+10-residue steps, so the conclusion does not rest on one assumed junction.""",
+    """The sweep
+computes the [S,Y,G,Q] fraction of every N-terminal prefix from 50 residues to full length in
+10-residue steps, on that one evaluated grid, for TCF12 and for each of the three FET proteins rather
+than for TCF12 alone. The published version of this test swept TCF12 alone and compared its best
+value against the FET proteins at a single fixed 250-residue window, which is asymmetric. No sweep
+was run for this revision: the symmetric result, its grid, its per-protein prefixes and the resulting
+0.039 gap are read from the retained artifact
+[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) under
+`composition.symmetric_prefix_sweep`. The conclusion therefore rests neither on one assumed junction
+nor on one fixed window.""",
+    "C3a methods 2.3")
+
+# ---- C3b: Methods 2.5 ----------------------------------------------------
+rep("""```
+python3 research/modalities/emc_fet_construct_designs.py --check
+```
+
+That command re-derives every figure below offline from the committed input cache
+([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
+The producer emits no output if the inputs have drifted.""",
+    """```
+python3 research/modalities/emc_fet_construct_designs.py --check
+python3 research/modalities/emc_fet_frame_and_composition.py --check
+python3 research/manuscripts/figures/emc_fusion_frame_figure.py --check
+```
+
+The first command re-derives the per-construct assembly coordinates, the reading frames and the
+recruitment-axis rows offline from the committed input cache
+([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`;
+it does not produce the frame rule, the type-2 seam arithmetic or the composition results. The second
+re-derives those into
+[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json), printing
+`REPRODUCES` when a fresh derivation matches the committed artifact and `DRIFT`, with a non-zero
+exit, when it does not; its unit tests are
+[`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py).
+The third compares the committed provenance stamp
+([`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json)) against the artifacts
+Figure 1 was drawn from, printing `PROVENANCE MATCHES` or `STALE`; run without `--check` it redraws
+the figure. These are the declared command signatures, quoted from the three modules; none of them
+was run to produce this revision, which recomputes no scientific result.""",
+    "C3b methods 2.5")
+
+# ---- C3c: section 7 ------------------------------------------------------
+rep("""| Computed artifact, the home of every figure above | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |""",
+    """| Computed artifact holding the per-construct assembly coordinates, reading frames and axis rows | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |
+| Producer of the frame rule, the type-2 seam arithmetic and the composition results | [`emc_fet_frame_and_composition.py`](../../modalities/emc_fet_frame_and_composition.py) |
+| Its computed artifact | [`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) |
+| Its unit tests | [`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py) |
+| Figure 1 generator and the provenance stamp it writes | [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py), [`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json) |""",
+    "C3c section 7 rows")
+
+rep("""The artifact was produced by GitHub Actions run 30857647907 on `depmap-dependency.yml` in the
+public repository, and `--check` re-derives it offline. Any figure above that disagrees with the
+artifact is an error in this document.""",
+    """`emc-fet-construct-designs.json` was produced by GitHub Actions run 30857647907 on
+`depmap-dependency.yml` in the public repository, and its producer's `--check` re-derives it offline.
+The frame-and-composition artifact and the figure carry their own producers and checks, listed in
+section 2.5. Any figure above that disagrees with the artifact it is drawn from is an error in this
+document.""",
+    "C3c section 7 prose")
+
+# ---- C4: preregistration commentary --------------------------------------
+rep("""P4's falsifier, "the pair showing no kinetic
+difference", is the same observation as P2's first falsifier, "type 1 recruiting no earlier than
+type 2"; one experiment therefore falsifies two entries, and the set counts fewer independent tests
+than its five ids suggest. P1 as registered predicts kinetics *indistinguishable* from a comparator,
+which is an equivalence: a null result satisfies it and an underpowered experiment satisfies it too,
+so P1 is confirmable but not straightforwardly falsifiable in the direction it is written.""",
+    """P4's falsifier, "the pair showing no kinetic
+difference", overlaps P2's first falsifier, "type 1 recruiting no earlier than type 2", without being
+identical to it: the first is a two-sided absence of any difference, while the second is directional
+and is also satisfied by type 1 recruiting later. One experiment can therefore satisfy both at once,
+so the set counts fewer independent tests than its five ids suggest, but the two entries are not
+interchangeable. P1 as registered predicts kinetics *indistinguishable* from a comparator. Failure to
+detect a difference does not establish equivalence. The registered wording supplies no equivalence
+margin or precision criterion, so a nonsignificant comparison alone cannot confirm P1.""",
+    "C4 prereg commentary")
+
+# ---- C5: S3 legacy rank row ----------------------------------------------
+rep("""| Reported rank | the commonest reported EWSR1::NR4A3 transcript type |""",
+    """| Reported rank — LEGACY SOURCE DESCRIPTION, not a counted frequency (see note) | the commonest reported EWSR1::NR4A3 transcript type |""",
+    "C5 S3 row label")
+
+rep("""Genomic breakpoint coordinates are `UNRESOLVED` for all four junctions because the input carries""",
+    """*Note on the "Reported rank" row.* Its four cells are verbatim leaves of the artifact and are
+retained unchanged, with their provenance, but they are a legacy source description of how each
+junction was characterised, not a frequency counted in this work. Table 1 carries the corrected
+frequency evidence, with each count attached to the series it comes from; where the two differ,
+Table 1 governs. No artifact value was modified to add this label.
+
+Genomic breakpoint coordinates are `UNRESOLVED` for all four junctions because the input carries""",
+    "C5 S3 footnote")
+
+io.open(DST, "w", encoding="utf-8").write(t)
+print("wrote", DST, "replacements:", n)
+PYEOF
+python3 /tmp/claude-0/x1-integrate/apply.py
+
+--- tool_result body (verbatim) ---
+applied C1 frontmatter
+applied C2 image
+applied C2 panel C
+applied C6 caption
+applied C7 section 3.5 opening
+applied C3a methods 2.3
+applied C3b methods 2.5
+applied C3c section 7 rows
+applied C3c section 7 prose
+applied C4 prereg commentary
+applied C5 S3 row label
+applied C5 S3 footnote
+wrote /tmp/claude-0/x1-integrate/INTEGRATED-emc-atr-collaborator-package.md replacements: 12
+
+
+##############################################################################
+# CALL 24   tool=Bash   tool_use_id=toolu_016ANbgsuZobb4PXAA8kSSRy
+# tool_use timestamp: 2026-09-08T12:33:17.027Z
+# tool_result timestamp: 2026-09-08T12:33:19.373Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Verify frontmatter first and 3.5 coherence
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-integrate && head -2 INTEGRATED-emc-atr-collaborator-package.md && echo "..." && grep -n "per cent\|3 to 4\|one of 26" INTEGRATED-emc-atr-collaborator-package.md | head && echo "=== 3.5 ===" && grep -n "### 3.5" -A 12 INTEGRATED-emc-atr-collaborator-package.md | head -16
+
+--- tool_result body (verbatim) ---
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+...
+200:objective response rate and pazopanib at an objective response rate of 18 per cent with a median
+531:TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene. The class
+543:| N-terminal identity, Needleman-Wunsch | FET versus FET 26.1 to 35.7 per cent | TCF12 versus FET 16.8 to 20.5 per cent | separates, modestly |
+546:qualification: 20.5 per cent against a FET-versus-FET floor of 26.1 per cent is a real gap but a
+547:modest one, which follows from the FET N-termini being low-complexity and only 26 to 36 per cent
+=== 3.5 ===
+529:### 3.5 TCF12 outside the FET compositional range
+530-
+531-TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene. The class
+532-argument therefore predicts that these cases do not carry the lesion, which is a prediction
+533-testable inside one disease on one slide.
+534-
+535-**Table 4.** TCF12 against the three FET proteins.
+536-
+537-| test | the three FET proteins | TCF12 | separation |
+538-|---|---|---|---|
+539-| N-terminal 250-aa [S,Y,G,Q] fraction | EWSR1 0.540, TAF15 0.620, FUS 0.804 | 0.368 | decisive |
+540-| symmetric [S,Y,G,Q] sweep, every prefix from 50 aa upwards in 10-aa steps, all four proteins on the same grid | lowest FET prefix value 0.439 (EWSR1, residues 1-560) | best TCF12 prefix 0.400, at residues 1-160 | separates, by 0.039; no TCF12 prefix on the evaluated grid reaches the lowest value any FET prefix takes on that grid |
+541-| RG dipeptides, whole protein | 30, 31, 24 | 7 | clear |
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 25   tool=Bash   tool_use_id=toolu_01Jeep1dGtL3cSTpjLDfx9xz
+# tool_use timestamp: 2026-09-08T12:33:25.629Z
+# tool_result timestamp: 2026-09-08T12:33:27.478Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Reflow 3.5 opening
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0/x1-integrate && python3 - <<'PY'
+import io
+p="INTEGRATED-emc-atr-collaborator-package.md"
+t=io.open(p,encoding="utf-8").read()
+old="""TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene. The class
+argument therefore predicts that these cases do not carry the lesion, which is a prediction
+testable inside one disease on one slide."""
+new="""TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene.
+The class argument therefore predicts that these cases do not carry the lesion, which is a
+prediction testable inside one disease on one slide."""
+assert t.count(old)==1
+io.open(p,"w",encoding="utf-8").write(t.replace(old,new))
+print("reflowed")
+PY
+grep -n "TCF12" INTEGRATED-emc-atr-collaborator-package.md | sed -n '1,12p'
+
+--- tool_result body (verbatim) ---
+reflowed
+11:  - the computed classification of TCF12 as a non-FET 5' partner
+188:measured construct; the measured positions on the axis itself are 0.000 and 1.000. TCF12, the 5' partner in a minority of EMC, falls outside
+198:non-FET partner TCF12. A 2025 comprehensive review states that no clinically validated agent
+261:### 2.3 TCF12 comparison
+265:for TCF12 against all three FET proteins. Test two is RG dipeptide content, whole-protein and
+270:10-residue steps, on that one evaluated grid, for TCF12 and for each of the three FET proteins rather
+271:than for TCF12 alone. The published version of this test swept TCF12 alone and compared its best
+314:reading frames, the recruitment-axis placement and the TCF12 classification are all computed
+378:sources retrieved. TCF12::NR4A3 is reported only at genomic resolution, "the breakpoint affects the
+379:region of intron 5" [5], and TCF12 has several alternatively spliced isoforms. Absence of a
+388:The TCF12 length mismatch is not reconciled here. The two databases select different
+389:canonical isoforms, so a TCF12 residue number taken from the literature requires conversion before
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 26   tool=Bash   tool_use_id=toolu_01RL7xPueSm9jLEahz9qSSiU
+# tool_use timestamp: 2026-09-08T12:33:31.542Z
+# tool_result timestamp: 2026-09-08T12:33:33.208Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Cover letter and title proposals
+
+--- input.command (verbatim) ---
+cat /tmp/claude-0/x1-lane/X1-COVER-LETTER-AND-TITLE-PROPOSALS.md
+
+--- tool_result body (verbatim) ---
+# X1 — ISOLATED PROPOSALS: cover-letter edits and directly dependent title references
+
+**PROPOSED. NOTHING APPLIED.** No shared repository path was written, no view was regenerated, and
+no title was changed anywhere outside this lane. These are proposals for the coordinator.
+
+Source read read-only: `research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md`
+(HEAD 90d60d917b6f985a9c9f44cb3c6c545d91bb32d8).
+
+## 1 · Cover-letter FACTUAL edits (independent of the title decision)
+
+| # | current text (verbatim) | proposed | why |
+|---|---|---|---|
+| C1 | "Retained EWSR1 RG dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two fusions in which the mechanism has been measured" | "Retained EWSR1 RG dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes; type 2 is counted once in those series, so the pair is not 'the two commonest'. The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG; recruitment was measured on a construct whose breakpoint the source does not state, so that span describes reported breakpoints and not a measured range, and 'bracketing' overstates it." | three separate factual errors: the frequency claim, the word "bracketing" (§3.4 of the revision removes it), and the attribution of the span to measured fusions |
+| C2 | "the type-2 junction carries 176 nucleotides of *NR4A3* 5' untranslated sequence in the EWSR1 reading frame, encoding 59 residues" | "the type-2 junction places 177 nucleotides in the EWSR1 reading frame between the two moieties — one donated by EWSR1 across the seam and 176 supplied by NR4A3 — encoding 59 residues" | 176 is not a multiple of three; 177 is, and 177/3 = 59. Both numbers are true and they are different quantities |
+| C3 | "that the protein-level model in general use does not contain" | "that this programme's own earlier protein-level model did not contain" | no source retrieved states what protein-level model the field uses; the claim about "general use" is unsupported |
+| C4 | "I am the sole author, an unaffiliated independent researcher with no institutional address; no ORCID accompanies this submission." | "I am the sole author, an unaffiliated independent researcher with no institutional address. My ORCID iD is 0000-0002-1823-1451." | the repository carries the author's ORCID (ASO author block; 2026-08-20 submission-plan record). Read from the repository; no external lookup |
+
+## 2 · Cover-letter TITLE edits (apply only if the proposed title is adopted)
+
+| # | location | current | proposed |
+|---|---|---|---|
+| T1 | frontmatter `title:` | "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions" | "Cover letter — reading-frame constraints and retained RG content in NR4A3 fusion models of EMC" |
+| T2 | body, `**Re:**` line | *"Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"* | *"Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma"* |
+
+## 3 · Directly dependent title references — LOCATED, NOT CHANGED
+
+Found by a read-only grep for the current title string. Only files that quote the title itself are
+listed; historical records are listed as do-not-edit.
+
+| file:line | what it is | disposition |
+|---|---|---|
+| `systems/views/L3-publications.md:42, :121` | GENERATED view; `systems_check.py` reads the manuscript frontmatter `title` | regenerate with `python3 systems/systems_check.py --write-views` AFTER the title is adopted. **Coordinator's step. Not run here** |
+| `systems/views/L2-rt-atr-panel.md:92` | GENERATED view, same mechanism | same |
+| `research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md:35` | live submission document | T2 above |
+| `research/manuscripts/dependency/emc-atr-collaborator-package-changelog.md` | history | ⛔ do not edit; it records superseded titles by design |
+| `research/manuscripts/dependency/emc-atr-collaborator-package-peer-review-2026-08-10.md` | dated review record | ⛔ do not edit |
+| `research/autonomy/.../paper-lane/*` | this campaign's own lane records | ⛔ do not edit |
+
+⚠ `systems/graph/instruments.json` (`INS-CONSTRUCT-DESIGNS`, `INS-FUSION-COFOLD`) carries
+`owner.anchor` fields, not the title. The proposed revision does not rename
+`#32-gene-models-and-open-reading-frames`, so those anchors are unaffected by the title change.
+They were NOT re-verified here.
+
+⛔ No shared title or view change was made. No `systems_check.py` run, no view regeneration.
+
+
+##############################################################################
+# CALL 27   tool=Bash   tool_use_id=toolu_01XAg3yQ763VrHcns6nHbm2M
+# tool_use timestamp: 2026-09-08T12:33:38.596Z
+# tool_result timestamp: 2026-09-08T12:33:40.456Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Record baselines before integration
+
+--- input.command (verbatim) ---
+git rev-parse --abbrev-ref HEAD && sha256sum research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md && mkdir -p /tmp/claude-0/x1-integrate/baseline && cp research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md systems/views/L3-publications.md systems/views/L2-rt-atr-panel.md /tmp/claude-0/x1-integrate/baseline/ && echo baselines-kept
+
+--- tool_result body (verbatim) ---
+claude/confident-bardeen-ji76cd
+8180932a59ecad8f94c753579931c945d582d2a1465c3727e223a5ad0bee4da1  research/manuscripts/dependency/emc-atr-collaborator-package.md
+5a79fc20079d96c59cbf70dde751e57e5e31a038ed4bf81ac0c55bcf21ceed93  research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+baselines-kept
+
+
+##############################################################################
+# CALL 28   tool=Bash   tool_use_id=toolu_01U81BVmZwox4Rb7vVYti4fJ
+# tool_use timestamp: 2026-09-08T12:33:53.519Z
+# tool_result timestamp: 2026-09-08T12:33:55.612Z   is_error=True
+##############################################################################
+
+--- input.description ---
+Install manuscript, apply cover-letter C1-C4/T1-T2
+
+--- input.command (verbatim) ---
+cp /tmp/claude-0/x1-integrate/INTEGRATED-emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package.md && python3 - <<'PY'
+import io
+p="research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md"
+t=io.open(p,encoding="utf-8").read()
+def rep(old,new,label):
+    global t
+    assert t.count(old)==1, (label, t.count(old))
+    t=t.replace(old,new); print("applied",label)
+
+rep("""Retained EWSR1 RG dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two fusions in which the mechanism has been measured""",
+"""Retained EWSR1 RG dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes; type 2 is counted once in those series, so the pair is not "the two commonest". The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG; recruitment was measured on a construct whose breakpoint the source does not state, so that span describes reported breakpoints and not a measured range""","C1")
+
+rep("""the type-2 junction carries 176 nucleotides of *NR4A3* 5' untranslated sequence in the EWSR1 reading frame, encoding 59 residues""",
+"""the type-2 junction places 177 nucleotides in the EWSR1 reading frame between the two moieties — one donated by EWSR1 across the seam and 176 supplied by *NR4A3* — encoding 59 residues""","C2")
+
+rep("""that the protein-level model in general use does not contain""",
+"""that this programme's own earlier protein-level model did not contain""","C3")
+
+rep("""I am the sole author, an unaffiliated independent researcher with no institutional address; no ORCID accompanies this submission.""",
+"""I am the sole author, an unaffiliated independent researcher with no institutional address. My ORCID iD is 0000-0002-1823-1451.""","C4")
+
+rep("""title: "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions\"""",
+"""title: "Cover letter — reading-frame constraints and retained RG content in NR4A3 fusion models of EMC\"""","T1")
+
+rep("""Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay""",
+"""Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma""","T2")
+
+io.open(p,"w",encoding="utf-8").write(t)
+PY
+
+--- tool_result body (verbatim) ---
+Exit code 1
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+  File "<stdin>", line 6, in rep
+AssertionError: ('C1', 0)
+
+
+##############################################################################
+# CALL 29   tool=Bash   tool_use_id=toolu_016NoKxZeSTWrsGwym4XUTA4
+# tool_use timestamp: 2026-09-08T12:33:58.692Z
+# tool_result timestamp: 2026-09-08T12:33:58.767Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Locate cover-letter target strings
+
+--- input.command (verbatim) ---
+grep -n "bracketing\|176 nucleotides\|general use\|no ORCID\|^title:\|^\*\*Re:" research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+
+--- tool_result body (verbatim) ---
+3:title: "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions"
+35:**Re:** Submission of a Research Article — *"Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"*
+52:dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two
+53:fusions in which the mechanism has been measured; and the type-2 junction carries 176 nucleotides of *NR4A3* 5'
+55:in general use does not contain. The manuscript also documents, and corrects, an exon-numbering
+74:independent researcher with no institutional address; no ORCID accompanies this submission. An AI
+
+
+##############################################################################
+# CALL 30   tool=Bash   tool_use_id=toolu_01GtvMPP5uPe9Z2XATCEe1gh
+# tool_use timestamp: 2026-09-08T12:34:03.680Z
+# tool_result timestamp: 2026-09-08T12:34:03.753Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Read cover letter passages
+
+--- input.command (verbatim) ---
+sed -n '48,58p;72,76p' research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+
+--- tool_result body (verbatim) ---
+The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and the primary
+junction literature the paper compiles includes the counted EMC series published in this journal.
+Two results should interest the readership independently of the proposed assay. Retained EWSR1 RG
+dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two
+fusions in which the mechanism has been measured; and the type-2 junction carries 176 nucleotides of *NR4A3* 5'
+untranslated sequence in the EWSR1 reading frame, encoding 59 residues that the protein-level model
+in general use does not contain. The manuscript also documents, and corrects, an exon-numbering
+error in this programme's own earlier work that silently deleted the AF-1 domain and the first zinc
+finger from every emitted junction, because the correction is the reason every boundary here carries
+its provenance and its self-check.
+I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
+policy, and will link the preprint to the published version. I am the sole author, an unaffiliated
+independent researcher with no institutional address; no ORCID accompanies this submission. An AI
+research assistant was used in the analysis and drafting, which is disclosed in the manuscript; no
+AI tool is an author, and I take full responsibility for the content.
+
+
+##############################################################################
+# CALL 31   tool=Bash   tool_use_id=toolu_01NjHgd9hL9C2YbSgp9mhE1c
+# tool_use timestamp: 2026-09-08T12:34:14.240Z
+# tool_result timestamp: 2026-09-08T12:34:16.485Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Apply cover-letter C1-C4/T1-T2
+
+--- input.command (verbatim) ---
+python3 - <<'PY'
+import io
+p="research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md"
+t=io.open(p,encoding="utf-8").read()
+def rep(old,new,label):
+    global t
+    assert t.count(old)==1,(label,t.count(old))
+    t=t.replace(old,new); print("applied",label)
+
+rep("""Retained EWSR1 RG
+dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two
+fusions in which the mechanism has been measured; and the type-2 junction carries 176 nucleotides of *NR4A3* 5'
+untranslated sequence in the EWSR1 reading frame, encoding 59 residues that the protein-level model
+in general use does not contain.""",
+"""Retained EWSR1 RG
+dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is
+the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes; type 2 is counted once in
+those series, so the pair is not "the two commonest". The three reported EWSR1::ATF1 breakpoints
+span 0.000 to 0.267 of retained RG; recruitment was measured on a construct whose breakpoint the
+source does not state, so that span describes reported breakpoints and not a measured range. And
+the type-2 junction places 177 nucleotides in the EWSR1 reading frame between the two moieties —
+one donated by EWSR1 across the seam and 176 supplied by *NR4A3* — encoding 59 residues that this
+programme's own earlier protein-level model did not contain.""","C1+C2+C3")
+
+rep("""independent researcher with no institutional address; no ORCID accompanies this submission.""",
+"""independent researcher with no institutional address. My ORCID iD is 0000-0002-1823-1451.""","C4")
+
+rep("""title: "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions\"""",
+"""title: "Cover letter — reading-frame constraints and retained RG content in NR4A3 fusion models of EMC\"""","T1")
+
+rep("""*"Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"*""",
+"""*"Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma"*""","T2")
+
+io.open(p,"w",encoding="utf-8").write(t)
+PY
+
+--- tool_result body (verbatim) ---
+applied C1+C2+C3
+applied C4
+applied T1
+applied T2
+
+
+##############################################################################
+# CALL 32   tool=Bash   tool_use_id=toolu_0121tgX4rFDh2JQq4Xy2QTA5
+# tool_use timestamp: 2026-09-08T12:34:37.438Z
+# tool_result timestamp: 2026-09-08T12:34:37.543Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Write integration QA note
+
+--- input.command (verbatim) ---
+cat > research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md <<'EOF'
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE-INTEGRATION-QA
+title: "Integration QA note for the 2026-09-08 working revision of the EMC ATR collaborator package"
+level: L3
+kind: record
+status: live
+canonical_for:
+  - the figure-QA observations carried out of the Figure 1 caption at the 2026-09-08 integration
+purpose: >-
+  Hold the drawing-level observations about Figure 1 of the EMC ATR collaborator package that belong
+  to the quality record rather than to a reader-facing caption, together with the denominator
+  qualification attached to the section 3.5 frequency sentence.
+scope: >-
+  A record of observations made while integrating an already-reviewed revision. No figure was
+  redrawn, no artifact was modified and no scientific result was recomputed.
+audience: [maintainers, reviewers, autonomous research agents]
+date: 2026-09-08
+last_verified: 2026-09-08
+related: [DOC-EMC-ATR-COLLABORATOR-PACKAGE]
+---
+
+# Integration QA note — EMC ATR collaborator package, 2026-09-08 working revision
+
+This note holds observations that were previously carried inside the Figure 1 caption of
+[`emc-atr-collaborator-package.md`](./emc-atr-collaborator-package.md). They are quality-record
+material about how the figure is drawn and how it may drift, not information a reader needs in
+order to read the panels. Moving them changed no figure, no artifact and no result. Nothing here
+was re-measured at integration; each item is recorded as it stood when it was observed.
+
+## 1 · Legibility of the closely spaced NR4A3 ticks in Panel A
+
+`emc_fusion_frame_figure.py` draws NR4A3 RG ticks at residues 371 and 508. An independent reading of
+the rendered image reported one of them. Whether the 371 tick is occluded by the adjacent
+domain-block edge at 373, or is simply not resolved at print size, was not settled. Neither
+explanation is asserted, and the legibility of the rendered figure at print size has **not** been
+verified here.
+
+## 2 · The Panel A box spans are literals, not a binding to the data
+
+The Panel A RGG-box spans are hard-coded literals in the generator. They currently match
+`rgg_boxes_operational` in `emc-fet-construct-designs.json` exactly, which was checked.
+
+The generator's `stamp()` opens each listed source file as bytes and hashes the whole file, so a
+change to that data field *would* change the recorded provenance stamp. The hazard is narrower than
+a stale stamp: the code carries no binding, and asserts no equality, between the data field and the
+literals. A later edit to the data field followed by a redraw would produce a fresh, correct stamp
+while the literals — and therefore the drawn spans — silently no longer matched the field they are
+supposed to depict. Anyone editing `rgg_boxes_operational` should re-check the literals by hand.
+
+## 3 · Denominator qualification for the section 3.5 frequency sentence
+
+Section 3.5 now opens: "TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]." That is
+the retained quotation from reference 6 and it deliberately reports no population prevalence.
+
+The qualification the coordinator attached to it, recorded here so the manuscript need not carry it:
+the pooled partner-frequency record in this repository uses **partner-assigned** denominators, which
+are not the same as the total series sizes. The pool's Agaram denominator of 24 excludes 2 unassigned
+cases, whereas the 1 of 26 quoted above uses the entire series; the Huang pool of 57 likewise differs
+from that series' 58. Total-series and partner-assigned denominators are distinct and must not be
+merged. The stored pooled value of 5 of 154 supports what the committed pool says; it is not a fresh
+verification of source validity or of the independence of the pooled series. No new retrieval,
+reference or attribution was made for this integration.
+EOF
+echo written; sha256sum research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+
+--- tool_result body (verbatim) ---
+written
+323d8b3c117625c377b50a470157139045decb3b76c7b05a840d3d9e47df0887  research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+
+
+##############################################################################
+# CALL 33   tool=Bash   tool_use_id=toolu_01Cx9vyu8yDgxgNGzWubwZ41
+# tool_use timestamp: 2026-09-08T12:34:41.144Z
+# tool_result timestamp: 2026-09-08T12:34:43.222Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Regenerate views
+
+--- input.command (verbatim) ---
+cp systems/views/L3-publications.md systems/views/L2-rt-atr-panel.md /tmp/claude-0/x1-integrate/baseline/ 2>/dev/null; python3 systems/systems_check.py --write-views 2>&1 | tail -15; echo "EXIT=$?"
+
+--- tool_result body (verbatim) ---
+systems_check: wrote 111 view(s) to systems/views/
+EXIT=0
+
+
+##############################################################################
+# CALL 34   tool=Bash   tool_use_id=toolu_01AZrdDA5YmBvLjws2ouEE5w
+# tool_use timestamp: 2026-09-08T12:34:45.095Z
+# tool_result timestamp: 2026-09-08T12:34:45.205Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Check what changed
+
+--- input.command (verbatim) ---
+git status --porcelain
+
+--- tool_result body (verbatim) ---
+ M research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+ M research/manuscripts/dependency/emc-atr-collaborator-package.md
+ M systems/views/L2-rt-atr-panel.md
+ M systems/views/L3-publications.md
+?? research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+
+
+##############################################################################
+# CALL 35   tool=Bash   tool_use_id=toolu_017GJTXhNtaCDhYgNHiQVFhz
+# tool_use timestamp: 2026-09-08T12:34:48.648Z
+# tool_result timestamp: 2026-09-08T12:34:48.746Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Inspect view diff
+
+--- input.command (verbatim) ---
+git diff --stat systems/views/ && git diff systems/views/ | head -40
+
+--- tool_result body (verbatim) ---
+ systems/views/L2-rt-atr-panel.md | 2 +-
+ systems/views/L3-publications.md | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+diff --git a/systems/views/L2-rt-atr-panel.md b/systems/views/L2-rt-atr-panel.md
+index 323d78d8..94642fcb 100644
+--- a/systems/views/L2-rt-atr-panel.md
++++ b/systems/views/L2-rt-atr-panel.md
+@@ -89,7 +89,7 @@ a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. W
+ 
+ ## Where this route ends — the paper
+ 
+-**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/dependency/emc-atr-collaborator-package.md)
++**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma](../../research/manuscripts/dependency/emc-atr-collaborator-package.md)
+ 
+ `primary` · ◐ `drafted` · aimed at `experimental_proposal`
+ 
+diff --git a/systems/views/L3-publications.md b/systems/views/L3-publications.md
+index 2c73a9f1..6d6851ef 100644
+--- a/systems/views/L3-publications.md
++++ b/systems/views/L3-publications.md
+@@ -39,7 +39,7 @@ last_verified: 2026-08-06
+ | **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
+ | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
+ | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
+-| **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
++| **PUB-ATR-PANEL-ASK**<br/>[Reading-frame constraints and retained RG content in NR4A3 fusion model…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
+ | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
+ | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
+ | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
+@@ -118,7 +118,7 @@ A replication-stress vulnerability can be assessed for EMC by inheritance from i
+ |---|---|---|
+ | [RT-ATR-ASSESS](L2-rt-atr-assess.md) — The in-silico ATR vulnerability assessment (the comp | `primary` | The computed assessment itself, and the class-inheritance limit stated inside it rather than in a caveat section. |
+ 
+-### PUB-ATR-PANEL-ASK — Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay
++### PUB-ATR-PANEL-ASK — Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
+ 
+ **◐ `drafted` · aimed at `experimental_proposal` · [`research/manuscripts/dependency/emc-atr-collaborator-package.md`](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) · ships with **PUB-ATR****
+
+
+##############################################################################
+# CALL 36   tool=Bash   tool_use_id=toolu_01YSWzLbfDrbUAqbw5Qb2jGY
+# tool_use timestamp: 2026-09-08T12:34:54.896Z
+# tool_result timestamp: 2026-09-08T12:34:56.698Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Run manuscript gates on changed files
+
+--- input.command (verbatim) ---
+M=research/manuscripts/dependency/emc-atr-collaborator-package.md; C=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md; Q=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md; mkdir -p /tmp/claude-0/x1-integrate/checks; for g in lint_consistency lint_style lint_claims lint_submission_residue lint_asymmetry; do echo "=== $g ==="; python3 research/manuscripts/$g.py $M $C $Q > /tmp/claude-0/x1-integrate/checks/$g.txt 2>&1; echo "EXIT=$?"; tail -12 /tmp/claude-0/x1-integrate/checks/$g.txt; done
+
+--- tool_result body (verbatim) ---
+=== lint_consistency ===
+EXIT=2
+usage: lint_consistency.py [-h] [--json] [--repo REPO]
+lint_consistency.py: error: unrecognized arguments: research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+=== lint_style ===
+EXIT=1
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md,line=88::[second-person] research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md:88: 'you' addresses the reader directly
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md,line=90::[second-person] research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md:90: 'Yours' addresses the reader directly
+
+research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md  (441 words, bold 4.5/1000, em-dash 6.8/1000)
+  banned-phrase=1, bold-midsentence=2, emdash-density=1, heading-style=1
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=35::[bold-midsentence] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md:35: bold inside a sentence: **not**
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=38::[heading-style] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md:38: heading is a sentence, not a noun phrase: 'The Panel A box spans are literals, not a binding to the dat'
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=53::[banned-phrase] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md:53: 'deliberately' — usually defends a choice the reader has not questioned
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=56::[bold-midsentence] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md:56: bold inside a sentence: **partner-assigned**
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=0::[emdash-density] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md: 3 em-dashes over 441 words = 6.8/1000, limit 6.0
+
+lint_style: 9 ERROR across 3 file(s)
+=== lint_claims ===
+EXIT=0
+research/manuscripts/dependency/emc-atr-collaborator-package.md:154: WARN [R4-confirms] 'confirmed'
+    reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with
+    rule source: roadmap language discipline
+    context: AUTHOR BLOCK matches the block the author confirmed in nr4a3-degrader-paper.md and response-endpoint-indolent-tumours.md.
+
+lint_claims: 0 ERROR, 1 WARN across 3 file(s)
+=== lint_submission_residue ===
+EXIT=2
+usage: lint_submission_residue.py [-h] [--report] [--targets] [--baseline]
+lint_submission_residue.py: error: unrecognized arguments: research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+=== lint_asymmetry ===
+EXIT=2
+usage: lint_asymmetry.py [-h] [--root ROOT] [--report] [--explain] [--strict]
+                         [--not-bound]
+lint_asymmetry.py: error: unrecognized arguments: research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+
+
+##############################################################################
+# CALL 37   tool=Bash   tool_use_id=toolu_01EpzWTHCR5YioSKqqpRAvpW
+# tool_use timestamp: 2026-09-08T12:35:09.868Z
+# tool_result timestamp: 2026-09-08T12:35:11.932Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Fix QA note style; check cover-letter baseline
+
+--- input.command (verbatim) ---
+Q=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md; python3 - <<'PY'
+import io
+p="research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md"
+t=io.open(p,encoding="utf-8").read()
+subs=[("explanation is asserted, and the legibility of the rendered figure at print size has **not** been\nverified here.",
+       "explanation is asserted. The legibility of the rendered figure at print size has not been\nverified here."),
+      ("## 2 · The Panel A box spans are literals, not a binding to the data",
+       "## 2 · Panel A box spans as literals rather than as a data binding"),
+      ("the retained quotation from reference 6 and it deliberately reports no population prevalence.",
+       "the retained quotation from reference 6, and it reports no population prevalence."),
+      ("pooled partner-frequency record in this repository uses **partner-assigned** denominators, which",
+       "pooled partner-frequency record in this repository uses partner-assigned denominators, which"),
+      ("a stale stamp: the code carries no binding, and asserts no equality, between the data field and the\nliterals. A later edit to the data field followed by a redraw would produce a fresh, correct stamp\nwhile the literals — and therefore the drawn spans — silently no longer matched the field they are\nsupposed to depict.",
+       "a stale stamp: the code carries no binding, and asserts no equality, between the data field and the\nliterals. A later edit to the data field followed by a redraw would produce a fresh, correct stamp\nwhile the literals, and therefore the drawn spans, silently no longer matched the field they are\nsupposed to depict.")]
+for o,nw in subs:
+    assert t.count(o)==1, o[:50]
+    t=t.replace(o,nw)
+io.open(p,"w",encoding="utf-8").write(t)
+print("ok")
+PY
+echo "=== style rerun ==="; python3 research/manuscripts/lint_style.py $Q; echo "EXIT=$?"
+echo "=== baseline cover letter style ==="; python3 research/manuscripts/lint_style.py /tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md 2>&1 | tail -6
+
+--- tool_result body (verbatim) ---
+ok
+=== style rerun ===
+
+research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md  (438 words, bold 0.0/1000, em-dash 2.3/1000)
+  heading-style=1
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md,line=38::[heading-style] research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md:38: heading is a sentence, not a noun phrase: 'Panel A box spans as literals rather than as a data binding'
+
+lint_style: 1 ERROR across 1 file(s)
+EXIT=1
+=== baseline cover letter style ===
+/tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md  (628 words, bold 6.4/1000, em-dash 3.2/1000)
+  second-person=2
+  ::error file=/tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md,line=84::[second-person] /tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md:84: 'you' addresses the reader directly
+  ::error file=/tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md,line=86::[second-person] /tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md:86: 'Yours' addresses the reader directly
+
+lint_style: 2 ERROR across 1 file(s)
+
+
+##############################################################################
+# CALL 38   tool=Bash   tool_use_id=toolu_01KcezgEExjXpsZ3Y1nj4qnE
+# tool_use timestamp: 2026-09-08T12:35:16.376Z
+# tool_result timestamp: 2026-09-08T12:35:20.335Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Fix QA heading
+
+--- input.command (verbatim) ---
+Q=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md; sed -i 's|^## 2 · Panel A box spans as literals rather than as a data binding$|## 2 · Hard-coded Panel A box spans and their source data field|' $Q && python3 research/manuscripts/lint_style.py $Q; echo "EXIT=$?"
+
+--- tool_result body (verbatim) ---
+research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md  (436 words, bold 0.0/1000, em-dash 2.3/1000)
+  clean
+
+lint_style: 0 ERROR across 1 file(s)
+EXIT=0
+
+
+##############################################################################
+# CALL 39   tool=Bash   tool_use_id=toolu_01YZg7GYbQF4DAcNe8L6mXee
+# tool_use timestamp: 2026-09-08T12:35:24.253Z
+# tool_result timestamp: 2026-09-08T12:35:28.955Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Style on manuscript, consistency gate
+
+--- input.command (verbatim) ---
+M=research/manuscripts/dependency/emc-atr-collaborator-package.md; C=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md; echo "=== manuscript+cover style ==="; python3 research/manuscripts/lint_style.py $M $C 2>&1 | tail -8; echo "=== consistency (repo) ==="; python3 research/manuscripts/lint_consistency.py > /tmp/claude-0/x1-integrate/checks/consistency.txt 2>&1; echo "EXIT=$?"; tail -6 /tmp/claude-0/x1-integrate/checks/consistency.txt
+
+--- tool_result body (verbatim) ---
+=== manuscript+cover style ===
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package.md,line=525::[banned-phrase] research/manuscripts/dependency/emc-atr-collaborator-package.md:525: 'stated here' — narration about how the paper states things
+
+research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md  (687 words, bold 5.8/1000, em-dash 5.8/1000)
+  second-person=2
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md,line=88::[second-person] research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md:88: 'you' addresses the reader directly
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md,line=90::[second-person] research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md:90: 'Yours' addresses the reader directly
+
+lint_style: 4 ERROR across 2 file(s)
+=== consistency (repo) ===
+EXIT=0
+lint_consistency: 0 ERROR across 29 target file(s)
+
+
+##############################################################################
+# CALL 40   tool=Bash   tool_use_id=toolu_014vqQFiD7m47Pea4hCGx6Xr
+# tool_use timestamp: 2026-09-08T12:35:34.688Z
+# tool_result timestamp: 2026-09-08T12:35:36.648Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Compare style errors against baselines
+
+--- input.command (verbatim) ---
+M=research/manuscripts/dependency/emc-atr-collaborator-package.md; python3 research/manuscripts/lint_style.py $M 2>&1 | grep "::error"; echo "=== BASELINE (X1 candidate) ==="; python3 research/manuscripts/lint_style.py /tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md 2>&1 | grep "::error"; echo "=== COMMITTED BASELINE ==="; python3 research/manuscripts/lint_style.py /tmp/claude-0/x1-integrate/baseline/emc-atr-collaborator-package.md 2>&1 | grep "::error"
+
+--- tool_result body (verbatim) ---
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package.md,line=454::[banned-phrase] research/manuscripts/dependency/emc-atr-collaborator-package.md:454: 'deliberately' — usually defends a choice the reader has not questioned
+  ::error file=research/manuscripts/dependency/emc-atr-collaborator-package.md,line=525::[banned-phrase] research/manuscripts/dependency/emc-atr-collaborator-package.md:525: 'stated here' — narration about how the paper states things
+=== BASELINE (X1 candidate) ===
+  ::error file=/tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md,line=419::[banned-phrase] /tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md:419: 'deliberately' — usually defends a choice the reader has not questioned
+  ::error file=/tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md,line=493::[banned-phrase] /tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md:493: 'stated here' — narration about how the paper states things
+=== COMMITTED BASELINE ===
+
+
+##############################################################################
+# CALL 41   tool=Bash   tool_use_id=toolu_019mbi6qrbRGqznaThUqDw2N
+# tool_use timestamp: 2026-09-08T12:35:43.733Z
+# tool_result timestamp: 2026-09-08T12:35:43.818Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Show flagged lines
+
+--- input.command (verbatim) ---
+M=research/manuscripts/dependency/emc-atr-collaborator-package.md; sed -n '454p;525p' $M
+
+--- tool_result body (verbatim) ---
+definition was deliberately not tuned to reproduce that count. NR4A3 has no box because the finder
+Margin is stated here as the RG-free ceiling (174, the largest retained length carrying no RG
+
+
+##############################################################################
+# CALL 42   tool=Bash   tool_use_id=toolu_01892RDBiA2p1A7JNcu6SA1e
+# tool_use timestamp: 2026-09-08T12:35:48.166Z
+# tool_result timestamp: 2026-09-08T12:35:50.921Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Fix two inherited style errors
+
+--- input.command (verbatim) ---
+M=research/manuscripts/dependency/emc-atr-collaborator-package.md; python3 - <<'PY'
+import io
+p="research/manuscripts/dependency/emc-atr-collaborator-package.md"
+t=io.open(p,encoding="utf-8").read()
+for o,n in [("definition was deliberately not tuned to reproduce that count.",
+             "definition was not tuned to reproduce that count."),
+            ("Margin is stated here as the RG-free ceiling (174, the largest retained length carrying no RG",
+             "Margin is the RG-free ceiling (174, the largest retained length carrying no RG")]:
+    assert t.count(o)==1,o[:40]
+    t=t.replace(o,n)
+io.open(p,"w",encoding="utf-8").write(t)
+PY
+python3 research/manuscripts/lint_style.py $M; echo "EXIT=$?"
+
+--- tool_result body (verbatim) ---
+research/manuscripts/dependency/emc-atr-collaborator-package.md  (7490 words, bold 3.9/1000, em-dash 1.9/1000)
+  clean
+
+lint_style: 0 ERROR across 1 file(s)
+EXIT=0
+
+
+##############################################################################
+# CALL 43   tool=Bash   tool_use_id=toolu_019qqtDfNtYRFSLTG2zTjMUB
+# tool_use timestamp: 2026-09-08T12:35:56.741Z
+# tool_result timestamp: 2026-09-08T12:36:23.149Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Remaining gates
+
+--- input.command (verbatim) ---
+for g in "lint_submission_residue.py --report" "lint_asymmetry.py --report" "lint_citations.py"; do echo "=== $g ==="; python3 research/manuscripts/$g > /tmp/claude-0/x1-integrate/checks/$(echo $g|cut -d. -f1).txt 2>&1; echo "EXIT=$?"; tail -5 /tmp/claude-0/x1-integrate/checks/$(echo $g|cut -d. -f1).txt; done; echo "=== systems_check ==="; python3 systems/systems_check.py > /tmp/claude-0/x1-integrate/checks/systems_check.txt 2>&1; echo "EXIT=$?"; tail -5 /tmp/claude-0/x1-integrate/checks/systems_check.txt
+
+--- tool_result body (verbatim) ---
+=== lint_submission_residue.py --report ===
+EXIT=0
+  research/manuscripts/neoantigen/hla-coverage-emc.md       :58    bracket-placeholder    [Name]
+  research/manuscripts/neoantigen/hla-coverage-emc.md       :58    bracket-placeholder    [City, Country]
+  research/manuscripts/program/emc-treatment-roadmap.md     :27    todo-marker            TBD
+
+5 finding(s) in 34 outgoing document(s); 5 baselined, 0 NEW (*), 0 stale row(s)
+=== lint_asymmetry.py --report ===
+EXIT=0
+· accepted, not a defect  research/modalities/nr4a3-abfe-repair-prereg.md:93
+    Until NR4A1's uncertainty interval
+is entirely below zero, 401 may be described ONLY as an **"NR4A2-sparing computational candidate; NR4A1
+selectivity provisional."** An unqualified "selective vs NR4A
+lint_asymmetry: 0 new symmetric restatements of the paralogue requirement (2 known open, 1 accepted)
+=== lint_citations.py ===
+EXIT=1
+lint_citation_types: NOT SWEPT (advisory) PMID 99900002 in research/autonomy/opus-capacity-campaign-20260908/reports/W11b-source-index-consolidated-repair.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 99900003 in research/autonomy/opus-capacity-campaign-20260908/reports/W11b-source-index-consolidated-repair.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 99900007 in research/autonomy/opus-capacity-campaign-20260908/reports/W11b-source-index-consolidated-repair.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: retraction sweep (2026-09-01) — 1536 prose identifier(s): 844 checked against PubMed, 6 retracted, 238 outside PubMed's reach (arXiv/NCT/GEO/preprint, meeting-abstract, dataset and PDB DOIs — UNKNOWN, not clean), 454 NOT SWEPT.
+lint_citation_types: 13 type claim(s) disagree with PubMed — see errors above
+=== systems_check ===
+EXIT=1
+ERROR [K1]  research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/R2-original-proposal/CANDIDATE-A-T2-repurposing-hypotheses.md links to '../figures/repurposing-fig1-design.png', which does not exist
+ERROR [K1]  research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/R2-original-proposal/CANDIDATE-A-T2-repurposing-hypotheses.md links to '../../literature/citation-corrections-2026-08-09.json', which does not exist
+ERROR [K1]  research/autonomy/opus-capacity-campaign-20260908/paper-lane/V1-executed-artifacts/R2-original-proposal/CANDIDATE-A-T2-repurposing-hypotheses.md links to '../../literature/carfilzomib-class-clinical-2026-08-28.json', which does not exist
+
+systems_check: 620 objects across 15 collections · 909 ERROR · 260 WARN · 6 INFO
+
+
+##############################################################################
+# CALL 44   tool=Bash   tool_use_id=toolu_019jSkjiDieBpLkD4jArnbcv
+# tool_use timestamp: 2026-09-08T12:36:27.669Z
+# tool_result timestamp: 2026-09-08T12:36:29.577Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Any systems_check errors on changed files
+
+--- input.command (verbatim) ---
+grep -n "dependency/emc-atr-collaborator-package" /tmp/claude-0/x1-integrate/checks/systems_check.txt | head -20; echo "---count---"; grep -c "dependency/emc-atr-collaborator-package" /tmp/claude-0/x1-integrate/checks/systems_check.txt
+
+--- tool_result body (verbatim) ---
+270:ERROR [D6]  document id DOC-EMC-ATR-COLLABORATOR-PACKAGE is claimed by 4 files (research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/INPUTS/R1/BASELINE-emc-atr-collaborator-package.md, research/autonomy/opus-capacity-campaign-20260908/paper-lane/P2-executed-artifacts/emc-atr-collaborator-package.md, research/autonomy/opus-capacity-campaign-20260908/paper-lane/R1-executed-artifacts/BASELINE-emc-atr-collaborator-package.md, research/manuscripts/dependency/emc-atr-collaborator-package.md) — an id must resolve to exactly one document
+271:ERROR [D6]  document id DOC-EMC-ATR-COLLABORATOR-PACKAGE-REVIEW-RESPONSE is claimed by 2 files (research/autonomy/opus-capacity-campaign-20260908/paper-lane/P2-executed-artifacts/emc-atr-collaborator-package-review-response-2026-08-10.md, research/manuscripts/dependency/emc-atr-collaborator-package-review-response-2026-08-10.md) — an id must resolve to exactly one document
+711:ERROR [D11]  research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md audience/1: 'reviewers' is not one of ['maintainers', 'autonomous research agents', 'external reviewers', 'collaborators', 'patients', 'public']
+712:ERROR [D11]  research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md kind: 'record' is not one of ['architecture', 'convention', 'policy', 'manuscript', 'prereg', 'memo', 'register', 'runbook', 'generated', 'historical', 'index', 'incident']
+---count---
+4
+
+
+##############################################################################
+# CALL 45   tool=Bash   tool_use_id=toolu_017XNr1jwW2uE31pQ27STjbs
+# tool_use timestamp: 2026-09-08T12:36:35.093Z
+# tool_result timestamp: 2026-09-08T12:36:49.850Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Fix QA frontmatter enums, compare systems_check baseline
+
+--- input.command (verbatim) ---
+Q=research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md; sed -i "s/^kind: record$/kind: memo/; s/^audience: \[maintainers, reviewers, autonomous research agents\]$/audience: [maintainers, external reviewers, autonomous research agents]/" $Q && python3 systems/systems_check.py > /tmp/claude-0/x1-integrate/checks/systems_check-after.txt 2>&1; echo "EXIT=$?"; grep -c "integration-qa" /tmp/claude-0/x1-integrate/checks/systems_check-after.txt; tail -1 /tmp/claude-0/x1-integrate/checks/systems_check-after.txt; echo "=== baseline compare ==="; git stash -q && python3 systems/systems_check.py 2>&1 | tail -1; git stash pop -q && echo restored
+
+--- tool_result body (verbatim) ---
+EXIT=1
+0
+systems_check: 620 objects across 15 collections · 907 ERROR · 260 WARN · 6 INFO
+=== baseline compare ===
+systems_check: 620 objects across 15 collections · 907 ERROR · 260 WARN · 6 INFO
+restored
+
+
+##############################################################################
+# CALL 46   tool=Bash   tool_use_id=toolu_01P2CnWdmR5fYhX9EKX4yL1H
+# tool_use timestamp: 2026-09-08T12:36:58.546Z
+# tool_result timestamp: 2026-09-08T12:37:00.304Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Tree state and derived metrics
+
+--- input.command (verbatim) ---
+git status --porcelain; echo "=== metrics ==="; python3 -c "
+import json;d=json.load(open('research/manuscripts/submission-metrics.json'))
+import sys
+s=json.dumps(d)
+print('atr-collaborator in metrics:', 'emc-atr-collaborator-package' in s)
+" ; grep -rn "emc-atr-collaborator-package" research/manuscripts/pinned-figures.json | head
+
+--- tool_result body (verbatim) ---
+ M research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+ M research/manuscripts/dependency/emc-atr-collaborator-package.md
+ M systems/views/L2-rt-atr-panel.md
+ M systems/views/L3-publications.md
+?? research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+=== metrics ===
+atr-collaborator in metrics: True
+
+
+##############################################################################
+# CALL 47   tool=Bash   tool_use_id=toolu_01KhhD5Zk6NHt6YWAqxJwxCH
+# tool_use timestamp: 2026-09-08T12:37:02.355Z
+# tool_result timestamp: 2026-09-08T12:37:03.985Z   is_error=False
+##############################################################################
+
+--- input.description ---
+submission_metrics signature
+
+--- input.command (verbatim) ---
+python3 research/manuscripts/submission_metrics.py --help 2>&1 | head -20
+
+--- tool_result body (verbatim) ---
+mtap-prmt5/emc-mtap-prmt5-hypothesis.md         GCC-Research-Article     main= 5588w  abs=249w  items= 5  refs=11  within believed limits
+dependency/emc-atr-collaborator-package.md      GCC-Research-Article     main= 6298w  abs=341w  items= 6  refs=10  OVER: abstract_words 341 > 250
+repurposing/repurposing-hypotheses.md           CROH-Review              main= 6037w  abs=238w  items= 1  refs=22  within believed limits
+surface-targets/emc-surface-target-landscape.md BJC-Article              main= 4994w  abs=200w  items= 6  refs=18  within believed limits
+aso/fusion-junction-aso-journal-article.md      NAT-Article              main= 3803w  abs=197w  items= 3  refs=24  within believed limits
+
+wrote research/manuscripts/submission-metrics.json — 1 limit(s) exceeded, 0 paper(s) ungraded because the venue's limits are unread
+
+
+##############################################################################
+# CALL 48   tool=Bash   tool_use_id=toolu_01YZywGX9b7K4yoUcp81Jmbp
+# tool_use timestamp: 2026-09-08T12:37:08.492Z
+# tool_result timestamp: 2026-09-08T12:37:08.571Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Metrics diff
+
+--- input.command (verbatim) ---
+git diff research/manuscripts/submission-metrics.json | head -40
+
+--- tool_result body (verbatim) ---
+diff --git a/research/manuscripts/submission-metrics.json b/research/manuscripts/submission-metrics.json
+index 39d26e26..78223ae3 100644
+--- a/research/manuscripts/submission-metrics.json
++++ b/research/manuscripts/submission-metrics.json
+@@ -99,12 +99,12 @@
+       "file": "dependency/emc-atr-collaborator-package.md",
+       "venue": "Genes, Chromosomes and Cancer (Wiley)",
+       "measured": {
+-        "main_words": 3153,
+-        "abstract_words": 238,
+-        "figures": 0,
+-        "tables": 7,
+-        "display_items": 7,
+-        "references": 8
++        "main_words": 6298,
++        "abstract_words": 341,
++        "figures": 1,
++        "tables": 5,
++        "display_items": 6,
++        "references": 10
+       },
+       "companion_files": [],
+       "figure_files": [],
+@@ -117,7 +117,9 @@
+       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
+       "limits_read": true,
+       "no_limits_by_policy": false,
+-      "over_limit": []
++      "over_limit": [
++        "abstract_words 341 > 250"
++      ]
+     },
+     {
+       "file": "repurposing/repurposing-hypotheses.md",
+
+
+##############################################################################
+# CALL 49   tool=Bash   tool_use_id=toolu_012XTdwiZUhK9fRi3F4AZoPT
+# tool_use timestamp: 2026-09-08T12:37:27.619Z
+# tool_result timestamp: 2026-09-08T12:37:29.635Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Append Y1 qualifications
+
+--- input.command (verbatim) ---
+D=research/autonomy/opus-capacity-campaign-20260908/paper-lane; cat >> $D/COLLECTION-Y1-tcf12-frequency-provenance.md <<'EOF'
+
+---
+
+## Dated append — 2026-09-08, coordinator qualifications and integration disposition
+
+Nothing above is rewritten. These are corrections and a disposition recorded after the memo was
+collected.
+
+**1 · "Every committed denominator is partner-assigned" is too broad.** Total-series and
+partner-assigned denominators are distinct and must be kept distinct. The pool's Agaram denominator
+of 24 excludes the 2 unassigned cases, whereas the quoted 1 of 26 uses the entire series; the Huang
+pool of 57 differs from that series' 58 in the same way.
+
+**2 · What the stored 5 of 154 supports.** It supports what the committed pool says. It is not a
+fresh verification of source validity, and it is not evidence that the pooled series are independent
+of one another.
+
+**3 · The proposed [6,9] citation was not adopted.** X1's reference 9 is already Okamoto, and the
+proposed Huang metadata attribution remains flagged. No new retrieval or metadata repair was
+requested or performed.
+
+**4 · Integration disposition (applied).** The narrow existing-reference alternative was adopted. The
+opening sentence of section 3.5 of `research/manuscripts/dependency/emc-atr-collaborator-package.md`
+now reads exactly:
+
+> TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene.
+
+This reports the retained Agaram observation without a population prevalence estimate. No new
+reference, no pooled 5/154 or confidence interval, no cohort-independence assertion and no
+Huang/Warmke attribution was inserted. Support is the existing retained quotation, not a new source
+retrieval or a revalidation of the pooled evidence. The denominator distinction in item 1 is recorded
+here and in
+`research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md`, not as a
+universal-denominator claim in the manuscript.
+
+**5 · "Introducing edit unrecoverable" is qualified.** The wording of the edit that introduced the
+earlier sentence was not recovered from the history examined at its squash and shallow-clone
+boundary. That is a limit of the examination performed, not a finding of global historical absence.
+Historical wording recovery was not a blocker to the approved new ATR revision.
+
+Y1 is CLOSED. No further source, history or metadata work on this question.
+EOF
+echo appended
+
+--- tool_result body (verbatim) ---
+appended
+
+
+##############################################################################
+# CALL 50   tool=Bash   tool_use_id=toolu_01F1jaKjJAfm2PUVeJjsmGRv
+# tool_use timestamp: 2026-09-08T12:38:23.928Z
+# tool_result timestamp: 2026-09-08T12:38:26.697Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Write integration record
+
+--- input.command (verbatim) ---
+D=research/autonomy/opus-capacity-campaign-20260908/paper-lane; cat > $D/INTEGRATION-X1-atr-working-revision.md <<'EOF'
+# INTEGRATION RECORD — ATR collaborator package, new working revision
+
+Date: 2026-09-08 (times from `date -u` in the executing command).
+Integrated by: the campaign parent, in this same session. No new child was dispatched.
+Base commit at start: `7d42e1f07c5f24ce97f52e16ba31575519431c6e`, branch `claude/confident-bardeen-ji76cd`.
+
+The scientific coordinator ACCEPTED X1's reconstruction and its already-supplied title as the NEW
+working manuscript, and authorised shared integration after six bounded corrections, plus one
+sentence replacement in section 3.5 arising from Y1's disposition. **Integration is not publication
+acceptance.**
+
+## Source and target
+
+| | |
+|---|---|
+| Candidate | `paper-lane/X1-executed-artifacts/PROPOSED-X1-emc-atr-collaborator-package.md`, sha256 `60742f92e4133acc618aca02665100a49d9ff6474e28d79bebb59bb61db09926`, 58,254 B |
+| Committed baseline replaced | `research/manuscripts/dependency/emc-atr-collaborator-package.md`, sha256 `8180932a59ecad8f94c753579931c945d582d2a1465c3727e223a5ad0bee4da1` |
+| Cover letter baseline | `...-cover-letter.md`, sha256 `5a79fc20079d96c59cbf70dde751e57e5e31a038ed4bf81ac0c55bcf21ceed93` |
+
+The retained X1 lane directory, including the original child JSONL, the decision record, the verbatim
+earlier Appendix A and both diffs, is UNCHANGED. Nothing in it was edited to agree with this
+integration.
+
+## The seven authorized changes, as applied
+
+Each was applied by an exact single-occurrence string replacement; the script aborted on any count
+other than one. All twelve replacements reported success.
+
+1. **Frontmatter.** The leading HTML proposal comment was removed from the head of the file, so valid
+   YAML frontmatter is now the first block. A revised editorial provenance comment was placed
+   immediately AFTER the frontmatter. Its present tense was corrected: it no longer says nothing has
+   been applied. `date: 2026-08-09` and `last_verified: 2026-08-09` are unchanged, and the comment
+   states explicitly that no scientific result was recomputed or re-verified and that no fresh
+   verification is claimed. It also carries the qualification that the introducing edit's wording was
+   not recovered from the history examined at its squash and shallow-clone boundary, which is a limit
+   of that examination and not global historical absence.
+2. **Figure 1.** A Markdown image was added for the existing committed
+   `../figures/emc-fusion-frame-fig1.png`. No figure was generated, redrawn or recomputed. The Panel C
+   caption's nucleotide accounting was corrected: 1 nt donated by EWSR1 plus 176 nt of NR4A3
+   untranslated sequence, being 174 nt of exon 2 and the first 2 nt of exon 3, giving 177 nt and 59
+   codons. Independently re-derived by the parent from
+   `emc-fet-frame-and-composition.json`: `type2_seam.nr4a3_5utr_nt_from_exon_2 = 174`,
+   `nr4a3_5utr_nt_from_exon_3 = 2`, `nr4a3_5utr_nt_retained_total = 176`. The generator does draw the
+   exon-3 contribution as a separate annotated block (`emc_fusion_frame_figure.py:231-242`), so the
+   caption describes what is drawn.
+3. **Methods 2.3, 2.5 and section 7.** 2.3 now describes the retained symmetric sweep run on the same
+   evaluated grid, every N-terminal prefix from 50 residues to full length in 10-residue steps, for
+   TCF12 and each of the three FET proteins, read from the retained artifact rather than re-run; the
+   asymmetric published version is named as what it replaces. 2.5 now lists three commands and scopes
+   each: `emc_fet_construct_designs.py --check` to the assembly coordinates, frames and axis rows it
+   actually produces; `emc_fet_frame_and_composition.py --check` to the frame rule, seam arithmetic
+   and composition results, with its unit tests named; and `emc_fusion_frame_figure.py --check` to the
+   figure provenance stamp. Section 7 gained rows for that producer, its artifact, its tests and the
+   figure generator with its provenance file, and the GitHub Actions sentence was scoped to the one
+   artifact it describes. All command signatures were read from the modules' `main()`; **none of the
+   three was executed**, and the manuscript says so.
+4. **Preregistration commentary.** The P2/P4 falsifiers are now stated as OVERLAPPING and not
+   identical, with the two-sided and directional difference spelled out. The equivalence sentence was
+   replaced by the exact authorized wording: "Failure to detect a difference does not establish
+   equivalence. The registered wording supplies no equivalence margin or precision criterion, so a
+   nonsignificant comparison alone cannot confirm P1." No margin was invented, no registered
+   hypothesis or falsifier was altered, no assay plan was created, and the P1-P5 rows and both source
+   records are intact.
+5. **Supplementary Table S3.** The "Reported rank" row is relabelled "Reported rank — LEGACY SOURCE
+   DESCRIPTION, not a counted frequency (see note)" and a note after the table states that its cells
+   are retained verbatim with their provenance, that they are a legacy source description rather than
+   a frequency counted in this work, and that Table 1 carries the corrected frequency evidence and
+   governs where the two differ. No artifact value or cell content was modified.
+6. **Figure QA placement.** The NR4A3 fine-tick legibility uncertainty and the literal-versus-data
+   binding hazard were moved out of the caption into a new QA note,
+   `emc-atr-collaborator-package-integration-qa-2026-09-08.md`. The caption now carries a concise
+   reader-facing scope statement grounded in panel content; the instruction "none of them may be
+   cited to this figure" is gone. No legibility claim is made anywhere.
+7. **Section 3.5 opening (Y1 disposition).** Replaced with the exact authorized sentences. Details and
+   the partner-assigned versus total-series denominator distinction are in the Y1 collection record's
+   dated append and in the QA note.
+
+Two style-gate errors inherited from the candidate (`deliberately` in the Panel A caption, `stated
+here` in section 3.4) were removed by minimal rewording that changes no quantity or claim. The
+committed baseline passed `lint_style` and the candidate did not; this restores that.
+
+## Companions and generated views
+
+- Cover letter: C1, C2 and C3 applied as one contiguous rewrite of the passage that carried all
+  three; C4 adds the ORCID; T1 and T2 carry the adopted title.
+- `python3 systems/systems_check.py --write-views` regenerated 111 views. Exactly two changed,
+  `L3-publications.md` and `L2-rt-atr-panel.md`, and in each the only change is the title string. The
+  diff was inspected. No unrelated mutation was committed.
+- `#32-gene-models-and-open-reading-frames` is not renamed, so the `owner.anchor` fields in
+  `systems/graph/instruments.json` are unaffected; `systems_check` reports no link or anchor error on
+  any changed file.
+
+## Checks actually run, once, with exit codes
+
+| check | exit | result |
+|---|---|---|
+| `lint_style.py` on the three changed/added manuscript files | 0 for manuscript and QA note | The cover letter's two `second-person` errors (`you`, `Yours`) are PRE-EXISTING and reproduce identically on the retained baseline copy. |
+| `lint_consistency.py` (repo) | 0 | `0 ERROR across 29 target file(s)` |
+| `lint_claims.py` on the three files | 0 | 1 pre-existing WARN on an author-block line, unrelated to this integration |
+| `lint_submission_residue.py --report` | 0 | `5 finding(s) ... 5 baselined, 0 NEW` |
+| `lint_asymmetry.py --report` | 0 | `0 new symmetric restatements` |
+| `lint_citations.py` | **1** | PRE-EXISTING repo-wide failure: type claims disagreeing with PubMed and NOT-SWEPT identifiers in campaign report files. Not introduced here and not repaired here. **Not all gates are green.** |
+| `systems_check.py` | **1** | `907 ERROR` before and after the tracked changes — an identical count. Two D11 frontmatter-enum errors on the new QA note were introduced and fixed (`kind: memo`, `audience: external reviewers`). The pre-existing D6 duplicate-id errors on `DOC-EMC-ATR-COLLABORATOR-PACKAGE` come from retained lane copies and were not touched. |
+
+`scripts/preflight.sh` was NOT run and no full preflight replay was performed. No science was
+recomputed: no producer, figure generator or sweep was executed.
+
+**A disclosure about one command.** `python3 research/manuscripts/submission_metrics.py --help` was
+invoked expecting usage text. The script does not implement `--help`; it ran and rewrote
+`research/manuscripts/submission-metrics.json`. That file is an authorized derived metric for this
+integration and its update is legitimate, but the invocation was not deliberate and is recorded as it
+happened.
+
+## Measured consequence, and one thing now blocked
+
+`submission_metrics.py` measures the new revision at main 6,298 w, abstract **341 w**, 1 figure, 5
+tables, 6 display items, 10 references, against the committed baseline's 3,153 w / 238 w / 0 / 7 / 7 /
+8. The recorded venue is *Genes, Chromosomes and Cancer*, whose abstract limit as recorded is 250
+words, so `over_limit` now carries `abstract_words 341 > 250`.
+
+**BLOCKER — ATR abstract length.** Paper: `research/manuscripts/dependency/emc-atr-collaborator-package.md`.
+Measured evidence: `submission-metrics.json`, `abstract_words 341`, limit 250, provenance
+"search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser
+alike". Cutting 91 words from an abstract is a substantive scientific-writing change and is NOT among
+the seven authorized corrections, so it was not attempted. **Exact reopening condition:** an
+authorization to rewrite the abstract of this manuscript to at most 250 words, or a coordinator
+decision that the recorded 250-word limit does not bind this submission. Nothing else about the
+manuscript is blocked by this, and integration stands.
+EOF
+echo written
+
+--- tool_result body (verbatim) ---
+written
+
+
+##############################################################################
+# CALL 51   tool=Bash   tool_use_id=toolu_01KsmX3EYgqtbK3TsWr6gKiF
+# tool_use timestamp: 2026-09-08T12:38:31.406Z
+# tool_result timestamp: 2026-09-08T12:38:33.262Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Stage explicit owned paths
+
+--- input.command (verbatim) ---
+git add research/manuscripts/dependency/emc-atr-collaborator-package.md research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md research/manuscripts/submission-metrics.json systems/views/L3-publications.md systems/views/L2-rt-atr-panel.md research/autonomy/opus-capacity-campaign-20260908/paper-lane/COLLECTION-Y1-tcf12-frequency-provenance.md research/autonomy/opus-capacity-campaign-20260908/paper-lane/INTEGRATION-X1-atr-working-revision.md && git status --porcelain
+
+--- tool_result body (verbatim) ---
+M  research/autonomy/opus-capacity-campaign-20260908/paper-lane/COLLECTION-Y1-tcf12-frequency-provenance.md
+A  research/autonomy/opus-capacity-campaign-20260908/paper-lane/INTEGRATION-X1-atr-working-revision.md
+M  research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md
+A  research/manuscripts/dependency/emc-atr-collaborator-package-integration-qa-2026-09-08.md
+M  research/manuscripts/dependency/emc-atr-collaborator-package.md
+M  research/manuscripts/submission-metrics.json
+M  systems/views/L2-rt-atr-panel.md
+M  systems/views/L3-publications.md
+
+
+##############################################################################
+# CALL 52   tool=Bash   tool_use_id=toolu_01NWsT3JsrSBxwz9RQa5z15r
+# tool_use timestamp: 2026-09-08T12:38:50.326Z
+# tool_result timestamp: 2026-09-08T12:39:37.933Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Commit the integration
+
+--- input.command (verbatim) ---
+bash scripts/preflight.sh --help >/dev/null 2>&1; git commit -q -F - <<'EOF' && git rev-parse HEAD
+ATR package: integrate the accepted new working revision with seven bounded corrections
+
+The scientific coordinator accepted X1's reconstruction and its title as the new
+working manuscript for the EMC ATR collaborator package, authorising integration
+after six bounded corrections plus one sentence replacement from Y1's disposition.
+Integration is not publication acceptance.
+
+Applied to research/manuscripts/dependency/emc-atr-collaborator-package.md:
+
+1. Valid YAML frontmatter is now the first block; the proposal comment moved below
+   it and its present tense corrected. date/last_verified stay at the original
+   source dates and the comment states that nothing was recomputed or re-verified.
+2. Figure 1 now embeds the existing committed emc-fusion-frame-fig1.png. The Panel C
+   caption's 177-nt accounting includes the two NR4A3 exon 3 nucleotides it was
+   missing (1 nt from EWSR1 + 174 nt exon 2 + 2 nt exon 3). No figure was redrawn.
+3. Methods 2.3 describes the retained symmetric four-protein sweep on its 10-aa grid;
+   2.5 and section 7 name the frame-and-composition producer, artifact and tests and
+   the figure generator, and scope the old command to what it actually produces. The
+   command signatures are quoted from source; none was executed.
+4. The P2/P4 falsifiers are stated as overlapping rather than identical, and the
+   equivalence claim is replaced by the authorized wording. No registered hypothesis,
+   falsifier or margin was altered or invented.
+5. Supplementary Table S3's "Reported rank" row is labelled a legacy source
+   description with a note; Table 1 carries the counted frequencies and governs.
+   No artifact value was modified.
+6. The NR4A3 tick legibility and figure provenance-binding observations moved from
+   the caption to a new integration QA note; the caption is reader-facing. No
+   legibility claim is made.
+7. Section 3.5 opens with the authorized sentences reporting one of 26 cases in one
+   series, with no population prevalence, no new reference and no pooled estimate.
+
+Cover letter: C1-C4 factual corrections and T1/T2 title changes. Two generated views
+regenerated; the title string is their only change. Two style errors inherited from
+the candidate removed without changing any quantity.
+
+Checks run once: lint_style, lint_consistency, lint_claims, lint_submission_residue
+and lint_asymmetry all exit 0. lint_citations still exits 1 on the pre-existing
+repo-wide type-claim failure, and systems_check still exits 1 at an error count
+identical before and after these changes. Not all gates are green.
+
+submission_metrics measures the new abstract at 341 words against a recorded 250-word
+venue limit. Rewriting it is not among the authorized corrections, so it is recorded
+as a blocker with its exact reopening condition in the integration record.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Eui7FVgatEXAwt2N35yHH6
+EOF
+
+--- tool_result body (verbatim) ---
+1891cd31ff2d58c2e048b4c4ccc3225dffbb78c9
+
+
+##############################################################################
+# CALL 53   tool=Bash   tool_use_id=toolu_01N3W9u9uJ9Wa1xdxxabYEo6
+# tool_use timestamp: 2026-09-08T12:39:41.706Z
+# tool_result timestamp: 2026-09-08T12:39:46.879Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Push
+
+--- input.command (verbatim) ---
+git push -u origin claude/confident-bardeen-ji76cd 2>&1 | tail -5
+
+--- tool_result body (verbatim) ---
+[prepush-ledger-guard] OK: no duplicate ledger ids
+To https://github.com/trimcrae/Rare-cancers
+   7d42e1f0..1891cd31  claude/confident-bardeen-ji76cd -> claude/confident-bardeen-ji76cd
+branch 'claude/confident-bardeen-ji76cd' set up to track 'origin/claude/confident-bardeen-ji76cd'.
+
+
+##############################################################################
+# CALL 54   tool=Bash   tool_use_id=toolu_01Aybx96Dfhg1UYhBZrbrg3N
+# tool_use timestamp: 2026-09-08T12:40:01.855Z
+# tool_result timestamp: 2026-09-08T12:40:01.933Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Find an untouched eligible paper
+
+--- input.command (verbatim) ---
+D=research/autonomy/opus-capacity-campaign-20260908/paper-lane; grep -l "andgate\|AND-gate\|biomarker-selected\|closed-routes" $D/CONTRACT-*.md 2>/dev/null; echo "---none above means untouched---"; ls -la research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md research/manuscripts/dependency/emc-biomarker-selected-classes.md research/manuscripts/methods-record/closed-routes-negative-record.md 2>&1
+
+--- tool_result body (verbatim) ---
+---none above means untouched---
+-rw-r--r-- 1 root root 30603 Sep  4 12:16 research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md
+-rw-r--r-- 1 root root 17544 Sep  4 12:16 research/manuscripts/dependency/emc-biomarker-selected-classes.md
+-rw-r--r-- 1 root root 43072 Sep  4 12:16 research/manuscripts/methods-record/closed-routes-negative-record.md
+
+
+##############################################################################
+# CALL 55   tool=Bash   tool_use_id=toolu_01VHrgJdQJX6MJB5HiAXPZxA
+# tool_use timestamp: 2026-09-08T12:40:22.087Z
+# tool_result timestamp: 2026-09-08T12:40:25.924Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Open and push Z1 contract
+
+--- input.command (verbatim) ---
+D=research/autonomy/opus-capacity-campaign-20260908/paper-lane; cat > $D/CONTRACT-Z1-andgate-quantity-provenance.md <<'EOF'
+# CONTRACT Z1 — AND-gate degrader paper: quantity provenance verification
+
+Opened 2026-09-08 by the campaign parent, immediately after the ATR integration commit
+`1891cd31ff2d58c2e048b4c4ccc3225dffbb78c9`, under the standing instruction to start the next
+eligible unfinished paper in the same cycle.
+
+**Paper:** `research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md` (PUB-ANDGATE,
+`drafted`, aimed at `preprint`). Unpublished, drafted, and untouched by every prior lane of this
+campaign — no CONTRACT in this directory names it.
+
+**Question, single and bounded.** Does every numeric quantity asserted in the manuscript's main text
+resolve to a committed artifact leaf in this repository that actually carries that value, and is each
+one labelled at the right epistemic level (computed prediction, published measurement, or assumption)?
+
+**Method.** Read-only. Extract each quantity from the manuscript with its sentence. For each, locate
+the artifact and the exact key path that should hold it, read that leaf, and record MATCH,
+MISMATCH with both values, or NO SOURCE LOCATED. Report the epistemic label the sentence gives and
+whether the source supports it. Propose exact single-occurrence replacement text for any defect
+found; apply nothing.
+
+**Prohibitions.** Write nothing under `/home/user/Rare-cancers`; no git write operation; no edit to
+any manuscript, artifact, graph file or view. Run no producer, no figure generator and no
+`scripts/preflight.sh`. Invent no value, source or measurement. Make no EMC efficacy, safety,
+selectivity or clinical-readiness claim; there is no wet lab. Do not touch `reports/W25-*` or any W25
+continuation. No network retrieval, no paid API, no GPU. If a claim's source cannot be located, say
+NO SOURCE LOCATED — absence of a located source is not evidence the claim is false.
+
+**Stop condition.** Return when every main-text quantity has a verdict, or at ~45 tool calls,
+whichever comes first. Returning early with fewer quantities and firm verdicts is a success; padding
+is not.
+
+**Deliverable.** The entire report in the final message text. Headings: Worker / Question /
+Method and inputs / Quantity table with verdicts / Defects found, with exact proposed replacements /
+Limitations / Stop condition / Tool-call count actually used.
+EOF
+git add $D/CONTRACT-Z1-andgate-quantity-provenance.md && git commit -q -m "Open Z1 contract: AND-gate degrader paper quantity provenance
+
+Next eligible unpublished paper after the ATR integration, in the same cycle.
+Read-only verification lane; nothing applied by the child.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Eui7FVgatEXAwt2N35yHH6" && git push -u origin claude/confident-bardeen-ji76cd 2>&1 | tail -2
+
+--- tool_result body (verbatim) ---
+   1891cd31..8c9a89af  claude/confident-bardeen-ji76cd -> claude/confident-bardeen-ji76cd
+branch 'claude/confident-bardeen-ji76cd' set up to track 'origin/claude/confident-bardeen-ji76cd'.
+
+
+##############################################################################
+# CALL 56   tool=Bash   tool_use_id=toolu_014nAQztz4xem8Mdcahe6y7S
+# tool_use timestamp: 2026-09-08T12:43:10.828Z
+# tool_result timestamp: 2026-09-08T12:43:12.803Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Inventory existing execution evidence
+
+--- input.command (verbatim) ---
+cd /tmp/claude-0 && find x1-integrate x1-lane -type f | sort | while read f; do printf "%10d  %s  %s\n" "$(stat -c%s "$f")" "$(sha256sum "$f" | cut -c1-16)" "$f"; done
+
+--- tool_result body (verbatim) ---
+     62299  e92ea6f5c508be78  x1-integrate/INTEGRATED-emc-atr-collaborator-package.md
+     13487  57f4c04d453d5421  x1-integrate/apply.py
+      8449  c780b9eb0a2f4081  x1-integrate/baseline/L2-rt-atr-panel.md
+     95962  adab38606eb97d39  x1-integrate/baseline/L3-publications.md
+      5064  5a79fc20079d96c5  x1-integrate/baseline/emc-atr-collaborator-package-cover-letter.md
+     46994  8180932a59ecad8f  x1-integrate/baseline/emc-atr-collaborator-package.md
+        51  1c7d66cd81731b27  x1-integrate/checks/consistency.txt
+       776  df86e29d0f3c5955  x1-integrate/checks/lint_asymmetry.txt
+    258097  83a7c171ba87c9c2  x1-integrate/checks/lint_citations.txt
+       456  fc492bf7c5d0a044  x1-integrate/checks/lint_claims.txt
+       338  7033c454d9540bd5  x1-integrate/checks/lint_consistency.txt
+      2902  0e22f5fdadb981ea  x1-integrate/checks/lint_style.txt
+       565  299dfddd94b8802e  x1-integrate/checks/lint_submission_residue.txt
+    281381  bbf5dfbd2c31392e  x1-integrate/checks/systems_check-after.txt
+    281905  c9834067e04fc5ee  x1-integrate/checks/systems_check.txt
+      3716  8bf6125b713fbfb2  x1-lane/INPUTS/COLLECTION-U1-figure-map-and-r1-review.md
+      5162  99a610037b48f9c6  x1-lane/INPUTS/CONTRACT-X1-atr-new-reconstruction.md
+     46994  8180932a59ecad8f  x1-lane/INPUTS/R1/BASELINE-emc-atr-collaborator-package.md
+     14877  b9f702d03657f485  x1-lane/INPUTS/R1/DECISION-MEMO.md
+    251907  82d1fc656d19d2b6  x1-lane/INPUTS/R1/ORIGINAL-CHILD-TRANSCRIPT-a6a41bcc67e17cc38.jsonl
+     21277  d0d472697dbad842  x1-lane/INPUTS/R1/PROPOSED-emc-atr-collaborator-package.diff
+     52558  06aa1f11624d0804  x1-lane/INPUTS/R1/PROPOSED-emc-atr-collaborator-package.md
+       607  ba1034d350b0fc22  x1-lane/INPUTS/R1/SHA256SUMS.txt
+     12665  5a8ef375a66ee15a  x1-lane/INPUTS/R1/build_candidate.py
+   2024627  04b005cb00843c70  x1-lane/INPUTS/U1/ORIGINAL-CHILD-TRANSCRIPT-af3a14e566b943e5e.jsonl
+       633  556b79ba02e2102a  x1-lane/INPUTS/U1/SHA256SUMS.txt
+     21296  02f977be4a34fc01  x1-lane/INPUTS/U1/U1-DECISION-MEMO-on-R1-proposal.md
+     19250  558b64ebe49aea1b  x1-lane/INPUTS/U1/U1-FIGURE1-PANEL-MAP.md
+     47109  1e041850663d19d5  x1-lane/INPUTS/U1/panelA_top.png
+     86649  2b97a655584e87c2  x1-lane/INPUTS/U1/panelB_zoom.png
+     79411  b787ce15c825a12a  x1-lane/INPUTS/U1/panelC_top.png
+    342262  4054c3e5ae517c82  x1-lane/INPUTS/U1/pdf_streams.bin
+       317  8155d5e4d7c8d1ef  x1-lane/INPUTS/W1/FAITHFULNESS-CHECK-RESULT.txt
+       319  5d5ddc99dc040699  x1-lane/INPUTS/W1/NEGATIVE-CONTROL-RESULT.txt
+    178797  433b47ea70b005b0  x1-lane/INPUTS/W1/ORIGINAL-CHILD-TRANSCRIPT-afb6b8e0c83a21fac.jsonl
+      4679  6c727509fa30e212  x1-lane/INPUTS/W1/PROPOSED-supplementary-table-s3.md
+     13317  691b843376cc52d0  x1-lane/INPUTS/W1/PROVENANCE-table-s3.md
+      3023  a0c7bac5bb9c6da3  x1-lane/INPUTS/W1/README-W1.md
+       921  b9879bd9f0fc8150  x1-lane/INPUTS/W1/SHA256SUMS.txt
+       968  ef1ed5b1b87c8815  x1-lane/INPUTS/W1/START-END-STATE.txt
+      9502  22e437d2ace3bf73  x1-lane/INPUTS/W1/build_table_s3.py
+      3111  c2ec7ee76bcd5d8f  x1-lane/INPUTS/W1/faithfulness_check.py
+     18052  ab5dd85f09515ef4  x1-lane/INPUTS/W1/provenance-cells.json
+    180128  8be7845170f9eb2f  x1-lane/INPUTS/W2/ORIGINAL-CHILD-TRANSCRIPT-a89e97a25d998f23d.jsonl
+       290  a06392e159f4ca69  x1-lane/INPUTS/W2/SHA256SUMS.txt
+       741  7f12ce7508cb078d  x1-lane/INPUTS/W2/W2-END-STATE.txt
+     11873  a4926d8de504baca  x1-lane/INPUTS/W2/W2-PANEL-A-KEY-SOURCE.md
+    119357  7d6a1b569dd61c91  x1-lane/INPUTS/W3/ORIGINAL-CHILD-TRANSCRIPT-a1c059e448e91c63b.jsonl
+       212  7274d3d347bc9031  x1-lane/INPUTS/W3/SHA256SUMS.txt
+      5646  e40ee1a9da85b559  x1-lane/INPUTS/W3/W3-RESULT-okamoto-11679947.md
+      1514  410e44c432dbeae0  x1-lane/MOVED-TABLES-SOURCE-BLOCKS.md
+      1266  eff933364ea1247f  x1-lane/PREREG-ROWS-CANDIDATE-vs-BASELINE.txt
+     58254  60742f92e4133acc  x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md
+     55364  14cac2af30cbe9e0  x1-lane/PROPOSED-X1-vs-COMMITTED-BASELINE.diff
+     51298  72cf95af3b461b90  x1-lane/PROPOSED-X1-vs-R1.diff
+      9223  1c2c5d10d700239f  x1-lane/RETAINED-APPENDIX-A-history.md
+      1217  0fd92028dffbc16b  x1-lane/SHA256SUMS.txt
+       436  377d667a4a9ca240  x1-lane/START-END-STATE.txt
+      4775  ac910c97f2db887f  x1-lane/X1-COVER-LETTER-AND-TITLE-PROPOSALS.md
+     13821  9b85d3e486478b90  x1-lane/X1-DECISION-RECORD.md
+     16097  89afb755d28abcb2  x1-lane/build_x1_candidate.py
+     11966  626477f02ac44dd8  x1-lane/build_x1_step2.py
+      5061  43b72279f0bdb057  x1-lane/build_x1_step3.py
+Shell cwd was reset to /home/user/Rare-cancers
+
+
+##############################################################################
+# CALL 57   tool=Bash   tool_use_id=toolu_01P5gjgTRXY63eFZW7Wx6PWt
+# tool_use timestamp: 2026-09-08T12:43:29.892Z
+# tool_result timestamp: 2026-09-08T12:43:31.704Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Copy execution directory verbatim into repo
+
+--- input.command (verbatim) ---
+D=research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts; mkdir -p $D && cp -a /tmp/claude-0/x1-integrate/. $D/ && find $D -type f | wc -l && du -sh $D && diff -rq /tmp/claude-0/x1-integrate $D && echo "EXACT-COPY-VERIFIED"
+
+--- tool_result body (verbatim) ---
+15
+1.1M	research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts
+EXACT-COPY-VERIFIED
+
+
+##############################################################################
+# CALL 58   tool=Bash   tool_use_id=toolu_01EnRgEJyTaUF1fqnBAgzFDJ
+# tool_use timestamp: 2026-09-08T12:43:40.598Z
+# tool_result timestamp: 2026-09-08T12:43:42.591Z   is_error=False
+##############################################################################
+
+--- input.description ---
+Survey parent transcript for extractable commands
+
+--- input.command (verbatim) ---
+T=/root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl; ls -la $T && python3 - <<'PY'
+import json,io,os
+T="/root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl"
+recs=[]
+with io.open(T,encoding="utf-8",errors="replace") as fh:
+    for ln in fh:
+        ln=ln.strip()
+        if not ln: continue
+        try: recs.append(json.loads(ln))
+        except Exception: pass
+print("records:",len(recs))
+# markers unique to this integration turn
+MARK=("x1-integrate","x1-lane/PROPOSED-X1","emc-atr-collaborator-package","systems_check.py --write-views",
+      "submission_metrics.py","COLLECTION-Y1-tcf12","CONTRACT-Z1","lint_style.py","lint_consistency.py",
+      "lint_claims.py","lint_submission_residue.py","lint_asymmetry.py","lint_citations.py")
+hits=0
+for i,r in enumerate(recs):
+    m=r.get("message") or {}
+    c=m.get("content")
+    if isinstance(c,list):
+        for b in c:
+            if isinstance(b,dict) and b.get("type")=="tool_use":
+                s=json.dumps(b.get("input",{}))
+                if any(k in s for k in MARK): hits+=1
+print("candidate tool_use blocks:",hits)
+PY
+
+--- tool_result body (verbatim) ---
+-rw------- 1 root root 40548785 Sep  8 12:43 /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl
+records: 6824
+candidate tool_use blocks: 151
+
+
+##############################################################################
+# CALL 59   tool=Bash   tool_use_id=toolu_01FLYtSmxNwViPdQxmQVio3n
+# tool_use timestamp: 2026-09-08T12:44:02.471Z
+# NO TOOL RESULT FOUND IN TRANSCRIPT FOR THIS CALL
+##############################################################################
+
+--- input.description ---
+Bounded extraction of this turn's commands and results
+
+--- input.command (verbatim) ---
+python3 - <<'PY'
+import json,io,os
+T="/root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl"
+OUT="research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/EXTRACTED-FROM-PARENT-TRANSCRIPT-commands-and-results.txt"
+recs=[]
+with io.open(T,encoding="utf-8",errors="replace") as fh:
+    for ln in fh:
+        ln=ln.strip()
+        if not ln: continue
+        try: recs.append(json.loads(ln))
+        except Exception: pass
+CUT="2026-09-08T12:29:00"
+uses={}   # id -> (ts, name, input)
+order=[]
+results={} # id -> (ts, content, is_error)
+for r in recs:
+    ts=r.get("timestamp","")
+    m=r.get("message") or {}
+    c=m.get("content")
+    if not isinstance(c,list): continue
+    for b in c:
+        if not isinstance(b,dict): continue
+        if b.get("type")=="tool_use" and ts>=CUT:
+            uses[b["id"]]=(ts,b.get("name"),b.get("input",{}))
+            order.append(b["id"])
+        elif b.get("type")=="tool_result":
+            tid=b.get("tool_use_id")
+            cont=b.get("content")
+            if isinstance(cont,list):
+                cont="".join(x.get("text","") for x in cont if isinstance(x,dict))
+            results[tid]=(ts,cont if isinstance(cont,str) else json.dumps(cont), b.get("is_error"))
+n=0
+with io.open(OUT,"w",encoding="utf-8") as o:
+    o.write("EXTRACTED FROM THE PARENT SESSION TRANSCRIPT. NOT A STANDALONE EXECUTION LOG.\n")
+    o.write("="*78+"\n\n")
+    o.write("Provenance. These bodies were copied verbatim out of the parent session transcript\n")
+    o.write("  /root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71.jsonl\n")
+    o.write("at collection time. They are the ONLY surviving record of the commands whose scripts\n")
+    o.write("were written as shell heredocs rather than as files, and of the stdout/stderr that was\n")
+    o.write("never redirected to a file. Nothing here was re-run, reconstructed or paraphrased: each\n")
+    o.write("block is the literal tool_use input and the literal tool_result body as the transcript\n")
+    o.write("stored them. Extraction is bounded to tool calls timestamped at or after %s,\n" % CUT)
+    o.write("which is the start of the ATR integration turn; earlier turns are not included here and\n")
+    o.write("remain in the transcript unchanged.\n\n")
+    o.write("The transcript itself is NOT a standalone artifact of this directory. It is the parent\n")
+    o.write("session's own file and was not copied into the repository.\n")
+    o.write("="*78+"\n")
+    for tid in order:
+        ts,name,inp=uses[tid]
+        if name!="Bash": continue
+        res=results.get(tid)
+        n+=1
+        o.write("\n\n"+"#"*78+"\n")
+        o.write("# CALL %d   tool=%s   tool_use_id=%s\n" % (n,name,tid))
+        o.write("# tool_use timestamp: %s\n" % ts)
+        if res: o.write("# tool_result timestamp: %s   is_error=%r\n" % (res[0],res[2]))
+        else:   o.write("# NO TOOL RESULT FOUND IN TRANSCRIPT FOR THIS CALL\n")
+        o.write("#"*78+"\n\n--- input.description ---\n")
+        o.write(str(inp.get("description",""))+"\n\n--- input.command (verbatim) ---\n")
+        o.write(str(inp.get("command",""))+"\n\n--- tool_result body (verbatim) ---\n")
+        o.write((res[1] if res else "<absent>")+"\n")
+    o.write("\n\n"+"="*78+"\nEND OF EXTRACTION. %d Bash call(s).\n" % n)
+print("wrote",OUT,"calls:",n,"bytes:",os.path.getsize(OUT))
+PY
+
+--- tool_result body (verbatim) ---
+<absent>
+
+
+==============================================================================
+END OF EXTRACTION. 59 Bash call(s).

@@ -1,0 +1,247 @@
+--- /tmp/claude-0/x1-lane/PROPOSED-X1-emc-atr-collaborator-package.md	2026-09-08 12:17:56.612340212 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/emc-atr-collaborator-package.md	2026-09-08 12:44:17.415370504 +0000
+@@ -1,18 +1,3 @@
+-<!-- ============================================================================
+-PROPOSED NEW WORKING REVISION - X1 lane, 2026-09-08. NOT A RECOVERED ORIGINAL.
+-
+-This is a NEW revision proposed now. No file, blob or draft of any lost historical
+-revision was found, and none is claimed. It is built by applying, to R1's proposed
+-candidate, (a) three required corrections to that candidate, (b) qualifications
+-established by U1, and (c) the completed outputs of W1 (Supplementary Table S3),
+-W2 (Panel A key sources) and W3 (Okamoto 2001 metadata).
+-
+-Everything here is PROPOSED. Nothing has been applied to any shared repository
+-path, no view has been regenerated, and no title or cross-reference outside this
+-file has been changed. Shared integration is the scientific coordinator's decision.
+-Decisions, denominator provenance and unresolved items: X1-DECISION-RECORD.md.
+-Appendix A of the input is retained verbatim in RETAINED-APPENDIX-A-history.md.
+-============================================================================= -->
+ ---
+ id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+ title: "Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma"
+@@ -39,6 +24,34 @@
+ related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
+ ---
+ 
++<!-- ============================================================================
++REVISION PROVENANCE, EDITORIAL - NOT FOR SUBMISSION.
++
++This file is a NEW working revision, integrated on 2026-09-08. It is not a recovered
++original: no file, blob or draft of any lost historical revision was found, and none is
++claimed. The wording of the edit that introduced the earlier text was not recovered from
++the history examined at its squash and shallow-clone boundary, which is a limit of that
++examination and not a finding of global historical absence.
++
++It was built by applying, to the R1 candidate, three required corrections to that
++candidate, the qualifications established by U1, and the completed outputs of W1
++(Supplementary Table S3), W2 (Panel A key sources) and W3 (Okamoto 2001 metadata). The
++scientific coordinator then accepted that reconstruction and title as the new working
++manuscript and authorised six further bounded corrections, together with one sentence
++replacement opening section 3.5, all of which are applied here. Integration is not
++publication acceptance.
++
++The `date` and `last_verified` fields above are the original source dates of the
++underlying analysis and are deliberately unchanged: no scientific result was recomputed,
++re-derived or re-verified for this revision, and no fresh verification is claimed.
++
++Retained records, unedited: the proposal, its decision record, the verbatim earlier
++Appendix A, and the candidate-versus-baseline and candidate-versus-R1 diffs are under
++`research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-executed-artifacts/`.
++Figure-QA observations carried out of the Figure 1 caption during this integration are in
++[`emc-atr-collaborator-package-integration-qa-2026-09-08.md`](./emc-atr-collaborator-package-integration-qa-2026-09-08.md).
++============================================================================= -->
++
+ # Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
+ 
+ **Tristan D. McRae**
+@@ -253,8 +266,15 @@
+ N-terminal, with the operational box count. Test three is N-terminal sequence identity by
+ Needleman-Wunsch alignment, with the three FET-versus-FET pairs computed by the identical call as
+ the positive control, since a single identity value in isolation carries no scale. The sweep
+-computes the [S,Y,G,Q] fraction of every TCF12 N-terminal prefix from 50 residues to full length in
+-10-residue steps, so the conclusion does not rest on one assumed junction.
++computes the [S,Y,G,Q] fraction of every N-terminal prefix from 50 residues to full length in
++10-residue steps, on that one evaluated grid, for TCF12 and for each of the three FET proteins rather
++than for TCF12 alone. The published version of this test swept TCF12 alone and compared its best
++value against the FET proteins at a single fixed 250-residue window, which is asymmetric. No sweep
++was run for this revision: the symmetric result, its grid, its per-protein prefixes and the resulting
++0.039 gap are read from the retained artifact
++[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) under
++`composition.symmetric_prefix_sweep`. The conclusion therefore rests neither on one assumed junction
++nor on one fixed window.
+ 
+ ### 2.4 Tag orientation
+ 
+@@ -268,11 +288,24 @@
+ 
+ ```
+ python3 research/modalities/emc_fet_construct_designs.py --check
++python3 research/modalities/emc_fet_frame_and_composition.py --check
++python3 research/manuscripts/figures/emc_fusion_frame_figure.py --check
+ ```
+ 
+-That command re-derives every figure below offline from the committed input cache
+-([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
+-The producer emits no output if the inputs have drifted.
++The first command re-derives the per-construct assembly coordinates, the reading frames and the
++recruitment-axis rows offline from the committed input cache
++([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`;
++it does not produce the frame rule, the type-2 seam arithmetic or the composition results. The second
++re-derives those into
++[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json), printing
++`REPRODUCES` when a fresh derivation matches the committed artifact and `DRIFT`, with a non-zero
++exit, when it does not; its unit tests are
++[`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py).
++The third compares the committed provenance stamp
++([`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json)) against the artifacts
++Figure 1 was drawn from, printing `PROVENANCE MATCHES` or `STALE`; run without `--check` it redraws
++the figure. These are the declared command signatures, quoted from the three modules; none of them
++was run to produce this revision, which recomputes no scientific result.
+ 
+ Retrieval, computation and drafting were carried out with substantial assistance from an AI coding
+ agent operating on a version-controlled repository under the author's direction. The agent is not an
+@@ -402,6 +435,8 @@
+ 
+ ### 3.4 Placement on the retained-RG axis
+ 
++![Figure 1. Three panels: reported EMC junctions drawn to residue scale with their RG content, the retained-RG fraction axis, and the type-2 seam.](../figures/emc-fusion-frame-fig1.png)
++
+ **Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,
+ drawn by [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py) and committed as
+ [`emc-fusion-frame-fig1.png`](../figures/emc-fusion-frame-fig1.png) and
+@@ -416,7 +451,7 @@
+ its last RG-start (`emc_fet_idr_census.py`, `RGG_WINDOW = 60`, `RGG_MIN_RG_IN_WINDOW = 6`); the
+ spans drawn are `rgg_boxes_operational` in `emc-fet-construct-designs.json`. This finder returns two
+ boxes on EWSR1 and one on TAF15; the source paper names three RGG-rich domains in EWSR1, and the box
+-definition was deliberately not tuned to reproduce that count. NR4A3 has no box because the finder
++definition was not tuned to reproduce that count. NR4A3 has no box because the finder
+ returns none for it. `C166` is a printed text label placed above the NR4A3 bar with a single
+ vertical marker drawn on that bar at residue 166; it identifies that residue position and nothing
+ more, and no functional property is asserted for it here. Below the dotted rule, each fusion row
+@@ -432,25 +467,22 @@
+ reported EWSR1::ATF1 breakpoints. That interval describes reported breakpoints; it is not a measured
+ recruitment range.
+ 
+-**Panel C.** The type-2 seam, drawn as NR4A3 exon 2 (174 nt, untranslated in NR4A3), one nucleotide
+-donated by EWSR1, and the resulting extension of 59 codons over 177 nt with no internal stop codon.
++**Panel C.** The type-2 seam, drawn as one nucleotide donated by EWSR1 followed by 176 nt of NR4A3
++untranslated sequence: 174 nt of NR4A3 exon 2, the block labelled untranslated in NR4A3, and the
++first 2 nt of NR4A3 exon 3, annotated separately in the panel. Those 177 nt are the extension of 59
++codons carrying no internal stop codon. The earlier caption counted only the exon 2 block and the
++donated nucleotide, which does not reach 177.
+ The panel does not print the words "type 2": it draws the EWSR1 exon 7 to NR4A3 exon 2 junction,
+ which is the only reported EMC junction using the exon 2 acceptor, and it should be read as that
+ junction and not as a general statement about the acceptor.
+ 
+-*What the figure does not show.* The frame rule as a rule over all donor and acceptor pairs, the
+-complete phase-1 donor set, the symmetric prefix sweep and its 0.039 margin, and the TAF15 zero-RG
+-margin are results of sections 3.2, 3.4 and 3.5 and appear in no panel; none of them may be cited to
+-this figure. The generator draws NR4A3 RG ticks at residues 371 and 508; an independent reading of
+-the rendered image reported one of them, and whether the 371 tick is occluded by the adjacent
+-domain-block edge at 373 or is not resolved at print size was not settled and is not asserted here.
+-
+-*A provenance limitation of the drawing.* The Panel A box spans are hard-coded literals in the
+-generator and currently match `rgg_boxes_operational` exactly, which was checked. The generator
+-stamps a hash of each of its listed source files, so a change to that data field would change the
+-recorded stamp; what the code does not carry is any binding or asserted equality between that field
+-and the literals, so a later redraw with the literals unchanged could preserve a semantic mismatch
+-while still producing a fresh source stamp.
++*What the figure shows, and what it does not.* The three panels carry the reported junctions, the
++RG content each retains, the retained-RG fraction axis and the type-2 seam. The frame rule as a rule
++over all donor and acceptor pairs, the complete phase-1 donor set, the symmetric prefix sweep and its
++0.039 margin, and the TAF15 zero-RG margin are results of sections 3.2, 3.4 and 3.5 and appear in no
++panel. Two drawing-level observations, on the legibility of the closely spaced NR4A3 ticks and on the
++binding between the Panel A box literals and their source data field, are recorded in the integration
++QA note cited in the editorial comment above rather than in this caption.
+ 
+ **Table 3.** EMC fusions and their comparators on one axis, with the status column distinguishing a
+ position measured in reference 1 from a reported breakpoint of a disease in which the mechanism was
+@@ -490,15 +522,15 @@
+ TAF15::NR4A3 was also open until this computation. TAF15's sourced exon 6 junction retains 161 residues
+ and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
+ window with 13 residues of margin, where the earlier sweep could report only a range of 100 to 170.
+-Margin is stated here as the RG-free ceiling (174, the largest retained length carrying no RG
++Margin is the RG-free ceiling (174, the largest retained length carrying no RG
+ dipeptide) minus the retained length (161), the convention the census uses; the distance to the
+ first RG position is one greater.
+ 
+ ### 3.5 TCF12 outside the FET compositional range
+ 
+-Roughly 3 to 4 per cent of EMC carries TCF12::NR4A3, and TCF12 is not a FET-family gene. The class
+-argument therefore predicts that these cases do not carry the lesion, which is a prediction
+-testable inside one disease on one slide.
++TCF12::NR4A3 was reported in one of 26 cases in one EMC series [6]. TCF12 is not a FET-family gene.
++The class argument therefore predicts that these cases do not carry the lesion, which is a
++prediction testable inside one disease on one slide.
+ 
+ **Table 4.** TCF12 against the three FET proteins.
+ 
+@@ -554,11 +586,13 @@
+ 
+ *Redundancy and equivalence within the registered set.* Two limitations of the set as registered are
+ identified here and neither is repaired by editing it. P4's falsifier, "the pair showing no kinetic
+-difference", is the same observation as P2's first falsifier, "type 1 recruiting no earlier than
+-type 2"; one experiment therefore falsifies two entries, and the set counts fewer independent tests
+-than its five ids suggest. P1 as registered predicts kinetics *indistinguishable* from a comparator,
+-which is an equivalence: a null result satisfies it and an underpowered experiment satisfies it too,
+-so P1 is confirmable but not straightforwardly falsifiable in the direction it is written. Whether
++difference", overlaps P2's first falsifier, "type 1 recruiting no earlier than type 2", without being
++identical to it: the first is a two-sided absence of any difference, while the second is directional
++and is also satisfied by type 1 recruiting later. One experiment can therefore satisfy both at once,
++so the set counts fewer independent tests than its five ids suggest, but the two entries are not
++interchangeable. P1 as registered predicts kinetics *indistinguishable* from a comparator. Failure to
++detect a difference does not establish equivalence. The registered wording supplies no equivalence
++margin or precision criterion, so a nonsignificant comparison alone cannot confirm P1. Whether
+ to re-register a narrowed set is a scientific decision about a preregistration and is not taken here.
+ 
+ *Two records, and what each holds.* The machine-readable record
+@@ -657,7 +691,11 @@
+ | item | location |
+ |---|---|
+ | Producer | [`emc_fet_construct_designs.py`](../../modalities/emc_fet_construct_designs.py) |
+-| Computed artifact, the home of every figure above | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |
++| Computed artifact holding the per-construct assembly coordinates, reading frames and axis rows | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |
++| Producer of the frame rule, the type-2 seam arithmetic and the composition results | [`emc_fet_frame_and_composition.py`](../../modalities/emc_fet_frame_and_composition.py) |
++| Its computed artifact | [`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) |
++| Its unit tests | [`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py) |
++| Figure 1 generator and the provenance stamp it writes | [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py), [`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json) |
+ | Offline input cache the artifact re-derives from | [`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json) |
+ | NR4A3 exon audit | [`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json) |
+ | RG and RGG-box definitions, and the breakpoint sweep | [`emc_fet_idr_census.py`](../../modalities/emc_fet_idr_census.py), [`emc-fet-idr-census.json`](../../modalities/emc-fet-idr-census.json) |
+@@ -665,9 +703,11 @@
+ | Prior-art screen, with its retrieval record and its stated limits | [`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json) |
+ | Separate pre-registered protocol for the drug-response half of the same question, which this report does not address | [`emc-atri-prereg.md`](../../modalities/emc-atri-prereg.md) |
+ 
+-The artifact was produced by GitHub Actions run 30857647907 on `depmap-dependency.yml` in the
+-public repository, and `--check` re-derives it offline. Any figure above that disagrees with the
+-artifact is an error in this document.
++`emc-fet-construct-designs.json` was produced by GitHub Actions run 30857647907 on
++`depmap-dependency.yml` in the public repository, and its producer's `--check` re-derives it offline.
++The frame-and-composition artifact and the figure carry their own producers and checks, listed in
++section 2.5. Any figure above that disagrees with the artifact it is drawn from is an error in this
++document.
+ 
+ The analysis runs on a standard processor and requires no specialised hardware, licensed software or paid service, so it can be reproduced at no cost.
+ 
+@@ -724,7 +764,7 @@
+ | Field | EWSR1_NR4A3_type1 | EWSR1_NR4A3_type2 | EWSR1_NR4A3_type5 | TAF15_NR4A3 |
+ |---|---|---|---|---|
+ | Junction (label) | EWSR1::NR4A3 type 1 — EWSR1 exon 12 :: NR4A3 exon 3 | EWSR1::NR4A3 type 2 — EWSR1 exon 7 :: NR4A3 exon 2 | EWSR1::NR4A3 type 5 — EWSR1 exon 13 :: NR4A3 exon 3 | TAF15::NR4A3 — TAF15 exon 6 :: NR4A3 exon 3 |
+-| Reported rank | the commonest reported EWSR1::NR4A3 transcript type | the second reported EWSR1::NR4A3 transcript type | a minority reported type | the only reported TAF15::NR4A3 coding junction |
++| Reported rank — LEGACY SOURCE DESCRIPTION, not a counted frequency (see note) | the commonest reported EWSR1::NR4A3 transcript type | the second reported EWSR1::NR4A3 transcript type | a minority reported type | the only reported TAF15::NR4A3 coding junction |
+ | 5' transcript | ENST00000397938 | ENST00000397938 | ENST00000397938 | ENST00000605844 |
+ | 5' last exon retained (transcript rank) | 12 | 7 | 13 | 6 |
+ | 3' transcript | ENST00000395097 | ENST00000395097 | ENST00000395097 | ENST00000395097 |
+@@ -755,6 +795,12 @@
+ | FUS::NR4A3 | UNRESOLVED | NO transcript-level junction sourced in this repo's literature cache |
+ | TCF12::NR4A3 | UNRESOLVED | GENOMIC breakpoint only — reported as TCF12 intron 5, not as an mRNA exon junction, and TCF12 has several alternatively-spliced isoforms |
+ 
++*Note on the "Reported rank" row.* Its four cells are verbatim leaves of the artifact and are
++retained unchanged, with their provenance, but they are a legacy source description of how each
++junction was characterised, not a frequency counted in this work. Table 1 carries the corrected
++frequency evidence, with each count attached to the series it comes from; where the two differ,
++Table 1 governs. No artifact value was modified to add this label.
++
+ Genomic breakpoint coordinates are `UNRESOLVED` for all four junctions because the input carries
+ transcript and cDNA coordinates only; they are not back-derived from exon ranks. FUS::NR4A3 and
+ TCF12::NR4A3 appear in no column because the input records no transcript-level junction for either

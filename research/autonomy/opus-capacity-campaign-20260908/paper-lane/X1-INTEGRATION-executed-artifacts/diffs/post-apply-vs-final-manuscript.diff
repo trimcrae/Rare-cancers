@@ -1,0 +1,20 @@
+--- research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/INTEGRATED-emc-atr-collaborator-package.md	2026-09-08 12:33:27.468996131 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/emc-atr-collaborator-package.md	2026-09-08 12:44:17.415370504 +0000
+@@ -451,7 +451,7 @@
+ its last RG-start (`emc_fet_idr_census.py`, `RGG_WINDOW = 60`, `RGG_MIN_RG_IN_WINDOW = 6`); the
+ spans drawn are `rgg_boxes_operational` in `emc-fet-construct-designs.json`. This finder returns two
+ boxes on EWSR1 and one on TAF15; the source paper names three RGG-rich domains in EWSR1, and the box
+-definition was deliberately not tuned to reproduce that count. NR4A3 has no box because the finder
++definition was not tuned to reproduce that count. NR4A3 has no box because the finder
+ returns none for it. `C166` is a printed text label placed above the NR4A3 bar with a single
+ vertical marker drawn on that bar at residue 166; it identifies that residue position and nothing
+ more, and no functional property is asserted for it here. Below the dotted rule, each fusion row
+@@ -522,7 +522,7 @@
+ TAF15::NR4A3 was also open until this computation. TAF15's sourced exon 6 junction retains 161 residues
+ and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
+ window with 13 residues of margin, where the earlier sweep could report only a range of 100 to 170.
+-Margin is stated here as the RG-free ceiling (174, the largest retained length carrying no RG
++Margin is the RG-free ceiling (174, the largest retained length carrying no RG
+ dipeptide) minus the retained length (161), the convention the census uses; the distance to the
+ first RG position is one greater.
+ 
