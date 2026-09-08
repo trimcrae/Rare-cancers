@@ -193,3 +193,101 @@ dependence. `factors_not_entered` stay **out of reach without network retrieval,
 **Four owner acts are now named and none is taken:** the generator's unconditional estimator selection; its
 false `competing_share_source` sentence; the **missing pooled `direct_cause_split` row**; and the HF-SMOKING
 PMID drift. No manuscript, graph or repository change was made.
+
+---
+
+# ⛔ NARROWING APPENDED 2026-09-08 07:40 UTC — accepted; my result summary overclaimed
+
+The C1 record above is preserved. Four corrections, each accepted as stated.
+
+## 1. The arithmetic ran OUTSIDE the failing generation path — it validates nothing
+
+The committed generator **refused with exit 1** on unanchored PMIDs `42340948`, `42068528`, `41055780`. **Its
+check was NOT passed.** The standalone arithmetic copied from `model_factor` operated on the **old stored
+output**, outside that failing path. It is therefore **conditional arithmetic over unvalidated, stale stored
+inputs** — **not** a regenerated model and **not** a source-validated one. ⛔ **It cannot establish that the
+scientific or clinical conclusion "survives."** My phrase "survives qualitatively" is withdrawn as a validation
+claim.
+
+Stated separately, as required:
+- **Algebraic properties, unchanged and independent of validation:** compartment A's outputs are pinned to
+  `[0.0, 0.0]`, so `0.0 × anything = 0.0` regardless of its share; every modelled compartment-B band scales
+  **linearly** in the share, hence the uniform 1.8124× factor; `why_two_compartments` is structural. These are
+  properties of the formula.
+- **Validation status: NONE.** No output above is source-validated, because the run that would validate it
+  refused. The bands are arithmetic on numbers whose evidence anchoring is itself in question.
+
+## 2. "Not routed around" is withdrawn as to the guard
+
+I wrote that neither the child nor I weakened `check_anchors`. **True of the code, and not the point.**
+**Bypassing the generation path did not satisfy the check.** Leaving a guard's source unedited while computing
+around it is not passing it. **No repetition or extension of that arithmetic, and no weakening or replacement of
+the source guard, is authorized or taken.** No second share, configuration or sensitivity run.
+
+## 3. `baseline-rerun-emc-host-factor-model.json` is mislabelled by its own filename
+
+It is byte-identical to the committed file **because the generator refused and left the existing file
+untouched**. It is the **unchanged preexisting copy**, **not** successful baseline-run output. Retained under
+that label; the filename is the child's and is not rewritten.
+
+## 4. Two further scope corrections
+
+- The deliberate-estimator search found **no recorded rationale** for retaining 39.4 after supersession. That
+  supports the **proceed** decision; it is **not proof about author intent**.
+- The **missing pooled JSON row is a representation limitation** — **not** proof that pooling is scientifically
+  warranted or must be added. The distinct strata (**30.8 %** localized vs **10.0 %** metastatic) and their
+  limits are preserved; pooling conceals that stage dependence, and no correction is proposed here.
+- **No mortality-risk, treatment-effect or clinical-benefit claim** arises from any of this.
+
+## Receipts completed from the EXISTING transcript only — no re-execution
+
+Child transcript `agent-a07b78237ee438258.jsonl`, **284,641 bytes**, sha256 `4c2833a4c2e20dd4…`, observed model
+`['claude-opus-5']`, **27 tool_use / 27 tool_result blocks**. ⚠ **The two counts are different things and are
+kept apart:** the UI shows **4m49s / 27 tool uses** for the child's whole life; the child reported **16 tool
+calls** over its own measured run window **07:30:01 → 07:33:00 UTC** — the transcript's 27 blocks corroborate
+the UI figure, not the child's self-count, and I do not reconcile them by adjusting either. Run commands
+recovered verbatim from the transcript include the baseline generator invocation, the recompute script's
+heredoc, `sha256sum -c`, and both start/end state captures.
+
+**Retention:** 11 files / 83,560 bytes at `paper-lane/C1-executed-artifacts/`, all 8 original hashes passing in
+both the retained directory (`/tmp/claude-0/c1-retained/`, **not deleted**, scratch tree also kept) and the
+checkout. Five named input hashes verified against the pin and retained with the cited manuscript. Code, raw
+output, stdout, stderr, inputs and the deliberate-estimator search evidence are all preserved.
+
+---
+
+# NEXT CHECKPOINT — EXECUTED BY THE PARENT, committed bytes only, no network
+
+The user's pointer — *exact evidence recovery for a specific consequential disputed source row, if permitted
+committed source evidence exists* — is precisely the source-validation blocker. **It exists, and I resolved it
+myself rather than dispatching.**
+
+`check_anchors` (`emc_host_factor_model.py:123-137`) requires each non-`unretrieved` evidence PMID to appear in
+`anchored_pmids(probe)` — the hits of `research/literature/emc-host-factor-probe.json`. I replicated that set
+(**639 anchored PMIDs**) and graded every input row:
+
+| factor | input PMID | anchored in the probe? |
+|---|---|---|
+| HF-OBESITY | 42292722, 42219271, 40726433, 42192361 | **all True** |
+| HF-SMOKING | **41300991** | **True** |
+| HF-SMOKING | **42340948** | ⛔ **False** |
+| HF-CV-RISK | 42324568 | True |
+| HF-CV-RISK | **42068528** | ⛔ **False** |
+| HF-SARCOPENIA | 40459648, 41977025 | True |
+| HF-SARCOPENIA | **41055780** | ⛔ **False** |
+
+⭐ **Accepted result:** the refusal is **correct and substantive**, not a tooling artifact. Three evidence rows
+in `emc-host-factor-inputs.json` cite PMIDs that **no retrieved artifact contains**, while the older HF-SMOKING
+citation `41300991` — the one carried in the committed model output — **is** anchored. So the inputs drifted
+**toward** unanchored citations, and the guard caught exactly that. Under CLAUDE.md §4 an unanchored citation is
+the class of defect that must never be waved through.
+
+**Unresolved source-validation blocker, stated exactly:** whether `42340948`, `42068528` and `41055780` are real
+records that a retrieval simply never captured, or were written from recollection, **cannot be decided from
+committed bytes** — it needs a retrieval, which is a network act outside this checkpoint's authority and is
+**not taken**. Until then the three rows are **UNKNOWN, not false**, and the model is **not regenerable**.
+
+**Owner acts named, none taken:** re-anchor or withdraw the three rows; reconcile the HF-SMOKING drift
+(`41300991` anchored vs `42340948` not); the generator's unconditional estimator selection; its false
+`competing_share_source` sentence. **No manuscript, graph or repository edit; no paper admission; no gate
+bypass; no assumed access.**
