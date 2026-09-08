@@ -6,9 +6,22 @@
   "bytes": 41186,
   "sha256": "b8744ade1d13dc69fc9f933bcff8528bd073e15e178f483fba61eee67dc19445",
   "known_results": "Original discovery failed; direct original tests 9 passed / 1 failed. Independent review is static; both proposed diffs fail literal git apply --check. No repair applied.",
-  "source_base_transport": "Exact selected-file snapshots with Git-blob and SHA256 provenance. This hosting branch is based on actual remote main92abb and does not contain original93b/4878 Git history. Full original history closure measured578.539MiB; selected campaign corpus snapshot follows separately. Missing inputs are unknown, not absent.",
+  "source_base_transport": "Exact selected-file snapshots with Git-blob and SHA256 provenance. This hosting branch is based on actual remote main 92abbcb905cacf07f14b238db50d1b98f6590374 and does not contain original 93b/4878 Git history. The selected campaign corpus is supplied as six raw ZIP parts; missing inputs remain unknown.",
   "exact_supplemental_snapshot": "research/autonomy/cloud-inputs-2026-09-08/evidence-4878-exact-files.zip",
   "snapshot_bytes": 1137077,
   "snapshot_sha256": "32a802baa78c49bad8a0b6555d282230b618f9c97ebd046a98f9be23dd5aaa2f",
-  "snapshot_members": 48
+  "snapshot_members": 48,
+  "corpus_snapshot": {
+    "path": "research/autonomy/cloud-inputs-2026-09-08/corpus-snapshot/",
+    "archive_bytes": 45840377,
+    "archive_sha256": "b474cd2f8a0e3fa3a253f5b3135379cb26c15222a94698fc411fd781f6346808",
+    "reassembly_manifest": "research/autonomy/cloud-inputs-2026-09-08/corpus-snapshot/reassembly-manifest.json",
+    "reassembly_manifest_sha256": "a9fa1ff6639dec434d60e0b1b7b3954c41f4f73a72160fe422e42cab673d37f7",
+    "selected_files": 5996,
+    "selected_file_bytes": 236150544,
+    "zip_members": 6002,
+    "source_commit": "93b75888e31976195145e2404373b2d7a512f6d1",
+    "source_role": "provenance of selected original file bytes, not the cloud checkout revision",
+    "scope": "Separate read-only source context; not a whole repository checkout. Historical ownership map is a dated record; current cloud launcher owns live worker status. Existing source closures remain in force."
+  }
 }
