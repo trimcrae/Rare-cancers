@@ -16,7 +16,7 @@ _backfilled: true
 
 **Tristan D. McRae**
 
-*Independent researcher.* Correspondence: trimcrae@gmail.com
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com. ORCID [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451). Author, ethics, funding and disclosure statements are in the section of that name below.
 
 *An in-silico design and feasibility study: no molecule was synthesized and no wet-lab experiment
 was performed. Every claim below is sourced or computed and labelled at its computational weight.
@@ -1949,10 +1949,10 @@ zero. Frozen record: [`../modalities/wurz-calib-frozen.json`](../../modalities/w
 **ΔΔG_coop = −0.599 kcal/mol against a target of +0.944** — the **wrong sign**, an absolute error of
 **1.543 kcal/mol**, and a failure of the preregistered rule on sign alone, before the cycle-SD criterion is
 ever reached. The per-replicate values are **−0.5125, −1.0097 and −0.2749 kcal/mol**; every one of the three is
-negative, so the sign failure is not an artifact of averaging. The t-based 95 % CI is **[−1.103, −0.095]**,
-which excludes zero *on the wrong side of it*: the method resolves a cooperativity change confidently, and
-resolves it with the opposite sign to the measured one. Machine record: `valB_calibration_gate` and
-`valB_calibration_decision` in the reduction artifact (decision **NO-GO**).
+negative, so the sign failure is not an artifact of averaging. The preregistered 95 % CI is **[−1.103, −0.095]**, which excludes zero *on the wrong side of it*. Machine record: `valB_calibration_gate` and `valB_calibration_decision` in the reduction artifact (decision **NO-GO**).
+⚠ **That interval is estimator-dependent, and we name the estimator and give the alternative here because a referee will recompute it.** The frozen rule's interval is a **Welch–Satterthwaite** two-sample interval over the independently averaged ternary and binary arms (`ternary_fep_reduce.py`, SE = √(s_T²/n_T + s_B²/n_B)); it is **not** a *t*-interval on the three cycle values printed above and cannot be reproduced from them.
+Recomputing the **paired** interval those three values do support gives **−0.599 ± 0.9315 = [−1.5305, +0.3324]**, which **includes zero** ([`../modalities/valb-failure-propagation.json`](../../modalities/valb-failure-propagation.json), `6_estimator_note`). We report the preregistered estimator rather than switching after seeing the data, and record the discrepancy rather than leave it to be found.
+**What survives either estimator is the FAIL itself** — the wrong sign in all three replicates and an absolute error of 1.543 kcal/mol against a ± 1.0 kcal/mol band are both estimator-independent. ⛔ **What does *not* survive the paired estimator is any reading that the method resolves a cooperativity change confidently**, which rests on the tighter preregistered interval alone; that reading is not carried forward and nothing in this paper depends on it.
 
 **The between-replicate cycle SD is 0.375 kcal/mol, and it is the durable product of this experiment.** Against
 per-leg MBAR standard errors of **0.097–0.132 kcal/mol**, the replicate spread is roughly **three times** the
@@ -2586,7 +2586,7 @@ two anchor atoms; a mismatch, a forbidden junction motif, or an unassigned stere
 **⛔ THE LIMITATION THAT CONDITIONS EVERY SELECTIVITY NUMBER IN THIS PAPER: there is no working positive
 control for paralogue-selectivity detection, and this is now a measured finding rather than an untested
 assumption.** Three attempts have been run and none succeeded. The ternary cooperativity calibrator returned
-the **wrong sign** systematically (§2.11). The preregistered NR-V04 retrospective returned a **non-resolution**
+the **wrong sign** systematically (§2.11), and its interval is estimator-dependent — it excludes zero under the preregistered Welch estimator and spans zero under the paired recompute of the same three replicates, so the *confidence* half of that result is relied on nowhere, while the wrong sign and the 1.543 kcal/mol miss, which survive both estimators, are what the paper uses. The preregistered NR-V04 retrospective returned a **non-resolution**
 and is covalency-confounded, so it could never have served at any *n* (§2.12). And the sensitivity control
 purpose-built to be free of both defects — a paralogue pair with measured selectivity and solved structures on
 *both* arms — returned **NULL on an adequately-powered design** (§2.12a; *p* = 0.7468, reference-set floor
@@ -3337,6 +3337,23 @@ while nothing that was previously stated silently disappears.
   of every quantity in this paper that was computed on a single pose:
   [`../modalities/pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json).
 
+## Author, ethics, funding and disclosure
+
+- **Author.** Tristan D. McRae, independent researcher, unaffiliated. Correspondence:
+  trimcrae@gmail.com. ORCID 0000-0002-1823-1451. Sole author, responsible for the content of this
+  manuscript, including every claim and every number in it.
+- **Funding.** None.
+- **Competing interests.** None declared.
+- **AI assistance.** Claude (Anthropic) and OpenAI models assisted with drafting this manuscript and with
+  writing and running the analysis code it cites. The author is responsible for the result. Task-level
+  detail and the human-verification evidence are in the *AI-assisted research disclosure* below.
+- **Ethics.** This work is a computational analysis of public data (deposited structures, sequence
+  databases and the published literature) and of computations run in this repository. It involved no new
+  recruitment, no new sampling and no intervention. No ethics approval was sought and none was obtained;
+  no committee has made any determination about this work, and none is asserted here.
+- **Wet-lab status.** No molecule was synthesized and no wet-lab experiment was performed. Nothing in this
+  work establishes efficacy, potency, selectivity, safety, a therapeutic window, or clinical readiness.
+
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
 pre-registration/gate files are in the project repository under `research/modalities/` and `results/`;
@@ -3346,10 +3363,13 @@ archive (Zenodo DOI to be minted at submission). References were verified agains
 (Crossref, PubMed, Europe PMC): journal, year, volume/pages, and DOI/PMID/PMCID.
 
 ## AI-assisted research disclosure
-This study was executed with substantial assistance from Anthropic **Claude** large-language-model coding
-agents (Opus- and Sonnet-class Claude models, access period **~2026-05 to 2026-07**; the exact per-run model
-identifiers, agent/tool environment, and access dates are recorded in the reproducibility archive alongside
-each run). By task: **code authoring and refactoring** (analysis/simulation
+This study was executed with substantial assistance from large-language-model coding agents — Anthropic
+**Claude** agents throughout, and **OpenAI** models on part of the code-authoring and manuscript-revision
+work under the same human direction. The task breakdown and validation evidence below were compiled for the
+Claude agents, whose per-run identifiers the reproducibility archive records; no equivalent per-run record
+is claimed for the OpenAI contribution. The Claude agents were Opus- and Sonnet-class Claude models, access
+period **~2026-05 to 2026-07**; the exact per-run model identifiers, agent/tool environment, and access dates
+are recorded in the reproducibility archive alongside each run. By task: **code authoring and refactoring** (analysis/simulation
 pipelines), **orchestration** of the managed-cloud GPU/CPU jobs, **literature retrieval and cross-checking**,
 and **manuscript drafting/revision**; the models also proposed analyses and interpretations, which were
 adopted only after human review. **Validation evidence** (concrete, per ACS's note that extensive AI use may
@@ -3369,7 +3389,8 @@ used** to create or edit any figure.
 
 ## Acknowledgments
 The author used Anthropic **Claude** large-language-model coding agents (Opus- and Sonnet-class; access period
-~2026-05 to 2026-07) for code authoring/refactoring, managed-cloud job orchestration, literature
-retrieval/cross-checking, and manuscript drafting and revision, under human direction. The substantial-use
+~2026-05 to 2026-07), and **OpenAI** models on part of the same work, for code authoring/refactoring,
+managed-cloud job orchestration, literature retrieval/cross-checking, and manuscript drafting and revision,
+under human direction. The substantial-use
 details and human-verification evidence are in the *AI-assisted research disclosure* above. No other assistance
 and no external funding were received.

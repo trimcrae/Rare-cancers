@@ -49,8 +49,11 @@ SUBMISSION STATUS: submission-ready draft, not yet submitted.
 
 **Author:** Tristan D. McRae¹
 
-¹ Independent Researcher. Correspondence: trimcrae@gmail.com
+¹ Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com
 ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+
+**Preprint status:** not yet submitted or posted. **Funding:** none. **Competing interests:** none
+declared.
 
 **Article type:** Original Research Article
 **Keywords:** empirical null; gene-set calibration; small-sample expression analysis; rare sarcoma; extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; transcriptional target
@@ -346,8 +349,11 @@ was asserted equal to the primary artifact before anything was written.
 5. **NR4A occupancy** (§3.11). The scan intersected 110 published NR4A ChIP-seq peak sets —
    ChIP-Atlas, ReMap2022 and the Haller *et al.* acinic cell carcinoma deposit — with the class-A
    genes' regulatory windows, the same window as the motif scan, so the sequence and occupancy axes
-   ask about one region. Every count was placed against a background panel of 198 genes assembled
-   for an unrelated question. Four rules govern the reading. A **raw count is never reported as a
+   ask about one region. Every count was placed against a background panel assembled for an
+   unrelated question, whose size is a property of the build a peak set was processed on: **198
+   genes on hg38 and 200 on hg19**, as the artifact records per peak set. Every panel fraction and
+   every empirical *p* below is computed against the panel of the build its own row was read on, so
+   the two are never mixed within a row. Four rules govern the reading. A **raw count is never reported as a
    finding**, because the deepest catalogue puts a peak in 82.8% of the panel. A peak set that
    recovers (almost) no panel gene is marked **uninformative**: it cannot fail to recover these
    three, so its silence is an absent reading and is never counted as evidence of non-occupancy.
@@ -779,7 +785,9 @@ invites the reasonable objection that *some* NR4A chromatin data exists and migh
 one. All 110 NR4A peak sets — from ChIP-Atlas, ReMap2022, and the Haller *et al.* acinic cell
 carcinoma deposit described below — were intersected with the class-A genes' regulatory windows, the
 same −10 kb/+15 kb window as the motif scan, so the two axes ask about one region. Each count was
-placed against a background panel of 198 genes assembled for an unrelated question (**Table 9**).
+placed against a background panel assembled for an unrelated question, sized by the build a peak
+set was processed on — 198 genes on hg38 and 200 on hg19 — with each row read against its own
+build's panel (**Table 9**).
 
 **Deep NR4A3 occupancy in human tissue does exist, in another disease.** Acinic cell carcinoma of the
 salivary gland activates *native* NR4A3 by enhancer hijacking, and Haller *et al.* mapped it: NR4A3
@@ -791,11 +799,15 @@ activate the *PPARG* promoter the fusion activates. It answers where the NR4A3 D
 in a human tumour — a fourth axis of evidence — and it is never a substitute for the missing
 experiment.
 
-**Table 9. NR4A occupancy at the class-A genes, calibrated against a 198-gene background panel.**
-Peak counts are promoter-window peaks; *p* is empirical against the panel. **Every `SRX` row reports
+**Table 9. NR4A occupancy at the class-A genes, calibrated against a background panel assembled for
+an unrelated question.** The `peaks` column is the experiment's total peak count. Each gene cell
+gives that gene's promoter-window peak count and its empirical *p* against the panel, and the panel
+is that build's own: 198 genes on hg38, which is the ReMap2022 row and every `SRX` row, and 200 on
+hg19, which is every Haller (ZENODO) row. **Every `SRX` row reports
 the hg38 processing of that experiment**: the depth, the panel rate and all three *p* values in one
 row are that single build's own measurement. The ReMap2022 and Haller (ZENODO) rows exist in one
-build only.
+build only; the `12 ChIP-Atlas NR4A3 peak sets` row is six experiments on both builds, so its peak
+range spans the two.
 
 | experiment | antigen | peaks | panel genes with a peak | *ENO3* | *PPARG* | *SEMA3C* |
 |---|---|---:|---:|---|---|---|
@@ -820,7 +832,9 @@ hits — *ENO3* in `SRX1653203` is 0.0498 on hg19 and 0.0503 on hg38, so it clea
 on one build and not on the other. **Selecting a per-experiment minimum makes a nominal 0.05 threshold
 anti-conservative, so this binomial figure is an indicative calibration and not an exact one; the tail
 for a one-hit count was not computed and is not asserted here.** **What the axis supports, stated at
-that width: no class-A gene exceeds its background panel in any of these NR4A peak sets.**
+that width: once the twelve informative experiments are counted, no class-A gene exceeds its
+background panel — the two nominal hits are both *ENO3*'s, and two hits in 36 tests is what chance
+gives. Neither survives correction across the twelve, and neither is asserted here as occupancy.**
 
 Three readings, in descending order of what they support.
 
@@ -830,8 +844,9 @@ Three readings, in descending order of what they support.
   *et al.*'s perfect NBRE at −675 bp, band shift, and NBRE-mutant luciferase (Table 3). The two are
   reconcilable — a promoter can be bound by an over-expressed factor in a reporter assay and unbound
   in a different lineage's chromatin — but the tension is real and is reported rather than resolved.
-- ***SEMA3C* carries at most one peak in one experiment**, consistent with every other axis on which
-  it fails.
+- ***SEMA3C* carries at most one promoter-window peak in any experiment** — one each in ReMap2022,
+  both Kasumi-1 NR4A1 experiments and AciCC-1, none in the rest — consistent with every other axis on
+  which it fails.
 - ***ENO3* carries 2–4 peaks in every deep NR4A3 experiment and clears its panel in exactly one — the
   NORMAL parotid gland (p = 0.035), not any carcinoma.** A signal present in normal tissue and absent
   from the tumours is the opposite shape from a tumour-driven one, and two nominal hits in 36 tests is
@@ -863,7 +878,8 @@ platform where that covariate differs and 100% on the platform where it does not
 technology, the muscle markers are flat
 and more muscle-restricted than it is, and it carries more exact NBREs than its own
 composition-matched null. **The exception is the occupancy axis, and it is an exception for all
-three genes**: no class-A gene exceeds a background panel in any NR4A peak set (§3.11). *ENO3* holds
+three genes**: no class-A gene exceeds a background panel once the twelve informative experiments
+are counted (§3.11). *ENO3* holds
 the only two nominally significant values, and the one from an NR4A3 experiment falls in a **normal
 parotid gland** rather than any tumour — 2 hits in 36 tests against 1.8 expected, binomial p 0.54. ***SEMA3C* is the mirror image** — it fails the
 permutation test on both platforms, reverses sign with comparator choice, is p = 0.84 against
@@ -981,7 +997,8 @@ queries while reporting six (SI §S7).
 > (§3.8) — which is neither support nor absence. The 3SEQ column carries no test: at n = 4 it is a
 > percentile within that deposit's own distribution. **The occupancy column is grey for all three
 > genes**, and is the only column on which no gene is supported: it reports the best empirical p any
-> of twelve informative NR4A experiments gives against a 198-gene background panel, judged at a
+> of twelve informative NR4A experiments gives against that build's background panel (198 genes on
+> hg38, 200 on hg19), judged at a
 > Bonferroni threshold for those twelve. Eight are **NR4A1, a paralogue**; four are **wild-type NR4A3
 > in acinic cell carcinoma**, a different disease. Neither is the fusion (§3.11).
 > **No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no NR4A3-fusion
@@ -1239,7 +1256,7 @@ submission:
 | `gse28866-tumour-vs-normal.json` → `per_gene.values` and `ratio_calibration` — the 3SEQ arm and its percentile calibration, run per axis against the genes with a computable ratio on that axis (13,708 normal, 13,247 sarcoma; 14,120 genes present) | `gse28866_tumour_vs_normal.py` |
 | `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values | `nr4a3_fusion_targets_robustness.py` |
 | `nr4a3-fusion-targets-confounds.json` — comparator composition, the muscle-admixture control, every stratified and reference-pool-matched contrast with its own exact permutation p, the covariate-adjusted sensitivity analysis, minimum detectable effects, and the within-EMC axis | `nr4a3_fusion_targets_confounds.py` |
-| `nr4a3-fusion-targets-occupancy.json` — NR4A ChIP-seq occupancy at the class-A genes across 110 peak sets, each count calibrated against a 198-gene background panel, with the depth rule that marks an undetectable peak set uninformative rather than negative and the antigen rule that scores only NR4A ChIPs | `nr4a3_fusion_targets_occupancy.py` (reads the committed `emc-ret-cistrome.json` and its cached peaks; no network) |
+| `nr4a3-fusion-targets-occupancy.json` — NR4A ChIP-seq occupancy at the class-A genes across 110 peak sets, each count calibrated against that build's background panel (198 genes on hg38, 200 on hg19), with the depth rule that marks an undetectable peak set uninformative rather than negative and the antigen rule that scores only NR4A ChIPs | `nr4a3_fusion_targets_occupancy.py` (reads the committed `emc-ret-cistrome.json` and its cached peaks; no network) |
 | `figures/fig1`–`fig5` (PNG + PDF) and `figures/figure-provenance.json` | `nr4a3_fusion_targets_figures.py` |
 | `emc-ret-target-scan.json` → `part_1_nbre_scan` — NBRE/NurRE counts, the dinucleotide-preserving shuffle null and the background-panel ranks. Ensembl sequences are cached, so the scan re-derives offline | `emc_ret_target_scan.py` |
 | offline arithmetic guards | `tests/test_nr4a3_fusion_targets.py`, `tests/test_nr4a3_fusion_targets_confounds.py`, `tests/test_nr4a3_fusion_targets_figures.py` |
@@ -1259,8 +1276,14 @@ The author declares no competing interests.
 
 ## Ethics approval and consent
 
-Not required. This study analysed only publicly available, de-identified gene-expression deposits and
-generated no new human or animal data. No individual is identifiable from anything reported here.
+This work is a secondary analysis of public data. It recruited no participants, collected no
+specimens, and administered no intervention, and it generated no new human or animal data; every
+input is a deposit already public in GEO, the Sequence Read Archive, ChIP-Atlas, ReMap2022, Zenodo
+or the published literature, read under those repositories' own terms. **No ethics approval or
+consent was sought or obtained for this analysis, and no statement is made here about whether any
+body would consider one required.** Ethical approval and consent for the deposited studies rest with
+their original investigators, as recorded in their own publications and deposit records; this work
+neither reviewed nor re-verified those records.
 
 ## Author contributions
 
@@ -1269,9 +1292,9 @@ manuscript.
 
 ## Use of generative AI
 
-This work was carried out with the assistance of a large language model–based research agent (Claude,
-Anthropic), used for literature extraction, analysis code, statistical computation and manuscript
-drafting. All analyses are executed by committed, deterministic, independently re-implemented and
+This work was carried out with the assistance of large language model–based research agents — Claude
+(Anthropic) and models from OpenAI — used for literature extraction, analysis code, statistical
+computation and manuscript drafting. All analyses are executed by committed, deterministic, independently re-implemented and
 offline-reproducible code (see Data and code availability), and were reviewed by the author, who takes
 full responsibility for the content. No AI tool is listed as an author, in accordance with journal
 policy.
@@ -1309,6 +1332,10 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | Table 9 rows and the "2 of 36" headline read as one measurement each, without naming a genome build (§3.11). | **corrected 2026-09-08** | Every `SRX` experiment is processed on both hg19 and hg38 (`nr4a3-fusion-targets-occupancy.json` → `per_peakset` keys). The table's `SRX` rows are the **hg38** leaves and are now labelled so; the "2 of 36" count is computed from a different quantity, the **across-build minimum** in `per_gene_summary.<gene>.empirical_p_by_experiment`, which is now named where it is used. The one consequence: *ENO3* in `SRX1653203` is 0.0498 on hg19 and 0.0503 on hg38. Because a per-experiment minimum is selected, the nominal binomial calibration is indicative rather than exact; no alternative tail was computed and none is claimed. No occupancy analysis was re-run. |
 | "a paralogue whose peak sharing with NR4A3 is **0.347**" (§3.11, Limitation 12), stated without its source. | **corrected 2026-09-08** | The derivation is retained and is now cited: `emc-ret-cistrome.json` → `part_3_paralogue_overlap.genome_wide_pairwise_sharing.NR4A1_vs_NR4A3.fraction_of_a_overlapped_by_b` = **0.3468**, the fraction of the 297 NR4A1 peaks of `SRX12698888@hg19` overlapping the 102 NR4A3 peaks of `SRX12698890@hg19` in matched CD1c⁺ dendritic cells. Both peak sets are shallow enough to be uninformative by Table 9's own depth rule, and the sentence now says so. The value is unchanged. |
 | §2.4's grading rule stated without exception, while *SGK1* is graded from inside its null band. | **corrected 2026-09-08** | The implemented rule for *SGK1* is asymmetric — `null_semantics` = `not_outside_up` (`nr4a3-fusion-targets.json` → `controls.checks.prereg_discordance_SGK1`) — so both of its `INSIDE_NULL` cells are `graded: true`. §2.4 now discloses the exception as implemented. ⛔ It is described as scoring that was run, not as an advance declaration: the same block records the previous fixed-threshold rule as `SUPERSEDED, RETAINED`. The preregistration text is unchanged and no grade moved. |
+| The occupancy background panel printed as **"198 genes"** everywhere (§2.6, §3.11, Table 9, Figure 4 and the code table). | **corrected 2026-09-08** | The panel size is a property of the genome build a peak set was processed on, and the artifact records both: `nr4a3-fusion-targets-occupancy.json` → `per_peakset.*.panel.n_genes` is **198 on hg38 and 200 on hg19**. Four of the eight experiments named in Table 9 — every Haller (ZENODO) row — are hg19 and were therefore calibrated against **200**, not 198, so a single figure quoted over the whole table did not match the artifact for half of it. Each site now states the per-build panel and says which rows it applies to. **No peak count, panel fraction, empirical *p*, hit count or binomial figure changed**: every value was already computed against its own build's panel. The 198-window background panel of the §3.10 motif scan is a different panel and is unaffected. |
+| §3.11 and §3.12: "**no class-A gene exceeds its background panel in any of these NR4A peak sets**", stated flat. | **corrected 2026-09-08** | Read literally that contradicted the same table: *ENO3* is nominally 0.035 in the normal parotid gland and 0.0498 in `SRX1653203` on hg19. The claim was always a statement over the twelve informative experiments together — two hits in 36 tests, binomial p 0.54, neither surviving correction, which is how Figure 4's caption already stated it — and both sites now carry that qualifier. No value moved. |
+| §3.11: "***SEMA3C* carries at most one peak in one experiment**". | **corrected 2026-09-08** | It carries one promoter-window peak in **four** experiments — ReMap2022, both Kasumi-1 NR4A1 experiments and AciCC-1 — and none in the rest; "at most one … in one experiment" read as a count of experiments rather than a ceiling per experiment. The sentence now says at most one in **any** experiment and names the four. The counts in Table 9 are unchanged and the reading is unchanged. |
+| "Ethics approval and consent: **Not required.** … only publicly available, de-identified gene-expression deposits … **no individual is identifiable** from anything reported here." | **corrected 2026-09-08** | Two claims were made that this work is not in a position to make. "Not required" is a **determination by a body**, and none was asked; and the de-identification and non-identifiability statements are assertions about deposits whose consent and identifiability records this analysis never examined — while §3.13 reads per-sample age, sex, site and morphology attributes from a public BioSample record. The section now states what is true and checkable: a secondary analysis of public data, with no recruitment, sampling or intervention, for which **no approval or consent was sought or obtained**, and no claim as to whether any body would require one. |
 
 ## Appendix B · What would change this paper's conclusions
 

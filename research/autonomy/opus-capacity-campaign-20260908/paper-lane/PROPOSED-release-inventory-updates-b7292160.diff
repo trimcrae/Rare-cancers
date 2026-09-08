@@ -1,0 +1,282 @@
+diff --git a/research/manuscripts/SUBMISSION-PACKET.md b/research/manuscripts/SUBMISSION-PACKET.md
+index b8bffe94..08fec21c 100644
+--- a/research/manuscripts/SUBMISSION-PACKET.md
++++ b/research/manuscripts/SUBMISSION-PACKET.md
+@@ -26,8 +26,8 @@ last_verified: 2026-08-10
+ 
+ | field | value |
+ |---|---|
+-| Word count, main text | 5276 (no limit found) |
+-| Abstract | 249 words (limit 250) |
++| Word count, main text | 6386 (no limit found) |
++| Abstract | 282 words (limit 250) |
+ | Display items | 5 (5 figures, 0 tables) |
+ | References | 11 |
+ | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
+@@ -36,6 +36,8 @@ last_verified: 2026-08-10
+ | Supplemental material, for review | none |
+ | Fee route | VERIFIED |
+ 
++> **Over a stated limit:** abstract_words 282 > 250
++
+ ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
+ 
+ **Figures to upload**
+@@ -65,10 +67,10 @@ last_verified: 2026-08-10
+ 
+ | field | value |
+ |---|---|
+-| Word count, main text | 3153 (no limit found) |
+-| Abstract | 238 words (limit 250) |
+-| Display items | 7 (0 figures, 7 tables) |
+-| References | 8 |
++| Word count, main text | 6577 (no limit found) |
++| Abstract | 245 words (limit 250) |
++| Display items | 6 (1 figures, 5 tables) |
++| References | 10 |
+ | Cover letter | `dependency/emc-atr-collaborator-package-cover-letter.md` |
+ | Supplementary file | none |
+ | Anonymized copy | none built for this paper |
+@@ -77,13 +79,16 @@ last_verified: 2026-08-10
+ 
+ ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
+ 
+-**Figures to upload** — none; this paper's display items are all tables.
++**Figures to upload**
++
++- `emc-fusion-frame-fig1.png` — raster present, vector present
+ 
+ **Files to upload, one per portal slot** — not one composed PDF
+ 
+ | file | what it is | why it is on this list |
+ |---|---|---|
+ | `dependency/emc-atr-collaborator-package-cover-letter.md` | cover letter | every portal asks for one |
++| `figures/emc-fusion-frame-fig1.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+ 
+ ⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+ 
+@@ -93,10 +98,10 @@ last_verified: 2026-08-10
+ 
+ | field | value |
+ |---|---|
+-| Word count, main text | 5030 (limit 8000) |
++| Word count, main text | 6460 (limit 8000) |
+ | Abstract | 238 words (limit 250) |
+ | Display items | 1 (1 figures, 0 tables) (limit 6) |
+-| References | 20 |
++| References | 22 |
+ | Cover letter | `repurposing/repurposing-hypotheses-cover-letter.md` |
+ | Supplementary file | none |
+ | Anonymized copy | none built for this paper |
+@@ -124,8 +129,8 @@ last_verified: 2026-08-10
+ 
+ | field | value |
+ |---|---|
+-| Word count, main text | 4755 (limit 5000) |
+-| Abstract | 194 words (limit 200) |
++| Word count, main text | 4994 (limit 5000) |
++| Abstract | 200 words (limit 200) |
+ | Display items | 6 (1 figures, 5 tables) (limit 8) |
+ | References | 18 (limit 80) |
+ | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
+diff --git a/research/manuscripts/aso/fusion-junction-aso-archive-manifest.json b/research/manuscripts/aso/fusion-junction-aso-archive-manifest.json
+index 896d59b6..133b30dc 100644
+--- a/research/manuscripts/aso/fusion-junction-aso-archive-manifest.json
++++ b/research/manuscripts/aso/fusion-junction-aso-archive-manifest.json
+@@ -10,11 +10,11 @@
+     "Not a licence statement. The depositor chooses the licence at step 4 below."
+   ],
+   "deposition_doi": "10.5281/zenodo.22229096",
+-  "git_revision": "1a2d667d77405070d794b1383961bacf3ad2951f",
+-  "git_tree_is_clean_apart_from_this_manifest": true,
++  "git_revision": "b729216089989343bc8eb5d538bb815ab9e413a0",
++  "git_tree_is_clean_apart_from_this_manifest": false,
+   "inventory_limited_to_tracked_files": true,
+-  "archive_content_digest": "c3d9882e88251e4a915889e4c919d10a4d6b32da213c72339e470673edef5e59",
+-  "n_files": 516,
++  "archive_content_digest": "403d93e0779cad92852b3c68bb1b82823f95b4782704072572e1bae2aabb973d",
++  "n_files": 517,
+   "self_entry": {
+     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+     "travels_with_the_deposit": true,
+@@ -24,18 +24,18 @@
+     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
+     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
+   },
+-  "total_bytes": 53209440,
+-  "total_mib": 50.744,
++  "total_bytes": 53237498,
++  "total_mib": 50.771,
+   "payload_file_types": {
+     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
+     "by_extension": {
+       ".json": {
+         "n_files": 408,
+-        "bytes": 45609170
++        "bytes": 45610134
+       },
+       ".py": {
+-        "n_files": 77,
+-        "bytes": 3369140
++        "n_files": 78,
++        "bytes": 3396234
+       },
+       ".md": {
+         "n_files": 12,
+@@ -167,8 +167,9 @@
+     },
+     "import_closure": {
+       "_what": "Modules pulled in because released code imports them rather than because a promise names them. A non-empty list is not a defect in this manifest; it is the measure of how far the promise table falls short of an importable archive, and it is why the closure is computed rather than listed.",
+-      "n_added": 11,
++      "n_added": 12,
+       "added": [
++        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/I1-executed-artifacts/shim/pytest.py",
+         "research/manuscripts/build_submission_pdf.py",
+         "research/manuscripts/citation_scan_cache.py",
+         "research/manuscripts/figures/aso_figure_text.py",
+@@ -1005,8 +1006,9 @@
+     {
+       "id": "import_closure",
+       "promise_text": "the modules released code imports (derived from the code, not promised by a sentence)",
+-      "n_files": 11,
++      "n_files": 12,
+       "files": [
++        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/I1-executed-artifacts/shim/pytest.py",
+         "research/manuscripts/build_submission_pdf.py",
+         "research/manuscripts/citation_scan_cache.py",
+         "research/manuscripts/figures/aso_figure_text.py",
+@@ -1024,6 +1026,14 @@
+     }
+   ],
+   "files": [
++    {
++      "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/I1-executed-artifacts/shim/pytest.py",
++      "bytes": 838,
++      "sha256": "a8e233c9516e3beae6c96be1d39aac809b434ea08603b3dcc195acd68d4225b6",
++      "serves": "import_closure",
++      "also_serves": [],
++      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
++    },
+     {
+       "path": "research/data/emc-clinical-registry.json",
+       "bytes": 103203,
+@@ -1494,8 +1504,8 @@
+     },
+     {
+       "path": "research/manuscripts/build_submission_pdf.py",
+-      "bytes": 177073,
+-      "sha256": "0b40de84acc6f92920956d4734526c38773292f62f2bdb38f4adefc66aefb092",
++      "bytes": 200534,
++      "sha256": "5d851a33cea247e6ae2a2da83038606fc1ba0fcdd999c2afa507221f17e823ff",
+       "serves": "import_closure",
+       "also_serves": [],
+       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+@@ -1686,8 +1696,8 @@
+     },
+     {
+       "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+-      "bytes": 113032,
+-      "sha256": "ad449441142e4fb31931ed1344737e5ceae9a3d542d509c74ab06c6a165f67e0",
++      "bytes": 113953,
++      "sha256": "f60c550c617fdc34a2edc146c770cfd0ca2f3071a1d7e383b84acdf39cf6c53b",
+       "serves": "retrieval_records",
+       "also_serves": [],
+       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+@@ -1710,8 +1720,8 @@
+     },
+     {
+       "path": "research/manuscripts/lint_consistency.py",
+-      "bytes": 33659,
+-      "sha256": "df4747580a035de71bbaec34762990ada08203b2faf55520fa4038dc5bdc4eb6",
++      "bytes": 36454,
++      "sha256": "b171bdcaa3371269b28a511be26a6f3af7e7a31feb16932a01d302cf862d1657",
+       "serves": "reproduction_command",
+       "also_serves": [],
+       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+@@ -1734,8 +1744,8 @@
+     },
+     {
+       "path": "research/manuscripts/submission-metrics.json",
+-      "bytes": 13057,
+-      "sha256": "a147db965c3ce368df9cdb50629d64d8eab1f37df76bee2ffb5395107dd695ef",
++      "bytes": 13100,
++      "sha256": "cd3f11c12af640ba8c4d1b630e096254033036f0f3e55f80a72ea346031d03d0",
+       "serves": "reproduction_command",
+       "also_serves": [],
+       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+diff --git a/research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md b/research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md
+index 01c0310f..822678db 100644
+--- a/research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md
++++ b/research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md
+@@ -485,7 +485,7 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
+ 
+ <!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->
+ 
+-⛔ **28 deposited paths differ** from the published record: **27 changed, 1 added, 0 removed** against its own manifest at `4fd4698daec0`.
++⛔ **32 deposited paths differ** from the published record: **30 changed, 2 added, 0 removed** against its own manifest at `4fd4698daec0`.
+ 
+ <details><summary>every deposited path that differs</summary>
+ 
+@@ -506,7 +506,10 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
+ * `research/manuscripts/aso/lit-targets-aso-round7-precedents.json`
+ * `research/manuscripts/aso_archive_manifest.py`
+ * `research/manuscripts/aso_sequence_manifest.py`
++* `research/manuscripts/build_submission_pdf.py`
++* `research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json`
+ * `research/manuscripts/lint_citations.py`
++* `research/manuscripts/lint_consistency.py`
+ * `research/manuscripts/lint_style.py`
+ * `research/manuscripts/pinned-figures.json`
+ * `research/manuscripts/submission-metrics.json`
+@@ -516,6 +519,7 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
+ * `research/modalities/emc-model-junction-evidence.json`
+ * `research/modalities/emc_atr_vulnerability.py`
+ * `research/modalities/emc_model_junction_evidence.py`
++* `+ research/autonomy/opus-capacity-campaign-20260908/paper-lane/I1-executed-artifacts/shim/pytest.py`
+ * `+ research/manuscripts/citation_scan_cache.py`
+ 
+ </details>
+diff --git a/research/manuscripts/submission-metrics.json b/research/manuscripts/submission-metrics.json
+index e17179f8..1370ba2b 100644
+--- a/research/manuscripts/submission-metrics.json
++++ b/research/manuscripts/submission-metrics.json
+@@ -75,8 +75,8 @@
+       "file": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+       "venue": "Genes, Chromosomes and Cancer (Wiley)",
+       "measured": {
+-        "main_words": 5588,
+-        "abstract_words": 249,
++        "main_words": 6386,
++        "abstract_words": 282,
+         "figures": 5,
+         "tables": 0,
+         "display_items": 5,
+@@ -93,14 +93,16 @@
+       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
+       "limits_read": true,
+       "no_limits_by_policy": false,
+-      "over_limit": []
++      "over_limit": [
++        "abstract_words 282 > 250"
++      ]
+     },
+     {
+       "file": "dependency/emc-atr-collaborator-package.md",
+       "venue": "Genes, Chromosomes and Cancer (Wiley)",
+       "measured": {
+-        "main_words": 6200,
+-        "abstract_words": 243,
++        "main_words": 6577,
++        "abstract_words": 245,
+         "figures": 1,
+         "tables": 5,
+         "display_items": 6,
+@@ -123,7 +125,7 @@
+       "file": "repurposing/repurposing-hypotheses.md",
+       "venue": "Critical Reviews in Oncology/Hematology (Elsevier)",
+       "measured": {
+-        "main_words": 6037,
++        "main_words": 6460,
+         "abstract_words": 238,
+         "figures": 1,
+         "tables": 0,
