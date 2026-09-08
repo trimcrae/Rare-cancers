@@ -65,6 +65,23 @@ record, they are simply **not the only failures**.
 ⚠ `lint_consistency` (line 7) and the R1–R5 claim-strength gate (line 13) were **OK** in this run;
 this record does not turn those into failures any more than it excuses the ones above.
 
+⛔ **Those three gates are NOT the entire release-failure inventory.** The generated-artifact section
+at **log lines 833–846** carries more, and they are release failures too:
+
+- `STALE submission packet -- rerun 'python3 research/manuscripts/submission_packet.py' and commit
+  the result`, with `STALE research/manuscripts/SUBMISSION-PACKET.md`;
+- `STALE archive manifest -- rerun 'python3 research/manuscripts/aso_archive_manifest.py' and commit
+  the result`, with `STALE: the archive inventory would change`;
+- and the aggregate: **`⛔ a stale generated file ships a claim its own artifacts no longer support:
+  claim coverage census submission metrics submission packet archive manifest`** — **five** named
+  stale generated outputs.
+
+⚠ Neighbouring lines in that same section report **OK** (canonical sequence file, journal article
+tables, off-target duplex energy, vaccine-path manuscript tables, declared deposit drift and others).
+Those are not failures and are not made into any here — and equally they do not imply a clean
+remainder. ⚠ A stale inventory is a bookkeeping recalculation; a **false coverage assertion** is not,
+and recalculation does not cure one.
+
 **Three pytest suites — 28 failures and 5 errors in total:**
 
 | log lines | suite | result |
