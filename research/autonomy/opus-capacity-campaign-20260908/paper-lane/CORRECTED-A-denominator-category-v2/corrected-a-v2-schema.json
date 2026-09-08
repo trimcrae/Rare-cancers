@@ -1,0 +1,447 @@
+{
+ "component": "CORRECTED-A-denominator-category-v2",
+ "status": "new sibling artifact; supersedes nothing; overwrites nothing",
+ "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+ "network_access": "none",
+ "rates_or_proportions_derived": "none",
+ "confirmation_status": {
+  "job1_arithmetic_independently_confirmed": true,
+  "job1_confirmation_record": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VERIFY-job1-arithmetic.md",
+  "job2_independently_confirmed": false,
+  "job3_independently_confirmed": false,
+  "note": "Only job 1's arithmetic has been independently re-derived. Job 2 (identity/selection/overlap) and job 3 (arm attribution) have NOT been independently confirmed, and nothing in this component confirms them. Rows here carry no identity, overlap, duplication, disease, phase or control-status warrant."
+ },
+ "actual_input_keys": {
+  "primary_key": [
+   "input_key_nct_id",
+   "input_key_om_index",
+   "input_key_group_id"
+  ],
+  "join_to_job1": {
+   "file_glob": "CURATION-endpoint-measurement-contract-rows-*.tsv",
+   "columns": [
+    "nct_id",
+    "outcome_measure_index",
+    "group_id"
+   ],
+   "cardinality": "1:1 over 552 rows"
+  },
+  "join_to_leaf_qa": {
+   "files": [
+    "LEAF-OUT/LEAF-QA-group0.tsv",
+    "LEAF-OUT/LEAF-QA-group1.tsv",
+    "LEAF-OUT/LEAF-QA-group2.tsv",
+    "LEAF-OUT/LEAF-QA-group3.tsv"
+   ],
+   "columns": [
+    "nct_id",
+    "outcome_measure_index",
+    "group_id"
+   ],
+   "cardinality": "1:N, partial (319 of 552 rows covered)"
+  },
+  "join_to_categories": {
+   "file": "corrected-a-categories.tsv",
+   "columns": [
+    "nct_id",
+    "om_index",
+    "group_id"
+   ],
+   "cardinality": "1:N"
+  }
+ },
+ "enumerations": {
+  "denominator_state": [
+   "READ_FROM_SOURCE",
+   "ABSENT"
+  ],
+  "category_preservation_state": [
+   "FULL_VECTOR",
+   "NONE"
+  ],
+  "proportion_suitability": [
+   "UNSUITABLE_FOR_PROPORTION",
+   "NOT_REFUTED_BY_THIS_COMPONENT"
+  ],
+  "unresolved_reason_codes": {
+   "MULTIPLE_CONTRIBUTING_CLASSES_NO_SOURCE_SUPPORTED_SELECTION_BASIS": "Cells came from more than one class (strata, subgroups, therapy lines, timepoints, tumour types) and the record supplies no rule selecting one. Blocking.",
+   "CATEGORY_SUM_IS_A_MULTIPLE_OF_REPORTED_DENOMINATOR_OVERLAPPING_STRATA": "The all-category sum is an exact multiple of the reported denominator: the same participants are counted once per class. Blocking.",
+   "CATEGORY_SUM_EXCEEDS_REPORTED_DENOMINATOR": "The all-category sum exceeds the reported denominator without being an exact multiple. Blocking.",
+   "PRODUCER_LABEL_COLLISION_ACROSS_CLASSES": "A stored cell was written from more than one class; the value does not identify one reported category. Blocking.",
+   "PRODUCER_LABEL_COLLISION_WITHIN_CLASS": "Two distinct reported categories in one class collapse onto one stored label. Blocking.",
+   "DENOMINATOR_NOT_REPORTED_AS_PARTICIPANTS": "No `Participants` denominator for this group in this outcome measure. Blocking. (0 rows.)"
+  },
+  "advisory_flag_codes": {
+   "RESPONSE_ASSESSMENT_CATEGORY_TITLE_DROPPED_BY_PRODUCER": "The old (job-1) extraction dropped a category whose VERBATIM TITLE matches a response-assessment vocabulary (sCR, VGPR, CRh, CRi, CRu, CRmrd, nCR, MR, Non-CR/Non-PD, molecular response, MRD, ...). The flag is computed from the title string alone. It records only that a response-assessment category was dropped by the old extraction, so the loss is visible instead of silent. It does NOT state that those participants met any objective response definition, it does NOT classify them as responders, it does NOT fold any title into CR or PR, it is NOT an eligibility warrant, and it is NOT a numerator warrant. No cross-criteria numerator has been adjudicated.",
+   "NON_EVALUABLE_CATEGORY_DROPPED_BY_PRODUCER": "The old extraction dropped a non-evaluable/missing/unknown category.",
+   "UNCLASSIFIED_CATEGORY_DROPPED_BY_PRODUCER": "The old extraction dropped a category this component does not classify either way.",
+   "REPORTED_CATEGORIES_DO_NOT_ACCOUNT_FOR_FULL_DENOMINATOR": "The reported categories sum to less than the reported denominator. (0 rows.)",
+   "NON_INTEGER_CATEGORY_VALUE_PRESENT": "At least one category value is not an integer. (0 rows.)"
+  }
+ },
+ "tables": {
+  "corrected-a-rows.tsv": {
+   "grain": "one row per delivered job-1 row (552)",
+   "columns": [
+    {
+     "name": "row_key",
+     "description": "Synthetic stable key `<nct>|OM<om_index>|<group_id>`. Unique across the 552 rows."
+    },
+    {
+     "name": "input_key_nct_id",
+     "description": "ACTUAL INPUT KEY, component 1. Matches job-1 shard column `nct_id`."
+    },
+    {
+     "name": "input_key_om_index",
+     "description": "ACTUAL INPUT KEY, component 2. Matches job-1 shard column `outcome_measure_index`."
+    },
+    {
+     "name": "input_key_group_id",
+     "description": "ACTUAL INPUT KEY, component 3. Matches job-1 shard column `group_id`. The triple is a bijection onto job 1's 552 delivered rows."
+    },
+    {
+     "name": "payload_shard",
+     "description": "Delivered cache payload the record was read from."
+    },
+    {
+     "name": "cache_revision",
+     "description": "literature-cache revision of the delivered payload copy. No re-fetch was performed."
+    },
+    {
+     "name": "om_title",
+     "description": "Outcome measure title, verbatim."
+    },
+    {
+     "name": "om_type",
+     "description": "Outcome measure `type`, verbatim."
+    },
+    {
+     "name": "param_type",
+     "description": "Outcome measure `paramType`, verbatim."
+    },
+    {
+     "name": "unit_of_measure",
+     "description": "Outcome measure `unitOfMeasure`, verbatim."
+    },
+    {
+     "name": "time_frame",
+     "description": "Outcome measure `timeFrame`, verbatim. Carried, never inferred."
+    },
+    {
+     "name": "population_description",
+     "description": "Outcome measure `populationDescription`, verbatim; empty means the record does not state one (absence of a reading, not a reading of absence)."
+    },
+    {
+     "name": "group_title",
+     "description": "Outcome-measure group title, verbatim."
+    },
+    {
+     "name": "n_classes_in_om",
+     "description": "Number of `classes` in the outcome measure."
+    },
+    {
+     "name": "n_contributing_classes",
+     "description": "Number of classes that supplied at least one category the OLD producer stored for this group. >1 means the old row merged strata."
+    },
+    {
+     "name": "contributing_class_indices",
+     "description": "Indices of those classes."
+    },
+    {
+     "name": "class_titles_contributing",
+     "description": "Their titles, verbatim ('<untitled>' where the record has none)."
+    },
+    {
+     "name": "reported_denominator_participants",
+     "description": "READ from `outcomeMeasures[i].denoms[units=='Participants'].counts[groupId].value`. NEVER inferred from any sum of response cells. Checked explicitly for POSITIVITY in v2 (check D7): present, integer and > 0, with zero / missing / non-`Participants` denominators distinguished rather than conflated."
+    },
+    {
+     "name": "denominator_provenance",
+     "description": "The exact hierarchical path the denominator was read from."
+    },
+    {
+     "name": "denominator_units_available",
+     "description": "All `denoms[].units` present on the outcome measure, pipe-joined."
+    },
+    {
+     "name": "n_source_categories",
+     "description": "Count of source category measurements for this group in this outcome measure, across all classes."
+    },
+    {
+     "name": "n_source_categories_integer",
+     "description": "How many of those carry an integer value."
+    },
+    {
+     "name": "n_distinct_source_category_titles",
+     "description": "Distinct verbatim category titles for this group."
+    },
+    {
+     "name": "n_categories_kept_by_producer",
+     "description": "How many of those the OLD four-label producer stored."
+    },
+    {
+     "name": "full_category_vector",
+     "description": "EVERY source category for this group, verbatim title=value, prefixed by its class index. No category is dropped, renamed, merged or mapped to a common vocabulary."
+    },
+    {
+     "name": "categories_kept_by_producer_with_values",
+     "description": "Subset the old producer kept, with values."
+    },
+    {
+     "name": "categories_dropped_by_producer_with_values",
+     "description": "Subset the old producer dropped, with values."
+    },
+    {
+     "name": "dropped_response_assessment_category_titles_with_values",
+     "description": "Dropped categories whose VERBATIM TITLE matches a response-assessment vocabulary (sCR, VGPR, CRh, CRi, CRu, CRmrd, nCR, MR, Non-CR/Non-PD, ...), carried with class index and reported value. Title-derived flag only: titles stay verbatim, nothing is folded into CR/PR, no participant is classified as a responder, and this column is never summed into a numerator anywhere in this component."
+    },
+    {
+     "name": "dropped_non_evaluable_categories_with_values",
+     "description": "Dropped categories whose verbatim title is a non-evaluable / missing / unknown category (NE, Not Evaluable, Unknown, Missing, Not Done, UE, Died Before Evaluation, ...)."
+    },
+    {
+     "name": "dropped_unclassified_categories_with_values",
+     "description": "Dropped categories that fall in neither flag set. Unclassified is a state, not a default bucket."
+    },
+    {
+     "name": "all_categories_contributing_classes_sum",
+     "description": "Sum of all INTEGER categories of the contributing classes for this group. A diagnostic total. It is NOT a denominator and is never used as one."
+    },
+    {
+     "name": "job1_evaluable_n_sum_of_four_producer_cells",
+     "description": "Carried verbatim from job-1 column 23 `evaluable_n_sum_of_cells`. The OLD inferred quantity, retained as evidence of the old run, not adopted."
+    },
+    {
+     "name": "job1_all_categories_in_contributing_classes_sum",
+     "description": "Carried verbatim from job-1 column 25."
+    },
+    {
+     "name": "evaluable_n_minus_reported_denominator",
+     "description": "CORRECTED LABEL for job-1 column 26. Derivation: job1_evaluable_n_sum_of_four_producer_cells MINUS reported_denominator_participants. Values are unchanged from job 1; only the name is corrected."
+    },
+    {
+     "name": "all_categories_sum_minus_reported_denominator",
+     "description": "NEW, DISTINCT diagnostic column. Derivation: all_categories_contributing_classes_sum MINUS reported_denominator_participants. This is the quantity job 1's column-26 header wrongly implied; it is emitted here separately rather than by editing any job-1 value."
+    },
+    {
+     "name": "job1_column26_original_label",
+     "description": "The literal misleading header string as job 1 shipped it: `sum_minus_reported_denominator`."
+    },
+    {
+     "name": "job1_column26_value_carried_unchanged",
+     "description": "The job-1 column-26 value, byte-for-byte. Not recomputed, not corrected, not rescaled."
+    },
+    {
+     "name": "producer_label_collision_within_class",
+     "description": "Number of old producer labels written more than once from a SINGLE class (a stored cell that does not identify one reported category)."
+    },
+    {
+     "name": "producer_label_collision_across_classes",
+     "description": "Number of old producer labels written from MORE THAN ONE class (last-class-wins overwrite)."
+    },
+    {
+     "name": "producer_label_collision_value_conflicting",
+     "description": "Number of those labels whose colliding source values actually differed."
+    },
+    {
+     "name": "producer_colliding_labels",
+     "description": "Which labels collided."
+    },
+    {
+     "name": "job1_classification_carried",
+     "description": "Job 1's own valid/ambiguous/unsupported verdict, carried verbatim. Not re-adjudicated here."
+    },
+    {
+     "name": "category_vector_source",
+     "description": "Where this row's full category vector came from. `CACHE_DIRECT_<rev>` = read directly from the delivered payload copy by this component."
+    },
+    {
+     "name": "leaf_qa_coverage",
+     "description": "Which delivered LEAF-QA leaf files also cover this row (cross-check evidence), or NONE."
+    },
+    {
+     "name": "denominator_state",
+     "description": "READ_FROM_SOURCE | ABSENT. Machine-readable."
+    },
+    {
+     "name": "category_preservation_state",
+     "description": "FULL_VECTOR | NONE. Machine-readable."
+    },
+    {
+     "name": "proportion_suitability",
+     "description": "UNSUITABLE_FOR_PROPORTION | NOT_REFUTED_BY_THIS_COMPONENT. Machine-readable. `NOT_REFUTED_BY_THIS_COMPONENT` means only that THIS component found no blocking defect; it is NOT an eligibility grant, and the identity/selection/overlap and arm-attribution components hold conditions this component does not own."
+    },
+    {
+     "name": "unresolved_reason_codes",
+     "description": "Pipe-joined BLOCKING codes, or NONE. Enumerated in corrected-a-schema.json."
+    },
+    {
+     "name": "advisory_flag_codes",
+     "description": "Pipe-joined NON-BLOCKING codes that must travel with the row, or NONE."
+    },
+    {
+     "name": "rate_derived",
+     "description": "Always the literal `NOT_DERIVED`. No rate, proportion or percentage is computed anywhere in this component."
+    },
+    {
+     "name": "source_pointer",
+     "description": "Exact payload/study/outcome/group trace."
+    }
+   ]
+  },
+  "corrected-a-categories.tsv": {
+   "grain": "one row per (study, outcome measure, group, class, category) source measurement",
+   "columns": [
+    {
+     "name": "nct_id",
+     "description": "Study."
+    },
+    {
+     "name": "payload_shard",
+     "description": "Delivered payload the record was read from."
+    },
+    {
+     "name": "om_index",
+     "description": "Outcome measure index."
+    },
+    {
+     "name": "om_title",
+     "description": "Outcome measure title, verbatim."
+    },
+    {
+     "name": "group_id",
+     "description": "Outcome-measure group id."
+    },
+    {
+     "name": "group_title",
+     "description": "Group title, verbatim."
+    },
+    {
+     "name": "class_index",
+     "description": "Class index within the outcome measure."
+    },
+    {
+     "name": "class_title",
+     "description": "Class title, verbatim."
+    },
+    {
+     "name": "category_index",
+     "description": "Category index within the class."
+    },
+    {
+     "name": "category_title",
+     "description": "Category title VERBATIM. Preserved under its own source definition; never mapped into a common numerator taxonomy, never merged with a same-looking title from another criteria set."
+    },
+    {
+     "name": "category_value_raw",
+     "description": "Reported value, verbatim string."
+    },
+    {
+     "name": "category_value_is_integer",
+     "description": "yes/no."
+    },
+    {
+     "name": "category_value_int",
+     "description": "Integer value where the reported value is an integer; empty otherwise. A non-integer is never rounded into a count."
+    },
+    {
+     "name": "producer_label_assigned",
+     "description": "Which of the OLD producer's four labels this title would match (CR/PR/SD/PD), or NONE. Descriptive of the old behaviour only."
+    },
+    {
+     "name": "producer_kept",
+     "description": "Whether the OLD producer stored this category."
+    },
+    {
+     "name": "reported_denominator_participants",
+     "description": "The row's READ denominator, repeated for join convenience."
+    },
+    {
+     "name": "denominator_units_available",
+     "description": "All denominator units on the outcome measure."
+    },
+    {
+     "name": "source_pointer",
+     "description": "Exact payload/study/outcome/class/category/group trace."
+    }
+   ]
+  },
+  "corrected-a-category-inventory.tsv": {
+   "grain": "one row per distinct verbatim category title",
+   "columns": [
+    {
+     "name": "category_title_verbatim",
+     "description": "A distinct source category title, verbatim."
+    },
+    {
+     "name": "records",
+     "description": "Occurrences across the 552 rows."
+    },
+    {
+     "name": "distinct_nct",
+     "description": "Distinct studies using it."
+    },
+    {
+     "name": "producer_labels_assigned",
+     "description": "Which old four-label token(s) it matched."
+    },
+    {
+     "name": "records_kept_by_producer",
+     "description": "Occurrences the old producer stored."
+    },
+    {
+     "name": "records_dropped_by_producer",
+     "description": "Occurrences the old producer dropped."
+    },
+    {
+     "name": "response_assessment_category_title_flag",
+     "description": "yes if the verbatim title belongs to a response-assessment vocabulary under some criteria set. A title property, not a statement about the participants counted under it."
+    },
+    {
+     "name": "non_evaluable_title_flag",
+     "description": "yes if the title is a non-evaluable/missing/unknown category."
+    },
+    {
+     "name": "folded",
+     "description": "Always NO. No title is merged with any other."
+    },
+    {
+     "name": "note",
+     "description": "Fixed statement of the non-folding rule."
+    }
+   ]
+  }
+ },
+ "supersedes": "CORRECTED-A-denominator-category (v1) \u2014 identifiers and wording only",
+ "repair_scope": "Interpretive repair of ONE advisory flag identifier and its wording, plus one row column name and one inventory column name. No value, count, title, denominator, provenance string or column-26 field is altered. v1 remains intact as delivered evidence.",
+ "superseded_identifiers": {
+  "RESPONSE_BEARING_CATEGORY_DROPPED_BY_PRODUCER": {
+   "replaced_by": "RESPONSE_ASSESSMENT_CATEGORY_TITLE_DROPPED_BY_PRODUCER",
+   "why": "The v1 name and its description asserted that the dropped categories report RESPONDERS. The flag is computed from the verbatim title alone; a verbatim title such as `Non-CR/Non-PD` does not establish that those participants meet an objective response definition, and no cross-criteria numerator has been adjudicated."
+  },
+  "dropped_response_bearing_categories_with_values": {
+   "replaced_by": "dropped_response_assessment_category_titles_with_values",
+   "why": "Same defect, in the row column name."
+  },
+  "response_bearing_title_flag": {
+   "replaced_by": "response_assessment_category_title_flag",
+   "why": "Same defect, in the inventory column name."
+  }
+ },
+ "warrants": {
+  "statement": "No code, flag or state emitted by this component is an eligibility warrant or a numerator warrant.",
+  "RESPONSE_ASSESSMENT_CATEGORY_TITLE_DROPPED_BY_PRODUCER": {
+   "kind": "ADVISORY_NON_BLOCKING",
+   "computed_from": "verbatim category title string only",
+   "is_eligibility_warrant": false,
+   "is_numerator_warrant": false,
+   "asserts_objective_response": false,
+   "affects_proportion_suitability": false,
+   "demonstration": "corrected-a-v2-checks.json D1-D6; NON-WARRANT-DEMONSTRATION.md"
+  },
+  "responder_class_retained": {
+   "retained": false,
+   "note": "This component retains NO narrower responder class. No responder definition is asserted, inferred from a title or token, or source-bound here, because none is needed for a flag that only records what the old extraction dropped."
+  }
+ }
+}

@@ -1,0 +1,54 @@
+# CORRECTED-A v2 check run record
+date_utc: 2026-09-08
+component: CORRECTED-A-denominator-category-v2
+scope: contract / schema / flag-identifier repair over the delivered v1 outputs.
+       No source audit, no job-1 re-run, no leaf re-audit, no source query, no manuscript edit.
+No pipes are used below, so $? is the true exit code of each command.
+Every attempt is preserved in its own file. NOTHING was overwritten; the failing attempt is kept.
+
+## B1 - build (reads only the v1 outputs; writes only this directory)
+$ python3 build_corrected_a_v2.py
+rows=552 renamed_advisory_cells=101 row_data_values_changed=0 files_written=7
+stdout: BUILD-STDOUT.txt   stderr: BUILD-STDERR.txt (0 bytes)
+EXIT=0
+
+## C1 - deterministic checks, ATTEMPT 01  ** FAILED - PRESERVED **
+$ python3 check_corrected_a_v2.py
+6/9 checks passed; D2, D5, D6 FAILED
+stdout: CHECK-ATTEMPT-01-stdout.txt   stderr: CHECK-ATTEMPT-01-stderr.txt (0 bytes)
+EXIT=1
+Diagnosis: all three failures were defects in the CHECKING HARNESS, not in the data.
+  D2 - the checker split the code cells on ';' but the tables use '|' as the separator.
+  D5 - the checker treated the 'NONE' empty sentinel as a present blocking code.
+  D6 - the checker's column-name regex flagged 'rate_derived', the column that DECLARES that no
+       rate was derived (its value is checked separately and reads NOT_DERIVED on 552/552).
+  D8 (the byte-identity proof) PASSED in this attempt too, so no datum was ever in question.
+The harness was corrected; no guard was weakened and no check was removed, skipped or deselected.
+
+## C2 - deterministic checks, ATTEMPT 02 (harness corrected)
+$ python3 check_corrected_a_v2.py
+9/9 checks passed
+stdout: CHECK-ATTEMPT-02-stdout.txt   stderr: CHECK-ATTEMPT-02-stderr.txt (0 bytes)
+EXIT=0
+
+## C3 - deterministic checks, ATTEMPT 03 (re-run on the settled directory, after the documents were written)
+$ python3 check_corrected_a_v2.py
+9/9 checks passed
+stdout: CHECK-ATTEMPT-03-stdout.txt   stderr: CHECK-ATTEMPT-03-stderr.txt (0 bytes)
+EXIT=0
+
+## Not run, and why
+No repository preflight, producer, gate or test suite was run: this component writes only new
+sibling artifacts under research/autonomy/opus-capacity-campaign-20260908/paper-lane/ and touches
+no code path a suite covers. Nothing was committed or pushed; the parent integrates.
+No network request of any kind was made. No worker was spawned.
+
+## C4 - deterministic checks, ATTEMPT 04 (settled tree: after the hash manifests were finalised)
+$ python3 check_corrected_a_v2.py
+9/9 checks passed
+stdout: CHECK-ATTEMPT-04-stdout.txt   stderr: CHECK-ATTEMPT-04-stderr.txt (0 bytes)
+EXIT=0
+
+## Final integrity of this directory
+SHA256-v2-OUTPUTS.txt lists the sha256 of every file in this directory except itself,
+regenerated after ATTEMPT 04's outputs were written.

@@ -1,0 +1,20 @@
+D1 PASS  the three v1 identifiers are gone from every v2 data table and live schema slot, and survive only as explicitly labelled superseded identifiers
+     stale occurrences in data/summary: none; schema: v2 flag enumerated, v1 flag absent from the enumeration and recorded under superseded_identifiers = True
+D2 PASS  every count preserved: advisory-code counts, blocking-code counts and the suitability partition are identical to v1 under the rename
+     advisory v1(renamed)==v2: True (RESPONSE_ASSESSMENT_CATEGORY_TITLE_DROPPED_BY_PRODUCER=101); blocking identical: True; suitability vector identical on 552/552 rows
+D3 PASS  every verbatim title preserved: inventory titles, the flagged-title set and the whole category ledger are unchanged
+     123 inventory titles identical in order: True; flagged titles identical: True (n=12); categories table sha256 identical to v1: True; folded values present: ['NO']
+D4 PASS  the flag is exactly the title-derived predicate it claims to be: flag present <=> the dropped response-assessment-title column is non-empty
+     0 mismatches over 552 rows (flag on 101 rows)
+D5 PASS  NOT AN ELIGIBILITY WARRANT: suitability is a function of the blocking codes alone; the flag never appears among them and flagged rows land in BOTH suitability states
+     suitability == (blocking codes non-empty) on 552/552 rows; flag absent from every unresolved_reason_codes cell and from the blocking enumeration: True; cross-tab: [('FLAGGED x NOT_REFUTED_BY_THIS_COMPONENT', 97), ('FLAGGED x UNSUITABLE_FOR_PROPORTION', 4), ('not flagged x NOT_REFUTED_BY_THIS_COMPONENT', 394), ('not flagged x UNSUITABLE_FOR_PROPORTION', 57)]
+D6 PASS  NOT A NUMERATOR WARRANT: no numerator/rate/percent column exists, rate_derived is NOT_DERIVED on every row, and the would-be numerator formed by summing the flagged categories equals NO emitted column
+     column names matching numerator/responder/rate/percent: none; rate_derived==NOT_DERIVED on 552/552: True; would-be numerator computed for 552/552 rows (range 0..19); emitted columns equal to it: none
+D7 PASS  POSITIVE-DENOMINATOR CONSTRAINT, checked explicitly on the values themselves (not via denominator_state), keeping zero / missing / non-Participants distinct
+     positive(>0)=552  zero(==0)=0  negative(<0)=0  non-integer=0  missing/empty=0  rows whose available units lack `Participants`=0  [for contrast, denominator_state==READ_FROM_SOURCE on 552/552, which alone would not have excluded a zero, an empty or a non-Participants denominator]
+D8 PASS  NO ROW DATUM CHANGED: reversing only the identifier rename on the v2 tables reproduces the v1 files' sha256 exactly
+     rows: reversed=0f1001e51e9244d7849c6b72e0d4668c858e842a3b5231c11ddb96e11cc0080a v1=0f1001e51e9244d7849c6b72e0d4668c858e842a3b5231c11ddb96e11cc0080a equal=True; inventory: reversed=eb6f3a2f8c4c5b6b5369536265949b73b73a729643d3549064389faf9a0355a6 v1=eb6f3a2f8c4c5b6b5369536265949b73b73a729643d3549064389faf9a0355a6 equal=True
+D9 PASS  originals unmodified: the 13 v1 component files and the 12 original job-1 / leaf evidence files re-hashed
+     v1 component files changed: 0/13; original job-1 and leaf evidence files changed: 0/12
+
+9/9 checks passed
