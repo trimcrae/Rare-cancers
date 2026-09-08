@@ -976,3 +976,54 @@ drawing the distinction in its own words, prints **63% confined vs 80% lung-firs
 §2.1(2) forbids converting to counts. The specified curation step (drilon2008 `PMC2779719` table render) is
 **expected to shrink the route's eligible fraction**, not grow it.
 Full deliverables: `paper-lane/P2-…md`, `paper-lane/P3-…md`. No manuscript file was created.
+
+### Paper-lane result 4 — `PUB-KINASE-LEADS` WRITABLE AFTER 4 NAMED REPAIRS (P4)
+
+Of the endpoint's four gradings: **two hold**, one holds **only in a narrowed form**, one is **REFUTED by the
+repository's own artifact**.
+
+⛔ **REFUTED (lead 2, ALK/ROS1 screen hit).** `publications.json:288` says *"its named kinases have no probe on
+either platform so the arrays could never have attributed it"*. `emc-expression-panels.json` — the artifact
+that owns the read — says **ROS1 is readable on BOTH** platforms, ALK on GPL6244, and the brigatinib target
+group reaches **3/3 coverage on GPL6244 and did emit a score** (LOWER in EMC by 0.2188 SD, t=−2.055). Only
+GPL3290 emits nothing (2/3, below the floor). The route grade was **corrected 2026-08-29**
+(`routes.json:6683`, `artifacts.json:554`); the endpoint prose and the verification memo
+(`emc-kinase-leads-source-verification.md:349,388`) were not, and the false sentence propagated by copy into
+five graph files. ⭐ The correction does **not** turn a null into a positive: where readable, the kinase sits
+below the array median and level with comparators — the lead moves from *we cannot see it* to *we can see it
+on one platform and it is unremarkable there.*
+
+◐ **NARROWED (lead 3, DNA-PK/NR4A3).** "wild-type" ✅ and "non-sarcoma" ✅ (cultured human aortic SMC), but
+**"from one source" is wrong** — true of the UniProt annotation, false of the axis, which carries **four**
+primary papers that this repo's own memo listed on 2026-08-07, two days before the grade was written. Two of
+them **disagree on mechanism** (stabilisation via prevented ubiquitination vs regulating protein synthesis) and
+two are about **NR4A generally**, with the binding pocket in the shared DBD — so nothing in the axis is
+specific to this paralogue. Also a **denominator correction**: dependency figures are over **91 screened**
+sarcoma lines, not the 176 originally cited (176 is the model count; only 91 carry CRISPR data). PRKDC carries
+**no column** — an instrument gap, **not a reading of absence**.
+
+✅ **HOLD:** lead 1 (RET — one paywalled abstract sentence, no PMCID, no denominator; the originating group's
+own 2018 paper says *"the molecular target of sunitinib in EMC is unknown"*) and lead 4 (SGK1 discordant
+−0.1807 / +0.6156; NDRG1 concordant +0.4228 / +0.6998).
+
+**Two further defects found in passing, neither previously recorded:**
+- **F1 — the paper's frame is false for one of its own four leads.** "one to two decades" fits SGK1 (20 y),
+  DNA-PK (11–15 y) and RET (12 y), but the screen hit is **PMID 40580361, 2025 — about one year old**. A 2025
+  paper cannot evidence a decade of neglect; it belongs for a different reason (its own hit list demotes it).
+- **F2 — two committed files disagree on the GSE24369 comparator arm.** `emc-sgk1-lane-assessment.md:233` says
+  **36** comparators with one composition; `emc-expression-panels.json` says **29** with another — and **29 is
+  what every published score was computed on**. Which is correct is UNKNOWN; the paper must not print 36.
+
+**The one measured citation-gap number in the whole set:** SGK1 has **10 forward citations in 20 years and not
+one is an SGK1 follow-up in EMC**, while the field's 2020 comprehensive review still lists it unchanged. For
+the other three leads, citation volume is **UNKNOWN** — no cited-by instrument is reachable at $0, and the
+co-mention searches (5 records for RET, newest 2018; 2 for DNA-PK, which **miss both papers that decide the
+axis** because they say *NR4A*) are keyword bounds, not citation counts.
+
+**Blocked, and it blocks a claim rather than the paper:** PMID 22592656 (same group's 2012 human-model repeat
+of the SGK1 screen) is paywalled, no PMCID, and **names no gene in its abstract** — so whether the 20-year-old
+observation reproduces in a human system stays UNKNOWN. An institutional-library ask; no network route was
+attempted.
+
+⚠ Fifth trip hazard in the record itself: `blocked_by: ["BLK-NO-EMC-DATA"]` while `why_not_written` opens
+*"ITS BLOCKER IS RETIRED"*. Deliverable: `paper-lane/P4-PUB-KINASE-LEADS-paper-step.md`. No file was edited.
