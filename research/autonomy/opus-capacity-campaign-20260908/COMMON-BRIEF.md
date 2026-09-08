@@ -476,3 +476,35 @@ Corrections and cautions it establishes:
   (opened at `aso_taf15_intron2_designs.py:404` via an f-string path) and `junction-aso-offtarget.json`
   (opened at `junction_seam_retraction.py:431,434-435` via a glob) are **OPENED, not merely mentioned** —
   but both opens are absence-tolerant, unlike the premrna four's deliberate no-`try/except`.
+
+### The 40 `--write-views`-invisible fields have their consumers mapped — measured 2026-09-08T04:48Z
+
+W09j searched all 40 of W09i's (collection, required-name) pairs across `systems/`, `scripts/` and
+`research/`, reading every non-trivial hit and attributing it to a collection: **10 read by another
+executable, 30 named only by their JSON Schema `required` declaration (and prose), 0 unreferenced.**
+The (c)=0 is by construction — being `required` is what put them on the list — so **the substantive
+number is 30**: for three quarters of the set, `check_schemas` in plain mode is the only thing that
+reads the field at all, and its *content* is unverifiable by any executable in the tree.
+
+The 10 split three ways, and only three are load-bearing outside `systems_check.py`:
+`modalities/revisit_trigger` (`systems/tests/test_modality_census.py:175`), `technologies/paper_id`
+(`scripts/trigger_scan.py:785,795`), `publications/kind` (`claim_coverage.py:141` +
+`test_the_census_reads_every_publication_endpoint.py:104`). Four more are one mechanism —
+`file` in instruments/lanes/requirements/strategies is read by `check_pointers` `[P1]`/`[P2]`
+(`systems_check.py:700` → `:714`, via `_owner_blocks`, which yields **every dict at any depth carrying
+a string `file`**), a **plain-mode** gate that never runs under `--write-views`: deleting the field
+does not fail it, it makes it silently check fewer pointers. The last three (`routes/title`,
+`requirements/title`, `blockers/why`) are read by `research/manuscripts/lint_asymmetry.py:507,557`
+**value-generically**, and ⚠ that linter is wired into no gate at all — not `scripts/preflight.sh`,
+not `scripts/fast_checks.py`, not `.github/`; its only executable exercise is its own test against
+`tmp_path`.
+
+⚠ Two fields are mentioned **nowhere** in the repository outside `systems/graph/` and their own schema
+file: `publications/posted_by` and `instruments/module`. Required, stored (1 and 32 instances), never
+mentioned again.
+
+⚠ Beware name collisions when auditing graph fields: `kind`, `level`, `owner`, `provenance`, `status`,
+`title`, `file`, `why`, `last_verified`, `confidence` and `closure_kind` all collide across collections
+and against document frontmatter. W09j's disambiguation method is the one to reuse — map each hit line
+to its enclosing top-level `def`, then extract which `g["<collection>"]` keys that function actually
+indexes. Raw hit counts are not evidence.
