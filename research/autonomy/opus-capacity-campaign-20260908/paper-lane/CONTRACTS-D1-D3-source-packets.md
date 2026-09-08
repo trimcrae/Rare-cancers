@@ -164,3 +164,91 @@ population. **No clinical benefit in EMC may be inferred from it.** There is no 
 
 **Adjudication is the parent's and is not made here. C1 stays closed; no correction, regeneration, row
 withdrawal or model change is authorized by this packet.**
+
+---
+
+# D1 and D3 VERDICTS, and the PARENT'S ADJUDICATION of all three packets — 2026-09-08 08:08 UTC
+
+D1 `a0fe61bf16696d7e1` (12 calls, 2 m 17 s) and D3 `af7a05c80c7133398` (9 calls, ~2 m), both observed model
+`claude-opus-5`, both with clean trees at start and end and no repository write. Artifacts hash-verified in
+`/tmp/claude-0/d1-retained/` and `/tmp/claude-0/d3-retained/` (neither deleted) and copied to
+`paper-lane/D1-…` and `D3-executed-artifacts/`.
+
+## D1 — HF-SMOKING: **both identifiers resolve, both support their stored numbers, and the feared conflation has NOT occurred**
+
+- **41300991** = Lee JM *et al.*, *"Impact of Quitting Smoking at Diagnosis on Overall Survival in Lung Cancer
+  Patients: A Comprehensive Meta-Analysis"*, *Cancers* 2025;17(22):3623, PMC12651382. Identity matches exactly
+  — September 2024 search, **no eligible RCTs**, 25 cohort studies / 17,584 patients, RoBANS 2, OS primary. The
+  stored `verbatim` is a **character-exact** match to the abstract.
+- **42340948** = Lee B *et al.*, *"Refined obesity, smoking exposure, and lipid metrics in mortality risk
+  assessment: a nationwide cohort analysis"*, *PLoS One* 2026;21(6):e0348128, PMC13293439. AHR **1.65
+  (1.51–1.81)** confirmed in the abstract **and** in the full-text results table; 659,494 NHIS-NSC participants.
+- ⭐ **The conflation the packet was written to catch has not happened in the committed model:**
+  `emc-host-factor-model.json` HF-SMOKING carries **only** `41300991` and the cessation band; `42340948` appears
+  **nowhere** in it, and in the inputs it sits in a separate `B_corroborating` arm at `association_only` with
+  its RRR pinned to zero. The row's own characterisation is scientifically correct.
+- **Kept apart so they cannot be merged later:** 0.74 (0.68–0.81) is a **cessation effect** (quitters vs
+  continuing smokers, already-diagnosed lung cancer); 1.65 (1.51–1.81) is an **exposure association** (heavy
+  cumulative smoking vs never-smoking, general Korean population, no cessation contrast). **1/1.65 = 0.61 is not
+  a cessation effect** and must never be substituted for, averaged with, or used to widen the 0.74 band.
+- **Three qualifiers the stored row does not carry**, each found in the source's own full text: the survival
+  benefit was *"evident only in early-stage lung cancer but not in advanced-stage"*; **biochemically confirmed**
+  cessation gave aHR **0.42 (0.11–1.62), not significant** (3 studies) against self-report 0.75 (0.68–0.82); and
+  trim-and-fill for publication bias moved the pooled estimate to **0.80 (0.68–0.93)**. Also an inconsistency
+  **inside the source**: abstract CI **0.68**–0.81 vs Results-section **0.67**–0.81.
+- **Presentational risk, named:** 42340948's point estimate 1.65 exists **only inside a prose `note`** — no
+  `endpoint`, `measured_in`, `verbatim` or point-estimate key — while its sibling arm has all four. A row whose
+  two arms are stored at different levels of structure is the shape from which drift happens.
+
+## D3 — HF-SARCOPENIA: **numbers exactly supported; the row's `factor` label misdescribes the exposure**
+
+- **41055780** = Nikkhah A *et al.*, *"Dynapenic obesity and all-cause mortality: A systematic review and
+  Meta-analysis of prospective cohort studies"*, *Aging Clin Exp Res* 2025;37(1):288, PMC12504376. Search **"up
+  to February 2024"**, 12 prospective cohorts from 10 articles, **1,309,200 participants**. **Both** stored
+  figures confirmed in the original full text: **HR 1.33 (1.16–1.53)**, I²=76%; abdominal-obesity definition
+  **HR 1.73 (1.38–2.16)**, I²=77% — the row stores the bare 1.73 without its interval, an incompleteness.
+- ⛔ **Construct mismatch, and it is the finding.** The source's exposure is **dynapenia = low muscle
+  STRENGTH** (grip strength in 11 of 12 cohorts, leg strength in the 12th; every Table 1 threshold in
+  kilogram-force) **plus obesity** (BMI ≥30, or ≥25 in one; or high waist circumference). **No CT-based muscle
+  measurement appears anywhere in the full text** — CT is mentioned once, as a validation reference for waist
+  circumference as a *fat* proxy. The row's `factor` reads *"sarcopenia / low skeletal muscle mass
+  (CT-defined)"*. The source's authors draw the distinction the label elides, and treat sarcopenic obesity as a
+  **separate phenotype with different, smaller** estimates. The exposed group here is **obese and weak**, while
+  the row's compartment-A sarcoma source is about **low mass / wasting** — the bodyweight term points opposite.
+  The `measured_in` and `endpoint` fields are honest (they say dynapenic obesity), so the mismatch is between
+  the row's **label** and its own source.
+- **What turns on it, stated without inflation:** **no number moves.** The row is `ASSOCIATION_ONLY` with RRR
+  `[0.0, 0.0]` and both deaths-averted ranges `[0.0, 0.0]`; the prose table gives it "0"; the PMID is cited in
+  **no** manuscript prose. What does turn on it: the anchor requirement (now satisfied by a real, full-text-
+  observed source), the descriptive integrity of the `factor` field, and any future decision to move the row off
+  zero — at which point the construct mismatch, and the fact that `prevalence_in_cohort` 0.195 is keyed to a
+  *sarcopenia* prevalence while the effect size is keyed to *dynapenic obesity*, both become load-bearing.
+
+## ⭐ PARENT ADJUDICATION — what the three packets establish together
+
+**All three questioned citations are real, resolve to matching works, and support the numbers stored against
+them.** Two were observed in **original full text** (41300991, 42340948, 41055780 via PMC), one **abstract-only**
+(42068528, whose full text stopped on a preserved publisher-DOI `EGRESS_BLOCKED` — a route refusal, not a
+finding).
+
+**Therefore the C1 guard failure is a provenance-record problem, not an invented-citation problem.**
+`check_anchors` tests membership in one retrieval set; **membership is not truth, and non-membership is not
+falsity**. Measured by me: `41300991` is in the probe (1 hit); `42340948`, `42068528`, `41055780` are not
+(0 hits each) — **yet all four are real and support their claims**.
+
+⛔ **A false provenance assertion, parent-verified.** `research/autonomy/receipts/CYC-0105-e41d184e.json` states
+the evidence PMIDs are *"all present in `emc-host-factor-probe.json`"*. I checked each: that claim is **false for
+three of the four**. The receipt records a provenance status that the artifact does not support — a
+**record-integrity defect**, and the appropriate one to raise, since the receipt is what a later reader would
+trust.
+
+**Nothing here authorizes a correction.** The model, inputs, receipt, guard and manuscripts are untouched. The
+owner acts now named and unexecuted: the three unanchored-but-real rows and how the probe should reflect them;
+the `HF-SARCOPENIA.factor` label; the `HF-CV-RISK` quotation elision; the missing CI on 1.73; the structural
+asymmetry in the HF-SMOKING arms; and the CYC-0105 receipt's false provenance sentence. **C1 stays closed. No
+regeneration, no variant, no guard bypass, no row withdrawal, no paper admission.**
+
+**No clinical claim arises from any packet.** Lung-cancer cessation, general-population smoking exposure,
+primary-prevention statins and dynapenic obesity are **not EMC evidence**; each transfers at most as a direction
+and an order of magnitude, and two of the four are associations rather than intervention effects. There is no
+wet lab.
