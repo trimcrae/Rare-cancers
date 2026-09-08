@@ -1077,12 +1077,34 @@ def _labels_only(field, values, res):
 #: allowed to make a resolution ambiguous.
 _VENDORED = "_src/"
 
+#: ⛔ ONE EVIDENCE-SUPPORT DIRECTORY, EXCLUDED FROM THE MODULE INDEX BY EXACT PATH. It holds a
+#: stdlib-only stand-in for the parts of pytest this campaign's I1 lane needed in a sandbox with no
+#: pytest and no network, plus its runner. Its own docstring says so: "this shim is evidence-support,
+#: not a deliverable."
+#: ⚠ THE DEFECT IT CAUSED IS A FALSE BINDING, NOT A MISSING DEPENDENCY. `_module_index` keys on
+#: basename, so `shim/pytest.py` was the UNIQUE tracked candidate for the name `pytest` — an
+#: unambiguous resolution, so the ambiguity guard below never fired — and a released test's
+#: `import pytest`, a third-party dependency, resolved to this lane's evidence file and pulled it
+#: into the deposit closure. `shim/run_tests.py` carries the identical defect for the name
+#: `run_tests` and is excluded on the same ground rather than left as a known twin.
+#: ⭐ THE EXCLUSION IS THE PATH, NOT THE NAME. Excluding the name `pytest` would silence a genuine
+#: repository module that ever took that basename; excluding this directory removes only files that
+#: were never importable dependencies of anything released. Real third-party imports go back to
+#: matching nothing tracked and are skipped as before, which is the correct answer for `pytest`.
+#: ⛔ Nothing else is excluded. Sibling and internal research modules resolve exactly as they did,
+#: ambiguous names are still reported and never guessed, and the shim itself is untouched on disk —
+#: it stays byte-identical where the I1 evidence set holds it.
+_EVIDENCE_SHIM = (
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/I1-executed-artifacts/shim/"
+)
+
 
 def _module_index(tracked):
     """Importable module name -> the tracked repository paths that could satisfy it."""
     idx = {}
     for p in tracked or ():
-        if p.endswith(".py") and p.startswith("research/") and _VENDORED not in p:
+        if (p.endswith(".py") and p.startswith("research/") and _VENDORED not in p
+                and not p.startswith(_EVIDENCE_SHIM)):
             idx.setdefault(os.path.basename(p)[:-3], []).append(p)
     return idx
 
