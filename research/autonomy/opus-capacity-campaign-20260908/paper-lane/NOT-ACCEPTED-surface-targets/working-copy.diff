@@ -1,0 +1,673 @@
+diff --git a/research/manuscripts/surface-targets/emc-surface-target-landscape-si.md b/research/manuscripts/surface-targets/emc-surface-target-landscape-si.md
+index 2ff6074dc..2f282b7c8 100644
+--- a/research/manuscripts/surface-targets/emc-surface-target-landscape-si.md
++++ b/research/manuscripts/surface-targets/emc-surface-target-landscape-si.md
+@@ -22,9 +22,16 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE]
+ 
+ # Supplementary information: surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma
+ 
+-**Tristan McRae**
++**Tristan D. McRae**
+ 
+ *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
++ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
++
++Funding: none. Competing interests: none. No ethics approval was sought or obtained and no exemption
++determination was requested; the study is a secondary analysis of public deposits with no new
++recruitment, sampling or intervention. Analysis code, data processing and drafting used substantial
++assistance from Claude (Anthropic) and models from OpenAI under the author's direction; no language model
++is an author and the author is responsible for the content. The main text carries the full declarations.
+ 
+ Companion to [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md). Section numbers
+ prefixed S refer to this document; unprefixed section names refer to the main text. Every value below is
+@@ -51,9 +58,13 @@ undecidable rather than resolvable.
+ ### S2. Expression matrix, class definition and the selectivity test
+ 
+ Expression values are DepMap OmicsExpression protein-coding transcripts per million, log2(TPM+1). The
+-surrogate class was defined by OncotreeSubtype: Ewing sarcoma, synovial sarcoma, alveolar soft part
+-sarcoma, desmoplastic small round cell tumour and clear-cell sarcoma, together with the single line
+-annotated with the disease subtype string, giving 76 class members of which 45 carry expression data.
++surrogate class was defined by a substring match on OncotreeSubtype using the terms ewing, synovial,
++myxoid, alveolar, desmoplastic small round, clear cell sarcoma and extraskeletal, giving 76 class members
++of which 45 carry expression data. The subtypes the match actually returned, recorded in the artifact, are
++six: Ewing sarcoma, synovial sarcoma, alveolar soft part sarcoma, alveolar rhabdomyosarcoma, clear-cell
++sarcoma and the single line annotated with the disease subtype string. No desmoplastic small round cell
++tumour line matched, so that term contributed nothing, and the alveolar term admitted alveolar
++rhabdomyosarcoma alongside alveolar soft part sarcoma.
+ The single subtype-annotated line is recorded by Cellosaurus as not harbouring the fusion and is not
+ read as disease evidence anywhere in this work; the record, what it establishes and what it cannot
+ establish are in Appendix A of the main text.
+@@ -92,7 +103,11 @@ stomach, bone marrow, skeletal muscle, smooth muscle and cardiac tissue.
+ 
+ Four controls were specified before the run and all four behaved as specified: DLL3 and GPC3, both
+ tumour-restricted, returned RESTRICTED; B2M returned a broad verdict; and the hard control CD3E, an
+-immune antigen, returned VITAL_OR_IMMUNE_LIABILITY rather than RESTRICTED. The CD3E control is the one
++immune antigen, returned VITAL_OR_IMMUNE_LIABILITY rather than RESTRICTED. DLL3 is also
++selectivity-significant in the surrogate scan, at q = 0.0079 on an enrichment of +0.29 log2TPM with 11 per
++cent of class lines expressing it, so it is the one antigen in the artifacts that is both selective and
++restricted. It entered as a control rather than as an EMC candidate, and the main text's statement that no
++**candidate** antigen occupies that intersection is scoped accordingly. The CD3E control is the one
+ that tests both of the classifier's difficult branches at once, namely that tissue-enhanced is not
+ restricted and that immune expression is caught.
+ 
+@@ -165,7 +180,9 @@ indexed on the pairing and is not evidence that no such work exists.
+ | Housekeeping genes in the scanned output | excluded by construction |
+ | CD276 recovery | broadly expressed, as expected |
+ 
+-**Table S2.** Complete normal-tissue classification for the evaluated antigens and the four controls.
++**Table S2.** Normal-tissue classification for every antigen this paper names, plus the four controls. The
++artifact `emc-surface-normal-window.json` classifies 46 antigens in total; the rows below are the subset
++cited in the main text and this document, and no antigen classified in the artifact is contradicted here.
+ 
+ | Antigen | RNA tissue specificity | Tissue distribution | Blood-cell specificity | Verdict |
+ |---|---|---|---|---|
+@@ -181,6 +198,7 @@ indexed on the pairing and is not evidence that no such work exists.
+ | SSTR2 | Tissue enhanced | Detected in many | Low immune cell specificity | ENHANCED_BROAD |
+ | EGFR | Tissue enhanced | Detected in many | Not detected in immune cells | ENHANCED_BROAD |
+ | CSPG4 | Tissue enhanced | Detected in many | Not detected in immune cells | ENHANCED_BROAD |
++| LRRC15 | Tissue enhanced | Detected in many | Not detected in immune cells | ENHANCED_BROAD |
+ | FGFR1 | Low tissue specificity | Detected in all | Low immune cell specificity | BROAD_LIABILITY |
+ | MCAM | Group enriched | Detected in all | Not detected in immune cells | BROAD_LIABILITY |
+ | EPHB4 | Low tissue specificity | Detected in many | Immune cell enhanced | BROAD_LIABILITY |
+@@ -208,10 +226,15 @@ antigen, neither measures protein, and the disagreement is not resolved in eithe
+ | Antigen-presentation precondition (12) | B2M, HLA-A, HLA-B, HLA-C, TAP1, TAP2, TAPBP, NLRC5, PSMB8, PSMB9, CIITA, ERAP1 |
+ | Glycan-antigen synthases, not the antigen (5) | B4GALNT1, ST8SIA1, ST3GAL5, B3GALT4, FUT4 |
+ | Somatostatin-receptor family (5) | SSTR1, SSTR2, SSTR3, SSTR4, SSTR5 |
++| Oncofetal-chondroitin-sulfate carrier proteoglycans (18) | CSPG4, CD44, VCAN, ACAN, BCAN, NCAN, SDC1, SDC2, SDC4, GPC1, GPC3, GPC6, BGN, DCN, SRGN, CSPG5, HSPG2, LUM |
++| Sarcoma cell-surface addresses (30) | CD276, EGFR, ERBB2, IGF1R, ROR1, ROR2, CD70, NECTIN4, TACSTD2, EPCAM, PTK7, GPC2, FOLH1, FOLR1, CEACAM5, DLK1, MUC16, ALCAM, CD24, CD99, MET, AXL, EPHA2, EPHB4, MCAM, CDH11, FGFR1, KIT, NCAM1, DLL3 |
++| Alkaline-phosphatase family (4) | ALPP, ALPPL2, ALPL, ALPI |
++| HLA-presented intracellular antigens, not surface (10) | PRAME, MAGEA1, MAGEA3, MAGEA4, MAGEA10, CTAG1B, CTAG2, SSX1, SSX2, MAGEC2 |
+ 
+-The route-named panel membership is a repository-curated list assembled from the therapeutic addresses
+-that candidate surface-directed routes for this disease name, plus two coverage corrections. It is not a
+-published gene set or a validated signature, and any statement resting on it inherits that.
++All nine panels are repository-curated membership lists. The route-named panel is assembled from the
++therapeutic addresses that candidate surface-directed routes for this disease name, plus two coverage
++corrections. None of the nine is a published gene set, and none has been checked against an external
++standard; any statement resting on one inherits that.
+ 
+ **Table S4.** Tissue-instrument controls.
+ 
+@@ -219,12 +242,16 @@ published gene set or a validated signature, and any statement resting on it inh
+ |---|---|---|---|---|
+ | NR4A3 | up in EMC | Δ +0.741 (*t* = 4.66, df 7.2), 76th array percentile | no contrast: 2 comparator samples against a floor of 3 | EMC median 0.216 against 0.000 across 32 non-EMC sarcoma libraries |
+ | ENO3 | up in EMC | Δ +0.808 (*t* = 3.61, df 5.5) | Δ +3.811 (*t* = 13.22) | 2.53× versus normal, 2.02× versus other sarcomas |
+-| MKI67 | approximately flat | Δ +0.129 (*t* = 0.53) | not reported | not reported |
++| MKI67 | approximately flat on GPL6244 | Δ +0.129 (*t* = 0.53, df 8.7) | Δ +1.236 (*t* = 2.30, df 5.5), not flat | no peak read in this deposit |
+ 
+-A working control licenses reading the other rows and is not evidence for any of them. The NR4A3 null on
+-GPL3290 is a sample-count statement, and on an expressed-sequence-tag-annotated array a null could also
+-be a probe-placement question, since a probe can sit in the region the fusion replaces rather than the
+-one it retains.
++A working control licenses reading the other rows and is not evidence for any of them. The MKI67
++expectation was written for GSE24369 only, and the control holds there. On GPL3290 the same gene is not
++flat, so the cellularity explanation this control exists to exclude is not excluded for any GPL3290
++contrast in either document. SUPERSEDED, RETAINED: this row previously recorded the GPL3290 cell as
++*"not reported"*, which was wrong, because the value is in `emc-expression-panels.json` under
++`reads.control`. The NR4A3 null on GPL3290 is a sample-count statement, and on an
++expressed-sequence-tag-annotated array a null could also be a probe-placement question, since a probe can
++sit in the region the fusion replaces rather than the one it retains.
+ 
+ **Table S5.** Panel-level scores. Δ is the panel mean z difference; coverage is readable members divided
+ by requested members. Panels below the floor emit no score.
+@@ -252,6 +279,7 @@ tables in the main text are the interpretable presentation of that panel.
+ | Gene | Peaks | EMC median | Normal median | Other-sarcoma median |
+ |---|---|---|---|---|
+ | CSPG4 | 1 | 8.730 | 2.636 | 3.484 |
++| CD248 | 2 | 1.767 | 2.107 | 2.715 |
+ | BGN | 4 | 1.225 | 0.641 | 0.491 |
+ | ALCAM | 2 | 0.578 | 0.631 | 0.377 |
+ | FAP | 1 | 0.571 | 0.350 | 0.358 |
+@@ -260,7 +288,6 @@ tables in the main text are the interpretable presentation of that panel.
+ | SSTR2 | 2 | 0.352 | 0.228 | 0.257 |
+ | CD276 | 3 | 0.286 | 0.220 | 0.202 |
+ | MSLN | 2 | 0.257 | 0.941 | 0.209 |
+-| CD248 | 2 | 1.767 | 2.107 | 2.715 |
+ | PRAME | 1 | 0.102 | 0.000 | 0.194 |
+ | GPC3 | 1 | 0.102 | 1.129 | 0.211 |
+ | L1CAM | 1 | 0.082 | 0.245 | 0.050 |
+@@ -299,10 +326,14 @@ absence rather than low sensitivity: the observation does not exist.
+ 
+ **L2, the stromal floor demonstrated.** LRRC15, an established sarcoma fibroblast antigen with a clinical
+ antibody-drug conjugate programme behind it, reads at class mean 0.14 log2TPM with an expressed fraction
+-of 0.0 and no selectivity. FAP reads at class mean 1.37 with an expressed fraction of 0.16. CD248 reads
+-at class mean 3.01 with an expressed fraction of 0.44 and is the only selectivity-significant member of
+-this group. These values show what a stroma-only antigen looks like in this instrument, which is
+-indistinguishable from a genuinely absent one.
++of 0.0 and no selectivity. FAP reads at class mean 1.37 with an expressed fraction of 0.16. The artifact
++records two further genes in this group, and both are selectivity-significant: CD248 at class mean 3.01
++with an expressed fraction of 0.44 and q = 0.0, and PDGFRB at class mean 2.14 with an expressed fraction
++of 0.24 and q = 0.0001. That is not the instrument malfunctioning. Mesenchymal tumour cells genuinely
++transcribe CD248 and PDGFRB, so there is something in the culture to measure, and the measured limit is
++therefore narrower than "the scan cannot see stroma": it cannot see a gene that only the stroma expresses.
++LRRC15 and FAP are that case and CD248 and PDGFRB are not. The LRRC15 and FAP values show what a
++stroma-only antigen looks like in this instrument, which is indistinguishable from a genuinely absent one.
+ 
+ **L3, a glycan cannot be ranked.** Oncofetal chondroitin sulfate is a post-translational sulfation
+ pattern on a carrier proteoglycan. There is no gene for it, so no gene-expression ranking can return it.
+@@ -365,8 +396,9 @@ show the reported contrast to be wrong. The main text's Methods states these ann
+ reprocessing was performed and no sensitivity analysis recomputing the GPL3290 contrasts against the
+ three dermatofibrosarcoma protuberans arrays alone was run, here or elsewhere in this study, so the
+ mismatch is disclosed rather than excluded. The sequencing row rests on one peak and 4 libraries, and
+-the normal-tissue prior already places CSPG4 on the broad-liability list, so its behaviour in normal
+-tissue beyond those six organ types is unaddressed by anything here.
++the normal-tissue prior already classes CSPG4 tissue-enhanced, that is detected broadly with a peak and
++not restricted, so its behaviour in normal tissue beyond those six organ types is unaddressed by anything
++here.
+ 
+ ### S4. The disagreement between the two instruments
+ 
+diff --git a/research/manuscripts/surface-targets/emc-surface-target-landscape.md b/research/manuscripts/surface-targets/emc-surface-target-landscape.md
+index a63f67f6a..4315603e3 100644
+--- a/research/manuscripts/surface-targets/emc-surface-target-landscape.md
++++ b/research/manuscripts/surface-targets/emc-surface-target-landscape.md
+@@ -27,7 +27,7 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE-SI]
+ **Tristan D. McRae**
+ 
+ *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+-ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
++ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+ 
+ Running title: Surface-antigen priorities in EMC
+ 
+@@ -58,8 +58,9 @@ search-derived. Those affect FORMAT, which an editor returns, not COST, which is
+ APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
+ number the decision rests on, since the charge is being declined.
+ AUTHOR BLOCK matches the author block already committed in nr4a3-degrader-paper.md and
+-response-endpoint-indolent-tumours.md. No ORCID is given because the repository carries none, and
+-only the author can supply one; the sibling submission texts carry the same statement.
++response-endpoint-indolent-tumours.md. SUPERSEDED, RETAINED: this note previously read "No ORCID is
++given because the repository carries none, and only the author can supply one." The author supplied
++0000-0002-1823-1451 and it now stands in the author block.
+ COMMENT TERMINATOR ADDED 2026-08-10. This editorial block opened at "<!-- EDITORIAL" and was never
+ closed, so every renderer treated the whole manuscript from that line down as an HTML comment, and
+ submission_metrics.py's comment strip, which requires the closing token, silently did nothing. The
+@@ -67,10 +68,12 @@ terminator below ends the block where the sibling manuscripts end theirs, immedi
+ preprint-deposit declarations.
+ -->
+ 
+-> **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
+-> sought. This study analyses public gene-expression deposits and public annotation resources only. It
+-> involves no human participants, no identifiable data, no patient-level record and no laboratory work.
+-> **Funding:** none. **Competing interests:** none. **Data and code:** see Declarations.
++> **Declarations for preprint deposit.** No ethics approval was sought or obtained and no exemption
++> determination was requested. This is a secondary analysis of public gene-expression deposits and public
++> annotation resources, with no new recruitment, sampling, intervention or laboratory work and no
++> individually identifiable data. Approval and consent for the original collection of the archival tissue
++> in those deposits are matters for the depositing studies. **Funding:** none. **Competing interests:**
++> none. **Data and code:** see Declarations.
+ 
+ > **Scope of the claims.** Every quantity reported here is transcript abundance. No protein
+ > measurement, no surface-localisation measurement and no receptor-density measurement appears in this
+@@ -91,8 +94,8 @@ Protein Atlas normal-tissue prior. Priorities were tested in three EMC tumour-ti
+ GSE24369 (6 EMC versus 29 sarcomas), GSE4303/GPL3290 (10 versus 6) and GSE28866 (4 EMC, 27
+ normal-organ, 32 sarcoma libraries).
+ 
+-**Results.** Eight antigens were selective in the surrogate; B7-H3/CD276 was not (q = 1.0); the
+-normal-tissue prior left no evaluated antigen both selective and restricted. In tumour tissue, none of
++**Results.** Nine evaluated antigens were selective in the surrogate; B7-H3/CD276 was not (q = 1.0); the
++normal-tissue prior left no candidate both selective and restricted. In tumour tissue, none of
+ the eight was concordantly elevated on both arrays; two were concordantly lower. None of eleven
+ route-named therapeutic addresses was concordantly elevated. ALCAM rose on both arrays yet sat below the
+ normal-organ median. CSPG4, never evaluated at stage 1, rose on one array and in the sequencing cohort,
+@@ -129,10 +132,8 @@ surfaceome, surface antigen, cell-surface protein, chimeric antigen receptor, ra
+ antibody-drug conjugate and immunotherapy terms. It returned three EMC-specific records, none of which
+ is a systematic surface-antigen map: a radiotherapy case report [3], a single case describing an
+ immunosuppressive tumour microenvironment in EMC with pleural metastases [4], and a multidisciplinary
+-review of uncommon soft-tissue sarcomas [5]. That screen matched titles and abstracts, not full text, so
+-it establishes that nothing is indexed on those pairings rather than that no such work exists; a
+-surface-antigen analysis inside a supplementary table of a larger sarcoma paper would be invisible to
+-it.
++review of uncommon soft-tissue sarcomas [5]. That screen matched titles and abstracts, not full text, so it establishes that
++nothing is indexed on those pairings rather than that no such work exists.
+ 
+ That assumption is tested here. Three EMC tumour-tissue cohorts are readable at no cost, two of them
+ only after a probe-to-symbol accession bridge was built. The study therefore has two stages: a
+@@ -142,9 +143,9 @@ tumour itself is measured is rarely reported.
+ 
+ ## Methods
+ 
+-All analyses are computational, use public data, run in continuous integration at no compute cost, and
+-commit their outputs. No laboratory work was performed. Full parameters, controls and per-gene tables
+-are in Supplementary Methods S1 to S6 and Supplementary Tables S1 to S8.
++All analyses are computational, use public data, and commit their outputs. No laboratory work was
++performed. Full parameters, controls and per-gene tables are in Supplementary Methods S1 to S6 and
++Supplementary Tables S1 to S7.
+ 
+ ### Surfaceome definition
+ 
+@@ -162,9 +163,10 @@ than resolvable.
+ 
+ ### Expression and selectivity in the surrogate class
+ 
+-DepMap OmicsExpression values, log2(TPM+1). A translocation-sarcoma class was defined by OncotreeSubtype
+-(Ewing, synovial, alveolar, desmoplastic small round cell, clear-cell, plus the single line annotated
+-*Extraskeletal Myxoid Chondrosarcoma*; n = 76) as a lineage-generic surrogate. That line, ACH-001519, is
++DepMap OmicsExpression values, log2(TPM+1). A translocation-sarcoma class (n = 76) was defined by substring
++match on OncotreeSubtype as a lineage-generic surrogate. The artifact records the six subtypes the match
++returned: Ewing, synovial, alveolar soft part, alveolar rhabdomyosarcoma, clear-cell and the single line
++annotated *Extraskeletal Myxoid Chondrosarcoma*, and no desmoplastic small round cell tumour line matched. That line, ACH-001519, is
+ recorded by Cellosaurus as not harbouring an *EWSR1* fusion [15], so it is treated as one of 45 class
+ members carrying expression data and not as EMC evidence; the record and its consequences are in
+ Appendix A.
+@@ -174,13 +176,15 @@ This is cross-cancer selectivity, a descriptor of distinguishability from other
+ a tumour-versus-normal contrast; it mechanically favours mesenchymal antigens because the DepMap panel
+ is epithelial-dominated.
+ 
+-Four limits of this instrument were computed (Supplementary Note S1). The scanned
++Five limits of this instrument were computed (Supplementary Note S1). The scanned
+ population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment. An antigen
+ carried only by stroma reads at the floor, demonstrated by LRRC15, an established sarcoma
+ cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate programme behind it, at
+-`frac_expressed` 0.0. A glycan such as oncofetal chondroitin sulfate is the product of a biosynthetic
+-pathway rather than of one gene [14], and so cannot be ranked.
+-And CSPG4 has no per-gene row in any committed artifact of this instrument.
++`frac_expressed` 0.0; CD248 and PDGFRB, also called stromal, are selectivity-significant, so the measured
++limit is that the instrument cannot see a gene *only* the stroma expresses. A glycan such as oncofetal
++chondroitin sulfate is the product of a biosynthetic pathway rather than of one gene [14], and so cannot
++be ranked. CSPG4 has no per-gene row in any committed artifact of this instrument. And the scan holds no
++disease observation of FAP, for both of the preceding reasons.
+ 
+ ### Normal-tissue prior
+ 
+@@ -208,15 +212,14 @@ The two arms of the GPL3290 cohort were not processed alike, and the deposit's o
+ it. All ten EMC arrays and the three dermatofibrosarcoma protuberans arrays name a "CRH" reference and
+ an mRNA input ("STT3699-Myxoid Chondrosarcoma | CRH-mRNA", "STT3126-DFSP | CRH | STT3126-DFSP mRNA"),
+ while the three gastrointestinal stromal tumour arrays name a "UHR" reference and a total-RNA input
+-("STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA"). Half of that six-array comparator arm
+-therefore differs from the EMC arm in both reference pool and RNA input, on a two-colour platform where
+-every value is a log-ratio against the reference channel. No reprocessing or sensitivity analysis was
+-run here, so the mismatch is disclosed rather than excluded.
++("STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA"). Half of that six-array comparator arm therefore
++differs from the EMC arm in both reference pool and RNA input, on a platform where every value is a
++log-ratio against the reference channel. No reprocessing or sensitivity analysis was run, so the mismatch
++is disclosed rather than excluded.
+ 
+ The two axes are different questions and are not collapsed. The 27 normal libraries are visceral organs
+-containing almost no soft tissue, so a gene high in EMC against that panel is not thereby shown to be
+-EMC-specific rather than mesenchymal-lineage-specific; and a gene high against other sarcomas says
+-nothing about normal-organ exposure. Read densities from 3'-end sequencing are not array intensities and
++containing almost no soft tissue, so a gene high against that panel is not thereby EMC-specific rather
++than mesenchymal; and a gene high against other sarcomas says nothing about normal-organ exposure. Read densities from 3'-end sequencing are not array intensities and
+ are never pooled with them. Array figures are Δ, the EMC mean z minus the comparator mean z in standard
+ deviation units of that array's own probe distribution, with Welch *t* and degrees of freedom.
+ Sequencing figures are ratios of medians of per-peak medians and carry no test.
+@@ -256,39 +259,43 @@ availability statement, without any language model.
+ 
+ ### Stage-1 selectivity and the normal-tissue prior
+ 
+-In the surrogate class, selectivity was significant for CDH11, KIT, FGFR1, NCAM1, GPC2, PTK7, MCAM and
+-EPHB4, and was absent for B7-H3/CD276 at q = 1.0, for EGFR and for FAP (Table 1). Two cautions apply to
++In the surrogate class, selectivity was significant for nine of the evaluated classic antigens: CDH11, KIT,
++CD248, FGFR1, NCAM1, GPC2, PTK7, MCAM and EPHB4. It was absent for B7-H3/CD276 at q = 1.0, for EGFR and for
++FAP (Table 1). Table 3 reads eight of the nine in tissue; CD248, a route-named address, is in Table 4. Two cautions apply to
+ the whole column. The contrast is cross-cancer, which the epithelial-dominated DepMap panel biases
+ toward mesenchymal antigens, so CDH11 at +3.18 log2TPM is largely a statement that carcinomas do not
+ express it. And transcript magnitude to two decimal places conveys false precision about surface-protein
+ density; the values are coarse tiers.
+ 
+ B7-H3, the field's default surface target for sarcoma, is not significantly selective in these data.
+-B7-H3 protein can be tumour-restricted despite broad transcript expression, which is the basis of its
+-clinical traction, so this is a selectivity-of-transcript caveat rather than a claim about protein; it
+-removes the transcriptomic rationale for treating B7-H3 as the obvious first choice.
++B7-H3 protein can be tumour-restricted despite broad transcript expression, so this is a
++selectivity-of-transcript caveat rather than a claim about protein; it removes the transcriptomic
++rationale for treating B7-H3 as the obvious first choice.
+ 
+ FAP and CD248 need a further caution. Both are stromal antigens, and the surrogate instrument has no
+ stromal compartment, with LRRC15 reading at zero expressed fraction in it. A verdict on FAP from this
+ instrument is a statement about tumour cells in culture rather than about FAP in an EMC tumour.
+ 
+-The normal-tissue prior is the decisive filter, and among the classic protein antigens it evaluated no
+-antigen was both selective and restricted (Figure 1). Each candidate fails for an identifiable reason.
++The normal-tissue prior is the decisive filter, and among the candidate antigens it evaluated no antigen
++was both selective and restricted (Figure 1). One antigen does satisfy both conditions and it is a
++control: DLL3, the filter's tumour-restricted positive control, is RESTRICTED and selectivity-significant
++at q = 0.0079 on an enrichment of +0.29 log2TPM (Note S3). The intersection therefore contains no
++candidate rather than nothing at all. Each candidate fails for an identifiable reason.
+ NCAM1/CD56 sits on natural killer cells and neural tissue, carrying a fratricide risk for cell products
+ and a circulating compartment; the CD56 antibody-drug conjugate lorvotuzumab mertansine was clinically
+ developed and discontinued [9,10]. CDH11 is broadly expressed in normal fibroblasts, synovium and bone,
+ and its high cross-cancer enrichment is the mesenchymal-versus-epithelial artefact described above.
+ B7-H3, EGFR and FAP are non-selective or broad; FGFR1, MCAM and EPHB4 carry liabilities on this prior.
+-The one restricted prior among the classic antigens belongs to B4GALNT1, the GD2 synthase, and whether
+-EMC expresses GD2 is not measured by anything in this study. The intersection was computed over the
+-antigens the filter saw, and CSPG4 was not among them, so the empty intersection is a property of the
+-evaluated set.
++Two classic antigens carry a restricted prior: B4GALNT1, the GD2 synthase, which the scan never evaluated
++and whose EMC expression nothing here measures; and ALCAM, which the scan found non-selective at −1.45
++log2TPM and whose restricted verdict the sequencing normal arm later disputes. CSPG4 was not among the
++antigens the filter saw, so its absence from the intersection is a property of the evaluated set.
+ 
+ ### Surrogate priorities in EMC tumour tissue
+ 
+-Every antigen the surrogate called selective now has a reading in EMC tumour tissue. None of the eight is
+-concordantly higher in EMC than in comparator sarcomas on both arrays, and two are concordantly lower
+-(Table 3). The two antigens the surrogate called non-selective read the same way in tissue: EGFR is
++Every antigen the surrogate called selective now has a reading in EMC tumour tissue. None of the nine is
++concordantly higher in EMC than in comparator sarcomas on both arrays, and two are concordantly lower;
++Table 3 carries eight of them and CD248, the ninth, is in Table 4. The two antigens the surrogate called non-selective read the same way in tissue: EGFR is
+ concordantly down on both arrays, and CD276 is lower in EMC on the one platform that reads it. The
+ surrogate's negatives transferred and its positives did not.
+ 
+@@ -302,8 +309,9 @@ Eleven genes make up the panel of therapeutic addresses named by candidate surfa
+ this disease, assembled from the addresses those routes name plus two coverage corrections, and none of
+ the eleven is concordantly elevated in EMC tumour tissue (Table 4). CD248 and CD276 read lower on the one
+ platform that reads them, FAP and PRAME are flat on both, SSTR2 is flat, and the remainder are
+-discordant or single-platform. Six of these genes gained their first EMC-tissue array contrast in this
+-work: ALCAM, CD248, CD276, FAP, PRAME and SSTR2.
++discordant or single-platform. Six of them, ALCAM, CD248, CD276, FAP, PRAME
++and SSTR2, carry no EMC-tissue array contrast elsewhere in this repository's artifacts. No literature
++priority is claimed: the prior-art screen matched titles and abstracts only.
+ 
+ The single antigen elevated on both arrays is ALCAM, which no candidate route names, and the exposure
+ axis demotes it. Its EMC median in the sequencing cohort, 0.578, sits below the normal-organ median of
+@@ -337,12 +345,11 @@ The precondition for the two human-leukocyte-antigen-directed routes points the
+ second is not significant on any reading, and the panel is a precondition rather than a target, but a
+ T-cell-receptor-directed route needs class-I presentation.
+ 
+-The panel-level score for the route-named addresses disagrees between platforms and is reported as such:
+-lower in EMC on GPL6244 (Δ = −0.0935, *t* = −1.66, 11 of 11 readable) and higher on GPL3290 (Δ = +0.599,
+-*t* = 2.91, 8 of 11). The three genes missing from the GPL3290 score are CD248, CD276 and SSTR2, three of
+-the four that read down or flat on GPL6244, so the two panel scores are not computed over the same set
+-and the disagreement is partly a coverage artefact. The per-gene table is therefore the interpretable
+-presentation and the panel scores are not.
++The panel-level score for the route-named addresses disagrees between platforms: lower in EMC on GPL6244
++(Δ = −0.0935, *t* = −1.66, 11 of 11 readable) and higher on GPL3290 (Δ = +0.599, *t* = 2.91, 8 of 11). The
++three genes missing from the GPL3290 score are CD248, CD276 and SSTR2, three of the four reading down or
++flat on GPL6244, so the two scores are not computed over the same set and the disagreement is partly a
++coverage artefact. The per-gene table is the interpretable presentation; the panel scores are not.
+ 
+ ### SSTR2 and the GD2 proxy
+ 
+@@ -365,14 +372,13 @@ readable on GPL3290, and the whole five-gene glycan-synthase panel is lower in E
+ this is a proxy for a proxy and cannot exclude the antigen.
+ 
+ These readings change the prior without changing the gate. The hypothesis was that EMC's reported
+-neuroendocrine phenotype might extend to SSTR2 surface expression at a level worth imaging, and the
+-first EMC transcript readings show no elevation over other soft-tissue tumours and no striking
+-absolute signal. The gate is unchanged: a peptide-receptor radioligand route depends on absolute
+-receptor protein density and on the tumour-to-normal uptake ratio, and no quantity in this study
+-measures either. A single somatostatin-receptor
++neuroendocrine phenotype might extend to SSTR2 surface expression at a level worth imaging; these
++transcript readings show no elevation over other soft-tissue tumours and no striking absolute signal. The
++gate is unchanged, because a peptide-receptor radioligand route depends on receptor protein density and
++on the tumour-to-normal uptake ratio and no quantity here measures either. A somatostatin-receptor
+ positron-emission-tomography scan, or an SSTR2 immunohistochemical stain on archival EMC, remains the
+-cheap decisive measurement, and these readings lower the prior for it rather than removing the reason to
+-perform it.
++cheap decisive measurement; these readings lower the prior for it rather than removing the reason to do
++it.
+ 
+ ### CSPG4, a gene outside the stage-1 scan
+ 
+@@ -383,21 +389,18 @@ rejection. It matters because CSPG4 is one of the two carrier proteoglycans name
+ oncofetal-chondroitin-sulfate work, and the surfaceome seed held only the other one, CD44.
+ 
+ In EMC tissue CSPG4 is the largest absolute row in the sequencing deposit, with an EMC median of 8.730,
+-an order of magnitude above every other row in that panel, 3.31 times the normal-organ median and 2.51
+-times the other-sarcoma median. It moves strongly on GPL6244 (Δ = +0.885, *t* = 7.42) and not at all on
++roughly five times the next-largest row in that panel (CD248, 1.767), 3.31 times the normal-organ median
++and 2.51 times the other-sarcoma median. It moves strongly on GPL6244 (Δ = +0.885, *t* = 7.42) and not at all on
+ GPL3290 (Δ = −0.189, *t* = −0.40). The classifier records this as movement on one platform with
+ flatness on the other rather than as opposite signs, because the GPL3290 value is negative in sign but
+-flat in magnitude. The row does not replicate and is also not contradicted. Three candidate explanations
+-are live and none is settled here: the GPL3290 comparator arm is n = 6 with an unusually high CSPG4
+-mean, and dermatofibrosarcoma protuberans is a dermal fibroblastic tumour while CSPG4 is a well-known
+-melanocytic and pericytic antigen, so a high comparator arm would flatten the contrast for reasons about
+-the comparator rather than about EMC. And half of that comparator arm, the three gastrointestinal
+-stromal tumour arrays, was hybridised against a different reference pool and from a total-RNA rather
+-than an mRNA input (Methods), so a processing mismatch on a log-ratio platform is a third unexcluded
+-reason for a flat GPL3290 contrast; it does not show the reported contrast to be wrong. The sequencing
++flat in magnitude. The row does not replicate and is also not contradicted. Three explanations are live
++and none is settled (Note S3): the GPL3290 comparator arm is n = 6 with an unusually high CSPG4 mean;
++dermatofibrosarcoma protuberans is a dermal fibroblastic tumour while CSPG4 is a melanocytic and pericytic
++antigen, so a high comparator arm would flatten the contrast for reasons about the comparator; and half
++that arm carries a different reference pool and a total-RNA input (Methods). The sequencing
+ row rests on one peak and n = 4, and the Human
+-Protein Atlas already places CSPG4 on the broad-liability list, so its normal-tissue behaviour beyond
+-those six organs is unaddressed. CSPG4 is therefore held open.
++Protein Atlas prior already classes CSPG4 tissue-enhanced, that is detected broadly with a peak and not
++restricted (Table 1), so its normal-tissue behaviour beyond those six organs is unaddressed. CSPG4 is therefore held open.
+ 
+ ### Genes concordantly elevated on both arrays
+ 
+@@ -405,27 +408,21 @@ Across the 100 genes on the cross-platform board, exactly five are concordantly
+ VCAN, BGN, CD44, GPC1 and ALCAM (Table 5). Four of the five are matrix or proteoglycan genes, and ALCAM
+ is the only classical single-pass cell-surface adhesion molecule among them.
+ 
+-Three considerations weaken that reading. The background is saturated: VCAN's EMC samples sit
+-at the 99.7th and 97.5th array percentiles against comparators at the 97.8th and 91.2nd, so the
+-separation is small on top of a signal that is high everywhere, and a matrix proteoglycan being abundant
+-in a myxoid tumour is expected rather than discriminating. These are largely secreted or
+-matrix-associated products rather than cell-surface addresses, so a versican or biglycan transcript is a
+-statement about what the tumour deposits rather than about what a binder would find on a cell. And bulk
+-archival tissue cannot deconvolve compartments, so a matrix or stromal signal may report the
+-compartment's presence rather than the tumour cell's.
++Three considerations weaken that reading. The background is saturated: VCAN's EMC samples sit at the
++99.7th and 97.5th array percentiles against comparators at the 97.8th and 91.2nd, so the separation is
++small on a signal that is high everywhere, and a matrix proteoglycan being abundant in a myxoid tumour is
++expected rather than discriminating. These are largely secreted or matrix-associated products rather than
++cell-surface addresses, so a versican transcript states what the tumour deposits rather than what a binder
++would find on a cell. And bulk tissue cannot deconvolve compartments.
+ 
+ The two instruments invert on the three genes where they can be compared, and the disagreement is not
+ resolved here. CD248 is the surrogate's only selectivity-significant antigen in this set and is lower in
+ EMC tissue; ALCAM was scored and rejected by the surrogate and is higher in EMC tissue on both arrays;
+ CD44 is the surrogate's most strongly negative row here and is higher in EMC tissue on both arrays. Four
+-explanations are live and nothing in either artifact discriminates them. The two instruments ask
+-different questions, sarcoma-versus-other-cancer against EMC-versus-other-sarcoma, so opposite answers
+-are not inconsistent. They read different populations, since the surrogate contains no
+-verified *EWSR1::NR4A3* line and so holds no EMC observation. They read different compartments, since
+-monoculture is tumour cells only while bulk tissue adds stroma, vasculature, immune infiltrate and
+-matrix. And they use different measurements, RNA-sequencing transcripts per million in cultured lines
+-against array intensity in archival tissue on two decade-old platforms. A single-cell or spatial EMC
+-dataset would discriminate the compartment explanation directly, and none is in hand.
++explanations are live and nothing in either artifact discriminates them: the instruments ask different
++questions, read different populations, read different compartments and use different measurements
++(Note S4). A single-cell or spatial EMC dataset would discriminate the compartment explanation directly,
++and none is in hand.
+ 
+ ### Instrument controls
+ 
+@@ -433,7 +430,9 @@ The tissue instrument reproduced its known answers (Supplementary Table S4). *NR
+ GPL6244 (Δ = +0.741, *t* = 4.66, 76th array percentile), and in the sequencing cohort its median across
+ the 32 non-EMC sarcoma libraries was 0.000 against 0.216 in EMC; it emits no contrast on GPL3290, where
+ only 2 comparator samples carry a value against a floor of 3. *ENO3* rose on both arrays (Δ = +0.808,
+-*t* = 3.61; Δ = +3.811, *t* = 13.22). *MKI67* was flat (Δ = +0.129, *t* = 0.53). On the exposure axis,
++*t* = 3.61; Δ = +3.811, *t* = 13.22). *MKI67* was flat on GPL6244, the platform its expectation was written for
++(Δ = +0.129, *t* = 0.53), and not flat on GPL3290 (Δ = +1.236, *t* = 2.30), so the cellularity explanation
++this control exists to exclude is not excluded for GPL3290. On the exposure axis,
+ four antigens with no reason to be present in a soft-tissue sarcoma read lower in EMC than in normal
+ tissue: GPC3 at 0.09 times, MSLN at 0.27 times, L1CAM at 0.33 times and CDH17 at 0.91 times. A working
+ control licenses reading the other rows and is not evidence for any of them.
+@@ -449,12 +448,12 @@ mesenchymal rather than epithelial character, which is a property EMC shares wit
+ the tissue cohorts, so it cannot discriminate within them. The caution applies to every surrogate-based
+ rare-tumour target list, not only to this one.
+ 
+-Three outputs survive as usable. First, a set of negatives with a named basis: B7-H3 is not a
+-differentially expressed EMC address on either instrument; the stromal panel is lower in EMC than in
+-comparator sarcomas on both platforms; PRAME reads at the floor of every readable cohort. Second, a
+-demoted but intact marker: ALCAM separates EMC from other sarcomas across three cohorts and three
+-platform families, which is a marker-grade result even though the same data removes its case as a
+-therapeutic address. Third, a held-open lead with a stated defect: CSPG4, which the original search never
++Three outputs survive as usable. First, a set of negatives with a named basis: B7-H3 is not elevated in EMC
++on either instrument and reads lower than comparator sarcomas on the one platform that reads it; the
++stromal panel is lower in EMC on both platforms; PRAME reads at the floor of every readable cohort.
++Second, a demoted but intact marker: ALCAM is higher in EMC than in other sarcomas in all three cohorts,
++an uncorrected transcript-level reading in 6, 10 and 4 tumours rather than an established marker, even
++though the same data removes its case as a therapeutic address. Third, a held-open lead with a stated defect: CSPG4, which the original search never
+ evaluated.
+ 
+ A surrogate ranking plus a normal-tissue prior did not suffice to prioritise scarce validation effort
+@@ -466,8 +465,8 @@ immune-excluded tumours; a single reported EMC case describes exactly such an im
+ microenvironment [4]. The genes concordantly elevated in EMC tissue are largely the matrix itself, so the
+ compartment that most complicates delivery is also the compartment carrying most of the differential
+ signal. One modality-specific consequence follows from the exposure axis: an antigen elevated against
+-other sarcomas but not against normal visceral organs, which is ALCAM's exact profile, is a usable
+-diagnostic or lineage marker and a poor address for any modality that acts wherever the antigen is.
++other sarcomas but not against normal visceral organs, which is ALCAM's exact profile, remains a candidate
++lineage marker worth testing and is a poor address for any modality that acts wherever the antigen is.
+ Radioligand crossfire mitigates heterogeneous tumour uptake rather than broad normal expression; for a
+ normal-tissue antigen, crossfire widens the irradiated field.
+ 
+@@ -483,34 +482,31 @@ call. And the tissue cohorts are small archival bulk deposits on decade-old plat
+ n = 4, with the exposure axis resting on medians of four libraries against six visceral organ types.
+ None of these readings supports a population-level statement.
+ 
+-Several further constraints apply to every number above. Read densities from 3'-end sequencing are never
+-pooled with array intensities. Several genes rest on a single peak in the sequencing deposit, among them
+-CSPG4, FAP, GPC3, L1CAM and PRAME, and several array rows rest on a single probe. The 27 normal libraries
+-are a tissue panel rather than matched adjacent tissue, covering six organ types. The two lineage
+-cohorts have different comparator arms, so a gene can move in one and not the other because the
++Several further constraints apply to every number above, and Note S5 states each in full. Read densities
++from 3'-end sequencing are never pooled with array intensities. Several genes rest on a single peak in the
++sequencing deposit, among them CSPG4, FAP, GPC3, L1CAM and PRAME, and several array rows on a single
++probe. The 27 normal libraries are a six-organ tissue panel rather than matched adjacent tissue. The two
++lineage cohorts have different comparator arms, so a gene can move in one and not the other because the
+ comparator changed rather than because EMC did, which is the worked explanation for CSPG4. GPL3290 is a
+ two-colour log-ratio platform, so an absolute level there means relative to the reference pool and only
+-the between-group contrast is interpretable. That comparator arm is itself heterogeneous in processing:
+-the three gastrointestinal stromal tumour arrays carry a different reference pool and a total-RNA input
+-while the EMC and dermatofibrosarcoma protuberans arrays carry a common reference and mRNA (Methods), so
+-every GPL3290 contrast reported here, including the +0.599 route-panel score that disagrees with
+-GPL6244, rests on a partly mismatched comparison that this study neither reprocessed nor excluded.
++the between-group contrast is interpretable. Half of that comparator arm also differs from the EMC arm in
++reference pool and RNA input (Methods), so every GPL3290 contrast reported here, including the +0.599
++route-panel score, rests on a partly mismatched comparison that was neither reprocessed nor excluded.
+ CD248, CD276, SSTR2, GPC2 and B4GALNT1 are unreadable on
+ GPL3290 and ALPPL2, CTAG1B, MAGEA3, NECTIN4 and SSX2 on both, and no statement above treats any of them
+-as low. Bulk archival tissue is not deconvolved, so a stromal or pericyte antigen can read high because
+-the compartment is present. Sample classification is string matching on the verbatim deposit annotation,
+-which is reproduced in the artifact so that a mis-bucketed sample is auditable without another run. No
+-multiple-testing correction is applied. On the surrogate side, no verified EMC observation enters it at
++as low. Bulk archival tissue is not deconvolved. Sample classification is string matching on the verbatim deposit
++annotation, which the artifact reproduces so a mis-bucketed sample is auditable. No multiple-testing
++correction is applied. On the surrogate side, no verified EMC observation enters it at
+ all, the surrogate is lineage-generic, the scanned gene list was never recorded, and the instrument has
+-no stromal compartment. Clinical-agent and EMC-biology citations marked in the reference list as not yet
+-retrieved must be sourced before use.
++no stromal compartment. Every reference below now carries bibliographic detail taken from a committed
++retrieval record; no entry is written from recollection and none is marked as unretrieved.
+ 
+ ### Conclusion
+ 
+ This in-silico analysis does not deliver a clean EMC surface target, and when its output
+ is checked against the disease's own tumour tissue the leads largely do not reproduce. None of the eleven
+ therapeutic addresses named by candidate routes is concordantly elevated in EMC relative to comparator
+-sarcomas, none of the eight surrogate-selective antigens is concordantly elevated on both arrays, and the
++sarcomas, none of the nine surrogate-selective antigens is concordantly elevated on both arrays, and the
+ one antigen that is elevated on both, ALCAM, shows no separation from normal visceral organ tissue on the
+ only cohort able to measure that. What survives is a set of negatives with a named basis, a demoted but
+ intact lineage marker, one held-open lead the original search never evaluated, and a caution about
+@@ -545,7 +541,7 @@ one-sided Mann-Whitney value; the verdict is the Human Protein Atlas window clas
+ | EPHB4 | +1.00 | 3e-4 | yes | BROAD_LIABILITY |
+ | B7-H3/CD276 | +0.14 | 1.0 | no | BROAD_LIABILITY |
+ | FAP | +0.02 | 0.16 | no | ENHANCED_BROAD |
+-| LRRC15 | −0.25 | 1.0 | no | not scored in this filter |
++| LRRC15 | −0.25 | 1.0 | no | ENHANCED_BROAD |
+ | ERBB2 | −0.52 | 1.0 | no | BROAD_LIABILITY |
+ | ALCAM | −1.45 | not significant | no | RESTRICTED |
+ | EGFR | −2.21 | 1.0 | no | ENHANCED_BROAD |
+@@ -619,9 +615,13 @@ presented in Tables 3 to 5.
+ 
+ ## Declarations
+ 
+-**Ethics approval and consent to participate.** Not required and not sought. This study analyses public
+-gene-expression deposits and public annotation resources, and involves no human participants, no
+-identifiable data and no patient-level records.
++**Ethics approval and consent to participate.** No approval was sought and none was obtained, and no
++exemption determination was requested from any body; no statement that approval was not required is made
++here. This study is a secondary analysis of already-public gene-expression deposits and public annotation
++resources. It carried out no new recruitment, no new sampling and no intervention, the author had no
++contact with participants, and no individually identifiable data were received. The deposits analysed
++derive from archival human tumour and normal tissue, and approval and consent for that original
++collection are matters for the depositing studies rather than facts established by this work.
+ 
+ **Consent for publication.** Not applicable.
+ 
+@@ -640,8 +640,10 @@ stage is committed as `emc-surfaceome-scan.json`, `emc-surface-normal-window.jso
+ `emc_gse4303_crosscheck.py` and `emc_surface_figure.py`.
+ 
+ **Use of artificial intelligence.** Analysis code, data processing and manuscript drafting were carried
+-out with substantial AI assistance under the author's direction. The author designed the study, directed
+-every analysis, reviewed all outputs and takes responsibility for the content.
++out with substantial assistance from large language models, namely Claude (Anthropic) and models from
++OpenAI, under the author's direction. The author designed the study, directed every analysis, reviewed all
++outputs and takes responsibility for the content. No language model is an author and none is accountable
++for the work.
+ 
+ **Author contributions.** T.M. conceived the study, directed the analyses, verified the outputs and
+ wrote the manuscript.
+@@ -655,9 +657,12 @@ wrote the manuscript.
+ ## References
+ 
+ Author lists, journal titles, volumes and pages are taken from the retrieval records in
+-[`submission-reference-metadata-2026-08-09.json`](../../literature/submission-reference-metadata-2026-08-09.json)
++[`submission-reference-metadata-2026-08-09.json`](../../literature/submission-reference-metadata-2026-08-09.json),
++[`remaining-reference-metadata-2026-08-09.json`](../../literature/remaining-reference-metadata-2026-08-09.json)
+ and [`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json), and where a record
+-lists more than six authors the first six are given.
++lists more than six authors the first six are given. Entries 4, 5, 6, 13, 16, 17 and 18 come from the
++second of those records; the remaining eleven come from the first. Every identifier printed below
++resolves in one of the three.
+ 
+ 1. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From
+    pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid
+@@ -835,7 +840,7 @@ testing"*.
+ | The **SSTR2 / GD2 neuroendocrine hypothesis**, nominated as one of the two questions "most worth testing" | ⚠ **DOWNGRADED, not closed.** SSTR2's first EMC-tissue readings show no elevation; the somatostatin-receptor family panel could not be scored on GPL3290; the GD2 proxy B4GALNT1 is flat and its synthase panel is lower on both platforms. ⛔ None of this measures receptor protein density, so the hypothesis is weakened and **not** refuted |
+ | The headline that **B7-H3/CD276 is not selective** | ✅ **STRENGTHENED and re-based.** CD276 also reads lower in EMC tumour tissue than in comparator sarcomas on the one platform that can read it. ⚠ It is **not readable at all** on GPL3290, which is an instrument statement and never a low reading |
+ | The list of **eight significantly-selective antigens** | ⚠ **NOT REPRODUCED.** Zero of the eight are concordantly higher on both arrays; two (FGFR1, PTK7) are concordantly lower |
+-| The conclusion that the **selective-and-restricted intersection is empty** | ⚠ **RE-SCOPED.** It was computed over a set that did not contain CSPG4, a measured coverage gap rather than a rejection. The statement stands for the antigens the filter saw |
++| The conclusion that the **selective-and-restricted intersection is empty** | ⚠ **RE-SCOPED TWICE.** First, it was computed over a set that did not contain CSPG4, a measured coverage gap rather than a rejection. Second, on 2026-09-08 the artifacts were re-read and the intersection is **not literally empty**: DLL3, the filter's tumour-restricted positive control, is RESTRICTED and selectivity-significant at q = 0.0079 on an enrichment of +0.29 log2TPM. The current text says "no candidate antigen", not "empty". No candidate antigen is affected and no verdict changes |
+ | The finding that **GSE4303 is unusable** | ⛔ **SUPERSEDED BY AN INSTRUMENT CHANGE, not by new data.** Superseded text, retained verbatim: *"The only usable, dedicated public EMC tumour transcriptome we could identify, GSE4303, is a seven-platform two-colour cDNA-clone microarray (three EMC samples per platform) whose values are reference-pool log-ratios and whose probes lack gene symbols; zero shortlist genes resolved. It cannot rank surface antigens."* One of its seven platforms, GPL3290, is now readable through an accession bridge; the earlier "zero shortlist genes resolved" was a property of the symbol lookup rather than of the deposit |
+ | The **collaboration request** | ✅ **SURVIVES, with a changed ask.** Superseded sentence, retained verbatim: *"Those models are now the ONLY route to real EMC data for this analysis"*, true on 2026-08-05 and not true once GPL3290 became readable. The decisive missing datum is now **protein and surface localisation**, plus a cohort large enough to carry a distribution |
+ 
+@@ -880,9 +885,44 @@ failure mode in its milder form: a real identifier wearing a description nobody
+ ⚠ **Reference 11 was dated "2022/2023".** The record for PMID 36316541 gives 2023, volume 36, issue 1,
+ pages 446-455. The hedge is replaced by the retrieved year.
+ 
+-Five entries (6, 13, 16, 17, 18) are in neither retrieval and still carry their identifier alone; two
+-(4, 5) resolved with an author list, year, DOI and identifiers but no journal or pagination. Nothing was
+-written for any of the seven, because a field that is not in a retrieval is left missing.
++⚠ **Superseded on 2026-09-08, retained verbatim:** *"Five entries (6, 13, 16, 17, 18) are in neither
++retrieval and still carry their identifier alone; two (4, 5) resolved with an author list, year, DOI and
++identifiers but no journal or pagination. Nothing was written for any of the seven, because a field that is
++not in a retrieval is left missing."* That was true of the two retrievals this appendix names. A third
++retrieval, [`remaining-reference-metadata-2026-08-09.json`](../../literature/remaining-reference-metadata-2026-08-09.json),
++resolved all seven the same day, and their journal, volume, issue and pagination were completed from it.
++The record was not named in the reference-list preamble until this correction, so seven entries carried
++detail whose source the manuscript did not disclose. Each of the seven was re-checked field by field
++against that record on 2026-09-08 and each matched.
++
++### Appendix A6 — Artifact re-verification batch (2026-09-08)
++
++Every printed quantity in the main text and the Supplementary Information was re-read against the artifact
++it names, and the main text and Supplementary Information were compared wherever both state the same fact.
++Nothing measured changed; eight statements about the measurements did.
++
++| What it said | What it says now | Why |
++|---|---|---|
++| Abstract and Results: *"Eight antigens were selective in the surrogate"* | Nine, naming CD248 | CD248 carries q = 0.0 and *Selective: yes* in Table 1 of the same document. Eight was the count of the rows carried into Table 3; CD248 is carried into Table 4 instead. The old sentence contradicted the paper's own table |
++| Abstract and Results: the prior *"left no evaluated antigen both selective and restricted"* | No **candidate** antigen; DLL3, the filter's positive control, is both | `emc-surface-normal-window.json` classes DLL3 RESTRICTED and `emc-surfaceome-scan.json` records q = 0.0079 for it. The claim as written was false against the artifacts. Excluding a control is a scoping choice and now says so |
++| Results: *"The one restricted prior among the classic antigens belongs to B4GALNT1"* | Two: B4GALNT1 and ALCAM | Table 1 of the same document already gave ALCAM the verdict RESTRICTED |
++| Table 1: LRRC15 normal-tissue verdict *"not scored in this filter"* | ENHANCED_BROAD | LRRC15 is present in `emc-surface-normal-window.json` with that verdict. It was scored |
++| Methods: *"Four limits of this instrument were computed"* | Five, with the fifth stated | `surfaceome-instrument-limits.json` records L1 to L5, and Supplementary Note S1 already narrated five. The main text and the SI disagreed |
++| Results: CSPG4's sequencing median *"an order of magnitude above every other row in that panel"* | Roughly five times the next-largest row, CD248 at 1.767 | 8.730 / 1.767 = 4.9. The comparison was overstated by about a factor of two |
++| Results: *"Six of these genes gained their first EMC-tissue array contrast in this work"* | Six carry no such contrast elsewhere in this repository's artifacts, and no priority is claimed | The prior-art screen matched titles and abstracts only, which the Background already states. Nothing retained supports a literature-priority claim |
++| Instrument controls: *"MKI67 was flat (Δ = +0.129, t = 0.53)"*; Table S4 recorded GPL3290 as *"not reported"* | Flat on GPL6244, and **not** flat on GPL3290 (Δ = +1.236, *t* = 2.30, df 5.5) | The value is in `emc-expression-panels.json` under `reads.control`. The control's expectation was written for GPL6244 only; suppressing the other platform's value hid the fact that the cellularity explanation is not excluded there |
++
++Four further statements were made precise rather than corrected. The surrogate class is now described by the
++substring rule it actually used and by the six OncotreeSubtypes the match returned. CSPG4's normal-tissue
++verdict is named as tissue-enhanced rather than referred to by the artifact's list name. The reference-list
++preamble now names the third retrieval record that seven entries come from. And Methods pointed the reader
++to *"Supplementary Tables S1 to S8"* when the Supplementary Information ends at S7; the pointer now matches
++the document it points at.
++
++Prose elsewhere was condensed to hold the manuscript inside the venue's 5,000-word main-body and 200-word
++abstract limits after these additions. Every condensed passage kept its caveat, its numbers and its
++negative; the material removed was restatement of text that already stands in the Methods, the Limitations
++or the Supplementary Notes.
+ 
+ ---
+ *Provenance: consolidates the stage-1 surfaceome scan (BH-corrected selectivity plus the ACH-001519
