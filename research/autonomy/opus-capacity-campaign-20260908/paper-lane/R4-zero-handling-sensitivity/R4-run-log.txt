@@ -1,0 +1,53 @@
+==============================================================================
+R4 zero-handling sensitivity - retained fourth-cohort tables
+==============================================================================
+runs=12  FISH-negative=['SRR35940648', 'SRR35940654', 'SRR35940656', 'SRR35940657']  n_pos=8
+panel genes=862  assigned probes=906
+probes-per-gene distribution={1: 823, 2: 36, 3: 2, 5: 1}
+library sizes (committed panel column sums)=[375572, 1174158, 907268, 588992, 1066043, 164967, 140423, 292897, 994241, 1356848, 406135, 307583]
+support_floor_reads per run=[11.2, 12.9, 15.4, 11.7, 14.0, 13.4, 13.0, 17.5, 10.8, 15.0, 15.3, 12.1]
+
+--- STATE CENSUS over the retained tables ---
+1 OBSERVED_ZERO   : 0 cells - NOT REPRESENTABLE in these tables (source caveat 'a zero in the probe table ... is not a measurement of zero reads').
+2 ABSENT_FILTERED : gene x run cells with >=1 unpersisted contributing probe = 0 of 10344; cells with ALL probes unpersisted = 0
+3 MISSING_MAPPING : 212101 of 213007 retained sequences carry no gene assignment; 211362 of those have >=1 unpersisted run
+    -> no gene-level cell exists for them, under ANY convention.
+
+runs_persisted  n_sequences      reads   pct_reads   n_assigned_to_a_gene
+            0            0           0     0.0000                      0
+            1       162981     7189794    10.5902                      0
+            2        17404     1579556     2.3266                      0
+            3         8246     3100154     4.5664                      0
+            4         4103     2550658     3.7570                      0
+            5         4051     8391915    12.3609                      0
+            6         2668     1192469     1.7564                      0
+            7         2644     1793171     2.6413                      0
+            8         2561     2770600     4.0810                      0
+            9         2493     3665571     5.3992                      0
+           10         2217     4538554     6.6851                      0
+           11         1994     7281199    10.7248                      0
+           12         1645    23837288    35.1112                    906
+
+convention A: eligible rank-set size n=862  UNCOMPUTABLE genes=0  i/n vs (i+0.5)/n offset = 0.5/862 = 0.058005 percentage points
+convention B: eligible rank-set size n=862  UNCOMPUTABLE genes=0  i/n vs (i+0.5)/n offset = 0.5/862 = 0.058005 percentage points
+convention C: eligible rank-set size n=862  UNCOMPUTABLE genes=0  i/n vs (i+0.5)/n offset = 0.5/862 = 0.058005 percentage points
+
+--- GATE: reproduce the declared TAF15/FUS sentinel arithmetic (ONCE) ---
+    p-values are deliberately NOT recomputed - that would re-run their endpoint.
+  TAF15  probes=1  delta=-0.8347 (expected -0.8347 OK)  pct i/n=9.05 (expected 9.05 OK)  pct (i+0.5)/n=9.11  rank-set n=862
+  FUS    probes=1  delta=+0.0789 (expected +0.0789 OK)  pct i/n=62.06 (expected 62.06 OK)  pct (i+0.5)/n=62.12  rank-set n=862
+  GATE: PASS
+
+--- SIGN / RANK SENSITIVITY, invalid cells RETAINED ---
+genes with a computable delta under all three conventions: 862 of 862
+sign flips B->C : 0
+genes whose panel percentile moves at all B->C : 0
+max |delta_C - delta_B| over the panel  = 0.0000000000 log2 units
+max |pct_C - pct_B| over the panel      = 0.0000000000 percentage points
+max |delta_A - delta_B| over the panel  = 0.0000000000 log2 units
+arms under A: every gene retains n_neg=4, n_pos=8
+
+DIAGNOSTIC (not applied): convention-C library-size inflation per run = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+wrote R4-per-gene-convention-table.tsv, R4-sign-rank-sensitivity.tsv, R4-summary.json into /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/R4-zero-handling-sensitivity
+EXIT=0
