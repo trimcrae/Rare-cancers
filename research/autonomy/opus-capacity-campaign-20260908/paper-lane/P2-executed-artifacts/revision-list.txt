@@ -1,0 +1,126 @@
+
+---
+
+## Revision list
+
+Work through top to bottom. Every item is achievable by re-analysis of public sequence, restructuring,
+better display items, or honest weakening of language. No item requires new laboratory data.
+
+**A. Factual corrections, highest priority**
+
+1. `emc-atr-collaborator-package.md`, Abstract, sentence 6 — delete "the two commonest EMC fusions".
+   Replace with wording that names type 1 as the commonest and type 2 as a reported minority variant.
+2. Same file, Table 1 — replace the "reported rank" column with counted frequencies and their sources.
+   Use reference 7's series (type 1 in 10 of 15, type 5 in 2 of 15) and the Okamoto 2001 series committed
+   in `research/manuscripts/lit-targets-aso-verify.json` (type 1 in 11, type 2 in 1, TAF15 in 3, of 15
+   fusion-positive cases). Remove the unsourced "second" for type 2.
+3. Same file, section 3.4, paragraph 2 — rewrite so the argument does not rest on type 2 being common. Add
+   one sentence stating that TAF15::NR4A3, not type 2, is the more frequent zero-RG EMC fusion.
+4. Same file, Abstract sentence 5, section 3.3 sentences 1 and 2, Table 3 note, Appendix A row 2, and
+   `emc-atr-collaborator-package-cover-letter.md` paragraph 3 — correct the arithmetic in all five places
+   to: the split codon at the seam plus 176 nucleotides of NR4A3 5' untranslated sequence (174 from exon 2
+   and 2 from exon 3) are read in the EWSR1 frame as 59 residues with no intervening stop.
+5. Same file, section 3.3 — add the translated 59-residue sequence to the manuscript text, and state that
+   the first residue is a hybrid codon and the remaining 58 are NR4A3 sequence in a non-native frame.
+6. Same file, Table 4 — split the "status" column into "measured in reference 1" and "reported breakpoint of
+   a disease in which the mechanism was measured".
+7. Same file, Table 4 — restore the EWSR1::ATF1 exon 7 row (EWSR1(1-264), 0 of 30, 0.000) from
+   `research/modalities/emc-fet-construct-designs.json`.
+8. Same file, Table 4 — restore the EWSR1-RGG(1)-FLI1 anchor with an explicit "position on this axis not
+   determinable; the reintroduced RGG domain is not identified in the source".
+9. Same file, section 3.4, paragraph 3 — add a sentence stating that the EWSR1 breakpoint of reference 1's
+   EWSR1-ATF1 construct is not specified in the source as retrieved, so the ATF1 comparator spans 0.000 to
+   0.267. Delete or requalify "bracketing" and "interpolate between points already measured".
+10. Same file, P2 — restate the basis, which currently assumes the exon 8 ATF1 breakpoint.
+
+**B. Results that should be added because they are already computed**
+
+11. Same file, section 3.2 — state the frame rule: an EWSR1::NR4A3 fusion is in frame if and only if the
+    EWSR1 donor exon ends at coding phase 1, and both NR4A3 acceptors give the same register because exon 2
+    is 174 nucleotides.
+12. Same file, section 3.2 — add a table of EWSR1 donor exon, coding phase, and in-frame status against both
+    NR4A3 acceptors, derived from `research/modalities/junction-mrna-frame-audit.json`.
+13. Same file, section 3.2 or 3.3 — state that the 59-residue extension is a property of the exon 2 acceptor,
+    so any fusion using it carries the extension.
+14. Same file, section 2.1 or 3.2 — establish the literature-to-Ensembl exon numbering correspondence for
+    NR4A3, using reference 7's genomic mapping (12 breakpoints in intron 2, 2 in intron 1) and reference 3's
+    cryptic-exon quotation.
+15. Same file, section 2.1 and section 7 — cite the RefSeq-derived cross-check in
+    `research/modalities/junction-aso-designs-e7n3.json`, which independently reproduces the 2-nucleotide
+    exon 3 5' untranslated segment and the identical seam.
+16. Same file, section 3.3 — replace "the protein-level model in general use" with a statement of what is
+    actually documented, and cite reference 3's 25-residue TAF15 cryptic-exon extension as precedent for the
+    mechanism.
+17. Same file, section 3.5 and Table 5 — add the symmetric FET prefix sweep. Report that the lowest FET
+    prefix value is 0.439 against TCF12's best of 0.400, and soften "decisive" on that row only.
+18. Same file, section 3.5 — add a background or comparator panel for the [S,Y,G,Q] metric so 0.368 sits on
+    a scale.
+19. Same file, Table 7 — add NR4A3's own RG dipeptide count (2) to the GFP-NR4A3 control row.
+
+**C. Provenance and reproducibility**
+
+20. Same file, Table 2 — give the full versioned transcript and translation accession for TAF15, FUS and
+    TCF12 in place of "canonical".
+21. Same file, section 2.1 or 2.5 — state the Ensembl release, the genome assembly and the retrieval date.
+22. Same file, section 7 — add a dated note recording that the committed artifacts predate the reference 1
+    correction and still cite the preprint, that the type 5 and TAF15 breakpoint sources still cite the
+    conference abstract, and that the census carries a field named for a junction that is not a reported
+    type. Alternatively regenerate the artifacts.
+23. Same file, section 1, paragraph 4 — add the prior-art screen's search strategy, the absence of a positive
+    control, and the fact that the corpus is anchored on the disease name so a FET-fusion paper not naming
+    EMC would not be in it.
+
+**D. Predictions**
+
+24. Same file, section 4 and Table 6 — reduce to three independent predictions; fold P4 into P2 as a
+    corollary.
+25. Same file, P1 — restate as a rank prediction rather than an equivalence claim.
+26. Same file, P3 — add "no accumulation at the stripe" to the falsifier.
+27. Same file, P2 — drop the "closest to the commonest clear-cell type" clause or move it to the explicit
+    non-predictions, noting that the type 1 and ATF1 exon 10 cuts retain the same eight RG dipeptides.
+28. Same file, section 4 — state where P5 is made that no TCF12::NR4A3 construct is supplied and that the
+    substitute tests a wild-type protein rather than a chimera.
+29. Same file, new short subsection in section 4 or 5 — add an analysis plan: endpoint quantity,
+    expression normalisation, nuclei per construct, independent experiments, and the comparison to be made.
+
+**E. Disclosure**
+
+30. Same file, section 1 or section 6 — disclose the companion assessment's negative findings: no
+    proliferation-independent DDR signature in EMC tumours on two independent series, and ATR-inhibitor
+    sensitivity not tracking the mechanism, with one of four pre-registered tests passing.
+
+**F. Framing and presentation**
+
+31. Same file, title and frontmatter `title` — retitle to lead with the 59-residue extension. Update
+    `emc-atr-collaborator-package-cover-letter.md` line 35 to match, and regenerate
+    `systems/views/L3-publications.md`.
+32. Same file — build and insert one three-panel figure: (A) scaled architecture of EWSR1, TAF15 and NR4A3
+    with RG tick positions, RGG boxes and domain boundaries, and the four constructs on the same scale;
+    (B) the retained-RG axis with the ATF1 comparator drawn as a range and the RGG(1) anchor drawn as
+    unplaced; (C) the type-2 seam at nucleotide resolution with the 59 codons and the translated sequence.
+33. Same file — move Table 2 and Table 7 to supplementary material.
+34. Same file — restructure sections 4 and 5 into a Discussion subsection, so the Results end with sequence
+    and the proposal follows from them.
+35. Same file — delete Appendix A from the submission version and move its content to a repository-side
+    changelog.
+36. Same file — confirm the editorial HTML comment block is stripped by whatever conversion produces the
+    submitted file, and correct its internal contradiction (it claims the manuscript is built to a 2,500-word,
+    six-display-item limit while reporting 2,722 words and seven display items).
+37. Same file — recount the abstract and main text and state the counting convention; the abstract measures
+    238 words by a plain whitespace count against the 227 recorded.
+38. Same file, section 3.4 — replace "byte-identical" with "identical in sequence".
+39. Same file, throughout — replace "the source" with "Gracilla and colleagues" or "reference 1", and
+    "this programme" with "the present analysis".
+40. Same file, section 2.1 — state the residue-numbering convention (fully encoded residues only) and note
+    that it differs by one from the clear-cell literature's EWSR1 1 to 325 for the exon 8 breakpoint.
+41. Same file, section 3.4 and P3 — state the margin convention and use the artifact's (13 residues to the
+    RG-free ceiling), or say explicitly that 14 is the distance to the first RG position.
+42. Same file, Table 5 — label rows with their test numbers so the count in section 2.3 matches the rows.
+43. Same file, Table 3 — footnote the type-2 "extra residues" value to prevent it being read as a 59-residue
+    hybrid junction.
+44. Same file, section 5 — paraphrase the extended methods quotation from reference 1 to its operative
+    parameters.
+45. Same file, section 1 — cite the primary pazopanib trial report alongside or instead of the 2025 review.
+46. Same file — supply an ORCID or remove the placeholder line; add a keyword list;
+    `emc-atr-collaborator-package-cover-letter.md` — fill the bracketed date.
+47. Same file — move the "Scope of the claims" blockquote into section 6 as its opening paragraph.
