@@ -92,3 +92,48 @@ report directory, and the remedy is the repository owner's to choose.** No guard
    inferred from the lane name.
 4. W11b remains sole owner of source-index changes. W12b's redundant shell waiters were stopped; its real
    bounded test computation continues. Shell jobs are not research agents.
+
+## 2026-09-08 ~02:40Z — dated correction to this log's own W01b entry
+
+**Corrected, not deleted.** The entry above dated the earlier wave (see the `W01b — novelty checked
+against retained programme evidence` bullet) states that *"no retained record of any prior attempt
+on its deposit accession exists"*. **That statement is wrong, and it was wrong when written.** It
+predates the scientific owner's 02:21Z correction and is contradicted by records the owner has now
+named. The original text is retained above so the history reads honestly; this section supersedes it.
+
+**What the retained `93b` records actually hold**, per the owner (I have not read them — see the
+verification gap below):
+
+- `research/autonomy/nr4a3-patient-junction-source-2026-09-07/README.md` and `retrieval.json` —
+  the canonical record, retaining the correction **DOI 10.1002/path.5737** that identifies the
+  accessions, a successful EuropePMC article-XML retrieval, ENA project and run metadata,
+  supplementary methods/tables, and the DElite supplement retrieval, each with original URLs and
+  hashes.
+- `sources/brenca-ena-runs.tsv` — **23 paired libraries / 46 FASTQ links** already enumerated.
+- `brenca-origin-gate.csv` and `recover.py` — **8 engineered E-N/T-N aliases** established and
+  **15 biological origins unresolved**.
+- `research/autonomy/next-paper-2026-09-07/additional-source-provenance/brenca-correction-pubmed.json`
+  — links correction **PMID 34216030 / PMC8451045** to **PMID 31020999**.
+
+**Consequences, binding on every lane:**
+
+1. **PRJNA692081 / SRP301712 are already recovered.** Any recovery of those identifiers or routes
+   is classified **DUPLICATE**, never a discovery, and never novelty.
+2. **W01b's output is preserved.** Its 14-route negative remains an accurate record of what was
+   reachable *from this cloud checkout at the time*; what was wrong was this log's inference that
+   nothing was retained anywhere.
+3. **No cohort, independence or patient claim may be built on it.** There is no accession-to-case
+   key and no independent patient or specimen key. **15 unresolved libraries are not 15 patients**,
+   and libraries are not specimens.
+4. **Do not repeat the already-sent source requests and do not replay the unchanged origin gate.**
+5. W01e has already acted on this: it corrected its inventory row for Brenca to
+   `DEPOSITED — accession known and public`, classified the correction **DUPLICATE**, held the
+   specimen count at the paper-stated **12** rather than 23 or 15, and moved the obtainable band
+   from 32–51 to **44–63**.
+
+⚠ **Verification gap, stated rather than smoothed over.** `research/autonomy/nr4a3-patient-junction-source-2026-09-07/`
+**does not exist in this cloud checkout** at any HEAD this campaign has read, and it is not present
+in the verified 5,996-file frozen corpus snapshot either. Every statement in this section is
+therefore **SECONDARY — transcribed from the owner's correction, not read**. W01e independently
+confirmed the directory's absence and graded its own corrected row the same way. The coordinator
+should re-verify this section against `retrieval.json` when the branches are integrated.
