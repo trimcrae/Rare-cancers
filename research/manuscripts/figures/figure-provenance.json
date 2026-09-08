@@ -1,5 +1,36 @@
 {
  "_regenerate": "python3 research/modalities/nr4a3_fusion_targets_figures.py",
+ "_source_equivalence_2026_09_08": {
+  "artifact": "research/modalities/nr4a3-fusion-targets-occupancy.json",
+  "digest_now_recorded_in_sources": "b2a56d0cb648276f",
+  "digest_the_committed_figures_were_actually_drawn_from": "cc8e8b419ac013a5",
+  "leaf_comparison": {
+   "changed_leaves": 2,
+   "changed_paths": [
+    ".generated_utc",
+    ".verdict.⛔ what_this_is_not"
+   ],
+   "keys_added": 0,
+   "keys_removed": 0,
+   "leaves_child": 1379,
+   "leaves_parent": 1379,
+   "no_numeric_or_boolean_value_changed": true
+  },
+  "moved_at_commit": "143d7f3f6 -- 'Two artifact-truth repairs: the occupancy caveat, and a stale withheld-arm claim'",
+  "read_fields_the_generator_actually_touches": {
+   "fields": [
+    "per_gene_summary[gene].best_empirical_p_vs_panel",
+    "per_gene_summary[gene].n_informative_experiments"
+   ],
+   "genes_compared": 3,
+   "per_gene_summary_identical_across_the_move": true,
+   "where": "research/modalities/nr4a3_fusion_targets_figures.py:339-345"
+  },
+  "verified_by": "Parent re-derivation on 2026-09-08: the leaf comparison and the read-field comparison above were computed directly from the two committed blobs, not taken from a report.",
+  "⚠_scope_of_the_claim": "This establishes ONLY that the two source fields these figures read are unchanged across that commit. It is NOT proof that every current label, plotted value, uncertainty or source interpretation in these figures is correct, and it is not a scientific acceptance of the figures. One specific mismatch is open and is carried to the fusion-output candidate handoff for adjudication, not resolved here: the fig_matrix 3SEQ column label at line 354 still reads 'percentile of 14,120 genes', while the fusion-output manuscript distinguishes 13,708 ratio-computable and 13,247 sarcoma-comparator genes.",
+  "⛔_THIS_ENTRY_IS_A_VERIFICATION_AND_NOT_A_GENERATION": "No generator ran. No figure was redrawn. No output byte changed, and every filename in `figures` above is the file that was already committed. The occupancy digest below was updated because the artifact's bytes moved and the fields the figures read did not — that is a checked source equivalence, not a new build, and `--check` reading OK on this stamp means exactly that and nothing more.",
+  "⛔_not_done_here": "No figure redraw, no scientific producer run, no new generation date, no output identity from a different environment, no visual inspection of the rendered pages, and no global acceptance. The original stamp is preserved in Git history."
+ },
  "_what": "content hashes of every artifact these figures were drawn from",
  "_why": "nothing in CI regenerates the figures, so the only way a reader can tell a stale figure from a current one is to compare these hashes against the artifacts. `--check` does exactly that.",
  "figures": [
@@ -19,7 +50,7 @@
   "gse28866-tumour-vs-normal.json": "ac0a17bd81dd8bc2",
   "nr4a3-fusion-targets-confounds.json": "fd8e60e7010d0922",
   "nr4a3-fusion-targets-inputs.json": "427ae4c595b18cec",
-  "nr4a3-fusion-targets-occupancy.json": "cc8e8b419ac013a5",
+  "nr4a3-fusion-targets-occupancy.json": "b2a56d0cb648276f",
   "nr4a3-fusion-targets-robustness.json": "f00ae47c8143c284",
   "nr4a3-fusion-targets.json": "0c338c169678f475"
  }
