@@ -1,0 +1,116 @@
+{
+ "checks": [
+  {
+   "check": "C1_cache_sha256sum_c",
+   "status": "PASS",
+   "detail": "sha256sum -c returncode=0, 13 files OK"
+  },
+  {
+   "check": "C2_observation_primary_key_unique_and_complete",
+   "status": "PASS",
+   "detail": "16116 rows, 0 duplicate obs_id, 0 rows with a blank key part"
+  },
+  {
+   "check": "C3_related_sets_partition_the_ledger",
+   "status": "PASS",
+   "detail": "8740 cohort keys, sum(n_observations)=16116 vs 16116 ledger rows, key-set difference=0"
+  },
+  {
+   "check": "C4_each_observation_in_exactly_one_related_set",
+   "status": "PASS",
+   "detail": "16116 referenced observation ids, 0 referenced more than once"
+  },
+  {
+   "check": "C5_measurement_cells_reference_a_ledger_observation",
+   "status": "PASS",
+   "detail": "29305 cell rows, 0 orphans"
+  },
+  {
+   "check": "C6_job2_selected_rows_join_or_are_explained",
+   "status": "PASS",
+   "detail": "8728 job2 selected rows, 8722 join on (nct,group_norm); 6 do not, all 6 explained by job2 stripping a trailing '-' from a biomarker-negative group title (11 such source titles in the cache)"
+  },
+  {
+   "check": "C7_trailing_hyphen_strip_caused_no_cohort_merge",
+   "status": "PASS",
+   "detail": "0 trials where the job2 strip would merge two distinct source group titles (key is lossy, but no observed merge)"
+  },
+  {
+   "check": "C8_step_f_ties_fully_covered_by_leaf_QC",
+   "status": "PASS",
+   "detail": "1590 step-f tie rows, 1590 harmonised QC rows, key sets identical=True, classification census={'BASIS_EXISTS': 1589, 'NO_BASIS': 1}"
+  },
+  {
+   "check": "C9_withdrawn_claim_step_f_ties_have_a_basis",
+   "status": "PASS",
+   "detail": "BASIS_EXISTS=1589, NO_BASIS=1 \u2014 job2's 'no distinguishing metadata' claim is withdrawn by the delivered leaf evidence"
+  },
+  {
+   "check": "C10_change_map_row_coverage",
+   "status": "PASS",
+   "detail": "expected {'SELECTED-cohort-response-measurements.tsv': 8728, 'TIES.tsv': 2001, 'EXCLUSIONS.tsv': 3530, 'OVERLAP-enrollment-check.tsv': 2632}, got {'SELECTED-cohort-response-measurements.tsv': 8728, 'TIES.tsv': 2001, 'EXCLUSIONS.tsv': 3530, 'OVERLAP-enrollment-check.tsv': 2632}"
+  },
+  {
+   "check": "C11_reported_zero_retained_and_marked_unusable",
+   "status": "PASS",
+   "detail": "1282 REPORTED_ZERO observations retained, 0 wrongly marked usable; job2's own selected set carried 509 zero-denominator rows in 216 trials"
+  },
+  {
+   "check": "C12_denominator_state_vocabulary_closed",
+   "status": "PASS",
+   "detail": "observed states={'PRESENT': 14834, 'REPORTED_ZERO': 1282}; ABSENT and NONPARTICIPANT states do not occur in this cache, which is a finding, not an assumption"
+  },
+  {
+   "check": "C13_enrollment_file_holds_only_a_within_measure_sum",
+   "status": "PASS",
+   "detail": "2642 trial rows recomputed from the ledger, 0 mismatches; no cross-measure denominator sum is emitted anywhere in this contract"
+  },
+  {
+   "check": "C14_enrollment_recorded_not_repaired",
+   "status": "PASS",
+   "detail": "0 negative enrollments, 0 excesses silently absorbed; conflict census={'NO_CONFLICT_DETECTED': 2536, 'WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT': 70, 'WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT__POOLED_LABEL_IN_MEASURE': 35, 'SINGLE_COHORT_EXCEEDS_ENROLLMENT__INTERNAL_INCONSISTENCY__INFERENCE_STOPPED|WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT': 1}"
+  },
+  {
+   "check": "C15_job2_180_trial_overlap_claim_is_selection_dependent",
+   "status": "PASS",
+   "detail": "job2 reported 180 trials whose CROSS-measure selected sum exceeds enrollment; within a single outcome measure only 106 trials exceed it and only 1 trial has a single cohort larger than enrollment (['NCT00756509']). The remainder is produced by summing across measures."
+  },
+  {
+   "check": "C16_leaf_QB_harmonised_covers_the_180_excess_trials",
+   "status": "PASS",
+   "detail": "180 harmonised QB trial rows, set equality with job2's excess trials=True"
+  },
+  {
+   "check": "C16b_leaf_files_are_schema_incompatible_as_delivered",
+   "status": "PASS",
+   "detail": "QB: 4 distinct headers across 4 files; QC: 4 distinct headers across 4 files. Harmonisation was required and is recorded in the builder's QB_MAP/QC_BASIS mapping."
+  },
+  {
+   "check": "C17_every_related_set_has_a_machine_readable_state_and_no_selection",
+   "status": "PASS",
+   "detail": "8740 cohort keys, 0 without an unresolved-state token, 0 carrying a selection"
+  },
+  {
+   "check": "C18_no_parent_plus_component_total_column",
+   "status": "PASS",
+   "detail": "47 pooled-parent relations; columns=['arithmetic_note', 'component_cohort_keys', 'component_denominators', 'component_sum', 'enrollment_type', 'nct', 'parent_cohort_key', 'parent_denominator', 'registered_enrollment', 'relation_type', 'source_pointer']"
+  },
+  {
+   "check": "C19_absent_reportingStatus_records_reinstated",
+   "status": "PASS",
+   "detail": "15 observations in 10 trials carry POSTED-shaped results with no reportingStatus field; job2 dropped all of them (0 appear in its selection). They are retained here as source facts with usable_for_proportion=False."
+  },
+  {
+   "check": "C20_no_rate_or_proportion_value_emitted",
+   "status": "PASS",
+   "detail": "offending value columns=[]; the 3 flag columns named '*proportion*'/'*usable*' hold only booleans or counts (0 out-of-domain values), so no response proportion, numerator or rate is computed or stored anywhere in this contract"
+  },
+  {
+   "check": "C21_participant_flow_absent_from_cache",
+   "status": "PASS",
+   "detail": "grep returncode=1 (1 = no match in any payload); every disjointness claim in this contract is therefore withheld"
+  }
+ ],
+ "n_checks": 22,
+ "n_failed": 0
+}

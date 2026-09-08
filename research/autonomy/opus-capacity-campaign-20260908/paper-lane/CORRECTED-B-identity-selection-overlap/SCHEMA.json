@@ -1,0 +1,282 @@
+{
+ "contract_id": "CORRECTED-B-identity-selection-overlap",
+ "supersedes_nothing": "job1/job2/job3 originals and the 16 leaf analyses are immutable evidence of their actual runs. This contract is a NEW SIBLING with an explicit disposition map. No original artifact was edited, re-run or overwritten.",
+ "independent_confirmation_status": "job2 and job3 were NEVER independently confirmed. Nothing in this contract asserts that any job2 or job3 row is correct. Where a job2 quantity is carried it is labelled as a job2 output, not as a verified fact.",
+ "selection_policy": "NO preferred endpoint, criteria version, time point, population or single-record-per-cohort algorithm is defined or approved. An unresolved choice stays unresolved.",
+ "source": {
+  "cache_dir": "/tmp/.../scratchpad/ctg-cache-216bd1b5",
+  "cache_revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+  "integrity": "sha256sum -c SHA256-MANIFEST.txt -> exit 0, 13/13 OK",
+  "network_access": "none; no re-fetch of participantFlowModule, intervention back-pointers or any absent content"
+ },
+ "vocabularies": {
+  "denominator_state": {
+   "PRESENT": "a Participants denominator with a positive integer count for this group",
+   "REPORTED_ZERO": "a Participants denominator reported as 0 \u2014 RETAINED as a source fact, marked unusable for any proportion, NEVER treated as an observed zero-response cohort and never used as a divisor",
+   "ABSENT_NO_DENOMS": "the measure carries no denoms block at all",
+   "ABSENT_NO_PARTICIPANT_UNIT": "denoms exist but none uses the unit Participants",
+   "ABSENT_FOR_GROUP": "a Participants denoms block exists but holds no count for this group id",
+   "ABSENT_EMPTY_VALUE": "a count entry exists for this group but its value is empty",
+   "PRESENT_NONNUMERIC": "a count entry exists but does not parse as an integer",
+   "NONPARTICIPANT_UNITS_ONLY": "the only denominator units present are not Participants \u2014 a nonparticipant unit, a third state distinct from absent and zero"
+  },
+  "unresolved_states": {
+   "SINGLE_OBSERVATION": "exactly one source observation for this cohort key",
+   "UNRESOLVED_MULTIPLE_MEASURE_TITLES": "competing measures carry different titles",
+   "UNRESOLVED_MULTIPLE_ENDPOINT_CONSTRUCTS": "competing measures name different endpoint constructs (ORR / BOR / DCR / CBR / response-category distribution). These are NOT interchangeable encodings of one endpoint and are not collapsed",
+   "UNRESOLVED_MULTIPLE_TIME_FRAMES": "competing measures report different time frames",
+   "UNRESOLVED_MULTIPLE_ASSESSMENT_CRITERIA": "competing measures name different response criteria or criteria versions",
+   "UNRESOLVED_MULTIPLE_POPULATION_DESCRIPTIONS": "competing measures describe different populations",
+   "UNRESOLVED_MULTIPLE_DENOMINATORS": "competing measures report different Participants denominators",
+   "UNRESOLVED_MULTIPLE_PARAMTYPE_OR_UNIT": "competing measures differ in paramType or unitOfMeasure",
+   "UNRESOLVED_MULTIPLE_OUTCOME_TYPES": "competing measures differ in PRIMARY/SECONDARY/... type",
+   "DUPLICATE_ENCODING_CANDIDATE": "competing measures are identical on every preserved identity field \u2014 a genuinely duplicate encoding rather than a distinct outcome. Observed count: 0",
+   "UNRESOLVED_NO_DISTINGUISHING_FIELD_FOUND": "more than one observation and no preserved field separates them. Observed count: 0",
+   "NO_OBSERVATION_USABLE_FOR_A_PROPORTION": "no observation in the set has a positive Participants denominator with an explicit POSTED reporting status"
+  },
+  "conflict_findings": {
+   "NO_CONFLICT_DETECTED": "neither a single cohort nor any within-measure sum exceeds enrollment",
+   "SINGLE_COHORT_EXCEEDS_ENROLLMENT__INTERNAL_INCONSISTENCY__INFERENCE_STOPPED": "one reported cohort is larger than the trial's registered enrollment. The conflicting fields are recorded; NO overlap is inferred, NO field is declared wrong, NO corrected enrollment is produced and nothing is clipped",
+   "WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT": "the groups of ONE outcome measure sum above enrollment. This is a conflict between source fields, not proof that patients are shared",
+   "WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT__POOLED_LABEL_IN_MEASURE": "as above, and that measure contains a pooled/total group, so its groups are known not to be independent",
+   "ENROLLMENT_ABSENT": "the record carries no enrollment count"
+  },
+  "reporting_status_state": {
+   "POSTED": "reportingStatus == POSTED",
+   "ABSENT_FIELD": "the record carries no reportingStatus field. job2 dropped these; they are retained here as source facts, marked unusable, because a missing metadata field is a metadata gap, not evidence that data are absent"
+  }
+ },
+ "artifacts": {
+  "BUILD-SUMMARY.json": {
+   "description": "Census emitted by build_ledger.py.",
+   "bytes": 2115,
+   "sha256": "caf54ab95b1911bd8110654d3ee5dbdd98603dd771a7cdc2f0ebce959c8ab61c"
+  },
+  "CHANGE-MAP-vs-job2.tsv": {
+   "description": "Disposition of every row of all four job2 artifacts. The originals are untouched evidence of their actual run; this file records what this contract does with each row and why.",
+   "bytes": 5233001,
+   "sha256": "daf9032c5f228d5b0337e9eaafdf59e2955029442380410dad0a14f6e7bc4b75",
+   "rows": 16891,
+   "columns": [
+    "job2_artifact",
+    "job2_key",
+    "job2_value_summary",
+    "corrected_b_disposition",
+    "corrected_b_key",
+    "reason"
+   ]
+  },
+  "CHECKS.json": {
+   "description": "Machine-readable result of checks.py.",
+   "bytes": 5616,
+   "sha256": "ee9dc11d0232f10d4a67220b787f618a8d5d196da952050f11ae52ee8c9b1b42"
+  },
+  "CHECKS.log": {
+   "description": "Console transcript of checks.py.",
+   "bytes": 4439,
+   "sha256": "7edd29009e9ad48132098eda5e3325faac81024c4b772443efb16255ec4da1c9"
+  },
+  "ENROLLMENT-CONFLICT.tsv": {
+   "description": "Registered enrollment as recorded, alongside the largest single cohort denominator and the largest WITHIN-ONE-MEASURE denominator sum. No cross-measure sum is emitted; no enrollment is clipped, corrected or declared wrong.",
+   "bytes": 749267,
+   "sha256": "08210898c8b6d341d8ed1aadb13db41213aca6c5f629ba92961172aeff5b5e98",
+   "rows": 2642,
+   "columns": [
+    "nct",
+    "canonical_payload",
+    "registered_enrollment",
+    "enrollment_type",
+    "n_registered_arms",
+    "n_distinct_response_cohorts",
+    "n_response_observations",
+    "max_single_cohort_denominator",
+    "max_single_cohort_pointer",
+    "largest_within_measure_om_index",
+    "groups_in_that_measure",
+    "within_measure_denominator_sum",
+    "pooled_label_in_that_measure",
+    "conflict_findings",
+    "summation_policy",
+    "disjointness_status"
+   ]
+  },
+  "GROUP-RELATIONS-pooled-parent-component.tsv": {
+   "description": "Pooled parent cohorts and the component cohorts of the same trial. component_sum exists ONLY to expose double counting against the parent; parent and components are the same people and are never added together.",
+   "bytes": 25094,
+   "sha256": "af65d87948e3f6a68c6139caadd5bec7547cd65b1654e6a877cfcbe95b6d9262",
+   "rows": 47,
+   "columns": [
+    "nct",
+    "relation_type",
+    "parent_cohort_key",
+    "parent_denominator",
+    "component_cohort_keys",
+    "component_denominators",
+    "component_sum",
+    "registered_enrollment",
+    "enrollment_type",
+    "arithmetic_note",
+    "source_pointer"
+   ]
+  },
+  "LEAF-QB-harmonised-trials.tsv": {
+   "description": "The four LEAF-QB files harmonised to one schema (they were delivered with four different headers). Trial-level rows only.",
+   "bytes": 20030,
+   "sha256": "9598f6794bfc76cf0ea852cd7225b60fd52ce940456433086c54d939f110a122",
+   "rows": 180,
+   "columns": [
+    "nct",
+    "leaf_group",
+    "mechanism",
+    "reducible_to_non_overlapping_set",
+    "registered_enrollment",
+    "enrollment_type",
+    "selected_cohorts_job2",
+    "sum_selected_denominators_job2",
+    "excess_job2",
+    "source_file"
+   ]
+  },
+  "LEAF-QC-harmonised-ties.tsv": {
+   "description": "The four LEAF-QC files harmonised to one schema; all 1,590 step-f tie rows.",
+   "bytes": 221621,
+   "sha256": "c730fb894fbfbc0f5de77b301c3319d45dca317dcdb6cb1c7559e7e5b91076f7",
+   "rows": 1590,
+   "columns": [
+    "nct",
+    "group_norm",
+    "leaf_group",
+    "classification",
+    "distinguishing_basis",
+    "would_change_selection",
+    "source_file"
+   ]
+  },
+  "LEDGER-measurement-cells.tsv": {
+   "description": "Class/category identity and the raw reported cell values for those observations. Identity and provenance only; category semantics, corrected denominators and numerators are OWNED BY THE SIBLING denominator/category component and are not decided here.",
+   "bytes": 7088385,
+   "sha256": "fc61512122adaeba8c0e2747772bb95473135ba93a0650c179e00381535d2150",
+   "rows": 29305,
+   "columns": [
+    "obs_id",
+    "nct",
+    "canonical_payload",
+    "om_index",
+    "results_group_id",
+    "class_index",
+    "class_title",
+    "category_index",
+    "category_title",
+    "measurement_value_raw",
+    "measurement_spread",
+    "measurement_lower",
+    "measurement_upper",
+    "measurement_comment",
+    "om_param_type",
+    "om_unit_of_measure",
+    "class_denom_units",
+    "class_denom_value_for_group",
+    "source_pointer"
+   ]
+  },
+  "LEDGER-response-observations.tsv": {
+   "description": "One row per (trial, outcome measure, results group) for every measure whose title matches the job2 response-title boundary. NO selection: competing records are all present. Source fields are kept separate and are never merged into one endpoint.",
+   "bytes": 26651089,
+   "sha256": "b32d7ea4dab71383c43db9dd0db6ff8f348e547ea79ab3d212fb299e60086677",
+   "rows": 16116,
+   "columns": [
+    "obs_id",
+    "nct",
+    "canonical_payload",
+    "all_payloads",
+    "om_index",
+    "om_type",
+    "om_reporting_status",
+    "om_title",
+    "om_description",
+    "om_population_description",
+    "om_time_frame",
+    "om_param_type",
+    "om_unit_of_measure",
+    "om_dispersion_type",
+    "om_denom_units_all",
+    "om_calculate_pct",
+    "om_denom_units_selected",
+    "results_group_id",
+    "results_group_title",
+    "results_group_title_norm",
+    "results_group_description",
+    "n_groups_in_om",
+    "denominator_state",
+    "denominator_value_participants",
+    "denominator_units_used",
+    "nonparticipant_units_present",
+    "class_level_denoms_present",
+    "endpoint_constructs",
+    "assessment_criteria",
+    "criteria_version_tokens",
+    "derived_flag_itt",
+    "derived_flag_pp",
+    "derived_flag_confirmed",
+    "derived_flag_unconfirmed",
+    "derived_flag_central",
+    "derived_flag_investigator",
+    "pooled_label_flag",
+    "noncollection_statement",
+    "noncollection_evidence",
+    "n_classes",
+    "class_titles",
+    "n_categories_total",
+    "category_titles",
+    "reporting_status_state",
+    "denominator_usable",
+    "usable_for_proportion",
+    "unusable_reason",
+    "source_pointer"
+   ]
+  },
+  "RELATED-SETS-unresolved.tsv": {
+   "description": "One row per cohort key (trial, normalised results-group title): the explicitly related set of competing observations and its machine-readable unresolved states. selection_status is always NOT_SELECTED_BY_DESIGN.",
+   "bytes": 3895981,
+   "sha256": "023ded43bec0a668fd2b907e77aca2a177acc03c19011e50600fb0a261c2d33c",
+   "rows": 8740,
+   "columns": [
+    "cohort_key",
+    "nct",
+    "results_group_title_norm",
+    "n_observations",
+    "observation_ids",
+    "om_indices",
+    "distinct_om_types",
+    "distinct_titles",
+    "distinct_time_frames",
+    "distinct_constructs",
+    "distinct_criteria",
+    "distinct_criteria_versions",
+    "distinct_population_descriptions",
+    "distinct_param_types",
+    "distinct_units",
+    "distinct_denominator_values",
+    "distinct_denominator_states",
+    "n_usable_for_proportion",
+    "duplicate_encoding_candidate",
+    "unresolved_states",
+    "selection_status",
+    "resolution_note"
+   ]
+  },
+  "RESULTS-GROUP-ID-REUSE.tsv": {
+   "description": "Every (trial, results-group id) whose id carries more than one distinct group title across that trial's outcome measures. Evidence that OGnnn is not a study-level cohort key.",
+   "bytes": 561377,
+   "sha256": "eae19cea79589b4ab8882da7473f98802789bc9aeb3a413185360fd66d3e6495",
+   "rows": 3813,
+   "columns": [
+    "nct",
+    "canonical_payload",
+    "results_group_id",
+    "n_distinct_titles",
+    "titles"
+   ]
+  }
+ }
+}
