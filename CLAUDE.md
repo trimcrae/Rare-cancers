@@ -80,3 +80,21 @@ another machine. Do not run the legacy and replacement schedulers on the same wo
 changes after checking current main, not after every edit. Preserve unmerged work and its evidence.
 `systems/graph/*.json` owns model state; `systems/views/` is generated. The patient-facing site is
 retired. Do not recreate it. Read `systems/POLICY-evidence.md` before editing the clinical registry.
+
+## 8 · Task evidence retention
+
+**A task evidence directory stays intact until the sole local collector sends a receipt naming that
+exact directory and verifying its required files, exact bytes and original hashes as actually
+retained locally.** Nothing else authorises cleanup — not your own copy, hash or self-report, not an
+adjudication summary, not another packet's manifest, and not a pushed manuscript. This applies to
+every follow-up edit and check, not only the child packet a task was first named for.
+
+Never wildcard- or generically-delete research evidence, and never delete an in-progress or
+partly-collected set. A later cleanup names only exact paths already verified by a directory-specific
+receipt. Disk headroom is not a reason to delete an uncollected set; if a real disk-floor problem
+arises, preserve the uncollected evidence and report the exact resource problem through existing
+ownership instead of freeing space.
+
+Where originals are already lost, record the gap and scope it to what was actually checked. Do not
+recreate logs, re-run checks, or start an exhaustive recovery exercise, and do not call a gap
+globally irrecoverable when parent transcripts and backups have not been exhaustively examined.

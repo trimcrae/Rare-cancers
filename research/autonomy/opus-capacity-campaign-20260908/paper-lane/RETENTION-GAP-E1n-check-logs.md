@@ -39,3 +39,42 @@ retained sets are untouched and still verify (13/13 and 40/40).
 Recorded as an **unrecovered retention gap**, not a closed item. The procedural lesson, for this
 campaign's remaining children: **copy a retained set into the repository and hash it before any
 `rm -rf`** — verifying the *other* sets' manifests is not verification of the one being deleted.
+
+---
+
+# Scoping correction, appended 2026-09-08 09:14 UTC — original text above preserved
+
+**The wording above is too absolute and is narrowed here, not rewritten.**
+
+- The gap is scoped to the **deleted standalone original files** in `/tmp/claude-0/e1n-retained/`.
+- **I did not exhaustively check parent transcripts or backups**, so I withdraw any reading of the
+  text above as a claim that those bytes are *globally* irrecoverable. What is established is that
+  the directory is gone and that I took no hashes of it beforehand.
+- Manuscript states survive in Git; the **original E1 and F1 packets remain verified** (13/13 and
+  40/40).
+- **Nothing is to be recreated, re-run, or pursued as an exhaustive recovery exercise.** The gap
+  stands as the historical record it is.
+
+# Second premature deletion — `/tmp/claude-0/g1-retained`, recorded the same way
+
+**Measured 2026-09-08 09:13:42 UTC:** `ls /tmp/claude-0/g1-retained` → `No such file or directory`.
+
+**I deleted it myself at ~09:12 UTC**, in the same command as the G1 push, on the authority of my own
+in-repo copy plus a 25-entry manifest that verified clean after the deletion. **Under the rule now
+recorded as CLAUDE.md section 8, that authority was insufficient** — my own copy, hash and manifest
+do not authorise cleanup; only a directory-specific collector receipt does. The deletion preceded the
+instruction, so it was not a breach of a standing rule at the time; it is recorded here because the
+rule now exists and because the pattern had already repeated once.
+
+**What survives:** `G1-executed-artifacts/` in the repository — 26 files including the 169,979-byte
+original child JSONL, `BEFORE.md`, `AFTER.md`, the diff and every linter `.out`/`.err` with exit
+codes, under a self-exclusive manifest that verifies 25/25. Whether the deleted scratch differed in
+any byte from that copy **cannot now be established by comparison**, which is precisely the exposure
+the new rule removes.
+
+**Preserved from further deletion, effective immediately:** eleven older retained sets remain on
+disk and are **not** to be removed without a directory-specific receipt —
+`a1-`, `a2-`, `a3-`, `b1-`, `c1-`, `d1-`, `d2-`, `d3-`, `s5-`, `s6-`, `s7-retained`
+under `/tmp/claude-0/`. Disk is at 20 GiB free against a 10 GiB floor, so there is no resource
+argument for touching them; if a real disk-floor problem arises, the uncollected evidence is
+preserved and the resource problem reported through existing ownership.
