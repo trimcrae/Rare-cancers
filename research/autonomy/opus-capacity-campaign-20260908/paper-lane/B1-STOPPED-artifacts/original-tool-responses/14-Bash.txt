@@ -1,0 +1,115 @@
+### _title
+"PRJNA1357027 / SRP640302 — the fourth EMC cohort, read and quantified"
+### _generated_by
+"research/modalities/emc_fourth_cohort_quant.py"
+### _generated_utc
+"2026-09-02T17:42:53Z"
+### _inputs_generated_utc
+"2026-09-02T17:42:52Z"
+### _cost
+"$0 — CPU only on a GitHub-hosted runner; reads are streamed, never stored"
+### _what_this_is_not
+[
+ "Not a differential-expression result — see why_no_differential_expression.",
+ "Not a patient count: runs are not samples and samples are not people.",
+ "Not a confirmation of any named commercial probe panel or of its gene content.",
+ "Not an efficacy, potency, safety, therapeutic-window or clinical claim."
+]
+### bioproject
+"PRJNA1357027"
+### sra_study
+"SRP640302"
+### depositor_assay_description
+[
+ "TempO-Seq whole human transcriptome assay using BioSpyder reagents"
+]
+### ⚠ depositor_description_is_one_source
+"The assay description above is the depositors' own words in their own deposit. It is not an independent measurement, and the read-structure numbers below are."
+### probe_gate
+{
+ "passed": true,
+ "checks": [
+  {
+   "check": "reads_are_one_fixed_length",
+   "passed": true,
+   "measured": 1.0,
+   "required": ">= 0.9"
+  },
+  {
+   "check": "a_panel_sized_sequence_set_covers_80pct_of_reads",
+   "passed": true,
+### probe_map
+{
+ "state": "read",
+ "sources": [
+  {
+   "kind": "cdna",
+   "url": "https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz",
+   "state": "read",
+   "n_transcripts": 465769,
+   "n_bases_scanned": 1276790359
+  },
+  {
+   "kind": "ncrna",
+   "url": "https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/ncrna/Homo_sapiens.GRCh38.ncrna.fa.gz",
+   "state": "read",
+   "n_transcripts": 203778,
+   "n_bases_scanned": 201604096
+  }
+ ],
+ "read_length_nt": 50,
+ "per_core_length": {
+  "50": {
+   "core_length_nt": 50,
+   "n_probes_matched": 976,
+   "fraction_of_probes_matched": 0.593313
+  },
+  "42": {
+   "core_length_nt": 42,
+   "n_probes_matched": 976,
+   "fraction_of_probes_matched": 0.593313
+  },
+  "34": {
+   "core_length_nt": 34,
+   "n_probes_matched": 983,
+   "fraction_of_probes_matched": 0.597568
+  }
+ },
+ "best_core_length_nt": 34,
+ "n_probes_offered": 1645,
+ "n_probes_assigned_to_one_gene": 906,
+ "n_probes_matching_several_genes": 77,
+ "n_probes_unassigned": 662,
+ "⚠ unassigned_means": "no verbatim match to a human cDNA or ncRNA transcript at any core length tried. That is a statement about this matcher, NOT about the probe: a probe spanning a junction the sequence set does not contain, or carrying non-target bases, is unassigned here and is still a real probe.",
+ "wall_s": 574.6,
+ "n_probes_in_every_read_run": 1645,
+ "n_runs_intersected": 12
+}
+### n_probes_common_to_every_read_run
+1645
+### n_genes_with_at_least_one_assigned_probe
+862
+### gene_counts_written_to
+"emc-fourth-cohort-gene-counts.tsv"
+### why_no_differential_expression
+"⛔ NO DIFFERENTIAL-EXPRESSION RESULT IS COMPUTED OR REPORTED FROM THIS COHORT, AND THAT IS THE FINDING RATHER THAN A GAP. The deposit is twelve tumours split six good-prognosis versus six poor-prognosis. Six against six is a comparison whose per-gene variance is estimated from five degrees of freedom per arm, over ~20,000 genes, with no replicate structure, one sequencing batch, FFPE input of widely differing collection years (1997-2020 in the archive record) and no covariate the metadata makes adjustable. A ranked gene list from that design would be dominated by which of the twelve specimens degraded least. The counts are published here so that anyone can join them to a hypothesis formed elsewhere; a confident differential-expression claim is not available at this n and this module does not make one."
+### sample_labels
+{
+ "state": "read",
+ "source": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=sra&rettype=full&retmode=xml&id=41372932%2C41372931%2C41372930%2C41372929%2C41372928%2C41372927%2C41372926%2C41372925%2C41372924%2C41372923%2C41372922%2C41372921",
+ "⚠ prognosis_key": "`Prognosis` B/G is the depositors' key. The deposit itself defines neither letter; the split is 6/6 in the archive record, and any outcome meaning must be taken from the depositors' publication, not from this artifact."
+}
+### probe_counts_written_to
+"emc-fourth-cohort-probe-counts.tsv"
+### probe_counts_sha256
+"c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc"
+### probe_counts_n_rows
+213007
+### ⛔ a_zero_in_the_probe_table
+"means the sequence was not among the counts PERSISTED for that run — it may have been observed below the persistence cap. It is not a measurement of zero reads."
+### gene_counts_sha256
+"8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc"
+### gene_counts_n_rows
+862
+### ⛔ gene_counts_units
+"RAW READS PER GENE, summed over the probes assigned to that gene, per run. Not normalised, not length-corrected, not library-size corrected, and understated by at most `support_floor_reads` per probe — the lossy-counting guarantee, per run. A gene with no assigned probe is ABSENT FROM THIS TABLE, which is a statement about the panel and the matcher, never about the tumour."

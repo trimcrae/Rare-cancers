@@ -73,3 +73,36 @@ Read-only with respect to the checkout; all execution in scratch, durable artifa
 `/tmp/claude-0/c1-retained/` **outside** the checkout, hash-verified **before** any cleanup and not deleted;
 parent alone collects. ≥10 GiB free. No network, no paid API, no GPU, no publication, no external contact.
 Model verified from the child transcript after launch.
+
+---
+
+# ⛔ SCOPE APPENDED 2026-09-08 07:28 UTC — two overstatements in (a) corrected, originals not rewritten
+
+The contract text above is **preserved unchanged**. Two claims in element (a) overreach and are scoped here.
+
+1. **"The competing-mortality share bounds the entire antitumour argument" — withdrawn.** It does not. The
+   quantity is a **cohort death fraction** — what share of deaths in a retrospective series were attributed to
+   causes other than the tumour. It is **not population mortality risk**, **not a causal treatment effect**, and
+   **not a bound on the portfolio's antitumour argument**.
+2. **"The portfolio's only route whose intervention already exists and is approved" — scoped.** That is a
+   statement about *regulatory availability of a drug class*, never a claim that treating host comorbidity
+   helps anyone with this disease.
+
+**Binding on the run and its report:** recomputing this number **establishes no clinical benefit**, no efficacy,
+safety, selectivity, therapeutic window or readiness, and no bound on any antitumour claim. It is arithmetic
+over a committed model's inputs. **The corrected band, whatever it is, is a model output — not a treatment
+effect and not a patient-facing quantity.**
+
+## Provenance requirement added before execution
+
+**Verify the source estimator's provenance BEFORE treating the discrepancy as a defect.** Use
+`direct_cause_split`'s **stored value, or its exact numerator and denominator**, from the committed artifact.
+**Do not derive a fresh value from the displayed, rounded "21.7 per cent"** — a rounded display is not the
+input. If the stored value and the displayed one disagree, that disagreement is itself the result.
+
+**Hold every other model assumption fixed.** Change the competing-share input and nothing else; report the
+actual changed outputs and state, for each stated model conclusion, whether it changes and **why**.
+
+**A documented deliberate-estimator stop is an admissible RESULT**, not a reason to run another variant. If a
+committed record shows the within-series estimator was chosen on purpose, the branch ends there — no second
+configuration, no sensitivity sweep, no alternative share.

@@ -1,3 +1,75 @@
+=====CLOSED-WORK=====
+# Closed / owned inventory — do not replay, do not re-review, do not relabel
+
+Transcribed from the campaign admission. **Search the actual tracked corpus with `rg` before
+claiming novelty.** A missing file or abstract is UNKNOWN, not proof of absence.
+
+## Owned by others — do not edit or re-review
+- ASO/NAT submission and the Qeios version history belong to the submission owner / user.
+- The tissue-RNA paper is already disseminated.
+- Frozen external-validation comment `7baf272705d7a629f6d21d4fc169a7188775a60b` has completed
+  writing, actual Linux FULL evidence and publication evidence. Qeios receipt `5848` is pending
+  public posting. **Do not edit or re-review these frozen deliverables.**
+
+## Refusals — retained, never routed around
+- The restricted prior NR4A Perspective review hit an actual biology-access refusal and was
+  closed without probes, rephrasing or rerouting. **Do not recreate that review under another
+  label, agent or framing.** Any fresh content-policy refusal stops its affected branch; retain
+  it and never route around it.
+
+## Failed / closed scientific gates — do not replay unchanged
+- Paired Davis validation: negative.
+- Hofvander: one `TAF15` case, raw data controlled-access via EGA.
+- Brenca: case identities unresolved.
+- Promoter transfer: failed. Inverse bounds: 2/36 failed.
+- **Do not invent independent cohorts.** Arrays or specimens do not imply new patients.
+- User **rejected** the registry ICD-O classification paper.
+- Clinical conditional-recurrence, RT/IPD synthesis, and trial-discoverability/response
+  checkpoints did not admit their proposed papers. Methylation is deprioritized.
+- Read `research/autonomy/clinical-methods-checkpoints-2026-09-07` (pending input) and the
+  care-delivery records before proposing a new clinical question. These scoped failures do
+  **not** mean all research is exhausted.
+
+## Unrecovered / partially retained sources — no inference beyond what is retained
+- **Pazopanib**: primary full paper and observed exposure window unrecovered; abstract only.
+  EudraCT `2013-005456-15` exists. Planned 48 weeks is **not** observed exposure. Mortality
+  erratum unread. No rate claim, no full-method-omission claim.
+- **Anthracycline** (`PMC3879193` / `PMID 24345066`): retained only median 4 cycles
+  (range 1-8; a separate non-missing denominator is unknown) and one patient who stopped after
+  the first cycle for toxicity. No rate, no patient linkage, no time/dose or net-benefit inference.
+- **Sunitinib** original 2014 (`PMID 24703573`, `DOI 10.1016/j.ejca.2014.03.013`): unrecovered;
+  three ordinary institutional 403 routes exhausted. Metadata only. **No 2012 source substitution.**
+- **Trabectedin/RT 2018** (`DOI 10.4172/clinical-practice.1000433`): a rediscovered
+  known-unverified PDF. The historical `EGRESS_BLOCKED` was an old proxy outcome — not a
+  biological refusal, not publisher authentication, not global absence. No unchanged route replay.
+- **Wagner 2020** (`PMID 32856598`, `DOI 10.1158/1055-9965.EPI-20-0447`): methods unresolved,
+  ordinary route historically `EGRESS_BLOCKED`.
+- **CTARC 2022** (`PMID 35144048`, `DOI 10.1016/j.ctarc.2022.100530`): abstract retained; latest
+  publisher 403, methods unrecovered. No unchanged denied-route retries.
+- Official SEER treatment limitations and Noone `PMC4981219` concern specified **non-sarcoma**
+  cancers/modalities — **not** EMC calibration or surgery-capture validation. Exclude unsupported
+  plausible-EMC-value and age-gradient assertions. **No EMC-specific calibration from generic
+  SEER parameters. Source availability is not scientific admission.**
+
+## Data already heavily retained — rediscovery is not new data
+- `GSE4303` and `GSE28866` are heavily retained and analysed. Re-finding them or re-reading a
+  header is **not** new data. Read:
+  - `research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md`
+  - `research/manuscripts/fusion-output/gse28866-tumour-vs-normal-reading.md`
+  - `research/autonomy/cycle-outcomes/20260905T133448Z-6bd43b913c/atlas-primary-matrix-availability.json`
+    (pending input)
+
+## Source-index state (lane 11 only)
+Original helper/tests were actually executed: **discovery failed — the directory was not
+importable**; running the 10 tests directly gave **9 pass / 1 fail**, the failure being a
+case-sensitive disclaimer assertion; **4 CLI examples exited 0**. An independent read-only review
+found **9 potential defects** and proposed diffs, but **both literal diffs failed
+`git apply --check` (malformed hunks)**. **None of those 9 static findings is an empirically
+passed review.** The exact bundle arrives with the supporting-input branch. Prefer complete named
+final files and legitimate integration with the repository's **existing** test tiers.
+**No arbitrary test-ceiling increase and no 30-test gate.** Lane 11 is the only owner of
+source-index changes.
+=====CROSS-PAPER-ADVANCE=====
 # Cross-paper advance — synthetic family PARKED, three distinct scouts dispatched
 
 Recorded `date -u` 2026-09-08 07:02 UTC. Same session, sole parent collector, `claude-opus-5` medium on the
@@ -315,72 +387,3 @@ Of the 11 `ST-REPURPOSING` routes, several are **excluded by named holds, not by
 `RT-ALK-HIT` are **P4's `PUB-KINASE-LEADS` leads**; `RT-HORMONE-PARTNER` is **P6's unauthorized manuscript**;
 `RT-HDAC-BET` is a **parked negative (`AUT-029`)**. The executing worker must apply those exclusions itself and
 **report the actual adjudicable count** rather than assuming 10.
-
----
-
-# ⛔ B1 STOPPED as nonconforming — 2026-09-08 07:23 UTC. And I mis-ranked it.
-
-`TaskStop` issued and confirmed (`killed`). **Not restarted, not replaced by another route, gene or consumer
-readability census.**
-
-**Why it was wrong, on its own contract text and not on its name:** B1 adjudicated `required_validation` genes
-as READABLE / UNDECIDABLE / UNREAD, **explicitly an instrument state and never a repurposing measurement**. That
-is an **input/route inventory** with no separately justified scientific question, contribution, novelty or
-acceptance rationale — precisely what the standing cross-paper instruction excludes. **Calling it "the strongest
-checkpoint" supplied none of the missing rationale**, and ranking by executability is the error I made: A3
-ranked it first among *its* rows, and I promoted that to "strongest available work" without applying the
-paper-question test myself. **No genotype, statistic or DE extension is authorized by this stop.**
-
-**Preserved:** the child stopped ~40 s in, before writing anything. `/tmp/claude-0/b1-retained/` exists and is
-**empty** — recorded as such, not deleted. Its partial transcript output is retained at
-`paper-lane/B1-STOPPED-partial-output.md` (78 bytes, the single line it emitted). **No missing bytes are
-claimed to exist; nothing is reconstructed.**
-
-## Distinctions kept exact — none of these is claimed
-
-- **Three repository entry points are not the corpus.** A1, A2 and A3 checked `hypotheses/candidates.json`,
-  `routes.json` and `strategies.json` + `blockers.json`. **That is three entry points, and it does not
-  establish that public-data or study-development work is exhausted.** No global exhaustion is claimed.
-- **A drafted endpoint does not prove every materially distinct question or useful scientific correction is
-  closed.** A1's and A2's negatives are scoped to *paper novelty against a drafted manuscript*; they say nothing
-  about whether a correction inside one is warranted.
-- **Graph eligibility alone does not establish a new paper either.** An `open` route, an un-closed
-  `closure_kind`, or a stale `next` field is not a paper question.
-
-## Final counts, actual — not prior running rows
-
-**Active research children: 0.** **Helpers: 1** — the legacy Bash waiter "Block until pass 2 finishes", which
-computes nothing and is not research. A1, A2, A3 are **completed and collected**; B1 is **killed**; the only
-other subagent row is a 4-hour-old completed one.
-
-Model receipts retained and unchanged: A1 `ac1b46c710a5d8e84`, A2 `a6675fd70c358f364`, A3 `ab2376c8974b3232b`,
-each with observed transcript model set exactly `['claude-opus-5']`; their decisions, input provenance,
-failures and durable artifacts are committed under `paper-lane/A{1,2,3}-executed-artifacts/`, hash-verified in
-both the retained directory and the checkout, with the source directories not deleted.
-
-## ⛔ B1 retention CORRECTED 2026-09-08 07:27 UTC — my earlier description was wrong
-
-I wrote that B1 "stopped ~40 s in, before writing anything" and treated the 78-byte file as its partial output.
-**Both are wrong and are corrected here.**
-
-**What those 78 bytes actually are:** the child's **last assistant text block** — the single line
-*"I'll start by recording the environment state and reading the required inputs."* It is **not** a work
-transcript and must not be described as one; my collector extracts the longest assistant text, and at kill time
-that was the only one.
-
-**The original transcript exists and contains real work.** At the path pattern you name:
-`/root/.claude/projects/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/subagents/agent-a02d5523854550079.jsonl`
-— **231,694 bytes, sha256 `4fa93cf8534e2c23a2a60080bd846f36c998db89c1ef98fa9aff2bdfe07e999a`**, observed model
-set exactly `['claude-opus-5']`, **17 tool_use and 17 tool_result blocks, all Bash**. (The `tasks/*.output` path
-is a symlink to this same file.) So B1 had done substantial reading before the stop — the contract documents,
-the routes/strategies enumeration, the fourth-cohort quant artifact, the readout generator, and a gene-counts
-TSV digest — **not nothing**.
-
-**Retained, original bytes, before any cleanup**, at `paper-lane/B1-STOPPED-artifacts/`:
-`ORIGINAL-CHILD-TRANSCRIPT.jsonl` (`4fa93cf8…`, the full original), plus all **17 original tool responses**
-extracted unchanged into `original-tool-responses/` with tool name, verbatim input and hash per response in
-`INDEX.json`, verified by `sha256sum -c` (**18 of 18 OK**). `/tmp/claude-0/b1-retained/` is genuinely **empty**
-— B1 was killed before writing its own durable output — and that emptiness is the accurate statement, distinct
-from the transcript, which is not empty.
-
-**No B1 rerun, no new query, no grading, no regenerated output.** The stop stands.

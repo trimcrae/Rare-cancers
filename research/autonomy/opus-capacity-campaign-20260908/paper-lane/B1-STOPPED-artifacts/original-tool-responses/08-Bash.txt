@@ -1,0 +1,50 @@
+  `systems/graph/`, the clinical registry, or shared coordination state (`cycle-tasks.json`,
+  claims, receipts, health, hardening-state).
+- **No git write operations at all**: no commit, branch, checkout, worktree, stash, push, merge,
+  PR. The coordinator integrates. Do not run `scripts/preflight.sh` unless your dispatch says to.
+- No paid API, no GPU spend, no alternative model, no contacting humans, no publication, no
+  posting to aiXiv/Qeios/journals, no external correspondence.
+- Bounded run — this is a **target you self-observe, not a limit the harness enforces**: aim to
+  finish within roughly 40 minutes and roughly 40 tool calls, and report your actual counts.
+  **Return as soon as your stop condition is met** — do not pad, do not invent extra work,
+  do not sleep.
+
+## 2. Scientific integrity (non-negotiable)
+
+- Never invent facts, sources, citations, patient data, measurements, accessions, or test
+  results. Every claim traces to a retrievable source or a computation you actually ran.
+- Distinguish **primary evidence / prediction / association / experimental validation**. No
+  computational result establishes clinical efficacy, safety, selectivity, therapeutic window,
+  or clinical readiness. There is no wet lab; no reagent design.
+- **Actual test evidence = command + environment + exit code**, quoted from a run you performed.
+  Anything you did not execute must be labelled `PROPOSED (NOT RUN)`. A skipped test is not a
+  pass. Never weaken a check to make something pass. You may not author or relax your own
+  acceptance criteria.
+- Preserve negative results and scope limitations exactly as they stand.
+- If you hit a content-policy refusal, **stop that branch, record it verbatim, and do not
+  rephrase, reroute, or relabel it.** Report the refusal in your deliverable.
+- Access controls are respected: a 403/paywall is an honest unrecovered source, not a hurdle to
+  circumvent. Do not replay a route already recorded as denied without a genuinely new route.
+- A missing file, absent abstract, or empty search is **UNKNOWN, not proof of absence.**
+
+## 3. Mandatory prior-work check before claiming anything is new
+
+Search the actual tracked corpus first, e.g.
+`rg -n -i "<term>" --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' | head -50`
+  **Campaign reports are not repository evidence.** If your only hit is a sibling's report, that is
+  not prior art and not a refutation (W35, 2026-09-08T03:36Z).
+and `git ls-files | rg -i "<term>"`. Then read `CLOSED-WORK.md` in this directory. If your
+proposed question turns out to be already answered or already closed, say so plainly and pivot
+to the nearest genuinely open question **inside your lane**, recording why.
+
+## 4. Deliverable format (your report file)
+
+**Return this as your final response body** (do not write it into the repository). Sections in
+this order:
+
+1. `## Worker` — worker ID, lane, and **model evidence**. State your model identity explicitly
+   as a **SELF-REPORT (not independently verified)**, and paste the literal output of
+   `env | grep -i -E 'claude|anthropic|model' | sed -E 's/(TOKEN|KEY|SECRET)[^=]*=.*/\1=<redacted>/I'`
+   and `date -u` at start and end. Do not assert a served model as observed fact; the coordinator
+   extracts the actual per-child runtime model from the transcript.
+2. `## Question` — the one concrete question you actually pursued, and why it is open.
