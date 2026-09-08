@@ -1,0 +1,109 @@
+--- research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-direct-2026-09-08/BEFORE/emc_fusion_partner_pooling.py	2026-09-08 23:48:15.830549755 +0000
++++ research/manuscripts/emc_fusion_partner_pooling.py	2026-09-08 23:51:39.831053203 +0000
+@@ -1150,15 +1150,25 @@
+             "pool: the second cohort that supplied the other four is withdrawn as "
+             "source-unverified. Nobody has "
+             "checked the overlap. "
+-            "\u2b50 IT IS RECORDED HERE BECAUSE IT CUTS TOWARD THE NULL AND WAS NOT DISCLOSED. An "
+-            "undisclosed exclusion that weakens the paper's own headline is the worst kind, and "
++            "\u2b50 IT IS RECORDED HERE BECAUSE IT WAS NOT DISCLOSED. \u26d4 *Superseded, "
++            "retained (2026-09-08, direct current-field correction): 'IT IS RECORDED HERE "
++            "BECAUSE IT CUTS TOWARD THE NULL AND WAS NOT DISCLOSED.'* THIS SERIES DOES NOT CUT "
++            "TOWARD A NULL. It reports a FAILURE TO ESTABLISH an association between overall "
++            "survival and fusion subtype, which is not a result in either direction. An "
++            "undisclosed exclusion is the worst kind, and "
+             "this one sat in the paper's own companion (partner-event-counts-2026-08-08.md s4, "
+             "which calls it 'a third independent series failing to establish the partner as a "
+             "prognostic factor') and in its own fetch-target list, with an action item to bring it "
+             "in, from 2026-08-08 until a blind seat found it missing on 2026-08-26. "
+-            "\u26a0 AND IT IS NOT EVIDENCE AGAINST THE PARTNER EITHER: 2 TAF15 patients of 18 "
+-            "cannot exclude an effect of the size the pooled contrast reports, so this is a series "
+-            "FAILING TO ESTABLISH the partner, not one refuting it."
++            "\u26d4 *Superseded, retained (2026-09-08, direct current-field correction): 'AND "
++            "IT IS NOT EVIDENCE AGAINST THE PARTNER EITHER: 2 TAF15 patients of 18 cannot "
++            "exclude an effect of the size the pooled contrast reports, so this is a series "
++            "FAILING TO ESTABLISH the partner, not one refuting it.'* THAT READING INVOKED A "
++            "POOLED CONTRAST THAT NO LONGER EXISTS. THE CURRENT STATEMENT: this series reports a "
++            "FAILURE TO ESTABLISH an association between overall survival and fusion subtype, "
++            "and it retains no per-partner event cells and no model specification, so THIS "
++            "SYNTHESIS CANNOT ASSESS THE MAGNITUDE OR THE PRECISION of what it reports. An "
++            "UNESTABLISHED association is not a null and is not evidence against the partner."
+         ),
+         "counts": {"EWSR1::NR4A3": 14, "TAF15::NR4A3": 2, "TCF12::NR4A3": 1, "FUS::NR4A3": 1},
+         "_counts_are_context_only": (
+@@ -1429,15 +1439,28 @@
+             "reported fusion cases, is a selection on PARTNER ASCERTAINMENT, not on the mortality "
+             "outcome this synthesis contrasts; and tissue availability cannot uniquely disqualify "
+             "this series while Agaram 2014, whose own Methods select typical morphology and "
+-            "available tissue for molecular study, is treated as independent of course. The "
+-            "reproducible rule actually applied is narrower and is applied to every series: a "
+-            "cohort is out of the PREVALENCE pool when a documented share of its patients entered "
+-            "on an already-known partner assignment, because the partner share is then partly an "
+-            "entry criterion. Four of these nine patients entered on a fusion transcript the same "
+-            "group had already published (refs 7, 12, 15 above); those four are 3/4 "
+-            "variant-partner against 1/5 among the five not previously reported, and the "
++            "available tissue for molecular study, is treated as independent of course. "
++            "⛔ CORRECTED 2026-09-08 (direct current-field correction). WHAT THE SOURCE "
++            "DOCUMENTS, AND ALL IT DOCUMENTS: the fusion transcripts of four of these nine "
++            "patients had been PREVIOUSLY PUBLISHED by the same group (refs 7, 12, 15 above), "
++            "and the retained Materials and Methods describe this work as an EXTENSION OF THOSE "
++            "PRIOR STUDIES. NO RECRUITMENT MECHANISM IS RECORDED FOR ANY PATIENT IN THIS SERIES. "
++            "Holding the series out of the PREVALENCE pool is a SELECTION JUDGEMENT OF THIS "
++            "SYNTHESIS under its own stated criterion, and the partner-enrichment reading behind "
++            "that judgement is an INFERENCE from the entry routes recorded in "
++            "`entry_route_per_patient` -- not a documented entry criterion, and not a rule shown "
++            "to have been applied by any source. ⛔ *Superseded, retained (2026-09-08, direct): "
++            "'The reproducible rule actually applied is narrower and is applied to every series: "
++            "a cohort is out of the PREVALENCE pool when a documented share of its patients "
++            "entered on an already-known partner assignment, because the partner share is then "
++            "partly an entry criterion. Four of these nine patients entered on a fusion "
++            "transcript the same group had already published (refs 7, 12, 15 above); those four "
++            "are 3/4 variant-partner against 1/5 among the five not previously reported, and the "
+             "partner-unassigned residue of zero on that half of the cohort follows from their "
+-            "already-known assignment. ⛔ *Superseded, retained (2026-09-08, R6): 'the five freely "
++            "already-known assignment.'* THAT PUT AN INFERRED RECRUITMENT RULE, AND A UNIFORM "
++            "CROSS-SERIES RULE, AS AFFIRMATIVE STATEMENTS AHEAD OF THE CAVEATS THAT FOLLOWED "
++            "THEM; an appended caveat does not narrow an assertion made before it. "
++            "⛔ *Superseded, retained (2026-09-08, R6): 'the five freely "
+             "admitted'.* The source documents that five cases had not been previously reported; "
+             "it does not document unselected ascertainment of them, and this cohort's own "
+             "selection of available cytogenetic material applies to all nine. ⚠ THE PARTNER-"
+@@ -2074,7 +2097,11 @@
+     taf_n = totals["TAF15::NR4A3"]
+ 
+     analysis_prev = {
+-        "question": "How many EMC patients would a TAF15-vs-EWSR1 stratification actually touch?",
++        "question": "What is the conditional named-partner share -- TAF15::NR4A3 against the "
++                    "other named 5' partners -- among partner-assigned cases in the four "
++                    "selected series? \u26d4 This is a conditional share in selected series, "
++                    "NOT a prevalence in any EMC population and NOT the size of a clinical "
++                    "group.",
+         "denominator_convention": (
+             "Partner-assigned cases only. Each cohort's NR4A3-rearranged-but-partner-unassigned "
+             "residue is recorded in its `not_partner_assigned` field and excluded from both "
+@@ -2177,12 +2204,19 @@
+             "llombart-bosch-2022-prevalence": "abstract-only",
+             "klubickova-2022-prevalence": "population-overlap with lenz-2023-prevalence",
+             "sjogren-2003-prevalence": (
+-                "partner-ascertainment-enrichment: four of its nine patients are in the series "
+-                "because the same group had already published their fusion transcript, so for "
+-                "those four the partner assignment is the entry ticket and the partner-unassigned "
+-                "residue of zero is structural on that half of the cohort. This is selection on "
+-                "PARTNER ASCERTAINMENT and is not a claim that the mortality outcome was the "
+-                "inclusion criterion"
++                "partner-ascertainment-enrichment. \u26d4 CORRECTED 2026-09-08 (direct "
++                "current-field correction), to what the source documents: the fusion transcripts "
++                "of four of its nine patients had been previously published by the same group, "
++                "and the retained Materials and Methods describe this work as an extension of "
++                "those prior studies. The source does not record how any patient entered the "
++                "series. Holding it out is a SELECTION JUDGEMENT OF THIS SYNTHESIS on partner "
++                "ascertainment, and the partner-enrichment reading behind it is an INFERENCE, "
++                "not a recorded recruitment rule. It is not a claim that the mortality outcome "
++                "was the inclusion criterion. \u26d4 *Superseded, retained: 'four of its nine "
++                "patients are in the series because the same group had already published their "
++                "fusion transcript, so for those four the partner assignment is the entry ticket "
++                "and the partner-unassigned residue of zero is structural on that half of the "
++                "cohort.'* See cohorts[sjogren-2003-prevalence].context_note"
+             ),
+         },
+         "non_overlap_argument": (

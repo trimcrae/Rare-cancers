@@ -532,7 +532,7 @@ cohort, not to TAF15 EMC generally. Reopening a stronger claim in either directi
 specification, the partner coefficient and its uncertainty, the event count, the missing-data handling and a
 defensible causal interpretation; significance thresholds alone will not supply it.
 
-### 3.5 · The conditional named-partner share in the selected series
+### 3.5 · Partner prevalence — how many patients this would touch
 
 **The ascertainment flow has four separate denominators and they are not interchangeable:** the total series
 size, the cases in which molecular confirmation succeeded, the cases assigned a named partner, and the cases

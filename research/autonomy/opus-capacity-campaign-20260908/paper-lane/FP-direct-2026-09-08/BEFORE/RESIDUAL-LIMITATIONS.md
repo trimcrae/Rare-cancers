@@ -42,13 +42,8 @@ last_verified: 2026-09-08
   authorship.
 - **Nothing is a census.** No systematic search was run, so every "only", "no source" and "first" reads
   within the reports this synthesis examined.
-- **No new wet-lab work was performed by this synthesis.** There is no wet lab here, and this document holds
-  no experimental result of its own. ⛔ *Superseded, retained (2026-09-08, direct current-field correction):
-  "No wet-lab evidence exists. There is no wet lab."* The first clause was wrong as written and is
-  withdrawn: the primary sources discussed above ran their own experiments and report them, and nothing
-  here denies that evidence or its existence. What is true is narrower — this synthesis generated none of
-  it. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied
-  for any agent, in any patient group, at any line of therapy.
+- **No wet-lab evidence exists. There is no wet lab.** No efficacy, safety, selectivity, therapeutic-window or
+  clinical-readiness claim is made or implied for any agent, in any patient group, at any line of therapy.
 
 ## 2 · Source-level gaps that remain open
 

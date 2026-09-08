@@ -79,3 +79,22 @@ leaving open whether the quantity still exists at all.
 
 I cannot choose between these without deciding a scientific question that is not mine, and the
 distinction is exactly what the blind seats caught last time. **Recorded, bound, and left open.**
+
+---
+
+## ⭐ ADDENDUM, 2026-09-08 — disposition 3 is now the live reading
+
+The FP direct correction (author work, verified by me) did **not** touch the pins, and its
+current-field work makes the diagnosis sharper. The three pins name a **pooled** disease-specific-
+death node, and the current field now states there is **no pool**: *"no seven-death pool"* in
+`emc-fusion-partner-pooling.json`, and *"one series in the main event analysis"* in the manuscript —
+both verified live.
+
+So the missing key is **not a stale path awaiting a re-point**. It is the **absence of the pooled
+quantity** the prose figures `7/15 = 46.7 %` and `6/58 = 10.3 %` were bound to. That rules
+disposition 2 out on the current evidence and makes **disposition 3** — the quantity did not survive
+the restructure — the live reading.
+
+⛔ Still not settled here, and still not acted on. What those two printed figures now denote is a
+scientific question, `pinned-figures.json` remains untouched, and `lint_consistency` still exits 1
+with the same three errors.
