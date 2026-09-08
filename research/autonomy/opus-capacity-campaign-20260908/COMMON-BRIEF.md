@@ -367,3 +367,78 @@ Corrections and cautions it establishes:
   is 34 signals — 11% of the backlog — against a technology the graph records as unblocking **no
   route, no blocker and no requirement**. Grading is reserved to a human (`MAINTENANCE.md:74`); no
   worker may grade a signal.
+
+### Six more measured results — 2026-09-08T04:46Z. Take these as given.
+
+* ⛔ **The routed-conflict surface is a fifth the size the index claims (W49).** Of the 20 "conflicting
+  pairs", only **19 are enumerable** (W36's table sums to 15, not the 16 it states — the 16th is
+  unrecoverable, UNKNOWN). Adjudicated against the tree: **7 are not conflicts at all** (five turn on
+  one line of `scripts/tier-budgets.json` — `research/modalities/tests` is the `modalities` tier, NOT
+  `commit-loop`, and W27's hold names only `commit-loop`), 5 reduce to ordering or a stated
+  complementarity, 4 are a successor correcting a predecessor, **0 are A-CORRECT**, and exactly
+  **one — R07 vs R08 on `emc_fourth_cohort_quant.py` — is a genuine forced either/or** needing an
+  owner ruling. ⚠ Measured: `commit-loop` is **1466/1500** (headroom 34), not W27's 1497/1500
+  (headroom 3) — an 11-fold difference in the quantity W27's hold rests on; the gap is unexplained.
+  ⚠ Both published repair diffs are **not machine-applicable**: W14c's R07 fence opens directly on
+  `@@ -567,7 +567,7 @@` with no `--- a/`/`+++ b/` header, and W14d's R08 headers are abbreviated
+  prose. "Land the report's bytes" is not an available instruction for either.
+* **The AUT-PD-186 xdist corruption does not reproduce (W54).** `pytest test_endpoint_producers_check.py
+  test_endpoint_logic.py test_endpoint_manuscript_figures.py -n 3` → **70 passed, exit 0**, tree clean.
+  Repository-wide census of 649 tracked test files: **612 CONFINED by an enforced runtime guard**
+  (`research/manuscripts/tests/tracked_tree_guard.py`, a `sys.addaudithook` refusing any write to a
+  `git ls-files` path, bound in three `conftest.py`; its `ALLOWED` dict is **empty on purpose** — zero
+  declared exemptions), 36 CONFINED by hand-audit, **1 IN-PLACE** —
+  `scripts/tests/test_a_promise_with_no_commit_stops_the_turn.py`, whose target is inside `.git/` and
+  is therefore not a committed artifact. ⚠ **Three stale module docstrings describe the retired
+  in-place design while the code beneath is `tmp_path`-confined**:
+  `test_endpoint_producers_check.py:9-11`, `test_emc_fusion_partner_pooling_check.py:85`,
+  `test_emc_systemic_therapy_pooling_check.py:80`. This prose has already caused two workers to refuse
+  to run a safe file. **Read the code, never the docstring.** ⚠ `scripts/tests` (21) and `systems/tests`
+  (16) have **no guard installed at all**.
+* **The 18-row vacuous-pass census is closed at 4 of 18 (W44)** — rows 11, 16, 17, 18 — now measured for
+  every row by execution rather than argued for thirteen. Each row's minimum input set was measured at
+  runtime with a `sys.addaudithook`, then emptied in a scratch copy. Rows 1-10 and 12-15 go red, but by
+  **three different mechanisms**: 9 REFUSE with a purpose-built message (rows 14 and 15 name the
+  emptiness in the sentence they print), **4 CRASH with an uncaught exception** (5, 9, 12 → `KeyError`;
+  7 → `GeometryError`), and row 13 refuses through a different guard than its own comparison. In the
+  crash cases the operator is told `STALE … rerun and commit`, which is wrong advice for an empty input.
+  ⚠ **Row 17 (`citation_debt.py`) is the one exposed row**: 4 records, no writer anywhere in the tree,
+  and `rows: []` prints *"every declared destination is decided and every discharge verified"*. Row 16 is
+  39 triggers, row 18 is 47 items, and row 11's vacuous state is not live at this HEAD.
+* **`modalities.json` coverage resolves W26d's UNKNOWN two ways (W52).** The four `.rationale` fields
+  ARE covered — `systems/tests/test_modality_census.py:308` iterates every row with no route or verdict
+  gating and catches claim language the renderer never prints. The two `requires[0]` fields are covered
+  by **nothing but a schema length floor**. ⛔ Measured by mutation: the string *"the tumour is safe and
+  this cures it"* placed in `MOD-ARGININE-DEPRIVATION.requires[0]` **passes the entire suite and the
+  schema** — the guard's field list is `("rationale", "zero_dollar_next_step", "name")` and omits
+  `requires` and `exemplar`. Unread by any executable: `level`, `kind` (both `const`, harmless) and
+  `requires` — substantively **1 of 15 content-bearing field names, 2,883 bytes, 1.54% of the file**.
+  A named human reviewer is still required for all six: the regex catches one class of overclaim and
+  cannot see a false absence, a wrong direction of effect, or a stale citation.
+* **The pooler's arithmetic is correct and its policy conformance is not the same question (W53).**
+  `research/meta/meta-analysis.mjs` regenerates `results.json` byte-identically, and an independent
+  Python reimplementation of every published estimate, interval, weight, τ², I², Q, leave-one-out range
+  and sensitivity subset agrees to **1.42e-14** — machine roundoff. Per-sentence against POLICY-evidence:
+  1 EXACT, 1 EXACT-by-omission, 5 WEAKER, **1 STRONGER**, 8 NOT-IMPLEMENTED. ⭐ §2.1(3)'s guard exists
+  (`:36`) and fires — but it is one string literal (`stage === "distant"`) for one metric with no
+  vocabulary check: respelling the same cohort's stage as `"metastatic"` admits a structurally-100% row
+  and metastasis goes 37.9% → 42.7% with **I² collapsing 69% → 0%**. §2.2 is not implemented here at all
+  (no Wilson anywhere in the module — the manuscript uses DerSimonian–Laird by the policy's own
+  carve-out); had §2.2's arithmetic been used the recurrence interval would be **3.3× narrower**.
+  ⚠ The one live policy-vs-artifact contradiction: §2.2 says *"we do not compute I²"* and `results.json`
+  publishes three of them. Also latent: `:32` filters `c.pool !== false`, so a cohort with **no** `pool`
+  key is pooled by default, and `:38` tests only `if (mm && mm.denom)`, so `events: 3.5` runs clean and
+  moves the recurrence headline 27.8% → 22.0%.
+* **Self-defeating remediation advice is 1 of ~48 (W34c).** Of ~48 advice-bearing gate-failure messages
+  in 46 modules, 38 `--check` gates were executed: **31 green, 4 red, 3 UNKNOWN** (blocked Ensembl
+  egress — a 403 at the proxy is not a measurement). Of the four reds, exactly **one is LOSSY in the
+  destructive sense**: `aso_control_oligos.py:153`, whose advised re-run would revert
+  `_not_a_claim_of_inertness` from *"CLEARS the same specificity screen"* back to *"FAILS"* and delete
+  the artifact's own dated record of the 2026-08-30 correction. `aso_archive_manifest.py:1970` is SAFE
+  (the only differing leaf is `.git_revision`). `build_aixiv_metadata.py --paper fusion-output` and
+  `emc_fusion_frame_figure.py` would overwrite committed bytes, but there the committed side is the
+  stale side and the module documents regeneration as the correct fix. ⚠ **The distinguishing property
+  is not the message wording** — ~30 modules share the boilerplate — **but whether a hand-applied
+  correction was ever carried back into the generator.** Separately, for the manuscript owner:
+  `nr4a3-fusion-transcriptional-output-aixiv-metadata.json` currently publishes a *wider* claim
+  ("three cohorts on three platforms") than its own manuscript ("the two readable array platforms").
