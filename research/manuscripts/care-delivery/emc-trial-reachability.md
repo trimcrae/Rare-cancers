@@ -6,21 +6,23 @@ kind: manuscript
 status: live
 canonical_for: ["the 2026-08-09 EMC trial-reachability finding"]
 purpose: >
-  Report that patients with an ultra-rare fusion-driven sarcoma are eligible for recruiting trials
-  that a condition search on their own diagnosis does not return, because eligibility is written on
-  the molecular lesion while the field that search reads is written on the histology — and show that
-  the obvious fix, a keyword map, cannot tell a real admission from a false one on its own, so a
-  wrong hit does real harm in a disease where every trial carries weight.
+  Report that recruiting trials whose posted eligibility criteria admit an ultra-rare fusion-driven
+  sarcoma are not returned by a condition search on that diagnosis, because eligibility is written
+  on the molecular lesion while the field that search reads is written on the histology — and show
+  that the obvious fix, a keyword map, cannot tell a real admission from a false one on its own,
+  so a wrong hit carries a cost this analysis argues for rather than measures.
 scope: >
   L3. Two public trial registries — one US, one UK — read on two dates, with every candidate's
   eligibility text retrieved individually and read. Of five non-US endpoints also attempted, two
   refused automated access, a third failed at the TLS handshake, and a fourth (WHO) was never
   reached because this sweep's own query URL was wrong; all four are reported as unread endpoints
-  rather than as absences. It reports no experiment,
-  no patient and no treatment outcome, and it is not clinical advice.
+  rather than as absences. Every result here is a statement about what registry records list and
+  what their posted eligibility text says on the dates given. It reports no experiment, no patient,
+  no enrolment and no treatment outcome, it determines no individual's eligibility, and it is not
+  clinical advice.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
-last_verified: 2026-08-09
+last_verified: 2026-09-08
 related: [DOC-MODALITY-CENSUS]
 ---
 
@@ -29,10 +31,13 @@ related: [DOC-MODALITY-CENSUS]
 > This is not medical advice and not a trial-matching service. Nothing here says any trial
 > would accept any particular patient: eligibility is each trial team's decision after their own
 > review, and a registry record is a summary of a protocol rather than the protocol. Nothing here
-> asserts that any intervention works in this disease.
+> asserts that any intervention works in this disease. Reachability, as used below, is a modelled
+> property of registry listings and posted eligibility text on the retrieval dates. It is not a
+> statement about who enrolled, who was referred, who was treated or who benefited.
 
-**Tristan McRae**
+**Tristan D. McRae**
 Independent researcher, unaffiliated.
+ORCID 0000-0002-1823-1451
 Correspondence: trimcrae@gmail.com
 
 ---
@@ -47,8 +52,8 @@ written: by histology.
 **The problem.** Trial eligibility is often written the other way, on a fusion family, a
 molecular class, or a translocation, while the registry's *listed conditions*, the field a
 histology search matches against, continue to name the diseases the sponsor had in mind. When those
-two disagree, a patient can be eligible for a recruiting trial that a condition search on their own
-diagnosis does not return.
+two disagree, a patient's diagnosis can fall inside the posted criteria of a recruiting trial that a
+condition search on that diagnosis does not return.
 
 **What we did.** We read one public registry twice and a second one once, retrieving the full
 eligibility text of every adjudicated candidate individually rather than trusting a fielded screen.
@@ -57,32 +62,34 @@ fourth went unread because our own query URL was wrong. A positive control fetch
 returned normally, so the two refusals are statements about those endpoints rather than about our
 retrieval; a handshake failure is not separable from a fault of our own.
 
-**What we found.** At least two recruiting interventional trials admit this disease and neither
-lists it; the candidate pool was built by keyword screens, one of which came back at its page
-limit, so two is a floor. One is eligibility-defined on the FET fusion family (EWSR1, FUS, TAF15),
-so on the criterion as posted it admits this disease when the fusion partner is one of those three
-and not when it is TCF12 or TFG; its four listed conditions name three other sarcomas and
-paediatric cancer. The other has a cohort for *translocation-associated soft tissue sarcoma*, a
-class this disease belongs to; that class term is itself among its listed conditions, so the trial
-is findable by the class and not by the histology, which its conditions field never names. Nine
-further registry records — a molecularly-defined master screening protocol with seven of its arms,
-one of those not yet recruiting, and one separate basket trial — do not name it either. One
-recruiting trial does list the histology, among 42 conditions, and bounds age at 1 to 30 years at
-the diagnostic biopsy, so the gap reported here is not universal. The sharpest result is an
-absence, bounded by the search that measured it: a term search for the driver gene returns five
-studies, none about this disease or any sarcoma, and the one cancer study among them is a surgical
-cholangiocarcinoma series that mentions the gene incidentally. No trial that search returns is
-indexed to this disease's driver.
+**What we found.** At least two recruiting interventional trials admit this disease on their
+eligibility criteria as posted, and neither lists it; the candidate pool was built by keyword
+screens, one of which came back at its page limit, so two is a floor. One is eligibility-defined
+on the FET fusion family (EWSR1, FUS, TAF15), so on the criterion as posted it admits this disease
+when the fusion partner is one of those three and not when it is TCF12 or TFG; its four listed
+conditions name three other sarcomas and paediatric cancer. The other has a cohort for
+*translocation-associated soft tissue sarcoma*, a class this disease belongs to; that class term
+is itself among its listed conditions, so the trial is findable by the class and not by the
+histology, which its conditions field never names. Nine further registry records — a
+molecularly-defined master screening protocol with seven of its arms, one of those not yet
+recruiting, and one separate basket trial — do not name it either. One recruiting trial does list
+the histology, among 42 conditions, and bounds age at 1 to 30 years at the diagnostic biopsy, so
+the gap reported here is not universal. The sharpest result is an absence, bounded by the search
+that measured it: a term search for the driver gene returns five studies, none about this disease
+or any sarcoma, and the one cancer study among them is a surgical cholangiocarcinoma series that
+mentions the gene incidentally. No trial that search returns is indexed to this disease's driver.
 
 **The finding that matters more than the count.** Both trials we adjudicated as *refusing* this
 disease would have passed an automated keyword screen. One is titled for fusion-positive sarcoma and
 then restricts to three named histologies; the other contains the exact string *extra-skeletal*
 while meaning extraskeletal Ewing sarcoma. A reachability map built by keyword would have carried
-both, alongside the two trials that genuinely admit this disease and that only a molecular-language
-screen surfaces at all. The cost is not symmetric with the benefit: a map that sends a patient
-toward a trial that will refuse them does real harm, in a disease where the number of options is
-small enough that each one carries weight, and a keyword screen alone cannot tell the two apart.
-Eligibility text has to be read one trial at a time.
+both, alongside the two trials whose posted criteria admit this disease and that only a
+molecular-language screen surfaces at all. The cost is not symmetric with the benefit: a map that
+sends a patient toward a trial whose posted criteria exclude them spends one of the few options this
+disease has, and a keyword screen alone cannot tell the two apart. That asymmetry is an argument
+from the adjudications rather than a quantity measured here; how often such a hit occurs, and what
+it costs the person it reaches, this work does not measure. Eligibility text has to be read one
+trial at a time.
 
 **Why it matters.** Closing this gap needs no laboratory, no compound and no cell line. The fix is
 that trials whose eligibility is molecular should list the histologies that molecular criterion
@@ -103,7 +110,7 @@ fusion family, a pathway alteration, a class of rearrangement.
 
 For a common cancer the two coincide, so nobody notices. For an ultra-rare disease that sits inside
 a molecular class, they come apart: the class is named in the criteria and the disease is not named
-anywhere. The patient is inside the trial's own definition and outside its index.
+anywhere. The disease is inside the trial's own stated criterion and outside its index.
 
 ## 2 · Sources and retrieval
 
@@ -147,10 +154,10 @@ as transport-clean rather than a re-read one. That defect has since been fixed a
 | NCT04151342, recruiting, target enrolment 5500 | admits by wording, rare molecular alterations | observational: it enrols the patient and does not treat them | no |
 
 The last row is kept separate from the three above it. A reachability claim that quietly counts an
-observational cohort alongside interventional trials inflates itself. Two trials admit and offer
-treatment; a third admits and offers enrolment in an observational cohort. Those are counts of the
-five records whose eligibility text this paper read and judged one at a time — three here and the
-two refusals in §4 — not of the registry.
+observational cohort alongside interventional trials inflates itself. On the criteria as posted,
+two trials admit and offer treatment; a third admits and offers enrolment in an observational
+cohort. Those are counts of the five records whose eligibility text this paper read and judged one
+at a time — three here and the two refusals in §4 — not of the registry.
 
 A term search for the driver gene returns five studies (exercise physiology, spinal-cord injury,
 neck pain, and a surgical cholangiocarcinoma series) that mention the gene incidentally. Not one is
@@ -191,11 +198,13 @@ claim: NCT06239272 is a recruiting interventional trial that carries the histolo
 listed conditions, and its inclusion criterion is age 1 to 30 at the diagnostic biopsy rather than
 at enrolment. So nothing
 here says that no listing anywhere names this disease and admits it: the diagnosis search returns
-this trial whatever the patient's age, and the criterion as posted admits those biopsied at 1 to 30.
+this trial whatever the patient's age, and the age criterion as posted is met by those biopsied
+between 1 and 30 years, which is one inclusion criterion among the others that record carries.
 
 A map built by string matching would have carried both. The cost of a false positive here is not a
-wasted query; it is a patient or a clinician pursuing a trial that will refuse them, in a disease
-where the number of options is small enough that each one carries weight.
+wasted query; it is a patient or a clinician pursuing a trial whose posted criteria exclude them, in
+a disease where the number of options is small. That cost is a reading of the two adjudications, not
+a measured rate: nobody was followed, and no consequence of such a hit was observed here.
 
 ## 5 · Limitations
 
@@ -244,8 +253,8 @@ where the number of options is small enough that each one carries weight.
   none of them describes the index as it stood on 2026-08-07, when these screens ran. So whether a
   trial carrying its fusion language only in eligibility text could enter the pool is untested — §4's warning about instruments, pointed at this paper's
   own numerator. Of the five records adjudicated, four were re-fetched and read on 2026-08-09 —
-  two admit, one of them observationally, and two refuse — and NCT05918640 was confirmed
-  separately on 2026-08-07.
+  two admit, one of them observationally, and two refuse — and NCT05918640's eligibility text was
+  read separately on 2026-08-07.
 - Reachability here means registry indexing and nothing else. Site geography, referral route and
   centre type are separate barriers and are not measured here. Three instances are nonetheless
   visible in the records that were read. One of the two admitting trials is run by a paediatric
@@ -255,7 +264,11 @@ where the number of options is small enough that each one carries weight.
   recruits only at Canadian sites.
 - Statuses go stale. Every status here is as posted on the retrieval date, and one of the nine, the
   basket trial NCT03767075, carried a RECRUITING flag last verified in April 2024.
-- This is not a matching service and no patient was involved.
+- What the instrument measures is registry text: what a record lists, and what its eligibility
+  section says on the retrieval date. This is not a matching service. No patient was contacted, no
+  individual's eligibility was determined, and no enrolment, referral, treatment or outcome was
+  observed, so nothing here supports a conclusion about who reaches a trial or who benefits from
+  one.
 
 ## 6 · Remedies
 
@@ -293,8 +306,19 @@ the statuses of the three records the damaged condition searches dropped are in
 
 ## 8 · Declarations
 
-**Competing interests.** None. **Funding.** None; this work was carried out by one unaffiliated
-individual using public registry data. **Ethics.** No human subjects, no patient data; every record
-used is a public trial registration. **AI assistance.** The retrieval, adjudication and drafting
-were carried out with substantial assistance from an AI coding agent under the author's direction,
-which is disclosed rather than omitted.
+**Author.** Tristan D. McRae, independent researcher, unaffiliated. ORCID 0000-0002-1823-1451.
+Correspondence: trimcrae@gmail.com.
+
+**Funding.** None.
+
+**Competing interests.** None.
+
+**Ethics.** This work is an analysis of public trial-registry records and the geographic and
+administrative fields those records carry. Every record it uses is a public trial registration. It
+involved no new recruitment, no sampling, no intervention and no patient contact. No ethics approval
+was sought and none was obtained.
+
+**AI assistance.** The retrieval, adjudication and drafting were carried out with substantial
+assistance from AI systems — Claude (Anthropic) and OpenAI models — under the author's direction.
+The author is responsible for the content, including every claim, every number and every limitation
+in it.

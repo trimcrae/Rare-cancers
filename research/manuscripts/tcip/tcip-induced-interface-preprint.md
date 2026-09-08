@@ -5,7 +5,8 @@ level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: The manuscript for publication endpoint PUB-TCIP. A modality-general parameter result — the minimum induced-interface size proximity-design tooling applies by default is inherited from degraders, ablating it inverts the sign of an apparent size penalty, and the only solved transcriptional CIP measures roughly half the inherited floor.
+purpose: The manuscript for publication endpoint PUB-TCIP. A modality-general parameter result — the minimum induced-interface size proximity-design tooling applies by default is inherited from degraders, ablating it inverts the sign of an apparent size penalty, and the one solved transcriptional CIP this search located measures roughly half the inherited
+  floor.
 scope: Rigid-body geometric enumeration and contact counting on deposited coordinates. It covers what an inherited parameter costs a modality it was not written for. It is NOT a disease-specific result and makes no binding, potency, selectivity, transcriptional-output, efficacy, safety, therapeutic-window or clinical claim.
 audience: [external reviewers, maintainers, autonomous research agents]
 date: 2026-08-07
@@ -15,6 +16,14 @@ last_verified: 2026-08-07
 # The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP
 
 **Preprint draft — not submitted, not posted.**
+
+**Tristan D. McRae**
+
+Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID 0000-0002-1823-1451.
+
+*Study type: a computational analysis of publicly deposited macromolecular coordinates and of public
+literature records. No experiment was performed, no wet-lab work of any kind was carried out, and no
+new recruitment, sampling or intervention took place.*
 
 > **Role: the manuscript for publication endpoint
 > [`PUB-TCIP`](../../../systems/views/L3-publications.md).** Every number is read at write time from the
@@ -34,12 +43,12 @@ last_verified: 2026-08-07
 
 ## Abstract
 
-Chemically induced proximity is increasingly designed with tooling built for targeted protein
-degradation. That tooling carries a parameter most users never see: a minimum induced-interface size,
-below which a candidate placement is scored as a tethered pair rather than a complex. The parameter is
-a **degrader's** requirement — a PROTAC must build a cooperative target·E3 interface across which
-ubiquitin is transferred — and it is applied unchanged when the recruited partner is a transcriptional
-effector instead of a ligase.
+Chemically induced proximity can be designed with tooling built for targeted protein degradation; the
+rigid-body proximity sampler examined here is one such instance. That tooling carries a parameter with
+no recorded derivation: a minimum induced-interface size, below which a candidate placement is scored
+as a tethered pair rather than a complex. The parameter is a **degrader's** requirement — a PROTAC
+must build a cooperative target·E3 interface across which ubiquitin is transferred — and it is applied
+unchanged when the recruited partner is a transcriptional effector instead of a ligase.
 
 We show that this inherited floor, and not steric bulk, produces the apparent geometric penalty against
 smaller second termini. In a paired rigid-body enumeration run from identical anchors, single-domain
@@ -48,10 +57,10 @@ the floor inverts the ratio to **1.254×**. On excluded volume alone the smaller
 orientation space, not less.
 
 We then size the floor against deposited structures. Measured under the sampler's own contact predicate
-across 22 entries, the **only chemically-induced transcriptional-proximity complex the search located** — the
-chemically hijacked BCL6·TCIP3·p300 complex, PDB 9MZA, X-ray 2.1 Å — presents an induced interface of
-**6–7 contact points across 4 residues per side**, in both crystallographically independent copies.
-The committed floor is **12**, so the real transcriptional CIP fails it in both directions by roughly a
+across 22 entries, the only chemically-induced transcriptional-proximity complex the searches in
+Appendix B located — the chemically hijacked BCL6·TCIP3·p300 complex, PDB 9MZA, X-ray 2.1 Å — presents
+an induced interface of **6–7 contact points across 4 residues per side**, in both crystallographically
+independent copies. The committed floor is **12**, so the real transcriptional CIP fails it in both directions by roughly a
 factor of two. Applied to the modality it was actually written for, the same floor rejects **6 of 15**
 solved induced pairs across 8 deposited degrader/molecular-glue ternaries, including
 MZ1·BRD4-BD2·pVHL at **10–11**.
@@ -72,7 +81,7 @@ degrader's, and its anti-target ceiling has no candidate source.
 
 ---
 
-## 1 · The parameter nobody re-derived
+## 1 · The parameter with no recorded derivation
 
 A bivalent molecule that recruits a transcriptional effector to a target — a transcriptional chemical
 inducer of proximity, TCIP — is geometrically a PROTAC with the ligase swapped out. That similarity is
@@ -88,9 +97,13 @@ the intent, not a justification the source states. What the source does establis
 sufficient: the value has no recorded derivation of any kind, transcriptional or otherwise.
 
 A TCIP's productive event is not ubiquitin transfer. Whether it requires a comparable induced interface,
-a smaller one, or a different quantity altogether had not been established. The requirement is properly
-a **residence time** at an occupied locus; a contact count is a proxy for it whose calibration constant
-is a property of the recruited partner's mechanism, and the degrader's constant may not be inherited.
+a smaller one, or a different quantity altogether has not been established. One reading — offered as a
+hypothesis, not as something this paper establishes or that any source retrieved here states — is that
+the requirement is a **residence time** at an occupied locus, for which a contact count is a proxy whose
+calibration constant would be a property of the recruited partner's mechanism; on that reading the
+degrader's constant may not be inherited. Neither quantity has been measured for a transcriptional CIP
+in anything this project retrieved: the modality-wide sweep in SI §S7 counts *residence time* 0 times
+across the 20 open-access full texts it returned.
 
 This paper does not size that requirement. It shows what the inherited parameter **costs**, and it
 bounds the floor from above with a real structure.
@@ -154,8 +167,11 @@ and the same query points the placement loop uses
 the predicate is one-sided — an arm is sampled against a target, not the reverse — every pair is
 measured **both ways** and both numbers are reported; no orientation is promoted.
 
-**PDB 9MZA** — *"Chemically Hijacked BCL6–TCIP3–p300 Complex"*, X-ray **2.1 Å** — is the only deposited
-chemically-induced transcriptional-proximity complex found. Its induced BCL6·p300 interface measures:
+**PDB 9MZA** — *"Chemically Hijacked BCL6–TCIP3–p300 Complex"*, X-ray **2.1 Å** — is the only
+chemically-induced transcriptional-proximity complex the searches behind this census located: the RCSB
+full-text queries recorded in Appendix B and the Europe PMC sweeps in SI §S7. That is an absence in
+those searches, not a demonstration that no other such entry is deposited. Its induced BCL6·p300
+interface measures:
 
 | copy | contact points (both directions) | residues with a contact point, per side |
 |---|---|---|
@@ -187,7 +203,8 @@ in both copies. **6SIS** fails in one copy only (11 and 10) and clears in the ot
 
 A threshold that would reject a substantial share of its own modality's solved ternaries is not a
 calibrated requirement being applied outside its range; it is an uncalibrated one. This is a statement
-about the parameter and **not** a claim about whether those degraders work — they demonstrably do.
+about the parameter and **not** a claim about whether those degraders work: nothing here measures that,
+and this paper does not assess it.
 
 ## 5 · What this does not establish
 
@@ -214,9 +231,11 @@ Stated plainly, because each has a specific and non-obvious reach.
    `birc2` and `mdm2` remain size-and-shape proxies there, and nothing about a named effector may be
    read off them. The ablation is a statement about the sampler's inherited parameter, not about any
    effector.
-6. **The selectivity requirement is not smaller here.** It needs the same odds-product difference in
+6. **The selectivity requirement is not smaller here.** On the odds-product identity used in
+   [`selectivity-requirement-sizing.md`](../degrader/selectivity-requirement-sizing.md) §3.3 — algebra
+   over an equilibrium model, not a measurement — it needs the same odds-product difference in
    induced-complex-fraction space that a degrader needs, and its anti-target ceiling has **no candidate
-   source**. Recruiting an effector rather than a ligase does not relax it.
+   source** there. Recruiting an effector rather than a ligase does not relax it on that identity.
 7. **No biological claim whatsoever.** Nothing here says any effector binds any target, is recruited, is
    retained on chromatin, or changes transcription. No binding, potency, selectivity, efficacy, safety,
    therapeutic-window or clinical claim is made or implied, for any molecule whose structure is measured
@@ -227,9 +246,11 @@ Stated plainly, because each has a specific and non-obvious reach.
 ### 5a · What would settle it
 
 A **series**: two or more induced interfaces of different size, within one transcriptional system, with
-matched transcriptional output. That is what converts a bound into a calibration curve, and no such
-series exists for any transcriptional CIP — the modality's literature does not characterise its own
-induced interface (SI §S7). Building one is wet-lab work.
+matched transcriptional output. That is what converts a bound into a calibration curve, and the
+modality-wide sweep in SI §S7 located none: across the 20 open-access full texts it returned,
+*buried surface area*, *interface area*, *contact residue*, *structure of the ternary/induced complex*
+and *residence time* occur 0 times. That is an absence in one sweep rather than proof that no such
+series exists anywhere. Building one is wet-lab work.
 
 ## 6 · A discrepancy inside the parameter itself
 
@@ -268,6 +289,39 @@ numbers are in §2, §3 and the SI tables; nothing below has been drawn.
 | **S1** | Saturation — every constitutive pair in the corpus on the same predicate, showing the dynamic range | SI §S6 |
 | **S2** | The literature gap — term counts across the modality-wide open-access corpus against the degrader corpus | SI §S7 |
 
+## Declarations
+
+**Funding.** None. No grant, contract, sponsor or institutional support of any kind supported this work.
+
+**Competing interests.** None.
+
+**Ethics.** This work analyses publicly deposited macromolecular coordinates and public literature
+records. It involved no new recruitment, no new sampling and no intervention, and generated no new
+human data. No ethics approval was sought and none was obtained; no institutional determination of
+exemption was requested or issued, and none is reported here.
+
+**Use of artificial intelligence.** Claude (Anthropic) and OpenAI models were used, under the author's
+direction, to write and check the analysis code, to run the checks, and to draft this manuscript. The
+author directed the work, reviewed the outputs and is responsible for the content, including any error.
+
+**Author contributions.** Sole author: conception, direction of the analyses, verification of the
+outputs and writing.
+
+**Data and code availability.** Every number is read from a committed artifact:
+[`nr4a3-tcip-reach.json`](../../modalities/nr4a3-tcip-reach.json) (produced by
+`nr4a3_tcip_reach.py`) and
+[`nr4a3-induced-interface-census.json`](../../modalities/nr4a3-induced-interface-census.json)
+(produced by `nr4a3_induced_interface_census.py`). Both analyses are deterministic, offline at analysis
+time and pure-stdlib; reproduction commands are in [SI §S8](./tcip-induced-interface-preprint-si.md).
+The coordinate corpus is the set of deposited mmCIF entries named in the census, fetched from
+`files.rcsb.org`. No new data were generated.
+
+**Scope.** This is a geometric and contact-counting analysis. It makes no claim of binding, potency,
+selectivity, transcriptional output, efficacy, safety, therapeutic window or clinical readiness for any
+molecule named here, and no interface reported here has been experimentally validated by this work.
+
+---
+
 ## Appendix A · Corrections and superseded numbers
 
 Superseded values are registered rather than silently dropped; the live text carries only current values.
@@ -290,6 +344,12 @@ Superseded values are registered rather than silently dropped; the live text car
    the second query point. The sampler's arm loader builds that point as the **side-chain centroid**
    (the variable is named `cb` but holds a centroid), which reaches further. The re-implementation was
    wrong on that point and was discarded rather than reconciled; the committed census is the one home.
+   ⚠ That cross-check was scratch work: it was never committed and is absent from this repository's
+   history, so its three disagreeing numbers cannot be re-derived from anything retained here and are
+   recorded as a note on the check rather than as measurements a reader can verify. What **is**
+   checkable is the cause it turned on: `nr4a3_basin_search.load_arm_from_registry` builds the second
+   query point as `G.centroid(side)` over every non-backbone atom, falling back to CA for glycine — a
+   centroid, not the CB atom, despite the variable name.
 
 ## Appendix B · Citation provenance for 9MZA
 
@@ -300,6 +360,15 @@ DOI `10.1016/j.cell.2026.06.037` (Cell). ⚠ The forward link to the journal ver
 **not** from the PDB entry, which carries the preprint citation only. A EuropePMC full-text search for
 `"9MZA"` returns **hitCount 0**, so no citing full text was available to cross-check. Volume, pages and
 PMCID for the journal version are **not verified**.
+
+⚠ **The experimental method is read from the deposition's primary publication, not from the census
+artifact.** The census's mmCIF reader did not capture `_exptl.method` for this entry — the artifact
+carries the literal string `_details ?` in that field, which is the parser landing on the next mmCIF
+item rather than on a method. The resolution, **2.1 Å**, is parsed from the file itself. *X-ray* is
+taken from the primary publication's abstract, which states it solved *"the crystal structure of the
+chemically induced p300–BCL6 complex"*, quoted in
+[`tcip-interface-floor-sizing.md`](./tcip-interface-floor-sizing.md) §3(b). The two independent copies
+are read from the coordinates.
 
 ⚠ **A structure can exist and be invisible to the search terms a reader would try first.** RCSB
 full-text searches for *"KAT-TCIP"* and *"transcriptional chemical inducer of proximity"* each returned
