@@ -1,0 +1,117 @@
+{
+ "NC1_v1_claim_overclaims": {
+  "assertion": "v1 reports no duplicate-encoding candidate for a same-record/different-wording pair, so v1's 'every one ... a distinct outcome, time point or population' is applied to a pair that is not distinct.",
+  "holds": true
+ },
+ "NC2_v2_label_is_about_encodings_only": {
+  "assertion": "v2 labels the same pair NON_IDENTICAL_ENCODING / TEXT_DERIVED_ONLY and leaves semantic duplication UNRESOLVED, claiming nothing about outcome, time point or population.",
+  "holds": true
+ },
+ "NC3_no_clinical_record_is_merged_or_normalised": {
+  "assertion": "Both records survive unchanged under both rules; no case-folding, unit reordering, sign or spelling repair is applied; the genuinely different pair is left UNRESOLVED too, so the v2 label cannot be used to merge either pair.",
+  "holds": true
+ },
+ "failures": [],
+ "fixture": {
+  "pair_genuinely_different": [
+   {
+    "assessment_criteria": "RECIST",
+    "criteria_version_tokens": "1.1",
+    "denominator_state": "PRESENT",
+    "denominator_value_participants": "58",
+    "endpoint_constructs": "ORR",
+    "measurement_value_raw": "31.0",
+    "obs_id": "NCT_SYNTHETIC_0002#om0#OG000",
+    "om_param_type": "NUMBER",
+    "om_population_description": "Efficacy evaluable participants",
+    "om_time_frame": "Up to 24 months",
+    "om_title": "Objective Response Rate (ORR)",
+    "om_type": "PRIMARY",
+    "om_unit_of_measure": "percentage of participants"
+   },
+   {
+    "assessment_criteria": "RECIST",
+    "criteria_version_tokens": "1.1",
+    "denominator_state": "PRESENT",
+    "denominator_value_participants": "44",
+    "endpoint_constructs": "ORR",
+    "measurement_value_raw": "31.0",
+    "obs_id": "NCT_SYNTHETIC_0002#om1#OG000",
+    "om_param_type": "NUMBER",
+    "om_population_description": "Efficacy evaluable participants",
+    "om_time_frame": "Up to 6 months",
+    "om_title": "Objective Response Rate (ORR)",
+    "om_type": "PRIMARY",
+    "om_unit_of_measure": "percentage of participants"
+   }
+  ],
+  "pair_same_record_different_wording": [
+   {
+    "assessment_criteria": "RECIST",
+    "criteria_version_tokens": "1.1",
+    "denominator_state": "PRESENT",
+    "denominator_value_participants": "58",
+    "endpoint_constructs": "ORR",
+    "measurement_value_raw": "31.0",
+    "obs_id": "NCT_SYNTHETIC_0001#om0#OG000",
+    "om_param_type": "NUMBER",
+    "om_population_description": "Efficacy evaluable participants",
+    "om_time_frame": "Up to 24 months",
+    "om_title": "Objective Response Rate (ORR)",
+    "om_type": "PRIMARY",
+    "om_unit_of_measure": "percentage of participants"
+   },
+   {
+    "assessment_criteria": "RECSIT",
+    "criteria_version_tokens": "1.1 ",
+    "denominator_state": "PRESENT",
+    "denominator_value_participants": "58",
+    "endpoint_constructs": "ORR",
+    "measurement_value_raw": "31.0",
+    "obs_id": "NCT_SYNTHETIC_0001#om1#OG000",
+    "om_param_type": "NUMBER",
+    "om_population_description": "Efficacy-evaluable patients",
+    "om_time_frame": "up to 24 mo.",
+    "om_title": "Objective response rate, ORR",
+    "om_type": "PRIMARY",
+    "om_unit_of_measure": "Percentage of Participants"
+   }
+  ]
+ },
+ "pair_genuinely_different": {
+  "n_input_records": 2,
+  "v1": {
+   "duplicate_encoding_candidate": false,
+   "v1_contract_sentence_applied": "no duplicate encoding -> v1 contract asserts 'a distinct outcome, time point or population'"
+  },
+  "v2": {
+   "distinction_basis": "INCLUDES_STRUCTURED_FIELD",
+   "distinguishing_fields": [
+    "om_time_frame",
+    "denominator_value_participants"
+   ],
+   "encoding_identity_status": "NON_IDENTICAL_ENCODING_ON_PRESERVED_FIELDS",
+   "semantic_duplication_status": "UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED"
+  }
+ },
+ "pair_same_record_different_wording": {
+  "n_input_records": 2,
+  "v1": {
+   "duplicate_encoding_candidate": false,
+   "v1_contract_sentence_applied": "no duplicate encoding -> v1 contract asserts 'a distinct outcome, time point or population'"
+  },
+  "v2": {
+   "distinction_basis": "TEXT_DERIVED_ONLY",
+   "distinguishing_fields": [
+    "om_title",
+    "om_time_frame",
+    "assessment_criteria",
+    "criteria_version_tokens",
+    "om_population_description",
+    "om_unit_of_measure"
+   ],
+   "encoding_identity_status": "NON_IDENTICAL_ENCODING_ON_PRESERVED_FIELDS",
+   "semantic_duplication_status": "UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED"
+  }
+ }
+}

@@ -1,0 +1,14 @@
+PASS V1_original_v1_component_bytes_unchanged :: 19 baseline files re-hashed, 0 changed ([]); this repair writes only into its own v2 directory
+PASS V2_v1_duplicate_rule_reproduced_from_v1_columns :: 8740 v1 rows recomputed, 0 disagreements with the emitted duplicate_encoding_candidate column; the v1 rule under test is v1's own rule
+PASS V3_related_sets_relabelled_one_to_one_no_merge_no_drop :: 8740 v1 cohort keys, 8740 v2 rows, identical order=True, n_observations preserved=True, observation_ids preserved verbatim=True
+PASS V4_no_v2_row_asserts_a_distinct_measurement_or_population :: 4464 competing sets, 0 carrying a resolved semantic status, 0 asserting distinctness
+PASS V5_encoding_label_closed_vocabulary_and_field_backed :: census={'SINGLE_OBSERVATION__NO_COMPARISON_MADE': 4276, 'NON_IDENTICAL_ENCODING_ON_PRESERVED_FIELDS': 4464}; 0 rows labelled non-identical with no differing field
+PASS V6_text_only_distinctions_counted_and_left_unresolved :: 1744 of 4464 competing sets are separated ONLY by free-text-derived fields; all remain semantically unresolved=True
+PASS V7_parent_component_relations_are_candidate_unless_a_field_states_them :: 47 relations, statuses=['CANDIDATE_PARENT_COMPONENT_RELATION__NAME_PATTERN_ONLY', 'SOURCE_DESCRIBED_SUPERSET_LANGUAGE__COMPONENTS_NOT_NAMED', 'SOURCE_STATED_PARENT_COMPONENT_RELATION__COMPONENTS_NAMED_IN_RECORD'], name-only rows without a NOT-ESTABLISHED same-patients note=0, rows with no evidence field=0, v1 parent/component/denominator columns carried verbatim=True
+PASS V8_excess_categories_partition_and_membership_agree_with_the_schema :: exact labels: plain=70, pooled=35, single=1; they are disjoint and sum to the membership view 106; the single-cohort trial's measure holds 1 group, so its within-measure 'sum' is that one cohort
+PASS V9_negative_control_exits_zero_on_all_three_assertions :: returncode=0; stdout=3/3 negative-control assertions hold
+PASS V10_no_rate_unique_patient_total_or_capacity_column_emitted :: 4 v2 TSVs checked; offending columns={}
+PASS V11_withdrawn_overclaim_sentences_are_not_restated_as_v2_claims :: 3 v2 prose files scanned; unqualified restatements={}
+PASS V12_v1_artifacts_still_match_v1_schema_hashes_and_bytes :: 12 v1 artifacts re-hashed against v1 SCHEMA.json, 0 drifted ([])
+12/12 checks passed
+CHECKS_EXIT=0

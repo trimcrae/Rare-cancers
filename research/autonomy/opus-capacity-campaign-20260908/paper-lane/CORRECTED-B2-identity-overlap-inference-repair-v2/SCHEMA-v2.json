@@ -1,0 +1,70 @@
+{
+ "contract_id": "CORRECTED-B2-identity-overlap-inference-repair-v2",
+ "version": "v2",
+ "sibling_of": "../CORRECTED-B-identity-selection-overlap/",
+ "supersedes_nothing": "The v1 component's contract, schema, data-sufficiency statement, builder, checks and all 12 artifacts are untouched evidence of what v1 actually asserted. This is a NEW EXPLICITLY VERSIONED SIBLING that repairs the INFERENCE STRENGTH of v1's labels. No v1 byte was opened for writing (checks V1, V12).",
+ "scope_of_this_repair": "Labels and prose only. No source query, no re-run of job 2, no re-run of any leaf analysis, no manuscript edit, no new rate, unique-patient total, capacity bound or control analysis. The endpoint paper stays parked.",
+ "the_defect": "Different preserved strings establish NON-IDENTICAL ENCODINGS. They do not establish that a pair is a genuinely distinct clinical measurement or population. v1's sentences 'Genuinely duplicate encodings do not occur' and 'every one ... a distinct outcome, time point or population' are WITHDRAWN as v2 statements.",
+ "no_normalisation": "No normalisation of unit order, signs, case, spacing or misspellings is performed anywhere. No record is merged. No preferred endpoint is introduced.",
+ "vocabularies": {
+  "encoding_identity_status": {
+   "NON_IDENTICAL_ENCODING_ON_PRESERVED_FIELDS": "the competing observations differ on at least one preserved identity field. This establishes that the ENCODINGS are not identical and nothing more. Observed: 4464 cohort keys",
+   "IDENTICAL_ON_ALL_PRESERVED_FIELDS": "no preserved field separates the competing observations. Observed: 0. Its absence is NOT evidence that semantic duplication is absent",
+   "SINGLE_OBSERVATION__NO_COMPARISON_MADE": "one observation for this cohort key; no comparison was possible. Observed: 4276"
+  },
+  "semantic_duplication_status": {
+   "UNRESOLVED__SEMANTIC_CORRESPONDENCE_NOT_ESTABLISHED": "whether the competing observations are the same measurement on the same patients is NOT established by the source and is not decided here. Carried on all 4464 competing sets",
+   "NOT_APPLICABLE__SINGLE_OBSERVATION": "only one observation exists for this cohort key"
+  },
+  "distinction_basis": {
+   "TEXT_DERIVED_ONLY": "the only differing fields are free-text source strings or tokens derived from them (measure title, time-frame text, population description, unitOfMeasure text, endpoint-construct tokens, criteria and version tokens). Observed: 1744 competing sets. This is exactly the case the negative control shows is not evidence of a distinct measurement",
+   "INCLUDES_STRUCTURED_FIELD": "at least one differing field is structured: paramType, the Participants denominator value, the outcome-measure type, or the denominator state. Observed: 2720 competing sets",
+   "NONE": "no differing field, or no comparison made"
+  },
+  "relation_status": {
+   "SOURCE_STATED_PARENT_COMPONENT_RELATION__COMPONENTS_NAMED_IN_RECORD": "an exact record field enumerates the component groups or states the pooling arithmetic. The field name and its verbatim text are recorded. Observed: 11 of 47",
+   "SOURCE_DESCRIBED_SUPERSET_LANGUAGE__COMPONENTS_NOT_NAMED": "the record uses all-participants/superset language but names no component group, so which cohorts are its components is not established. Observed: 10 of 47",
+   "CANDIDATE_PARENT_COMPONENT_RELATION__NAME_PATTERN_ONLY": "the only basis is a pooled-sounding normalised group title. A name is NOT evidence of who the patients are; same_patients_claim reads NOT ESTABLISHED. Observed: 26 of 47"
+  },
+  "conflict_category_presentation": {
+   "EXACT_LABEL__WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT": "70 trials, disjoint from the other two excess labels",
+   "EXACT_LABEL__WITHIN_MEASURE_SUM_EXCEEDS_ENROLLMENT__POOLED_LABEL_IN_MEASURE": "35 trials, disjoint. NOT a subset of the 70",
+   "EXACT_LABEL__SINGLE_COHORT_EXCEEDS_ENROLLMENT": "1 trial (NCT00756509, 41 vs 34), disjoint. Its measure holds exactly one group, so its within-measure sum IS that cohort",
+   "MEMBERSHIP__ANY_WITHIN_MEASURE_SUM_EXCESS": "106 trials. A NON-EXCLUSIVE membership view and the union of the three labels above. It is not a fourth category and no total is manufactured"
+  }
+ },
+ "denominator_usability_scope": "'Denominator usable' means a positive reported Participants denominator AT THIS COMPONENT'S SCOPE. It is NOT full eligibility, NOT analysis-population membership, and NOT fitness for any downstream estimand.",
+ "metadata_state_separation": "Source non-collection (639 observations carrying a verbatim non-collection or termination statement) and an absent reportingStatus field (15 observations in 10 trials) are SEPARATE metadata states. Neither is evidence for the other; neither is a missing value; they are never collapsed. Counts are v1 outputs carried forward.",
+ "negative_control": "negative_control.py: one synthetic record entered twice with harmless wording differences. NC1 v1's rule reports no duplicate candidate, so v1's sentence would call one record twice a distinct outcome/time point/population. NC2 v2 labels it NON_IDENTICAL_ENCODING / TEXT_DERIVED_ONLY / semantics UNRESOLVED. NC3 neither rule merges, normalises or rewrites a clinical record. Exit 0 on all three.",
+ "artifacts": {
+  "CHANGE-MAP-v1-to-v2.tsv": {
+   "bytes": 7620,
+   "sha256": "07207563b450a02a154eac4fe2642ff2a505d7b1cbe167d612ac33baea31d7dd"
+  },
+  "CHECKS-v2.json": {
+   "bytes": 2907,
+   "sha256": "82b8d71b1f3498f622988296a1f2d83ba38c0f3ba43cec085540cb533857e60c"
+  },
+  "ENROLLMENT-EXCESS-CATEGORIES-v2.tsv": {
+   "bytes": 1566,
+   "sha256": "788079755774829a54a91c0b6283a8e7bd6110db72107bccdae8a0fb44fd5d58"
+  },
+  "GROUP-RELATIONS-candidate-parent-component-v2.tsv": {
+   "bytes": 50196,
+   "sha256": "49f1a78a6fc9f3c0bb1313b550a67ee9f99782abde409e1c258321fb0c6a9a83"
+  },
+  "NEGATIVE-CONTROL-wording-only-duplicate.json": {
+   "bytes": 4389,
+   "sha256": "d2c90811f91681506ce872bf8da7250b3f1eb26165d86137eee102f87a80b161"
+  },
+  "RELABEL-SUMMARY-v2.json": {
+   "bytes": 1226,
+   "sha256": "72839b81f5bc1a7b7293b80393803bd2b579423e998e127a83ba0e529aff1e13"
+  },
+  "RELATED-SETS-encoding-vs-semantics-v2.tsv": {
+   "bytes": 7115592,
+   "sha256": "d6beb3ed7619e16744e385909e05e4ba90107e4e3f0779103b04a2dcf1fba43f"
+  }
+ },
+ "note_on_CHECKS-v2.json_hash": "checks_v2.py writes CHECKS-v2.json deterministically; the hash below is the one produced by the recorded passing run."
+}
