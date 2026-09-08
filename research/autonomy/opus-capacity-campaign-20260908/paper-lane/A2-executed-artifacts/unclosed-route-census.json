@@ -1,0 +1,1104 @@
+{
+ "_worker": "A2",
+ "_stream": "systems/graph/routes.json un-closed routes",
+ "_repo_head": "666b1fd2a6d324233291c24ec1429f24609954b1",
+ "_total_routes": 83,
+ "_unclosed_count": 52,
+ "_criterion": "Paper merit = would a competent reader of the rare-sarcoma literature change a belief, on evidence at PRIMARY or RETRIEVED grade, at an endpoint that is not already drafted or posted. Tractability is not scored.",
+ "_headline": "ZERO un-closed routes qualify as a distinct new paper. Every un-closed route sits in an endpoint that is already drafted/posted_preprint, or in one of the excluded P1-P6 / PUB-ASO / NR4A-labelled families. The only non-drafted endpoints on the board are exactly P1-P6 plus PUB-PARKED-MODALITIES, whose five routes are all closure_kind=instrument_limit.",
+ "rows": [
+  {
+   "route": "RT-ASO",
+   "closure_kind": "open",
+   "endpoint": "PUB-ASO",
+   "endpoint_state": "posted_preprint",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "scoped",
+   "confidence": "moderate",
+   "last_verified": "2026-08-13",
+   "blockers_inherited": [
+    "BLK-DELIVERY"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY",
+    "BLK-NOT-FUSION-SELECTIVE"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "Tier 1, rank 2 \u2014 DELIVERABLE",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion",
+    "NOT A NEW PAPER: endpoint state=posted_preprint"
+   ]
+  },
+  {
+   "route": "RT-METHODS-PAPER",
+   "closure_kind": "open",
+   "endpoint": "PUB-METHODS",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "scoped",
+   "confidence": "high",
+   "last_verified": "2026-08-05",
+   "blockers_inherited": [],
+   "blockers_retired": [
+    "BLK-NO-WET-LAB"
+   ],
+   "has_distinct_from": false,
+   "grade_head": "Tier 1, rank 1 \u2014 DELIVERABLE",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-ATR-ASSESS",
+   "closure_kind": "open",
+   "endpoint": "PUB-ATR",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-06",
+   "blockers_inherited": [
+    "BLK-CLASS-INHERITANCE",
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY",
+    "BLK-R4-BINDS"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "Tier 1, rank 3 \u2014 DELIVERABLE",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-TCIP",
+   "closure_kind": "open",
+   "endpoint": "PUB-TCIP",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "scoped",
+   "confidence": "low",
+   "last_verified": "2026-08-06",
+   "blockers_inherited": [
+    "BLK-INDUCED-COMPLEX",
+    "BLK-NO-WET-LAB",
+    "BLK-PARALOGUE-DDG",
+    "BLK-R4-BINDS",
+    "BLK-TCIP-INTERFACE-FLOOR",
+    "BLK-UNSIZED-REQUIREMENT"
+   ],
+   "blockers_retired": [
+    "BLK-TERNARY-GEOMETRY"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "Tier 3 \u2014 demoted from Tier 2; the cheapest promotion available in the memo",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-ASYMMETRIC",
+   "closure_kind": "open",
+   "endpoint": "PUB-DEGRADER",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "high",
+   "last_verified": "2026-08-06",
+   "blockers_inherited": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-UNSIZED-REQUIREMENT"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2605\u2605 adopt now \u2014 free, and it changes the design brief",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-TRABECTEDIN",
+   "closure_kind": "open",
+   "endpoint": "PUB-EMC-PROGRAM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-09-01",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "NEAR-TERM LEAD \u2014 approved, mechanism-fit",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-PPARG-DOWNSTREAM",
+   "closure_kind": "open",
+   "endpoint": "PUB-REPURPOSING",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-28",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY",
+    "BLK-R4-BINDS"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "\u2605 keep, unblock cheaply",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-PANNR4A-EXVIVO",
+   "closure_kind": "open",
+   "endpoint": "PUB-DEGRADER",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-05",
+   "blockers_inherited": [],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-NOT-FUSION-SELECTIVE"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "\u2605 already in the paper as pole 2; under-used as an ARGUMENT",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-PRAME-IMMTAC",
+   "closure_kind": "open",
+   "endpoint": "PUB-SURFACE-TARGETS",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-28",
+   "blockers_inherited": [
+    "BLK-ANTIGEN-COLD",
+    "BLK-NO-EMC-DATA",
+    "BLK-NOT-FUSION-SELECTIVE"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "DOWNGRADED 2026-08-28 \u2014 the owed EMC-tissue expression confirm had already been taken and PRAME reads at the floor of every readable cohort, flat against compar",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-ICI-TKI",
+   "closure_kind": "open",
+   "endpoint": "PUB-EMC-PROGRAM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "delegated",
+   "maturity": "concept",
+   "confidence": "moderate",
+   "last_verified": "2026-08-25",
+   "blockers_inherited": [
+    "BLK-ANTIGEN-COLD",
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY",
+    "BLK-NOT-FUSION-SELECTIVE"
+   ],
+   "has_distinct_from": false,
+   "grade_head": "Landscape comparator \u2014 the only approved-drug combination with any reported EMC response \u2b50 2026-08-25 \u2014 THE PARENT TRIAL'S EMC PATIENTS ARE NOW READABLE ONE BY ",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-CARFILZOMIB",
+   "closure_kind": "open",
+   "endpoint": "PUB-REPURPOSING",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-28",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "\u25d0 THE OBSERVATION STANDS AND BOTH IN-SILICO RATIONALES FOR IT FAILED (regraded 2026-08-09, first time this route's axis has ever been read). \u2b50 WHAT IS UNCHANGED",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-FAP-RLT",
+   "closure_kind": "open",
+   "endpoint": "PUB-SURFACE-TARGETS",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "concept",
+   "confidence": "unknown",
+   "last_verified": "2026-08-05",
+   "blockers_inherited": [
+    "BLK-CLASS-INHERITANCE",
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [
+    "BLK-NOT-FUSION-SELECTIVE",
+    "BLK-PARALOGUE-DDG",
+    "BLK-TERNARY-GEOMETRY"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "Emerging, plausible",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-ENDPOINT-CHOICE",
+   "closure_kind": "open",
+   "endpoint": "PUB-ENDPOINT",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [],
+   "blockers_retired": [
+    "BLK-NO-WET-LAB"
+   ],
+   "has_distinct_from": true,
+   "grade_head": "DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend,",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-FUSION-OUTPUT",
+   "closure_kind": "open",
+   "endpoint": "PUB-FUSION-OUTPUT",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "active",
+   "maturity": "validated_in_silico",
+   "confidence": "moderate",
+   "last_verified": "2026-08-08",
+   "blockers_inherited": [],
+   "blockers_retired": [],
+   "has_distinct_from": true,
+   "grade_head": "THE RESULT IS AN INSTRUMENT, and the biology is its worked example. A size-matched empirical null drawn from a platform's own genes is the required calibration ",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-PARTNER-STRAT",
+   "closure_kind": "open",
+   "endpoint": "PUB-FUSION-PARTNER",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-08",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": true,
+   "grade_head": "The portfolio's only patient-SELECTION route: it proposes no new agent and no new modality, and asks instead which existing patients the one active drug class i",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-TXN-CDK",
+   "closure_kind": null,
+   "endpoint": "PUB-TXN-DEPENDENCY",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-CLASS-INHERITANCE",
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance \u2014 CDK7 module and transcriptional output higher in EMC on both platforms \u2014 and then the d",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-CHAPERONE",
+   "closure_kind": null,
+   "endpoint": "PUB-TXN-DEPENDENCY",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. \u26d4 But the HSP70 arm and the heat-shock response g",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-MTAP-PRMT5",
+   "closure_kind": "open",
+   "endpoint": "PUB-MTAP-PRMT5",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 ONE SUB-ROUTE STANDS BUT IS NOW CONDITIONAL; THE OTHER IS CLOSED (regraded 2026-08-09 after a day of measurements, most of which went against it). \u2b50 FOR: PRMT",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-ARGININE",
+   "closure_kind": null,
+   "endpoint": "PUB-BIOMARKER-DEP",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 Premise NOT supported (2026-08-09). ASS1 \u2014 the biomarker the class is given on \u2014 is HIGHER in EMC than in comparator sarcomas on BOTH readable platforms, and ",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-MDM2",
+   "closure_kind": null,
+   "endpoint": "PUB-BIOMARKER-DEP",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and ",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-APOPTOSIS-DEP",
+   "closure_kind": null,
+   "endpoint": "PUB-BIOMARKER-DEP",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-EZH2",
+   "closure_kind": null,
+   "endpoint": "PUB-BIOMARKER-DEP",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 NOT SUPPORTED (2026-08-09). Neither shape that selects this class is present: EZH2 is only mildly higher, the rest of PRC2 is flat, and no SWI/SNF tumour-supp",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-POLQ",
+   "closure_kind": null,
+   "endpoint": "PUB-BIOMARKER-DEP",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 NOT SUPPORTED \u2014 THE COMBINATION IS ABSENT (2026-08-09, corrected the same day). The class needs alt-EJ UP together with homologous recombination DOWN. \u26a0 CORRE",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-SGK1",
+   "closure_kind": null,
+   "endpoint": "PUB-KINASE-LEADS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE (2026-08-09). SGK1 itself reads LOWER on one platform and HIGHER on the other, so the transcript does no",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-DNAPK",
+   "closure_kind": null,
+   "endpoint": "PUB-KINASE-LEADS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "scoped",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evi",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-RET",
+   "closure_kind": null,
+   "endpoint": "PUB-KINASE-LEADS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 SPLIT ON EXPRESSION, AND THE ELIGIBILITY BAR IS THE REAL CLOSURE (2026-08-09, folding a record read 2026-08-07). ARRAY HALF, unchanged: RET itself is higher i",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-ALK-HIT",
+   "closure_kind": null,
+   "endpoint": "PUB-KINASE-LEADS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-29",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 UNATTRIBUTABLE BY EXPRESSION, AND THE RE-READ DEMOTES THE LEAD (2026-08-09). The route's own first step was to re-read the committed screen, and doing it chan",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-HORMONE-PARTNER",
+   "closure_kind": null,
+   "endpoint": "PUB-NR-OUTSIDE-NR4A3",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-28",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5\u2032 partner is reported in ONE EMC pati",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion",
+    "EXCLUDED: NR4A-labelled endpoint"
+   ]
+  },
+  {
+   "route": "RT-NR2F1",
+   "closure_kind": null,
+   "endpoint": "PUB-NR-OUTSIDE-NR4A3",
+   "endpoint_state": "outlined",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "scoped",
+   "confidence": "unknown",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26a0 UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. \u26d4 An absent reading",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion",
+    "EXCLUDED: NR4A-labelled endpoint"
+   ]
+  },
+  {
+   "route": "RT-MATRIX-SYNTHESIS",
+   "closure_kind": null,
+   "endpoint": "PUB-MATRIX-ADDRESS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-28",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 Premise NOT supported AS STATED (2026-08-09). The sulfate-donor module is LOWER in EMC than in comparator sarcomas on both platforms; the backbone and 4-O-sul",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-MATRIX-ADDRESS",
+   "closure_kind": null,
+   "endpoint": "PUB-MATRIX-ADDRESS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA",
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 NOT SUPPORTED ON CAPACITY, PREMISE STILL UNREADABLE (2026-08-09). The route's own cheapest next observation was taken. The 4-O-sulfotransferase arm that write",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-IMMUNOCYTOKINE",
+   "closure_kind": null,
+   "endpoint": "PUB-MATRIX-ADDRESS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-ANTIGEN-COLD",
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 PARTLY READ (2026-08-09). The parent matrix genes are abundant in absolute terms \u2014 FN1 at the 94th array percentile \u2014 but not enriched against comparator sarc",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-HYPOXIA-PRODRUG",
+   "closure_kind": null,
+   "endpoint": "PUB-MATRIX-ADDRESS",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "parked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel a",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-LIMB-PERFUSION",
+   "closure_kind": null,
+   "endpoint": "PUB-LOCOREGIONAL",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-25",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26a0 NOT GRADEABLE ON ELIGIBILITY \u2014 THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-LUNG-DIRECTED",
+   "closure_kind": null,
+   "endpoint": "PUB-LOCOREGIONAL",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-25",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u25d0 THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). \u2b50 The route's premise half holds and is now sized: across three non-overlapping ",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-MDT-LUNG",
+   "closure_kind": null,
+   "endpoint": "PUB-LOCOREGIONAL",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-10",
+   "blockers_inherited": [],
+   "blockers_retired": [],
+   "has_distinct_from": true,
+   "grade_head": "\u25d4 THE PRACTICE IS REAL; THE ARGUMENT FOR IT IS ALREADY PUBLISHED (2026-08-10, corrected the same day it was written). \u26d4 THIS ROUTE'S ORIGINAL GRADE CLAIMED A CA",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-RT-INTENSIFY",
+   "closure_kind": null,
+   "endpoint": "PUB-LOCOREGIONAL",
+   "endpoint_state": "outlined",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-09-02",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 RE-GRADED 2026-08-26 \u2014 THE CONTRADICTION THIS ROUTE IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 and Masunaga 2025 were read as disagreein",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-TRIAL-REACH",
+   "closure_kind": "open",
+   "endpoint": "PUB-STRATEGY-ARCH",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 THE MECHANISM IS REAL AND MEASURED, AND ITS SHARPEST FINDING IS AN ABSENCE (graded 2026-08-09 from a sweep that ran 2026-08-07). The route's premise is that a",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-MODALITY-CENSUS",
+   "closure_kind": null,
+   "endpoint": "PUB-MODALITY-CENSUS",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Complete as a deliverable on 2026-08-09: the register, the generated view and the manuscript all exist and every pointer in them resolves.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-IPD-SURVIVAL",
+   "closure_kind": "open",
+   "endpoint": "PUB-IPD-SURVIVAL",
+   "endpoint_state": "unwritten",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-25",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 THE INSTRUMENT IS BUILT AND ITS KNOWN-ANSWER CONTROL PASSES; ONLY THE CURVES ARE MISSING. research/modalities/emc_ipd_survival.py implements Guyot et al. 2012",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-SURGICAL-QUALITY",
+   "closure_kind": "open",
+   "endpoint": "PUB-CARE-DELIVERY",
+   "endpoint_state": "unwritten",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-09-02",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 THE LARGEST PUBLISHED SURVIVAL ASSOCIATION IN THIS DISEASE IS AN OPERATION, AND NO ROUTE ON THIS BOARD COVERED IT. In SEER locoregional EMC, surgery carried H",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-SURVEILLANCE",
+   "closure_kind": "open",
+   "endpoint": "PUB-CARE-DELIVERY",
+   "endpoint_state": "unwritten",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-09-02",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "The quantitative case is in one cohort. In 67 molecularly-confirmed, centrally-reviewed localised EMC patients, 10-year overall survival was 84% (69-98) against",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-METASTASECTOMY",
+   "closure_kind": "open",
+   "endpoint": "PUB-CARE-DELIVERY",
+   "endpoint_state": "unwritten",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-09-02",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT \u2014 BUT IT IS A NARROWER ABSENCE THAN THIS ROUTE RECORDED UNTIL 202",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-RISK-MODEL",
+   "closure_kind": "open",
+   "endpoint": "PUB-CARE-DELIVERY",
+   "endpoint_state": "unwritten",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-09-02",
+   "blockers_inherited": [
+    "BLK-NO-CURATED-CLINICAL-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b50 RE-GRADED 2026-08-26 \u2014 THE COEFFICIENTS DO NOT HAVE TO BE ESTIMATED, THEY ARE ALREADY PRINTED. This route was written as though a model had to be FITTED, whic",
+   "disqualifiers": [
+    "EXCLUDED: P1-P6 / PUB-ASO campaign exclusion"
+   ]
+  },
+  {
+   "route": "RT-POPULATION-REGISTRY",
+   "closure_kind": "open",
+   "endpoint": "PUB-EMC-CLASSIFICATION",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-23",
+   "blockers_inherited": [
+    "BLK-REGISTRY-DUA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u26d4 GATED, AND DELIBERATELY BEHIND RT-DIAGNOSTIC-PATHWAY RATHER THAN BEHIND THE DATA-USE AGREEMENT. Registry microdata would supply the denominators, treatment pa",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-VACCINE-COMBINATION",
+   "closure_kind": "open",
+   "endpoint": "PUB-VACCINE-PATH",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "blocked",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-19",
+   "blockers_inherited": [
+    "BLK-ANTIGEN-COLD",
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": true,
+   "grade_head": "REGISTERED 2026-08-19 AS AN UNGRADED UNIT, NOT AS A PROMOTION. Every component was graded alone and each exclusion assumed the others absent.",
+   "disqualifiers": [
+    "EXCLUDED: NR4A-labelled endpoint",
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-COMPETING-MORTALITY",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-RESPIRATORY-FAILURE",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-TREATMENT-HARM",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-08-09",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-EARLY-PALLIATIVE",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "complete",
+   "status": "blocked",
+   "maturity": "scoped",
+   "confidence": "low",
+   "last_verified": "2026-09-04",
+   "blockers_inherited": [
+    "BLK-NO-WET-LAB"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-VTE-PROPHYLAXIS",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "concept",
+   "confidence": "low",
+   "last_verified": "2026-09-04",
+   "blockers_inherited": [
+    "BLK-NO-EMC-DATA"
+   ],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 from trimcrae's mechanism-of-death question; the family this route sits in did not exist before that day.",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  },
+  {
+   "route": "RT-HOST-FACTOR",
+   "closure_kind": null,
+   "endpoint": "PUB-MORTALITY-MECHANISM",
+   "endpoint_state": "drafted",
+   "work_state": "future",
+   "status": "ready",
+   "maturity": "scoped",
+   "confidence": "low",
+   "last_verified": "2026-09-04",
+   "blockers_inherited": [],
+   "blockers_retired": [],
+   "has_distinct_from": false,
+   "grade_head": "\u2b51 Registered 2026-08-09 (trimcrae). The only route in the portfolio whose intervention already exists, is already approved, and needs no EMC-specific evidence t",
+   "disqualifiers": [
+    "NOT A NEW PAPER: endpoint state=drafted"
+   ]
+  }
+ ]
+}

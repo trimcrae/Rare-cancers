@@ -187,3 +187,74 @@ No campaign worker may take it and A1 did not.
 
 **Nothing here admits a paper, and no efficacy, safety, selectivity, therapeutic-window or readiness claim is
 made for any of the 14 agents** — "approved elsewhere" is a regulatory fact only.
+
+---
+
+# A2 RESULT — **NO-GO on a distinct paper (0 of 52)**, but it found a real measured defect. Collected 07:23 UTC.
+
+Child `a6675fd70c358f364`, observed transcript model `claude-opus-5`, 07:10:45 → 07:16:38 UTC (5 m 53 s, 24 tool
+calls). No repository write, no git operation. Durable artifacts `sha256sum -c` **2 of 2 OK** in
+`/tmp/claude-0/a2-retained/` (not deleted) and again after copying to `paper-lane/A2-executed-artifacts/`:
+`unclosed-route-census.json` `741593e0…` (34,671 B, all 52 un-closed rows), `A2-DECISION.md` `53bcfd3d…`.
+
+## ⭐ Measured defect — parent-corroborated directly, not taken on the child's word
+
+`research/manuscripts/emc-host-factor-model.json` sets **`competing_share_of_deaths_used = 0.394`**, sourced to
+*"within-series (Meis-Kindblom 1999) — the only pairing measured on the same patients."* But the paper's own
+Appendix A.1 (`emc-mortality-mechanisms-paper.md:391`) reads verbatim **"Competing share, 39.4 per cent
+superseded by 21.7 per cent"**, and its Results table at `:241` carries the adopted value —
+`| combined | 163 | 18 | 5 | 21.7 % | 11.0 points |`. **I re-read all three lines myself and confirm them.**
+
+Two consequences: the model's load-bearing denominator is the **superseded** estimator, high by
+**39.4 / 21.7 = 1.82×**, inflating every compartment-B band it produces; and the model's source sentence is now
+**false**, because `direct_cause_split` *is* a pairing on the same patients and is what the paper adopted.
+
+## The structural reason nothing qualifies
+
+From the two graph files alone: **every un-closed route maps to an endpoint that is `drafted` or
+`posted_preprint`**, except the P1–P6 routes and PUB-ASO. The only other non-drafted endpoint,
+`PUB-PARKED-MODALITIES`, owns five routes and **all five are `instrument_limit`** — closed on their merits.
+
+⭐ **And a sharp observation about the graph's own novelty field:** only 15 of 52 un-closed routes carry
+`distinct_from` at all, and the mortality family carries none. Four claims were tested against the tree and all
+four hold — but **`distinct_from` asserts distinctness from another *route*, never from an already-drafted
+*manuscript*, and in every case tested the manuscript is what disqualifies the row. A `distinct_from` that
+holds is not paper novelty.**
+
+The three tests were kept separate as the correction required. **Zero of 52 pass all three**; the top-merit
+route, RT-HOST-FACTOR, passes T1 (distinct) and partly T2 (input) and **fails T3 (non-overlap)** — its endpoint
+`PUB-MORTALITY-MECHANISM` is already drafted.
+
+## The scope correction took effect, and the child disclosed its own earlier error
+
+A2 records that its **first pass excluded a block of routes by NR4A label**, that it **retracted that** when the
+correction arrived, and that it re-judged all six affected routes on named holds only. Every exclusion in the
+final report cites a recorded reason: RT-ASO on the submission-owner freeze; RT-HORMONE-PARTNER and RT-NR2F1 on
+**P6's unauthorized manuscript** (the label being incidental); RT-POPULATION-REGISTRY on the user's rejection of
+the registry ICD-O paper; P1–P5 routes on their own dispositions.
+
+## Authorization rows — inspected, not bypassed
+
+All four `closure_kind: authorization` rows (RT-ASO-ASK, RT-ATR-PANEL, RT-TRABECTEDIN-PPARG, RT-SSTR2) have a
+`next.blocked_on` naming **`BLK-NO-WET-LAB`, not a permission gate** — so the `authorization` label is **partly
+stale**. The real boundary is two conditions and both are named: an absent **bench** (a capability, CLAUDE.md
+§5) and an un-granted **permission** for the outreach act (CLAUDE.md §3), whose enforcer is the user, not a
+script. A2 **did not open `publication-authority.json`**, so whether any current grant covers such an ask is
+recorded **UNKNOWN rather than assumed either way**. None becomes executable; none is proposed for revival.
+
+## Recommended checkpoint — explicitly NOT a paper, and not taken here
+
+Re-run `emc_host_factor_model.py` with the share from `direct_cause_split`; accept only when the used value
+equals the paper's adopted value, the source names `direct_cause_split`, the false "only pairing" sentence is
+replaced, every compartment-B figure moves by the recomputed ratio with none quoted outside its band, and
+`pytest` (never `python3 -m pytest`) exits 0 on an otherwise unchanged tree. **Stop** if a committed record
+shows the within-series estimator was chosen deliberately — then it is a documentation defect and the branch
+ends there. **No novelty is claimed**, and whether the band is interesting at 21.7 % rather than 39.4 % is
+**UNKNOWN until recomputed**. It is an **owner act on a drafted manuscript**; no campaign worker may take it and
+A2 did not.
+
+Unreachable and named: the model's `factors_not_entered` (diabetes/metformin, hypertension) need a **network**
+retrieval outside worker authority; host-factor prevalence in a real EMC cohort is blocked on
+`BLK-NO-EMC-DATA`. A2 also flags that any write-up in this family must **resolve the key, not the number**, per
+W57's recorded 162-vs-577 hazard on route 81. No clinical efficacy, safety, selectivity, therapeutic-window or
+readiness claim is made anywhere; there is no wet lab.
