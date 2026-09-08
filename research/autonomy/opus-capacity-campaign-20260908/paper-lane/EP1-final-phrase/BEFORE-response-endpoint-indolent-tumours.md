@@ -601,12 +601,11 @@ patient, and no corrected observed patient set is claimed.
 
 Holding the reported event counts fixed and taking that cohort's denominator as the sum of its own
 categories gives 13.0% objective response (6.1 to 25.7), 91.3% disease control (79.7 to 96.6) and a
-gap of 78.3 points against the nominal 76.6, a shift of 1.7 points: the nominal gap is lower than
-this fixed-event sensitivity. That ordering holds under this specified fixed-event denominator
-sensitivity and is not a general bound. This is a denominator sensitivity over the same reported
-events, not a new dataset, a corrected observation or a fresh analysis; both figures are stored in
+gap of 78.3 points against the nominal 76.6, a shift of 1.7 points, in the direction that makes the
+headline the conservative reading. This is a denominator sensitivity over the same reported events,
+not a new dataset, a corrected observation or a fresh analysis; both figures are stored in
 `emc-endpoint-discordance.json`. The unaccounted-for outcome remains unknown and the source-quality
-limitation stands: neither is resolved by the direction of the shift.
+limitation stands: the stable direction of the shift does not resolve either.
 
 This pooled example does not satisfy the complete four-cell identity section 2.3 asserts for every
 arm of the 552-arm corpus, and it is not admitted to that corpus. A shared nominal denominator is
