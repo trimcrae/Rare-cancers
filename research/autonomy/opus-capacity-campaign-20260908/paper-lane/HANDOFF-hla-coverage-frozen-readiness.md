@@ -18,41 +18,97 @@ last_verified: 2026-09-08
 
 # Frozen handoff — `neoantigen/hla-coverage-emc.md`
 
-## Exact frozen revision, verified rather than assumed
+## ⭐ UPDATED 2026-09-08 — the register conversion, and what it did and did not touch
 
-- **Manuscript:** `research/manuscripts/neoantigen/hla-coverage-emc.md`, **47,005 bytes**, sha256
-  `5ad6ae1b5da8ddfc16df55ba006d4b5c27d69a45e9f735c6d34bec00e95092a4`, title *Modelled HLA coverage of
-  predicted EWSR1::NR4A3 junction binders in extraskeletal myxoid chondrosarcoma*.
-- **Last touched at `5f442c85`** ("HLA: integrate the corrected coverage manuscript and its history
-  sibling"). ⭐ **Checked, not forced:** the file's current bytes on this branch hash identically to
-  the bytes at both `5f442c85` and `0e542b84`, so there is no later integrated correction to prefer
-  and the earlier hash is still the live one.
-- **Record:** `systems/graph/publications.json` → `PUB-HLA-COVERAGE`, state **`drafted`**, target venue
-  **`preprint`**, `outcome_potential: negative_or_methods`, `patient_path: none`, and — see gaps below
-  — **`blocked_by: BLK-ANTIGEN-COLD`**.
+This handoff now describes the **converted** manuscript. The conversion was one bounded,
+reader-facing pass: house glyphs and administrative narrative removed, emphasis cut to load-bearing
+sentences, sentence-form headings recast, and standing author and declaration metadata added.
+
+⛔ **Nothing scientific moved.** No prediction, construct, source, threshold or independence
+approximation was changed, and no producer was re-run. Proved rather than asserted: the multiset of
+numeric tokens in the file before and after the conversion is **identical except for the draft label
+`v0.2`, which was then restored**. Every percentage token survives with the same multiplicity, and
+the allele identifiers, peptide sequences and artifact key names are unchanged. The only removals
+are the frontmatter's backfill placeholder and the word SEPARATE from a heading.
+
+- **Prior version preserved:** the pre-conversion bytes are
+  `5ad6ae1b5da8ddfc16df55ba006d4b5c27d69a45e9f735c6d34bec00e95092a4` (47,005 B) at `49ed058e`, and
+  the supersession history stays in `hla-coverage-emc-history.md`, 16,259 B, `17b7b078fdf4ee40…`,
+  unmodified.
+- **Preserved in the converted text and re-checked here:** the maximum e7::e3 coverage 16.11%
+  (13.83–18.71%), the minimum CD4 coverage 2.27%, three incomplete and thirteen complete regions on
+  the paper's own three-base-allele criterion, the 1.78% product with its all-junction versus
+  e7::e3-only scope mismatch stated in the Abstract, section 2.4 and limitation 12, the one
+  qualifying class-II allele from a 23-allele panel on one junction, the approximate independence
+  step reported as the implemented approximation rather than an exact IEDB formula, and UNKNOWN kept
+  distinct from zero throughout.
+
+**Metadata added, all of it truthful.** Tristan D. McRae, independent researcher, unaffiliated,
+trimcrae@gmail.com, ORCID 0000-0002-1823-1451; no funding; no competing interests; AI assistance by
+Claude (Anthropic) and OpenAI models under the author's direction, the author responsible, and no
+human peer review claimed. The ethics wording states that this is an analysis of public data
+involving no new recruitment, sampling or intervention, and that no ethics approval was sought or
+obtained for it. ⛔ It invents **no** formal "not required" determination and makes **no** broad
+"no patient records" claim.
+
+## Exact frozen revision
+
+- **Manuscript:** `research/manuscripts/neoantigen/hla-coverage-emc.md`, **47,368 bytes**, sha256
+  `768398917208449a088c6d2aa9549d9162b4bbc9aa1c3584d13a55c1ac45af0c`.
+- **Record:** `systems/graph/publications.json` → `PUB-HLA-COVERAGE`, state **`drafted`**, target
+  venue **`preprint`**, `outcome_potential: negative_or_methods`, `patient_path: none`, and
+  **`blocked_by: BLK-ANTIGEN-COLD`**.
 
 ## Complete dependency list, with digests
 
-Eleven files, **328,829 bytes** total. Small enough to travel whole; no cache, sandbox copy or
-regenerated intermediate is included, and nothing was deleted to make room (19 GiB free on this
-volume, well above the 10 GiB floor).
+"Complete" here means what the code actually imports and the inputs it actually reads, established
+by reading each producer's imports and path constants rather than by transcribing the manuscript's
+links. ⚠ **That correction matters: it adds a twelfth file the link list missed.**
 
 | role | file | bytes | sha256 |
 |---|---|---:|---|
-| manuscript | `research/manuscripts/neoantigen/hla-coverage-emc.md` | 47,005 | `5ad6ae1b5da8ddfc…95092a4` |
+| manuscript | `research/manuscripts/neoantigen/hla-coverage-emc.md` | 47,368 | `768398917208449a…45af0c` |
 | superseded-values sibling | `research/manuscripts/neoantigen/hla-coverage-emc-history.md` | 16,259 | `17b7b078fdf4ee40…1b5cd3` |
-| producer (§3.1–§3.2) | `research/modalities/hla_coverage.py` | 28,637 | `8631e3f5d450ad72…600074` |
+| producer, sections 3.1–3.2 | `research/modalities/hla_coverage.py` | 28,637 | `8631e3f5d450ad72…600074` |
 | its artifact | `research/modalities/hla-coverage.json` | 22,890 | `3b40a86392404800…4acf9f` |
-| producer (§3.3 curve) | `research/modalities/coverage_scan.py` | 10,998 | `711fbdd773522303…0f1619` |
+| producer, section 3.3 | `research/modalities/coverage_scan.py` | 10,998 | `711fbdd773522303…0f1619` |
 | its artifact | `research/modalities/coverage-curve.json` | 12,725 | `eb04c77ad5945083…545acb` |
 | its chart | `research/modalities/coverage-curve.png` | 97,719 | `ff10a8bc438a55a5…473609` |
-| producer (§3.4 construct) | `research/modalities/vaccine_construct.py` | 14,832 | `e698896950957378…d98bc2` |
+| producer, section 3.4 | `research/modalities/vaccine_construct.py` | 14,832 | `e698896950957378…d98bc2` |
 | its artifact | `research/modalities/vaccine-construct.json` | 8,836 | `c61fd8105be1d827…c05d61c` |
 | class-I epitope input | `research/modalities/fusion-breakpoint-neoantigens.json` | 46,191 | `ae1ba4f7216a11a9…3eec0c` |
 | class-II epitope input | `research/modalities/patient-cd4-demo.json` | 22,737 | `4c60e479d47995ca…d8506e` |
+| ⭐ **scan input the link list missed** | `research/modalities/epitope-allele-matrix.json` | 1,517 | `24da5269b71a2d2b…` |
 
-⭐ **No essential input is missing.** Every file the manuscript's §5 names resolves on disk at the
-digests above, and no dependency had to be reconstructed, searched for or invented.
+**Code dependencies, read rather than assumed.** `hla_coverage.py` imports stdlib only (`csv`, `io`,
+`json`, `math`, `os`, `re`, `sys`, `time`, `urllib.request`) and reads
+`fusion-breakpoint-neoantigens.json` and `patient-cd4-demo.json`. `coverage_scan.py` imports stdlib
+plus **`hla_coverage` itself**, reusing its AFND fetch, pooling and region resolver, and reads
+`fusion-breakpoint-neoantigens.json` and `epitope-allele-matrix.json`. `vaccine_construct.py`
+imports stdlib only and reads `fusion-breakpoint-neoantigens.json` and `patient-cd4-demo.json`.
+
+## ⛔ The exact reproducibility limit on the frequency and reference inputs
+
+**The frequency and region-map inputs are fetched at run time and are NOT retained anywhere in this
+repository.** Measured: `hla_coverage.py` pulls them over `urllib.request` from
+`_source_urls.allele_frequencies` (the `slowkow/allelefrequencies` AFND mirror) and
+`_source_urls.region_mapping` (the ISO 3166 / UN M49 table), and a search of `research/` finds no
+cached AFND table, no mirror snapshot and no region-map copy. **No retrieval date or timestamp is
+recorded either** — `hla-coverage.json` carries `_source_status` "AFND frequencies retrieved from
+MIT-licensed mirror" and no date field of any kind.
+
+Stated exactly, because the two halves differ:
+
+- A reader **can** re-derive every figure the manuscript prints, offline, from the committed JSONs,
+  because each printed value names its key path. That claim in section 5 stands.
+- A reader **cannot** re-run the producers offline to reproduce those JSONs, and **cannot identify
+  which upstream snapshot they came from**, because the input was not retained and its retrieval
+  time was not recorded. Re-running today would fetch a later mirror state and produce a different,
+  later analysis.
+
+⛔ This is recorded as the limit it is. No fetch was performed, no source hunt was opened, and
+nothing is reconstructed. It is **not** claimed that no dependency is missing merely because the
+manuscript's links resolve.
 
 ## Source provenance and reproducibility, with its actual weaknesses
 
@@ -97,17 +153,31 @@ Read out of `hla-coverage.json` by the parent, not taken from the lane's report:
 | check | scope | result | exit |
 |---|---|---|---|
 | `lint_style.py` | the repo gate's own TARGETS | 0 ERROR across 15 files | 0 |
+| `lint_style.py <target>` after conversion | this file only, explicit path | **0 ERROR** (was 159 before the conversion) | 0 |
 | `lint_consistency.py` | repo-wide, 29 targets | 0 ERROR | 0 |
 | `lint_claims.py <target>` | this manuscript | clean | 0 |
 | `lint_citations.py` | repo-wide | exits 1; **zero findings name this file** | 1 |
 | `test_hla_coverage_seam_provenance.py` | the class-II seam provenance | 8 passed | 0 |
 | `test_coverage_threshold_curve.py`, `test_fusion_neoantigen_invalidation.py`, `test_vaccine_path_numbers.py` | the curve, the epitope set, the downstream vaccine-path numbers | 45 passed | 0 |
 
-⚠ **An off-target measurement, reported as such and NOT as debt.** An explicit-path
-`lint_style.py <this file>` returns 159 ERROR, dominated by em-dash density (79 over 6,133 words =
-12.9/1000 against a limit of 6.0). **This file is not in `lint_style.TARGETS`**, and that gate's own
-header says the house style is correct everywhere else in the repository, so this is a measurement of
-register, not a failing gate and not a defect. It is a **release** question, listed below.
+⭐ **The register measurement is now clean.** Before the conversion an explicit-path
+`lint_style.py <this file>` returned 159 ERROR, dominated by em-dash density (79 over 6,133 words =
+12.9/1000 against a limit of 6.0); it now returns **0 ERROR**. ⚠ **That is still an explicit-path
+measurement, not gate coverage**: this file remains outside `lint_style.TARGETS`, so the gate would
+not enforce the register if it drifted again. Adding it is an owner decision and is not made here.
+
+⛔ **One check is now failing because of this conversion, and it is reported rather than absorbed.**
+`test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed`
+compares the committed `claim-coverage.json` against a live census run, and the census now reads this
+file at 222 sentences / 113 with a number against the committed 90 / 56. The documented remedy is
+`python3 research/manuscripts/claim_coverage.py --write`. ⚠ **I ran it, inspected the result, and
+reverted it.** Regenerating rewrites rows for **22 documents**, not one: it would silently absorb
+pre-existing drift in the ATR package, the endpoint, mortality and biomarker papers and fifteen
+others, several of them frozen or parked under accepted holds. Rewriting a shared deposit artifact
+about frozen papers is not inside a register conversion, so the census is left stale and named here
+for the owner. ⚠ **The same test was already failing before this conversion**, on
+`care-delivery/emc-trial-reachability.md` (101 → 108 sentences), which this work did not touch.
+⛔ No guard was edited, no floor moved, and nothing was skipped.
 
 ## Unresolved scientific and release gaps
 
