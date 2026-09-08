@@ -81,20 +81,30 @@ changes after checking current main, not after every edit. Preserve unmerged wor
 `systems/graph/*.json` owns model state; `systems/views/` is generated. The patient-facing site is
 retired. Do not recreate it. Read `systems/POLICY-evidence.md` before editing the clinical registry.
 
-## 8 · Task evidence retention
+## 8 · Task evidence retention — OPUS-CAPACITY-CAMPAIGN-20260908
 
-**A task evidence directory stays intact until the sole local collector sends a receipt naming that
-exact directory and verifying its required files, exact bytes and original hashes as actually
-retained locally.** Nothing else authorises cleanup — not your own copy, hash or self-report, not an
-adjudication summary, not another packet's manifest, and not a pushed manuscript. This applies to
-every follow-up edit and check, not only the child packet a task was first named for.
+**Scope, corrected 2026-09-08.** This section governs **evidence generated or held by
+OPUS-CAPACITY-CAMPAIGN-20260908 and its follow-ups** — nothing else. It does **not** bind unrelated
+future research sessions, and it does **not** replace or weaken the general repository storage and
+provenance rules elsewhere in this file, which continue to apply on their own terms.
 
-Never wildcard- or generically-delete research evidence, and never delete an in-progress or
-partly-collected set. A later cleanup names only exact paths already verified by a directory-specific
-receipt. Disk headroom is not a reason to delete an uncollected set; if a real disk-floor problem
-arises, preserve the uncollected evidence and report the exact resource problem through existing
-ownership instead of freeing space.
+**A campaign task evidence directory stays intact until the sole local collector sends a receipt
+naming that exact directory and verifying its required files, exact bytes and original hashes as
+actually retained locally.** Nothing else authorises cleanup — not your own copy, hash or
+self-report, not an adjudication summary, not another packet's manifest, and not a pushed manuscript.
+This applies to every follow-up edit and check, not only the child packet a task was first named for.
 
-Where originals are already lost, record the gap and scope it to what was actually checked. Do not
-recreate logs, re-run checks, or start an exhaustive recovery exercise, and do not call a gap
-globally irrecoverable when parent transcripts and backups have not been exhaustively examined.
+Never wildcard- or generically-delete this campaign's research evidence, and never delete an
+in-progress or partly-collected set. A later cleanup names only exact paths already verified by a
+directory-specific receipt. Disk headroom is not a reason to delete an uncollected set; if a real
+disk-floor problem arises, preserve the uncollected evidence and report the exact resource problem
+through existing ownership instead of freeing space.
+
+**These obligations outlive the campaign deadline.** Reaching 2026-09-09T02:37:19Z is **not** cleanup
+permission: a named directory stays intact until it is locally verified by receipt, whenever that is.
+
+Where originals are already lost, record the gap and scope it to what was actually checked, and do
+not call a gap globally irrecoverable when parent transcripts and backups have not been exhaustively
+examined. **The standing instruction not to recreate logs, re-run checks or mount an exhaustive
+recovery exercise applies to the currently recorded E1n gap**; it is not a permanent prohibition on
+recovery work the user later authorises.
