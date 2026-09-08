@@ -12,6 +12,13 @@ Read this in full before doing anything else. It binds every worker in this camp
   research/autonomy/opus-capacity-campaign-20260908` returns 0 files), so this brief and
   `CLOSED-WORK.md` are unreadable there. Read the working tree. Treat the whole tree as
   **read-only** except your own two paths.
+  **Why the stale pin caused no measurement error, and when that stops being true (W35b, measured
+  2026-09-08T03:41Z):** `92abbcb` is the parent of the first campaign commit, and every commit since
+  touches ONLY this campaign directory — `git diff --name-only 92abbcb HEAD | grep -v
+  opus-capacity-campaign-20260908` is empty, re-measured at HEAD `5ae0fa04`. W35b classified all 133
+  reports citing the pin: 0 CONTRADICTORY, and every pin-anchored claim survives re-running at both
+  commits. **If a coordinator commit ever touches anything outside this directory, that guarantee
+  ends and 39 pin-anchored reports lose it silently.**
 - **WRITE ISOLATION — CORRECTED 2026-09-08T01:52Z, this supersedes any write path named in your
   dispatch prompt.** You are **READ-ONLY on the Git working tree**. Disjoint paths inside one
   shared working tree do not satisfy `AGENTS.md`, so no worker writes into the repository at all.
