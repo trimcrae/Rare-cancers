@@ -65,7 +65,8 @@ ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 *A sequence-analysis report with a pre-specified prediction set. No experiment was performed and no
 reagent was made. Every sequence below is computed from public reference transcripts, and every
-breakpoint is quoted from a primary source. Analyses and drafting were carried out with AI
+breakpoint is quoted from a published source, primary reports and reviews alike. Analyses and
+drafting were carried out with AI
 assistance (section 2.5).*
 
 <!-- EDITORIAL, NOT FOR SUBMISSION.
@@ -314,7 +315,7 @@ author and cannot be one, and the author takes responsibility for the content. T
 did influence the substance of this report rather than its wording alone: the transcript-level
 reading frames, the recruitment-axis placement and the TCF12 classification are all computed
 results, and the pre-specified predictions follow from them. The author verified each by an
-independent route. Every breakpoint is quoted from a primary source and checked against the cited
+independent route. Every breakpoint is quoted from a published source and checked against the cited
 record, every sequence figure is re-derivable by the command above, and every prose identifier is
 checked against a tracked fetch product by an automated linter. Those controls address the
 characteristic failure mode of the method, which is a fluent citation to a paper that does not
@@ -326,7 +327,7 @@ exist.
 
 Every exon rank in this report is a transcript exon rank: exon *n* is the *n*-th exon of the named
 transcript, counted from the transcript's first exon whether or not that exon is translated. The
-primary sources quoted in section 3.1 state their breakpoints as exon numbers without stating which
+published sources quoted in section 3.1 state their breakpoints as exon numbers without stating which
 numbering they use, so the correspondence is asserted here and not taken from the sources. Two
 consequences follow and are stated rather than hidden. First, NR4A3 exons 1 and 2 are non-coding on
 ENST00000395097, so a coding-exon rank and a transcript exon rank differ by two for this gene: the
@@ -358,7 +359,7 @@ annotation source rather than rely on the correspondence asserted here.
 | EWSR1::NR4A3 type 5 | EWSR1 e13 to NR4A3 e3 | named the second most common transcript in [7], in two cases | [5,7] |
 | TAF15::NR4A3 | TAF15 e6 to NR4A3 e3 | the only reported coding junction; 3 of the 15 fusion-positive cases [9]; 4 of the 10 fusions in [10], which counts partner genes rather than EWSR1 subtypes | [4,5,7]; expressed as "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion" [3] |
 
-The type 1 and type 2 junctions are defined verbatim in a primary source: "The most common fusion
+The type 1 and type 2 junctions are defined verbatim in Nishio's review [4]: "The most common fusion
 transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is
 fused to exon 2 of NR4A3 in the type 2 fusion transcript" [4]. That sentence names type 1 as the
 most common and defines type 2 without making any frequency claim about it, so it establishes the
@@ -613,8 +614,8 @@ manuscript carries five hypotheses, P1 to P5, with P5 held separately under
 not the same record, their entries are not word-for-word identical, and neither is edited here to
 agree with the other; a reader auditing a prediction should read the entry in the record they cite.
 
-P5 is the arm capable of falsifying the class argument, and what these patterns can carry is narrower
-than an earlier version of this section claimed. The predictions specify an ordering and a
+P5 tests the specified non-recruitment prediction. What these patterns can carry is narrower than an
+earlier version of this section claimed. The predictions specify an ordering and a
 non-recruitment, and an ordering alone cannot assign a unique cause. Type 1 and type 2 differ in
 retained residues and junction segments other than RG content, so a kinetic difference between them is
 not attributable to RG dose by this design; and a partner-alone control shows what the partner does on
@@ -628,9 +629,8 @@ that FET-mediated recruitment is absent in the EWSR1 chimera, since a shared phe
 of a shared cause, and it does not by itself locate the driver in the NR4A3 moiety. GFP-NR4A3 alone is
 run in the same experiment because NR4A3's own behaviour is a fact worth having, not because
 recruitment of NR4A3 alone would remove the FET attribution. TCF12::NR4A3 recruited while EWSR1::NR4A3
-is not is inconsistent with the ordering the structural argument predicts. Neither recruited indicates
-that EMC does not inherit the lesion by this readout, a negative result that would spare other groups
-the experiment.
+is not is inconsistent with the ordering the structural argument predicts. If neither is recruited,
+the tested constructs do not show recruitment under these assay conditions.
 
 P5 is untested until a TCF12::NR4A3 construct exists. No such construct is emitted, for the reason in
 section 3.1, and full-length GFP-TCF12 does not substitute for one: it is a partner-alone control and
@@ -666,8 +666,8 @@ without which a delayed curve cannot be told from a poorly expressed construct.
 The four controls, their roles and their predictions are given in Supplementary Table S2.
 No TCF12::NR4A3 construct is emitted, for the reason in section 3.1. A laboratory holding a
 TCF12::NR4A3 case should sequence the junction. Without one, P5 cannot be run. Full-length GFP-TCF12
-answers a different and narrower question, whether a non-FET N-terminus reaches a double-strand break
-at all, and it is a partner-alone control rather than a stand-in for the fusion. A result from
+answers a different and narrower question, whether full-length TCF12 reaches the damage stripe at all,
+and it is a partner-alone control rather than a stand-in for the fusion. A result from
 GFP-TCF12 leaves P5 untested.
 
 ---
@@ -779,7 +779,7 @@ under `wild_type_controls`.
 | GFP-EWSR1, full length | fast-recruitment anchor, already held by any laboratory running the assay | rapid recruitment, as published. Failure to reproduce it makes nothing else in the run interpretable |
 | GFP-TAF15, full length | wild-type anchor for the TAF15::NR4A3 arm | rapid recruitment, as TAF15 carries its own C-terminal RGG region. Not previously reported in this assay, so a prediction rather than a reproduction |
 | GFP-NR4A3, full length | partner-alone control, the EMC analogue of reference 1's GFP-FLI1 control | no accumulation. Recruitment of NR4A3 alone would show that the partner reaches breaks on its own; it would not by itself remove a FET contribution in the fusion, which a partner-alone control cannot isolate |
-| GFP-TCF12, full length | partner-alone control for a non-FET N-terminus | no accumulation, TCF12 being non-FET by section 3.5. It is not a TCF12::NR4A3 construct and does not test P5, which stays untested without one |
+| GFP-TCF12, full length | non-FET partner-alone control | no accumulation, TCF12 being non-FET by section 3.5. It is not a TCF12::NR4A3 construct and does not test P5, which stays untested without one |
 
 **Supplementary Table S3.** Per-junction assembly coordinates for each reported junction with a
 sourced transcript-level breakpoint. Every cell is a verbatim copy of a recorded leaf of

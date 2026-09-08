@@ -42,7 +42,8 @@ using accumulation of a GFP-tagged fusion protein at laser-induced double-strand
 the readout, and reports that recruitment tracks the dose of RGG-rich sequence retained from the FET
 partner. Extraskeletal myxoid chondrosarcoma, whose *NR4A3* fusions were not examined in that work,
 is the untested fourth transcription-factor-partner class in the argument. The manuscript compiles
-the reported EMC junctions from primary sources, translates them at the transcript rather than the
+the reported EMC junctions from published sources, primary reports and reviews alike, translates them
+at the transcript rather than the
 coding-sequence level, places EMC on the published dose axis, classifies the one non-FET 5' partner,
 and fixes five predictions with explicit falsifiers before any experiment is run.
 
@@ -64,7 +65,7 @@ its provenance and its self-check.
 The study is entirely computational. No experiment was performed, no reagent was made, no plasmid
 was built, and no patient, cell or animal was studied; there was no wet-laboratory work of any kind.
 Every sequence is computed from public reference transcripts and every breakpoint is quoted from a
-primary source, so no ethics approval was required. The manuscript asserts no efficacy, potency,
+published source, so no ethics approval was required. The manuscript asserts no efficacy, potency,
 dose, safety, therapeutic window or clinical readiness for any agent in any disease.
 
 The honest principal limitation is the one section 6 puts at the centre: the class inheritance is
