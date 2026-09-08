@@ -1,0 +1,4570 @@
+{
+ "meta": {
+  "design": "row count R x last risk time L, full crossing; see GRID-DEFINITION.md",
+  "row_counts": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   10,
+   13,
+   19,
+   25
+  ],
+  "last_times": [
+   45.0,
+   90.0,
+   135.0,
+   168.0,
+   180.0
+  ],
+  "t_max": 180.0,
+  "cohort_sha256": "7deb0b9f61a765f83d8b3585b9d0e47f04da9c0788205f73b1caf71cb94deea9",
+  "n_cohort": 59,
+  "truth": {
+   "n_patients": 59,
+   "n_events": 18,
+   "n_censored": 41,
+   "median_survival": 168.0
+  },
+  "MAX_KM_DEVIATION_as_imported": 0.05,
+  "REQUIRE_RISK_TABLE_as_imported": true,
+  "km_digitize_file": "/home/user/Rare-cancers/research/modalities/km_digitize.py",
+  "emc_ipd_survival_file": "/home/user/Rare-cancers/research/modalities/emc_ipd_survival.py",
+  "render_read_seconds": 0.0459,
+  "read_ok": true,
+  "refusal": null,
+  "curve_error_vs_truth": {
+   "max_abs_curve_error": 0.0292,
+   "max_abs_curve_error_off_step": 0.0012,
+   "mean_abs_curve_error": 0.0008,
+   "step_guard_time_units": 0.9,
+   "grid_points": 401
+  },
+  "digitized_sha256": "61032c8c924e0d2024ec4f9d45e3cc872882ecbc93f656c9b478a161ef99580a",
+  "n_digitized_points": 20,
+  "sentinel": {
+   "derived_times": [
+    0.0,
+    24.0,
+    48.0,
+    72.0,
+    96.0,
+    120.0,
+    144.0,
+    168.0
+   ],
+   "expected_times": [
+    0.0,
+    24.0,
+    48.0,
+    72.0,
+    96.0,
+    120.0,
+    144.0,
+    168.0
+   ],
+   "times_match_exactly": true,
+   "expected_baseline": {
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "internal_max_abs_km_deviation": 0.0009
+   },
+   "observed_exact_arm": {
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "internal_max_abs_km_deviation": 0.0009
+   },
+   "reproduces_committed_baseline": true
+  },
+  "n_cells": 52,
+  "total_seconds": 0.37
+ },
+ "cells": [
+  {
+   "block": "SENTINEL",
+   "rows": 8,
+   "last_time": 168.0,
+   "derived_spacing": 24.0,
+   "risk_times": [
+    0.0,
+    24.0,
+    48.0,
+    72.0,
+    96.0,
+    120.0,
+    144.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     24.0,
+     45
+    ],
+    [
+     48.0,
+     33
+    ],
+    [
+     72.0,
+     25
+    ],
+    [
+     96.0,
+     20
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     144.0,
+     11
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": "historical run_control() risk_times; must reproduce exact_coordinates_baseline",
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0009,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0003
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0183,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.003
+   }
+  },
+  {
+   "block": "ROUNDING_PROBE",
+   "rows": 8,
+   "last_time": 167.94,
+   "derived_spacing": 23.991429,
+   "risk_times": [
+    0.0,
+    23.991429,
+    47.982857,
+    71.974286,
+    95.965714,
+    119.957143,
+    143.948571,
+    167.94
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     23.99142857142857,
+     45
+    ],
+    [
+     47.98285714285714,
+     33
+    ],
+    [
+     71.97428571428571,
+     25
+    ],
+    [
+     95.96571428571428,
+     20
+    ],
+    [
+     119.95714285714287,
+     15
+    ],
+    [
+     143.94857142857143,
+     11
+    ],
+    [
+     167.94,
+     8
+    ]
+   ],
+   "note": "0.933*t_max = 167.94 is NOT 168/180*t_max = 168.0; measured, not assumed",
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0009,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0003
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0183,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0028
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 2,
+   "last_time": 45.0,
+   "derived_spacing": 45.0,
+   "risk_times": [
+    0.0,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0107,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0105,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 2,
+   "last_time": 90.0,
+   "derived_spacing": 90.0,
+   "risk_times": [
+    0.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 21,
+    "n_censored": 24,
+    "events_delta_vs_truth": 3,
+    "censored_delta_vs_truth": -17,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0136,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0004
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 21,
+    "n_censored": 24,
+    "events_delta_vs_truth": 3,
+    "censored_delta_vs_truth": -17,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0127,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 2,
+   "last_time": 135.0,
+   "derived_spacing": 135.0,
+   "risk_times": [
+    0.0,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 20,
+    "n_censored": 29,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -12,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0217,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0003
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 20,
+    "n_censored": 29,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -12,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0142,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 2,
+   "last_time": 168.0,
+   "derived_spacing": 168.0,
+   "risk_times": [
+    0.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 21,
+    "n_censored": 31,
+    "events_delta_vs_truth": 3,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0203,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0004
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 51,
+    "n_events": 22,
+    "n_censored": 29,
+    "events_delta_vs_truth": 4,
+    "censored_delta_vs_truth": -12,
+    "median_survival": 127.96875,
+    "median_delta_vs_truth": -40.031,
+    "internal_max_abs_km_deviation": 0.0194,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 2,
+   "last_time": 180.0,
+   "derived_spacing": 180.0,
+   "risk_times": [
+    0.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 21,
+    "n_censored": 33,
+    "events_delta_vs_truth": 3,
+    "censored_delta_vs_truth": -8,
+    "median_survival": 150.0,
+    "median_delta_vs_truth": -18.0,
+    "internal_max_abs_km_deviation": 0.0121,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0004
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 32,
+    "n_events": 32,
+    "n_censored": 0,
+    "events_delta_vs_truth": 14,
+    "censored_delta_vs_truth": -41,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0076,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 3,
+   "last_time": 45.0,
+   "derived_spacing": 22.5,
+   "risk_times": [
+    0.0,
+    22.5,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0091,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0084,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 3,
+   "last_time": 90.0,
+   "derived_spacing": 45.0,
+   "risk_times": [
+    0.0,
+    45.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0129,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0111,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 3,
+   "last_time": 135.0,
+   "derived_spacing": 67.5,
+   "risk_times": [
+    0.0,
+    67.5,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0221,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0189,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 3,
+   "last_time": 168.0,
+   "derived_spacing": 84.0,
+   "risk_times": [
+    0.0,
+    84.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     84.0,
+     22
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0094,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0003
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 51,
+    "n_events": 20,
+    "n_censored": 31,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 127.96875,
+    "median_delta_vs_truth": -40.031,
+    "internal_max_abs_km_deviation": 0.0248,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 3,
+   "last_time": 180.0,
+   "derived_spacing": 90.0,
+   "risk_times": [
+    0.0,
+    90.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 19,
+    "n_censored": 35,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -6,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0196,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 21,
+    "n_censored": 24,
+    "events_delta_vs_truth": 3,
+    "censored_delta_vs_truth": -17,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0127,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 4,
+   "last_time": 45.0,
+   "derived_spacing": 15.0,
+   "risk_times": [
+    0.0,
+    15.0,
+    30.0,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0104,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0117,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 4,
+   "last_time": 90.0,
+   "derived_spacing": 30.0,
+   "risk_times": [
+    0.0,
+    30.0,
+    60.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0147,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0156,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 4,
+   "last_time": 135.0,
+   "derived_spacing": 45.0,
+   "risk_times": [
+    0.0,
+    45.0,
+    90.0,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0218,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0233,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 4,
+   "last_time": 168.0,
+   "derived_spacing": 56.0,
+   "risk_times": [
+    0.0,
+    56.0,
+    112.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     56.0,
+     30
+    ],
+    [
+     112.0,
+     16
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0046,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 51,
+    "n_events": 18,
+    "n_censored": 33,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -8,
+    "median_survival": 127.96875,
+    "median_delta_vs_truth": -40.031,
+    "internal_max_abs_km_deviation": 0.0197,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 4,
+   "last_time": 180.0,
+   "derived_spacing": 60.0,
+   "risk_times": [
+    0.0,
+    60.0,
+    120.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 18,
+    "n_censored": 36,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -5,
+    "median_survival": 150.0,
+    "median_delta_vs_truth": -18.0,
+    "internal_max_abs_km_deviation": 0.0102,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 48,
+    "n_events": 19,
+    "n_censored": 29,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -12,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0096,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 5,
+   "last_time": 45.0,
+   "derived_spacing": 11.25,
+   "risk_times": [
+    0.0,
+    11.25,
+    22.5,
+    33.75,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0101,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0109,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 5,
+   "last_time": 90.0,
+   "derived_spacing": 22.5,
+   "risk_times": [
+    0.0,
+    22.5,
+    45.0,
+    67.5,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0155,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0163,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 5,
+   "last_time": 135.0,
+   "derived_spacing": 33.75,
+   "risk_times": [
+    0.0,
+    33.75,
+    67.5,
+    101.25,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     101.25,
+     18
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0208,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0202,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 5,
+   "last_time": 168.0,
+   "derived_spacing": 42.0,
+   "risk_times": [
+    0.0,
+    42.0,
+    84.0,
+    126.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     42.0,
+     36
+    ],
+    [
+     84.0,
+     22
+    ],
+    [
+     126.0,
+     14
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0069,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 51,
+    "n_events": 18,
+    "n_censored": 33,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -8,
+    "median_survival": 127.96875,
+    "median_delta_vs_truth": -40.031,
+    "internal_max_abs_km_deviation": 0.0086,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 5,
+   "last_time": 180.0,
+   "derived_spacing": 45.0,
+   "risk_times": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     135.0,
+     12
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 18,
+    "n_censored": 36,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -5,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0097,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0233,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 6,
+   "last_time": 45.0,
+   "derived_spacing": 9.0,
+   "risk_times": [
+    0.0,
+    9.0,
+    18.0,
+    27.0,
+    36.0,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     9.0,
+     55
+    ],
+    [
+     18.0,
+     49
+    ],
+    [
+     27.0,
+     44
+    ],
+    [
+     36.0,
+     39
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0099,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0098,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 6,
+   "last_time": 90.0,
+   "derived_spacing": 18.0,
+   "risk_times": [
+    0.0,
+    18.0,
+    36.0,
+    54.0,
+    72.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     18.0,
+     49
+    ],
+    [
+     36.0,
+     39
+    ],
+    [
+     54.0,
+     31
+    ],
+    [
+     72.0,
+     25
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0151,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 42,
+    "n_events": 20,
+    "n_censored": 22,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -19,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0119,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0014
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 6,
+   "last_time": 135.0,
+   "derived_spacing": 27.0,
+   "risk_times": [
+    0.0,
+    27.0,
+    54.0,
+    81.0,
+    108.0,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     27.0,
+     44
+    ],
+    [
+     54.0,
+     31
+    ],
+    [
+     81.0,
+     23
+    ],
+    [
+     108.0,
+     18
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0209,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0196,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 6,
+   "last_time": 168.0,
+   "derived_spacing": 33.6,
+   "risk_times": [
+    0.0,
+    33.6,
+    67.2,
+    100.8,
+    134.4,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     33.6,
+     40
+    ],
+    [
+     67.2,
+     26
+    ],
+    [
+     100.8,
+     18
+    ],
+    [
+     134.4,
+     12
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0022,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 51,
+    "n_events": 18,
+    "n_censored": 33,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -8,
+    "median_survival": 127.96875,
+    "median_delta_vs_truth": -40.031,
+    "internal_max_abs_km_deviation": 0.0094,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 6,
+   "last_time": 180.0,
+   "derived_spacing": 36.0,
+   "risk_times": [
+    0.0,
+    36.0,
+    72.0,
+    108.0,
+    144.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     36.0,
+     39
+    ],
+    [
+     72.0,
+     25
+    ],
+    [
+     108.0,
+     18
+    ],
+    [
+     144.0,
+     11
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 18,
+    "n_censored": 36,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -5,
+    "median_survival": 150.0,
+    "median_delta_vs_truth": -18.0,
+    "internal_max_abs_km_deviation": 0.0071,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 50,
+    "n_events": 18,
+    "n_censored": 32,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -9,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0114,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0001
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 8,
+   "last_time": 45.0,
+   "derived_spacing": 6.428571,
+   "risk_times": [
+    0.0,
+    6.428571,
+    12.857143,
+    19.285714,
+    25.714286,
+    32.142857,
+    38.571429,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     6.428571428571429,
+     56
+    ],
+    [
+     12.857142857142858,
+     52
+    ],
+    [
+     19.285714285714285,
+     47
+    ],
+    [
+     25.714285714285715,
+     44
+    ],
+    [
+     32.142857142857146,
+     41
+    ],
+    [
+     38.57142857142857,
+     38
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0099,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 31,
+    "n_events": 24,
+    "n_censored": 7,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -34,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0112,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0055
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 8,
+   "last_time": 90.0,
+   "derived_spacing": 12.857143,
+   "risk_times": [
+    0.0,
+    12.857143,
+    25.714286,
+    38.571429,
+    51.428571,
+    64.285714,
+    77.142857,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     12.857142857142858,
+     52
+    ],
+    [
+     25.714285714285715,
+     44
+    ],
+    [
+     38.57142857142857,
+     38
+    ],
+    [
+     51.42857142857143,
+     32
+    ],
+    [
+     64.28571428571429,
+     27
+    ],
+    [
+     77.14285714285714,
+     24
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0163,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 41,
+    "n_events": 20,
+    "n_censored": 21,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -20,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0144,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0029
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 8,
+   "last_time": 135.0,
+   "derived_spacing": 19.285714,
+   "risk_times": [
+    0.0,
+    19.285714,
+    38.571429,
+    57.857143,
+    77.142857,
+    96.428571,
+    115.714286,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     19.285714285714285,
+     47
+    ],
+    [
+     38.57142857142857,
+     38
+    ],
+    [
+     57.857142857142854,
+     30
+    ],
+    [
+     77.14285714285714,
+     24
+    ],
+    [
+     96.42857142857143,
+     19
+    ],
+    [
+     115.71428571428571,
+     15
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0222,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 45,
+    "n_events": 19,
+    "n_censored": 26,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0211,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0027
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 8,
+   "last_time": 168.0,
+   "derived_spacing": 24.0,
+   "risk_times": [
+    0.0,
+    24.0,
+    48.0,
+    72.0,
+    96.0,
+    120.0,
+    144.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     24.0,
+     45
+    ],
+    [
+     48.0,
+     33
+    ],
+    [
+     72.0,
+     25
+    ],
+    [
+     96.0,
+     20
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     144.0,
+     11
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0009,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0183,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0029
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 8,
+   "last_time": 180.0,
+   "derived_spacing": 25.714286,
+   "risk_times": [
+    0.0,
+    25.714286,
+    51.428571,
+    77.142857,
+    102.857143,
+    128.571429,
+    154.285714,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     25.714285714285715,
+     44
+    ],
+    [
+     51.42857142857143,
+     32
+    ],
+    [
+     77.14285714285714,
+     24
+    ],
+    [
+     102.85714285714286,
+     18
+    ],
+    [
+     128.57142857142858,
+     13
+    ],
+    [
+     154.28571428571428,
+     10
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 18,
+    "n_censored": 36,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -5,
+    "median_survival": 150.0,
+    "median_delta_vs_truth": -18.0,
+    "internal_max_abs_km_deviation": 0.0018,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 48,
+    "n_events": 18,
+    "n_censored": 30,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -11,
+    "median_survival": 109.96875,
+    "median_delta_vs_truth": -58.031,
+    "internal_max_abs_km_deviation": 0.0191,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0013
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 10,
+   "last_time": 45.0,
+   "derived_spacing": 5.0,
+   "risk_times": [
+    0.0,
+    5.0,
+    10.0,
+    15.0,
+    20.0,
+    25.0,
+    30.0,
+    35.0,
+    40.0,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     5.0,
+     58
+    ],
+    [
+     10.0,
+     54
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     25.0,
+     45
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     35.0,
+     39
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0097,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 25,
+    "n_events": 24,
+    "n_censored": 1,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -40,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.011,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0106
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 10,
+   "last_time": 90.0,
+   "derived_spacing": 10.0,
+   "risk_times": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     10.0,
+     54
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     50.0,
+     33
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     70.0,
+     26
+    ],
+    [
+     80.0,
+     23
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0147,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 38,
+    "n_events": 20,
+    "n_censored": 18,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -23,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0137,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0042
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 10,
+   "last_time": 135.0,
+   "derived_spacing": 15.0,
+   "risk_times": [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     105.0,
+     18
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0232,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 38,
+    "n_events": 19,
+    "n_censored": 19,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -22,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0188,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0067
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 10,
+   "last_time": 168.0,
+   "derived_spacing": 18.666667,
+   "risk_times": [
+    0.0,
+    18.666667,
+    37.333333,
+    56.0,
+    74.666667,
+    93.333333,
+    112.0,
+    130.666667,
+    149.333333,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     18.666666666666668,
+     48
+    ],
+    [
+     37.333333333333336,
+     38
+    ],
+    [
+     56.0,
+     30
+    ],
+    [
+     74.66666666666667,
+     24
+    ],
+    [
+     93.33333333333333,
+     20
+    ],
+    [
+     112.0,
+     16
+    ],
+    [
+     130.66666666666666,
+     13
+    ],
+    [
+     149.33333333333334,
+     11
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0021,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 95.90625,
+    "median_delta_vs_truth": -72.094,
+    "internal_max_abs_km_deviation": 0.0108,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0037
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 10,
+   "last_time": 180.0,
+   "derived_spacing": 20.0,
+   "risk_times": [
+    0.0,
+    20.0,
+    40.0,
+    60.0,
+    80.0,
+    100.0,
+    120.0,
+    140.0,
+    160.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     80.0,
+     23
+    ],
+    [
+     100.0,
+     19
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     140.0,
+     12
+    ],
+    [
+     160.0,
+     9
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 54,
+    "n_events": 18,
+    "n_censored": 36,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -5,
+    "median_survival": 150.0,
+    "median_delta_vs_truth": -18.0,
+    "internal_max_abs_km_deviation": 0.0022,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0003
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0159,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0076
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 13,
+   "last_time": 45.0,
+   "derived_spacing": 3.75,
+   "risk_times": [
+    0.0,
+    3.75,
+    7.5,
+    11.25,
+    15.0,
+    18.75,
+    22.5,
+    26.25,
+    30.0,
+    33.75,
+    37.5,
+    41.25,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     3.75,
+     58
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     18.75,
+     48
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     26.25,
+     44
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     41.25,
+     36
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 40,
+    "n_events": 24,
+    "n_censored": 16,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0101,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 24,
+    "n_events": 24,
+    "n_censored": 0,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -41,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0117,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0137
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 13,
+   "last_time": 90.0,
+   "derived_spacing": 7.5,
+   "risk_times": [
+    0.0,
+    7.5,
+    15.0,
+    22.5,
+    30.0,
+    37.5,
+    45.0,
+    52.5,
+    60.0,
+    67.5,
+    75.0,
+    82.5,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     52.5,
+     31
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     82.5,
+     22
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 45,
+    "n_events": 20,
+    "n_censored": 25,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -16,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0149,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 29,
+    "n_events": 20,
+    "n_censored": 9,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -32,
+    "median_survival": 60.75,
+    "median_delta_vs_truth": -107.25,
+    "internal_max_abs_km_deviation": 0.0122,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0064
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 13,
+   "last_time": 135.0,
+   "derived_spacing": 11.25,
+   "risk_times": [
+    0.0,
+    11.25,
+    22.5,
+    33.75,
+    45.0,
+    56.25,
+    67.5,
+    78.75,
+    90.0,
+    101.25,
+    112.5,
+    123.75,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     56.25,
+     30
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     78.75,
+     23
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     101.25,
+     18
+    ],
+    [
+     112.5,
+     16
+    ],
+    [
+     123.75,
+     14
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 49,
+    "n_events": 18,
+    "n_censored": 31,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -10,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.022,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 35,
+    "n_events": 19,
+    "n_censored": 16,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -25,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0212,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0088
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 13,
+   "last_time": 168.0,
+   "derived_spacing": 14.0,
+   "risk_times": [
+    0.0,
+    14.0,
+    28.0,
+    42.0,
+    56.0,
+    70.0,
+    84.0,
+    98.0,
+    112.0,
+    126.0,
+    140.0,
+    154.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     14.0,
+     52
+    ],
+    [
+     28.0,
+     43
+    ],
+    [
+     42.0,
+     36
+    ],
+    [
+     56.0,
+     30
+    ],
+    [
+     70.0,
+     26
+    ],
+    [
+     84.0,
+     22
+    ],
+    [
+     98.0,
+     19
+    ],
+    [
+     112.0,
+     16
+    ],
+    [
+     126.0,
+     14
+    ],
+    [
+     140.0,
+     12
+    ],
+    [
+     154.0,
+     10
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0013,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0002
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 40,
+    "n_events": 19,
+    "n_censored": 21,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -20,
+    "median_survival": 83.8125,
+    "median_delta_vs_truth": -84.188,
+    "internal_max_abs_km_deviation": 0.0254,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0064
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 13,
+   "last_time": 180.0,
+   "derived_spacing": 15.0,
+   "risk_times": [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0,
+    150.0,
+    165.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     105.0,
+     18
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     135.0,
+     12
+    ],
+    [
+     150.0,
+     11
+    ],
+    [
+     165.0,
+     8
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 53,
+    "n_events": 18,
+    "n_censored": 35,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -6,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0014,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0014
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 37,
+    "n_events": 18,
+    "n_censored": 19,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -22,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0132,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0079
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 19,
+   "last_time": 45.0,
+   "derived_spacing": 2.5,
+   "risk_times": [
+    0.0,
+    2.5,
+    5.0,
+    7.5,
+    10.0,
+    12.5,
+    15.0,
+    17.5,
+    20.0,
+    22.5,
+    25.0,
+    27.5,
+    30.0,
+    32.5,
+    35.0,
+    37.5,
+    40.0,
+    42.5,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     2.5,
+     59
+    ],
+    [
+     5.0,
+     58
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     10.0,
+     54
+    ],
+    [
+     12.5,
+     52
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     17.5,
+     49
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     25.0,
+     45
+    ],
+    [
+     27.5,
+     43
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     32.5,
+     41
+    ],
+    [
+     35.0,
+     39
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     42.5,
+     36
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 35,
+    "n_events": 24,
+    "n_censored": 11,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -30,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0101,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0063
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 24,
+    "n_events": 24,
+    "n_censored": 0,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -41,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0111,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0127
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 19,
+   "last_time": 90.0,
+   "derived_spacing": 5.0,
+   "risk_times": [
+    0.0,
+    5.0,
+    10.0,
+    15.0,
+    20.0,
+    25.0,
+    30.0,
+    35.0,
+    40.0,
+    45.0,
+    50.0,
+    55.0,
+    60.0,
+    65.0,
+    70.0,
+    75.0,
+    80.0,
+    85.0,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     5.0,
+     58
+    ],
+    [
+     10.0,
+     54
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     25.0,
+     45
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     35.0,
+     39
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     50.0,
+     33
+    ],
+    [
+     55.0,
+     31
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     65.0,
+     27
+    ],
+    [
+     70.0,
+     26
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     80.0,
+     23
+    ],
+    [
+     85.0,
+     21
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 42,
+    "n_events": 20,
+    "n_censored": 22,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -19,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0149,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0068
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 21,
+    "n_events": 20,
+    "n_censored": 1,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -40,
+    "median_survival": 60.75,
+    "median_delta_vs_truth": -107.25,
+    "internal_max_abs_km_deviation": 0.0135,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0163
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 19,
+   "last_time": 135.0,
+   "derived_spacing": 7.5,
+   "risk_times": [
+    0.0,
+    7.5,
+    15.0,
+    22.5,
+    30.0,
+    37.5,
+    45.0,
+    52.5,
+    60.0,
+    67.5,
+    75.0,
+    82.5,
+    90.0,
+    97.5,
+    105.0,
+    112.5,
+    120.0,
+    127.5,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     52.5,
+     31
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     82.5,
+     22
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     97.5,
+     19
+    ],
+    [
+     105.0,
+     18
+    ],
+    [
+     112.5,
+     16
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     127.5,
+     14
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 46,
+    "n_events": 18,
+    "n_censored": 28,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -13,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0217,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0045
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 28,
+    "n_events": 19,
+    "n_censored": 9,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -32,
+    "median_survival": 60.75,
+    "median_delta_vs_truth": -107.25,
+    "internal_max_abs_km_deviation": 0.0221,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0103
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 19,
+   "last_time": 168.0,
+   "derived_spacing": 9.333333,
+   "risk_times": [
+    0.0,
+    9.333333,
+    18.666667,
+    28.0,
+    37.333333,
+    46.666667,
+    56.0,
+    65.333333,
+    74.666667,
+    84.0,
+    93.333333,
+    102.666667,
+    112.0,
+    121.333333,
+    130.666667,
+    140.0,
+    149.333333,
+    158.666667,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     9.333333333333334,
+     54
+    ],
+    [
+     18.666666666666668,
+     48
+    ],
+    [
+     28.0,
+     43
+    ],
+    [
+     37.333333333333336,
+     38
+    ],
+    [
+     46.666666666666664,
+     34
+    ],
+    [
+     56.0,
+     30
+    ],
+    [
+     65.33333333333333,
+     27
+    ],
+    [
+     74.66666666666667,
+     24
+    ],
+    [
+     84.0,
+     22
+    ],
+    [
+     93.33333333333333,
+     20
+    ],
+    [
+     102.66666666666667,
+     18
+    ],
+    [
+     112.0,
+     16
+    ],
+    [
+     121.33333333333333,
+     15
+    ],
+    [
+     130.66666666666666,
+     13
+    ],
+    [
+     140.0,
+     12
+    ],
+    [
+     149.33333333333334,
+     11
+    ],
+    [
+     158.66666666666666,
+     9
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 48,
+    "n_events": 18,
+    "n_censored": 30,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -11,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0025,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0058
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 30,
+    "n_events": 18,
+    "n_censored": 12,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -29,
+    "median_survival": 60.75,
+    "median_delta_vs_truth": -107.25,
+    "internal_max_abs_km_deviation": 0.0152,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.013
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 19,
+   "last_time": 180.0,
+   "derived_spacing": 10.0,
+   "risk_times": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    90.0,
+    100.0,
+    110.0,
+    120.0,
+    130.0,
+    140.0,
+    150.0,
+    160.0,
+    170.0,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     10.0,
+     54
+    ],
+    [
+     20.0,
+     47
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     40.0,
+     37
+    ],
+    [
+     50.0,
+     33
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     70.0,
+     26
+    ],
+    [
+     80.0,
+     23
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     100.0,
+     19
+    ],
+    [
+     110.0,
+     17
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     130.0,
+     13
+    ],
+    [
+     140.0,
+     12
+    ],
+    [
+     150.0,
+     11
+    ],
+    [
+     160.0,
+     9
+    ],
+    [
+     170.0,
+     7
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 52,
+    "n_events": 18,
+    "n_censored": 34,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -7,
+    "median_survival": 128.0,
+    "median_delta_vs_truth": -40.0,
+    "internal_max_abs_km_deviation": 0.0003,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0031
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 36,
+    "n_events": 18,
+    "n_censored": 18,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -23,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0187,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0105
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 25,
+   "last_time": 45.0,
+   "derived_spacing": 1.875,
+   "risk_times": [
+    0.0,
+    1.875,
+    3.75,
+    5.625,
+    7.5,
+    9.375,
+    11.25,
+    13.125,
+    15.0,
+    16.875,
+    18.75,
+    20.625,
+    22.5,
+    24.375,
+    26.25,
+    28.125,
+    30.0,
+    31.875,
+    33.75,
+    35.625,
+    37.5,
+    39.375,
+    41.25,
+    43.125,
+    45.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     1.875,
+     59
+    ],
+    [
+     3.75,
+     58
+    ],
+    [
+     5.625,
+     57
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     9.375,
+     54
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     13.125,
+     52
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     16.875,
+     50
+    ],
+    [
+     18.75,
+     48
+    ],
+    [
+     20.625,
+     47
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     24.375,
+     45
+    ],
+    [
+     26.25,
+     44
+    ],
+    [
+     28.125,
+     42
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     31.875,
+     41
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     35.625,
+     39
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     39.375,
+     37
+    ],
+    [
+     41.25,
+     36
+    ],
+    [
+     43.125,
+     35
+    ],
+    [
+     45.0,
+     34
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 29,
+    "n_events": 24,
+    "n_censored": 5,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -36,
+    "median_survival": 84.0,
+    "median_delta_vs_truth": -84.0,
+    "internal_max_abs_km_deviation": 0.0101,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0142
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 24,
+    "n_events": 24,
+    "n_censored": 0,
+    "events_delta_vs_truth": 6,
+    "censored_delta_vs_truth": -41,
+    "median_survival": 69.75,
+    "median_delta_vs_truth": -98.25,
+    "internal_max_abs_km_deviation": 0.0103,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0112
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 25,
+   "last_time": 90.0,
+   "derived_spacing": 3.75,
+   "risk_times": [
+    0.0,
+    3.75,
+    7.5,
+    11.25,
+    15.0,
+    18.75,
+    22.5,
+    26.25,
+    30.0,
+    33.75,
+    37.5,
+    41.25,
+    45.0,
+    48.75,
+    52.5,
+    56.25,
+    60.0,
+    63.75,
+    67.5,
+    71.25,
+    75.0,
+    78.75,
+    82.5,
+    86.25,
+    90.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     3.75,
+     58
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     18.75,
+     48
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     26.25,
+     44
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     41.25,
+     36
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     48.75,
+     33
+    ],
+    [
+     52.5,
+     31
+    ],
+    [
+     56.25,
+     30
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     63.75,
+     27
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     71.25,
+     25
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     78.75,
+     23
+    ],
+    [
+     82.5,
+     22
+    ],
+    [
+     86.25,
+     21
+    ],
+    [
+     90.0,
+     21
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 38,
+    "n_events": 20,
+    "n_censored": 18,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -23,
+    "median_survival": 70.0,
+    "median_delta_vs_truth": -98.0,
+    "internal_max_abs_km_deviation": 0.0145,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.009
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 20,
+    "n_events": 20,
+    "n_censored": 0,
+    "events_delta_vs_truth": 2,
+    "censored_delta_vs_truth": -41,
+    "median_survival": 51.75,
+    "median_delta_vs_truth": -116.25,
+    "internal_max_abs_km_deviation": 0.0123,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.017
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 25,
+   "last_time": 135.0,
+   "derived_spacing": 5.625,
+   "risk_times": [
+    0.0,
+    5.625,
+    11.25,
+    16.875,
+    22.5,
+    28.125,
+    33.75,
+    39.375,
+    45.0,
+    50.625,
+    56.25,
+    61.875,
+    67.5,
+    73.125,
+    78.75,
+    84.375,
+    90.0,
+    95.625,
+    101.25,
+    106.875,
+    112.5,
+    118.125,
+    123.75,
+    129.375,
+    135.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     5.625,
+     57
+    ],
+    [
+     11.25,
+     53
+    ],
+    [
+     16.875,
+     50
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     28.125,
+     42
+    ],
+    [
+     33.75,
+     40
+    ],
+    [
+     39.375,
+     37
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     50.625,
+     32
+    ],
+    [
+     56.25,
+     30
+    ],
+    [
+     61.875,
+     28
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     73.125,
+     24
+    ],
+    [
+     78.75,
+     23
+    ],
+    [
+     84.375,
+     21
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     95.625,
+     20
+    ],
+    [
+     101.25,
+     18
+    ],
+    [
+     106.875,
+     18
+    ],
+    [
+     112.5,
+     16
+    ],
+    [
+     118.125,
+     15
+    ],
+    [
+     123.75,
+     14
+    ],
+    [
+     129.375,
+     13
+    ],
+    [
+     135.0,
+     12
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 44,
+    "n_events": 18,
+    "n_censored": 26,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -15,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0219,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0067
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 23,
+    "n_events": 19,
+    "n_censored": 4,
+    "events_delta_vs_truth": 1,
+    "censored_delta_vs_truth": -37,
+    "median_survival": 51.75,
+    "median_delta_vs_truth": -116.25,
+    "internal_max_abs_km_deviation": 0.0216,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0162
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 25,
+   "last_time": 168.0,
+   "derived_spacing": 7.0,
+   "risk_times": [
+    0.0,
+    7.0,
+    14.0,
+    21.0,
+    28.0,
+    35.0,
+    42.0,
+    49.0,
+    56.0,
+    63.0,
+    70.0,
+    77.0,
+    84.0,
+    91.0,
+    98.0,
+    105.0,
+    112.0,
+    119.0,
+    126.0,
+    133.0,
+    140.0,
+    147.0,
+    154.0,
+    161.0,
+    168.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     7.0,
+     56
+    ],
+    [
+     14.0,
+     52
+    ],
+    [
+     21.0,
+     47
+    ],
+    [
+     28.0,
+     43
+    ],
+    [
+     35.0,
+     39
+    ],
+    [
+     42.0,
+     36
+    ],
+    [
+     49.0,
+     33
+    ],
+    [
+     56.0,
+     30
+    ],
+    [
+     63.0,
+     28
+    ],
+    [
+     70.0,
+     26
+    ],
+    [
+     77.0,
+     24
+    ],
+    [
+     84.0,
+     22
+    ],
+    [
+     91.0,
+     20
+    ],
+    [
+     98.0,
+     19
+    ],
+    [
+     105.0,
+     18
+    ],
+    [
+     112.0,
+     16
+    ],
+    [
+     119.0,
+     15
+    ],
+    [
+     126.0,
+     14
+    ],
+    [
+     133.0,
+     13
+    ],
+    [
+     140.0,
+     12
+    ],
+    [
+     147.0,
+     11
+    ],
+    [
+     154.0,
+     10
+    ],
+    [
+     161.0,
+     8
+    ],
+    [
+     168.0,
+     8
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 47,
+    "n_events": 18,
+    "n_censored": 29,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -12,
+    "median_survival": 96.0,
+    "median_delta_vs_truth": -72.0,
+    "internal_max_abs_km_deviation": 0.0014,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0067
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 24,
+    "n_events": 18,
+    "n_censored": 6,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -35,
+    "median_survival": 51.75,
+    "median_delta_vs_truth": -116.25,
+    "internal_max_abs_km_deviation": 0.0113,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0158
+   }
+  },
+  {
+   "block": "crossing",
+   "rows": 25,
+   "last_time": 180.0,
+   "derived_spacing": 7.5,
+   "risk_times": [
+    0.0,
+    7.5,
+    15.0,
+    22.5,
+    30.0,
+    37.5,
+    45.0,
+    52.5,
+    60.0,
+    67.5,
+    75.0,
+    82.5,
+    90.0,
+    97.5,
+    105.0,
+    112.5,
+    120.0,
+    127.5,
+    135.0,
+    142.5,
+    150.0,
+    157.5,
+    165.0,
+    172.5,
+    180.0
+   ],
+   "risk_table": [
+    [
+     0.0,
+     59
+    ],
+    [
+     7.5,
+     56
+    ],
+    [
+     15.0,
+     51
+    ],
+    [
+     22.5,
+     46
+    ],
+    [
+     30.0,
+     42
+    ],
+    [
+     37.5,
+     38
+    ],
+    [
+     45.0,
+     34
+    ],
+    [
+     52.5,
+     31
+    ],
+    [
+     60.0,
+     29
+    ],
+    [
+     67.5,
+     26
+    ],
+    [
+     75.0,
+     24
+    ],
+    [
+     82.5,
+     22
+    ],
+    [
+     90.0,
+     21
+    ],
+    [
+     97.5,
+     19
+    ],
+    [
+     105.0,
+     18
+    ],
+    [
+     112.5,
+     16
+    ],
+    [
+     120.0,
+     15
+    ],
+    [
+     127.5,
+     14
+    ],
+    [
+     135.0,
+     12
+    ],
+    [
+     142.5,
+     11
+    ],
+    [
+     150.0,
+     11
+    ],
+    [
+     157.5,
+     9
+    ],
+    [
+     165.0,
+     8
+    ],
+    [
+     172.5,
+     6
+    ],
+    [
+     180.0,
+     5
+    ]
+   ],
+   "note": null,
+   "exact_coordinate_arm": {
+    "n_reconstructed": 48,
+    "n_events": 18,
+    "n_censored": 30,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -11,
+    "median_survival": 110.0,
+    "median_delta_vs_truth": -58.0,
+    "internal_max_abs_km_deviation": 0.0005,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0079
+   },
+   "clean_render_arm": {
+    "n_reconstructed": 27,
+    "n_events": 18,
+    "n_censored": 9,
+    "events_delta_vs_truth": 0,
+    "censored_delta_vs_truth": -32,
+    "median_survival": 60.75,
+    "median_delta_vs_truth": -107.25,
+    "internal_max_abs_km_deviation": 0.0059,
+    "admissible_under_the_floor": true,
+    "quality_failures": [],
+    "error": null,
+    "seconds": 0.0136
+   }
+  }
+ ]
+}
