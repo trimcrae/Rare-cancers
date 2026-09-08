@@ -1,0 +1,89 @@
+{
+ "_what": "Batch 2 \u2014 byte-exact copies of already-present blobs for the FP final reviewer",
+ "_method": "GIT_NO_LAZY_FETCH=1 git cat-file blob; each copy re-hashed with git hash-object and asserted equal to its blob id",
+ "_no_fetch": "No network. No publisher or registry fetch, no literature search, no reconstruction.",
+ "_absent": [
+  {
+   "item": "Lenz",
+   "pmid": "36563884",
+   "doi": "10.1016/j.humpath.2022.12.005",
+   "status": "NO EXISTING COPY",
+   "searched": "origin/literature-cache, origin/main, origin/codex/opus-cloud-inputs-20260908, and the 216bd tree, by PMID and by 'humpath'",
+   "note": "The transposed 36586357 was ignored as the reviewer's corrected typo. Absence is a precise limitation; no fetch or reconstruction was attempted."
+  }
+ ],
+ "total_bytes": 392866,
+ "files": 7,
+ "copies": [
+  {
+   "item": "Brenca",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/aso-bibliography-completion/PMC6766969.txt",
+   "git_blob": "6d41b82f368f5902cf670be77a139a7b2f26516e",
+   "bytes": 36431,
+   "sha256": "d9b736575b4f411e3665638d4d6667c39376054635b3070674f6d22994d10390",
+   "copy": "PMC6766969.txt",
+   "note": "also at literature/ct-reverify-c3b-2026-08-07/PMC6766969.txt and literature/aso-round5-citation-support/ \u2014 same blob"
+  },
+  {
+   "item": "Bangerter",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/bangerter-2023-emc-exvivo/PMC9813045.txt",
+   "git_blob": "4acf7ff1c51130fefb7e7e8dd40b98a965e741df",
+   "bytes": 29246,
+   "sha256": "3f8cd7e434a9ccd2a6dd8b3e6016ab891ddd8c029177b488270a347753c43cd0",
+   "copy": "PMC9813045.txt",
+   "note": "also at literature/aso-refmeta-journals/ and aso-round5-citation-support/ \u2014 same blob"
+  },
+  {
+   "item": "Sjogren",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/ews-type-nom-fulltext/pmc_html_PMC1868116.txt",
+   "git_blob": "6ca78839aa756dcd55e1828fa96cbd2a86d101d4",
+   "bytes": 63736,
+   "sha256": "b692cda1b3118f9e67f7cc162de9692e1d78de8e9909520403b78b3f66140c50",
+   "copy": "pmc_html_PMC1868116.txt",
+   "note": "the exact path requested"
+  },
+  {
+   "item": "Paioli PMID32572850",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/tcf12-second-case-candidates/epmc_core_32572850_multicentre.txt",
+   "git_blob": "65a3bdccbb66954414ee75382c8aa0c2d94bab87",
+   "bytes": 10269,
+   "sha256": "b9a576220af18e44ce6ad8fd32940833aab12e2e552b759ada869aeae1cc8ab2",
+   "copy": "epmc_core_32572850_multicentre.txt",
+   "note": "EPMC core record"
+  },
+  {
+   "item": "Suemitsu PMID40828003 (pubmed)",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/emc-partner-events-r4/pubmed_40828003.txt",
+   "git_blob": "5ac7c25b8aa7830dc61dbe015560bcbde678f4b5",
+   "bytes": 14234,
+   "sha256": "ec90d89e609f43f676a819c2c8eac72954c1a56501df1effda93bd15733bbd60",
+   "copy": "pubmed_40828003.txt",
+   "note": "PubMed record"
+  },
+  {
+   "item": "Suemitsu PMID40828003 (epmc)",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/emc-partner-events-r4/epmc_core_40828003.txt",
+   "git_blob": "3e84958dfa77809e69e713d9c920d3f45a47b44d",
+   "bytes": 10726,
+   "sha256": "166562b7aef0452895a92deeb3a19cbf0e35b1a0762d9e4ea913a7ce63ec8c84",
+   "copy": "epmc_core_40828003.txt",
+   "note": "EPMC core companion"
+  },
+  {
+   "item": "Remiszewski PMC12504171 (optional)",
+   "source_commit": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "original_path": "literature/aso-emc-review-fulltext/pmc_PMC12504171_europepmc_fulltext.txt",
+   "git_blob": "e6d4ca5a3146205a1557a2493c40302a0e2a0dcf",
+   "bytes": 228224,
+   "sha256": "a3dc9f6f731a2fa3d04265ea0189e6fbcf3b1f448bc8f743150b91fa921f7abc",
+   "copy": "pmc_PMC12504171_europepmc_fulltext.txt",
+   "note": "optional item; readily retained"
+  }
+ ]
+}

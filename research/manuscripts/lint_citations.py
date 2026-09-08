@@ -438,8 +438,10 @@ def provenance_check(prose=None, anchors=None):
     working correctly. A control that cannot go green is not a control, it is a constant — the
     exact failure the negative-control discipline in `research/modalities/tests/
     test_lint_citations.py` was written to prevent, reappearing one level up in the call graph.
-    ⛔ THIS IS NOT A PRODUCTION PATH AND MUST NEVER BECOME ONE. `check()` — what `preflight.sh` and
-    CI run — still scans the ENTIRE corpus and still fails if EITHER axis fails. Splitting the axes
+    ⛔ THIS IS NOT A STANDALONE PRODUCTION ENTRYPOINT AND MUST NEVER BECOME ONE — though it IS a
+    component production calls: `check()` invokes it on every run. What must never happen is a
+    caller reaching it INSTEAD of `check()`. `check()` — what `preflight.sh` and CI run — still
+    scans the ENTIRE corpus and still fails if EITHER axis fails. Splitting the axes
     so each can be OBSERVED alone is the repair; running only one of them in production would be
     the 2026-08-26 defect (real, anchored identifiers cited as the wrong kind of paper) going
     unchecked. `test_the_wrapper_fails_when_either_axis_fails` pins that.
@@ -524,7 +526,9 @@ def check():
     """⛔ PRODUCTION. The WHOLE corpus, BOTH axes, and a failure if EITHER of them fails.
 
     ⚠ The two rcs are OR-ed (via `max`) so neither guard can hide the other — provenance answers
-    "did anybody retrieve this identifier", the type guard answers "is the paper behind it the KIND
+    "is this identifier ANCHORED IN A FETCH PRODUCT OR ENUMERATED IN THE LEDGER" — which is NOT the
+    same as "did anybody retrieve it": a ledger row can be inherited or otherwise unverified, and
+    such a row passes this axis. The type guard answers "is the paper behind it the KIND
     of paper the sentence says it is", and a green on one is not evidence about the other.
     ⭐ `survey()` is walked ONCE and its prose half is handed to both, which is the 21-s-per-commit
     fix pinned by `test_the_citation_scan_is_not_run_twice.py`.
