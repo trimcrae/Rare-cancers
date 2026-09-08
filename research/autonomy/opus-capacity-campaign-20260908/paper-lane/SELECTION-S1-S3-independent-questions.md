@@ -120,3 +120,68 @@ Holds unchanged and exact: the writer / W25 primary-article / Results / novelty 
 with **unknown scope** — no retry, rewording, owner/task/admission proxy, or blocked-writer prompt; no NR4A
 Perspective reroute; no therapeutic-design workaround; no publication, merge or external contact. Completed and
 interrupted records are preserved. Missing selected paths are **UNKNOWN, not globally absent**.
+
+---
+
+# DISPOSITION APPENDED 2026-09-08 ~05:36Z — S1 and S3 STOPPED as nonconforming; S2 continues
+
+**The selection record above is preserved unchanged and is not erased.** Verified at append time: 10,206 bytes,
+sha256 `4bdd66c4fa6b45ab81670046f87c83a07ab162cd60a511ebecd113b1d09b27b5` — both match the pinned values
+exactly. (The pin `24ed2e70…` resolves in this repository to a **commit**, not to this file's blob, which is
+`bc4c112035091270918e4082357e953daef3330f`; content identity is confirmed by size and sha256 regardless.)
+
+## S1 — **STOPPED**, contract nonconforming
+
+`TaskStop` issued and confirmed (`killed`). Its last emitted line before termination: *"Both W89 cases
+confirmed at source. Writing the census."* — so it had reached partial results, which are retained at
+`paper-lane/S1-INTERRUPTED-partial-output.md` rather than discarded.
+
+**Reason, taken from the contract as written and not from the task name:** S1's finite output was a
+**corpus-wide record audit** — a census of artifact fields (intervals lacking a resolvable `(k, n)`) plus a
+consumer trace into prose. This checkpoint expressly excluded further record/infrastructure audit refills.
+Framing the output as a defect in *reported science* rather than in tooling does not change what the concrete
+deliverable was. The parent selected it in error.
+
+## S3 — **STOPPED**, contract nonconforming on two independent grounds
+
+`TaskStop` issued and confirmed (`killed`). Last emitted line: *"Now the actual work. Enumerating carriers."*
+Partial output retained at `paper-lane/S3-INTERRUPTED-partial-output.md`.
+
+1. **Same audit exclusion.** Its finite output was a cross-artifact count-discrepancy census with a consumer
+   trace — a record audit by its deliverable, whatever it was called.
+2. **Scope leak into excluded work, which is the more serious of the two.** S3's contract named P6's
+   Agaram/NR4A3 partner-count loose end, `hormone-partner-lane.json` and `nr4a3-emc-biology-evidence.md` as
+   seeds for source-reading and claim resolution. That is the P6 manuscript/claim-correction scope the previous
+   instruction excluded, reached through a denominator-integrity framing. **The exclusion holds regardless of
+   framing**, and a seed drawn from a blocked report is a route into it.
+
+## Binding on both
+
+**No fresh S1 or S3 under another label, another worker, another owner, or a re-scoped question.** Neither is
+re-dispatched in whole or in part. Completed and interrupted results are retained; nothing is deleted.
+
+## S2 — **RUNNING**, unchanged
+
+Confirmed live at append time. Its contract stands exactly as written above: synthetic ground truth known by
+construction, **no** real clinical curve inversion, **no** patient-level reconstruction or pooling, and **no**
+application to any closed IPD or recurrence gate. Its finite success criterion — a table of reconstruction
+error against risk-table density and anchoring, with the direction-of-bound caveat on every row — and its
+missing-input stop criterion — naming the exact absent parameter and generator if the retained control carries
+no density-varying arm — are honoured as written, and a documented missing-input stop remains a success. If it
+runs any computation, its executed code and its parameter/input receipt are to be retained with its report.
+
+## Further selection on this bounded pass: **FAILED, recorded rather than substituted**
+
+No additional step was selected. The standing request permits a genuinely independent public-source or
+study-development step beyond the old graph labels, and explicitly forbids substituting another artifact audit
+for it. On this pass I could not name one that has both **concrete available inputs** and **a substantive
+research output**, without either (a) reducing to another record audit, or (b) reselecting closed or held work
+— the closed set now covering the RT/IPD synthesis, conditional-recurrence and trial-discoverability
+checkpoints, the care-delivery publish decision, the site-denominator proposal, lane 2, GSE4303/GSE28866, the
+denied-source list, the P6 manuscript scope, and the W25 continuation. Rather than manufacture a fourth
+question, **the honest disposition is that selection failed on this bounded pass**, with S2 the single
+conforming assignment carried forward.
+
+Session, model (`claude-opus-5`), deadline `2026-09-09T02:37:19Z`, collector and billing all unchanged. The
+writer / W25 primary-article / Results / novelty safety hold is untouched by this correction, as is every other
+closure named above.
