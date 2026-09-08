@@ -211,3 +211,56 @@ copy-only text includes procedural rules (a standing pre-submission "ultra-reaso
 dated 2026-09-05, a "continue beyond a route-specific blocker" section) that appear in **no tracked file**
 at this HEAD. Which version is authoritative is **UNKNOWN**. Do not follow the copy: read
 `research/autonomy/OPERATING_PROTOCOL.md` from the working tree, as this brief already instructs.
+
+### ⛔ Lane 2 is CLOSED, and its last surviving claim is WITHDRAWN — measured 2026-09-08T04:38Z
+
+W02k ran the pre-declared E2-limb calibration W02j named as the only remaining falsifying test on this
+substrate. Both limbs of W02i's frozen arm-to-arm rule are now measured against random 14-gene panels
+drawn from the same 423-gene non-marker universe:
+
+* `E1` fires for **0.2950** of random panels (W02j), nominal 0.05.
+* `E2` (`p_lo <= 0.05` against the exhaustive C(17,6)=12376 LGFMS subsamples) fires for **0.2075**
+  (83/400), nominal 0.05 — 4.15x nominal, 15.4 binomial SE above it.
+* The joint rule returns `U` for **15%** of random panels.
+* Most telling: `p_lo == 1/12377` — the *exact* minimum-attainable event the fibro/ECM row achieved —
+  occurs in **15 of 400** random panels (0.0375) against an expected 0.032 panels. The `p_lo = 0.00008`
+  headline was never a small probability; it is a floor the EMC arm reaches routinely.
+
+**The fibro/ECM `U` (EMC `R_gene` 2.0460) is WITHDRAWN as evidence of anything about fibro/ECM genes.**
+The measured number is still true — EMC's fibro/ECM `R_gene` really is 2.0460 and really is below all
+12376 LGFMS subsamples — what is withdrawn is the claim that it is *unusual*. The failure is directional
+(`F_HI` = 0.0675, near nominal), which points at a gene-set-independent offset between the EMC arm's six
+arrays and LGFMS arrays; batch, scan date, processing and cellularity are all confounded with disease
+class in this deposit and none is separable. **The cause is UNKNOWN and no candidate is claimed.**
+
+Lane 2 is finished on this substrate: two withdrawn findings (endothelial W02i, fibro/ECM here), one
+measured specificity failure, and a rule with no informative limb. The next real question — arm
+exchangeability — needs the uncommitted GSE24369 series matrix, whose retrieval is DENIED. **Do not
+dispatch further lane-2 statistics on `emc-expression-panels.json`.** No new lane-2 worker, and no
+report, may restate the fibro/ECM `U` as a finding.
+
+### The `superseded[]` guard census is settled at 39 / 13 / 29 — measured 2026-09-08T04:39Z
+
+W28d individually transplant-tested all 40 of W28c's WOULD-MATCH entries against the real compiled
+patterns: **39 MATCH, 1 reclassified UNTESTABLE, 0 refuted**. The registry-wide split is therefore
+**39 WOULD-MATCH / 13 WOULD-NOT-MATCH / 29 UNTESTABLE**, and the frame screen's measured error over all
+81 entries is **one false negative and zero false positives** (failure mode named: quantity-*arity*
+mismatch, as in `rbfe_edge_tyk2_rate`). Do not re-run the transplant set.
+
+Two corrections that must travel with any use of these numbers:
+
+* ⛔ **The 13 WOULD-NOT-MATCH is NOT a dead-guard count.** Three of them —
+  `buy_line_1_5x_multiple_expression`, `card_ratio_4090_over_4080_within_7pct`, `xtt_pre_harmonized` —
+  do fire on live committed target text. The 13 measures phrasing fragility against the registry's own
+  `current` field, nothing more.
+* ⭐ **A far stronger and cheaper instrument exists, and it needs no fixture at all**: run the compiled
+  patterns over the real 29 `targets[]` through the real `is_cleared`. Measured: **58 of 81 entries fire
+  on committed text, 246 times, and all 246 are cleared**; `python3 research/manuscripts/lint_consistency.py`
+  → `0 ERROR across 29 target file(s)`, exit 0. Start any future liveness question there and use
+  transplants only for the ~23 entries the tree cannot exercise. Note the consequence: the guards' only
+  live exercise path is through `is_cleared`, so a regression there would un-cover 58 guards at once.
+
+⚠ Methodological warning for anyone building a frame screen: for an alternative that is a bare numeric
+literal, the frame degenerates to "any number" and the automatic transplant lands on whatever numeral
+comes first — producing inadmissible fixtures like `RTX 755.36 = 804.06`. 8 of 40 of the screen's calls
+rested on such a vacuous frame. A fixture is admissible only if its wording comes from committed text.
