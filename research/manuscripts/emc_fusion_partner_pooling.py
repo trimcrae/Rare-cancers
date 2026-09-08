@@ -1556,8 +1556,9 @@ def build() -> dict:
         It is the sum of the two contrasted arms' own death denominators -- i.e. the cases the
         source assigns to EWSR1::NR4A3 or TAF15::NR4A3 and carries as an outcome arm. It is NOT
         "partner-assigned" (a TCF12 case is partner-assigned and is in neither arm), and for
-        Agaram 2014 it is NOT "with follow-up" either: that cohort records no follow-up count,
-        and `cohorts[agaram-2014-outcome]` carries no `n_with_followup` field to state one.
+        Agaram 2014 it is NOT "with follow-up" either: `cohorts[agaram-2014-outcome]` carries no
+        `n_with_followup` field, so this extraction holds no follow-up count for that cohort. That
+        is a gap in the retained extraction, not a claim about what the primary publication reports.
         """
         return e["disease_specific_death"]["denom"] + t["disease_specific_death"]["denom"]
 
@@ -1668,14 +1669,17 @@ def build() -> dict:
         "what_changed_2026_08_08": (
             "⭐ A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME. Until 2026-08-08 exactly one cohort "
             "(Agaram 2014, {ag} of its {agp} partner-assigned patients carried an EWSR1 or TAF15 "
-            "partner, and the source records no follow-up count for them) published EMC outcome "
+            "partner; the retained extraction for that cohort carries no separate follow-up-count "
+            "field, which is a gap in what was extracted here and not a finding about what the "
+            "primary publication reports) published EMC outcome "
             "event counts by NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and "
             "the file said so. A human read Huang 2023's published PDF and extracted its Table 1, "
             "adding {hu} EWSR1- or TAF15-assigned patients with follow-up -- {hu} of the {huf} "
             "followed, which are themselves {huf} of the {hun} in the series, the other {misc} "
             "followed cases being 2 TCF12 and 1 unidentified partner -- from an independent "
             "country and institution set. The outcome pool is now {tot} patients across two "
-            "non-overlapping cohorts. ⚠ THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS "
+            "cohorts whose non-overlap is ARGUED from the reported authors, institutions and "
+            "geography and is NOT patient-verified. ⚠ THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS "
             "QUESTION -- see `does_not_touch_the_response_question` below."
         ).format(
             ag=_assigned_with_counts(ews, taf),
@@ -1820,9 +1824,11 @@ def build() -> dict:
         ).format(tf=taf["mean_followup_months"], ef=ews["mean_followup_months"]),
         "verdict": (
             "TWO cohorts, {n} patients assigned to EWSR1::NR4A3 or TAF15::NR4A3 -- Agaram "
-            "2014's {agn} of {agp} partner-assigned, for which the source records no follow-up "
-            "count, plus Huang 2023's {hun} of the {huf} followed -- from two continents with no "
-            "shared authors. Pooled disease-specific death is "
+            "2014's {agn} of {agp} partner-assigned, for which the retained extraction carries no "
+            "separate follow-up-count field, plus Huang 2023's {hun} of the {huf} followed -- from "
+            "two continents with no shared authors, a non-overlap ARGUED from those reported "
+            "author, institution and geography records rather than verified patient by patient. "
+            "Pooled disease-specific death is "
             "{te}/{tn} ({tp}%, 95% CI {tlo}-{thi}) with TAF15::NR4A3 against {ee}/{en} ({ep}%, "
             "95% CI {elo}-{ehi}) with EWSR1::NR4A3 -- a gap of {gap} percentage points, post-hoc "
             "Fisher exact two-sided p = {p}, and the first time this contrast has had a magnitude "
