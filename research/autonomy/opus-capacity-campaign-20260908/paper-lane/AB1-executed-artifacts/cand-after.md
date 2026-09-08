@@ -1,0 +1,24 @@
+## Abstract
+
+Extraskeletal myxoid chondrosarcoma (EMC) is a translocation sarcoma driven by an NR4A3 fusion,
+usually with the FET-family gene EWSR1. A recent report describes FET fusion oncoproteins as
+disrupting physiologic DNA repair, with recruitment to laser-induced double-strand breaks tracking
+retained FET RGG-rich content; EMC is the untested fourth transcription-factor-partner class
+there. The reported EMC junctions are compiled from primary sources, translated at transcript
+rather than coding-sequence level, and placed on that axis. Four sourced junctions (EWSR1
+exons 12, 7 and 13; TAF15 exon 6) yield in-frame reading frames retaining the complete NR4A3
+moiety. The EWSR1 exon 7 to NR4A3 exon 2 junction inserts 177 nucleotides in the EWSR1 frame,
+encoding 59 residues absent from this programme's earlier protein-level model. Retained EWSR1 RG
+dipeptides place type 1 at 8 of 30 and type 2 at 0 of 30, within the 0.000 to 0.267 span of the
+three reported EWSR1::ATF1 breakpoints: reported breakpoints, not the measured construct,
+whose breakpoint is unstated. Recruitment was measured only at 0.000 and 1.000, never in
+between. TCF12, a minority non-FET 5' partner in EMC, falls outside the FET compositional range at every prefix
+on the evaluated grid (50 aa upwards in 10-aa steps), where no TCF12 prefix reaches the lowest
+value any FET prefix takes. No experiment was performed: sequences come from public reference
+transcripts on one annotation source, and each junction needs verification against a sequenced
+breakpoint. Five predictions with explicit falsifiers, four constructs and four controls are
+specified in advance.
+
+## 1. Introduction
+
+text

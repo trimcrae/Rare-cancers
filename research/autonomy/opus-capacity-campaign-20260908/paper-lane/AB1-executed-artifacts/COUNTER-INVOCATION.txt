@@ -1,0 +1,51 @@
+COUNTER-INVOCATION — worker AB1
+Declared counter: research/manuscripts/submission_metrics.py
+
+WHY THE SCRIPT WAS NOT RUN
+`main()` writes research/manuscripts/submission-metrics.json at lines 628-629
+(`with open(out, "w", ...) as fh: fh.write(doc)`), and there is no `--help` short-circuit.
+The module was therefore IMPORTED, never executed as a script (`if __name__ == "__main__"`
+guard at the file end means import does not call `main()`).
+
+WRITE-FREE PATH, CONFIRMED BY READING THE SOURCE
+- Abstract words are produced in `measure(path, companion_paths=())` (:475-491):
+      ab = re.search(r"^#+\s*Abstract\s*$(.*?)(?=^#+\s)", body, re.S | re.M)
+      abstract_words = len(ab.group(1).split()) if ab else None
+  where `body = prepare(path)`.
+- `prepare(path)` (:418-433) only does `open(path, encoding="utf-8").read()` plus regex
+  substitutions (frontmatter, `<!-- -->` comments, fenced blocks, horizontal rules blanked).
+  It calls `_assert_comments_closed` (:394-416), which only reads and may `raise SystemExit`.
+- The ONLY write in the whole module is at :628-629 inside `main()`. `grep -n
+  "open(|json.dump|write|Path(" ` over the file returns writes at :628-629 only; :427 and :609
+  are reads.
+- Import-time side effects: `FIGURE_FILES = _figure_files_from_the_pdf_builder()` (:318) imports
+  `build_submission_pdf`, whose module level is imports, constants and regexes only (no write, no
+  subprocess at import). Nothing is written on import.
+
+INPUT SHAPE
+`measure()` counts the section between a `^#+\s*Abstract$` heading and the next heading, so each
+candidate was wrapped verbatim as:
+    ## Abstract\n\n<candidate text>\n\n## 1. Introduction\n\ntext\n
+giving cand-before.md (verbatim current abstract) and cand-after.md (shortened abstract).
+
+EXACT INVOCATIONS AND LITERAL OUTPUT
+$ python3 -c "import sys; sys.path.insert(0,'/home/user/Rare-cancers/research/manuscripts'); import submission_metrics as sm; print('BEFORE', sm.measure('/tmp/claude-0/ab1-lane/cand-before.md')['abstract_words']); print('AFTER', sm.measure('/tmp/claude-0/ab1-lane/cand-after.md')['abstract_words'])"
+BEFORE 341
+AFTER 310
+exit=0
+  (that AFTER value is the FIRST draft; drafts 2-5 measured 286, 279, 257, 246, 242)
+
+FINAL, on the delivered AFTER-abstract.txt:
+$ python3 -c "import sys; sys.path.insert(0,'/home/user/Rare-cancers/research/manuscripts'); import submission_metrics as sm; print('AFTER', sm.measure('/tmp/claude-0/ab1-lane/cand-after.md')['abstract_words'])"
+AFTER 245
+exit code 0
+
+CONTROL: the same call on the verbatim current abstract returns 341, matching the 341 stated in
+the dispatch, which shows the wrapper reproduces the declared counter's behaviour on this text.
+
+RECORDED LIMIT: VENUES["GCC-Research-Article"]["limits"]["abstract_words"] = 250
+(submission_metrics.py:116-121), provenance "search-derived" — the journal's own guideline page
+returns a bot challenge, so the 250 is NOT publisher-verified. 245 <= 250.
+
+NOTHING WAS WRITTEN INTO THE REPOSITORY. submission-metrics.json is untouched (verified by
+git status --porcelain at start and end).

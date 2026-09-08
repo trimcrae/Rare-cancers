@@ -1,0 +1,21 @@
+=== date -u ===
+Tue Sep  8 12:48:18 UTC 2026
+=== HEAD ===
+bab7f02b81c17e1293d4b1ac578a23882797f231
+=== status ===
+ M research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md
+
+VERIFICATION THAT NOTHING I MEASURED CHANGED WHILE HEAD MOVED
+Start HEAD 8c9a89afd6447bdbb7dc4c3102018c2854591c32 (12:43:14Z), clean worktree.
+End   HEAD bab7f02b81c17e1293d4b1ac578a23882797f231 (12:48:18Z), worktree carries
+      " M research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md" — a file
+      I did not read, write or measure.
+$ git diff --stat 8c9a89af bab7f02b -- research/manuscripts/dependency/emc-atr-collaborator-package.md \
+    research/manuscripts/submission_metrics.py research/manuscripts/submission-metrics.json
+  (empty output, rc=0)  -> all three of my inputs are byte-identical across the HEAD move
+$ git status --porcelain -- <same three paths>
+  (empty output, rc=0)  -> none of them is modified in the worktree; submission-metrics.json untouched
+Re-extraction of the abstract at end HEAD is identical to the copy in BEFORE-abstract.txt (True),
+and the declared counter still returns 341 for the live manuscript and 245 for the candidate.
+All coordinator commits between the two HEADs touch only
+research/autonomy/opus-capacity-campaign-20260908/.
