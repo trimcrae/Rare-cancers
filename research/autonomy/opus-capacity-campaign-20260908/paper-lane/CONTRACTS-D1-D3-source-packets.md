@@ -86,3 +86,81 @@ later**. ≥10 GiB free. No repository write, no git operation, no manuscript/mo
 
 **The parent adjudicates the collected scientific support. Any regeneration or correction is a SEPARATE owner
 decision and is NOT authorized by these packets.**
+
+---
+
+# D2 VERDICT — HF-CV-RISK / PMID 42068528: **the source is real, matches, and supports the number.**
+
+Child `ac190a6eda3284f20`, observed transcript model `claude-opus-5`, 08:00:35 → 08:02:19 UTC (11 tool calls of
+~30, ~1 m 45 s of the 20-minute bound). No repository write, no git operation; `git status --porcelain` empty at
+both ends. Artifacts `sha256sum -c` **3 of 3 OK** in `/tmp/claude-0/d2-retained/` (not deleted) and again after
+copying to `paper-lane/D2-executed-artifacts/`.
+
+## Identity and support — resolved
+
+PMID 42068528 = Long Y *et al.*, *"Sources of Heterogeneity in the Efficacy of Statins for Primary Prevention of
+Cardiovascular Diseases: A Systematic Review with Meta-Regression and Meta-Analysis of Within-Study Subgroup
+Differences"*, **Cardiovascular Drugs and Therapy**, 2026-05-02, DOI 10.1007/s10557-026-07883-6, PROSPERO
+CRD42024579932; 25 RCTs, 102,667 participants. Every element of the stored `measured_in` matches the abstract —
+including **"searches … up to 20 January 2026"** verbatim. **RR 0.81 (95% CI 0.71–0.95), P = 0.008 for
+cardiovascular death is supported exactly**, and the stored RRR band 0.05–0.29 is arithmetically consistent
+with that CI (1−0.95, 1−0.71), verified by computation rather than asserted.
+
+⭐ **This settles a distinction that matters for the whole C1 blocker:** a PMID's absence from the canonical
+probe means it was **not in that retrieval set** — it does **not** mean the citation is unreal or unsupported.
+Here the unanchored identifier resolves to a real, matching work that supports its stored effect. The guard
+failure and the evidence question are **two different things**, and this is the first packet to demonstrate it
+on a specific row.
+
+## The one mismatch, characterised exactly — and parent-verified
+
+The stored `verbatim` is **not** word-for-word. Segment test: the cardiovascular-death clause is **exact
+(True)**; the MACE clause is **not (False)**. The source reads *"…MACE (RR, 0.73[95% CI, 0.67 to 0.80], P <
+0.001), MI …, stroke …, and cardiovascular death (RR, 0.81[95% CI, 0.71 to 0.95], P = 0.008)"*. The stored
+quotation **drops `, P < 0.001` from inside the MACE parenthesis and closes it early, with no ellipsis or
+bracket marking that elision**; its `...` correctly marks only the omitted MI and stroke clauses. **I confirmed
+independently** that the committed string's MACE parenthesis carries no P value.
+
+**No number, bound or word is altered or invented, and the clause carrying the effect the model actually uses is
+exact.** This is a **quotation-hygiene defect, not a misquoted result** — the distinction is preserved, and what
+should be done about it is not decided here.
+
+## The endpoint caveat — necessary, and not sufficient as written
+
+The source's scope confirms the caveat's direction: the abstract pools MACE, MI, stroke and cardiovascular
+death and **reports no all-cause mortality estimate at all**, so nothing observed licenses an all-cause reading.
+Three further limits the source imposes that the caveat does **not** name: the trial population is people
+**without prior CVD**, which an EMC cohort is not screened for; **the overstatement is unquantified**, since the
+non-cardiovascular fraction of compartment-B deaths is unknown, so the caveat gives the error's direction but
+not its magnitude; and the estimate is **trial-level efficacy under trial adherence**, from a review whose
+stated subject is heterogeneity of effect — **nothing in the observed source supports any specific
+`transfer_multiplier`, including the model's 1.0 upper edge**.
+
+## Two scope observations, neither a defect claim
+
+**Parent-verified:** `grep` for `42068528` and `HF-CV-RISK` over `emc-mortality-mechanisms-paper.md` returns
+**0 matches** — this row is not cited in that manuscript's prose and lives only in the two host-factor JSONs.
+And a **notation collision**: the source uses "RRR" for *ratio of risk ratios* in its meta-regression, while the
+repository field means *relative risk reduction*; the stored values are correctly derived from the CI and are
+not the source's RRRs, but a future reader could conflate them.
+
+## Observation grade, and what was not seen
+
+**Abstract-only throughout, and it stays abstract-only.** Identity from the original PubMed record; population,
+design, search date and the effect size from the **original abstract**. **No full text, no table, no figure was
+observed; no third-party summary contributed anything.** The outcome-specific trial count, I², effect model and
+risk-of-bias grading behind RR 0.81 are **unknown, not zero**. The full-text branch stopped on a preserved
+refusal — `WebFetch https://doi.org/…` returned
+`{"error_type":"EGRESS_BLOCKED","domain":"doi.org",...}` — a **publisher DOI route, not an NCBI route**; one
+attempt, not reworded, not repeated, no tool or network switch. PMC was **NOT RUN** because the metadata carried
+no PMC identifier, so no valid input existed.
+
+## Transfer limit, binding
+
+A primary-prevention statin effect on **cardiovascular death in adults without prior CVD** transfers to an EMC
+cohort **at most as a direction and an order of magnitude**. It is **not** evidence of clinical benefit in EMC,
+not evidence about EMC-specific death, not about all-cause death, and not a survival gain in any sarcoma
+population. **No clinical benefit in EMC may be inferred from it.** There is no wet lab.
+
+**Adjudication is the parent's and is not made here. C1 stays closed; no correction, regeneration, row
+withdrawal or model change is authorized by this packet.**

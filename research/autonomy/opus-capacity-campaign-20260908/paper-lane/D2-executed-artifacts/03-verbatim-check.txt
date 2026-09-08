@@ -1,0 +1,13 @@
+Verbatim-quotation check, HF-CV-RISK / PMID 42068528, run 2026-09-08 against the abstract in 01-pubmed-42068528-metadata.json.
+
+STORED verbatim field (research/manuscripts/emc-host-factor-inputs.json, factors[2].evidence[0].verbatim):
+"statin treatment was associated with a reduced risk of MACE (RR, 0.73[95% CI, 0.67 to 0.80]) ... and cardiovascular death (RR, 0.81[95% CI, 0.71 to 0.95], P = 0.008)"
+
+SOURCE abstract span (exact):
+"statin treatment was associated with a reduced risk of MACE (RR, 0.73[95% CI, 0.67 to 0.80], P < 0.001), MI (RR, 0.68[95% CI, 0.60 to 0.77], P < 0.001), stroke (RR, 0.76[95% CI, 0.65 to 0.89], P = 0.001) and cardiovascular death (RR, 0.81[95% CI, 0.71 to 0.95], P = 0.008)."
+
+RESULT (Python substring test):
+segment 0 "statin treatment was associated with a reduced risk of MACE (RR, 0.73[95% CI, 0.67 to 0.80])"  -> exact-in-abstract = False  ** MISMATCH **
+segment 1 "and cardiovascular death (RR, 0.81[95% CI, 0.71 to 0.95], P = 0.008)"                        -> exact-in-abstract = True
+
+Exact nature of the mismatch: inside the MACE parenthesis the stored quotation drops ", P < 0.001" and closes the parenthesis early, with no ellipsis or bracket marking the elision. The stored "..." correctly marks the omitted MI and stroke clauses only. No number, CI bound or word is altered; the mismatch is an unmarked intra-parenthetical elision.

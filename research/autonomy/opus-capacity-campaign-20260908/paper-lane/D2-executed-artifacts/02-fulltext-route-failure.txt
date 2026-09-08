@@ -1,0 +1,12 @@
+D2 full-text route attempt — original failure evidence, preserved verbatim, branch STOPPED (not reworded, not retried).
+
+Tool: WebFetch
+url: https://doi.org/10.1007/s10557-026-07883-6
+prompt: "Report the article title, journal, and whether the full text is accessible. If accessible, quote verbatim any sentence or table reporting the pooled risk ratio for cardiovascular death, and state the number of trials and participants contributing to the cardiovascular-death outcome."
+
+LITERAL RESPONSE:
+<error>{"error_type":"EGRESS_BLOCKED","domain":"doi.org","message":"Access to doi.org is blocked by the network egress proxy."}</error>
+
+Consequence: no full text, no table and no figure was observed. All source observation in this packet is ABSTRACT-ONLY (PubMed record for PMID 42068528).
+No NCBI WebFetch route (pmc.ncbi.nlm.nih.gov / www.ncbi.nlm.nih.gov) was attempted; those are S7's blocked routes and were excluded by contract.
+PMC availability: the PubMed metadata response for 42068528 carried no PMC identifier, so no PMC full-text call was made (NOT RUN, no route existed).
