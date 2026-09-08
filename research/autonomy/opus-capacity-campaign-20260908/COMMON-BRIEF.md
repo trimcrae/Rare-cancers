@@ -442,3 +442,37 @@ Corrections and cautions it establishes:
   correction was ever carried back into the generator.** Separately, for the manuscript owner:
   `nr4a3-fusion-transcriptional-output-aixiv-metadata.json` currently publishes a *wider* claim
   ("three cohorts on three platforms") than its own manuscript ("the two readable array platforms").
+
+### Two more measured results — 2026-09-08T04:50Z
+
+* **The citation ledger's `status` vocabulary is UNDECIDABLE (W55).** 237 entries, 17-key union,
+  11 keys distinguishing `unverified_at_baseline` (143) from `verified` (93). **Exactly one code file
+  names the ledger path at all** — `research/manuscripts/lint_citations.py` — and its exit code is a
+  function of ledger **membership only** (`:432` builds `known` from `e["key"]`; `:443` computes `new`
+  from that). `status` is a RENDER, not a READ: the two readers are a vocabulary-membership assert and
+  a `Counter` interpolated into a printed line. Relabelling all 237 rows `verified` by hand would change
+  one console line and no exit code. `retracted` is in `STATUSES` with **0 rows** and no branch.
+  ⛔ **The transition mechanism the artifact prescribes for itself does not exist**: the ledger header
+  and `lint_citations.py:36,371,493,508` all say resolve a row *"with `--verify-online` … never by
+  relabelling it by hand"*, and the argparse block at `:545-547` defines only `--baseline` and
+  `--report`. There is no `--verify-online` anywhere in the tree. The two workflows named inside
+  `verified_by` values contain zero references to the ledger. ⭐ Refinement to W43: five verified-only
+  keys are **content**, not act-assertions, and are decidable in principle from committed bytes — all
+  11 `verified_pmid` values appear in `research/manuscripts/citation-retraction-sweep.json`. Nothing
+  here says any row is mislabelled; no link was opened.
+* ⛔ **The ASO deposited-chain guard is GREEN and the four-artifact gap is genuinely unwatched (W03j).**
+  `pytest research/manuscripts/tests/test_the_deposited_chain_can_run_from_the_deposit.py` → **10 passed,
+  exit 0**. The blind spot is at `:218-233` and `:240`: the resolver's `ev()` handles `Constant`, `Name`
+  and a restricted `Call`, and **returns `None` for `ast.Tuple`/`List`/`Set`/`Dict`**, so a module-level
+  *container* of path strings never becomes bindings. Measured by calling the shipped helper on the
+  shipped module: `_module_level_paths(aso_sequence_manifest.py)` returns only `OUT_CSV` and `OUT_FASTA`
+  — both **outputs**, which `:311` skips — so the guard extracts **zero inputs** from the one chain step
+  this is about and passes vacuously. ⚠ **A second, disjoint escape route**: `:293` iterates
+  `_invoked(_script())` only, so deposited-but-not-chain-invoked modules are never opened —
+  `aso_taf15_intron2_designs.py`'s `GENOME_SCREEN`/`PREMRNA_SCREEN` **are** resolvable and point at
+  existing undeposited files, and the guard simply never looks. AST census: 8 deposited modules use the
+  container idiom; only `aso_sequence_manifest.py` currently hides an undeposited artifact from a
+  chain-invoked step. W03i's two UNKNOWNs are settled: both `aso-genome-offtarget-taf15intron2.json`
+  (opened at `aso_taf15_intron2_designs.py:404` via an f-string path) and `junction-aso-offtarget.json`
+  (opened at `junction_seam_retraction.py:431,434-435` via a glob) are **OPENED, not merely mentioned** —
+  but both opens are absence-tolerant, unlike the premrna four's deliberate no-`try/except`.
