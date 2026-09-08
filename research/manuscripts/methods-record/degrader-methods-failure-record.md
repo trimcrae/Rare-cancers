@@ -41,7 +41,7 @@ last_verified: 2026-08-06
 | | |
 |---|---|
 | endpoint | `PUB-METHODS` · route `RT-METHODS-PAPER` · strategy `ST-DISSEMINATION` |
-| what blocks it | **the route's registered inherited-blockers list is empty.** ⚠ That is all the registry says, and it is not a finding that the science is ready: `RT-METHODS-PAPER.readiness.missing` still names one item (§10.3 item 1). The `[B5] RT-METHODS-PAPER …` line this row used to quote is **historical** — `systems_check.py --check` no longer emits a B5 for this route, and the six it does emit name other routes |
+| what blocks it | **the route's registered inherited-blockers list is empty.** ⚠ That is all the registry says, and it is not a finding that the science is ready: `RT-METHODS-PAPER.readiness.missing` still names one item (§10.3 item 1). This row used to quote a `[B5]` line from `systems_check.py --check`; that line is **historical**. B5 fires for a route whose endpoint is unwritten, so it reports a document's existence rather than a scientific blocker, and it stops firing once the endpoint is written — which is what happened here |
 | cost to finish | **$0.** No GPU, no rental, no bench. Every input is a committed artifact |
 | what is genuinely missing | two items, both $0, both in [§10.3](#103--the-two-missing-inputs-both-0) |
 | what only a wet lab could add | **nothing this paper's claim needs** — the one framing in the register of which that is true ([`paper-framing-options.md`](../program/paper-framing-options.md) §2.1) |
@@ -59,8 +59,8 @@ the paper's subject is the **register**, not the target.
 
 Of the **twenty instruments this paper cites** — the `support` and `disclosed_failing` lists of
 `RT-METHODS-PAPER.instruments`, which is not the whole of the program's instrument register — four recovered
-their known answer within a stated scope and sixteen are carried as **disclosed failing** — the register's own word, which covers three materially different outcomes
-that the paper's central methodological argument is written to separate. Three independent, preregistered
+their known answer within a stated scope and sixteen are carried as **disclosed failing** — the register's own word, which covers four materially different outcomes
+that the paper's central methodological argument is written to separate (§5.1). Three independent, preregistered
 attempts at a **positive control for paralogue-selectivity detection** are reported: an alchemical ternary
 cooperativity calibrator that recovered the **wrong sign**, an endpoint-MD sensitivity control that returned
 a **null on an adequately-powered design**, and a biological retrospective that was **covalency-confounded**
@@ -88,8 +88,8 @@ readiness. Nothing here is a treatment candidate.
 ## 2 · The claim, stated once
 
 > A computation-only program can state, with its instruments' known-answer controls attached, exactly which of
-> its selectivity claims its methods were able to support and which they were not — and the disclosed failures
-> are the transferable result.
+> its selectivity claims its methods were able to support and which they were not — and the disclosed failures,
+> each with its diagnosed mechanism, are the transferable result.
 
 That sentence is owned by [`systems/graph/publications.json`](../../../systems/graph/publications.json) →
 `PUB-METHODS.what_it_would_claim` and is quoted here rather than restated in other words, so the endpoint and
@@ -250,7 +250,7 @@ separates them.** The manuscript must render them separately or it will over-cla
 |---|---|---|
 | **a control that FAILED** | `V5`, `V7`, `V11`, `V12`, `V13`, `V17`, `V20`, `V21` | the instrument was put to a known answer and did not recover it |
 | **a control that could not RESOLVE** | `V3` (INCONCLUSIVE by its own rule), `V15` (mixed nulls), `V19` (one arm ran, the decisive arm is unrun) | the test was run and returned a third outcome |
-| **no control EXISTS** | `V9` (a self-check, not a known answer), `V14`, `V16`, `V22` | nothing has ever graded it, which is a hole and not a failure |
+| **no control EXISTS** | `V9` (a self-check, not a known answer), `V14`, `V16`, `V22` | nothing has ever graded it, which is a hole and not a failure. ⛔ These carry `known_answer_control.state: "none"` — the artifact's NULL tier — which is not the same record as `state: "fails"`. A null says no verdict exists; a failure says a verdict exists and is negative. Summing the two would inflate the failure count, and separating them is what this taxonomy is for |
 | **the control was never RUN** | `V4` — the *selectivity* free-energy known-answer test, built and staged with no result, never completed and not authorised | ⛔ the single most uncomfortable row in the register: the one test designed to grade selectivity free energy directly is the one that was never bought |
 
 ⭐ **Naming `V4` in the paper is not self-flagellation; it is the audit's integrity check.** A register that
@@ -308,7 +308,17 @@ rather than for the absence of a second opinion.**
 is wrong, and not that agreement would have meant correctness. Both methods are docking searches into a fixed
 receptor, so a shared receptor-conformer error survives both — which is why the artifact also names the third
 method (a generative co-fold committing coordinates) that would fail differently.
-One home: [`pose-second-method.json`](../../modalities/pose-second-method.json).
+⚠ **And the known-answer half of that comparator did not produce a grade, which is a different fact from
+not having been attempted.** The census records `n_pairs_attempted: 12` with `n_gradeable: 0`, and its own
+summary sentence reads "NOTHING — the arm did not run." The fields beneath that sentence are more specific
+than it is: 2 pairs were excluded by a pre-registered rule and 6 carry an unrun status, which leaves the
+remainder attempted without reaching a grade, for the named cause — a protocol file the run could not read.
+⛔ **A zero gradeable out of twelve attempted is therefore not by itself evidence that the arm was never
+attempted**, and this paper does not report it as one. Nothing was re-run to establish that; the attempt and
+execution status above are read from the retained record as it stands.
+
+Two homes: [`pose-second-method.json`](../../modalities/pose-second-method.json) and
+[`pose-conditionality-census.json`](../../modalities/pose-conditionality-census.json).
 
 **(c) The generation-frame druggability gate — `GATE_A_FAIL_BELOW_DSTAR`.** The *exact receptor frame the
 de-novo campaign generated into* was scored under the harmonized detector and falls below the program's own
