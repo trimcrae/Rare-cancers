@@ -51,3 +51,21 @@ specific current claim with actual evidence.
 
 Repurposing is **set down** at this blocker. Work proceeds to the next eligible unfinished papers,
 launched concurrently.
+
+
+---
+
+# ⛔ CLOSED 2026-09-08 ~12:04 UTC — the version question is settled and integrated
+
+**The scientific coordinator took the owner decision this record asked for.** The committed manuscript
+is the baseline for an explicitly **new working revision**; the **T2 classification is adopted** on the
+assembled record's case-level signal; the **four-tier scale is retained with T3 defined but
+unoccupied**. **No clinical efficacy finding follows.**
+
+That revision is now **integrated into the shared manuscript** — see
+`INTEGRATION-repurposing-t2.md`. **This blocker is CLOSED and must not be carried forward as an open
+item.**
+
+**Still open, and separately recorded there:** registry conformance (clinical governance), the
+repo-wide `lint_citations` failure, and the 25-vs-22 reference-count divergence. **No external draft
+identity was ever assumed, and none was found or claimed.**
