@@ -385,3 +385,67 @@ It also drafted two further corrections — to W01e's *"only EGA accession anywh
 sentence (four more are live-tree, two more corpus-only; its substantive verdict survives) and to
 W13c's *"identified here for the first time"* for Giner 2022/2023 (the full citation is already in
 the live tree at two paths). Both are retained in `reports/W21b-*` for the owner.
+
+## 2026-09-08 ~03:05Z — W25 candidate-merit check returns NOVELTY FAILS
+
+The scientific owner's commissioned one-slot check on the GSE243553 partner-binding prospect
+(W23's rank 3) is complete. **It recommends declining admission, on novelty — not on statistics.**
+It is **advice for the owner, not a decision**; nothing here admits, rejects, integrates or publishes
+anything, and the owner may weigh it differently.
+
+**1 · Novelty fails, on two retained repository documents.**
+`research/autonomy/next-paper-2026-09-07/selection.md` L56–58, verbatim:
+
+> "Frenkel and colleagues already report **fusion-family clustering and context-invariant chromatin
+> effects** in PROD-ATAC (doi:10.1038/s41587-024-02347-4). Those ideas, generic gene-set scoring and
+> mapping peaks to genes are not claimed as new methods."
+
+and `research/autonomy/nr4a3-program-source-2026-09-07/README.md` L53:
+
+> "The primary PROD-ATAC paper already reports **context-invariant chromatin effects, family
+> clustering**, native-control comparisons and NR4A3 fusion gain-of-function chromatin behavior.
+> **None is proposed as novelty here.**"
+
+The same selection memo carries a stop rule that fires exactly here: *"Stop this proposed experiment
+if … primary prior art already reports the proposed contribution."* After subtraction, what remains
+of the four reports is **two data-hygiene corrections** (the 128 `peakset_inventory` entries are 32
+real BEDs plus 64 AppleDouble forks and 32 non-interval tables; `median_width` is a constant 500 bp)
+and a qualitative re-detection of a published result on a truncated substrate. **That is not a paper.**
+
+**2 · The "403 blocks the genome-wide data" premise is FALSE at the repository level — and this
+changes nothing about the denial itself.** The base-`93b` tracked-file map records, with sizes:
+`nr4a3-program-source-2026-09-07/sources/markers.zip` **788,065 B**,
+`outputs/peaks.tsv` **3,041,469 B**, `sources/paper.html` **301,282 B** (the PMC13105821 full text),
+plus `peak-gene-links.tsv`, `program-membership.tsv`, `tss.tsv` — 60 tracked paths in all. The
+in-corpus `outputs/bed-members.tsv` gives per-member path, byte size, sha256 and peak counts for all
+**32** genome-wide BEDs, and `source-manifest.jsonl` records the successful Springer retrieval at
+788,065 bytes. **The ZIP five reports recorded as unrecoverable was fetched, hashed and committed on
+2026-09-07.** ⛔ **This is a snapshot-selection and branch-lineage gap, not an access gap, and it is
+NOT authority to probe the 403.** The CONNECT denial from this container is real, was not tested by
+W25, and remains a denied route. W23 rank 3's "exact missing input" line and W19e's closing "progress
+requires the genome-wide peak sets, and that route is a recorded 403" are both wrong as stated.
+
+**3 · The statistics held.** W25 attacked the result twice and could not break it: the whole-name
+permutation **is** a valid exact randomization test despite severe pair dependence, because each draw
+recomputes the dependent statistic on the same fixed pair topology; and a density-quartile-stratified
+null **strengthened** the 3′ effect (p at the Monte-Carlo floor) while leaving the 5′ negative
+negative. It found one real, previously unnamed defect — **uncontrolled window depth**, where W19e's
+primary class sits at median min-depth **17.0** against a panel median of **5.5**, and J rises ~8.7×
+with depth across the panel — and measured that controlling it moves the residual only 0.1608 →
+0.1459 with p unchanged. **The statistics are not why this fails.** The dependence is nonetheless
+severe: 15 "observations" from **8** peaksets, one entering 5 of them.
+
+**4 · Corrections owed, routed not applied.** (a) The claim that **clinical practice assumes
+fusion-partner interchangeability** (W20b's Question, repeated by W23) is **UNSOURCED** — a corpus
+search found no source stating it, and every `interchangeab` hit asserts the opposite about other
+things. It must be dropped or anchored. (b) W19e is a **reproducible exploratory successor on
+recycled data**, not a prespecified confirmation or held-out validation: its confirming set contains
+W19d's discovering 7 pairs, on the same 32 peaksets. Its own discipline was good and should be
+credited; the framing must be corrected. W19g independently carried the same correction.
+
+**5 · The one thing that could change the disposition**, and it is a verification step, not an
+analysis: deliver `sources/paper.html` into a readable checkout and read whether the publication
+already reports 3′-determined, 5′-invariant peak location at family resolution. If yes, the line
+closes. If no — and only then — the identical machinery runs on the genome-wide BEDs, where the
+0.4%-of-genome window, the 4–28-interval depths and the whole depth confound vanish at once, and the
+pair-dependence problem remains and would need a cluster-aware statistic rather than a larger p.
