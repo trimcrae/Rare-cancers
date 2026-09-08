@@ -48,13 +48,12 @@ the floor inverts the ratio to **1.254×**. On excluded volume alone the smaller
 orientation space, not less.
 
 We then size the floor against deposited structures. Measured under the sampler's own contact predicate
-across 22 entries, the **only chemically-induced transcriptional-proximity complex the search located** — the
+across 22 entries, the **only deposited chemically-induced transcriptional-proximity complex** — the
 chemically hijacked BCL6·TCIP3·p300 complex, PDB 9MZA, X-ray 2.1 Å — presents an induced interface of
 **6–7 contact points across 4 residues per side**, in both crystallographically independent copies.
 The committed floor is **12**, so the real transcriptional CIP fails it in both directions by roughly a
 factor of two. Applied to the modality it was actually written for, the same floor rejects **6 of 15**
-solved induced pairs across 8 deposited degrader/molecular-glue ternaries, including
-MZ1·BRD4-BD2·pVHL at **10–11**.
+solved degrader/molecular-glue ternaries, including MZ1·BRD4-BD2·pVHL at **10–11**.
 
 **What this does not establish.** It does not establish a lower limit on induced-interface size, a
 monotone relationship between interface size and transcriptional output, or any threshold below which
@@ -80,12 +79,9 @@ why proximity-design tooling transfers to it, and it is also the trap.
 
 Rigid-body proximity samplers score a candidate placement on excluded volume plus a **minimum induced
 interface**. In the sampler used here the parameter is `min_contact_residues = 12`, carrying the comment
-*"below this it is a tethered pair, not an interface"*. The comment records no derivation, and the parameter's only
-committed provenance is a degrader-recruitment sampler (`nr4a3_basin_search.PARAMS`). The reading
-offered here — that ubiquitin transfer requires a cooperative, buried target·E3 interface, and that a
-placement merely holding two proteins near each other will not deliver it — is our reconstruction of
-the intent, not a justification the source states. What the source does establish is narrower and
-sufficient: the value has no recorded derivation of any kind, transcriptional or otherwise.
+*"below this it is a tethered pair, not an interface"*. The justification is a degrader's: ubiquitin
+transfer requires a cooperative, buried target·E3 interface, and a placement that merely holds two
+proteins near each other will not deliver it.
 
 A TCIP's productive event is not ubiquitin transfer. Whether it requires a comparable induced interface,
 a smaller one, or a different quantity altogether had not been established. The requirement is properly
@@ -119,8 +115,7 @@ the opposite of the intuition that a smaller second terminus is a smaller proble
 
 On excluded volume alone the smaller body gets **25 % more** admissible orientation space. The entire
 measured penalty is the induced-interface requirement, and it is monotone in the floor. The result
-reproduces across a determinism fix (SI §S1) and at two sample counts — 0.896 at 30 000 samples per arm
-per pose and 0.894 at 40 000 ([`nr4a3-tcip-route-memo.md`](../../modalities/nr4a3-tcip-route-memo.md) §4).
+reproduces at two sample counts and across a determinism fix (SI §S1).
 
 **So a TCIP scored at the committed floor is charged for an induced interface nobody has shown the
 modality needs.** Which floor is correct is not settled by this ablation, and the enumeration declines
@@ -180,8 +175,7 @@ the interface rather than of a short chain. The bridging ligand is itself **81 h
 
 The floor is a degrader's parameter. Measured against 15 solved degrader/molecular-glue induced pairs,
 it rejects **6 of 15** in at least one direction — including **MZ1·BRD4-BD2·pVHL** (5T35), which reads
-**10–11** on the weaker side across its two copies, and **6HAX**, which reads **11** on the weaker side
-in both copies. **6SIS** fails in one copy only (11 and 10) and clears in the other (13 and 16).
+**10–11** on the weaker side across its two copies, and **6SIS** at 10–11.
 
 A threshold that would reject a substantial share of its own modality's solved ternaries is not a
 calibrated requirement being applied outside its range; it is an uncalibrated one. This is a statement
@@ -202,9 +196,6 @@ Stated plainly, because each has a specific and non-obvious reach.
 4. **One staged body is not comparable and is not pooled.** `brd4_bd1`'s exit-atom exposure is 13.65 Å,
    outside the committed E3 range of 5.00–5.79 Å; `bcl6` at 5.44 Å is inside. `brd4_bd1`'s acceptance
    may not be pooled with or ranked against the others, and it is excluded from every pooled figure.
-`bcl6` is inside the comparable range but is excluded from every pooled figure as well, because the
-pooled contrast is a proxy statement a named effector may not be read into (SI §S1, *Pooling*). Every
-pooled number above is therefore computed on `birc2`, `mdm2`, `crbn` and `vhl` only.
 5. **The named-effector result is narrower than it looks.** `bcl6` (7LWG, 243 residues) and `brd4_bd1`
    (4ZC9, 127) admit at every rung down to a 6-atom linker. But the paired size comparison, the
    within-class control and the floor ablation are computed on the **four committed bodies only**;
@@ -265,10 +256,9 @@ deterministic and offline. Full methods, tables and controls: [SI](./tcip-induce
 
 Superseded values are registered rather than silently dropped; the live text carries only current values.
 
-1. **Pooled size-axis figures.** [`nr4a3-tcip-route-memo.md`](../../modalities/nr4a3-tcip-route-memo.md) recorded
-   in its §4 a pooled ratio spanning **0.865–0.997**, non-overlapping at **5 of 8** rungs, and
-   **0.867** at the 12-atom gate; that §4 now carries the corrected values, and the memo's own
-   `Appendix · Superseded numbers` holds the retired ones. Recomputed from the primary per-rung data in
+1. **Pooled size-axis figures.** [`nr4a3-tcip-route-memo.md`](../../modalities/nr4a3-tcip-route-memo.md) §4
+   records the pooled ratio as spanning **0.865–0.997**, non-overlapping at **5 of 8** rungs, and
+   **0.867** at the 12-atom gate. Recomputed from the primary per-rung data in
    [`nr4a3-tcip-reach.json`](../../modalities/nr4a3-tcip-reach.json) → `★_paired_body_size_comparison`, the
    values are **0.858–0.972**, non-overlapping at **6 of 8**, and **0.877** at the gate — which is also
    what that artifact's own `verdict.★_the_size_axis` block reports. The artifact is the one home and is

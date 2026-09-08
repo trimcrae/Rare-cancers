@@ -36,11 +36,8 @@ halves:
   98% of residues < 50). A *functional* handle.
 - **NR4A3 DNA-binding domain (261–337) + hinge + ordered ligand-binding domain (373–626,
   mean pLDDT 85)** — well-folded, and carrying the **single best pocket in the whole protein**
-  (fpocket Pocket 5, druggability **0.495**, 10 lining residues spanning 406–534, all 10 within the LBD).
-  A *structural* handle. ⚠ Both readings are AlphaFold2 predictions on the wild-type monomers
-  (UniProt Q92570 and Q01844); `nr4a3-structure-assessment.json` contains no model of the fusion
-  protein, so that the fusion retains the entire ordered LBD is asserted from the breakpoint
-  architecture and is not measured by the cited artifact. [prediction — repo, wild-type monomers]
+  (fpocket Pocket 5, druggability **0.495**, lining residues 406–534, entirely within the LBD).
+  A *structural* handle. The fusion **retains the entire ordered LBD**. [established — repo]
 
 So the two routes are **not competitors at the same node**: the degrader attacks the *NR4A3-LBD
 end*, synthetic-lethality attacks the dependency created by the *EWSR1-prion end*. That reframing
@@ -52,7 +49,7 @@ drives the recommendation in §3.
 
 **Why it's attractive.**
 - **Nuclear receptors are now a *proven* degradable class.** **Vepdegestrant (ARV-471), an
-  estrogen-receptor PROTAC, became the first FDA-approved PROTAC (⚠ this repository's two records disagree on the year: this memo says 2025, which is the year of the phase-3 VERITAC-2 publication, while `research/manuscripts/degrader/nr4a3-degrader-paper.md:152` records the FDA approval as 2026-05-01; not adjudicated here)** (VEPPANU; phase-3
+  estrogen-receptor PROTAC, became the first FDA-approved PROTAC in 2025** (VEPPANU; phase-3
   VERITAC-2). That first FDA-approved PROTAC targets a nuclear receptor — the same superfamily
   as NR4A3. [precedent]
 - **A ligandable handle exists in principle.** NR4A LBDs have a **collapsed orthosteric pocket**
@@ -82,10 +79,7 @@ drives the recommendation in §3.
 2. **Selectivity vs. wild-type NR4A3.** A LBD-binding degrader hits WT NR4A3 too (the LBD is
    shared). Probably tolerable (NR4A3 is not a broad essential and the fusion is the pathogenic
    species), but unproven. [hypothesis]
-3. **E3 availability** (CRBN/VHL) in EMC is unverified — and unlike Route S's transfer prior in §2b,
-   the cheap step that would test it has not been run: the sibling sarcoma-expression surrogate
-   `depmap-target-expression.json` contains no CRBN and no VHL row. This is an unrun check, not a
-   negative result, and the asymmetry matters when the two routes are weighed below.
+3. **E3 availability** (CRBN/VHL) in EMC is unverified.
 4. **The make-or-break question is upstream of any molecule:** *is EMC addicted to the fusion?*
    The dTAG acute-degradation test (`novel-modalities.md` §3.1) must come first — if degrading
    the fusion doesn't kill EMC cells, the entire route is moot.
@@ -132,9 +126,7 @@ drives the recommendation in §3.
 
 ## 2b. RESULT — DepMap transfer prior (computed this session)
 
-`depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models; 176 sarcoma models in
-the release, of which 91 carry CRISPR data and are the denominator of every number below —
-`depmap_sarcoma_dependency.py:79`;
+`depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models, 176 sarcoma;
 `depmap-sarcoma-dependency.json` + `.png`). The result is a **negative for the cheap BRD9 bet**:
 
 - **ncBAF is not a sarcoma dependency.** BRD9 mean gene effect in sarcoma is **+0.11**
@@ -145,21 +137,12 @@ the release, of which 91 carry CRISPR data and are the denominator of every numb
   transfer logic should hold, it doesn't.
 - **BET/CDK targets give no selectivity window.** BRD4 (−0.95), CDK7 (−1.85), CDK9 (−1.46) are
   strongly essential but *equally* outside sarcoma — pan-essential, not a therapeutic margin.
-- ⚠ **The same run read Route D's own target, and this memo prints it nowhere.** In
-  `depmap-sarcoma-dependency.json`, NR4A3 is +0.02 in sarcoma with 0% of the 91 screened lines
-  dependent (`context_genes`). The "no DepMap line is EMC" caveat that qualifies that null is the
-  same caveat that qualifies the BRD9 null above, so the two routes must be read at equal strength:
-  neither is a measurement in EMC.
 - **Pipeline mechanics validated** by correct recovery of the pan-essential controls
   (CDK7/BRD4/CDK9, ~100% dependent everywhere). Two *selective*-dependency self-checks were weak:
   BRD9-in-synovial is an inherently modest DepMap signal (n=5, −0.13), and **SMARCB1-in-rhabdoid
   was mis-specified** (rhabdoid tumours have *lost* SMARCB1, so non-dependence is correct biology,
-  not a pipeline failure). But the pan-essential recovery validates essentiality detection, and
-  the headline is a claim about selectivity. The one control that could have validated
-  selectivity detection — BRD9 in synovial sarcoma, the context where ncBAF dependence *is*
-  established — did not recover it (n=5, −0.13, 20% dependent). So the headline negative rests on a
-  limb whose only positive control came back weak, and it should be read as a weak prior against
-  BRD9 rather than as a settled negative.
+  not a pipeline failure). So distrust the controls, not the headline — which the working
+  pan-essential recovery supports.
 
 **Interpretation.** The cheap transfer prior does **not** support BRD9/ncBAF (or selective
 BET/CDK) as an EMC vulnerability. The synthetic-lethal route therefore has **no shortcut**: to
@@ -193,9 +176,7 @@ step neither route escapes.
   shortcut is **no longer justified by transfer logic** — BRD9/ncBAF isn't a sarcoma dependency,
   not even in Ewing. The synthetic-lethal route now requires the expensive de-novo CRISPR screen
   in EMC models; do **not** spend a scarce wet-lab slot on a transfer-justified BRD9 test.
-- **The degrader route (NR4A3 LBD) is now the comparatively better-placed bet — because the
-  comparator lost support, not because the degrader gained any.** No result in §2b is evidence for
-  Route D; the same run returned a null on NR4A3 itself. Next *computational* steps
+- **The degrader route (NR4A3 LBD) is now the better-supported bet.** Next *computational* steps
   (cheap, no wet lab): (i) map published NR4A-ligand contact residues onto fpocket Pocket-5
   (406–534) to score warhead tractability and confirm the contacts are retained in the fusion;
   (ii) check CRBN/VHL expression in EMC/sarcoma. The make-or-break wet-lab step for *either* route

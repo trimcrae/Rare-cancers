@@ -79,8 +79,8 @@ stable-disease proportion, so each value carries an exact interval. It held in e
 stratum; 194 arms discarded 50 points or more. The summary returned nothing at all
 in 251 arms (45.5%), tracking the binomial at the corpus median rate: largely a
 function of arm size. Of 44 conditions placed, 16 had a median response at or below the 5%
-null; where a design is defined, 31.8% to 73.9% had a median trial too small for it, over two
-oppositely biased accrual populations with different condition sets. Reporting was the binding
+null; of the rest, 31.8% to 73.9% had a median trial too small for a single-stage design, the
+interval bounding two accrual populations biased in opposite directions. Reporting was the binding
 constraint: of 2,851 trials naming best overall response, 2,715 (95.2%) omitted the four
 categories. Four remedy families appear across 12 domains, 7 with a consensus guideline.
 
@@ -280,8 +280,8 @@ composition: arms contributing to conditions at or below the null are phase-1 he
 against 147 phase 2 and 9 phase 3, where the remaining placed conditions run 133 phase 2, 96 phase 1
 and 37 phase 3.
 
-Recomputing the response axis on phase 2 and phase 3 arms only leaves the median at 0.0% for
-thirteen of the fourteen such conditions that have any phase 2 or phase 3 arm. Two have none. One rises to
+Recomputing the response axis on phase 2 and phase 3 arms only leaves the median at 0.0% for twelve
+of the fourteen such conditions that have any phase 2 or phase 3 arm. Two have none. One rises to
 21.4%. The low corner is therefore not an artefact of dose escalation.
 
 ### 3.4 Composition of the accrual axis
@@ -290,7 +290,7 @@ The accrual axis has the same problem in a more severe form, and it is the reaso
 the design boundary is reported as a bound. Enrolment records come from two frozen queries that
 retrieve different populations.
 
-| accrual population | records | median of the per-condition median enrolments | share of conditions below the design boundary |
+| accrual population | records | median enrolment | share below the design boundary |
 |---|---|---|---|
 | completed phase 2 trials | 875 | 54 | 31.8% |
 | trials terminated with accrual named | 962 | 8 | 73.9% |
@@ -305,8 +305,7 @@ is close to circular.
 
 The pooled figure is worse than either, because it is neither quantity. Its value depends on the
 ratio between the two record sets, and that ratio is an artefact of retrieval: both queries were
-capped at 1,000 returned records against reported totals of 2,027 terminated trials and 16,035
-completed phase 2 trials. A different cap would move the
+capped at 1,000 returned records against totals of 2,027 and 16,035. A different cap would move the
 pooled share without anything about oncology having changed.
 
 The two populations are biased in opposite directions, which is what makes the pair useful. The
@@ -511,9 +510,7 @@ matters. The corpus rule requires a four-cell best-response table from an interv
 prospective observational cohort of untreated patients was never eligible for it. That is precisely
 the design in which the confound has been measured.
 
-Two records, both in desmoid fibromatosis, and not established as being on disjoint patients: the
-pooled analysis draws on three prospective observational studies of which one is French, and
-whether its 282 patients overlap the 100 below is stated in neither report and is unknown here. A prospective multicentre phase II observational trial
+Two records, both in desmoid fibromatosis. A prospective multicentre phase II observational trial
 placed 100 patients on active surveillance alone with central radiology review, and reported 3-year
 progression-free survival of 53.4% (95% CI 43.5 to 63.1), spontaneous regression in 58%, and partial
 responses by RECIST in 26% [2]. A pooled analysis of three prospective observational
@@ -534,8 +531,8 @@ natural-history component of a response readout is measurable and has been measu
 size is elsewhere. Where it has not been measured, that is a gap in the record rather than evidence
 that it is small.
 
-The distribution of what is missing is the substantive result. Of the 44 conditions placed, 25 have
-a median objective response of 15% or less. 4 of those 25 have any control arm in this corpus. The confound is largest exactly where it has
+The distribution of what is missing is the substantive result. 25 conditions occupy the low-response
+regime. 4 of them have any control arm in this corpus. The confound is largest exactly where it has
 never been measured.
 
 A randomised placebo-controlled trial in the same tumour supplies the third line of evidence and is
