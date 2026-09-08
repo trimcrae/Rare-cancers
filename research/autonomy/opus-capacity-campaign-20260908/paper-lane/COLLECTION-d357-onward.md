@@ -111,6 +111,14 @@ part of this three-file directory, and the coordinator owns the actual ultra exe
 
 ## 4 · Parent execution extracts for the applied repairs
 
+⛔ **SUPERSEDED 2026-09-08 by literal extracts.** The summaries below are PARAPHRASES and are not the
+evidence. The literal `tool_use`/`tool_result` records — original tool ids, both record uuids, both
+timestamps, the recorded `is_error` flag, and unedited command and result text — are shipped in
+[`collected/campaign-small-originals-20260908.tar.gz`](../collected/README-small-originals-20260908.md)
+under `parent-transcript/M1-literal-extracts.md` and
+`parent-transcript/APPLIED-REPAIRS-literal-extracts.md`. Read those; this section is kept only so the
+paraphrase and the record can be compared.
+
 These are the commands the parent actually ran and their actual results, as recorded in this
 session's transcript. Nothing was re-run to produce them.
 

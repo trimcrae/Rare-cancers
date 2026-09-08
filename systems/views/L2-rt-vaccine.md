@@ -84,7 +84,7 @@ its antigen input is no longer void — it is regenerated. What now blocks it is
 
 ## Where this route ends — the paper
 
-**[PUB-HLA-COVERAGE](L3-publications.md)** — [Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r](../../research/manuscripts/neoantigen/hla-coverage-emc.md)
+**[PUB-HLA-COVERAGE](L3-publications.md)** — [Modelled HLA coverage of predicted EWSR1::NR4A3 junction binders in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/neoantigen/hla-coverage-emc.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

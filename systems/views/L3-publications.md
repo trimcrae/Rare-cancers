@@ -48,7 +48,7 @@ last_verified: 2026-08-06
 | **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-HLA-COVERAGE**<br/>[Modelled HLA coverage of predicted EWSR1::NR4A3 junction binders in ext…](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/modality-census/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
@@ -239,7 +239,7 @@ The NR4A3 5' fusion partner is a candidate - not established - treatment-stratif
 |---|---|---|
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) — NR4A3 5' fusion partner as a treatment-stratificatio | `primary` | The whole paper: the pooled partner-stratified response, outcome and prevalence figures under one pre-committed method; the separation of the PROGNOSIS question, which now has a crude two-cohort magnitude, from the RESPONSE question, which has a zero-event arm and therefore no magnitude at any denominator; the size-adjustment result printed inseparably from the magnitude it defeats; the finding that the review literature's metastasis claim is unestablished in either direction once both count-bearing cohorts are in; the attribution correction on the field's most-quoted caveat; and the zero-patient-cost ask that follows. ⚠ Superseded, retained: 'the metastasis reversal in the only cohort with event counts' - that reversal was a single-cohort property and the second cohort does not reproduce it (2026-08-08). |
 
-### PUB-HLA-COVERAGE — Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r
+### PUB-HLA-COVERAGE — Modelled HLA coverage of predicted EWSR1::NR4A3 junction binders in extraskeletal myxoid chondrosarcoma
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/hla-coverage-emc.md`](../../research/manuscripts/neoantigen/hla-coverage-emc.md)**
 
