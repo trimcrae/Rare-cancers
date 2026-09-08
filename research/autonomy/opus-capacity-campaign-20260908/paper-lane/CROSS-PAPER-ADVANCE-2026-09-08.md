@@ -315,3 +315,45 @@ Of the 11 `ST-REPURPOSING` routes, several are **excluded by named holds, not by
 `RT-ALK-HIT` are **P4's `PUB-KINASE-LEADS` leads**; `RT-HORMONE-PARTNER` is **P6's unauthorized manuscript**;
 `RT-HDAC-BET` is a **parked negative (`AUT-029`)**. The executing worker must apply those exclusions itself and
 **report the actual adjudicable count** rather than assuming 10.
+
+---
+
+# ⛔ B1 STOPPED as nonconforming — 2026-09-08 07:23 UTC. And I mis-ranked it.
+
+`TaskStop` issued and confirmed (`killed`). **Not restarted, not replaced by another route, gene or consumer
+readability census.**
+
+**Why it was wrong, on its own contract text and not on its name:** B1 adjudicated `required_validation` genes
+as READABLE / UNDECIDABLE / UNREAD, **explicitly an instrument state and never a repurposing measurement**. That
+is an **input/route inventory** with no separately justified scientific question, contribution, novelty or
+acceptance rationale — precisely what the standing cross-paper instruction excludes. **Calling it "the strongest
+checkpoint" supplied none of the missing rationale**, and ranking by executability is the error I made: A3
+ranked it first among *its* rows, and I promoted that to "strongest available work" without applying the
+paper-question test myself. **No genotype, statistic or DE extension is authorized by this stop.**
+
+**Preserved:** the child stopped ~40 s in, before writing anything. `/tmp/claude-0/b1-retained/` exists and is
+**empty** — recorded as such, not deleted. Its partial transcript output is retained at
+`paper-lane/B1-STOPPED-partial-output.md` (78 bytes, the single line it emitted). **No missing bytes are
+claimed to exist; nothing is reconstructed.**
+
+## Distinctions kept exact — none of these is claimed
+
+- **Three repository entry points are not the corpus.** A1, A2 and A3 checked `hypotheses/candidates.json`,
+  `routes.json` and `strategies.json` + `blockers.json`. **That is three entry points, and it does not
+  establish that public-data or study-development work is exhausted.** No global exhaustion is claimed.
+- **A drafted endpoint does not prove every materially distinct question or useful scientific correction is
+  closed.** A1's and A2's negatives are scoped to *paper novelty against a drafted manuscript*; they say nothing
+  about whether a correction inside one is warranted.
+- **Graph eligibility alone does not establish a new paper either.** An `open` route, an un-closed
+  `closure_kind`, or a stale `next` field is not a paper question.
+
+## Final counts, actual — not prior running rows
+
+**Active research children: 0.** **Helpers: 1** — the legacy Bash waiter "Block until pass 2 finishes", which
+computes nothing and is not research. A1, A2, A3 are **completed and collected**; B1 is **killed**; the only
+other subagent row is a 4-hour-old completed one.
+
+Model receipts retained and unchanged: A1 `ac1b46c710a5d8e84`, A2 `a6675fd70c358f364`, A3 `ab2376c8974b3232b`,
+each with observed transcript model set exactly `['claude-opus-5']`; their decisions, input provenance,
+failures and durable artifacts are committed under `paper-lane/A{1,2,3}-executed-artifacts/`, hash-verified in
+both the retained directory and the checkout, with the source directories not deleted.
