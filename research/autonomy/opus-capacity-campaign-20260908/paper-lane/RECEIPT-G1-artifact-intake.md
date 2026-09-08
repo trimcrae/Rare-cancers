@@ -28,3 +28,26 @@ partial cleanup. 20 GiB free is adequate and is not a reason to delete. Currentl
 pending their own receipts: `/tmp/claude-0/{a1,a2,a3,b1,c1,d1,d2,d3,s5,s6,s7}-retained`.
 
 These obligations **outlive the campaign deadline** — 2026-09-09T02:37:19Z is not cleanup permission.
+
+---
+
+# Directory/count mapping correction, appended 2026-09-08 09:28 UTC — original text preserved
+
+**My table above mislabelled a package total as a directory measurement.** The figures
+**29 files / 1,005,788 B** are the **intake package total**, and that package includes **3 files that
+live OUTSIDE `G1-executed-artifacts/`**. Measured now:
+
+| label | measured |
+|---|---|
+| `paper-lane/G1-executed-artifacts/` itself | **26 files, 916,815 B** (`ls \| wc -l`, `du -sb`) |
+| its manifest | **25 original hash checks**, all pass (self-exclusive) |
+| intake package total | 29 files, 1,005,788 B — **3 files outside that directory** |
+
+**The rule this violated, stated so it is not repeated:** a package total is **never** a cleanup
+receipt for a different directory. A receipt names **one exact directory** and reports **that
+directory's own** file count, byte total and original hashes. Anything else — a package roll-up, a
+sibling packet's manifest, my own copy or self-report — authorises nothing.
+
+Everything else in the receipt above stands: the JSONL hash, the `claude-opus-5`-only assistant turns,
+21 tool pairs, BEFORE/AFTER matching the initial and final commits, and the byte-identical consistency
+baseline. **Original G1 remains closed — no rerun, no recollection, no re-audit.**
