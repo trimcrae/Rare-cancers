@@ -9,9 +9,19 @@ purpose: What is the honest, publishable content of a computation-only program's
 scope: The degrader program's instrument register and the known-answer control that graded each instrument, plus the four-way outcome taxonomy the record depends on. It deliberately restates NO figure — every number has one home in a committed artifact and is cited rather than typed. It makes no claim about EMC treatment.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-06
-last_verified: 2026-08-06
+last_verified: 2026-09-08
 ---
 # The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
+
+**Preprint draft — not submitted, not posted.**
+
+**Tristan D. McRae**
+
+Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID 0000-0002-1823-1451.
+
+*Study type: an audit of a computation-only research program's own instruments, read from committed
+computational artifacts and public structural and literature records. No experiment was performed and no
+wet-lab work of any kind was carried out. Full declarations: [§13](#13--declarations).*
 
 > **Role: the DRAFT of the manuscript for publication endpoint `PUB-METHODS`, route `RT-METHODS-PAPER`.**
 > The endpoint's working title and its one-sentence claim are owned by
@@ -41,9 +51,9 @@ last_verified: 2026-08-06
 | | |
 |---|---|
 | endpoint | `PUB-METHODS` · route `RT-METHODS-PAPER` · strategy `ST-DISSEMINATION` |
-| what blocks it | **the route's registered inherited-blockers list is empty.** ⚠ That is all the registry says, and it is not a finding that the science is ready: `RT-METHODS-PAPER.readiness.missing` still names one item (§10.3 item 1). This row used to quote a `[B5]` line from `systems_check.py --check`; that line is **historical**. B5 fires for a route whose endpoint is unwritten, so it reports a document's existence rather than a scientific blocker, and it stops firing once the endpoint is written — which is what happened here |
+| what blocks it | **the route's registered inherited-blockers list is empty.** ⚠ That is all the registry says, and it is not a finding that the science is ready: `RT-METHODS-PAPER.readiness.missing` still names one item, and ⚠ **that registry field is stale**: the item it names was closed on 2026-08-07 by a committed artifact (§10.3 item 1). The graph is not this draft's to edit, so the correction is recorded here and left for the register's owner. This row used to quote a `[B5]` line from `systems_check.py --check`; that line is **historical**. B5 fires for a route whose endpoint is unwritten, so it reports a document's existence rather than a scientific blocker, and it stops firing once the endpoint is written — which is what happened here |
 | cost to finish | **$0.** No GPU, no rental, no bench. Every input is a committed artifact |
-| what is genuinely missing | two items, both $0, both in [§10.3](#103--the-two-missing-inputs-both-0) |
+| what is genuinely missing | **for the evidence chain, nothing that is still open.** The two inputs this draft recorded as missing were both closed on 2026-08-07, both at $0, and both by committed artifacts — [§10.3](#103--the-two-inputs-that-were-missing-both-closed-2026-08-07). ⛔ That is a statement about evidence only: the framing decision and submission itself remain outside it ([§11](#11--venue-and-what-is-explicitly-not-decided-here)) |
 | what only a wet lab could add | **nothing this paper's claim needs** — the one framing in the register of which that is true ([`paper-framing-options.md`](../program/paper-framing-options.md) §2.1) |
 
 ---
@@ -368,9 +378,14 @@ argued from first principles.
 
 ### 7.1 · What it CAN do
 
-1. **Grade its own instruments.** A known-answer test costs close to nothing and, in this program, **has
-   never once been wasted**: every instrument put to one returned a *readable* verdict, and readable is the
-   whole point. This is the surviving general lesson.
+1. **Grade its own instruments.** A known-answer test costs close to nothing and, in this program,
+   repeatedly changed what could be claimed — every instrument in §4's table was reclassified by the test it
+   was put to rather than by an argument about it. ⚠ **And the honest limit on that lesson, from this
+   program's own record: a known-answer test can itself fail to return a grade.** The known-answer arm of the
+   second pose method returned **zero gradeable pairs**
+   ([§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-assessed-in-one-day) (b)), and `V3`'s
+   control returned INCONCLUSIVE by its own rule. A test that returns no grade is cheap and is still not
+   free: it buys a disposition, not a verdict.
 2. **Exclude a design class on evidence.** A screening-grade scoring margin was refuted as a selectivity
    verdict by pushing unrelated marketed drugs through the identical funnel and measuring the
    false-positive rate — a within-repo null that killed a headline. A signal smaller than its own noise is
@@ -379,7 +394,10 @@ argued from first principles.
    a quantitative statement and not an absence ([§4.1](#41--why-4-is-not-a-failure-structurally-rather-than-charitably)).
 4. **Calibrate a screen against a measured background.** A categorical screen was, until recently, an
    enrichment over an *unmeasured* background — the exact shape that cost the program the result in (2).
-   Pushing unrelated close paralogue pairs through the identical pipeline makes a zero gradeable.
+   Pushing unrelated close paralogue pairs through the identical pipeline converts *"the categorical gate
+   fired"* into *"the categorical gate fired against a measured background"* — the artifact's own reading of
+   what it bought. ⚠ The background so measured is a **nuclear-receptor** background, not a proteome one,
+   and the artifact states that as a limit.
    ⛔ With the caveat that travels with it: the program's headline residue falls outside one of the two
    preregistered scopes, and a preregistered window may **not** be widened after seeing what fell outside it.
 5. **Refute a published method's claim from that method's own released data.** A benchmark's *unbound*
@@ -443,7 +461,7 @@ behind it.
    uncertainty understates it by exactly that factor.
 3. **Precision diagnostics are identically blind to endpoint-state error** ([§7.2](#72--what-it-cannot-do--and-the-first-item-is-permanent) item 3).
 4. **Zero events is not a zero rate.** A generative-confound control manufactured no survivors in its
-   scrambled arm — which **bounds** the manufactured rate by the rule of three at several times the real
+   scrambled arm — which **bounds** the manufactured rate by the rule of three at a multiple of the real
    campaign's own rate, with a Fisher test at chance. The confound was **narrowed, not excluded**, and the
    artifact's earlier reading of a zero point estimate as a measured zero is retired in place.
 5. **A positive control inside the model's training horizon is a harness check, not evidence of
@@ -466,7 +484,7 @@ behind it.
 ## 9 · The figure bill — every number the manuscript must pull, and where from
 
 ⛔ **Nothing in this table is copied into the prose above, and nothing in it may be.** This is the list a
-typesetting pass reads. Every path was verified to exist on this branch on 2026-08-06.
+typesetting pass reads. Every path was verified to exist on this branch on 2026-09-08.
 
 | § | what the sentence needs | read from |
 |---|---|---|
@@ -488,7 +506,7 @@ typesetting pass reads. Every path was verified to exist on this branch on 2026-
 | §6(c) | harmonized druggability against `D*` | [`r3-generation-frame-harmonized.json`](../../modalities/r3-generation-frame-harmonized.json) → `verdict` |
 | §6(d) | the three-arm gate sentence, arm-by-arm | [`nr4a3-5bt-gate.json`](../../modalities/nr4a3-5bt-gate.json) → `verdict`, `sentence` |
 | §6(d) deepening | models scanned, discriminating contacts found, the validating contact behind the descriptor | [`nr4a3-5bt-signature.json`](../../modalities/nr4a3-5bt-signature.json) → `sentence_replicated`, `descriptor_validation` |
-| §7.1 item 2 | the decoy false-positive rate and its replication at library scale | `DECOY_2026_06_30` in [`selectivity_calibration.py`](../../modalities/selectivity_calibration.py) — ⚠ **see [§10.3](#103--the-two-missing-inputs-both-0)** |
+| §7.1 item 2 | the decoy false-positive rate and its replication at library scale | `DECOY_2026_06_30` in [`selectivity_calibration.py`](../../modalities/selectivity_calibration.py), whose chain to the primary run output is committed and checked in [`decoy-null-provenance.json`](../../modalities/decoy-null-provenance.json) ([§10.3](#103--the-two-inputs-that-were-missing-both-closed-2026-08-07) item 1) |
 | §7.1 item 4 | the cross-system background and its two preregistered scopes | [`categorical-decoy-null.json`](../../modalities/categorical-decoy-null.json), [`categorical-decoy-null-lbd.json`](../../modalities/categorical-decoy-null-lbd.json) |
 | §7.3 | the genotype evidence and the per-tissue overlap | [`nr4a2-sparing-bound.json`](../../modalities/nr4a2-sparing-bound.json), [`nr4a-safety-genetics.json`](../../modalities/nr4a-safety-genetics.json) |
 | §8 item 4 | scrambled-objective arm counts, the rule-of-three bound, Fisher *p* | [roadmap scoreboard](../nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language), the deliverables table row |
@@ -519,17 +537,32 @@ was going to run. The clause is preserved as a superseded standing view in
 the current text. Nothing else in the paper depended on it, and §3(c) now rests the contribution on the
 documented method failures themselves.
 
-### 10.3 · The two missing inputs, both $0
+### 10.3 · The two inputs that were missing, both closed 2026-08-07
 
-1. ⛔ **The decoy null's primary run output lives in object storage, not in a committed JSON.** The margins
-   themselves are committed in `DECOY_2026_06_30` and the arithmetic redoes from them, but for the paper
-   whose headline this is, the chain must be readable end-to-end from committed artifacts. **$0 CI.** This is
-   the one item `RT-METHODS-PAPER.readiness.missing` names.
-2. **A single committed instrument census** carrying every instrument with its test, result and scope, so the
-   register is a table a referee can check rather than prose. **$0** — and
-   [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) is most of the
-   way there already, being generated from the graph; what it lacks is the per-instrument *scope* column that
-   [roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table) carries by hand.
+⭐ **Both were closed on 2026-08-07, both at $0, and both by committed artifacts.** The paragraph is kept
+rather than deleted because what each item was, and what closed it, is part of the record.
+
+1. ✅ **The decoy null's primary run output is committed.** *Was:* the margins were committed in
+   `DECOY_2026_06_30` and the arithmetic redid from them, but the primary run output lived in object storage,
+   so the chain was not readable end-to-end from committed artifacts. *Now:* the surviving run objects are
+   mirrored under [`results/nr4a3-decoy/`](../../../results/nr4a3-decoy), and the chain is **checked rather
+   than asserted** — [`decoy-null-provenance.json`](../../modalities/decoy-null-provenance.json), generated by
+   [`decoy_null_provenance.py`](../../modalities/decoy_null_provenance.py), records which committed file the
+   quoted margins come from and verifies that it reproduces the constant. ⛔ **The verification is the
+   deliverable, not the copy:** more than one MM-GBSA arm was archived and only one is the run the constant
+   came from, so a file merely sitting in `results/` would not have said which arm the paper quotes.
+   ⚠ **`RT-METHODS-PAPER.readiness.missing` still names this item.** That registry field is stale against the
+   artifact; the graph is not this draft's to edit and the correction is left for the register's owner.
+2. ✅ **A single committed instrument census exists**, carrying every instrument with its test, its result and
+   its **scope** — [`instrument-census.json`](../../modalities/instrument-census.json) /
+   [`instrument-census.md`](../../modalities/instrument-census.md), generated by
+   [`instrument_census.py`](../../modalities/instrument_census.py) from
+   [roadmap §3.1](../nr4a3-program-map.md#31--the-instrument-table) and §3.2 rather than transcribed, so it
+   stays true when those tables move. That per-instrument scope column is exactly what
+   [`systems/views/registers/instruments.md`](../../../systems/views/registers/instruments.md) lacks.
+   ⚠ **The two registers do not share a denominator and must not be summed:** the census counts the
+   instruments the roadmap's tables carry, and §5.1's four/sixteen split counts only the instruments
+   `RT-METHODS-PAPER` cites. A typesetting pass reads each count from its own home.
 
 ### 10.4 · What this paper does not claim
 
@@ -583,9 +616,9 @@ The registers this draft is built from — none of whose contents it restates:
   [`systems/graph/publications.json`](../../../systems/graph/publications.json) `PUB-METHODS`.
 - [`emc-post-degrader-options.md`](../program/emc-post-degrader-options.md) §4 route 3 — the ranking that puts this
   first, and the reason it was under-rated in the first ranking.
-- [`paper-framing-options.md`](../program/paper-framing-options.md) §2.1 — the `P1` framing, its evidence table and
-  its two missing inputs.
-- Artifacts, each verified present on this branch 2026-08-06:
+- [`paper-framing-options.md`](../program/paper-framing-options.md) §2.1 — the `P1` framing, its evidence table
+  and the two inputs it recorded as missing, both since closed ([§10.3](#103--the-two-inputs-that-were-missing-both-closed-2026-08-07)).
+- Artifacts, each verified present on this branch 2026-09-08:
   [`selcal-verdict.json`](../../modalities/selcal-verdict.json) ·
   [`nrv04-retro-verdict.json`](../../modalities/nrv04-retro-verdict.json) ·
   [`nrv04-retro-secondaries.json`](../../modalities/nrv04-retro-secondaries.json) ·
@@ -606,3 +639,33 @@ The registers this draft is built from — none of whose contents it restates:
 ⛔ No statement in this draft asserts NR4A3 selectivity, EMC efficacy, safety, a therapeutic window or
 clinical readiness. Every predicted quantity is labelled a prediction, and every instrument verdict is
 reported at the scope its own known-answer control earned.
+
+---
+
+## 13 · Declarations
+
+**Funding.** None. No grant, contract, sponsor or institutional support of any kind supported this work.
+
+**Competing interests.** None.
+
+**Ethics.** This work is an analysis of public data and of this repository's own committed computational
+artifacts, together with public structural and literature records. It involved **no new recruitment, no new
+sampling and no intervention**. No ethics approval was sought and none was obtained; no institutional
+determination of exemption was requested or issued, and none is reported here.
+
+**Use of artificial intelligence.** Claude (Anthropic) and OpenAI models were used, under the author's
+direction, to write and check the analysis code, to run the checks, and to draft this manuscript. The author
+directed the work, reviewed the outputs and is responsible for the content, including any error.
+
+**Author contributions.** Sole author: conception, direction of the analyses, verification of the outputs and
+writing.
+
+**Data and code availability.** Every quantity this manuscript would report is read from a committed artifact
+rather than typed here; [§9](#9--the-figure-bill--every-number-the-manuscript-must-pull-and-where-from) names
+each field and the artifact that owns it, and [§12](#12--provenance) lists the registers and artifacts the
+draft is built from. No new data were generated for this draft.
+
+**Scope.** ⛔ This is a record of what a computation-only program's instruments did and did not recover. It
+makes **no** claim of binding, potency, selectivity, efficacy, safety, therapeutic window or clinical
+readiness for any molecule or any disease, and a computational failure reported here is **not** evidence that
+a molecule or a route is impossible.
