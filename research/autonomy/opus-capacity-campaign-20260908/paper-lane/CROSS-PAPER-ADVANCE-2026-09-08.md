@@ -68,3 +68,56 @@ dispatch). No new session, controller, task system, local pilot, billing, manusc
 identified — **not** a target-driven number. Independent useful work is not serialised behind the parked
 methods family, and the count expands as defensible work actually appears. **No start is claimed from a target
 or an intention: only children with an observed transcript and a verified model are counted.**
+
+---
+
+# ⛔ SCOPE CORRECTION appended 2026-09-08 07:16 UTC — a label is not a hold
+
+**I over-broadened, and it is withdrawn.** Section 3 above told the scouts to exclude *"every NR4A-labelled
+route or successor."* That manufactures a blanket closure out of a **name**. This disease is NR4A3-driven, so
+excluding by label would have closed most of the science by accident — which **no actual hold does**. The
+over-broad instruction was withdrawn **in flight** to all three running scouts; **no restart, no re-plan, no new
+audit**, and no scout was replaced.
+
+## The actual named holds and closures, preserved exactly
+
+Each stays in force, unchanged, and none may be retried, reworded or rerouted:
+
+| held / closed item | recorded reason |
+|---|---|
+| **The NR4A Perspective** — one specific refused review | *"generic biology-access refusal with no causal passage identified. Closed without probes, rephrasing or rerouting. Do not recreate that restricted review under a new worker or paper label."* |
+| **P6's proposed NR4A3 negative-results / architecture manuscript** and its claim corrections | explicitly not authorized by the orchestrator; its assertion of being different from the restricted Perspective does not authorize it |
+| **Writer / W25 / GSE243553 / primary-article / Results / novelty continuation** | safety-blocked with **unknown scope**; the writer is not woken, the continuation is not retried, the hold is not reinterpreted |
+| **Fresh full-genome access probe** | restricted; unchanged |
+| `CLOSED-WORK.md` denied sources; GSE4303/GSE28866; PMID 22592656 | as recorded there |
+| **Synthetic figure-validation family** | parked above, with its exact missing input |
+
+**Rule now in force for all three scouts: excluding a candidate requires citing the specific hold or closure and
+its recorded reason. "NR4A-labelled" is not a reason.**
+
+## Two further corrections delivered with it
+
+1. **Distinct does not mean eligible.** Showing a candidate is a separate question is **necessary, not
+   sufficient**. It must separately pass: required input actually reachable; real scientific merit; and
+   non-overlap with `drafted`/`posted` endpoints. The scouts now report those as **separate tests**, saying
+   which each candidate passes or fails.
+2. **An old graph `authorization` row is not itself the current permission boundary.** The scouts inspect the
+   row's **actual recorded reason** and `owner` and say whether it still describes the standing authorization
+   and the real enforcer, or is a stale record of a boundary that has since changed. **That is inspection, not
+   bypass** — no real gate is routed around, weakened or tested, and a genuinely missing authorization is named
+   as the missing condition and stopped there.
+
+**This correction changes no safety or network hold and supplies no permission for any held continuation.**
+
+## Worker counts — the legacy row named explicitly
+
+| row | kind | counted as |
+|---|---|---|
+| **A1** `ac1b46c710a5d8e84` | research child, running, observed transcript model `claude-opus-5` | research |
+| **A2** `a6675fd70c358f364` | research child, running, observed transcript model `claude-opus-5` | research |
+| **A3** `ab2376c8974b3232b` | research child, running, observed transcript model `claude-opus-5` | research |
+| **legacy Bash waiter, "Block until pass 2 finishes"** | old shell helper, **not research** — it computes nothing and produces no scientific output | **helper** |
+
+**Active research children: 3. Helpers: 1 (the legacy waiter).** Not four research. Model evidence for all
+three is the observed set in each child's own transcript, `['claude-opus-5']`, not the dispatch parameter.
+No start is claimed from a target or an intention.
