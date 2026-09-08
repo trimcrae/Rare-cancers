@@ -236,6 +236,12 @@ PAPERS = {
         # a stray `!` and a hyperlink to a file that does not travel with the deposit (measured
         # 2026-09-08, `IMG_TAGS: 0`). No other paper sets it and no other paper changes by one byte.
         "inline_images": True,
+        # ⛔ FULL WIDTH IN THE JOURNAL BUILD, AND THIS IS A LEGIBILITY DECISION WITH A MEASUREMENT
+        # BEHIND IT (2026-09-08). In one column the figure printed 74.97 mm wide and its x-tick
+        # labels printed at 3.03 pt, its smallest annotations at 2.71 pt — measured off the built
+        # page, not estimated. Spanning both columns prints it at the full measure instead. It does
+        # not touch the figure, its bytes or any scientific input.
+        "layout": {"raster_full_width": True},
         "journal": {
             # ⭐ THE TYPE THE MANUSCRIPT ITSELF DECLARES, not a house default: its editorial VENUE
             # block reads "Genes, Chromosomes and Cancer (Wiley), Research Article, with the
@@ -1919,8 +1925,12 @@ DEFAULT_GEOMETRY = {
 def journal_css(paper=None):
     g = dict(DEFAULT_GEOMETRY)
     g.update((paper or {}).get("geometry") or {})
-    raster = (RASTER_IMAGE_CSS + RASTER_IMAGE_CSS_JOURNAL
-              if (paper or {}).get("inline_images") else "")
+    raster = ""
+    if (paper or {}).get("inline_images"):
+        raster = RASTER_IMAGE_CSS + (
+            RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH
+            if ((paper or {}).get("layout") or {}).get("raster_full_width")
+            else RASTER_IMAGE_CSS_JOURNAL)
     return COMMON + raster + f"""
 @page {{ size: {g["page_size"]}; margin: {g["margin"]}; }}
 @page landscape {{ size: {g["page_size"]} landscape; margin: {g["landscape_margin"]}; }}
@@ -2112,6 +2122,23 @@ figure.figure img.raster { width: 86%; }
 #: ⚠ 752 dpi IS STILL NOT LEGIBILITY. 75 mm is the more demanding of the two styles to read and
 #: nothing here has been read at 100%; the manuscript-style caveat above applies with more force.
 RASTER_IMAGE_CSS_JOURNAL = """
+.cols figure.figure img.raster { width: 100%; }
+"""
+
+#: ⛔ AND THE COLUMN IS NOT WIDE ENOUGH FOR THIS PAPER'S FIGURE — MEASURED IN THE BUILT PDF, NOT
+#: ARGUED (2026-09-08). In the column the figure printed 74.97 mm wide, which is 74.97/187.96 =
+#: 0.399 of the 7.4-inch canvas `emc_fusion_frame_figure.py` draws on. Every type size in the panels
+#: scales with that: the x-tick labels are set at 7.6 pt and printed at 3.03 pt (measured: digit cap
+#: height 12 px at 400 dpi = 0.76 mm), and the smallest annotations — `C166`, `AF-1` — are set at
+#: 6.8 pt and printed at 2.71 pt. That is a third of the 9 pt this journal build sets its own body
+#: text in. A figure whose labels cannot be read is a figure that carries no evidence.
+#: ⭐ THE FIX IS THE SMALLEST ONE AVAILABLE: give the figure both columns. `column-span: all` is
+#: already how this stylesheet rescues a wide body table (`.wide-body-table`), so it is a mechanism
+#: the renderer is known to survive rather than a new layout idea. Nothing about the figure changes.
+#: ⚠ OPT-IN AGAIN, PER PAPER: a paper asks for it with `layout: {"raster_full_width": True}`, so a
+#: future paper whose raster IS a column-width panel keeps the column treatment.
+RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH = """
+.cols figure.figure { column-span: all; break-inside: avoid; margin: 2mm 0 3mm 0; }
 .cols figure.figure img.raster { width: 100%; }
 """
 
