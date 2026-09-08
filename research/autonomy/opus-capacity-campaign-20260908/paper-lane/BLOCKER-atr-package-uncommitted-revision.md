@@ -73,3 +73,25 @@ ATR is **set down at this blocker**, not queued for edits. Two of the campaign's
 candidate papers are now blocked on the **same question in different degrees** — repurposing (four
 divergences, one unapplyable) and ATR (a whole unapplied revision). **The canonical-draft question is
 the campaign's dominant cross-paper dependency**, and it is an owner decision, not a worker task.
+
+
+---
+
+# Update appended 2026-09-08 11:33 UTC — the gap is TWO passes, and a proposal now exists
+
+**1 · The blocker is larger than recorded above.** R1 reports that the changelog's later same-day
+block corrects sentences present in **neither** committed file — its "before" column quotes a **first
+revision**. So **two revision passes are missing, not one**, and the second cannot be applied without
+the first. Parent corroboration at its true strength: 25 of 29 quoted changelog strings do not appear
+in the committed manuscript — crude, since it includes headings, so it **corroborates** rather than
+proves; the precise claim rests on R1's row-by-row reading.
+
+**2 · The arithmetic is now settled from committed inputs**, independent of any missing draft: the
+committed manuscript's "176 nucleotides … encodes 59 residues" is **wrong** (176/3 = 58.67); the
+artifact and the test at `test_emc_fet_frame_and_composition.py:32` give **177 nt = 59 codons**. That
+correction needs no version decision — only a decision to apply it.
+
+**3 · Reopening is now cheaper.** A **proposed** candidate revision exists in
+`R1-executed-artifacts/` with 15 evidence-traceable corrections, 7 named human decisions and 8
+unresolved items. It is **not applied** and is **not a recovered original**. The owner decision is now
+reviewable rather than abstract.
