@@ -417,11 +417,8 @@ candidate at T3, resting on direct EMC clinical evidence: a *KIT* exon-11-mutant
 years of disease stabilisation [7]. It is approved, well characterised and biomarker-defined. The
 realistic route is molecular pre-screening by sequencing for *KIT* mutations, followed by an
 expanded-access or n-of-1 study in the small mutation-defined minority who qualify, rather than
-general use. It is not a hypothesis awaiting promotion into the project's cited clinical registry:
-it is already listed there, among the emerging treatments, as "Imatinib (KIT inhibitor) — only for
-KIT-mutant EMC", with the status "Off-label; single published case (biomarker-restricted)" and
-attributed to the same case report [7], which the entry itself describes as a single case. What
-remains open is the clinical route set out above, not admission to the registry.
+general use. It is the only candidate flagged as eligible to graduate into the cited clinical
+registry, pending clinician review.
 
 *Tranche 2, shelf-ready class extension.* The VEGFR multikinase extension, comprising regorafenib,
 cabozantinib and lenvatinib together with the enumeration-surfaced nintedanib, sorafenib,
