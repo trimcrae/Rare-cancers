@@ -813,3 +813,49 @@ to validate"` before any validation if the queue file is **absent** — a vacuou
   ⚠ Also measured: **all 15 modules guard `main()` with `if __name__ == "__main__":`** — the in-source
   comments in `emc_endpoint_alternatives.py:609` and `orr_dcr_reread.py:55` warning that import runs a
   full build describe a hazard the guards now prevent.
+
+---
+
+## PRIORITY UPDATE 2026-09-08 ~05:10Z — refills go to unpublished-paper work, not infrastructure audits
+
+Standing prioritization from the orchestrator, applied at this message boundary. This is a priority change
+**within the same admitted campaign** — not a new scientific admission, not a new synthesis. The technical
+audits already collected (W01–W89) are retained as assets; they do not establish an eligible next paper.
+Running assignments finish under their existing contract. Every constraint already in force is unchanged:
+deadline 2026-09-09T02:37:19Z, `claude-opus-5` only on the existing subscription, no paid fallback, no GPU,
+no publication, no merge, no external contact, read-only workers with one parent collector.
+
+**The W25 / writer / primary-article / Results / novelty hold remains EXACTLY in force.** It is not retried,
+reworded or rerouted — not through a different worker, owner, scientific topic label, venue or admission
+proxy. The blocked writer is not prompted. Completed W25 and its retained computation are preserved. This
+prioritization creates no exception to that hold or to any other closed or refused route, including the
+NR4A Perspective, which must not be recreated under any label.
+
+### Candidate-by-candidate eligibility, read from `systems/graph/publications.json` (33 endpoints)
+
+No new synthesis was commissioned to produce this; it is the existing record, read. Excluding `drafted` and
+`posted` endpoints, seven candidates remain. Six are eligible by their own recorded dependency state and are
+each dispatched to exactly one worker (P1–P6), one distinct route apiece:
+
+| worker | endpoint | state | recorded dependency state |
+|---|---|---|---|
+| P1 | `PUB-IPD-SURVIVAL` | unwritten | blocker `BLK-NO-CURATED-CLINICAL-DATA`; record says the science now exists and the FINDING changed (a negative about reporting practice) rather than the readiness |
+| P2 | `PUB-CARE-DELIVERY` | unwritten | `BLK-NO-FIELD-ATTENTION-MEASUREMENT`; record says both halves of the old blocker are FALSE as of 2026-09-01 and names four extraction artifacts by path; one free step (a term census over a 554-record corpus on the literature-cache branch) has never been executed |
+| P3 | `PUB-LOCOREGIONAL` | outlined | `BLK-NO-EMC-DATA` half-retired: denominator computed, numerator not extractable because never curated |
+| P4 | `PUB-KINASE-LEADS` | outlined | `BLK-NO-EMC-DATA` retired; four leads graded, three demoted on reading their primary records |
+| P5 | `PUB-MATRIX-ADDRESS` | outlined | `BLK-NO-EMC-DATA` retired; mostly negative, two of four routes UNREACHABLE rather than refuted |
+| P6 | `PUB-NR-OUTSIDE-NR4A3` | outlined | `BLK-NO-EMC-DATA` retired; both routes graded negatively, general fusion-architecture claim survives |
+
+**One candidate is NOT eligible and is NOT dispatched, recorded honestly rather than worked around:**
+`PUB-PARKED-MODALITIES` (unwritten), blocked by `BLK-VECTOR-DELIVERY` and `BLK-INDUCED-COMPLEX`. Its own
+record states every route it would cover is parked on a technology nobody has, so it has no result to report
+and is worth writing only once at least one watched capability lands. **No such capability has landed.** Its
+named dependencies are retained verbatim; no eligibility is inferred from the absence of its inputs, and no
+substitute route is manufactured to keep a headcount.
+
+Each P-worker is instructed that where a route's required input is missing, it records the **exact failed
+condition and the exact input required to reopen it** and stops that route — it does not recycle an unchanged
+failed gate, does not infer novelty from a missing selected input, and does not substitute another claim.
+
+**Infrastructure audits are not refilled from this point.** The 20-worker target does not justify invented
+eligibility or redundant work; the concurrency figure follows the eligible-work count, not the reverse.
