@@ -21,3 +21,23 @@ computes nothing, not research). E1, F1, G1, H1, I1, J1, K1, L1 are terminal and
 **Bound deliberately tight:** ~25 tool calls / ~25 minutes, because this is a narrow retrieval
 question. **An early stop on missing or blocked access is a successful result**, and any negative must
 be scoped to the tested route and identifier — never a global absence claim.
+
+
+---
+
+# Timestamp correction, appended 2026-09-08 10:57 UTC — original text preserved
+
+**The header's "~10:54 UTC" is wrong** and is corrected here from existing timestamp evidence, with
+**no new check and no rerun**:
+
+| event | actual, from the record |
+|---|---|
+| M1 contract commit `29e2516b` | 2026-09-08 ~10:41 UTC |
+| parent's model verification (`grep` over the child JSONL) | **10:42:41 UTC** |
+| child first transcript timestamp | **10:42:24.532Z** |
+| child last transcript timestamp | **10:45:18.532Z** |
+
+So **M1 had already finished before 10:54**, and the receipt's "~10:54" was my approximation written
+while composing the file rather than a clock reading — the same error class as the E1 contract's
+"08:18" and the H1 receipt's "09:17/09:18". **No contract term, bound, acceptance item or finding
+changes**, and the collection record already used the transcript's real span.
