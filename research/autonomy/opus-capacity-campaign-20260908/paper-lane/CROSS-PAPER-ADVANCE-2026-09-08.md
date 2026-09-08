@@ -384,3 +384,53 @@ extracted unchanged into `original-tool-responses/` with tool name, verbatim inp
 from the transcript, which is not empty.
 
 **No B1 rerun, no new query, no grading, no regenerated output.** The stop stands.
+
+---
+
+# Amendment 2026-09-08 10:23 UTC — what counts as advancing, restated as binding
+
+This amends the existing work-selection record in place. **No new queue, scheduler, runner or
+controller is created**; ownership stays with the one parent/launcher and the one local collector.
+
+## The rule
+
+**When the leading paper reaches a real blocker: record the paper-specific blocker, its evidence and
+the exact reopening condition — then immediately start the next eligible unfinished paper, in the
+same work cycle.** Existing **unpublished drafts are eligible**; a wholly new paper question is never
+required, and "already drafted" is not an exclusion.
+
+**Do not wait** for another root or user prompt, a daily boundary, an empty generated queue, or local
+artifact collection to finish.
+
+## ⭐ What does NOT count as advancing
+
+A selection, a contract, a start receipt, a model verification, an adjudication, a manifest, or any
+other evidence collection **is not substantive execution**. Nor is a status summary, a census, or a
+re-review of closed work.
+
+**The bar:** the next paper has an **actual `claude-opus-5` medium task executing** toward a concrete
+manuscript or evidence contribution, under a recorded contract with **finite acceptance and stop
+conditions**. Anything short of a running child is a stall, however well documented.
+
+## What a blocker record must contain
+
+1. **Which paper**, and which specific claim, item or artifact is blocked.
+2. **The evidence** that establishes the block — measured, not inferred. "Blocked" is a claim that
+   needs evidence and is usually wrong; take the free reading first.
+3. **The exact reopening condition** — what would have to become true, stated so someone else can
+   recognise it.
+
+## Current application
+
+- **surface-targets is carried through its remaining ready work.** `K1` (`af7ad52123f8eeccd`,
+  `claude-opus-5` medium, contract input `b0f0ffa4`, contract 10:19:28, parent-observed 8 ×
+  `claude-opus-5` / 0 others at 10:20:12) is executing on peer review item 4's unresolved figure half.
+  It is kept healthy, collected normally, and **not duplicated or restarted**.
+- **When surface-targets reaches an actual blocker**, it is recorded per the three points above and
+  the next eligible unfinished paper starts immediately.
+- **Terminal contracts are not reopened:** F1, G1, H1, I1, J1. Nor is DFSP recomputation, nor any held
+  writer, W25, NR4A Perspective, P6, frozen-asset or denied-source scope.
+
+Unchanged: sole launcher and sole local collector, first-party saved subscription with no paid
+fallback, the retention rules in CLAUDE.md §8, and the original deadline **2026-09-09T02:37:19Z**,
+never extended or reset.
