@@ -193,7 +193,8 @@ The probe's third query block asks the questions this section needs answered, an
 survival; thromboprophylaxis in ambulatory cancer; sepsis-bundle mortality in neutropenic and
 immunocompromised patients; malignant pleural effusion management; cachexia intervention; exercise
 oncology; palliative care in **sarcoma specifically** (searched as a byproduct of the query above —
-title-level, not a dedicated search — and found nothing; see below).
+a title-level scan of that query's 25 retrieved records, not a dedicated search — which surfaced no
+sarcoma-specific palliative-care trial; that is not evidence that none exists; see below).
 
 **✅ Early specialist palliative care — the class-level finding, and what it does not show.** The
 class replicates across three independent randomised trials in three distinct populations: Temel et
@@ -206,8 +207,12 @@ of that date -- the two subsequent trials materially strengthen the class-level 
 three are NSCLC, all three are months-scale survival populations. EMC's natural history runs to
 decades, and no trial has tested whether the effect transfers to a disease this indolent** -- that is
 the route's actual open question, and it is answered by none of the four papers above. A title-level
-search of the same 388-paper retrieved corpus for "sarcoma" found one hit, unrelated (visceral
-angiosarcoma epidemiology), consistent with -- not proof of -- no sarcoma-specific trial existing.
+search of the 25 records this class's own query returned (`early_palliative_care_survival.retrieved`
+= 25 in `research/literature/emc-mortality-probe.json`) for "sarcoma" found one hit, unrelated
+(visceral angiosarcoma epidemiology). That is a title-level scan of 25 records from one query, not
+a search of the 328-paper retrieved EMC corpus and not a dedicated sarcoma palliative-care search, so
+it is consistent with -- and no evidence of -- the absence of a sarcoma-specific trial. No claim is
+made here that none exists.
 Full detail, including the mechanism candidates the original trials proposed (earlier symptom
 detection, less aggressive end-of-life chemotherapy) and why neither is confirmed here: `RT-EARLY-
 PALLIATIVE` in `systems/graph/routes.json`, `EV-TEMEL-2010` / `EV-PACO-2024` / `EV-CHEN-2023-CEPC` /

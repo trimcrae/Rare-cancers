@@ -68,9 +68,11 @@ convention against a World Health Organization life table for the United States,
 cohort median age and sex ratio. Every quoted figure is asserted against its source artifact
 programmatically, and the analysis code and data are public.
 
-**Results.** Of 52 deaths described in the disease's open-access literature, 15 (28.8 per cent)
-carried any stated mechanism. Among those 15, death from a competing cause or a second malignancy was
-the largest category (6 deaths, 40 per cent), exceeding respiratory failure (3 deaths), and one of the
+**Results.** Fifty-two patient records were classified in the disease's open-access literature. Fifty
+are documented deaths; two describe a complication and a transition to supportive care without stating
+that the patient died, and are excluded from every death count. Of the 50 documented deaths, 14 (28.0
+per cent) carried any stated mechanism. Among those 14, death from a competing cause or a second
+malignancy was the largest category (6 deaths, 43 per cent), exceeding respiratory failure (3 deaths), and one of the
 three respiratory deaths followed tumour-embolic ischaemic stroke rather than pulmonary tumour
 burden. In the national registry cohort, deaths not attributed to the sarcoma comprised 30.8 per cent
 of deaths in localised disease (4 of 13) and 10.0 per cent in disease metastatic at diagnosis (1 of
@@ -141,7 +143,20 @@ mechanism, mechanism unstated, ambiguous attribution, or not a patient death.
 The unit of analysis is a patient or a reported patient group, never a sentence. One paper describes
 three deaths across seven sentences and another describes one death in four; counting sentences would
 have weighted the most verbose reports most heavily: the 34 papers carry 116 death sentences against
-52 patient deaths.
+52 classified patient records.
+
+A record is not a death unless the retained sentence says so, so every record carries an explicit
+death status. Two of the 52 do not document a death: one describes a small-bowel metastasis causing
+obstruction and bleeding, managed by palliative resection, and one records a clinical deterioration
+and a transition to supportive care. Both are retained for the harm they document and are excluded
+from every death numerator and denominator below. Because the first also carried a named mechanism,
+excluding it moves the numerator and the denominator together. Neither exclusion asserts that the
+patient survived; the record does not say.
+
+These are selected descriptive reports -- case reports, small series, and literature reviews that
+themselves collect earlier cases. They are not established to describe unique patients across
+reports, they are not independent observations, and they have no denominator, so no rate is computed
+from them.
 
 ### 2.3 Cause splits and the upper bound on antitumour benefit
 
@@ -185,25 +200,34 @@ both changed a headline figure.
 
 ### 3.1 Statement of a mechanism in the published record
 
-Fifty-two deaths were described across 16 of the 34 papers. Fifteen (28.8 per cent) carried a stated
-mechanism. Twenty-eight were recorded with no mechanism beyond a vital status, a further eight
-were attributed to progressive disease without further specification, and one was left as ambiguous
-attribution.
+Fifty-two patient records were classified across 16 of the 34 papers. Fifty of them are documented
+deaths, described across 14 papers; the other two state no death (2.2). Of the 50 documented deaths,
+fourteen (28.0 per cent) carried a stated mechanism. Twenty-seven were recorded with no mechanism
+beyond a vital status, a further eight were attributed to progressive disease without further
+specification, and one was left as ambiguous attribution.
 
-**Table 1.** Deaths in the open-access literature of this disease, by stated mechanism.
+**Table 1.** Documented deaths in the open-access literature of this disease, by stated mechanism.
+The two classified records that state no death are excluded from this table and are itemised beneath
+it.
 
-| category | deaths |
+| category | documented deaths |
 |---|---:|
-| mechanism unstated | 28 |
+| mechanism unstated | 27 |
 | progressive disease, mechanism unspecified | 8 |
 | respiratory failure | 3 |
 | competing non-cancer cause | 3 |
 | second malignancy | 3 |
 | locoregional complication | 2 |
-| visceral metastasis complication | 2 |
 | treatment-related | 2 |
+| visceral metastasis complication | 1 |
 | ambiguous | 1 |
-| **total** | **52** |
+| **total documented deaths** | **50** |
+
+Excluded from Table 1 and from every percentage in this paper: one record of a small-bowel metastasis
+with obstruction and bleeding managed by palliative resection, which would otherwise have entered the
+table as a visceral metastasis complication, and one record of a transition to supportive care in
+which the death itself is not described. The 52 classified records less those two give the 50
+documented deaths.
 
 This is the study's first result rather than a limitation of it. A research programme directed at
 preventing a specific event cannot, from its own literature, describe that event in most of the
@@ -211,8 +235,9 @@ patients it has recorded.
 
 ### 3.2 Competing causes and second malignancies
 
-Among the 15 deaths with a stated mechanism, six were from a competing cause or a second malignancy,
-exceeding any disease-specific mechanism. These recur across independent reports: two patients died of
+Among the 14 documented deaths with a stated mechanism, six were from a competing cause or a second
+malignancy, exceeding any disease-specific mechanism. These recur across separate reports, whose
+independence is not established (5): two patients died of
 concurrent malignancies within months of diagnosis in one series; a patient followed for 126 months
 with metastatic disease died of unresectable colon cancer; two of sixteen collected intracranial cases
 died of causes the reviewing authors judged unrelated; and one patient died of cerebral haemorrhage at
@@ -381,7 +406,10 @@ Open-access full text is a convenience sample: 328 of 600 enumerated records wer
 non-open-access series are systematically older and larger. Case reports are written because a case
 was notable, over-representing unusual terminal events; this biases against the indolent,
 competing-cause picture the data nevertheless show. Counts of described patients have no denominator
-and support no rate.
+and support no rate. Nor are the records established to be unique or independent patients: two of the
+contributing papers are literature reviews that collect previously published intracranial cases, and
+any overlap between them, or between either and a primary report, is not detectable from what was
+retrieved.
 
 The cause split rests on 13 and 10 deaths in two strata of one registry, at a median follow-up of
 just over three years, which is short relative to this disease's natural history. Follow-up censors

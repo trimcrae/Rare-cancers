@@ -13,6 +13,13 @@ it claims. A label whose quote has drifted is a clinical fact with no source, wh
 failure mode CLAUDE.md's first golden rule exists to prevent. The build fails rather than
 tallying.
 
+⛔ AND A ROW IS NOT AUTOMATICALLY A DEATH. Every individual_events row must carry an explicit
+`death_status`. Two retained rows describe a complication and a transition to supportive care
+without stating that the patient died; they are kept for the harm they document and are excluded
+from every death numerator AND denominator, including the named-mechanism count. The script
+refuses to tally if any row lacks a recognised `death_status`, so a future row cannot be counted
+as a death by default.
+
 ⚠ AND THE UNIT IS A PATIENT, NEVER A SENTENCE. One paper describes three deaths across seven
 sentences; another describes one death four times. Counting sentences would have reported
 the corpus as roughly three times larger than it is and would have weighted the most
@@ -39,6 +46,10 @@ EMC_TITLE = re.compile(r"myxoid chondrosarcoma|chordoid sarcoma|NR4A3", re.I)
 
 # Mechanism labels, i.e. the labels that say something about HOW a patient died. A label
 # outside this set is a death whose mechanism the record does not give, or not a death.
+DOCUMENTED_DEATH = "documented_death"
+NON_DEATH_STATUSES = {"nonfatal_complication_not_a_death", "death_not_documented"}
+DEATH_STATUSES = {DOCUMENTED_DEATH} | NON_DEATH_STATUSES
+
 MECHANISM_LABELS = {
     "respiratory_failure",
     "locoregional_complication",
@@ -87,10 +98,38 @@ def verify_quotes(spec: dict, index: dict[str, list[str]]) -> list[str]:
     return problems
 
 
+def verify_death_status(spec: dict) -> list[str]:
+    """Every individual_events row must SAY whether its quoted sentence documents a death.
+    Silence is not 'yes'. This is a refusal, not a default."""
+    problems = []
+    for row in spec.get("individual_events", []):
+        st = row.get("death_status")
+        if st not in DEATH_STATUSES:
+            problems.append(
+                f"individual_events[{row['pmid']}/{row['label']}]: death_status is "
+                f"{st!r}; it must be one of {sorted(DEATH_STATUSES)}")
+    return problems
+
+
 def tally(spec: dict) -> dict:
     by_label: dict[str, int] = {}
     papers: set[str] = set()
+    record_papers: set[str] = set()
+    non_death: list[dict] = []
+    n_records = 0
     for row in spec["individual_events"]:
+        record_papers.add(row["pmid"])
+        n_records += row["n_patients"]
+        if row["death_status"] != DOCUMENTED_DEATH:
+            non_death.append({
+                "pmid": row["pmid"],
+                "death_status": row["death_status"],
+                "mechanism_label_it_would_have_carried": row["label"],
+                "n_patients": row["n_patients"],
+                "quote": row["quote"],
+                "note": row["note"],
+            })
+            continue
         papers.add(row["pmid"])
         if row.get("split"):
             for lab, n in row["split"].items():
@@ -98,7 +137,10 @@ def tally(spec: dict) -> dict:
         else:
             by_label[row["label"]] = by_label.get(row["label"], 0) + row["n_patients"]
     return {"by_label": dict(sorted(by_label.items(), key=lambda kv: -kv[1])),
-            "papers_contributing": len(papers)}
+            "papers_contributing": len(papers),
+            "papers_with_any_record": len(record_papers),
+            "patient_records_total": n_records,
+            "non_death_records": non_death}
 
 
 def main() -> int:
@@ -106,9 +148,9 @@ def main() -> int:
     probe = json.loads(PROBE.read_text(encoding="utf-8"))
     index = probe_index(probe)
 
-    problems = verify_quotes(spec, index)
+    problems = verify_quotes(spec, index) + verify_death_status(spec)
     if problems:
-        print("QUOTE PROVENANCE FAILED -- refusing to tally:", file=sys.stderr)
+        print("QUOTE PROVENANCE OR DEATH-STATUS CHECK FAILED -- refusing to tally:", file=sys.stderr)
         for p in problems:
             print(f"  - {p}", file=sys.stderr)
         return 1
@@ -117,7 +159,10 @@ def main() -> int:
     by_label = counts["by_label"]
 
     emc_papers = [e for e in probe["terminal_events"] if EMC_TITLE.search(e.get("title") or "")]
-    total_deaths = sum(v for v in by_label.values())
+    total_deaths = sum(v for v in by_label.values())   # documented deaths only
+    n_records = counts["patient_records_total"]
+    non_death = counts["non_death_records"]
+    n_non_death = sum(r["n_patients"] for r in non_death)
     mech = {k: v for k, v in by_label.items() if k in MECHANISM_LABELS}
     n_mech = sum(mech.values())
     n_unstated = by_label.get("mechanism_unstated", 0)
@@ -143,7 +188,8 @@ def main() -> int:
             "death_sentences_retrieved": probe["summary"]["death_sentences_total"],
             "papers_actually_about_emc": len(emc_papers),
             "death_sentences_in_those_papers": sum(e["n_sentences"] for e in emc_papers),
-            "papers_contributing_a_classified_death": counts["papers_contributing"],
+            "papers_contributing_a_classified_record": counts["papers_with_any_record"],
+            "papers_contributing_a_documented_death": counts["papers_contributing"],
             "⚠_inclusion_note": (
                 "Only 34 of the 162 papers carrying a death sentence are about EMC. The rest match "
                 "the enumeration because EMC appears in a differential diagnosis or a citation, and "
@@ -152,12 +198,33 @@ def main() -> int:
             ),
         },
         "deaths_by_label": by_label,
+        "⛔_records_that_are_not_documented_deaths": {
+            "patient_records_classified": n_records,
+            "documented_deaths": total_deaths,
+            "records_excluded_from_the_death_tally": n_non_death,
+            "rows": non_death,
+            "⛔_why_this_block_exists": (
+                "The 18 classified rows sum to a PATIENT-RECORD count, not a death count. Two rows "
+                "state no death: one describes a small-bowel metastasis complication managed "
+                "palliatively, the other a transition to supportive care. Both are excluded from "
+                "every numerator and denominator below -- and the first also carried a named "
+                "mechanism, so excluding it moves the numerator and the denominator together. "
+                "Neither exclusion asserts that those patients survived; the record does not say."
+            ),
+        },
         "headline": {
+            "patient_records_classified": n_records,
             "classified_deaths": total_deaths,
             "with_a_named_mechanism": n_mech,
             "mechanism_unstated": n_unstated,
             "proportion_with_named_mechanism": (
                 round(n_mech / total_deaths, 3) if total_deaths else None),
+            "⛔_not_unique_patients": (
+                "These are selected descriptive literature records -- case reports, small series and "
+                "literature reviews that themselves collect earlier cases. Nothing here establishes "
+                "that the summed patients are unique across reports or independent of one another, "
+                "and no rate, incidence or denominator can be formed from them."
+            ),
             "⭐_the_finding": (
                 "The published record of this disease mostly does not say how its patients died. "
                 "That is not a gap in this table -- it is the result. A treatment portfolio aimed at "
@@ -200,8 +267,10 @@ def main() -> int:
     OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"wrote {OUT.relative_to(ROOT)}")
-    print(f"  {len(emc_papers)} EMC papers, {counts['papers_contributing']} contributing a death")
-    print(f"  {total_deaths} classified deaths: {n_mech} with a named mechanism, "
+    print(f"  {len(emc_papers)} EMC papers, {counts['papers_with_any_record']} contributing a "
+          f"classified record, {counts['papers_contributing']} a documented death")
+    print(f"  {n_records} patient records, {n_non_death} not documented deaths")
+    print(f"  {total_deaths} documented deaths: {n_mech} with a named mechanism, "
           f"{n_unstated} unstated")
     for k, v in by_label.items():
         print(f"    {v:>3}  {k}")

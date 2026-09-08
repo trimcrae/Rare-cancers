@@ -14,6 +14,40 @@ date: 2026-09-08
 last_verified: 2026-09-08
 ---
 
+# ⭐ CLEARED 2026-09-08 — the corrected tally is 50 documented deaths
+
+**Resolved.** Neither 52 nor 51 was right, and the answer is neither.
+
+Classified row by row on the retained quoted sentences, and re-derived independently by the parent
+before applying: exactly **two** of the 18 rows state no death.
+
+- **PMID 23213584**, label `visceral_metastasis_complication`, n = 1 — a NAMED mechanism, so removing
+  it moves numerator and denominator together, exactly as feared.
+- **PMID 21941486**, label `mechanism_unstated`, n = 1 — "transitioned to supportive care"; the death
+  is not described.
+
+So: **50 documented deaths**, **14** with a named mechanism, **27** unstated. The share is
+**28.0 %**, not 28.8 % and not 29.4 %. Check: 14 + 27 + 8 emc-progressive + 1 ambiguous = 50.
+
+⛔ **Neither exclusion asserts that the patient survived.** Both are statements about what the
+record documents.
+
+⚠ **The 50 is a count of RECORDS, not of people.** Two of the contributing reports are literature
+reviews collecting previously published intracranial cases, and whether they share patients with each
+other or with two case reports is undetectable from what was retrieved. The paper now says so, and
+"recur across independent reports" became "recur across separate reports, whose independence is not
+established".
+
+⚠ **PMID 21941486 cannot be classified from what is retained** — the sentence proves neither death
+nor survival. It is labelled `death_not_documented`, which is a statement about the record.
+
+⚠ The memo's **388** had no artifact basis at all — not 328, 400, 600, 162, nor any query's
+`retrieved`. Its provenance is unrecoverable from what is retained, so each site was corrected to the
+figure right for it rather than guessed at: the palliative-care title-level scan is **25** records
+from one query, and the general retrieved corpus is **328**.
+
+## The hold as it stood, retained
+
 # HOLD: death-count claims in `emc-mortality-mechanisms-paper.md`
 
 ⛔ **Every death-count claim in this paper is on hold** until a scoped correction lands and is
