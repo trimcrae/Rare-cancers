@@ -144,3 +144,36 @@ artifact. A restatement of existing repository content is not an artifact.
   drift. The coordinator has NOT added a `DOC_SKIP` exclusion: the 9 `inputs/` errors under it are
   real findings, and narrowing a checker to shrink a number is the move this repository's own
   design note at `systems_check.py:1436` warns against.
+
+### The clinical registry passes its validator cleanly — measured 2026-09-08T04:40Z
+
+`node scripts/validate-registry.mjs` at HEAD `408b676a` prints
+`OK - EMC clinical registry valid: 25 citation(s), 14 cohort(s). 0 warning(s).` and exits **0**.
+W30d audited all 170 lines against every registry-facing sentence of `systems/POLICY-evidence.md`
+(34 requirement rows) and mutation-probed each weak row. **Every WEAKER and NOT-IMPLEMENTED row is
+LATENT — zero are live**: the committed registry satisfies the policy *text* on every sentence
+decidable from the file, not merely the weaker gate. Do not re-run the shape census (25 citations,
+14 cohorts, 4 patients, 2 evidenceQuestions/9 positions, 10 systemicEvidence, 6 emergingTreatments,
+11 studies, 12 metric blocks; provenance vocabularies clean at `{primary, secondary}`; 25/25 licenses;
+9/9 contextReason; 5/5 pooled cohorts periodised or explicitly `studyPeriodUnknown`).
+
+One measured **code defect** worth knowing before you read that script: `scripts/validate-registry.mjs:115`
+stores an array **index** in `poolKeys[key]` and then tests it for truthiness, so index `0` is falsy and
+the §2.3 double-counting guard is silently inoperative for `cohorts[0]` — the registry's largest pooled
+cohort. Measured: duplicating `cohorts[0]` → `0 warning(s)`, exit 0; duplicating `cohorts[1..4]` → WARN.
+Also note the script has **no test of its own**; the one grep hit in `scripts/tests/` is a docstring.
+
+### `modalities.json` prose does not reach any generated view — measured 2026-09-08T04:40Z
+
+W26d whole-field-sentinelled 14 fields and regenerated all 111 views. Six `modalities.json` fields
+(`MOD-ARGININE-DEPRIVATION.requires[0]`, `MOD-PRMT5-MAT2A.requires[0]` and `.rationale`,
+`MOD-MCL1-BCLXL.rationale`, `MOD-RET.rationale`, `MOD-TF-LBD-OCCUPANCY.rationale`) have a blast radius
+of **exactly zero view files** — nothing re-rendering can ever check them. The mechanism is structural,
+not the 150-char clip: `grep -n '"requires"' systems/systems_check.py` returns **no hits** (the field is
+never read), and the census renderer's `rationale` row is gated on the record having no `route`, which
+all five of those records do. Do not re-derive this.
+
+Also retired by measurement: the inherited claim that a `strategies.json` `limitations[n]` fans out to
+"5–8 view pages". Measured range on W26c's four fields is **3 to 12** (`ST-REPURPOSING.limitations[1]`
+= 12 pages, `ST-RADIOLIGAND.limitations[0]` = 3). Fan-out tracks the size of the route family the
+strategy owns, not the file. Quote the measured number, not the range.
