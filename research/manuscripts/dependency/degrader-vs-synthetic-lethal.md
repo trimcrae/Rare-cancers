@@ -1,25 +1,35 @@
 ---
 id: DOC-DEGRADER-VS-SYNTHETIC-LETHAL
-title: Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
+title: Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — an internal route-comparison memo
 level: L3
-kind: manuscript
+kind: memo
 status: live
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
-audience: [maintainers, external reviewers, autonomous research agents]
+canonical_for: ["the internal degrader-versus-synthetic-lethal route comparison for EWSR1::NR4A3 EMC"]
+purpose: >
+  Compare the two routes this program could invest in first, degrading the NR4A3-LBD end of the
+  fusion or attacking a dependency created by the EWSR1-prion end, and record what the retained
+  computational evidence does and does not support about that choice.
+scope: >
+  Internal decision memo, not a submission text. Public AlphaFold2/fpocket predictions on wild-type
+  monomers, one public CRISPR dependency panel that contains no EMC line, and cited literature.
+  No wet-lab work, no experiment in an EMC model, no patient data, and no efficacy, potency,
+  selectivity, safety, therapeutic-window or clinical-readiness claim for either route.
+audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-09-08
 ---
-# Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
+# Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — an internal route-comparison memo
 
 > **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](../program/emc-treatment-roadmap.md)
-> via the strategy capstone [`emc-treatment-strategy.md`](../program/emc-treatment-strategy.md). Not separately submitted.
+> via the strategy capstone [`emc-treatment-strategy.md`](../program/emc-treatment-strategy.md).
+> Not separately submitted, and not a preprint candidate; the reasons are in §4, which is a
+> finding of this review rather than a deferral. Its record `PUB-SYNLETH` carries
+> `target_venue: internal_note`, and this document is written to that.
 > Folder map: [`README.md`](../README.md).
 
-**Scope.** A deeper head-to-head than `novel-modalities.md` §3.1 (degradation) and §3.4–3.5
-(synthetic-lethal / transcriptional), written to decide **which route to invest in first**.
+**Scope.** A deeper head-to-head than [`novel-modalities.md`](../modality-census/novel-modalities.md)
+§3.1 (degradation) and §3.4–3.5 (synthetic-lethal / transcriptional), written to decide
+**which route to invest in first**.
 This is a *decision memo*, not a results paper: no EMC wet-lab data exists, so everything below
 is feasibility reasoning from public structure (`research/modalities/nr4a3-structure-assessment.json`)
 and the cited literature. Claims are tagged **[established]**, **[precedent]**, or
@@ -56,8 +66,10 @@ drives the recommendation in §3.
   VERITAC-2). That first FDA-approved PROTAC targets a nuclear receptor — the same superfamily
   as NR4A3. [precedent]
   ⚠ This repository's two records disagree on the year: this memo says 2025, which is the year of
-  the phase-3 VERITAC-2 publication, while `research/manuscripts/degrader/nr4a3-degrader-paper.md:156`
-  records the FDA approval as 2026-05-01; not adjudicated here.
+  the phase-3 VERITAC-2 publication, while [`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md)
+  records the FDA approval as 2026-05-01 in its reference list; not adjudicated here.
+  (A line number printed here previously, `:156`, no longer located that reference and has been
+  replaced by the file and the quoted date.)
 - **A ligandable handle exists in principle.** NR4A LBDs have a **collapsed orthosteric pocket**
   filled with bulky hydrophobic side chains (why they're "orphan"), consistent with our
   borderline 0.495 score — *yet* real small molecules bind the LBD: cytosporone B, celastrol,
@@ -133,7 +145,7 @@ drives the recommendation in §3.
 
 ---
 
-## 2b. RESULT — DepMap transfer prior (computed this session)
+## 2b. RESULT — DepMap transfer prior (2026-06-21; artifact re-check 2026-09-08)
 
 `depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models; 176 sarcoma models catalogued in
 the release, but every gene record carries `n_sarcoma = 91`, so 91 is the screened denominator of
@@ -141,31 +153,33 @@ every number below —
 `depmap_sarcoma_dependency.py:79`;
 `depmap-sarcoma-dependency.json` + `.png`). The result is a **negative for the cheap BRD9 bet**:
 
-- **ncBAF is not a sarcoma dependency.** BRD9 mean gene effect in sarcoma is **+0.11**
-  (non-essential), BICRA/BICRAL likewise; selectivity ≈ 0. The primary hypothesis is **not
+- **ncBAF is not a sarcoma dependency.** BRD9 mean gene effect in sarcoma is **+0.105**
+  (non-essential; 2.2% of the 91 screened lines dependent), and BICRA (+0.093) and BICRAL (−0.142)
+  likewise; BRD9 selectivity is −0.016, i.e. none. The primary hypothesis is **not
   supported** at the pan-sarcoma level.
 - **Not supported even in the closest FET-fusion analog.** In **Ewing sarcoma (n=27)** — where
-  the EWSR1-prion→BAF mechanism is *proven* — BRD9 is **+0.13, 0% dependent**. The one place the
+  the EWSR1-prion→BAF mechanism is *proven* — BRD9 is **+0.134, 0% dependent**. The one place the
   transfer logic should hold, it doesn't.
-- **BET/CDK targets give no selectivity window.** BRD4 (−0.95), CDK7 (−1.85), CDK9 (−1.46) are
-  strongly essential but *equally* outside sarcoma — pan-essential, not a therapeutic margin.
+- **BET/CDK targets give no selectivity window.** BRD4 (−0.954), CDK7 (−1.847), CDK9 (−1.464) are
+  strongly essential in sarcoma but *equally* so outside it (rest means −0.972, −1.762, −1.447;
+  selectivities −0.018, +0.085, +0.017) — pan-essential, not a therapeutic margin.
 - ⚠ **The same run read Route D's own target, and this memo prints it nowhere.** In
-  `depmap-sarcoma-dependency.json`, NR4A3 is +0.02 in sarcoma with 0% of the 91 screened lines
-  dependent (`context_genes`). No line in the panel supplies a CRISPR observation for EMC: the
-  single EMC-labelled line has no CRISPR gene-effect data at all, and the further curated record
+  `depmap-sarcoma-dependency.json`, NR4A3 is +0.021 in sarcoma with 0% of the 91 screened lines
+  dependent, and its selectivity is +0.002 (`context_genes`). No line in the panel supplies a
+  CRISPR observation for EMC: the single EMC-labelled line has no CRISPR gene-effect data at all, and the further curated record
   that it does not harbour the fusion is suggestive and consistent, not definitive. That caveat
   qualifies this NR4A3 null exactly as it qualifies the BRD9 null above, so the two routes must be
   read at equal strength: neither is a measurement in EMC.
 - **Pipeline mechanics validated** by correct recovery of the pan-essential controls
   (CDK7/BRD4/CDK9, ~100% dependent everywhere). Two *selective*-dependency self-checks were weak:
-  BRD9-in-synovial is an inherently modest DepMap signal (n=5, −0.13), and **SMARCB1-in-rhabdoid
-  was mis-specified** (rhabdoid tumours have *lost* SMARCB1, so non-dependence is correct biology,
-  not a pipeline failure). But the pan-essential recovery validates essentiality detection, and
-  the headline is a claim about selectivity. The one control that could have validated
+  BRD9-in-synovial is an inherently modest DepMap signal (n=5, −0.130), and **SMARCB1-in-rhabdoid
+  was mis-specified** (n=13, −0.025, 7.7% dependent: rhabdoid tumours have *lost* SMARCB1, so
+  non-dependence is correct biology, not a pipeline failure). But the pan-essential recovery
+  validates essentiality detection, and the headline is a claim about selectivity. The one control that could have validated
   selectivity detection — BRD9 in synovial sarcoma, the context where ncBAF dependence *is*
-  established — did not recover it (n=5, −0.13, 20% dependent). So the headline negative rests on a
-  limb whose only positive control came back weak, and it should be read as a weak prior against
-  BRD9 rather than as a settled negative.
+  established — did not recover it (n=5, −0.130, 20% dependent, i.e. 1 line of 5). So the headline
+  negative rests on a limb whose only positive control came back weak, and it should be read as a
+  weak prior against BRD9 rather than as a settled negative.
 
 **Interpretation.** The cheap transfer prior does **not** support BRD9/ncBAF (or selective
 BET/CDK) as an EMC vulnerability. The synthetic-lethal route therefore has **no shortcut**: to
@@ -215,7 +229,46 @@ step neither route escapes.
 
 ---
 
-## References (verified this session)
+## 4. Note status and the preprint decision
+
+This section is a finding of the 2026-09-08 review, not a deferral. The document was examined
+against the artifacts it names to decide whether its content is paper-shaped, and it is not.
+
+1. **Its purpose is internal ordering, not a reportable result.** The document exists to decide
+   which route this program funds first. That question is about this program's budget and model
+   access, and its answer is consumed by
+   [`emc-treatment-roadmap.md`](../program/emc-treatment-roadmap.md) and
+   [`emc-treatment-strategy.md`](../program/emc-treatment-strategy.md), not by an outside reader.
+2. **The one original computation here is bounded, and §2b already says so.** §2b is a read of a
+   public DepMap release. Its headline is a claim about *selectivity*, and the one self-check that
+   could have shown selectivity detection works, BRD9 in synovial sarcoma (where ncBAF dependence
+   is established), came back weak (n=5, −0.130, 20% dependent). §2b therefore reports a weak prior
+   against BRD9, and a weak prior is not a finding a preprint can carry as its subject.
+3. **Nothing in it is measured in EMC.** The panel supplies no CRISPR observation for any EMC line.
+   The structure readings are AlphaFold2 predictions on wild-type monomers (Q92570, Q01844) and the
+   cited artifact models no fusion protein. The BAF/BRD9 dependency and the NR4A3 warhead case are
+   transferred from other fusions and other receptors.
+4. **The comparison itself cannot be published as a comparison.** No retained evidence compares
+   Route D and Route S on efficacy, potency, selectivity, safety, therapeutic window or clinical
+   readiness, and this memo makes no such claim for either route. §3's verdict is a statement about
+   which *prior* lost support (the comparator's, on one public panel), and it says explicitly that
+   no result in §2b is evidence for the degrader. That is a defensible internal ranking and an
+   indefensible external claim about two therapeutic strategies.
+5. **House register is correct here.** `lint_style.py`'s target list is submission texts only and
+   says in its own comment that a memo must not be added to it. The warning glyphs and emphasis in
+   this file are carrying caveats to a maintainer, which is what the house style is for.
+
+**What would reopen this.** A CRISPR or drug-response observation in a fusion-positive EMC model,
+or a selectivity self-check that actually recovers a known-positive context, would give §2b a
+subject of its own. At that point the negative belongs in a paper that reports it as its own
+result with its own methods, and this memo goes back to being the decision record it is.
+
+---
+
+## References
+
+These are as recorded at writing. The 2026-09-08 pass did no external retrieval,
+so none of them was re-fetched.
 
 - Boulay G, et al. *Cancer-Specific Retargeting of BAF Complexes by a Prion-like Domain.* Cell
   2017. (EWSR1 prion-like domain retargets BAF.)
@@ -236,3 +289,37 @@ step neither route escapes.
 related fusions/receptors, not demonstrated in EMC — flagged as such above. Before any of these is
 quoted as established for EMC, it should pass the project's `verify-refs` check and be confirmed in
 an EMC model.
+
+---
+
+## Appendix A. Quantity verification, 2026-09-08
+
+Every quantity printed above was re-read from the artifact named beside it. No producer was re-run
+and no figure was regenerated; these are reads of the committed files.
+
+| printed here | artifact and field | value read |
+|---|---|---|
+| 2105 models; 176 sarcoma models; 91 screened denominator | `research/modalities/depmap-sarcoma-dependency.json` → `n_models_total`, `n_sarcoma_models`, every `n_sarcoma` | 2105, 176, 91 |
+| the 91-line denominator is the script's own reading | `research/modalities/depmap_sarcoma_dependency.py:79` | "91 SCREENED sarcoma lines (of 176 sarcoma models in the release)" |
+| BRD9 +0.105, selectivity −0.016, 2.2% dependent | same JSON → `genes_by_group` → ncBAF | 0.105, −0.016, 0.022 |
+| BICRA +0.093, BICRAL −0.142 | same JSON → ncBAF | 0.093, −0.142 |
+| BRD4 −0.954, CDK7 −1.847, CDK9 −1.464 | same JSON → BET / transcriptional | −0.954, −1.847, −1.464 |
+| NR4A3 +0.021, 0% dependent, selectivity +0.002 | same JSON → `context_genes` | 0.021, 0.0, 0.002 |
+| Ewing BRD9 +0.134, n=27, 0% dependent | same JSON → `BRD9_by_fusion_sarcoma_subtype.Ewing` | 0.134, 27, 0.0 |
+| synovial BRD9 −0.130, n=5, 20% dependent | same JSON → `self_validation.BRD9_in_synovial` | −0.13, 5, 0.2 |
+| SMARCB1-in-rhabdoid −0.025, n=13, 7.7% | same JSON → `self_validation.SMARCB1_in_rhabdoid` | −0.025, 13, 0.077 |
+| EWSR1 IDR 1–264, mean pLDDT 38.8, 98% < 50 | `research/modalities/nr4a3-structure-assessment.json` → `EWSR1.regions` | 1-264, 38.8, 0.981 |
+| NR4A3 DBD 261–337; LBD 373–626, mean pLDDT 85 | same JSON → `NR4A3.regions` | 261-337; 373-626, 85.0 |
+| Pocket 5, druggability 0.495, 10 lining residues, 406–534, all in the LBD | same JSON → `NR4A3.fpocket.top_pocket_locale` | 0.495, 10, 406, 534, `{"ligand-binding domain": 10}` |
+| Pocket 5 is the best pocket in the protein | same JSON → `NR4A3.fpocket.pockets` (33 pockets, next best 0.196) | 0.495 is the maximum |
+| no CRBN and no VHL row in the sibling expression surrogate | `research/modalities/depmap-target-expression.json` | neither symbol occurs in the file |
+| the EMC-labelled DepMap line is not fusion-positive on the curated record | `research/modalities/emc-atr-vulnerability.json` → `part_a_hemcss_identity.verdict` | `NOT_FUSION_POSITIVE_PER_CURATED_RECORD` |
+| that line carries no CRISPR gene-effect data | `research/modalities/emc-blk-no-emc-data-route-retest.json` → blocker name, verbatim | "one DepMap line, n = 1, no CRISPR data" |
+
+**One repair the review made to a printed pointer.** §1 previously cited
+`nr4a3-degrader-paper.md:156` for the 2026-05-01 FDA-approval date. That line no longer holds the
+reference (it is at line 3178 as of this pass), so the citation now names the file and quotes the
+date instead of a line number that drifts.
+
+**Not re-verified.** The literature citations in the reference list were not re-retrieved: this pass
+did no external retrieval. They stand as recorded when the memo was written.

@@ -47,7 +47,7 @@ route was assumed to fail, and D refuted this memo's own first reasoning. All fo
 |---|---|---|---|
 | **A** | **Run the reach enumeration with NO second terminus** — the configuration `target-route-options.md` $0 item 4 and `emc-post-degrader-options.md` item 4 both named and neither ran | $0 CPU | ⛔ **Built, run, and it goes AGAINST the route.** Removing the E3 arm does not widen the categorical window; on the conservative convention it closes **every** cell that had one. [§3](#3--the-0-test-built-run-and-it-came-back-against-the-route) |
 | **B** | **Does the repo's own reason for choosing degradation over inhibition survive contact with its own citations?** | $0, read | ⚠ **Partly not.** The caveat *"an inhibitor would have to block a function NOR-1 may not even gate on a pocket"* was written without weighing a verified primary source, in another repo file, that measured LBD-directed ligands altering NOR-1-regulated gene expression in cells. [§2.2](#22--and-the-repos-own-verified-citation-answers-it-partly-the-other-way) |
-| **C** | ⭑ **The AF-1 question — is the LBD a functional handle IN THE FUSION, given that the fusion deletes NR4A3's AF-1?** | $0, read | ★ **Asked for the first time, and answered FAVOURABLY by the assay that already exists.** The one published demonstration of LBD-borne functional modulation of NOR-1 used a **Gal4-NOR-1-LBD** reporter — a construct that is *itself* AF-1-less. [§2.3](#23--the-af-1-question-asked-for-the-first-time--and-the-answer-is-not-the-one-i-expected) |
+| **C** | ⭑ **The AF-1 question — is the LBD a functional handle IN THE FUSION?** *(the question was first asked on the premise that the fusion deletes NR4A3's AF-1; that premise was measured false 2026-08-06 and the answer below does not depend on it — §2.3)* | $0, read | ★ **Not asked anywhere else in this repository, and answered FAVOURABLY by the assay that already exists.** The one demonstration of LBD-borne functional modulation of NOR-1 that this repository holds used a **Gal4 `hinge+LBD`** reporter — a construct that is *itself* AF-1-less. [§2.3](#23--the-af-1-question-not-asked-elsewhere-in-this-repository--and-the-answer-is-not-the-one-i-expected) |
 | **D** | **Is `R4` — the program's one un-buyable requirement — actually purchasable as a service?** | $0, read | ⛔ **Ruled out — owned by [`what-a-civilian-can-buy.md`](../modality-census/what-a-civilian-can-buy.md), which also REFUTES this memo's first reasoning for it.** What survives here is route-specific: the one catalogue NR4A3 LBD **excludes C397 by a single residue**, so the cheap intact-mass probe readout would be blind to the programme's headline handle. [§6](#6--r4-as-a-purchase--ruled-out-and-not-for-the-reason-i-first-wrote) |
 
 ---
@@ -145,7 +145,7 @@ unresolved. A search for the paper as those files describe it returns only Zaien
 as a resolution item rather than edited across four files in a route memo, and **nothing in this memo cites
 "Munck 2022"** — every functional claim above is cited to the Zaienne record, which is the verified one.
 
-### 2.3 · The AF-1 question, asked for the first time — and the answer is not the one I expected
+### 2.3 · The AF-1 question, not asked elsewhere in this repository — and the answer is not the one I expected
 
 **The question.** The disease protein is not NR4A3. It carries EWSR1's low-complexity region **in addition
 to** NR4A3's own **AF-1**, which it RETAINS ⚠ *(superseded, retained: "It replaces NR4A3's own AF-1 with
@@ -153,8 +153,17 @@ EWSR1's low-complexity region" — measured false 2026-08-06: NR4A3 exons 1–2 
 retains AF-1, DBD, hinge and LBD, and the two lengths below are a real measurement of two stretches that are
 NOT swapped)* — the retention correction is owned by
 [`target-route-options.md` exon audit](../program/target-route-options.md) →
-[`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json), which re-derived the exon-to-residue map and
-gives the corrected junction as EWSR1(1-264) :: NR4A3(1-626), with AF-1, DBD, hinge and LBD all retained. The
+[`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json), which re-derived the exon-to-residue map
+from the canonical transcripts. ⚠ **Scoped to what that artifact actually computes.** It records that NR4A3
+transcript exons 1–2 carry no coding nucleotide, so a junction at NR4A3 transcript exon 3 resumes at residue
+**1** and retains the zinc-finger DBD and the LBD (`domain_retention_by_resume_exon`), and that none of the
+three committed resume residues (318, 361, 419) does. The junction string
+**EWSR1(1–264) :: NR4A3(1–626)** is [`target-route-options.md`](../program/target-route-options.md)'s
+derivation from that arithmetic, not a field of the artifact, and the artifact's own limit travels with it:
+*"Exon arithmetic and sequence motifs only … This does NOT establish the EMC breakpoint — that needs a
+primary breakpoint report"*, and `R13`'s object *"remains undefined until a primary breakpoint report pins
+it."* ⛔ **So AF-1 retention here is a property of the exon-3 junction model, not a measured property of the
+EMC protein**, and nothing below is stated more strongly than that. The
 separate residue-composition measurement in
 [`target-route-census.json`](../../modalities/target-route-census.json) `af1_to_lc_swap` is a count of two
 stretches and is **not** the retention finding; its own `_question` is still phrased on the superseded
@@ -170,12 +179,16 @@ recruitment, and activation by the purine anti-metabolite 6-mercaptopurine"*), w
 AF-1-borne, and the fusion deletes the AF-1, then an LBD-directed molecule may be aiming at a domain with no
 functional role *in the disease protein* — which would be worse than the wild-type case, not better.
 
-★ **And the answer is already in the assay.** The Zaienne inverse agonists were read out on a **Gal4-NOR-1-LBD
-reporter** (verbatim-verified in
-[`nr4a3-druggability-reconciliation.md`](../../modalities/nr4a3-druggability-reconciliation.md), 2026-07-12).
-A Gal4 hybrid construct fuses the receptor **LBD** to the GAL4 DNA-binding domain; the receptor's own AF-1
-and DBD are **not present**. So the one published demonstration that occupying the NR4A3 LBD changes
-transcriptional output was made **in a construct that already lacks NR4A3's AF-1.**
+★ **And the answer is already in the assay.** The Zaienne inverse agonists were read out on a Gal4-NOR-1
+reporter whose plasmid `pFA-CMV-hNOR-1-LBD` is verbatim-recorded as *"coding for the **hinge region and
+LBD**"* (re-fetched in CI 2026-08-03 and quoted in
+[`nr4a3-druggability-reconciliation.md` §5a](../../modalities/nr4a3-druggability-reconciliation.md); the
+name this repository has been relaying, *"Gal4-NOR-1-LBD"*, is the plasmid's **name**, not its contents).
+The hybrid fuses that `hinge+LBD` stretch to the GAL4 DNA-binding domain; the receptor's own AF-1
+and DBD are not present. So the one demonstration this repository holds that occupying NR4A3's
+`hinge+LBD` changes transcriptional output was made **in a construct that already lacks NR4A3's AF-1.**
+⚠ **And the resolution stops at `hinge+LBD`:** the same record states that nothing in the source localises
+any hit to the LBD as against the hinge, so no statement here is about the LBD alone.
 
 ⭑ **Stated as the finding it is: AF-1 status is not, by itself, a defeater for LBD-directed
 modulation of this receptor, and the evidence for that was sitting in the repo unconnected to the
@@ -197,7 +210,7 @@ the NR4A3 LBD. So the question the route actually turns on is:
 > **Does repressing the LBD-borne component move the output of a protein whose other end is a strong,
 > independently-acting activator?**
 
-⛔ **Nobody has asked this, nothing in this repo can answer it, and it is not answerable in silico.** It is
+⛔ **No document in this repository asks it, nothing in this repo can answer it, and it is not answerable in silico.** It is
 a functional cell-assay question about a chimera. The program's delegated make-or-break — the dTAG
 acute-degradation test that `R16` points at — does **not** serve it: dTAG answers *"is EMC addicted to the
 fusion"*, and this route needs *"is EMC addicted to the fusion's LBD-borne function"*, which is strictly
@@ -243,8 +256,10 @@ branch position with a clash-free arm to the sulfur — the collapse is complete
 | cells closed either way | 23 |
 
 On the **permissive** through-space convention — an upper bound on reachability, which scores a buried
-sulfur as reachable — the picture is mixed rather than favourable: some cells retain a window and a few gain
-one, and **every gained window is 1–2 backbone atoms wide**, which is inside the side-chain displacement the
+sulfur as reachable — the picture is mixed rather than favourable: of the **48** bivalent cells with a
+window, 24 retain one and 24 lose it; 8 of the 12 closed cells gain one (`paired_transitions →
+through_space`), and **every gained window is 1–2 backbone atoms wide** (`max_width_gained.through_space` =
+2), which is inside the side-chain displacement the
 bivalent lane already measured between independently built paralogue models (that lane's
 `noise_sensitivity` owns those figures and they are not re-typed here). Both conventions and both
 configurations, with the per-cell rows, are in
@@ -257,31 +272,51 @@ configurations, with the per-cell rows, are in
 distance from the branch position to the E3 anchor, which penalises branch positions off the
 warhead→E3 axis — and it penalises **each cysteine by a different amount**. Removing it removes a
 discriminator along with a cost. The module measures this directly as the **rank of C397 among all
-cysteines in the family**: bivalently C397 is the first residue in reach in almost every graded cell;
-monovalently it is not first in almost every cell. The competitor set that overtakes it also changes —
-including, at one anchor, **NR4A1 Cys551**, the family's one literature-anchored covalent site and the very
-residue the NR-V04 confound is about ([roadmap §6a](../nr4a3-program-map.md#6a--dead--conclusively-unworkable-never-retry)),
-which sat far outside the window in the bivalent configuration.
+cysteines in the family**, and the counts are the artifact's own, on the conservative corridor convention:
+C397 is not first in 28 of 30 monovalent cells, against 13 of 60 bivalent cells. The competitor set
+that overtakes it also changes: **NR4A1 Cys551** — the family's one literature-anchored covalent site and
+the very residue the NR-V04 confound is about
+([roadmap §6a](../nr4a3-program-map.md#6a--dead--conclusively-unworkable-never-retry)) — is the first-arriving
+closer in 6 of the 30 monovalent corridor cells and in none of the 60 bivalent corridor cells, whose
+closers are NR4A2 C534 (34) and NR4A1 C505 (8). ⚠ **Stated as what it is:** an appearance in the closer
+tally, which the bivalent lane's reconciliation records as a **tie-break** rather than a measurement
+wherever two cysteines arrive at the same atom count; it is not a distance for C551 and no distance is
+claimed for it here.
 
 ⚠ **And a second margin is lost before any paralogue is considered.** The bivalent counter-test's finding
 was that the window is closed by a *paralogue* cysteine rather than by one of NR4A3's own conserved ones —
 i.e. the intra-NR4A3 margin was the easy half ([roadmap branch 1b](../nr4a3-program-map.md#branch-1b--computed-and-reconciled-to-its-artifact-2026-08-03)).
-Monovalently it is not: the median intra-NR4A3 window falls by most of its width. The route loses margin on
-**both** axes at once.
+Monovalently it is not: on the corridor convention the median intra-NR4A3 window falls from 7 to 1
+backbone atoms, and on the permissive through-space convention from 6 to 3. The route loses margin on
+**both** axes at once, and it loses more of it under the conservative rule than under the permissive one.
 
 ### What this result is, and what it is not
 
 - ✅ **It is** a refutation of the specific hope that dropping the E3 arm would widen the categorical
   window — the hope two repo memos recorded and neither tested. **A negative here was worth exactly as much
-  as a positive, and it cost nothing.**
+  as a positive, at $0: CPU only, no rental and no GPU.**
 - ⛔ **It is not** a refutation of monovalent pocket modulation as such. A **non-covalent** monovalent
   molecule has no cysteine to reach and is untouched by this measurement — it simply fails on the *other*
   blocker (§1's table).
-- ⚠ **It inherits everything the bivalent lane inherits.** Geometry only: no thiol pKa, intrinsic
-  electrophile reactivity, adduct stability or chemoproteomic selectivity is computed anywhere in this
-  repo. Every anchor still comes from the docked pose whose known-answer test `V3` returned **INCONCLUSIVE**
-  — and `V3`'s failure was **site** selection, which a marginalisation over pocket-mouth anchors does not
-  absorb. Reach can refute a route; it can never license one.
+- ⚠ **It inherits everything the bivalent lane inherits.** Geometry only: **no thiol pKa, reaction rate,
+  adduct or chemoproteomic selectivity is measured anywhere in this repo.** Every anchor still comes from
+  the docked pose whose known-answer test `V3` returned **INCONCLUSIVE** — and `V3`'s failure was **site**
+  selection, which a marginalisation over pocket-mouth anchors does not absorb. ⛔ **The pose is also not a
+  singular object:** the scoring-independent second method `V22` disagrees with `V3` on 0 of 6 systems
+  inside the 2.00 Å recovery band, at a median inter-method RMSD of 6.696 Å, so every anchor here is
+  conditional on one method's top pose. Reach can refute a route; it can never license one.
+- ⛔ **The one leg that looks like reactivity is not one, and its own null fires.** The module carries a
+  `reactivity_weighted_rerun` that filters competitor cysteines on **structural determinants** of thiol pKa
+  read off static models — it computes, in the artifact's own words, *"no pKa, no rate, no adduct"*, and its
+  positive-control set is n = 1 (NR4A1 C551) with zero confirmed negatives, so control recovery is by
+  construction. Its window does not survive its own control: on the primary criterion `RWA-3` the
+  size-matched exhaustive decoy null returns 16 open cells against a null median of 20, with
+  0.65 of the 680 size-matched competitor subsets at or above the observed value —
+  `R6_attrition_not_selection` **FIRES**, i.e. the window came from discarding 14 of 17 competitors rather
+  than from selecting among them. ⛔ Both variants behave the same way (0.75, 0.75), and under `RWA-4`
+  C397 itself is **not admitted** (`⛔_route_refuted_by_its_own_criterion: true`;
+  `variants_agree_on_target_admission: false`). ⛔ **This leg supports nothing and is recorded here as the
+  negative it is.**
 - ⚠ **A robustness leg is reported and must not be read as the headline.** The module also re-grades the
   monovalent window against every available paralogue metadynamics conformer, **one paralogue at a time** —
   a smaller competitor set by construction, so more cells stay open. That says the closure is **not uniform
@@ -379,8 +414,8 @@ one that survived every test, by a single residue.**
   could express 373–626. It says the *catalogue* option does not serve *this* route, and that a future
   session tempted by "the protein is buyable" should check the span before the price.
 
-⇒ **Net effect on this memo's grade: none, and that is the point.** `R4` was already this route's
-un-buyable dependency; the audit changes *which* of its grounds is load-bearing, not whether it holds.
+⇒ **Net effect on this memo's grade: none.** `R4` was already this route's un-buyable dependency; the
+audit changes *which* of its grounds is load-bearing, not whether it holds.
 
 ---
 
@@ -393,8 +428,11 @@ about a monovalent *drug*, with one promotion inside it.**
 
 - It deletes the largest block in the program — the induced-complex/ternary layer — completely, and it is
   the *only* route that does so without substituting a different partner-protein problem.
-- Its chemical matter and its measurement lane already exist: the Zaienne series is the anchor of a
-  congeneric RBFE map this repo has already built. A monovalent program would not start from zero.
+- Its chemical matter exists and a measurement lane has been **specified**: the Zaienne series is the
+  anchor node of [`congeneric-rbfe-map.json`](../../modalities/congeneric-rbfe-map.json). ⛔ **Scoped to
+  what that file is:** its own `_status` reads **"DESIGN ONLY — no MD/FEP/GPU run. No affinity, ΔΔG,
+  GPU-hour, or convergence is asserted. All energetic and cost quantities are placeholders."** So a
+  monovalent programme would start from a perturbation map with no computed edge, not from a measurement.
 - ★ **The AF-1 worry, which looked like a clean defeater, is answered — and answered in the route's
   favour** by an assay construct that is itself AF-1-less (§2.3). That is a genuine promotion of one
   sub-question and it was free.
@@ -408,7 +446,7 @@ about a monovalent *drug*, with one promotion inside it.**
 - ⛔ **It adds a make-or-break no other LBD route carries** — functional actionability of the LBD *in the
   chimera* — which cannot be computed, cannot be bought (§6), and is not covered by the program's delegated
   dTAG test.
-- ⚠ **Its requirement is unsized.** Nobody has stated how much selectivity a monovalent NR4A3 antagonist
+- ⚠ **Its requirement is unsized.** No document in this repository states how much selectivity a monovalent NR4A3 antagonist
   would need, so "the requirement is smaller" is not a claim this repo can currently make (§4 item 3).
 
 **The practical consequence, stated so it can be acted on.** The **probe** framing of
