@@ -1,0 +1,15 @@
+# lint_style rule-count comparison: committed bytes vs TD1-edited bytes (same tree)
+Tue Sep  8 20:21:39 UTC 2026
+== committed ==
+      1 [bold-density]
+     16 [bold-midsentence]
+      1 [emdash-density]
+     16 [glyph]
+      3 [heading-style]
+== after TD1 edit ==
+      1 [bold-density]
+     17 [bold-midsentence]
+      1 [emdash-density]
+     19 [glyph]
+      4 [heading-style]
+== exit codes: both 1 (this lint is not a preflight commit gate; the default preflight passed every style gate) ==

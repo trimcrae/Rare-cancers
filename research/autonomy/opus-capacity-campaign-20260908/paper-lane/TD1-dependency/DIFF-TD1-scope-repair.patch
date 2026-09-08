@@ -1,0 +1,156 @@
+diff --git a/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md b/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+index 70bcbb765..3e51e132c 100644
+--- a/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
++++ b/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+@@ -8,7 +8,11 @@ canonical_for: ["the 2026-08-09 EMC transcriptional-CDK and chaperone dependency
+ purpose: >
+   Test two dependencies that the structure of this disease's driver predicts — on the general
+   transcriptional machinery, and on the chaperone system — and report that abundance and dependency
+-  disagree for both, in opposite directions, with the dependency axis deciding each time.
++  disagree for both, in opposite directions, in the records that could actually be read: abundance
++  measured in EMC tumours, dependency measured only in lines from other sarcomas. No EMC-specific
++  dependency was observed, so neither axis decides either class for this disease; the paper reports what
++  each axis does bound, states the transfer inference as a conditional, and names the measurement that
++  would settle each.
+ scope: >
+   L3. Two public archival expression series, 16 EMC tumours, transcript level only, plus a public
+   sarcoma-line CRISPR dependency panel containing no EMC line. Reports no experiment in EMC cells, no
+@@ -56,11 +60,23 @@ being true.
+ 
+ ⭐ **For both, abundance and dependency disagree — and they disagree in opposite directions.** The
+ transcriptional half reads as the most concordant elevation anywhere in this programme's expression
+-census and then closes completely on dependency. The chaperone half reads as an internally contradictory
+-elevation and then survives, weakly, for a reason the abundance data alone could not have shown.
+-
+-**The methodological claim is that the second axis is the one that decides, and that reading only the
+-first would have produced a confident and wrong answer in both cases** — in opposite directions.
++census, while the same genes are dependencies in every screened sarcoma line with essentially no
++selectivity. The chaperone half reads as an internally contradictory elevation, while its dependency
++readings split in a way the abundance data alone could not have shown.
++
++⚠ **The two axes are not measured in the same place, and that governs every claim below.** Abundance was
++measured in EMC tumours. Dependency was measured only in sarcoma lines, none of which is EMC and none of
++which contributes a CRISPR observation for this disease. **No dependency in EMC was observed here, so
++nothing in this paper decides, closes or reopens an EMC-specific vulnerability in either class.** What the
++dependency panel supports about this disease is conditional, and is written as a conditional wherever it
++appears: *if* the dependency structure seen across the screened sarcoma lines holds in EMC cells, then the
++transcriptional class offers nothing to select on, and the chaperone machine is load-bearing but not
++testable by single-gene knockout. That condition is assumed, not tested.
++
++**The methodological claim is narrower than a decision.** Reading abundance alone would have produced a
++confident answer in both cases — promoting the transcriptional class and burying the chaperone one — and
++the dependency axis shows that this confidence was not warranted, in opposite directions, without itself
++supplying the EMC measurement either class needs.
+ 
+ ---
+ 
+@@ -96,7 +112,7 @@ resolved. So every dependency figure is a **transfer from other sarcomas**, and
+ not a small sample but no observation in this disease. Class definitions are anchored in
+ [`txn-dependency-class-definitions-2026-08-09.json`](../../literature/txn-dependency-class-definitions-2026-08-09.json).
+ 
+-## 2 · The transcriptional half — supported on abundance, closed on dependency
++## 2 · The transcriptional half — elevated in EMC, without selectivity in the screened sarcoma panel
+ 
+ **Abundance.** The CDK7 initiation module is higher in EMC on **both** platforms (*t* = 3.69 and 4.11),
+ and so is the transcriptional output context (*t* = 3.78 and 4.81). The elongation module is higher on
+@@ -110,13 +126,20 @@ concordant elevation in the whole census, and read alone it looks like support.
+ catalogues), **CDK7 and CDK9 are dependencies in 100% of them**, with mean
+ gene effects of −1.85 and −1.46 and **essentially no sarcoma selectivity** (0.085 and 0.017).
+ 
+-⛔ **A gene required in every line of a tissue class offers nothing to select on.** The elevation is
+-real and buys no separation between this tumour and any other. The route closes here, and it closes on
+-the axis that decides rather than on the axis that was measured first.
++⛔ **Within that panel, a gene scoring as a dependency in every screened line offers nothing to select
++on.** That is a statement about the 91 screened sarcoma lines, and it is measured.
++
++⚠ **Whether it carries to EMC is an inference, not an observation**, because no EMC line contributes
++CRISPR data here. Stated as the conditional it is: *if* the pan-essentiality and near-zero selectivity
++seen across the screened sarcoma lines also hold in EMC cells, then the elevation measured in EMC tumours
++buys no separation between this tumour and any other, and the class offers no selective handle. The
++elevation is measured; the selectivity verdict is transferred; the EMC dependency itself is unmeasured.
++**This paper therefore does not close the class for this disease** — cross-sarcoma evidence cannot decide
++an unmeasured EMC-specific dependency.
+ 
+-⚠ **This does not say a transcriptional CDK inhibitor would be inactive in EMC.** It says that if such
+-an agent acts, it will not be acting on something specific to this disease — which matters for an
+-ultra-rare cancer whose only realistic path is an argument for *why this disease in particular*.
++⚠ **Nor does it say a transcriptional CDK inhibitor would be inactive in EMC.** It says that nothing
++measured here supplies the argument an ultra-rare cancer needs — *why this disease in particular* — and
++that the panel which could supply it contains no line from this disease.
+ 
+ ## 3 · The chaperone half — an internally contradictory elevation
+ 
+@@ -152,30 +175,34 @@ dependency in **97.8%**. None of the three shows sarcoma selectivity.
+ ⚠ **The paralogue result must not be read as "HSP90 is dispensable."** Two paralogues that back each
+ other up will *each* score non-essential in a single-gene knockout screen; that is a property of the
+ instrument, not of the chaperone, and no public panel answers the dual-knockout question. What the
+-near-essential co-chaperone does establish is that the machine is load-bearing across this tissue class —
+-so a route hoping to exploit it needs an argument for why the tumour needs it *more* than a normal cell,
+-and nothing here supplies one.
++near-essential co-chaperone does establish is that the machine is load-bearing across the 91 screened
++sarcoma lines — again a measurement in other sarcomas, not in EMC. Any route hoping to exploit it would
++need an argument for why this tumour needs it *more* than a normal cell, and nothing here supplies one.
+ 
+ ## 4 · Why this is one paper and not two
+ 
+ Both halves were derived from the same premise — that the driver's structure predicts its dependencies —
+-and both were tested with the same two instruments. They produced opposite failures:
++and both were tested with the same two instruments. They ran into opposite problems:
+ 
+-| | abundance says | dependency says | outcome |
++| | abundance says (16 EMC tumours) | dependency says (91 sarcoma lines, none EMC) | what follows for EMC |
+ |---|---|---|---|
+-| transcriptional CDK | strong, concordant support | pan-essential, no selectivity | **closed** |
+-| chaperone | internally contradictory | machine load-bearing, paralogues untestable | **unresolved** |
++| transcriptional CDK | strong, concordant elevation | a dependency in every screened line, no selectivity | **no selective handle *if* that transfers** — unmeasured in EMC, so not closed here |
++| chaperone | internally contradictory | machine load-bearing, paralogues untestable singly | **unresolved on both axes** |
+ 
+-⭐ **Reading only abundance would have given a confident answer in both cases, and been wrong in both** —
+-promoting the class that closes and burying the one that stays open. That is the transferable result, and
+-it is not specific to this disease.
++⭐ **Reading only abundance would have given a confident answer in both cases, and the dependency axis
++shows that confidence was unwarranted in both** — it would have promoted the class with no measured
++selectivity in any screened line and buried the one that stays open. ⚠ **The dependency axis does not
++replace that confidence with a decision about this disease; it removes it**, because the panel carrying
++the dependency signal contains no line from this disease. The transferable result is the mismatch between
++the two axes, and it is not specific to EMC.
+ 
+ ## 5 · What would settle each
+ 
+-**For the transcriptional half — nothing computational settles it.** The class is closed on
+-selectivity, and no expression or dependency reading can reopen it. Only a demonstration that the fusion
+-creates a *specific* transcriptional vulnerability, rather than a general one, would — and that is a
+-model experiment.
++**For the transcriptional half — nothing computational settles it.** No selectivity appears anywhere in
++the screened sarcoma panel, and no expression or public dependency reading available here can decide the
++class for EMC in either direction. Only a demonstration that the fusion creates a *specific*
++transcriptional vulnerability, rather than a general one, would settle it — and that is a model experiment
++in an EMC cell.
+ 
+ **For the chaperone half — one measurement, and it is not an expression question.** Is the chimera an
+ HSP90 **client**? That is a co-immunoprecipitation or degradation-on-inhibition readout in an EMC model.
+@@ -200,12 +227,13 @@ the queries that returned nothing, are in
+ | # | claim | the observation that would kill it |
+ |---|---|---|
+ | F1 | the CDK7 module is elevated in EMC | a third EMC series in which it is null or lower |
+-| F2 | transcriptional CDKs offer no selectivity in this tissue class | a sarcoma-selective dependency for CDK7 or CDK9 in a larger or better-powered panel |
++| F2 | CDK7 and CDK9 show no sarcoma selectivity among the 91 screened lines | a sarcoma-selective dependency for CDK7 or CDK9 in a larger or better-powered panel |
+ | F3 | the HSP90 machine is elevated in EMC | a third series reversing it |
+ | F4 | the HSP70 and heat-shock group (scored as one) is not elevated | a third series in which it rises with the HSP90 machine — which would restore the standing-load reading |
+ | F5 | the chimera's clientship is untested | a published co-immunoprecipitation for any FET-family fusion protein — **the cheapest way this paper is superseded** |
+ | F6 | the HSP90 paralogues' low dependency reflects redundancy | a dual-knockout showing the machine is genuinely dispensable in sarcoma lines |
+ | F7 | neither reading is a proliferation artefact | a series matched on proliferation in which both contrasts disappear |
++| F8 | the cross-sarcoma dependency structure is a defensible, though untested, prior for EMC | a CRISPR screen in a fusion-positive EMC model whose dependency profile departs from the screened sarcoma panel — which would also be the first EMC observation on this axis |
+ 
+ ## 7 · Limits
+ 
+@@ -215,6 +243,9 @@ the queries that returned nothing, are in
+   gap, and it is why the second axis exists.
+ - **No EMC cell line carrying the fusion appears in any public dependency dataset**, so every dependency
+   figure is a transfer from other sarcomas and inherits that limit wherever it appears.
++- **No claim here decides a dependency in this disease.** Dependency was measured only in lines from other
++  sarcomas; every statement about what those readings mean for EMC is conditional on an untested transfer,
++  and is written as a conditional. An unmeasured EMC dependency is unknown, not absent.
+ - **The comparator arm is other sarcoma**, so every abundance statement is relative.
+ - **Nothing here has been tested in an EMC cell**, and no agent in either class has been given to a
+   patient with this disease.

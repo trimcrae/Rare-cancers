@@ -1,0 +1,19 @@
+# baseline: TD1 manuscript reverted to committed bytes; other lanes' dirty files left as found
+Tue Sep  8 20:19:55 UTC 2026
+4e906de80ae8a807c507882d9c3983f083749d5490da5b1689b1ae0a14bcebbf  research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+== research/manuscripts/claim_coverage.py --check ==
+EXIT=1
+TD1-mentions: 4
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.sentences: committed 30, the census now reports 51
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.with_a_number: committed 17, the census now reports 21
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered: committed 30, the census now reports 51
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered_with_a_number: committed 17, the census now reports 21
+output-lines: 105
+== research/manuscripts/submission_packet.py --check ==
+EXIT=1
+TD1-mentions: 0
+output-lines: 1
+== research/manuscripts/aso_archive_manifest.py --check ==
+EXIT=1
+TD1-mentions: 0
+output-lines: 1
