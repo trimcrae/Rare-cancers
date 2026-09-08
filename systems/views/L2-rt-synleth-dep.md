@@ -100,7 +100,7 @@ Parked on DATA rather than on ideas. A negative derived from a transfer prior ov
 
 ## Where this route ends — the paper
 
-**[PUB-SYNLETH](L3-publications.md)** — [Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)
+**[PUB-SYNLETH](L3-publications.md)** — [Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — an internal route-comparison memo](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)
 
 `primary` · ◐ `drafted` · aimed at `internal_note`
 

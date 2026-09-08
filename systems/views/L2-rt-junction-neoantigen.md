@@ -102,7 +102,7 @@ The breakpoint-resolved artifact is regenerated and its banner is cleared — an
 
 **This route contributes:** The junction peptide and its predicted-binding SCREEN, regenerated 2026-08-07 on the transcript model. The publishable finding is now partly NEGATIVE: no pan-EMC epitope, three of five junctions with no strong binder, and a public junction reaching under a tenth of patients.
 
-**The paper would claim:** The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
+**The paper would claim:** The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the novelty test examined here compares against those two PARENT proteins only (`fusion_breakpoints.py:231`), and no proteome-wide search is present in the sources examined for this entry — which is a statement about what was examined, not a verified claim about the whole history of this repository — so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
 
 ## Strategic timing — the wait equation
 

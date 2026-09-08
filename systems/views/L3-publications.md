@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
-| **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader design for prote…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Reading-frame constraints and retained RG content in NR4A3 fusion model…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -58,7 +58,7 @@ last_verified: 2026-08-06
 | **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: …](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
-| **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
+| **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — an internal route-…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-VACCINE-PATH**<br/>[A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what …](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -89,7 +89,7 @@ The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at
 | [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) | `primary` | The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away. |
 | [RT-ASO-ASK](L2-rt-aso-ask.md) — Junction knockdown + parental sparing in EMC lines ( | `contributing` | The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench. |
 
-### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
+### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader design for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)**
 
@@ -316,7 +316,7 @@ Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid cho
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md`](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md)**
 
-The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
+The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the novelty test examined here compares against those two PARENT proteins only (`fusion_breakpoints.py:231`), and no proteome-wide search is present in the sources examined for this entry — which is a statement about what was examined, not a verified claim about the whole history of this repository — so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
@@ -374,7 +374,7 @@ Surface and stromal antigens can be prioritised for EMC in silico, and the hones
 | [RT-SSTR2](L2-rt-sstr2.md) — SSTR2 / neuroendocrine theranostic | `contributing` | The theranostic receptor arm, framed as a cheap decisive negative rather than as a lead — there is no computation that strengthens it, only a measurement. |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) — TCR-T / engineered T cells vs a cancer-testis antige | `contributing` | The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument. |
 
-### PUB-SYNLETH — Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
+### PUB-SYNLETH — Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — an internal route-comparison memo
 
 **◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/dependency/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)**
 

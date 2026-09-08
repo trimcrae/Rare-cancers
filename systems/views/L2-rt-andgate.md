@@ -91,7 +91,7 @@ There is no second arm, so there is nothing to compute and nothing to report bey
 
 ## Where this route ends — the paper
 
-**[PUB-ANDGATE](L3-publications.md)** — [A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)
+**[PUB-ANDGATE](L3-publications.md)** — [A coincidence-detection ("AND-gate") bivalent degrader design for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

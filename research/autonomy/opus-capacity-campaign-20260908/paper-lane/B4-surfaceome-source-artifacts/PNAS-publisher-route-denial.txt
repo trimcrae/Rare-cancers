@@ -1,0 +1,26 @@
+B4 — PNAS publisher supplement route, attempted ONCE, denied at the egress proxy.
+
+Attempt time (date -u): 2026-09-08T19:22:18Z (verbose capture); first attempt same minute.
+Requested URL: https://www.pnas.org/doi/suppl/10.1073/pnas.1808790115
+Tool: curl via the preconfigured agent proxy (https_proxy=http://127.0.0.1:39285)
+
+Verbatim transcript (filtered to the connection lines):
+
+* Uses proxy env variable https_proxy == 'http://127.0.0.1:39285'
+* Connected to 127.0.0.1 (127.0.0.1) port 39285
+* CONNECT tunnel: HTTP/1.1 negotiated
+* allocate connect buffer
+* Establish HTTP proxy tunnel to www.pnas.org:443
+> CONNECT www.pnas.org:443 HTTP/1.1
+> Proxy-Connection: Keep-Alive
+< HTTP/1.1 403 Forbidden
+< Connection: close
+* CONNECT tunnel failed, response 403
+* Closing connection
+curl: (56) CONNECT tunnel failed, response 403
+
+Summary line from the first (non-verbose) attempt:
+__HTTP=000 URL=https://www.pnas.org/doi/suppl/10.1073/pnas.1808790115 TYPE= BYTES=0
+
+Bytes downloaded: 0. No file was retrieved. No TLS verification was disabled, no proxy
+variable was unset, no second host and no alternate route was attempted.
