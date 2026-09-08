@@ -21,7 +21,30 @@ that has already been made.
   because the publication schema sets `additionalProperties: false` and a new field for the old text
   is not schema-legal. `blocked_by: ["BLK-NO-WET-LAB"]` is unchanged. Views regenerated.
 
-## BLOCKED · M1, the figure-stamp provenance rebuild
+## ⭐ CLEARED 2026-09-08 · M1, the figure-stamp provenance rebuild
+
+**The reopening condition below was met and the rebuild is done — commit `063ea1d5`.** The record of
+the earlier block is kept beneath, unchanged, because how it was blocked is part of the evidence.
+
+matplotlib 3.11.1 was already present, unpacked, in the uv archive cache at the cpython-311 ABI that
+`/usr/bin/python3.11` uses. With those cached directories on `PYTHONPATH` it imports, along with
+numpy 2.4.6 and pillow 12.3.0. `python3`'s import failure had not established that no available
+runtime carried it. No package was downloaded, no pip attempt was repeated, and no TLS or proxy
+control was touched.
+
+ONE run of the existing committed generator from the same frozen scientific inputs, exit 0. The
+regenerated PNG is **byte-identical** to the frozen one, `fa94675f…07a7`. Only the PDF (which carries
+a creation timestamp) and the provenance stamps changed — so the plot was never stale and the finding
+was a mis-recorded stamp, which is exactly what a rebuild can show and a re-stamp never could. All
+three source stamps now equal their artifacts' raw sha256 prefixes. Visual QA performed on the
+rendered PNG: three panels legible, Panel A's retained-segment rows and RG counts, Panel B's measured
+band with its 0.000 and 1.000 anchors and three computed EMC points, Panel C's 177-nt / 59-codon
+accounting, and no hue encoding.
+
+⚠ This is release-provenance repair, not release completion. Nothing here is a preflight, a
+production PDF QA, a publish-bar step or a venue action.
+
+### The block as it stood, retained
 
 All three stored source stamps in `research/manuscripts/figures/emc-atr-figure-provenance.json`
 differ from the raw bytes of the artifacts they name. This is a provenance mismatch and is **not**
