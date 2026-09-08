@@ -1,0 +1,4 @@
+{
+ "command": "set -e\nS=/tmp/claude-0/c1-scratch/repo\ncd $S\n# BASELINE: run unmodified generator, writes into scratch copy\ncp research/manuscripts/emc-host-factor-model.json /tmp/claude-0/c1-retained/committed-emc-host-factor-model.json\npython3 research/manuscripts/emc_host_factor_model.py; echo \"exit=$?\"\ncp research/manuscripts/emc-host-factor-model.json /tmp/claude-0/c1-retained/baseline-rerun-emc-host-factor-model.json\ndiff -q /tmp/claude-0/c1-retained/committed-emc-host-factor-model.json /tmp/claude-0/c1-retained/baseline-rerun-emc-host-factor-model.json && echo \"BASELINE REPRODUCES COMMITTED OUTPUT BYTE-IDENTICAL\"",
+ "description": "Baseline reproduction run"
+}

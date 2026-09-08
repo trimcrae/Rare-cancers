@@ -1,0 +1,4 @@
+{
+ "command": "ls research/manuscripts/ | grep -i host && echo \"=== generator ===\" && find . -name \"emc_host_factor_model.py\" -not -path \"./.git/*\" | head && echo \"=== grep 21.7 / 0.217 / superseded across tree ===\" && rg -n --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' -e '21\\.7' -e '0\\.2174' -e '0\\.217' -e 'superseded' -l | head -30",
+ "description": "Locate generator and 21.7 references"
+}

@@ -1,0 +1,4 @@
+{
+ "command": "cd /home/user/Rare-cancers/research/manuscripts && python3 -c \"\nimport json\nd=json.load(open('emc-mortality-decomposition.json'))\ndef walk(o,p=''):\n    if isinstance(o,dict):\n        for k,v in o.items(): walk(v,p+'/'+k)\n    elif isinstance(o,list):\n        for i,v in enumerate(o): walk(v,p+'[%d]'%i)\n    else:\n        print(p,'=',repr(o))\nwalk(d)\n\" | head -200",
+ "description": "Dump decomposition json"
+}

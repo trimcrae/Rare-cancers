@@ -1,0 +1,127 @@
+    problems = check_anchors(spec, probe)
+    if problems:
+        print("UNANCHORED EVIDENCE -- refusing to model:", file=sys.stderr)
+        for p in problems:
+            print(f"  - {p}", file=sys.stderr)
+        return 1
+
+    decomp = json.loads(DECOMP.read_text(encoding="utf-8"))
+    within = (decomp.get("within_series") or [{}])[0]
+    competing_share = (within.get("competing_share_of_deaths_pct") or 0.0) / 100.0
+
+    rows = [model_factor(r, competing_share) for r in spec.get("factors", [])]
+
+    payload = {
+        "_readme": (
+            "What treating a common, independently treatable condition would be worth to a "
+            "patient with EMC. TWO COMPARTMENTS, NEVER ONE NUMBER. Compartment B is death "
+            "from causes other than EMC, where the patient is an ordinary person and "
+            "general-population evidence transfers with a weak assumption. Compartment A is "
+            "death caused by EMC, where no EMC evidence exists and the default is that "
+            "NOTHING is claimed. Every effect size is anchored to a PMID present in the "
+            "committed retrieval artifact; an anchored identifier means a fetch returned it, "
+            "not that the paper supports the row. Nothing here asserts efficacy, safety, a "
+            "therapeutic window or clinical readiness in EMC, and nothing here is advice for "
+            "any individual."
+        ),
+        "generated_by": "research/manuscripts/emc_host_factor_model.py",
+        "competing_share_of_deaths_used": competing_share,
+        "competing_share_source": (
+            "research/manuscripts/emc-mortality-decomposition.json, within-series "
+            "(Meis-Kindblom 1999) -- the only pairing measured on the same patients."
+        ),
+        "why_two_compartments": (
+            "A host factor acts on EMC deaths and on ordinary deaths through completely "
+            "different evidence, and the second is far better supported. Reporting one blended "
+            "number would let the strength of the compartment-B evidence silently license a "
+            "compartment-A claim that nothing supports."
+        ),
+        "the_honest_ceiling": (
+            "Acting on compartment B alone, a host-factor intervention can only ever touch the "
+            "share of deaths that are not EMC deaths. It is not a cancer treatment and must "
+            "never be presented as one. What makes it worth registering is that it requires no "
+            "new science, no wet lab and no collaborator -- which is not true of any other "
+            "route in this portfolio."
+        ),
+        "bias_registry": BIASES,
+        "compartment_transfer_scale": {
+            k: {"multiplier_range": [v[0], v[1]], "means": v[2]}
+            for k, v in COMPARTMENT_TRANSFER.items()
+        },
+        "factors": rows,
+        "factors_not_entered": spec.get("not_entered", []),
+        "limits": [
+            "Prevalence of every host factor in an EMC cohort is UNKNOWN -- no EMC series records one -- so every prevalence here is imported from a general population and is an assumption, not a measurement.",
+            "A share of deaths averted is not a gain in life expectancy; converting the two needs a time horizon and a competing-risks structure this model does not have.",
+            "Every compartment-A entry that is not NO_EVIDENCE should be treated as the weakest part of this analysis, because the sarcoma literature behind it is small and confounded.",
+            "This model cannot detect the biases in its own inputs. The bias registry names what threatens each estimate; it does not correct for any of them.",
+        ],
+    }
+    OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"wrote {OUT.relative_to(ROOT)} — {len(rows)} factor(s), "
+          f"competing share {competing_share:.1%}")
+    return 0
+
+
+=== model_factor ===
+def model_factor(row: dict, competing_share: float) -> dict:
+    """One host factor, both compartments, as a band."""
+    prev = row["prevalence_in_cohort"]
+    out = {
+        "id": row["id"],
+        "factor": row["factor"],
+        "intervention": row["intervention"],
+        "prevalence_in_cohort": prev,
+        "prevalence_basis": row["prevalence_basis"],
+        "biases_that_apply": [
+            {"bias": b, "why_it_matters": BIASES[b]} for b in row.get("biases", []) if b in BIASES
+        ],
+        "compartments": {},
+    }
+    if row.get("endpoint_caveat"):
+        out["endpoint_caveat"] = row["endpoint_caveat"]
+    if not row.get("biases"):
+        out["bias_declaration_missing"] = (
+            "No biases declared. That is not a clean bill of health -- it means this row has "
+            "not been analysed, and its numbers should not be quoted.")
+
+    for comp, share in (("A", 1.0 - competing_share), ("B", competing_share)):
+        ev = next((e for e in row.get("evidence", []) if e.get("compartment") == comp), None)
+        t_lo, t_hi, t_note = COMPARTMENT_TRANSFER[comp]
+        if ev is None or ev.get("status") == "unretrieved":
+            out["compartments"][comp] = {
+                "share_of_all_deaths": round(share, 4),
+                "status": "NO_EVIDENCE",
+                "relative_risk_reduction_range": [0.0, 0.0],
+                "transfer_note": t_note,
+                "reading": (
+                    "Nothing is claimed for this compartment. For compartment A that is the "
+                    "expected and honest state: no EMC-specific evidence exists."),
+            }
+            continue
+        if ev.get("status") == "association_only":
+            # ⛔ AN ASSOCIATION IS NOT AN INTERVENTION EFFECT. A hazard ratio for HAVING the
+            # factor says nothing about what REMOVING it would do -- the bias registry above
+            # lists five ways the two differ in sign. It is recorded so the reader can see the
+            # sarcoma-specific evidence exists, and it is modelled at ZERO so that nothing
+            # downstream can quote it as a benefit.
+            out["compartments"][comp] = {
+                "share_of_all_deaths": round(share, 4),
+                "status": "ASSOCIATION_ONLY",
+                "pmid": ev["pmid"],
+                "measured_in": ev.get("measured_in"),
+                "endpoint": ev.get("endpoint"),
+                "association_hazard_ratio_range": [ev["hazard_ratio_lo"], ev["hazard_ratio_hi"]],
+                "relative_risk_reduction_range": [0.0, 0.0],
+                "transfer_note": t_note,
+                "exposed_patient_share_of_deaths_averted_range": [0.0, 0.0],
+                "cohort_share_of_deaths_averted_range": [0.0, 0.0],
+                "reading": (
+                    "An association between carrying the factor and dying is recorded here, and "
+                    "NOTHING is claimed from it: the estimate is not an intervention effect, and "
+                    "reverse causation alone can produce it with the sign intact."),
+            }
+            continue
+        rrr_lo, rrr_hi = ev["relative_risk_reduction_lo"], ev["relative_risk_reduction_hi"]
+        out["compartments"][comp] = {
+            "share_of_all_deaths": round(share, 4),

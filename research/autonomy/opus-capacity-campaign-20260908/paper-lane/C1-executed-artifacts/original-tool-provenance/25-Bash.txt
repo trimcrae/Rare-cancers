@@ -1,0 +1,35 @@
+generator exit=1
+UNANCHORED EVIDENCE -- refusing to model:
+  - HF-SMOKING: PMID 42340948 is in no retrieved artifact. Either the search did not return it, or it was written from recollection.
+  - HF-CV-RISK: PMID 42068528 is in no retrieved artifact. Either the search did not return it, or it was written from recollection.
+  - HF-SARCOPENIA: PMID 41055780 is in no retrieved artifact. Either the search did not return it, or it was written from recollection.
+generator exit=1
+exit code captured: 1
+7581bee8654a741beedece7bf4a69cb670019601cd2519092b25eab2638e759e  INPUT-HASHES.txt
+6f337696ccb5f904b6bdec95cf7e5bfb8eb7a164eb6017a3e9bbdca68ded1267  baseline-rerun-emc-host-factor-model.json
+6f337696ccb5f904b6bdec95cf7e5bfb8eb7a164eb6017a3e9bbdca68ded1267  committed-emc-host-factor-model.json
+47aac7b8f9a3138820ad80f7b6c9448797e085629a9d5ca117cadd1d45e97ed9  generator-baseline-stderr.txt
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  generator-baseline-stdout.txt
+f265d0095bfa28c6379b78b6dfbab6e402032da538e6957cf41df226dbc15eaa  recompute-stdout.txt
+c9831fa6d7e722e0dd6011eb1e2c7b44007243bb48b00708ae68ce9b1933083d  recompute_competing_share.py
+1b0f913d43e2ab52a539e8530a14c76b28c9e41c2355461275feae5c07e73ea0  recomputed-output.json
+--- verify ---
+INPUT-HASHES.txt: OK
+baseline-rerun-emc-host-factor-model.json: OK
+committed-emc-host-factor-model.json: OK
+generator-baseline-stderr.txt: OK
+generator-baseline-stdout.txt: OK
+recompute-stdout.txt: OK
+recompute_competing_share.py: OK
+recomputed-output.json: OK
+total 72
+-rw-r--r-- 1 root root   574 Sep  8 07:31 INPUT-HASHES.txt
+-rw-r--r-- 1 root root   757 Sep  8 07:32 SHA256SUMS.txt
+-rw-r--r-- 1 root root 19890 Sep  8 07:32 baseline-rerun-emc-host-factor-model.json
+-rw-r--r-- 1 root root 19890 Sep  8 07:32 committed-emc-host-factor-model.json
+-rw-r--r-- 1 root root   483 Sep  8 07:32 generator-baseline-stderr.txt
+-rw-r--r-- 1 root root     0 Sep  8 07:32 generator-baseline-stdout.txt
+-rw-r--r-- 1 root root  1637 Sep  8 07:32 recompute-stdout.txt
+-rw-r--r-- 1 root root  4369 Sep  8 07:32 recompute_competing_share.py
+-rw-r--r-- 1 root root  4099 Sep  8 07:32 recomputed-output.json
+/dev/vda        252G   18G   20G  47% /

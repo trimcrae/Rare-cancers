@@ -1,0 +1,74 @@
+## Appendix A. Corrections made during this work
+
+Both corrections changed a headline figure and are recorded because the superseded values were
+circulated internally before they were withdrawn.
+
+**A.1 Competing share, 39.4 per cent superseded by 21.7 per cent.** The first estimate paired a
+survival-curve reading against a crude death proportion from a different cohort. When one registry's
+own cause counts on identical patients became available, the direct ratio replaced it. The direct
+estimator has none of the weaknesses the first disclosed, and the change is a change of method rather
+than a correction of arithmetic.
+
+**A.2 Background mortality, 2.4 per cent superseded by 11.3 per cent at ten years.** The life-table
+fetch treated the World Health Organization indicator nMx as a five-year probability. It is an
+age-specific death rate, and survival over a band of width *w* is exp(−*mw*). The error understated
+background mortality roughly fourfold and would have attributed nearly every death to the sarcoma. It
+was caught because the resulting figure was implausibly low for a cohort at this age, and confirmed
+from the indicator's published name rather than by inspection of which value looked right.
+
+## Data and code availability
+
+=== 40-60 ===
+identifier on a person is the failure lint_citations.py exists to prevent, applied to a human.
+Supply one at deposit if wanted.
+VENUE: medRxiv as preprint, then Cancer Epidemiology. That journal takes cause-of-death, competing-
+risk and descriptive rare-cancer work as primary research, which is exactly what this is. Fallbacks:
+Cancers (fast open access, active sarcoma special issues) and Frontiers in Oncology, Sarcoma section.
+Not JNCI: the sibling manuscript on response endpoints already targets it.
+STATUS: the two-compartment host-factor arithmetic and the supportive-care effect transfer are NOT
+in this paper. The host-factor model has now run on retrieved effect sizes (2026-09-04,
+research/manuscripts/emc-host-factor-model.json: three factors modelled in compartment B, every
+sarcoma-specific estimate recorded at zero as association-only); the supportive-care transfer still
+has none. Writing the host-factor band in is a queued item, not a done one. Section 4.3 states the
+implication qualitatively and stops there, which is the honest boundary. -->
+
+## Abstract
+
+**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare translocation sarcoma with a
+protracted course: reported ten-year disease-specific survival is approximately 85 per cent, while
+30 to 50 per cent of patients develop distant metastases, mostly pulmonary. Research effort in this
+disease is directed almost entirely at preventing death from the tumour. How often patients die of
+the tumour, and by what mechanism, has not been described.
+
+=== 230,260 ===
+
+### 3.4 The antitumour ceiling, and its dependence on stage
+
+One national registry cohort reported both cause counts on identical patients.
+
+**Table 2.** Cause of death and the ceiling on antitumour benefit, by stage at diagnosis.
+
+| stratum | n | disease deaths | other-cause deaths | competing share | ceiling |
+|---|---:|---:|---:|---:|---:|
+| localised, surgically treated | 134 | 9 | 4 | 30.8 % | **6.7 points** |
+| metastatic at diagnosis | 29 | 9 | 1 | 10.0 % | **31.0 points** |
+| combined | 163 | 18 | 5 | 21.7 % | 11.0 points |
+
+At a median follow-up of just over three years, preventing every death from the sarcoma in the
+localised cohort would have added 6.7 percentage points of survival; in the cohort metastatic at
+diagnosis it would have added 31.0. The value available to tumour-directed therapy is concentrated in
+the stratum that is the minority of patients.
+
+The same cohort reported that distant metastasis was associated with death from the tumour on
+multivariate analysis, with an odds ratio of 26.26 (95 per cent CI 2.99 to 231.04), while local
+recurrence was not associated with tumour mortality. The confidence interval is very wide on a small
+number of events.
+
+### 3.5 Agreement between two independent estimates
+
+Relative survival gave a median competing share of 23.0 per cent across eight series-horizons (range
+12.1 to 45.4), against 21.7 per cent from the registry cause split. The two share no input: one is
+published all-cause survival divided by a national life table, the other is counts of patients a
+registry assigned a cause to, and neither can be derived from the other.
+
+One series was excluded from the band with relative survival of 0.9925, and one horizon of the same

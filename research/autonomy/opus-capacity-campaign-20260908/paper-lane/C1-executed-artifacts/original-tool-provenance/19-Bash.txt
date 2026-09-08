@@ -1,0 +1,25 @@
+commit abc73e0eddbd4eaa9649f14c576a985e71d72ae7
+Author: Claude <noreply@anthropic.com>
+Date:   Fri Sep 4 17:42:50 2026 +0000
+
+    RT-HOST-FACTOR: enter the retrieved effect sizes and run the two-compartment model (AUT-220)
+    
+    emc-host-factor-inputs.json (new): four factors -- obesity/GLP-1 RA, current
+    smoking/cessation, statin-eligible cardiovascular risk/statin, sarcopenia/exercise.
+    Every effect size is transcribed from the abstract of a paper whose PMID is in
+    research/literature/emc-host-factor-probe.json (the model refuses any other),
+    with the population it was measured in, the endpoint, HR/RR and CI, and the
+    verbatim sentence. Prevalences are imported from NHANES/NHIS/guideline-eligibility
+    sources retrieved live and recorded verbatim in prevalence_basis; they are
+    assumptions, not EMC data, and anchor nothing. Diabetes, hypertension and
+    exercise-as-intervention are listed under not_entered with the reason: the
+    probe's top-25 relevance hits held no usable estimate, and no landmark trial.
+    
+    emc_host_factor_model.py: an evidence row may now carry status association_only.
+    It is reported as ASSOCIATION_ONLY with its hazard ratio visible and every
+    reduction pinned to zero, so a sarcoma sarcopenia OS HR of 1.91 or a sarcoma
+=== decomp json at abc73e0e has direct_cause_split? ===
+1
+=== search for any rationale text ===
+research/manuscripts/emc_host_factor_model.py
+research/manuscripts/emc-host-factor-model.json

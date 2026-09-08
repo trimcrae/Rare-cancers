@@ -1,0 +1,35 @@
+            "share_of_all_deaths": round(share, 4),
+            "status": "MODELLED",
+            "pmid": ev["pmid"],
+            "measured_in": ev.get("measured_in"),
+            "endpoint": ev.get("endpoint"),
+            "relative_risk_reduction_range": [rrr_lo, rrr_hi],
+            "transfer_multiplier_range": [t_lo, t_hi],
+            "transfer_note": t_note,
+            # For a patient who HAS the factor: the share of their total mortality removed.
+            "exposed_patient_share_of_deaths_averted_range": [
+                round(share * rrr_lo * t_lo, 4),
+                round(share * rrr_hi * t_hi, 4),
+            ],
+            # Across the whole cohort, only the exposed fraction can benefit.
+            "cohort_share_of_deaths_averted_range": [
+                round(prev * share * rrr_lo * t_lo, 4),
+                round(prev * share * rrr_hi * t_hi, 4),
+            ],
+        }
+    return out
+
+
+def main() -> int:
+    if not INPUTS.exists():
+        print(f"no inputs at {INPUTS.relative_to(ROOT)} -- nothing to model yet.", file=sys.stderr)
+        print("Expected until the host-factor retrieval has been READ. Effect sizes are "
+              "entered by hand from retrieved hits, never from recollection.", file=sys.stderr)
+        return 2
+    if not PROBE.exists():
+        print(f"no probe artifact at {PROBE.relative_to(ROOT)} -- the anchor check cannot run.",
+              file=sys.stderr)
+        return 2
+
+    spec = json.loads(INPUTS.read_text(encoding="utf-8"))
+    probe = json.loads(PROBE.read_text(encoding="utf-8"))

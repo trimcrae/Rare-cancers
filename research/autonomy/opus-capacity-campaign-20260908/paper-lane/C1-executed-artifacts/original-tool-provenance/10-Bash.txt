@@ -1,0 +1,12 @@
+89:    "competing_risks_misestimation": (
+98:# computed. ⚠ THE ASYMMETRY IS DELIBERATE AND IS THE MODEL'S CENTRAL CLAIM: the same
+102:          "Competing (non-EMC) death. The outcome is an ordinary death in an ordinary "
+140:def model_factor(row: dict, competing_share: float) -> dict:
+161:    for comp, share in (("A", 1.0 - competing_share), ("B", competing_share)):
+244:    within = (decomp.get("within_series") or [{}])[0]
+245:    competing_share = (within.get("competing_share_of_deaths_pct") or 0.0) / 100.0
+247:    rows = [model_factor(r, competing_share) for r in spec.get("factors", [])]
+263:        "competing_share_of_deaths_used": competing_share,
+264:        "competing_share_source": (
+290:            "A share of deaths averted is not a gain in life expectancy; converting the two needs a time horizon and a competing-risks structure this model does not have.",
+297:          f"competing share {competing_share:.1%}")

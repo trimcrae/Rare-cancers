@@ -1,0 +1,4 @@
+{
+ "command": "git show abc73e0e --stat | head -20; echo \"=== decomp json at abc73e0e has direct_cause_split? ===\"; git show abc73e0e:research/manuscripts/emc-mortality-decomposition.json 2>/dev/null | grep -c direct_cause_split; echo \"=== search for any rationale text ===\"; rg -n -i --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' \"only pairing measured on the same patients\" -l",
+ "description": "Check availability of direct_cause_split at model run time"
+}

@@ -1,0 +1,15 @@
+76:    out = M.model_factor(row, competing_share=0.394)
+83:    out = M.model_factor(_factor(), competing_share=0.394)
+87:    assert b == pytest.approx(0.394)
+97:    out = M.model_factor(row, competing_share=0.394)
+99:    assert hi <= 0.394 + 1e-9
+107:    out = M.model_factor(row, competing_share=0.394)
+126:    out = M.model_factor(_factor(biases=[]), competing_share=0.394)
+132:    out = M.model_factor(_factor(biases=["reverse_causation"]), competing_share=0.394)
+=== git log dates ===
+abc73e0e 2026-09-04 RT-HOST-FACTOR: enter the retrieved effect sizes and run the two-compartment model (AUT-220)
+14a3f172 2026-09-04 -s ours x15: every stranded branch read by identity, and none of them holds anything
+--- decomposition py ---
+14a3f172 2026-09-04 -s ours x15: every stranded branch read by identity, and none of them holds anything
+--- when direct_cause_split introduced ---
+14a3f172 2026-09-04 -s ours x15: every stranded branch read by identity, and none of them holds anything

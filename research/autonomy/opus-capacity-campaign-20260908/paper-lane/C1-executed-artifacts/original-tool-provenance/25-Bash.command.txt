@@ -1,0 +1,4 @@
+{
+ "command": "set -e\nS=/tmp/claude-0/c1-scratch/repo; D=/tmp/claude-0/c1-retained\ncd $S && python3 research/manuscripts/emc_host_factor_model.py > $D/generator-baseline-stdout.txt 2> $D/generator-baseline-stderr.txt; echo \"generator exit=$?\" | tee -a $D/generator-baseline-stderr.txt || true\necho \"exit code captured: $(cd $S && python3 research/manuscripts/emc_host_factor_model.py >/dev/null 2>&1; echo $?)\" >> $D/generator-baseline-stderr.txt\ncat $D/generator-baseline-stderr.txt\ncd $D && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt && echo \"--- verify ---\" && sha256sum -c SHA256SUMS.txt 2>&1 | tail -12; ls -l $D; df -h / | tail -1",
+ "description": "Capture refusal log and hash durable artifacts"
+}

@@ -1,0 +1,4 @@
+{
+ "command": "set -e\nmkdir -p /tmp/claude-0/c1-retained /tmp/claude-0/c1-scratch/repo/research/manuscripts /tmp/claude-0/c1-scratch/repo/research/literature\nR=/home/user/Rare-cancers\nS=/tmp/claude-0/c1-scratch/repo\ncp -a $R/research/manuscripts/emc_host_factor_model.py $R/research/manuscripts/emc-host-factor-inputs.json $R/research/manuscripts/emc-mortality-decomposition.json $R/research/manuscripts/emc-host-factor-model.json $S/research/manuscripts/\ncp -a $R/research/literature/emc-host-factor-probe.json $S/research/literature/\ncd $S && sha256sum research/manuscripts/*.json research/manuscripts/*.py research/literature/emc-host-factor-probe.json | tee /tmp/claude-0/c1-retained/INPUT-HASHES.txt\ndf -h / | tail -1",
+ "description": "Set up scratch copy and hash inputs"
+}

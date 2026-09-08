@@ -1,0 +1,4 @@
+{
+ "command": "rg -n -i --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' -e 'host_factor' -e 'host-factor-model' -l | head -20 && echo \"=== notes mentioning within_series choice ===\" && rg -n -i --glob '!.git' --glob '!research/autonomy/opus-capacity-campaign-20260908/**' -e 'within_series' -e 'within-series' -l | head -20",
+ "description": "Find references to host factor model and within-series"
+}

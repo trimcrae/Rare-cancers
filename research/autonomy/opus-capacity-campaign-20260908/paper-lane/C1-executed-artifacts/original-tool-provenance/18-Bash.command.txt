@@ -1,0 +1,4 @@
+{
+ "command": "grep -n -i -E \"within|competing|0\\.394|39\\.4|decomp\" research/manuscripts/tests/test_emc_host_factor_model.py | head -20; echo \"=== git log dates ===\"; git log --format='%h %ad %s' --date=short -3 -- research/manuscripts/emc_host_factor_model.py; echo \"--- decomposition py ---\"; git log --format='%h %ad %s' --date=short -5 -- research/manuscripts/emc_mortality_decomposition.py; echo \"--- when direct_cause_split introduced ---\"; git log --format='%h %ad %s' --date=short -S'direct_cause_split' -- research/manuscripts/emc_mortality_decomposition.py | tail -5",
+ "description": "Check tests and git history timing"
+}

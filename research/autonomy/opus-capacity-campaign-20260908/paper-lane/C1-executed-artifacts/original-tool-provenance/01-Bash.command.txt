@@ -1,0 +1,4 @@
+{
+ "command": "date -u && git rev-parse HEAD && git status --porcelain | head -50 && df -h / && echo \"---ENV---\" && env | grep -i -E 'claude|anthropic|model' | sed -E 's/(TOKEN|KEY|SECRET)[^=]*=.*/\\1=<redacted>/I'",
+ "description": "Record start state"
+}

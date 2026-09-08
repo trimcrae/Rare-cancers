@@ -1,0 +1,4 @@
+{
+ "command": "date -u && git rev-parse HEAD && echo \"--- porcelain ---\" && git status --porcelain && echo \"--- df ---\" && df -h / | tail -1 && echo \"--- env ---\" && env | grep -i -E 'claude|anthropic|model' | sed -E 's/(TOKEN|KEY|SECRET)[^=]*=.*/\\1=<redacted>/I' | grep -v -E '^(no_proxy|NO_PROXY|GLOBAL_AGENT_NO_PROXY|npm_config_noproxy|JAVA_TOOL_OPTIONS)=' ",
+ "description": "Record end state"
+}

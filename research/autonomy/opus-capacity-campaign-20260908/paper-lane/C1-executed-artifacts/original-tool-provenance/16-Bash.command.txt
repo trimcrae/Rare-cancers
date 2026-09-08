@@ -1,0 +1,4 @@
+{
+ "command": "grep -n -i -E \"host.factor|competing share|39\\.4|21\\.7\" research/autonomy/amendments.jsonl | head -20 && echo \"=== ledger ===\" && python3 -c \"\nimport json\nfor ln in open('research/autonomy/research-ledger.json'):\n    pass\n\" ; grep -n -i -o -E \".{200}host_factor.{300}\" research/autonomy/research-ledger.json | head -10",
+ "description": "Search amendments and ledger"
+}

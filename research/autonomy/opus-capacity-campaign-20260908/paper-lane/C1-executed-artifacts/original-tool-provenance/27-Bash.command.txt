@@ -1,0 +1,4 @@
+{
+ "command": "sha256sum research/manuscripts/emc-host-factor-model.json research/manuscripts/emc-mortality-decomposition.json research/manuscripts/emc_host_factor_model.py research/manuscripts/emc-host-factor-inputs.json research/literature/emc-host-factor-probe.json && echo \"--- changed outside campaign dir between start and end HEAD? ---\" && git diff --name-only d7988bcf c27c0870 | grep -v opus-capacity-campaign-20260908 | wc -l",
+ "description": "Re-verify inputs unchanged at end HEAD"
+}
