@@ -120,3 +120,82 @@ limits all stand exactly as recorded.
 The running S6 contract otherwise continues unchanged: source identification only, no digitization,
 reconstruction, pooling or clinical dataset; retention and access-state recording as already permitted; no new
 manuscript or publication action; no controller, session, deadline or billing change.
+
+---
+
+# S6 RESULT AND PAPER-LEVEL DISPOSITION — appended 2026-09-08 06:40 UTC
+
+## Collection and verification
+
+Child `aadf26ebcbd3d3230`, model verified from transcript as exactly `claude-opus-5`, ran 06:31:03 → 06:36:56
+UTC (5 min 53 s, 26 tool calls). Repository writes by the child: **none**; `git status --porcelain` empty at its
+start and end; 20 GiB free both ends. Durable directory `/tmp/claude-0/s6-retained/` verified by the parent
+re-running `sha256sum -c SHA256SUMS` — **5 of 5 OK** — then copied into `paper-lane/S6-executed-artifacts/` and
+**re-verified in place, 5 of 5 OK**: `candidates.json` `6117cbce…`, `queries.json` `4d7a51fc…`,
+`screened-identifiers.json` `e5d5e49c…`, `failures-and-refusals.md` `1a950f8b…`, `run-log.json` `97b5bcd5…`.
+The retained directory is **not deleted**.
+
+⚠ **One byte-preservation gap, labelled as the child labelled it:** `candidates.json` was **regraded in place**
+after the narrowing arrived, so the superseded v1 grading exists only as a description inside
+`_coordinator_narrowing_applied`, not as retained bytes. That is the single non-preserved item in this run and
+it is recorded rather than smoothed over.
+
+## Result: **0 MATCHED pairs established** — 1 UNKNOWN, 2 ADJACENT, 2 NOT A PAIR
+
+⭐ **Both fragments that motivated this candidate were tested against the matched/adjacent definition and both
+fail it.** The trabectedin sub-analysis is **ADJACENT** — partial-cohort per-subject truth against a
+**mixed-arm** curve. The swimmer plot is **NOT A PAIR** — that report prints **zero** KM curves, so there is a
+truth with no figure. The narrowing was applied before any verdict was finalised, exactly as intended, and it
+changed the answer.
+
+## Three findings about the search route itself, all measured
+
+1. ⛔ **The admitted route cannot see either half of a pair.** `get_full_text_article` returns narrative text
+   only — it strips table contents, figure images, and even the table and figure *numbers* (inline citations
+   render as bare `()` or `"presented in Table."`). Observed independently on three separate articles.
+   **No verdict rests on direct inspection of any table or figure.**
+2. ⛔ **PubMed cannot search this class at all.** `sarcoma AND swimmer plot AND (…)` returns **0 records** while
+   this campaign *holds* a retained sarcoma swimmer plot — the index covers title/abstract/MeSH, not figure
+   captions or table contents. The class is only screenable one article at a time.
+3. Two of seven queries failed **as queries** (an `open access[filter]` that voided its own query; a quoted
+   phrase auto-mapped into `patients[MeSH]`, 737 unrelated records). Neither is evidence about the class.
+
+**Closure discipline held under pressure:** PMID 32856598 (Wagner) surfaced inside a result list and was
+**dropped on sight** — not retrieved, no substitute route sought.
+
+## Paper-level disposition
+
+**The synthetic instrument line remains BLOCKED, and its reopening input is not in hand.** S6 was the attempt
+to fetch that input and it returned zero matched pairs, so nothing changes for the synthetic work: no
+digitization result is validated or refuted, and no reporting requirement, journal recommendation or clinical
+claim follows from any of it.
+
+**This is a bounded source/reachability result and nothing more**, per the narrowing above: it does **not**
+establish that the class is empty in the literature, it is **not** paper merit, and it is **not** a manuscript
+admission — and finding pairs would not have admitted a paper either. 13 PMC-available candidates and 19
+no-PMCID candidates were **NOT RUN**; scope was EMC plus four adjacent ultra-rare sarcoma histologies,
+English-language PubMed only, on this date.
+
+**Exact dependency for the one decisive open candidate:** `fice2022emc` (PMID 35251555 / PMC8891938) collapses
+to MATCHED or NOT A PAIR on **one look** at whether it prints a survival figure and whether its per-patient
+table carries follow-up time and vital status. That look needs a **table/figure rendering route** — PMC HTML or
+PDF — which this campaign has not been granted. The child correctly refused to route around the route it was
+given. Until such a route exists, that candidate stays **UNKNOWN**.
+
+⭐ **One structural observation worth carrying, recorded as OBSERVED, NOT PROVEN:** per-patient rows appeared
+only in very small reports (a 5–8 subject trial sub-analysis, a 15-patient case series), while the 38–60-patient
+series printed aggregate tables. **The pair and the figure worth digitizing pull in opposite directions** — the
+studies large enough to have a curve worth reconstructing are the ones that stop printing per-patient data.
+If that holds beyond this scope, it is a reason the class may be structurally thin rather than merely unsearched.
+
+## No further dispatch on this line
+
+No worker is dispatched to continue it. The decisive candidate needs a capability this campaign does not have;
+the remaining unscreened candidates would be more of the same one-at-a-time screening against a route that
+cannot see tables or figures; and manufacturing another sweep or another census to fill a slot is precisely
+what the standing instruction forbids. **Recorded as blocked with its exact reopening input, not abandoned and
+not padded.**
+
+All holds and closures stand exactly: S1/S3 stops, P1–P3 closures, P4–P6 limits, the NR4A/P6 successor
+exclusion, and the W25 / primary-article / Results / novelty safety hold. No manuscript, publication, clinical
+claim, controller, session, deadline or billing change arises from any of this.

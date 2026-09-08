@@ -1,0 +1,25 @@
+{
+ "_worker":"S6","_route":"PubMed MCP only","_date_utc":"2026-09-08",
+ "_note":"result counts are total_count as returned by the tool; every query is recorded including the ones that failed or dissolved.",
+ "queries":[
+  {"n":1,"tool":"search_articles","query":"extraskeletal myxoid chondrosarcoma AND (survival OR outcome) AND (case series OR clinicopathologic)","total_count":23,"outcome":"usable EMC pool; all 23 PMIDs carried forward to ID conversion"},
+  {"n":2,"tool":"search_articles","query":"sarcoma AND swimmer plot AND (progression-free survival OR overall survival)","total_count":0,"outcome":"ZERO. Decisive instrument finding: the campaign HOLDS a retained sarcoma swimmer plot (PMC7674086), and this query cannot find it. PubMed does not index figure captions."},
+  {"n":3,"tool":"search_articles","query":"(extraskeletal myxoid chondrosarcoma OR \"alveolar soft part sarcoma\" OR \"epithelioid hemangioendothelioma\" OR \"clear cell sarcoma\") AND Kaplan-Meier AND (individual patient data OR per-patient)","total_count":26,"outcome":"PubMed auto-mapping expanded 'individual patient data' into generic 'patients' terms, so the result set is not a per-patient-data set. Contains PMID 32856598 (Wagner, DENIED) - dropped, not retrieved. Contains 27418251 (Morioka, already held)."},
+  {"n":4,"tool":"search_articles","query":"(\"alveolar soft part sarcoma\" OR \"epithelioid hemangioendothelioma\" OR \"extraskeletal myxoid chondrosarcoma\" OR \"clear cell sarcoma of soft tissue\" OR \"desmoplastic small round cell tumor\") AND (case series OR retrospective) AND Kaplan-Meier AND open access[filter]","total_count":0,"outcome":"ZERO, and the query_translation shows NO term expansion at all - the 'open access[filter]' token appears to have voided the query rather than filtering it. FAILED QUERY, not an empty class."},
+  {"n":5,"tool":"search_articles","query":"sarcoma AND (\"individual patient data\" AND (supplementary OR \"data availability\")) AND (survival curve OR Kaplan-Meier)","total_count":0,"outcome":"ZERO, translation looks correct. Genuine absence AT ABSTRACT LEVEL only: data-availability statements are not indexed in PubMed abstracts."},
+  {"n":6,"tool":"search_articles","query":"(\"alveolar soft part sarcoma\"[Title] OR \"epithelioid hemangioendothelioma\"[Title] OR \"clear cell sarcoma\"[Title] OR \"desmoplastic small round cell tumor\"[Title]) AND (case series[Title/Abstract]) AND (survival[Title/Abstract])","total_count":18,"outcome":"usable rare-sarcoma case-series pool; all 18 carried to ID conversion"},
+  {"n":7,"tool":"search_articles","query":"rare sarcoma AND (\"clinical course of each patient\" OR \"each patient is shown\" OR \"individual patient\") AND Kaplan-Meier","total_count":737,"outcome":"DISSOLVED. PubMed auto-mapping broke the quoted phrases into generic MeSH terms ('patients'[MeSH]), returning a generic 737-record set with no relation to the question. Not screened. Recorded as a failure mode, not as evidence."},
+  {"n":8,"tool":"convert_article_ids","query":"23 EMC PMIDs -> PMCID","total_count":23,"outcome":"6 of 23 have a PMCID"},
+  {"n":9,"tool":"convert_article_ids","query":"18 rare-sarcoma PMIDs -> PMCID","total_count":18,"outcome":"11 of 18 have a PMCID"},
+  {"n":10,"tool":"get_article_metadata","query":"9 EMC PMIDs","outcome":"titles/abstracts screened"},
+  {"n":11,"tool":"get_article_metadata","query":"4 rare-sarcoma PMIDs","outcome":"titles/abstracts screened"},
+  {"n":12,"tool":"get_full_text_article","query":"PMC4946242 (Morioka)","outcome":"RETRIEVED narrative; tables and figures STRIPPED"},
+  {"n":13,"tool":"get_full_text_article","query":"PMC8891938 (Fice EMC n=15)","outcome":"RETRIEVED narrative; tables and figures STRIPPED"},
+  {"n":14,"tool":"get_full_text_article","query":"PMC6194639 (Shiba EHE n=42)","outcome":"RETRIEVED narrative; tables aggregate -> NOT A PAIR"}
+ ],
+ "not_run":[
+  "Full-text screening of PMC10225189 (Giani DSRCT), PMC7237692 (apatinib chondrosarcoma n=33), PMC5574947, PMC9780071, PMC13222052, PMC13117838, PMC10956676, PMC10778149, PMC10660714, PMC8572744, PMC8939842, PMC6499141, PMC3362210, PMC5105269, PMC4713678 - NOT RUN (tool/time budget).",
+  "Any search of a non-PubMed index (PMC full-text search, Europe PMC, Google Scholar, journal sites) - NOT RUN, not an admitted route for this worker.",
+  "Any inspection of a table or figure image in any candidate - NOT RUN and NOT AVAILABLE through the admitted route."
+ ]
+}

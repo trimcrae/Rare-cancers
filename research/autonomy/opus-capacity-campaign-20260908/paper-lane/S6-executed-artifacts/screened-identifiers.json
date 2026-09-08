@@ -1,0 +1,64 @@
+{
+ "_worker":"S6","_meaning":"every identifier S6 examined at any depth, including rejects and the ones only seen in a result list",
+ "_depth_key":{"L0":"appeared in a search result list only","L1":"ID conversion / PMCID checked","L2":"title+abstract metadata read","L3":"narrative full text retrieved"},
+ "emc_pool_query1":[
+  {"pmid":"40828003","pmcid":null,"depth":"L2","disposition":"REJECT - molecular/NGS study (secondary genetic alterations); survival analysis reported but no per-patient time/event data indicated; not in PMC"},
+  {"pmid":"36948401","pmcid":null,"depth":"L2","disposition":"REJECT - clinicopathologic/fusion series (n=58); not in PMC; access UNKNOWN"},
+  {"pmid":"36825763","pmcid":null,"depth":"L2","disposition":"REJECT AT $0 - EMC retrospective case series n=44 with 5-year OS/DFS/MFS; would be a plausible candidate but has NO PMCID; access UNKNOWN, not absent"},
+  {"pmid":"36568164","pmcid":"PMC9780071","depth":"L1","disposition":"NOT RUN - trabectedin ultra-rare sarcoma sub-analysis n=36; PMC available; not screened"},
+  {"pmid":"35962783","pmcid":null,"depth":"L2","disposition":"REJECT AT $0 - US Sarcoma Collaborative EMC n=60, OS/RFS; no PMCID; access UNKNOWN"},
+  {"pmid":"35251555","pmcid":"PMC8891938","depth":"L3","disposition":"CANDIDATE - graded UNKNOWN in candidates.json"},
+  {"pmid":"32547189","pmcid":"PMC7237692","depth":"L2","disposition":"NOT RUN - apatinib chondrosarcoma n=33 (3 EMC); PMC available; not screened"},
+  {"pmid":"32014950","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"30994538","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"28852958","pmcid":"PMC5574947","depth":"L2","disposition":"NOT RUN as a pair candidate - antiangiogenic chondrosarcoma n=10, typed as Case Reports; small enough that per-patient data is plausible; NOT screened"},
+  {"pmid":"27832806","pmcid":"PMC5105269","depth":"L1","disposition":"REJECT - single case report (J Med Case Rep); one patient cannot carry a curve"},
+  {"pmid":"27402218","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"26823892","pmcid":"PMC4713678","depth":"L2","disposition":"REJECT - urothelial carcinoma case report, EMC only as a histologic mimic; off-topic"},
+  {"pmid":"22743288","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"21997693","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"19542871","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"12940774","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"12909830","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"12599237","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"10955458","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"10469211","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"9781944","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"9158707","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"}
+ ],
+ "rare_sarcoma_pool_query6":[
+  {"pmid":"42667669","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"42221353","pmcid":"PMC13222052","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"42051923","pmcid":"PMC13117838","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"38408140","pmcid":"PMC10956676","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"38204972","pmcid":"PMC10778149","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"37987424","pmcid":"PMC10660714","depth":"L2","disposition":"REJECT - ASPS imaging-features study n=12; outcome data collected but the paper's subject is imaging; no survival figure indicated"},
+  {"pmid":"36951537","pmcid":"PMC10225189","depth":"L2","disposition":"CANDIDATE - graded ADJACENT in candidates.json; full text NOT RUN"},
+  {"pmid":"34764690","pmcid":"PMC8572744","depth":"L2","disposition":"NOT RUN - hepatic EHE interferon case series n=42 with PFS/OS rates; PMC available; not screened"},
+  {"pmid":"35321405","pmcid":"PMC8939842","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"33107985","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"32535084","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"31118781","pmcid":"PMC6499141","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"30340559","pmcid":"PMC6194639","depth":"L3","disposition":"REJECT - NOT A PAIR (aggregate tables only)"},
+  {"pmid":"30318310","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"27334221","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"22666000","pmcid":"PMC3362210","depth":"L1","disposition":"NOT SCREENED"},
+  {"pmid":"22150806","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"},
+  {"pmid":"16131883","pmcid":null,"depth":"L0","disposition":"NOT SCREENED"}
+ ],
+ "held_from_repository_records":[
+  {"id":"morioka2016trabectedin","pmid":"27418251","pmcid":"PMC4946242","depth":"L3","disposition":"CANDIDATE - graded ADJACENT"},
+  {"id":"martinbroto2020immunosarc1","pmcid":"PMC7674086","depth":"repository record only","disposition":"NOT A PAIR - no KM curve exists"}
+ ],
+ "excluded_on_sight":[
+  {"pmid":"32856598","reason":"Wagner - CLOSED-WORK.md denied list. Appeared in a search result list; NOT retrieved, NOT screened, no substitute route sought."}
+ ],
+ "screening_totals":{
+  "identifiers_seen":43,
+  "distinct_pmids_in_result_lists":41,
+  "metadata_read_L2":13,
+  "full_text_retrieved_L3":3,
+  "pmc_available_but_not_screened":13,
+  "no_pmcid_access_UNKNOWN":19
+ }
+}
