@@ -588,46 +588,6 @@ def check_subsets(reg, repo=REPO):
 
 
 # ---------------------------------------------------------------------------
-# A superseded VALUE is asserted only where its NUMBER BEGINS.
-#
-# ★ MEASURED 2026-09-08. `check_superseded` matched each entry's pattern with a plain
-# unanchored `re.search`, so a digit-initial pattern could match part-way through a longer
-# number or dotted identifier and be reported as a stated measurement. The real case:
-# `card_ratio_4090_over_3090_2_10`'s alternative `2\.102` matched inside the identifier
-# `10.1016/j.jbc.2022.102434` (…202`2.102`434) and the linter reported the paper as stating
-# the retired 2.10x card ratio. It states no such thing — the digits are three characters
-# into `2022.102434` and mean nothing on their own.
-#
-# This is the failure class this registry already names in
-# `fusion_partner_dod_fisher_p`'s `_context_note`: "A loose `10\.3` matched inside a DOI on
-# the reference line and produced a false positive on first run — and a guard that cries wolf
-# is a guard someone switches off." That note fixed ONE pattern by hand; this fixes the
-# recognition rule for every pattern, in the direction pinned_figures' _README already
-# states ("a bare number is not a pattern").
-#
-# ⚠ IT IS A LEFT-EDGE RULE ONLY, DELIBERATELY. Requiring a non-digit on the RIGHT as well
-# would break the registry's own truncating idiom — `ladder_basis_0_004359`'s `0\.00435\d`
-# is written to match the leading digits of a longer figure — so a match that is a PREFIX of
-# a longer number is still reported. What is suppressed is a match that is a SUFFIX or an
-# INTERIOR of one, which is the shape every identifier collision has.
-def _begins_mid_number(line, start, matched):
-    """True if a digit-initial match begins part-way through a longer number/dotted identifier.
-
-    `2.102` in `2022.102434` begins after `202`, so it asserts nothing about the value 2.102.
-    `2.102` in `the ratio was 2.102 on the old estimator` begins its own number and does.
-    Non-digit-initial matches (`$128`, `4080 is within 7 %`) are untouched.
-    """
-    if not matched[:1].isdigit() or start == 0:
-        return False
-    prev = line[start - 1]
-    if prev.isdigit():
-        return True
-    # a dot that itself follows a digit continues a number or a dotted identifier
-    # (`10.1016/j.jbc.2022.102434`, `v2.10.2`), so what follows it is not a fresh value
-    return prev == "." and start >= 2 and line[start - 2].isdigit()
-
-
-# ---------------------------------------------------------------------------
 # S: superseded values must carry a supersession marker
 # ---------------------------------------------------------------------------
 def check_superseded(reg, repo=REPO, targets=None):
@@ -641,12 +601,8 @@ def check_superseded(reg, repo=REPO, targets=None):
         for entry in reg["superseded"]:
             rx = re.compile(entry["pattern"])
             for i, ln in enumerate(lines):
-                # first match on the line that actually BEGINS a number -- scanning past a
-                # fragment rather than stopping at it, so a genuine restatement later on the
-                # same line as an identifier is still caught.
-                m = next((mm for mm in rx.finditer(ln)
-                          if not _begins_mid_number(ln, mm.start(), mm.group(0))), None)
-                if m is None:
+                m = rx.search(ln)
+                if not m:
                     continue
                 if is_cleared(lines, i, markers, line=ln, start=m.start()):
                     continue

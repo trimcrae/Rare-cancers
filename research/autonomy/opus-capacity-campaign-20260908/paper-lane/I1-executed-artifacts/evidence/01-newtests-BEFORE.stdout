@@ -1,0 +1,148 @@
+### CMD: PYTHONPATH=shim LINT_CONSISTENCY_DIR=orig python3 shim/run_tests.py work/test_lint_consistency_identifier_boundary.py
+FAIL test_a_bare_identifier_alone_does_not_fire
+PASS test_a_genuine_value_later_on_the_same_line_as_an_identifier_still_fires
+FAIL test_a_longer_number_ending_in_the_pattern_is_not_that_number
+PASS test_a_marked_retraction_of_the_ratio_still_clears
+FAIL test_a_version_string_is_not_a_measurement
+FAIL test_begins_mid_number_predicate[0]
+FAIL test_begins_mid_number_predicate[1]
+FAIL test_begins_mid_number_predicate[2]
+FAIL test_begins_mid_number_predicate[3]
+FAIL test_begins_mid_number_predicate[4]
+FAIL test_begins_mid_number_predicate[5]
+FAIL test_begins_mid_number_predicate[6]
+FAIL test_begins_mid_number_predicate[7]
+PASS test_non_digit_initial_patterns_are_untouched
+PASS test_real_statements_of_the_retired_ratio_all_fire[0]
+PASS test_real_statements_of_the_retired_ratio_all_fire[1]
+PASS test_real_statements_of_the_retired_ratio_all_fire[2]
+PASS test_real_statements_of_the_retired_ratio_all_fire[3]
+PASS test_real_statements_of_the_retired_ratio_all_fire[4]
+PASS test_real_statements_of_the_retired_ratio_all_fire[5]
+PASS test_real_statements_of_the_retired_ratio_all_fire[6]
+PASS test_the_card_ratio_this_rule_exists_to_catch_still_fires
+FAIL test_the_measured_case_a_doi_does_not_state_the_card_ratio
+PASS test_the_registrys_truncating_digit_idiom_is_preserved
+
+======================================================================
+FAILED test_a_bare_identifier_alone_does_not_fire
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 93, in test_a_bare_identifier_alone_does_not_fire
+    assert _run(tmp_path, f"doi {DOI_FIXTURE}\n", [_card_ratio_entry()]) == []
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+======================================================================
+FAILED test_a_longer_number_ending_in_the_pattern_is_not_that_number
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 105, in test_a_longer_number_ending_in_the_pattern_is_not_that_number
+    assert _run(tmp_path, "the checkpoint index reached 1442.102 steps\n",
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+======================================================================
+FAILED test_a_version_string_is_not_a_measurement
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 99, in test_a_version_string_is_not_a_measurement
+    assert _run(tmp_path, "pinned at openmm v1.2.102 in the rbfe env\n",
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+======================================================================
+FAILED test_begins_mid_number_predicate[0]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 186, in test_begins_mid_number_predicate
+    assert line[start:start + len(matched)] == matched, "fixture offset is wrong"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: fixture offset is wrong
+
+======================================================================
+FAILED test_begins_mid_number_predicate[1]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[2]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[3]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[4]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[5]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[6]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_begins_mid_number_predicate[7]
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 187, in test_begins_mid_number_predicate
+    assert lc._begins_mid_number(line, start, matched) is expected
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'lint_consistency' has no attribute '_begins_mid_number'
+
+======================================================================
+FAILED test_the_measured_case_a_doi_does_not_state_the_card_ratio
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency_identifier_boundary.py", line 89, in test_the_measured_case_a_doi_does_not_state_the_card_ratio
+    assert _run(tmp_path, text, [entry]) == []
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+summary: 12 passed, 12 failed, 0 skipped
+exit=1

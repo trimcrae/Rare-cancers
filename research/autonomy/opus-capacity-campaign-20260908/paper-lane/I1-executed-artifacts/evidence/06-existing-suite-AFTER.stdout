@@ -1,0 +1,172 @@
+### CMD: PYTHONPATH=shim:work python3 shim/run_tests.py work/test_lint_consistency.py   (EXISTING suite against the PATCHED implementation)
+PASS test_a_marker_about_a_different_subject_does_not_clear_a_figure
+PASS test_a_marker_far_away_on_the_SAME_physical_line_does_not_clear
+PASS test_a_marker_in_the_figures_own_heading_line_still_clears
+PASS test_a_marker_three_lines_away_does_not_clear
+PASS test_a_marker_word_in_a_nearby_heading_does_not_clear_by_proximity
+PASS test_a_nearby_marker_on_a_long_line_still_clears
+PASS test_bare_superseded_value_is_an_error
+PASS test_catches_it_even_inside_a_table_row
+PASS test_derivation_catches_a_high_band_that_does_not_sum
+PASS test_derivation_catches_a_tool_whose_own_total_drifts_from_its_rows
+PASS test_derivation_passes_when_the_total_sums
+PASS test_derivation_requires_every_declared_doc_to_state_the_same_total
+PASS test_enclosing_heading_clears_a_whole_retraction_section
+PASS test_local_negation_clears_a_contrast
+PASS test_marker_on_a_wrapped_previous_line_clears
+PASS test_marker_on_the_same_line_clears
+PASS test_missing_row_is_not_cleared_by_prose_that_mentions_the_stage
+PASS test_negation_lookback_is_bounded
+PASS test_no_marker_clears_a_reprice_style_assertion
+PASS test_registry_patterns_are_not_bare_numbers
+PASS test_rows_must_sum_to_the_printed_total
+PASS test_subset_catches_a_spine_that_contradicts_the_ladder
+PASS test_subset_fails_loudly_if_a_pattern_matches_nothing
+PASS test_subset_passes_when_the_summary_agrees
+PASS test_table_completeness_catches_a_missing_row
+PASS test_table_completeness_passes_when_every_row_is_present
+FAIL test_the_real_repo_is_consistent
+
+======================================================================
+FAILED test_the_real_repo_is_consistent
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 31, in <module>
+    fn(**kw)
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency.py", line 333, in test_the_real_repo_is_consistent
+    assert not errors, "cross-document inconsistency:\n" + "\n".join(
+           ^^^^^^^^^^
+AssertionError: cross-document inconsistency:
+  research/modalities/vast-ladder-repricing.json:0 [D-tool-json-missing] the cost model's output JSON is missing, so no total can be derived
+  research/modalities/realised-spend.json:0 [A-artifact-missing] realised_spend_ledgered: the artifact this figure is derived from is missing
+  research/modalities/realised-spend.json:0 [A-artifact-missing] realised_spend_attested_unledgered: the artifact this figure is derived from is missing
+  research/modalities/realised-spend.json:0 [A-artifact-missing] realised_spend_best_estimate: the artifact this figure is derived from is missing
+  research/modalities/step1-fanout-map.json:0 [A-artifact-missing] step1_fanout_edges_complete: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e2_stable_fraction_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e3_mean_contacts_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e4_mean_of_min_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_census_admitted_legs: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e2_stable_fraction_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e3_mean_contacts_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e4_mean_of_min_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e2_stable_fraction_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e3_mean_contacts_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_e4_mean_of_min_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e2_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e2_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e2_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e4_mean_of_median_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e4_mean_of_median_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-secondaries.json:0 [A-artifact-missing] nrv04_retro_si_e4_mean_of_median_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-verdict.json:0 [A-artifact-missing] nrv04_retro_arm_mean_E1_nr4a1: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-verdict.json:0 [A-artifact-missing] nrv04_retro_arm_mean_E1_nr4a2: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-verdict.json:0 [A-artifact-missing] nrv04_retro_arm_mean_E1_nr4a3: the artifact this figure is derived from is missing
+  research/modalities/nrv04-retro-verdict.json:0 [A-artifact-missing] nrv04_retro_primary_p: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] emc_prmt5_mat2a_pct_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] emc_prmt5_mat2a_pct_gpl3290: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] emc_prmt5_pct_gpl6244: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/orr-dcr-reread.json:0 [A-artifact-missing] endpoint_arms_re_read: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/orr-dcr-reread.json:0 [A-artifact-missing] endpoint_median_gap_pp: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/orr-dcr-reread.json:0 [A-artifact-missing] endpoint_studies_screened: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/orr-dcr-reread.json:0 [A-artifact-missing] endpoint_share_not_re_readable: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/endpoint-regime-map.json:0 [A-artifact-missing] endpoint_conditions_placed: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/endpoint-corpus.json:0 [A-artifact-missing] endpoint_bor_family_share_not_re_readable: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/endpoint-corpus.json:0 [A-artifact-missing] endpoint_distinct_trials_screened: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/endpoint-regime-map.json:0 [A-artifact-missing] endpoint_accrual_bound_low: the artifact this figure is derived from is missing
+  research/manuscripts/endpoint/endpoint-regime-map.json:0 [A-artifact-missing] endpoint_accrual_bound_high: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_screen4: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_panel_sentence: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_limitations: the artifact this figure is derived from is missing
+  research/modalities/nr4a3-fusion-junction-atlas.json:0 [A-artifact-missing] aso_panel_junctions_in_frame: the artifact this figure is derived from is missing
+  research/modalities/nr4a3-fusion-junction-atlas.json:0 [A-artifact-missing] aso_panel_junctions_in_frame_panel_sentence: the artifact this figure is derived from is missing
+  research/modalities/nr4a3-fusion-junction-atlas.json:0 [A-artifact-missing] aso_panel_junctions_in_frame_grading: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_designs_screen4: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_designs_limitations: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_against_wildtype_nr4a3_screen4: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_against_wildtype_nr4a3_limitations: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_observed_rate: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_observed_rate_against_the_arms: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_observed_rate_at_the_loose_cut: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_scrambled_mononucleotide: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_scrambled_dinucleotide: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_random_uniform: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_random_composition_matched: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_wings_scrambled_gap_held: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_gap_scrambled_wings_held: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_random_parent_chimera: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_donor_terminus_chimera: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_exon_terminus_chimera: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_exon_terminus_chimera_limitations: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_exon_terminus_chimera_novel_acceptor: the artifact this figure is derived from is missing
+  research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json:0 [A-artifact-missing] aso_reagent_coverage_percent: the artifact this figure is derived from is missing
+  research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json:0 [A-artifact-missing] aso_reagent_coverage_percent_si_basis: the artifact this figure is derived from is missing
+  research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json:0 [A-artifact-missing] aso_reagent_coverage_percent_si_ladder: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_journal_abstract: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_journal_selection: the artifact this figure is derived from is missing
+  research/modalities/nr4a3-fusion-junction-atlas.json:0 [A-artifact-missing] aso_panel_junctions_in_frame_journal_abstract: the artifact this figure is derived from is missing
+  research/modalities/nr4a3-fusion-junction-atlas.json:0 [A-artifact-missing] aso_panel_junctions_in_frame_journal_selection: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_designs_journal_abstract: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_designs_journal_selection: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_against_wildtype_nr4a3_journal_abstract: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_against_wildtype_nr4a3_journal_selection: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_observed_rate_journal: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_exon_terminus_chimera_journal: the artifact this figure is derived from is missing
+  research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json:0 [A-artifact-missing] aso_reagent_coverage_percent_journal: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_scrambled_dinucleotide_journal: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_scrambled_dinucleotide_nr4a3_journal: the artifact this figure is derived from is missing
+  research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json:0 [A-artifact-missing] aso_reagent_coverage_with_third_design_journal: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_designs_cover_letter: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_panel_designs_total_cover_letter: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-gap-pairing.json:0 [A-artifact-missing] aso_liable_against_wildtype_nr4a3_cover_letter: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_exon_terminus_chimera_cover_letter: the artifact this figure is derived from is missing
+  research/modalities/aso-parent-null.json:0 [A-artifact-missing] aso_parent_null_observed_rate_cover_letter: the artifact this figure is derived from is missing
+  research/modalities/aso-offtarget-duplex-energy.json:0 [A-artifact-missing] aso_energy_designs_with_a_fully_paired_offtarget: the artifact this figure is derived from is missing
+  research/modalities/aso-offtarget-duplex-energy.json:0 [A-artifact-missing] aso_energy_designs_within_2_kcal: the artifact this figure is derived from is missing
+  research/modalities/aso-offtarget-duplex-energy.json:0 [A-artifact-missing] aso_energy_closest_ddg_ewsr1_reagent: the artifact this figure is derived from is missing
+  research/modalities/aso-offtarget-duplex-energy.json:0 [A-artifact-missing] aso_energy_closest_ddg_taf15_reagent: the artifact this figure is derived from is missing
+  research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json:0 [A-artifact-missing] fusion_partner_dod_fisher_p: the artifact this figure is derived from is missing
+  research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json:0 [A-artifact-missing] fusion_partner_dod_taf15_percent: the artifact this figure is derived from is missing
+  research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json:0 [A-artifact-missing] fusion_partner_dod_comparator_percent: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_ass1_percentile_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_noxa_delta_gpl3290: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_p53_output_t_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_p53_output_t_gpl3290: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_prc2_core_t_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_prc2_core_t_gpl3290: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_guardians_t_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_guardians_t_gpl3290: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_alt_ej_t_gpl6244: the artifact this figure is derived from is missing
+  research/modalities/census-route-expression-grading.json:0 [A-artifact-missing] biomarker_alt_ej_t_gpl3290: the artifact this figure is derived from is missing
+  research/compute/bid-strategy.md:0 [T-file-missing] declared target file not found
+  systems/views/plan.md:0 [X-file-missing] declared target file not found
+  .claude/skills/ci-escape-hatches/SKILL.md:0 [S-target-missing] declared target file not found
+  .claude/skills/gpu-compute/SKILL.md:0 [S-target-missing] declared target file not found
+  .claude/skills/inflight-reporting/SKILL.md:0 [S-target-missing] declared target file not found
+  .claude/skills/repo-gates/SKILL.md:0 [S-target-missing] declared target file not found
+  CLAUDE-history.md:0 [S-target-missing] declared target file not found
+  CLAUDE.md:0 [S-target-missing] declared target file not found
+  STRATEGY.md:0 [S-target-missing] declared target file not found
+  research/compute/bid-strategy.md:0 [S-target-missing] declared target file not found
+  research/compute/gcp-gpu-facts.md:0 [S-target-missing] declared target file not found
+  research/compute/pricing.md:0 [S-target-missing] declared target file not found
+  research/compute/vast-placement-facts.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/aso/fusion-junction-aso-journal-article.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/aso/fusion-junction-aso-research-article.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/aso/fusion-junction-aso-supplementary-information.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/care-delivery/emc-trial-reachability.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/degrader/nr4a3-degrader-paper-SI.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/degrader/nr4a3-degrader-paper.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/dependency/emc-atr-vulnerability-assessment.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/dependency/emc-biomarker-selected-classes.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/endpoint/response-endpoint-indolent-tumours.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/neoantigen/emc-vaccine-development-path.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/nr4a3-program-map.md:0 [S-target-missing] declared target file not found
+  research/manuscripts/program/degrader-paper-schedule.json:0 [S-target-missing] declared target file not found
+  research/manuscripts/program/emc-treatment-strategy.md:0 [S-target-missing] declared target file not found
+  research/modalities/nr4a3-degrader-next-steps.md:0 [S-target-missing] declared target file not found
+  research/modalities/nr4a3-nrv04-retrospective-prereg.md:0 [S-target-missing] declared target file not found
+  systems/views/plan.md:0 [S-target-missing] declared target file not found
+
+summary: 26 passed, 1 failed, 0 skipped
+exit=1

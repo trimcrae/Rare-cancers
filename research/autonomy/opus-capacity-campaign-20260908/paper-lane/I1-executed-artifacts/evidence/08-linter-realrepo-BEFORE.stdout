@@ -1,0 +1,15 @@
+### CMD: python3 /tmp/claude-0/i1-lane/orig/lint_consistency.py --repo /home/user/Rare-cancers --json
+{
+  "findings": [
+    {
+      "rule": "S-card_ratio_4090_over_3090_2_10",
+      "severity": "ERROR",
+      "file": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+      "line": 673,
+      "message": "superseded value '2.102' stated without marking it superseded",
+      "detail": "current: RTX 4090 / RTX 3090 = 1.745x on the median-of-N estimator | retired by: the 2026-07-27 re-anchoring (the retired 2.10x itself replaced a withdrawn 2.42x)"
+    }
+  ],
+  "n_error": 1
+}
+exit=1

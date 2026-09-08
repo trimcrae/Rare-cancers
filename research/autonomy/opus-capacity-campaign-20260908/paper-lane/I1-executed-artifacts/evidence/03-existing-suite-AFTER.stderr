@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/claude-0/i1-lane/shim/run_tests.py", line 14, in <module>
+    spec.loader.exec_module(mod)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/tmp/claude-0/i1-lane/work/test_lint_consistency.py", line 28, in <module>
+    import lint_consistency as lc  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'lint_consistency'
