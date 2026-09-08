@@ -131,9 +131,11 @@ both.
 
 The pooled contrast must not be read as a size law, and the same artifact that produces it refutes that
 reading. Across the 8 rungs the single/multi ratio spans **0.858–0.972**, with 95 % intervals
-overlapping at 2 rungs; at the 12-atom gate it is **0.877**. But the **spread within a size class
-exceeds the between-class contrast at 8 of 8 rungs**: two ~90-residue single-domain bodies differ from
-each other by up to **1.421×**, while the classes differ by at most **1.165×**. `birc2` outperforms
+overlapping at 2 rungs; at the 12-atom linker gate it is **0.877** in this 300 000-sample-per-cell
+paired run, against **0.896** for the same contrast in the 30 000-sample ablation above. But the
+**spread within a size class exceeds the between-class contrast at 8 of 8 rungs**: two ~90-residue
+single-domain bodies differ from each other by up to **1.421×**, while the classes differ by at most
+**1.165×**. `birc2` outperforms
 `crbn` at every rung despite being 13× smaller.
 
 ⇒ **Body size is not the controlling variable; the individual body's shape and exit-vector geometry
@@ -252,6 +254,10 @@ a mismatched title rather than as a number attributed to the wrong complex. Both
 deterministic and offline. Full methods, tables and controls: [SI](./tcip-induced-interface-preprint-si.md).
 
 ## 8 · Figures
+
+⚠ **No figure in this table has been rendered.** Each row is a specification: the display item this
+paper would carry, and the committed artifact every value in it must be read from. The underlying
+numbers are in §2, §3 and the SI tables; nothing below has been drawn.
 
 | # | figure | source artifact |
 |---|---|---|

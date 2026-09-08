@@ -291,6 +291,30 @@ a question about a window rather than a presence, and the window reads the wrong
 ([`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) →
 `routes.RT-MATRIX-SYNTHESIS`).
 
+⛔ **The fourth option — use the matrix as the address rather than the target — has now been graded on
+the same pass, and the capacity proxy does not support it: "NOT SUPPORTED ON CAPACITY — AND THE ROUTE'S
+OWN QUESTION IS STILL UNREADABLE. This grades the proxy the route nominated, not the route's premise."**
+The selecting feature is the placental-type oncofetal chondroitin-sulfate pattern on EMC tissue, and the
+route needed the 4-O-sulfotransferase arm that writes that pattern, and the sulfate-donor module that
+supplies every sulfation, high in EMC. Neither half returned it. The 4-O arm is **discordant** — lower
+in EMC on one platform, higher on the other, and significant on neither — and all four of its genes are
+readable on both platforms, so this is a taken reading and not a missing one. The sulfate-donor (PAPS)
+module is **lower in EMC on both** platforms, the only concordant signal in the panel and the same
+observation that graded matrix biosynthesis against its premise above. The core proteins that would
+carry the chains are mildly higher on both and significant on neither.
+
+⛔ **A sulfation pattern has no gene.** That is the panel's own standing caveat and it is what makes
+this route's evidence asymmetric: sulfotransferase transcript is a proxy for the CAPACITY to write a
+pattern and can never be a measurement of the pattern, and an epitope written by a low-abundance enzyme
+on a long-lived glycan is entirely compatible with this reading. **So an unfavourable capacity read
+weakens the route and cannot close it** — exactly the shape of the matrix-targeted immunocytokine row
+in §3.8, where the address is a splice variant a gene-level probe cannot see. ⚠ It also says nothing
+about whether any glycan-directed agent binds, works or is safe in this disease. The route is therefore
+**kept, demoted**: the $0 observation it named has now been taken and returns no support, so a stain is
+the only remaining instrument, and the route's readiness must stop claiming an unrun lookup
+([`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) →
+`routes.RT-MATRIX-ADDRESS`).
+
 ### 3.5 · Locoregional and radiation
 
 The portfolio contains no physical intervention of any kind. That is the cleanest instance of the
