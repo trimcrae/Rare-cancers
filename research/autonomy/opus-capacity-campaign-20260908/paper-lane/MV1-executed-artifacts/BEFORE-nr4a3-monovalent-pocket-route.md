@@ -80,14 +80,7 @@ pocket modulation" reads as one idea; it is two ideas that fail on *opposite* bl
 
 **Ligandability and functional actionability are different questions, and the program has only settled the
 first.** The cryptic-pocket work supports the existence of an openable site, at the ceiling
-[roadmap `R1`](../nr4a3-program-map.md#21--the-register) sets on it and no higher — and that ceiling is low
-enough to state here rather than only to link. `R1` is "ran, mixed; one gate failed as registered", with no
-instrument validated on this system. `V13`'s Gate 1 failed as registered, F(Rg) being monotonic with a single
-resolved minimum and a rising wall and no separate opened minimum; Gate 3B is unresolved, three seeds not
-reconstructing a common F(Rg), so a single profile is dead. One of `V15`'s five permutation nulls does not
-support the site, and `V14`'s orthogonal figure comes from an instrument with no known-answer test on this
-system. What survives is basin-internal breathing, not a demonstrated two-state opening, and nothing in this
-memo rests on more than that. *Does occupying it change
+[roadmap `R1`](../nr4a3-program-map.md#21--the-register) sets on it and no higher. *Does occupying it change
 what the protein does* is a separate question, it is this route's make-or-break, and no other LBD-directed
 route needs it —
 a degrader, a TCIP and a covalent probe each need only a **binder**.
@@ -151,14 +144,8 @@ as a resolution item rather than edited across four files in a route memo, and *
 to** NR4A3's own **AF-1**, which it RETAINS ⚠ *(superseded, retained: "It replaces NR4A3's own AF-1 with
 EWSR1's low-complexity region" — measured false 2026-08-06: NR4A3 exons 1–2 are non-coding, so the fusion
 retains AF-1, DBD, hinge and LBD, and the two lengths below are a real measurement of two stretches that are
-NOT swapped)* — the retention correction is owned by
-[`target-route-options.md` exon audit](../program/target-route-options.md) →
-[`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json), which re-derived the exon-to-residue map and
-gives the corrected junction as EWSR1(1-264) :: NR4A3(1-626), with AF-1, DBD, hinge and LBD all retained. The
-separate residue-composition measurement in
-[`target-route-census.json`](../../modalities/target-route-census.json) `af1_to_lc_swap` is a count of two
-stretches and is **not** the retention finding; its own `_question` is still phrased on the superseded
-"replaces" premise
+NOT swapped)* — the measurement is owned by
+[`target-route-options.md` check B](../program/target-route-options.md) → `target-route-census.json` `af1_to_lc_swap`
 — and the AF-1 is where NOR-1's only *approved-drug* pharmacology acts. The options memo's Tier 4 closes
 6-mercaptopurine for exactly that reason, on a verbatim primary source
 ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/),
@@ -214,9 +201,7 @@ second terminus to solvent — an E3 ligand for the degrader, an effector recrui
 memos record the same intuition in the same words (*"a strictly smaller search problem"*) and neither had
 run it. It is free CPU. So it was built:
 [`nr4a3_monovalent_reach.py`](../../modalities/nr4a3_monovalent_reach.py) →
-[`nr4a3-monovalent-reach.json`](../../modalities/nr4a3-monovalent-reach.json) (+ `.md`), 31 unit tests
-([`test_nr4a3_monovalent_reach.py`](../../modalities/tests/test_nr4a3_monovalent_reach.py), counted at
-2026-09-08; the module docstring pins six rule families, not a count).
+[`nr4a3-monovalent-reach.json`](../../modalities/nr4a3-monovalent-reach.json) (+ `.md`), 18 unit tests.
 
 **Design, and why it is paired.** Both configurations are computed **in one pass, from identical frames,
 identical anchors and identical candidate branch-point sets**, differing only in the rule that turns a
@@ -350,10 +335,7 @@ no home: a correction it forces on this memo, and a consequence for C397 that it
 out primarily *because the pocket is cryptic*, arguing that a purchased LBD might not present the site so
 a negative would be unreadable. **That reasoning is refuted by the owning memo's §1.1 on this repo's own
 evidence:** the site is present in an experimental, ligand-free, solution-state ensemble of the isolated
-LBD, so a purchased construct would on best evidence present it at some minority population — at the owning
-memo's own weight and no higher. 8XTT's conformers are the lowest-energy models of a calculation, not
-population-weighted, so the supported wording is "present as a minority sub-state of unknown weight", not
-"available"; that memo's §1.1 refutes one specific defeater rather than claiming the pocket is available. *(Superseded,
+LBD, so a purchased construct would on best evidence present it at some minority population. *(Superseded,
 retained: "the cryptic pocket is the reason worth recording", and the framing that the defeater is
 population of the site.)* The operative grounds are the owning memo's, and the strongest of them is a
 category error rather than a budget one — `R4` asks for a screen **against a site**, and no purchasable
@@ -364,11 +346,7 @@ REPORT ON C397 AT ALL, AND IT MISSES BY ONE RESIDUE.** The one off-the-shelf rec
 identifies spans **UniProt 398–626** (that span is the owning memo's fact and is not re-derived here). This
 programme's three paralogue-unique LBD cysteines are **C397, C420 and C559**
 ([`nr4a3-covalent-handle-ensemble.json`](../../modalities/nr4a3-covalent-handle-ensemble.json) owns the set).
-So the catalogue construct retains C420 and C559, the two branch 1b graded down, and only one of them is
-actually closed: the roadmap's `R8` row records C420 refuted everywhere (0 of 60 placement-by-pendant cells,
-both conventions) but C559 surviving at exactly one cell (`vhl|M3@term_a_exemplar | dab_branch`, 2 of 19
-conformers) under through-space, the committed `refuted_unique_cysteines` label being "stronger than its own
-data" — and **excludes C397, the
+So the catalogue construct retains C420 and C559 — the two that branch 1b closed — and **excludes C397, the
 one that survived every test, by a single residue.**
 
 - ⛔ **An intact-mass covalent-probe experiment on that protein would be blind to the programme's headline

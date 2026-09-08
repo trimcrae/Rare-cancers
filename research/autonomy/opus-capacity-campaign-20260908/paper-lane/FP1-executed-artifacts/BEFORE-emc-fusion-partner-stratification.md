@@ -309,8 +309,8 @@ analyses are reported. **Worst case, the world's entire TAF15 antiangiogenic exp
 | TKI objective response | pazopanib phase 2, NCT02066285, 22 evaluable | **yes** | explicit integers; larger of the two |
 | TKI objective response | sunitinib named-use series, n = 10 | **no** | `population-overlap` — cannot be shown distinct from the trial |
 | TKI objective response | sunitinib two-case index report (PMID 23058004) | **no** | `population-overlap` — contained in the n = 10 series; both patients EWSR1::NR4A3 |
-| outcome by partner | Agaram 2014 (MSKCC), 23 EWSR1- or TAF15-assigned of 24 partner-assigned | **yes** | explicit integer event counts by partner; the one TCF12 case is not carried as an outcome arm |
-| outcome by partner | Huang 2023 (Taiwan), 50 EWSR1- or TAF15-assigned with follow-up, of 53 followed and 58 in the series | **yes** | Table 1 event counts, read from the published PDF 2026-08-08; the other three followed cases (2 TCF12, 1 partner unidentified) are not carried as outcome arms; distinct continent, institutions and authors from Agaram |
+| outcome by partner | Agaram 2014 (MSKCC), 23 partner-assigned with follow-up | **yes** | explicit integer event counts by partner |
+| outcome by partner | Huang 2023 (Taiwan), 50 partner-assigned with follow-up of 58 | **yes** | Table 1 event counts, read from the published PDF 2026-08-08; distinct continent, institutions and authors from Agaram |
 | outcome by partner | Paioli 2021 (Italian Sarcoma Group), n = 67 | **no** | `counts-not-reported` — p-values only. Its abstract's aggregate 35/67 relapse split **is** retrievable and still unusable: it is partner-blind, and splitting it across the 50/10 partner ratio would be a back-derived count, which §2.1(2) forbids |
 | partner prevalence | Agaram 2014 (24 assigned) · Huang 2023 (57) · Lenz 2023 (11) · Paioli 2021 (62) | **yes** | four geographically distinct series, no shared authors between them |
 | partner prevalence | Llombart-Bosch 2022 congress abstract (n = 31) | **no** | `abstract-only` — reports no third partner class, so its 5-case residue is uninterpretable |
@@ -323,13 +323,9 @@ analyses are reported. **Worst case, the world's entire TAF15 antiangiogenic exp
 ### 3.3 · Outcome by partner — a magnitude, and the defeater it arrives with
 
 **Two** cohorts publish EMC outcome event counts by *NR4A3* partner. Agaram 2014 (MSKCC, 26 consecutive cases,
-24 partner-assigned, 23 of them EWSR1 or TAF15) was the only one until 2026-08-08, when Huang 2023's Table 1 was read from
-the published PDF and added 50 EWSR1- or TAF15-assigned patients with follow-up from 15 Taiwanese institutions
-(§8). **The outcome denominator is narrower than the prevalence denominator of §3.5 and the two must not be
-read as the same population.** §3.5 pools every case with a named partner; the outcome pool carries only the
-two arms being contrasted, so Agaram's single TCF12 case and Huang's two TCF12 cases and one unidentified
-partner are in neither numerator nor denominator here. Pooled outcome n = 73 is therefore 23 + 50, not
-24 + 57. The two share no authors, no institutions and no continent, so §2.3 permits the pool.
+23 partner-assigned with follow-up) was the only one until 2026-08-08, when Huang 2023's Table 1 was read from
+the published PDF and added 50 partner-assigned patients with follow-up from 15 Taiwanese institutions
+(§8). The two share no authors, no institutions and no continent, so §2.3 permits the pool.
 
 | endpoint | TAF15::NR4A3 | EWSR1::NR4A3 | gap | Fisher (post-hoc) |
 |---|---|---|---|---|
@@ -620,9 +616,8 @@ all.** The outcome figures in §3.3 are during-follow-up proportions pooled over
 differ roughly two-fold in mean follow-up (43.3 vs 21.7 months) and one that publishes no per-arm follow-up,
 so the same check cannot be run on it in either direction. Huang 2023 also reports outcome only for the 53 of
 58 patients with follow-up available, and the five without are in neither numerator nor denominator; of those
-53, the **50** that enter the pooled table are those assigned to the two arms being contrasted — EWSR1::NR4A3
-or TAF15::NR4A3 — the other three being two *TCF12* cases, which are partner-assigned but carried by no arm
-here, and one whose partner was not identified (`cohorts[huang-2023-outcome].counts_read_from`). The figures
+53, the **50** that enter the pooled table are the partner-assigned ones, the other three being two *TCF12*
+cases and one whose partner was not identified (`cohorts[huang-2023-outcome].counts_read_from`). The figures
 are not survival estimates, they are not adjusted, and they are not comparable to the DFS/DMFS figures
 in §3.4, which are a different estimand entirely. The two hazard ratios quoted anywhere in this document
 (HR 30.60 for size, HR 8.14 for metastasis at presentation) are **Huang 2023's own published values, reported

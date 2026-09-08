@@ -22,11 +22,7 @@ _backfilled: true
 > *and* fusion-exclusive — the cleanest selectivity layer available, complementary to (not a replacement
 > for) the repo's NR4A3-LBD degrader, which is NR4A3-selective but **not** fusion-selective.
 
-**Author.** Tristan D. McRae — *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
-
-**Preprint status.** Draft; not peer reviewed, not submitted to a journal, and not read by a sarcoma medical
-oncologist or a tumour immunologist. *Companion to the NR4A3-degrader result paper
+*Draft (2026-06). Authors/affiliations TBD. Companion to the NR4A3-degrader result paper
 ([`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md)) and the EMC-program roadmap
 ([`emc-treatment-roadmap.md`](../program/emc-treatment-roadmap.md)); it carries forward, in standalone form, the
 neoantigen groundwork in [`novel-modalities.md`](../modality-census/novel-modalities.md) §3.3, the parked coverage
@@ -320,13 +316,9 @@ exists in the clinic*: individualised mRNA neoantigen vaccines plus checkpoint b
 resected melanoma, KEYNOTE-942 [Weber et al., *Lancet* 2024]) and autogene cevumeran in pancreatic cancer
 [Rojas et al., *Nature* 2023] are in human trials and have shown activity. A vaccine encoding the patient's
 junction-spanning long peptide(s), paired with the predicted CD4 helper epitopes for durable responses,
-rides this platform with EMC-specific content. **Personalised is necessary, and the platform exists:** §2
-shows there is no off-the-shelf pan-EMC epitope (necessity), and the mRNA and peptide platforms above are
-already running this per-patient workflow in humans in other tumours (feasibility of the format).
-*Superseded, retained: "acceptable … the presenting alleles are among the most common worldwide, so many
-patients carry ≥1" — the recomputed coverage does not support it, and a personalised design is bounded by
-whether the individual patient carries a presenting allele, not by a global mean.* §3 sizes that bound at
-8.5% for the single public junction and 27.4% pooled across strong-binder alleles.
+rides this platform with EMC-specific content. **Personalised is necessary and acceptable:** §2 shows there
+is no off-the-shelf pan-EMC epitope (necessity), while §3 shows the presenting alleles are among the most
+common worldwide, so many patients carry ≥1 (acceptability).
 
 **(b) TCR-T (engineered T cells).** A T-cell receptor isolated against a validated junction epitope, then
 transduced into the patient's T cells, delivers the same fusion-exclusive specificity as a cell therapy
@@ -345,14 +337,10 @@ public, allele-defined target (e.g. e7::e3 on a specific HLA), so its addressabl
 same coverage arithmetic in §3, and a TAF15-fusion or alternate-breakpoint patient would need a different
 reagent.
 
-Across all three, the fusion-exclusivity is the shared rationale: the junction peptide is absent from
-wild-type EWSR1 and wild-type NR4A3, so a response against it does not, at the sequence level, target the
-wild-type receptor a degrader cannot avoid — the failure mode that haunts shared-antigen TCR therapies.
-This is not a safety claim and not a proteome-wide absence claim: the novelty filter behind these
-peptides compares them against the two parent proteins only, never against the human proteome (§1), no
-cross-reactivity screen has been run, and predicted binding is a screen, not presentation and not
-immunogenicity. Off-target and off-tumour risk is therefore untested here and is a wet-lab question
-(§5). The honest counterpart (§6) is that "mostly self-sequence" cuts the other way for immunogenicity.
+Across all three, the fusion-exclusivity is the shared selling point: the target peptide is absent from the
+normal proteome, so on-target/off-tumour toxicity against wild-type NR4A3- or EWSR1-expressing tissue is, in
+principle, not possible — the failure mode that haunts shared-antigen TCR therapies. The honest counterpart
+(§6) is that "mostly self-sequence" cuts the other way for immunogenicity.
 
 ---
 
@@ -399,17 +387,11 @@ construct. This paper stops precisely at that door.
 4. **Personalised logistics.** No off-the-shelf pan-EMC epitope exists (§2), so the product is bespoke per
    patient — a manufacturing and trial-design burden for an ultra-rare cancer, mitigated only by the
    existence of platforms already running this workflow in other tumours (§4).
-5. **Coverage floor and inequity.** Population coverage is partial — 8.5% on the e7::e3 public junction
-   and 27.4% pooling all strong-binder alleles (§3) — and any-strong coverage varies from 1.4%
-   (Melanesia) to 60% (Northern Europe) by UN M49 sub-region; a fixed allele panel tuned on one
-   population under-serves others. *Superseded, retained: "~30% public junction, ~58% all strong alleles,
-   ~16% both-arms floor" and "~36–79% by region" — the retracted allele set's figures (§2, §3).* The
-   class-II and both-arms figures are floors over the tested 23-allele DR/DP/DQ panel recorded in
-   `hla-coverage.json`'s `_class_ii_note` — untested alleles could only raise coverage — and their current
-   values have one home, [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4. The
-   coverage formula assumes cross-locus independence: it ignores linkage disequilibrium, which matters
-   wherever a class-I and a class-II allele travel together on an ancestral haplotype, so the combined
-   CD8∧CD4 figure is an approximation in both directions.
+5. **Coverage floor and inequity.** Population coverage is partial (~30% public junction, ~58% all strong
+   alleles, ~16% both-arms floor) and varies ~36–79% by region; a fixed allele panel tuned on one population
+   under-serves others. The class-II / both-arms figures are floors over a 3-allele DR test panel, and the
+   coverage formula assumes cross-locus independence (it ignores linkage disequilibrium — e.g. the
+   A1-B8-DR3 ancestral haplotype links B\*08:01 and DRB1\*03:01).
 6. **Predictions inherit upstream assumptions.** The epitope set inherits every limitation of the
    breakpoint-neoantigen predictions, and the breakpoint windows scanned (EWSR1 exons ~6–14, NR4A3 exons
    2–4) are literature-bounded; a real patient's junction must be re-derived from their sequenced breakpoint.

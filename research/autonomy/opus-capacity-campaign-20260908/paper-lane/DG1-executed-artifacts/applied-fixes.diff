@@ -1,0 +1,59 @@
+--- research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md	2026-09-08 13:23:57.066893817 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md	2026-09-08 13:23:57.073476199 +0000
+@@ -91,7 +91,11 @@
+ retrospective holdout that returned a non-resolution and is in any case covalency-confounded, and this
+ control — have now been run and none succeeded. ⛔ A null of this kind **does not distinguish an insensitive
+ readout from a genuinely narrow structural signal** and is not reported as though it did. The **causal test of whether any designed
+-element creates discrimination has not been run**, and its reading is pre-registered. This is a
++element creates discrimination has now been run against its pre-registered reading, and returns that reading's
++null**: S = −0.1297 ± 0.3264 kcal/mol (§2.10e), indistinguishable from zero, bounding a marginal wedge
++contribution only below ≈ 0.65 kcal/mol (2σ) and establishing nothing about smaller effects. Because the
++known-answer control above did not pass, this is a null from a method whose ability to resolve the effect it
++looked for is unestablished — weaker than a null, and that is the statement supported. This is a
+ **computation-only** design and feasibility
+ study: **no molecule was synthesized and no wet-lab validation was performed**. Its principal unresolved
+ limitations are the consistency of pocket identification across structural models, the **structural-provenance
+@@ -2702,7 +2706,8 @@
+    structure-only classifier. *(That re-ordering was originally argued against a best-case resolvable ~1.12
+    kcal/mol; **that figure is superseded** — §2.10 carries the measured replacement and the reason the
+    conclusion here is unchanged, which is that the binding limit is accuracy rather than resolution.)* That
+-   search **nominates**; it does not settle the question, and the causal test remains unrun.
++   search **nominates**; it does not settle the question, and the causal test has since been run and returned
++   its pre-registered null (§2.10e, item (d) below).
+    Degradation selectivity therefore rests, on current evidence, on the **binder** margin plus those
+    nominated categorical handles (plus
+    **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
+@@ -2849,8 +2854,10 @@
+ ## 5. Falsification (pre-registered)
+ Every gate has a fixed pass/fail set *before* the production numbers
+ ([`../modalities/nr4a3-druggability-prereg.md`](../../modalities/nr4a3-druggability-prereg.md)). Three
+-gate outcomes deviate from the literal pre-registration and are **disclosed, not silently swapped**, in
+-that file's deviation log. (i) The **Gate 0** metric changed (max → orthosteric/ligand-site, D\*=0.53 — a
++gate outcomes deviate from the literal pre-registration and are **disclosed, not silently swapped**. Two of
++them — the Gate 0 metric correction and the Gate 1 outcome — carry dated entries in that file's append-only
++deviation log; the Gate 3 split into 3A and 3B is disclosed **here and in §2.3** and has no entry in that
++log, which we state rather than imply. (i) The **Gate 0** metric changed (max → orthosteric/ligand-site, D\*=0.53 — a
+ *real*
+ drug-bound bar, not a laxer one). (ii) **Gate 1** asked for a free-energy *minimum or shoulder*
+ at an opened Rg "not just biased excursions", and F(Rg) is instead monotonic, so Gate 1 is reported as
+@@ -2873,8 +2880,9 @@
+ only at pre-harmonized weight. The frame-level generation-receptor dependency audit has now **CLOSED and FAILED** — the exact frame `denovo_401` was generated into does **not** clear D\* under the harmonized definition (§3).
+ Gate 3A is supported only in the narrow persistence sense
+ while **Gate 3B is unresolved**, and Gate 4 is an in-silico criterion, not physical binding. The 3A/3B split
+-and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, logged as such in the deviation
+-file and **not** folded silently into the original single-Rg gate definition. The route is
++and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, labelled as such here and in
++§2.3 and **not** folded silently into the original single-Rg gate definition. They are not entered in the
++prereg deviation log, whose last entry is dated 2026-07-01; the pre-registration itself is unaltered. The route is
+ abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
+ geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
+ 
+@@ -2889,7 +2897,7 @@
+ | 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** — an exposed paralogue-unique cysteine within exit-vector reach, and three exposed paralogue-unique lysines (figures in §2.10). ⛔ **Read with the disclosure immediately below: the word *exposed* here is adjudicated by a cutoff (`EXPOSED_RSA = 0.25`) that FAILED its own positive control**, so this row is a pass *under a criterion known to produce false negatives*, not a categorical exclusion |
+ | 1 | **Differential surface atlas.** No E3-reachable divergent surface ⇒ stop for free | $0 CPU | **pass** (46 differential-surface handles, §2.4) |
+ | 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — basins exploit both categorical terms above their nulls, but the terms fire in only a small minority of each basin's placements; counts and fractions in §2.10, which is their only home |
+-| 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | priced, **not run** | pending |
++| 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | run 2026-08-02 | **NULL as pre-registered** — S = −0.1297 ± 0.3264 kcal/mol at 2 seeds per arm (§2.10e, [`nr4a3-5aks-reduction.json`](../../modalities/nr4a3-5aks-reduction.json)); bounds the wedge below ≈ 0.65 kcal/mol (2σ) and is **not a stop**, per (b) below. The instrument's own calibrator failed (§2.11), so this is a null from an uncalibrated method |
+ 
+ ⛔ **DISCLOSURE — THE WORD *EXPOSED* IN TIER 0 RESTS ON A CRITERION THAT FAILED ITS OWN POSITIVE CONTROL,
+ AND THE READER MUST HAVE THAT BEFORE READING THE ROW.** Tier 0's outcome is adjudicated by a fixed
