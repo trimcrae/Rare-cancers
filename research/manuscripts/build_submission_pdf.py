@@ -10,12 +10,15 @@ reference gets in.
 
 TWO FORMATS, AND THEY ARE NOT INTERCHANGEABLE.
 
-  --style journal      (default) Typeset as a published research article: two columns, a masthead
+  --style journal      Typeset as a published research article: two columns, a masthead
                        and title block, running heads, and every table and figure set at the point
                        it is first cited. This is what the work looks like in print.
   --style manuscript   Submission format: single column, justified, display items collected after
                        the text. This is the shape a journal portal and bioRxiv actually ask for,
                        and it is the one to upload.
+  --style preprint     Single column, ordinary spacing, without journal house style.
+
+Omitting --style uses the paper's registered default (journal unless explicitly declared).
 
 ⛔ NEITHER FORMAT EDITS THE PAPER. Tables and references are spliced in from their generated files
 verbatim, so a number in the PDF and a number in the artifact it came from cannot diverge without
@@ -78,6 +81,8 @@ _TABLES_IN_COLUMN = False
 
 PAPERS = {
     "emc-external-validation": {
+        "default_style": "preprint",
+        "outputs": {"preprint": "external-validation/emc-external-validation-comment-preprint.pdf"},
         "footer_text": "Not peer reviewed.",
         "manuscript": "external-validation/emc-external-validation-comment.md",
         "tables": None,
@@ -85,6 +90,7 @@ PAPERS = {
         "stamp_sources": ("external-validation/emc-external-validation-comment.md",),
         "figures": {},
         "journal": {"article_type": "Scientific comment", "section": "",
+                    "body_start_heading": "The claim requiring clarification",
                     "preprint_note": "Scientific comment; not peer reviewed."},
         "layout": {"tables_in_column": True, "backmatter_in_flow": True,
                    "no_provenance_line": True},
@@ -438,6 +444,20 @@ def place_floats(body, items, placement):
 
 # --------------------------------------------------------------------------- deposit identity
 
+def output_path(paper, style=None, anonymized=False):
+    """Resolve a build's filename; explicit styles override the registered default.
+
+    ``out`` remains the legacy unsuffixed base used by DOCX and SI builders. An explicit
+    per-style output records a deposited filename without changing those other formats.
+    """
+    style = style or paper.get("default_style", "journal")
+    if style not in FORMATS:
+        raise ValueError(f"unknown PDF style: {style!r}")
+    fallback = paper["out"] if style == "journal" else paper["out"].replace(".pdf", f"-{style}.pdf")
+    path = paper.get("outputs", {}).get(style, fallback)
+    return path.replace(".pdf", "-anonymized.pdf") if anonymized else path
+
+
 def deposit_filenames(paper):
     """Source-file name -> the name of the file a DOWNLOADER actually receives.
 
@@ -458,7 +478,7 @@ def deposit_filenames(paper):
     names = {
         #: The submission-format build is the one to upload (see this module's docstring), so a
         #: cross-reference to "the main text" resolves to that file and not to the typeset preview.
-        article_md: out.replace(".pdf", "-manuscript.pdf"),
+        article_md: os.path.basename(output_path(paper, paper.get("default_style", "manuscript"))),
     }
     if supplementary_md:
         names[supplementary_md] = out.replace(".pdf", "-supplementary-information.pdf")
@@ -486,7 +506,7 @@ def deposit_filenames(paper):
         if other is paper or not other.get("manuscript"):
             continue
         names.setdefault(os.path.basename(other["manuscript"]),
-                         os.path.basename(other["out"]))
+                         os.path.basename(output_path(other)))
     return names
 
 
@@ -1578,7 +1598,7 @@ def declared_running_title(body):
     return re.sub(r"[*_`]", "", label_paragraph(body, "Running title", "the running title"))
 
 
-def parse_front_matter(body):
+def parse_front_matter(body, body_start_heading=None):
     """Pull the title block and abstract out of the manuscript head.
 
     Anchored on the labels the manuscript actually uses. A renamed label fails the build rather
@@ -1624,8 +1644,21 @@ def parse_front_matter(body):
     # duplicated. The property this anchor actually needs is "where does the front matter END", and
     # the front matter is a closed set — title block, Abstract, Keywords. So accept EITHER a numbered
     # first section or the first IMRaD section heading, and keep the failure loud if neither exists.
-    start = (re.search(r"^##\s+1[.\s]", body, re.M)
-             or re.search(r"^##\s+Introduction\s*$", body, re.M))
+    if body_start_heading is not None:
+        # Comments need not use IMRaD headings. The declaration must identify the first
+        # section after Abstract, never a later section that would silently drop text.
+        if (not isinstance(body_start_heading, str) or not body_start_heading.strip()
+                or "\n" in body_start_heading or "\r" in body_start_heading):
+            raise SystemExit("body_start_heading must be one nonempty heading line")
+        matches = list(re.finditer(r"^##[ \t]+" + re.escape(body_start_heading)
+                                   + r"[ \t]*$", body, re.M))
+        if len(matches) != 1 or matches[0].start() != end:
+            raise SystemExit("declared body_start_heading must occur exactly once as the first "
+                             "level-2 heading after Abstract")
+        start = matches[0]
+    else:
+        start = (re.search(r"^##\s+1[.\s]", body, re.M)
+                 or re.search(r"^##\s+Introduction\s*$", body, re.M))
     if not start:
         raise SystemExit("could not find '## 1 …' or '## Introduction' — the body must start at the "
                          "first section after the front matter, or the front matter would be "
@@ -2823,7 +2856,9 @@ def _assert_anonymous(body):
                          + " — add a rule to _ANON_RULES rather than shipping it")
 
 
-def build(name, paper, style="journal", html_only=False, anonymized=False):
+def build(name, paper, style=None, html_only=False, anonymized=False):
+    style = style or paper.get("default_style", "journal")
+    out_name = output_path(paper, style, anonymized)
     body, floats = assemble(paper, style)
     if anonymized:
         body, applied = anonymise(body)
@@ -2836,8 +2871,9 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     # build rather than falling back to the full title.
     running = declared_running_title(body)
     suffix, subject = FORMATS[style]
-    other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
-                             if style in ("journal", "preprint") else paper["out"])
+    other_style = (paper.get("default_style", "manuscript") if style == "journal"
+                   else "manuscript" if style == "preprint" else "journal")
+    other = os.path.basename(output_path(paper, other_style))
     plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
     meta = {
         "/Title": f"{plain_title} {suffix}",
@@ -2854,19 +2890,14 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
         "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
     }
     if style == "journal":
-        front = parse_front_matter(body)
+        front = parse_front_matter(body, paper.get("journal", {}).get("body_start_heading"))
         page = wrap_journal(paper, front, markdown_to_html(front["body"], floats),
                             meta["/Title"])
-        out_name = paper["out"]
     else:
         page = wrap_manuscript(
             meta["/Title"], markdown_to_html(body, floats),
             f'<p class="version">{_html.escape(provenance_line(paper, style))}</p>',
             paper=paper, house_style=(style == "manuscript"))
-        out_name = paper["out"].replace(".pdf", f"-{style}.pdf")
-
-    if anonymized:
-        out_name = out_name.replace(".pdf", "-anonymized.pdf")
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
     with open(html_path, "w", encoding="utf-8") as fh:
         fh.write(page)
@@ -2897,9 +2928,10 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--paper", choices=sorted(PAPERS))
-    ap.add_argument("--style", choices=("journal", "manuscript", "preprint"), default="journal",
-                    help="journal = typeset article (default); manuscript = journal submission "
-                         "format; preprint = single column, no house style, for a preprint server")
+    ap.add_argument("--style", choices=("journal", "manuscript", "preprint"),
+                    help="journal = typeset article; manuscript = journal submission format; "
+                         "preprint = single column, no house style. Default: the paper's "
+                         "registered style, or journal when none is declared")
     ap.add_argument("--html-only", action="store_true")
     ap.add_argument("--anonymized", action="store_true",
                     help="strip author and archive identity — the double-anonymized upload. "

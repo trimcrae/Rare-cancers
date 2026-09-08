@@ -399,13 +399,13 @@ def test_the_repo_frontmatter_is_stripped(journal):
 
 
 @pytest.mark.parametrize("key", sorted(bsp.PAPERS))
-@pytest.mark.parametrize("style", ["journal", "manuscript"])
+@pytest.mark.parametrize("style", ["journal", "manuscript", "preprint"])
 def test_no_repo_frontmatter_reaches_any_built_paper(key, style):
-    """Routing metadata is internal. It must not print in ANY paper, in either style."""
+    """Routing metadata is internal. It must not print in ANY paper, in any style."""
     paper = bsp.PAPERS[key]
     body, floats = bsp.assemble(paper, style)
     if style == "journal":
-        front = bsp.parse_front_matter(body)
+        front = bsp.parse_front_matter(body, paper.get("journal", {}).get("body_start_heading"))
         page = bsp.wrap_journal(paper, front, bsp.markdown_to_html(front["body"], floats))
     else:
         page = bsp.markdown_to_html(body)
@@ -593,7 +593,7 @@ def test_no_paper_is_stamped_with_another_papers_orderable_file(key):
     declared PDF is a broken tree, not a reason to pass over the check.
     """
     paper = bsp.PAPERS[key]
-    declared = paper["out"]
+    declared = bsp.output_path(paper)
     main_suffix = paper.get("supplementary_presentation", {}).get("main_suffix")
     if main_suffix:
         declared = declared.replace(".pdf", main_suffix)
@@ -637,6 +637,90 @@ def test_every_papers_footer_is_derived_from_its_own_sources(key):
         assert orderable in {os.path.basename(s)
                              for s in paper.get("stamp_sources", bsp.STAMP_SOURCES)}, (
             "the footer's filename must be READ from stamp_sources, never typed (rule 1)")
+
+
+def test_declared_comment_boundary_preserves_the_complete_body():
+    paper = bsp.PAPERS["emc-external-validation"]
+    body, _ = bsp.assemble(paper, "journal")
+    heading = paper["journal"]["body_start_heading"]
+    front = bsp.parse_front_matter(body, heading)
+    assert front["body"] == body[body.index("## " + heading):]
+    assert "## Abstract" not in front["body"]
+    assert "**Keywords.**" not in front["body"]
+    assert "Chaiboonchoe and colleagues" in front["body"]
+    assert "## References" in front["body"]
+
+
+@pytest.mark.parametrize("defect", ["missing", "duplicate", "later", "before_abstract",
+                                    "empty", "multiline", "nonstring"])
+def test_an_invalid_declared_body_boundary_fails_closed(defect):
+    paper = bsp.PAPERS["emc-external-validation"]
+    body, _ = bsp.assemble(paper, "journal")
+    heading = paper["journal"]["body_start_heading"]
+    if defect == "missing":
+        heading = "An absent heading"
+    elif defect == "duplicate":
+        body += "\n\n## " + heading + "\nAnother section.\n"
+    elif defect == "later":
+        heading = "A reproducible and proportionate interpretation"
+    elif defect == "before_abstract":
+        body = body.replace("## " + heading, "## Actual first section", 1)
+        body = body.replace("## Abstract", "## " + heading + "\n\n## Abstract", 1)
+    elif defect == "empty":
+        heading = ""
+    elif defect == "multiline":
+        heading += "\n## Another section"
+    else:
+        heading = 42
+    with pytest.raises(SystemExit, match="body_start_heading"):
+        bsp.parse_front_matter(body, heading)
+
+
+@pytest.mark.parametrize("key", sorted(bsp.PAPERS))
+@pytest.mark.parametrize("style", ["journal", "manuscript", "preprint"])
+def test_legacy_outputs_preserve_distinct_explicit_formats(key, style):
+    paper = {k: v for k, v in bsp.PAPERS[key].items() if k not in ("default_style", "outputs")}
+    expected = paper["out"] if style == "journal" else paper["out"].replace(".pdf", f"-{style}.pdf")
+    assert bsp.output_path(paper, style) == expected
+    assert bsp.output_path(paper, style, anonymized=True) == expected.replace(".pdf", "-anonymized.pdf")
+    assert bsp.output_path(paper) == paper["out"], "unconfigured papers keep their journal default"
+
+
+def test_explicit_output_registration_is_used_by_resolver_and_deposit_names():
+    paper = dict(bsp.PAPERS["emc-external-validation"],
+                 outputs={"preprint": "external-validation/declared-deposit.pdf"})
+    assert bsp.output_path(paper) == "external-validation/declared-deposit.pdf"
+    assert bsp.output_path(paper, "journal") == paper["out"]
+    assert bsp.deposit_filenames(paper)[os.path.basename(paper["manuscript"])] == "declared-deposit.pdf"
+    comment = bsp.PAPERS["emc-external-validation"]
+    assert bsp.deposit_filenames(PAPER)[os.path.basename(comment["manuscript"])] == (
+        "emc-external-validation-comment-preprint.pdf")
+    assert bsp.deposit_filenames(PAPER)[os.path.basename(PAPER["manuscript"])] == (
+        os.path.basename(PAPER["out"]).replace(".pdf", "-manuscript.pdf"))
+
+
+@pytest.mark.parametrize("style,suffix", [(None, "-preprint"), ("preprint", "-preprint"),
+                                          ("journal", ""), ("manuscript", "-manuscript")])
+def test_comment_cli_writes_registered_default_or_explicit_style_without_source_edits(
+        monkeypatch, tmp_path, style, suffix):
+    # Exercise main -> build -> actual assembly/rendering; only the output directory moves.
+    original_read = bsp.read
+    paper = bsp.PAPERS["emc-external-validation"]
+    source = original_read(paper["manuscript"])
+    monkeypatch.setattr(bsp, "read", lambda path: source if path == paper["manuscript"] else original_read(path))
+    monkeypatch.setattr(bsp, "HERE", str(tmp_path))
+    (tmp_path / "external-validation").mkdir()
+    argv = ["--paper", "emc-external-validation", "--html-only"]
+    if style is not None:
+        argv += ["--style", style]
+    assert bsp.main(argv) == 0
+    expected = tmp_path / "external-validation" / f"emc-external-validation-comment{suffix}.build.html"
+    assert list((tmp_path / "external-validation").iterdir()) == [expected]
+    page = expected.read_text(encoding="utf-8")
+    assert "The claim requiring clarification" in page
+    assert "Chaiboonchoe and colleagues" in page
+    for field in ("canonical_for:", "last_verified:", "kind: manuscript"):
+        assert field not in page
 
 
 # ---------------------------------------------------------------------------------------------

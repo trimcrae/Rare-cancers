@@ -89,16 +89,14 @@ def test_every_paper_that_cites_this_archive_is_inside_it():
             rel = paper.get(key)
             if rel:
                 wanted.add(f"research/manuscripts/{rel}")
-        out = paper.get("out")
-        if out:
-            stem = f"research/manuscripts/{out}".rsplit(".pdf", 1)[0]
-            for suffix in (".pdf", ".build-stamp.json",
-                           "-manuscript.pdf", "-manuscript.build-stamp.json"):
-                candidate = stem + suffix
-                # only require what actually exists on disk — an unbuilt format is a different
-                # finding, and the staleness guards own it
-                if os.path.exists(os.path.join(REPO, candidate)):
-                    wanted.add(candidate)
+        if paper.get("out"):
+            for style in mod.FORMATS:
+                pdf = f"research/manuscripts/{mod.output_path(paper, style)}"
+                for candidate in (pdf, pdf.replace(".pdf", ".build-stamp.json")):
+                    # only require what actually exists on disk — an unbuilt format is a
+                    # different finding, and the staleness guards own it
+                    if os.path.exists(os.path.join(REPO, candidate)):
+                        wanted.add(candidate)
         for rel in sorted(wanted - archived):
             missing.append(f"{name}: {rel}")
     assert not missing, (
