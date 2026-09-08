@@ -720,3 +720,27 @@ indexes. Raw hit counts are not evidence.
   line; its AFND half is UNKNOWN by construction — there is **no committed AFND or ISO cache** in the
   tree. ⚠ `hla_coverage.py`'s advised remedy has **no `source_ok` guard on the write** (`:544-546`), so
   running it offline would replace 16 regional tables with `{}` and `--check` would still exit 0.
+
+### The producer census explains W44's row 17 — measured 2026-09-08T04:58Z (W73)
+
+Of **133** tracked artifacts read by the 18 preflight `--check` rows, **26 (19.5%) are HAND-MAINTAINED**
+— no writer anywhere in `systems/`, `scripts/`, `research/`, `.github/`. ⭐ But the exposure is not about
+record counts: **row 17 (`citation_debt.py`) is the only gate whose entire input set is hand-maintained
+AND the only gate that produces no artifact of its own**, so its `--check` has nothing to byte-compare.
+Every other row owns at least one produced artifact, so emptying a hand-maintained *input* changes a
+recomputation and the compare fails. 13 of the 26 are small enough to be emptied by ordinary editing,
+but only 2 of those 13 sit behind a gate that could then pass vacuously — both at row 17. That is the
+denominator that makes W44's single measured row a finding rather than an anecdote.
+
+⚠ Methodological warning, recorded because W73 hit it and corrected itself: **writer detection by
+basename grep has a real false-negative mode.** Three passes were needed — literal write idioms, then
+helper verbs (`_write_json`/`dump`/`emit`/`save`), then ±25-line proximity (which recovered the
+"`<artifact>` is stale; re-run without `--check`" idiom where a producer names its file only in its own
+staleness message). Two further classes carry no greppable basename at all: **f-string paths**
+(`atr_hrd_sarcoma_series.py:1352-1353` via `paths_for(SERIES)` — initially misclassified HAND, corrected
+to PRODUCER) and **env-knob paths** (`PREMRNA_OUT`, `GENOME_OUT`, `OUT_SUFFIX`, set by
+`.github/workflows/aso-offtarget.yml:330,715`). The 26 is an **upper bound**; the 133 is a **floor**.
+
+⚠ Source-read, not executed: `scripts/news_match.py:279-280` returns `"no queue committed yet — nothing
+to validate"` before any validation if the queue file is **absent** — a vacuous pass reachable by
+*deletion* rather than emptying, an operation W44's sweep did not test.
