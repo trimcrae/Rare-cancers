@@ -51,3 +51,44 @@ failed-gate repeat and no NR4A Perspective reroute was found; none was stopped o
   map-edits file records Haller's `EGAS00001002795` as controlled — which strengthens rather
   than weakens W01b's verdict that Brenca's accession is *unrecovered from here*, and explicitly
   not resolved as controlled-access.
+
+## 2026-09-08 ~02:30Z — coordinator findings and owner corrections
+
+### Gate consequence of the coordinator's own commits (self-reported)
+W15b predicted that committing the campaign reports would break `research/manuscripts/lint_citations.py`.
+**Confirmed by a clean run** (the earlier `LINT_EXIT=0` reading was `tail`'s status through a pipe, not the
+lint's):
+
+```
+timeout 600 python3 research/manuscripts/lint_citations.py > /tmp/claude-0/lint.txt 2>&1; echo "LINT_EXIT=$?"
+LINT_EXIT=1
+```
+
+Every `::error::UNANCHORED …` line names a file under
+`research/autonomy/opus-capacity-campaign-20260908/reports/`. The failure is **entirely caused by this
+campaign's commits** and did not exist before them.
+
+**Coordinator decision, recorded rather than acted on.** The gate's own error text names two remedies:
+anchor each identifier in a fetch product, or add a ledger entry recording *who checked it*. I am applying
+neither. I cannot truthfully attribute per-identifier provenance for all of the prose identifiers the
+reports introduced, and inventing ledger rows would be exactly the fabrication this gate exists to catch;
+`--baseline` refuses to re-run, so there is no accidental path. Narrowing the lint's scan scope to exclude
+this directory would be changing a guard to hide an error, which `CLAUDE.md` §6 forbids. The honest state is
+therefore: **`lint_citations.py` exits 1 on this branch, the cause is known and bounded to the campaign
+report directory, and the remedy is the repository owner's to choose.** No guard was modified.
+
+### Owner corrections received mid-campaign (2026-09-08)
+1. **Brenca accessions are already recovered** in `research/autonomy/nr4a3-patient-junction-source-2026-09-07/`
+   (correction DOI 10.1002/path.5737; `sources/brenca-ena-runs.tsv` 23 paired libraries / 46 FASTQ links;
+   `brenca-origin-gate.csv` + `recover.py` = 8 engineered E-N/T-N aliases, 15 unresolved biological origins).
+   PRJNA692081 / SRP301712 are **not a new discovery**. Any recovery of those identifiers or routes is
+   classified **DUPLICATE**. W01b's output is preserved. No cohort/independence/patient claim may be built
+   on it; 15 unresolved libraries are not 15 patients. Unchanged failed Brenca gates must not be replayed.
+2. **PUB-EMC-CLASSIFICATION remains user-rejected and closed** (`portfolio-2026-09-05/recommendation.md:70`).
+   `icdo-9231-restriction-audit.json:48` retains unquantified residual misassignment and loss of genuine
+   bone-primary EMC; Wagner methods unresolved (abstract omission does not establish absent restriction).
+   No new EMC calibration analysis; no reopening on unchanged inputs.
+3. **No catalogue-acceptor contract violation was established** by the owner's bounded lookup; none is to be
+   inferred from the lane name.
+4. W11b remains sole owner of source-index changes. W12b's redundant shell waiters were stopped; its real
+   bounded test computation continues. Shell jobs are not research agents.
