@@ -75,6 +75,13 @@ LANDSCAPE_MIN_COLS = 8
 #: re-laid-out the preprint from 58 pages to 41, so the repository's PDF would no longer have been
 #: the artefact on bioRxiv. A paper opts in with `layout: {"tables_in_column": True}`.
 _TABLES_IN_COLUMN = False
+#: ⛔ OPT-IN PER PAPER, AND THE DEFAULT IS THE OLD BEHAVIOUR. Caption prefixes whose spliced table
+#: must span both journal columns instead of sitting in one. A paper names them in
+#: `layout: {"full_width_tables": (...)}`; an empty tuple is every other paper and changes nothing.
+#: ⚠ SET UNCONDITIONALLY AT THE TOP OF `assemble`, never only on the branch that needs it: a module
+#: global that one style leaves behind is read by the NEXT paper built in the same process, and the
+#: gate builds every paper in one run.
+_FULL_WIDTH_TABLE_CAPTIONS = ()
 
 PAPERS = {
     #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
@@ -241,7 +248,14 @@ PAPERS = {
         # labels printed at 3.03 pt, its smallest annotations at 2.71 pt — measured off the built
         # page, not estimated. Spanning both columns prints it at the full measure instead. It does
         # not touch the figure, its bytes or any scientific input.
-        "layout": {"raster_full_width": True},
+        # ⛔ AND SUPPLEMENTARY TABLE S3 SPANS BOTH COLUMNS FOR THE SAME REASON, MEASURED IN THE
+        # BUILT PDF (page 6, 2026-09-08): five columns is under LANDSCAPE_MIN_COLS so nothing
+        # widened it, and its TAF15_NR4A3 column printed off the right edge of the page —
+        # `TAF15:`, `ENST0`, `UNRES` truncated at the paper's edge. The prefix catches the
+        # "continued" half too, so the two parts stay at one width. No cell, caption or type size
+        # changes; only the measure the table is given.
+        "layout": {"raster_full_width": True,
+                   "full_width_tables": ("Supplementary Table S3",)},
         "journal": {
             # ⭐ THE TYPE THE MANUSCRIPT ITSELF DECLARES, not a house default: its editorial VENUE
             # block reads "Genes, Chromosomes and Cancer (Wiley), Research Article, with the
@@ -762,6 +776,8 @@ def inline_raster_images(body, paper):
 
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
+    global _FULL_WIDTH_TABLE_CAPTIONS
+    _FULL_WIDTH_TABLE_CAPTIONS = tuple((paper.get("layout") or {}).get("full_width_tables") or ())
     body = strip_frontmatter(read(paper["manuscript"]))
     # ⚠ FRONTMATTER IS STRIPPED FROM THE INCLUDES TOO, AND THAT IS NOT BELT-AND-BRACES.
     # strip_generated_banner only matches a leading HTML comment, so it cannot touch a leading
@@ -1124,12 +1140,31 @@ def render_table(rows, label=None):
     headers repeat because they are in <thead>; the table's own name was not, so it did not.
     """
     def cells(line):
+        # ⛔ SPLIT ON UNESCAPED PIPES ONLY. `\|` is the markdown escape for a literal pipe inside a
+        # cell, and splitting on it silently invents columns: the ATR package's Supplementary Table
+        # S3 carries the fusion seam as `TAKAAVEWFD\|DMPCVQAQYS`, and this function turned two
+        # 5-cell rows into 9-cell rows, printed a trailing backslash, and made the grid wider than
+        # the page. That shipped. The row count is a fact about the source, not about the delimiter.
         line = line.strip()
         if line.startswith("|"):
             line = line[1:]
-        if line.endswith("|"):
+        if line.endswith("|") and not line.endswith("\\|"):
             line = line[:-1]
-        return [c.strip() for c in line.split("|")]
+        parts, buf, i = [], [], 0
+        while i < len(line):
+            if line[i] == "\\" and i + 1 < len(line) and line[i + 1] == "|":
+                buf.append("|")
+                i += 2
+                continue
+            if line[i] == "|":
+                parts.append("".join(buf))
+                buf = []
+                i += 1
+                continue
+            buf.append(line[i])
+            i += 1
+        parts.append("".join(buf))
+        return [c.strip() for c in parts]
 
     head, body = cells(rows[0]), [cells(r) for r in rows[2:]]
     # ⛔ A WIDE TABLE IN THE BODY OVERPRINTS THE COLUMN BESIDE IT (blind PDF screen, 2026-08-19,
@@ -1353,6 +1388,35 @@ def _label_for_spliced_table(lines, table_end, rows):
     return None
 
 
+def _table_spans_both_columns(lines, table_start):
+    """True when the caption directly above this spliced table is one the paper declared wide.
+
+    ⛔ WHY THIS EXISTS. Supplementary Table S3 is five columns of long verbatim cells, and five is
+    under `LANDSCAPE_MIN_COLS`, so `render_table`'s `wide_body` rule never fired for it. It set at
+    full body width inside an 88 mm journal column and its fourth data column, TAF15_NR4A3, ran off
+    the right edge of the page: `TAF15:`, `ENST0`, `UNRES` printed truncated at the paper's edge
+    (blind screen of the built PDF, page 6, 2026-09-08). Column COUNT is the wrong predicate for it
+    — the table is wide because of what its cells CONTAIN, which no count can see — so the paper
+    names the caption instead.
+    ⚠ MATCHED ON THE CAPTION, NOT ON A COUNT OR AN INDEX, so "Supplementary Table S3." and
+    "Supplementary Table S3, continued." are both caught by the one declared prefix and stay
+    together at the same width. A renumbering that renames the caption stops matching and the table
+    goes back to the column — visibly, in the next build, rather than silently.
+    """
+    if not _FULL_WIDTH_TABLE_CAPTIONS:
+        return False
+    for k in range(table_start - 1, max(-1, table_start - 40), -1):
+        line = lines[k].strip()
+        if not line:
+            continue
+        if line.startswith("**"):
+            caption = line[2:]
+            return any(caption.startswith(prefix) for prefix in _FULL_WIDTH_TABLE_CAPTIONS)
+        if line.startswith(("#", "|", "<figure", "<svg")):
+            return False
+    return False
+
+
 def markdown_to_html(text, floats=None):
     floats = floats or {}
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)          # PMID markers: non-rendering
@@ -1426,6 +1490,7 @@ def markdown_to_html(text, floats=None):
 
         if stripped.startswith("|") and i + 1 < len(lines) and re.match(
                 r"^\|[\s:|-]+\|?\s*$", lines[i + 1].strip()):
+            table_start = i
             rows = []
             while i < len(lines) and lines[i].strip().startswith("|"):
                 rows.append(lines[i])
@@ -1444,7 +1509,13 @@ def markdown_to_html(text, floats=None):
             #: The same dead branch had already produced the caption-footnote defect earlier the same
             #: day; fixing that one and not auditing what else depended on it is what let this ship.
             label = _CURRENT_TABLE_LABEL or _label_for_spliced_table(lines, i, rows)
-            out.append('<div class="tablewrap">'
+            #: ⚠ THE CLASS RIDES ON THE WRAPPER, NOT ON THE <table>, and the type size is NOT
+            #: touched. `.wide-body-table` spans AND shrinks to 6.4 pt; this table is already the
+            #: smallest type in the paper and the whole point of the repair is that a reader can
+            #: read it. Width is the only thing that changes.
+            klass = ("tablewrap fullwidth" if _table_spans_both_columns(lines, table_start)
+                     else "tablewrap")
+            out.append(f'<div class="{klass}">'
                        + render_table(rows, label) + "</div>")
             continue
 
@@ -1926,8 +1997,10 @@ def journal_css(paper=None):
     g = dict(DEFAULT_GEOMETRY)
     g.update((paper or {}).get("geometry") or {})
     raster = ""
+    if ((paper or {}).get("layout") or {}).get("full_width_tables"):
+        raster += FULL_WIDTH_TABLE_CSS
     if (paper or {}).get("inline_images"):
-        raster = RASTER_IMAGE_CSS + (
+        raster += RASTER_IMAGE_CSS + (
             RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH
             if ((paper or {}).get("layout") or {}).get("raster_full_width")
             else RASTER_IMAGE_CSS_JOURNAL)
@@ -2140,6 +2213,28 @@ RASTER_IMAGE_CSS_JOURNAL = """
 RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH = """
 .cols figure.figure { column-span: all; break-inside: avoid; margin: 2mm 0 3mm 0; }
 .cols figure.figure img.raster { width: 100%; }
+"""
+
+
+#: ⭐ THE SAME MECHANISM THE RASTER FIGURE AND `.wide-body-table` ALREADY USE, and deliberately
+#: not a new one: `column-span: all` on the wrapper, which this stylesheet is known to survive.
+#: ⛔ NO FONT-SIZE RULE HERE, AND THAT IS THE POINT. `.wide-body-table` spans and drops to 6.4 pt;
+#: applying it to Supplementary Table S3 would have traded a clipped column for an unreadable one,
+#: in the same build where a figure was just widened BECAUSE its type was too small. The table
+#: keeps the 6.6 pt `.col-float table`/body size it already had and is given room instead.
+#: ⛔ AND `.backmatter` IS IN THE SELECTOR BECAUSE `.cols` ALONE DID NOTHING — measured, not
+#: predicted. The first version of this rule matched `.cols .tablewrap.fullwidth`; the class was
+#: emitted on exactly the two intended tables, the stylesheet shipped, the PDF bytes changed, and
+#: page 6 rendered PIXEL-IDENTICAL to the clipped build (sha256 of the 400 dpi page raster equal
+#: before and after). Section 9 sits in `<div class="backmatter">`, which is a SECOND multicol
+#: container, so the spanner has to name that container to have anything to span.
+#: ⚠ Appended only for a paper that declared `layout: {"full_width_tables": (...)}`, so no other
+#: registered paper's bytes move — asserted by
+#: `test_a_paper_without_inline_images_renders_byte_identically` over the whole registry.
+FULL_WIDTH_TABLE_CSS = """
+.cols .tablewrap.fullwidth, .backmatter .tablewrap.fullwidth {
+    column-span: all; break-inside: avoid; margin: 2mm 0 3mm 0; }
+.cols .tablewrap.fullwidth table, .backmatter .tablewrap.fullwidth table { width: 100%; }
 """
 
 

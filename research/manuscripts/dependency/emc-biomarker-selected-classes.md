@@ -21,6 +21,13 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-MTAP-PRMT5]
 
 # Biomarker-selected therapeutic classes in an ultra-rare sarcoma
 
+**Tristan D. McRae**
+
+*Independent researcher.* Correspondence: trimcrae@gmail.com
+
+*A computational study of public archival expression data and a public dependency panel. No
+experiment was performed, no cell was cultured and no patient was studied.*
+
 > ⛔ **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent
 > in any disease.** This paper reads public transcript data from 16 archival tumours and a public
 > dependency panel that contains no cell line from this disease. Every conclusion is a statement about
@@ -263,3 +270,29 @@ selectivity rather than for it.
   axis is a transfer from other sarcomas throughout and inherits that limit wherever it is used.
 - **Nothing here has been tested in an EMC cell**, and no agent in any of these five classes has been
   given to a patient with this disease.
+
+---
+
+## Data and code availability
+
+Every value in this paper is read from artifacts committed in this repository. Nothing was retrieved
+for it that is not already deposited here, and no producer was run to write it.
+
+| what it supplies | artifact |
+|---|---|
+| the scored expression panels, per platform, and their group means, *t* statistics and coverage | [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) |
+| the per-route grading and each route's own verdict, hedge and action | [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) |
+| the public sarcoma-line CRISPR dependency panel | [`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) |
+| the class definitions and their selecting features | [`biomarker-class-definitions-2026-08-09.json`](../../literature/biomarker-class-definitions-2026-08-09.json) |
+| the clinical registry rows this paper cites | [`emc-clinical-registry.json`](../../data/emc-clinical-registry.json) |
+
+⚠ **The two scored gene groups are repo-curated pathway-membership lists, not published gene sets or
+signatures.** Each panel's own `provenance` field says so, and every group-level statistic here is a
+statement about a list this programme assembled.
+
+⚠ **No figure has been rendered for this paper.** Its display items are tables in the running text.
+
+**Declarations.** Funding: none. Competing interests: none. Ethics approval and consent were not
+required and were not sought: this study analyses only public archival expression series and public
+dependency data, and involves no human participants, no identifiable data and no patient-level
+records.
