@@ -1337,8 +1337,8 @@ bind("§3.1's secondary row now carries its per-cohort range — the widest spre
               ["heterogeneity"]["per_cohort_percent"]["pazopanib-NCT02066285 (non-TAF15 arm)"]),
          _frac(_by_id(a)["pazopanib-NCT02066285"]["strata"]["non-TAF15"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
-              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
-         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (non-TAF15 arm)"]),
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["non-TAF15"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
               ["heterogeneity"]["spread_percent"])))
 
@@ -1351,8 +1351,8 @@ bind("Appendix A22's restatement of the same secondary-pool spread, which must n
               ["heterogeneity"]["per_cohort_percent"]["pazopanib-NCT02066285 (non-TAF15 arm)"]),
          _frac(_by_id(a)["pazopanib-NCT02066285"]["strata"]["non-TAF15"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
-              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
-         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (non-TAF15 arm)"]),
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["non-TAF15"]),
          _frac(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
                ["contrast"]["comparator_arm"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
@@ -1363,21 +1363,27 @@ bind("Appendix A22's restatement of the same secondary-pool spread, which must n
 # ⛔ §4.6 GAINED TWO SITES FOR ALREADY-BOUND QUANTITIES, 2026-09-08 (round-11 finding REF-B-2).
 # The limitation now withdraws the EWSR1 LABEL from the sunitinib comparator arm while stating that
 # no COUNT changes, so it restates 6/8, the per-cohort 75.0 % and the pooled 37.0 % at two new sites.
+# ⭐ RE-POINTED 2026-09-08, SECOND PASS: REF-B-2 is now applied in the GENERATOR AND THE ARTIFACT too,
+# so `cohorts[sunitinib-2014].strata` keys that arm `non-TAF15` and the secondary pool's per-cohort key
+# reads `sunitinib-2014 (non-TAF15 arm)`. Every read below moves with it. ⛔ THIS IS A KEY RENAME AND
+# NOT A LOOSENING: the same three quantities are still read out of the artifact at the same sites, the
+# regexes are unchanged, and a stratum keyed `EWSR1::NR4A3` on this cohort would now raise KeyError
+# rather than pass — which is the direction a guard is allowed to move.
 # ⭐ BOUND RATHER THAN DECLARED, deliberately: the artifact owns all three, so a declaration would
 # have recorded a number this file can read as one it cannot. Both values below are derived from the
 # artifact — nothing is pasted in as a literal.
 bind("§4.6's first restatement of the sunitinib comparator arm, at the sentence that withdraws its "
      "EWSR1 label without moving its count",
      r"sunitinib series' (\d+/\d+) arm in the secondary analysis",
-     lambda a: _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]))
+     lambda a: _frac(_by_id(a)["sunitinib-2014"]["strata"]["non-TAF15"]))
 
 bind("§4.6's explicit 'no count changes' triple — the one sentence in the paper that asserts a "
      "label moved and three figures did not, so all three are read out of the artifact here",
      r"the (\d+/\d+), the per-cohort (\d+\.\d+) % and the pooled (\d+\.\d+) % are unaffected",
      lambda a: (
-         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["non-TAF15"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
-              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (non-TAF15 arm)"]),
          _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
               ["contrast"]["comparator_arm"]["percent"])))
 
@@ -1481,6 +1487,47 @@ bind("§3.3's live statement of the local-recurrence comparator-arm spread — t
 # own integers, so it is computed here from those integers — a typed "31/163 = 19.0 %" would go
 # stale the moment a prevalence cohort is added, which is precisely how `cohorts_identified` drifted
 # (see the roster note above).
+# ⛔⛔ REG-B-2's REFUTATION IS ITSELF A SET OF ARTIFACT QUANTITIES, AND IT ARRIVES IN THE REGISTER
+# RATHER THAN IN THE PAPER — which is exactly where this guard's own history says an unwatched
+# figure gets in (A33: "enumerating the sites of the quantity is not enumerating the sites of the
+# claim"). The artifact used to call llombart-bosch-2022-prevalence's TAF15 share the highest of any
+# series here; it is third. The register row that retracts that has to PRINT the three shares to be
+# a record of anything, so all six figures are read out of the artifact here. ⛔ NOTHING BELOW IS
+# PASTED IN AS A LITERAL, and the excluded cohorts' shares are derived by the same construction as
+# the pooled ones rather than by a second one.
+def _share_frac(a, cohort_id):
+    """A prevalence cohort's TAF15 share as `events/denominator over partner-assigned cases`.
+
+    ⚠ The denominator is the cohort's own typed counts summed, NOT `n_tested`: the artifact's
+    prevalence convention excludes each series' partner-unassigned residue from both numerator and
+    denominator (`analyses.C_partner_prevalence.denominator_convention`), and a share computed on
+    `n_tested` would be a different quantity wearing the same name.
+    """
+    counts = _by_id(a)[cohort_id]["counts"]
+    return "{}/{}".format(counts["TAF15::NR4A3"], sum(counts.values()))
+
+
+def _share_pct(a, cohort_id):
+    counts = _by_id(a)[cohort_id]["counts"]
+    return _pct(round(100.0 * counts["TAF15::NR4A3"] / sum(counts.values()), 1))
+
+
+bind("A41's refutation of the withdrawn 'highest of any series here' superlative — the excluded "
+     "abstract's own share and the two shares that are higher than it, which are the whole "
+     "evidence for the retraction and must move with the counts they are read from",
+     r"(\d+/\d+) = (\d+\.\d+) % is third, not highest: `agaram-2014-prevalence` is (\d+/\d+) = "
+     r"(\d+\.\d+) % \(pooled\) and the excluded `sjogren-2003-prevalence` is (\d+/\d+) = (\d+\.\d+) %",
+     lambda a: (_share_frac(a, "llombart-bosch-2022-prevalence"),
+                _share_pct(a, "llombart-bosch-2022-prevalence"),
+                _share_frac(a, "agaram-2014-prevalence"),
+                _share_pct(a, "agaram-2014-prevalence"),
+                _sjogren_frac(a), _sjogren_pct(a)))
+
+bind("A41's restatement of the per-cohort prevalence range the withdrawn superlative contradicted, "
+     "bound to the same pooled shares §3.5 prints it from",
+     r"§3.5 prints that range as (\d+\.\d+) – (\d+\.\d+) %",
+     lambda a: (_pct(min(_prev_shares(a).values())), _pct(max(_prev_shares(a).values()))))
+
 bind("§3.5's Sjögren counterfactual: its own TAF15 share, the high pooled cohort it exceeds, and "
      "what pooling it would do to the headline",
      r"Sjögren 2003 is (\d+/\d+) = (\d+\.\d+) % TAF15 at patient level, above Agaram's (\d+\.\d+) %",

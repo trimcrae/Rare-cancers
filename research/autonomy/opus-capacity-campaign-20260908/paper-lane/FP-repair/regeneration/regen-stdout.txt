@@ -1,0 +1,125 @@
+wrote /home/user/Rare-cancers/research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json
+
+== A_tki_objective_response
+{
+ "question": "Does the NR4A3 5' fusion partner predict objective response to an antiangiogenic TKI in advanced EMC?",
+ "endpoint": "RECIST objective response (partial or complete) on sunitinib or pazopanib",
+ "cohorts_identified": 3,
+ "cohorts_pooled_primary": 1,
+ "cohorts_excluded": {
+  "sunitinib-2014": "population-overlap (POLICY-evidence.md s2.3) -- cannot be shown distinct from the pazopanib trial",
+  "sunitinib-2012-two-cases": "population-overlap (POLICY-evidence.md s2.3) -- contained in the 2014 series"
+ },
+ "primary_non_overlapping": {
+  "definition": "POLICY-conformant headline: only cohorts that can be shown non-overlapping. Overlap with the sunitinib series cannot be excluded, so the smaller series is held out and the pazopanib trial stands alone.",
+  "contrast": {
+   "id": "tki_response_pazopanib_only",
+   "taf15_arm": {
+    "events": 0,
+    "denom": 3,
+    "proportion": 0.0,
+    "percent": 0.0,
+    "ci95_lo_percent": 0.0,
+    "ci95_hi_percent": 56.1,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_arm": {
+    "events": 4,
+    "denom": 19,
+    "proportion": 0.2105,
+    "percent": 21.1,
+    "ci95_lo_percent": 8.5,
+    "ci95_hi_percent": 43.3,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_minus_taf15_percentage_points": 21.1,
+   "fisher_exact_two_sided_p": 1.0,
+   "fisher_note": "POST-HOC DESCRIPTIVE ONLY. Not prespecified, not performed in any source report, not corrected for the multiple endpoints on this page, and not used to license any claim.",
+   "note": "Single-cohort intervals; no between-study weighting is involved."
+  }
+ },
+ "secondary_assume_independent": {
+  "definition": "Maximal-information analysis, valid ONLY if no patient appears in both reports. Crude denominator-weighted pool of both cohorts (POLICY-evidence.md s2.2).",
+  "contrast": {
+   "id": "tki_response_both_cohorts",
+   "taf15_arm": {
+    "events": 0,
+    "denom": 5,
+    "proportion": 0.0,
+    "percent": 0.0,
+    "ci95_lo_percent": 0.0,
+    "ci95_hi_percent": 43.4,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_arm": {
+    "events": 10,
+    "denom": 27,
+    "proportion": 0.3704,
+    "percent": 37.0,
+    "ci95_lo_percent": 21.5,
+    "ci95_hi_percent": 55.8,
+    "interval": "Wilson score, 95%"
+   },
+   "comparator_minus_taf15_percentage_points": 37.0,
+   "fisher_exact_two_sided_p": 0.155,
+   "fisher_note": "POST-HOC DESCRIPTIVE ONLY. Not presp
+
+== B_outcome_by_partner
+{
+ "question": "Does the NR4A3 5' fusion partner predict disease-specific death, recurrence or metastasis?",
+ "what_changed_2026_08_08": "\u2b50 A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME. Until 2026-08-08 exactly one cohort (Agaram 2014, 23 of its 24 partner-assigned patients carried an EWSR1 or TAF15 partner; the retained extraction for that cohort carries no separate follow-up-count field, which is a gap in what was extracted here and not a finding about what the primary publication reports) published EMC outcome event counts by NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and the file said so. A human read Huang 2023's published PDF and extracted its Table 1, adding 50 EWSR1- or TAF15-assigned patients with follow-up -- 50 of the 53 followed, which are themselves 53 of the 58 in the series, the other 3 followed cases being 2 TCF12 and 1 unidentified partner -- from an independent country and institution set. The outcome pool is now 73 patients across two cohorts whose non-overlap is ARGUED from the reported authors, institutions and geography and is NOT patient-verified. \u26a0 THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS QUESTION -- see `does_not_touch_the_response_question` below.",
+ "does_not_touch_the_response_question": "\u26d4 HUANG 2023 CONTAINS NO ANTIANGIOGENIC-TKI RESPONSE DATA AND MOVES ANALYSIS A BY ZERO. It is a pathology series with a survival analysis; the only systemic therapy it reports is chemotherapy, as a prognostic covariate, not as a response endpoint and not by partner. The TREATMENT-RESPONSE half of this page is still what it was: the entire published TAF15::NR4A3 antiangiogenic experience is 3 to 5 patients with ZERO responses, and a zero-event arm yields no magnitude at any denominator. A_tki_objective_response is unchanged, word for word, by this integration. Anyone reading the new prognostic magnitude as if it settled the response question has conflated two different endpoints in two different populations.",
+ "cohorts_identified": 4,
+ "cohorts_pooled": 2,
+ "pooled_cohorts": [
+  "agaram-2014-outcome",
+  "huang-2023-outcome"
+ ],
+ "cohorts_excluded": {
+  "suemitsu-2025-outcome": "population-overlap-unresolved (POLICY-evidence.md s2.1/s2.3) -- see cohorts[suemitsu-2025-outcome].context_note",
+  "paioli-2021-outcome": "counts-not-reported (POLICY-evidence.md s2.1/s2.3) -- see cohorts[paioli-2021-outco
+
+== C_partner_prevalence
+{
+ "question": "How many EMC patients would a TAF15-vs-EWSR1 stratification actually touch?",
+ "denominator_convention": "Partner-assigned cases only. Each cohort's NR4A3-rearranged-but-partner-unassigned residue is recorded in its `not_partner_assigned` field and excluded from both numerator and denominator, because the series do not report that residue comparably.",
+ "cohorts_pooled": [
+  "agaram-2014-prevalence",
+  "huang-2023-prevalence",
+  "lenz-2023-prevalence",
+  "paioli-2021-prevalence"
+ ],
+ "partner_assigned_per_cohort": {
+  "agaram-2014-prevalence": 24,
+  "huang-2023-prevalence": 57,
+  "lenz-2023-prevalence": 11,
+  "paioli-2021-prevalence": 62
+ },
+ "cohorts_excluded": {
+  "llombart-bosch-2022-prevalence": "abstract-only",
+  "klubickova-2022-prevalence": "population-overlap with lenz-2023-prevalence",
+  "sjogren-2003-prevalence": "outcome-is-the-inclusion-criterion (s2.1(3)): four of its nine patients are in the series because the same group had already published their fusion transcript, so their partner assignment is the entry ticket and its partner-unassigned residue of zero is structural on that half of the cohort"
+ },
+ "non_overlap_argument": "Four geographically and institutionally distinct series -- MSKCC (USA), Taiwanese institutions, Czech Republic, Italian Sarcoma Group -- with no shared authors between them and no shared referral network.",
+ "\u26a0_a_fifth_series_EXISTS_and_is_refused_on_a_DIFFERENT_ground": "sjogren-2003-prevalence is not held out for overlap or for being an abstract -- it is a peer-reviewed, fully-accounted, karyotyped series and it would have PASSED s2.1(1), (2) at patient level and (4). It fails s2.1(3) alone. That distinction is recorded because the three exclusions are otherwise easy to read as one kind of objection, and this one is the kind that a wider denominator makes tempting: it would have RAISED the coverage ceiling computed in research/manuscripts/aso_coverage_ladder.py, not lowered it.",
+ "pooled": {
+  "EWSR1::NR4A3": {
+   "events": 120,
+   "denom": 154,
+   "proportion": 0.7792,
+   "percent": 77.9,
+   "ci95_lo_percent": 70.7,
+   "ci95_hi_percent": 83.7,
+   "interval": "Wilson score, 95%"
+  },
+  "TAF15::NR4A3": {
+   "events": 28,
+   "denom": 154,
+   "proportion": 0.1818,
+   "percent": 18.2,
+   "ci95_lo_percent": 12.9,
+   "ci95_hi_percent": 25.0,
+   "interval": "Wilson score, 95%"
+  },
+  "TCF12::NR4A3": {
+   

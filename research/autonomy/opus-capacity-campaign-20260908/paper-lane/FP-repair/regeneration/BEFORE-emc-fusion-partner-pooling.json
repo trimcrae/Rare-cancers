@@ -1,7 +1,7 @@
 {
   "_schema": "emc-fusion-partner-pooling/1",
   "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
-  "_generated_utc": "2026-09-08T19:25:37Z",
+  "_generated_utc": "2026-09-08T14:15:35Z",
   "_do_not_hand_edit": "Every number in this file is computed by the generator from the counts in its COHORTS table. Change a count in the script and regenerate; never edit a number here (CLAUDE.md rule 1).",
   "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
   "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
@@ -127,7 +127,7 @@
       "design": "molecular profiling series (6 EMC); cited here only for its reading of the sunitinib series",
       "accessed": "2026-08-07",
       "verified": true,
-      "verification_note": "Independent group (University of Michigan). Verbatim: 'The two patients with the variant fusion, TAF15-NR4A3, had progressive disease on sunitinib, while all patients with the classical translocation had stable or responsive disease.' This is the sentence that fixes the sunitinib denominators at 2 TAF15 / 8 non-TAF15. \u26a0 IT FIXES THE DENOMINATORS, NOT THE COMPARATOR ARM'S PARTNER: it runs classical -> SD/PR, so it cannot be read backwards to type the eight as EWSR1::NR4A3."
+      "verification_note": "Independent group (University of Michigan). Verbatim: 'The two patients with the variant fusion, TAF15-NR4A3, had progressive disease on sunitinib, while all patients with the classical translocation had stable or responsive disease.' This is the sentence that fixes the sunitinib denominators at 8 EWSR1 / 2 TAF15."
     },
     "agaram2014": {
       "short": "Agaram 2014",
@@ -355,7 +355,7 @@
       ],
       "populationKey": "int-milan-advanced-emc",
       "strata": {
-        "non-TAF15": {
+        "EWSR1::NR4A3": {
           "events": 6,
           "denom": 8
         },
@@ -364,11 +364,7 @@
           "denom": 2
         }
       },
-      "stratum_definition": "Objective response = RECIST partial response. The two TAF15 patients are the two progressors; the remaining eight comprise the 6 PR and the 2 SD. \u26d4 THE COMPARATOR ARM IS LABELLED non-TAF15, NOT EWSR1, FOR EXACTLY THE REASON THE PAZOPANIB ARM IS: the held quotations run CLASSICAL -> SD/PR ('all responsive cases turned out to express the typical EWSR1-NR4A3 fusion'; 'all patients with the classical translocation had stable or responsive disease'), which does NOT license SD/PR -> CLASSICAL. No source held here states the partner of the two stable-disease patients, so this eight-patient arm may contain FUS, TCF12 or untyped NR4A3-rearranged cases. The label EWSR1::NR4A3 stood here until 2026-09-08 and is withdrawn (round-11 blind seat finding REF-B-2); the events and the denominator are unchanged, because no count ever rested on the label.",
-      "assumptions": [
-        "The two progressors are the two TAF15 patients. This IS licensed by the held sources, which name the TAF15 patients as the refractory ones in both directions (Stacchiotti 2020: 'no activity was observed in the two TAF15-NR4A3-positive patients included in the series'; Davis 2017: 'the two patients with the variant fusion, TAF15-NR4A3, had progressive disease on sunitinib').",
-        "No accessible source reports the partner of the eight non-TAF15 patients individually. Two of them are separately established as EWSR1::NR4A3 by the 2012 two-case report contained in this series; the other six are untyped in every source held here."
-      ],
+      "stratum_definition": "Objective response = RECIST partial response. The two TAF15 patients are the two progressors; the remaining eight are described as carrying 'the classical translocation', i.e. EWSR1::NR4A3, and comprise the 6 PR and the 2 SD.",
       "pool": false,
       "contextReason": "population-overlap",
       "overlap_note": "CANNOT BE SHOWN NON-OVERLAPPING WITH THE PAZOPANIB TRIAL, so POLICY-evidence.md s2.3 puts the smaller cohort out of the headline. Three facts make the risk material rather than theoretical: (1) Istituto Nazionale Tumori Milan ran this series and was a site of the trial, with the same senior investigator; (2) the trial's entry criterion -- NR4A3-translocated advanced EMC with RECIST progression in the previous 6 months -- is satisfied by definition by this series' two progressors, who are exactly its two TAF15 patients; (3) neither report states whether prior antiangiogenic therapy was permitted or whether any patient appears in both, and the trial's full text is paywalled. Worst case both TAF15 patients here are among the trial's three."
@@ -415,7 +411,7 @@
       "populationKey": "int-milan-advanced-emc",
       "pool": false,
       "contextReason": "population-overlap",
-      "overlap_note": "CONTAINED IN THE 2014 SERIES, not merely at risk of overlapping with it: the 2014 paper's own abstract says it reports 10 patients treated from July 2011 'strengthening what initially observed in two cases', these are those two cases, same institution and same investigator. Pooling it would count two responders twice. Both patients carried EWSR1-CHN (EWSR1::NR4A3), which is the check on the 2014 series' 2-TAF15 / 8-non-TAF15 split -- and is the ONLY EWSR1 typing this file holds for any of those eight. It covers two of the eight and licenses no statement about the other six."
+      "overlap_note": "CONTAINED IN THE 2014 SERIES, not merely at risk of overlapping with it: the 2014 paper's own abstract says it reports 10 patients treated from July 2011 'strengthening what initially observed in two cases', these are those two cases, same institution and same investigator. Pooling it would count two responders twice. Both patients carried EWSR1-CHN (EWSR1::NR4A3), which is also the check on the 2014 series' 8-EWSR1 / 2-TAF15 split."
     },
     {
       "id": "agaram-2014-outcome",
@@ -708,7 +704,7 @@
       "not_partner_assigned": 5,
       "pool": false,
       "contextReason": "abstract-only",
-      "context_note": "Meeting abstract, not peer-reviewed as a full report, and it reports no third partner class at all, so its 5-case residue cannot be interpreted the way the other rows' can. Its TAF15 share over assigned cases is 7 of 26. \u26d4 THE SUPERLATIVE THAT USED TO STAND HERE WAS FALSE AND IS WITHDRAWN, NOT SOFTENED: 7/26 is neither the highest TAF15 share among the series recorded in this file -- agaram-2014-prevalence is 7/24 and the excluded sjogren-2003-prevalence is 3/9, both higher -- nor an endpoint of the per-cohort prevalence range, which is computed over POOLED cohorts only and this abstract is not pooled. The count and its denominator are unchanged; only the false ranking claim is removed (round-11 blind seat finding REG-B-2)."
+      "context_note": "Meeting abstract, not peer-reviewed as a full report, and it reports no third partner class at all, so its 5-case residue cannot be interpreted the way the other rows' can. Its TAF15 share over assigned cases (7 of 26) is the highest of any series here and is quoted only as a range endpoint."
     },
     {
       "id": "klubickova-2022-prevalence",
@@ -867,11 +863,11 @@
           "comparator_minus_taf15_percentage_points": 37.0,
           "fisher_exact_two_sided_p": 0.155,
           "fisher_note": "POST-HOC DESCRIPTIVE ONLY. Not prespecified, not performed in any source report, not corrected for the multiple endpoints on this page, and not used to license any claim.",
-          "note": "Denominator-weighted crude pool; the pazopanib trial supplies 19 of 27 comparator patients. Both comparator arms are non-TAF15 arms, which is what makes them poolable with each other: neither is an EWSR1::NR4A3 arm."
+          "note": "Denominator-weighted crude pool; the pazopanib trial supplies 19 of 27 comparator patients."
         },
         "heterogeneity": {
           "per_cohort_percent": {
-            "sunitinib-2014 (non-TAF15 arm)": 75.0,
+            "sunitinib-2014 (EWSR1 arm)": 75.0,
             "pazopanib-NCT02066285 (non-TAF15 arm)": 21.1
           },
           "range_percent": [
@@ -922,7 +918,7 @@
           "conclusion": "The TAF15 upper bound rises; the contrast weakens. No claim here depends on which way this resolves."
         }
       },
-      "verdict": "Zero of the TAF15::NR4A3 patients treated with an antiangiogenic TKI in the reports THIS SYNTHESIS EXAMINED responded -- and that is 3 to 5 patients in total. \u26d4 NO SYSTEMATIC SEARCH WAS RUN (methods s2.3a): the candidate literature is this repository's existing EMC citation set, the reviews already in it, the reports they cite and the reports citing them. So this reads 'no such report was found in the sources examined', NEVER 'no such patient has ever been reported' -- which is why a single counter-report overturns it (falsifier #1). The 95% Wilson upper bound on the TAF15 response rate is 43.4% (both cohorts, assuming independence) to 56.1% (pazopanib alone), which sits ABOVE the comparator arm's point estimate in both analyses (37.0% and 21.1% respectively). Post-hoc Fisher exact two-sided p = 0.155 pooled and 1.0 for the trial alone. The direction is consistent across two cohorts, two drugs and five years of accrual (July 2011 to January 2017); the magnitude is not established, and the data cannot exclude a TAF15 response rate equal to the comparator arm's. \u26d4 THAT COMPARATOR IS non-TAF15 IN BOTH ANALYSES, NOT EWSR1: neither the trial's 19 nor the sunitinib series' 8 are typed patient by patient in any source held here, so no rate on this page is a rate IN EWSR1::NR4A3 patients."
+      "verdict": "Zero of the TAF15::NR4A3 patients treated with an antiangiogenic TKI in the reports THIS SYNTHESIS EXAMINED responded -- and that is 3 to 5 patients in total. \u26d4 NO SYSTEMATIC SEARCH WAS RUN (methods s2.3a): the candidate literature is this repository's existing EMC citation set, the reviews already in it, the reports they cite and the reports citing them. So this reads 'no such report was found in the sources examined', NEVER 'no such patient has ever been reported' -- which is why a single counter-report overturns it (falsifier #1). The 95% Wilson upper bound on the TAF15 response rate is 43.4% (both cohorts, assuming independence) to 56.1% (pazopanib alone), which sits ABOVE the comparator arm's point estimate in both analyses (37.0% and 21.1% respectively). Post-hoc Fisher exact two-sided p = 0.155 pooled and 1.0 for the trial alone. The direction is consistent across two cohorts, two drugs and five years of accrual (July 2011 to January 2017); the magnitude is not established, and the data cannot exclude a TAF15 response rate equal to the EWSR1 one."
     },
     "B_outcome_by_partner": {
       "question": "Does the NR4A3 5' fusion partner predict disease-specific death, recurrence or metastasis?",
@@ -1558,7 +1554,7 @@
     "The Lancet Oncol 2019 full text showing that the pazopanib trial's non-TAF15 arm contains non-EWSR1 partners, or that a TAF15 patient sat outside the evaluable 22.",
     "Confirmation that the sunitinib series' TAF15 patients re-enrolled on the pazopanib trial, which would collapse the world's TAF15 experience to three patients.",
     "A partner-stratified reanalysis of any registry (SEER, the Japanese national registry, the US Sarcoma Collaborative) showing no survival separation once size and stage are adjusted for -- which is the direction Huang 2023 already points.",
-    "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is not elevated. The pooled crude death contrast now rests on two cohorts whose TAF15 arms are 7 and 8 patients. \u26a0 HOW LARGE SUCH A COHORT WOULD HAVE TO BE DEPENDS ON THE CRITERION, AND ONLY ONE CRITERION IS COMPUTED HERE. Under the SPECIFIC scenario of a cohort with NO disease-specific deaths at all, judged by whether the pooled TAF15 POINT ESTIMATE falls to or below the comparator arm's Wilson upper bound of 20.8%, with the comparator arm HELD FIXED at its observed counts, it would take 19 further TAF15 patients -- a total TAF15 denominator of 34 -- and a third cohort of 7 or 8 with zero deaths leaves the pooled estimate at 31.8% and 30.4%. \u26d4 THAT IS ONE SCENARIO UNDER ONE CRITERION AND NOT A COMPLETE ACCOUNTING. Four degrees of freedom are omitted from it: (1) the criterion itself -- every other contrast in this synthesis is judged by INTERVAL OVERLAP, under which the two arms reconcile at a far smaller cohort size, and THAT COUNT IS NOT COMPUTED ANYWHERE IN THIS ARTIFACT; (2) comparator growth -- a real third cohort would report both arms and move the comparator's own upper bound; (3) a non-zero TAF15 death rate in the third cohort, which this scenario does not cover; (4) adjustment, which belongs to the size-adjustment falsifier below. \u26d4 THE EARLIER CLAIM THAT THE STATED CHOICES MADE THIS FALSIFIER EASIER TO TRIGGER, AND THE COMPLETENESS IT IMPLIED, ARE WITHDRAWN (round-11 blind seat finding STAT-B-2); no ranking of this falsifier against the others here is asserted. The 19/34 pair is derived by zero_death_patients_to_reconcile() from the counts in this artifact, not asserted, and carries the scope above wherever it is quoted.",
+    "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is not elevated. The pooled crude death contrast now rests on two cohorts whose TAF15 arms are 7 and 8 patients. \u26a0 BUT ONE SUCH COHORT WOULD NOT OVERTURN THIS, AND SAYING SO IS PART OF THE FALSIFIER: it would take 19 FURTHER TAF15 patients with no disease-specific deaths at all -- a total TAF15 denominator of 34, more than twice the world's pooled experience here -- to bring the pooled point estimate down to the comparator arm's Wilson upper bound of 20.8%. A third cohort of 7 or 8 with zero deaths leaves it at 31.8% and 30.4%. Derived by zero_death_patients_to_reconcile() from the counts in this artifact, not asserted.",
     "Any size-adjusted partner analysis in which the partner DOES remain independent. That would overturn the defeater rather than the effect, and it is the single result that would turn the crude magnitude on this page into a claim about biology instead of a claim about tumour size."
   ],
   "resolved_2026_08_08": {

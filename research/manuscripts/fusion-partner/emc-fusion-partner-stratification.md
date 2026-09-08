@@ -296,15 +296,19 @@ drugs and five years of accrual (July 2011 – January 2017: the sunitinib serie
 start, `citations.stacchiotti2014.population`, to the pazopanib trial's enrolment close, §4.11). The
 magnitude is not established: in **both** analyses the TAF15 arm's 95 % upper bound lies **above the
 comparator arm's own point estimate**, so the data cannot exclude a TAF15 response rate equal to the
-EWSR1 one. Anyone who has written "TAF15 tumours do not respond to antiangiogenics" has written a claim
+comparator arm's. **That comparator is `non-TAF15` in both analyses, not EWSR1** (§4.6), so no rate on this
+page is a response rate *in EWSR1::NR4A3 patients*. Anyone who has written "TAF15 tumours do not respond to antiangiogenics" has written a claim
 the evidence does not carry — and that includes reviews that state it flatly.
 
 Two further features of the primary analysis matter and are easy to lose:
 
-- **The comparator arm is `non-TAF15`, not verified EWSR1.** All four pazopanib responders are reported as
+- **Neither comparator arm is verified EWSR1.** All four pazopanib responders are reported as
   EWSR1::NR4A3, but no accessible source gives the trial's full partner distribution, so the 19 comparator
   patients may include *FUS*, *TCF12* or untyped *NR4A3*-rearranged cases. Labelling that arm "EWSR1" would be
-  a fabrication of the trial's own composition.
+  a fabrication of the trial's own composition. **The same now holds for the sunitinib series' eight-patient
+  arm in the secondary analysis**, which the artifact labelled `EWSR1::NR4A3` until 2026-09-08 and now labels
+  `non-TAF15` (§4.6). The two arms are poolable in the secondary analysis *because* they are both
+  `non-TAF15` arms.
 - **A sensitivity analysis on the one unevaluable patient does not rescue anything.** If the patient who died
   before the primary analysis carried TAF15, the strata become 0/2 and 4/20; the TAF15 upper bound rises to
   65.8 % and the contrast weakens. No claim here depends on which way that resolves
@@ -646,10 +650,22 @@ with the classical translocation had stable or responsive disease"* — which ru
 **not** license *SD/PR → classical*. **No source held here states the partner of the two stable-disease
 patients**, so that eight-patient arm can contain *FUS*, *TCF12* or untyped *NR4A3*-rearranged cases for exactly
 the reason the pazopanib arm is refused the EWSR1 label. No count changes; the 6/8, the per-cohort 75.0 % and the
-pooled 37.0 % are unaffected, and only the label they carry is withdrawn. ⛔ **The artifact still names that
-stratum `EWSR1::NR4A3`** in `cohorts[sunitinib-2014].strata` and `stratum_definition`; correcting it is a
-generator change and an artifact regeneration, and it has **not** been made — so the artifact and this
-limitation disagree on the label until it is.
+pooled 37.0 % are unaffected, and only the label they carry is withdrawn. ⭐ **The artifact and the generator now
+carry the correction too, so the label agrees on both sides of the boundary.**
+`cohorts[sunitinib-2014].strata` names that stratum **`non-TAF15`**, `stratum_definition` states the
+directional reason in the artifact's own words, the secondary pool's per-cohort key reads
+**`sunitinib-2014 (non-TAF15 arm)`**, and a new `cohorts[sunitinib-2014].assumptions` records both what the
+sources *do* license (the two progressors are the two TAF15 patients) and what they do not (the partner of
+the eight is untyped, except for the two patients the 2012 report separately types as EWSR1::NR4A3).
+**What the secondary estimand is, stated once so it is not mistaken.** The secondary analysis pools a
+`non-TAF15` arm with a `non-TAF15` arm; it is the same TAF15-versus-non-TAF15 contrast as the primary, on a
+larger denominator and under an independence assumption. **It is not, and never was, a comparison against a
+confirmed EWSR1::NR4A3 arm.** No partner-comparative quantity on this page therefore had to be withdrawn, and
+none was replaced: every figure in §3.1's secondary row — both arms, the pooled comparator rate, the
+per-cohort pair, their spread and the TAF15 upper bound — is unchanged by this correction, because none of
+them ever depended on the label. Each is accounted for individually in **A42** of the correction register.
+**A comparison of a TAF15 arm against a *verified EWSR1* arm does not exist anywhere in this synthesis and is
+not claimed.**
 
 **4.7 · Crude proportions, mixed follow-up, no censoring — and one cohort does not publish its follow-up at
 all.** The outcome figures in §3.3 are during-follow-up proportions pooled over two cohorts: one whose arms
@@ -811,17 +827,24 @@ start reporting the partner rather than acting on it.*
    (`zero_death_patients_to_reconcile()`) from the artifact's own counts, and it is the fifth entry of the
    artifact's `what_could_kill_this`. It is measured against the comparator arm's Wilson **upper** bound
    rather than its point estimate, with that arm held fixed rather than allowed to grow, and each of those two
-   choices pushes the threshold **up** relative to its alternative — a growing comparator's own upper bound
-   would fall and move the threshold further away than the figure printed here.
+   choices moves the threshold **up** relative to its alternative.
+   ⛔ **That is one scenario under one criterion, and the accounting of it is explicitly not complete.**
    ⚠ *Superseded, retained: "both choices make this falsifier easier to trigger."* That sentence was a
-   **completeness** claim about the accounting and it was not complete. A third choice is doing more work than
-   either: the TAF15 arm is summarised here by its **point estimate**, while every other contrast in this paper
-   is judged by its Wilson interval — and §3.3 and §5 use overlapping intervals as the marker of
-   non-establishment for the metastasis row. Judged by the standard the rest of the document applies, a third
-   zero-death cohort would reconcile the two arms at a far smaller size than 19 further patients. ⛔ **The
-   count under an interval-overlap criterion is not printed here**, because every threshold this section states
-   is derived in the generator from the artifact's counts and no such field exists; adding one is a generator
-   change and an artifact regeneration, and it has not been made.
+   **completeness** claim about the accounting and it was not complete; it is **withdrawn**, and so is any
+   ranking of this falsifier against the others in this list. **Four degrees of freedom sit outside the
+   figure:** (1) the **criterion** — the TAF15 arm is summarised here by its **point estimate**, while every
+   other contrast in this paper is judged by its Wilson interval, and §3.3 and §5 use overlapping intervals as
+   the marker of non-establishment for the metastasis row, so judged by the standard the rest of the document
+   applies a third zero-death cohort would reconcile the two arms at a far smaller size than 19 further
+   patients; (2) **comparator growth** — a real third cohort would report *both* arms and move the comparator's
+   own upper bound, which this scenario freezes; (3) a **non-zero TAF15 death rate** in the third cohort, which
+   the zero-death premise does not cover at all; and (4) **adjustment**, which belongs to falsifier 6 rather
+   than to this arithmetic. ⛔ **The count under an interval-overlap criterion is not printed here**, because
+   every threshold this section states is derived in the generator from the artifact's counts and no such field
+   exists; adding one is a new derivation, and it has deliberately not been made. ⭐ **The artifact's twin
+   sentence now carries this same scope and the same four omissions**, and
+   `zero_death_patients_to_reconcile()`'s own docstring states them, so prose, generator and artifact no longer
+   disagree about what the 19 and the 34 mean.
 6. Any **size-adjusted** partner analysis in which the partner *does* remain independent. That would overturn
    the defeater rather than the effect, and it is the one result that would turn §3.3's crude magnitude into a
    claim about biology instead of a claim about tumour size.

@@ -156,10 +156,33 @@ def zero_death_patients_to_reconcile(taf: dict, comparator: dict) -> dict:
     threshold is DERIVED here from the counts rather than asserted in prose, and the paper prints
     whatever this returns.
 
-    The comparator arm is held FIXED — it gains no patients from the hypothetical cohort. That is the
-    conservative direction and the defensible one: letting the comparator grow too drives its own
-    upper bound DOWN (its event count is fixed), which makes the threshold recede rather than
-    approach, so modelling growth in both arms would overstate how reachable the falsifier is.
+    ⛔ WHAT THIS FUNCTION COMPUTES IS ONE SCENARIO UNDER ONE CRITERION, AND IT IS NOT A COMPLETE
+    ACCOUNTING OF HOW FALSIFIER #5 COULD BE REACHED. Round-11 blind seat finding STAT-B-2 is that the
+    conservatism accounting stated beside this number claimed to be complete and was not. The
+    superseded claim — that the two named choices (upper bound rather than point estimate; comparator
+    held fixed) make the falsifier "easier to trigger", so the printed k is the reachable one — is
+    WITHDRAWN. It is not restated in qualified form here, because the qualification is the point:
+
+      • CRITERION. k is the smallest denominator growth that brings the TAF15 arm's POINT ESTIMATE to
+        or below the comparator arm's Wilson 95 % upper bound. That is a point-estimate-against-
+        interval-endpoint test. Every other contrast in this document is judged by INTERVAL OVERLAP
+        (§3.3 and §5 use overlapping Wilson intervals as the marker of non-establishment for the
+        metastasis row). Under an overlap criterion the two arms reconcile at a far smaller cohort
+        size than the k printed here. ⛔ THAT COUNT IS NOT COMPUTED ANYWHERE IN THIS FILE and this
+        function does not compute it.
+      • COMPARATOR GROWTH. The comparator arm is held fixed: it gains no patients from the
+        hypothetical cohort. A real third cohort reporting per-partner counts would report BOTH arms,
+        and a growing comparator moves its own Wilson upper bound. This function models none of that.
+      • TAF15 EVENTS. The hypothetical patients contribute denominator only, with the TAF15 event
+        count frozen at its observed value. A third cohort with a low but non-zero TAF15 death rate
+        is outside this scenario entirely.
+      • ADJUSTMENT. The pooled estimate is crude. A size-adjusted third cohort belongs to the
+        separate falsifier about adjustment, not to this arithmetic.
+
+    ⛔ SO THE OUTPUT IS "how large a ZERO-DEATH cohort this ONE criterion would need, with the
+    comparator frozen", and it must be quoted with that scope attached. It is NOT a statement that
+    one further cohort cannot overturn the contrast, and it is NOT a ranking of this falsifier
+    against the others in `what_could_kill_this`.
     """
     events = taf["events"]
     hi = comparator["ci95_hi_percent"]
@@ -371,7 +394,9 @@ CITATIONS = {
             "Independent group (University of Michigan). Verbatim: 'The two patients with the "
             "variant fusion, TAF15-NR4A3, had progressive disease on sunitinib, while all patients "
             "with the classical translocation had stable or responsive disease.' This is the "
-            "sentence that fixes the sunitinib denominators at 8 EWSR1 / 2 TAF15."
+            "sentence that fixes the sunitinib denominators at 2 TAF15 / 8 non-TAF15. \u26a0 IT "
+            "FIXES THE DENOMINATORS, NOT THE COMPARATOR ARM'S PARTNER: it runs classical -> "
+            "SD/PR, so it cannot be read backwards to type the eight as EWSR1::NR4A3."
         ),
     },
     "agaram2014": {
@@ -700,14 +725,33 @@ COHORTS = [
         "corroboratingSourceIds": ["davis2017", "jacobs2021"],
         "populationKey": "int-milan-advanced-emc",
         "strata": {
-            "EWSR1::NR4A3": {"events": 6, "denom": 8},
+            "non-TAF15": {"events": 6, "denom": 8},
             "TAF15::NR4A3": {"events": 0, "denom": 2},
         },
         "stratum_definition": (
             "Objective response = RECIST partial response. The two TAF15 patients are the two "
-            "progressors; the remaining eight are described as carrying 'the classical "
-            "translocation', i.e. EWSR1::NR4A3, and comprise the 6 PR and the 2 SD."
+            "progressors; the remaining eight comprise the 6 PR and the 2 SD. \u26d4 THE "
+            "COMPARATOR ARM IS LABELLED non-TAF15, NOT EWSR1, FOR EXACTLY THE REASON THE "
+            "PAZOPANIB ARM IS: the held quotations run CLASSICAL -> SD/PR ('all responsive cases "
+            "turned out to express the typical EWSR1-NR4A3 fusion'; 'all patients with the "
+            "classical translocation had stable or responsive disease'), which does NOT license "
+            "SD/PR -> CLASSICAL. No source held here states the partner of the two "
+            "stable-disease patients, so this eight-patient arm may contain FUS, TCF12 or untyped "
+            "NR4A3-rearranged cases. The label EWSR1::NR4A3 stood here until 2026-09-08 and is "
+            "withdrawn (round-11 blind seat finding REF-B-2); the events and the denominator are "
+            "unchanged, because no count ever rested on the label."
         ),
+        "assumptions": [
+            "The two progressors are the two TAF15 patients. This IS licensed by the held "
+            "sources, which name the TAF15 patients as the refractory ones in both directions "
+            "(Stacchiotti 2020: 'no activity was observed in the two TAF15-NR4A3-positive "
+            "patients included in the series'; Davis 2017: 'the two patients with the variant "
+            "fusion, TAF15-NR4A3, had progressive disease on sunitinib').",
+            "No accessible source reports the partner of the eight non-TAF15 patients "
+            "individually. Two of them are separately established as EWSR1::NR4A3 by the 2012 "
+            "two-case report contained in this series; the other six are untyped in every source "
+            "held here.",
+        ],
         "pool": False,
         "contextReason": "population-overlap",
         "overlap_note": (
@@ -771,8 +815,9 @@ COHORTS = [
             "paper's own abstract says it reports 10 patients treated from July 2011 'strengthening "
             "what initially observed in two cases', these are those two cases, same institution and "
             "same investigator. Pooling it would count two responders twice. Both patients carried "
-            "EWSR1-CHN (EWSR1::NR4A3), which is also the check on the 2014 series' 8-EWSR1 / 2-TAF15 "
-            "split."
+            "EWSR1-CHN (EWSR1::NR4A3), which is the check on the 2014 series' 2-TAF15 / 8-non-TAF15 "
+            "split -- and is the ONLY EWSR1 typing this file holds for any of those eight. It "
+            "covers two of the eight and licenses no statement about the other six."
         ),
     },
     # ---- endpoint: disease-specific death by partner -----------------------
@@ -1126,8 +1171,13 @@ COHORTS = [
         "context_note": (
             "Meeting abstract, not peer-reviewed as a full report, and it reports no third partner "
             "class at all, so its 5-case residue cannot be interpreted the way the other rows' can. "
-            "Its TAF15 share over assigned cases (7 of 26) is the highest of any series here and is "
-            "quoted only as a range endpoint."
+            "Its TAF15 share over assigned cases is 7 of 26. \u26d4 THE SUPERLATIVE THAT USED TO "
+            "STAND HERE WAS FALSE AND IS WITHDRAWN, NOT SOFTENED: 7/26 is neither the highest "
+            "TAF15 share among the series recorded in this file -- agaram-2014-prevalence is 7/24 "
+            "and the excluded sjogren-2003-prevalence is 3/9, both higher -- nor an endpoint of "
+            "the per-cohort prevalence range, which is computed over POOLED cohorts only and this "
+            "abstract is not pooled. The count and its denominator are unchanged; only the false "
+            "ranking claim is removed (round-11 blind seat finding REG-B-2)."
         ),
     },
     {
@@ -1302,10 +1352,10 @@ def _self_check(by_id: dict) -> None:
     stratum cannot survive: it has to disagree with a number printed in the source abstract.
     """
     suni = by_id["sunitinib-2014"]["strata"]
-    assert suni["EWSR1::NR4A3"]["denom"] + suni["TAF15::NR4A3"]["denom"] == 10, (
+    assert suni["non-TAF15"]["denom"] + suni["TAF15::NR4A3"]["denom"] == 10, (
         "sunitinib strata must partition the 10 patients in PMID 24703573"
     )
-    assert suni["EWSR1::NR4A3"]["events"] == 6, "PMID 24703573 abstract: six RECIST partial responses"
+    assert suni["non-TAF15"]["events"] == 6, "PMID 24703573 abstract: six RECIST partial responses"
 
     pazo = by_id["pazopanib-NCT02066285"]["strata"]
     assert pazo["TAF15::NR4A3"]["denom"] + pazo["non-TAF15"]["denom"] == 22, (
@@ -1448,8 +1498,8 @@ def build() -> dict:
         suni["TAF15::NR4A3"]["denom"] + pazo["TAF15::NR4A3"]["denom"],
     )
     union_oth = wilson(
-        suni["EWSR1::NR4A3"]["events"] + pazo["non-TAF15"]["events"],
-        suni["EWSR1::NR4A3"]["denom"] + pazo["non-TAF15"]["denom"],
+        suni["non-TAF15"]["events"] + pazo["non-TAF15"]["events"],
+        suni["non-TAF15"]["denom"] + pazo["non-TAF15"]["denom"],
     )
 
     analysis_tki = {
@@ -1483,11 +1533,13 @@ def build() -> dict:
                 "tki_response_both_cohorts",
                 union_taf,
                 union_oth,
-                "Denominator-weighted crude pool; the pazopanib trial supplies 19 of 27 comparator patients.",
+                "Denominator-weighted crude pool; the pazopanib trial supplies 19 of 27 comparator "
+                "patients. Both comparator arms are non-TAF15 arms, which is what makes them "
+                "poolable with each other: neither is an EWSR1::NR4A3 arm.",
             ),
             "heterogeneity": heterogeneity(
                 [
-                    {"cohort": "sunitinib-2014 (EWSR1 arm)", "percent": round(100 * 6 / 8, 1)},
+                    {"cohort": "sunitinib-2014 (non-TAF15 arm)", "percent": round(100 * 6 / 8, 1)},
                     {"cohort": "pazopanib-NCT02066285 (non-TAF15 arm)", "percent": round(100 * 4 / 19, 1)},
                 ]
             ),
@@ -1531,7 +1583,10 @@ def build() -> dict:
             "two-sided p = {p5} pooled and {p3} for the trial alone. The direction is consistent "
             "across two cohorts, two drugs and five years of accrual (July 2011 to January 2017); "
             "the magnitude is not established, and "
-            "the data cannot exclude a TAF15 response rate equal to the EWSR1 one."
+            "the data cannot exclude a TAF15 response rate equal to the comparator arm's. \u26d4 "
+            "THAT COMPARATOR IS non-TAF15 IN BOTH ANALYSES, NOT EWSR1: neither the trial's 19 "
+            "nor the sunitinib series' 8 are typed patient by patient in any source held here, "
+            "so no rate on this page is a rate IN EWSR1::NR4A3 patients."
         ).format(
             lo_n=primary_taf["denom"],
             hi_n=union_taf["denom"],
@@ -2129,13 +2184,27 @@ def build() -> dict:
             (
                 "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is "
                 "not elevated. The pooled crude death contrast now rests on two cohorts whose "
-                "TAF15 arms are 7 and 8 patients. ⚠ BUT ONE SUCH COHORT WOULD NOT OVERTURN THIS, "
-                "AND SAYING SO IS PART OF THE FALSIFIER: it would take {k} FURTHER TAF15 patients "
-                "with no disease-specific deaths at all -- a total TAF15 denominator of {n}, more "
-                "than twice the world's pooled experience here -- to bring the pooled point "
-                "estimate down to the comparator arm's Wilson upper bound of {hi}%. A third "
-                "cohort of 7 or 8 with zero deaths leaves it at {p7}% and {p8}%. Derived by "
-                "zero_death_patients_to_reconcile() from the counts in this artifact, not asserted."
+                "TAF15 arms are 7 and 8 patients. \u26a0 HOW LARGE SUCH A COHORT WOULD HAVE TO BE "
+                "DEPENDS ON THE CRITERION, AND ONLY ONE CRITERION IS COMPUTED HERE. Under the "
+                "SPECIFIC scenario of a cohort with NO disease-specific deaths at all, judged by "
+                "whether the pooled TAF15 POINT ESTIMATE falls to or below the comparator arm's "
+                "Wilson upper bound of {hi}%, with the comparator arm HELD FIXED at its observed "
+                "counts, it would take {k} further TAF15 patients -- a total TAF15 denominator of "
+                "{n} -- and a third cohort of 7 or 8 with zero deaths leaves the pooled estimate "
+                "at {p7}% and {p8}%. \u26d4 THAT IS ONE SCENARIO UNDER ONE CRITERION AND NOT A "
+                "COMPLETE ACCOUNTING. Four degrees of freedom are omitted from it: (1) the "
+                "criterion itself -- every other contrast in this synthesis is judged by INTERVAL "
+                "OVERLAP, under which the two arms reconcile at a far smaller cohort size, and "
+                "THAT COUNT IS NOT COMPUTED ANYWHERE IN THIS ARTIFACT; (2) comparator growth -- a "
+                "real third cohort would report both arms and move the comparator's own upper "
+                "bound; (3) a non-zero TAF15 death rate in the third cohort, which this scenario "
+                "does not cover; (4) adjustment, which belongs to the size-adjustment falsifier "
+                "below. \u26d4 THE EARLIER CLAIM THAT THE STATED CHOICES MADE THIS FALSIFIER "
+                "EASIER TO TRIGGER, AND THE COMPLETENESS IT IMPLIED, ARE WITHDRAWN (round-11 "
+                "blind seat finding STAT-B-2); no ranking of this falsifier against the others "
+                "here is asserted. The {k}/{n} pair is derived by "
+                "zero_death_patients_to_reconcile() from the counts in this artifact, not "
+                "asserted, and carries the scope above wherever it is quoted."
             ).format(
                 k=dod_threshold["further_zero_death_taf15_patients_required"],
                 n=dod_threshold["total_taf15_denominator_required"],
