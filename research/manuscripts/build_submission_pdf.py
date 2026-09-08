@@ -254,7 +254,8 @@ PAPERS = {
         # `TAF15:`, `ENST0`, `UNRES` truncated at the paper's edge. The prefix catches the
         # "continued" half too, so the two parts stay at one width. No cell, caption or type size
         # changes; only the measure the table is given.
-        "layout": {"raster_full_width": True,
+        "layout": {"is_outgoing_file": True,
+                   "raster_full_width": True,
                    "full_width_tables": ("Supplementary Table S3",)},
         "journal": {
             # ⭐ THE TYPE THE MANUSCRIPT ITSELF DECLARES, not a house default: its editorial VENUE
@@ -3098,9 +3099,22 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     suffix, subject = FORMATS[style]
     other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
                              if style in ("journal", "preprint") else paper["out"])
+    #: ⭐ PER-PAPER OPT-IN: THIS BUILD *IS* THE OUTGOING FILE (2026-09-08). The FORMATS table above
+    #: assumes every `journal` build is a typeset preview standing beside a `-manuscript.pdf` that
+    #: is the real deposit. For a paper whose selected outgoing file IS the journal-style render,
+    #: that is false twice over: the title carries "[typeset preview]", and the subject directs a
+    #: reader to cite and deposit a file this paper does not ship. A downloader following it would
+    #: look for something that does not exist. The flag corrects only THIS paper's labels; every
+    #: other registered paper keeps the two-build wording, which is true for them.
+    #: ⛔ It states no DOI, no publication date, and no claim that the file is already deposited —
+    #: "journal" here is this renderer's style name and carries no journal-submission authority.
+    if (paper.get("layout") or {}).get("is_outgoing_file"):
+        suffix = ""
+        subject = ("Preprint manuscript, not peer reviewed. This file is the outgoing version "
+                   "of this text and the only rendering of it that is circulated.")
     plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
     meta = {
-        "/Title": f"{plain_title} {suffix}",
+        "/Title": f"{plain_title} {suffix}".strip(),
         "/Subject": subject.format(other=other),
         #: ⛔ THE DOCUMENT PROPERTIES ARE PART OF THE BLIND. A reviewer's PDF viewer shows /Author
         #: in a properties panel, so a redacted body under an /Author field naming the author is

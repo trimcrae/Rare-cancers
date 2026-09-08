@@ -104,13 +104,18 @@ builder module: 110 passed, exit 0. The built PDF carries the figure on page 2 a
 2220×2670 with its caption on the same page. Unflagged papers render byte-identically, reproduced by
 the parent independently of the worker's report.
 
-⛔ **One item remains open and it is a real one: PRINT LEGIBILITY IS UNVERIFIED.** The figure is
-placed at 149.75 × 180.15 mm in manuscript style and 74.97 × 90.13 mm in the journal column. The
-corresponding 377 and 752 dpi say only that no resampling penalty is imposed; they are not evidence
-that the figure's smallest type is readable at either size, and the journal column is the harder
-case. Verification needs a person reading a proof at 100%, or the drawing script's font sizes carried
-through this scale and checked against a minimum print type size. Neither has been done. **No dpi
-figure in this record may be quoted as if legibility were established.**
+⭐ **CLOSED 2026-09-08 — the selected figure IS verified readable.** Root rendered and viewed all
+nine pages of the outgoing PDF and accepted the full-width Figure 1. That settles legibility **for
+the rendering that actually ships**, by inspection rather than by arithmetic.
+
+⚠ **The historical failure stays on the record as history, not as an open item.** The journal-column
+placement DID fail, measured at 3.03 pt tick labels and 2.71 pt smallest type, and that measurement
+is why the full-width placement exists. It is not a live concern.
+
+⚠ **The UNUSED manuscript-style variant's 5.42 pt smallest text remains unresolved and is NOT a
+gate.** It is a different rendering that this paper does not ship. The 6 pt threshold behind that
+figure is an **asserted readability convention, not a sourced venue rule**, and the venue guidelines
+that might settle it return HTTP 403 from CI — an unresolved retrieval, not a route to work around.
 
 ### The block as it stood, retained
 
@@ -203,6 +208,25 @@ defect for the one just fixed.
 The repair is scoped to a full-width placement for this table behind this paper's own `PAPERS` entry,
 using the stylesheet's existing `column-span: all` mechanism. It is not a table-layout refactor, and
 two-column main tables that fit may stay where they are.
+
+## Deposit metadata, corrected 2026-09-08
+
+The outgoing PDF's `/Title` ended `[typeset preview]` and its `/Subject` said *"NOT the deposited
+version — the file to cite and deposit is emc-atr-collaborator-package-manuscript.pdf"*. Both were
+false for this paper: the journal-style render IS the selected outgoing file, and the manuscript-style
+file it pointed at is not shipped, so a downloader following that instruction would look for something
+that does not exist.
+
+Corrected through a **per-paper opt-in** (`layout.is_outgoing_file`). The scientific title is
+unchanged; the preview suffix and the misdirection are gone; the subject now reads *"Preprint
+manuscript, not peer reviewed. This file is the outgoing version of this text and the only rendering
+of it that is circulated."*
+
+⛔ **No DOI, no publication date, and no claim that the file is deposited anywhere** — verified by
+scanning the emitted subject for each. "Journal" remains this renderer's style name and carries no
+journal-submission authority. Every other registered paper keeps the two-build wording, which is true
+for them: `aso-journal`, `fusion-output` and `vaccine-path` all read `is_outgoing_file=None` and
+retain `[typeset preview]`. Builder module: 110 passed.
 
 ## Not claimed
 
