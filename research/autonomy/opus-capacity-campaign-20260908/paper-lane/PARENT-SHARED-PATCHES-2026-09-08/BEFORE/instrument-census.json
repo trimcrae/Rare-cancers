@@ -153,7 +153,7 @@
       "instrument": "Interface-stability endpoint (E1)",
       "known_answer_test": "**two** attempts: NR-V04 retrospective, SMARCA2/4 sensitivity control",
       "has_known_answer_test": true,
-      "result": "*p* = 0.393 (DISCORDANT) · *p* = 0.747 (NULL) — ⛔ **corrected 2026-09-08 (MF1 residual R1): NOT \"adequately powered\".** The attainable *p* floor 1/462 is a discreteness property of the exact reference set, **not statistical power**, and no effect size is established for this observable; the recorded fact is an **executed calibration attempt that did not meet its registered directional criterion**",
+      "result": "*p* = 0.393 (DISCORDANT) · *p* = 0.747 (NULL, adequately powered)",
       "scope_limit": "⏸ parked — **no pass** ([§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen)). ⛔ **`V5`'s wrong sign is NOT a third E1 failure** — different instrument",
       "state_verbatim": "⏸ parked",
       "verdict_class": "PARKED",
@@ -224,8 +224,8 @@
       "instrument": "The causal matched-pair test `S` (RUNG 5a-KS, ligand-side double difference, §2.10e)",
       "known_answer_test": "⛔ **none — it has no known-answer calibrator**",
       "has_known_answer_test": false,
-      "result": "**S = −0.1297 ± 0.3264 kcal/mol** — its **preregistered null**; ⚠ **corrected 2026-09-08 (MF1 residual R2): the retained protocol DESCRIBES it as registered in advance as the LIKELY outcome and explicitly not a stop — the actual chronology is unestablished.** ⛔ **Corrected 2026-09-08 (F02): it is NOT a bound** — an exploratory conditional estimate with a two-seed between-seed dispersion, compatible with zero at the observed precision",
-      "scope_limit": "⛔ **corrected 2026-09-08 (MF1 residual R1): `S` may NOT be read as a bound and may NOT be reported as calibrated.** Open decision 13's \"may be read as a bound\" is **withdrawn** (F02): the recorded uncertainty is a two-seed between-seed dispersion, not a confidence, equivalence or effect bound. `S` is non-covalent and therefore **structurally incapable** of testing the categorical mechanism. ⛔ **`S ≈ 0` does NOT mean the marginal wedge is absent** — an uncalibrated instrument returning ≈ 0 cannot separate \"no effect\" from \"cannot resolve\". STOP applies only if the categorical axis has ALSO failed",
+      "result": "**S = −0.1297 ± 0.3264 kcal/mol** — its **preregistered null**, registered in advance as the LIKELY outcome and explicitly **not** a stop. ⛔ **Corrected 2026-09-08 (F02): it is NOT a bound** — an exploratory conditional estimate with a two-seed between-seed dispersion, compatible with zero at the observed precision",
+      "scope_limit": "⛔ **`S` may be read as a bound and may NOT be reported as calibrated** (Open decision 13). `S` is non-covalent and therefore **structurally incapable** of testing the categorical mechanism; `S ≈ 0` means the *marginal* wedge is absent, and STOP applies only if the categorical axis has ALSO failed",
       "state_verbatim": "✓ complete — **preregistered null, uncalibrated**",
       "verdict_class": "COMPLETE_UNCALIBRATED",
       "serves": [
@@ -298,7 +298,7 @@
       "known_answer_test": "38 unrelated marketed drugs through the identical funnel",
       "has_known_answer_test": true,
       "result": "✕ **REFUTED** — 22 of 38 (58 %) score a positive margin, above the de-novo set's own 2 of 11",
-      "scope_limit": "⛔ nothing beyond its own scope: **22 of 38 is a POSITIVE-CALL RATE among these selected decoys under this scoring configuration**, not a measured biological false-positive rate. ⛔ **Corrected 2026-09-08 (MF1 residual R1): the universal claim that \"a signal smaller than its own noise is not recoverable by any downstream method\" is WITHDRAWN** (F07), and no design class is excluded — [§6a](#6a--dead--conclusively-unworkable-never-retry)",
+      "scope_limit": "⛔ nothing. A signal smaller than its own noise is not recoverable by any downstream method — [§6a](#6a--dead--conclusively-unworkable-never-retry)",
       "state_verbatim": "✕ **dead**",
       "verdict_class": "REFUTED",
       "serves": [

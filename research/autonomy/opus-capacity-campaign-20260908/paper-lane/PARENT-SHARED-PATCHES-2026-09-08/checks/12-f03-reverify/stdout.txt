@@ -1,0 +1,11 @@
+PASS  V1_retained_before_json_is_the_recorded_original  sha256=ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407 bytes=27256
+PASS  V2_retained_before_producer_is_the_recorded_original  sha256=6dcea81de63a4dd9ab66f39144b2ba531351efd9f1a8d51b233388456bfbdb78 bytes=30914
+PASS  V3_live_json_parses  one JSON document, 11 top-level keys
+PASS  V4_json_structural_difference_is_only_the_three_annotation_keys  leaves before=669 after=671 added=['$.per_gene._annotation_correction_2026-09-08', '$.per_gene._contrast_superseded_2026-09-08'] removed=[] changed=['$.per_gene._contrast']
+PASS  V5_every_other_leaf_value_is_identical_both_directions  669 leaves compared (244 non-string), 0 moved outside the annotation keys, 0 dropped
+PASS  V6_key_order_and_membership_preserved_outside_per_gene  top-level order identical; per_gene gained exactly the two dated keys in place
+PASS  V7_superseded_string_retained_verbatim_in_place  the original annotation is still quotable inside the artifact that carried it
+PASS  V8_producer_diff_is_one_hunk_and_only_the_contrast_literal  changed hunks=1, before_lines=3 after_lines=13, all inside the _contrast string literal=True
+PASS  V9_producer_still_parses  ast.parse clean; NOT executed
+
+failed=0
