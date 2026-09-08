@@ -29,9 +29,7 @@ ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
 
 Running title: Repurposing candidates in EMC
 
-<!-- EDITORIAL, NOT FOR SUBMISSION. STRIPPED AT SUBMISSION: two things are removed from the
-submitted manuscript, this editorial comment and Appendix A. Both are retained in the repository
-copy because this repository keeps one file per deliverable.
+<!-- EDITORIAL, NOT FOR SUBMISSION.
 VENUE: Critical Reviews in Oncology/Hematology (Elsevier), article type Review, with a bioRxiv
 preprint as the free open copy and Zenodo as the fallback deposit.
 FEE ROUTE: THE $0 SUBSCRIPTION ROUTE IS NOW VERIFIED AT PRIMARY SOURCE (2026-08-10). The publisher
@@ -63,31 +61,7 @@ review rather than to primary EMC reports. Two candidate primaries were surfaced
 are not cited here because no committed artifact carries their titles or author lists.
 CHOW 2007 SENTENCE: the target list attributed to that review comes from the prior-art screen
 record in emc-prior-art-2026-08-09.json and from the abstract it summarises, not from a full text
-read here.
-
-REFERENCE COMPLETION NOTE, relocated here from the body of the manuscript (review response item
-24). It is editor-facing and states that the reference list is not submission-ready, which is a
-repository fact rather than a claim a published paper should carry. Verbatim:
-
-*Reference completion note.* Author lists, journal titles, volumes and pages are taken from the
-retrieval records in
-[`submission-reference-metadata-2026-08-09.json`](../../literature/submission-reference-metadata-2026-08-09.json),
-[`citation-corrections-2026-08-09.json`](../../literature/citation-corrections-2026-08-09.json) and
-[`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json); where a record lists
-more than six authors the first six are given. References 4 to 7, 9, 10, 18 and 19 are not in those
-records and still carry no volume or page detail, and reference 20 is a database with no article
-record; all must be completed from the primary sources, and not by inference, before submission.
-Reference 15 was
-read from its abstract by way of Europe PMC; the article is not open access and its full text has
-not been read here, so every statement attributed to it above is quoted from the abstract.
-References 21 and 22 were retrieved from PubMed on 2026-08-28 and are likewise abstract-level only:
-reference 21 carries no PMCID and no full text was reachable, and PMC12428389 was not fetched for
-reference 22, so every statement attributed to either above is taken from its PubMed abstract
-([`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json)). The
-full text of reference 16 was retrieved and read. Crossref dates reference 10 to 2020 as an
-online-first record; it is cited here to the 2021 Nucleic Acids Research database issue, and both
-are standard.
--->
+read here. -->
 
 > *Declarations for preprint deposit.* Ethics approval and consent were not required and were not
 > sought: this work analyses only published literature and public databases, and involves no human
@@ -678,13 +652,28 @@ authors of the primary EMC literature cited below.
 21. Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, et al. A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas. *Cancer.* 2005;103(7):1431-8. doi 10.1002/cncr.20968. PMID 15739208.
 22. Boklan J, Langevin AM, Bielamowicz K, Neville K, Trippett T, Brown V, et al. A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors. *Cancers (Basel).* 2025;17(17):2924. doi 10.3390/cancers17172924. PMID 40941020. PMC12428389.
 
+*Reference completion note.* Author lists, journal titles, volumes and pages are taken from the
+retrieval records in
+[`submission-reference-metadata-2026-08-09.json`](../../literature/submission-reference-metadata-2026-08-09.json),
+[`citation-corrections-2026-08-09.json`](../../literature/citation-corrections-2026-08-09.json) and
+[`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json); where a record lists
+more than six authors the first six are given. References 4 to 7, 9, 10, 18 and 19 are not in those
+records and still carry no volume or page detail, and reference 20 is a database with no article
+record; all must be completed from the primary sources, and not by inference, before submission.
+Reference 15 was
+read from its abstract by way of Europe PMC; the article is not open access and its full text has
+not been read here, so every statement attributed to it above is quoted from the abstract.
+References 21 and 22 were retrieved from PubMed on 2026-08-28 and are likewise abstract-level only:
+reference 21 carries no PMCID and no full text was reachable, and PMC12428389 was not fetched for
+reference 22, so every statement attributed to either above is taken from its PubMed abstract
+([`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json)). The
+full text of reference 16 was retrieved and read. Crossref dates reference 10 to 2020 as an
+online-first record; it is cited here to the 2021 Nucleic Acids Research database issue, and both
+are standard.
+
 ---
 
 ## Appendix A. Superseded and corrected values
-
-> *Stripped at submission.* Appendix A is removed from the submitted manuscript, together with
-> the editorial HTML comment at the head of this file. Both are retained in the repository copy
-> because this repository keeps one file per deliverable.
 
 Per the project's correction rule, a corrected value is registered rather than dropped, and the
 live text above carries only the current value. Every row below was a claim this document, or the
