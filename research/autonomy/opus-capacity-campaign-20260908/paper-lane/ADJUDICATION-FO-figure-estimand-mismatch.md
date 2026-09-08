@@ -28,9 +28,15 @@ denominator the paper itself says is not the number ranked.
 
 ## What is NOT established
 
+⚠ **Corrected 2026-09-08 by root, and re-verified by the parent: `fig_matrix` writes
+`fig4-instrument-convergence`, NOT `fig2`.** `nr4a3_fusion_targets_figures.py:472` maps
+`fig_matrix` to `fig4-instrument-convergence`; `fig2-evidence-classes` is `fig_classes`
+(line 470). The earlier wording in this record named the wrong output file. The mismatch itself
+is unchanged — only the figure it lands on.
+
 ⛔ **Nobody has looked at the rendered figure.** This is a reading of the generator's source text
 against the manuscript's source text. Neither root nor the parent has visually inspected the
-committed `fig2`/`fig_matrix` pixels in this heartbeat, and **it is not claimed that the rendered
+committed `fig4-instrument-convergence` pixels, and **it is not claimed that the rendered
 image shows this label** — the generator could have been edited after the last draw. That is
 precisely one of the things adjudication has to settle.
 
@@ -43,7 +49,7 @@ denominator a label names.
 
 ## What adjudication needs
 
-1. Whether the committed rendered figure actually displays "14,120" — read from the artifact, not
+1. Whether the committed rendered `fig4-instrument-convergence` actually displays "14,120" — read from the artifact, not
    from the generator source.
 2. Which denominator that column's values were computed against — the definition in
    `gse28866-tumour-vs-normal.json` → `ratio_calibration`, not an inference from the label.
