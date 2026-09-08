@@ -7,7 +7,7 @@
 ## The issue — measured, not inferred
 
 Peer review **Minor 16/17** asks to "replace the salted-hash jitter with a deterministic offset".
-**K1 measured that this is a live defect** ():
+**K1 measured that this is a live defect** (`COLLECTION-K1-adjudication.md`):
 
 `research/modalities/emc_surface_figure.py` computes
 `jitter = 0.12 * (hash(g) % 5 - 2)`. Python's string `hash()` is **salted per process**
@@ -69,3 +69,21 @@ including your own lane.
 
 Acceptance 8; the jitter already being deterministic on reading; any step needing a prohibited action;
 or **~40 tool calls / ~40 minutes**. Early with a supported result or block is success.
+
+---
+
+# ⚠ Write-defect note, appended 2026-09-08 10:35 UTC
+
+This file was first written with an **unquoted heredoc**. Most backticks in it were escaped, but one
+pair — the citation on the line above — was not, so the shell ran it as a command
+(`COLLECTION-K1-adjudication.md: command not found`) and substituted **empty text**, leaving
+`(` `)`. The citation is restored above.
+
+**This is the second occurrence of the same class of defect today**, after the corrupted line in
+`I1-executed-artifacts/parent-pytest/TESTED-REVISION-AND-ENVIRONMENT.md`, where a double-quoted
+`echo` executed `pytest` repo-wide. **No contract term, bound, acceptance item or stop condition was
+altered** — the loss was a citation only, and the deletion is visible in this file's Git history.
+
+**Standing rule, applied from here:** prose containing backticks is written with a **quoted heredoc**
+(`<<'EOF'`) or a structured writer, and variable values are substituted afterwards — never through an
+interpolating heredoc or `echo`. This note was written with a quoted heredoc via Python.
