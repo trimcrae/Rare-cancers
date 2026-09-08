@@ -157,6 +157,30 @@ A prose note beside the field was attempted and reverted: `publication.schema.js
 rationale lives here instead. The edited row validates against the schema with no errors, and
 `blocked_by: ["BLK-NO-WET-LAB"]` is unchanged.
 
+## ⭐ CLEARED 2026-09-08 · `S3 clipped in outgoing PDF` — and a second defect found with it
+
+**Resolved at `9ec78c4f`.** The reopening condition below was met: the rebuilt outgoing PDF was
+rasterised and inspected, and S3 now carries all five columns — `Field`, the three EWSR1 types and
+**TAF15_NR4A3** complete through `UNRESOLVED` — entirely within the page, with its continued table and
+both tail notes on the same page. **Type size is unchanged**; the diff contains no font rule, which was
+deliberate: the existing `.wide-body-table` class would have spanned *and* dropped to 6.4 pt, trading a
+clipped column for an unreadable one in the same batch where a figure was widened for being too small.
+128 of 128 S3 body cells are present in the rendered text.
+
+⭐ **A second defect was found while fixing the first, and it was already shipping.** `render_table`'s
+`cells()` split every row on every `|` and did not honour the markdown escape `\|`. S3 carries the
+fusion seam as `TAKAAVEWFD\|DMPCVQAQYS`, so two 5-cell rows became 9-cell rows with a trailing
+backslash printed — which is part of why the grid was wider than the page in the first place. The
+parser now splits on unescaped pipes only. Blast radius was measured before touching a shared
+function: escaped pipes appear in 2 rows of this paper and one each in two files that are no
+registered paper's source. Unflagged papers remain byte-identical in both styles; the builder module
+passes 110 tests.
+
+⚠ The rebuilt PDF is 9 pages rather than 7, because narrowing those two rows changed the table's
+geometry.
+
+### The hold as it stood, retained
+
 ## ⛔ LEADING-PAPER HOLD, 2026-09-08: `S3 clipped in outgoing PDF`
 
 Root visually inspected all seven pages of the outgoing PDF at `1cd34ea1`, sha256
