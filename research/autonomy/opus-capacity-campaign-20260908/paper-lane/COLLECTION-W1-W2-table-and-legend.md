@@ -62,3 +62,47 @@ end-cap 1.1, `C166` 1.6) and **no legend-drawing call anywhere** in the generato
 
 No image opened by W2, no figure regenerated, no manuscript/registry/artifact/gate edit, no shared
 write, no git write, no network, no preflight, nothing deleted, nothing applied.
+
+
+---
+
+# Correction and precision points, appended 2026-09-08 ~12:10 UTC
+
+## 1 - My provenance-hash claim was FALSE, and I amplified it
+
+Above I wrote that "a change to `rgg_boxes_operational` would not mark the figure stale" because the
+stamp "hashes only the three source files." **That is wrong**, and W2's report is wrong on the same
+point. **I read the code myself:** `SOURCES` lists `emc-construct-inputs.json`,
+**`emc-fet-construct-designs.json`** - the very file carrying that field - and
+`emc-fet-frame-and-composition.json`; `stamp()` then opens **each listed file as bytes and hashes it in
+full**. So changing that field **would** change its recorded input hash on comparison. The field is
+**not** excluded merely because the drawing code uses literal coordinates. **The claim is withdrawn.**
+
+**The narrower limitation does survive, and it is the one to state:** there is **no binding or asserted
+equality** between `rgg_boxes_operational` and the drawing literals, so a later redraw with
+**unchanged literals** could preserve a semantic mismatch **while still producing a fresh source
+stamp**. That is a read of the code - **not** a mutation experiment, and **not** a claim that an
+automatic enforcer was verified.
+
+**And there is no present mismatch.** The current literals **match** the current source spans - W2
+found this and my own check confirmed it. This is **not** propagated into the ATR reconstruction, and
+X1 was told so directly.
+
+## 2 - Four further precision points, carried into X1 in flight
+
+- **C166**: W2's caption claims to name all four mark types but **does not actually identify the
+  printed `C166` label/marker**. X1 must add a **neutral** explanation where needed - **no inferred
+  functional biology**.
+- **The operational span definition must stay exact**: the interval ends **two residues past the last
+  RG-start**. Not "trimmed to the last RG".
+- **The NR4A3 tick distinction stays qualified**: the generator draws ticks at **371 and 508**; U1
+  reported one; **occlusion versus omission is undecidable from code**. No duplicate visual task, no
+  invented occlusion result.
+- **Preregistration counts differ and both records stand**: W1 reports **four**
+  `registered_predictions` in the artifact; the original manuscript carries **five** hypotheses
+  **P1-P5**. They must **not** be called identical, silently reconciled, or rewritten. X1 may
+  **explain the distinction** and the registered limitations - that is the correct handling.
+
+All of this was **sent to the running X1**, not made into a new task, prerequisite or review round.
+W2's original report is retained unaltered; this is the parent adjudication's distinction, appended
+beside it.
