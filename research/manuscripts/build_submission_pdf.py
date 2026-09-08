@@ -202,6 +202,61 @@ PAPERS = {
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
+    # ⭐ THE ATR PANEL ASK, REGISTERED 2026-09-08. Endpoint `PUB-ATR-PANEL-ASK` in
+    # systems/graph/publications.json names this file as its `document.file` and NOTHING BUILT IT,
+    # so `publish_bar` clause 8 (`deliverable_is_buildable`) reads FAIL for it: the manuscript
+    # exists and no artifact a submit act needs could ever be produced. Registering it here is the
+    # renderer decision only — it does not post, submit or authorise anything, and BLK-NO-WET-LAB
+    # still blocks the endpoint.
+    # ⚠ NO TABLES AND NO REFERENCES COMPANION: this paper carries its numbered reference list
+    # inline under `## 8. References` and sets its five tables in the running text, exactly like
+    # `vaccine-path`. `references: None` means "this paper has none", and
+    # `test_every_reference_entry_survives` reads the list out of the manuscript instead.
+    # ⚠ `figures` IS EMPTY AND THAT IS NOT AN OVERSIGHT. `split_figures` inlines an SVG from
+    # `figures/` against a legend in a `## Figure legends` section; this manuscript has no such
+    # section and embeds its one figure inline as a raster image beside its legend in §3.4.
+    # Declaring it here would raise `anchor not found: '## Figure legends'`. The raster is handled
+    # by `inline_images` below instead, which is a different mechanism with a different guarantee:
+    # `figures` gives live vector text, `inline_images` gives an embedded picture.
+    "atr-panel-ask": {
+        "manuscript": "dependency/emc-atr-collaborator-package.md",
+        "references": None,
+        "tables": None,
+        # ⛔ THE FIGURE IS STAMPED THROUGH `stamp_sources`, NOT THROUGH `figures`. `_write_build_stamp`
+        # hashes `paper["figures"]` values and this entry's is empty, so without the PNG named here
+        # the PDF would be stamped current against a list that omits the one artifact it renders —
+        # the exact hole the round-15 figure-staleness finding closed for the ASO paper.
+        "stamp_sources": (
+            "dependency/emc-atr-collaborator-package.md",
+            "figures/emc-atr-figure-provenance.json",
+            "figures/emc-fusion-frame-fig1.png",
+        ),
+        "figures": {},
+        # ⭐ OPT-IN. Without this key the manuscript's `![Figure 1. …](../figures/…png)` renders as
+        # a stray `!` and a hyperlink to a file that does not travel with the deposit (measured
+        # 2026-09-08, `IMG_TAGS: 0`). No other paper sets it and no other paper changes by one byte.
+        "inline_images": True,
+        "journal": {
+            # ⭐ THE TYPE THE MANUSCRIPT ITSELF DECLARES, not a house default: its editorial VENUE
+            # block reads "Genes, Chromosomes and Cancer (Wiley), Research Article, with the
+            # preprint on bioRxiv". ⚠ That block also records that the journal's own author
+            # guidelines returned HTTP 403 from CI, so the type name is the manuscript's declared
+            # target and NOT a verified reading of the venue's article-type list.
+            "article_type": "Research Article",
+            "section": "",
+            # ⛔ EVIDENCE-ACCURATE, AND IT IS NOT THE GRAPH'S SENTENCE. The frozen endpoint
+            # record still describes an experimental proposal whose remaining cost is "the bench
+            # time and nothing else". What this file IS is a sequence-analysis report with a
+            # pre-specified prediction set: no experiment was performed, no reagent was made, and
+            # the manuscript states its own missing sources and unverified constructs. The banner
+            # prints on page one of every build, so it says only what the repository can stand
+            # behind — where the paper is (nowhere), and what it did not do.
+            "preprint_note": "Not posted as a preprint and not submitted to or accepted by a "
+                             "journal. A sequence-analysis report with a pre-specified prediction "
+                             "set: no experiment was performed and no reagent was made.",
+        },
+        "out": "dependency/emc-atr-collaborator-package.pdf",
+    },
     #: ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS BUILDER ON 2026-08-25 (trimcrae: "The
     #: extended report is not a thing… Remove any checks requiring it from the gate"). It was
     #: `"aso"`, the 36,000-word research article, and it is no longer built, graded, hashed or
@@ -622,6 +677,83 @@ def _bracket_citations(body):
     return _SUP_CITE.sub(one, body)
 
 
+#: --------------------------------------------------------------- opt-in raster images
+#: ⭐ OPT-IN PER PAPER, AND THE DEFAULT IS THE OLD BEHAVIOUR. A paper sets `"inline_images": True`
+#: in its PAPERS entry; every entry without the key assembles through exactly the code path it
+#: assembled through before this function existed, which is asserted by
+#: `test_a_paper_without_inline_images_renders_byte_identically`.
+#:
+#: ⛔ WHY THIS EXISTS AT ALL. `markdown_to_html`/`inline()` have NO image rule, measured 2026-09-08:
+#: `![alt](file.png)` reaches the page as a stray `!` followed by a hyperlink to a file that does
+#: not travel with the deposit, and `IMG_TAGS` is 0. `split_figures` cannot help — it keys off a
+#: `## Figure legends` section and splices an SVG raw, and the only artifacts for the ATR figure are
+#: a PNG and a PDF. So the raster is embedded here, at assembly, as a data URI: an external `src`
+#: does not survive the print path (Chromium loads the HTML from a temp file elsewhere) and would
+#: print as a blank box.
+#:
+#: ⚠ ONE LINE, AND THE `<figure>` OPENS IT. `markdown_to_html` appends a line beginning `<figure`
+#: verbatim and its paragraph collector treats `<figure` as a terminator, so a self-contained
+#: single-line `<figure>…</figure>` needs no new branch in the renderer and cannot be re-parsed as
+#: markdown. Nothing is added to `inline()`: the stash ordering there carries two documented
+#: deposit-corrupting bugs, and an image rule placed anywhere but ahead of the link rule reproduces
+#: the stray-`!` reading. An image that is NOT alone on its line is therefore a hard failure below
+#: rather than silent damage.
+_IMAGE_LINE_RE = re.compile(r"^!\[([^\]]*)\]\(([^)\s]+)\)\s*$")
+_IMAGE_ANYWHERE_RE = re.compile(r"!\[[^\]]*\]\([^)\s]+\)")
+#: Raster formats a browser prints from a data URI. SVG is deliberately absent: an SVG figure goes
+#: through `split_figures`/`assemble`'s own splice, which keeps it live text.
+_RASTER_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
+
+
+def inline_raster_images(body, paper):
+    """Replace each standalone `![alt](path)` line with a `<figure>` carrying the file inline.
+
+    The alt text rides into the `<img alt>`, so the figure is never a bare image: a reader whose
+    viewer cannot draw it, and every text-extraction path over the PDF, still gets the caption
+    sentence. The printed legend is the `**Figure N.**` paragraph the manuscript already sets
+    directly under the image, and it is left exactly where it is.
+    """
+    if not paper.get("inline_images"):
+        return body
+    base = os.path.dirname(os.path.join(HERE, paper["manuscript"]))
+    out, seen = [], 0
+    for line in body.split("\n"):
+        match = _IMAGE_LINE_RE.match(line.strip())
+        if not match:
+            if _IMAGE_ANYWHERE_RE.search(line):
+                raise SystemExit(
+                    "inline_images: an image is embedded inside a line of prose:\n  "
+                    + line.strip()[:160]
+                    + "\nOnly an image alone on its own line is handled. `inline()` has no image "
+                      "rule and adding one would have to be stashed ahead of the link rule; until "
+                      "that is done deliberately this is a build failure rather than a stray '!' "
+                      "and a dead link in the deposit.")
+            out.append(line)
+            continue
+        alt, src = match.group(1), match.group(2)
+        path = os.path.normpath(os.path.join(base, src))
+        ext = os.path.splitext(path)[1].lower()
+        if ext not in _RASTER_MIME:
+            raise SystemExit(f"inline_images: {src!r} is not a raster this builder embeds "
+                             f"({', '.join(sorted(_RASTER_MIME))})")
+        if not os.path.exists(path):
+            raise SystemExit(f"inline_images: {src!r} does not exist at {path}")
+        if not alt.strip():
+            raise SystemExit(f"inline_images: {src!r} has empty alt text. The alt text is the "
+                             "caption the image carries into the PDF's text layer; an image "
+                             "without one is a bare picture.")
+        data = base64.b64encode(open(path, "rb").read()).decode("ascii")
+        #: ⚠ THE FIRST IMAGE IS `lead` FOR THE SAME REASON THE FIRST SPLICED FIGURE IS: manuscript
+        #: style sets `figure.figure { break-before: page }`, which would put this figure on a page
+        #: of its own and strand the legend paragraph that follows it.
+        klass = "figure lead" if seen == 0 else "figure"
+        seen += 1
+        out.append(f'<figure class="{klass}"><img class="raster" '
+                   f'src="data:{_RASTER_MIME[ext]};base64,{data}" '
+                   f'alt="{_html.escape(alt, quote=True)}"/></figure>')
+    return "\n".join(out)
+
+
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
     body = strip_frontmatter(read(paper["manuscript"]))
@@ -652,6 +784,11 @@ def assemble(paper, style="journal"):
     #: function — inherit it, and the markdown keeps the form its guards read.
     if paper.get("bracketed_citations"):
         body = _bracket_citations(body)
+
+    #: BOTH styles, and before either branch: the journal branch runs `split_figures`, which scans
+    #: for a `## Figure legends` section, and the manuscript branch splices SVGs against `**Figure`
+    #: anchors. Neither sees a markdown image, so this has to happen ahead of both.
+    body = inline_raster_images(body, paper)
 
     if style == "manuscript":
         if tables:
@@ -1782,7 +1919,9 @@ DEFAULT_GEOMETRY = {
 def journal_css(paper=None):
     g = dict(DEFAULT_GEOMETRY)
     g.update((paper or {}).get("geometry") or {})
-    return COMMON + f"""
+    raster = (RASTER_IMAGE_CSS + RASTER_IMAGE_CSS_JOURNAL
+              if (paper or {}).get("inline_images") else "")
+    return COMMON + raster + f"""
 @page {{ size: {g["page_size"]}; margin: {g["margin"]}; }}
 @page landscape {{ size: {g["page_size"]} landscape; margin: {g["landscape_margin"]}; }}
 
@@ -1934,6 +2073,49 @@ li { margin-bottom: 3pt; text-align: justify; }
 """
 
 
+#: ⛔ NOT WRITTEN INTO `COMMON` OR `MANUSCRIPT_CSS`, FOR THE REASON `NAT_SUBMISSION_CSS` RECORDS
+#: DIRECTLY BELOW: those sheets are shared by every paper's build, and a rule added to them changes
+#: the bytes of documents nobody asked to change — including a deposited one. These rules are inert
+#: for a paper with no `<img class="raster">`, and "inert" is not the same as "absent": the opt-in
+#: check in `journal_css` and `wrap_manuscript` is what makes every unflagged paper render byte for
+#: byte as it did before, which `test_a_paper_without_inline_images_renders_byte_identically`
+#: asserts over the whole registry rather than over one pinned paper.
+RASTER_IMAGE_CSS = """
+/* An embedded raster never exceeds its box and never distorts; the per-style width chooses the
+   printed measure, and `height: auto` keeps the aspect ratio the file was drawn at. */
+figure.figure img.raster { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+"""
+
+#: ⭐ 86% OF THE TEXT MEASURE, AND A PERCENTAGE RATHER THAN A LENGTH BECAUSE THE LENGTH WAS
+#: MEASURED AND IT LIES. A4 at this sheet's 18 mm side margins leaves 174 mm of measure and 259 mm
+#: of height; the one raster this applies to is 2220 x 2670 px. Read out of the built PDF's own
+#: image CTM (2026-09-08): `width: 150mm` printed the image 106.2 mm wide and `width: 200mm`
+#: printed it 141.9 mm wide — Chromium does not put a `mm` width on this replaced element at face
+#: value — while `width: 100%` printed 174.15 mm starting at x = 51 pt, which is the 18 mm margin
+#: exactly. So the measure is expressed as a fraction of itself, which is verifiable, and every
+#: number below was READ BACK from the artifact rather than assumed.
+#: 86% = 149.8 mm wide and 180.1 mm tall, so 2220 px / 5.898 in = 376 effective dpi, and the figure
+#: leaves ~79 mm of the 259 mm column for the legend paragraph that must stay with it. Full measure
+#: was rejected: it buys only 324 dpi and stands 209 mm tall, which leaves the legend nowhere to go.
+#: ⚠ 376 dpi IS A RESOLUTION, NOT A LEGIBILITY RESULT. Whether this figure's smallest type is
+#: readable at 150 mm is UNVERIFIED: it needs a rendered proof read at 100%, or the drawing
+#: script's font sizes converted through this scale and checked against a minimum print type size.
+#: Nothing in this stylesheet establishes it, and no number here should be quoted as if it did.
+RASTER_IMAGE_CSS_MANUSCRIPT = """
+figure.figure img.raster { width: 86%; }
+"""
+
+#: In two columns the measure IS the column. Read back from the built journal PDF (2026-09-08):
+#: the image lands in column two of page 2 at 74.97 x 90.13 mm, which is 752 effective dpi across
+#: and down — narrower than the 88 mm column because the figure box is centred inside it, and
+#: that is accepted rather than forced wider: the legend paragraph sits with it on the same page.
+#: ⚠ 752 dpi IS STILL NOT LEGIBILITY. 75 mm is the more demanding of the two styles to read and
+#: nothing here has been read at 100%; the manuscript-style caveat above applies with more force.
+RASTER_IMAGE_CSS_JOURNAL = """
+.cols figure.figure img.raster { width: 100%; }
+"""
+
+
 #: ⭐ NUCLEIC ACID THERAPEUTICS SUBMISSION FORMAT, AS AN OPT-IN OVERLAY (2026-08-25).
 #:
 #: ⛔⛔ IT WAS FIRST WRITTEN STRAIGHT INTO `MANUSCRIPT_CSS`, WHICH EVERY PAPER'S SUBMISSION BUILD
@@ -2007,6 +2189,8 @@ def wrap_manuscript(front_title, body_html, front_block="", paper=None, house_st
     if front_block:
         body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
     css = MANUSCRIPT_CSS
+    if (paper or {}).get("inline_images"):
+        css = css + RASTER_IMAGE_CSS + RASTER_IMAGE_CSS_MANUSCRIPT
     if house_style and ((paper or {}).get("layout") or {}).get("nat_submission"):
         css = css + NAT_SUBMISSION_CSS
     return page_shell(front_title, css, body_html)
