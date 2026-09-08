@@ -121,3 +121,69 @@ its recorded reason. "NR4A-labelled" is not a reason.**
 **Active research children: 3. Helpers: 1 (the legacy waiter).** Not four research. Model evidence for all
 three is the observed set in each child's own transcript, `['claude-opus-5']`, not the dispatch parameter.
 No start is claimed from a target or an intention.
+
+---
+
+# A1 RESULT — **NO-GO, 0 of 14.** Collected 2026-09-08 07:20 UTC.
+
+Child `ac1b46c710a5d8e84`, observed transcript model `claude-opus-5`, ran 07:10:25 → 07:14:45 UTC (4 m 20 s,
+17 tool calls). No repository write, no git operation — `git status --porcelain` empty at its start and end.
+Durable artifacts verified by the child (`sha256sum -c`, 2/2 OK), then **re-verified by the parent both in
+`/tmp/claude-0/a1-retained/` (not deleted) and after copying** into `paper-lane/A1-executed-artifacts/`:
+`DECISION.md` `52bcb3be…`, `candidate-adjudication.json` `9f1d2900…`.
+
+## The decisive fact, independently corroborated by the parent
+
+The stream is **not adjacent to a drafted endpoint — it IS that endpoint's data appendix.**
+`systems/graph/publications.json` → `PUB-REPURPOSING` is **`drafted`**, document
+`research/manuscripts/repurposing/repurposing-hypotheses.md`; and that manuscript cites
+`research/hypotheses/candidates.json` **by path** at its line 545. **Parent-verified both claims directly**
+rather than taking them from the child.
+
+## A structural finding that grades every row at once
+
+**No `sourceId` in the file resolves to a retained full text, PDF or extracted passage anywhere in the tree.**
+Every one resolves only to a hardcoded object in `build-candidates.mjs:14-28` (`CITES`), whose `verified: true`
+is a **hand-set literal** the producer reads only for key inclusion. So the evidence ceiling for the entire
+stream is **RETRIEVED metadata plus an author's transcription** — no candidate carries PRIMARY-in-tree
+evidence, and every "the source says X" in this lane is a transcription, not a reading.
+
+## Ranking criterion — merit before tractability, applied and reported
+
+Gates in order: (1) not already covered by a drafted/posted endpoint or a recorded closure; (2) would change a
+reader's mind; (3) decisive input reachable at $0 without a bench. **Ease of execution was excluded and broke
+no tie** — the cheapest row was ranked first *on merit* and still failed gate 1. **All 14 fail gate 1.**
+
+The three shapes of failure: **9 of 14** have an open question that is a **bench experiment** and there is no
+wet lab; **3** sit on a recorded closure or a named exclusion; the rest are inside a drafted endpoint with their
+decisive clinical sources on the denied or unrecovered list.
+
+## Exclusions cited by their actual reason, not by label — the correction took effect
+
+Only **two** rows were excluded by a named hold, each with its ground stated: `brigatinib-screen-hit` is
+**PUB-KINASE-LEADS lead 2**, i.e. P4's own material this campaign; `nr4a3-modulation` is excluded under the
+binding NR4A prohibition **and** is independently closed as a parked negative (`AUT-001`). **No row was
+excluded for merely mentioning NR4A** — rows 2, 3, 5, 8, 10, 13 and others were judged on coverage and inputs.
+
+## The strongest question in the stream is refused **on the named ground**, not renamed
+
+*"`notTriedInEmc: true` is a disease-level novelty flag that cannot see negative evidence one level up, so
+ultra-rare candidate menus systematically over-report novelty."* That is already the drafted paper's own
+subject **and already peer-reviewed**: `repurposing-hypotheses-peer-review-2026-08-10.md:44` states it as the
+manuscript's central observation, `:314` records the measured version, and `:321` carries it as a standing
+requirement over all fourteen candidates. **A new title, owner or model would not make it distinct** — refused
+explicitly rather than re-badged.
+
+## The one item with merit and reachable inputs is NOT a paper, and is not taken
+
+Ledger **`AUT-PD-112`** — a correction inside the drafted manuscript, adding the committed class-level
+carfilzomib bound (`EV-MAKI-2005`, `EV-BOKLAN-2025`, `research/literature/carfilzomib-class-clinical-2026-08-28.json`).
+Its own premise: **no sentence in the manuscript is false today** — the defect is *incompleteness*, invisible
+sentence-by-sentence. Access limit recorded: that artifact is **abstract-level only**, PMID 15739208 has no
+PMCID, PMC12428389 unfetched, and `EV-MAKI-2005`'s per-histology enrolment denominator is **UNKNOWN and stays
+UNKNOWN**; its recorded 0-record EMC query is a **dated observation, not a standing fact**.
+⛔ **Not taken:** it is an owner/manuscript act under an active hardening program that reviews a pinned commit.
+No campaign worker may take it and A1 did not.
+
+**Nothing here admits a paper, and no efficacy, safety, selectivity, therapeutic-window or readiness claim is
+made for any of the 14 agents** — "approved elsewhere" is a regulatory fact only.

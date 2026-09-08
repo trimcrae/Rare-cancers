@@ -1,0 +1,123 @@
+{
+  "_what": "A1 candidate-by-candidate paper-merit adjudication of research/hypotheses/candidates.json (14 candidates).",
+  "_worker": "A1, OPUS-CAPACITY-CAMPAIGN-20260908",
+  "_model": "SELF-REPORT, NOT INDEPENDENTLY VERIFIED: claude-opus-5",
+  "_repo_head_at_write": "831be73b2d161c06cac7ad91971da73c89f1c766",
+  "_written_utc": "2026-09-08T07:14:05Z",
+  "_structural_finding": "Every sourceId in candidates.json resolves ONLY to a hardcoded citation object inside research/hypotheses/build-candidates.mjs:14-28 (CITES). The file's own header says 'citation metadata hardcoded from verified records'. `verified: true` is a hand-set literal in that table, read by nothing in the pipeline (build-candidates.mjs:239-241 uses the key only for inclusion). No sourceId resolves to a retained full text, PDF or extracted passage. Every candidate's evidence grade is therefore at best RETRIEVED-METADATA plus an author transcription of a claim, never PRIMARY-in-tree.",
+  "_verdict": "0 of 14 candidates supports a substantively separate, not-covered, reachable paper-level question. All 14 sit inside the drafted endpoint PUB-REPURPOSING, whose document is generated from this very file (repurposing-hypotheses.md:545 cites research/hypotheses/candidates.json as its data appendix).",
+  "rows": [
+    {
+      "id": "imatinib-kit-subset",
+      "sourceIds": "kitMutation2018 (PMC6073125); support imatinibCase2021 (PMC8395296), warmke2023 (PMID 36948401)",
+      "evidence_grade_and_access": "RETRIEVED (bibliographic metadata hardcoded in build-candidates.mjs; no full text in tree). PMC6073125/PMC8395296 open-access PMCIDs, NOT retrieved here (no network).",
+      "already_covered_by": "PUB-REPURPOSING drafted (doc research/manuscripts/repurposing/repurposing-hypotheses.md, generated from this file); registryEligible T3 into emc-clinical-registry.json emergingTreatments",
+      "verdict": "COVERED — inside a drafted endpoint. Its own openQuestion ('response rate across KIT-mutant EMC beyond single cases') needs patients that do not exist in committed bytes; n=1 + 3/68 mutation carriers.",
+      "exact_missing_condition": "A curated multi-case KIT-mutant EMC treatment series with per-patient outcome. None exists in the tree; CLOSED-WORK forbids inventing cohorts."
+    },
+    {
+      "id": "zaltoprofen-pparg",
+      "sourceIds": "zaltoprofen2023 (PMID 36636023)",
+      "evidence_grade_and_access": "RETRIEVED metadata only; the in-vivo mouse result is PRIMARY *in the source*, UNRETRIEVED here.",
+      "already_covered_by": "PUB-REPURPOSING drafted; research/manuscripts/repurposing/pparg-direction-emc.md; ledger AUT-052 done",
+      "verdict": "COVERED and the literature half is recorded CLOSED (AUT-052). PPARγ activity readout was TAKEN 2026-08-24 (nr4a3-fusion-transcriptional-output-SI.md §S4).",
+      "exact_missing_condition": "A readout separating PPARγ receptor output from lineage/adipogenic composition. AUT-052 records this as a STUDY-DESIGN limit bulk archival tissue cannot supply — no further expression cohort lifts it. Needs a bench; there is no wet lab."
+    },
+    {
+      "id": "vegfr-tki-extension",
+      "sourceIds": "remiszewski2025 (PMC12504171); emcNGS2017 (PMC5400622); cabozantinibSTS2022 (PMC8776602)",
+      "evidence_grade_and_access": "RETRIEVED metadata; the ORR 18% / PFS 19 mo pazopanib row is a REVIEW-LEVEL restatement — the pazopanib primary is on CLOSED-WORK's unrecovered list, and sunitinib 2014 is a denied source.",
+      "already_covered_by": "PUB-REPURPOSING drafted; PUB-KINASE-LEADS (P4, EXCLUDED); PUB-ENDPOINT drafted",
+      "verdict": "COVERED + partly EXCLUDED. Its openQuestion (does EWSR1 vs TAF15 predict response) is PUB-FUSION-PARTNER, drafted and in active hardening round 11.",
+      "exact_missing_condition": "Per-patient fusion-partner-annotated response data. Not in the tree; the two class trials that would carry it are denied sources."
+    },
+    {
+      "id": "pioglitazone-pparg",
+      "sourceIds": "zaltoprofen2023 (PMID 36636023) — same source as candidate 2, no independent source",
+      "evidence_grade_and_access": "PREDICTION. No pioglitazone-in-EMC evidence of any grade exists; the sourceId supports only the zaltoprofen mechanism.",
+      "already_covered_by": "PUB-REPURPOSING drafted; ledger AUT-072 queued (RT-TRABECTEDIN-PPARG)",
+      "verdict": "COVERED; AUT-072 records the PPARγ direction as ANSWERED-IN-THE-NEGATIVE by the 2026-08-24 read, remainder = a cell panel.",
+      "exact_missing_condition": "A cell panel. Bench work; no wet lab."
+    },
+    {
+      "id": "cdk4-6-inhibitors",
+      "sourceIds": "giner2023ihc (PMID 36376703); emcNGS2017 (PMC5400622)",
+      "evidence_grade_and_access": "ASSOCIATION (IHC positivity + copy loss). Metadata only, no full text in tree.",
+      "already_covered_by": "PUB-REPURPOSING drafted; PUB-BIOMARKER-DEP drafted",
+      "verdict": "COVERED. openQuestion 'is EMC RB-proficient and CDK4/6-dependent in functional assays' is explicitly a functional assay.",
+      "exact_missing_condition": "A functional dependency assay. No wet lab."
+    },
+    {
+      "id": "hdac-inhibitors",
+      "sourceIds": "remiszewski2025 (PMC12504171); emcCellLine2025 (PMID 40580361)",
+      "evidence_grade_and_access": "RETRIEVED metadata; the 221-drug screen result is PRIMARY in-source, UNRETRIEVED here.",
+      "already_covered_by": "PUB-REPURPOSING drafted; ledger AUT-029 RT-HDAC-BET PARKED NEGATIVE serving PUB-CLOSED-ROUTES (drafted)",
+      "verdict": "CLOSED as a route and COVERED as a candidate. AUT-029's recorded next action is literally 'Nothing. Cite the closure when the idea resurfaces.'",
+      "exact_missing_condition": "Parked on TECH-VIRTUAL-CELL and TR-EMC-MODEL-ACCESS — capabilities nobody has."
+    },
+    {
+      "id": "ntrk-inhibitors",
+      "sourceIds": "warmke2023 (PMID 36948401)",
+      "evidence_grade_and_access": "ASSOCIATION, and the producer itself sets weakRationale:true — the same row records NO NTRK fusion was found.",
+      "already_covered_by": "PUB-REPURPOSING drafted",
+      "verdict": "COVERED, and self-refuting: expression without fusion is the negative, already written.",
+      "exact_missing_condition": "Nothing would reopen it short of an EMC NTRK fusion being found. None reported."
+    },
+    {
+      "id": "venetoclax-bcl2",
+      "sourceIds": "emcModels2023 (PMC9813045)",
+      "evidence_grade_and_access": "RETRIEVED metadata. The row is already a CORRECTION: no monotherapy response; combination-only. Corrected 2026-08-06.",
+      "already_covered_by": "PUB-REPURPOSING drafted (correction carried at repurposing-hypotheses.md:636); PUB-TXN-DEPENDENCY drafted",
+      "verdict": "COVERED, and the correction is already in the manuscript's own fact-check table.",
+      "exact_missing_condition": "In-vivo confirmation. No wet lab."
+    },
+    {
+      "id": "brigatinib-screen-hit",
+      "sourceIds": "emcCellLine2025 (PMID 40580361)",
+      "evidence_grade_and_access": "RETRIEVED metadata; PREDICTION as to mechanism (undefined by the producer's own text).",
+      "already_covered_by": "PUB-KINASE-LEADS lead 2 — examined by P4 this campaign; PUB-REPURPOSING drafted",
+      "verdict": "EXCLUDED. P4's ALK/ROS1 screen-hit finding is a binding exclusion; also the 2025 source is one year old (P4 defect F1).",
+      "exact_missing_condition": "N/A — excluded, not merely blocked."
+    },
+    {
+      "id": "carfilzomib-proteasome",
+      "sourceIds": "emcModels2023 (PMC9813045)",
+      "evidence_grade_and_access": "RETRIEVED metadata. Class-level clinical bound EV-MAKI-2005 / EV-BOKLAN-2025 IS committed in systems/graph/evidence.json and research/literature/carfilzomib-class-clinical-2026-08-28.json (abstract-level, RETRIEVED, no full text).",
+      "already_covered_by": "PUB-REPURPOSING drafted; ledger AUT-013 done; AUT-PD-112 QUEUED submission-gate defect",
+      "verdict": "COVERED — and the one row with a named, $0, reachable, non-bench open item. But AUT-PD-112 is a CORRECTION TO A DRAFTED PAPER, not a new paper.",
+      "exact_missing_condition": "For a NEW paper: nothing. For the correction: nothing missing — inputs are committed."
+    },
+    {
+      "id": "anthracycline-combination-synergy",
+      "sourceIds": "emcModels2023 (PMC9813045)",
+      "evidence_grade_and_access": "RETRIEVED metadata. The EMC anthracycline clinical record is on CLOSED-WORK's partially-retained list (median 4 cycles only; no rate, no linkage).",
+      "already_covered_by": "PUB-REPURPOSING drafted; PUB-EMC-PROGRAM drafted",
+      "verdict": "COVERED, and its clinical denominator is a retained-with-limits source that forbids rate inference.",
+      "exact_missing_condition": "A comparative in-vivo experiment. No wet lab."
+    },
+    {
+      "id": "nr4a3-modulation",
+      "sourceIds": "nor1Pga2_2005 (PMID 16141523); nr4aReview2019 (PMC6912296)",
+      "evidence_grade_and_access": "PREDICTION/biochemical. 1 in-vitro transactivation report on wild-type NOR1.",
+      "already_covered_by": "PUB-DEGRADER, PUB-MONOVALENT, PUB-TCIP all drafted; ledger AUT-001 PARKED NEGATIVE (RT-6MP) -> PUB-CLOSED-ROUTES",
+      "verdict": "EXCLUDED by the binding NR4A prohibition, AND closed: AUT-001 calls it 'the clearest example in the register of wild-type pharmacology failing to transfer'.",
+      "exact_missing_condition": "N/A — excluded."
+    },
+    {
+      "id": "transcriptional-bet-cdk",
+      "sourceIds": "transcriptionMech2016 (PMID 26310886)",
+      "evidence_grade_and_access": "ASSOCIATION via a TFG::NR4A3 promoter study; the Ewing analogy is explicitly UNSUPPORTED for EMC by the producer's own text.",
+      "already_covered_by": "PUB-TXN-DEPENDENCY drafted; PUB-SYNLETH drafted; AUT-029 RT-HDAC-BET parked negative",
+      "verdict": "COVERED by a drafted endpoint whose whole subject is transcriptional/proteostatic dependency.",
+      "exact_missing_condition": "An EMC model showing BRD4/CDK7-9 dependence. Bench; parked on TECH-EMC-MODEL-ACCESS."
+    },
+    {
+      "id": "mrna-vaccine-checkpoint",
+      "sourceIds": "remiszewski2025 (PMC12504171); lnpImmuno2023 (PMC10618257, nonEmcContext); keynote942 (PMID 38246194, nonEmcContext)",
+      "evidence_grade_and_access": "PREDICTION. Two of three sources are flagged nonEmcContext by the producer itself; evidenceStrength 1, emcEvidence 0.",
+      "already_covered_by": "PUB-VACCINE-PATH, PUB-NEOANTIGEN, PUB-HLA-COVERAGE all drafted (all blocked_by BLK-ANTIGEN-COLD)",
+      "verdict": "COVERED, and the 2026-08-10 peer review already recorded that this row's 'no EMC data' grade is contradicted by the project's own registry (prospective sunitinib+nivolumab EMC cohort, 23 evaluable).",
+      "exact_missing_condition": "Evidence that the EWSR1::NR4A3 junction is presented. BLK-ANTIGEN-COLD; needs a bench."
+    }
+  ]
+}
