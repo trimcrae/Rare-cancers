@@ -2,7 +2,7 @@
  "_what": "every retained input this extraction read, by path, size, SHA-256 and git blob",
  "_generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-repair/extract_mf1_inventory.py",
  "_not_a_release": "these are working-tree identities in this repository at the named commit. No immutable public archive has been checked or published, and none is claimed.",
- "commit": "f6107376cc41344f2296f2ada46c064d8251a3f8",
+ "commit": "91609d30fdc672f4dbc9eb191e6342a7ddd4f61d",
  "inputs": [
   {
    "path": "research/modalities/selcal-verdict.json",
@@ -112,9 +112,9 @@
    "path": "research/modalities/instrument-census.json",
    "bytes": 31770,
    "sha256": "f484afe4bb5795283dab8131cf47d3fe2d4204b401c559a41ad406366228526a",
-   "git_blob": "165e5235bf871ea9cdede71b57055af6c4750986",
-   "head_blob_sha256": "8abe8d50c83b0a70a09b2fb5056668643c4fa265abf87252237913693de39722",
-   "bytes_match_head_blob": false
+   "git_blob": "1cd24772659057cf151174e83c35395095073511",
+   "head_blob_sha256": "f484afe4bb5795283dab8131cf47d3fe2d4204b401c559a41ad406366228526a",
+   "bytes_match_head_blob": true
   },
   {
    "path": "research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md",
@@ -150,5 +150,5 @@
   }
  ],
  "_binding_rule": "ADDED 2026-09-08 (residual R3). `sha256` is of the bytes this run actually read from the working tree. `head_blob_sha256` is of the bytes git holds at the same path at `commit`. `bytes_match_head_blob` is the comparison. A read plus a blob id is NOT a binding unless these agree; where it is false the display is bound to the working tree only, and that is stated rather than assumed.",
- "n_inputs_not_bound_to_head_blob": 1
+ "n_inputs_not_bound_to_head_blob": 0
 }
