@@ -521,4 +521,27 @@ from the indicator's published name rather than by inspection of which value loo
 
 All analysis code, input specifications, retrieval artifacts and outputs are available in the
 project repository. The retrieval artifacts record every query verbatim with its hit count, so both
-positive findings and absences can be reproduced or refuted.
+positive findings and absences can be reproduced or refuted. Three producers write everything quoted
+here, each from a committed input:
+
+| what it supplies | producer | input | output |
+|---|---|---|---|
+| the classified deaths, their evidence tiers and the tallies of section 3.1 | `emc_terminal_events.py` | `emc-terminal-events-classified.json`, `research/literature/emc-mortality-probe.json` | `emc-terminal-events.json` |
+| the registry cause split and the stratified upper bound | `emc_mortality_decomposition.py` | `emc-mortality-decomposition-inputs.json` | `emc-mortality-decomposition.json` |
+| the relative-survival estimate and its life-table arithmetic | `emc_relative_survival.py` | `emc-mortality-decomposition-inputs.json` | `emc-relative-survival.json` |
+
+The classification of each death is hand-assigned and lives in the input specification, not in the
+code: `emc-terminal-events-classified.json` holds every row's verbatim quoted sentence and its
+identifier, and the producer refuses to tally at all if a quote does not match the retrieval artifact
+verbatim, if a row does not declare whether its sentence documents a death, or if a row in the first
+evidence tier does not declare which of a terminal event and a disease entity its sentence names.
+
+**Declarations.** Funding: none. Competing interests: none. Ethics: no ethics approval was sought and
+none was obtained for this analysis, and no institution or committee has determined whether any is
+required. The analysis reads counts and survival percentages already published in the literature of
+this disease, together with a public national life table; it involved no new recruitment, no new
+sampling, no clinical intervention, no patient contact and no patient-level record.
+
+**AI assistance.** Analysis and drafting were carried out with Claude (Anthropic) and OpenAI models
+under the author's direction, and the author is responsible for the content. This manuscript has not
+been peer reviewed by a human reviewer.
