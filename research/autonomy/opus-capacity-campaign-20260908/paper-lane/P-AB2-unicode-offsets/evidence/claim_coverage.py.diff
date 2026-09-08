@@ -1,0 +1,112 @@
+diff --git a/research/manuscripts/claim_coverage.py b/research/manuscripts/claim_coverage.py
+index defa6592c..967b6b355 100644
+--- a/research/manuscripts/claim_coverage.py
++++ b/research/manuscripts/claim_coverage.py
+@@ -29,8 +29,13 @@ available all at once instead of one per round.
+ ⚠ WHAT THIS IS NOT. It does not check whether a sentence is TRUE — only whether anything would
+ notice if it changed. A covered sentence can still be wrong; an uncovered one is simply unwatched.
+ And matching is approximate by construction: a pattern that matches a sentence may be asserting
+-about a different part of it. Treat the covered count as an upper bound and the uncovered list as
+-the finding.
++about a different part of it. The finding is the uncovered list.
++⛔ AND `covered` IS NOT A BOUND IN EITHER DIRECTION (corrected 2026-09-08, P-AB2). This docstring
++used to call it an upper bound. It is not: the census also has acknowledged FALSE NEGATIVES — a
++guard that computes exposes no literal, and one that reaches its document through an import or a
++runtime lookup is not credited at all — so the true coverage can be higher than the reported count
++as well as lower. Per credited sentence the reported reading may still be optimistic; over a
++document there is no global bound, and none is claimed here.
+ """
+ from __future__ import annotations
+ 
+@@ -228,8 +233,8 @@ COVERAGE_FLOOR = {
+ #: WRITTEN DOWN RATHER THAN THE GATE LOOSENED. `test_the_census_word_covered_survives_ablation.py`
+ #: perturbs a covered sentence's NUMBER and demands that some witness the census names goes red. That
+ #: is a stronger claim than `covered` makes — the census says only that a selective pattern matches
+-#: the sentence, and this module's own docstring calls the covered count an upper bound — so a
+-#: pattern can legitimately bind a sentence's WORDS while claiming nothing about its digits.
++#: the sentence, and matching words is not asserting about digits — so a pattern can legitimately
++#: bind a sentence's WORDS while claiming nothing about its digits.
+ #: ⭐⭐ NARROWED FROM A DOCUMENT TO A SENTENCE ON 2026-08-27 (AUT-PROP-025), AND THE MEASUREMENT IS
+ #: WHY. The round-10 guard-coverage audit filed this row as stale: it re-ran the gate's own sampling
+ #: (`SAMPLE=6`, evenly spaced over covered numbered sentences) through `claim_ablation.ablate` and
+@@ -534,9 +539,10 @@ def _pin_patterns():
+ #: mistake.
+ #: ⚠ WHAT THIS DOES NOT REPAIR, STATED RATHER THAN GLOSSED. It closes a false-POSITIVE channel; it
+ #: cannot make the count a measurement. The census remains a static screen over harvested literals —
+-#: a guard that COMPUTES exposes no literal and stays invisible to it, a credited pattern may still
+-#: bind a sentence's words while claiming nothing about its digits, and `covered` is still an upper
+-#: bound. `claim_ablation` runs the guards and is what a binding claim rests on.
++#: a guard that COMPUTES exposes no literal and stays invisible to it, and a credited pattern may
++#: still bind a sentence's words while claiming nothing about its digits. Those two run in opposite
++#: directions, so `covered` bounds actual coverage neither above nor below.
++#: `claim_ablation` runs the guards and is what a binding claim rests on.
+ #: ⚠ AND THE SIBLING CHANNEL IS NOT CLOSED HERE. `claim_ablation.guards_reading` selects the guards
+ #: to RUN by the same raw-source substring, so a docstring mention still puts an unrelated module in
+ #: an ablation. That direction is conservative for a BLIND verdict (an extra guard that never opens
+@@ -573,24 +579,37 @@ def _executable_source(src, tree):
+     for line in src.splitlines(keepends=True):
+         starts.append(starts[-1] + len(line))
+ 
+-    def offset(lineno, col):
+-        # `col_offset` is a UTF-8 byte offset; every source here is read as text, so convert.
++    def ast_offset(lineno, col):
++        # ⛔ AST `col_offset`/`end_col_offset` are UTF-8 BYTE offsets into the line. Every source
++        # here is read as text, so the byte count is decoded back to a CHARACTER count.
+         line_start = starts[lineno - 1]
+         line = src[line_start:starts[lineno]]
+         return line_start + len(line.encode("utf-8")[:col].decode("utf-8", "ignore"))
+ 
++    def token_offset(lineno, col):
++        # ⛔ `tokenize.TokenInfo` start/end columns are CHARACTER offsets — the OPPOSITE convention
++        # from the AST above, and the two must not share a conversion. Applying the byte decode here
++        # shifted every comment span left by one position per non-ASCII character earlier on the
++        # line: on the root reviewer's counterexample (2026-09-08, P-AB2) it blanked 24 characters
++        # out of an executable Unicode string literal and left the comment's manuscript basename
++        # standing — reopening, through an encoding bug, exactly the ghost-witness path this
++        # stripper exists to close. Pinned by
++        # `test_the_census_credits_only_executable_references.py`.
++        line_start = starts[lineno - 1]
++        return min(line_start + col, starts[lineno])
++
+     spans = []
+     docs = _docstring_nodes(tree)
+     for node in ast.walk(tree):
+         if isinstance(node, ast.Constant) and id(node) in docs:
+             if node.lineno and node.end_lineno:
+-                spans.append((offset(node.lineno, node.col_offset),
+-                              offset(node.end_lineno, node.end_col_offset)))
++                spans.append((ast_offset(node.lineno, node.col_offset),
++                              ast_offset(node.end_lineno, node.end_col_offset)))
+     try:
+         for tok in tokenize.generate_tokens(io.StringIO(src).readline):
+             if tok.type == tokenize.COMMENT:
+-                spans.append((offset(tok.start[0], tok.start[1]),
+-                              offset(tok.end[0], tok.end[1])))
++                spans.append((token_offset(tok.start[0], tok.start[1]),
++                              token_offset(tok.end[0], tok.end[1])))
+     except (tokenize.TokenError, IndentationError, SyntaxError):
+         pass
+ 
+@@ -645,13 +664,15 @@ def _test_patterns(document=None):
+     toward the comfortable answer, which is the one to distrust.
+     ★ A test's patterns count for a document only if the test names that document. Crude, and
+     exactly right: a guard that never opens a file cannot be binding a sentence in it.
+-    ⛔ AND "NAMES" MEANS IN CODE, IN THIS MODULE OR ONE IT IMPORTS. Comments and docstrings are
+-    stripped before both the scope test and the harvest; imports are followed so that a guard naming
+-    its document through a registry or a runtime lookup is not dropped. See `_executable_source` and
+-    `_reachable_code` above for the cases that forced each half, and for what neither repairs.
+-    ⚠ ONLY APPLICABILITY FOLLOWS IMPORTS. The harvested literals are still this module's own, so an
+-    imported registry decides whether this guard is ASKED about a document, never what it is
+-    credited with binding in it.
++    ⛔ AND "NAMES" MEANS IN CODE, IN THIS MODULE'S OWN SOURCE. Comments and docstrings are stripped
++    by `_executable_source` before both the scope test and the harvest, so a mention in prose the
++    interpreter never evaluates puts nothing in scope and contributes no pattern.
++    ⛔ IMPORTS ARE NOT FOLLOWED, AND THIS DOCSTRING ONCE SAID THEY WERE (corrected 2026-09-08,
++    P-AB2). Following them — and a `_reachable_code` helper to do it — was written, MEASURED and
++    REVERTED; the block comment above this function records the measurement and why the wider census
++    was not the truer one. No such helper exists in this module, and a guard that names its document
++    only through an imported registry or a runtime lookup IS dropped. Those are the reported false
++    negatives in that comment, not a gap this docstring papers over.
+     """
+     out = []
+     for name in sorted(os.listdir(TESTS)):

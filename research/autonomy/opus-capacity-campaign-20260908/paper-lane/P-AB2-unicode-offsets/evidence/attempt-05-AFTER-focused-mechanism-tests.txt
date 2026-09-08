@@ -1,0 +1,13 @@
+$ python3 -m pytest -p no:cacheprovider research/manuscripts/tests/test_the_census_credits_only_executable_references.py -q   (cwd /home/user/Rare-cancers)
+--- date: 2026-09-08T21:03:09Z
+--- module under test: REPAIRED working tree, sha256 094a20684fc7db99ad383f60e032a48c3ca853d65d5686c414ea6ae67b6462af
+===== STDOUT+STDERR =====
+...........                                                              [100%]
+=============================== warnings summary ===============================
+research/manuscripts/claim_coverage.py:445
+  /home/user/Rare-cancers/research/manuscripts/claim_coverage.py:445: DeprecationWarning: invalid escape sequence '\s'
+    """Find a censused sentence in the RAW file, tolerating everything `_prose` stripped out of it.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+11 passed, 1 warning in 0.08s
+EXIT=0

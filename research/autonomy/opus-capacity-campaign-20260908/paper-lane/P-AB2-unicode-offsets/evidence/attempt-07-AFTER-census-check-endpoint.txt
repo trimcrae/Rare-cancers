@@ -1,0 +1,14 @@
+$ python3 research/manuscripts/claim_coverage.py --check
+--- date: 2026-09-08T21:03:27Z
+--- purpose: the endpoint check that the repair moved NO binding. --check rebuilds the census
+--- and compares it to the committed artifact; a changed count would fail here.
+--- claim_coverage.py sha256: 094a20684fc7db99ad383f60e032a48c3ca853d65d5686c414ea6ae67b6462af  research/manuscripts/claim_coverage.py
+===== STDOUT+STDERR =====
+claim-coverage.json is stale — it is not what the live census computes:
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.sentences: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.with_a_number: committed 54, the census now reports 102
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered_with_a_number: committed 54, the census now reports 102
+Re-run `python3 research/manuscripts/claim_coverage.py --write` and commit the result in THIS change.
+⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the census harvests its patterns from that corpus, so widening a guard's regex moves `covered` with no manuscript byte touched. That edit and this artifact are a pair even though they live in different directories.
+EXIT=1

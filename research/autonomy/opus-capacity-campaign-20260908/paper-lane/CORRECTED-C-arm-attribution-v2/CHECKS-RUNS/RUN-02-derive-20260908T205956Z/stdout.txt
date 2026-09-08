@@ -1,0 +1,173 @@
+{
+ "arm_link_relation": {
+  "DESCRIPTION_FIELD_IDENTITY:DESC_BYTE_EXACT": 1,
+  "LABEL_IDENTITY_ONLY:LABEL_BYTE_EXACT": 96,
+  "LABEL_IDENTITY_ONLY:LABEL_CASE_WS_FOLD": 36,
+  "LEAF_CLAIMED_ARM_LABEL_ABSENT_FROM_THIS_RECORD": 10,
+  "LEAF_CLAIM_LEAF_CLAIMS_MULTIPLE_ARMS": 2,
+  "LEAF_CLAIM_NOT_VERIFIABLE_FROM_EXACT_SOURCE_FIELDS": 337,
+  "NO_ARM_GROUPS_REGISTERED_IN_THIS_CACHE": 6,
+  "NO_EXACT_SOURCE_RELATION_IN_THIS_CACHE": 7,
+  "TWO_INDEPENDENT_FIELD_IDENTITIES:LABEL_BYTE_EXACT+DESC_BYTE_EXACT": 38,
+  "TWO_INDEPENDENT_FIELD_IDENTITIES:LABEL_BYTE_EXACT+DESC_CASE_WS_FOLD": 3,
+  "TWO_INDEPENDENT_FIELD_IDENTITIES:LABEL_CASE_WS_FOLD+DESC_BYTE_EXACT": 16
+ },
+ "arm_link_state": {
+  "CONTESTED": 10,
+  "LABEL_MATCH": 132,
+  "PROPOSED": 337,
+  "SOURCE_CONFIRMED": 58,
+  "UNKNOWN_IN_THIS_CACHE": 13,
+  "UNRESOLVED": 2
+ },
+ "checks": [
+  {
+   "check": "row_count_equals_552",
+   "detail": "rows=552",
+   "result": "PASS"
+  },
+  {
+   "check": "key_set_identical_to_v1",
+   "detail": "only_v2=0 only_v1=0",
+   "result": "PASS"
+  },
+  {
+   "check": "key_set_identical_to_job3",
+   "detail": "only_v2=0 only_job3=0",
+   "result": "PASS"
+  },
+  {
+   "check": "no_narrative_token_corroboration_predicate_remains",
+   "detail": "v1's CORROBORATION token tuple is absent from the executable body and no expression tests the leaf narrative; it is carried verbatim only. suspect_lines=1",
+   "result": "FAIL"
+  },
+  {
+   "check": "no_unconditional_NOT_CONTROL_state_in_the_table",
+   "detail": "comparator_role and registry_type_statement carry no NOT_CONTROL value",
+   "result": "PASS"
+  },
+  {
+   "check": "every_conditional_type_statement_names_its_assumption_in_machine_state",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "an_arm_is_bound_only_by_SOURCE_CONFIRMED_or_LABEL_MATCH",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "a_bound_arm_always_had_exactly_one_candidate",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "two_or_more_candidates_never_select_the_first",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "SOURCE_CONFIRMED_only_from_an_exact_field_identity",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "every_PROPOSED_row_retains_a_locator",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "zero_arms_stays_UNKNOWN_never_a_role_or_a_link",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "absent_arm_type_stays_its_own_value",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "placebo_text_vs_type_is_CONTESTED_not_resolved_to_a_side",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "bound_rows_carry_the_registered_type_verbatim",
+   "detail": "violations=0",
+   "result": "PASS"
+  },
+  {
+   "check": "producer_makes_no_network_call",
+   "detail": "imports: collections, csv, json, os, re, sys",
+   "result": "PASS"
+  },
+  {
+   "check": "absent_registry_join_modules_stay_absent",
+   "detail": "occurrences across the 12 payloads: {'participantFlowModule': 0, 'armGroupLabels': 0} (0 expected; never fetched)",
+   "result": "PASS"
+  }
+ ],
+ "checks_failed": 1,
+ "comparator_role": {
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_PLACEBO": 2,
+  "COMPARATOR_PROPOSED_BY_GROUP_TEXT_UNSPECIFIED": 4,
+  "COMPARATOR_PROPOSED_BY_LABEL_MATCHED_ARM_TYPE": 13,
+  "COMPARATOR_SUPPORTED_BY_SOURCE_CONFIRMED_ARM_TYPE": 8,
+  "CONTESTED": 13,
+  "NOT_ESTABLISHED_IN_THIS_CACHE": 166,
+  "UNKNOWN_IN_THIS_CACHE": 346
+ },
+ "contested_flag_counts": {
+  "GROUP_TITLE_IS_A_TREATMENT_SEQUENCE_CONTAINING_A_PLACEBO_TOKEN": 2,
+  "LEAF_CLAIMED_ARM_LABEL_NOT_PRESENT_IN_REGISTERED_ARMS": 10,
+  "PLACEBO_CLAIM_WITHOUT_ANY_PLACEBO_TYPED_ARM_IN_THIS_CACHE": 2,
+  "PLACEBO_OR_NOINT_GROUP_TEXT_VS_NON_COMPARATOR_BOUND_TYPE": 3
+ },
+ "disposition_vs_v1": {
+  "CHANGED_CLASS:COMPARATOR_PROPOSED->CONTESTED": 1,
+  "CHANGED_CLASS:COMPARATOR_SUPPORTED->COMPARATOR_PROPOSED": 17,
+  "CHANGED_CLASS:COMPARATOR_SUPPORTED->UNKNOWN": 16,
+  "CHANGED_CLASS:CONTESTED->COMPARATOR_PROPOSED": 2,
+  "CHANGED_CLASS:NOT_CONTROL_ASSERTED->CONTESTED": 9,
+  "CHANGED_CLASS:NOT_CONTROL_ASSERTED->NOT_ESTABLISHED": 166,
+  "CHANGED_CLASS:NOT_CONTROL_ASSERTED->UNKNOWN": 305,
+  "UNCHANGED_CLASS:COMPARATOR_SUPPORTED": 8,
+  "UNCHANGED_CLASS:CONTESTED": 3,
+  "UNCHANGED_CLASS:UNKNOWN": 25
+ },
+ "leaf_claim_state": {
+  "LEAF_CLAIMS_MULTIPLE_ARMS": 2,
+  "LEAF_CLAIMS_NO_ARM": 12,
+  "LEAF_LABEL_ABSENT_FROM_RECORD": 10,
+  "LEAF_LABEL_RESOLVES_UNIQUELY": 343,
+  "NO_LEAF": 185
+ },
+ "leaf_claim_verification": {
+  "": 185,
+  "LEAF_CLAIM_AGREES_WITH_SOURCE_RELATION": 6,
+  "NOT_VERIFIABLE_IN_THIS_CACHE": 18,
+  "NOT_VERIFIABLE_NO_REGISTERED_ARMS": 6,
+  "RETAINED_UNVERIFIED_WITH_LOCATOR": 337
+ },
+ "not_source_confirmed_rows": 362,
+ "registry_type_statement": {
+  "ALL_REGISTERED_ARMS_COMPARATOR_TYPED_CONDITIONAL": 13,
+  "ALL_REGISTERED_ARMS_NON_COMPARATOR_TYPED_CONDITIONAL": 320,
+  "ARM_SET_TYPE_NOT_UNIFORM_NO_TYPE_STATEMENT_POSSIBLE": 20,
+  "ARM_TYPE_ABSENT_IN_THIS_CACHE": 3,
+  "BOUND_ARM_REGISTERED_TYPE_IS_ACTIVE_COMPARATOR": 13,
+  "BOUND_ARM_REGISTERED_TYPE_IS_EXPERIMENTAL": 169,
+  "BOUND_ARM_REGISTERED_TYPE_IS_NO_INTERVENTION": 1,
+  "BOUND_ARM_REGISTERED_TYPE_IS_PLACEBO_COMPARATOR": 7,
+  "NO_ARMS_REGISTERED_IN_THIS_CACHE": 6
+ },
+ "rows": 552,
+ "v1_confirmed_by_label_now": {
+  "LABEL_MATCH": 132,
+  "SOURCE_CONFIRMED": 57
+ },
+ "v1_confirmed_by_narrative_token_now": {
+  "PROPOSED": 313,
+  "SOURCE_CONFIRMED": 1
+ }
+}

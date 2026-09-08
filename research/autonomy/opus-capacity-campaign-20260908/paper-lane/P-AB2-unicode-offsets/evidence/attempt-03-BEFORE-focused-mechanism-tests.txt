@@ -1,0 +1,63 @@
+$ python3 -m pytest -p no:cacheprovider /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/frozen-check/tests/test_the_census_credits_only_executable_references.py -q
+--- date: 2026-09-08T21:01:42Z
+--- module under test: FROZEN HEAD copy, sha256 d6f47d118f854969371f8c2b5aa5ac48bcf5580f644ed72d63e94c393d4b8379
+--- test file: the P-AB2 version (new non-ASCII cases), run against the frozen helper
+===== STDOUT+STDERR =====
+.........FF                                                              [100%]
+=================================== FAILURES ===================================
+______ test_a_comment_after_non_ascii_code_is_blanked_and_the_code_is_not ______
+
+    def test_a_comment_after_non_ascii_code_is_blanked_and_the_code_is_not():
+        """⛔ `tokenize` comment columns are CHARACTERS; the AST's are BYTES. One rule cannot serve both.
+    
+        This is root's deterministic counterexample in fixture form (2026-09-08, P-AB2). At the frozen
+        HEAD the comment span was converted with the AST's byte rule, slid 80 positions left, blanked a
+        stretch of the executable Unicode literal, and left the comment — manuscript basename included —
+        entirely intact. That is the ghost-witness path this module exists to hold shut, reopened.
+        """
+        import ast
+        src = f'X = "{PAD}"  # naming {FICTIONAL} in a comment\n'
+        code = cc._executable_source(src, ast.parse(src))
+        assert len(code) == len(src), "the stripper changed the source length, so offsets no longer align"
+>       assert PAD in code, (
+            "a comment span converted with byte logic ate part of an executable non-ASCII literal; the "
+            "census would then miss code it must read")
+E       AssertionError: a comment span converted with byte logic ate part of an executable non-ASCII literal; the census would then miss code it must read
+E       assert 'éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé' in 'X = "ééééééééééééééééééééééééééééééééééééééééé                                   éééé"  # naming a-document-no-guard-in-this-repository-opens.md in a comment\n'
+
+tests/test_the_census_credits_only_executable_references.py:199: AssertionError
+_________ test_a_non_ascii_docstring_is_blanked_to_its_last_character __________
+
+    def test_a_non_ascii_docstring_is_blanked_to_its_last_character():
+        """⛔ The other convention, held from the other side: AST columns really are UTF-8 bytes.
+    
+        A docstring whose non-ASCII runs to the closing quote ends at a byte column far past its
+        character column. Convert it as characters and the tail survives — which would let a document
+        named late in a docstring keep crediting a guard that never opens it.
+        """
+        import ast
+        src = (f'"""{PAD} borrowed a bound from {FICTIONAL}, not opened. tail-marker-{PAD}"""\n'
+               f'Y = "{PAD}"  # trailing\n')
+        code = cc._executable_source(src, ast.parse(src))
+        assert len(code) == len(src), "the stripper changed the source length, so offsets no longer align"
+        assert FICTIONAL not in code, "a document named inside a docstring survived the stripper"
+        assert "tail-marker" not in code, (
+            "the tail of a non-ASCII docstring survived, so the AST's byte columns were read as "
+            "characters and the span stopped short")
+        assert code.splitlines()[0].strip() == "", "the docstring line was not fully blanked"
+>       assert PAD in code.splitlines()[1], "the executable non-ASCII literal on the next line was eaten"
+E       AssertionError: the executable non-ASCII literal on the next line was eaten
+E       assert 'éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé' in 'Y = "ééééééééééééééééééééééééééééééééééééééééé     éééééééééééééééééééééééééééééééééé"  # trailing'
+
+tests/test_the_census_credits_only_executable_references.py:225: AssertionError
+=============================== warnings summary ===============================
+claim_coverage.py:440
+  /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/frozen-check/claim_coverage.py:440: DeprecationWarning: invalid escape sequence '\s'
+    """Find a censused sentence in the RAW file, tolerating everything `_prose` stripped out of it.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_the_census_credits_only_executable_references.py::test_a_comment_after_non_ascii_code_is_blanked_and_the_code_is_not
+FAILED tests/test_the_census_credits_only_executable_references.py::test_a_non_ascii_docstring_is_blanked_to_its_last_character
+2 failed, 9 passed, 1 warning in 0.06s
+EXIT=1

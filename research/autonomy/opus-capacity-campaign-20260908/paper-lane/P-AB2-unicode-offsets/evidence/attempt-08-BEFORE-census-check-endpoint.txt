@@ -1,0 +1,12 @@
+$ python3 research/manuscripts/_pab2_frozen_claim_coverage.py --check   (frozen HEAD copy, same directory so paths resolve)
+--- date: 2026-09-08T21:04:02Z
+--- purpose: is the attempt-07 staleness pre-existing, or did this repair cause it?
+===== STDOUT+STDERR =====
+claim-coverage.json is stale — it is not what the live census computes:
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.sentences: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.with_a_number: committed 54, the census now reports 102
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered: committed 124, the census now reports 194
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered_with_a_number: committed 54, the census now reports 102
+Re-run `python3 research/manuscripts/claim_coverage.py --write` and commit the result in THIS change.
+⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the census harvests its patterns from that corpus, so widening a guard's regex moves `covered` with no manuscript byte touched. That edit and this artifact are a pair even though they live in different directories.
+EXIT=1

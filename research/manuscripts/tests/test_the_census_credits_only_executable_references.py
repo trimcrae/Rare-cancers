@@ -17,9 +17,19 @@ added. The fixtures below build a throwaway `tests/` directory and a document na
 nowhere in the repository.
 
 ⚠ WHAT THIS CANNOT SHOW. That the census is a measurement. It stays a static screen over harvested
-literals: a guard that computes exposes no literal, a credited pattern may bind a sentence's words
-while claiming nothing about its digits, and `covered` remains an upper bound. This module holds one
-false-positive channel closed; `claim_ablation` is what runs the guards.
+literals: a guard that computes exposes no literal, a guard reaching its document through an import
+is not credited at all, and a credited pattern may bind a sentence's words while claiming nothing
+about its digits. Those miss in opposite directions, so `covered` is not a bound on actual coverage
+either way (corrected 2026-09-08, P-AB2; this docstring used to call it an upper bound). This module
+holds one false-positive channel closed; `claim_ablation` is what runs the guards.
+
+⛔⛔ AND THE ENCODING HALF (2026-09-08, P-AB2). The stripper converted BOTH kinds of column offset
+with one rule. AST `col_offset` really is a UTF-8 byte offset, but `tokenize` comment columns are
+CHARACTER offsets, so on a line with non-ASCII text the comment span slid left: root's deterministic
+counterexample blanked 24 characters out of an executable Unicode literal and left the comment's
+manuscript basename standing — the ghost witness reopened by an encoding bug. The non-ASCII cases
+below hold both halves shut, and the docstring half is there so that "just use characters
+everywhere" cannot pass either.
 """
 from __future__ import annotations
 
@@ -67,8 +77,39 @@ CASES = {
         '    assert PAPER, r"<PAT>"\n'),
 }
 
-#: The only case that may credit anything: the name is in a constant the interpreter evaluates.
-CREDITED = {"code_reference"}
+#: ⛔ NON-ASCII PADDING, AND ITS LENGTH IS THE POINT. Each `é` is one character and two UTF-8 bytes,
+#: so a column offset read under the wrong convention drifts one position left per character of
+#: padding. Eighty is comfortably more than the width of anything asserted below, so a drift of that
+#: size cannot land back inside its own span by accident.
+PAD = "é" * 80
+
+CASES.update({
+    #: The counterexample's own shape, and its geometry is load-bearing: the comment must be SHORT
+    #: enough relative to the padding that the whole mis-converted span lands inside the literal.
+    #: A longer note would drag the span back across the `#` and blank part of the basename, which
+    #: passes this case for the wrong reason — a ghost witness that got away with less.
+    "comment_only_non_ascii": _module(
+        f'X = "{PAD}" # <DOC>\n'
+        'def test_x():\n'
+        '    assert X, r"<PAT>"\n'),
+    #: The same channel through a single-line module docstring whose non-ASCII runs to its END, so
+    #: the closing quote sits far past its character column. This one fails the opposite way: treat
+    #: the AST's byte offsets as characters and the docstring's tail survives the stripper.
+    "docstring_only_non_ascii": _module(
+        f'"""{PAD} borrowed a bound from `<DOC>`, which it does not open. {PAD}"""\n'
+        'def test_x():\n'
+        '    assert True, r"<PAT>"\n'),
+    #: And the credited direction on a non-ASCII line, so a stripper that simply blanked more could
+    #: not pass the two above by destroying real coverage.
+    "code_reference_non_ascii": _module(
+        f'PAD = "{PAD}"  # a trailing note\n'
+        'PAPER = "<DOC>"\n'
+        'def test_x():\n'
+        '    assert PAPER and PAD, r"<PAT>"\n'),
+})
+
+#: The only cases that may credit anything: the name is in a constant the interpreter evaluates.
+CREDITED = {"code_reference", "code_reference_non_ascii"}
 
 
 @pytest.fixture
@@ -142,3 +183,45 @@ def test_the_stripper_blanks_prose_without_moving_any_code_offset():
     assert "a comment naming things" not in code, "a comment survived the stripper"
     assert "trailing" not in code, "a trailing comment survived the stripper"
     assert code.count("\n") == src.count("\n"), "the stripper changed the line structure"
+
+
+def test_a_comment_after_non_ascii_code_is_blanked_and_the_code_is_not():
+    """⛔ `tokenize` comment columns are CHARACTERS; the AST's are BYTES. One rule cannot serve both.
+
+    This is root's deterministic counterexample in fixture form (2026-09-08, P-AB2). At the frozen
+    HEAD the comment span was converted with the AST's byte rule, slid 80 positions left, blanked a
+    stretch of the executable Unicode literal, and left the comment — manuscript basename included —
+    entirely intact. That is the ghost-witness path this module exists to hold shut, reopened.
+    """
+    import ast
+    src = f'X = "{PAD}"  # naming {FICTIONAL} in a comment\n'
+    code = cc._executable_source(src, ast.parse(src))
+    assert len(code) == len(src), "the stripper changed the source length, so offsets no longer align"
+    assert PAD in code, (
+        "a comment span converted with byte logic ate part of an executable non-ASCII literal; the "
+        "census would then miss code it must read")
+    assert FICTIONAL not in code, (
+        "the document name survived in a COMMENT on a non-ASCII line, so a guard that opens no such "
+        "file becomes a witness for it")
+    assert "naming" not in code and "in a comment" not in code, "the comment survived the stripper"
+
+
+def test_a_non_ascii_docstring_is_blanked_to_its_last_character():
+    """⛔ The other convention, held from the other side: AST columns really are UTF-8 bytes.
+
+    A docstring whose non-ASCII runs to the closing quote ends at a byte column far past its
+    character column. Convert it as characters and the tail survives — which would let a document
+    named late in a docstring keep crediting a guard that never opens it.
+    """
+    import ast
+    src = (f'"""{PAD} borrowed a bound from {FICTIONAL}, not opened. tail-marker-{PAD}"""\n'
+           f'Y = "{PAD}"  # trailing\n')
+    code = cc._executable_source(src, ast.parse(src))
+    assert len(code) == len(src), "the stripper changed the source length, so offsets no longer align"
+    assert FICTIONAL not in code, "a document named inside a docstring survived the stripper"
+    assert "tail-marker" not in code, (
+        "the tail of a non-ASCII docstring survived, so the AST's byte columns were read as "
+        "characters and the span stopped short")
+    assert code.splitlines()[0].strip() == "", "the docstring line was not fully blanked"
+    assert PAD in code.splitlines()[1], "the executable non-ASCII literal on the next line was eaten"
+    assert "trailing" not in code, "a trailing comment survived the stripper"

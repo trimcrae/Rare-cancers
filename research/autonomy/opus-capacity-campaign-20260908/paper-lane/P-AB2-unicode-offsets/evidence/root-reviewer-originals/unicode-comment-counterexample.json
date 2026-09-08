@@ -1,0 +1,10 @@
+{
+  "kind": "NEW root deterministic counterexample; no production import or census run",
+  "frozen_commit": "f43f1495f40d8aff7b4f34bd385d55aac521a500",
+  "source_sha256": "d6f47d118f854969371f8c2b5aa5ac48bcf5580f644ed72d63e94c393d4b8379",
+  "fixture": "X = \"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé\" # a-document-no-guard-in-this-repository-opens.md\n",
+  "actual_blank": "X = \"ééééééééééééééééééééééééééééééééééééééééé                        ééééééééééééééé\" # a-document-no-guard-in-this-repository-opens.md\n",
+  "comment_filename_remains": true,
+  "executable_literal_remains": false,
+  "explanation": "AST columns use UTF-8 byte offsets; tokenize.TokenInfo columns are Python character offsets. Applying byte conversion to both can erase executable code and leave a comment filename intact."
+}

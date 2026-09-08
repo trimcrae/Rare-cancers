@@ -1,0 +1,32 @@
+$ python3 -m pytest -p no:cacheprovider tests/test_the_census_credits_only_executable_references.py -q   (cwd /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/frozen-check)
+--- date: 2026-09-08T21:03:00Z
+--- module under test: FROZEN HEAD copy, sha256 d6f47d118f854969371f8c2b5aa5ac48bcf5580f644ed72d63e94c393d4b8379
+--- test file: the P-AB2 version, tightened comment fixture; attempt-03 is retained and its
+--- comment_only_non_ascii case passed there for the wrong reason (the drift clipped the basename).
+===== STDOUT+STDERR =====
+    
+        A docstring whose non-ASCII runs to the closing quote ends at a byte column far past its
+        character column. Convert it as characters and the tail survives — which would let a document
+        named late in a docstring keep crediting a guard that never opens it.
+        """
+        import ast
+        src = (f'"""{PAD} borrowed a bound from {FICTIONAL}, not opened. tail-marker-{PAD}"""\n'
+               f'Y = "{PAD}"  # trailing\n')
+        code = cc._executable_source(src, ast.parse(src))
+        assert len(code) == len(src), "the stripper changed the source length, so offsets no longer align"
+        assert FICTIONAL not in code, "a document named inside a docstring survived the stripper"
+        assert "tail-marker" not in code, (
+            "the tail of a non-ASCII docstring survived, so the AST's byte columns were read as "
+            "characters and the span stopped short")
+        assert code.splitlines()[0].strip() == "", "the docstring line was not fully blanked"
+>       assert PAD in code.splitlines()[1], "the executable non-ASCII literal on the next line was eaten"
+E       AssertionError: the executable non-ASCII literal on the next line was eaten
+E       assert 'éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé' in 'Y = "ééééééééééééééééééééééééééééééééééééééééé     éééééééééééééééééééééééééééééééééé"  # trailing'
+
+tests/test_the_census_credits_only_executable_references.py:226: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_the_census_credits_only_executable_references.py::test_only_an_executable_reference_puts_a_guard_in_scope_for_a_document[comment_only_non_ascii]
+FAILED tests/test_the_census_credits_only_executable_references.py::test_a_comment_after_non_ascii_code_is_blanked_and_the_code_is_not
+FAILED tests/test_the_census_credits_only_executable_references.py::test_a_non_ascii_docstring_is_blanked_to_its_last_character
+3 failed, 8 passed in 0.27s
+EXIT=1

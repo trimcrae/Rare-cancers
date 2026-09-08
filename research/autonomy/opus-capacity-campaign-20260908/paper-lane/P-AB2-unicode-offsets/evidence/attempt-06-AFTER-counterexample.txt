@@ -1,0 +1,13 @@
+$ python3 /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/P-AB2-unicode-offsets/evidence/counterexample_repro.py
+--- date: 2026-09-08T21:03:15Z
+--- claim_coverage.py sha256: 094a20684fc7db99ad383f60e032a48c3ca853d65d5686c414ea6ae67b6462af  /home/user/Rare-cancers/research/manuscripts/claim_coverage.py
+===== STDOUT+STDERR =====
+fixture repr      : 'X = "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" # a-document-no-guard-in-this-repository-opens.md\n'
+actual repr       : 'X = "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"                                                  \n'
+root actual_blank : 'X = "ééééééééééééééééééééééééééééééééééééééééé                        ééééééééééééééé" # a-document-no-guard-in-this-repository-opens.md\n'
+len(src)==len(code): True
+executable literal preserved: True
+comment basename erased     : True
+reproduces root's defect output: False
+VERDICT: REPAIRED
+EXIT=0

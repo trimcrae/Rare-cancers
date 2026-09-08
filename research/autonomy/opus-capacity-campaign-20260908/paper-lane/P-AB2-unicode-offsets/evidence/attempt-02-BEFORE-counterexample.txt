@@ -1,0 +1,14 @@
+$ python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/P-AB2-unicode-offsets/evidence/counterexample_repro.py
+--- date: 2026-09-08T20:59:32Z
+--- claim_coverage.py sha256: d6f47d118f854969371f8c2b5aa5ac48bcf5580f644ed72d63e94c393d4b8379  research/manuscripts/claim_coverage.py
+--- note: attempt-01 failed on a repo-root path error in the harness, not in the census; fixed here.
+===== STDOUT+STDERR =====
+fixture repr      : 'X = "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" # a-document-no-guard-in-this-repository-opens.md\n'
+actual repr       : 'X = "ééééééééééééééééééééééééééééééééééééééééé                        ééééééééééééééé" # a-document-no-guard-in-this-repository-opens.md\n'
+root actual_blank : 'X = "ééééééééééééééééééééééééééééééééééééééééé                        ééééééééééééééé" # a-document-no-guard-in-this-repository-opens.md\n'
+len(src)==len(code): True
+executable literal preserved: False
+comment basename erased     : False
+reproduces root's defect output: True
+VERDICT: DEFECT REPRODUCED
+EXIT=1
