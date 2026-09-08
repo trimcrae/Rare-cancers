@@ -79,3 +79,23 @@ seam paragraph, and performed a **set union over stored peptides**. **No network
 no W25/GSE243553 continuation, no ASO regeneration, and no scientific-artifact edit.**
 
 This qualification does **not** reopen P3.
+
+
+---
+
+# Precision correction, appended 2026-09-08 11:30 UTC
+
+My table above reported *"manuscript occurrences of 'the 26-binder figure': 0"*. **That is loose and is
+corrected.**
+
+**What is true:** the exact phrase **"26 predicted binders"** occurs **0** times.
+**What is NOT true:** that the number 26 is absent. The manuscript **deliberately retains** it in its
+superseded-values table at line 1516 — `| Distinct predicted binders | 26 | 11 |` — which is precisely
+how a correction register is supposed to work, and the bare token `26` appears **4** times in the file
+for various reasons.
+
+**Nor does any of this imply** that no historical version of the manuscript ever carried the
+26-binder figure. The superseded row is evidence that one did.
+
+**Unchanged:** the current result is **11** distinct binders, and the defect is **already corrected**.
+This does not reopen P3.

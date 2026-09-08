@@ -42,3 +42,22 @@ not a presumed one:
 
 ⭐ These are findings, not excuses, and each is falsifiable. If R1 or R2 surfaces a scientific question
 answerable from committed inputs, it becomes a lane immediately.
+
+
+---
+
+# Timestamp correction, appended 2026-09-08 11:30 UTC — original header preserved
+
+**The header's "~11:31 UTC" was a composition estimate, not an observed time**, and it is inconsistent:
+it postdates the local observation at 11:26:53. Corrected from the actual record:
+
+| event | actual |
+|---|---|
+| parent's model-check command (`date -u` in the same command) | **2026-09-08 11:25:20 UTC** |
+| R1 first transcript event | 11:24:5x Z (from the retained JSONL) |
+| R2 first transcript event | **11:24:53 Z**; last **11:27:49 Z** |
+
+This is the same error class already corrected for the E1 contract ("08:18"), the H1 receipt
+("09:17/09:18"), the M1 receipt ("~10:54") and the N1 pair ("~10:56/10:57"). **No finding, bound or
+term changes.** Full child event spans are taken from the originals at collection, and **future
+current timestamps come from `date -u`, not from composition.**
