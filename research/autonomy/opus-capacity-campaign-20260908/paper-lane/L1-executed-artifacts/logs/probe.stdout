@@ -1,0 +1,38 @@
+SHOW identical: True
+LABEL identical: True
+WINDOW_TIER identical: True TIER_LABEL identical: True
+evaluated points (gene, x=enrichment_vs_rest, tier, significant) identical: True
+NOT EVALUATED band identical: True [('SSTR2', 2), ('B4GALNT1', 3)]
+  point ('CDH11', 3.18, 2, True)
+  point ('FGFR1', 1.99, 1, True)
+  point ('GPC2', 1.49, 2, True)
+  point ('PTK7', 1.24, 0, True)
+  point ('MCAM', 1.09, 1, True)
+  point ('EPHB4', 1.0, 1, True)
+  point ('CD276', 0.14, 1, False)
+  point ('NCAM1', 1.74, 0, True)
+  point ('FAP', 0.02, 2, False)
+  point ('EGFR', -2.21, 2, False)
+  point ('KIT', 2.46, 0, True)
+
+deterministic jitter (decoration only):
+  CDH11     tier=2 jitter=-0.24 y=+1.76 x=3.18
+  FGFR1     tier=1 jitter=-0.12 y=+0.88 x=1.99
+  GPC2      tier=2 jitter=+0.00 y=+2.00 x=1.49
+  PTK7      tier=0 jitter=+0.12 y=+0.12 x=1.24
+  MCAM      tier=1 jitter=+0.24 y=+1.24 x=1.09
+  EPHB4     tier=1 jitter=-0.24 y=+0.76 x=1.0
+  CD276     tier=1 jitter=-0.12 y=+0.88 x=0.14
+  NCAM1     tier=0 jitter=+0.00 y=+0.00 x=1.74
+  FAP       tier=2 jitter=+0.12 y=+2.12 x=0.02
+  EGFR      tier=2 jitter=+0.24 y=+2.24 x=-2.21
+  KIT       tier=0 jitter=-0.24 y=-0.24 x=2.46
+
+same-tier marker separation (data coords; xlim span 6.831, ylim span 4.4):
+  FGFR1     vs EPHB4     dx=0.990 dy=0.120 
+  FGFR1     vs CD276     dx=1.850 dy=0.000 
+  GPC2      vs FAP       dx=1.470 dy=0.120 
+  PTK7      vs NCAM1     dx=0.500 dy=0.120 
+  MCAM      vs EPHB4     dx=0.090 dy=0.480 
+  EPHB4     vs CD276     dx=0.860 dy=0.120 
+  FAP       vs EGFR      dx=2.230 dy=0.120 

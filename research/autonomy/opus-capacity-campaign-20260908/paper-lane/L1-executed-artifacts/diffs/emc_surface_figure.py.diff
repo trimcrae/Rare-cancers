@@ -1,0 +1,28 @@
+--- /tmp/claude-0/l1-lane/pre/emc_surface_figure.py	2026-09-08 10:31:10.927012770 +0000
++++ research/modalities/emc_surface_figure.py	2026-09-08 10:31:30.229844858 +0000
+@@ -13,6 +13,10 @@
+ selectivity scale at all, so that a missing value can never be read as a measured selectivity of
+ zero. In the current artifacts those antigens are B4GALNT1 (GD2 synthase) and SSTR2.
+ 
++Deterministic: the only decorative freedom in the plot, the within-tier vertical offset, is
++derived from the gene's index in SHOW, so the same committed inputs render byte-identical output
++in any process, under any PYTHONHASHSEED, on any machine.
++
+ Reads the committed JSONs from the modalities-cache branch (CI has internet). matplotlib only.
+ Output: emc-surface-prioritization.png
+ """
+@@ -82,7 +86,13 @@
+             ha="center", va="top", fontsize=9, color="#2ca02c")
+ 
+     for g, x, tier, sig in pts:
+-        jitter = 0.12 * (hash(g) % 5 - 2)
++        # Deterministic decorative offset. It depends only on the gene's position in the committed
++        # SHOW list, so it is identical in every process, under every PYTHONHASHSEED and on every
++        # machine. (It replaces `0.12 * (hash(g) % 5 - 2)`: Python salts string hash() per process,
++        # so that offset — and therefore the rendered PNG — changed on every run.) The offset is
++        # decoration only: it moves no measured quantity, since x is enrichment_vs_rest and the
++        # marker's tier is the integer y it is added to.
++        jitter = 0.12 * (SHOW.index(g) % 5 - 2)
+         color = "#d62728" if tier <= 0 else ("#ff7f0e" if tier == 1 else
+                                              ("#1f77b4" if tier == 2 else "#2ca02c"))
+         marker = "o" if sig else "x"
