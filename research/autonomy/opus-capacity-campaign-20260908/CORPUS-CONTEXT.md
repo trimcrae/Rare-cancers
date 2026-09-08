@@ -20,6 +20,15 @@ lived only in WAVE-LOG.md): repository-relative paths live under
 directory finds nothing and looks like absence. A path that resolves under `corpus/` is present; a
 path that does not is UNKNOWN, never absent.
 
+**LINE-SHIFTED FILES — resolve `:NN` citations into these in the LIVE checkout, not the corpus
+(W38b, measured 2026-09-08T03:49Z).** `systems/systems_check.py` (9 corpus lines absent from the
+live copy) and `systems/views/L3-publications.md` (47 absent, 27 new) differ between the two trees
+in a way that shifts line numbers without shifting file length enough to be obvious. W38b measured
+**35 distinct citations across 11 reports that land on the same line number but DIFFERENT CONTENT
+in the two trees**, and every one of them was written from the live checkout — so resolving them in
+the corpus silently reads unrelated code. This runs **opposite** to the root correction above: the
+root correction sends you to the corpus, and for these two files that is the wrong tree.
+
 **The corpus is read-only by mode (`chmod -R a-w`), but workers run as root (`id -u` = 0), so the
 mode is a guard-rail, not enforcement (W35, measured: `test -w` on the corpus root returns
 writable). Do not write to it.**
