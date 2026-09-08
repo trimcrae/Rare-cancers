@@ -41,7 +41,7 @@ last_verified: 2026-08-06
 | | |
 |---|---|
 | endpoint | `PUB-METHODS` · route `RT-METHODS-PAPER` · strategy `ST-DISSEMINATION` |
-| what blocks it | **nothing scientific.** `systems_check.py --check` emits `[B5] RT-METHODS-PAPER is ready and its endpoint PUB-METHODS is unwritten — nothing blocks this paper except writing it` |
+| what blocks it | **the route's registered inherited-blockers list is empty.** ⚠ That is all the registry says, and it is not a finding that the science is ready: `RT-METHODS-PAPER.readiness.missing` still names one item (§10.3 item 1). The `[B5] RT-METHODS-PAPER …` line this row used to quote is **historical** — `systems_check.py --check` no longer emits a B5 for this route, and the six it does emit name other routes |
 | cost to finish | **$0.** No GPU, no rental, no bench. Every input is a committed artifact |
 | what is genuinely missing | two items, both $0, both in [§10.3](#103--the-two-missing-inputs-both-0) |
 | what only a wet lab could add | **nothing this paper's claim needs** — the one framing in the register of which that is true ([`paper-framing-options.md`](../program/paper-framing-options.md) §2.1) |
@@ -57,14 +57,17 @@ including the failures, the non-resolutions and the tests that were never run �
 discarded. The worked system is the nuclear receptor NR4A3 and a hypothesised bivalent degrader against it;
 the paper's subject is the **register**, not the target.
 
-Of the instruments this program used, four recovered their known answer within a stated scope and sixteen are
-carried as **disclosed failing** — the register's own word, which covers three materially different outcomes
+Of the **twenty instruments this paper cites** — the `support` and `disclosed_failing` lists of
+`RT-METHODS-PAPER.instruments`, which is not the whole of the program's instrument register — four recovered
+their known answer within a stated scope and sixteen are carried as **disclosed failing** — the register's own word, which covers three materially different outcomes
 that the paper's central methodological argument is written to separate. Three independent, preregistered
 attempts at a **positive control for paralogue-selectivity detection** are reported: an alchemical ternary
 cooperativity calibrator that recovered the **wrong sign**, an endpoint-MD sensitivity control that returned
 a **null on an adequately-powered design**, and a biological retrospective that was **covalency-confounded**
-and therefore could not have served at any sample size. None of the three succeeded, no fourth is staged, and
-the direct consequence — stated here as it is stated in the program's own record — is that **every
+and therefore could not have served at any sample size. None of the three succeeded. ⚠ A fourth known-answer test
+for this axis, `V4`, **is** built and staged — but it carries no result key, was never completed and is not
+authorised, so it grades nothing and leaves the claim ceiling exactly where the three failures put it. The
+direct consequence — stated here as it is stated in the program's own record — is that **every
 paralogue-selectivity statement the program can make is an unvalidated prediction**.
 
 Two further results give the audit its shape. First, a preregistered causal test returned its **registered
@@ -117,15 +120,18 @@ adequately-powered null with a reference-set floor an order of magnitude under �
 from "we saw nothing". [§4](#4---the-spine--four-outcomes-that-are-routinely-summed-into-one) and
 [§6](#6--the-2026-08-03-sweep--three-instruments-assembled-and-graded-in-one-day) carry the mechanisms.
 
-**(c) The field's negative-methods record is thin.** ⚠ **This is the one premise in the paper that this
-repository cannot currently support with a measurement or a citation, and it is stated as a position rather
-than a finding.** It is the program's standing view (CLAUDE.md §5: *"a definitional closure is a publishable
-negative, and the field publishes almost none of them"*) and it is the stated rationale in
-[`systems/graph/routes.json`](../../../systems/graph/routes.json) → `RT-METHODS-PAPER.rationale`. **Before
-submission it needs either a cited bibliometric source or removal**; carried in
-[§10.2](#102--the-one-premise-this-repository-cannot-support-today) so it cannot be forgotten. The argument
-does not fall over without it — the audit stands on (a) and (b) — but the sentence must not be asserted as if
-it had been measured.
+**(c) The failures themselves are the transferable content.** Each of the four outcome classes in §4 carries
+a mechanism another group can act on without repeating the run: a wrong-sign cooperativity calibrator, an
+adequately-powered endpoint-MD null, a covalency-confounded retrospective, a scoring margin refuted by its own
+within-repo false-positive rate, and a benchmark whose *unbound* protocol supplied information its label
+implied it withheld. That is the contribution, and it stands on what this program measured.
+
+⚠ **What this paper does NOT assert is any claim about how often the field publishes negatives.** The earlier
+framing rested on the clause *"the field publishes almost none of them"*, which this repository cannot support
+with a measurement or a citation. It is **historical**: it survives in
+[`CLAUDE-history.md`](../../../CLAUDE-history.md) as a superseded standing view, and is quoted there rather
+than asserted here. No bibliometric survey was run, and none is proposed; nothing in the argument depends on
+one.
 
 ---
 
@@ -171,7 +177,9 @@ read as a bound and may **not** be reported as calibrated.
 ### 4.2 · What IS bad — and it is #1–#3 together, not #4
 
 After **three** preregistered attempts there is **no working positive control for paralogue-selectivity
-detection**, and **no fourth candidate is staged**. That, and not the preregistered null, is why every
+detection**. The fourth candidate, `V4`, is **built and staged with no result** — never completed, not
+authorised (§5.1) — which is a different state from "not staged" and changes the claim ceiling by nothing.
+That, and not the preregistered null, is why every
 paralogue-selectivity statement the program makes is an **unvalidated prediction** — a consequence written
 into [`selectivity-resolution-options.md`](../../modalities/selectivity-resolution-options.md) §4 *before* the
 deciding run, so it could not be re-narrated afterwards, and machine-carried by
@@ -231,7 +239,8 @@ Two corollaries the program had to learn and that a reader can take away directl
 
 The route record [`systems/graph/routes.json`](../../../systems/graph/routes.json) → `RT-METHODS-PAPER.instruments`
 partitions the instruments this paper cites into two lists, and **the partition is the paper's headline
-table**: **four** are cited as `support` (`V1`, `V6`, `V8`, `V10`) and **sixteen** as `disclosed_failing`
+table**. ⚠ Its denominator is **the twenty instruments this route cites**, not every instrument the program
+has ever held: **four** are cited as `support` (`V1`, `V6`, `V8`, `V10`) and **sixteen** as `disclosed_failing`
 (`V3`, `V4`, `V5`, `V7`, `V9`, `V11`, `V12`, `V13`, `V14`, `V15`, `V16`, `V17`, `V19`, `V20`, `V21`, `V22`).
 
 ⚠ **`disclosed_failing` is one word covering at least four different facts, and §4's taxonomy is what
@@ -472,11 +481,15 @@ not slide into *"this is what happens"* — which is the exact grammatical drift
 linter exists to catch. **Every instrument verdict is a statement about this program's implementation of a
 method, never about the method's published accuracy in other hands.**
 
-### 10.2 · The one premise this repository cannot support today
+### 10.2 · The unsupported premise, removed 2026-09-08
 
-The sentence *"the field publishes almost none of them"* ([§3](#3--why-this-is-a-paper-and-not-a-lab-notebook)(c))
-is a position, not a measurement. **Before submission it needs a cited bibliometric source or it comes out.**
-Nothing else in the paper depends on it.
+The sentence *"the field publishes almost none of them"* was carried in §3(c) as a position rather than a
+measurement, pending a cited bibliometric source. ⭐ **2026-09-08: it came out** — of this paper's prose and of
+its endpoint's `what_it_would_claim` field — rather than being kept open indefinitely against a survey nobody
+was going to run. The clause is preserved as a superseded standing view in
+[`CLAUDE-history.md`](../../../CLAUDE-history.md), labelled historical there; it is not asserted anywhere in
+the current text. Nothing else in the paper depended on it, and §3(c) now rests the contribution on the
+documented method failures themselves.
 
 ### 10.3 · The two missing inputs, both $0
 

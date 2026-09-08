@@ -257,7 +257,7 @@ If a public junction epitope were presented, the fraction of the patient populat
 
 **◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/methods-record/degrader-methods-failure-record.md`](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)**
 
-A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
+A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures, each with its diagnosed mechanism, are the transferable result.
 
 | route | role | what it contributes |
 |---|---|---|

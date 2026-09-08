@@ -80,7 +80,7 @@ Nothing blocks it. It is the only route in the portfolio with no scientific bloc
 
 **This route contributes:** The whole paper: the program's disclosed failures, each with the known-answer control that produced it.
 
-**The paper would claim:** A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
+**The paper would claim:** A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures, each with its diagnosed mechanism, are the transferable result.
 
 ## Strategic timing — the wait equation
 
