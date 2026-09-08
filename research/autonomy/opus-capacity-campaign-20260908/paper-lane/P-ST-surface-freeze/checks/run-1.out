@@ -1,0 +1,96 @@
+PASS  scan holds 47 actionable antigens
+PASS  18 selectivity_significant
+PASS  the nine classic selective antigens are all significant
+PASS  the other nine are ALK DLL3 ENPP1 FGFR4 PDGFRA PDGFRB ROR1 SLC34A2 STEAP1
+PASS  main names the nine classic selective antigens
+PASS  main names the further nine selective antigens
+PASS  abstract states 18 of 47
+PASS  normal-window artifact holds 46 antigens
+PASS  selective INTERSECT restricted == {DLL3}
+PASS  DLL3 q = 0.0079
+PASS  main: DLL3 is selectivity-significant at q = 0.0079 and classed RESTRICTED
+PASS  si: leaves exactly one antigen, DLL3
+PASS  five selective antigens have no board row
+PASS  none of the 13 measured is concordant up
+PASS  FGFR1 and PTK7 are the concordant-down members of the 18
+PASS  main discloses the five unmeasured antigens
+PASS  si discloses the five unmeasured antigens
+PASS  _correction is BH within platform
+PASS  alpha 0.05
+PASS  CONCORDANT_UP_ON_BOTH == BGN CD44 VCAN
+PASS  ALCAM GPL3290 q = 0.161652
+PASS  ALCAM GPL3290 CI crosses zero
+PASS  ALCAM GPL3290 delta positive
+PASS  ALCAM GPL6244 significant
+PASS  ALCAM state is MOVED_ON_ONE_FLAT_ON_THE_OTHER
+PASS  GPC1 state is MOVED_ON_ONE_FLAT_ON_THE_OTHER
+PASS  main: *q* = 0.162
+PASS  main: 95 % CI −0.02 to 1.53
+PASS  main: BGN and CD44
+PASS  main: VCAN, BGN and CD44
+PASS  artifact holds sensitivity_reference_matched_GPL3290_DFSP_only
+PASS  artifact holds sensitivity_GPL6244_with_solitary_fibrous_tumour
+PASS  artifact holds normal_skeletal_muscle_anchor
+PASS  DFSP-only CSPG4 delta -0.5179
+PASS  DFSP-only CSPG4 q 0.182427
+PASS  DFSP-only 15 sign changes
+PASS  DFSP-only ALCAM delta 1.2327 q 0.081893
+PASS  SFT arm CSPG4 delta 0.9271 q 0.001129
+PASS  SFT arm 5 sign changes
+PASS  anchor ALCAM +2.8503
+PASS  anchor ENO3 and NR4A3 negative
+PASS  main no longer claims no sensitivity analysis was run
+PASS  si no longer claims no sensitivity analysis was run
+PASS  main no longer says no multiple-testing correction is applied anywhere in the tissue read
+PASS  main: Δ = −0.518, *t* = −1.84
+PASS  si: Δ = −0.518, *t* = −1.84, df 9.8
+FAIL  si: 15 of the seventy genes  -- string not found
+PASS  resolution GPL6244 24 of 95
+PASS  resolution GPL3290 16 of 78
+PASS  median CI half widths 0.259 / 0.957
+PASS  main prints the GPL6244 median CI half-width
+PASS  main prints the GPL3290 median CI half-width
+PASS  si prints the GPL6244 median CI half-width
+PASS  si prints the GPL3290 median CI half-width
+PASS  CSPG4 absent from the selectivity scan
+PASS  CSPG4 present in the normal window as ENHANCED_BROAD
+PASS  L4 field in_emc_surface_normal_window is still false (stale, unaltered)
+PASS  main: stale historical statement
+PASS  si: stale historical statement
+PASS  main no longer says CSPG4 was not among the antigens the filter saw
+PASS  CSPG4 is the largest EMC median and CD248 the next
+PASS  CSPG4 / CD248 EMC median ratio rounds to 4.94
+FAIL  main: roughly five times the next-largest row in that panel (CD248, 1.767)  -- string not found
+PASS  CD276 GPL6244 q 0.087575 not significant
+PASS  CD276 3SEQ ratio 1.4172 with stored label FLAT
+PASS  main: 1.42 times the other-sarcoma median
+FAIL  main: banding rule applied to a ratio, not a significance test  -- string not found
+FAIL  main no longer claims B7-H3 is not elevated on either instrument
+FAIL  main no longer claims B7-H3 protein can be tumour-restricted
+PASS  withdrawn from the live body: carry no EMC-tissue array contrast elsewhere in this
+PASS  withdrawn from the live body: gained their first EMC-tissue array contrast in this
+PASS  withdrawn from the live body: The surrogate's negatives transferred and its positi
+PASS  withdrawn from the live body: verified each reported value against the committed
+PASS  withdrawn from the live body: a usable
+diagnostic or lineage marker
+PASS  ORCID present and placeholder gone
+PASS  six class subtypes present
+PASS  no DSRCT subtype returned
+PASS  main names alveolar rhabdomyosarcoma in the class
+PASS  si names alveolar rhabdomyosarcoma in the class
+PASS  five instrument limits
+PASS  main: Five limits of this instrument were computed
+PASS  si: Five limits of the surrogate instrument were computed
+PASS  LRRC15 window is ENHANCED_BROAD
+PASS  main: | LRRC15 | −0.25 | 1.0 | no | ENHANCED_BROAD |
+PASS  si: | LRRC15 | Tissue enhanced | Detected in many | Not detected in immune
+PASS  nine curated panels
+PASS  Table S3 lists ofcs_carrier_proteoglycans gene for gene, in order
+PASS  Table S3 lists sarcoma_cell_surface_addresses gene for gene, in order
+PASS  Table S3 lists alkaline_phosphatase_family gene for gene, in order
+PASS  Table S3 lists hla_presented_intracellular_antigens_NOT_surface gene for gene, in order
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/P-ST-surface-freeze/checks/check_bindings.py", line 178, in <module>
+    check('MKI67 GPL3290 delta 1.2358 t 2.301', round(mk['GPL3290']['delta_a_minus_b'],4)==1.2358)
+                                                      ~~^^^^^^^^^^^
+KeyError: 'GPL3290'
