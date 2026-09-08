@@ -89,3 +89,16 @@ A retrievable, source-traceable finding; a working script with a real test run; 
 table built from committed or public data; a precise, evidence-backed negative result; or a
 concrete diagnosis of a real defect with the smallest correct repair. A plan alone is not an
 artifact. A restatement of existing repository content is not an artifact.
+
+## Known, measured, and NOT worth rediscovering
+
+- **`scripts/preflight.sh`'s systems step is red for reasons that have nothing to do with your change.**
+  W31b measured (2026-09-08T03:34Z) that removing this campaign directory takes
+  `systems/systems_check.py --check` from 172 ERROR to **0 ERROR, exit 0**, and that the
+  pre-campaign commit `92abbcb9` is likewise 0 ERROR. **100% of that baseline is this campaign's
+  own footprint**, and ~87% of it is one `[D4]` "no frontmatter" error per collected report, so
+  the count grows by one per report and is never the same number twice. Do not spend a run
+  attributing it. `systems/tests/test_views_match_the_graph` remains the honest signal for view
+  drift. The coordinator has NOT added a `DOC_SKIP` exclusion: the 9 `inputs/` errors under it are
+  real findings, and narrowing a checker to shrink a number is the move this repository's own
+  design note at `systems_check.py:1436` warns against.
