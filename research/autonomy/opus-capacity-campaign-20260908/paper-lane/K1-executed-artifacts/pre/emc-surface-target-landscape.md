@@ -608,12 +608,7 @@ columns are ratios of medians and carry no test.
 
 **Figure 1.** Candidate surface antigens placed by cross-cancer selectivity against normal-tissue
 window tier. A usable classic antigen would sit in the selective and restricted quadrant, which is
-unpopulated for the antigens the filter evaluated; no marker is drawn inside it. Antigens with no
-selectivity value in the scan output are not placed on the selectivity axis, because a marker at
-zero would assert a measured selectivity that was never obtained; they appear instead in the
-separate hatched "NOT EVALUATED" band at the right of the figure, which carries no selectivity
-scale. In the current artifacts that band holds B4GALNT1 (GD2 synthase) and SSTR2, both recorded in
-Table 1 as not in the scan output and not evaluated. Rendered by `emc_surface_figure.py` to
+unpopulated for the antigens the filter evaluated. Rendered by `emc_surface_figure.py` to
 `emc-surface-prioritization.png`. The figure renders the surrogate stage only; the EMC-tissue axis is
 presented in Tables 3 to 5.
 
