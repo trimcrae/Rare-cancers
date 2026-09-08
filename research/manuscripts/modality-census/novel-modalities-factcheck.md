@@ -135,13 +135,17 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   any-strong coverage 1.4% (Melanesia) → 60% (Northern Europe); 0 populations unassigned.
   ⚠ *Superseded, retained: e7::e3 (A*11:01 + B*08:01) = **29.7%** (29.0–30.3%); any-strong
   (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%); regional 36% (Sub-Saharan
-  Africa) → 79% (Northern Europe); CD8∧CD4 both-arms **16.5%**.* Class II: DRB1 helper alleles
-  (DRB1*03:01/07:01, strong binders from `patient-cd4-demo.json`) compute to **28.4%** globally,
-  but ⛔ **that arm and the combined both-arms figure are WITHHELD** — `patient-cd4-demo.json` is
-  still built on the retracted seam (`…IVRTDSLKGRRG`) and has not been regenerated, so the file
-  would otherwise mix a corrected class-I set with an uncorrected class-II one. `hla_coverage.py`
-  now measures the mismatch and records it as `⛔_class_ii_provenance`. It remains a FLOOR in any
-  case, because the class-II screen tested only a 3-allele DR panel (not fabricated up). The
+  Africa) → 79% (Northern Europe); CD8∧CD4 both-arms **16.5%**.* ⚠ *Superseded, retained: "Class II: DRB1 helper
+  alleles (DRB1\*03:01/07:01, strong binders from `patient-cd4-demo.json`) compute to **28.4%**
+  globally, but ⛔ that arm and the combined both-arms figure are WITHHELD — `patient-cd4-demo.json`
+  is still built on the retracted seam (`…IVRTDSLKGRRG`) and has not been regenerated."*
+  ⭐ **Corrected 2026-09-08: `patient-cd4-demo.json` HAS since been regenerated at the corrected
+  seam, and neither figure is withheld any longer.** `hla-coverage.json` →
+  `⛔_class_ii_provenance` records `class_ii_junction_context "QYSQQSSSYGQQ|NMPCVQAQYSPS"` with
+  `matches_corrected_seam: true`. Neither named allele survives the rebuild: the only DRB1 allele
+  presenting a strong class-II junction binder is **DRB1\*14:01**, giving class-II coverage
+  **6.49%** (95% CI 6.30–6.70%) and combined CD8∧CD4 coverage **1.78%**. It remains a FLOOR,
+  because the class-II screen tested only a 23-allele DR panel (not fabricated up). The
   global number is the headline, the regional spread an equity caveat. If a source is unreachable
   the script records `source_unavailable` rather than guessing. Sources: `hla-coverage.json`,
   `hla-coverage-emc.md`. ✓
