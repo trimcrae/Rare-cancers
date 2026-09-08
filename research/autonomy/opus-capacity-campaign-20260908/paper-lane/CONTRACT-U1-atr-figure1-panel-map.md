@@ -55,3 +55,51 @@ inspection evidence and your output. Record `date -u`, `git rev-parse HEAD`,
 
 Stop at ~30 tool calls / ~30 minutes. Early with a supported result is success.
 
+
+
+---
+
+# Dated amendment, appended Tue Sep  8 11:40:04 UTC 2026 — U1's scope is EXPANDED in flight
+
+**U1 (`af3a14e566b943e5e`) is live and has already inspected the figure** (panel crops present in its
+lane). This amendment expands that **same child**; **no duplicate ATR reviewer is launched, U1 is not
+restarted, and no image it has already read is re-inspected.**
+
+## Why U1 and not a new lane
+
+The scientific coordinator wants **one independent review of R1's concrete proposal** at `67050fcc`.
+**U1 is already independent of R1's author** and already holds the figure evidence that review needs.
+
+## Added deliverable — a focused DECISION MEMO on the proposed reconstruction
+
+Not another 47-item inventory, not a history hunt, not a broad audit, not a publication clearance, and
+**not an author self-review**.
+
+1. **Verify R1's included substantive changes against the named committed inputs** —
+   `emc_fet_frame_and_composition.py`, `emc-fet-frame-and-composition.json`,
+   `research/modalities/tests/test_emc_fet_frame_and_composition.py`, and
+   `emc-atr-collaborator-package-changelog.md`. For each: **supported**, **partly supported**, or
+   **unsupported**, with the committed line or field cited. **Reuse the figure work already done.**
+2. **Assess R1's seven proposed editorial/scientific decisions** (retitle; delete Appendix A; insert
+   the figure and cut to six tables; reduce P1-P5 to three; move the scope blockquote; renumber into a
+   Discussion; add §2.3/§4.1 and supplementary tables). Say for each whether R1's recommendation is
+   **sound, premature, or unsupported**, and why. ⚠ Note that the predictions table is
+   **preregistration-shaped** and this repository preserves preregistrations.
+3. **Assess R1's eight unresolved items** — are they genuinely unresolvable from committed inputs, or
+   did R1 miss an available input? Name any that is actually resolvable, with the input.
+4. **Return: concrete unsupported claims, remaining dependencies, and a recommended COHERENT SCOPE for
+   integration** — what could sensibly be applied together, and what must wait. A recommendation, not
+   an application.
+
+## Bounds — unchanged, and reinforced
+
+⛔ Read **only existing inputs**. No source or network recovery, **no image or science regeneration**,
+**no rerun of an unchanged gate**, no shared manuscript/artifact/registry edit, no held-scope
+continuation. ⛔ **Change nothing shared; no git write.** Retain original inspection evidence, commands
+and results.
+
+**Stop at 35 TOTAL tool calls / 30 minutes for this child — counting the work already done — or
+earlier on a supported finite result.** A partial but supported memo beats an exhausted budget.
+
+**Shared integration remains the scientific coordinator's decision** after this independent review.
+Nothing here creates a user/root approval queue.
