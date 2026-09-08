@@ -160,13 +160,24 @@ here. ⛔ The endpoint package's handoff once recorded a line range that was fou
 would have deleted real declarations; that is why this one was counted rather than estimated. The
 declarations here sit at the **end** of the file, not adjacent to the editorial block.
 
-## One open item this package does not fix
+## ⭐ CORRECTED 2026-09-08 — the 388-corpus item was already closed
 
-The sister memo `research/manuscripts/emc-mortality-mechanisms.md` §3 twice describes "the same 388-paper
-retrieved corpus", and `research/literature/emc-mortality-probe.json` records 600 enumerated / 400
-attempted / 328 retrieved / 162 with death sentences. There is **no 388**. It is recorded in
-[`ESCALATIONS-mortality-biomarker.md`](ESCALATIONS-mortality-biomarker.md) and is **not** touched
-here; the manuscript itself uses 600 / 400 / 328 / 162 / 34 correctly.
+⚠ **This handoff first recorded, as an open item, that the sister memo
+`research/manuscripts/emc-mortality-mechanisms.md` §3 twice describes "the same 388-paper retrieved
+corpus" with no artifact basis. That status was STALE when written.** Root read the sister memo at
+`e21841ea` and no 388 remains; I then checked the live file myself and found **zero** occurrences of
+388 in it.
+
+The correction landed earlier, at **`044d3e3c`**, and is specific rather than blanket: the passage now
+says a title-level scan of **the 25 records that query itself returned**
+(`early_palliative_care_survival.retrieved = 25` in `research/literature/emc-mortality-probe.json`),
+expressly **not** a search of the **328**-paper retrieved EMC corpus and not a dedicated sarcoma
+palliative-care search. Both numbers are the probe artifact's own.
+
+⛔ Nothing here reopens a number, a source or a producer. Only this handoff's status line was wrong,
+and only it is corrected. The escalation record
+[`ESCALATIONS-mortality-biomarker.md`](ESCALATIONS-mortality-biomarker.md) is retained as history of
+how the item was found, not as a live defect.
 
 ## What this handoff is not
 
