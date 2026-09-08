@@ -253,3 +253,36 @@ change it was still unapplied, is superseded and was stale.
 ⚠ A production PDF has now been built and committed, and the figure was checked to be present on the
 page with its caption — but **print-size legibility remains unverified**, which is the one open item
 this record still carries.
+
+## ⛔ RELEASE HELD, 2026-09-08 — the repository release check failed
+
+Root's release-gate adjudication, recorded here because it governs this paper's release rather than
+its science.
+
+**The accepted final scientific review, the focused verification, the final editorial corrections and
+the `e21841ea` 9-page PDF production QA all remain valid within their recorded scope.** ⛔ **They do
+not supply a passing repository release check, and no publication action is cleared.**
+
+Run **34250066740** tested exactly `6186189abf5291fabdd45819ae42474eecb5ee74` and completed with
+**failure** at 2026-09-08T17:22:38Z. Root verified the published log's byte count and hash — 304,602
+bytes, sha256 `ca79eba2fdf4df35e72d46ff6f4e93777a869baffcf38c264dd6024cc0df3c3f`, Git blob
+`a2f8c55f9a1b5250d33a2eac2d7b3a482b1af9da` at main `b4ff832bb75116e70d2f8431ef688e8dcc73d7a7` — and
+read its gate and test-failure sections. The sole collector retained it in
+`observations/ci-34250066740-original/` with an original-log-byte receipt. **No passing receipt
+exists at that revision**; the log ends `EXIT=1`, and the job's own step recorded
+`REFUSED: /tmp/preflight-full.log terminates in 'EXIT=1'`.
+
+The failure inventory across all three suites, and the correction to this campaign's first
+one-suite summary, are in
+[`RESULT-preflight-full-6186189a.md`](RESULT-preflight-full-6186189a.md). ⚠ **A failing guard or
+census assertion does not by itself reopen a held paper or invalidate a public preprint's reviewed
+science**, and the modalities failures are **not** automatically dependency failures,
+restricted-paper failures or ATR science defects.
+
+**Reopening this release requires** resolution of the actual applicable gate failures, the required
+**green full-preflight evidence for the final candidate under the real coverage rules**, and the
+remaining publication-bar clauses. ⛔ **No safety refusal and no closed source route may be retried to
+manufacture that evidence**, and ⛔ **a later builder or PDF candidate does not automatically inherit
+the old `6186189a` run — even if that run had passed.**
+
+This is a paper-specific release hold. It is not a programme-wide blocker and requires no user action.
