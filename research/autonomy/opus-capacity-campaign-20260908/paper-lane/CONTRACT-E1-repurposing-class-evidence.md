@@ -73,3 +73,36 @@ deleting a hedge; if any change would require a network call, a new source, or a
 calls / ~40 minutes. Edits are confined to
 `research/manuscripts/repurposing/repurposing-hypotheses.md`. **No PR, no publication, no graph edit, no
 `candidates.json` change, no other manuscript.** The parent integrates and commits.
+
+---
+
+# Timing and count qualifications, appended 2026-09-08 08:39 UTC — original header preserved, not rewritten
+
+**The header literal "Tue Sep 8 08:18 UTC 2026" above is retained as historical text.** It conflicts with the
+observed record and is corrected here by append rather than silently edited:
+
+| event | actual observed |
+|---|---|
+| contract file written / pinned | **~08:34 UTC** (`date -u` in the same command that wrote it printed `08:34:09`) |
+| E1 dispatched | **08:32:48 UTC** per the UI |
+| model/start receipt verified from transcript | **08:35:37 UTC** |
+
+⚠ The header's 08:18 was my own approximation written into the text ahead of the `date -u` reading in the same
+command; the authoritative times are the three above. **No contract term changes.**
+
+**Count qualification.** `E1-MODEL-START-RECEIPT.md` records "helpers 0" as a static snapshot at 08:35:37 UTC.
+A fresh UI reading shows **one legacy Bash waiter** alongside E1. Reported separately and honestly:
+**active research children 1 (E1 `ad6827ab552210e9f`); helpers 1 (the legacy Bash waiter — it computes nothing
+and is not research).** The receipt's line stands as the snapshot it was; this is the live count.
+
+**These are timestamp and count qualifications only — not additional scientific gates.** E1's contract bounds
+(~40 tool calls / ~40 minutes) and every stop condition are unchanged, and the running child is not interrupted,
+restarted or given a review cycle.
+
+## Retention added to the collection plan for E1
+
+Beyond the already-planned pre-edit manuscript, post-edit manuscript, unified diff and original linter
+stdout/stderr/exit outcomes: the **original child JSONL** and the **original command and tool-result bodies as
+generated** — exact command inputs, tool-use IDs, timestamps and hashes — all preserved **before any cleanup**,
+with source uncertainty and actual failures kept as they occurred. **Nothing will be re-run to recreate
+evidence**, and the served model will be parsed from that JSONL.
