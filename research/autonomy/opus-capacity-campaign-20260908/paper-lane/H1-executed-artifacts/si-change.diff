@@ -1,0 +1,32 @@
+--- /tmp/claude-0/h1-retained/BEFORE.md	2026-09-08 09:21:31.522980902 +0000
++++ /tmp/claude-0/h1-retained/AFTER.md	2026-09-08 09:23:19.928026323 +0000
+@@ -350,13 +350,23 @@
+ next steps: "strongly up here, silent there" is a row that does not replicate, while "up here, down
+ there" would be a row that is contradicted.
+ 
+-Two explanations for the platform disagreement are live and neither is settled. The GPL3290 comparator
++Three explanations for the platform disagreement are live and none is settled. The GPL3290 comparator
+ arm is 6 samples with an unusually high CSPG4 mean, and dermatofibrosarcoma protuberans is a dermal
+-fibroblastic tumour while CSPG4 is a well-known melanocytic and pericytic antigen, so a high comparator
+-arm would flatten the contrast for reasons about the comparator rather than about the disease. The
+-sequencing row rests on one peak and 4 libraries, and the normal-tissue prior already places CSPG4 on the
+-broad-liability list, so its behaviour in normal tissue beyond those six organ types is unaddressed by
+-anything here.
++fibroblastic tumour while CSPG4 is a well-known melanocytic and pericytic antigen, so a high
++comparator arm would flatten the contrast for reasons about the comparator rather than about the
++disease. And half of that comparator arm, the three gastrointestinal stromal tumour arrays, was not
++processed like the EMC arm: the deposit annotates all ten EMC arrays and the three dermatofibrosarcoma
++protuberans arrays with a "CRH" reference and an mRNA input ("STT3699-Myxoid Chondrosarcoma |
++CRH-mRNA", "STT3126-DFSP | CRH | STT3126-DFSP mRNA") and the three gastrointestinal stromal tumour
++arrays with a "UHR" reference and a total-RNA input ("STT2001c-GIST-Total RNA-WT | UHR |
++STT2001c-GIST-Total RNA"), so on a platform where every value is a log-ratio against the reference
++channel a processing mismatch is a third unexcluded reason for a flat GPL3290 contrast. It does not
++show the reported contrast to be wrong. The main text's Methods states these annotations in full. No
++reprocessing was performed and no sensitivity analysis recomputing the GPL3290 contrasts against the
++three dermatofibrosarcoma protuberans arrays alone was run, here or elsewhere in this study, so the
++mismatch is disclosed rather than excluded. The sequencing row rests on one peak and 4 libraries, and
++the normal-tissue prior already places CSPG4 on the broad-liability list, so its behaviour in normal
++tissue beyond those six organ types is unaddressed by anything here.
+ 
+ ### S4. The disagreement between the two instruments
+ 
