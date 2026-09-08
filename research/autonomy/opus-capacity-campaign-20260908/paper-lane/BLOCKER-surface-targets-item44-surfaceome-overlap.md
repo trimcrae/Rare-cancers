@@ -56,3 +56,31 @@ Item 44 does **not** stall the paper. Surface-targets continues through its rema
 `L1` (`a050ed6a7259902e8`) is executing on peer review Minor 16/17, the figure's nondeterministic
 jitter, which needs no network and was measured by K1. When surface-targets' ready work is exhausted,
 the next eligible unfinished paper starts in the same cycle.
+
+
+---
+
+# Qualification appended 2026-09-08 10:52 UTC — original record preserved above
+
+**What my searches did and did not establish.** The named metadata file
+(`remaining-reference-metadata-2026-08-09.json`) and the reported filename and `SURFY` content
+searches **did not yield membership data**. They do **not** establish that no membership data exists
+anywhere in the repository **under some other label or location**. That stronger reading is withdrawn.
+
+**There is no observed access failure.** Supplement retrieval for PMC6243280 **has not been tested**,
+so nothing has been observed to fail. "Blocked" above should be read as *not yet obtained under the
+contracts then in force* — not as a measured unavailability.
+
+**No further census is required.** Neither a global repository audit nor any broader search is a
+prerequisite for acting on this item, and none is being run.
+
+# Status change, same append: this item is now being worked
+
+Ordinary public-source recovery falls under the standing workstream authority, so this no longer
+waits on a fresh permission. A finite source-recovery contract has been recorded as
+`CONTRACT-M1-surfaceome-membership-source-recovery.md` and an actual `claude-opus-5` medium worker
+started against the exact source **PMID 30373828 / PMC6243280 / DOI 10.1073/pnas.1808790115**.
+
+⚠ **Scope, stated in advance:** a source observation is **not** a claim of gene-table recovery and
+**not** scientific validation. Whatever is returned is recorded as what it is, with its original
+artifact and provenance, and an early stop on missing or blocked access is a successful result.
