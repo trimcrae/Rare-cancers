@@ -1,0 +1,624 @@
+{
+ "_what_this_is": "Death-cue rates WITHIN pre-specified study-type strata: does the EMC excess reported by\nPUB-MORTALITY-MECHANISM survive genre matching, or is it composition?\n\nORDERING. This is the FIRST script in this lane that reads a cue field or computes a rate.\nThe genre rule it uses is imported unchanged from genre_classifier.py, which was written,\nrun and frozen first (checks/02), and hand-checked next (checks/03, checks/04). This script\nre-prints the classifier's sha256 so the frozen rule can be shown to be the one used.\n\nWHAT IS COMPUTED\n  A. Composition: how the 34 EMC-titled and 128 other papers, and their death-cue sentences,\n     distribute across the five strata. This alone answers whether a genre confound exists.\n  B. Within-stratum sentence-level cue rates for both instruments, with per-stratum Fisher.\n  C. An exact stratified (conditional) test: the null distribution of the total flagged-in-EMC\n     count is the convolution of the per-stratum hypergeometrics given the observed margins,\n     which is the exact form of the Cochran-Mantel-Haenszel test and is the right tool at\n     these counts. Mantel-Haenszel odds ratio reported alongside.\n  D. The collapsed contrast that the confound is actually about: case_report_or_series vs all\n     other genres. The hand-check gives this stratum precision 1.00 and recall 0.90, so it is\n     the one boundary the instrument measures well.\n  E. Direct standardisation: the EMC rate reweighted to the comparator's genre mix and the\n     comparator's rate reweighted to EMC's, so the composition effect is expressed as a number.\n  F. A misclassification simulation: how the stratified result moves if papers are reassigned\n     at the error rate the hand-check actually measured.\n\nWHAT IS NOT COMPUTED, AND STAYS NOT COMPUTED. No cause of death is assigned to anyone. No\nsurvival curve is read, re-read or reinterpreted. The unit here is a SENTENCE, not a patient:\na flagged sentence is not a death, a death is not a patient, and no count here may be read as\na patient count or as a clinical statement about this or any disease.\n\nNo network. Reads two committed artifacts plus this lane's own frozen classification.",
+ "_sentence_is_not_a_patient": "Every count in this file is a count of SENTENCES matched by a regular expression. A matched sentence is not a death, not a patient and not a cause. Nothing here assigns a cause of death, reinterprets any survival curve, or makes any clinical or patient-specific claim.",
+ "classifier_sha256_at_analysis_time": "9f00b7243bfb43fd4cba126144da712d93e143a62a7fba6ab3ad82cceb5be3a3",
+ "inputs": {
+  "probe": "research/literature/emc-mortality-probe.json",
+  "emc_title_regex": "myxoid chondrosarcoma|chordoid sarcoma|NR4A3",
+  "genre_rule": "genre_classifier.py (frozen; see checks/02)"
+ },
+ "composition_by_stratum": {
+  "case_report_or_series": {
+   "emc_papers": 18,
+   "other_papers": 26,
+   "emc_sentences": 56,
+   "other_sentences": 60,
+   "emc_paper_share": 0.5294,
+   "other_paper_share": 0.2031
+  },
+  "review_or_synthesis": {
+   "emc_papers": 2,
+   "other_papers": 23,
+   "emc_sentences": 8,
+   "other_sentences": 66,
+   "emc_paper_share": 0.0588,
+   "other_paper_share": 0.1797
+  },
+  "clinical_study": {
+   "emc_papers": 4,
+   "other_papers": 33,
+   "emc_sentences": 12,
+   "other_sentences": 169,
+   "emc_paper_share": 0.1176,
+   "other_paper_share": 0.2578
+  },
+  "laboratory_or_methods": {
+   "emc_papers": 5,
+   "other_papers": 19,
+   "emc_sentences": 16,
+   "other_sentences": 83,
+   "emc_paper_share": 0.1471,
+   "other_paper_share": 0.1484
+  },
+  "unclassified": {
+   "emc_papers": 5,
+   "other_papers": 27,
+   "emc_sentences": 24,
+   "other_sentences": 83,
+   "emc_paper_share": 0.1471,
+   "other_paper_share": 0.2109
+  }
+ },
+ "results": {
+  "strict_terminal_event": {
+   "crude_unstratified": {
+    "emc": {
+     "flagged": 4,
+     "sentences": 116,
+     "rate": 0.0345,
+     "wilson95": [
+      0.0135,
+      0.0853
+     ]
+    },
+    "other": {
+     "flagged": 3,
+     "sentences": 461,
+     "rate": 0.0065,
+     "wilson95": [
+      0.0022,
+      0.019
+     ]
+    },
+    "fisher_two_sided": 0.03304
+   },
+   "by_five_strata": {
+    "case_report_or_series": {
+     "emc": {
+      "papers": 18,
+      "sentences": 56,
+      "flagged": 4,
+      "rate": 0.0714,
+      "wilson95": [
+       0.0281,
+       0.1698
+      ],
+      "papers_with_flag": 3
+     },
+     "other": {
+      "papers": 26,
+      "sentences": 60,
+      "flagged": 2,
+      "rate": 0.0333,
+      "wilson95": [
+       0.0092,
+       0.1136
+      ],
+      "papers_with_flag": 2
+     },
+     "fisher_two_sided": 0.427227,
+     "direction": "emc_higher"
+    },
+    "review_or_synthesis": {
+     "emc": {
+      "papers": 2,
+      "sentences": 8,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.3244
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 23,
+      "sentences": 66,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.055
+      ],
+      "papers_with_flag": 0
+     },
+     "fisher_two_sided": null,
+     "direction": "equal"
+    },
+    "clinical_study": {
+     "emc": {
+      "papers": 4,
+      "sentences": 12,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.2425
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 33,
+      "sentences": 169,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.0222
+      ],
+      "papers_with_flag": 0
+     },
+     "fisher_two_sided": null,
+     "direction": "equal"
+    },
+    "laboratory_or_methods": {
+     "emc": {
+      "papers": 5,
+      "sentences": 16,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.1936
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 19,
+      "sentences": 83,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.0442
+      ],
+      "papers_with_flag": 0
+     },
+     "fisher_two_sided": null,
+     "direction": "equal"
+    },
+    "unclassified": {
+     "emc": {
+      "papers": 5,
+      "sentences": 24,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.138
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 27,
+      "sentences": 83,
+      "flagged": 1,
+      "rate": 0.012,
+      "wilson95": [
+       0.0021,
+       0.0651
+      ],
+      "papers_with_flag": 1
+     },
+     "fisher_two_sided": 1.0,
+     "direction": "emc_lower"
+    }
+   },
+   "exact_stratified_five": {
+    "strata_used": 2,
+    "T_observed": 4,
+    "E_T_under_null": 3.1209,
+    "p_one_sided_emc_higher": 0.378985,
+    "p_two_sided_point_prob": 0.695251,
+    "mantel_haenszel_odds_ratio": 1.7844,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "by_case_vs_noncase": {
+    "case_report_or_series": {
+     "emc": {
+      "papers": 18,
+      "sentences": 56,
+      "flagged": 4,
+      "rate": 0.0714,
+      "wilson95": [
+       0.0281,
+       0.1698
+      ],
+      "papers_with_flag": 3
+     },
+     "other": {
+      "papers": 26,
+      "sentences": 60,
+      "flagged": 2,
+      "rate": 0.0333,
+      "wilson95": [
+       0.0092,
+       0.1136
+      ],
+      "papers_with_flag": 2
+     },
+     "fisher_two_sided": 0.427227,
+     "direction": "emc_higher"
+    },
+    "all_other_genres": {
+     "emc": {
+      "papers": 16,
+      "sentences": 60,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.0602
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 102,
+      "sentences": 401,
+      "flagged": 1,
+      "rate": 0.0025,
+      "wilson95": [
+       0.0004,
+       0.014
+      ],
+      "papers_with_flag": 1
+     },
+     "fisher_two_sided": 1.0,
+     "direction": "emc_lower"
+    }
+   },
+   "exact_stratified_case_vs_noncase": {
+    "strata_used": 2,
+    "T_observed": 4,
+    "E_T_under_null": 3.0267,
+    "p_one_sided_emc_higher": 0.348887,
+    "p_two_sided_point_prob": 0.455419,
+    "mantel_haenszel_odds_ratio": 1.948,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "direct_standardisation": {
+    "emc_rate_standardised_to_comparator_genre_mix": 0.00929,
+    "weight_coverage": 1.0,
+    "comparator_rate_standardised_to_emc_genre_mix": 0.01856,
+    "weight_coverage_2": 1.0,
+    "crude_emc_rate": 0.0345,
+    "crude_other_rate": 0.0065
+   },
+   "flagged_sentences_by_stratum": {
+    "case_report_or_series": {
+     "emc": [
+      {
+       "pmid": "41799218",
+       "sentence": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset."
+      },
+      {
+       "pmid": "35775709",
+       "sentence": "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab."
+      },
+      {
+       "pmid": "35910216",
+       "sentence": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure."
+      },
+      {
+       "pmid": "35910216",
+       "sentence": "Eventually, the patient was reluctant to undergo palliative chemotherapy and died of respiratory failure."
+      }
+     ],
+     "other": [
+      {
+       "pmid": "35399302",
+       "sentence": "Unfortunately, the patient developed cardiac arrest and died six months after the surgery."
+      },
+      {
+       "pmid": "38264746",
+       "sentence": "The patient died of respiratory failure on January 9, 2021, after an overall disease course of approximately 7 months."
+      }
+     ]
+    },
+    "review_or_synthesis": {
+     "emc": [],
+     "other": []
+    },
+    "clinical_study": {
+     "emc": [],
+     "other": []
+    },
+    "laboratory_or_methods": {
+     "emc": [],
+     "other": []
+    },
+    "unclassified": {
+     "emc": [],
+     "other": [
+      {
+       "pmid": "33946310",
+       "sentence": "Fatal outcomes due to AEs occurred in 4.3% of patients, with ILD being the most frequent cause (2.6%), followed by acute hepatic failure and acute kidney injury, general physical health deterioration, pneumonia and hemorrhagic shock (0.4% each)."
+      }
+     ]
+    }
+   }
+  },
+  "shipped_has_mechanism_cue": {
+   "crude_unstratified": {
+    "emc": {
+     "flagged": 12,
+     "sentences": 116,
+     "rate": 0.1034,
+     "wilson95": [
+      0.0602,
+      0.1721
+     ]
+    },
+    "other": {
+     "flagged": 16,
+     "sentences": 461,
+     "rate": 0.0347,
+     "wilson95": [
+      0.0215,
+      0.0556
+     ]
+    },
+    "fisher_two_sided": 0.005748
+   },
+   "by_five_strata": {
+    "case_report_or_series": {
+     "emc": {
+      "papers": 18,
+      "sentences": 56,
+      "flagged": 10,
+      "rate": 0.1786,
+      "wilson95": [
+       0.1,
+       0.2984
+      ],
+      "papers_with_flag": 7
+     },
+     "other": {
+      "papers": 26,
+      "sentences": 60,
+      "flagged": 4,
+      "rate": 0.0667,
+      "wilson95": [
+       0.0262,
+       0.1593
+      ],
+      "papers_with_flag": 4
+     },
+     "fisher_two_sided": 0.087761,
+     "direction": "emc_higher"
+    },
+    "review_or_synthesis": {
+     "emc": {
+      "papers": 2,
+      "sentences": 8,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.3244
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 23,
+      "sentences": 66,
+      "flagged": 2,
+      "rate": 0.0303,
+      "wilson95": [
+       0.0083,
+       0.1039
+      ],
+      "papers_with_flag": 2
+     },
+     "fisher_two_sided": 1.0,
+     "direction": "emc_lower"
+    },
+    "clinical_study": {
+     "emc": {
+      "papers": 4,
+      "sentences": 12,
+      "flagged": 1,
+      "rate": 0.0833,
+      "wilson95": [
+       0.0149,
+       0.3539
+      ],
+      "papers_with_flag": 1
+     },
+     "other": {
+      "papers": 33,
+      "sentences": 169,
+      "flagged": 6,
+      "rate": 0.0355,
+      "wilson95": [
+       0.0164,
+       0.0753
+      ],
+      "papers_with_flag": 6
+     },
+     "fisher_two_sided": 0.386538,
+     "direction": "emc_higher"
+    },
+    "laboratory_or_methods": {
+     "emc": {
+      "papers": 5,
+      "sentences": 16,
+      "flagged": 0,
+      "rate": 0.0,
+      "wilson95": [
+       0.0,
+       0.1936
+      ],
+      "papers_with_flag": 0
+     },
+     "other": {
+      "papers": 19,
+      "sentences": 83,
+      "flagged": 2,
+      "rate": 0.0241,
+      "wilson95": [
+       0.0066,
+       0.0837
+      ],
+      "papers_with_flag": 1
+     },
+     "fisher_two_sided": 1.0,
+     "direction": "emc_lower"
+    },
+    "unclassified": {
+     "emc": {
+      "papers": 5,
+      "sentences": 24,
+      "flagged": 1,
+      "rate": 0.0417,
+      "wilson95": [
+       0.0074,
+       0.2024
+      ],
+      "papers_with_flag": 1
+     },
+     "other": {
+      "papers": 27,
+      "sentences": 83,
+      "flagged": 2,
+      "rate": 0.0241,
+      "wilson95": [
+       0.0066,
+       0.0837
+      ],
+      "papers_with_flag": 2
+     },
+     "fisher_two_sided": 0.537088,
+     "direction": "emc_higher"
+    }
+   },
+   "exact_stratified_five": {
+    "strata_used": 5,
+    "T_observed": 12,
+    "E_T_under_null": 8.4351,
+    "p_one_sided_emc_higher": 0.075198,
+    "p_two_sided_point_prob": 0.102132,
+    "mantel_haenszel_odds_ratio": 2.2208,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "by_case_vs_noncase": {
+    "case_report_or_series": {
+     "emc": {
+      "papers": 18,
+      "sentences": 56,
+      "flagged": 10,
+      "rate": 0.1786,
+      "wilson95": [
+       0.1,
+       0.2984
+      ],
+      "papers_with_flag": 7
+     },
+     "other": {
+      "papers": 26,
+      "sentences": 60,
+      "flagged": 4,
+      "rate": 0.0667,
+      "wilson95": [
+       0.0262,
+       0.1593
+      ],
+      "papers_with_flag": 4
+     },
+     "fisher_two_sided": 0.087761,
+     "direction": "emc_higher"
+    },
+    "all_other_genres": {
+     "emc": {
+      "papers": 16,
+      "sentences": 60,
+      "flagged": 2,
+      "rate": 0.0333,
+      "wilson95": [
+       0.0092,
+       0.1136
+      ],
+      "papers_with_flag": 2
+     },
+     "other": {
+      "papers": 102,
+      "sentences": 401,
+      "flagged": 12,
+      "rate": 0.0299,
+      "wilson95": [
+       0.0172,
+       0.0516
+      ],
+      "papers_with_flag": 11
+     },
+     "fisher_two_sided": 0.701769,
+     "direction": "emc_higher"
+    }
+   },
+   "exact_stratified_case_vs_noncase": {
+    "strata_used": 2,
+    "T_observed": 12,
+    "E_T_under_null": 8.5807,
+    "p_one_sided_emc_higher": 0.088735,
+    "p_two_sided_point_prob": 0.160461,
+    "mantel_haenszel_odds_ratio": 2.1044,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "direct_standardisation": {
+    "emc_rate_standardised_to_comparator_genre_mix": 0.06129,
+    "weight_coverage": 1.0,
+    "comparator_rate_standardised_to_emc_genre_mix": 0.04627,
+    "weight_coverage_2": 1.0,
+    "crude_emc_rate": 0.1034,
+    "crude_other_rate": 0.0347
+   },
+   "flagged_sentences_by_stratum": "omitted (28 sentences; see completed lane)"
+  }
+ },
+ "misclassification_simulation": {
+  "strict_terminal_event e=0.10 (measured case-report recall miss)": {
+   "n_sims": 2000,
+   "median_p_two_sided": 0.207401,
+   "p_2.5pct": 0.049763,
+   "p_97.5pct": 0.458371,
+   "frac_p_below_0.05": 0.0255,
+   "direction_counts": {
+    "emc_higher": 2000,
+    "emc_lower_or_equal": 0
+   }
+  },
+  "strict_terminal_event e=0.30 (measured overall disagreement rate)": {
+   "n_sims": 2000,
+   "median_p_two_sided": 0.04423,
+   "p_2.5pct": 0.019503,
+   "p_97.5pct": 0.207495,
+   "frac_p_below_0.05": 0.602,
+   "direction_counts": {
+    "emc_higher": 2000,
+    "emc_lower_or_equal": 0
+   }
+  },
+  "shipped_has_mechanism_cue e=0.10 (measured case-report recall miss)": {
+   "n_sims": 2000,
+   "median_p_two_sided": 0.034458,
+   "p_2.5pct": 0.007836,
+   "p_97.5pct": 0.165524,
+   "frac_p_below_0.05": 0.634,
+   "direction_counts": {
+    "emc_higher": 2000,
+    "emc_lower_or_equal": 0
+   }
+  },
+  "shipped_has_mechanism_cue e=0.30 (measured overall disagreement rate)": {
+   "n_sims": 2000,
+   "median_p_two_sided": 0.006637,
+   "p_2.5pct": 0.002166,
+   "p_97.5pct": 0.037111,
+   "frac_p_below_0.05": 0.9855,
+   "direction_counts": {
+    "emc_higher": 2000,
+    "emc_lower_or_equal": 0
+   }
+  }
+ }
+}

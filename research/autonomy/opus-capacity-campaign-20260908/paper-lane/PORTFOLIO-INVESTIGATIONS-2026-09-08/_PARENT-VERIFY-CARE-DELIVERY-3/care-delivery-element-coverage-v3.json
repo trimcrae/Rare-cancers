@@ -1,0 +1,1757 @@
+{
+ "_what": "CARE-DELIVERY-3 v3 of the care-delivery data-element coverage matrix: v2 with the THREE systemic-therapy trial series (martinbroto2020immunosarc1, stacchiotti2013anthracycline, morioka2016trabectedin) replaced by an ACTUAL READING of their PMC full texts, each row carrying its own retrieval_completeness because the three retrievals returned materially different amounts of the paper.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing here asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness. No patient was studied; no wet-lab work exists. Nothing here says referral-centre care changes EMC outcomes.",
+ "_lane": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3",
+ "_generated_by": "build_v3.py (this lane)",
+ "_supersedes": "…/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json for the three trial rows only. That file is another lane's artifact and was READ, NOT WRITTEN. The bishop2019 and drilon2008 rows are carried through from v2 unchanged and were NOT re-read here.",
+ "_reads_only": [
+  "…/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json",
+  "three PMC full texts retrieved in session (see checks/01-, 02-, 03-)"
+ ],
+ "_source_attribution": "Full texts retrieved from PubMed Central through the PubMed MCP server, 2026-09-09. martinbroto2020immunosarc1 DOI https://doi.org/10.1136/jitc-2020-001561 ; stacchiotti2013anthracycline DOI https://doi.org/10.1186/2045-3329-3-16 ; morioka2016trabectedin DOI https://doi.org/10.1186/s12885-016-2511-y . Carried through from v2: bishop2019 DOI https://doi.org/10.1097/COC.0000000000000590 ; drilon2008 DOI https://doi.org/10.1002/cncr.23978",
+ "_read_scope": "⚠ RETRIEVAL COMPLETENESS IS NOT UNIFORM AND IS RECORDED PER SERIES in each row's `retrieval_completeness`. v2 could state one global caveat because both of its retrievals came back narrative-only; v3 cannot. Of this lane's three: martinbroto2020immunosarc1 and stacchiotti2013anthracycline returned ALL TABLES and figure legends, so their EXAMINED_NOT_PRINTED verdicts rest on having read the baseline tables; morioka2016trabectedin returned the NARRATIVE ONLY, so NOTHING moves to EXAMINED_NOT_PRINTED for it and every element that could live in its dropped table stays NOT_EXAMINED. ⛔ A retrieval limit is never recorded as a reporting absence.",
+ "_three_valued": {
+  "REPORTED": "the paper prints the element in a section this lane read",
+  "EXAMINED_NOT_PRINTED": "this lane read the sections named in the row's read_sections and the element is not there; NOT a claim about the paper's tables or figures",
+  "NOT_EXAMINED": "no committed reading exists; the element is UNKNOWN, never absent"
+ },
+ "candidate_series": 17,
+ "candidate_patients_sum": 1133,
+ "⛔_patients_are_not_additive": "Series denominators overlap (see overlap_risk in emc-ipd-survival.json) and are summed here only to weight the accounting, never as an EMC patient count.",
+ "series_newly_read_by_this_lane": [
+  "martinbroto2020immunosarc1",
+  "stacchiotti2013anthracycline",
+  "morioka2016trabectedin"
+ ],
+ "coverage_matrix": {
+  "seer270_2022": {
+   "n": 270,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "masunaga2025": {
+   "n": 171,
+   "retrieval_verdict": "refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "margin_definition_printed": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-site-curation.json"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "fitted_cox_coefficients": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-prognostic-coefficients.json"
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    }
+   }
+  },
+  "meisKindblom1999": {
+   "n": 117,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "drilon2008": {
+   "n": 87,
+   "retrieval_verdict": "RETRIEVED AND READ by CARE-DELIVERY-2 (PMC full text via PubMed MCP)",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "verbatim": "In a subset of 43 patients in whom there were data regarding quality of the resection (R0, R1, and R2), only 2 of 24 patients who underwent an R0 resection developed local disease recurrence, whereas 3 of 12 patients with an R1 resection and 5 of 7 with an R2 resection experienced local disease recurrence (< .01, Fisher exact test).",
+     "section": "RESULTS / Treatment Outcomes for Localized Disease",
+     "derived": {
+      "R0": 24,
+      "R1": 12,
+      "R2": 7,
+      "denominator": 43
+     },
+     "⚠_informative_missingness": "43 of 73 curative-intent patients have a margin value; 30 (41 %) do not. The paper does not say who they are. As in chiusole2020, missingness in a margin field over a series reaching back to 1975 is not plausibly random, so this is a distribution over 43, NOT a margin rate for the cohort.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "margin_definition_printed": {
+     "status": "REPORTED",
+     "verbatim": "Pathology and surgical reports were used to determine the completeness of resection (R0: complete resection, negative margins; R1, complete macroscopic resection, positive microscopic margins; and R2, incomplete resection).",
+     "section": "MATERIALS AND METHODS / Demographics and Statistical Methods",
+     "note": "Compatible with masunaga2025's printed definition (microscopically negative / microscopically positive / macroscopically positive), so these two margin distributions are on the same scale.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "REPORTED",
+     "verbatim": "Approximately 87% (76 of 86 patients) of patients presented with primary localized disease.",
+     "section": "RESULTS / Clinical Features of Local and Metastatic EMC",
+     "note": "The abstract states the complement as 'Approximately 13% of patients presented with metastases'.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "verbatim": "Approximately 62% had a primary site in the lower extremities; 17% in the upper extremities; 13% in the abdomen, retroperitoneum, or pelvis; and 8% in other areas.",
+     "section": "RESULTS / Clinical Features of Local and Metastatic EMC",
+     "note": "Printed as percentages only in the narrative text; the counts, if any, would be in the table, which was not returned.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "verbatim": "Follow-up data were available for all 86 patients studied, with a median follow-up time of 3.6 years (range, 0.2 years-24.6 years).",
+     "section": "RESULTS / Follow-up and OS",
+     "note": "From the initial date of diagnosis. The authors themselves flag it: 'Our follow-up was relatively short compared with other series' (DISCUSSION).",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "verbatim": "Local disease recurrence was noted in 37% of patients (n = 27) ... with a median time to disease recurrence of 3.3 years. ... Distant disease recurrence was observed in 26% of patients (n = 19), with a median time of 3.2 years. ... The median time to any disease recurrence was 4.7 years (95% CI, 4.4 years-5.0 years).",
+     "section": "RESULTS / Treatment Outcomes for Localized Disease",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "verbatim": "A multivariate analysis of local recurrence and metastatic disease in addition to the above factors affecting OS was performed using the Cox proportional hazards model after a similar univariate analysis.",
+     "section": "MATERIALS AND METHODS / Demographics and Statistical Methods; RESULTS / Follow-up and OS",
+     "note": "A Cox model is stated to have been fitted, but the narrative text prints only p values ('only presentation with metastatic disease was found to affect OS (=.005)') -- no hazard ratio and no confidence interval. Coefficients may be in the tables, which were NOT returned; so this is not-printed IN THE NARRATIVE, not absent from the paper.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "FIGURES_NOT_RETURNED",
+     "note": "Same as bishop2019. ⛔ The closed KM/IPD pilot is not reopened.",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "verbatim": "we assembled a retrospective series of patients from 2 large referral centers",
+     "also": "86 patients of EMC were retrieved from the databases of the Memorial Sloan-Kettering Cancer Center in New York City and the Royal Marsden Hospital in London.",
+     "section": "Introduction (final paragraph); MATERIALS AND METHODS / Patient Selection",
+     "note": "Setting is stated, but only as a COHORT-LEVEL CONSTANT: the whole series is referral-centre care. No per-patient referral status, no first-operating-hospital field, no centre-volume variable appears in the narrative text read. This is the same shape as chiusole2020 -- the exposure is held constant, so the series cannot answer the referral question -- and it is exactly what bishop2019 does differently.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "verbatim": "using the date of wide local excision (WLE) as Time 0, irrespective of previous procedures",
+     "also": "In a recent multi-institutional study by Kawaguchi et al, the role of WLE despite previous procedures or disease recurrence was emphasized",
+     "section": "MATERIALS AND METHODS / Demographics and Statistical Methods; DISCUSSION",
+     "note": "'Previous procedures' is acknowledged twice and counted zero times. The paper never defines them, never reports how many patients had one, and never calls any of them unplanned. The terms 'unplanned', 'inadvertent' and 'whoops' do not appear in the narrative text read. ⛔ This is a visible omission -- the analysis explicitly conditions on prior procedures existing -- not an inference from silence.",
+     "evidence": "read directly from the PMC full text, PMC2779719",
+     "_was_in_v1": "NOT_EXAMINED"
+    }
+   },
+   "pmcid": "PMC2779719",
+   "pmid": "18951519",
+   "doi": "10.1002/cncr.23978",
+   "read_sections": [
+    "Abstract",
+    "untitled Introduction",
+    "MATERIALS AND METHODS (Patient Selection; Demographics and Statistical Methods)",
+    "RESULTS (Clinical Features of Local and Metastatic EMC; Treatment Outcomes for Localized Disease; Follow-up and OS; Chemotherapy Outcomes)",
+    "DISCUSSION"
+   ],
+   "not_read": [
+    "all tables",
+    "all figures",
+    "all legends",
+    "supplementary material"
+   ],
+   "⚠_n_discrepancy": "The abstract says 87 patients; Methods say '86 patients ... were retrieved' and Results say 'Of the 86 evaluable patients'. The repository's candidate list carries 87. Recorded, not resolved; nothing here depends on it."
+  },
+  "martinbroto2020immunosarc1": {
+   "n": 68,
+   "retrieval_verdict": "RETRIEVED AND READ by CARE-DELIVERY-3 (PMC full text via PubMed MCP); v2 verdict was: refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Table 1 'Baseline characteristics' was returned in full and prints no margin status. What it prints in that neighbourhood is resectability, not margin: 'Resectable at diagnosis, n (%): Resectable 10 (63) [phase Ib] / 38 (73) [phase II]; Unresectable 6 (37) / 14 (27)'.",
+     "read_section": "Table 1 (Baseline characteristics)",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "margin_definition_printed": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "No margin scale, R0/R1/R2 wording or margin definition anywhere in the abstract, narrative or Tables 1-3.",
+     "read_section": "abstract; Methods; Results; Tables 1-3",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "REPORTED",
+     "evidence": "Table 1: 'Extension at diagnosis, n (%): Localized 9 (56) [phase Ib] / 25 (48) [phase II]; Locally advanced 2 (13) / 15 (29); Metastatic 5 (31) / 12 (23)'. ⚠ This is the WHOLE 68-patient all-histology STS trial, not the 4 EMC patients.",
+     "read_section": "Table 1 (Baseline characteristics)",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "Table 1: 'Primary tumor localization, n (%): Somatic 15 (94) / 44 (85); Visceral 1 (6) / 8 (15)'. ⚠ A two-level somatic/visceral split for the whole 68-patient trial, not an anatomical site distribution and not EMC-specific. It is NOT commensurable with the thigh/leg/trunk site distributions the retrospective EMC series print.",
+     "read_section": "Table 1 (Baseline characteristics)",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "Results: 'At a median follow-up of 17 months (4-26), 37 of 49 (76%) per-protocol evaluable patients experienced progression according to central assessment'. ⚠ Whole trial; time zero is enrolment on a systemic-therapy protocol for advanced disease, not diagnosis or completion of local therapy.",
+     "read_section": "Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "Results: 'The mPFS for central and local assessments was 5.6 months (3.0-8.1) and 6.0 months (3.1-9.0), respectively' and 'the mOS was 24 months (95% CI NA)'. ⚠ Whole trial, measured from enrolment. Not an EMC natural-history figure.",
+     "read_section": "Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "fitted_cox_coefficients": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Table 3 'Univariate analysis' was returned in full: it prints medians, rates and log-rank p values by subgroup. No multivariable model, no hazard ratio and no fitted coefficient appears in the paper.",
+     "read_section": "Table 3 (Univariate analysis); Statistical analysis",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "All three figure legends were returned in full and NONE is a Kaplan-Meier curve: Figure 1 'CONSORT diagram'; Figure 2 'Response to treatment by patient according to RECIST ... (N=60)' (a waterfall plot); Figure 3 'Progression-free survival to treatment by patient ... Each patient in the efficacy population in phase II is represented as bars (n=49)' (a per-patient swimmer plot). No KM curve exists, so there is no numbers-at-risk row to read. This matches the repository's own independent screen, which recorded this source as 'NOT A PAIR - no KM curve exists' (S6-executed-artifacts/screened-identifiers.json). ⛔ No curve was digitised and the closed KM/IPD pilot is not reopened.",
+     "read_section": "figure legends 1-3",
+     "v2_status": "EXAMINED_NOT_PRINTED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "treatment_setting_or_referral": {
+     "status": "REPORTED",
+     "evidence": "Reported as a COHORT-LEVEL CONSTANT, not per patient. Methods/Study design and subjects: 'patients ... were considered for eligibility and enrolled in eight centers in Spain and Italy with expertise in sarcoma care. Central pathology review was mandatory before accrual.' Table 1 was returned in full and carries no per-patient centre, centre-volume or referral column. Same shape as chiusole2020 and drilon2008: the exposure is held constant, so this series cannot answer the referral question.",
+     "read_section": "Methods (Study design and subjects); Table 1",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Not printed, and Table 1 -- the baseline-characteristics table where it would be printed -- was returned in full. The words 'unplanned', 'inadvertent' and 'whoops' appear nowhere in the abstract, narrative or Tables 1-3. What Table 1 records of prior treatment is SYSTEMIC: 'Median previous lines (range) 1.5 (0-5) / 1 (0-4)' and 'Previous antiangiogenic lines'. ⭐ This is absence BY TRIAL DESIGN, not a curation gap: eligibility is advanced STS progressing within 6 months, the baseline set is built to characterise systemic-therapy exposure and tumour burden, and the quality of a prior local excision is not a variable the protocol collects. ⛔ Not a claim about the supplementary appendix, which was not returned.",
+     "read_section": "Table 1 (Baseline characteristics); Methods; Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    }
+   },
+   "retrieval_completeness": {
+    "verdict": "NARRATIVE + ALL TABLES + ALL FIGURE LEGENDS",
+    "returned": [
+     "abstract",
+     "Introduction",
+     "Methods (Study design and subjects; Procedures; Outcomes; Statistical analysis)",
+     "Results",
+     "Discussion",
+     "TABLE 1 Baseline characteristics (in full)",
+     "TABLE 2 Toxicity profile in phase Ib (in full)",
+     "TABLE 3 Univariate analysis (in full)",
+     "FIGURE LEGENDS 1, 2 and 3 (in full)"
+    ],
+    "not_returned": [
+     "the supplementary appendix (referenced in-text as supp1; several in-text pointers are stripped to bare punctuation)",
+     "figure images"
+    ],
+    "⭐_why_this_matters": "Table 1 is the paper's baseline-characteristics table -- the exact place a margin or prior-surgery variable would be printed -- and it came back in full. An EXAMINED_NOT_PRINTED verdict for this series therefore rests on having read that table, not on narrative silence.",
+    "⛔_residual_scope": "Absence statements are scoped to abstract + narrative + Tables 1-3 + figure legends. They are NOT claims about the supplementary appendix."
+   },
+   "⚠_n_is_a_trial_denominator_not_an_emc_denominator": "n = 68 counts the whole all-histology STS trial (16 phase Ib + 52 phase II). Table 1 'Diagnosis (central)' prints 'Extraskeletal myxoid chondrosarcoma 0 [phase Ib] 4 (7) [phase II]' -- FOUR EMC PATIENTS. Every element marked REPORTED for this series is a whole-trial value covering 12+ histologies, and the ONLY EMC-specific statement in the paper is 'partial response in patients diagnosed with ... extraskeletal myxoid chondrosarcoma (n=1)'. ⛔ None of these values may be placed in an EMC element pool."
+  },
+  "ussc2022": {
+   "n": 60,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "chiusole2020": {
+   "n": 59,
+   "retrieval_verdict": "refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "margin_definition_printed": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-site-curation.json"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "fitted_cox_coefficients": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-prognostic-coefficients.json"
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    }
+   }
+  },
+  "huang2023": {
+   "n": 58,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "uMich2023": {
+   "n": 44,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "japan2003": {
+   "n": 42,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "bishop2019": {
+   "n": 41,
+   "retrieval_verdict": "RETRIEVED AND READ by CARE-DELIVERY-2 (PMC full text via PubMed MCP)",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "verbatim": "Final margin status was negative in 35 patients (85%) and positive/uncertain in 6 patients (15%).",
+     "section": "RESULTS / Treatment",
+     "note": "A two-level distribution (negative vs positive/uncertain), not an R0/R1/R2 split, so it is NOT directly poolable with masunaga2025, chiusole2020 or drilon2008.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "margin_definition_printed": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "section": "read across Methods and Results",
+     "note": "No definition of 'negative' or of 'positive/uncertain' appears in the narrative text read, and the R0/R1/R2 scale is not used anywhere in it.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "verbatim": "We identified 41 consecutive patients with localized, non-metastatic histologically confirmed EMC",
+     "section": "MATERIAL AND METHODS",
+     "note": "There is no split to report: the cohort is restricted to localized non-metastatic disease by design, so stage at diagnosis is constant by construction.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "verbatim": "most tumors were located in the lower extremity (n=22, 54%) ... or upper extremity (n=10, 24%) ... with a limited number in the trunk (n=8, 20%) ... or neck (2%, n=1)",
+     "section": "RESULTS / Patient and Tumor Characteristics",
+     "note": "Already REPORTED in v1 from research/modalities/emc-site-curation.json; independently re-read here and consistent.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "REPORTED"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "verbatim": "The median follow-up time from the completion of local therapy for patients alive at last follow-up was 94 months (range, 8-316 months).",
+     "section": "RESULTS / Survival",
+     "note": "Time zero is completion of local therapy, and the median is over patients alive at last follow-up -- both differ from a from-diagnosis median, so it is not interchangeable with drilon2008's 3.6 years.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "verbatim": "The median time to any failure was 15 months (range, 3-176 months). ... 5 patients (12%) with local relapse at a median time of 75 months (range 13-176 months). ... Thirteen patients (32%) developed distant metastases ... at a median time of 28 months (range 3-154 months).",
+     "section": "RESULTS / Patterns of Disease Recurrence",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "REPORTED",
+     "verbatim": "The only factor that emerged as significantly associated with poorer LC was use of surgery alone (=0.02, HR 12.7, 95% CI 1.4 -115.3) compared to combined modality therapy. ... local recurrence was the only factor associated with poorer DMFS (=0.04, HR 3.9, 95% CI 1.1-14.7).",
+     "section": "RESULTS / Patterns of Disease Recurrence",
+     "note": "Two multivariable HRs with CIs are printed in the narrative text. The LC interval 1.4-115.3 spans two orders of magnitude on 5 events; recorded as printed, not treated as an estimate anyone should pool.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "FIGURES_NOT_RETURNED",
+     "note": "The KM figures were not in the MCP response, so the risk row is unexamined. ⛔ The closed KM/IPD reconstruction pilot is NOT reopened here and no curve was digitised.",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "REPORTED",
+     "verbatim": "Twenty-seven patients (66%) presented to MDACC with gross disease, whereas 14 patients (34%) presented after an outside excision had already been performed, of which 12 patients had a positive/uncertain margins and 2 had negative margins.",
+     "also": "41 consecutive patients ... treated at the University of Texas MD Anderson Cancer Center (MDACC) ... All diagnoses were confirmed at the time of presentation by sarcoma pathologists at MDACC. ... Patients are typically presented at a multidisciplinary tumor board for treatment discussion.",
+     "section": "RESULTS / Treatment (per-patient split); MATERIAL AND METHODS (cohort setting)",
+     "⭐_why_this_is_decisive": "This is a per-patient record of WHERE THE PATIENT WAS FIRST OPERATED -- inside the specialist sarcoma centre (n=27) or outside it before referral (n=14) -- which is exactly the field emc-surgical-quality.json's `what_would_answer_it` asks for ('A series that reports where each patient was first operated'). It is reported, in a reachable series.",
+     "⛔_what_it_still_is_not": "It is a two-level in/out-of-centre split within one institution's referred population, with no comparator arm and no centre-volume variable. It cannot show that referral-centre care changes EMC outcomes, and this lane makes no such claim.",
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "section": "read across Abstract, Methods, Results, Discussion",
+     "note": "The terms 'unplanned', 'inadvertent' and 'whoops' do not appear in the narrative text read, and the paper never states whether the 14 outside excisions were planned or unplanned.",
+     "proxy_reported": {
+      "field": "presented after an outside excision had already been performed",
+      "n": 14,
+      "of": 41,
+      "pct": 34,
+      "margin_at_referral": {
+       "positive_or_uncertain": 12,
+       "negative": 2
+      },
+      "section": "RESULTS / Treatment",
+      "is_the_thing": false,
+      "⛔_why_not": "'Outside excision' is an institutional-origin fact, not a statement that the operation was unplanned; an outside excision can be a correctly planned oncological resection. But it is anchored to a named institution and comes with the margin found at referral, which makes it a STRONGER proxy than masunaga2025's undefined 'previous surgery' field. Recorded as a proxy; no unplanned-excision rate is computed from it."
+     },
+     "evidence": "read directly from the PMC full text, PMC7771031",
+     "_was_in_v1": "NOT_EXAMINED"
+    }
+   },
+   "pmcid": "PMC7771031",
+   "pmid": "31436747",
+   "doi": "10.1097/COC.0000000000000590",
+   "read_sections": [
+    "Abstract",
+    "INTRODUCTION",
+    "MATERIAL AND METHODS (incl. Follow-up and Statistical Analysis)",
+    "RESULTS (Patient and Tumor Characteristics; Treatment; Survival; Patterns of Disease Recurrence; Outcomes After Relapse)",
+    "DISCUSSION"
+   ],
+   "not_read": [
+    "all tables",
+    "all figures",
+    "all legends",
+    "supplementary material"
+   ]
+  },
+  "china2016": {
+   "n": 40,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "stacchiotti2019pazopanib": {
+   "n": 26,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "immunosarc2emc2025": {
+   "n": 24,
+   "retrieval_verdict": "not_in_admissibility_census",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    }
+   }
+  },
+  "stacchiotti2013anthracycline": {
+   "n": 11,
+   "retrieval_verdict": "RETRIEVED AND READ by CARE-DELIVERY-3 (PMC full text via PubMed MCP); v2 verdict was: admitted",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Table 2 'Patient clinical characteristics and response evaluation' was returned in full -- all 11 patient rows, all columns -- and has no margin column. The columns as printed are: Patient ID | Gender | Age | Diagnosis | NR4A3 rearrangement | Site of primary tumor | Staging at time of initial diagnosis | Site of relapse at the time of chemotherapy | RECIST evaluation | PFS. The only resection-quality wording in the paper is 'macroscopic complete surgery' / 'complete surgical resection', and it describes the POST-chemotherapy resection of 3 patients, not the primary operation, on no margin scale.",
+     "read_section": "Table 2; Results; Results/Response",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "margin_definition_printed": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "No R0/R1/R2 scale and no margin definition anywhere in the abstract, narrative or Tables 1-3.",
+     "read_section": "abstract; Methods; Results; Tables 1-3",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "REPORTED",
+     "evidence": "Table 2 prints it PER PATIENT under 'Staging at time of initial diagnosis': localized disease for patients 1,2,4,5,6,9,10 (7) and 'local + lung' for patients 3,7,8,11 (4). 7 + 4 = 11. ⚠ A two-level split of an already-advanced salvage cohort; it is not the localized/metastatic-at-diagnosis split the population series print.",
+     "read_section": "Table 2 (Patient clinical characteristics and response evaluation)",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "Table 2 prints it PER PATIENT under 'Site of primary tumor': thigh 5 (patients 1,2,3,6,9), leg 3 (4,5,10), buttock 1 (7), arm 1 (8), sacrum 1 (11). 5+3+1+1+1 = 11. Consistent with the paper's own abstract summary 'site of primary: lower limb/other = 9/2' (thigh 5 + leg 3 + buttock 1 = 9 lower limb; arm 1 + sacrum 1 = 2 other) and with the narrative 'primary arising from soft tissue/bone 10/1'.",
+     "read_section": "Table 2 (Patient clinical characteristics and response evaluation); abstract; Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "Results/Response: 'At a median follow-up of 30 months, the estimated OS at 10-year was 50%, with 2 patients dead at the time of the present analysis and one lost to follow-up.' ⚠ n = 11, and time zero is the start of anthracycline chemotherapy for advanced disease, not diagnosis. Not interchangeable with any from-diagnosis median.",
+     "read_section": "Results / Response",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "Results/Response: 'Median OS was 30 months (range 10 mos-13 years)' and 'The median PFS for the entire group was 8 months (range 2-10), with 50% patients progression-free at 6 months'. ⚠ From the start of chemotherapy in advanced disease; n = 11.",
+     "read_section": "Results / Response",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "fitted_cox_coefficients": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Statistical analysis prints Kaplan-Meier estimation and censoring rules only: 'Progression-free survival (PFS) and overall survival (OS) were estimated with Kaplan-Meyer method'. No regression model, no hazard ratio and no fitted coefficient appears in the paper.",
+     "read_section": "Methods / Statistical analysis; Results; Tables 1-3",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "numbers_at_risk_row": {
+     "status": "REPORTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json",
+     "⚠_care_delivery_3_note": "UNCHANGED from v2 (REPORTED, on the authority of research/literature/emc-km-admissibility-2026-08-27.json, which examined the figure itself). ⚠ THIS LANE DID NOT SEE IT: Figure 2 is the Kaplan-Meier PFS curve and only its legend came through this route ('Median PFS 8 months') -- the figure IMAGE, and therefore any risk row beneath it, was not returned. This lane neither confirms nor disturbs the v2 status. ⛔ No curve was digitised; the closed KM/IPD pilot is not reopened.",
+     "read_scope_care_delivery_3": "figure legend 2 only -- image not returned"
+    },
+    "treatment_setting_or_referral": {
+     "status": "REPORTED",
+     "evidence": "Reported as a COHORT-LEVEL CONSTANT, not per patient. Methods/Patients selection: patients were 'treated with anthracycline-based chemotherapy at Fondazione IRCCS Istituto Nazionale Tumori, Milano and those included in the data-base of the Italian Rare Cancer Network, registered by other Italian institutions'. ⚠ That names two strata -- the Milan institute and other Italian institutions reporting through the network -- but Table 2 was returned in full and carries NO institution column, so no patient is attributable to either. The Discussion treats the network as a case-collection instrument ('rare cancer networks represent a valuable tool in order to collect case series'), not as an exposure.",
+     "read_section": "Methods / Patients selection; Table 2; Discussion",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "Not printed, and Table 2 -- the per-patient baseline table -- was returned in full. The words 'unplanned', 'inadvertent' and 'whoops' appear nowhere in the abstract, narrative or Tables 1-3. ⭐ The omission is visible in the table's own structure: Table 2 runs straight from 'Staging at time of initial diagnosis' to 'Site of relapse at the time of chemotherapy', so the primary surgical episode that each of the 7 patients staged 'localized disease' must have had is never described -- not its margin, not its planning, not where it happened. ⚠ Unlike martinbroto2020immunosarc1, this is a RETROSPECTIVE series of patients whose primary treatment its own institutions may well have recorded, so the absence here is closer to a reporting choice than to a design-inherent one -- but it is still only an absence in the paper, and this lane makes no claim about what its source records hold.",
+     "read_section": "Table 2; Methods; Results; Discussion",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    }
+   },
+   "retrieval_completeness": {
+    "verdict": "NARRATIVE + ALL THREE TABLES + FIGURE LEGENDS (the most complete of the three)",
+    "returned": [
+     "abstract",
+     "Background",
+     "Methods (Patients selection; Pathology and molecular analysis; Treatment; Clinical assessment; Statistical analysis)",
+     "Results (Treatment; Pathology and molecular analysis; Response)",
+     "Discussion",
+     "Conclusions",
+     "TABLE 1 Immunohistochemistry conditions (in full)",
+     "TABLE 2 Patient clinical characteristics and response evaluation (in full: all 11 patient rows, all columns, plus its footnote)",
+     "TABLE 3 Immunohistochemistry and FISH results (in full)",
+     "FIGURE LEGENDS 1 and 2"
+    ],
+    "not_returned": [
+     "figure images -- Figure 2 is the Kaplan-Meier PFS curve, so any numbers-at-risk row printed beneath it did NOT come through this route",
+     "no supplementary file is referenced by this paper"
+    ],
+    "⭐_why_this_matters": "Table 2 is a PER-PATIENT baseline table covering the whole 11-patient cohort and it came back in full, so the read covers essentially the whole paper apart from figure images.",
+    "⛔_residual_scope": "Absence statements are scoped to abstract + narrative + Tables 1-3 + figure legends."
+   },
+   "✔_n_is_a_pure_emc_denominator": "n = 11, all EMC, all NR4A3-rearrangement-confirmed: 'Cases with a morphology consistent with EMC but without the evidence of [NR4A3] rearrangement were excluded from this series.' This is the only one of the three trial-treated series whose denominator is entirely EMC. ⚠ It is nevertheless a salvage cohort of advanced, progressing disease, not a population series."
+  },
+  "stacchiotti2014sunitinib": {
+   "n": 10,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "morioka2016trabectedin": {
+   "n": 5,
+   "retrieval_verdict": "RETRIEVED AND READ by CARE-DELIVERY-3 (PMC full text via PubMed MCP); v2 verdict was: admitted",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "Results: 'Median follow-up time of the randomized phase 2 study was 22.7 months, and 1 subject with MCS was still receiving treatment at the final data cutoff.' ⚠ THIS IS THE WHOLE 73-SUBJECT PHASE 2 STUDY, not the 5-subject EMCS+MCS subset and not the 2 EMC subjects. No subset-specific follow-up is printed in the narrative.",
+     "read_section": "Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "Results: 'The median PFS of the subjects with EMCS and MCS was 12.5 months (95 % CI: 7.4-not reached) in the trabectedin group' and 'Median overall survival (OS) of EMCS and MCS subjects in the trabectedin group was 26.4 months (range, 10.4-26.4 months)'. ⚠ These MIX 2 EMC subjects with 3 mesenchymal-chondrosarcoma subjects -- a different disease. There is no EMC-only time-to-event median in the narrative.",
+     "read_section": "Results",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "numbers_at_risk_row": {
+     "status": "REPORTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "STILL NOT_EXAMINED. The PMC response for this paper returned the NARRATIVE ONLY: all tables and all figure legends were dropped, and the in-text pointer to the table that would carry this element comes through as bare punctuation ('Clinical information of these subjects is presented in Table.'). ⛔ This lane therefore asserts NO absence for this element. A retrieval limit is not a reporting absence. What is now recorded, and was not before, is that the narrative alone does not print it -- which is a statement about this retrieval, not about the paper.",
+     "read_section": "narrative only",
+     "v2_status": "NOT_EXAMINED",
+     "read_by": "CARE-DELIVERY-3"
+    }
+   },
+   "retrieval_completeness": {
+    "verdict": "⚠ NARRATIVE ONLY -- NO TABLES, NO FIGURE LEGENDS (INCOMPLETE)",
+    "returned": [
+     "abstract",
+     "Background",
+     "Methods (Patients; Treatment and assessments)",
+     "Results",
+     "Discussion",
+     "Conclusions",
+     "Abbreviations"
+    ],
+    "not_returned": [
+     "ALL TABLES -- in-text citations stripped to bare punctuation ('Clinical information of these subjects is presented in Table.', '(Table, Fig.)', 'Adverse drug reactions ... are shown in Table.')",
+     "ALL FIGURES AND ALL FIGURE LEGENDS -- even the figure numbers are gone ('are shown in Figs.and.')"
+    ],
+    "⛔_why_this_matters": "The un-returned 'Clinical information of these subjects' table is precisely where primary site, stage, prior treatment and any prior-surgery field for these five subjects would live. IT WAS NOT RETRIEVED, so NO ABSENCE IS ASSERTED for this series for any element that could live in it: those elements stay NOT_EXAMINED / UNKNOWN. This is not a formality -- the repository's own receipt research/autonomy/receipts/CYC-0028-moriokat.json records that this paper's Table 2 was previously read from the PDF page raster and carries per-subject PFS/OS with censoring flags, so a 'not printed' verdict drawn from the narrative alone would have been demonstrably wrong.",
+    "⛔_residual_scope": "Only elements this lane found PRINTED in the narrative move. Nothing moves to EXAMINED_NOT_PRINTED for this series."
+   },
+   "⚠_n_is_not_an_emc_denominator": "n = 5 counts the trabectedin arm's EMCS+MCS subjects: 'we adopted two EMCS subjects and three MCS subjects who had been allocated to the trabectedin group'. ONLY 2 HAVE EMC; the other 3 have mesenchymal chondrosarcoma, a different disease. Every value marked REPORTED for this series mixes the two. ⛔ Not placeable in an EMC element pool."
+  }
+ },
+ "element_counts": {
+  "surgical_margin_distribution": {
+   "REPORTED": {
+    "n_series": 4,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "chiusole2020",
+     "bishop2019"
+    ],
+    "patients": 358
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 2,
+    "series": [
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 79
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "margin_definition_printed": {
+   "REPORTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "chiusole2020"
+    ],
+    "patients": 317
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 3,
+    "series": [
+     "martinbroto2020immunosarc1",
+     "bishop2019",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 120
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "stage_at_diagnosis_split": {
+   "REPORTED": {
+    "n_series": 4,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 337
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 2,
+    "series": [
+     "chiusole2020",
+     "bishop2019"
+    ],
+    "patients": 100
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "primary_site_distribution": {
+   "REPORTED": {
+    "n_series": 6,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "chiusole2020",
+     "bishop2019",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 437
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "median_follow_up": {
+   "REPORTED": {
+    "n_series": 7,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "chiusole2020",
+     "bishop2019",
+     "stacchiotti2013anthracycline",
+     "morioka2016trabectedin"
+    ],
+    "patients": 442
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 10,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib"
+    ],
+    "patients": 691
+   }
+  },
+  "time_to_event_median": {
+   "REPORTED": {
+    "n_series": 7,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "chiusole2020",
+     "bishop2019",
+     "stacchiotti2013anthracycline",
+     "morioka2016trabectedin"
+    ],
+    "patients": 442
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 10,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib"
+    ],
+    "patients": 691
+   }
+  },
+  "fitted_cox_coefficients": {
+   "REPORTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "chiusole2020",
+     "bishop2019"
+    ],
+    "patients": 271
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 3,
+    "series": [
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 166
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "numbers_at_risk_row": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "stacchiotti2013anthracycline",
+     "morioka2016trabectedin"
+    ],
+    "patients": 16
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "martinbroto2020immunosarc1",
+     "chiusole2020"
+    ],
+    "patients": 298
+   },
+   "NOT_EXAMINED": {
+    "n_series": 12,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib"
+    ],
+    "patients": 819
+   }
+  },
+  "treatment_setting_or_referral": {
+   "REPORTED": {
+    "n_series": 3,
+    "series": [
+     "martinbroto2020immunosarc1",
+     "bishop2019",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 120
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "chiusole2020"
+    ],
+    "patients": 317
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  },
+  "unplanned_excision_defined": {
+   "REPORTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 6,
+    "series": [
+     "masunaga2025",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "chiusole2020",
+     "bishop2019",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 437
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 696
+   }
+  }
+ },
+ "elements_reported_by_two_or_more_series": {
+  "surgical_margin_distribution": [
+   "masunaga2025",
+   "drilon2008",
+   "chiusole2020",
+   "bishop2019"
+  ],
+  "margin_definition_printed": [
+   "masunaga2025",
+   "drilon2008",
+   "chiusole2020"
+  ],
+  "stage_at_diagnosis_split": [
+   "masunaga2025",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "stacchiotti2013anthracycline"
+  ],
+  "primary_site_distribution": [
+   "masunaga2025",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "chiusole2020",
+   "bishop2019",
+   "stacchiotti2013anthracycline"
+  ],
+  "median_follow_up": [
+   "masunaga2025",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "chiusole2020",
+   "bishop2019",
+   "stacchiotti2013anthracycline",
+   "morioka2016trabectedin"
+  ],
+  "time_to_event_median": [
+   "masunaga2025",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "chiusole2020",
+   "bishop2019",
+   "stacchiotti2013anthracycline",
+   "morioka2016trabectedin"
+  ],
+  "fitted_cox_coefficients": [
+   "masunaga2025",
+   "chiusole2020",
+   "bishop2019"
+  ],
+  "numbers_at_risk_row": [
+   "stacchiotti2013anthracycline",
+   "morioka2016trabectedin"
+  ],
+  "treatment_setting_or_referral": [
+   "martinbroto2020immunosarc1",
+   "bishop2019",
+   "stacchiotti2013anthracycline"
+  ]
+ },
+ "⭐_margin_distributions_are_not_all_on_one_scale": {
+  "on_the_printed_R0_R1_R2_scale": {
+   "series": [
+    "masunaga2025",
+    "chiusole2020",
+    "drilon2008"
+   ],
+   "patients_with_a_margin_value": {
+    "masunaga2025": 156,
+    "chiusole2020": 40,
+    "drilon2008": 43
+   },
+   "note": "All three print or state a definition compatible with microscopically-negative / microscopically-positive / macroscopically-positive. This is the largest set of EMC series whose margin distributions can actually be put side by side -- three, up from two before this lane."
+  },
+  "not_on_that_scale": {
+   "series": [
+    "bishop2019"
+   ],
+   "note": "bishop2019 reports margin as negative (35) vs positive/uncertain (6) and prints no definition in the narrative text read. It raises the margin-REPORTED count to 4 but CANNOT be pooled with the other three, because 'uncertain' is collapsed into 'positive' and R1 and R2 are not separated."
+  },
+  "⛔_still_not_a_pooled_rate": "Nothing here computes a pooled EMC positive-margin rate. emc-surgical-quality.json already records that the denominator choice moves that rate more than the width of any interval, and all four series have informative missingness or a restricted cohort."
+ },
+ "absence_claim_denominator_audit_v2": {
+  "claim_under_test": "emc-surgical-quality.json: treatment_setting.recorded_in_any_reachable_series == false and unplanned_excision.recorded_in_any_reachable_series == false",
+  "claim_values_as_written": {
+   "treatment_setting": false,
+   "unplanned_excision": false,
+   "counts.series": 2
+  },
+  "v1_verdict": "OVER-SCOPED. The universal quantifier 'any reachable series' is asserted over an examined set of 2 series, while 5 further series are reachable by the repository's own two definitions of reachable and carry no committed reading of either field. For those series the two fields are UNKNOWN, not absent.",
+  "series_examined_for_these_two_fields_now": [
+   "bishop2019",
+   "chiusole2020",
+   "drilon2008",
+   "masunaga2025"
+  ],
+  "n_examined_now": 4,
+  "candidate_series_total": 17,
+  "still_reachable_and_unexamined_for_these_fields": [
+   "martinbroto2020immunosarc1",
+   "morioka2016trabectedin",
+   "stacchiotti2013anthracycline"
+  ],
+  "⛔_what_the_residue_is": "martinbroto2020immunosarc1, morioka2016trabectedin and stacchiotti2013anthracycline are systemic-therapy trial reports of advanced disease, in which treatment setting and unplanned excision are close to inapplicable. For them these two fields remain UNKNOWN, not absent.",
+  "treatment_setting": {
+   "verdict": "FALSE",
+   "why": "bishop2019 (n=41, PMC7771031), a reachable series, prints a per-patient record of where each patient was first operated: 27 (66 %) presented to MDACC with gross disease and 14 (34 %) presented after an outside excision. That is the field emc-surgical-quality.json's own `what_would_answer_it` names ('A series that reports where each patient was first operated'). The universal claim `recorded_in_any_reachable_series: false` is therefore contradicted by evidence, not merely over-scoped.",
+   "the_reading": "RESULTS / Treatment, first paragraph; cohort setting from MATERIAL AND METHODS.",
+   "⛔_but": "The exposure is two-level and within one specialist centre's referred population, with no comparator and no centre-volume variable. The field being REPORTED does not make the referral question answerable, and this lane asserts no association between setting and outcome.",
+   "drilon2008": "EXAMINED_NOT_PRINTED, cohort-level constant only (two large referral centres). Same shape as chiusole2020; it does not contradict the claim and does not answer the question either."
+  },
+  "unplanned_excision": {
+   "verdict": "CONFIRMED AT A WIDER DENOMINATOR, with a proxy finding that changes what is available",
+   "why": "Neither bishop2019 nor drilon2008 defines, names or counts an unplanned/inadvertent excision anywhere in the narrative sections read. The terms 'unplanned', 'inadvertent' and 'whoops' appear in neither. So `recorded_in_any_reachable_series: false` survives, now over 4 examined series (masunaga2025, chiusole2020, bishop2019, drilon2008) instead of 2 -- but it is still a claim about an examined set of four, not about 'any reachable series'.",
+   "⭐_what_changed_anyway": "bishop2019 prints n = 14/41 (34 %) 'presented after an outside excision had already been performed', with the margin found at referral (12 positive/uncertain, 2 negative). That is the strongest prior-resection proxy in the reachable EMC literature -- anchored to a named institution and carrying an outcome-relevant covariate -- and it is strictly better than masunaga2025's undefined 'previous surgery' field, which emc-surgical-quality.json already rejected. It is still a proxy: an outside excision may have been a correctly planned resection.",
+   "drilon2008": "EXAMINED_NOT_PRINTED. 'Previous procedures' is acknowledged twice ('using the date of wide local excision (WLE) as Time 0, irrespective of previous procedures'; and the Kawaguchi sentence in the Discussion) and counted zero times. A visible omission, not an inference from silence."
+  },
+  "⛔_scope_of_every_absence_statement_here": "Scoped to the narrative sections listed in each series' read_sections. TABLES, FIGURES AND LEGENDS WERE NOT RETURNED by the PMC full-text API for either paper and were NOT read. If either paper tabulates an unplanned-excision or referral field, this lane would not have seen it."
+ },
+ "series_read_across_v2_and_v3": [
+  "bishop2019",
+  "drilon2008",
+  "martinbroto2020immunosarc1",
+  "stacchiotti2013anthracycline",
+  "morioka2016trabectedin"
+ ],
+ "_v2_input_sha256": "f10b296d2df973b277e490f15ec6c2615b3ec513fbab5460c11f7edd1f588edc",
+ "_status_changes_made_by_v3": [
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "surgical_margin_distribution",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "margin_definition_printed",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "stage_at_diagnosis_split",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "primary_site_distribution",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "median_follow_up",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "time_to_event_median",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "fitted_cox_coefficients",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "treatment_setting_or_referral",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "martinbroto2020immunosarc1",
+   "element": "unplanned_excision_defined",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "surgical_margin_distribution",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "margin_definition_printed",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "stage_at_diagnosis_split",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "primary_site_distribution",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "median_follow_up",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "time_to_event_median",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "fitted_cox_coefficients",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "treatment_setting_or_referral",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "stacchiotti2013anthracycline",
+   "element": "unplanned_excision_defined",
+   "from": "NOT_EXAMINED",
+   "to": "EXAMINED_NOT_PRINTED"
+  },
+  {
+   "series": "morioka2016trabectedin",
+   "element": "median_follow_up",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  },
+  {
+   "series": "morioka2016trabectedin",
+   "element": "time_to_event_median",
+   "from": "NOT_EXAMINED",
+   "to": "REPORTED"
+  }
+ ],
+ "absence_claim_denominator_audit_v3": {
+  "claim_under_test": "emc-surgical-quality.json: treatment_setting.recorded_in_any_reachable_series == false and unplanned_excision.recorded_in_any_reachable_series == false",
+  "v2_verdict": {
+   "treatment_setting": "FALSE -- refuted by bishop2019, which reports it per patient",
+   "unplanned_excision": "CONFIRMED at four examined series (masunaga2025, chiusole2020, bishop2019, drilon2008); still a claim about an examined set",
+   "residue": "three systemic-therapy trial series UNKNOWN for both fields"
+  },
+  "v3_verdict": {
+   "treatment_setting": {
+    "verdict": "UNCHANGED -- still FALSE. Nothing in this lane could have rescued it and nothing did. One refuting series is enough; three more were read and none of them reports the field per patient either.",
+    "what_v3_adds": "The examined set for this field rises from 4 series to 6. All three trial series print treatment setting as a COHORT-LEVEL CONSTANT: martinbroto2020immunosarc1 'enrolled in eight centers in Spain and Italy with expertise in sarcoma care'; stacchiotti2013anthracycline 'at Fondazione IRCCS Istituto Nazionale Tumori, Milano and those included in the data-base of the Italian Rare Cancer Network'; morioka2016trabectedin 'approved by the institutional review board at each institution' (institutions unnamed). ⭐ The structural finding is now sharp: of 6 examined series, FIVE hold the setting constant or omit it and exactly ONE (bishop2019) resolves it per patient.",
+    "series_examined_after_v3": [
+     "masunaga2025",
+     "chiusole2020",
+     "bishop2019",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "⚠_morioka_excluded_from_the_examined_set": "morioka2016trabectedin's tables were not returned; it stays UNKNOWN, not absent."
+   },
+   "unplanned_excision": {
+    "verdict": "CONFIRMED AT A WIDER DENOMINATOR AGAIN -- six examined series, not four. Still a claim about the examined set, never about every reachable series.",
+    "what_v3_adds": "Two more series examined INCLUDING THEIR BASELINE TABLES. martinbroto2020immunosarc1's Table 1 and stacchiotti2013anthracycline's per-patient Table 2 both came back in full and neither defines, names or counts an unplanned, inadvertent or prior excision. No new proxy was found: bishop2019's 14/41 outside excisions with the margin at referral remains the best available proxy, and it is still only a proxy.",
+    "⭐_and_the_reason_differs_by_series_type": "For martinbroto2020immunosarc1 the absence is DESIGN-INHERENT, not a curation gap: the protocol enrols advanced STS progressing within 6 months, and its baseline set records prior SYSTEMIC exposure ('Median previous lines', 'Previous antiangiogenic lines') and resectability at diagnosis. The quality of a prior local excision is not a variable a second-line systemic-therapy trial collects. For stacchiotti2013anthracycline -- a RETROSPECTIVE institutional/network series whose Table 2 runs straight from 'Staging at time of initial diagnosis' to 'Site of relapse at the time of chemotherapy' -- the absence is closer to a reporting choice, and its 7 patients staged 'localized disease' each had a primary operation the paper never describes.",
+    "series_examined_after_v3": [
+     "masunaga2025",
+     "chiusole2020",
+     "bishop2019",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "⚠_morioka_excluded_from_the_examined_set": "morioka2016trabectedin's tables were not returned; it stays UNKNOWN, not absent."
+   },
+   "residue_after_v3": {
+    "for_both_fields": [
+     "morioka2016trabectedin (tables not returned by this route)"
+    ],
+    "plus_the_11_series_never_retrieved": "seer270_2022, meisKindblom1999, ussc2022, huang2023, uMich2023, japan2003, china2016, stacchiotti2019pazopanib, immunosarc2emc2025, stacchiotti2014sunitinib, and any series outside the 17-series candidate list",
+    "⛔": "For all of these every element is UNKNOWN. Neither absence claim is a statement about them."
+   }
+  },
+  "⛔_what_none_of_this_shows": "No association between treatment setting, referral, excision planning and any EMC outcome is asserted here or anywhere in the proposed diff. No clinical, efficacy or safety claim is made. Recording a field is not measuring an effect."
+ },
+ "⭐_what_the_trial_series_can_and_cannot_contribute": {
+  "the_finding": "The three systemic-therapy trial series are NOT a curation gap for the care-delivery elements -- for two of the three the fields are genuinely absent by design, and the reading proves it against their full baseline tables rather than inferring it from silence. But neither are they a source of poolable EMC values, for a reason that is separate from field coverage: their DENOMINATORS ARE NOT EMC.",
+  "denominators": {
+   "martinbroto2020immunosarc1": "n = 68 in this matrix is the whole all-histology STS trial; 4 patients have EMC (Table 1, 'Diagnosis (central)').",
+   "morioka2016trabectedin": "n = 5 is the trabectedin EMCS+MCS arm; 2 have EMC, 3 have mesenchymal chondrosarcoma.",
+   "stacchiotti2013anthracycline": "n = 11 is entirely EMC, all NR4A3-confirmed -- the only one of the three with a pure EMC denominator."
+  },
+  "⛔_consequence": "Every element newly marked REPORTED for martinbroto2020immunosarc1 and morioka2016trabectedin is a value for a mixed-histology population. The matrix's `candidate_patients_sum` of 1,133 is a WEIGHTING DEVICE over candidate series, and this lane's reading shows it also over-counts EMC patients for a second, independent reason beyond the overlap already recorded. No count in this artifact was altered to reflect that; it is recorded as a caveat so no later session reads 1,133 as an EMC patient count.",
+  "✔_what_they_do_contribute": "Three more series examined for the absence-claim audit, two of them with complete baseline tables; a design-based rather than silence-based explanation for why the surgical-quality fields are missing from trial reports; and one clean per-patient EMC site and stage table (stacchiotti2013anthracycline, n = 11)."
+ }
+}

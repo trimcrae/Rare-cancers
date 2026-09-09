@@ -1,0 +1,3 @@
+sha256sum genre_classifier.py; grep -nE "has_mechanism_cue|\[.sentences.\]|respiratory failure|cardiac arrest|sepsis|CUE_" genre_classifier.py; echo "exit=${PIPESTATUS[0]}"
+# Audit: the frozen genre rule must contain NO cue lexicon and must never read the sentence
+# array. grep exiting 1 (no match) is the PASS condition here.

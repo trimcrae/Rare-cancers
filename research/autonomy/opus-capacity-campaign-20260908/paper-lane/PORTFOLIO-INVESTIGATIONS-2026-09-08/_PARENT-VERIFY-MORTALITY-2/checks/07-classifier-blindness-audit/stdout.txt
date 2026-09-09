@@ -1,0 +1,11 @@
+9f00b7243bfb43fd4cba126144da712d93e143a62a7fba6ab3ad82cceb5be3a3  /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MORTALITY-2/genre_classifier.py
+--- grep for any outcome/cue reference inside the frozen classifier (no match = pass) ---
+17:  * NEVER reads `sentences`, `has_mechanism_cue`, or any cue lexicon;
+grep exit: 0
+--- fields the classifier reads from the metadata dump ---
+133:        s, trig = classify(r["title"], r["journal"])
+145:        dist[r["stratum"]]["emc_titled" if r["emc_titled"] else "not_emc_titled"] += 1
+164:        print(f'{r["pmid"]}\t{"EMC" if r["emc_titled"] else "OTH"}\t{r["stratum"]}\t{r["trigger"]}\t{r["title"][:90]}')
+--- classifier sha recorded inside the analysis artifact ---
+9f00b7243bfb43fd4cba126144da712d93e143a62a7fba6ab3ad82cceb5be3a3
+9f00b7243bfb43fd4cba126144da712d93e143a62a7fba6ab3ad82cceb5be3a3

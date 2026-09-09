@@ -1,0 +1,2379 @@
+{
+ "_what_this_is": "Adversarial single-paper reclassification sensitivity on the collapsed case-report vs\nall-other-genres contrast. For every one of the 162 papers in turn, flip that paper's genre\nassignment (case <-> non-case), recompute the exact stratified test, and report the range.\nThis answers 'what would ONE misclassification do?' directly, rather than only in the\naggregate simulation. Uses the frozen classifier and the same two instruments; no re-tuning.",
+ "instruments": {
+  "strict_terminal_event": {
+   "baseline": {
+    "strata_used": 2,
+    "T_observed": 4,
+    "E_T_under_null": 3.0267,
+    "p_one_sided_emc_higher": 0.348887,
+    "p_two_sided_point_prob": 0.455419,
+    "mantel_haenszel_odds_ratio": 1.948,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "p_two_sided_min_over_single_flips": 0.192125,
+   "p_two_sided_max_over_single_flips": 0.705238,
+   "n_flips_that_reach_p_below_0.05": 0,
+   "five_largest_movers_downward": [
+    {
+     "pmid": "35910216",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.192125,
+     "mh_or": 2.6351,
+     "title": "Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myx"
+    },
+    {
+     "pmid": "38611033",
+     "flipped_to": "case",
+     "p_two_sided": 0.244357,
+     "mh_or": 2.7188,
+     "title": "Functional Classification of Fusion Proteins in Sarcoma."
+    },
+    {
+     "pmid": "41799218",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.402245,
+     "mh_or": 2.3581,
+     "title": "Endovascular Thrombectomy in a Patient with Acute Ischemic Stroke due to Tumor E"
+    },
+    {
+     "pmid": "35775709",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.402967,
+     "mh_or": 2.3001,
+     "title": "Primary extraskeletal myxoid chondrosarcoma of the breast: report of a case and "
+    },
+    {
+     "pmid": "35399302",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.404407,
+     "mh_or": 2.8338,
+     "title": "INI-1-Deficient Sinonasal Carcinoma: Case Report with Emphasis on Differential D"
+    }
+   ],
+   "all_flips": [
+    {
+     "pmid": "40885991",
+     "flipped_to": "case",
+     "p_two_sided": 0.697887,
+     "mh_or": 1.5958,
+     "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma"
+    },
+    {
+     "pmid": "41055792",
+     "flipped_to": "case",
+     "p_two_sided": 0.690199,
+     "mh_or": 1.8041,
+     "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskele"
+    },
+    {
+     "pmid": "41799218",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.402245,
+     "mh_or": 2.3581,
+     "title": "Endovascular Thrombectomy in a Patient with Acute Ischemic Stroke due to Tumor E"
+    },
+    {
+     "pmid": "41321774",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.431127,
+     "mh_or": 2.1969,
+     "title": "Spontaneous regression of metastatic disease after palliative debulking surgery "
+    },
+    {
+     "pmid": "41323055",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.447892,
+     "mh_or": 2.0127,
+     "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxo"
+    },
+    {
+     "pmid": "36326382",
+     "flipped_to": "case",
+     "p_two_sided": 0.690746,
+     "mh_or": 1.7781,
+     "title": "Surgical outcomes of extraskeletal myxoid chondrosarcoma."
+    },
+    {
+     "pmid": "36097623",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.451609,
+     "mh_or": 1.9798,
+     "title": "Metastatic extraskeletal myxoid chondrosarcoma presenting as a forehead mass."
+    },
+    {
+     "pmid": "35251555",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.428228,
+     "mh_or": 2.2381,
+     "title": "Extraskeletal myxoid chondrosarcoma: A case series and review of the literature."
+    },
+    {
+     "pmid": "35775709",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.402967,
+     "mh_or": 2.3001,
+     "title": "Primary extraskeletal myxoid chondrosarcoma of the breast: report of a case and "
+    },
+    {
+     "pmid": "35665108",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.447892,
+     "mh_or": 2.0127,
+     "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and revi"
+    },
+    {
+     "pmid": "35494187",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.418667,
+     "mh_or": 2.4209,
+     "title": "High-dose-rate interstitial brachytherapy as a suitable option for metastatic ex"
+    },
+    {
+     "pmid": "36316541",
+     "flipped_to": "case",
+     "p_two_sided": 0.689142,
+     "mh_or": 1.8875,
+     "title": "Establishment, characterization and functional testing of two novel ex vivo extr"
+    },
+    {
+     "pmid": "32963861",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.444281,
+     "mh_or": 2.0469,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: Long-Term Survival in the Setting of Metast"
+    },
+    {
+     "pmid": "32967265",
+     "flipped_to": "case",
+     "p_two_sided": 0.689391,
+     "mh_or": 1.8588,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Bi"
+    },
+    {
+     "pmid": "30534357",
+     "flipped_to": "case",
+     "p_two_sided": 0.689003,
+     "mh_or": 1.9173,
+     "title": "Extraskeletal myxoid chondrosarcoma with massive pulmonary metastases."
+    },
+    {
+     "pmid": "32612944",
+     "flipped_to": "case",
+     "p_two_sided": 0.689391,
+     "mh_or": 1.8588,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and "
+    },
+    {
+     "pmid": "29977924",
+     "flipped_to": "case",
+     "p_two_sided": 0.689142,
+     "mh_or": 1.8875,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: A Comparative Study of Imaging and Patholog"
+    },
+    {
+     "pmid": "29937513",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.451609,
+     "mh_or": 1.9798,
+     "title": "Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoi"
+    },
+    {
+     "pmid": "28638563",
+     "flipped_to": "case",
+     "p_two_sided": 0.690746,
+     "mh_or": 1.7781,
+     "title": "Extraskeletal myxoid chondrosarcoma of the masticator space in a pediatric patie"
+    },
+    {
+     "pmid": "26125202",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.437421,
+     "mh_or": 2.1191,
+     "title": "Breast Metastasis of Extraskeletal Myxoid Chondrosarcoma: A Case Report."
+    },
+    {
+     "pmid": "27832806",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.451609,
+     "mh_or": 1.9798,
+     "title": "Diagnosis of extraskeletal myxoid chondrosarcoma in the thigh using EWSR1-NR4A3 "
+    },
+    {
+     "pmid": "26448808",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.447892,
+     "mh_or": 2.0127,
+     "title": "Paravertebral extraskeletal myxoid chondrosarcoma: a case report and review of t"
+    },
+    {
+     "pmid": "24944710",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.451609,
+     "mh_or": 1.9798,
+     "title": "Extraskeletal myxoid chondrosarcoma: A report of two cases."
+    },
+    {
+     "pmid": "27418251",
+     "flipped_to": "case",
+     "p_two_sided": 0.689003,
+     "mh_or": 1.9173,
+     "title": "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraske"
+    },
+    {
+     "pmid": "23115670",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.451609,
+     "mh_or": 1.9798,
+     "title": "Intracranial extraskeletal myxoid chondrosarcoma : case report and literature re"
+    },
+    {
+     "pmid": "24345066",
+     "flipped_to": "case",
+     "p_two_sided": 0.689142,
+     "mh_or": 1.8875,
+     "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retro"
+    },
+    {
+     "pmid": "23213584",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.447892,
+     "mh_or": 2.0127,
+     "title": "Extraskeletal myxoid chondrosarcoma with small bowel metastasis causing bowel ob"
+    },
+    {
+     "pmid": "21941486",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.447892,
+     "mh_or": 2.0127,
+     "title": "A case of highly aggressive extraskeletal myxoid chondrosarcoma."
+    },
+    {
+     "pmid": "25177237",
+     "flipped_to": "case",
+     "p_two_sided": 0.692894,
+     "mh_or": 1.7046,
+     "title": "Clinical and radiologic features of extraskeletal myxoid chondrosarcoma includin"
+    },
+    {
+     "pmid": "22925697",
+     "flipped_to": "case",
+     "p_two_sided": 0.689003,
+     "mh_or": 1.9173,
+     "title": "Extraskeletal myxoid chondrosarcoma in the lung: asymptomatic lung mass with sev"
+    },
+    {
+     "pmid": "42052495",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Myoepithelioma-like tumor of the vulvar region with estrogen receptor negativity"
+    },
+    {
+     "pmid": "40563544",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "Gene Fusions as Potential Therapeutic Targets in Soft Tissue Sarcomas."
+    },
+    {
+     "pmid": "39965625",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "An 11-year-old boy with a posterior fossa tumor."
+    },
+    {
+     "pmid": "42279277",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Beyond Surgical Margins: Fully Mature Tertiary Lymphoid Structures (fmTLSs) Are "
+    },
+    {
+     "pmid": "22569967",
+     "flipped_to": "case",
+     "p_two_sided": 0.689391,
+     "mh_or": 1.8588,
+     "title": "NR4A3 rearrangement reliably distinguishes between the clinicopathologically ove"
+    },
+    {
+     "pmid": "40705064",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "ZC3H7A/B::BCOR fusion fibromyxoid sarcoma of soft tissue: an emerging aggressive"
+    },
+    {
+     "pmid": "40755265",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Real-World Data of Comprehensive Cancer Genomic Profiling Tests Performed in the"
+    },
+    {
+     "pmid": "42324568",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "Concomitant Medication Effects on Immunotherapy Outcomes in Sarcoma: A Pooled Po"
+    },
+    {
+     "pmid": "21938148",
+     "flipped_to": "case",
+     "p_two_sided": 0.689003,
+     "mh_or": 1.9173,
+     "title": "Extraskeletal myxoid chondrosarcoma: Diagnosis of a rare soft tissue tumor based"
+    },
+    {
+     "pmid": "39941809",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "\"From Drowning to Treading Water\": Adolescents and Young Adults Living with Incu"
+    },
+    {
+     "pmid": "41508787",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Vascular Reconstruction in Extremity Soft Tissue Sarcomas: A Systematic Review a"
+    },
+    {
+     "pmid": "41676176",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Primary pulmonary myxoid sarcoma with detected &lt;i&gt;EWSR1&lt;/i&gt; gene tra"
+    },
+    {
+     "pmid": "40242429",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Primary Pulmonary Myxoid Sarcoma Located in the Left Lung Parenchyma: Case Repor"
+    },
+    {
+     "pmid": "42121852",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "From Histology to Multi-Omics: Review of Chordoma Classification and Its Clinica"
+    },
+    {
+     "pmid": "41143677",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Immune checkpoint inhibitors combined with tyrosine kinase inhibitors for soft-t"
+    },
+    {
+     "pmid": "38961422",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Primary pulmonary myxoid sarcoma in the interlobar fissure of the left lung lobe"
+    },
+    {
+     "pmid": "36164527",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Molecular classification of soft tissue sarcomas for adequate diagnosis: A study"
+    },
+    {
+     "pmid": "42099070",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Follow-up for patients with extremity soft tissue sarcoma: validation of a ratio"
+    },
+    {
+     "pmid": "41200572",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "G Protein-Coupled Receptor 35 Holds Potential as a Beacon of Hope for Treating C"
+    },
+    {
+     "pmid": "40303314",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "Feasibility and Outcomes of Vessel-Sparing Surgery for Soft Tissue Sarcoma of th"
+    },
+    {
+     "pmid": "41188261",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "Prognostic prediction in soft-tissue sarcomas using deep learning and digital pa"
+    },
+    {
+     "pmid": "40232379",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "A practical approach to better identify NTRK 1-3 fusion-positive mesenchymal neo"
+    },
+    {
+     "pmid": "41630035",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "A systematic review and meta-analysis of pazopanib efficacy and adverse effects "
+    },
+    {
+     "pmid": "36568164",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Transcription regulators and ultra-rare and other rare translocation-related sar"
+    },
+    {
+     "pmid": "38339014",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "Identification of Novel/Rare <i>EWSR1</i> Fusion Partners in Undifferentiated Me"
+    },
+    {
+     "pmid": "42073583",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Preoperative (Neoadjuvant) Combined Chemoradiotherapy in the Management of Local"
+    },
+    {
+     "pmid": "37767191",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Anlotinib as a maintenance treatment for advanced soft tissue\u00a0sarcoma after firs"
+    },
+    {
+     "pmid": "35910216",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.192125,
+     "mh_or": 2.6351,
+     "title": "Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myx"
+    },
+    {
+     "pmid": "41769942",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Beyond the Globe: Molecular Diagnostics of Optic Nerve, Orbital, and Adnexal Neo"
+    },
+    {
+     "pmid": "40002657",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Pitfalls in Ultrasound Diagnosis of Vascular Malformations: A Retrospective Revi"
+    },
+    {
+     "pmid": "42172443",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "The promise of immunotherapy in the treatment of sarcoma: A state-of-the-art rev"
+    },
+    {
+     "pmid": "34318538",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Snot what you think: Mucus or myxoid matrix with epithelioid cells and bubbly cy"
+    },
+    {
+     "pmid": "40823500",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Regional lymph node invasion in pediatric non-rhabdomyosarcoma soft tissue sarco"
+    },
+    {
+     "pmid": "40710185",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Preoperative Chemoradiation (Modified Eilber Protocol) Versus Preoperative/Posto"
+    },
+    {
+     "pmid": "42194972",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Detection of Gene Fusions in Soft Tissue Sarcoma Using Next-Generation Sequencin"
+    },
+    {
+     "pmid": "36910639",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "The efficacies and biomarker investigations of antiangiogenic agents and PD-1 in"
+    },
+    {
+     "pmid": "36099768",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Abdominal myoepithelial carcinoma: A rare abdominal wall entity of an uncommon t"
+    },
+    {
+     "pmid": "39851545",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "<i>GLI1</i>-Rearranged Enteric Tumors: Updates on Clinicopathologic and Molecula"
+    },
+    {
+     "pmid": "41301081",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "The Puzzle of Genetic Stability and Chromosomal Copy Number Alterations for the "
+    },
+    {
+     "pmid": "40285687",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "Purification of Low-Complexity Domain Proteins FUS, EWSR1, and Their Fusions."
+    },
+    {
+     "pmid": "41682973",
+     "flipped_to": "case",
+     "p_two_sided": 0.42048,
+     "mh_or": 2.4009,
+     "title": "Outcomes and Prognostic Factors in Tumor-Related Amputations: A Retrospective Co"
+    },
+    {
+     "pmid": "39642636",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Beyond the sarcoma center: establishing the Sarcoma HASM network-a Hub and Spoke"
+    },
+    {
+     "pmid": "38483309",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "First-Line Anlotinib Treatment for Soft-Tissue Sarcoma in Chemotherapy-Ineligibl"
+    },
+    {
+     "pmid": "36430703",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Genomic Profiling of Sarcomas: A Promising Weapon in the Therapeutic Arsenal."
+    },
+    {
+     "pmid": "41291778",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "SMARCB1 (INI-1) deficient vulvar neoplasms: report of 4 cases with review of lit"
+    },
+    {
+     "pmid": "37353743",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Tumor necrosis is an underappreciated histopathologic factor in the grading of c"
+    },
+    {
+     "pmid": "42112659",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Decoding the Hexosamine Biosynthesis Pathway: Implications for Novel Therapeutic"
+    },
+    {
+     "pmid": "40761191",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.69189,
+     "mh_or": 1.7292,
+     "title": "SMARCB1/INI1-deficient lung cancer with lymph node metastasis: a case report and"
+    },
+    {
+     "pmid": "40909947",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "MAPK-targeted therapies in non-gastrointestinal stromal tumor soft tissue sarcom"
+    },
+    {
+     "pmid": "39228173",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Rhabdomyosarcoma of the skull with EWSR1 fusion and ALK and cytokeratin expressi"
+    },
+    {
+     "pmid": "39830221",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689354,
+     "mh_or": 1.8548,
+     "title": "Medullary Renal Cell Carcinoma: A Case Study."
+    },
+    {
+     "pmid": "38254207",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Report and literature review of four cases of EWSR1::NFATC2 round cell sarcoma."
+    },
+    {
+     "pmid": "36905579",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Emerging Trends in Immunotherapy for Adult Sarcomas."
+    },
+    {
+     "pmid": "38148839",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Case Report: Angiomatoid fibrous histiocytoma in the hand: a rare clinical prese"
+    },
+    {
+     "pmid": "34715942",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "A novel SMARCA2-CREM fusion: expanding the molecular spectrum of intracranial me"
+    },
+    {
+     "pmid": "41078716",
+     "flipped_to": "case",
+     "p_two_sided": 0.421678,
+     "mh_or": 2.3714,
+     "title": "Impact of SAMHD1 and phosphorylated ATM levels on the progression and prognosis "
+    },
+    {
+     "pmid": "32547189",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Apatinib for Treatment of Inoperable Metastatic or Locally Advanced Chondrosarco"
+    },
+    {
+     "pmid": "36636681",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689754,
+     "mh_or": 1.8235,
+     "title": "Trabectedin Cardiotoxicity in Soft Tissue Sarcoma: A Case Series and Clinical In"
+    },
+    {
+     "pmid": "40359706",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Landscape of ultra-rare sarcomas: a nationwide study for epidemiology and progno"
+    },
+    {
+     "pmid": "40444490",
+     "flipped_to": "case",
+     "p_two_sided": 0.427894,
+     "mh_or": 2.2524,
+     "title": "Epigenetic roles of chromatin remodeling complexes in bone biology and the patho"
+    },
+    {
+     "pmid": "33194758",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Editorial: New Insights Into the Landscape of Rare Tumors: Translational and Cli"
+    },
+    {
+     "pmid": "29118536",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Characteristics of bladder neoplasms in the young population of Saudi Arabia."
+    },
+    {
+     "pmid": "36224239",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Family cancer history and smoking habit associated with sarcoma in a Japanese po"
+    },
+    {
+     "pmid": "39030807",
+     "flipped_to": "case",
+     "p_two_sided": 0.434207,
+     "mh_or": 2.1621,
+     "title": "Efficacy and Safety of Fruquintinib-Based Treatment in Patients with Refractory "
+    },
+    {
+     "pmid": "40712530",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "A comparison of the risk prediction models PERSARC and Sarculator in patients wi"
+    },
+    {
+     "pmid": "38237415",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Extraskeletal conventional chondrosarcoma of genitalia in a child- An unusual pa"
+    },
+    {
+     "pmid": "37686615",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Patient-Derived Organoids as a Promising Tool for Multimodal Management of Sarco"
+    },
+    {
+     "pmid": "39959645",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "Prognostic Value of Inflammatory and Nutritional Indicators in Non-Metastatic So"
+    },
+    {
+     "pmid": "32864096",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Long lasting response with trabectedin monotherapy in relapsed metastatic mesenc"
+    },
+    {
+     "pmid": "30386446",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Recurrent parachordoma of the lower back: A case report."
+    },
+    {
+     "pmid": "39156101",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Global research development of chondrosarcoma from 2003 to 2022: a bibliometric "
+    },
+    {
+     "pmid": "35808975",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Molecular testing of soft tissue tumors."
+    },
+    {
+     "pmid": "34716194",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Clinical Activity of Single-Agent Cabozantinib (XL184), a Multi-receptor Tyrosin"
+    },
+    {
+     "pmid": "39773479",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "SarkoLife: quality of life in patients undergoing multimodal soft tissue sarcoma"
+    },
+    {
+     "pmid": "36788984",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Epithelioid sarcoma and its outcome: a retrospective analysis from a tertiary ca"
+    },
+    {
+     "pmid": "39335204",
+     "flipped_to": "case",
+     "p_two_sided": 0.427894,
+     "mh_or": 2.2524,
+     "title": "Tolerability and Outcomes for Treatment of Older Myxoid Liposarcoma Population."
+    },
+    {
+     "pmid": "38067300",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "The Role of Gene Fusions in Thymic Epithelial Tumors."
+    },
+    {
+     "pmid": "39040851",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Translation of oncolytic viruses in sarcoma."
+    },
+    {
+     "pmid": "37361584",
+     "flipped_to": "case",
+     "p_two_sided": 0.434207,
+     "mh_or": 2.1621,
+     "title": "Primary intracranial sarcomas: a clinicopathological investigation."
+    },
+    {
+     "pmid": "38483782",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "A phase 1 trial of the MEK inhibitor selumetinib in combination with pembrolizum"
+    },
+    {
+     "pmid": "35118292",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Primary mediastinal chondrosarcomas: do they really exist?"
+    },
+    {
+     "pmid": "36249651",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689754,
+     "mh_or": 1.8235,
+     "title": "A Case Report and Brief Literature Review on Dedifferentiated Chondrosarcoma in "
+    },
+    {
+     "pmid": "38785494",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "A Two-Step Approach to the Surgical Treatment of Soft-Tissue Sarcomas."
+    },
+    {
+     "pmid": "38421462",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Primary pulmonary myxoid sarcoma with EWSR1::CREB1 fusion: a literature review."
+    },
+    {
+     "pmid": "39518034",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "The Critical Role of Stereotactic Body Radiation Therapy in Multimodal Treatment"
+    },
+    {
+     "pmid": "36980590",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Classification of Chondrosarcoma: From Characteristic to Challenging Imaging Fin"
+    },
+    {
+     "pmid": "36405939",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "A rare case of clear cell sarcoma of the foot with a cascade of pathological mis"
+    },
+    {
+     "pmid": "40641928",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Sex differences in toxicity and outcomes in patients with sarcoma treated in the"
+    },
+    {
+     "pmid": "31827370",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Efficacy and Safety of Nanosomal Docetaxel Lipid Suspension-Based Chemotherapy i"
+    },
+    {
+     "pmid": "37296946",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "CT and MR Imaging of Retroperitoneal Sarcomas: A Practical Guide for the Radiolo"
+    },
+    {
+     "pmid": "28852958",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Clinical benefit of antiangiogenic therapy in advanced and metastatic chondrosar"
+    },
+    {
+     "pmid": "38108174",
+     "flipped_to": "case",
+     "p_two_sided": 0.439288,
+     "mh_or": 2.1014,
+     "title": "Evaluation of the factors affecting survival and local recurrence in thigh soft "
+    },
+    {
+     "pmid": "38228904",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Current challenges and practical aspects of molecular pathology for bone and sof"
+    },
+    {
+     "pmid": "38257245",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "Trabectedin and Lurbinectedin Modulate the Interplay between Cells in the Tumour"
+    },
+    {
+     "pmid": "36817147",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "LSD1 inhibitors for cancer treatment: Focus on multi-target agents and compounds"
+    },
+    {
+     "pmid": "35399302",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.404407,
+     "mh_or": 2.8338,
+     "title": "INI-1-Deficient Sinonasal Carcinoma: Case Report with Emphasis on Differential D"
+    },
+    {
+     "pmid": "34203801",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "<i>EWSR1</i>-The Most Common Rearranged Gene in Soft Tissue Lesions, Which Also "
+    },
+    {
+     "pmid": "34367342",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Molecular profiling of soft-tissue sarcomas with FoundationOne<sup>\u00ae</sup> Heme "
+    },
+    {
+     "pmid": "33910620",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Simultaneous development of COVID-19 pneumonia and pulmonary metastasis in a kno"
+    },
+    {
+     "pmid": "40913836",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Phase I dose-escalation trial of AMXT 1501 dicaprate plus difluoromethylornithin"
+    },
+    {
+     "pmid": "38495036",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Novel Postoperative Hypofractionated Accelerated Radiation Dose-Painting Approac"
+    },
+    {
+     "pmid": "36674874",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Biology and Management of High-Grade Chondrosarcoma: An Update on Targets and Tr"
+    },
+    {
+     "pmid": "32379517",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Metastatic Soft Tissue Sarcomas in Adolescents and Young Adults: A Specialist Ce"
+    },
+    {
+     "pmid": "34277247",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689754,
+     "mh_or": 1.8235,
+     "title": "Soft Tissue Sarcomas: Is Pre-operative Radiotherapy Associated With More Acute W"
+    },
+    {
+     "pmid": "31049020",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "<i>EWSR1-NFATC2</i> and <i>FUS-NFATC2</i> Gene Fusion-Associated Mesenchymal Tum"
+    },
+    {
+     "pmid": "40643985",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Phase Ib Study of Pembrolizumab in Combination with Intratumoral Injection of Cl"
+    },
+    {
+     "pmid": "39200384",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Xenografting Human Musculoskeletal Sarcomas in Mice, Chick Embryo, and Zebrafish"
+    },
+    {
+     "pmid": "37685699",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.691014,
+     "mh_or": 1.7607,
+     "title": "Epithelioid Sarcoma of the Spine: A Review of Literature and Case Report."
+    },
+    {
+     "pmid": "32819423",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Survival by histology among patients with bone and soft tissue sarcoma who under"
+    },
+    {
+     "pmid": "28141799",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "The spectrum of EWSR1-rearranged neoplasms at a tertiary sarcoma centre; assessi"
+    },
+    {
+     "pmid": "37345191",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "Midterm Results of High-Dose-Rate Intraoperative Brachytherapy in the Treatment "
+    },
+    {
+     "pmid": "33763261",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Clear Cell Odontogenic Carcinoma of the Mandible Harboring <i>EWSR1</i> Rearrang"
+    },
+    {
+     "pmid": "35756627",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "A Comprehensive Understanding of the Genomic Bone Tumor Landscape: A Multicenter"
+    },
+    {
+     "pmid": "39237726",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "A multimodal neural network with gradient blending improves predictions of survi"
+    },
+    {
+     "pmid": "37046623",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Chondrosarcoma Resistance to Radiation Therapy: Origins and Potential Therapeuti"
+    },
+    {
+     "pmid": "34277188",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Association of Celiac Disease With Pembrolizumab."
+    },
+    {
+     "pmid": "38264746",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.408184,
+     "mh_or": 2.7193,
+     "title": "Primary pulmonary nuclear protein of the testis midline carcinoma: case report a"
+    },
+    {
+     "pmid": "36582458",
+     "flipped_to": "case",
+     "p_two_sided": 0.448346,
+     "mh_or": 2.0096,
+     "title": "Proof of Concept of the Radiosensitizing Effect of Gadolinium Oxide Nanoparticle"
+    },
+    {
+     "pmid": "35033148",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "5-ALA-mediated fluorescence of musculoskeletal tumors in a chick chorio-allantoi"
+    },
+    {
+     "pmid": "37958467",
+     "flipped_to": "case",
+     "p_two_sided": 0.445127,
+     "mh_or": 2.0403,
+     "title": "The Role of Macrophages in Sarcoma Tumor Microenvironment and Treatment."
+    },
+    {
+     "pmid": "37444484",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "Acinic Cell Carcinoma in the 21st Century: A Population-Based Study from the SEE"
+    },
+    {
+     "pmid": "32629987",
+     "flipped_to": "case",
+     "p_two_sided": 0.434207,
+     "mh_or": 2.1621,
+     "title": "Structural Insights into the Evolutionarily Conserved BAF Chromatin Remodeling C"
+    },
+    {
+     "pmid": "37446319",
+     "flipped_to": "case",
+     "p_two_sided": 0.436656,
+     "mh_or": 2.1318,
+     "title": "SWI/SNF Complex Alterations in Tumors with Rhabdoid Features: Novel Therapeutic "
+    },
+    {
+     "pmid": "39550489",
+     "flipped_to": "case",
+     "p_two_sided": 0.44211,
+     "mh_or": 2.0709,
+     "title": "UK guidelines for the management of bone sarcomas."
+    },
+    {
+     "pmid": "33946310",
+     "flipped_to": "case",
+     "p_two_sided": 0.705238,
+     "mh_or": 1.5385,
+     "title": "Trastuzumab Deruxtecan: Changing the Destiny of HER2 Expressing Solid Tumors."
+    },
+    {
+     "pmid": "19740441",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Myoepithelioma within the carpal tunnel: a case report and review of the literat"
+    },
+    {
+     "pmid": "32039736",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.689096,
+     "mh_or": 1.8859,
+     "title": "Primary pulmonary myxoid sarcoma with EWSR1-CREB1 fusion: a case report and revi"
+    },
+    {
+     "pmid": "31020999",
+     "flipped_to": "case",
+     "p_two_sided": 0.689003,
+     "mh_or": 1.9173,
+     "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference "
+    },
+    {
+     "pmid": "38611033",
+     "flipped_to": "case",
+     "p_two_sided": 0.244357,
+     "mh_or": 2.7188,
+     "title": "Functional Classification of Fusion Proteins in Sarcoma."
+    },
+    {
+     "pmid": "38016251",
+     "flipped_to": "case",
+     "p_two_sided": 0.431934,
+     "mh_or": 2.1923,
+     "title": "Efficacy of immune checkpoint inhibitors in alveolar soft-part sarcoma: results "
+    },
+    {
+     "pmid": "35163019",
+     "flipped_to": "case",
+     "p_two_sided": 0.451775,
+     "mh_or": 1.9789,
+     "title": "Therapeutic Targets and Emerging Treatments in Advanced Chondrosarcoma."
+    },
+    {
+     "pmid": "29141017",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.688974,
+     "mh_or": 1.917,
+     "title": "Temozolomide post pazopanib treatment failure in patients with advanced sarcoma:"
+    }
+   ]
+  },
+  "shipped_has_mechanism_cue": {
+   "baseline": {
+    "strata_used": 2,
+    "T_observed": 12,
+    "E_T_under_null": 8.5807,
+    "p_one_sided_emc_higher": 0.088735,
+    "p_two_sided_point_prob": 0.160461,
+    "mantel_haenszel_odds_ratio": 2.1044,
+    "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."
+   },
+   "p_two_sided_min_over_single_flips": 0.059609,
+   "p_two_sided_max_over_single_flips": 0.251634,
+   "n_flips_that_reach_p_below_0.05": 0,
+   "five_largest_movers_downward": [
+    {
+     "pmid": "41799218",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059609,
+     "mh_or": 2.3464,
+     "title": "Endovascular Thrombectomy in a Patient with Acute Ischemic Stroke due to Tumor E"
+    },
+    {
+     "pmid": "35665108",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059688,
+     "mh_or": 2.3387,
+     "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and revi"
+    },
+    {
+     "pmid": "35910216",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059688,
+     "mh_or": 2.3387,
+     "title": "Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myx"
+    },
+    {
+     "pmid": "38611033",
+     "flipped_to": "case",
+     "p_two_sided": 0.060259,
+     "mh_or": 2.5705,
+     "title": "Functional Classification of Fusion Proteins in Sarcoma."
+    },
+    {
+     "pmid": "35494187",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.063997,
+     "mh_or": 2.3617,
+     "title": "High-dose-rate interstitial brachytherapy as a suitable option for metastatic ex"
+    }
+   ],
+   "all_flips": [
+    {
+     "pmid": "40885991",
+     "flipped_to": "case",
+     "p_two_sided": 0.158057,
+     "mh_or": 1.9978,
+     "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma"
+    },
+    {
+     "pmid": "41055792",
+     "flipped_to": "case",
+     "p_two_sided": 0.158837,
+     "mh_or": 2.0561,
+     "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskele"
+    },
+    {
+     "pmid": "41799218",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059609,
+     "mh_or": 2.3464,
+     "title": "Endovascular Thrombectomy in a Patient with Acute Ischemic Stroke due to Tumor E"
+    },
+    {
+     "pmid": "41321774",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.106636,
+     "mh_or": 2.1951,
+     "title": "Spontaneous regression of metastatic disease after palliative debulking surgery "
+    },
+    {
+     "pmid": "41323055",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.11092,
+     "mh_or": 2.1274,
+     "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxo"
+    },
+    {
+     "pmid": "36326382",
+     "flipped_to": "case",
+     "p_two_sided": 0.158673,
+     "mh_or": 2.0479,
+     "title": "Surgical outcomes of extraskeletal myxoid chondrosarcoma."
+    },
+    {
+     "pmid": "36097623",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.16101,
+     "mh_or": 2.1156,
+     "title": "Metastatic extraskeletal myxoid chondrosarcoma presenting as a forehead mass."
+    },
+    {
+     "pmid": "35251555",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.106004,
+     "mh_or": 2.2105,
+     "title": "Extraskeletal myxoid chondrosarcoma: A case series and review of the literature."
+    },
+    {
+     "pmid": "35775709",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.099435,
+     "mh_or": 2.2239,
+     "title": "Primary extraskeletal myxoid chondrosarcoma of the breast: report of a case and "
+    },
+    {
+     "pmid": "35665108",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059688,
+     "mh_or": 2.3387,
+     "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and revi"
+    },
+    {
+     "pmid": "35494187",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.063997,
+     "mh_or": 2.3617,
+     "title": "High-dose-rate interstitial brachytherapy as a suitable option for metastatic ex"
+    },
+    {
+     "pmid": "36316541",
+     "flipped_to": "case",
+     "p_two_sided": 0.159616,
+     "mh_or": 2.0836,
+     "title": "Establishment, characterization and functional testing of two novel ex vivo extr"
+    },
+    {
+     "pmid": "32963861",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.10995,
+     "mh_or": 2.1397,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: Long-Term Survival in the Setting of Metast"
+    },
+    {
+     "pmid": "32967265",
+     "flipped_to": "case",
+     "p_two_sided": 0.1593,
+     "mh_or": 2.0739,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Bi"
+    },
+    {
+     "pmid": "30534357",
+     "flipped_to": "case",
+     "p_two_sided": 0.159999,
+     "mh_or": 2.0937,
+     "title": "Extraskeletal myxoid chondrosarcoma with massive pulmonary metastases."
+    },
+    {
+     "pmid": "32612944",
+     "flipped_to": "case",
+     "p_two_sided": 0.1593,
+     "mh_or": 2.0739,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and "
+    },
+    {
+     "pmid": "29977924",
+     "flipped_to": "case",
+     "p_two_sided": 0.159616,
+     "mh_or": 2.0836,
+     "title": "Extraskeletal Myxoid Chondrosarcoma: A Comparative Study of Imaging and Patholog"
+    },
+    {
+     "pmid": "29937513",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.16101,
+     "mh_or": 2.1156,
+     "title": "Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoi"
+    },
+    {
+     "pmid": "28638563",
+     "flipped_to": "case",
+     "p_two_sided": 0.158673,
+     "mh_or": 2.0479,
+     "title": "Extraskeletal myxoid chondrosarcoma of the masticator space in a pediatric patie"
+    },
+    {
+     "pmid": "26125202",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.10816,
+     "mh_or": 2.1661,
+     "title": "Breast Metastasis of Extraskeletal Myxoid Chondrosarcoma: A Case Report."
+    },
+    {
+     "pmid": "27832806",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.16101,
+     "mh_or": 2.1156,
+     "title": "Diagnosis of extraskeletal myxoid chondrosarcoma in the thigh using EWSR1-NR4A3 "
+    },
+    {
+     "pmid": "26448808",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.11092,
+     "mh_or": 2.1274,
+     "title": "Paravertebral extraskeletal myxoid chondrosarcoma: a case report and review of t"
+    },
+    {
+     "pmid": "24944710",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.16101,
+     "mh_or": 2.1156,
+     "title": "Extraskeletal myxoid chondrosarcoma: A report of two cases."
+    },
+    {
+     "pmid": "27418251",
+     "flipped_to": "case",
+     "p_two_sided": 0.172193,
+     "mh_or": 1.9803,
+     "title": "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraske"
+    },
+    {
+     "pmid": "23115670",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.099435,
+     "mh_or": 2.2239,
+     "title": "Intracranial extraskeletal myxoid chondrosarcoma : case report and literature re"
+    },
+    {
+     "pmid": "24345066",
+     "flipped_to": "case",
+     "p_two_sided": 0.159616,
+     "mh_or": 2.0836,
+     "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retro"
+    },
+    {
+     "pmid": "23213584",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.099565,
+     "mh_or": 2.2334,
+     "title": "Extraskeletal myxoid chondrosarcoma with small bowel metastasis causing bowel ob"
+    },
+    {
+     "pmid": "21941486",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.11092,
+     "mh_or": 2.1274,
+     "title": "A case of highly aggressive extraskeletal myxoid chondrosarcoma."
+    },
+    {
+     "pmid": "25177237",
+     "flipped_to": "case",
+     "p_two_sided": 0.15836,
+     "mh_or": 2.026,
+     "title": "Clinical and radiologic features of extraskeletal myxoid chondrosarcoma includin"
+    },
+    {
+     "pmid": "22925697",
+     "flipped_to": "case",
+     "p_two_sided": 0.172193,
+     "mh_or": 1.9803,
+     "title": "Extraskeletal myxoid chondrosarcoma in the lung: asymptomatic lung mass with sev"
+    },
+    {
+     "pmid": "42052495",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Myoepithelioma-like tumor of the vulvar region with estrogen receptor negativity"
+    },
+    {
+     "pmid": "40563544",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "Gene Fusions as Potential Therapeutic Targets in Soft Tissue Sarcomas."
+    },
+    {
+     "pmid": "39965625",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "An 11-year-old boy with a posterior fossa tumor."
+    },
+    {
+     "pmid": "42279277",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "Beyond Surgical Margins: Fully Mature Tertiary Lymphoid Structures (fmTLSs) Are "
+    },
+    {
+     "pmid": "22569967",
+     "flipped_to": "case",
+     "p_two_sided": 0.1593,
+     "mh_or": 2.0739,
+     "title": "NR4A3 rearrangement reliably distinguishes between the clinicopathologically ove"
+    },
+    {
+     "pmid": "40705064",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "ZC3H7A/B::BCOR fusion fibromyxoid sarcoma of soft tissue: an emerging aggressive"
+    },
+    {
+     "pmid": "40755265",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Real-World Data of Comprehensive Cancer Genomic Profiling Tests Performed in the"
+    },
+    {
+     "pmid": "42324568",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "Concomitant Medication Effects on Immunotherapy Outcomes in Sarcoma: A Pooled Po"
+    },
+    {
+     "pmid": "21938148",
+     "flipped_to": "case",
+     "p_two_sided": 0.159999,
+     "mh_or": 2.0937,
+     "title": "Extraskeletal myxoid chondrosarcoma: Diagnosis of a rare soft tissue tumor based"
+    },
+    {
+     "pmid": "39941809",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "\"From Drowning to Treading Water\": Adolescents and Young Adults Living with Incu"
+    },
+    {
+     "pmid": "41508787",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Vascular Reconstruction in Extremity Soft Tissue Sarcomas: A Systematic Review a"
+    },
+    {
+     "pmid": "41676176",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.100097,
+     "mh_or": 2.3141,
+     "title": "Primary pulmonary myxoid sarcoma with detected &lt;i&gt;EWSR1&lt;/i&gt; gene tra"
+    },
+    {
+     "pmid": "40242429",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Primary Pulmonary Myxoid Sarcoma Located in the Left Lung Parenchyma: Case Repor"
+    },
+    {
+     "pmid": "42121852",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "From Histology to Multi-Omics: Review of Chordoma Classification and Its Clinica"
+    },
+    {
+     "pmid": "41143677",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Immune checkpoint inhibitors combined with tyrosine kinase inhibitors for soft-t"
+    },
+    {
+     "pmid": "38961422",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Primary pulmonary myxoid sarcoma in the interlobar fissure of the left lung lobe"
+    },
+    {
+     "pmid": "36164527",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "Molecular classification of soft tissue sarcomas for adequate diagnosis: A study"
+    },
+    {
+     "pmid": "42099070",
+     "flipped_to": "case",
+     "p_two_sided": 0.169399,
+     "mh_or": 1.932,
+     "title": "Follow-up for patients with extremity soft tissue sarcoma: validation of a ratio"
+    },
+    {
+     "pmid": "41200572",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "G Protein-Coupled Receptor 35 Holds Potential as a Beacon of Hope for Treating C"
+    },
+    {
+     "pmid": "40303314",
+     "flipped_to": "case",
+     "p_two_sided": 0.166062,
+     "mh_or": 1.9941,
+     "title": "Feasibility and Outcomes of Vessel-Sparing Surgery for Soft Tissue Sarcoma of th"
+    },
+    {
+     "pmid": "41188261",
+     "flipped_to": "case",
+     "p_two_sided": 0.104064,
+     "mh_or": 2.2271,
+     "title": "Prognostic prediction in soft-tissue sarcomas using deep learning and digital pa"
+    },
+    {
+     "pmid": "40232379",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "A practical approach to better identify NTRK 1-3 fusion-positive mesenchymal neo"
+    },
+    {
+     "pmid": "41630035",
+     "flipped_to": "case",
+     "p_two_sided": 0.16688,
+     "mh_or": 1.9736,
+     "title": "A systematic review and meta-analysis of pazopanib efficacy and adverse effects "
+    },
+    {
+     "pmid": "36568164",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "Transcription regulators and ultra-rare and other rare translocation-related sar"
+    },
+    {
+     "pmid": "38339014",
+     "flipped_to": "case",
+     "p_two_sided": 0.104064,
+     "mh_or": 2.2271,
+     "title": "Identification of Novel/Rare <i>EWSR1</i> Fusion Partners in Undifferentiated Me"
+    },
+    {
+     "pmid": "42073583",
+     "flipped_to": "case",
+     "p_two_sided": 0.16688,
+     "mh_or": 1.9736,
+     "title": "Preoperative (Neoadjuvant) Combined Chemoradiotherapy in the Management of Local"
+    },
+    {
+     "pmid": "37767191",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "Anlotinib as a maintenance treatment for advanced soft tissue\u00a0sarcoma after firs"
+    },
+    {
+     "pmid": "35910216",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.059688,
+     "mh_or": 2.3387,
+     "title": "Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myx"
+    },
+    {
+     "pmid": "41769942",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Beyond the Globe: Molecular Diagnostics of Optic Nerve, Orbital, and Adnexal Neo"
+    },
+    {
+     "pmid": "40002657",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Pitfalls in Ultrasound Diagnosis of Vascular Malformations: A Retrospective Revi"
+    },
+    {
+     "pmid": "42172443",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "The promise of immunotherapy in the treatment of sarcoma: A state-of-the-art rev"
+    },
+    {
+     "pmid": "34318538",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Snot what you think: Mucus or myxoid matrix with epithelioid cells and bubbly cy"
+    },
+    {
+     "pmid": "40823500",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "Regional lymph node invasion in pediatric non-rhabdomyosarcoma soft tissue sarco"
+    },
+    {
+     "pmid": "40710185",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Preoperative Chemoradiation (Modified Eilber Protocol) Versus Preoperative/Posto"
+    },
+    {
+     "pmid": "42194972",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Detection of Gene Fusions in Soft Tissue Sarcoma Using Next-Generation Sequencin"
+    },
+    {
+     "pmid": "36910639",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "The efficacies and biomarker investigations of antiangiogenic agents and PD-1 in"
+    },
+    {
+     "pmid": "36099768",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Abdominal myoepithelial carcinoma: A rare abdominal wall entity of an uncommon t"
+    },
+    {
+     "pmid": "39851545",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "<i>GLI1</i>-Rearranged Enteric Tumors: Updates on Clinicopathologic and Molecula"
+    },
+    {
+     "pmid": "41301081",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "The Puzzle of Genetic Stability and Chromosomal Copy Number Alterations for the "
+    },
+    {
+     "pmid": "40285687",
+     "flipped_to": "case",
+     "p_two_sided": 0.104064,
+     "mh_or": 2.2271,
+     "title": "Purification of Low-Complexity Domain Proteins FUS, EWSR1, and Their Fusions."
+    },
+    {
+     "pmid": "41682973",
+     "flipped_to": "case",
+     "p_two_sided": 0.065294,
+     "mh_or": 2.3935,
+     "title": "Outcomes and Prognostic Factors in Tumor-Related Amputations: A Retrospective Co"
+    },
+    {
+     "pmid": "39642636",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Beyond the sarcoma center: establishing the Sarcoma HASM network-a Hub and Spoke"
+    },
+    {
+     "pmid": "38483309",
+     "flipped_to": "case",
+     "p_two_sided": 0.165237,
+     "mh_or": 2.0344,
+     "title": "First-Line Anlotinib Treatment for Soft-Tissue Sarcoma in Chemotherapy-Ineligibl"
+    },
+    {
+     "pmid": "36430703",
+     "flipped_to": "case",
+     "p_two_sided": 0.251634,
+     "mh_or": 1.8084,
+     "title": "Genomic Profiling of Sarcomas: A Promising Weapon in the Therapeutic Arsenal."
+    },
+    {
+     "pmid": "41291778",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "SMARCB1 (INI-1) deficient vulvar neoplasms: report of 4 cases with review of lit"
+    },
+    {
+     "pmid": "37353743",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Tumor necrosis is an underappreciated histopathologic factor in the grading of c"
+    },
+    {
+     "pmid": "42112659",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Decoding the Hexosamine Biosynthesis Pathway: Implications for Novel Therapeutic"
+    },
+    {
+     "pmid": "40761191",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.167659,
+     "mh_or": 1.9487,
+     "title": "SMARCB1/INI1-deficient lung cancer with lymph node metastasis: a case report and"
+    },
+    {
+     "pmid": "40909947",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "MAPK-targeted therapies in non-gastrointestinal stromal tumor soft tissue sarcom"
+    },
+    {
+     "pmid": "39228173",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Rhabdomyosarcoma of the skull with EWSR1 fusion and ALK and cytokeratin expressi"
+    },
+    {
+     "pmid": "39830221",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.161647,
+     "mh_or": 2.0394,
+     "title": "Medullary Renal Cell Carcinoma: A Case Study."
+    },
+    {
+     "pmid": "38254207",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Report and literature review of four cases of EWSR1::NFATC2 round cell sarcoma."
+    },
+    {
+     "pmid": "36905579",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "Emerging Trends in Immunotherapy for Adult Sarcomas."
+    },
+    {
+     "pmid": "38148839",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Case Report: Angiomatoid fibrous histiocytoma in the hand: a rare clinical prese"
+    },
+    {
+     "pmid": "34715942",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "A novel SMARCA2-CREM fusion: expanding the molecular spectrum of intracranial me"
+    },
+    {
+     "pmid": "41078716",
+     "flipped_to": "case",
+     "p_two_sided": 0.066301,
+     "mh_or": 2.376,
+     "title": "Impact of SAMHD1 and phosphorylated ATM levels on the progression and prognosis "
+    },
+    {
+     "pmid": "32547189",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "Apatinib for Treatment of Inoperable Metastatic or Locally Advanced Chondrosarco"
+    },
+    {
+     "pmid": "36636681",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.162641,
+     "mh_or": 2.0172,
+     "title": "Trabectedin Cardiotoxicity in Soft Tissue Sarcoma: A Case Series and Clinical In"
+    },
+    {
+     "pmid": "40359706",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Landscape of ultra-rare sarcomas: a nationwide study for epidemiology and progno"
+    },
+    {
+     "pmid": "40444490",
+     "flipped_to": "case",
+     "p_two_sided": 0.101941,
+     "mh_or": 2.3035,
+     "title": "Epigenetic roles of chromatin remodeling complexes in bone biology and the patho"
+    },
+    {
+     "pmid": "33194758",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Editorial: New Insights Into the Landscape of Rare Tumors: Translational and Cli"
+    },
+    {
+     "pmid": "29118536",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Characteristics of bladder neoplasms in the young population of Saudi Arabia."
+    },
+    {
+     "pmid": "36224239",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Family cancer history and smoking habit associated with sarcoma in a Japanese po"
+    },
+    {
+     "pmid": "39030807",
+     "flipped_to": "case",
+     "p_two_sided": 0.103279,
+     "mh_or": 2.2466,
+     "title": "Efficacy and Safety of Fruquintinib-Based Treatment in Patients with Refractory "
+    },
+    {
+     "pmid": "40712530",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "A comparison of the risk prediction models PERSARC and Sarculator in patients wi"
+    },
+    {
+     "pmid": "38237415",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Extraskeletal conventional chondrosarcoma of genitalia in a child- An unusual pa"
+    },
+    {
+     "pmid": "37686615",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Patient-Derived Organoids as a Promising Tool for Multimodal Management of Sarco"
+    },
+    {
+     "pmid": "39959645",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "Prognostic Value of Inflammatory and Nutritional Indicators in Non-Metastatic So"
+    },
+    {
+     "pmid": "32864096",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "Long lasting response with trabectedin monotherapy in relapsed metastatic mesenc"
+    },
+    {
+     "pmid": "30386446",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Recurrent parachordoma of the lower back: A case report."
+    },
+    {
+     "pmid": "39156101",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "Global research development of chondrosarcoma from 2003 to 2022: a bibliometric "
+    },
+    {
+     "pmid": "35808975",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Molecular testing of soft tissue tumors."
+    },
+    {
+     "pmid": "34716194",
+     "flipped_to": "case",
+     "p_two_sided": 0.165519,
+     "mh_or": 2.0144,
+     "title": "Clinical Activity of Single-Agent Cabozantinib (XL184), a Multi-receptor Tyrosin"
+    },
+    {
+     "pmid": "39773479",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "SarkoLife: quality of life in patients undergoing multimodal soft tissue sarcoma"
+    },
+    {
+     "pmid": "36788984",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "Epithelioid sarcoma and its outcome: a retrospective analysis from a tertiary ca"
+    },
+    {
+     "pmid": "39335204",
+     "flipped_to": "case",
+     "p_two_sided": 0.101941,
+     "mh_or": 2.3035,
+     "title": "Tolerability and Outcomes for Treatment of Older Myxoid Liposarcoma Population."
+    },
+    {
+     "pmid": "38067300",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "The Role of Gene Fusions in Thymic Epithelial Tumors."
+    },
+    {
+     "pmid": "39040851",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Translation of oncolytic viruses in sarcoma."
+    },
+    {
+     "pmid": "37361584",
+     "flipped_to": "case",
+     "p_two_sided": 0.103279,
+     "mh_or": 2.2466,
+     "title": "Primary intracranial sarcomas: a clinicopathological investigation."
+    },
+    {
+     "pmid": "38483782",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "A phase 1 trial of the MEK inhibitor selumetinib in combination with pembrolizum"
+    },
+    {
+     "pmid": "35118292",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Primary mediastinal chondrosarcomas: do they really exist?"
+    },
+    {
+     "pmid": "36249651",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.162641,
+     "mh_or": 2.0172,
+     "title": "A Case Report and Brief Literature Review on Dedifferentiated Chondrosarcoma in "
+    },
+    {
+     "pmid": "38785494",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "A Two-Step Approach to the Surgical Treatment of Soft-Tissue Sarcomas."
+    },
+    {
+     "pmid": "38421462",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Primary pulmonary myxoid sarcoma with EWSR1::CREB1 fusion: a literature review."
+    },
+    {
+     "pmid": "39518034",
+     "flipped_to": "case",
+     "p_two_sided": 0.113441,
+     "mh_or": 2.0738,
+     "title": "The Critical Role of Stereotactic Body Radiation Therapy in Multimodal Treatment"
+    },
+    {
+     "pmid": "36980590",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Classification of Chondrosarcoma: From Characteristic to Challenging Imaging Fin"
+    },
+    {
+     "pmid": "36405939",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "A rare case of clear cell sarcoma of the foot with a cascade of pathological mis"
+    },
+    {
+     "pmid": "40641928",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Sex differences in toxicity and outcomes in patients with sarcoma treated in the"
+    },
+    {
+     "pmid": "31827370",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "Efficacy and Safety of Nanosomal Docetaxel Lipid Suspension-Based Chemotherapy i"
+    },
+    {
+     "pmid": "37296946",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "CT and MR Imaging of Retroperitoneal Sarcomas: A Practical Guide for the Radiolo"
+    },
+    {
+     "pmid": "28852958",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Clinical benefit of antiangiogenic therapy in advanced and metastatic chondrosar"
+    },
+    {
+     "pmid": "38108174",
+     "flipped_to": "case",
+     "p_two_sided": 0.105032,
+     "mh_or": 2.2073,
+     "title": "Evaluation of the factors affecting survival and local recurrence in thigh soft "
+    },
+    {
+     "pmid": "38228904",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Current challenges and practical aspects of molecular pathology for bone and sof"
+    },
+    {
+     "pmid": "38257245",
+     "flipped_to": "case",
+     "p_two_sided": 0.104064,
+     "mh_or": 2.2271,
+     "title": "Trabectedin and Lurbinectedin Modulate the Interplay between Cells in the Tumour"
+    },
+    {
+     "pmid": "36817147",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "LSD1 inhibitors for cancer treatment: Focus on multi-target agents and compounds"
+    },
+    {
+     "pmid": "35399302",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.100097,
+     "mh_or": 2.3141,
+     "title": "INI-1-Deficient Sinonasal Carcinoma: Case Report with Emphasis on Differential D"
+    },
+    {
+     "pmid": "34203801",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "<i>EWSR1</i>-The Most Common Rearranged Gene in Soft Tissue Lesions, Which Also "
+    },
+    {
+     "pmid": "34367342",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Molecular profiling of soft-tissue sarcomas with FoundationOne<sup>\u00ae</sup> Heme "
+    },
+    {
+     "pmid": "33910620",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.10106,
+     "mh_or": 2.2928,
+     "title": "Simultaneous development of COVID-19 pneumonia and pulmonary metastasis in a kno"
+    },
+    {
+     "pmid": "40913836",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Phase I dose-escalation trial of AMXT 1501 dicaprate plus difluoromethylornithin"
+    },
+    {
+     "pmid": "38495036",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Novel Postoperative Hypofractionated Accelerated Radiation Dose-Painting Approac"
+    },
+    {
+     "pmid": "36674874",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Biology and Management of High-Grade Chondrosarcoma: An Update on Targets and Tr"
+    },
+    {
+     "pmid": "32379517",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "Metastatic Soft Tissue Sarcomas in Adolescents and Young Adults: A Specialist Ce"
+    },
+    {
+     "pmid": "34277247",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.162641,
+     "mh_or": 2.0172,
+     "title": "Soft Tissue Sarcomas: Is Pre-operative Radiotherapy Associated With More Acute W"
+    },
+    {
+     "pmid": "31049020",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "<i>EWSR1-NFATC2</i> and <i>FUS-NFATC2</i> Gene Fusion-Associated Mesenchymal Tum"
+    },
+    {
+     "pmid": "40643985",
+     "flipped_to": "case",
+     "p_two_sided": 0.113441,
+     "mh_or": 2.0738,
+     "title": "Phase Ib Study of Pembrolizumab in Combination with Intratumoral Injection of Cl"
+    },
+    {
+     "pmid": "39200384",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Xenografting Human Musculoskeletal Sarcomas in Mice, Chick Embryo, and Zebrafish"
+    },
+    {
+     "pmid": "37685699",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.165628,
+     "mh_or": 1.9718,
+     "title": "Epithelioid Sarcoma of the Spine: A Review of Literature and Case Report."
+    },
+    {
+     "pmid": "32819423",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Survival by histology among patients with bone and soft tissue sarcoma who under"
+    },
+    {
+     "pmid": "28141799",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "The spectrum of EWSR1-rearranged neoplasms at a tertiary sarcoma centre; assessi"
+    },
+    {
+     "pmid": "37345191",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "Midterm Results of High-Dose-Rate Intraoperative Brachytherapy in the Treatment "
+    },
+    {
+     "pmid": "33763261",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Clear Cell Odontogenic Carcinoma of the Mandible Harboring <i>EWSR1</i> Rearrang"
+    },
+    {
+     "pmid": "35756627",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "A Comprehensive Understanding of the Genomic Bone Tumor Landscape: A Multicenter"
+    },
+    {
+     "pmid": "39237726",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "A multimodal neural network with gradient blending improves predictions of survi"
+    },
+    {
+     "pmid": "37046623",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Chondrosarcoma Resistance to Radiation Therapy: Origins and Potential Therapeuti"
+    },
+    {
+     "pmid": "34277188",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Association of Celiac Disease With Pembrolizumab."
+    },
+    {
+     "pmid": "38264746",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.103626,
+     "mh_or": 2.2491,
+     "title": "Primary pulmonary nuclear protein of the testis midline carcinoma: case report a"
+    },
+    {
+     "pmid": "36582458",
+     "flipped_to": "case",
+     "p_two_sided": 0.109132,
+     "mh_or": 2.1464,
+     "title": "Proof of Concept of the Radiosensitizing Effect of Gadolinium Oxide Nanoparticle"
+    },
+    {
+     "pmid": "35033148",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "5-ALA-mediated fluorescence of musculoskeletal tumors in a chick chorio-allantoi"
+    },
+    {
+     "pmid": "37958467",
+     "flipped_to": "case",
+     "p_two_sided": 0.107556,
+     "mh_or": 2.1669,
+     "title": "The Role of Macrophages in Sarcoma Tumor Microenvironment and Treatment."
+    },
+    {
+     "pmid": "37444484",
+     "flipped_to": "case",
+     "p_two_sided": 0.106193,
+     "mh_or": 2.1872,
+     "title": "Acinic Cell Carcinoma in the 21st Century: A Population-Based Study from the SEE"
+    },
+    {
+     "pmid": "32629987",
+     "flipped_to": "case",
+     "p_two_sided": 0.103279,
+     "mh_or": 2.2466,
+     "title": "Structural Insights into the Evolutionarily Conserved BAF Chromatin Remodeling C"
+    },
+    {
+     "pmid": "37446319",
+     "flipped_to": "case",
+     "p_two_sided": 0.104064,
+     "mh_or": 2.2271,
+     "title": "SWI/SNF Complex Alterations in Tumors with Rhabdoid Features: Novel Therapeutic "
+    },
+    {
+     "pmid": "39550489",
+     "flipped_to": "case",
+     "p_two_sided": 0.166062,
+     "mh_or": 1.9941,
+     "title": "UK guidelines for the management of bone sarcomas."
+    },
+    {
+     "pmid": "33946310",
+     "flipped_to": "case",
+     "p_two_sided": 0.16688,
+     "mh_or": 1.9736,
+     "title": "Trastuzumab Deruxtecan: Changing the Destiny of HER2 Expressing Solid Tumors."
+    },
+    {
+     "pmid": "19740441",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Myoepithelioma within the carpal tunnel: a case report and review of the literat"
+    },
+    {
+     "pmid": "32039736",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160963,
+     "mh_or": 2.0614,
+     "title": "Primary pulmonary myxoid sarcoma with EWSR1-CREB1 fusion: a case report and revi"
+    },
+    {
+     "pmid": "31020999",
+     "flipped_to": "case",
+     "p_two_sided": 0.159999,
+     "mh_or": 2.0937,
+     "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference "
+    },
+    {
+     "pmid": "38611033",
+     "flipped_to": "case",
+     "p_two_sided": 0.060259,
+     "mh_or": 2.5705,
+     "title": "Functional Classification of Fusion Proteins in Sarcoma."
+    },
+    {
+     "pmid": "38016251",
+     "flipped_to": "case",
+     "p_two_sided": 0.102669,
+     "mh_or": 2.2658,
+     "title": "Efficacy of immune checkpoint inhibitors in alveolar soft-part sarcoma: results "
+    },
+    {
+     "pmid": "35163019",
+     "flipped_to": "case",
+     "p_two_sided": 0.160611,
+     "mh_or": 2.1255,
+     "title": "Therapeutic Targets and Emerging Treatments in Advanced Chondrosarcoma."
+    },
+    {
+     "pmid": "29141017",
+     "flipped_to": "non_case",
+     "p_two_sided": 0.160573,
+     "mh_or": 2.083,
+     "title": "Temozolomide post pazopanib treatment failure in patients with advanced sarcoma:"
+    }
+   ]
+  }
+ }
+}

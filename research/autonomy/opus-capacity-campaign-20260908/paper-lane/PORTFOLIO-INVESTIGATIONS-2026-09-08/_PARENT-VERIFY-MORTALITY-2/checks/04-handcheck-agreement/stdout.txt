@@ -1,0 +1,96 @@
+{
+ "n_sampled": 40,
+ "overall_agreement": 0.7,
+ "overall_agreement_wilson95": [
+  0.5457,
+  0.8193
+ ],
+ "per_stratum": {
+  "case_report_or_series": {
+   "machine_n": 9,
+   "hand_n": 10,
+   "correct": 9,
+   "precision": 1.0,
+   "precision_wilson95": [
+    0.7008,
+    1.0
+   ],
+   "recall": 0.9,
+   "recall_wilson95": [
+    0.5958,
+    0.9821
+   ]
+  },
+  "review_or_synthesis": {
+   "machine_n": 7,
+   "hand_n": 14,
+   "correct": 7,
+   "precision": 1.0,
+   "precision_wilson95": [
+    0.6457,
+    1.0
+   ],
+   "recall": 0.5,
+   "recall_wilson95": [
+    0.268,
+    0.732
+   ]
+  },
+  "clinical_study": {
+   "machine_n": 9,
+   "hand_n": 10,
+   "correct": 8,
+   "precision": 0.8889,
+   "precision_wilson95": [
+    0.565,
+    0.9801
+   ],
+   "recall": 0.8,
+   "recall_wilson95": [
+    0.4902,
+    0.9433
+   ]
+  },
+  "laboratory_or_methods": {
+   "machine_n": 8,
+   "hand_n": 6,
+   "correct": 4,
+   "precision": 0.5,
+   "precision_wilson95": [
+    0.2152,
+    0.7848
+   ],
+   "recall": 0.6667,
+   "recall_wilson95": [
+    0.3,
+    0.9032
+   ]
+  },
+  "unclassified": {
+   "machine_n": 7,
+   "hand_n": 0,
+   "correct": 0,
+   "precision": 0.0,
+   "precision_wilson95": [
+    0.0,
+    0.3543
+   ],
+   "recall": null,
+   "recall_wilson95": null
+  }
+ }
+}
+
+disagreements:
+ 41200572  machine=unclassified           hand=review_or_synthesis    narrative target perspective; machine had no trigger
+ 39965625  machine=unclassified           hand=case_report_or_series  clinicopathologic case-of-the-month framing; machine had no trigger
+ 35163019  machine=laboratory_or_methods  hand=review_or_synthesis    review of targets/treatments; machine read 'therapeutic targets' as lab
+ 38257245  machine=laboratory_or_methods  hand=review_or_synthesis    narrative pharmacology review; machine read TME as lab
+ 25177237  machine=laboratory_or_methods  hand=clinical_study         retrospective clinical/imaging patient series; machine read 'radiologic features' as lab
+ 41188261  machine=clinical_study         hand=laboratory_or_methods  borderline: computational prediction method built on patient data; machine said clinical_study on 'prognostic'
+ 38067300  machine=unclassified           hand=review_or_synthesis    review of a fusion class; machine had no trigger
+ 41301081  machine=unclassified           hand=review_or_synthesis    narrative review; machine had no trigger
+ 35808975  machine=laboratory_or_methods  hand=review_or_synthesis    borderline: practice review of molecular testing; machine said lab
+ 39040851  machine=unclassified           hand=review_or_synthesis    translational review; machine had no trigger
+ 28141799  machine=unclassified           hand=laboratory_or_methods  molecular diagnostic specimen series; machine had no trigger
+ 37345191  machine=unclassified           hand=clinical_study         midterm treatment results; machine had no trigger

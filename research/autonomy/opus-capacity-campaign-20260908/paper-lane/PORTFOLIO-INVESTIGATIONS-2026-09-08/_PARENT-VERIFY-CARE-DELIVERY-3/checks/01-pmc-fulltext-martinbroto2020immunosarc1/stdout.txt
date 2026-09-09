@@ -1,0 +1,96 @@
+RETURNED: count=1, one article object.
+
+identifiers: {"pmcid":"PMC7674086","pmid":"33203665","doi":"10.1136/jitc-2020-001561"}
+title: "Nivolumab and sunitinib combination in advanced soft tissue sarcomas: a multicenter,
+        single-arm, phase Ib/II trial"  (the IMMUNOSARC trial, STS cohort)
+source attribution: retrieved from PubMed / PubMed Central. DOI https://doi.org/10.1136/jitc-2020-001561
+
+=============================================================================
+RETRIEVAL COMPLETENESS FOR THIS SERIES:  NARRATIVE + ALL TABLES + FIGURE LEGENDS
+=============================================================================
+RETURNED, and read:
+  - abstract (Background / Methods / Results / Conclusions)
+  - full narrative: Introduction; Methods (Study design and subjects; Procedures; Outcomes;
+    Statistical analysis); Results; Discussion
+  - TABLE 1 "Baseline characteristics" -- IN FULL, as flattened cell text
+  - TABLE 2 "Toxicity profile in phase Ib" -- IN FULL
+  - TABLE 3 "Univariate analysis" -- IN FULL
+  - FIGURE LEGENDS for Figures 1, 2 and 3 -- IN FULL
+NOT RETURNED, and NOT read:
+  - the supplementary file (referenced in-text as "10.1136/jitc-2020-001561.supp1 Supplementary
+    data"; several in-text pointers are stripped to bare punctuation, e.g. "Other relevant inclusion
+    criteria are described in." and "Other relevant procedures are described in.")
+  - figure IMAGES (only the legends came through)
+Absence statements for this series are therefore scoped to: abstract + full narrative + Tables 1-3 +
+figure legends. They are NOT claims about the supplementary appendix.
+
+-----------------------------------------------------------------------------
+VERBATIM PASSAGES RELIED ON (copied from the returned full_text / tables)
+-----------------------------------------------------------------------------
+
+[Methods / Study design and subjects]
+"In this phase Ib/II, single-arm trial, STS cohort, patients aged over 18 years with advanced STS
+were considered for eligibility and enrolled in eight centers in Spain and Italy with expertise in
+sarcoma care. Central pathology review was mandatory before accrual. Patients had to be in
+progression in the previous 6 months according to Response Evaluation Criteria in Solid Tumors
+(RECIST) 1.1."
+
+[Results, first paragraph -- the trial denominator]
+"From May 31, 2017 to April 18, 2019, 91 patients with advanced and progressing STS were assessed
+for eligibility in phase Ib and in the STS cohort of phase II. Twenty-three patients were excluded
+(considering both phases) after screening. Sixty-eight patients were enrolled and treated with the
+experimental compounds: 16 in phase Ib and 52 in the STS cohort of phase II."
+
+[Results -- follow-up]
+"At a median follow-up of 17 months (4-26), 37 of 49 (76%) per-protocol evaluable patients
+experienced progression according to central assessment and 18 of 49 (37%) patients died due to
+disease progression."
+
+[Results -- time-to-event]
+"The 6-month PFSR according to central and local assessments was 48% (95% CI 41 to 55) and 51%
+(95% CI 44 to 58), respectively (). The mPFS for central and local assessments was 5.6 months
+(3.0-8.1) and 6.0 months (3.1-9.0), respectively. ... the mOS was 24 months (95% CI NA)."
+
+[TABLE 1 "Baseline characteristics", the rows that bear on this lane's fields]
+  Primary tumor localization, n (%):  Somatic 15 (94) [phase Ib] / 44 (85) [phase II];
+                                      Visceral  1 (6)          /  8 (15)
+  Extension at diagnosis, n (%):      Localized 9 (56) / 25 (48); Locally advanced 2 (13) / 15 (29);
+                                      Metastatic 5 (31) / 12 (23)
+  Resectable at diagnosis, n (%):     Resectable 10 (63) / 38 (73); Unresectable 6 (37) / 14 (27)
+  Median metastatic-free interval (range) (months): 8 (0-80) / 11 (0-141)
+  Diagnosis (central), n (%): ... "Extraskeletal myxoid chondrosarcoma  0 [phase Ib]  4 (7) [phase II]"
+  Median previous lines (range): 1.5 (0-5) / 1 (0-4)
+  Previous antiangiogenic lines, n (%): 0 -> 14 (88) / 41 (79); 1 -> 2 (12) / 10 (19); 2 -> 0 / 1 (2)
+
+  ==> TABLE 1 IS THE PLACE A PRIOR-SURGERY OR MARGIN VARIABLE WOULD BE PRINTED, AND IT WAS RETURNED
+      IN FULL. It records prior SYSTEMIC lines ("Median previous lines", "Previous antiangiogenic
+      lines") and resectability at diagnosis. It carries NO margin status, NO margin definition,
+      NO prior-excision count, NO unplanned/inadvertent-excision field and NO per-patient centre.
+
+[Results -- the only EMC-specific statement in the paper]
+"Complete response was observed in one patient with angiosarcoma and partial response in patients
+diagnosed with ASPS (n=2), angiosarcoma (n=1), extraskeletal myxoid chondrosarcoma (n=1) and
+synovial sarcoma (n=1)."
+
+[FIGURE LEGENDS, all three, returned in full]
+  Figure 1 -- "CONSORT diagram."
+  Figure 2 -- "Response to treatment by patient according to RECIST. All evaluable patients (N=60)
+              from phase Ib (n=14) and phase II (n=46) are shown." (a waterfall plot)
+  Figure 3 -- "Progression-free survival to treatment by patient, based on RECIST central
+              radiological assessment. Each patient in the efficacy population in phase II is
+              represented as bars (n=49)." (a per-patient swimmer plot, NOT a Kaplan-Meier curve)
+  ==> No Kaplan-Meier figure exists in this paper, so there is no numbers-at-risk row to examine.
+      This agrees with the repository's own independent screen, which recorded this source as
+      "NOT A PAIR - no KM curve exists" (S6-executed-artifacts/screened-identifiers.json).
+
+-----------------------------------------------------------------------------
+TERM SCAN (a reading of the returned text, not an automated grep -- the response was deliberately
+not hand-transcribed to disk, per CARE-DELIVERY-2's limitation 2)
+-----------------------------------------------------------------------------
+"unplanned"    -- not present.
+"inadvertent"  -- not present.
+"whoops"       -- not present.
+"margin" / "R0" / "R1" / "R2"  -- not present in any form.
+"referral" / "referred"        -- not present. Multicentre status is stated once, as a cohort-level
+                                  constant ("eight centers in Spain and Italy with expertise in
+                                  sarcoma care"); no centre is named against any patient.

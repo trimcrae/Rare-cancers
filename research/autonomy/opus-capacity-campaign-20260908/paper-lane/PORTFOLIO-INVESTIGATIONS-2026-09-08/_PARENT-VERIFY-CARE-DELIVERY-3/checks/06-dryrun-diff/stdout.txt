@@ -1,0 +1,27 @@
+Checking patch research/modalities/emc-surgical-quality.json...
+git-apply-check rc=0
+patched file parses as JSON; top-level keys: 11
+counts.series = 2
+counts.operated_patients_with_a_margin_recorded = 196
+counts block IDENTICAL to current tree: True
+series array IDENTICAL to current tree: True
+--- git status on the target (must be empty) ---
+(end)
+--- any digit-bearing numeric literal changed by the diff body? ---
+      2 ": 12
+      2 ": 14
+      2 ": 2
+      1 ": 27
+      2 ": 41
+(none above = no numeric field value added or removed)
+
+--- clarification: which lines carry those numerics ---
++        "first_operation_inside_the_specialist_centre": 27,
++        "first_operation_outside_before_referral": 14,
++        "of": 41,
++        "margin_at_referral_for_the_14": {"positive_or_uncertain": 12, "negative": 2},
++      "n": 14,
++      "of": 41,
++      "margin_at_referral": {"positive_or_uncertain": 12, "negative": 2},
+
+REMOVED (-) lines carrying a numeric value: 0 -- all numerics are on ADDED (+) lines, and all of them are bishop2019's per-patient treatment-setting counts carried through from CARE-DELIVERY-2 (27 + 14 = 41; 12 + 2 = 14), which are quotations from the paper, not values of this artifact. No count in this artifact is added, removed or altered.

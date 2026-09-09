@@ -1,0 +1,4 @@
+git apply --check --verbose PROPOSED-UNAPPLIED-emc-surgical-quality-scope.diff
+python3 -c "json.load(patched copy)"   # parse check on the scratchpad patched file
+git status --porcelain research/modalities/emc-surgical-quality.json   # must stay empty
+grep for any numeric change in the diff body

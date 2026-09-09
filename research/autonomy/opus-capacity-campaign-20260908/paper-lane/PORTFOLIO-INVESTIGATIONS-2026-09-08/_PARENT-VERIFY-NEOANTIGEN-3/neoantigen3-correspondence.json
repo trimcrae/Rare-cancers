@@ -1,0 +1,972 @@
+{
+  "_id": "ARTIFACT-NEOANTIGEN-3-CORRESPONDENCE-CHARACTERISATION",
+  "_utc_note": "generated offline; see checks/ for the execution record",
+  "_cost": "$0 \u2014 CPU only. No network, no GPU, no paid API.",
+  "\u26d4_what_this_is_not": "Prediction is not presentation. The 15 validated epitopes come from nine other fusion oncoproteins; none of them is evidence about EWSR1::NR4A3. A distributional difference between the validated set and this repository's predicted set is a checkable statement about the prediction and its allele panel, and is NOT an argument that any EMC peptide is or is not presentable. No clinical claim.",
+  "_inputs": {
+    "repo_junction_artifact": {
+      "file": "research/modalities/fusion-breakpoint-neoantigens.json",
+      "utc": "2026-08-19T16:26:49Z",
+      "n_inframe_junctions": 5,
+      "n_distinct_junction_peptides": 174,
+      "n_ranked_binders": 11,
+      "predictor": "MHCflurry 2.1.4"
+    },
+    "validated_reference": {
+      "file": "PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/epitope-records.json",
+      "n_records": 40,
+      "n_benchmark_eligible": 15,
+      "inclusion_rule": "natural sequence \u00b7 spans the junction \u00b7 8-11mer \u00b7 named class I allotype \u00b7 >=1 immunological measurement"
+    }
+  },
+  "A_correspondence": {
+    "reference_sets": {
+      "validated_junction_epitopes_15": [
+        {
+          "id": "E01",
+          "seq": "SSKALQRPV",
+          "fusion": "BCR::ABL1 (b3a2)"
+        },
+        {
+          "id": "E09",
+          "seq": "RIAECILGM",
+          "fusion": "ETV6::RUNX1 (TEL-AML1)"
+        },
+        {
+          "id": "E10",
+          "seq": "MPIGRIAECIL",
+          "fusion": "ETV6::RUNX1 (E5_3)"
+        },
+        {
+          "id": "E11",
+          "seq": "MPIGRIAEC",
+          "fusion": "ETV6::RUNX1 (E5_3)"
+        },
+        {
+          "id": "E12",
+          "seq": "MPIGRIADA",
+          "fusion": "ETV6::RUNX1 (E5_4)"
+        },
+        {
+          "id": "E13",
+          "seq": "REEMEVHEL",
+          "fusion": "CBFB::MYH11"
+        },
+        {
+          "id": "E14",
+          "seq": "QFIDSSWYL",
+          "fusion": "MYB::NFIB (ACC_M9 Fusion 2)"
+        },
+        {
+          "id": "E15",
+          "seq": "MMYSPICLTQT",
+          "fusion": "MYBL1::NFIB (ACC panel)"
+        },
+        {
+          "id": "E16",
+          "seq": "SLASPLQPT",
+          "fusion": "NFIB::MYB (reciprocal, ACC panel)"
+        },
+        {
+          "id": "E18",
+          "seq": "DKESEEEVS",
+          "fusion": "DEK::AFF2"
+        },
+        {
+          "id": "E19",
+          "seq": "EIFDRYGEEV",
+          "fusion": "DNAJB1::PRKACA"
+        },
+        {
+          "id": "E20",
+          "seq": "IFDRYGEEV",
+          "fusion": "DNAJB1::PRKACA"
+        },
+        {
+          "id": "E21",
+          "seq": "RYGEEVKEF",
+          "fusion": "DNAJB1::PRKACA"
+        },
+        {
+          "id": "E25",
+          "seq": "GYDQIMPKK",
+          "fusion": "SS18::SSX (SYT-SSX)"
+        },
+        {
+          "id": "E26",
+          "seq": "PYGYDQIMPK",
+          "fusion": "SS18::SSX (SYT-SSX)"
+        }
+      ],
+      "non_junction_negative_controls": [
+        {
+          "id": "E28",
+          "fusion": "SS18::SSX (SSX region, NOT the junction)",
+          "seq": "AWTHRLRER",
+          "hla": "HLA-A24",
+          "evidence": [
+            "BINDING"
+          ],
+          "spans_junction": "no"
+        },
+        {
+          "id": "E28",
+          "fusion": "SS18::SSX (SSX region, NOT the junction)",
+          "seq": "AWTHRLRERK",
+          "hla": "HLA-A24",
+          "evidence": [
+            "BINDING"
+          ],
+          "spans_junction": "no"
+        },
+        {
+          "id": "E39",
+          "fusion": "BRD4::NUTM1 (NUT carcinoma)",
+          "seq": "SLLQHLIGL",
+          "hla": "HLA-A*02:01",
+          "evidence": [
+            "MS_ELUTION",
+            "TCELL"
+          ],
+          "spans_junction": "no"
+        },
+        {
+          "id": "E39",
+          "fusion": "BRD4::NUTM1 (NUT carcinoma)",
+          "seq": "RLDQLLRHV",
+          "hla": "HLA-A*02:01",
+          "evidence": [
+            "MS_ELUTION",
+            "TCELL"
+          ],
+          "spans_junction": "no"
+        },
+        {
+          "id": "E39",
+          "fusion": "BRD4::NUTM1 (NUT carcinoma)",
+          "seq": "YLHARLREL",
+          "hla": "HLA-A*02:01",
+          "evidence": [
+            "MS_ELUTION",
+            "TCELL"
+          ],
+          "spans_junction": "no"
+        }
+      ],
+      "other_sequenced_records": [
+        {
+          "id": "E17",
+          "fusion": "NFIB::MYB / MYB::NFIB (ACC panel)",
+          "seq": "SLASPLQSWYL",
+          "hla": "HLA-A*02:01",
+          "evidence": [
+            "BINDING"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E22",
+          "fusion": "DNAJB1::PRKACA",
+          "seq": "EEVKEFLAKA",
+          "hla": "class I vaccine peptide",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E23",
+          "fusion": "DNAJB1::PRKACA",
+          "seq": "EVKEFLAKAKEDFLKK",
+          "hla": "HLA-DRB1*13:02 (class II)",
+          "evidence": [
+            "MS_ELUTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E24",
+          "fusion": "DNAJB1::PRKACA",
+          "seq": "KREIFDRYGEEVKEFLAKAKED",
+          "hla": "class II, binding core RYGEEVKEF (best NetMHCIIpan rank 0.74 on DPA1*01:03-DPB1*05:01)",
+          "evidence": [
+            "MS_ELUTION",
+            "TCELL"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E27",
+          "fusion": "SS18::SSX (SYT-SSX) - ANCHOR-MODIFIED",
+          "seq": "GYDQIMPKK",
+          "hla": "HLA-A*24:02",
+          "evidence": [
+            "BINDING",
+            "TCELL",
+            "MULTIMER"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E33",
+          "fusion": "PML::RARA",
+          "seq": "SGAGEAAIETQS",
+          "hla": "NOT STATED (both CD8+ and CD4+ effectors involved)",
+          "evidence": [
+            "TCELL"
+          ],
+          "spans_junction": "stated"
+        },
+        {
+          "id": "E37",
+          "fusion": "NUP98::NSD1 (E11_7)",
+          "seq": "LGAGFGTAV",
+          "hla": "HLA-C*03:04",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E38",
+          "fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "seq": "SQQSSSYGQQ",
+          "hla": "none",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E38",
+          "fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "seq": "NPSYDSVRRG",
+          "hla": "none",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E38",
+          "fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "seq": "NLPYEPPRRS",
+          "hla": "none",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E38",
+          "fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "seq": "NPVGDGLFKD",
+          "hla": "none",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        },
+        {
+          "id": "E38",
+          "fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "seq": "SEKPYQCDFK",
+          "hla": "none",
+          "evidence": [
+            "PREDICTION"
+          ],
+          "spans_junction": "yes"
+        }
+      ]
+    },
+    "tests": {
+      "junction_peptides_174__vs__validated_junction_epitopes_15": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      },
+      "junction_peptides_174__vs__non_junction_negative_controls": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      },
+      "junction_peptides_174__vs__other_sequenced_records": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 1,
+          "hits": [
+            {
+              "query": "SQQSSSYGQQN",
+              "ref_id": "E38",
+              "ref_seq": "SQQSSSYGQQ",
+              "ref_fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+              "direction": "ref_in_query"
+            }
+          ]
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      },
+      "predicted_binders_11__vs__validated_junction_epitopes_15": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      },
+      "predicted_binders_11__vs__non_junction_negative_controls": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      },
+      "predicted_binders_11__vs__other_sequenced_records": {
+        "exact": {
+          "n": 0,
+          "hits": []
+        },
+        "substring": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_exact": {
+          "n": 0,
+          "hits": []
+        },
+        "isobaric_substring": {
+          "n": 0,
+          "hits": []
+        }
+      }
+    },
+    "context_level_arm": {
+      "contexts": [
+        {
+          "junction": "EWSR1_e7__NR4A3_e3",
+          "context": "SQQSSSYGQQNMPCVQAQYSP"
+        },
+        {
+          "junction": "EWSR1_e9__NR4A3_e3",
+          "context": "GERGGFNKPGDMPCVQAQYSP"
+        },
+        {
+          "junction": "EWSR1_e10__NR4A3_e3",
+          "context": "PMDEGPDLDLDMPCVQAQYSP"
+        },
+        {
+          "junction": "EWSR1_e12__NR4A3_e3",
+          "context": "TAKAAVEWFDDMPCVQAQYSP"
+        },
+        {
+          "junction": "EWSR1_e13__NR4A3_e3",
+          "context": "GRGMPPPLRGDMPCVQAQYSP"
+        }
+      ],
+      "n_hits": 1,
+      "hits": [
+        {
+          "junction": "EWSR1_e7__NR4A3_e3",
+          "ref_id": "E38",
+          "ref_seq": "SQQSSSYGQQ",
+          "ref_set": "other_sequenced",
+          "ref_fusion": "EWSR1::FLI1 / EWSR1::ERG / EWSR1::FEV / EWSR1::WT1",
+          "isobaric_only": false
+        }
+      ],
+      "_note": "each reference sequence tested as a substring of the full 21-residue junction context, so an epitope lying wholly in a donor or acceptor flank would be caught"
+    },
+    "matcher_selftest": {
+      "exact_arm_validated_vs_itself": {
+        "n": 15,
+        "expected_min": 15
+      },
+      "isobaric_arm_IL_swapped_validated_vs_itself": {
+        "n_queries": 13,
+        "n_isobaric_exact": 13,
+        "n_exact": 15
+      },
+      "substring_arm_live_positive": "the E38 EWSR1 exon-7 donor motif hit below is a live positive for the substring arm on the real query set"
+    },
+    "_isobaric_note": "I/L collapse models the one ambiguity ordinary MS/MS cannot resolve; Q/K and residue-pair equivalences such as GG/N are NOT modelled, so the isobaric arm is a floor on false-match risk, not a bound on it."
+  },
+  "B_characterisation": {
+    "validated": {
+      "n": 15,
+      "length_distribution": {
+        "9": 11,
+        "10": 2,
+        "11": 2
+      },
+      "allele_distribution": {
+        "HLA-A*02:01": 5,
+        "HLA-B*07:02": 3,
+        "HLA-C*04:01": 2,
+        "HLA-A*24:02": 2,
+        "HLA-B*40:01": 1,
+        "HLA-C*12:03": 1,
+        "HLA-A*68:02": 1
+      },
+      "locus_distribution": {
+        "A": 8,
+        "B": 4,
+        "C": 3
+      },
+      "fusion_distribution": {
+        "ETV6::RUNX1": 4,
+        "DNAJB1::PRKACA": 3,
+        "SS18::SSX": 2,
+        "BCR::ABL1": 1,
+        "CBFB::MYH11": 1,
+        "MYB::NFIB": 1,
+        "MYBL1::NFIB": 1,
+        "NFIB::MYB": 1,
+        "DEK::AFF2": 1
+      },
+      "cterminal_residue_distribution": {
+        "V": 3,
+        "L": 3,
+        "T": 2,
+        "K": 2,
+        "M": 1,
+        "C": 1,
+        "A": 1,
+        "S": 1,
+        "F": 1
+      },
+      "breakpoint_position": {
+        "n_with_stated_or_derivable_split": 4,
+        "n_unknown": 11,
+        "rows": [
+          {
+            "id": "E01",
+            "fusion": "BCR::ABL1 (b3a2)",
+            "peptide": "SSKALQRPV",
+            "len": 9,
+            "hla": "HLA-A*02:01",
+            "donor_residues": 3,
+            "acceptor_residues": 6,
+            "junction_after_position": 3,
+            "basis": "stated in the record's junction_note: 'BCR b3 ...ATGFKQSSK | ABL a2 ALQRPVASD; peptide SSK|ALQRPV crosses it'",
+            "confidence": "stated",
+            "cterm_from": "acceptor"
+          },
+          {
+            "id": "E09",
+            "fusion": "ETV6::RUNX1 (TEL-AML1)",
+            "peptide": "RIAECILGM",
+            "len": 9,
+            "hla": "HLA-A*02:01",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E10",
+            "fusion": "ETV6::RUNX1 (E5_3)",
+            "peptide": "MPIGRIAECIL",
+            "len": 11,
+            "hla": "HLA-B*07:02 (also bound B*08:01, B*35:01, B*53:01)",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E11",
+            "fusion": "ETV6::RUNX1 (E5_3)",
+            "peptide": "MPIGRIAEC",
+            "len": 9,
+            "hla": "HLA-B*07:02",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E12",
+            "fusion": "ETV6::RUNX1 (E5_4)",
+            "peptide": "MPIGRIADA",
+            "len": 9,
+            "hla": "HLA-B*07:02",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E13",
+            "fusion": "CBFB::MYH11",
+            "peptide": "REEMEVHEL",
+            "len": 9,
+            "hla": "HLA-B*40:01 (also bound B*44:02 in vitro)",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E14",
+            "fusion": "MYB::NFIB (ACC_M9 Fusion 2)",
+            "peptide": "QFIDSSWYL",
+            "len": 9,
+            "hla": "HLA-A*02:01",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E15",
+            "fusion": "MYBL1::NFIB (ACC panel)",
+            "peptide": "MMYSPICLTQT",
+            "len": 11,
+            "hla": "HLA-A*02:01",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E16",
+            "fusion": "NFIB::MYB (reciprocal, ACC panel)",
+            "peptide": "SLASPLQPT",
+            "len": 9,
+            "hla": "HLA-A*02:01",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E18",
+            "fusion": "DEK::AFF2",
+            "peptide": "DKESEEEVS",
+            "len": 9,
+            "hla": "HLA-C*04:01 and HLA-C*12:03",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E19",
+            "fusion": "DNAJB1::PRKACA",
+            "peptide": "EIFDRYGEEV",
+            "len": 10,
+            "hla": "HLA-A*68:02",
+            "donor_residues": 9,
+            "acceptor_residues": 1,
+            "junction_after_position": 9,
+            "basis": "derived: E21 fixes the DNAJB1::PRKACA seam at RYGEE|VKEF, so EIFDRYGEEV is EIFDRYGEE|V; consistent with this record's own note that the wild-type counterpart EIFDRYGEEG ends in glycine",
+            "confidence": "derived",
+            "cterm_from": "acceptor"
+          },
+          {
+            "id": "E20",
+            "fusion": "DNAJB1::PRKACA",
+            "peptide": "IFDRYGEEV",
+            "len": 9,
+            "hla": "HLA-C*04:01",
+            "donor_residues": 8,
+            "acceptor_residues": 1,
+            "junction_after_position": 8,
+            "basis": "derived from the same E21 anchor: IFDRYGEE|V",
+            "confidence": "derived",
+            "cterm_from": "acceptor"
+          },
+          {
+            "id": "E21",
+            "fusion": "DNAJB1::PRKACA",
+            "peptide": "RYGEEVKEF",
+            "len": 9,
+            "hla": "HLA-A*24:02",
+            "donor_residues": 5,
+            "acceptor_residues": 4,
+            "junction_after_position": 5,
+            "basis": "stated in the record's junction_note: '5 residues from DNAJB1 exon 1 + 4 from PRKACA exon 2'",
+            "confidence": "stated",
+            "cterm_from": "acceptor"
+          },
+          {
+            "id": "E25",
+            "fusion": "SS18::SSX (SYT-SSX)",
+            "peptide": "GYDQIMPKK",
+            "len": 9,
+            "hla": "HLA-A*24:02",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          },
+          {
+            "id": "E26",
+            "fusion": "SS18::SSX (SYT-SSX)",
+            "peptide": "PYGYDQIMPK",
+            "len": 10,
+            "hla": "HLA-A24",
+            "donor_residues": null,
+            "acceptor_residues": null,
+            "junction_after_position": null,
+            "basis": "UNKNOWN \u2014 neither the record nor any lane-local file states where the junction falls inside this peptide; not inferable from the sequence alone and not resolvable offline",
+            "confidence": "unknown",
+            "cterm_from": null
+          }
+        ]
+      }
+    },
+    "repository_predicted": {
+      "n_distinct_junction_peptides": 174,
+      "n_peptide_instances_across_5_junctions": 190,
+      "length_distribution_instances": {
+        "8": 40,
+        "9": 45,
+        "10": 50,
+        "11": 55
+      },
+      "n_instances_containing_the_hybrid_seam_residue": 190,
+      "donor_residue_distribution": {
+        "0": 20,
+        "1": 20,
+        "2": 20,
+        "3": 20,
+        "4": 20,
+        "5": 20,
+        "6": 20,
+        "7": 20,
+        "8": 15,
+        "9": 10,
+        "10": 5
+      },
+      "acceptor_residue_distribution": {
+        "0": 20,
+        "1": 20,
+        "2": 20,
+        "3": 20,
+        "4": 20,
+        "5": 20,
+        "6": 20,
+        "7": 20,
+        "8": 15,
+        "9": 10,
+        "10": 5
+      },
+      "cterminal_source_distribution": {
+        "acceptor": 170,
+        "seam": 20
+      },
+      "ranked_binders": {
+        "n": 11,
+        "length_distribution": {
+          "9": 3,
+          "10": 3,
+          "11": 5
+        },
+        "allele_distribution": {
+          "HLA-A*01:01": 4,
+          "HLA-B*07:02": 3,
+          "HLA-B*15:01": 2,
+          "HLA-B*35:01": 1,
+          "HLA-B*44:02": 1
+        },
+        "rows": [
+          {
+            "peptide": "DMPCVQAQY",
+            "allele": "HLA-B*35:01",
+            "len": 9,
+            "presentation_percentile": 1.2493,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e9__NR4A3_e3",
+              "EWSR1_e10__NR4A3_e3",
+              "EWSR1_e12__NR4A3_e3",
+              "EWSR1_e13__NR4A3_e3"
+            ],
+            "donor_residues": 0,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 0,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "GDMPCVQAQY",
+            "allele": "HLA-B*44:02",
+            "len": 10,
+            "presentation_percentile": 0.9687,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e9__NR4A3_e3",
+              "EWSR1_e13__NR4A3_e3"
+            ],
+            "donor_residues": 1,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 1,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "NMPCVQAQY",
+            "allele": "HLA-B*15:01",
+            "len": 9,
+            "presentation_percentile": 0.3736,
+            "klass": "strong",
+            "junctions": [
+              "EWSR1_e7__NR4A3_e3"
+            ],
+            "donor_residues": 0,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 0,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "RGDMPCVQAQY",
+            "allele": "HLA-A*01:01",
+            "len": 11,
+            "presentation_percentile": 0.4061,
+            "klass": "strong",
+            "junctions": [
+              "EWSR1_e13__NR4A3_e3"
+            ],
+            "donor_residues": 2,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 2,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "MPPPLRGDM",
+            "allele": "HLA-B*07:02",
+            "len": 9,
+            "presentation_percentile": 0.458,
+            "klass": "strong",
+            "junctions": [
+              "EWSR1_e13__NR4A3_e3"
+            ],
+            "donor_residues": 7,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 1,
+            "junction_after_position": 7,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "QQNMPCVQAQY",
+            "allele": "HLA-B*15:01",
+            "len": 11,
+            "presentation_percentile": 0.4986,
+            "klass": "strong",
+            "junctions": [
+              "EWSR1_e7__NR4A3_e3"
+            ],
+            "donor_residues": 2,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 2,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "DLDMPCVQAQY",
+            "allele": "HLA-A*01:01",
+            "len": 11,
+            "presentation_percentile": 0.5601,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e10__NR4A3_e3"
+            ],
+            "donor_residues": 2,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 2,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "FDDMPCVQAQY",
+            "allele": "HLA-A*01:01",
+            "len": 11,
+            "presentation_percentile": 0.6837,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e12__NR4A3_e3"
+            ],
+            "donor_residues": 2,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 2,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "KPGDMPCVQA",
+            "allele": "HLA-B*07:02",
+            "len": 10,
+            "presentation_percentile": 0.9381,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e9__NR4A3_e3"
+            ],
+            "donor_residues": 3,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 6,
+            "junction_after_position": 3,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "MPPPLRGDMPC",
+            "allele": "HLA-B*07:02",
+            "len": 11,
+            "presentation_percentile": 1.2367,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e13__NR4A3_e3"
+            ],
+            "donor_residues": 7,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 3,
+            "junction_after_position": 7,
+            "cterm_from": "acceptor"
+          },
+          {
+            "peptide": "LDMPCVQAQY",
+            "allele": "HLA-A*01:01",
+            "len": 10,
+            "presentation_percentile": 1.8202,
+            "klass": "weak",
+            "junctions": [
+              "EWSR1_e10__NR4A3_e3"
+            ],
+            "donor_residues": 1,
+            "seam_hybrid_residue": 1,
+            "acceptor_residues": 8,
+            "junction_after_position": 1,
+            "cterm_from": "acceptor"
+          }
+        ]
+      }
+    },
+    "allele_panel_comparison": {
+      "predictor_panel": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*03:01",
+        "HLA-A*11:01",
+        "HLA-A*24:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02"
+      ],
+      "validated_allotypes": [
+        "HLA-A*02:01",
+        "HLA-A*24:02",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*40:01",
+        "HLA-C*04:01",
+        "HLA-C*12:03"
+      ],
+      "in_panel": [
+        "HLA-A*02:01",
+        "HLA-A*24:02",
+        "HLA-B*07:02"
+      ],
+      "not_in_panel": [
+        "HLA-A*68:02",
+        "HLA-B*40:01",
+        "HLA-C*04:01",
+        "HLA-C*12:03"
+      ],
+      "n_validated_epitopes_on_in_panel_allotypes": 10,
+      "n_validated_epitopes_on_off_panel_allotypes": 5,
+      "hla_C_in_panel": [],
+      "hla_C_in_validated": [
+        "HLA-C*04:01",
+        "HLA-C*12:03"
+      ],
+      "panel_allotypes_with_zero_ranked_binders": [
+        "HLA-A*02:01",
+        "HLA-A*03:01",
+        "HLA-A*11:01",
+        "HLA-A*24:02",
+        "HLA-B*08:01"
+      ]
+    }
+  }
+}

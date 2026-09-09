@@ -1,0 +1,194 @@
+{
+ "_what_this_is": "Agreement between the pre-specified machine genre rule and the hand adjudication of the\n40-paper random sample. Produces the confusion matrix, overall agreement, and the\nper-stratum precision/recall that matters most here: the case_report_or_series stratum,\nbecause the whole genre-confound question turns on whether case reports are identified.\n\nNo cue field, no rate: this runs before the stratified rate script.",
+ "n_sampled": 40,
+ "seed": 20260908,
+ "overall_agreement": 0.7,
+ "overall_agreement_wilson95": [
+  0.5457,
+  0.8193
+ ],
+ "disagreements": [
+  {
+   "pmid": "41200572",
+   "machine": "unclassified",
+   "hand": "review_or_synthesis",
+   "note": "narrative target perspective; machine had no trigger",
+   "title": "G Protein-Coupled Receptor 35 Holds Potential as a Beacon of Hope for Treating Chondrosarcoma."
+  },
+  {
+   "pmid": "39965625",
+   "machine": "unclassified",
+   "hand": "case_report_or_series",
+   "note": "clinicopathologic case-of-the-month framing; machine had no trigger",
+   "title": "An 11-year-old boy with a posterior fossa tumor."
+  },
+  {
+   "pmid": "35163019",
+   "machine": "laboratory_or_methods",
+   "hand": "review_or_synthesis",
+   "note": "review of targets/treatments; machine read 'therapeutic targets' as lab",
+   "title": "Therapeutic Targets and Emerging Treatments in Advanced Chondrosarcoma."
+  },
+  {
+   "pmid": "38257245",
+   "machine": "laboratory_or_methods",
+   "hand": "review_or_synthesis",
+   "note": "narrative pharmacology review; machine read TME as lab",
+   "title": "Trabectedin and Lurbinectedin Modulate the Interplay between Cells in the Tumour Microenvironment-Progresses in Their Use in Combined Cancer Therapy."
+  },
+  {
+   "pmid": "25177237",
+   "machine": "laboratory_or_methods",
+   "hand": "clinical_study",
+   "note": "retrospective clinical/imaging patient series; machine read 'radiologic features' as lab",
+   "title": "Clinical and radiologic features of extraskeletal myxoid chondrosarcoma including initial presentation, local recurrence, and metastases."
+  },
+  {
+   "pmid": "41188261",
+   "machine": "clinical_study",
+   "hand": "laboratory_or_methods",
+   "note": "borderline: computational prediction method built on patient data; machine said clinical_study on 'prognostic'",
+   "title": "Prognostic prediction in soft-tissue sarcomas using deep learning and digital pathology of tumor and margin areas."
+  },
+  {
+   "pmid": "38067300",
+   "machine": "unclassified",
+   "hand": "review_or_synthesis",
+   "note": "review of a fusion class; machine had no trigger",
+   "title": "The Role of Gene Fusions in Thymic Epithelial Tumors."
+  },
+  {
+   "pmid": "41301081",
+   "machine": "unclassified",
+   "hand": "review_or_synthesis",
+   "note": "narrative review; machine had no trigger",
+   "title": "The Puzzle of Genetic Stability and Chromosomal Copy Number Alterations for the Therapy of Ewing Sarcoma."
+  },
+  {
+   "pmid": "35808975",
+   "machine": "laboratory_or_methods",
+   "hand": "review_or_synthesis",
+   "note": "borderline: practice review of molecular testing; machine said lab",
+   "title": "Molecular testing of soft tissue tumors."
+  },
+  {
+   "pmid": "39040851",
+   "machine": "unclassified",
+   "hand": "review_or_synthesis",
+   "note": "translational review; machine had no trigger",
+   "title": "Translation of oncolytic viruses in sarcoma."
+  },
+  {
+   "pmid": "28141799",
+   "machine": "unclassified",
+   "hand": "laboratory_or_methods",
+   "note": "molecular diagnostic specimen series; machine had no trigger",
+   "title": "The spectrum of EWSR1-rearranged neoplasms at a tertiary sarcoma centre; assessing 772 tumour specimens and the value of current ancillary molecular diagnostic modalities."
+  },
+  {
+   "pmid": "37345191",
+   "machine": "unclassified",
+   "hand": "clinical_study",
+   "note": "midterm treatment results; machine had no trigger",
+   "title": "Midterm Results of High-Dose-Rate Intraoperative Brachytherapy in the Treatment of Soft Tissue Sarcomas."
+  }
+ ],
+ "confusion_machine_rows_hand_cols": {
+  "clinical_study": {
+   "clinical_study": 8,
+   "laboratory_or_methods": 1
+  },
+  "unclassified": {
+   "review_or_synthesis": 4,
+   "case_report_or_series": 1,
+   "laboratory_or_methods": 1,
+   "clinical_study": 1
+  },
+  "review_or_synthesis": {
+   "review_or_synthesis": 7
+  },
+  "laboratory_or_methods": {
+   "review_or_synthesis": 3,
+   "laboratory_or_methods": 4,
+   "clinical_study": 1
+  },
+  "case_report_or_series": {
+   "case_report_or_series": 9
+  }
+ },
+ "per_stratum": {
+  "case_report_or_series": {
+   "machine_n": 9,
+   "hand_n": 10,
+   "correct": 9,
+   "precision": 1.0,
+   "precision_wilson95": [
+    0.7008,
+    1.0
+   ],
+   "recall": 0.9,
+   "recall_wilson95": [
+    0.5958,
+    0.9821
+   ]
+  },
+  "review_or_synthesis": {
+   "machine_n": 7,
+   "hand_n": 14,
+   "correct": 7,
+   "precision": 1.0,
+   "precision_wilson95": [
+    0.6457,
+    1.0
+   ],
+   "recall": 0.5,
+   "recall_wilson95": [
+    0.268,
+    0.732
+   ]
+  },
+  "clinical_study": {
+   "machine_n": 9,
+   "hand_n": 10,
+   "correct": 8,
+   "precision": 0.8889,
+   "precision_wilson95": [
+    0.565,
+    0.9801
+   ],
+   "recall": 0.8,
+   "recall_wilson95": [
+    0.4902,
+    0.9433
+   ]
+  },
+  "laboratory_or_methods": {
+   "machine_n": 8,
+   "hand_n": 6,
+   "correct": 4,
+   "precision": 0.5,
+   "precision_wilson95": [
+    0.2152,
+    0.7848
+   ],
+   "recall": 0.6667,
+   "recall_wilson95": [
+    0.3,
+    0.9032
+   ]
+  },
+  "unclassified": {
+   "machine_n": 7,
+   "hand_n": 0,
+   "correct": 0,
+   "precision": 0.0,
+   "precision_wilson95": [
+    0.0,
+    0.3543
+   ],
+   "recall": null,
+   "recall_wilson95": null
+  }
+ },
+ "_single_reader": "One reader, unblinded to EMC status (the disease name is in the title). No second reader, so no inter-rater kappa is available."
+}
