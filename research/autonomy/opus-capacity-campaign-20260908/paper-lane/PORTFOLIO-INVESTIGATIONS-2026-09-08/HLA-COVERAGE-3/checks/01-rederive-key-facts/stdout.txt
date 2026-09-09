@@ -1,0 +1,155 @@
+{
+  "_lane": "HLA-COVERAGE-3",
+  "_what": "independent re-derivation of HLA-COVERAGE-2 key facts",
+  "_provenance": {
+    "breakpoints": {
+      "path": "research/modalities/fusion-breakpoint-neoantigens.json",
+      "bytes": 46191,
+      "sha256": "ae1ba4f7216a11a956ed978035557c9226826dd93c09a5bcec3421a39d3eec0c"
+    },
+    "coverage_scan_py": {
+      "path": "research/modalities/coverage_scan.py",
+      "bytes": 10998,
+      "sha256": "711fbdd773522303ca2adc79714f9938a9889a715ddef5975e8728bda60f1619"
+    },
+    "strict_matrix": {
+      "path": "research/modalities/epitope-allele-matrix.json",
+      "bytes": 1517,
+      "sha256": "24da5269b71a2d2b7427ae2a85f90cfc71f70d3546d3d71af16b40de4138e435"
+    },
+    "loose_matrix": {
+      "path": "research/modalities/epitope-allele-loose-matrix.json",
+      "bytes": 12402,
+      "sha256": "5a342c16aa2d6682b71da66a045e4e1edc8a759f28d2bd9946dfc45c916c2a97"
+    },
+    "coverage_curve": {
+      "path": "research/modalities/coverage-curve.json",
+      "bytes": 12725,
+      "sha256": "eb04c77ad5945083ab9ad2b98e654367d9c3a6a0864234e96983701681545acb"
+    },
+    "threshold_curve": {
+      "path": "research/modalities/coverage-threshold-curve.json",
+      "bytes": 138647,
+      "sha256": "b2b80247bf377a05d8a38c3a5823e3d0e330424248d9369ca317f8ef9b78673b"
+    },
+    "hla_coverage": {
+      "path": "research/modalities/hla-coverage.json",
+      "bytes": 22890,
+      "sha256": "3b40a86392404800f6a0a5d5a701ecff49a168823ab067192ce2c5826d4acf9f"
+    }
+  },
+  "facts": {
+    "predictor_panel": {
+      "field": "_predictor.alleles",
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*03:01",
+        "HLA-A*11:01",
+        "HLA-A*24:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02"
+      ],
+      "n": 10,
+      "loci": [
+        "A",
+        "B"
+      ],
+      "n_HLA_C": 0,
+      "predictor_meta": {
+        "tool": "MHCflurry",
+        "version": "2.1.4",
+        "models_release": "2.2.0",
+        "peptide_lengths": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "thresholds": {
+          "strong_presentation_percentile": 0.5,
+          "weak_presentation_percentile": 2.0
+        },
+        "\u26d4": "a percentile is a SCREEN rank, not a statement that a peptide is presented"
+      }
+    },
+    "panel_divergence": {
+      "producer": {
+        "PANEL_AB": 34,
+        "PANEL_C": 18,
+        "PANEL_total": 52,
+        "loci": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "artifacts": {
+        "epitope-allele-matrix.json:panel": {
+          "n": 34,
+          "loci": [
+            "A",
+            "B"
+          ],
+          "has_alleles_without_a_model": false
+        },
+        "epitope-allele-loose-matrix.json:panel": {
+          "n": 34,
+          "loci": [
+            "A",
+            "B"
+          ]
+        },
+        "coverage-curve.json:panel_size": 34
+      },
+      "producer_AB_equals_committed_panel": true,
+      "loose_panel_equals_strict_panel": true,
+      "divergence": 18
+    },
+    "headline_numbers": {
+      "coverage_e7e3_public": {
+        "alleles_rebuilt_from_breakpoints": [
+          "HLA-B*15:01"
+        ],
+        "alleles_committed": [
+          "HLA-B*15:01"
+        ],
+        "allele_set_matches_committed": true,
+        "af_used": {
+          "HLA-B*15:01": 0.0435
+        },
+        "alleles_with_UNKNOWN_frequency": [],
+        "committed": 0.0851,
+        "re_derived": 0.0851,
+        "reproduces": true
+      },
+      "coverage_any_strong_binder_allele": {
+        "alleles_rebuilt_from_breakpoints": [
+          "HLA-A*01:01",
+          "HLA-B*07:02",
+          "HLA-B*15:01"
+        ],
+        "alleles_committed": [
+          "HLA-A*01:01",
+          "HLA-B*07:02",
+          "HLA-B*15:01"
+        ],
+        "allele_set_matches_committed": true,
+        "af_used": {
+          "HLA-A*01:01": 0.0641,
+          "HLA-B*07:02": 0.048,
+          "HLA-B*15:01": 0.0435
+        },
+        "alleles_with_UNKNOWN_frequency": [],
+        "committed": 0.2737,
+        "re_derived": 0.2737,
+        "reproduces": true
+      },
+      "_note": "These two figures are produced by hla_coverage.py from the breakpoint records' own binder list. They are NOT downstream of coverage_scan.py's PANEL."
+    }
+  },
+  "all_three_facts_reproduce": true
+}

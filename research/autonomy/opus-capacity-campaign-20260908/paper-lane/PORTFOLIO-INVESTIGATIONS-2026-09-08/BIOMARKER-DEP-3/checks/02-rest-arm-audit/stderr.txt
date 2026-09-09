@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 172, in <module>
+    "binomial_CI_envelope_over_admissible_N": envelope_ci(f),
+                                              ^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 150, in envelope_ci
+    lo, hi = cp(k, N)
+             ^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 140, in cp
+    low = 0.0 if k == 0 else solve(1 - alpha / 2, k, n, True)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 132, in solve
+    v = tail_le(mid, k - 1, n) if lower else tail_le(mid, k, n)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 127, in tail_le
+    return sum(comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(0, k + 1))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-3/rest_arm_audit.py", line 127, in <genexpr>
+    return sum(comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(0, k + 1))
+               ~~~~~~~~~~~^~~~~~~~
+OverflowError: int too large to convert to float

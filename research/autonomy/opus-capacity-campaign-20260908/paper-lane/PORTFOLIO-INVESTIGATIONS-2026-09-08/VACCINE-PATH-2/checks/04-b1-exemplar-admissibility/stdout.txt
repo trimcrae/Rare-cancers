@@ -1,0 +1,143 @@
+{
+  "_id": "DOC-VACCINE-PATH-2-B1-EXEMPLAR-ADMISSIBILITY",
+  "_lane": "VACCINE-PATH-2",
+  "_utc_date": "2026-09-09",
+  "_route": "offline arithmetic over committed artifacts + PubMed/PMC MCP for the manuscript's own citations",
+  "_no_claim": "No immunogenicity, presentation, tolerance, efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied. Admissibility is a record's fit to a benchmark inclusion rule and nothing more.",
+  "predictor_configuration": {
+    "path": "research/modalities/fusion-breakpoint-neoantigens.json",
+    "sha256": "ae1ba4f7216a11a956ed978035557c9226826dd93c09a5bcec3421a39d3eec0c",
+    "predictor": {
+      "tool": "MHCflurry",
+      "version": "2.1.4",
+      "models_release": "2.2.0",
+      "peptide_lengths": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "thresholds": {
+        "strong_presentation_percentile": 0.5,
+        "weak_presentation_percentile": 2.0
+      },
+      "\u26d4": "a percentile is a SCREEN rank, not a statement that a peptide is presented"
+    },
+    "alleles": [
+      "HLA-A*01:01",
+      "HLA-A*02:01",
+      "HLA-A*03:01",
+      "HLA-A*11:01",
+      "HLA-A*24:02",
+      "HLA-B*07:02",
+      "HLA-B*08:01",
+      "HLA-B*15:01",
+      "HLA-B*35:01",
+      "HLA-B*44:02"
+    ],
+    "n_alleles": 10,
+    "loci": [
+      "A",
+      "B"
+    ],
+    "length_window_raw": [
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "admissibility_rule": [
+    "natural (not anchor-modified)",
+    "spans the fusion junction",
+    "length 8-11 (the predictor's configured window)",
+    "a named class I allotype",
+    "at least one class I measurement"
+  ],
+  "b1_exemplars": [
+    {
+      "b1_clause": "the HLA-A*24:02-restricted SYT-SSX junction peptide [17,18]",
+      "manuscript_refs": [
+        "17 (PMID 15647119)",
+        "18 (PMID 22726592)"
+      ],
+      "item": "GYDQIMPKK (SYT-SSX 'B peptide')",
+      "n_items": 1,
+      "natural": true,
+      "spans_junction": true,
+      "length": 9,
+      "class_I_allotype": "HLA-A*24:02",
+      "class_I_measurement": "CTL induced from patient PBL; A24 tetramer; class I-restricted lysis of HLA-A24+ SYT-SSX+ synovial sarcoma cells (census record E25)",
+      "source_evidence": "PMID 15647119 abstract names the sequence verbatim: \"A 9-mer peptide (SYT-SSX B: GYDQIMPKK) spanning the SYT-SSX fusion region\"; eligibility required HLA-A*2402 positivity.",
+      "admissible_items": 1
+    },
+    {
+      "b1_clause": "the four EWSR1::FLI1 breakpoint peptides of the Ewing sarcoma case report [20]",
+      "manuscript_refs": [
+        "20 (PMID 42570981)"
+      ],
+      "item": "E1-E4, four overlapping 17-mers spanning the type 1 EWSR1-FLI1 breakpoint",
+      "n_items": 4,
+      "natural": true,
+      "spans_junction": true,
+      "length": 17,
+      "class_I_allotype": null,
+      "class_I_measurement": null,
+      "source_evidence": "PMC13452805 Methods: \"four overlapping 17-mer peptides ... To ensure broad applicability, the vaccine was designed without HLA restriction\"; immune monitoring \"detects ... T-cells in an HLA-independent manner\"; Results: polyfunctional CD4+ responses to all four; Discussion attributes the absence of CD8+ reactivity to \"the class II binding properties of the selected peptides\".",
+      "fails": [
+        "length 17 is outside the 8-11 window the screen's predictor is configured for",
+        "no class I allotype: the construct is deliberately HLA-unrestricted",
+        "no class I measurement: the reported responses are CD4+ and the assay is HLA-independent by design"
+      ],
+      "admissible_items": 0
+    },
+    {
+      "b1_clause": "the fusion neoantigens of a head and neck series [21]",
+      "manuscript_refs": [
+        "21 (PMID 31011208)"
+      ],
+      "item": "QFIDSSWYL (MYB::NFIB), MMYSPICLTQT (MYBL1::NFIB), SLASPLQPT (NFIB::MYB), DKESEEEVS (DEK::AFF2)  [+ SLASPLQSWYL, binding-only, excluded]",
+      "n_items": 5,
+      "natural": true,
+      "spans_junction": true,
+      "length": "9-11",
+      "class_I_allotype": "HLA-A*02:01 (x3); DEK::AFF2 record carries class I C-locus restrictions",
+      "class_I_measurement": "T2 stabilisation + class I-restricted T-cell IFN-g/multimer (census records E14, E15, E16, E18); E17 is binding-only and excluded",
+      "source_evidence": "PMID 31011208 / doi 10.1038/s41591-019-0434-2 (census records E14-E18).",
+      "admissible_items": 4
+    }
+  ],
+  "b1_named_items": 10,
+  "b1_admissible_items": 5,
+  "b1_inadmissible_items": 5,
+  "census_admissible_ids": [
+    "E01",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E18",
+    "E19",
+    "E20",
+    "E21",
+    "E25",
+    "E26",
+    "E29"
+  ],
+  "census_admissible_n": 16,
+  "wilson_n_for_ci_width_0.20": {
+    "0.5": 94,
+    "0.7": 80,
+    "0.8": 60,
+    "0.9": 40
+  },
+  "wilson_achievable_width_at_sensitivity_0.5": {
+    "5": 0.6517,
+    "15": 0.4507,
+    "30": 0.3369
+  }
+}

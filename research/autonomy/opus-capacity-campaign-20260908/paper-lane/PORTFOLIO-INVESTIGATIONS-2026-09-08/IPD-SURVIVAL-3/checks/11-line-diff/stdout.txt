@@ -1,0 +1,61 @@
+=== unpatched re-run vs committed: line diff ===
+--- research/modalities/km-risk-row-detection.json	2026-09-04 12:16:58.386650665 +0000
++++ research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/census-baseline-unpatched.json	2026-09-09 00:57:32.664779038 +0000
+@@ -25,7 +25,7 @@
+     "cache_branch": "origin/literature-cache",
+     "cache_path": "literature/km-figures-2026-08-25/",
+     "cache_commit": "454df71144f677b1e84ed58f7a6c6951a4190f66",
+-    "page_rasters": "pdftoppm -r 200 -png, produced by scripts/emc_km_figure_fetch.py in Actions run 32903796837 and published to the same cache directory"
++    "page_rasters": "pdftoppm -r 200 -png, as published to the cache directory"
+   },
+   "control": {
+     "_what": "Synthetic figures with a known answer, so the rule is shown to separate a risk row from the two things that would otherwise be mistaken for one.",
+diff exit 1
+
+=== patched re-run (committed provenance string restored) vs committed: summary ===
+diff exit 1
+changed hunks: 162
+lines only in committed (<): 162
+lines only in regenerated (>): 484
+of those, lines that are NOT a y0/y1 key or a comma-fixup of the preceding key:
+     29 >                   "w": 1,
+      8 >                   "w": 7,
+      7 >                   "text": "-",
+      6 >                   "w": 16,
+      5 >                   "w": 17,
+      5 >                   "w": 11,
+      5 >                   "w": 0,
+      4 >                   "w": 15,
+      4 >                   "w": 14,
+      4 >                   "text": "3",
+      3 >                   "w": 90,
+      3 >                   "w": 8,
+      3 >                   "text": "5",
+      3 >                   "text": "1",
+      2 >                   "w": 5,
+      2 >                   "w": 4,
+      2 >                   "w": 35,
+      2 >                   "w": 24,
+      2 >                   "text": "to",
+      2 >                   "text": "the",
+lines only in committed, all of them:
+     29 <                   "w": 1
+      8 <                   "w": 7
+      7 <                   "text": "-"
+      6 <                   "w": 16
+      5 <                   "w": 17
+      5 <                   "w": 11
+      5 <                   "w": 0
+      4 <                   "w": 15
+      4 <                   "w": 14
+      4 <                   "text": "3"
+      3 <                   "w": 90
+      3 <                   "w": 8
+      3 <                   "text": "5"
+      3 <                   "text": "1"
+      2 <                   "w": 5
+      2 <                   "w": 4
+      2 <                   "w": 35
+      2 <                   "w": 24
+      2 <                   "text": "to"
+      2 <                   "text": "the"

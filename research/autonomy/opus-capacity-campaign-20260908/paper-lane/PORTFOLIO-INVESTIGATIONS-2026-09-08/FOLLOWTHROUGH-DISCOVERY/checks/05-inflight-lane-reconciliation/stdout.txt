@@ -1,0 +1,63 @@
+== DEGRADER-2
+artifacts
+checks
+per_frame_rsa_overlap.py
+(no FINDING.md yet - lane in flight)
+== IPD-SURVIVAL-3
+census-baseline-unpatched.json
+checks
+deep_compare.py
+diff-baseline-vs-committed.json
+diff-regenerated-vs-committed.json
+km-risk-row-detection.REGENERATED.committed-provenance.json
+km-risk-row-detection.REGENERATED.json
+preserve-mark-y0-y1.diff
+proximity-clause-rederivation.json
+rederive_proximity.py
+strip_and_hash.py
+(no FINDING.md yet - lane in flight)
+== NEOANTIGEN-5
+FINDING.md
+UNAPPLIED-01-junction_proteome_novelty-parent-accession.diff
+UNAPPLIED-02-add-test_junction_proteome_novelty_parent_accession.diff
+checks
+neoantigen5-guard-replay.json
+neoantigen5_guard_replay.py
+new_test_test_junction_proteome_novelty_parent_accession.py
+run_check.sh
+title: "NEOANTIGEN-5 — the EWSR1 accession defect in the junction novelty guard, independently confirmed; NEOANTIGEN-4's fix shown non-altering on committed inputs; and the failing-then-passing test the fix was missing"
+== MATRIX-ADDRESS-3
+FINDING.md
+checks
+relaxed-k-label-recovery.json
+relaxed_k_label_recovery.py
+title: "MATRIX-ADDRESS-3 — the k>=6 / k>=10 re-run would recover no additional gene from held data; the recovery is entirely a reference-route question"
+== SYNLETH-2
+FINDING.md
+breakdown-denominator.json
+breakdown_denominator.py
+checks
+denominator-envelope.json
+denominator_envelope.py
+title: "SYNLETH-2 — the unrecorded rest-arm denominator does not put the pan-essential-trap screen in doubt"
+== VACCINE-PATH-2
+b1-exemplar-admissibility.json
+b1_exemplar_admissibility.py
+checks
+(no FINDING.md yet - lane in flight)
+== HLA-COVERAGE-3
+checks
+rederive.py
+staleness-map.json
+staleness_map.py
+(no FINDING.md yet - lane in flight)
+== BIOMARKER-DEP-3
+checks
+rest-arm-audit.json
+rest_arm_audit.py
+(no FINDING.md yet - lane in flight)
+== dirty files named as proposal inputs
+ M research/manuscripts/citation-provenance-ledger.json
+ M research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+ .../emc-transcriptional-proteostatic-dependency.md | 106 +++++++++++++++++----
+ 1 file changed, 87 insertions(+), 19 deletions(-)

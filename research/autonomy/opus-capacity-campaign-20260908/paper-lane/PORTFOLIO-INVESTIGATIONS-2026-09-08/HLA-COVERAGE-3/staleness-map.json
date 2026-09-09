@@ -1,0 +1,508 @@
+{
+  "_id": "HLA-COVERAGE-3-staleness-map",
+  "_date": "2026-09-09",
+  "_what": "Every committed artifact, manuscript sentence and guard downstream of research/modalities/coverage_scan.py, with a per-key verdict on whether the CURRENT producer would reproduce it.",
+  "⛔_route_fence": "B8 (HLA-C) closed. The producer was NOT run. No HLA-C allele frequency exists in this checkout and none was sought. Every quantity needing one is UNKNOWN.",
+  "_method": "coverage_scan.py parsed with ast (never imported, never executed); every committed value read from the artifact on disk; every direction argued from the producer source.",
+  "_verdict_key": {
+    "REPRODUCES": "current producer writes the committed value",
+    "CHANGES": "current producer writes a different value, determinable offline",
+    "CHANGES_DIRECTION": "changes or stays; direction fixed by the code, magnitude not determinable offline",
+    "UNDETERMINABLE": "cannot be settled offline",
+    "AFFECTED_CLAIM": "prose claim whose truth value is affected without a number changing"
+  },
+  "_provenance": {
+    "coverage_scan.py": {
+      "bytes": 10998,
+      "sha256": "711fbdd773522303ca2adc79714f9938a9889a715ddef5975e8728bda60f1619"
+    },
+    "epitope-allele-matrix.json": {
+      "bytes": 1517,
+      "sha256": "24da5269b71a2d2b7427ae2a85f90cfc71f70d3546d3d71af16b40de4138e435"
+    },
+    "epitope-allele-loose-matrix.json": {
+      "bytes": 12402,
+      "sha256": "5a342c16aa2d6682b71da66a045e4e1edc8a759f28d2bd9946dfc45c916c2a97"
+    },
+    "coverage-curve.json": {
+      "bytes": 12725,
+      "sha256": "eb04c77ad5945083ab9ad2b98e654367d9c3a6a0864234e96983701681545acb"
+    },
+    "coverage-threshold-curve.json": {
+      "bytes": 138647,
+      "sha256": "b2b80247bf377a05d8a38c3a5823e3d0e330424248d9369ca317f8ef9b78673b"
+    },
+    "predictor-concordance.json": {
+      "bytes": 16268,
+      "sha256": "de8658f47dac9e5eeccfc373b2b0c4399df146b386939305fc30d30a118a0c94"
+    },
+    "epitope-allele-matrix-mhcnuggets.json": {
+      "bytes": 588303,
+      "sha256": "e9a248b28d77cbd68db583d40e60b8c3d1ec752400d35e5900278ac04dcd1f65"
+    },
+    "vaccine-threshold-calibration.json": {
+      "bytes": 72086,
+      "sha256": "fb3daad1a0ba2be29cc73be5c377a781826a229982300d51c84582d55d2294bc"
+    },
+    "stage0-vaccine-item-provenance.json": {
+      "bytes": 7923,
+      "sha256": "67ffc84387a2e7c3859c4aa77be2712eb74541a0f35b1162237e504ea129938f"
+    }
+  },
+  "_panel": {
+    "committed_panel_n": 34,
+    "producer_PANEL_AB_n": 34,
+    "producer_PANEL_C_n": 18,
+    "producer_PANEL_n": 52,
+    "committed_panel_is_exactly_PANEL_AB": true,
+    "PANEL_C": [
+      "HLA-C*01:02",
+      "HLA-C*02:02",
+      "HLA-C*03:02",
+      "HLA-C*03:03",
+      "HLA-C*03:04",
+      "HLA-C*04:01",
+      "HLA-C*05:01",
+      "HLA-C*06:02",
+      "HLA-C*07:01",
+      "HLA-C*07:02",
+      "HLA-C*08:02",
+      "HLA-C*12:02",
+      "HLA-C*12:03",
+      "HLA-C*14:02",
+      "HLA-C*15:02",
+      "HLA-C*16:01",
+      "HLA-C*17:01",
+      "HLA-C*18:01"
+    ]
+  },
+  "artifacts": [
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "panel (length)",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "predict_matrix() writes `\"panel\": PANEL`, and PANEL = PANEL_AB + PANEL_C = 34 + 18."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "panel (loci)",
+      "committed_value": [
+        "A",
+        "B"
+      ],
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "why": "PANEL_C adds 18 two-field HLA-C alleles under the AUT-079 comment."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "panel (first 34 entries)",
+      "committed_value": "PANEL_AB",
+      "verdict": "REPRODUCES",
+      "value_under_the_current_producer": "PANEL_AB",
+      "why": "The committed panel is element-for-element equal to the producer's current PANEL_AB: True. The drift is purely additive."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "_note",
+      "committed_value": "Strong MHC-I binders (presentation_percentile<=0.5) of EWSR1::NR4A3 junction peptides across a broad HLA-A/-B panel (MHCflurry-2.0).",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "same sentence with 'broad HLA-A/-B/-C panel'",
+      "why": "The producer's _note literal now reads 'HLA-A/-B/-C panel'; the committed string reads 'broad HLA-A/-B panel'. A pure string-literal difference, determinable by reading."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "alleles_without_a_model",
+      "committed_value": "ABSENT (key not in the committed file)",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "PRESENT (key always emitted)",
+      "why": "predict_matrix() unconditionally writes `alleles_without_a_model` and `⚠_missing_model_is_not_a_negative`. Its CONTENTS are UNDETERMINABLE offline: they depend on MHCflurry 2.1.4's own supported_alleles, which cannot be read without the package."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "n_peptides",
+      "committed_value": 174,
+      "verdict": "REPRODUCES",
+      "value_under_the_current_producer": 174,
+      "why": "Peptides come from fusion-breakpoint-neoantigens.json junctions[].novel_peptides at lengths 8-11; that input is untouched by the panel change."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "rank_column",
+      "committed_value": "presentation_percentile",
+      "verdict": "REPRODUCES",
+      "value_under_the_current_producer": "presentation_percentile",
+      "why": "Column choice depends on the predictor build, not the panel."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "strong_binders (count)",
+      "committed_value": 5,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 5",
+      "why": "predict() is called with alleles={a: [a]}, i.e. one single-allele sample per allele, so each output row's best_allele IS that allele and its percentile does not depend on which other alleles are in the batch. Adding panel alleles can therefore only ADD rows, never alter or remove an existing one. How many HLA-C rows appear is UNKNOWN (B8)."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix.json",
+      "key": "presenting_alleles",
+      "committed_value": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ],
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "a superset of the committed four",
+      "why": "presenting_alleles is derived from strong_binders, which is monotone non-decreasing in the panel. UNKNOWN whether any HLA-C allele enters."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "panel_size",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "panel_size = len(matrix['panel']) and the matrix would carry 52."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "_note",
+      "committed_value": "'Coverage vs number of HLA-A/-B alleles ...'",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "'Coverage vs number of HLA-A/-B/-C alleles ...'",
+      "why": "The producer's _note literal already says HLA-A/-B/-C; the committed artifact says HLA-A/-B."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "n_presenting_alleles",
+      "committed_value": 4,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 4",
+      "why": "As above, monotone non-decreasing."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "global_max_coverage",
+      "committed_value": 0.304,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 0.304",
+      "why": "greedy_curve keeps only alleles with a non-None AFND frequency and accumulates 1 - prod(1-af)^2, which is non-decreasing as alleles are added. So coverage can only rise or stay equal. ⛔ The SIZE of any rise needs HLA-C allele frequencies; none exists in this checkout and route B8 forbids acquiring one. Magnitude UNKNOWN, not zero."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "global_alleles_to_reach",
+      "committed_value": {
+        "50pct": null,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      },
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "each target reached at the same n or an earlier one, or still null",
+      "why": "alleles_to_reach reads the same non-decreasing cumulative curve. UNKNOWN whether any target (50/80/90/95%) becomes reachable."
+    },
+    {
+      "file": "research/modalities/coverage-curve.json",
+      "key": "regions (15 sub-regions)",
+      "committed_value": 15,
+      "verdict": "UNDETERMINABLE",
+      "value_under_the_current_producer": "UNKNOWN",
+      "why": "Regional curves are rebuilt from a LIVE AFND fetch through hla_coverage.load_afnd. Offline this cannot be evaluated at all, and the HLA-C half is closed under B8."
+    },
+    {
+      "file": "research/modalities/coverage-curve.png",
+      "key": "(whole figure)",
+      "committed_value": "committed image",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "redrawn",
+      "why": "render_chart() is called with the new curve; it changes iff the curve changes."
+    },
+    {
+      "file": "research/modalities/epitope-allele-loose-matrix.json",
+      "key": "panel (length)",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "coverage_threshold_curve.predict_loose() takes `panel = json.load(open(STRICT))['panel']` — it does NOT import coverage_scan.PANEL. So this file is stale only AFTER coverage_scan.py is re-run; on today's tree it still reproduces 34. It is a second-order dependency, and the committed loose panel equals the committed strict panel: True."
+    },
+    {
+      "file": "research/modalities/epitope-allele-loose-matrix.json",
+      "key": "calls (count)",
+      "committed_value": 112,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 112",
+      "why": "Same single-allele-sample argument as above."
+    },
+    {
+      "file": "research/modalities/coverage-threshold-curve.json",
+      "key": "at_conventional_threshold.coverage",
+      "committed_value": 0.304,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 0.304",
+      "why": "Equals coverage-curve.json's global_max_coverage by construction (asserted by research/modalities/tests/test_coverage_threshold_curve.py), so it moves with it."
+    },
+    {
+      "file": "research/modalities/coverage-threshold-curve.json",
+      "key": "at_conventional_threshold.n_presenting_alleles",
+      "committed_value": 4,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 4",
+      "why": "Monotone in the panel."
+    },
+    {
+      "file": "research/modalities/coverage-threshold-curve.json",
+      "key": "allele_frequencies (count)",
+      "committed_value": 28,
+      "verdict": "UNDETERMINABLE",
+      "value_under_the_current_producer": "UNKNOWN",
+      "why": "⛔ This is the load-bearing B8 wall. The block is A/B only. Whether AFND carries the 18 PANEL_C alleles, and at what frequency, CANNOT be established from this checkout and may not be acquired. Reported UNKNOWN, never zero."
+    },
+    {
+      "file": "research/modalities/coverage-threshold-curve.json",
+      "key": "steps",
+      "committed_value": 28,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 28",
+      "why": "One step per call that moves the curve."
+    },
+    {
+      "file": "research/modalities/predictor-concordance.json",
+      "key": "n_panel",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "predictor_concordance.panel() returns json.load(open(MATRIX))['panel'], so n_panel tracks the strict matrix exactly."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix-mhcnuggets.json",
+      "key": "panel (length)",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "Same panel() call; the MHCnuggets arm inherits the drift verbatim."
+    },
+    {
+      "file": "research/modalities/epitope-allele-matrix-mhcnuggets.json",
+      "key": "alleles_without_a_model",
+      "committed_value": 0,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 0",
+      "why": "MHCnuggets class I HLA-C support is UNKNOWN here; the count cannot fall when alleles are added."
+    },
+    {
+      "file": "research/modalities/vaccine-threshold-calibration.json",
+      "key": "_panel (length)",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "vaccine_threshold_calibration.main() sets `panel = strict['panel']` from epitope-allele-matrix.json."
+    },
+    {
+      "file": "research/modalities/stage0-vaccine-item-provenance.json",
+      "key": "items[].headline_derived_from_the_artifact.n_alleles_in_the_panel",
+      "committed_value": 34,
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": 52,
+      "why": "stage0_vaccine_item_provenance.py reads epitope-allele-matrix.json → panel and records its length; the artifact names `panel_source: epitope-allele-matrix.json → panel`."
+    },
+    {
+      "file": "research/modalities/stage0-vaccine-item-provenance.json",
+      "key": "items[]....n_panel_alleles_presenting_anything_at_or_below_the_curve_ceiling",
+      "committed_value": 28,
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 28",
+      "why": "Counts panel alleles appearing in the loose curve; monotone in the panel, magnitude UNKNOWN."
+    },
+    {
+      "file": "research/modalities/run-manifest.json",
+      "key": "artifacts[] hashes / stale flags",
+      "committed_value": "as committed",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "new hashes for every artifact above",
+      "why": "run_manifest.py tracks these six filenames explicitly; any regeneration moves their hashes."
+    }
+  ],
+  "manuscript_sentences": [
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 59,
+      "sentence_fragment": "34-allele panel for the coverage scan",
+      "committed_line": "34-allele panel for the coverage scan; a peptide is called strong at a presentation percentile of",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "52",
+      "why": "§Methods. The panel width is stated in prose; the producer now defines 52."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 267,
+      "sentence_fragment": "34-allele screen of the same peptides at the same threshold returns five strong",
+      "committed_line": "34-allele screen of the same peptides at the same threshold returns five strong peptide-allele calls",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "52-allele screen returning >= five strong calls",
+      "why": "§2.2. Width CHANGES deterministically to 52; the call count can only rise, magnitude UNKNOWN. This sentence is enforced: test_vaccine_path_numbers.py binds r'a (\\d+)-allele screen of the same peptides' to len(matrix['panel'])."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 284,
+      "sentence_fragment": "Screened against the same 34-allele panel at the same cut, those 97 peptides return 10 strong",
+      "committed_line": "Screened against the same 34-allele panel at the same cut, those 97 peptides return 10 strong",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "52-allele panel; >= 10 strong calls across >= 6 alleles",
+      "why": "§2.2 out-of-frame screen. Produced by junction_frameshift_peptides.py over the same panel."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 327,
+      "sentence_fragment": "on 34 alleles the same lead peptide is also strong on HLA-A",
+      "committed_line": "HLA-B\\*15:01 alone and covers 8.5%; on 34 alleles the same lead peptide is also strong on HLA-A\\*30:02 and",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "'on 52 alleles ...'; the ADDED-allele account may no longer be a single allele",
+      "why": "§2.3. test_the_broad_panel_adds_exactly_the_allele_the_paper_says_it_adds asserts len(curve.presenting_alleles - the three ten-allele ones) == 1. If any HLA-C allele presents, that assertion FAILS and the paper's whole account of why 8.5% becomes 12.3% needs rewriting. Whether it does is UNKNOWN (B8)."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 328,
+      "sentence_fragment": "gives 27.4% on ten alleles and 30.4% on 34",
+      "committed_line": "the junction covers 12.3%. Pooling every in-frame junction gives 27.4% on ten alleles and 30.4% on 34.",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "27.4% unchanged; the second figure >= 30.4% on 52",
+      "why": "The 27.4% term comes from hla_coverage.py and the ten-allele junction screen and is NOT downstream of coverage_scan.py. Only the broad-panel figure moves."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 539,
+      "sentence_fragment": "The 34-allele screen finds 4 presenting alleles and 30.4%",
+      "committed_line": "**Evidence.** The 34-allele screen finds 4 presenting alleles and 30.4%; the ten-allele screen finds 3 and",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "'The 52-allele screen finds >= 4 ... and >= 30.4%'",
+      "why": "§B1 evidence line."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 769,
+      "sentence_fragment": "On the 34-allele set the same product gives 2.0%",
+      "committed_line": "from the broad-panel scan. On the 34-allele set the same product gives 2.0%. The product assumes",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": ">= 2.0%",
+      "why": "§ class I x class II product; the class I term is the broad-panel coverage."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1110,
+      "sentence_fragment": "The class I panels remain at 10 and 34 alleles",
+      "committed_line": "The class I panels remain at 10 and 34 alleles against the full validated set, which would raise the",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "10 and 52",
+      "why": "§B4 status sentence."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1231,
+      "sentence_fragment": "The screen tested 174 peptides against 10 and then 34 alleles at two thresholds",
+      "committed_line": "applied anywhere. The screen tested 174 peptides against 10 and then 34 alleles at two thresholds.",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "10 and then 52",
+      "why": "§7."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1236,
+      "sentence_fragment": "0.644% of 59,160 peptide-allele tests",
+      "committed_line": "0.644% of 59,160 peptide-allele tests, exact 95% confidence interval 0.581% to 0.712%, which is also",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "the denominator becomes 1,740 x 52 = 90,480",
+      "why": "§7 decoy null. 59,160 = 1,740 decoys x 34 panel alleles, exactly; the denominator is arithmetic in the panel size and is therefore determinable offline. The 0.644% RATE over a C-inclusive panel is UNKNOWN."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1239,
+      "sentence_fragment": "presents on a median of 23 of the 34 alleles",
+      "committed_line": "size presents on a median of 23 of the 34 alleles, a mean of 22.6 and a minimum of 7, and the closed",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "'of the 52 alleles'; the median and the closed form rescale",
+      "why": "§7. The closed form is n_panel x (1-(1-p)^174): 34 x 0.675 = 22.95 as committed. With 52 the same p would give 35.1, but p over a C-inclusive panel is UNKNOWN, so only the denominator 52 is determinate."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1290,
+      "sentence_fragment": "over the 34-allele panel, each step one peptide-allele call",
+      "committed_line": "function over the 34-allele panel, each step one peptide-allele call, drawn to the largest threshold",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "52",
+      "why": "Figure 2 caption (§2.3)."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1332,
+      "sentence_fragment": "Table 2. The 34-allele class I panel",
+      "committed_line": "**Table 2. The 34-allele class I panel.** Listed so the coverage scan can be reproduced and the choice of panel assessed rather than taken on trust. It is a common-allele HLA-A and HLA-B panel spanning global diversity, and it carries no HLA-C and no class II allele — so every figure computed on it is a partial coverage of the class I repertoire, and §2.3's statement that extending the panel can only raise the figures applies to HLA-C before it applies to anything else.",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "52 in the header, WITH A LATENT DEFECT",
+      "why": "⚠ THE ONE PLACE THE DRIFT WOULD PRODUCE A WRONG PAGE RATHER THAN A STALE ONE. Table 2 is a GENERATED block (vaccine_path_tables.panel_block). It renders f'The {len(panel)}-allele class I panel' — so the header would read 52 — but the body emits only `HLA-A` and `HLA-B` rows (there is no HLA-C branch), so the 18 C alleles would be silently dropped and the table would list 34 alleles under a 52-allele heading; and the caption's hard-coded clause 'it carries no HLA-C and no class II allele' would become FALSE. Determinable offline by reading the generator."
+    },
+    {
+      "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "line": 1305,
+      "sentence_fragment": "`coverage_scan.py` (the coverage-versus-allele-count curve)",
+      "committed_line": "`coverage_scan.py` (the coverage-versus-allele-count curve) and `coverage_threshold_curve.py` (the",
+      "verdict": "AFFECTED_CLAIM",
+      "value_under_the_current_producer": "the section's blanket reproducibility claim acquires a second exception",
+      "why": "§8 states every figure 'is generated by a script ... and is committed as a JSON artifact beside it, with one exception'. Under the current producer that claim has a second exception, and this is where the repository's own convention puts such a note (the adjacent 'These are not regenerated on every commit' paragraph is the comparable existing note)."
+    }
+  ],
+  "guards_and_graph": [
+    {
+      "file": "research/manuscripts/tests/test_vaccine_path_numbers.py",
+      "key": "test_the_panel_the_paper_names_is_the_panel_that_ran",
+      "committed_value": "passes on today's tree",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "FAILS unless every '34-allele screen' site in the prose is updated together",
+      "why": "It binds the prose number to len(matrix['panel']) at every site. This is the guard that turns the drift into a build failure rather than a silent error — it must NOT be weakened."
+    },
+    {
+      "file": "research/manuscripts/tests/test_vaccine_path_numbers.py",
+      "key": "test_the_broad_panel_adds_exactly_the_allele_the_paper_says_it_adds",
+      "committed_value": "passes on today's tree",
+      "verdict": "UNDETERMINABLE",
+      "value_under_the_current_producer": "UNKNOWN — passes iff no HLA-C allele presents a strong junction binder",
+      "why": "asserts len(added) == 1. Whether MHCflurry 2.1.4 even scores HLA-C is UNKNOWN and closed."
+    },
+    {
+      "file": "research/modalities/tests/test_coverage_threshold_curve.py",
+      "key": "the cross-artifact identity coverage-curve.json max == threshold curve at 0.5",
+      "committed_value": "passes on today's tree",
+      "verdict": "CHANGES_DIRECTION",
+      "value_under_the_current_producer": "still passes if BOTH are regenerated; FAILS if only one is",
+      "why": "The two artifacts must be regenerated together or the identity breaks."
+    },
+    {
+      "file": "research/manuscripts/vaccine_path_tables.py",
+      "key": "--check",
+      "committed_value": "passes on today's tree",
+      "verdict": "CHANGES",
+      "value_under_the_current_producer": "reports STALE for the class-i-panel block",
+      "why": "render() rebuilds Table 2 from the matrix; a 52-allele matrix makes the committed block stale."
+    },
+    {
+      "file": "systems/graph/artifact-refs.json",
+      "key": "the coverage-scan.json disposition entry",
+      "committed_value": "already withdraws any byte-for-byte reproduction endorsement",
+      "verdict": "REPRODUCES",
+      "value_under_the_current_producer": "unchanged, and corroborating",
+      "why": "Read 2026-09-08, it explicitly withdraws the earlier claim that re-running coverage_scan.py offline reproduces coverage-curve.json and epitope-allele-matrix.json. This lane's result is the concrete reason that withdrawal was right."
+    }
+  ],
+  "_totals": {
+    "REPRODUCES": 4,
+    "CHANGES": 20,
+    "CHANGES_DIRECTION": 20,
+    "UNDETERMINABLE": 3,
+    "AFFECTED_CLAIM": 1,
+    "n_rows": 48
+  }
+}

@@ -1,0 +1,59 @@
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/FINDING.md b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/FINDING.md
+index c9bf722..6d770fa 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/FINDING.md
+@@ -82,10 +82,16 @@ a dispersion field ✓.
+    the artifact. Both counts remain correct under their own scope, exactly as the brief states; only
+    the attribution of *which* three differs. Nothing in either lane's conclusions depends on it.
+ 2. **PUB-BIOMARKER-DEP's Fisher `p = 0.084` does not reproduce as stated.** Against the *sarcoma*
+-   background (1/5 vs 2/91) the one-sided exact value is **0.1497**. It reproduces only against the
+-   *non-sarcoma* arm, and only under an assumption about that arm's size that **the artifact does
+-   not record**: across the full set of denominators the artifact permits, it spans **0.0867 (n=943)
+-   to 0.0847 (n=2105)**. So ~0.084 is a fair number with an unstated input, not a wrong one. Its
++   background (1/5 vs 2/91) the exact value is **0.1497** (one- and two-sided coincide on this
++   table). It reproduces only against the *non-sarcoma* arm, and only under an assumption about
++   that arm's size that **the panel artifact does not record** — ⭑ *corrected by BIOMARKER-DEP-3:
++   the assumption IS recorded, in the lane producer* `transfer_calibration.py` *lines 125–129,
++   which uses* `n_models_total − n_sarcoma = 2105 − 91 = 2014`, *giving [[1, 4], [34, 1980]] and
++   two-sided exact* **p = 0.0838** *→ 0.084 exactly as printed; it is absent only from the two
++   JSON artifacts and from the prose.* ⭑ *Also corrected:* the two endpoint values below (0.0867 at
++   n = 943, 0.0847 at n = 2105) are correct but are **not** the span — p is not monotone in n, and
++   the true envelope over all 1126 admissible denominators is **[0.0832, 0.0886]**. So ~0.084 is a
++   fair number with an input unstated *in the artifacts*, not a wrong one. Its
+    direction — the control does not come out at 0.99 power — is unaffected, so this lane's step was
+    not blocked by it. **But it is itself evidence for the amendment**: the rest arm's denominator is
+    recorded nowhere, and 1126 different values of it are consistent with the published fractions, so
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/rederive_prior_numbers.py b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/rederive_prior_numbers.py
+index b90e1b1..ddfbe1c 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/rederive_prior_numbers.py
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/rederive_prior_numbers.py
+@@ -84,9 +84,13 @@ out = {
+    "vs_sarcoma_background_1of5_vs_2of91": round(fisher_p(1, 4, 2, 89), 4),
+    "vs_rest_background_at_smallest_consistent_n": round(fisher_p(1, 4, round(0.017 * rest_denoms[0]), rest_denoms[0] - round(0.017 * rest_denoms[0])), 4),
+    "vs_rest_background_at_largest_consistent_n": round(fisher_p(1, 4, round(0.017 * rest_denoms[-1]), rest_denoms[-1] - round(0.017 * rest_denoms[-1])), 4),
+-   "_comment": "PUB-BIOMARKER-DEP reported 0.084. It reproduces only against the REST arm and only "
+-               "under an unrecorded assumption about that arm's n; across every denominator the "
+-               "artifact permits it spans the range above. Against the SARCOMA background it is 0.1497."},
++   "_comment": "PUB-BIOMARKER-DEP reported 0.084. It reproduces only against the REST arm. "
++               "CORRECTED by BIOMARKER-DEP-3: the denominator assumption is recorded in that "
++               "lane's producer transfer_calibration.py (n_models_total - n_sarcoma = 2014, "
++               "two-sided p = 0.0838), though in neither JSON artifact. The two values above are "
++               "the p at the smallest and largest admissible n, NOT the span: p is not monotone "
++               "in n and its envelope over all 1126 admissible denominators is [0.0832, 0.0886]. "
++               "Against the SARCOMA background it is 0.1497."},
+  "dispersion_fields_present_in_gene_records": sorted({k for _, r in recs for k in r}),
+ }
+ json.dump(out, open(os.path.join(HERE, "prior-number-rederivation.json"), "w"), indent=2)
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/prior-number-rederivation.json b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/prior-number-rederivation.json
+index 15fb853..40899a3 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/prior-number-rederivation.json
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/prior-number-rederivation.json
+@@ -143,7 +143,7 @@
+     "vs_sarcoma_background_1of5_vs_2of91": 0.1497,
+     "vs_rest_background_at_smallest_consistent_n": 0.0867,
+     "vs_rest_background_at_largest_consistent_n": 0.0847,
+-    "_comment": "PUB-BIOMARKER-DEP reported 0.084. It reproduces only against the REST arm and only under an unrecorded assumption about that arm's n; across every denominator the artifact permits it spans the range above. Against the SARCOMA background it is 0.1497."
++    "_comment": "PUB-BIOMARKER-DEP reported 0.084. It reproduces only against the REST arm. CORRECTED by BIOMARKER-DEP-3: the denominator assumption is recorded in that lane's producer transfer_calibration.py (n_models_total - n_sarcoma = 2014, two-sided p = 0.0838), though in neither JSON artifact. The two values above are the p at the smallest and largest admissible n, NOT the span: p is not monotone in n and its envelope over all 1126 admissible denominators is [0.0832, 0.0886]. Against the SARCOMA background it is 0.1497."
+   },
+   "dispersion_fields_present_in_gene_records": [
+     "gene",

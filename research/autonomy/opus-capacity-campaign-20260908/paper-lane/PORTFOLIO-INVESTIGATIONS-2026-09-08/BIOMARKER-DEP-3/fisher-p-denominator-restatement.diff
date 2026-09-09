@@ -1,0 +1,70 @@
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/FINDING.md b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/FINDING.md
+index 854d3c0..4a9029d 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/FINDING.md
+@@ -62,8 +62,17 @@ threshold-sensitivity reconstruction.
+    subtype of **n = 5** has power **0.99** to detect a dependency present in 80 % of its lines, and
+    0.91 at 60 %. The minimum n for 80 % power against a true rate of 0.8 is **3 lines**.
+ 3. **The panel's own stated expected positive still does not come out.** BRD9 in synovial reads
+-   **1 of 5** dependent (Wilson 95 % 0.036–0.625), Fisher *p* = 0.084 against the non-sarcoma
+-   background. With 0.99 power against a strong subtype dependency, this is not an underpowered
++   **1 of 5** dependent (Wilson 95 % 0.036–0.625). The Fisher comparison is **1 of 5 synovial lines
++   against the panel's *non-sarcoma* (rest) arm at BRD9's recorded `rest_frac_dependent` = 0.017**,
++   and it needs a denominator for that arm which the panel does not record. This lane's producer
++   assumes `n_models_total − n_sarcoma = 2105 − 91 = 2014`, giving the table [[1, 4], [34, 1980]]
++   and two-sided exact **p = 0.0838**. Stated that way the figure is reproducible. ⛔ **It is not a
++   comparison against the sarcoma arm**: 1 of 5 against that arm's 2 of 91 is **p = 0.1497**. And
++   the assumed 2014 is only one of **1126** denominators between **943** and **2105** consistent
++   with the panel's rounded rest fractions, over which the same p ranges **0.0832 to 0.0886**; the
++   screened panel is more plausibly the 1178 lines the `nr4a_paralogue_comparison` block records,
++   i.e. n_rest = 1087, which gives **p = 0.0842**. The reading below is unchanged across that whole
++   envelope. With 0.99 power against a strong subtype dependency, this is not an underpowered
+    result — it excludes a *near-universal* BRD9 dependency in these 5 synovial lines while leaving
+    moderate rates wide open.
+ 4. **The readout is the limitation.** The synovial mean gene effect is −0.13 against the sarcoma
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer_calibration.py b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer_calibration.py
+index a3af595..3a3d6eb 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer_calibration.py
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer_calibration.py
+@@ -122,6 +122,17 @@ def main():
+             "wilson95": wilson(k, n),
+             "panel_background_frac_dependent_rest": pan["rest_frac_dependent"],
+             "panel_background_frac_dependent_sarcoma": pan["sarcoma_frac_dependent"],
++            "fisher_comparison": "this subtype's k/n against the panel's NON-SARCOMA (rest) arm "
++                                 "at the gene's recorded rest_frac_dependent - NOT against the "
++                                 "sarcoma arm",
++            "fisher_n_rest_assumed": panel["n_models_total"] - n_pan,
++            "fisher_n_rest_provenance": "ASSUMED, NOT RECORDED. The panel stores no rest-arm "
++                                        "denominator. n_models_total (2105, Model.csv) minus the "
++                                        "91 screened sarcoma lines is used here; 1126 integers in "
++                                        "[943, 2105] are consistent with the panel's rounded rest "
++                                        "fractions, and the panel's own nr4a block implies 1178 "
++                                        "screened lines, i.e. n_rest = 1087. Across that whole "
++                                        "envelope the p below moves only within [0.0832, 0.0886].",
+             "fisher_p_vs_rest_panel": round(fisher_exact(
+                 [[k, n - k],
+                  [round(pan["rest_frac_dependent"] * (panel["n_models_total"] - n_pan)),
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer-calibration.json b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer-calibration.json
+index e9b59e1..e78663b 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer-calibration.json
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-BIOMARKER-DEP/transfer-calibration.json
+@@ -24,6 +24,9 @@
+    ],
+    "panel_background_frac_dependent_rest": 0.017,
+    "panel_background_frac_dependent_sarcoma": 0.022,
++   "fisher_comparison": "this subtype's k/n against the panel's NON-SARCOMA (rest) arm at the gene's recorded rest_frac_dependent - NOT against the sarcoma arm",
++   "fisher_n_rest_assumed": 2014,
++   "fisher_n_rest_provenance": "ASSUMED, NOT RECORDED. The panel stores no rest-arm denominator. n_models_total (2105, Model.csv) minus the 91 screened sarcoma lines is used here; 1126 integers in [943, 2105] are consistent with the panel's rounded rest fractions, and the panel's own nr4a block implies 1178 screened lines, i.e. n_rest = 1087. Across that whole envelope the p below moves only within [0.0832, 0.0886].",
+    "fisher_p_vs_rest_panel": 0.0838
+   },
+   {
+@@ -38,6 +41,9 @@
+    ],
+    "panel_background_frac_dependent_rest": 0.839,
+    "panel_background_frac_dependent_sarcoma": 0.758,
++   "fisher_comparison": "this subtype's k/n against the panel's NON-SARCOMA (rest) arm at the gene's recorded rest_frac_dependent - NOT against the sarcoma arm",
++   "fisher_n_rest_assumed": 2014,
++   "fisher_n_rest_provenance": "ASSUMED, NOT RECORDED. The panel stores no rest-arm denominator. n_models_total (2105, Model.csv) minus the 91 screened sarcoma lines is used here; 1126 integers in [943, 2105] are consistent with the panel's rounded rest fractions, and the panel's own nr4a block implies 1178 screened lines, i.e. n_rest = 1087. Across that whole envelope the p below moves only within [0.0832, 0.0886].",
+    "fisher_p_vs_rest_panel": 0.0
+   }
+  ],

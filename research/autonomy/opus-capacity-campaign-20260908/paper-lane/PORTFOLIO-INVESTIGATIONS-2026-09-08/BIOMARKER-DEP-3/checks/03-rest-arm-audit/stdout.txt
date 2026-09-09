@@ -1,0 +1,228 @@
+{
+  "_note": "BIOMARKER-DEP-3. Independent re-derivation of BIOMARKER-DEP-2's two rest-arm claims, then a per-quantity supportability audit. No EMC observation. No clinical claim.",
+  "source": "research/modalities/depmap-sarcoma-dependency.json",
+  "panel_scalars": {
+    "n_models_total": 2105,
+    "n_sarcoma_models": 176,
+    "n_sarcoma_per_record": 91,
+    "dependent_threshold": -0.5,
+    "nr4a_block_n_lines": 1178
+  },
+  "claim_1_admissible_rest_denominators": {
+    "search_range": [
+      2,
+      2105
+    ],
+    "count": 1126,
+    "range": [
+      943,
+      2105
+    ],
+    "integers_in_range": 1163,
+    "excluded_in_range": 37,
+    "BIOMARKER_DEP_2_reported": {
+      "count": 1126,
+      "range": [
+        943,
+        2105
+      ]
+    },
+    "reproduces": true,
+    "producer_denominator_2014_admissible": true,
+    "panel_implied_denominator_1087_admissible": true,
+    "recorded_anywhere_in_the_artifact": false
+  },
+  "claim_2_the_p_0084_statement": {
+    "A_producer_route_n_rest=n_models_total-91": {
+      "n_rest": 2014,
+      "table": [
+        [
+          1,
+          4
+        ],
+        [
+          34,
+          1980
+        ]
+      ],
+      "two_sided": 0.083803,
+      "one_sided_greater": 0.083803,
+      "scipy_two_sided": 0.083803,
+      "denominator_is_admissible": true
+    },
+    "B_vs_sarcoma_arm_1of5_vs_2of91": {
+      "table": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          89
+        ]
+      ],
+      "two_sided": 0.149741,
+      "one_sided_greater": 0.149741
+    },
+    "C_envelope_over_all_admissible_rest_denominators": {
+      "n_denominators": 1126,
+      "n_rest_min": 943,
+      "n_rest_max": 2105,
+      "two_sided_min": 0.08317,
+      "two_sided_max": 0.088644,
+      "two_sided_at_min_n": 0.08668,
+      "two_sided_at_max_n": 0.084734,
+      "one_sided_min": 0.08317,
+      "one_sided_max": 0.088644,
+      "one_sided_at_min_n": 0.08668,
+      "one_sided_at_max_n": 0.084734,
+      "n_denominators_rounding_two_sided_to_0.084": 321
+    },
+    "D_panel_implied_n_rest=1178-91": {
+      "n_rest": 1087,
+      "table": [
+        [
+          1,
+          4
+        ],
+        [
+          18,
+          1069
+        ]
+      ],
+      "two_sided": 0.08417,
+      "one_sided_greater": 0.08417,
+      "denominator_is_admissible": true
+    }
+  },
+  "per_quantity_audit": [
+    {
+      "quantity": "EWSR1 rest_frac_dependent",
+      "published_value": 0.915,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/EWSR1.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        0.9145,
+        0.9155
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        863,
+        1926
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.8955,
+        0.9322
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    },
+    {
+      "quantity": "MCL1 rest_frac_dependent",
+      "published_value": 0.696,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/MCL1.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        0.6955,
+        0.6965
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        656,
+        1465
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.6652,
+        0.7249
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    },
+    {
+      "quantity": "BCL2L1 rest_frac_dependent",
+      "published_value": 0.854,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/BCL2L1.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        0.8535,
+        0.8545
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        805,
+        1798
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.8295,
+        0.8756
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    },
+    {
+      "quantity": "BRD9 rest_frac_dependent",
+      "published_value": 0.017,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/BRD9.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        0.0165,
+        0.0175
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        16,
+        36
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.0097,
+        0.0274
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    },
+    {
+      "quantity": "FLI1 rest_frac_dependent",
+      "published_value": 0.019,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/FLI1.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        0.0185,
+        0.0195
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        18,
+        40
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.0114,
+        0.03
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    },
+    {
+      "quantity": "NR4A3 rest_frac_dependent",
+      "published_value": 0.0,
+      "artifact": "research/modalities/depmap-sarcoma-dependency.json",
+      "key": "<group>/NR4A3.rest_frac_dependent",
+      "descriptive_bound_from_rounding_only": [
+        -0.0005,
+        0.0005
+      ],
+      "implied_dependent_count_range_over_admissible_N": [
+        0,
+        0
+      ],
+      "binomial_CI_envelope_over_admissible_N": [
+        0.0,
+        0.0039
+      ],
+      "point_estimate_with_no_placeable_uncertainty": true
+    }
+  ],
+  "quantities_independent_of_the_rest_denominator": {
+    "n_sarcoma (every record)": 91,
+    "sarcoma_frac_dependent denominators consistent": [
+      91,
+      182,
+      273,
+      364,
+      455
+    ],
+    "pan_essential_trap_records_rest_frac>=0.80": 23,
+    "pan_essential_trap_records_rest_frac>=0.20": 30,
+    "records_with_a_rest_arm": 67,
+    "unique_genes_with_a_rest_arm": 64
+  }
+}

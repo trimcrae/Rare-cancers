@@ -1,0 +1,510 @@
+{
+  "id": "DOC-FOLLOWTHROUGH-DISCOVERY-PROPOSALS-20260909",
+  "lane": "FOLLOWTHROUGH-DISCOVERY",
+  "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+  "date": "2026-09-09",
+  "repo_head_at_proposal_time": "04a4e0ef3078fca4259109ed376efdc60bca3aaa",
+  "n_proposals": 10,
+  "n_discarded": 11,
+  "ranking_rationale": "Ranked by information gained per bounded run, then scientific merit, then independence. 1-3 could change a load-bearing quantity or convert a published bound into an exact number. 4-5 sharpen an already-reported decision quantity. 6-7 add new primary evidence through the admitted PubMed/PMC route, cheap but may return not-retrievable. 8-9 open evidence surfaces never touched by the campaign: high expected information, high variance. 10 is consolidation, creating a reusable object rather than a new fact.",
+  "global_fences_applied": [
+    "no wet lab; no EMC efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim anywhere",
+    "no GPU, no paid API, no large download; every proposal runs on committed inputs or admitted PubMed/PMC MCP calls",
+    "routes B1, B2, B4, B8, B9 remain closed; R1/R4 closed duplicates; R2 and R3 unadmitted; no relabelling reopens any of them",
+    "direct HTTP egress is proxy-refused (CONNECT 403 / curl exit 56) and is not attempted",
+    "no publication act, no outreach, no new manuscript-admission authority",
+    "user-rejected EMC-classification project off limits; retired patient-facing site not recreated; frozen ASO and submitted assets not edited",
+    "MF1 and P-ST are ACCEPTED/CLOSED and do not appear",
+    "no guard, floor, gate, matcher, pin or test weakened; no fabricated exit code; a skipped test is not a pass; every failed execution preserved",
+    "writes confined to each proposal's own new lane directory; shared-file changes are unapplied diffs only"
+  ],
+  "proposals": [
+    {
+      "rank": 1,
+      "key": "EXPR-COMPOSITION",
+      "title": "Composition-adjusted EMC expression contrast",
+      "question": "Is the broad two-platform EMC expression contrast tumour/stroma composition, or EMC biology?",
+      "what_is_new": "KINASE-2 (../KINASE-2/FINDING.md sec.8 item 1) proved the 65.2% concordance is a real shared EMC contrast and left this as the sharply defined open alternative. KINASE-2 computed label-permutation and gene-resampling nulls; it did not adjust for or stratify on sample composition. No lane has.",
+      "inputs": [
+        {
+          "path": "research/modalities/emc-expression-panels.json",
+          "sha256": "59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d",
+          "note": "gene_reads 479 genes with per-sample z_vs_array and class labels for both series; signature_member_reads 42-GSM z matrix; 22 of 25 probed composition markers present (verified checks/03)"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/label_permutation_null.py",
+          "note": "reused read-only"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/reproduce_lane1_check.py",
+          "note": "reused read-only as the known-answer gate"
+        }
+      ],
+      "artifact": "composition-adjusted-contrast.json - per lead gene and frame: unadjusted statistic, composition score, rank-based composition-adjusted statistic, attenuation; marker list frozen before any statistic is read",
+      "ownership": {
+        "new_lane": "EXPR-COMPOSITION",
+        "reads_other_lanes": [
+          "KINASE-2"
+        ],
+        "write_conflict": "none - KINASE-2 is complete and is read read-only; nothing outside the new directory is written"
+      },
+      "validation": "Known answer first: recompute KINASE-2's observed statistics, require 0 mismatches, exit 2 otherwise. Negative control: a permuted composition score must not attenuate. Marker list and seed pre-registered in the lane before running.",
+      "stop_condition": "Stop when the adjusted statistic and its null are computed on the primary and secondary frames, or immediately on a reproduction failure - whichever comes first.",
+      "compute_storage": "stdlib + numpy; one 13 MB JSON read; under 2 min CPU; under 5 MB written; no network",
+      "risks": "Attenuation is a statement about this contrast only; never an efficacy or target claim."
+    },
+    {
+      "rank": 2,
+      "key": "DEGRADER-RSA",
+      "title": "Per-frame Shrake-Rupley RSA export for the paralogue exposure ceiling",
+      "question": "What are the exact per-frame RSA overlap fractions between NR4A3 C397/C420 and the paralogue ceiling, replacing the published quantile bounds?",
+      "what_is_new": "PUB-DEGRADER sec.6 names it: the committed artifact publishes quantile summaries, not per-frame RSA, so the ceiling (RSA <= 0.2126), C397's per-replica margins (0.025-0.162) and the worst-case cross-replica margin (-0.014) cannot be turned into overlap fractions. Nothing new is sampled.",
+      "inputs": [
+        {
+          "path": "research/modalities/nr4a-paralogue-dynamics.json",
+          "sha256": "c3b7eaf38124177a2aa23d80135f7b5c8d96ffe70519234a878a0ed178523d4c",
+          "note": "ensemble_census names the roots and the 75 unbiased frames per species"
+        },
+        {
+          "path": "results/nr4a1-pocket-ensemble/release_rep{0,1,2}",
+          "note": "75 frame.pdb verified present (checks/01)"
+        },
+        {
+          "path": "results/nr4a2-pocket-ensemble/release_rep{0,1,2}",
+          "note": "75 frame.pdb verified present (checks/01)"
+        },
+        {
+          "path": "results/nr4a3-pocket-reharmonize/release_rep{0,1,2}",
+          "note": "100 frames total, 75 unbiased; metad excluded exactly as the committed artifact excludes it (checks/02)"
+        },
+        {
+          "tool": "Bio.PDB.SASA.ShrakeRupley",
+          "note": "verified importable in this environment (checks/03); mdtraj, freesasa, MDAnalysis are absent and are not needed"
+        }
+      ],
+      "artifact": "per-frame-rsa.json - RSA per cysteine per frame per replica per species, exact overlap fractions, replica-level confidence statement",
+      "ownership": {
+        "new_lane": "DEGRADER-RSA",
+        "reads_other_lanes": [
+          "PUB-DEGRADER"
+        ],
+        "write_conflict": "none; conformer trees read in place, not copied (13 GiB headroom fence)"
+      },
+      "validation": "Known answer: the per-frame values must reproduce the committed artifact's published quantile summaries (ceiling 0.2126 and each replica p10) to the artifact's own precision. A mismatch indicts the re-implementation and must be reported as the result rather than the new numbers.",
+      "stop_condition": "Stop when all 225 unbiased frames are scored and the reproduction either holds or fails.",
+      "compute_storage": "about 225 PDB frames scored by ShrakeRupley; 3-8 min single-core CPU; artifact under 10 MB; no network",
+      "risks": "RSA is geometry. Nothing about thiol pKa, adduct stability, promiscuity, selectivity in cells, efficacy, safety or a therapeutic window follows, and the recorded STOP_NO_REFERENCE covalent-ligandability dependency is untouched."
+    },
+    {
+      "rank": 3,
+      "key": "IPD-SURVIVAL-3",
+      "title": "Make the KM numbers-at-risk proximity clause re-derivable (y0/y1 in Token.as_dict)",
+      "question": "Can the one absent verdict that rests solely on a non-re-derivable proximity clause be made re-derivable by an additive change that moves no published number?",
+      "what_is_new": "IPD-SURVIVAL-2 sec.6 item 2 named it, and that lane also established what makes it runnable: the census reproduces byte for byte at this HEAD and origin/literature-cache exists here (216bd1b5fb25a56b90ef3cc2373e1fe68322708f, verified checks/01), contradicting the standing 'not runnable at this HEAD' record.",
+      "inputs": [
+        {
+          "path": "research/modalities/km_risk_row_detect.py",
+          "sha256": "71ed29b707233bffb2736e89da5989e37e83758b2b81f3b6716fe9a2a80b3749"
+        },
+        {
+          "path": "origin/literature-cache",
+          "sha256": "n/a - git ref 216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+          "note": "licence-uncommitted PDFs, read in place by the path IPD-SURVIVAL-2 used"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-2/census-reproduced-2026-09-09.json",
+          "note": "comparison baseline"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-2/census_rederive.py"
+        }
+      ],
+      "artifact": "UNAPPLIED-token-y-coordinates.diff (additive only) plus proximity-clause-rederivation.json showing the clause recomputed from the emitted coordinates and agreeing with the recorded verdict",
+      "ownership": {
+        "new_lane": "IPD-SURVIVAL-3",
+        "reads_other_lanes": [
+          "IPD-SURVIVAL-2"
+        ],
+        "write_conflict": "none; the producer is shared so only an unapplied diff is emitted and the re-run uses a lane-local copy. The correction to reports/W65-km-risk-row-instrument-audit.md is another lane's report: propose as a second unapplied diff, do not apply."
+      },
+      "validation": "Every field of the regenerated census must be identical to the reproduced census except the added keys; any other difference is a failure and is reported as one.",
+      "stop_condition": "Stop when the proximity clause either re-derives to the recorded verdict or provably does not. No figure is re-adjudicated.",
+      "compute_storage": "one census re-execution, under 10 min; pdf-parser warnings expected and preserved in stderr.txt",
+      "risks": "Never weaken the detector, its thresholds or any verdict rule; the diff is additive only."
+    },
+    {
+      "rank": 4,
+      "key": "MONOVALENT-3",
+      "title": "Clash-cutoff sweep of the experimental NR4A2 competitor closure",
+      "question": "Is the corridor closure that survived experimental NR4A2 competitor geometry a structural fact or an artifact of the primary clash cutoff?",
+      "what_is_new": "MONOVALENT-2 next-work item 2. That lane recomputed closure under ten experimental chains at the primary cutoff only; the closure survived but the C534 attribution softened to a 20-36 range. The cutoff dimension is untested.",
+      "inputs": [
+        {
+          "path": "research/modalities/nr4a3_linker_covalent_reach.py",
+          "sha256": "25e3949d215890736fff45aafc80cf315aefeb350c90b3e34b41889c2ca533ff",
+          "note": "CLASH_SWEEP_A = (2.0, 2.6, 3.0, 3.4) verified at line 136 (checks/03); cutoffs already threaded through reach_one_frame, so no rule is changed, only reported"
+        },
+        {
+          "path": "research/modalities/nr4a3-linker-covalent-reach.json",
+          "sha256": "d5ebc0a3db8d4cf2a9e8ea3827c02e4681fb733fbd9e3bb15f1bd7b6555e3320"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MONOVALENT-2/nr4a2_experimental_competitor_reach.py",
+          "note": "reused, parameterised on cutoff"
+        },
+        {
+          "path": "research/modalities/_s4_lane_inputs/1OVL.pdb.gz"
+        },
+        {
+          "path": "research/modalities/_s4_lane_inputs/7WNH.pdb.gz"
+        },
+        {
+          "path": "results/nr4a3-matrix/nr4a2-opened.pdb"
+        },
+        {
+          "path": "results/nr4a3-matrix/nr4a3-opened.pdb"
+        }
+      ],
+      "artifact": "cutoff-sweep-closure.json - per-cell closure decision at each of four cutoffs under each of ten experimental chains, corridor tally per cutoff, and the cutoff at which any decision flips",
+      "ownership": {
+        "new_lane": "MONOVALENT-3",
+        "reads_other_lanes": [
+          "MONOVALENT-2"
+        ],
+        "write_conflict": "none"
+      },
+      "validation": "Keep MONOVALENT-2's own gate: 300/300 committed modelled competitor atom counts reproduced, hard exit 2 otherwise, before any experimental chain is read. Additional control: at the primary cutoff the sweep must return MONOVALENT-2's published 34/8/18-of-60 tally exactly.",
+      "stop_condition": "Stop when all four cutoffs by ten chains are decided, or on the reproduction gate firing.",
+      "compute_storage": "same engine as MONOVALENT-2, roughly 4x its runtime; single core, minutes; artifact under 5 MB",
+      "risks": "NR4A1 stays out of scope - it needs a structure fetch nobody here is authorised for, and MONOVALENT-2's refusal to substitute a model for it stands."
+    },
+    {
+      "rank": 5,
+      "key": "NEOANTIGEN-5",
+      "title": "Zero-partner discriminator as an explicit, separately reported filter",
+      "question": "What does the ranked junction-neoantigen panel look like once peptides carrying zero residues from one parent are removed by an explicit, reported filter?",
+      "what_is_new": "NEOANTIGEN-4 sec.8 item 1 measured the proportion (8 of 174 peptides, 2 of 11 ranked binders including rank 1) and fixed the novelty guard's parent accession. It did not produce the re-emitted panel.",
+      "inputs": [
+        {
+          "path": "research/modalities/fusion_breakpoints.py",
+          "sha256": "e9a2f4fcc10f626c0faa038555f444d5a9f3ebabab62305ab699b7e6f45ca626"
+        },
+        {
+          "path": "research/modalities/junction-proteome-novelty.json",
+          "sha256": "ff1ccc2c247eccb7963ee307d49ba50b048d238a1f280ef7c42e8546d165914a"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-4/neoantigen4-novelty-audit.json",
+          "note": "per-peptide parent-residue split"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-4/UNAPPLIED-junction_proteome_novelty-parent-accession.diff"
+        }
+      ],
+      "artifact": "UNAPPLIED-zero-partner-filter.diff plus refiltered-panel.json, retaining pre- and post-filter ranks side by side so the filter is auditable and never silent",
+      "ownership": {
+        "new_lane": "NEOANTIGEN-5",
+        "reads_other_lanes": [
+          "NEOANTIGEN-4",
+          "NEOANTIGEN-3"
+        ],
+        "write_conflict": "fusion_breakpoints.py is shared, so unapplied diff only. State the interaction with NEOANTIGEN-4's PARENTS diff: check independent applicability and emit a rebased version if they conflict, as REPURPOSING-3 did."
+      },
+      "validation": "Run the existing repository tests for the audited scripts unmodified and require them green (NEOANTIGEN-4 ran 9 as its baseline). Assert the filter can only remove candidates, never add or re-rank upward. Positive control: DMPCVQAQY (zero EWSR1 residues, recorded in NR4A3 isoform Q92570-3) must be removed.",
+      "stop_condition": "Stop at the re-emitted panel plus the diff.",
+      "compute_storage": "stdlib, seconds, under 5 MB",
+      "risks": "This changes a screen, not a presentation or immunogenicity claim. No guard, matcher or test is weakened."
+    },
+    {
+      "rank": 6,
+      "key": "LOCOREGIONAL-3",
+      "title": "Take the RT local-control contrast ledger from k=2 to k=3",
+      "question": "Which primary reports the 1/10 vs 7/17 multicenter split, and do bishop2019's 1/33 and 4/8 hold at source?",
+      "what_is_new": "LOCOREGIONAL-2 sec.6 next-work. That lane moved k from 1 to 2 by exactly this move on masunaga2025; the third series has not been attempted, and two transcriptions are still second-hand.",
+      "inputs": [
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt_contrast_ledger_k2.py",
+          "note": "has a --check byte-identity path"
+        },
+        {
+          "path": "research/modalities/emc_locoregional_eligibility.py",
+          "note": "shared Wilson closed form, z = 1.959963984540054, reused unmodified"
+        },
+        {
+          "new_source": "PubMed/PMC via mcp__PubMed__search_articles, lookup_article_by_citation, convert_article_ids, get_full_text_article",
+          "note": "admitted route; bishop2019 DOI 10.1097/COC.0000000000000590. No direct HTTP. B9 (PMID 22592656) stays closed and is not a target."
+        }
+      ],
+      "artifact": "rt-local-control-contrast-ledger-k3.json - the k=2 ledger extended, or explicitly not extended with the reason recorded per candidate",
+      "ownership": {
+        "new_lane": "LOCOREGIONAL-3",
+        "reads_other_lanes": [
+          "LOCOREGIONAL-2"
+        ],
+        "write_conflict": "none"
+      },
+      "validation": "--check must re-derive the k=2 rows byte for byte before any new row is added; the four internal arithmetic consistency checks must stay green.",
+      "stop_condition": "Stop as soon as the multicenter reference is identified and read, or shown unresolvable through the admitted route. A not-found is the result, recorded, not padded.",
+      "compute_storage": "a handful of MCP calls; negligible CPU; artifact under 1 MB; every retrieval attempt including empty bodies preserved under checks/",
+      "risks": "RT-RT-INTENSIFY stays REFUTED and RT-METASTASECTOMY stays DO-NOT-WRITE. Sizes only; no pooled effect estimate."
+    },
+    {
+      "rank": 7,
+      "key": "EPITOPE-BENCHMARK-2",
+      "title": "Resolve the EWSR1::FLI1 validated-epitope discrepancy at its own citation",
+      "question": "What does the manuscript's own cited EWSR1::FLI1 primary actually report, and does it change the validated-epitope count of 15?",
+      "what_is_new": "EPITOPE-BENCHMARK sec.8 item 2 and NEOANTIGEN-3 sec.8 item 3 both stopped here; PubMed term mapping did not surface the record, leaving the 34-vs-37 adjudication resting on an unread citation. New: read the cited primary directly rather than re-searching by term.",
+      "inputs": [
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/epitope-records.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/validated-epitope-counts.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/check_consistency.py"
+        },
+        {
+          "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+          "note": "section B1 carries the citation itself"
+        },
+        {
+          "new_source": "PubMed/PMC via mcp__PubMed__lookup_article_by_citation then convert_article_ids then get_full_text_article",
+          "note": "admitted route"
+        }
+      ],
+      "artifact": "ewsr1-fli1-discrepancy-resolution.json - the citation as printed, what the retrieved record reports, and the resulting delta (or no delta) to n=15 with the inclusion rule re-applied in code",
+      "ownership": {
+        "new_lane": "EPITOPE-BENCHMARK-2",
+        "reads_other_lanes": [
+          "EPITOPE-BENCHMARK",
+          "NEOANTIGEN-3"
+        ],
+        "write_conflict": "none, but note the coupling: NEOANTIGEN-3 asserts len(VALIDATED) == 15. If the count changes, say so loudly; do not edit NEOANTIGEN-3 and do not remove the assert."
+      },
+      "validation": "Re-run check_consistency.py unmodified; the six negative-control rows must still be discriminating.",
+      "stop_condition": "Stop when the record is read or shown unreachable through the admitted route.",
+      "compute_storage": "a few MCP calls; negligible CPU and storage",
+      "risks": "Prediction is not validation; presentation is not efficacy."
+    },
+    {
+      "rank": 8,
+      "key": "TXN-DEPENDENCY",
+      "title": "First investigation of PUB-TXN-DEPENDENCY: which quantitative claims re-derive?",
+      "question": "Which of this endpoint's quantitative claims can be re-derived today from committed artifacts, and which cannot - and for those, what exactly is the missing input?",
+      "what_is_new": "Of the 33 endpoints in systems/graph/publications.json this one has never had a lane in either campaign round. Its sibling dependency lanes (PUB-BIOMARKER-DEP, DEP-THRESHOLD, BIOMARKER-DEP-2, PUB-SYNLETH, PUB-MTAP-PRMT5) converged on one shared producer defect whose reach into this manuscript is unknown.",
+      "inputs": [
+        {
+          "path": "research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md",
+          "sha256": "9523555483f00cfee00b6cd4cf64f5615f57c011f1640297bf952399e742b3ba"
+        },
+        {
+          "path": "research/modalities/depmap-sarcoma-dependency.json",
+          "sha256": "d88bed62a80dcb51675f0f7a5a27771a6c1f732e977200d39fa389cb8dd27546"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/DEP-THRESHOLD/threshold-sensitivity.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/DEP-THRESHOLD/CLAIMS-AT-RISK.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/producer-dispersion-retention.diff"
+        }
+      ],
+      "artifact": "claim-rederivation-ledger.json - one row per quantitative claim: quoted value, source artifact, re-derived value, verdict in {REPRODUCES, MISMATCH, NOT-RE-DERIVABLE-LOCALLY} with the exact missing input named for the third",
+      "ownership": {
+        "new_lane": "TXN-DEPENDENCY",
+        "reads_other_lanes": [
+          "DEP-THRESHOLD",
+          "BIOMARKER-DEP-2",
+          "PUB-BIOMARKER-DEP",
+          "PUB-SYNLETH",
+          "PUB-MTAP-PRMT5"
+        ],
+        "write_conflict": "none; no manuscript is touched"
+      },
+      "validation": "Known-answer control: include at least one claim already re-derived by a sibling lane and require it to reproduce that lane's value; if it does not, the harness is wrong and that is the reported result.",
+      "stop_condition": "Stop at the first pass over the claims. No second pass, no repair attempt, no diff to the manuscript. A MISMATCH is reported, never fixed here.",
+      "compute_storage": "stdlib, under 5 min, under 5 MB",
+      "risks": "Scope is re-derivation of stated numbers against committed inputs only - not a baseline review of a repaired paper, no prose grading, no gate sweep."
+    },
+    {
+      "rank": 9,
+      "key": "CLOSED-ROUTES-2",
+      "title": "Reconcile the closed-routes negative record against what this campaign actually closed",
+      "question": "Which of the campaign's newly evidenced route closures does the standing negative record already carry, and which are uncatalogued?",
+      "what_is_new": "The record has had no lane, and this campaign produced substantial new evidenced closure fact currently scattered across lane directories: the GPL3290 accession bridge (FUSION-OUTPUT-3), HPA rnatss returning empty so the vital-tissue screen has no input (SURFACE-2), the clinicaltrials.gov egress refusal at curl exit 56 (STRATEGY-ARCH-2), four references with no PMC record (REPURPOSING-3), morioka2016trabectedin retrieved incompletely (CARE-DELIVERY-3), alongside the standing B1/B2/B4/B8/B9 and R1-R4 dispositions.",
+      "inputs": [
+        {
+          "path": "research/manuscripts/methods-record/closed-routes-negative-record.md",
+          "sha256": "e091b1cdf0b660b3ba947680b99a923c27f53565a6e4137d888bde6a6dbcf920"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-3/FINDING.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SURFACE-2/FINDING.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-2/FINDING.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/FINDING.md"
+        }
+      ],
+      "artifact": "closed-route-coverage.json plus UNAPPLIED-closed-routes-additions.diff - a coverage table (route, evidence locator, in-record yes/no) and an unapplied diff adding only the uncatalogued rows, each with its evidence locator",
+      "ownership": {
+        "new_lane": "CLOSED-ROUTES-2",
+        "reads_other_lanes": [
+          "FUSION-OUTPUT-3",
+          "SURFACE-2",
+          "STRATEGY-ARCH-2",
+          "REPURPOSING-3",
+          "CARE-DELIVERY-3"
+        ],
+        "write_conflict": "none; the manuscript change is unapplied"
+      },
+      "validation": "git apply --check with its real exit code preserved - generate the diff, never hand-write it (HLA-COVERAGE-2 hit exit 128 on a hand-written patch). Every added row must quote its lane's own evidence path; a row without one may not be added.",
+      "stop_condition": "Stop at the coverage table plus the diff.",
+      "compute_storage": "stdlib, minutes, under 1 MB",
+      "risks": "Cataloguing a route does not reopen it, and must not be written in a way that reads as a plan to retry one."
+    },
+    {
+      "rank": 10,
+      "key": "EXPOSURE-INDEX",
+      "title": "Cross-paper EMC-patient-exposure index with a retrieval-completeness column",
+      "question": "How many distinct EMC patients does this portfolio's cited evidence actually rest on, and how much of that is unread rather than absent?",
+      "what_is_new": "Proposed by REPURPOSING-2 and refined by REPURPOSING-3 sec.6 item 4; nobody has built it. REPURPOSING-3 established the distinction it exists to preserve - references [8] and [14] enter as unknown, not none - and CARE-DELIVERY-3 independently invented the same retrieval_completeness field for its own rows.",
+      "inputs": [
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json"
+        },
+        {
+          "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-2/census-reproduced-2026-09-09.json"
+        }
+      ],
+      "artifact": "emc-patient-exposure-index.json - one row per cited series: identifier, n EMC patients as reported, citing papers, retrieval_completeness in {complete, partial, unread}, and an overlap-unknown flag wherever the same patients may appear in more than one row",
+      "ownership": {
+        "new_lane": "EXPOSURE-INDEX",
+        "reads_other_lanes": [
+          "REPURPOSING-2",
+          "REPURPOSING-3",
+          "CARE-DELIVERY-2",
+          "CARE-DELIVERY-3",
+          "LOCOREGIONAL-2",
+          "IPD-SURVIVAL-2"
+        ],
+        "write_conflict": "none"
+      },
+      "validation": "Every row's n must be traceable to a quoted figure in a named source file; an untraceable row is UNKNOWN, never zero (CLAUDE.md sec.4). Control: LOCOREGIONAL-2's 21 local recurrences among 175 patients in two series must reproduce from the index.",
+      "stop_condition": "Stop at the index. No pooling and no denominator arithmetic across rows carrying an overlap-unknown flag.",
+      "compute_storage": "stdlib, minutes, under 2 MB",
+      "risks": "Counts and provenance only - not a pooled estimate and not a meta-analysis."
+    }
+  ],
+  "discarded": [
+    {
+      "candidate": "GPL3290 accession bridge (FUSION-OUTPUT-3's named dependency)",
+      "reason": "needs GEO egress; direct HTTP proxy-refused. Belongs to the coordinator's networked route."
+    },
+    {
+      "candidate": "HPA per-tissue nTPM for the vital-tissue screen (SURFACE-2 sec.7 item 1)",
+      "reason": "networked fetch, and the surfaceome route B4 is closed. Relabelling would not reopen it."
+    },
+    {
+      "candidate": "Per-line CRISPRGeneEffect.csv / Model.csv analyses (PUB-SYNLETH, PUB-MTAP-PRMT5, BIOMARKER-DEP-2)",
+      "reason": "networked and a large download - two separate fences."
+    },
+    {
+      "candidate": "Re-run MHCflurry over a wider allele panel including HLA-C (NEOANTIGEN-3 sec.8 item 1)",
+      "reason": "predictor not installed (sklearn and pandas verified absent, checks/03), weights are a large download, and the HLA-C half is route B8, excluded."
+    },
+    {
+      "candidate": "Further sweeps of the DepMap summary panel",
+      "reason": "DEP-THRESHOLD states there is nothing left to sweep; BIOMARKER-DEP-2 says do not iterate on its diff."
+    },
+    {
+      "candidate": "Measuring C_E, the AND-gate's decisive parameter (ANDGATE-2)",
+      "reason": "a wet-lab FCS measurement. Categorically out of scope."
+    },
+    {
+      "candidate": "Enlarging the trial-screen depth ablation (STRATEGY-ARCH-2)",
+      "reason": "needs the clinicaltrials.gov fetch already refused at the proxy (curl exit 56); the only offline substitute, paraphrasing criteria from adjudicator prose, is circular by that lane's own reasoning."
+    },
+    {
+      "candidate": "Publisher PDFs for REPURPOSING references [8] and [14]",
+      "reason": "no PMC record, so no admitted route reaches them. A standing hole, not a task."
+    },
+    {
+      "candidate": "Anything touching the EMC-classification endpoint or the patient-facing site",
+      "reason": "user-rejected project; retired site must not be recreated."
+    },
+    {
+      "candidate": "MF1 and P-ST follow-ups",
+      "reason": "ACCEPTED/CLOSED as of 2026-09-09; excluded by instruction."
+    },
+    {
+      "candidate": "Checking pinned-figures.json against NEOANTIGEN-4's 170/174 (its sec.8 item 4)",
+      "reason": "discarded on verified evidence: pinned-figures.json contains no novelty pin, and the neoantigen manuscript contains zero occurrences of '174' (grep -c = 0, checks/03). There is nothing to reconcile; the live part of that item is proposal NEOANTIGEN-5."
+    }
+  ],
+  "checks": [
+    {
+      "dir": "checks/01-locator-existence",
+      "what": "existence and sha256 of every named input; frame counts; origin/literature-cache rev",
+      "exit_code": 0
+    },
+    {
+      "dir": "checks/02-nr4a3-frames",
+      "what": "location of the NR4A3 conformer root and the dynamics artifact's ensemble_census",
+      "exit_code": 0
+    },
+    {
+      "dir": "checks/03-discard-and-env-evidence",
+      "what": "evidence behind discard 11 and the library-availability claims in proposals 2 and 4",
+      "exit_code": 0
+    },
+    {
+      "dir": "checks/04-all-named-locators",
+      "what": "re-verification of every path named in this file: 45 entries, 0 missing, all 10 declared sha256 MATCH",
+      "exit_code": 0
+    },
+    {
+      "dir": "checks/05-inflight-lane-reconciliation",
+      "what": "discovery of the third-round lanes started after this survey began, and the working-tree state of the manuscript files named as proposal inputs",
+      "exit_code": 0
+    }
+  ],
+  "inflight_reconciliation": {
+    "discovered_by": "checks/05-inflight-lane-reconciliation",
+    "note": "A third campaign round started while this survey ran and occupies part of this list. Applying the task's own rule that a stale prospect is not an untested one, to these proposals.",
+    "verdicts": {
+      "DEGRADER-RSA (rank 2)": "SUPERSEDED - do not dispatch. ../DEGRADER-2/ already holds per_frame_rsa_overlap.py and artifacts/per-frame-rsa-overlap.json.",
+      "IPD-SURVIVAL-3 (rank 3)": "SUPERSEDED - do not dispatch. ../IPD-SURVIVAL-3/ already holds preserve-mark-y0-y1.diff, proximity-clause-rederivation.json and the regenerated census.",
+      "NEOANTIGEN-5 (rank 5)": "LIVE but rename the lane to NEOANTIGEN-6; NEOANTIGEN-5 is taken by a different task (guard accession defect plus a failing-then-passing test). Check diff interaction against ../NEOANTIGEN-5/UNAPPLIED-01 and -02.",
+      "EPITOPE-BENCHMARK-2 (rank 7)": "AT RISK of duplication - ../VACCINE-PATH-2/b1-exemplar-admissibility.json is working the same section B1 question through PubMed/PMC. Read that lane's output before dispatch.",
+      "TXN-DEPENDENCY (rank 8)": "LIVE with a locator correction: research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md is modified in the working tree (87 insertions, 19 deletions, uncommitted), as is research/manuscripts/citation-provenance-ledger.json. The recorded sha256 is of the dirty working tree, not of a commit; re-hash at dispatch and state which version was read.",
+      "EXPR-COMPOSITION, MONOVALENT-3, LOCOREGIONAL-3, CLOSED-ROUTES-2, EXPOSURE-INDEX": "LIVE, no in-flight overlap found (BIOMARKER-DEP-3, HLA-COVERAGE-3, MATRIX-ADDRESS-3, SYNLETH-2 are on other questions)."
+    },
+    "net": "8 dispatchable proposals; rank 1 unchanged."
+  }
+}

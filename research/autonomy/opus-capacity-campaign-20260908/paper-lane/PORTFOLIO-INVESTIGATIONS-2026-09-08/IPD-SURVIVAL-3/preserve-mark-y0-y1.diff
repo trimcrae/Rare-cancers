@@ -1,0 +1,20 @@
+diff --git a/research/modalities/km_risk_row_detect.py b/research/modalities/km_risk_row_detect.py
+index 84cb819da..4d573f23f 100644
+--- a/research/modalities/km_risk_row_detect.py
++++ b/research/modalities/km_risk_row_detect.py
+@@ -143,6 +143,15 @@ class Token:
+         d = {"cx": round(self.cx, 1), "cy": round(self.cy, 1), "w": round(self.width, 1)}
+         if self.text is not None:
+             d["text"] = self.text
++        # ⛔ ADDITIVE ONLY -- APPENDED LAST, AND NO CLAUSE READS THESE. Every other clause of the
++        # rule can be re-derived from what this record preserves, but the PROXIMITY clause
++        # (`near_enough_to_tick_labels`, MAX_RISK_GAP) is measured between a band's TOP edge and the
++        # tick-label band's BOTTOM edge, and only each mark's CENTRE was preserved. A reader could
++        # therefore check every clause except the one that is the sole support of one `absent`
++        # verdict (martinbroto2020 p6, the swimmer plot). y0/y1 are recorded at the same 1 dp as
++        # cx/cy/w. They are written AFTER the existing keys so no existing field is removed,
++        # renamed, reordered or retyped, and no threshold or tolerance changes.
++        d["y0"], d["y1"] = round(self.y0, 1), round(self.y1, 1)
+         return d
+ 
+ 
