@@ -1,0 +1,23 @@
+UNAPPLIED. Prepared by lane PUB-CARE-DELIVERY, 2026-09-08. NOT applied by this worker:
+research/modalities/emc-surgical-quality.json is another paper's curation artifact and outside this
+lane's write scope (SHARED-CONTRACT.md, Ownership and storage). It narrows two universal absence
+claims to the set actually examined; it changes no count and no measured value.
+
+--- a/research/modalities/emc-surgical-quality.json
++++ b/research/modalities/emc-surgical-quality.json
+@@
+   "treatment_setting": {
+-    "recorded_in_any_reachable_series": false,
++    "recorded_in_the_series_examined_here": false,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020"],
++    "⚠_scope_correction_2026-09-08": "This field previously read `recorded_in_any_reachable_series: false`. The examined set is the two series curated in this artifact, while the repository's own reachability records name five further series that were retrieved at least once or carry a full-text id (bishop2019, drilon2008, martinbroto2020immunosarc1, morioka2016trabectedin, stacchiotti2013anthracycline). For those, this field is UNKNOWN, not absent. Audit: research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-CARE-DELIVERY/care-delivery-element-coverage.json",
+     "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator. One does not report the exposure and the other holds it constant, so neither can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
+-    "what_would_answer_it": "A series that reports where each patient was first operated, or a registry linkage carrying centre volume. Neither exists among the reachable open-access EMC literature (emc-km-reachability-census-2026-08-25.json)."
++    "what_would_answer_it": "A series that reports where each patient was first operated, or a registry linkage carrying centre volume. None was found in the two series examined here; whether the five reachable-but-unexamined series report it has not been checked (emc-km-reachability-census-2026-08-25.json is a census of ACCESS, not of these fields)."
+   },
+   "unplanned_excision": {
+-    "recorded_in_any_reachable_series": false,
++    "recorded_in_the_series_examined_here": false,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020"],
++    "⚠_scope_correction_2026-09-08": "Same correction as treatment_setting above: the quantifier was universal and the examined set is two.",
+     "candidate_proxies": {

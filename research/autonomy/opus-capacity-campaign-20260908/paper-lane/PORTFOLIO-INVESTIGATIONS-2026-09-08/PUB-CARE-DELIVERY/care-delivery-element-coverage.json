@@ -1,0 +1,1235 @@
+{
+ "_what": "Care-delivery data-element coverage across the 17 candidate EMC clinical series, and a denominator audit of the two universal absence claims in emc-surgical-quality.json.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing here asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness.",
+ "_generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-CARE-DELIVERY/care_delivery_element_coverage.py",
+ "_reads_only": [
+  "research/modalities/emc-ipd-survival.json",
+  "research/literature/emc-km-admissibility-2026-08-27.json",
+  "research/modalities/emc-surgical-quality.json",
+  "research/modalities/emc-site-curation.json",
+  "research/modalities/emc-recurrence-timing.json",
+  "research/modalities/emc-prognostic-coefficients.json"
+ ],
+ "_no_network": "This script opens no socket. Every input is a committed repository file.",
+ "_not_a_reopening_of_the_closed_pilot": "The numbers_at_risk_row column is copied verbatim from emc-km-admissibility-2026-08-27.json's recorded verdicts. No figure was re-read, no curve digitised and no reconstruction attempted.",
+ "candidate_series": 17,
+ "candidate_patients_sum": 1133,
+ "⛔_patients_are_not_additive": "Series denominators overlap (see overlap_risk in emc-ipd-survival.json) and are summed here only to weight the accounting, never as an EMC patient count.",
+ "coverage_matrix": {
+  "seer270_2022": {
+   "n": 270,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "masunaga2025": {
+   "n": 171,
+   "retrieval_verdict": "refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "margin_definition_printed": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-site-curation.json"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "fitted_cox_coefficients": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-prognostic-coefficients.json"
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    }
+   }
+  },
+  "meisKindblom1999": {
+   "n": 117,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "drilon2008": {
+   "n": 87,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "martinbroto2020immunosarc1": {
+   "n": 68,
+   "retrieval_verdict": "refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    }
+   }
+  },
+  "ussc2022": {
+   "n": 60,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "chiusole2020": {
+   "n": 59,
+   "retrieval_verdict": "refused_no_risk_row",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "margin_definition_printed": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-site-curation.json"
+    },
+    "median_follow_up": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "time_to_event_median": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-recurrence-timing.json"
+    },
+    "fitted_cox_coefficients": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-prognostic-coefficients.json"
+    },
+    "numbers_at_risk_row": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    },
+    "unplanned_excision_defined": {
+     "status": "EXAMINED_NOT_PRINTED",
+     "evidence": "research/modalities/emc-surgical-quality.json"
+    }
+   }
+  },
+  "huang2023": {
+   "n": 58,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "uMich2023": {
+   "n": 44,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "japan2003": {
+   "n": 42,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "bishop2019": {
+   "n": 41,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "REPORTED",
+     "evidence": "research/modalities/emc-site-curation.json"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "china2016": {
+   "n": 40,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "stacchiotti2019pazopanib": {
+   "n": 26,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "immunosarc2emc2025": {
+   "n": 24,
+   "retrieval_verdict": "not_in_admissibility_census",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    }
+   }
+  },
+  "stacchiotti2013anthracycline": {
+   "n": 11,
+   "retrieval_verdict": "admitted",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "numbers_at_risk_row": {
+     "status": "REPORTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    }
+   }
+  },
+  "stacchiotti2014sunitinib": {
+   "n": 10,
+   "retrieval_verdict": "unreachable",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "numbers_at_risk_row": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": "UNRETRIEVED"
+    }
+   }
+  },
+  "morioka2016trabectedin": {
+   "n": 5,
+   "retrieval_verdict": "admitted",
+   "elements": {
+    "surgical_margin_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "margin_definition_printed": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "stage_at_diagnosis_split": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "primary_site_distribution": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "median_follow_up": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "time_to_event_median": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "fitted_cox_coefficients": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "numbers_at_risk_row": {
+     "status": "REPORTED",
+     "evidence": "research/literature/emc-km-admissibility-2026-08-27.json"
+    },
+    "treatment_setting_or_referral": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    },
+    "unplanned_excision_defined": {
+     "status": "NOT_EXAMINED",
+     "evidence": null
+    }
+   }
+  }
+ },
+ "element_counts": {
+  "surgical_margin_distribution": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "margin_definition_printed": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "stage_at_diagnosis_split": {
+   "REPORTED": {
+    "n_series": 1,
+    "series": [
+     "masunaga2025"
+    ],
+    "patients": 171
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 1,
+    "series": [
+     "chiusole2020"
+    ],
+    "patients": 59
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "primary_site_distribution": {
+   "REPORTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "chiusole2020",
+     "bishop2019"
+    ],
+    "patients": 271
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 14,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 862
+   }
+  },
+  "median_follow_up": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "time_to_event_median": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "fitted_cox_coefficients": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "numbers_at_risk_row": {
+   "REPORTED": {
+    "n_series": 2,
+    "series": [
+     "stacchiotti2013anthracycline",
+     "morioka2016trabectedin"
+    ],
+    "patients": 16
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 3,
+    "series": [
+     "masunaga2025",
+     "martinbroto2020immunosarc1",
+     "chiusole2020"
+    ],
+    "patients": 298
+   },
+   "NOT_EXAMINED": {
+    "n_series": 12,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2014sunitinib"
+    ],
+    "patients": 819
+   }
+  },
+  "treatment_setting_or_referral": {
+   "REPORTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  },
+  "unplanned_excision_defined": {
+   "REPORTED": {
+    "n_series": 0,
+    "series": [],
+    "patients": 0
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 2,
+    "series": [
+     "masunaga2025",
+     "chiusole2020"
+    ],
+    "patients": 230
+   },
+   "NOT_EXAMINED": {
+    "n_series": 15,
+    "series": [
+     "seer270_2022",
+     "meisKindblom1999",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "ussc2022",
+     "huang2023",
+     "uMich2023",
+     "japan2003",
+     "bishop2019",
+     "china2016",
+     "stacchiotti2019pazopanib",
+     "immunosarc2emc2025",
+     "stacchiotti2013anthracycline",
+     "stacchiotti2014sunitinib",
+     "morioka2016trabectedin"
+    ],
+    "patients": 903
+   }
+  }
+ },
+ "elements_reported_by_two_or_more_series": {
+  "surgical_margin_distribution": [
+   "masunaga2025",
+   "chiusole2020"
+  ],
+  "margin_definition_printed": [
+   "masunaga2025",
+   "chiusole2020"
+  ],
+  "primary_site_distribution": [
+   "masunaga2025",
+   "chiusole2020",
+   "bishop2019"
+  ],
+  "median_follow_up": [
+   "masunaga2025",
+   "chiusole2020"
+  ],
+  "time_to_event_median": [
+   "masunaga2025",
+   "chiusole2020"
+  ],
+  "fitted_cox_coefficients": [
+   "masunaga2025",
+   "chiusole2020"
+  ],
+  "numbers_at_risk_row": [
+   "stacchiotti2013anthracycline",
+   "morioka2016trabectedin"
+  ]
+ },
+ "absence_claim_denominator_audit": {
+  "claim": "emc-surgical-quality.json: treatment_setting.recorded_in_any_reachable_series == false and unplanned_excision.recorded_in_any_reachable_series == false",
+  "claim_values_read": {
+   "treatment_setting": false,
+   "unplanned_excision": false,
+   "counts.series": 2
+  },
+  "series_actually_examined_for_these_two_fields": [
+   "chiusole2020",
+   "masunaga2025"
+  ],
+  "n_examined": 2,
+  "candidate_series_total": 17,
+  "series_retrieved_at_least_once_per_admissibility_census": [
+   "chiusole2020",
+   "martinbroto2020immunosarc1",
+   "masunaga2025",
+   "morioka2016trabectedin",
+   "stacchiotti2013anthracycline"
+  ],
+  "series_with_a_committed_full_text_id_in_emc-ipd-survival": [
+   "bishop2019",
+   "chiusole2020",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "masunaga2025",
+   "morioka2016trabectedin",
+   "stacchiotti2013anthracycline"
+  ],
+  "series_reachable_by_at_least_one_of_those_two_definitions_and_NOT_examined_for_these_fields": [
+   "bishop2019",
+   "drilon2008",
+   "martinbroto2020immunosarc1",
+   "morioka2016trabectedin",
+   "stacchiotti2013anthracycline"
+  ],
+  "verdict": "OVER-SCOPED. The universal quantifier 'any reachable series' is asserted over an examined set of 2 series, while 5 further series are reachable by the repository's own two definitions of reachable and carry no committed reading of either field. For those series the two fields are UNKNOWN, not absent."
+ }
+}

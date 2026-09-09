@@ -1,0 +1,259 @@
+{
+ "_what": "Boundary audit of the class-inheritance premise behind PUB-ATR. Reads only committed artifacts; introduces no new sequence, breakpoint or citation.",
+ "_inputs": [
+  "research/modalities/atr-hrd-sarcoma-series-inputs.json (mechanism_fulltext_xml, PMC10187251)",
+  "research/modalities/fet-sequences-cache.json",
+  "research/modalities/emc-fet-idr-census.json"
+ ],
+ "q1_assay_level_audit": {
+  "EWSR1::FLI1": {
+   "mentions_in_cached_fulltext": 104,
+   "arms": {
+    "dsb_recruitment": {
+     "n_sentences": 17,
+     "example_quote": "We discover that EWSR1-FLI1 and other FET fusion oncoproteins are recruited to DNA DSBs and impair the activation and downstream signaling of the DNA damage sensor ATM."
+    },
+    "rg_rgg_dependence": {
+     "n_sentences": 7,
+     "example_quote": "Interestingly, all oncogenic FET fusion proteins including EWSR1-FLI1 share a similar structure: the N-terminal IDR of the FET protein fused to the DNA binding domain of a transcription factor (e.g., FLI1), with loss of the C-terminal RGG repeats 25 ."
+    },
+    "atm_signalling": {
+     "n_sentences": 44,
+     "example_quote": "We discover that EWSR1-FLI1 and other FET fusion oncoproteins are recruited to DNA DSBs and impair the activation and downstream signaling of the DNA damage sensor ATM."
+    },
+    "atri_drug_sensitivity": {
+     "n_sentences": 6,
+     "example_quote": "Indeed, A673 and TC-32 ES cells displayed nanomolar range sensitivity to the ATR inhibitor elimusertib (IC50\u2019s of 28 and 34nM respectively, comparable to cancer cell lines with known pathogenic ATM loss of function mutations 58 ), and ATR inhibitor sensitivity was significantly reversed by EWSR1-FLI1 knockdown in both cell lines ( Figs."
+    },
+    "cell_line_panel_membership": {
+     "n_sentences": 10,
+     "example_quote": "To test the role of EWSR1-FLI1 in inducing this dependency, we utilized an ES cell line with a doxycycline-inducible shRNA against EWSR1-FLI1 31 ( Fig."
+    }
+   },
+   "appears_in_dsb_recruitment_arm": true,
+   "fet_protein": "EWSR1"
+  },
+  "EWSR1::ATF1": {
+   "mentions_in_cached_fulltext": 14,
+   "arms": {
+    "dsb_recruitment": {
+     "n_sentences": 4,
+     "example_quote": "The EWSR1-ATF1 fusion oncoprotein localized to laser-induced DSBs with delayed recruitment kinetics similar to EWSR1-FLI1, though with differences in departure timing ( Figs."
+    },
+    "rg_rgg_dependence": {
+     "n_sentences": 1,
+     "example_quote": "Like EWSR1-FLI1, reintroduction of either 1 or all 3 RGG-rich domains into EWSR1-ATF1 resulted in earlier DSB recruitment kinetics and higher levels of overall recruitment in an RGG dose-dependent manner ( Fig."
+    },
+    "atm_signalling": {
+     "n_sentences": 5,
+     "example_quote": "Moreover, transient knockdown of EWSR1-ATF1 in a patient-derived CCS cell line increased IR-dependent downstream ATM signaling (phosphorylation of ATM targets CHK2 and KAP1), with either no effect (DNA-PK) or slight decrease (ATR) in activation of the other upstream DDR kinases ( Figs."
+    },
+    "atri_drug_sensitivity": {
+     "n_sentences": 2,
+     "example_quote": "Despite these differences, the consequence of partial suppression of ATM signaling was a similarly increased reliance on the compensatory ATR signaling axis, as CCS cells displayed EWSR1-ATF1-dependent, nanomolar range sensitivity (IC50: 27nM) to ATR inhibitor treatment with elimusertib ( Fig."
+    },
+    "cell_line_panel_membership": {
+     "n_sentences": 2,
+     "example_quote": "Moreover, transient knockdown of EWSR1-ATF1 in a patient-derived CCS cell line increased IR-dependent downstream ATM signaling (phosphorylation of ATM targets CHK2 and KAP1), with either no effect (DNA-PK) or slight decrease (ATR) in activation of the other upstream DDR kinases ( Figs."
+    }
+   },
+   "appears_in_dsb_recruitment_arm": true,
+   "fet_protein": "EWSR1"
+  },
+  "EWSR1::WT1": {
+   "mentions_in_cached_fulltext": 3,
+   "arms": {
+    "dsb_recruitment": {
+     "n_sentences": 1,
+     "example_quote": "Elimusertib was tested in 5 PDX models: 2 ES models (ES-1 from initial diagnosis and ES-2 from a multiply relapsed patient), 2 CCS models (CCS-1 from initial diagnosis and CCS-2 from relapsed disease), and 1 desmoplastic small round cell tumor (DSRCT) PDX derived from a post-treatment surgical resection, for which we also verified that the DSRCT fusion EWSR1-WT1 is recruited to laser-induced DSBs "
+    },
+    "rg_rgg_dependence": {
+     "n_sentences": 0,
+     "example_quote": null
+    },
+    "atm_signalling": {
+     "n_sentences": 1,
+     "example_quote": "Elimusertib was tested in 5 PDX models: 2 ES models (ES-1 from initial diagnosis and ES-2 from a multiply relapsed patient), 2 CCS models (CCS-1 from initial diagnosis and CCS-2 from relapsed disease), and 1 desmoplastic small round cell tumor (DSRCT) PDX derived from a post-treatment surgical resection, for which we also verified that the DSRCT fusion EWSR1-WT1 is recruited to laser-induced DSBs "
+    },
+    "atri_drug_sensitivity": {
+     "n_sentences": 1,
+     "example_quote": "Elimusertib was tested in 5 PDX models: 2 ES models (ES-1 from initial diagnosis and ES-2 from a multiply relapsed patient), 2 CCS models (CCS-1 from initial diagnosis and CCS-2 from relapsed disease), and 1 desmoplastic small round cell tumor (DSRCT) PDX derived from a post-treatment surgical resection, for which we also verified that the DSRCT fusion EWSR1-WT1 is recruited to laser-induced DSBs "
+    },
+    "cell_line_panel_membership": {
+     "n_sentences": 1,
+     "example_quote": "Our panel included 4 ES cell lines with varying TP53 and STAG2 status (see Supplementary Note 3 ), 1 CCS (EWSR1-ATF1), 2 desmoplastic small round cell tumor (EWSR1-WT1), and 1 myxoid liposarcoma cell line (FUS-CHOP), and multiple non-FET rearranged cancer cell lines as controls."
+    }
+   },
+   "appears_in_dsb_recruitment_arm": true,
+   "fet_protein": "EWSR1"
+  },
+  "FUS::CHOP": {
+   "mentions_in_cached_fulltext": 1,
+   "arms": {
+    "dsb_recruitment": {
+     "n_sentences": 0,
+     "example_quote": null
+    },
+    "rg_rgg_dependence": {
+     "n_sentences": 0,
+     "example_quote": null
+    },
+    "atm_signalling": {
+     "n_sentences": 0,
+     "example_quote": null
+    },
+    "atri_drug_sensitivity": {
+     "n_sentences": 0,
+     "example_quote": null
+    },
+    "cell_line_panel_membership": {
+     "n_sentences": 1,
+     "example_quote": "Our panel included 4 ES cell lines with varying TP53 and STAG2 status (see Supplementary Note 3 ), 1 CCS (EWSR1-ATF1), 2 desmoplastic small round cell tumor (EWSR1-WT1), and 1 myxoid liposarcoma cell line (FUS-CHOP), and multiple non-FET rearranged cancer cell lines as controls."
+    }
+   },
+   "appears_in_dsb_recruitment_arm": false,
+   "fet_protein": "FUS"
+  }
+ },
+ "q1_summary": {
+  "fusions_in_dsb_recruitment_arm": [
+   "EWSR1::FLI1",
+   "EWSR1::ATF1",
+   "EWSR1::WT1"
+  ],
+  "n_in_dsb_recruitment_arm": 3,
+  "non_EWSR1_fusions_in_dsb_recruitment_arm": [],
+  "n_non_EWSR1_in_dsb_recruitment_arm": 0,
+  "fusions_appearing_only_outside_the_recruitment_arm": [
+   "FUS::CHOP"
+  ],
+  "_reading": "The DSB-recruitment / RG-dependence arm is the ONLY arm the structural precondition census speaks to. In the cached full text every fusion in that arm is an EWSR1 fusion; the one non-EWSR1 member of the four (FUS::CHOP) appears once, as a cell line in the ATR-inhibitor sensitivity panel."
+ },
+ "q2_family_geometry": {
+  "EWSR1": {
+   "length": 656,
+   "n_RG_dipeptides_total": 30,
+   "first_RG_at": 300,
+   "longest_zero_RG_N_terminus": 299,
+   "census_wildtype_first_RG_at": 300,
+   "agrees_with_census_annotation": true,
+   "at_census_landmark_cuts": {
+    "161": {
+     "why_this_cut": "TAF15 e6 cut (TAF15::NR4A3, the one pinned non-EWSR1 EMC junction)",
+     "rg_retained": 0,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "meets_strict_zero_RG_criterion": true
+    },
+    "264": {
+     "why_this_cut": "EWSR1 e7 cut - Ewing type 1 measured half; EMC type 2 is byte-identical to it",
+     "rg_retained": 0,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "meets_strict_zero_RG_criterion": true
+    },
+    "324": {
+     "why_this_cut": "EWSR1 e8 cut - EWSR1::ATF1, a MEASURED fusion, retains 7/30 RG here",
+     "rg_retained": 7,
+     "fraction_of_wildtype_RG_retained": 0.233,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "431": {
+     "why_this_cut": "EWSR1 e12 cut - EMC type 1, the commonest EMC fusion",
+     "rg_retained": 8,
+     "fraction_of_wildtype_RG_retained": 0.267,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "472": {
+     "why_this_cut": "EWSR1 e13 cut - EMC type 5",
+     "rg_retained": 11,
+     "fraction_of_wildtype_RG_retained": 0.367,
+     "meets_strict_zero_RG_criterion": false
+    }
+   }
+  },
+  "TAF15": {
+   "length": 592,
+   "n_RG_dipeptides_total": 31,
+   "first_RG_at": 175,
+   "longest_zero_RG_N_terminus": 174,
+   "census_wildtype_first_RG_at": 175,
+   "agrees_with_census_annotation": true,
+   "at_census_landmark_cuts": {
+    "161": {
+     "why_this_cut": "TAF15 e6 cut (TAF15::NR4A3, the one pinned non-EWSR1 EMC junction)",
+     "rg_retained": 0,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "meets_strict_zero_RG_criterion": true
+    },
+    "264": {
+     "why_this_cut": "EWSR1 e7 cut - Ewing type 1 measured half; EMC type 2 is byte-identical to it",
+     "rg_retained": 5,
+     "fraction_of_wildtype_RG_retained": 0.161,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "324": {
+     "why_this_cut": "EWSR1 e8 cut - EWSR1::ATF1, a MEASURED fusion, retains 7/30 RG here",
+     "rg_retained": 5,
+     "fraction_of_wildtype_RG_retained": 0.161,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "431": {
+     "why_this_cut": "EWSR1 e12 cut - EMC type 1, the commonest EMC fusion",
+     "rg_retained": 18,
+     "fraction_of_wildtype_RG_retained": 0.581,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "472": {
+     "why_this_cut": "EWSR1 e13 cut - EMC type 5",
+     "rg_retained": 20,
+     "fraction_of_wildtype_RG_retained": 0.645,
+     "meets_strict_zero_RG_criterion": false
+    }
+   }
+  },
+  "FUS": {
+   "length": 526,
+   "n_RG_dipeptides_total": 24,
+   "first_RG_at": 213,
+   "longest_zero_RG_N_terminus": 212,
+   "census_wildtype_first_RG_at": 213,
+   "agrees_with_census_annotation": true,
+   "at_census_landmark_cuts": {
+    "161": {
+     "why_this_cut": "TAF15 e6 cut (TAF15::NR4A3, the one pinned non-EWSR1 EMC junction)",
+     "rg_retained": 0,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "meets_strict_zero_RG_criterion": true
+    },
+    "264": {
+     "why_this_cut": "EWSR1 e7 cut - Ewing type 1 measured half; EMC type 2 is byte-identical to it",
+     "rg_retained": 8,
+     "fraction_of_wildtype_RG_retained": 0.333,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "324": {
+     "why_this_cut": "EWSR1 e8 cut - EWSR1::ATF1, a MEASURED fusion, retains 7/30 RG here",
+     "rg_retained": 8,
+     "fraction_of_wildtype_RG_retained": 0.333,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "431": {
+     "why_this_cut": "EWSR1 e12 cut - EMC type 1, the commonest EMC fusion",
+     "rg_retained": 14,
+     "fraction_of_wildtype_RG_retained": 0.583,
+     "meets_strict_zero_RG_criterion": false
+    },
+    "472": {
+     "why_this_cut": "EWSR1 e13 cut - EMC type 5",
+     "rg_retained": 14,
+     "fraction_of_wildtype_RG_retained": 0.583,
+     "meets_strict_zero_RG_criterion": false
+    }
+   }
+  }
+ },
+ "_limits": [
+  "Q1 audits the CACHED main text of PMC10187251 only. Supplementary notes, figures and tables are not in this repo's cache, so 'does not appear in the recruitment arm here' bounds the cached record, not the source's entire body of work.",
+  "Q2 is a sequence geometry. It says where RG dipeptides sit, not what any fusion does.",
+  "No efficacy, potency, dose, safety or therapeutic-window statement follows from either half."
+ ]
+}

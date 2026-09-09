@@ -1,0 +1,417 @@
+{
+ "_id": "PUB-LOCOREGIONAL-RT-CONTRAST-LEDGER-2026-09-08",
+ "_question": "Restricted to COUNTED local-recurrence events with a stated treatment-arm assignment,\n  what is the ENTIRE admissible evidence base in this repository for the\n  surgery+radiotherapy vs surgery-alone contrast in EMC -- once cohort overlap,\n  endpoint definition and arm-level event availability are made explicit?",
+ "_not_medical_advice": "Nothing here asserts efficacy, safety, tolerability, a therapeutic window or clinical readiness for radiotherapy or any other local treatment. Retrospective series with treatment assigned by indication cannot establish that.",
+ "_inputs": {
+  "registry": "research/data/emc-clinical-registry.json",
+  "rt_contradiction": "research/modalities/emc-radiotherapy-contradiction.json",
+  "prognostic_coefficients": "research/modalities/emc-prognostic-coefficients.json",
+  "site_curation": "research/modalities/emc-site-curation.json",
+  "locoregional_eligibility": "research/modalities/emc-locoregional-eligibility.json"
+ },
+ "_method": "Wilson score intervals per POLICY-evidence 2.2; two-sided Fisher exact from stdlib math.comb; no pooling performed across series (see admissibility_verdict).",
+ "arm_level_event_ledger": [
+  {
+   "source_id": "bishop2019",
+   "arm_sizes_printed": {
+    "surgery_plus_RT": 33,
+    "surgery_alone": 8
+   },
+   "arm_size_sum_equals_cohort_n": true,
+   "local_events_total_printed": 5,
+   "arm_level_events_available": true,
+   "arm_level_events": {
+    "surgery_plus_RT": 1,
+    "surgery_alone": 4
+   },
+   "how_the_arm_split_is_known": "printed as an integer sentence, not derived from a percentage: '5 patients (12%) with local relapse ... 4 of the 5 had surgery alone' (research/modalities/emc-radiotherapy-contradiction.json -> estimates[0].events_note / .printed_in)",
+   "endpoint_as_printed": "local control",
+   "endpoint_class": "actuarial_local_control_at_10y (headline) + crude during-follow-up relapse count (events)",
+   "median_followup_months": 94,
+   "pooled_in_registry_headline": false,
+   "why_not_pooled": "population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)"
+  },
+  {
+   "source_id": "masunaga2025",
+   "arm_sizes_printed": {
+    "radiotherapy": 24,
+    "no_perioperative_RT": 110
+   },
+   "arm_size_sum_equals_cohort_n": true,
+   "local_events_total_printed": 16,
+   "arm_level_events_available": false,
+   "arm_level_events": null,
+   "how_the_arm_split_is_known": "NOT PRINTED. Table 2 publishes arm sizes (24 / 110) and a hazard ratio 0.50 (0.11-2.25), p=0.365, but no per-arm local-recurrence event count. Reconstructing one from the HR would be deriving counts from a modelled quantity, which POLICY-evidence 2.1(2) forbids for pooling.",
+   "endpoint_as_printed": "local recurrence-free survival",
+   "endpoint_class": "time-to-event (local recurrence-free survival), univariate HR only",
+   "median_followup_months": 38,
+   "pooled_in_registry_headline": true,
+   "why_not_pooled": null,
+   "coefficient_row": [
+    {
+     "variable": "neoadjuvant_or_adjuvant_radiotherapy",
+     "level": "no",
+     "n": 110,
+     "reference": true
+    },
+    {
+     "variable": "neoadjuvant_or_adjuvant_radiotherapy",
+     "level": "yes",
+     "n": 24,
+     "hr": 0.5,
+     "ci": [
+      0.11,
+      2.25
+     ],
+     "p": 0.365,
+     "treatment": true
+    }
+   ]
+  }
+ ],
+ "series_with_arm_level_local_events": [
+  "bishop2019"
+ ],
+ "total_counted_local_events_carrying_the_RT_contrast": 5,
+ "the_one_countable_2x2": {
+  "series": "bishop2019",
+  "table": {
+   "surgery_alone": {
+    "local_relapse": 4,
+    "no_local_relapse": 4,
+    "n": 8
+   },
+   "surgery_plus_RT": {
+    "local_relapse": 1,
+    "no_local_relapse": 32,
+    "n": 33
+   }
+  },
+  "crude_risk_percent": {
+   "surgery_alone": 50.0,
+   "surgery_plus_RT": 3.0
+  },
+  "wilson_95ci_percent": {
+   "surgery_alone": [
+    21.5,
+    78.5
+   ],
+   "surgery_plus_RT": [
+    0.5,
+    15.3
+   ]
+  },
+  "fisher_exact_two_sided_p": 0.00316,
+  "total_events_in_the_table": 5,
+  "⛔_this_is_not_an_effect_estimate": "A crude 2x2 over 41 retrospectively treated patients with 5 events, no adjustment, no randomisation and treatment assigned by indication. It is reported here to show HOW LITTLE counted evidence sits under the published 'combined modality improves local control' headline, not to estimate an effect. No efficacy claim is made or supported.",
+  "events_that_must_move_for_p_to_cross_0.05": 2
+ },
+ "actuarial_vs_crude_consistency": {
+  "check": "Bishop's headline is 10-year local control 100% (surgery+RT) vs 63% (surgery alone). The crude event data in the same paper are 1 relapse among 33 surgery+RT patients.",
+  "arithmetic": "A 10-year actuarial local control of 100% cannot coexist with a relapse inside 10 years in that arm. So the single surgery+RT relapse must have occurred after 120 months, or that patient was censored before it.",
+  "printed_relapse_times": "5 patients (12 %) with local relapse at a median 75 months (range 13-176); 4 of the 5 had surgery alone",
+  "relapse_time_range_months": [
+   13,
+   176
+  ],
+  "verdict": "CONSISTENT ONLY IF the surgery+RT relapse is at or beyond 120 months -- the printed range reaches 176 months, so consistency is possible and is NOT contradicted. But it means the '100%' is a statement about a censored time horizon, not a statement that the arm had no local relapses. The paper's own event count says it had one.",
+  "⛔_what_this_does_NOT_show": "It does not show the paper is wrong, and it does not show radiotherapy fails. It shows that quoting '100% local control' without the event count and the horizon overstates what was observed.",
+  "decidable_from": "research/modalities/emc-radiotherapy-contradiction.json -> estimates[0] (.ten_year_local_control_percent, .events, .events_note)"
+ },
+ "population_overlap_ledger": [
+  {
+   "label": "Localised at diagnosis, surgically treated",
+   "source_id": "masunaga2025",
+   "n": 134,
+   "study_period": [
+    2002,
+    2022
+   ],
+   "population": "Pathologically diagnosed EMC, Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022",
+   "pooled": true,
+   "context_reason": null,
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any",
+   "endpoint_definition_resolvable_elsewhere": "emc-radiotherapy-contradiction.json -> estimates[1] establishes that masunaga2025's 16 events are LOCAL recurrence ('16 patients (11.9%) with local recurrence'), endpoint 'local recurrence-free survival'"
+  },
+  {
+   "label": "Metastatic at diagnosis",
+   "source_id": "masunaga2025",
+   "n": 29,
+   "study_period": [
+    2002,
+    2022
+   ],
+   "population": "Pathologically diagnosed EMC, Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022",
+   "pooled": true,
+   "context_reason": null,
+   "provenance": "primary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": "emc-radiotherapy-contradiction.json -> estimates[1] establishes that masunaga2025's 16 events are LOCAL recurrence ('16 patients (11.9%) with local recurrence'), endpoint 'local recurrence-free survival'"
+  },
+  {
+   "label": "Long-term outcome series (Meis-Kindblom)",
+   "source_id": "meisKindblom1999",
+   "n": 117,
+   "study_period": "unknown",
+   "population": "117 EMC cases (AFIP), median follow-up 9 yr",
+   "pooled": true,
+   "context_reason": null,
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any",
+   "endpoint_definition_resolvable_elsewhere": "NOT RESOLVED in any committed artifact read here"
+  },
+  {
+   "label": "US Sarcoma Collaborative database",
+   "source_id": "ussc2022",
+   "n": 60,
+   "study_period": [
+    2000,
+    2016
+   ],
+   "population": "EMC, US Sarcoma Collaborative 2000-2016",
+   "pooled": true,
+   "context_reason": null,
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "locoregional recurrence (stated in note)",
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "European two-institution series (Chiusole)",
+   "source_id": "chiusole2020",
+   "n": 49,
+   "study_period": [
+    1980,
+    2018
+   ],
+   "population": "EMC, Istituto Oncologico Veneto + Gustave Roussy 1980-2018",
+   "pooled": true,
+   "context_reason": null,
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any",
+   "endpoint_definition_resolvable_elsewhere": "NOT RESOLVED in any committed artifact read here"
+  },
+  {
+   "label": "Localised, single-institution series",
+   "source_id": "bishop2019",
+   "n": 41,
+   "study_period": [
+    1990,
+    2016
+   ],
+   "population": "Localized EMC, single institution 1990-2016",
+   "pooled": false,
+   "context_reason": "population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)",
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "local relapse (stated in note)",
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Localised, US SEER population",
+   "source_id": "remiszewski2025",
+   "n": 156,
+   "study_period": [
+    2004,
+    2012
+   ],
+   "population": "Literature review of EMC diagnostics, prognosis and treatment",
+   "pooled": false,
+   "context_reason": "population-overlap; percentage-only",
+   "provenance": "secondary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Local recurrence by surgical margin",
+   "source_id": "remiszewski2025",
+   "n": 31,
+   "study_period": null,
+   "population": "Literature review of EMC diagnostics, prognosis and treatment",
+   "pooled": false,
+   "context_reason": "percentage-only",
+   "provenance": "secondary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "by surgical margin, percentage-only",
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Advanced disease on pazopanib",
+   "source_id": "remiszewski2025",
+   "n": 26,
+   "study_period": null,
+   "population": "Literature review of EMC diagnostics, prognosis and treatment",
+   "pooled": false,
+   "context_reason": "different-endpoint",
+   "provenance": "secondary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "SEER overall-survival series",
+   "source_id": "seer270_2022",
+   "n": 270,
+   "study_period": [
+    2004,
+    2015
+   ],
+   "population": "EMC, SEER 2004-2015",
+   "pooled": false,
+   "context_reason": "population-overlap; percentage-only",
+   "provenance": "primary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Two-referral-center long-term series (Drilon)",
+   "source_id": "drilon2008",
+   "n": 87,
+   "study_period": [
+    1975,
+    2008
+   ],
+   "population": "EMC, 2 referral centres 1975-2008",
+   "pooled": false,
+   "context_reason": "percentage-only",
+   "provenance": "primary",
+   "has_local_endpoint": true,
+   "local_endpoint_definition_recorded_in_registry": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any",
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Single-institution series (U Michigan)",
+   "source_id": "uMich2023",
+   "n": 44,
+   "study_period": [
+    1998,
+    2021
+   ],
+   "population": "EMC, University of Michigan 1998-2021",
+   "pooled": false,
+   "context_reason": "population-overlap",
+   "provenance": "primary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Japanese multi-institutional series",
+   "source_id": "japan2003",
+   "n": 42,
+   "study_period": "unknown",
+   "population": "EMC, 8 Japanese hospitals",
+   "pooled": false,
+   "context_reason": "different-endpoint",
+   "provenance": "primary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  },
+  {
+   "label": "Chinese series",
+   "source_id": "china2016",
+   "n": 40,
+   "study_period": "unknown",
+   "population": "EMC, China",
+   "pooled": false,
+   "context_reason": "percentage-only",
+   "provenance": "primary",
+   "has_local_endpoint": false,
+   "local_endpoint_definition_recorded_in_registry": null,
+   "endpoint_definition_resolvable_elsewhere": null
+  }
+ ],
+ "us_population_overlap_family": [
+  "bishop2019",
+  "remiszewski2025",
+  "seer270_2022",
+  "uMich2023",
+  "ussc2022"
+ ],
+ "existing_headline_local_recurrence_pool": {
+  "value_from_committed_artifact": {
+   "outcome": "recurrence",
+   "events": 88,
+   "denom": 326,
+   "percent": 27.0,
+   "ci95_lo_percent": 22.5,
+   "ci95_hi_percent": 32.1,
+   "interval": "Wilson score, 95%",
+   "estimator": "crude denominator-weighted proportion, during-follow-up, censoring ignored (POLICY-evidence §2.2, §2.4)",
+   "cohorts_pooled": [
+    "Localised at diagnosis, surgically treated",
+    "Long-term outcome series (Meis-Kindblom)",
+    "US Sarcoma Collaborative database",
+    "European two-institution series (Chiusole)"
+   ],
+   "source_ids": [
+    "chiusole2020",
+    "masunaga2025",
+    "meisKindblom1999",
+    "ussc2022"
+   ],
+   "per_cohort_percent": {
+    "Localised at diagnosis, surgically treated": 11.9,
+    "Long-term outcome series (Meis-Kindblom)": 48.2,
+    "US Sarcoma Collaborative database": 30.0,
+    "European two-institution series (Chiusole)": 28.6
+   },
+   "heterogeneity_range_percent": [
+    11.9,
+    48.2
+   ],
+   "⚠_heterogeneity_note": "The range is the honest signal; I² is deliberately not computed (POLICY-evidence §2.2). A wide range means the point estimate hides real between-study variation.",
+   "cohorts_excluded": {
+    "Metastatic at diagnosis": "no explicit integer recurrence counts",
+    "Localised, single-institution series": "pool: false — population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)",
+    "Localised, US SEER population": "pool: false — population-overlap; percentage-only",
+    "Local recurrence by surgical margin": "pool: false — percentage-only",
+    "Advanced disease on pazopanib": "pool: false — different-endpoint",
+    "SEER overall-survival series": "pool: false — population-overlap; percentage-only",
+    "Two-referral-center long-term series (Drilon)": "pool: false — percentage-only",
+    "Single-institution series (U Michigan)": "pool: false — population-overlap",
+    "Japanese multi-institutional series": "pool: false — different-endpoint",
+    "Chinese series": "pool: false — percentage-only"
+   },
+   "dominance": "Localised at diagnosis, surgically treated"
+  },
+  "⚠_endpoint_mixture": "The pooled 'local recurrence' headline mixes endpoint definitions: ussc2022 contributes an explicitly LOCOREGIONAL recurrence count while masunaga2025, meisKindblom1999 and chiusole2020 contribute a count the registry records only as 'recurrence'. For 3 of the 4 pooled cohorts the registry does not state whether the endpoint is local, distant or any recurrence.",
+  "pooled_rows_and_their_recorded_endpoint_definition": [
+   {
+    "source_id": "masunaga2025",
+    "definition": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any"
+   },
+   {
+    "source_id": "meisKindblom1999",
+    "definition": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any"
+   },
+   {
+    "source_id": "ussc2022",
+    "definition": "locoregional recurrence (stated in note)"
+   },
+   {
+    "source_id": "chiusole2020",
+    "definition": "NOT STATED IN THE REGISTRY -- it records 'recurrence' without saying local, distant or any"
+   }
+  ]
+ },
+ "admissibility_verdict": {
+  "can_an_RT_vs_no_RT_contrast_be_POOLED_across_series": false,
+  "why": [
+   "k=1. Only bishop2019 publishes per-arm local-event counts; masunaga2025 publishes arm sizes and a hazard ratio but no per-arm event count, and POLICY-evidence 2.1(2) forbids reconstructing counts.",
+   "The two series' local endpoints are not the same estimand: 10-year actuarial local control vs local recurrence-free survival. POLICY-evidence 2.4 forbids merging time-anchored figures.",
+   "bishop2019 is pool:false for population overlap with the US Sarcoma Collaborative / SEER family, so it cannot be summed with any other US series either.",
+   "No other cohort in the registry records a local-treatment exposure at all."
+  ],
+  "what_the_evidence_base_actually_amounts_to": "5 counted local-recurrence events, in one non-poolable single-institution retrospective series, split 4 / 1 between arms of 8 and 33 patients.",
+  "⛔_no_go": "No claim about the effectiveness of adjuvant radiotherapy on local control in EMC can be supported at the level of counted events by this repository's evidence base. A manuscript may state the size of the population, the arm sizes, the event counts and the two published hazard ratios with their intervals -- and must not synthesise them."
+ }
+}

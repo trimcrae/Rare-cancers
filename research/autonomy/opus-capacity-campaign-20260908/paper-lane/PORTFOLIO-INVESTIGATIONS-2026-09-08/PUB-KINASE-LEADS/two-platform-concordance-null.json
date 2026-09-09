@@ -1,0 +1,293 @@
+{
+ "_what": "An empirical two-platform concordance null for the expression arm of PUB-KINASE-LEADS, and the placement of each lead gene in it.",
+ "_why": "Every expression argument in the endpoint's four leads is of the form 'higher/lower in EMC on both platforms'. That argument has never been given a negative: nothing in the repository states how often a RANDOM gene is concordant across these two series at the same strength. This file supplies that negative.",
+ "_this_is_not": [
+  "a test of activation, phosphorylation or drug response",
+  "a multiple-testing correction (none is applied; the null is empirical)",
+  "evidence of efficacy, safety, selectivity or a therapeutic window",
+  "a replacement for the primary-record gradings in routes.json"
+ ],
+ "generated_utc_input": "2026-08-29T12:51:32+00:00",
+ "source_artifact": "research/modalities/emc-expression-panels.json",
+ "platforms": {
+  "GSE24369_series_matrix.txt.gz": {
+   "platform": "GPL6244",
+   "n_EMC": 6,
+   "n_comparator": 29,
+   "n_background_genes_scored": 3000,
+   "background_seed": "20260829:GSE24369_series_matrix.txt.gz",
+   "background_sampling_frame": "every symbol ANY probe on this array maps to, unfiltered \u2014 no expression, abundance or variance cut, and panel members NOT removed. Drawn from the full probe matrix at parse time, which is the only point where that frame exists (AUT-PD-178)."
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "platform": "GPL3290",
+   "n_EMC": 10,
+   "n_comparator": 6,
+   "n_background_genes_scored": 2890,
+   "background_seed": "20260829:GSE4303-GPL3290_series_matrix.txt.gz",
+   "background_sampling_frame": "every symbol ANY probe on this array maps to, unfiltered \u2014 no expression, abundance or variance cut, and panel members NOT removed. Drawn from the full probe matrix at parse time, which is the only point where that frame exists (AUT-PD-178)."
+  }
+ },
+ "validation": {
+  "GSE24369_series_matrix.txt.gz": {
+   "n_genes_compared": 338,
+   "max_abs_difference_in_t": 0.002,
+   "worst_gene": "IL9",
+   "worst_ours_vs_artifact": [
+    -0.2602,
+    -0.262
+   ],
+   "n_within_0.002": 337,
+   "_what_this_checks": "our Welch t recomputed from background_reads per-sample z against the same statistic the artifact computed genome-wide for its curated genes. Agreement means the null frame below is on the same scale as the lead placements."
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "n_genes_compared": 408,
+   "max_abs_difference_in_t": 0.001,
+   "worst_gene": "NDP",
+   "worst_ours_vs_artifact": [
+    2.4136,
+    2.413
+   ],
+   "n_within_0.002": 408,
+   "_what_this_checks": "our Welch t recomputed from background_reads per-sample z against the same statistic the artifact computed genome-wide for its curated genes. Agreement means the null frame below is on the same scale as the lead placements."
+  }
+ },
+ "joint_null": {
+  "n_genes_in_both_background_draws": 431,
+  "n_concordant_in_direction": 281,
+  "frac_concordant_in_direction": 0.652,
+  "_the_headline_negative": "direction agreement alone, with no strength requirement, is reached by this fraction of random genes",
+  "min_abs_t_quantiles_among_concordant": {
+   "p50": 0.916,
+   "p75": 1.654,
+   "p90": 2.714,
+   "p95": 3.302,
+   "p99": 4.729,
+   "max": 5.927
+  }
+ },
+ "leads": {
+  "RET": {
+   "role": "lead 1 (RET) \u2014 the route's own named kinase",
+   "GPL6244_t": 2.613,
+   "GPL3290_t": 4.077,
+   "GPL6244_signed_percentile": 90.36,
+   "GPL3290_signed_percentile": 95.86,
+   "GPL6244_frac_of_array_two_sided": 0.23581,
+   "GPL3290_frac_of_array_two_sided": 0.06381,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 2.613,
+    "n_null_genes_at_least_this_concordant_and_strong": 32,
+    "joint_empirical_p_two_sided": 0.07425,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "SGK1": {
+   "role": "lead 4 (SGK1) \u2014 the kinase itself",
+   "GPL6244_t": -0.733,
+   "GPL3290_t": 1.316,
+   "GPL6244_signed_percentile": 38.61,
+   "GPL3290_signed_percentile": 71.89,
+   "GPL6244_frac_of_array_two_sided": 0.72129,
+   "GPL3290_frac_of_array_two_sided": 0.49538,
+   "joint": {
+    "concordant_direction": false,
+    "min_abs_t": 0.733,
+    "n_null_genes_at_least_this_concordant_and_strong": 165,
+    "joint_empirical_p_two_sided": 0.38283,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform",
+    "_note": "DISCORDANT \u2014 the joint p is reported for scale only and is not a support statement for this gene"
+   }
+  },
+  "NDRG1": {
+   "role": "lead 4 (SGK1) \u2014 the substrate whose abundance carries the claim",
+   "GPL6244_t": 2.391,
+   "GPL3290_t": 2.366,
+   "GPL6244_signed_percentile": 88.7,
+   "GPL3290_signed_percentile": 85.19,
+   "GPL6244_frac_of_array_two_sided": 0.27202,
+   "GPL3290_frac_of_array_two_sided": 0.24419,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 2.366,
+    "n_null_genes_at_least_this_concordant_and_strong": 38,
+    "joint_empirical_p_two_sided": 0.08817,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "ALK": {
+   "role": "lead 2 (ex-vivo screen hit) \u2014 named kinase",
+   "GPL6244_t": 0.715,
+   "GPL3290_t": null,
+   "GPL6244_signed_percentile": 66.19,
+   "GPL3290_signed_percentile": null,
+   "GPL6244_frac_of_array_two_sided": 0.72787,
+   "GPL3290_frac_of_array_two_sided": null,
+   "joint": null,
+   "_why_no_joint": "not readable on both platforms \u2014 an ABSENT READING, not a reading of absence"
+  },
+  "ROS1": {
+   "role": "lead 2 (ex-vivo screen hit) \u2014 named kinase",
+   "GPL6244_t": -0.602,
+   "GPL3290_t": 0.324,
+   "GPL6244_signed_percentile": 41.23,
+   "GPL3290_signed_percentile": 52.84,
+   "GPL6244_frac_of_array_two_sided": 0.77141,
+   "GPL3290_frac_of_array_two_sided": 0.86475,
+   "joint": {
+    "concordant_direction": false,
+    "min_abs_t": 0.324,
+    "n_null_genes_at_least_this_concordant_and_strong": 224,
+    "joint_empirical_p_two_sided": 0.51972,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform",
+    "_note": "DISCORDANT \u2014 the joint p is reported for scale only and is not a support statement for this gene"
+   }
+  },
+  "PRKDC": {
+   "role": "lead 3 (DNA-PK) \u2014 catalytic subunit",
+   "GPL6244_t": -1.354,
+   "GPL3290_t": 1.246,
+   "GPL6244_signed_percentile": 28.0,
+   "GPL3290_signed_percentile": 70.65,
+   "GPL6244_frac_of_array_two_sided": 0.50891,
+   "GPL3290_frac_of_array_two_sided": 0.51836,
+   "joint": {
+    "concordant_direction": false,
+    "min_abs_t": 1.246,
+    "n_null_genes_at_least_this_concordant_and_strong": 107,
+    "joint_empirical_p_two_sided": 0.24826,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform",
+    "_note": "DISCORDANT \u2014 the joint p is reported for scale only and is not a support statement for this gene"
+   }
+  },
+  "XRCC5": {
+   "role": "lead 3 (DNA-PK) \u2014 Ku80",
+   "GPL6244_t": -0.704,
+   "GPL3290_t": -0.906,
+   "GPL6244_signed_percentile": 39.18,
+   "GPL3290_signed_percentile": 28.13,
+   "GPL6244_frac_of_array_two_sided": 0.73236,
+   "GPL3290_frac_of_array_two_sided": 0.63813,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 0.704,
+    "n_null_genes_at_least_this_concordant_and_strong": 169,
+    "joint_empirical_p_two_sided": 0.39211,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "XRCC6": {
+   "role": "lead 3 (DNA-PK) \u2014 Ku70",
+   "GPL6244_t": 0.744,
+   "GPL3290_t": 0.556,
+   "GPL6244_signed_percentile": 66.7,
+   "GPL3290_signed_percentile": 57.78,
+   "GPL6244_frac_of_array_two_sided": 0.71739,
+   "GPL3290_frac_of_array_two_sided": 0.76859,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 0.556,
+    "n_null_genes_at_least_this_concordant_and_strong": 190,
+    "joint_empirical_p_two_sided": 0.44084,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "NR4A3": {
+   "role": "positive control \u2014 the disease's own driver gene",
+   "GPL6244_t": 4.662,
+   "GPL3290_t": 1.702,
+   "GPL6244_signed_percentile": 97.8,
+   "GPL3290_signed_percentile": 77.65,
+   "GPL6244_frac_of_array_two_sided": 0.05889,
+   "GPL3290_frac_of_array_two_sided": 0.38541,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 1.702,
+    "n_null_genes_at_least_this_concordant_and_strong": 67,
+    "joint_empirical_p_two_sided": 0.15545,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "EGFR": {
+   "role": "negative-direction control named beside lead 2",
+   "GPL6244_t": -3.413,
+   "GPL3290_t": -2.019,
+   "GPL6244_signed_percentile": 8.38,
+   "GPL3290_signed_percentile": 12.7,
+   "GPL6244_frac_of_array_two_sided": 0.13644,
+   "GPL3290_frac_of_array_two_sided": 0.31063,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 2.019,
+    "n_null_genes_at_least_this_concordant_and_strong": 48,
+    "joint_empirical_p_two_sided": 0.11137,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "GFRA1": {
+   "role": "RET co-receptor (route's own stated counter-evidence)",
+   "GPL6244_t": -0.145,
+   "GPL3290_t": -3.634,
+   "GPL6244_signed_percentile": 50.02,
+   "GPL3290_signed_percentile": 3.27,
+   "GPL6244_frac_of_array_two_sided": 0.94293,
+   "GPL3290_frac_of_array_two_sided": 0.0922,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 0.145,
+    "n_null_genes_at_least_this_concordant_and_strong": 258,
+    "joint_empirical_p_two_sided": 0.59861,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "GFRA2": {
+   "role": "RET co-receptor",
+   "GPL6244_t": -4.106,
+   "GPL3290_t": -3.264,
+   "GPL6244_signed_percentile": 5.34,
+   "GPL3290_signed_percentile": 4.47,
+   "GPL6244_frac_of_array_two_sided": 0.08579,
+   "GPL3290_frac_of_array_two_sided": 0.12178,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 3.264,
+    "n_null_genes_at_least_this_concordant_and_strong": 17,
+    "joint_empirical_p_two_sided": 0.03944,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  },
+  "GDNF": {
+   "role": "RET ligand",
+   "GPL6244_t": 0.25,
+   "GPL3290_t": -2.007,
+   "GPL6244_signed_percentile": 57.75,
+   "GPL3290_signed_percentile": 12.83,
+   "GPL6244_frac_of_array_two_sided": 0.90303,
+   "GPL3290_frac_of_array_two_sided": 0.31299,
+   "joint": {
+    "concordant_direction": false,
+    "min_abs_t": 0.25,
+    "n_null_genes_at_least_this_concordant_and_strong": 235,
+    "joint_empirical_p_two_sided": 0.54524,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform",
+    "_note": "DISCORDANT \u2014 the joint p is reported for scale only and is not a support statement for this gene"
+   }
+  },
+  "HDAC3": {
+   "role": "the class the screen re-read favours",
+   "GPL6244_t": 0.165,
+   "GPL3290_t": 0.292,
+   "GPL6244_signed_percentile": 56.14,
+   "GPL3290_signed_percentile": 52.23,
+   "GPL6244_frac_of_array_two_sided": 0.93475,
+   "GPL3290_frac_of_array_two_sided": 0.87621,
+   "joint": {
+    "concordant_direction": true,
+    "min_abs_t": 0.165,
+    "n_null_genes_at_least_this_concordant_and_strong": 253,
+    "joint_empirical_p_two_sided": 0.58701,
+    "_reading": "fraction of randomly drawn genes readable on both platforms that move the same way in EMC on both, at least as strongly as this gene does on its weaker platform"
+   }
+  }
+ }
+}

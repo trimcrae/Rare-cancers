@@ -1,0 +1,17 @@
+floor: {'MAX_KM_DEVIATION': 0.05}
+baseline printed: n=10 ev=9 cen=1 dev=0.0903 adm=False median=4.987643 matches_printed_8mo=False pfs6=0.5
+baseline anchored: n=11 ev=9 cen=2 dev=0.0454 adm=True median=7.984996 matches_printed_8mo=True pfs6=0.511364
+E1 offsets scanned: 123 range -0.03 0.03
+E1 anchored INADMISSIBLE offsets: [0.005, 0.0055, 0.006, 0.0065, 0.007, 0.0075, 0.008, 0.0085, 0.009, 0.0095, 0.01, 0.0105, 0.011, 0.0115, 0.012, 0.0125, 0.013, 0.0135, 0.014, 0.0145, 0.015, 0.0155, 0.016, 0.0165, 0.017, 0.0175, 0.018, 0.0185]
+E1 printed branch ever admissible: False | its minimum deviation over the scan: 0.0604
+E1 anchored median over ALL offsets: [7.984996]
+E1 anchored (events,censored) over ALL offsets: [(8, 3), (9, 2), (10, 1)]
+E1 non-monotone re-admission: offsets >= +0.019 pass the floor again with events = [8] and offsets <= -0.025 with events = [10]
+E1 summary: {"measured_reading_error_envelope": {"pixel_uncertainty_survival_shift": 0.001603249251817016, "worst_measured_off_step_error_synthetic_control": 0.0035}, "smallest_offset_at_which_anchored_becomes_INADMISSIBLE": 0.005, "smallest_offset_at_which_printed_becomes_ADMISSIBLE": null, "smallest_offset_at_which_anchored_median_leaves_8mo_window": null}
+E2 held-out printed numbers-at-risk:
+  t=4: printed=7 predicted=7 delta=0 adm=True dev=0.0454 median=7.984996 events=9 censored=2
+  t=6: printed=5 predicted=4 delta=-1 adm=True dev=0.0454 median=7.984996 events=9 censored=2
+  t=8: printed=1 predicted=2 delta=1 adm=True dev=0.0324 median=7.984996 events=10 censored=1
+  t=10: printed=0 predicted=0 delta=0 adm=True dev=0.0454 median=7.984996 events=9 censored=2
+E2 max |delta|: 1
+decision band: {"median_pfs_months_across_admissible_and_heldout_variants": [7.984996, 7.984996], "median_pfs_months_including_the_printed_table_branch": [4.987643, 7.984996], "pfs_rate_6mo_range": [0.511364, 0.511364], "⚠": "A range over variants of one reading of one figure of one 11-patient series. It is not a confidence interval and it is not a cohort statistic."}

@@ -1,0 +1,207 @@
+{
+  "_id": "PUB-SYNLETH-SELECTIVITY-DETECTABILITY-20260909",
+  "_question": "Does the pan-sarcoma selectivity statistic used in degrader-vs-synthetic-lethal.md Sec 2b have the power to detect a subtype-restricted dependency? If not, its BRD9 null is a null-power artifact rather than a biological negative.",
+  "_input": {
+    "path": "research/modalities/depmap-sarcoma-dependency.json",
+    "data_source": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv",
+    "n_models_total": 2105,
+    "n_sarcoma_models": 176,
+    "n_screened_sarcoma_lines_used_here": 91
+  },
+  "_method": "Arithmetic on retained group summaries. No new data, no network, no re-run of the producer.",
+  "A_run_background_scale": {
+    "n_genes_reported": 64,
+    "selectivity_mean": -0.0042,
+    "selectivity_sd": 0.0954,
+    "abs_selectivity_median": 0.038,
+    "abs_selectivity_p90": 0.152,
+    "abs_selectivity_p95": 0.2,
+    "abs_selectivity_max": 0.373,
+    "largest_abs_selectivity_genes": [
+      {
+        "gene": "EWSR1",
+        "selectivity": 0.373
+      },
+      {
+        "gene": "MAT2A",
+        "selectivity": -0.285
+      },
+      {
+        "gene": "FLI1",
+        "selectivity": 0.242
+      },
+      {
+        "gene": "BCL2L1",
+        "selectivity": -0.2
+      },
+      {
+        "gene": "PSMB5",
+        "selectivity": 0.169
+      },
+      {
+        "gene": "EGFR",
+        "selectivity": -0.16
+      }
+    ],
+    "_caveat": "These genes were chosen as hypothesis targets, not as a random null set, so this is the observed spread of the statistic in this run, not a calibrated null distribution. It is used only as an order-of-magnitude resolution floor."
+  },
+  "B_dilution_and_required_effect": {
+    "EMC (the disease in question)": {
+      "k_lines": 0,
+      "dilution_factor_k_over_N": 0.0,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.0,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.0,
+      "required_delta_to_reach_median_background": null,
+      "detectable": false,
+      "_why": "k = 0: no line of this type is in the screened panel, so the statistic is identically blind to it at any effect size."
+    },
+    "one line": {
+      "k_lines": 1,
+      "dilution_factor_k_over_N": 0.011,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.011,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.0203,
+      "required_delta_to_reach_median_background": 3.458,
+      "required_delta_to_reach_p90_background": 13.832,
+      "clears_median_background_at_common_essential_effect_1.0": false,
+      "clears_median_background_at_CDK7_scale_effect_1.85": false,
+      "clears_p90_background_at_common_essential_effect_1.0": false,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": false,
+      "verdict": "NOT DETECTABLE IN PRACTICE: the required per-line effect exceeds the strongest effect anywhere in this panel (CDK7, -1.847)."
+    },
+    "synovial sarcoma (BRD9 positive control)": {
+      "k_lines": 5,
+      "dilution_factor_k_over_N": 0.0549,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.0549,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.1016,
+      "required_delta_to_reach_median_background": 0.692,
+      "required_delta_to_reach_p90_background": 2.766,
+      "clears_median_background_at_common_essential_effect_1.0": true,
+      "clears_median_background_at_CDK7_scale_effect_1.85": true,
+      "clears_p90_background_at_common_essential_effect_1.0": false,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": false,
+      "verdict": "MARGINAL: a common-essential-scale subtype dependency lands between the median and the p90 of this run's own |selectivity| values, i.e. inside the background scatter and not reportable as a signal."
+    },
+    "alveolar RMS": {
+      "k_lines": 8,
+      "dilution_factor_k_over_N": 0.0879,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.0879,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.1626,
+      "required_delta_to_reach_median_background": 0.432,
+      "required_delta_to_reach_p90_background": 1.729,
+      "clears_median_background_at_common_essential_effect_1.0": true,
+      "clears_median_background_at_CDK7_scale_effect_1.85": true,
+      "clears_p90_background_at_common_essential_effect_1.0": false,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": true,
+      "verdict": "MARGINAL: a common-essential-scale subtype dependency lands between the median and the p90 of this run's own |selectivity| values, i.e. inside the background scatter and not reportable as a signal."
+    },
+    "rhabdoid": {
+      "k_lines": 13,
+      "dilution_factor_k_over_N": 0.1429,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.1429,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.2643,
+      "required_delta_to_reach_median_background": 0.266,
+      "required_delta_to_reach_p90_background": 1.064,
+      "clears_median_background_at_common_essential_effect_1.0": true,
+      "clears_median_background_at_CDK7_scale_effect_1.85": true,
+      "clears_p90_background_at_common_essential_effect_1.0": false,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": true,
+      "verdict": "MARGINAL: a common-essential-scale subtype dependency lands between the median and the p90 of this run's own |selectivity| values, i.e. inside the background scatter and not reportable as a signal."
+    },
+    "Ewing sarcoma": {
+      "k_lines": 27,
+      "dilution_factor_k_over_N": 0.2967,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.2967,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.5489,
+      "required_delta_to_reach_median_background": 0.128,
+      "required_delta_to_reach_p90_background": 0.512,
+      "clears_median_background_at_common_essential_effect_1.0": true,
+      "clears_median_background_at_CDK7_scale_effect_1.85": true,
+      "clears_p90_background_at_common_essential_effect_1.0": true,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": true,
+      "verdict": "DETECTABLE: a common-essential-scale subtype dependency clears even the strict background."
+    },
+    "all screened sarcoma lines": {
+      "k_lines": 91,
+      "dilution_factor_k_over_N": 1.0,
+      "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 1.0,
+      "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 1.85,
+      "required_delta_to_reach_median_background": 0.038,
+      "required_delta_to_reach_p90_background": 0.152,
+      "clears_median_background_at_common_essential_effect_1.0": true,
+      "clears_median_background_at_CDK7_scale_effect_1.85": true,
+      "clears_p90_background_at_common_essential_effect_1.0": true,
+      "clears_p90_background_at_CDK7_scale_effect_1.85": true,
+      "verdict": "DETECTABLE: a common-essential-scale subtype dependency clears even the strict background."
+    }
+  },
+  "C_closed_loop_check_on_BRD9_synovial": {
+    "gene": "BRD9",
+    "pan_sarcoma_mean": 0.105,
+    "pan_sarcoma_selectivity_reported": -0.016,
+    "synovial_n": 5,
+    "synovial_mean_gene_effect": -0.13,
+    "observed_subtype_effect_delta_vs_sarcoma_baseline": -0.235,
+    "predicted_contribution_to_pan_sarcoma_statistic": 0.0129,
+    "run_background_median_abs_selectivity": 0.038,
+    "contribution_is_below_background": true,
+    "_reading": "The measured synovial ncBAF signal, in the one context where ncBAF dependence is externally established, contributes about 0.0129 to a statistic whose own background scatter in this run has median |selectivity| 0.038. The pan-sarcoma statistic therefore could not have reported that signal even though the run measured it directly."
+  },
+  "C2_unused_positive_control_FLI1_in_ewing": {
+    "gene": "FLI1",
+    "context": "Ewing sarcoma, where EWS-FLI1 is the driver",
+    "subtype_n": 27,
+    "subtype_mean_gene_effect": -0.934,
+    "subtype_frac_dependent": 0.741,
+    "rest_of_panel_frac_dependent": 0.019,
+    "pan_sarcoma_selectivity_reported": 0.242,
+    "run_background_p90_abs_selectivity": 0.152,
+    "recovered_above_p90_background": true,
+    "implied_non_ewing_sarcoma_mean": 0.043,
+    "implied_subtype_effect_delta": -0.977,
+    "dilution_model_predicted_selectivity": 0.29,
+    "_reading": "A genuine subtype-restricted selective dependency (74.1% of Ewing lines dependent vs 1.9% of the rest of the panel) IS recovered by the pan-sarcoma statistic (+0.242, above this run's p90 background of 0.152), and the dilution model of (B) predicts its magnitude (0.29 predicted vs 0.242 observed). So the selectivity detector works. Sec 2b's stated validation gap is closed by data the same run already produced. What the detector cannot do is resolve k = 5; the dilution model explains both outcomes with one parameter, k/N."
+  },
+  "C3_pan_essential_trap_check_EWSR1": {
+    "gene": "EWSR1",
+    "sarcoma_mean": -1.208,
+    "rest_mean": -0.835,
+    "selectivity": 0.373,
+    "sarcoma_frac_dependent": 0.967,
+    "rest_frac_dependent": 0.915,
+    "is_largest_selectivity_in_panel": true,
+    "_warning": "EWSR1 has the single largest |selectivity| in this panel (+0.373) and must NOT be read as a sarcoma window. It is a dependency in 96.7% of screened sarcoma lines AND 91.5% of everything else: pan-essential, exactly the CDK7/CDK9 trap in a different guise. The selectivity statistic here measures a shift in depth of an essentiality that is already near-universal, not the existence of a margin. Any use of the selectivity number must be read beside frac_dependent outside the context, or it manufactures a false window."
+  },
+  "D_claim_audit": {
+    "supported_by_this_panel": [
+      {
+        "claim": "CDK7/CDK9/BRD4 are essential in essentially all screened lines, inside and outside sarcoma (pan-essential; no window).",
+        "why": "A claim about ALL 91 sarcoma lines and ~2000 others. No dilution: k = N. High power."
+      },
+      {
+        "claim": "NR4A3 is not a dependency in any of the 91 screened sarcoma lines (mean +0.021, 0% dependent), and NR4A1/2/3 are broadly non-essential across the panel.",
+        "why": "A dispensability claim over all lines, again k = N. The panel can support non-dependence broadly. It still says nothing about EMC, which is absent."
+      }
+    ],
+    "not_supported_by_this_panel": [
+      {
+        "claim": "BRD9/ncBAF is not a sarcoma dependency (pan-sarcoma selectivity -0.016), used as a negative transfer prior for EMC.",
+        "why": "Subtype-restricted dependency is diluted by k/N. At k = 5 a per-line effect of the canonical common-essential size (-1.0) produces a pan-sarcoma statistic of only 0.0549, against a run background whose median |selectivity| is 0.038 and whose p90 is 0.152. So even a maximal subtype dependency lands inside the background scatter. Clearing the p90 would require a per-line effect of 2.766, beyond the strongest effect anywhere in this panel (CDK7, -1.847). The closed-loop check in (C) confirms this on measured numbers rather than assumption."
+      },
+      {
+        "claim": "Ewing BRD9 +0.134 / 0% dependent shows the EWSR1-prion-to-BAF transfer logic fails where it should hold.",
+        "why": "This one is a SUBTYPE read (n=27), not the diluted pan-sarcoma statistic, so it is not affected by the dilution argument and remains the strongest retained evidence against the BRD9 hypothesis. It is bounded by n=27 and by being Ewing, not EMC."
+      }
+    ],
+    "_consequence_for_the_memo": "Sec 3's verdict re-weights toward the degrader route because 'the comparator lost support'. Part of that lost support - the pan-sarcoma BRD9 selectivity null - is uninformative rather than negative. The Ewing subtype null survives and still argues against BRD9. So the re-weighting is weakened but not erased, and the memo's own hedge ('a weak prior against BRD9 rather than a settled negative') is the correct reading for a reason it does not state."
+  },
+  "E_headline": "The selectivity detector is VALIDATED, by a positive control the same run already produced and Sec 2b never used (FLI1 in Ewing, k=27, recovered at +0.242). It resolves dependencies that are broad across the sarcoma class, and cannot resolve dependencies restricted to a subtype the size of the ones EMC would resemble. One parameter, k/N, explains both the recovery and the failure. Its BRD9 null is therefore weak evidence about ncBAF, not the negative the memo's Sec 3 leans on. The Ewing SUBTYPE read (n=27, +0.134, 0% dependent) is unaffected by this and remains the real retained argument against the BRD9 hypothesis.",
+  "_limitations": [
+    "Group summaries only. The retained artifact holds no per-line gene-effect values, so this is exact dilution arithmetic plus an order-of-magnitude background scale, NOT a variance-based power calculation. A true power curve needs the per-line matrix.",
+    "The FLI1/Ewing positive control in (C2) validates selectivity detection at k = 27 only. It does not validate detection at smaller k, and the dilution model says it should not.",
+    "The implied non-Ewing sarcoma mean in (C2) is back-computed from two rounded group means, so its third decimal is not meaningful.",
+    "The background scale in (A) comes from hypothesis-selected genes, not a random null set; it is a resolution floor, not a calibrated null.",
+    "Nothing here is an EMC measurement. No EMC line in the panel has CRISPR data (k = 0), so no statistic computed on this panel can be informative about EMC at any effect size.",
+    "This says nothing about whether BRD9 is or is not an EMC dependency. It says the pan-sarcoma statistic cannot answer that question.",
+    "No efficacy, potency, selectivity, safety, therapeutic-window or clinical claim is made or implied for either route."
+  ]
+}

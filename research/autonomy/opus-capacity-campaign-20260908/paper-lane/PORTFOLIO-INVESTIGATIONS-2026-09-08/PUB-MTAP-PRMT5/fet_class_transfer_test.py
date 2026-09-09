@@ -9,7 +9,7 @@ against an arm that is 17/29 low-grade fibromyxoid sarcoma (LGFMS, FUS::CREB3L2)
 a FET-fusion sarcoma. If PRMT5 elevation were a property of FET-fusion-driven
 transcription (the transfer premise), LGFMS should read like EMC, not like the arm.
 """
-import json, math, sys
+import json, math, random, sys
 from itertools import combinations
 from pathlib import Path
 
@@ -21,6 +21,8 @@ NONFET = ("desmoid_fibromatosis", "fibrosarcoma")
 GENES = ["PRMT5", "MAT2A", "WDR77", "MTAP", "CDKN2A", "PRMT1", "CARM1", "PRMT3",
          "NR4A3", "ENO3"]
 EXACT_MAX = 300000        # enumerate exactly below this many labelings
+MC_DRAWS = 200000         # fixed-seed Monte-Carlo when exact enumeration is too large
+MC_SEED = 20260908
 
 def welch_t(a, b):
     na, nb = len(a), len(b)
@@ -45,6 +47,26 @@ def exact_p(a, b):
         if t is not None and abs(t) >= obs - 1e-12: hits += 1
     return hits/total, total
 
+def mc_p(a, b, seed=MC_SEED, draws=MC_DRAWS):
+    """Fixed-seed Monte-Carlo two-sided permutation p, used only when C(n,k) > EXACT_MAX."""
+    pool = list(a) + list(b); k = len(a)
+    obs = abs(welch_t(a, b)); rng = random.Random(seed); hits = 0
+    for _ in range(draws):
+        rng.shuffle(pool)
+        t = welch_t(pool[:k], pool[k:])
+        if t is not None and abs(t) >= obs - 1e-12: hits += 1
+    p = hits / draws
+    se = math.sqrt(max(p * (1 - p), 1e-12) / draws)
+    return p, se
+
+def welch_ci(a, b, crit=2.0):
+    """Approximate two-sided ~95% interval on the difference in mean z (crit=2 SE)."""
+    na, nb = len(a), len(b)
+    ma, mb = sum(a)/na, sum(b)/nb
+    va = sum((x-ma)**2 for x in a)/(na-1); vb = sum((x-mb)**2 for x in b)/(nb-1)
+    se = math.sqrt(va/na + vb/nb)
+    return round(ma-mb-crit*se, 4), round(ma-mb+crit*se, 4)
+
 def main():
     panels = json.loads(SRC.read_text())["gene_reads"]
     out = {"_what": "Prespecified FET-fusion-class transfer test of the PRMT5 transcript reading",
@@ -68,10 +90,18 @@ def main():
         def contrast(name, a, b):
             t = welch_t(a, b)
             p, tot = exact_p(a, b) if t is not None else (None, None)
+            mcp = mcse = None
+            if t is not None and p is None:
+                mcp, mcse = mc_p(a, b)
             res[name] = {"t": None if t is None else round(t, 3),
                          "delta_mean_z": round(sum(a)/len(a)-sum(b)/len(b), 4) if a and b else None,
                          "n_a": len(a), "n_b": len(b),
                          "exact_two_sided_p": None if p is None else round(p, 6),
+                         "mc_two_sided_p": None if mcp is None else round(mcp, 5),
+                         "mc_standard_error": None if mcse is None else round(mcse, 5),
+                         "mc_draws": None if mcp is None else MC_DRAWS,
+                         "mc_seed": None if mcp is None else MC_SEED,
+                         "ci95_delta_mean_z": welch_ci(a, b) if (a and b and len(a) > 1 and len(b) > 1) else None,
                          "labelings": tot}
         contrast("emc_vs_all_comparators", emc, allcomp)      # the manuscript's contrast
         contrast("emc_vs_fet_comparator", emc, fet)           # E1

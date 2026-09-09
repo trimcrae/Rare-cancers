@@ -1,0 +1,10 @@
+PASS  margin series count == emc-surgical-quality counts.series: derived=2 artifact=2
+PASS  primary-site patients == emc-site-curation pooled denominator: derived=271 artifact=271
+PASS  risk-row REPORTED == admissibility by_verdict.admitted: derived=2 artifact=2
+PASS  risk-row EXAMINED_NOT_PRINTED == admissibility refused_no_risk_row: derived=3 artifact=3
+PASS  risk-row patients examined == admissibility patients_in_series_whose_figures_were_read: derived=314 artifact=314
+PASS  risk-row admitted patients == admissibility patients_in_admitted_series: derived=16 artifact=16
+PASS  candidate series == emc-ipd-survival candidate_sources: derived=17 artifact=17
+PASS  admissibility census covers one fewer series than the candidate list (immunosarc2emc2025, a conference abstract): derived=1 artifact=1
+
+8/8 checks pass

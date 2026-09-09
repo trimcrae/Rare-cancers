@@ -1,0 +1,647 @@
+{
+ "_what": "Coverage census of the normal-tissue (on-target/off-tumour) evidence actually available to the EMC surface-antigen candidates, per compartment.",
+ "_not": "Not a safety, selectivity, window, target or efficacy statement. No new expression value is computed here; every number is a count over committed records.",
+ "_inputs": {
+  "hpa_labels": "research/modalities/emc-surface-normal-window.json",
+  "quantitative_normal_arm": "research/modalities/gse28866-tumour-vs-normal.json"
+ },
+ "quantitative_normal_arm": {
+  "deposit": "GSE28866 (3SEQ), normal arm",
+  "n_normal_libraries": 27,
+  "n_adult": 17,
+  "n_fetal": 10,
+  "fetal_fraction": 0.37,
+  "organ_types": [
+   "bowel",
+   "breast",
+   "colon",
+   "kidney",
+   "lung",
+   "uterus"
+  ],
+  "n_organ_types": 6,
+  "libraries_per_organ_age": {
+   "bowel_fetal": 3,
+   "breast_adult": 5,
+   "colon_adult": 3,
+   "kidney_adult": 3,
+   "kidney_fetal": 3,
+   "lung_adult": 5,
+   "lung_fetal": 4,
+   "uterus_adult": 1
+  },
+  "organ_types_with_adult_libraries": [
+   "breast",
+   "colon",
+   "kidney",
+   "lung",
+   "uterus"
+  ],
+  "summary_statistic_committed": "single pooled median across all 27 libraries per gene",
+  "per_organ_values_available_in_repository": false
+ },
+ "vital_tissue_coverage": {
+  "vital_tissue_terms_flagged_by_the_heuristic": [
+   "heart",
+   "cerebral cortex",
+   "brain",
+   "cerebellum",
+   "hippocamp",
+   "amygdala",
+   "basal ganglia",
+   "spinal cord",
+   "nerve",
+   "liver",
+   "lung",
+   "kidney",
+   "pancreas",
+   "colon",
+   "small intestine",
+   "duodenum",
+   "stomach",
+   "bone marrow",
+   "skeletal muscle",
+   "smooth muscle",
+   "cardiac"
+  ],
+  "n_flagged": 21,
+  "with_any_quantitative_normal_observation": [
+   "colon",
+   "kidney",
+   "lung",
+   "small intestine"
+  ],
+  "with_any_ADULT_quantitative_normal_observation": [
+   "colon",
+   "kidney",
+   "lung"
+  ],
+  "n_with_observation": 4,
+  "n_without_observation": 17,
+  "without_any_observation": [
+   "heart",
+   "cerebral cortex",
+   "brain",
+   "cerebellum",
+   "hippocamp",
+   "amygdala",
+   "basal ganglia",
+   "spinal cord",
+   "nerve",
+   "liver",
+   "pancreas",
+   "duodenum",
+   "stomach",
+   "bone marrow",
+   "skeletal muscle",
+   "smooth muscle",
+   "cardiac"
+  ],
+  "fraction_of_flagged_vital_tissues_observed": 0.19
+ },
+ "hpa_instrument": {
+  "n_antigen_records": 46,
+  "n_with_quantitative_tissue_nTPM": 0,
+  "n_with_quantitative_blood_nTPM": 0,
+  "window_label_counts": {
+   "ENHANCED_BROAD": 16,
+   "BROAD_LIABILITY": 12,
+   "VITAL_OR_IMMUNE_LIABILITY": 9,
+   "RESTRICTED": 8,
+   "NO_RECORD": 1
+  }
+ },
+ "per_gene": {
+  "ALCAM": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "ALPP": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "ALPPL2": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "ANTXR1": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "B2M": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Low immune cell specificity",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "B4GALNT1": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "BGN": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CD248": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CD276": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CD3E": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Group enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "CD44": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Low immune cell specificity",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CD70": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "CDH11": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "CDH17": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CSPG4": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "CTAG1B": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "DLL3": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "EGFR": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "ENO3": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "EPHA2": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "EPHB4": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "ERBB2": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "FAP": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "FGFR1": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Low immune cell specificity",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "GPC1": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "GPC2": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "GPC3": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "IGF1R": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "KIT": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Group enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "L1CAM": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "LRRC15": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "MAGEA4": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "MCAM": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "MMP14": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "MSLN": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "NCAM1": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "NR4A3": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "PDGFRB": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enhanced",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "POSTN": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "PPARG": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "PRAME": {
+   "hpa_label_window": "RESTRICTED",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "PTK7": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "RET": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "ROR1": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "ROR2": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Immune cell enriched",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "SDC1": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "SEMA3C": {
+   "hpa_label_window": null,
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": null,
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "SSTR2": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Low immune cell specificity",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  },
+  "TAP1": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Low immune cell specificity",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "THY1": {
+   "hpa_label_window": "ENHANCED_BROAD",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "TNC": {
+   "hpa_label_window": "BROAD_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Not detected in immune cells",
+   "quantitative_normal_observation": false,
+   "n_normal_libraries_pooled": null,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 0,
+   "n_vital_tissues_with_no_observation": 21
+  },
+  "VCAN": {
+   "hpa_label_window": "VITAL_OR_IMMUNE_LIABILITY",
+   "hpa_quantitative_nTPM_present": false,
+   "hpa_blood_cell_specificity": "Group enriched",
+   "quantitative_normal_observation": true,
+   "n_normal_libraries_pooled": 27,
+   "normal_summary_is_per_organ": false,
+   "n_vital_tissues_with_any_quantitative_value": 4,
+   "n_vital_tissues_with_no_observation": 17
+  }
+ },
+ "counts": {
+  "n_genes_considered": 52,
+  "n_with_any_quantitative_normal_observation": 19,
+  "n_with_label_only": 32
+ },
+ "_limits": [
+  "Counts of EVIDENCE, not of expression. Nothing here says an antigen is or is not present in any tissue.",
+  "GSE28866 normal values are deposit-normalised, square-root-compressed 3SEQ summary scores; no test is defined on them.",
+  "A tissue counted as 'observed' is observed only as a pooled median that mixes adult and fetal libraries.",
+  "The ORGAN_TO_VITAL mapping is a literal string map over this deposit's six organ labels; 'bowel' is mapped to 'small intestine' conservatively."
+ ]
+}

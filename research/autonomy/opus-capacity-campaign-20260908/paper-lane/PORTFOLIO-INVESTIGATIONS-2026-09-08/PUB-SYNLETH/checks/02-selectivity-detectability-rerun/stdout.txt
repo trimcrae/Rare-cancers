@@ -1,0 +1,86 @@
+{
+  "background": {
+    "n_genes_reported": 64,
+    "selectivity_mean": -0.0042,
+    "selectivity_sd": 0.0954,
+    "abs_selectivity_median": 0.038,
+    "abs_selectivity_p90": 0.152,
+    "abs_selectivity_p95": 0.2,
+    "abs_selectivity_max": 0.373,
+    "largest_abs_selectivity_genes": [
+      {
+        "gene": "EWSR1",
+        "selectivity": 0.373
+      },
+      {
+        "gene": "MAT2A",
+        "selectivity": -0.285
+      },
+      {
+        "gene": "FLI1",
+        "selectivity": 0.242
+      },
+      {
+        "gene": "BCL2L1",
+        "selectivity": -0.2
+      },
+      {
+        "gene": "PSMB5",
+        "selectivity": 0.169
+      },
+      {
+        "gene": "EGFR",
+        "selectivity": -0.16
+      }
+    ],
+    "_caveat": "These genes were chosen as hypothesis targets, not as a random null set, so this is the observed spread of the statistic in this run, not a calibrated null distribution. It is used only as an order-of-magnitude resolution floor."
+  },
+  "closed_loop": {
+    "gene": "BRD9",
+    "pan_sarcoma_mean": 0.105,
+    "pan_sarcoma_selectivity_reported": -0.016,
+    "synovial_n": 5,
+    "synovial_mean_gene_effect": -0.13,
+    "observed_subtype_effect_delta_vs_sarcoma_baseline": -0.235,
+    "predicted_contribution_to_pan_sarcoma_statistic": 0.0129,
+    "run_background_median_abs_selectivity": 0.038,
+    "contribution_is_below_background": true,
+    "_reading": "The measured synovial ncBAF signal, in the one context where ncBAF dependence is externally established, contributes about 0.0129 to a statistic whose own background scatter in this run has median |selectivity| 0.038. The pan-sarcoma statistic therefore could not have reported that signal even though the run measured it directly."
+  },
+  "dilution_synovial": {
+    "k_lines": 5,
+    "dilution_factor_k_over_N": 0.0549,
+    "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.0549,
+    "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.1016,
+    "required_delta_to_reach_median_background": 0.692,
+    "required_delta_to_reach_p90_background": 2.766,
+    "clears_median_background_at_common_essential_effect_1.0": true,
+    "clears_median_background_at_CDK7_scale_effect_1.85": true,
+    "clears_p90_background_at_common_essential_effect_1.0": false,
+    "clears_p90_background_at_CDK7_scale_effect_1.85": false,
+    "verdict": "MARGINAL: a common-essential-scale subtype dependency lands between the median and the p90 of this run's own |selectivity| values, i.e. inside the background scatter and not reportable as a signal."
+  },
+  "dilution_ewing": {
+    "k_lines": 27,
+    "dilution_factor_k_over_N": 0.2967,
+    "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.2967,
+    "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.5489,
+    "required_delta_to_reach_median_background": 0.128,
+    "required_delta_to_reach_p90_background": 0.512,
+    "clears_median_background_at_common_essential_effect_1.0": true,
+    "clears_median_background_at_CDK7_scale_effect_1.85": true,
+    "clears_p90_background_at_common_essential_effect_1.0": true,
+    "clears_p90_background_at_CDK7_scale_effect_1.85": true,
+    "verdict": "DETECTABLE: a common-essential-scale subtype dependency clears even the strict background."
+  },
+  "dilution_EMC": {
+    "k_lines": 0,
+    "dilution_factor_k_over_N": 0.0,
+    "pan_sarcoma_signal_if_delta_is_common_essential_1.0": 0.0,
+    "pan_sarcoma_signal_if_delta_is_CDK7_scale_1.85": 0.0,
+    "required_delta_to_reach_median_background": null,
+    "detectable": false,
+    "_why": "k = 0: no line of this type is in the screened panel, so the statistic is identically blind to it at any effect size."
+  }
+}
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-SYNLETH/selectivity-detectability.json

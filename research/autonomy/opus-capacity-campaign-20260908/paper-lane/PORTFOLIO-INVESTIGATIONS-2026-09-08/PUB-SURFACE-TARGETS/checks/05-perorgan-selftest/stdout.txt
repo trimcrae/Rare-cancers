@@ -1,0 +1,56 @@
+PASS  pooled median hides the hot organ
+PASS  EMC/pooled looks favourable
+PASS  worst adult organ is kidney
+PASS  worst-organ ratio is unfavourable
+PASS  uterus excluded as LOW_N
+PASS  uterus surfaces in the sensitivity arm
+PASS  fetal libraries excluded from adult pooled
+{
+ "emc_median": 1.0,
+ "normal_pooled_median_committed_statistic": 0.1,
+ "normal_adult_only_pooled_median": 0.1,
+ "per_organ": {
+  "bowel_fetal": {
+   "n": 1,
+   "median": 0.1
+  },
+  "breast_adult": {
+   "n": 3,
+   "median": 0.1
+  },
+  "kidney_adult": {
+   "n": 3,
+   "median": 5.0
+  },
+  "lung_adult": {
+   "n": 3,
+   "median": 0.1
+  },
+  "lung_fetal": {
+   "n": 2,
+   "median": 0.1
+  },
+  "uterus_adult": {
+   "n": 1,
+   "median": 9.0
+  }
+ },
+ "low_n_adult_organs_excluded_from_primary": [
+  "uterus_adult"
+ ],
+ "worst_adult_organ": {
+  "organ": "kidney_adult",
+  "n": 3,
+  "median": 5.0
+ },
+ "worst_adult_organ_including_low_n": {
+  "organ": "uterus_adult",
+  "n": 1,
+  "median": 9.0
+ },
+ "emc_over_pooled_normal": 10.0,
+ "emc_over_adult_pooled_normal": 10.0,
+ "emc_over_worst_adult_organ": 0.2,
+ "_no_test": "n_EMC=4; deposit-normalised sqrt-compressed scores; ratios are descriptive only."
+}
+SELFTEST: PASS
