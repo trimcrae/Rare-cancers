@@ -190,7 +190,7 @@ PAPERS = {
         "journal": {
             "article_type": "Original Research Article",
             "section": "",
-            "preprint_note": "This manuscript is a preprint. It has not been peer reviewed.",
+            "preprint_note": "aiXiv v1.0 posted 23 Aug 2026; this revision is unposted and not peer reviewed.",
         },
         "out": "fusion-output/nr4a3-fusion-transcriptional-output.pdf",
     },
