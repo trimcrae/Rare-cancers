@@ -1,0 +1,68 @@
+--- a/research/modalities/emc_surface_normal_window.py	2026-09-04 12:16:58.202650654 +0000
++++ b/research/modalities/emc_surface_normal_window.py	2026-09-09 00:22:12.059798884 +0000
+@@ -112,14 +112,35 @@
+     or immune/circulating-cell expression overrides everything (an on-target/off-tumour danger)."""
+     spec_l = (spec or "").lower()
+     dist_l = (dist or "").lower()
++    # ⛔ THE VITAL-TISSUE SCREEN RUNS ONLY IF ITS INPUT EXISTS. `vital_hits` is substring-matched
++    # against rna_tissue_specific_nTPM; when HPA returns that field empty the match is vacuous and
++    # `[]` would read as "checked, no vital tissue" when the truth is "never checked". That is an
++    # absent reading rendered as a negative one, so the screen's status is serialised alongside it.
+     tpm_l = json.dumps(specific_tpm).lower() if specific_tpm else ""
+     vital_hits = [t for t in VITAL_TISSUES if t in tpm_l]
++    vital_screen = ("performed" if specific_tpm else
++                    "NOT PERFORMED — rna_tissue_specific_nTPM absent; [] is not evidence of "
++                    "absence from vital tissue")
+     # immune / circulating-cell expression: only a STRONG, confined blood-cell signal counts
+     # ('Immune cell enriched' / 'Group enriched'); weak 'Immune cell enhanced' is broad-low noise
+     # (it otherwise mis-flags the tumour-restricted controls DLL3/GPC3), so it is NOT a liability.
+     bspec_l = (blood_spec or "").lower()
+     immune_flag = "enriched" in bspec_l
+-    liabilities = {"vital_tissue": vital_hits, "immune_or_circulating": immune_flag,
++    # ⛔ `immune_or_circulating` is NOT "is this antigen expressed in immune cells". It is the
++    # narrower "is there a CONFINED (enriched) blood-cell signal", and the two differ on a real
++    # band of this shortlist: 'Immune cell enhanced' is genuine reported immune-cell expression
++    # that this flag reports as False. Nine rows sit in that band, including both RESTRICTED
++    # positive controls (DLL3, GPC3) — which is exactly why the threshold is where it is. The
++    # literal reading is therefore emitted BESIDE the flag rather than folded into it, so a reader
++    # of the artifact can see the gap without re-deriving it. Neither field changes any window.
++    immune_reported = bool(bspec_l) and "not detected in immune cells" not in bspec_l \
++        and "low immune cell" not in bspec_l
++    liabilities = {"vital_tissue": vital_hits, "vital_tissue_screen": vital_screen,
++                   "immune_or_circulating": immune_flag,
++                   "immune_cell_expression_reported": immune_reported,
++                   "immune_liability_rule": ("window liability requires a CONFINED blood-cell "
++                                             "signal ('enriched'); 'Immune cell enhanced' is "
++                                             "reported expression that does NOT set the flag"),
+                    "blood_cell_specificity": blood_spec}
+ 
+     if vital_hits or immune_flag:
+@@ -223,7 +244,10 @@
+             "rna_blood_cell_specificity": blood_spec,
+             "rna_blood_cell_specific_nTPM": blood_tpm,
+             "subcellular_location": subcell,
+-            "plasma_membrane_confirmed": bool(subcell and "plasma membrane" in str(subcell).lower()),
++            # ⛔ None, not False, when HPA reported no subcellular location: an unperformed check
++            # is not a negative result (same failure shape as vital_tissue_screen above).
++            "plasma_membrane_confirmed": (None if not subcell else
++                                          "plasma membrane" in str(subcell).lower()),
+             **verdict,
+         }
+         print(f"  {g}: {verdict['window']} (spec={spec}, blood={blood_spec})", file=sys.stderr)
+@@ -255,7 +279,15 @@
+                   "BROAD_LIABILITY = 'low tissue specificity'/'detected in all'; VITAL_OR_IMMUNE_LIABILITY "
+                   "= expressed in a vital tissue or immune/circulating cell (overrides all — an "
+                   "on-target/off-tumour danger). HPA RNA is bulk normal tissue and a window PRIOR, not a "
+-                  "safety guarantee, and mRNA != surface protein."),
++                  "safety guarantee, and mRNA != surface protein. "
++                  "⛔ PRECEDENCE, because two criteria can hold on one row: vital/immune first, then "
++                  "'low tissue specificity'/'detected in all', then 'enhanced', then 'enriched'. So a "
++                  "'Group enriched'/'Detected in all' row (MCAM) scores BROAD_LIABILITY, not RESTRICTED. "
++                  "⛔ RESTRICTED IS A SPECIFICITY LABEL, NOT A DISTRIBUTION ONE: it means 'elevated in "
++                  "one/a few tissues', and it does NOT imply the transcript is confined there — read "
++                  "rna_tissue_distribution beside it, which says 'Detected in many' for some RESTRICTED "
++                  "rows. ⛔ vital_tissue [] means the screen found nothing OR never ran; "
++                  "vital_tissue_screen says which."),
+         "source": "Human Protein Atlas (proteinatlas.org) RNA tissue + blood-cell + subcellular specificity",
+         "vital_tissues_flagged": VITAL_TISSUES,
+         "self_validation": val,

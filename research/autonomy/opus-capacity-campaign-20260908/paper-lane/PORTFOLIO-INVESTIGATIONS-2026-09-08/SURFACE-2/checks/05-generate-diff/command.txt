@@ -1,0 +1,2 @@
+python3 -m py_compile <patched copy>   # syntax gate on the proposed producer
+diff -u research/modalities/emc_surface_normal_window.py <patched copy>   # exit 1 == differences found, expected

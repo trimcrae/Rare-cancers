@@ -1,0 +1,19 @@
+rows whose window would move under a LITERAL reading of the flag name:
+  EPHB4     BROAD_LIABILITY            -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  ERBB2     BROAD_LIABILITY            -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  DLL3      RESTRICTED                 -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  GPC3      RESTRICTED                 -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  MSLN      ENHANCED_BROAD             -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  PDGFRB    BROAD_LIABILITY            -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  CD70      ENHANCED_BROAD             -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  IGF1R     BROAD_LIABILITY            -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+  ALCAM     RESTRICTED                 -> VITAL_OR_IMMUNE_LIABILITY   (source: Immune cell enhanced)
+
+controls in that set: ['DLL3', 'GPC3']
+committed self_validation positive controls: {'DLL3': 'RESTRICTED', 'GPC3': 'RESTRICTED'}
+
+restricted_window_candidates that would leave the list: ['ALCAM']
+
+=> The committed threshold is the one that keeps DLL3 and GPC3 RESTRICTED, i.e. it is
+   calibrated so the file's own positive controls pass. ALCAM's blood-cell annotation sits
+   in the SAME band as those two controls. Nothing here changes any candidate's standing.
