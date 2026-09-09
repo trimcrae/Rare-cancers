@@ -1,0 +1,72 @@
+TOOL RESULT SUMMARY
+  count: 1
+  identifiers: pmcid=PMC12398172  pmid=40885991  doi=10.1186/s13018-025-06245-6
+  title: "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma"
+  source: PubMed / PubMed Central, retrieved via the PubMed MCP server, 2026-09-09.
+  Sections returned: Background; Methods; Results (incl. Tables 1-4 as flattened text);
+                     Discussion; Conclusions; Supplementary Information stub; Abstract.
+
+OUTCOME: THE PER-ARM LOCAL-RECURRENCE EVENT COUNT **IS DIRECTLY REPORTED**.
+It is NOT in Table 2 (which prints only arm sizes and the hazard ratio, exactly as the
+prior lane transcribed). It is in the RESULTS BODY TEXT, in the paragraph immediately
+following the Table 2 call-out, under the heading "Patients without metastases at diagnosis".
+
+--- VERBATIM (the load-bearing sentence) -------------------------------------------
+"Of the 24 patients who received (neo)adjuvant radiotherapy, two (8.3%) experienced
+local recurrence, and of the 110 patients who did not receive (neo)adjuvant
+radiotherapy, 14 (12.7%) experienced local recurrence."
+------------------------------------------------------------------------------------
+Integers are PRINTED as words with the percentage in parentheses ("two (8.3%)",
+"14 (12.7%)"). Nothing was back-derived from a percentage, a hazard ratio, a p-value
+or a curve.
+
+--- VERBATIM (supporting context, same paragraph and preceding paragraph) -----------
+"For the prognostic analysis, eight patients who did not undergo surgery were excluded,
+and the remaining 134 patients were included. Local recurrence occurred in 16 patients
+(11.9%), and the median time from surgery to local recurrence was 15 months (IQR,
+4.5-63.5)."
+
+"There was no association between (neo)adjuvant radiotherapy and local recurrence rate
+(HR 0.50 [95% CI: 0.11-2.25];= 0.365; Table; Fig.)."
+
+"Of the 24 patients who received (neo)adjuvant radiotherapy, 10 (41.7%) had R1 or R2
+surgical margins, whereas only 20 (18.2%) of the 110 patients who did not receive
+(neo)adjuvant radiotherapy had R1 or R2 surgical margins."
+------------------------------------------------------------------------------------
+
+--- VERBATIM (Table 2, confirming the prior lane's transcription is correct) --------
+"(Neo)adjuvant radiotherapy / No / 110 / 1 / (ref) ; Yes / 24 / 0.50 (0.11-2.25) / 0.365"
+Table 2 title: "Univariate Cox regression analysis of local recurrence-free survival in
+patients who had localized extraskeletal myxoid chondrosarcoma and underwent surgery"
+------------------------------------------------------------------------------------
+
+--- VERBATIM (a THIRD per-arm split, appearing only as a secondary citation) --------
+Discussion, "Localized extraskeletal myxoid chondrosarcoma":
+"Another multicenter retrospective study involving only localized and molecularly
+confirmed cases showed a trend toward better local control in the group that underwent
+surgery and (neo)adjuvant radiotherapy than in the surgery-alone group (local recurrence
+rate: 1/10 (10%) vs. 7/17 (41%),= 0.08) []."
+NOTE: the reference number is stripped by the full-text extraction, so the PRIMARY study
+is UNIDENTIFIED. Recorded as a lead only. NOT admitted to k (POLICY-evidence 1.3:
+secondary provenance requires a named primaryRef; a count read out of another paper's
+discussion is not a primary read).
+
+Also present, percentage-only and therefore excluded by POLICY-evidence 2.1(2):
+"Drilon et al. [] reported no difference in local recurrence risk between groups that
+received surgery and (neo)adjuvant radiotherapy and those that received surgery alone
+(41 vs. 35%,= 0.79)."
+And the prior lane's bishop2019 headline, quoted by Masunaga: "(10-year local control
+rate, 100% vs. 63%;= 0.004)".
+
+SECTIONS CHECKED FOR AN ARM-LEVEL COUNT: Abstract; Background; Methods; Results
+(Table 1, "Patients without metastases at diagnosis" incl. Table 2 and Table 3 and
+Table 4, "Patients with metastases at diagnosis"); Discussion; Conclusions.
+Figure 2 is the LRFS Kaplan-Meier by radiotherapy status - NOT read for numbers-at-risk
+(reading a count off a curve is the forbidden reconstruction, and no numbers-at-risk
+table is present in the returned text). Supplementary Material 1 is referenced but its
+content is not returned by this route; it is NOT needed, the split is in the body.
+
+ATTRIBUTION (required by the tool's legal notice): information above is from PubMed.
+Masunaga T, Tsukamoto S, Nagano A, et al. J Orthop Surg Res 2025.
+DOI: https://doi.org/10.1186/s13018-025-06245-6  (CC-BY-NC-ND-4.0 per the registry entry;
+only short verbatim excerpts necessary to evidence the finding are reproduced here.)
