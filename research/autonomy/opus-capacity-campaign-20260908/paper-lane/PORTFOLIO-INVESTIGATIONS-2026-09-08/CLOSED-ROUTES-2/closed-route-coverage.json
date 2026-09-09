@@ -1,0 +1,176 @@
+{
+  "id": "ART-CLOSED-ROUTES-2-COVERAGE",
+  "lane": "CLOSED-ROUTES-2",
+  "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+  "generated_utc": "2026-09-09T01:09:48Z",
+  "question": "Which of this campaign's newly evidenced route closures does the standing negative record already carry, and which are uncatalogued?",
+  "standing_record": {
+    "path": "research/manuscripts/methods-record/closed-routes-negative-record.md",
+    "sha256_at_use": "e091b1cdf0b660b3ba947680b99a923c27f53565a6e4137d888bde6a6dbcf920"
+  },
+  "method": "Case-insensitive literal scan of the standing record for each route's own identifying tokens. A route counts as in-record only if at least one of its tokens appears in the record text. NO network request of any kind was made; every closure below is established by retained lane evidence.",
+  "scope_note": "The standing record's declared scope is the seven THERAPEUTIC routes filed against PUB-CLOSED-ROUTES. Every row here is a RETRIEVAL or DATA-ACCESS closure, a different class. Cataloguing a closure does not reopen it and is not a plan to retry it.",
+  "n_routes": 9,
+  "n_in_record": 0,
+  "n_uncatalogued": 9,
+  "routes": [
+    {
+      "route_id": "CR-GPL3290-ACCESSION-BRIDGE",
+      "closure_statement": "The GPL3290 EST-accession->symbol bridge is not in this checkout: it is constructed at run time by fetching GEO acc.cgi / GPL3290.annot.gz / GPL3290_family.soft.gz, so the platform's readability can only be bounded offline, never made exact.",
+      "closure_class": "artifact-absent-built-at-run-time-from-a-network-source",
+      "evidenced_by_lane": "FUSION-OUTPUT-3",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-3/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-3/checks/04-platform-coverage-final/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-3/platform-coverage.json"
+      ],
+      "record_scan_tokens": {
+        "GPL3290": false,
+        "acc.cgi": false,
+        "accession bridge": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-HPA-RNATSS-EMPTY",
+      "closure_statement": "HPA's per-tissue nTPM column is already requested by the producer's query string (rnatss) and comes back empty, so rna_tissue_specific_nTPM is null and vital_tissue is [] on all 45 scored rows: the 21-tissue vital screen has never had an input on any row.",
+      "closure_class": "upstream-source-returns-no-data-for-a-requested-field",
+      "evidenced_by_lane": "SURFACE-2",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SURFACE-2/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SURFACE-2/checks/01-audit/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SURFACE-2/WINDOW-CONSISTENCY-AUDIT.tsv"
+      ],
+      "record_scan_tokens": {
+        "rnatss": false,
+        "Human Protein Atlas": false,
+        "vital_tissue": false,
+        "vital-tissue": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-CLINICALTRIALS-GOV-EGRESS",
+      "closure_statement": "Direct HTTPS to clinicaltrials.gov is refused at this sandbox's egress proxy: CONNECT tunnel failed, response 403, curl exit 56. The refusal is the standing record; it was not retried, reworded, model-switched or proxied around by any later lane.",
+      "closure_class": "egress-refusal-at-the-proxy",
+      "evidenced_by_lane": "STRATEGY-ARCH-2",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-STRATEGY-ARCH/checks/01-connectivity-probe/exit_code.txt",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-STRATEGY-ARCH/checks/01-connectivity-probe/stderr.txt",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-2/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/FINDING.md"
+      ],
+      "record_scan_tokens": {
+        "clinicaltrials.gov": false,
+        "curl exit 56": false,
+        "CONNECT": false,
+        "egress": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-NO-LOCAL-TRANSCRIPTOME",
+      "closure_statement": "emc_fourth_cohort_quant.py::map_probes_to_genes obtains its reference only by urlopen against ftp.ensembl.org cdna/ncrna; there is no local cache and no local transcriptome anywhere in the checkout, so the reference half of a k >= 6 re-run is route B1/B2 and stays closed. It was not attempted.",
+      "closure_class": "local-input-absent-remote-route-already-closed",
+      "evidenced_by_lane": "MATRIX-ADDRESS-3",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/checks/03-committed-label-source-inventory/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/relaxed-k-label-recovery.json"
+      ],
+      "record_scan_tokens": {
+        "ftp.ensembl.org": false,
+        "transcriptome": false,
+        "route B1": false,
+        "B1/B2": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-FOUR-REFERENCES-NO-PMC",
+      "closure_statement": "Four PUB-REPURPOSING references -- [2], [8], [9], [14] -- have no PubMed Central record at all, agreed by two independent retrieval modes (the id converter and the PubMed-to-PMC link database). Not a lossy extraction: no retrievable body of any kind. All four are read at abstract level only.",
+      "closure_class": "no-open-record-exists-for-the-source",
+      "evidenced_by_lane": "REPURPOSING-3",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/checks/01-convert-five-pmids-to-pmcid/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/checks/04-related-pubmed-pmc-all-five/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+      ],
+      "record_scan_tokens": {
+        "no PubMed Central record": false,
+        "PMC record": false,
+        "REPURPOSING": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-PMC10054153-EMPTY-BODY",
+      "closure_statement": "The zaltoprofen reference [12] has a PMC record, PMC10054153, that returns an empty full_text string reproducibly under both accepted id forms. Abstract only; the body is not retrievable by any route this session may take.",
+      "closure_class": "record-exists-but-returns-an-empty-body",
+      "evidenced_by_lane": "REPURPOSING-3",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/checks/02-fulltext-ref12-PMC10054153/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/checks/03-fulltext-ref12-retry-numeric-id/"
+      ],
+      "record_scan_tokens": {
+        "PMC10054153": false,
+        "zaltoprofen": false,
+        "empty full_text": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-MORIOKA-TABLES-DROPPED",
+      "closure_statement": "morioka2016trabectedin (PMC4946242) returns abstract and narrative only: all tables, all figures and all legends are stripped, and the in-text pointers arrive as bare punctuation. The lane therefore asserts NO absence for that series on any element -- UNKNOWN, not zero.",
+      "closure_class": "retrieval-returns-a-partial-body-tables-dropped",
+      "evidenced_by_lane": "CARE-DELIVERY-3",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/checks/03-pmc-fulltext-morioka2016trabectedin/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json"
+      ],
+      "record_scan_tokens": {
+        "morioka": false,
+        "PMC4946242": false,
+        "trabectedin": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-HLA-C-NO-FREQUENCY-B8",
+      "closure_statement": "The committed AFND mirror snapshot carries loci A and B only, and route B8 (HLA-C) is closed and was not approached. C*04:01 and C*12:03 therefore have no frequency in this checkout, and the population share for whom an HLA-C-restricted junction epitope is the relevant one cannot be computed here -- reported UNKNOWN, never substituted.",
+      "closure_class": "closed-route-leaves-a-quantity-permanently-uncomputable-here",
+      "evidenced_by_lane": "HLA-COVERAGE-2",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/HLA-COVERAGE-2/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/HLA-COVERAGE-2/checks/01-panel-coverage/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/HLA-COVERAGE-2/panel-coverage.json"
+      ],
+      "record_scan_tokens": {
+        "HLA-C": false,
+        "route B8": false,
+        "AFND": false
+      },
+      "in_record": "no"
+    },
+    {
+      "route_id": "CR-Q92570-3-SEQUENCE-ABSENT",
+      "closure_statement": "The NR4A3 isoform-3 sequence Q92570-3 is not in this checkout, so the offset of DMPCVQAQY within it is carried from a committed artifact and could not be independently re-verified. TrEMBL sits outside both novelty strata, so 'novel' never means absent from every human protein.",
+      "closure_class": "reference-sequence-absent-verification-bounded",
+      "evidenced_by_lane": "NEOANTIGEN-4",
+      "evidence_locator": [
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-4/FINDING.md",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-4/checks/01-novelty-audit/",
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-4/neoantigen4-novelty-audit.json"
+      ],
+      "record_scan_tokens": {
+        "Q92570-3": false,
+        "TrEMBL": false,
+        "Swiss-Prot": false
+      },
+      "in_record": "no"
+    }
+  ]
+}

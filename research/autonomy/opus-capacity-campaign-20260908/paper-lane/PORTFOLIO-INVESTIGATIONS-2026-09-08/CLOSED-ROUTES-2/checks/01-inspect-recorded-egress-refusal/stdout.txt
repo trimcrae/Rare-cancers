@@ -1,0 +1,8 @@
+--- PUB-STRATEGY-ARCH/checks/01-connectivity-probe/command.txt
+curl -sS -o /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/probe.json -w '%{http_code}' 'https://clinicaltrials.gov/api/v2/studies?query.term=NCT05918640&pageSize=1'
+--- PUB-STRATEGY-ARCH/checks/01-connectivity-probe/exit_code.txt
+56
+--- PUB-STRATEGY-ARCH/checks/01-connectivity-probe/stderr.txt
+curl: (56) CONNECT tunnel failed, response 403
+--- PUB-STRATEGY-ARCH/checks/01-connectivity-probe/stdout.txt
+000
