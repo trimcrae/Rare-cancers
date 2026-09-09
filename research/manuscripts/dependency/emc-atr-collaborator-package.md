@@ -218,7 +218,7 @@ what is missing is the sequence, the placement and the criteria.
 A prior-art screen supports that reading of the record. A Europe PMC sweep of 322 EMC-linked
 records, of which 238 were retrieved as full text, was screened for ATR and replication stress and
 returned no hits
-([`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json)). The screen
+([`emc-prior-art-2026-08-09.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/literature/emc-prior-art-2026-08-09.json)). The screen
 matched titles and abstracts rather than full text, so that zero establishes only that nothing is
 indexed on the pairing, and not that no such experiment has been done: a result inside a
 supplementary table of a larger FET-fusion paper would be invisible to it.
@@ -273,7 +273,7 @@ than for TCF12 alone. The published version of this test swept TCF12 alone and c
 value against the FET proteins at a single fixed 250-residue window, which is asymmetric. No sweep
 was run for this revision: the symmetric result, its grid, its per-protein prefixes and the resulting
 0.039 gap are read from the retained artifact
-[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) under
+[`emc-fet-frame-and-composition.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-frame-and-composition.json) under
 `composition.symmetric_prefix_sweep`. The conclusion therefore rests neither on one assumed junction
 nor on one fixed window.
 
@@ -295,15 +295,15 @@ python3 research/manuscripts/figures/emc_fusion_frame_figure.py --check
 
 The first command re-derives the per-construct assembly coordinates, the reading frames and the
 recruitment-axis rows offline from the committed input cache
-([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`;
+([`emc-construct-inputs.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-construct-inputs.json)) and prints `REPRODUCES`;
 it does not produce the frame rule, the type-2 seam arithmetic or the composition results. The second
 re-derives those into
-[`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json), printing
+[`emc-fet-frame-and-composition.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-frame-and-composition.json), printing
 `REPRODUCES` when a fresh derivation matches the committed artifact and `DRIFT`, with a non-zero
 exit, when it does not; its unit tests are
-[`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py).
+[`test_emc_fet_frame_and_composition.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/tests/test_emc_fet_frame_and_composition.py).
 The third compares the committed provenance stamp
-([`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json)) against the artifacts
+([`emc-atr-figure-provenance.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc-atr-figure-provenance.json)) against the artifacts
 Figure 1 was drawn from, printing `PROVENANCE MATCHES` or `STALE`; run without `--check` it redraws
 the figure. These are the declared command signatures, quoted from the three modules; none of them
 was run to produce this revision, which recomputes no scientific result.
@@ -439,9 +439,9 @@ nonetheless changes what a construct built from the published model contains.
 ![Figure 1. Three panels: reported EMC junctions drawn to residue scale with their RG content, the retained-RG fraction axis, and the type-2 seam.](../figures/emc-fusion-frame-fig1.png)
 
 **Figure 1.** Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels,
-drawn by [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py) and committed as
-[`emc-fusion-frame-fig1.png`](../figures/emc-fusion-frame-fig1.png) and
-[`emc-fusion-frame-fig1.pdf`](../figures/emc-fusion-frame-fig1.pdf).
+drawn by [`emc_fusion_frame_figure.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc_fusion_frame_figure.py) and committed as
+[`emc-fusion-frame-fig1.png`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc-fusion-frame-fig1.png) and
+[`emc-fusion-frame-fig1.pdf`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc-fusion-frame-fig1.pdf).
 
 **Panel A.** Bars are drawn to residue scale on the shared axis. Each thin vertical tick marks one
 RG dipeptide, at the 1-based position of its arginine
@@ -714,18 +714,18 @@ GFP-TCF12 leaves P5 untested.
 
 | item | location |
 |---|---|
-| Producer | [`emc_fet_construct_designs.py`](../../modalities/emc_fet_construct_designs.py) |
-| Computed artifact holding the per-construct assembly coordinates, reading frames and axis rows | [`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json) |
-| Producer of the frame rule, the type-2 seam arithmetic and the composition results | [`emc_fet_frame_and_composition.py`](../../modalities/emc_fet_frame_and_composition.py) |
-| Its computed artifact | [`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json) |
-| Its unit tests | [`test_emc_fet_frame_and_composition.py`](../../modalities/tests/test_emc_fet_frame_and_composition.py) |
-| Figure 1 generator and the provenance stamp it writes | [`emc_fusion_frame_figure.py`](../figures/emc_fusion_frame_figure.py), [`emc-atr-figure-provenance.json`](../figures/emc-atr-figure-provenance.json) |
-| Offline input cache the artifact re-derives from | [`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json) |
-| NR4A3 exon audit | [`nr4a3-exon-audit.json`](../../modalities/nr4a3-exon-audit.json) |
-| RG and RGG-box definitions, and the breakpoint sweep | [`emc_fet_idr_census.py`](../../modalities/emc_fet_idr_census.py), [`emc-fet-idr-census.json`](../../modalities/emc-fet-idr-census.json) |
-| Companion assessment of the class-inheritance argument | [`emc-atr-vulnerability-assessment.md`](./emc-atr-vulnerability-assessment.md) |
-| Prior-art screen, with its retrieval record and its stated limits | [`emc-prior-art-2026-08-09.json`](../../literature/emc-prior-art-2026-08-09.json) |
-| Separate pre-registered protocol for the drug-response half of the same question, which this report does not address | [`emc-atri-prereg.md`](../../modalities/emc-atri-prereg.md) |
+| Producer | [`emc_fet_construct_designs.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc_fet_construct_designs.py) |
+| Computed artifact holding the per-construct assembly coordinates, reading frames and axis rows | [`emc-fet-construct-designs.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-construct-designs.json) |
+| Producer of the frame rule, the type-2 seam arithmetic and the composition results | [`emc_fet_frame_and_composition.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc_fet_frame_and_composition.py) |
+| Its computed artifact | [`emc-fet-frame-and-composition.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-frame-and-composition.json) |
+| Its unit tests | [`test_emc_fet_frame_and_composition.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/tests/test_emc_fet_frame_and_composition.py) |
+| Figure 1 generator and the provenance stamp it writes | [`emc_fusion_frame_figure.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc_fusion_frame_figure.py), [`emc-atr-figure-provenance.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/figures/emc-atr-figure-provenance.json) |
+| Offline input cache the artifact re-derives from | [`emc-construct-inputs.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-construct-inputs.json) |
+| NR4A3 exon audit | [`nr4a3-exon-audit.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/nr4a3-exon-audit.json) |
+| RG and RGG-box definitions, and the breakpoint sweep | [`emc_fet_idr_census.py`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc_fet_idr_census.py), [`emc-fet-idr-census.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-idr-census.json) |
+| Companion assessment of the class-inheritance argument | [`emc-atr-vulnerability-assessment.md`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) |
+| Prior-art screen, with its retrieval record and its stated limits | [`emc-prior-art-2026-08-09.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/literature/emc-prior-art-2026-08-09.json) |
+| Separate pre-registered protocol for the drug-response half of the same question, which this report does not address | [`emc-atri-prereg.md`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-atri-prereg.md) |
 
 `emc-fet-construct-designs.json` was produced by GitHub Actions run 30857647907 on
 `depmap-dependency.yml` in the public repository, and its producer's `--check` re-derives it offline.
@@ -782,7 +782,7 @@ under `wild_type_controls`.
 
 **Supplementary Table S3.** Per-junction assembly coordinates for each reported junction with a
 sourced transcript-level breakpoint. Every cell is a verbatim copy of a recorded leaf of
-[`emc-fet-construct-designs.json`](../../modalities/emc-fet-construct-designs.json)
+[`emc-fet-construct-designs.json`](https://github.com/trimcrae/Rare-cancers/blob/6393cad35d45a2f3965ca911edc902770c9a9bda/research/modalities/emc-fet-construct-designs.json)
 (sha256 `726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b`), a fixed column label,
 or `UNRESOLVED`. No value in this table was derived, inferred, rounded or interpolated, and no new
 construct is proposed by it.
