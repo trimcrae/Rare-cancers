@@ -228,11 +228,10 @@ bodies.
 This is a common-random-number design: the arms share proposals and are not independent observations.
 The artifact stores marginal Wilson intervals formed from pooled accepted/drawn counts — at floor 12
 approximately [0.0007466, 0.0008781] for the single-domain pool and [0.0008374, 0.0009763] for the
-multi-subunit pool — and these overlap. **Neither the overlap nor the intervals test the ratio.** A
-paired ratio interval for this ablation requires its cross-arm joint acceptance counts; those counts
-were not retained, so the shared-stream covariance cannot be estimated from the held marginals and no
-design-aware interval for the ablation ratio can be computed from what exists. That limitation is a
-property of this shared-proposal ablation. It is not a statement about the separate eight-rung
+multi-subunit pool — and these overlap. **Neither the overlap nor the intervals test the ratio.** The cross-arm joint acceptance counts were not retained, so the empirical cross-arm covariance
+cannot be estimated from the retained marginal counts; no ratio interval is reported for this
+ablation. Missing empirical covariance does not establish that every conservative interval or bound
+is unavailable. This missing joint record belongs to the shared-proposal ablation. It is not a statement about the separate eight-rung
 enumeration of §4a, which is a different object: its four pooled arms use distinct random streams and
 its marginal cell counts are retained, and for it this paper reports no ratio interval and no
 significance test (SI §S5). The counts are also conditional on heterogeneous fixed anchor strata
@@ -418,7 +417,8 @@ distinct.
    probe threshold, and the probe rule may not be restated as one.
 3. **There is no upper bound of twelve residues.** Six to twelve is the range of residues that could
    supply *exactly* twelve probes. Acceptance requires twelve **or more**, so an accepted placement
-   may draw its probes from arbitrarily many residues.
+   may involve more than twelve contributing residues; the cutoff alone imposes no twelve-residue
+   upper bound.
 
 The earlier version's reading — "12 points, as few as 6 residues" combined with "a floor of at most 6
 residues' worth of probes" and "roughly half either way" — reversed that inequality and is withdrawn,
@@ -519,8 +519,8 @@ requirements.
    effect of body size (§4a). No ratio interval and no significance test are reported for the
    eight-rung enumeration, whose four pooled arms use distinct random streams. Separately, in the
    shared-proposal floor ablation the arms share proposals and no cross-arm joint acceptance counts
-   were retained, so that ablation's shared-stream covariance cannot be estimated and no design-aware
-   interval for its ratio can be computed.
+   were retained, so its empirical cross-arm covariance cannot be estimated from the retained
+   marginal counts; no ratio interval is reported for that ablation.
 5. **The census is a selected-structure description.** Its entry list was selected, a zero-score
    filter is applied before induced-pair selection, repeated copies and related complexes are
    dependent, and the 6-of-15 result is not a population rate.

@@ -72,9 +72,9 @@ pooled class at each floor therefore aggregates 720,000 draws over two arms and 
 **Random streams, and what they permit.** The ablation reuses `random.Random(777 + pose_index)`
 across arms and across floors: a common-random-number design in which the arms share proposals and
 are **not** independent observations. No cross-arm joint acceptance counts are retained for this
-ablation, so its shared-stream covariance cannot be estimated from the held marginals and **no paired
-interval for the ablation ratio can be computed from the retained records**. That unavailable
-covariance is a property of the shared-proposal ablation, and it is not carried over to the main
+ablation, so its empirical cross-arm covariance cannot be estimated from the retained marginal counts;
+no ratio interval is reported for this ablation. This does not establish that every conservative
+interval or bound is unavailable. The missing joint record belongs to the shared-proposal ablation, and it is not carried over to the main
 enumeration, which is a different object with its own streams and its own retained counts (below). The stored class Wilson intervals are marginal, formed from pooled accepted/drawn counts,
 and they quantify neither ratio precision nor uncertainty across proteins, target conformations,
 anchors drawn from a biological population, or source structures; the anchor strata are fixed and
@@ -102,12 +102,12 @@ per-cell acceptance rates against the previously committed E3 run in
 records **1.20** as the number expected outside by chance at a 95 % level. Two separate things are
 involved, and neither stands in for the other.
 
-*The nominal expected count.* 1.20 is 24 × 0.05. It follows from linearity of expectation, which
-requires neither independent comparisons nor a calibrated family test. What it does assume is that
-each of the 24 comparisons has exactly 5 % noncoverage against an **exact** reference value. That
-assumption does not hold here: the committed rates are themselves Monte Carlo estimates, at 1,000,000
-draws per compared cell against 300,000 for the recomputed ones, so the reference is not exact and
-the per-comparison noncoverage is not 5 %.
+*The nominal expected count.* 1.20 is 24 × 0.05. By linearity of expectation, this is the expected
+count if each of the 24 comparisons has 5 % noncoverage; independence and a calibrated family test
+are not required for that calculation. The retained records do not establish that per-comparison
+calibration. The committed reference rates are themselves Monte Carlo estimates, at 1,000,000 draws
+per compared cell against 300,000 for the recomputed ones, so nominal 5 % noncoverage for these
+comparisons is not established.
 
 *The verdict rule.* Separately, the rule that turns the observed count into a label reads `AGREES`
 when at most `max(1, ceil(1.20)) = 2` of the 24 comparisons fall outside and `DISAGREES` otherwise;

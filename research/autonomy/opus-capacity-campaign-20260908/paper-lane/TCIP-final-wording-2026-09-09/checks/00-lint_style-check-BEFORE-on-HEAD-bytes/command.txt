@@ -1,0 +1,5 @@
+# parent measurement, taken by temporarily restoring the two HEAD blobs into place,
+# running the enforcing lint, then restoring the patched bytes (verified by sha256).
+git show HEAD:research/manuscripts/tcip/tcip-induced-interface-preprint.md    > research/manuscripts/tcip/tcip-induced-interface-preprint.md
+git show HEAD:research/manuscripts/tcip/tcip-induced-interface-preprint-si.md > research/manuscripts/tcip/tcip-induced-interface-preprint-si.md
+python3 research/manuscripts/lint_style.py research/manuscripts/tcip/tcip-induced-interface-preprint.md research/manuscripts/tcip/tcip-induced-interface-preprint-si.md
