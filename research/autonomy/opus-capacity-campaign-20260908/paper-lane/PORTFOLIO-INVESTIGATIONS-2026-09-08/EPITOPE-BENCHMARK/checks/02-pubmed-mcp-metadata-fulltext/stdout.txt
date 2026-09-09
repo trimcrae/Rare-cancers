@@ -1,0 +1,8 @@
+All metadata and full-text calls returned records. Three notes on the route's real behaviour:
+ - Two metadata batches and one full-text call exceeded the tool's inline token cap and were
+   spilled by the harness to files under tool-results/; content was recovered with jq. Not a failure.
+ - PMC full text arrives with inline citation markers and some gene symbols STRIPPED (e.g. Yang 2019
+   reads "a-derived peptide (DKESEEEVS)"). Per-peptide gene attribution for the ACC panel is therefore
+   partly unresolvable from this route; affected rows say so (E15, E16, E17).
+ - Worley 2001 (PMID 11559563) has no PMC record, so its peptide SEQUENCES could not be retrieved.
+   Rows E29-E32 record the assay and HLA and mark the sequence as NOT RETRIEVED rather than guessing.

@@ -1,0 +1,3 @@
+curl -sS -m 20 -o /dev/null -w '%{http_code}\n' "https://query-api.iedb.org/mhc_search?limit=1"
+# exit_code.txt records the ACTUAL curl exit status of this first probe (no pipe).
+# The second probe against eutils.ncbi.nlm.nih.gov is in stdout.txt and exits identically.

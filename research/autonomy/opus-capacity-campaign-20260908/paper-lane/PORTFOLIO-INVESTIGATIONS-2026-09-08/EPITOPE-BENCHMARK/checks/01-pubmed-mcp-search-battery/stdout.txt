@@ -1,0 +1,5 @@
+All 26 searches returned HTTP-level success via the PubMed MCP server. Zero-result queries are
+NOT failures of the route: the NCBI Automatic Term Mapping conjoins every token with AND, so a
+long query is over-constrained. Confirmed by re-issuing shorter forms of the same question
+(e.g. query 2 -> 0 but query 3 -> 6 on the identical subject). Recall was therefore rebuilt from
+short 3-5 token queries plus reference-chaining out of the retrieved reviews.
