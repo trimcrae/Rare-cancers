@@ -1,0 +1,48 @@
+=== 1. sensitivity 0.9, all conventions (the arbitrated row) ===
+  p-exact  -> minimum n =  37   (k=n/a, phat=0.900000, width=0.198803)
+  k=round  -> minimum n =  34   (k=31, phat=0.911765, width=0.199139)
+  k=ceil   -> minimum n =  34   (k=31, phat=0.911765, width=0.199139)
+  k=floor  -> minimum n =  38   (k=34, phat=0.894737, width=0.199603)
+
+=== 2. the full ladder under every convention ===
+  conv     | p=0.5 | p=0.7 | p=0.8 | p=0.9
+  p-exact  |    93 |    78 |    60 |    37
+  k=round  |    93 |    78 |    60 |    34
+  k=ceil   |    93 |    76 |    58 |    34
+  k=floor  |    93 |    79 |    60 |    38
+
+=== 3. which convention reproduces the PINNED ladder 93/78/60/37 ? ===
+  p-exact  : [93, 78, 60, 37]  MATCHES PINNED LADDER
+  k=round  : [93, 78, 60, 34]  no
+  k=ceil   : [93, 76, 58, 34]  no
+  k=floor  : [93, 79, 60, 38]  no
+
+=== 4. which convention reproduces 93/78/60/34 (pinned ladder with the arbitrated 0.9) ===
+  p-exact  : [93, 78, 60, 37]  no
+  k=round  : [93, 78, 60, 34]  MATCHES
+  k=ceil   : [93, 76, 58, 34]  no
+  k=floor  : [93, 79, 60, 38]  no
+
+=== 5. width table at and just below each candidate n, p=0.9 ===
+  p-exact  n= 36 k=-    phat=0.900000 width=0.201644  > 0.20
+  p-exact  n= 37 k=-    phat=0.900000 width=0.198803  <= 0.20
+  k=round  n= 33 k=30   phat=0.909091 width=0.204322  > 0.20
+  k=round  n= 34 k=31   phat=0.911765 width=0.199139  <= 0.20
+  k=ceil   n= 33 k=30   phat=0.909091 width=0.204322  > 0.20
+  k=ceil   n= 34 k=31   phat=0.911765 width=0.199139  <= 0.20
+  k=floor  n= 37 k=33   phat=0.891892 width=0.204233  > 0.20
+  k=floor  n= 38 k=34   phat=0.894737 width=0.199603  <= 0.20
+
+=== 6. candidate values 34 and 37 evaluated under every convention, p=0.9 ===
+  p-exact  n=34 k=-    phat=0.900000 width=0.207703 fails
+  p-exact  n=37 k=-    phat=0.900000 width=0.198803 MEETS <=0.20
+  p-exact  n=38 k=-    phat=0.900000 width=0.196077 MEETS <=0.20
+  k=round  n=34 k=31   phat=0.911765 width=0.199139 MEETS <=0.20
+  k=round  n=37 k=33   phat=0.891892 width=0.204233 fails
+  k=round  n=38 k=34   phat=0.894737 width=0.199603 MEETS <=0.20
+  k=ceil   n=34 k=31   phat=0.911765 width=0.199139 MEETS <=0.20
+  k=ceil   n=37 k=34   phat=0.918919 width=0.185046 MEETS <=0.20
+  k=ceil   n=38 k=35   phat=0.921053 width=0.180779 MEETS <=0.20
+  k=floor  n=34 k=30   phat=0.882353 width=0.219494 fails
+  k=floor  n=37 k=33   phat=0.891892 width=0.204233 fails
+  k=floor  n=38 k=34   phat=0.894737 width=0.199603 MEETS <=0.20

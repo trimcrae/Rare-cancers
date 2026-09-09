@@ -1,0 +1,131 @@
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/FINDING.md b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/FINDING.md
+index efd570bb1..60a835a40 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/FINDING.md
+@@ -72,6 +72,17 @@ gene-level t statistics are **uncorrelated** (r ≈ 0). Nothing about these two
+ arbitrary gene agree across them; the agreement exists only when the real EMC-vs-comparator
+ labels are in place. The 65.2% is a property of the **contrast**, not of the series pair.
+ 
++⚠ **What kind of contrast, answered in part (lane `EXPR-COMPOSITION`, 2026-09-09).** That the 65.2 %
++is contrast-borne does not make it EMC biology. Holding a frozen 20-marker tumour/stroma composition
++score constant takes the primary frame to **0.5668** (56.1 % of the excess over 0.5 removed) and the
++secondary frame to **0.5981** (28.3 %); cross-platform Pearson r falls 0.405 → 0.251 and
++0.447 → 0.281. The unadjusted values in the table above are the correct description of the raw
++contrast and are retained. The residual **survives** (adjusted-null p = 0.022 and 0.0085 against the
++unadjusted p ≤ 0.0005), so this attenuates the reading and does **not** refute it. ⛔ Composition and
++biology are not separable here even in principle — a stromal score in a mesenchymal tumour is partly
++the tumour's own programme — so **0.561 is an upper bound on the composition share, not an estimate,
++and the surviving p values are conservative.**
++
+ ## 4 · ⭐ Result 2 — both nulls, side by side, for every lead gene
+ 
+ Joint statistic throughout: concordant in direction **and** at least this strong on the weaker
+@@ -111,14 +122,20 @@ baseline might be nuisance correlation. It is not. This is reported as found.
+ **Survives, and is now explained rather than merely observed.** *"Concordant on both platforms" is
+ not by itself evidence for a gene.* Two of three genes clear it — and we now know **why**: the
+ EMC-vs-comparator contrast in these designs is **broad**, moving a large fraction of the
+-transcriptome consistently in both series. The operational consequence for the paper is unchanged:
++transcriptome consistently in both series. ⚠ And at most about half of that breadth, on the primary
++frame, is attributable to a frozen tumour/stroma composition score (concordance 0.6521 → 0.5668);
++the rest survives the adjustment at p = 0.022. The operational consequence for the paper is unchanged:
+ every unqualified "higher in EMC on both platforms" still needs a strength term and a p beside it.
+ 
+ **Strengthens.** The 431-gene frame is doing honest work: because its baseline is real shared
+ signal, **the gene-resampling null is conservative, not lenient**. RET at p = 0.0742 and NDRG1 at
+ p = 0.0882 are being judged against a bar that already contains the effect they are being tested
+ for. Any referee objection that the concordance null was rigged against the leads by an artefactual
+-65% baseline is answered — the baseline is earned. Also strengthened: **GFRA2 remains the most
++65% baseline is answered — the baseline is earned. ⚠ **Qualified, 2026-09-09:** "earned" means
++label-borne, not composition-free. Up to 56.1 % of the primary-frame excess is carried by a frozen
++tumour/stroma marker score, so part of the bar the leads are judged against is a composition
++contrast; the bar remains conservative for the leads either way, and the residual contrast survives
++adjustment (p = 0.022). Also strengthened: **GFRA2 remains the most
+ extreme gene in the set under both nulls** (p = 0.039 and 0.00006), so lane `PUB-KINASE-LEADS`'s
+ finding that *the RET route's negative arm is better supported than its positive arm* is
+ null-independent.
+@@ -150,6 +167,14 @@ ones. It therefore splits explanation (a) into two, and closes only the first:
+   exactly as EMC biology is**, so this analysis **cannot** separate it from (b). **It remains
+   open**, and it is the more plausible driver of a contrast broad enough to move two genes in
+   three. Nothing here licenses reading a small label-permutation p as EMC-specific biology.
++  ⚠ **Partly closed, 2026-09-09, and against the biological reading** — lane `EXPR-COMPOSITION`
++  measured a per-sample frozen 20-marker composition proxy (Spearman with the EMC label −0.578 on
++  GPL6244, −0.504 on GPL3290) and held it constant: primary-frame concordance 0.6521 → 0.5668,
++  secondary 0.6368 → 0.5981, with a passed negative control (a permuted score returns 0.6469,
++  sd 0.0135; 0 of 500 shuffled draws reached 0.5668). The residual survives at p = 0.022 / 0.0085.
++  ⛔ (a2) is **bounded, not eliminated**: the proxy is not a measured cell fraction, and because a
++  stromal programme in a mesenchymal tumour is partly the tumour's own, the 56.1 % figure is an
++  **upper bound** on the composition share and the surviving p values are **conservative**.
+ 
+ ## 7 · Artifact · validation · provenance · limitations · stop condition
+ 
+@@ -208,10 +233,12 @@ discrepancy if reproduction failed. **Met, on the reproducing branch.**
+ 
+ ## 8 · Next credible independent work (not done here, not authorised here)
+ 
+-1. **Separate (a2) from (b): a composition-matched or composition-adjusted contrast.** The open
+-   question is now sharply defined — is the broad EMC contrast tumour/stroma composition, or EMC
+-   biology? A deconvolution or a cellularity covariate on the same committed matrices would attack
+-   it directly, at $0, and would say more about the expression arm than any further null.
++1. ✅ **Done, 2026-09-09, by lane `EXPR-COMPOSITION`** — a rank partial-correlation adjustment for a
++   frozen 20-marker composition proxy on these same committed matrices. Result: about half the
++   primary-frame excess concordance goes, the residual survives weakly. ⛔ A real **deconvolution**
++   with a reference signature would replace the proxy and is still not done; no such reference is
++   identified as available at $0 here. The preregistered two-covariate and MKI67/EPCAM sensitivity
++   adjustments were **not** run.
+ 2. **Propagate both nulls into the endpoint's prose** — a shared-file change this lane may not make.
+    Lane `PUB-KINASE-LEADS`'s "cannot resolve the driver" sentence should become the crowding
+    statement in §5; the joint p beside each concordance claim should be the **gene-resampling** one,
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-KINASE-LEADS/FINDING.md b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-KINASE-LEADS/FINDING.md
+index 81269a2e4..232ea54e9 100644
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-KINASE-LEADS/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-KINASE-LEADS/FINDING.md
+@@ -74,7 +74,21 @@ random, one deliberately enriched for genes somebody already cared about — agr
+ Concordance is not near 50% because the two series share the same EMC arm identity and have
+ correlated comparator arms; whatever the cause, **"higher in EMC on both platforms" is a statement
+ two out of three random genes can make**, and no lead is entitled to it as evidence without the
+-strength term.
++strength term. ⚠ Roughly half of that baseline is now attributable, as an upper bound, to sample
++composition — see the composition-adjusted supplement below.
++
++> ⚠ **Composition-adjusted supplement (lane `EXPR-COMPOSITION`, 2026-09-09; re-derived by lane
++> `KINASE-3`, 0 mismatches over 433 artifact leaves).** Holding a frozen 20-marker tumour/stroma
++> composition score constant, the primary-frame direction concordance falls **0.6521 → 0.5668**
++> (removing 56.1 % of the excess over 0.5) and the secondary frame **0.6368 → 0.5981** (28.3 %);
++> cross-platform Pearson r falls 0.405 → 0.251 and 0.447 → 0.281. The unadjusted figures above are
++> retained, not replaced: they remain the correct description of the raw contrast. The residual
++> **survives** — against a label-permutation null recomputed *with* the adjustment in place,
++> p = 0.022 (primary) and p = 0.0085 (secondary), versus the unadjusted p ≤ 0.0005 — so this is an
++> attenuation, **not a refutation**. ⛔ Composition and biology are **not separable here even in
++> principle**: in a mesenchymal tumour the stromal programme is partly the tumour's own, so
++> adjusting for the score removes some genuine EMC biology too. **0.561 is therefore an UPPER BOUND
++> on the composition share, not an estimate of it, and the surviving p values are conservative.**
+ 
+ ### Result 2 — where the lead genes actually sit
+ 
+@@ -116,6 +130,13 @@ RET or NDRG1 — a 1-in-13 gene is still an unusual gene — and it does not res
+ subunits, which are indistinguishable from random. What it removes is the *unqualified* use of
+ "concordant on both platforms" anywhere in the paper.
+ 
++⚠ **The calibration is itself calibrated.** Under the composition adjustment above, NDRG1 — lead 4's
++substrate and the largest consistent attenuation among the leads — loses most of its association on
++both platforms (r +0.398 → +0.150 on GPL6244, +0.504 → +0.324 on GPL3290), while NR4A3's association
++**strengthens** on both (+0.540 → +0.610; +0.373 → +0.474). Neither reading is a refutation of the
++joint p values in Result 2, which are computed on the unadjusted statistic and stand as reported;
++they say the unadjusted placement of NDRG1 is the less robust of the two to a composition proxy.
++
+ ## 5 · Artifact · validation · provenance · limitations · stop condition
+ 
+ **Artifact.** `two-platform-concordance-null.json` (this directory) + the two scripts that produce
+@@ -146,7 +167,11 @@ No network access, no new data, no GPU, no paid API.
+ - Both series are **bulk archival tissue** in a matrix-dominated tumour; tumour content is not
+   deconvolved, and the two series have **different comparator arms** (LGFMS/desmoid/fibrosarcoma vs
+   DFSP/GIST), which is itself a candidate cause of the 65% baseline concordance and is not separated
+-  here.
++  here. ⚠ **Partly addressed, 2026-09-09.** Lane `EXPR-COMPOSITION` held a frozen 20-marker
++  tumour/stroma score constant: the primary-frame concordance falls to 0.5668, i.e. **at most 56.1 %**
++  of the excess over 0.5 is carried by that proxy, with the residual still surviving at p = 0.022.
++  The marker score is **not** a measured cell fraction and no deconvolution was performed, so this
++  bounds the confound rather than removing it.
+ - The comparator-count discrepancy for GSE24369 flagged by P4 (memo says 36, artifact says 29) is
+   **unresolved**; this analysis uses the artifact's own `comparator_gsms` and reports n_comparator=29,
+   the number the source computations used. It does not adjudicate the memo.

@@ -1,0 +1,46 @@
+EPITOPE-BENCHMARK  -- counts derived from epitope-records.json
+==============================================================================
+all_records                     40   E01,E02,E03,E04,E05,E06,E07,E08,E09,E10,E11,E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22,E23,E24,E25,E26,E27,E28,E29,E30,E31,E32,E33,E34,E35,E36,E37,E38,E39,E40
+spans_junction_yes              33   E01,E02,E03,E04,E06,E07,E08,E09,E10,E11,E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22,E23,E24,E25,E26,E27,E29,E30,E31,E32,E34,E37,E38
+spans_junction_no                6   E05,E28,E35,E36,E39,E40
+prediction_only                  3   E22,E37,E38
+binding_only                     7   E03,E04,E17,E28,E30,E31,E32
+measured_any                    30   E01,E02,E05,E06,E07,E08,E09,E10,E11,E12,E13,E14,E15,E16,E18,E19,E20,E21,E23,E24,E25,E26,E27,E29,E33,E34,E35,E36,E39,E40
+measured_and_spans              24   E01,E02,E06,E07,E08,E09,E10,E11,E12,E13,E14,E15,E16,E18,E19,E20,E21,E23,E24,E25,E26,E27,E29,E34
+measured_spans_natural          23   E01,E02,E06,E07,E08,E09,E10,E11,E12,E13,E14,E15,E16,E18,E19,E20,E21,E23,E24,E25,E26,E29,E34
+measured_seq_unresolved          6   E02,E06,E07,E08,E29,E34
+classII_or_outside_window        2   E23,E24
+BENCHMARK_ELIGIBLE              15   E01,E09,E10,E11,E12,E13,E14,E15,E16,E18,E19,E20,E21,E25,E26
+ms_eluted_junction               8   E09,E10,E11,E12,E19,E20,E23,E24
+ms_eluted_ci_eligible            6   E09,E10,E11,E12,E19,E20
+------------------------------------------------------------------------------
+BENCHMARK-ELIGIBLE epitopes (natural sequence, spans junction, 8-11mer,
+class I allotype named, at least one immunological measurement):
+  E01  SSKALQRPV     HLA-A*02:01              BCR::ABL1 (b3a2)               BINDING+TCELL
+  E09  RIAECILGM     HLA-A*02:01              ETV6::RUNX1 (TEL-AML1)         BINDING+TCELL+MS_ELUTION
+  E10  MPIGRIAECIL   HLA-B*07:02 (also bound  ETV6::RUNX1 (E5_3)             BINDING+MS_ELUTION
+  E11  MPIGRIAEC     HLA-B*07:02              ETV6::RUNX1 (E5_3)             MS_ELUTION
+  E12  MPIGRIADA     HLA-B*07:02              ETV6::RUNX1 (E5_4)             MS_ELUTION
+  E13  REEMEVHEL     HLA-B*40:01 (also bound  CBFB::MYH11                    TCELL+MULTIMER
+  E14  QFIDSSWYL     HLA-A*02:01              MYB::NFIB (ACC_M9 Fusion 2)    BINDING+TCELL+MULTIMER
+  E15  MMYSPICLTQT   HLA-A*02:01              MYBL1::NFIB (ACC panel)        BINDING+TCELL
+  E16  SLASPLQPT     HLA-A*02:01              NFIB::MYB (reciprocal, ACC pan BINDING+TCELL
+  E18  DKESEEEVS     HLA-C*04:01 and HLA-C*12 DEK::AFF2                      BINDING+TCELL
+  E19  EIFDRYGEEV    HLA-A*68:02              DNAJB1::PRKACA                 MS_ELUTION+TCELL+MULTIMER
+  E20  IFDRYGEEV     HLA-C*04:01              DNAJB1::PRKACA                 MS_ELUTION
+  E21  RYGEEVKEF     HLA-A*24:02              DNAJB1::PRKACA                 TCELL+MULTIMER
+  E25  GYDQIMPKK     HLA-A*24:02              SS18::SSX (SYT-SSX)            TCELL+MULTIMER
+  E26  PYGYDQIMPK    HLA-A24                  SS18::SSX (SYT-SSX)            TCELL
+------------------------------------------------------------------------------
+distinct fusions represented: 9  -> BCR::ABL1; CBFB::MYH11; DEK::AFF2; DNAJB1::PRKACA; ETV6::RUNX1; MYB::NFIB; MYBL1::NFIB; NFIB::MYB; SS18::SSX
+per-allele depth: {'HLA-A*02:01': 5, 'HLA-A*24:02': 2, 'HLA-A*68:02': 1, 'HLA-B*07:02': 3, 'HLA-B*40:01': 1, 'HLA-C*04:01': 2, 'HLA-C*12:03': 1}
+------------------------------------------------------------------------------
+SUFFICIENCY (Wilson, 95%% CI width <= 0.20 on sensitivity)
+  true sensitivity 0.5  requires n =  93   have 15   shortfall 78
+  true sensitivity 0.7  requires n =  78   have 15   shortfall 63
+  true sensitivity 0.8  requires n =  60   have 15   shortfall 45
+  true sensitivity 0.9  requires n =  34   have 15   shortfall 19
+  preregistered floor n>=30: have 15, shortfall 15
+  CI width actually achievable at sens 0.5 with n=15 : 0.452 (target <= 0.200)
+  MS-ELUTED subset only (true 'presentation' ground truth): n = 6
+  VERDICT: INSUFFICIENT

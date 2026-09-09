@@ -1,0 +1,143 @@
+== composition_score_vs_EMC_label
+{
+ "GPL6244": {
+  "C": {
+   "spearman_with_EMC_label": -0.578,
+   "mean_z_EMC_arm": 0.9247,
+   "mean_z_comparator_arm": 1.5117,
+   "n_samples": 35
+  },
+  "C_stromal": {
+   "spearman_with_EMC_label": -0.4654,
+   "mean_z_EMC_arm": 1.338,
+   "mean_z_comparator_arm": 1.9587,
+   "n_samples": 35
+  },
+  "C_immune": {
+   "spearman_with_EMC_label": -0.623,
+   "mean_z_EMC_arm": 0.1572,
+   "mean_z_comparator_arm": 0.6814,
+   "n_samples": 35
+  },
+  "MKI67": {
+   "spearman_with_EMC_label": 0.1802,
+   "mean_z_EMC_arm": 0.1051,
+   "mean_z_comparator_arm": -0.0239,
+   "n_samples": 35
+  },
+  "EPCAM": {
+   "spearman_with_EMC_label": -0.3378,
+   "mean_z_EMC_arm": -1.0545,
+   "mean_z_comparator_arm": -0.8647,
+   "n_samples": 35
+  }
+ },
+ "GPL3290": {
+  "C": {
+   "spearman_with_EMC_label": -0.5041,
+   "mean_z_EMC_arm": 0.0285,
+   "mean_z_comparator_arm": 0.4005,
+   "n_samples": 16
+  },
+  "C_stromal": {
+   "spearman_with_EMC_label": -0.5321,
+   "mean_z_EMC_arm": 0.3926,
+   "mean_z_comparator_arm": 0.9327,
+   "n_samples": 16
+  },
+  "C_immune": {
+   "spearman_with_EMC_label": 0.028,
+   "mean_z_EMC_arm": -0.6703,
+   "mean_z_comparator_arm": -0.672,
+   "n_samples": 16
+  },
+  "MKI67": {
+   "spearman_with_EMC_label": 0.5984,
+   "mean_z_EMC_arm": -0.9802,
+   "mean_z_comparator_arm": -2.216,
+   "n_samples": 15
+  },
+  "EPCAM": {
+   "spearman_with_EMC_label": -0.3361,
+   "mean_z_EMC_arm": -2.7153,
+   "mean_z_comparator_arm": -1.9458,
+   "n_samples": 16
+  }
+ }
+}
+==primary
+{
+ "frame": "primary",
+ "n_genes_in_frame": 442,
+ "unadjusted": {
+  "n_scored_both": 434,
+  "concordance_rate": 0.6521,
+  "pearson_r_across_platforms": 0.4046
+ },
+ "composition_adjusted": {
+  "n_scored_both": 434,
+  "concordance_rate": 0.5668,
+  "pearson_r_across_platforms": 0.2511
+ },
+ "paired_on_identical_gene_set": {
+  "n_genes": 434,
+  "concordance_rate_unadjusted": 0.6521,
+  "concordance_rate_adjusted": 0.5668,
+  "absolute_change": -0.0853,
+  "attenuation_of_excess_over_0.5": 0.5606,
+  "median_per_gene_attenuation_GPL6244": -0.0722,
+  "median_per_gene_attenuation_GPL3290": 0.0832,
+  "n_genes_whose_direction_flips_on_GPL6244": 95,
+  "n_genes_whose_direction_flips_on_GPL3290": 48
+ },
+ "label_permutation_null_on_adjusted_rate": {
+  "_randomises": "which samples are called EMC, within each platform, arm sizes fixed; the composition score stays attached to its sample",
+  "n_permutations": 2000,
+  "seed": 20260909,
+  "mean": 0.5,
+  "sd": 0.0332,
+  "p2.5": 0.4355,
+  "p97.5": 0.5645,
+  "max": 0.6014,
+  "n_at_least_as_concordant_as_observed_adjusted": 44,
+  "p_observed_adjusted_rate": 0.02249
+ }
+}
+==secondary
+{
+ "frame": "secondary",
+ "n_genes_in_frame": 414,
+ "unadjusted": {
+  "n_scored_both": 413,
+  "concordance_rate": 0.6368,
+  "pearson_r_across_platforms": 0.4467
+ },
+ "composition_adjusted": {
+  "n_scored_both": 413,
+  "concordance_rate": 0.5981,
+  "pearson_r_across_platforms": 0.2812
+ },
+ "paired_on_identical_gene_set": {
+  "n_genes": 413,
+  "concordance_rate_unadjusted": 0.6368,
+  "concordance_rate_adjusted": 0.5981,
+  "absolute_change": -0.0387,
+  "attenuation_of_excess_over_0.5": 0.2832,
+  "median_per_gene_attenuation_GPL6244": -0.0292,
+  "median_per_gene_attenuation_GPL3290": 0.1184,
+  "n_genes_whose_direction_flips_on_GPL6244": 72,
+  "n_genes_whose_direction_flips_on_GPL3290": 44
+ },
+ "label_permutation_null_on_adjusted_rate": {
+  "_randomises": "which samples are called EMC, within each platform, arm sizes fixed; the composition score stays attached to its sample",
+  "n_permutations": 2000,
+  "seed": 20260909,
+  "mean": 0.4999,
+  "sd": 0.0387,
+  "p2.5": 0.4237,
+  "p97.5": 0.5763,
+  "max": 0.661,
+  "n_at_least_as_concordant_as_observed_adjusted": 16,
+  "p_observed_adjusted_rate": 0.0085
+ }
+}

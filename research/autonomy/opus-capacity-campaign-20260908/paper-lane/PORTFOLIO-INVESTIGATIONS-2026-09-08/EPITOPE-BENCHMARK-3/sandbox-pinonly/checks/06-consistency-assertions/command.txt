@@ -1,0 +1,5 @@
+python3 check_consistency.py
+NOTE: the first run of this check FAILED (exit 1) on "CI width != 0.452": the derived value is
+0.4515 and FINDING.md had quoted the 3-dp rounding 0.452. The prose was corrected to the exact
+0.4515 and the assertion tightened to an exact comparison. The failure is preserved in this note;
+the check was not weakened to accommodate the prose.

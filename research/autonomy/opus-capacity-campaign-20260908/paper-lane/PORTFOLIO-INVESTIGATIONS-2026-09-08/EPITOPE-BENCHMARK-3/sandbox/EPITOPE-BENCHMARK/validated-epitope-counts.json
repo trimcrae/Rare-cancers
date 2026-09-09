@@ -1,0 +1,586 @@
+{
+  "_id": "ARTIFACT-EPITOPE-BENCHMARK-COUNTS",
+  "_derived_from": "epitope-records.json",
+  "strata": {
+    "all_records": {
+      "n": 40,
+      "ids": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28",
+        "E29",
+        "E30",
+        "E31",
+        "E32",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E37",
+        "E38",
+        "E39",
+        "E40"
+      ]
+    },
+    "spans_junction_yes": {
+      "n": 33,
+      "ids": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E29",
+        "E30",
+        "E31",
+        "E32",
+        "E34",
+        "E37",
+        "E38"
+      ]
+    },
+    "spans_junction_no": {
+      "n": 6,
+      "ids": [
+        "E05",
+        "E28",
+        "E35",
+        "E36",
+        "E39",
+        "E40"
+      ]
+    },
+    "prediction_only": {
+      "n": 3,
+      "ids": [
+        "E22",
+        "E37",
+        "E38"
+      ]
+    },
+    "binding_only": {
+      "n": 7,
+      "ids": [
+        "E03",
+        "E04",
+        "E17",
+        "E28",
+        "E30",
+        "E31",
+        "E32"
+      ]
+    },
+    "measured_any": {
+      "n": 30,
+      "ids": [
+        "E01",
+        "E02",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E29",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E39",
+        "E40"
+      ]
+    },
+    "measured_and_spans": {
+      "n": 24,
+      "ids": [
+        "E01",
+        "E02",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E29",
+        "E34"
+      ]
+    },
+    "measured_spans_natural": {
+      "n": 23,
+      "ids": [
+        "E01",
+        "E02",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E29",
+        "E34"
+      ]
+    },
+    "BENCHMARK_ELIGIBLE": {
+      "n": 15,
+      "ids": [
+        "E01",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E25",
+        "E26"
+      ]
+    },
+    "ms_eluted_junction": {
+      "n": 8,
+      "ids": [
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E19",
+        "E20",
+        "E23",
+        "E24"
+      ]
+    },
+    "ms_eluted_ci_eligible": {
+      "n": 6,
+      "ids": [
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E19",
+        "E20"
+      ]
+    },
+    "measured_seq_unresolved": {
+      "n": 6,
+      "ids": [
+        "E02",
+        "E06",
+        "E07",
+        "E08",
+        "E29",
+        "E34"
+      ]
+    },
+    "classII_or_outside_window": {
+      "n": 2,
+      "ids": [
+        "E23",
+        "E24"
+      ]
+    }
+  },
+  "benchmark_eligible_detail": [
+    {
+      "id": "E01",
+      "fusion": "BCR::ABL1 (b3a2)",
+      "peptide": "SSKALQRPV",
+      "hla": "HLA-A*02:01",
+      "evidence": [
+        "BINDING",
+        "TCELL"
+      ],
+      "material": "human PBL + patient leukaemic cells",
+      "pmid": "9593785"
+    },
+    {
+      "id": "E09",
+      "fusion": "ETV6::RUNX1 (TEL-AML1)",
+      "peptide": "RIAECILGM",
+      "hla": "HLA-A*02:01",
+      "evidence": [
+        "BINDING",
+        "TCELL",
+        "MS_ELUTION"
+      ],
+      "material": "human PBL / patient marrow (1998); ENGINEERED JY minigene-transduced line (2025)",
+      "pmid": "9664088; 41567246"
+    },
+    {
+      "id": "E10",
+      "fusion": "ETV6::RUNX1 (E5_3)",
+      "peptide": "MPIGRIAECIL",
+      "hla": "HLA-B*07:02 (also bound B*08:01, B*35:01, B*53:01)",
+      "evidence": [
+        "BINDING",
+        "MS_ELUTION"
+      ],
+      "material": "ENGINEERED JY minigene-transduced line",
+      "pmid": "41567246"
+    },
+    {
+      "id": "E11",
+      "fusion": "ETV6::RUNX1 (E5_3)",
+      "peptide": "MPIGRIAEC",
+      "hla": "HLA-B*07:02",
+      "evidence": [
+        "MS_ELUTION"
+      ],
+      "material": "ENGINEERED JY minigene-transduced line",
+      "pmid": "41567246"
+    },
+    {
+      "id": "E12",
+      "fusion": "ETV6::RUNX1 (E5_4)",
+      "peptide": "MPIGRIADA",
+      "hla": "HLA-B*07:02",
+      "evidence": [
+        "MS_ELUTION"
+      ],
+      "material": "ENGINEERED JY minigene-transduced line",
+      "pmid": "41567246"
+    },
+    {
+      "id": "E13",
+      "fusion": "CBFB::MYH11",
+      "peptide": "REEMEVHEL",
+      "hla": "HLA-B*40:01 (also bound B*44:02 in vitro)",
+      "evidence": [
+        "TCELL",
+        "MULTIMER"
+      ],
+      "material": "healthy-donor T cells; primary human AML blasts; PDX",
+      "pmid": "32831296"
+    },
+    {
+      "id": "E14",
+      "fusion": "MYB::NFIB (ACC_M9 Fusion 2)",
+      "peptide": "QFIDSSWYL",
+      "hla": "HLA-A*02:01",
+      "evidence": [
+        "BINDING",
+        "TCELL",
+        "MULTIMER"
+      ],
+      "material": "ACC patient T cells + autologous PBMC/DC",
+      "pmid": "31011208"
+    },
+    {
+      "id": "E15",
+      "fusion": "MYBL1::NFIB (ACC panel)",
+      "peptide": "MMYSPICLTQT",
+      "hla": "HLA-A*02:01",
+      "evidence": [
+        "BINDING",
+        "TCELL"
+      ],
+      "material": "HEALTHY-DONOR T cells (no autologous patient material available)",
+      "pmid": "31011208"
+    },
+    {
+      "id": "E16",
+      "fusion": "NFIB::MYB (reciprocal, ACC panel)",
+      "peptide": "SLASPLQPT",
+      "hla": "HLA-A*02:01",
+      "evidence": [
+        "BINDING",
+        "TCELL"
+      ],
+      "material": "HEALTHY-DONOR T cells",
+      "pmid": "31011208"
+    },
+    {
+      "id": "E18",
+      "fusion": "DEK::AFF2",
+      "peptide": "DKESEEEVS",
+      "hla": "HLA-C*04:01 and HLA-C*12:03",
+      "evidence": [
+        "BINDING",
+        "TCELL"
+      ],
+      "material": "exceptional-responder HNSCC patient (MSK-HN1) T cells",
+      "pmid": "31011208"
+    },
+    {
+      "id": "E19",
+      "fusion": "DNAJB1::PRKACA",
+      "peptide": "EIFDRYGEEV",
+      "hla": "HLA-A*68:02",
+      "evidence": [
+        "MS_ELUTION",
+        "TCELL",
+        "MULTIMER"
+      ],
+      "material": "ENGINEERED Dox-inducible HCC lines; healthy-volunteer CD8",
+      "pmid": "36302754"
+    },
+    {
+      "id": "E20",
+      "fusion": "DNAJB1::PRKACA",
+      "peptide": "IFDRYGEEV",
+      "hla": "HLA-C*04:01",
+      "evidence": [
+        "MS_ELUTION"
+      ],
+      "material": "ENGINEERED Dox-inducible HCC lines",
+      "pmid": "36302754"
+    },
+    {
+      "id": "E21",
+      "fusion": "DNAJB1::PRKACA",
+      "peptide": "RYGEEVKEF",
+      "hla": "HLA-A*24:02",
+      "evidence": [
+        "TCELL",
+        "MULTIMER"
+      ],
+      "material": "healthy-volunteer CD8",
+      "pmid": "36302754"
+    },
+    {
+      "id": "E25",
+      "fusion": "SS18::SSX (SYT-SSX)",
+      "peptide": "GYDQIMPKK",
+      "hla": "HLA-A*24:02",
+      "evidence": [
+        "TCELL",
+        "MULTIMER"
+      ],
+      "material": "synovial sarcoma patient PBL + patient-derived tumour lines",
+      "pmid": "12133991; 15240740; 12445740"
+    },
+    {
+      "id": "E26",
+      "fusion": "SS18::SSX (SYT-SSX)",
+      "peptide": "PYGYDQIMPK",
+      "hla": "HLA-A24",
+      "evidence": [
+        "TCELL"
+      ],
+      "material": "synovial sarcoma patient PBL",
+      "pmid": "12133991"
+    }
+  ],
+  "distinct_fusions_in_benchmark": [
+    "BCR::ABL1",
+    "CBFB::MYH11",
+    "DEK::AFF2",
+    "DNAJB1::PRKACA",
+    "ETV6::RUNX1",
+    "MYB::NFIB",
+    "MYBL1::NFIB",
+    "NFIB::MYB",
+    "SS18::SSX"
+  ],
+  "per_allele_depth": {
+    "HLA-A*02:01": {
+      "n": 5,
+      "peptides": [
+        "SSKALQRPV",
+        "RIAECILGM",
+        "QFIDSSWYL",
+        "MMYSPICLTQT",
+        "SLASPLQPT"
+      ]
+    },
+    "HLA-A*24:02": {
+      "n": 2,
+      "peptides": [
+        "RYGEEVKEF",
+        "GYDQIMPKK"
+      ]
+    },
+    "HLA-A*68:02": {
+      "n": 1,
+      "peptides": [
+        "EIFDRYGEEV"
+      ]
+    },
+    "HLA-B*07:02": {
+      "n": 3,
+      "peptides": [
+        "MPIGRIAECIL",
+        "MPIGRIAEC",
+        "MPIGRIADA"
+      ]
+    },
+    "HLA-B*40:01": {
+      "n": 1,
+      "peptides": [
+        "REEMEVHEL"
+      ]
+    },
+    "HLA-C*04:01": {
+      "n": 2,
+      "peptides": [
+        "DKESEEEVS",
+        "IFDRYGEEV"
+      ]
+    },
+    "HLA-C*12:03": {
+      "n": 1,
+      "peptides": [
+        "DKESEEEVS"
+      ]
+    }
+  },
+  "sufficiency": {
+    "criterion": "PUB-VACCINE-PATH: 95% CI width <= 0.20 on sensitivity at the cut (Wilson)",
+    "n_required": {
+      "0.5": 93,
+      "0.7": 78,
+      "0.8": 60,
+      "0.9": 34
+    },
+    "preregistered_floor": 30,
+    "n_available_benchmark_eligible": 15,
+    "n_available_ms_eluted_only": 6,
+    "shortfall_vs_sens_0.5": 78,
+    "shortfall_vs_sens_0.8": 45,
+    "shortfall_vs_prereg_floor": 15,
+    "achieved_ci_width_at_sens_0.5_with_n_available": 0.4515,
+    "verdict": "INSUFFICIENT"
+  },
+  "quantitative_observations": [
+    {
+      "id": "Q1",
+      "claim": "Within one fusion oncoprotein, only a small minority of MS-identified HLA ligands actually span the junction.",
+      "value": "DNAJB1-PRKACA: 20 unique class I ligands identified across three engineered HCC lines, of which 2 span the fusion region (10%); 13 unique class II peptides, of which 1 spans (7.7%).",
+      "pmid": "36302754",
+      "doi": "10.1038/s41467-022-33746-3"
+    },
+    {
+      "id": "Q2",
+      "claim": "A junction can create the HLA anchor, so junction-spanning epitopes need not have a wild-type analogue at all.",
+      "value": "The wild-type counterparts of EIFDRYGEEV and IFDRYGEEV end in glycine (EIFDRYGEEG / IFDRYGEEG) and are predicted not to be presented on any allotype.",
+      "pmid": "36302754",
+      "doi": "10.1038/s41467-022-33746-3"
+    },
+    {
+      "id": "Q3",
+      "claim": "Junction reactivity can be register-specific to a single length.",
+      "value": "For MYB::NFIB, the 9-mer QFIDSSWYL stimulated T cells while the 8-mer FIDSSWYL and 10-mer LQFIDSSWYL did not.",
+      "pmid": "31011208",
+      "doi": "10.1038/s41591-019-0434-2"
+    },
+    {
+      "id": "Q4",
+      "claim": "Early attempts to demonstrate natural presentation of a recurrent fusion neoantigen failed, and the 2025 success used engineered overexpression.",
+      "value": "The GF-NEO platform paper states that 'early efforts to demonstrate neoantigen presentation of the recurrent GF ETV6-RUNX1 were unsuccessful', and its own MS validation was performed in JY cells transduced with an ETV6-RUNX1 minigene, not in patient leukaemia.",
+      "pmid": "41567246",
+      "doi": "10.1016/j.isci.2025.114512"
+    },
+    {
+      "id": "Q5",
+      "claim": "Junction peptides of the best-studied fusion bind class I poorly.",
+      "value": "Of 162 p210 BCR-ABL peptides screened, only 6 of the 14 junction peptides bound any of 8 class I allotypes, and then only moderately; 48 non-junction peptides bound with intermediate or strong affinity, and CTL lines were raised only against non-junction peptides.",
+      "pmid": "9295046",
+      "doi": "10.1002/eji.1830270834"
+    },
+    {
+      "id": "Q6",
+      "claim": "A clinical vaccine against a validated junction epitope produced no robust immune response.",
+      "value": "In the SYT-SSX breakpoint peptide phase II (n=21), delayed-type hypersensitivity was negative in all patients; an independent evaluation concluded 'No robust evidence of immune response to the target epitope was detected.'",
+      "pmid": "22726592; 23252384",
+      "doi": "10.1111/j.1349-7006.2012.02370.x; 10.1586/erv.12.122"
+    },
+    {
+      "id": "Q7",
+      "claim": "Vaccination against class I junction peptides can fail even when the class II response succeeds.",
+      "value": "In the vaccinated FL-HCC patient, no CD8 T-cell response was observed against any of the three DNAJB1-PRKACA class I vaccine peptides; the durable response was CD4/class II.",
+      "pmid": "36302754",
+      "doi": "10.1038/s41467-022-33746-3"
+    }
+  ]
+}

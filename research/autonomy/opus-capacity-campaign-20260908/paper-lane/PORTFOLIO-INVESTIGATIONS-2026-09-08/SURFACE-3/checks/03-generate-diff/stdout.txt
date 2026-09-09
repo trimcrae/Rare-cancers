@@ -1,0 +1,75 @@
+diff --git a/research/manuscripts/surface-targets/emc-surface-target-outreach.md b/research/manuscripts/surface-targets/emc-surface-target-outreach.md
+--- a/research/manuscripts/surface-targets/emc-surface-target-outreach.md
++++ b/research/manuscripts/surface-targets/emc-surface-target-outreach.md
+@@ -51,8 +51,17 @@
+ We have built an in-silico **surface-antigen analysis for EMC** — evaluating cell-surface targets (for ADC /
+ CAR / T-cell-engager / radioligand approaches, which sidestep the intracellular-delivery problem that limits
+ driver-directed oligonucleotides). We did this honestly and it is deliberately self-critical: with a rigorous
+-selectivity test and a hard normal-tissue-window filter, most "obvious" candidates fall away — the field-default
+-**B7-H3 is not selective** in the data, and CD56/CDH11/others carry specific normal-tissue liabilities. The two
++selectivity test and a normal-tissue **category** annotation, most "obvious" candidates fall away — the
++field-default **B7-H3 is not selective** in the data, and CD56/CDH11/others carry blood-category normal-tissue
++liability labels. ⚠ The annotation's vital-tissue screen **produced no input and never ran**: the quantitative
++per-tissue nTPM field is null for all 45 classified records, so the vital-tissue status of every antigen here is
++**UNKNOWN** — neither absent nor present, and no window is filtered on it. The two
++
++⛔ *Superseded, retained (2026-09-09): this sentence read "with a rigorous selectivity test and a hard
++normal-tissue-window filter, most \"obvious\" candidates fall away — the field-default **B7-H3 is not selective**
++in the data, and CD56/CDH11/others carry specific normal-tissue liabilities." "Hard filter" asserted a
++vital-tissue exclusion that the screen never performed.*
++
+ leads that survive point at EMC's **neuroendocrine differentiation**: **SSTR2** (the target of the *approved*
+ radioligand ¹⁷⁷Lu-DOTATATE — an off-the-shelf theranostic if EMC expresses it) and **GD2**. **We have no real
+ EMC data at all:** the one DepMap line labelled EMC (H-EMC-SS) is recorded by Cellosaurus as not carrying an
+@@ -89,8 +98,15 @@
+ 
+ We have assembled an in-silico **surface-antigen analysis for EMC**, evaluating cell-surface targets for
+ delivery- and immunotherapy-directed modalities (ADC / CAR / T-cell engager / radioligand). It is deliberately
+-self-critical: with a rigorous selectivity test and a hard normal-tissue-window filter, most candidates fall
+-away — the field-default **B7-H3 is not selective**, and CD56/CDH11 carry normal-tissue liabilities. The leads
++self-critical: with a rigorous selectivity test and a normal-tissue **category** annotation, most candidates fall
++away — the field-default **B7-H3 is not selective**, and CD56/CDH11 carry blood-category liability labels.
++⚠ The annotation's vital-tissue screen produced no input and never ran (per-tissue nTPM null on all 45
++classified records), so vital-tissue status is **UNKNOWN** for every antigen named here. The leads
++
++⛔ *Superseded, retained (2026-09-09): this sentence read "with a rigorous selectivity test and a hard
++normal-tissue-window filter, most candidates fall away — the field-default **B7-H3 is not selective**, and
++CD56/CDH11 carry normal-tissue liabilities."*
++
+ that survive follow EMC's **neuroendocrine differentiation** (INSM1/synaptophysin): **SSTR2** (target of the
+ approved radioligand ¹⁷⁷Lu-DOTATATE) and **GD2**. We would very much like to test these against **real EMC**.
+ 
+diff --git a/research/manuscripts/surface-targets/emc-surface-target-redteam.md b/research/manuscripts/surface-targets/emc-surface-target-redteam.md
+--- a/research/manuscripts/surface-targets/emc-surface-target-redteam.md
++++ b/research/manuscripts/surface-targets/emc-surface-target-redteam.md
+@@ -179,9 +179,11 @@
+ an honest, self-critical analysis whose surviving main results are:
+ (1) a rigorously-tested selectivity ranking in which **B7-H3 is not selective** — and which the 2026-08-05
+ amendment shows does **not** depend on the disputed line (dropping it moves every actionable antigen's
+-enrichment by ≤ 0.13 log2TPM, no sign flips); (2) a hard normal-tissue
+-window under which **most candidates are liabilities**, so the analysis mainly refines priorities and flags
+-dangers rather than declaring winners; and (3) a grounded SSTR2/DOTATATE neuroendocrine hypothesis the first
++enrichment by ≤ 0.13 log2TPM, no sign flips); (2) a normal-tissue **category annotation** under which **most
++candidates carry liability labels** — labels set by the blood-cell branch alone, because the vital-tissue
++branch produced no input and never ran (per-tissue nTPM null on all 45 classified records), leaving every
++antigen's vital-tissue status **UNKNOWN** — so the analysis mainly refines priorities and flags
++annotation-level dangers rather than declaring winners; and (3) a grounded SSTR2/DOTATATE neuroendocrine hypothesis the first
+ draft missed, resting on EMC's **reported IHC** phenotype and not on any cell line. The decisive validation
+ remains the patient-derived EMC lines' surface data — and after the amendment, that is the **only** route to
+ real EMC data this analysis has.
+diff --git a/research/manuscripts/README.md b/research/manuscripts/README.md
+--- a/research/manuscripts/README.md
++++ b/research/manuscripts/README.md
+@@ -104,8 +104,10 @@
+   2026-07-03): a *target-class* paper on EMC **surface antigens** for delivery + immunotherapy (ADC / TCE /
+   CAR / radioligand) — a different thesis/modality axis from the fusion-junction ASO. Deliberately
+   self-critical after two red-team passes ([`emc-surface-target-redteam.md`](./surface-targets/emc-surface-target-redteam.md)):
+-  rigorous selectivity + a hard normal-tissue window show **B7-H3 is not selective** and the selective
+-  candidates carry window liabilities, so the honest result refines priorities and nominates a neuroendocrine
++  rigorous selectivity + a normal-tissue **category annotation** show **B7-H3 is not selective** and the
++  selective candidates carry window liability **labels** — set by the blood-cell branch alone, since the
++  vital-tissue screen produced no input and never ran, leaving vital-tissue status **UNKNOWN** for every
++  classified record — so the honest result refines priorities and nominates a neuroendocrine
+   **SSTR2/GD2** route rather than declaring winners. ⛔ **Materially amended 2026-08-05
+   ([Amendment 1](./surface-targets/emc-surface-target-landscape.md)): the DepMap line it called "the one real EMC line" is
+   recorded by Cellosaurus as NOT carrying an EWSR1 fusion, so the paper's real-EMC readings are withdrawn and

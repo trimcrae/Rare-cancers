@@ -1,0 +1,18 @@
+case                                                | requirement   | exit | verdict | guard output
+---------------------------------------------------------------------------------------------------------------
+CONTROL  correct ladder 93/78/60/34                 | MUST NOT FIRE |    0 | PASS    | consistency OK: n=15 eligible, 6 MS-eluted, 3 prediction-only, 7 bindi
+CONTROL  0.9 = 34.0 (same value, float)             | MUST NOT FIRE |    0 | PASS    | consistency OK: n=15 eligible, 6 MS-eluted, 3 prediction-only, 7 bindi
+FIXTURE  0.9 = 37 (the STALE pre-arbitration value) | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.9 = 33 (one below the truth)             | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.9 = 35 (one above the truth)             | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.9 = 38 (the k=floor value)               | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.5 = 92 (neighbouring row, one below)     | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.5 = 94 (neighbouring row, one above)     | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.7 = 77                                   | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.7 = 79                                   | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.8 = 59                                   | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.8 = 61                                   | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+FIXTURE  0.9 row deleted entirely                   | MUST FIRE     |    1 | PASS    | FAIL: |   - Wilson n table changed
+
+The corrected pin fires on every wrong value including the stale 37, and on both
+neighbours of every row; it accepts only the correct ladder. It still discriminates.

@@ -1,0 +1,102 @@
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/tabulate_epitopes.py b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/tabulate_epitopes.py
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/tabulate_epitopes.py
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/tabulate_epitopes.py
+@@ -44,9 +44,21 @@
+     return 2*half
+ 
+ def n_for_width(p, target=0.20):
++    # 2026-09-09 (EPITOPE-BENCHMARK-3): successes convention corrected to k = round(p*n).
++    # SUPERSEDED VALUE, PRESERVED: this function previously fed the CONTINUOUS sensitivity p
++    # straight into wilson_width (phat := p, no integer success count ever formed). That
++    # "p-exact" convention is reproducible and internally coherent -- it yields 93 / 78 / 60 / 37 --
++    # and 37 is where the retired pin came from. It was NOT a typo and NOT k=floor (k=floor
++    # gives 38). It was retired because a sensitivity is estimated from an integer count of
++    # successes out of n, so phat must be attainable at that n; at n = 37 the attainable
++    # k = round(0.9*37) = 33 gives width 0.204233 > 0.20, i.e. the p-exact requirement is not
++    # met by any real sample of that size. See PARENT-ADJUDICATION-34-vs-37.md.
++    # k = round and k = ceil both give 34; k = floor gives 38. Rows 0.5 / 0.7 / 0.8 are
++    # UNCHANGED at 93 / 78 / 60 under the corrected convention.
+     n = 1
+     while n < 100000:
+-        if wilson_width(p, n) <= target:
++        k = int(round(p * n))
++        if wilson_width(k / n, n) <= target:
+             return n
+         n += 1
+     return None
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/validated-epitope-counts.json b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/validated-epitope-counts.json
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/validated-epitope-counts.json
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/validated-epitope-counts.json
+@@ -521,7 +521,7 @@
+       "0.5": 93,
+       "0.7": 78,
+       "0.8": 60,
+-      "0.9": 37
++      "0.9": 34
+     },
+     "preregistered_floor": 30,
+     "n_available_benchmark_eligible": 15,
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/check_consistency.py b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/check_consistency.py
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/check_consistency.py
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/check_consistency.py
+@@ -11,7 +11,12 @@
+ ck(s["prediction_only"]["n"] == 3,            "prediction-only != 3")
+ ck(s["binding_only"]["n"] == 7,               "binding-only != 7")
+ ck(s["spans_junction_no"]["n"] == 6,          "negative controls != 6")
+-ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":37}, "Wilson n table changed")
++# 2026-09-09 (EPITOPE-BENCHMARK-3): the 0.9 row is pinned at 34, not the pre-arbitration 37.
++# SUPERSEDED VALUE, PRESERVED: 37 was this lane's own producer output under the p-exact
++# successes convention (phat := p). Not a typo, not k=floor (38). Retired by the parent
++# arbitration in PARENT-ADJUDICATION-34-vs-37.md; k=round and k=ceil both give 34.
++# The other three rows are unchanged at 93 / 78 / 60 under both conventions.
++ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":34}, "Wilson n table changed")
+ ck(su["verdict"] == "INSUFFICIENT",           "verdict changed")
+ ck(len(c["distinct_fusions_in_benchmark"]) == 9, "distinct fusions != 9")
+ ck(su["achieved_ci_width_at_sens_0.5_with_n_available"] == 0.4515, "CI width != 0.4515")
+@@ -25,5 +30,5 @@
+ if fails:
+     print("FAIL:"); [print("  -", m) for m in fails]; sys.exit(1)
+ print("consistency OK: n=15 eligible, 6 MS-eluted, 3 prediction-only, 7 binding-only,")
+-print("6 negative controls, 9 fusions, Wilson 93/78/60/37, verdict INSUFFICIENT,")
++print("6 negative controls, 9 fusions, Wilson 93/78/60/34, verdict INSUFFICIENT,")
+ print("and FINDING.md/VALIDATED-EPITOPE-TABLE.md quote the same figures.")
+diff --git a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/FINDING.md b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/FINDING.md
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/FINDING.md
+@@ -112,15 +112,20 @@
+ 
+ `tabulate_epitopes.py` recomputes PUB-VACCINE-PATH's Wilson requirement independently and
+ **reproduces it exactly at three of four points** (93 at sensitivity 0.5, 78 at 0.7, 60 at 0.8); at
+-sensitivity 0.9 it returns **37** where that lane reported 34 — a small discrepancy in the
+-degenerate tail worth one line of reconciliation, and immaterial to the verdict.
++sensitivity 0.9 it originally returned **37** where that lane reported 34 — a small discrepancy in
++the degenerate tail, immaterial to the verdict. **Arbitrated and resolved 2026-09-09: the correct
++value is 34.** The superseded 37 was not a typo and not `k=floor` (which gives 38): it was this
++script's own `p`-exact successes convention (`phat := p`), which yields 93 / 78 / 60 / **37**. It
++was retired because at n = 37 the attainable `k = round(0.9 × 37) = 33` gives width 0.204233 > 0.20,
++so no real sample of that size meets the criterion. `k=round` and `k=ceil` both give **34** and
++leave 93 / 78 / 60 unchanged. See `PARENT-ADJUDICATION-34-vs-37.md`.
+ 
+ | true sensitivity | n required (CI width ≤ 0.20) | n available | shortfall |
+ |---|---|---|---|
+ | 0.5 | 93 | **15** | 78 |
+ | 0.7 | 78 | **15** | 63 |
+ | 0.8 | 60 | **15** | 45 |
+-| 0.9 | 37 | **15** | 22 |
++| 0.9 | 34 | **15** | 19 |
+ | *preregistered floor* | *30* | **15** | *15* |
+ 
+ At n = 15 the achievable 95% CI width on a sensitivity of 0.5 is **0.4515** — more than twice the
+@@ -176,8 +181,10 @@
+ * **Artifact.** `VALIDATED-EPITOPE-TABLE.md`, `epitope-records.json` (40 records),
+   `validated-epitope-counts.json`, `tabulate_epitopes.py`, `render_table.py`, `checks/` (5 attempts).
+ * **Validation / baseline.** (i) The sufficiency arithmetic is an **independent recomputation** that
+-  reproduces PUB-VACCINE-PATH's 93 / 78 / 60 exactly and differs only at sensitivity 0.9 (37 vs 34) —
+-  a genuine cross-check, and the discrepancy is reported rather than smoothed. (ii) The table carries
++  reproduces PUB-VACCINE-PATH's 93 / 78 / 60 exactly; at sensitivity 0.9 it originally differed
++  (37 vs 34) — a genuine cross-check, reported rather than smoothed, and **arbitrated to 34 on
++  2026-09-09** (the superseded 37 was this script's `p`-exact successes convention, preserved in the
++  note at `tabulate_epitopes.py:n_for_width`). (ii) The table carries
+   **six negative-control rows** that do *not* span the junction (out-of-frame BCR-ABL peptides, the
+   SSX-region peptides, ERG295, ALKa/ALKb, the BRD4::NUTM1-driven PRAME ligands, the ABL E255V
+   mutation neoepitope), so the spans-the-junction column is demonstrably discriminating and not a

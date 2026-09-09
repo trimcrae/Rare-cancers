@@ -1,0 +1,28 @@
+source            : ../EPITOPE-BENCHMARK/tabulate_epitopes.py
+sha256            : 477dbfaccb780e288f33c1db9aa87fe5b686c2ce8394aa3b64fc21ec8ec9ee7f
+--- verbatim block lifted from the producer ---
+def wilson_width(p, n, z=1.959963984540054):
+    d = 1 + z*z/n
+    half = (z/d)*math.sqrt(p*(1-p)/n + z*z/(4*n*n))
+    return 2*half
+
+def n_for_width(p, target=0.20):
+    n = 1
+    while n < 100000:
+        if wilson_width(p, n) <= target:
+            return n
+        n += 1
+    return None
+
+REQ = {p: n_for_width(p) for p in (0.5, 0.7, 0.8, 0.9)}
+--- end verbatim block ---
+
+executed producer REQ = {0.5: 93, 0.7: 78, 0.8: 60, 0.9: 37}
+producer value at sensitivity 0.9 = 37
+block forms an integer success count k?  False
+
+VERDICT ON ORIGIN:
+  37 is EXACTLY what the producer computes, under the continuous-p ('p-exact')
+  convention: phat := p, no integer success count is ever formed.
+  => NOT a typo. NOT k=floor (k=floor gives 38). It is a real, reproducible
+     convention that also produces 93 / 78 / 60 for the other three rows.

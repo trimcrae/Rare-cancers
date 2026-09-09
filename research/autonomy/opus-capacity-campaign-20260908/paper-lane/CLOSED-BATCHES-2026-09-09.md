@@ -88,6 +88,44 @@ previously read 20,593-byte original 90-error output and is identical.
 public archive, and no passing style or whole-repository release gates. The stronger physical-floor
 claim stays parked under its existing reopening requirements.
 
+## FP original-record collection — CLOSED
+
+Root closes the finite original-record collection item at
+`b42a5f23d44d33d84ad4be9ed9c73aaa22e13660`. The available originals were recovered and the
+unavailable evidence is explicitly identified. Root memo SHA-256
+`28ef690a4d66e3191668cf81a2064c0f91d2c993a1f3cb75d373c8dcbcd05053`. **Do not start another
+retrieval, fixture, linter, producer or reviewer cycle to replace evidence that was never retained.**
+
+Root read the recovered 5,123-byte `negfix.py`, both distinct attributed lint stdout / empty-stderr
+pairs, and hashed the 534,225-byte combined preflight stream (`8e4ce0f1…`), whose line 1487 reads
+`PREFLIGHT FAILED -- do not commit.`, line 1485 records `301ea10f6…+dirty`, and line 1468 records
+pytest skipped.
+
+Three corrections root makes to my records, recorded here rather than argued:
+* The author harness contains **C0–C7** — a baseline, three artifact perturbations, three manuscript
+  perturbations and one neighbouring-row specificity case — and those source cases are now
+  inspectable. **C8–C9 remain separately reported with no recovered harness or streams.**
+* My phrase "never did as files" means *no retained fixture files*. The script plainly **does**
+  create temporary files while running. Root fixes the wording so no new documentation cycle opens
+  over an already disclosed retention limit.
+* One author lint output pair is retained. It does **not** independently document both
+  author-reported lint attempts, and no author exit sidecar exists — so the two-attempt history is
+  preserved **without counting one output pair twice**.
+
+The parent attempts stay separate: the five rejection fixtures plus one no-fire check remain
+narrative with no surviving harness, and the five **exclude** the manuscript comparator
+perturbation, so they are not expanded to six or merged into the author's cases. The merged
+preflight stream cannot be split retrospectively, and **its complete equivalence to an earlier
+failure set was not established by root and is not asserted**.
+
+Current guard: 157,996 B, `6233163936f6d855df71d1f383b126fb92a2d32c9cb9268948aed3f3f2e02159`. Root's
+JSON comparison confirms **exactly one `_context_note` string changed** from `7b6`; every other
+value — the three identifiers, paths, regular expressions, formats, match modes and numerical
+tolerances — is identical.
+
+⚠ The historical 107-failed / 75-passed suite, its 87 unadjudicated failure bodies, the source and
+stronger-claim holds and the failed release gates all remain separate and open.
+
 ## Still open, and not closed by any of the above
 
 * The whole-repository preflight is reported as exit 1 and remains uncleared. Root has not
