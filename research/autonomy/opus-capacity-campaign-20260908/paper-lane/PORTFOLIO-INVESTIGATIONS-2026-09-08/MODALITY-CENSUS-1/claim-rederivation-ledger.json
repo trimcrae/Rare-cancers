@@ -1,0 +1,627 @@
+{
+ "id": "ART-MODALITY-CENSUS-CLAIM-REDERIVATION-LEDGER",
+ "lane": "MODALITY-CENSUS-1",
+ "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+ "date": "2026-09-09",
+ "endpoint": "PUB-MODALITY-CENSUS",
+ "scope": "One pass over the quantitative claims printed in the manuscript. Verdicts are REPRODUCES, MISMATCH or NOT-RE-DERIVABLE-LOCALLY. A MISMATCH is reported, never repaired. This lane wrote nothing outside its own directory.",
+ "repo_head": "9a0ee12226deef23fabc72011c64bab9fee18763",
+ "git_status_porcelain_for_sources": "",
+ "sources_hashed_at_use_time": {
+  "manuscript": {
+   "path": "research/manuscripts/modality-census/cancer-modality-census.md",
+   "sha256": "d8fd8587bd3306e04ad41309c84efe5f32540f6242397b7c9f1d30a5f4039389"
+  },
+  "modalities": {
+   "path": "systems/graph/modalities.json",
+   "sha256": "5694cdf758c6b77fb6c614c41bf8c4f674592783c3e6a3025beb2b4781bf72a5"
+  },
+  "novelty_audit": {
+   "path": "research/modalities/census-novelty-audit.json",
+   "sha256": "7ebf72497ff5012375f00e43c8c3fcd8663f36f498aadf87c6022b6102bae78e"
+  },
+  "grading": {
+   "path": "research/modalities/census-route-expression-grading.json",
+   "sha256": "cbb9c9ac67255ce86c57b91d2f448cc061f9801a2e856afada719d83f76f32cd"
+  },
+  "panels": {
+   "path": "research/modalities/emc-expression-panels.json",
+   "sha256": "59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d"
+  },
+  "depmap": {
+   "path": "research/modalities/depmap-sarcoma-dependency.json",
+   "sha256": "d88bed62a80dcb51675f0f7a5a27771a6c1f732e977200d39fa389cb8dd27546"
+  }
+ },
+ "known_answer_control": {
+  "CTRL-POS_expected": "REPRODUCES",
+  "CTRL-POS_observed": "REPRODUCES",
+  "CTRL-NEG_expected": "MISMATCH",
+  "CTRL-NEG_observed": "MISMATCH",
+  "harness_trustworthy": true
+ },
+ "verdict_counts_excluding_controls": {
+  "REPRODUCES": 33,
+  "MISMATCH": 1,
+  "NOT-RE-DERIVABLE-LOCALLY": 2
+ },
+ "claims": [
+  {
+   "claim_id": "CTRL-POS",
+   "manuscript_section": "harness control",
+   "claim": "control: row count of the registry equals itself",
+   "quoted_value": 217,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "len(modalities.json)",
+   "rederived_value": 217,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (control)",
+   "note": "Known-answer positive control. Must be REPRODUCES."
+  },
+  {
+   "claim_id": "CTRL-NEG",
+   "manuscript_section": "harness control",
+   "claim": "control: a deliberately wrong quoted value (218) against the same re-derivation",
+   "quoted_value": 218,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "len(modalities.json)",
+   "rederived_value": 217,
+   "verdict": "MISMATCH",
+   "derivation_level": "READ-BACK (control)",
+   "note": "Known-answer negative control. Must be MISMATCH, otherwise the comparator is broken."
+  },
+  {
+   "claim_id": "S2-TOTAL",
+   "manuscript_section": "2",
+   "claim": "217 modality classes",
+   "quoted_value": 217,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "len(rows)",
+   "rederived_value": 217,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (row count)"
+  },
+  {
+   "claim_id": "S2-GROUPS",
+   "manuscript_section": "2",
+   "claim": "19 groups",
+   "quoted_value": 19,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "len(set(row.group))",
+   "rederived_value": 19,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (distinct group values)"
+  },
+  {
+   "claim_id": "S2-BANDS",
+   "manuscript_section": "2",
+   "claim": "4 bands",
+   "quoted_value": 4,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "len(set(row.band))",
+   "rederived_value": 4,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (distinct band values)"
+  },
+  {
+   "claim_id": "S2-VT-ON-BOARD",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict on_board: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 42,
+    "never_searched": 1
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='on_board') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 42,
+    "never_searched": 1
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-IN-CLINICAL-USE",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict in_clinical_use: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 8,
+    "never_searched": 0
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='in_clinical_use') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 8,
+    "never_searched": 0
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-ALREADY-REJECTED",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict already_rejected: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 33,
+    "never_searched": 0
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='already_rejected') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 33,
+    "never_searched": 0
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-EXCLUDED",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict excluded: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 95,
+    "never_searched": 86
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='excluded') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 95,
+    "never_searched": 86
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-CANDIDATE",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict candidate: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 20,
+    "never_searched": 6
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='candidate') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 20,
+    "never_searched": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-PARKED-CAPABILITY",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict parked_capability: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 9,
+    "never_searched": 8
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='parked_capability') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 9,
+    "never_searched": 8
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-VT-NOT-APPLICABLE",
+   "manuscript_section": "2 (verdict table)",
+   "claim": "verdict not_applicable: classes / of which never searched here",
+   "quoted_value": {
+    "classes": 10,
+    "never_searched": 10
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='not_applicable') and its prior_coverage=='never_searched' subset",
+   "rederived_value": {
+    "classes": 10,
+    "never_searched": 10
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count over the registry)"
+  },
+  {
+   "claim_id": "S2-HEADLINE-111",
+   "manuscript_section": "2",
+   "claim": "111 of 217 classes had never been pointed at by any prior sweep here",
+   "quoted_value": {
+    "never_searched": 111,
+    "total": 217
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(prior_coverage=='never_searched') / len(rows)",
+   "rederived_value": {
+    "never_searched": 111,
+    "total": 217
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)"
+  },
+  {
+   "claim_id": "S2-HEADLINE-14-LIVE",
+   "manuscript_section": "2",
+   "claim": "and 14 of those are live",
+   "quoted_value": 14,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(prior_coverage=='never_searched' and verdict in {candidate, parked_capability})",
+   "rederived_value": 14,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)",
+   "note": "'live' is not a stored field. Re-derived on the reading that the live verdicts are candidate + parked_capability, which is the only reading that reproduces the value and is consistent with the verdict table's own 6+8 split."
+  },
+  {
+   "claim_id": "S2-BAND-DRUG-MECHANISM",
+   "manuscript_section": "2 (band table)",
+   "claim": "band drug_mechanism: classes / never searched / share",
+   "quoted_value": {
+    "classes": 162,
+    "never_searched": 86,
+    "share_pct": 53
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.band=='drug_mechanism'), its never_searched subset, and never/classes rounded",
+   "rederived_value": {
+    "classes": 162,
+    "never_searched": 86,
+    "share_pct": 53
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count + the manuscript's stated rounding rule)"
+  },
+  {
+   "claim_id": "S2-BAND-DELIVERY-AND-CONJUGATE",
+   "manuscript_section": "2 (band table)",
+   "claim": "band delivery_and_conjugate: classes / never searched / share",
+   "quoted_value": {
+    "classes": 26,
+    "never_searched": 18,
+    "share_pct": 69
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.band=='delivery_and_conjugate'), its never_searched subset, and never/classes rounded",
+   "rederived_value": {
+    "classes": 26,
+    "never_searched": 18,
+    "share_pct": 69
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count + the manuscript's stated rounding rule)"
+  },
+  {
+   "claim_id": "S2-BAND-PHYSICAL-LOCOREGIONAL",
+   "manuscript_section": "2 (band table)",
+   "claim": "band physical_locoregional: classes / never searched / share",
+   "quoted_value": {
+    "classes": 15,
+    "never_searched": 3,
+    "share_pct": 20
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.band=='physical_locoregional'), its never_searched subset, and never/classes rounded",
+   "rederived_value": {
+    "classes": 15,
+    "never_searched": 3,
+    "share_pct": 20
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count + the manuscript's stated rounding rule)"
+  },
+  {
+   "claim_id": "S2-BAND-STRATEGY-AND-ARCHITECTURE",
+   "manuscript_section": "2 (band table)",
+   "claim": "band strategy_and_architecture: classes / never searched / share",
+   "quoted_value": {
+    "classes": 14,
+    "never_searched": 4,
+    "share_pct": 29
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.band=='strategy_and_architecture'), its never_searched subset, and never/classes rounded",
+   "rederived_value": {
+    "classes": 14,
+    "never_searched": 4,
+    "share_pct": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count + the manuscript's stated rounding rule)"
+  },
+  {
+   "claim_id": "S21-FLAGGED-73",
+   "manuscript_section": "2.1",
+   "claim": "the audit flagged 73 rows",
+   "quoted_value": 73,
+   "source_artifact": "research/modalities/census-novelty-audit.json",
+   "source_key": "len(findings)",
+   "rederived_value": 73,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (row count)"
+  },
+  {
+   "claim_id": "S21-ALL-UNREVIEWED",
+   "manuscript_section": "2.1",
+   "claim": "every finding in the audit file is recorded UNREVIEWED",
+   "quoted_value": {
+    "n": 73,
+    "all_unreviewed": true
+   },
+   "source_artifact": "research/modalities/census-novelty-audit.json",
+   "source_key": "findings[*].adjudication",
+   "rederived_value": {
+    "n": 73,
+    "all_unreviewed": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (adjudication tally: {'UNREVIEWED — a term match is not a coverage claim': 73})"
+  },
+  {
+   "claim_id": "S21-20-CANDIDATES-ADJUDICATED",
+   "manuscript_section": "2.1",
+   "claim": "Only the 20 candidate rows were adjudicated there [in modalities.json]",
+   "quoted_value": 20,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='candidate')",
+   "rederived_value": 20,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)",
+   "note": "The count of candidate rows re-derives. Whether each candidate row carries an adjudication of its audit flag is a prose property with no schema field, so only the number is checked here."
+  },
+  {
+   "claim_id": "S21-ARSENAL-8",
+   "manuscript_section": "2.1",
+   "claim": "the incumbent arsenal is 8 classes",
+   "quoted_value": 8,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='in_clinical_use')",
+   "rederived_value": 8,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)"
+  },
+  {
+   "claim_id": "S21-AUDIT-DENOM",
+   "manuscript_section": "2.1",
+   "claim": "context: the audit's own never-searched denominator versus the registry's current one",
+   "quoted_value": {
+    "audit_n_never_searched_rows": 127
+   },
+   "source_artifact": "research/modalities/census-novelty-audit.json",
+   "source_key": "n_never_searched_rows",
+   "rederived_value": {
+    "audit_n_never_searched_rows": 127
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "NOT a manuscript claim; a context row. The audit artifact still carries the PRE-correction denominator 127 while the registry now holds 111, so the audit file was not regenerated after the 2026-08-09 novelty correction. The manuscript quotes only the 73 flag count from this file, and that count does reproduce; but a reader who opens the audit to check the 111 headline will find 127 there."
+  },
+  {
+   "claim_id": "S3-TWENTY-SURVIVE",
+   "manuscript_section": "3",
+   "claim": "Twenty classes survive",
+   "quoted_value": 20,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='candidate')",
+   "rederived_value": 20,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)"
+  },
+  {
+   "claim_id": "S3-ALL-CANDIDATES-ROUTED",
+   "manuscript_section": "3",
+   "claim": "every one of them is registered as a route",
+   "quoted_value": {
+    "candidates": 20,
+    "with_route": 20
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(verdict=='candidate') and its subset with a non-empty 'route' field",
+   "rederived_value": {
+    "candidates": 20,
+    "with_route": 20
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (field presence)"
+  },
+  {
+   "claim_id": "S4-NINETY-FIVE",
+   "manuscript_section": "4",
+   "claim": "Ninety-five classes are closed here on first inspection",
+   "quoted_value": 95,
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(row.verdict=='excluded')",
+   "rederived_value": 95,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count)"
+  },
+  {
+   "claim_id": "S5-33-POINTERS",
+   "manuscript_section": "5",
+   "claim": "Thirty-three rows carry already_rejected with a resolvable pointer",
+   "quoted_value": {
+    "rows": 33,
+    "resolvable": 33
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count(verdict=='already_rejected'); prior_ref.file exists on disk",
+   "rederived_value": {
+    "rows": 33,
+    "resolvable": 33
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (grouped count + filesystem resolution at HEAD)"
+  },
+  {
+   "claim_id": "S5-THREE-SWEEPS-REACHED",
+   "manuscript_section": "5",
+   "claim": "each of the three prior searches is reached by at least one row",
+   "quoted_value": {
+    "all_reached": true
+   },
+   "source_artifact": "systems/graph/modalities.json",
+   "source_key": "count of rows whose prior_ref.file is each sweep",
+   "rederived_value": {
+    "all_reached": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (pointer tally: {'research/manuscripts/program/emc-post-degrader-options.md': 41, 'research/manuscripts/program/emc-unexplored-treatment-lanes.md': 38, 'research/manuscripts/modality-census/emerging-modalities-scan-emc.md': 3})",
+   "note": "The three sweep documents are identified from section 1 of the manuscript plus the prior_ref file distribution; the manuscript names them in prose, not by path, so the identification is this lane's reading, not a stored mapping."
+  },
+  {
+   "claim_id": "S38-16-ROUTES",
+   "manuscript_section": "3.8",
+   "claim": "Sixteen of the routes ... the 16 graded routes",
+   "quoted_value": 16,
+   "source_artifact": "research/modalities/census-route-expression-grading.json",
+   "source_key": "len(routes)",
+   "rederived_value": 16,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (key count)"
+  },
+  {
+   "claim_id": "S38-479-GENES",
+   "manuscript_section": "3.8 / 7",
+   "claim": "the repository's targeted expression panel -- 479 of them as it now stands",
+   "quoted_value": 479,
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "len(gene_reads)",
+   "rederived_value": 479,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (key count)"
+  },
+  {
+   "claim_id": "S38-TWO-PLATFORMS",
+   "manuscript_section": "7",
+   "claim": "the two expression platforms every 'both platforms' statement refers to",
+   "quoted_value": 2,
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "len(platforms)",
+   "rederived_value": 2,
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK (key count)"
+  },
+  {
+   "claim_id": "S38-NDRG1-98TH",
+   "manuscript_section": "3.8 (SGK1 row)",
+   "claim": "its canonical substrate NDRG1 is higher on both, at the 98th percentile on one",
+   "quoted_value": {
+    "percentile_one_platform": 98,
+    "higher_on_both": true
+   },
+   "source_artifact": "research/modalities/census-route-expression-grading.json",
+   "source_key": "routes.RT-SGK1.genes.NDRG1.*.emc_array_percentile and .delta_emc_minus_comparator",
+   "rederived_value": {
+    "percentile_one_platform": 98,
+    "higher_on_both": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (percentile x100 rounded; sign of both deltas)",
+   "note": "GPL6244 percentile 0.9813, GPL3290 0.6840."
+  },
+  {
+   "claim_id": "S31-CDK-100PC",
+   "manuscript_section": "3.1",
+   "claim": "across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 100% of them",
+   "quoted_value": {
+    "n_sarcoma": 91,
+    "CDK7": 1.0,
+    "CDK9": 1.0
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group['BET / transcriptional'] -> CDK7/CDK9 .sarcoma_frac_dependent, .n_sarcoma",
+   "rederived_value": {
+    "n_sarcoma": 91,
+    "CDK7": 1.0,
+    "CDK9": 1.0
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from the committed DepMap summary",
+   "note": "The manuscript cites census-route-expression-grading.json -> routes.RT-TXN-CDK for this; that file states the same fractions in prose and names DepMap 24Q4 as their origin. Re-derived here against the numeric artifact rather than the prose restatement."
+  },
+  {
+   "claim_id": "S32A-BH3-FRACTIONS",
+   "manuscript_section": "3.2a (MCL-1 / BCL-xL row)",
+   "claim": "across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% and BCL2 in 2.2%",
+   "quoted_value": {
+    "n_sarcoma": 91,
+    "MCL1": 0.835,
+    "BCL2L1": 0.758,
+    "BCL2": 0.022
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group['Apoptotic guardians (BH3)'] -> .sarcoma_frac_dependent, .n_sarcoma",
+   "rederived_value": {
+    "n_sarcoma": 91,
+    "MCL1": 0.835,
+    "BCL2L1": 0.758,
+    "BCL2": 0.022
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from the committed DepMap summary"
+  },
+  {
+   "claim_id": "S32A-GUARDIANS-LOWER",
+   "manuscript_section": "3.2a (MCL-1 / BCL-xL row)",
+   "claim": "all five druggable guardians are lower on both platforms",
+   "quoted_value": {
+    "gene_set_size": 5,
+    "n_lower_on_BOTH_platforms": 5
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.apoptotic_dependency.groups.anti_apoptotic_the_druggable_ones.genes_requested; gene_reads[gene][platform].EMC.mean_z - .comparator.mean_z, sign on both platforms",
+   "rederived_value": {
+    "gene_set_size": 5,
+    "n_lower_on_BOTH_platforms": 3
+   },
+   "verdict": "MISMATCH",
+   "derivation_level": "RECOMPUTED (per-gene EMC-minus-comparator mean_z delta, sign on each platform)",
+   "note": "REPORTED, NOT REPAIRED. Gene set ['BCL2', 'MCL1', 'BCL2L1', 'BCL2L2', 'BCL2A1']. Per-gene delta (EMC minus comparator) by platform: {'BCL2': {'GSE24369_series_matrix.txt.gz': -0.8084, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.2349}, 'MCL1': {'GSE24369_series_matrix.txt.gz': -0.2664, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.5563}, 'BCL2L1': {'GSE24369_series_matrix.txt.gz': -0.3801, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.4755}, 'BCL2L2': {'GSE24369_series_matrix.txt.gz': 0.1231, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.0457}, 'BCL2A1': {'GSE24369_series_matrix.txt.gz': 0.0371, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.5299}}. BCL2, MCL1 and BCL2L1 are lower on both. BCL2L2 is HIGHER in EMC on GPL6244 (+0.1231) and lower on GPL3290 (-0.0457); BCL2A1 is HIGHER on GPL6244 (+0.0371) and lower on GPL3290 (-0.5299). Three of five, not five of five, are lower on both. What IS lower on both is the GROUP MEAN: the stored module score is LOWER in EMC on GPL6244 (delta -0.259, t -4.568, df 14.0, 5/5 readable) and on GPL3290 (delta -0.4097, t -2.538, df 9.8, 5/5 readable). The manuscript states a module-level result with a per-gene universal quantifier. The route verdict it supports ('against at the abundance level') is unaffected by this; the sentence is."
+  },
+  {
+   "claim_id": "S32A-GUARDIAN-MODULE-LOWER-BOTH",
+   "manuscript_section": "3.2a (supporting re-derivation)",
+   "claim": "the guardian MODULE is lower in EMC on both platforms",
+   "quoted_value": {
+    "GPL6244_t": -4.568,
+    "GPL3290_t": -2.538
+   },
+   "source_artifact": "research/modalities/census-route-expression-grading.json",
+   "source_key": "routes.RT-APOPTOSIS-DEP.panel_groups.anti_apoptotic_the_druggable_ones.*.score.t",
+   "rederived_value": {
+    "GPL6244_t": -4.568,
+    "GPL3290_t": -2.538
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from the committed grading artifact",
+   "note": "This is the statement the manuscript's evidence actually supports, and it reproduces. Recorded so the MISMATCH above is read as a quantifier defect, not as a reversal of the route verdict."
+  },
+  {
+   "claim_id": "S21-15-WRONG-ROWS",
+   "manuscript_section": "2.1",
+   "claim": "The first version of this document said 127, and 15 of those rows were wrong",
+   "quoted_value": {
+    "prior_headline": 127,
+    "rows_corrected": 15
+   },
+   "source_artifact": "systems/graph/modalities.json (+ git history)",
+   "source_key": "no committed field records the pre-correction prior_coverage state of each row",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "NOT-RE-DERIVABLE-LOCALLY",
+   "note": "The current registry holds only the post-correction state. 127 - 111 = 16, not 15, and the manuscript separately records a two-row change in total class count (215 -> 217), so the arithmetic is not closable from the present artifacts alone.",
+   "exact_missing_input": "The pre-2026-08-09 revision of systems/graph/modalities.json, or a committed per-row before/after list of the 15 prior_coverage flips. census-novelty-audit.json records n_never_searched_rows=127 and 73 UNREVIEWED findings, and adjudicates none, so it cannot supply the 15."
+  },
+  {
+   "claim_id": "S1-FOUR-INVISIBLE",
+   "manuscript_section": "1",
+   "claim": "Four whole categories had been invisible to every previous search",
+   "quoted_value": 4,
+   "source_artifact": "research/manuscripts/program/emc-unexplored-treatment-lanes.md (2026-08-07 sweep)",
+   "source_key": "prose claim of the cited sweep; no count field in any census artifact",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "NOT-RE-DERIVABLE-LOCALLY",
+   "note": "Restated from a prior document rather than derived from the census artifacts.",
+   "exact_missing_input": "A machine-readable category list in the 2026-08-07 sweep artifact. The sweep is a prose manuscript; the census registry stores no field recording which categories that sweep could not see."
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+Exit 1 is diff(1)'s "files differ" status, not a failure. It is the real, unmodified exit code of the
+last command in the loop and is preserved as such. The diff it produced is validated separately in
+checks/05-git-apply-check, which exits 0.

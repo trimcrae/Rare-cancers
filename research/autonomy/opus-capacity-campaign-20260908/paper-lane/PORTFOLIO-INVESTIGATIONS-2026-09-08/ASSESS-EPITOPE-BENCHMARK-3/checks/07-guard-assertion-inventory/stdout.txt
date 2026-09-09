@@ -1,0 +1,61 @@
+--- assertion inventory: BASE ---
+9:ck(s["BENCHMARK_ELIGIBLE"]["n"] == 15,        "benchmark-eligible != 15")
+10:ck(s["ms_eluted_ci_eligible"]["n"] == 6,      "MS-eluted class I subset != 6")
+11:ck(s["prediction_only"]["n"] == 3,            "prediction-only != 3")
+12:ck(s["binding_only"]["n"] == 7,               "binding-only != 7")
+13:ck(s["spans_junction_no"]["n"] == 6,          "negative controls != 6")
+14:ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":37}, "Wilson n table changed")
+15:ck(su["verdict"] == "INSUFFICIENT",           "verdict changed")
+16:ck(len(c["distinct_fusions_in_benchmark"]) == 9, "distinct fusions != 9")
+17:ck(su["achieved_ci_width_at_sens_0.5_with_n_available"] == 0.4515, "CI width != 0.4515")
+19:ck("**n = 15**" in f,   "FINDING.md does not quote n = 15")
+20:ck("n = **6**" in f,    "FINDING.md does not quote the MS-eluted n = 6")
+21:ck("0.4515" in f,       "FINDING.md does not quote the achieved CI width")
+22:ck(re.search(r"\|\s*0\.5\s*\|\s*93\s*\|", f) is not None, "FINDING.md sufficiency table lost 93")
+23:ck("PREDICTION ONLY" in t and "BINDING ONLY" in t, "table lost its excluded strata")
+24:ck(t.count("| E") >= 40, "table lost rows")
+count: 15
+
+--- assertion inventory: PATCHED ---
+9:ck(s["BENCHMARK_ELIGIBLE"]["n"] == 15,        "benchmark-eligible != 15")
+10:ck(s["ms_eluted_ci_eligible"]["n"] == 6,      "MS-eluted class I subset != 6")
+11:ck(s["prediction_only"]["n"] == 3,            "prediction-only != 3")
+12:ck(s["binding_only"]["n"] == 7,               "binding-only != 7")
+13:ck(s["spans_junction_no"]["n"] == 6,          "negative controls != 6")
+19:ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":34}, "Wilson n table changed")
+20:ck(su["verdict"] == "INSUFFICIENT",           "verdict changed")
+21:ck(len(c["distinct_fusions_in_benchmark"]) == 9, "distinct fusions != 9")
+22:ck(su["achieved_ci_width_at_sens_0.5_with_n_available"] == 0.4515, "CI width != 0.4515")
+24:ck("**n = 15**" in f,   "FINDING.md does not quote n = 15")
+25:ck("n = **6**" in f,    "FINDING.md does not quote the MS-eluted n = 6")
+26:ck("0.4515" in f,       "FINDING.md does not quote the achieved CI width")
+27:ck(re.search(r"\|\s*0\.5\s*\|\s*93\s*\|", f) is not None, "FINDING.md sufficiency table lost 93")
+28:ck("PREDICTION ONLY" in t and "BINDING ONLY" in t, "table lost its excluded strata")
+29:ck(t.count("| E") >= 40, "table lost rows")
+count: 15
+
+--- normalised diff of executable lines only (comments/blank stripped) ---
+--- /dev/fd/63	2026-09-09 01:31:49.292072205 +0000
++++ /dev/fd/62	2026-09-09 01:31:49.292072205 +0000
+@@ -10,7 +10,7 @@
+ ck(s["prediction_only"]["n"] == 3,            "prediction-only != 3")
+ ck(s["binding_only"]["n"] == 7,               "binding-only != 7")
+ ck(s["spans_junction_no"]["n"] == 6,          "negative controls != 6")
+-ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":37}, "Wilson n table changed")
++ck(su["n_required"] == {"0.5":93,"0.7":78,"0.8":60,"0.9":34}, "Wilson n table changed")
+ ck(su["verdict"] == "INSUFFICIENT",           "verdict changed")
+ ck(len(c["distinct_fusions_in_benchmark"]) == 9, "distinct fusions != 9")
+ ck(su["achieved_ci_width_at_sens_0.5_with_n_available"] == 0.4515, "CI width != 0.4515")
+@@ -23,5 +23,5 @@
+ if fails:
+     print("FAIL:"); [print("  -", m) for m in fails]; sys.exit(1)
+ print("consistency OK: n=15 eligible, 6 MS-eluted, 3 prediction-only, 7 binding-only,")
+-print("6 negative controls, 9 fusions, Wilson 93/78/60/37, verdict INSUFFICIENT,")
++print("6 negative controls, 9 fusions, Wilson 93/78/60/34, verdict INSUFFICIENT,")
+ print("and FINDING.md/VALIDATED-EPITOPE-TABLE.md quote the same figures.")
+diff exit: 1
+
+--- control flow: sys.exit / if fails ---
+7:def ck(cond, msg):
+30:if fails:
+31:    print("FAIL:"); [print("  -", m) for m in fails]; sys.exit(1)

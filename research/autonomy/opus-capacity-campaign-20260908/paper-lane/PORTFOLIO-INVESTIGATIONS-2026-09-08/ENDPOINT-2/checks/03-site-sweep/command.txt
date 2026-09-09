@@ -1,0 +1,5 @@
+# tracked-file sweep, excluding this campaign's own lane scratch (which only quotes the value)
+git ls-files -z | grep -zv '^research/autonomy/opus-capacity-campaign-20260908/' | xargs -0 grep -n '_corpus_median_objective_response_pct'
+... | xargs -0 grep -ni 'corpus median\|median objective.response\|median response rate'
+... | xargs -0 grep -n '7\.7'      # then filtered to endpoint scope
+... | xargs -0 grep -n 'len(orrs)\|// 2\]'

@@ -1,0 +1,22 @@
+case                                    | want | got | reason(s)
+---------------------------------------------------------------------------------------------------
+CONTROL correct ladder 93/78/60/34      |    0 |   0 | []   PASS
+CONTROL 0.9 = 34.0 (same value, float)  |    0 |   0 | []   PASS
+FIXTURE 0.9=37 (stale value)            |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.9=33                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.9=35                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.9=38 (k=floor)                |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.5=92                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.5=94                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.7=77                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.7=79                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.8=59                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.8=61                          |    1 |   1 | ['Wilson n table changed']   PASS
+FIXTURE 0.9 row deleted                 |    1 |   1 | ['Wilson n table changed']   PASS
+EXTRA   spurious extra row 0.95=20      |    1 |   1 | ['Wilson n table changed']   PASS
+EXTRA   0.9 = "34" (string, wrong type) |    1 |   1 | ['Wilson n table changed']   PASS
+LIVENESS verdict -> SUFFICIENT          |    1 |   1 | ['verdict changed']   PASS
+LIVENESS CI width -> 0.4507             |    1 |   1 | ['CI width != 0.4515']   PASS
+LIVENESS BENCHMARK_ELIGIBLE n -> 16     |    1 |   1 | ['benchmark-eligible != 15']   PASS
+
+all cases as required: True

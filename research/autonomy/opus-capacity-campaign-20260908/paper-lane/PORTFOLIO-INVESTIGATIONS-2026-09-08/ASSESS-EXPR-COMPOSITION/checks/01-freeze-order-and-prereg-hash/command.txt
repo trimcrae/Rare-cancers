@@ -1,0 +1,6 @@
+# mtime ordering of every EXPR-COMPOSITION file, sha256 of PREREGISTRATION.md,
+# and the PREREG_SHA constant pinned inside composition_adjusted_contrast.py
+cd <lane>/EXPR-COMPOSITION
+find . -type f -printf '%TY-%Tm-%TdT%TH:%TM:%TSZ %p\n' | sort
+sha256sum PREREGISTRATION.md ; grep -n PREREG_SHA composition_adjusted_contrast.py
+grep -c z_vs_array checks/*/stdout.txt ; grep -nE '[0-9]\.[0-9]{3}' checks/01-locator-sha256/stdout.txt

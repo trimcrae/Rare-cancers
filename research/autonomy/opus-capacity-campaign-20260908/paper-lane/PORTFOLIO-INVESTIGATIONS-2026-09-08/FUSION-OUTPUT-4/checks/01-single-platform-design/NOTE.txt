@@ -1,0 +1,5 @@
+Attempt 01 FAILED (exit 1). scipy returns numpy scalars; a numpy.bool_ from a
+comparison inside cost["A"]["dropped_cohort_was_the_weaker_arm"] is not JSON
+serializable, so json.dump aborted after emitting a partial document. The partial
+output is retained as artifact.PARTIAL-ATTEMPT-OUTPUT. Fix: wrap the affected
+comparisons in bool(). No number, floor or rule was changed by the fix.

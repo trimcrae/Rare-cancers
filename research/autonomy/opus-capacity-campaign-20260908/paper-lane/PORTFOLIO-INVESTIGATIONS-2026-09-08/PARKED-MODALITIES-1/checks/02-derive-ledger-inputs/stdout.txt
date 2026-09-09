@@ -1,0 +1,16 @@
+parked routes reached from PUB-PARKED-MODALITIES : 5
+  RT-AF3-INTERFACE   status=parked  artifacts=[] evidence=[]  global-absence-phrases=1
+      owner TECH-COFOLD-ASSEMBLY     current_state=partially_landed   confidence=high     ungraded_signals=3 (newest 2026-09-04)
+  RT-CRISPR-CAS13    status=parked  artifacts=[] evidence=[]  global-absence-phrases=1
+      owner TECH-VECTOR-DELIVERY     current_state=absent             confidence=moderate ungraded_signals=0 (newest None)
+  RT-GLUE            status=parked  artifacts=[] evidence=[]  global-absence-phrases=2
+      owner TECH-FE-CRYPTIC-POCKET   current_state=absent             confidence=high     ungraded_signals=0 (newest None)
+      owner TECH-GLUE-DESIGN         current_state=early_signals      confidence=moderate ungraded_signals=5 (newest 2026-08-21)
+  RT-RIBOZYME        status=parked  artifacts=[] evidence=[]  global-absence-phrases=3
+      owner TECH-VECTOR-DELIVERY     current_state=absent             confidence=moderate ungraded_signals=0 (newest None)
+  RT-RIPTAC          status=parked  artifacts=[] evidence=[]  global-absence-phrases=0
+      owner TECH-FE-CRYPTIC-POCKET   current_state=absent             confidence=high     ungraded_signals=0 (newest None)
+      owner TECH-COFOLD-ASSEMBLY     current_state=partially_landed   confidence=high     ungraded_signals=3 (newest 2026-09-04)
+
+V12 32 A recheck: asserted=32.0  rederived=32.0  reproduces=True
+bracket: The ladder is a doubling series (0/0.5/1/2/4/8/16/32 A). The rung at 16.0 A has median DockQ 0.0848 > best co-fold 0.0459, so the displacement that actually matches the co-folds lies in the OPEN INTERVAL (16.0, 32.0] A. '32 A' is the coarsest matching RUNG, not an estimated displacement, and no interpolation or uncertainty is published for it.

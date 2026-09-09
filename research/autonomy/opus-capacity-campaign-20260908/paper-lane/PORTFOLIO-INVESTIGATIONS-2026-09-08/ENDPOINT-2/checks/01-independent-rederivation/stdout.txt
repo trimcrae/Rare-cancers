@@ -1,0 +1,50 @@
+arms with a complete four-cell table and a satisfied identity: 552
+
+=== rounded-to-1dp per-arm ORR percentages (producer's input list) ===
+  count                       : 552  (even: True)
+  lower middle order stat  v[275] : 6.7
+  upper middle order stat  v[276] : 7.7
+  true median (mean of the two)          : 7.2   -> rounded 1dp 7.2
+  statistics.median cross-check          : 7.2
+  producer's selector v[len//2]          : 7.7   <- what is printed
+
+=== unrounded exact per-arm ORR percentages ===
+  lower middle : 6.666666666666667
+  upper middle : 7.6923076923076925
+  true median  : 7.17948717948718  -> rounded 1dp 7.2
+  producer-style selector v[len//2] : 7.6923076923076925 -> 1dp 7.7
+  276th (lower middle): NCT02475213 | 'Melanoma Cohort' | 1/15 = 6.7%
+  277th (upper middle): NCT03829501 | 'Alomfilimab 8 mg + Atezolizumab in Anti-' | 1/13 = 7.7%
+
+=== Figure 3 bands: observed vs expected at p=7.7 (printed) and p=7.2 (true median) ===
+   band  arms   med_n  zero   obs%  exp@7.7  exp@7.2
+    1-4   174     3.0   134   77.0     81.0     82.1
+    5-9   147     6.0    85   57.8     61.0     63.1
+  10-19    93    15.0    28   30.1     32.8     35.3
+  20-39    48    27.5     4    8.3     11.5     13.3
+    40+    90   128.5     0    0.0      0.5      0.7
+
+qualitative reading at p=7.2 -- observed below expected in every band? True
+qualitative reading at p=7.7 -- observed below expected in every band? True
+gap (expected-observed) per band at 7.7: [4.0, 3.2, 2.7, 3.2, 0.5]
+gap (expected-observed) per band at 7.2: [5.1, 5.3, 5.2, 5.0, 0.7]
+
+committed artifact states _corpus_median_objective_response_pct = 7.7
+   1-4 174 3.0 134 77.0 81.0
+   5-9 147 6.0 85 57.8 61.0
+   10-19 93 15.0 28 30.1 32.8
+   20-39 48 27.5 4 8.3 11.5
+   40+ 90 128.5 0 0.0 0.5
+
+input sha256:
+  1675e8d56707d331805b2ad6b8c664dd683fad6d97b5884197ec9ae66e75c634 endpoint-corpus.json
+  95ac62e88a18288acee3330ac93541c6f458d23831e3a1c2ee1055930345f6d9 orr-dcr-reread.json
+
+PASS median_even_vector_[1,2,3,4] 2.5 vs 2.5
+PASS upper_middle_selector_[1,2,3,4] 3 vs 3
+PASS odd_vector_selector_equals_median_[1,2,3] (2, 2) vs (2, 2)
+PASS zero_response_prob_p0.5_n2 0.25 vs 0.25
+PASS all_552_arms_have_complete_cells 552 vs 552
+FAIL R2_orr_pct_agrees_with_recompute_from_cells 11 vs 0
+
+CONTROL FAILURE

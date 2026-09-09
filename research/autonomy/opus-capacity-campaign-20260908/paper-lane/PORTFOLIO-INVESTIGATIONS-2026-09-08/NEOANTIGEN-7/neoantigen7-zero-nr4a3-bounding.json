@@ -1,0 +1,707 @@
+{
+ "_id": "DOC-NEOANTIGEN-7-ZERO-NR4A3-BOUNDING",
+ "_what": "Bounding artifact for the 20 zero-NR4A3 EWSR1::NR4A3 junction peptides left open by NEOANTIGEN-6: independent reproduction of the class, verbatim search against the EWSR1 sequence this checkout actually holds, and an exact count of the EWSR1 isoforms this repository's own artifacts NAME but carry no sequence for.",
+ "⛔_what_this_is_not": "Not a novelty search, not a presentation, immunogenicity, tolerance, efficacy, safety, selectivity, therapeutic-window or clinical claim, in either direction. A MISS below means ONLY 'not present in the held set'. It never means novel.",
+ "_cost": "$0 — no network, no GPU, no paid API. Routes B1/B2 not approached.",
+ "_inputs": {
+  "fusion-breakpoint-neoantigens.json": {
+   "sha256": "ae1ba4f7216a11a956ed978035557c9226826dd93c09a5bcec3421a39d3eec0c",
+   "_utc": "2026-08-19T16:26:49Z"
+  },
+  "junction-selfsimilarity.json": {
+   "sha256": "a59e22c9d5dbe02e5b9e67f98a05db8ae143b680c989bb47cfac98014df3303a",
+   "generated_utc": "2026-08-23T17:32:49Z"
+  },
+  "junction-proteome-novelty.json": {
+   "sha256": "ff1ccc2c247eccb7963ee307d49ba50b048d238a1f280ef7c42e8546d165914a"
+  },
+  "fet-sequences-cache.json": {
+   "sha256": "0459ace2eaab4b48411ccbce83b826a6491213527b6c09ff174082f6fdc1c84b"
+  },
+  "nr4a-sequences-cache.json": {
+   "sha256": "66816f79cd3f72ffa6054a69bdb18733c3abb6805b261cae9d9e9a52f1fd5d8a"
+  }
+ },
+ "step1_reproduction": {
+  "expected_from_NEOANTIGEN_6": {
+   "n_distinct_peptides": 174,
+   "n_zero_EWSR1": 8,
+   "n_zero_NR4A3": 20,
+   "n_zero_both": 0
+  },
+  "observed_here": {
+   "n_distinct_peptides": 174,
+   "n_zero_EWSR1": 8,
+   "n_zero_NR4A3": 20,
+   "n_zero_both": 0
+  },
+  "agrees": true,
+  "disagreements": {}
+ },
+ "step1_zero_EWSR1_peptides": [
+  "DMPCVQAQ",
+  "DMPCVQAQY",
+  "DMPCVQAQYS",
+  "DMPCVQAQYSP",
+  "NMPCVQAQ",
+  "NMPCVQAQY",
+  "NMPCVQAQYS",
+  "NMPCVQAQYSP"
+ ],
+ "step1_zero_NR4A3_peptides": [
+  "AAVEWFDD",
+  "AKAAVEWFDD",
+  "DEGPDLDLD",
+  "EGPDLDLD",
+  "ERGGFNKPGD",
+  "GERGGFNKPGD",
+  "GGFNKPGD",
+  "GMPPPLRGD",
+  "GRGMPPPLRGD",
+  "KAAVEWFDD",
+  "MDEGPDLDLD",
+  "MPPPLRGD",
+  "PMDEGPDLDLD",
+  "QQSSSYGQQN",
+  "QSSSYGQQN",
+  "RGGFNKPGD",
+  "RGMPPPLRGD",
+  "SQQSSSYGQQN",
+  "SSSYGQQN",
+  "TAKAAVEWFDD"
+ ],
+ "step1_zero_both": [],
+ "step1_cross_check_NEOANTIGEN_6": {
+  "n_of_the_20_appearing_verbatim_in_NEOANTIGEN-6_artifact": 20,
+  "peptides": [
+   "AAVEWFDD",
+   "AKAAVEWFDD",
+   "DEGPDLDLD",
+   "EGPDLDLD",
+   "ERGGFNKPGD",
+   "GERGGFNKPGD",
+   "GGFNKPGD",
+   "GMPPPLRGD",
+   "GRGMPPPLRGD",
+   "KAAVEWFDD",
+   "MDEGPDLDLD",
+   "MPPPLRGD",
+   "PMDEGPDLDLD",
+   "QQSSSYGQQN",
+   "QSSSYGQQN",
+   "RGGFNKPGD",
+   "RGMPPPLRGD",
+   "SQQSSSYGQQN",
+   "SSSYGQQN",
+   "TAKAAVEWFDD"
+  ]
+ },
+ "step2_held_EWSR1_sequences": [
+  {
+   "symbol": "EWSR1",
+   "length": 656,
+   "sha256": "50aceb523187df7b1de28f4831385e42ea889e02268107d81adcd59941fce8f9",
+   "sources": [
+    "fet-sequences-cache.json",
+    "nr4a-sequences-cache.json"
+   ],
+   "sequence_head": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYA",
+   "sequence_tail": "MDKGEHRQERRDRPY"
+  }
+ ],
+ "step2_designed_constructs_embedding_EWSR1_NOT_wild_type": [
+  {
+   "file": "emc-fet-construct-designs.json",
+   "path": "/constructs[0]/protein_sequence",
+   "length": 1058,
+   "sha256": "242a7b7805c708d350d7d670b506d1b752485384a2511d5a0c7a75adb6b2faf3"
+  },
+  {
+   "file": "emc-fet-construct-designs.json",
+   "path": "/constructs[1]/protein_sequence",
+   "length": 949,
+   "sha256": "03a947c08034dd5ea88e48b3da74f20af8be0412cf484e1d1f361d67286de14d"
+  },
+  {
+   "file": "emc-fet-construct-designs.json",
+   "path": "/constructs[2]/protein_sequence",
+   "length": 1099,
+   "sha256": "e265ffdeb38290f14fed6320208d4f929879494cf346d9694997f2a8b9027ac5"
+  },
+  {
+   "file": "emc-condensate-constructs.json",
+   "path": "/constructs[0]/sequence",
+   "length": 264,
+   "sha256": "bef64104cdf12d5699479a7551b8e95ab6d96fd78d51eb4b20914076bb321492"
+  },
+  {
+   "file": "emc-condensate-constructs.json",
+   "path": "/constructs[1]/sequence",
+   "length": 360,
+   "sha256": "5f69a5f02933dbcbf92593fd065ad122f885a87f5071168bc93dd222fc6a04d5"
+  },
+  {
+   "file": "fusion-cofold-constructs.json",
+   "path": "/gate/checks[10]/got",
+   "length": 431,
+   "sha256": "64658b0d0f949eeff212a8ebc38fa4813018c1ec891adb69e11ea0a725bcd005"
+  },
+  {
+   "file": "fusion-cofold-constructs.json",
+   "path": "/gate/checks[22]/got",
+   "length": 472,
+   "sha256": "8697979a74ed6de4853dbf519a3e6ccdc17e63ac18bb11e06fb5b61fd8b0fcad"
+  }
+ ],
+ "step2_per_peptide": [
+  {
+   "peptide": "AAVEWFDD",
+   "length": 8,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 7,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[0]/protein_sequence",
+     "offset_1based": 425
+    }
+   ],
+   "ewsr1_only_prefix": "AAVEWFD",
+   "prefix_offsets_in_held_canonical_1based": [
+    425
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "AKAAVEWFDD",
+   "length": 10,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 9,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[0]/protein_sequence",
+     "offset_1based": 423
+    }
+   ],
+   "ewsr1_only_prefix": "AKAAVEWFD",
+   "prefix_offsets_in_held_canonical_1based": [
+    423
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "DEGPDLDLD",
+   "length": 9,
+   "junctions": [
+    "EWSR1_e10__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 8,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "DEGPDLDL",
+   "prefix_offsets_in_held_canonical_1based": [
+    341
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "EGPDLDLD",
+   "length": 8,
+   "junctions": [
+    "EWSR1_e10__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 7,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "EGPDLDL",
+   "prefix_offsets_in_held_canonical_1based": [
+    342
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "ERGGFNKPGD",
+   "length": 10,
+   "junctions": [
+    "EWSR1_e9__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 9,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "ERGGFNKPG",
+   "prefix_offsets_in_held_canonical_1based": [
+    329
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "GERGGFNKPGD",
+   "length": 11,
+   "junctions": [
+    "EWSR1_e9__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 10,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "GERGGFNKPG",
+   "prefix_offsets_in_held_canonical_1based": [
+    328
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "GGFNKPGD",
+   "length": 8,
+   "junctions": [
+    "EWSR1_e9__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 7,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "GGFNKPG",
+   "prefix_offsets_in_held_canonical_1based": [
+    331
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "GMPPPLRGD",
+   "length": 9,
+   "junctions": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 8,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[2]/protein_sequence",
+     "offset_1based": 465
+    }
+   ],
+   "ewsr1_only_prefix": "GMPPPLRG",
+   "prefix_offsets_in_held_canonical_1based": [
+    465
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "GRGMPPPLRGD",
+   "length": 11,
+   "junctions": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 10,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[2]/protein_sequence",
+     "offset_1based": 463
+    }
+   ],
+   "ewsr1_only_prefix": "GRGMPPPLRG",
+   "prefix_offsets_in_held_canonical_1based": [
+    463
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "KAAVEWFDD",
+   "length": 9,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 8,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[0]/protein_sequence",
+     "offset_1based": 424
+    }
+   ],
+   "ewsr1_only_prefix": "KAAVEWFD",
+   "prefix_offsets_in_held_canonical_1based": [
+    424
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "MDEGPDLDLD",
+   "length": 10,
+   "junctions": [
+    "EWSR1_e10__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 9,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "MDEGPDLDL",
+   "prefix_offsets_in_held_canonical_1based": [
+    340
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "MPPPLRGD",
+   "length": 8,
+   "junctions": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 7,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[2]/protein_sequence",
+     "offset_1based": 466
+    }
+   ],
+   "ewsr1_only_prefix": "MPPPLRG",
+   "prefix_offsets_in_held_canonical_1based": [
+    466
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "PMDEGPDLDLD",
+   "length": 11,
+   "junctions": [
+    "EWSR1_e10__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 10,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "PMDEGPDLDL",
+   "prefix_offsets_in_held_canonical_1based": [
+    339
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "QQSSSYGQQN",
+   "length": 10,
+   "junctions": [
+    "EWSR1_e7__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 9,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "N",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "QQSSSYGQQ",
+   "prefix_offsets_in_held_canonical_1based": [
+    256
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "S"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "QSSSYGQQN",
+   "length": 9,
+   "junctions": [
+    "EWSR1_e7__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 8,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "N",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "QSSSYGQQ",
+   "prefix_offsets_in_held_canonical_1based": [
+    257
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "S"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "RGGFNKPGD",
+   "length": 9,
+   "junctions": [
+    "EWSR1_e9__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 8,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "RGGFNKPG",
+   "prefix_offsets_in_held_canonical_1based": [
+    330
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "RGMPPPLRGD",
+   "length": 10,
+   "junctions": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 9,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[2]/protein_sequence",
+     "offset_1based": 464
+    }
+   ],
+   "ewsr1_only_prefix": "RGMPPPLRG",
+   "prefix_offsets_in_held_canonical_1based": [
+    464
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "SQQSSSYGQQN",
+   "length": 11,
+   "junctions": [
+    "EWSR1_e7__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 10,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "N",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "SQQSSSYGQQ",
+   "prefix_offsets_in_held_canonical_1based": [
+    255
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "S"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "SSSYGQQN",
+   "length": 8,
+   "junctions": [
+    "EWSR1_e7__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 7,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "N",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [],
+   "ewsr1_only_prefix": "SSSYGQQ",
+   "prefix_offsets_in_held_canonical_1based": [
+    258
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "S"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  },
+  {
+   "peptide": "TAKAAVEWFDD",
+   "length": 11,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "n_from_EWSR1": 10,
+   "n_seam": 1,
+   "n_from_NR4A3": 0,
+   "seam_residue": "D",
+   "verbatim_in_held_wild_type_EWSR1": [],
+   "verbatim_in_designed_constructs": [
+    {
+     "kind": "designed_construct_NOT_wild_type",
+     "file": "emc-fet-construct-designs.json",
+     "path": "/constructs[0]/protein_sequence",
+     "offset_1based": 422
+    }
+   ],
+   "ewsr1_only_prefix": "TAKAAVEWFD",
+   "prefix_offsets_in_held_canonical_1based": [
+    422
+   ],
+   "residues_following_prefix_in_held_canonical": [
+    "G"
+   ],
+   "seam_matches_wild_type_next_residue": false
+  }
+ ],
+ "step2_summary": {
+  "n_peptides": 20,
+  "n_verbatim_in_held_wild_type_EWSR1": 0,
+  "n_not_present_in_held_set": 20,
+  "reading": "A hit is decisive. A miss is 'not in the held set' and NOTHING else."
+ },
+ "controls": {
+  "positive": {
+   "planted_peptide": "TSYDQSSYS",
+   "planted_from": "held canonical EWSR1, 1-based offset 201",
+   "found": [
+    {
+     "kind": "held_wild_type_EWSR1",
+     "sha256": "50aceb523187df7b1de28f4831385e42ea889e02268107d81adcd59941fce8f9",
+     "offset_1based": 201
+    }
+   ],
+   "passed": true,
+   "requirement": "a peptide taken verbatim from the held sequence MUST be found"
+  },
+  "negative": {
+   "scrambled_peptide": "WVFEDDAAW",
+   "scrambled_from": "AAVEWFDD",
+   "found": [],
+   "passed": true,
+   "requirement": "a scrambled peptide MUST NOT be found"
+  }
+ },
+ "step3_blind_spot": {
+  "n_EWSR1_isoform_accessions_named_without_sequence": 4,
+  "isoforms": [
+   {
+    "accession": "Q01844-2",
+    "protein_name_as_recorded": "EWS_HUMAN Isoform EWS-B of RNA-binding protein EWS",
+    "named_in": [
+     "junction-selfsimilarity.json"
+    ],
+    "sequence_present_in_checkout": false
+   },
+   {
+    "accession": "Q01844-3",
+    "protein_name_as_recorded": "EWS_HUMAN Isoform 3 of RNA-binding protein EWS",
+    "named_in": [
+     "junction-selfsimilarity.json"
+    ],
+    "sequence_present_in_checkout": false
+   },
+   {
+    "accession": "Q01844-5",
+    "protein_name_as_recorded": "EWS_HUMAN Isoform 5 of RNA-binding protein EWS",
+    "named_in": [
+     "junction-selfsimilarity.json"
+    ],
+    "sequence_present_in_checkout": false
+   },
+   {
+    "accession": "Q01844-6",
+    "protein_name_as_recorded": "EWS_HUMAN Isoform 6 of RNA-binding protein EWS",
+    "named_in": [
+     "junction-selfsimilarity.json"
+    ],
+    "sequence_present_in_checkout": false
+   }
+  ],
+  "canonical_Q01844_sequence_held": true,
+  "⚠_lower_bound": "This counts the EWSR1 isoform accessions this repository's own artifacts NAME. It is a LOWER BOUND on the true isoform set: an isoform that produced no recorded near-self or exact hit would not be named here, and this checkout cannot enumerate UniProt."
+ },
+ "step4_minimal_input_to_settle": {
+  "requirement": "the amino-acid sequence of each named EWSR1 isoform (Q01844-2, Q01844-3, Q01844-5, Q01844-6) — nothing less settles the 20, because each of them is EWSR1 sequence up to and including the hybrid seam residue, so its status depends entirely on what the isoform's residues are at and after the donor position",
+  "sufficient": "an exact-substring search of the 20 against those isoform sequences, run the same way junction-proteome-novelty.json was run",
+  "route": "the isoform sequences are behind routes B1/B2 (Ensembl/UniProt isoform FASTA), which are CLOSED for this lane",
+  "action_taken": "NONE — not fetched, not substituted, not reconstructed, not approached"
+ }
+}

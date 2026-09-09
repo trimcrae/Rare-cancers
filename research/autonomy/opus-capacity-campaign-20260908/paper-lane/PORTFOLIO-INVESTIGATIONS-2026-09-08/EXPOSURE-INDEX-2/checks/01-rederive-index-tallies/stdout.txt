@@ -1,0 +1,30 @@
+sha256(source index) = 1e165294acc4715b992e5134a6eaa507a775edda179f666d97160d3c606184f8
+rows = 28
+retrieval_completeness: {'unread': 18, 'partial': 7, 'complete': 3}
+n_emc_status: {'UNKNOWN': 19, 'reported': 9}
+overlap_unknown: {True: 24, False: 4}
+headline_n_is_not_emc_n: {'UNKNOWN': 20, 'True': 3, 'False': 5}
+expected: {'rows': 28, 'unread': 18, 'partial': 7, 'complete': 3, 'overlap_unknown_true': 24, 'n_emc_UNKNOWN': 19}
+got     : {'rows': 28, 'unread': 18, 'partial': 7, 'complete': 3, 'overlap_unknown_true': 24, 'n_emc_UNKNOWN': 19}
+REPRODUCES: True
+
+--- UNKNOWN n_emc rows ---
+seer270_2022 | pmcid= None | pmid= None | rc= unread
+masunaga2025 | pmcid= PMC12398172 | pmid= None | rc= partial
+meisKindblom1999 | pmcid= None | pmid= None | rc= unread
+drilon2008 | pmcid= PMC2779719 | pmid= None | rc= unread
+ussc2022 | pmcid= None | pmid= None | rc= unread
+chiusole2020 | pmcid= PMC7308468 | pmid= None | rc= unread
+japan2003 | pmcid= None | pmid= None | rc= unread
+uMich2023 | pmcid= None | pmid= None | rc= unread
+bishop2019 | pmcid= PMC7771031 | pmid= None | rc= unread
+china2016 | pmcid= None | pmid= None | rc= unread
+huang2023 | pmcid= None | pmid= None | rc= unread
+stacchiotti2019pazopanib | pmcid= None | pmid= None | rc= unread
+immunosarc2emc2025 | pmcid= None | pmid= None | rc= unread
+stacchiotti2014sunitinib | pmcid= None | pmid= None | rc= unread
+davis2017 | pmcid= PMC5400622 | pmid= None | rc= partial
+chow2007 | pmcid= None | pmid= None | rc= unread
+remiszewski2025 | pmcid= PMC12504171 | pmid= None | rc= partial
+maki2005bortezomib | pmcid= None | pmid= None | rc= unread
+boklan2025carfilzomib | pmcid= PMC12428389 | pmid= None | rc= partial

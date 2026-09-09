@@ -1,0 +1,6 @@
+# Does the gate actually gate? Three independent one-field mutations of a COPY of
+# KINASE-2's artifact, each run through the lane's UNMODIFIED script (full run, no --gate-only),
+# expecting "GATE FAILED" and exit 2 with no adjustment computed.
+#  m1: frames.primary.gene_resampling_null.concordance_rate 0.652 -> 0.6531
+#  m2: leads.RET.min_abs_t  +0.01
+#  m3: frames.secondary.gene_resampling_null.n_concordant 262 -> 263

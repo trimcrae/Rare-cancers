@@ -1,0 +1,20 @@
+== order AB : pristine sha 71ed29b707233bff
+  check1 rc=0
+  apply1 rc=0
+  after1 sha 48caaa6a035ba185
+  --- the REAL cumulative test: does patch 2 still check/apply on the ALREADY-PATCHED file?
+  check2 rc=0
+  apply2 rc=0
+  after2 sha b2c92e0fabf14d132d3f69d90ae43998f754b5ed340e0721905eb92beaf6e4ce  research/modalities/km_risk_row_detect.py
+  parses OK
+== order BA : pristine sha 71ed29b707233bff
+  check1 rc=0
+  apply1 rc=0
+  after1 sha ff1de32644381c94
+  --- the REAL cumulative test: does patch 2 still check/apply on the ALREADY-PATCHED file?
+  check2 rc=0
+  apply2 rc=0
+  after2 sha b2c92e0fabf14d132d3f69d90ae43998f754b5ed340e0721905eb92beaf6e4ce  research/modalities/km_risk_row_detect.py
+  parses OK
+== both orders converge to the same file?
+IDENTICAL -- the two patches COMMUTE; no ordering constraint

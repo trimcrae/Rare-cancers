@@ -1,0 +1,16 @@
+committed in claim-coverage.json : {"sentences": 182, "covered": 0, "with_a_number": 54, "with_a_number_covered": 0, "uncovered": 182, "uncovered_with_a_number": 54}
+replay against LIVE manuscript   : {"sentences": 182, "covered": 0, "with_a_number": 54, "with_a_number_covered": 0, "uncovered": 182, "uncovered_with_a_number": 54}
+CONTROL OK: the replay reproduces the committed row exactly
+
+apply section-4.2-composition-effect.diff: exit 0
+apply section-6-conclusion-scope.diff: exit 0
+
+after BOTH diffs                 : {"sentences": 196, "covered": 0, "with_a_number": 61, "with_a_number_covered": 0, "uncovered": 196, "uncovered_with_a_number": 61}
+
+delta:
+  sentences: 182 -> 196  (+14)
+  covered: 0 -> 0  (+0)
+  with_a_number: 54 -> 61  (+7)
+  with_a_number_covered: 0 -> 0  (+0)
+  uncovered: 182 -> 196  (+14)
+  uncovered_with_a_number: 54 -> 61  (+7)

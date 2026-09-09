@@ -1,0 +1,25 @@
+RESULT: count=1. identifiers {pmcid PMC2779719, pmid 18951519, doi 10.1002/cncr.23978}
+Title: "Extraskeletal Myxoid Chondrosarcoma"
+Full text returned: narrative complete. Table CONTENT not returned (in-text table references render as bare "()").
+
+VERBATIM, Methods / Patient Selection:
+  "After obtaining Institutional Review Board permission, 86 patients of EMC were retrieved from the
+   databases of the Memorial Sloan-Kettering Cancer Center in New York City and the Royal Marsden
+   Hospital in London."
+
+VERBATIM, Results / Clinical Features of Local and Metastatic EMC:
+  "Of the 86 evaluable patients, 57 were men and 29 were women, for a male-to-female ratio of 2:1."
+
+VERBATIM, Abstract / METHODS:
+  "The clinical behavior and treatment responses of 87 patients with EMC who were seen at 2
+   institutions between 1975 and 2008 were examined."
+
+VERBATIM, Results / Follow-up and OS:
+  "Follow-up data were available for all 86 patients studied"
+
+OUTCOME: n_emc RESOLVED = 86 (body, evaluable). The cohort is EMC-only, so the EMC denominator is the
+cohort denominator. BUT the paper states 87 in its abstract and 86 in its body three times. The index
+headline (87, curated from emc-ipd-survival.json) is therefore NOT the body EMC n. This is a FOURTH
+instance of headline-is-not-EMC-n, of a DIFFERENT kind from the three EXPOSURE-INDEX found: an
+intra-paper abstract-vs-body discrepancy, not a mixed-histology subgroup.
+retrieval_completeness: unread -> partial (narrative read; tables not returned).

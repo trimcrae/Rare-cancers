@@ -1,0 +1,27 @@
+MEASURED: for each of these ten rows the committed index carries identifier = {source_id, pmcid: null,
+kind} and NOTHING ELSE -- no PMID, no PMCID, no DOI, no title, no journal, no author, no year.
+research/modalities/emc-ipd-survival.json likewise carries no PMID/DOI/title for them; its fields are
+source_id, n, endpoint_hint, why_candidate, full_text_reachable (null), reachability notes and
+overlap_risk.
+
+CONSEQUENCE: mcp__PubMed__get_full_text_article needs a PMCID; get_article_metadata needs a PMID;
+convert_article_ids needs a PMID, PMCID or DOI; lookup_article_by_citation needs journal/year/volume/
+page/author fields. NONE of those inputs exists for these ten rows.
+
+The only way to enter the admitted route would be to GUESS which published paper each internal
+source_id denotes from its prose description ("US Sarcoma Collaborative multi-institution database",
+"single-institution series", "42 cases") and then attribute a retrieved count to that guess. That is
+exactly the move the task forbids: a count typed against an inferred identity is a count typed from
+memory. NO SUCH CALL WAS MADE.
+
+OUTCOME for all ten: n_emc STAYS UNKNOWN. Reason recorded on each row as
+"identity not established in the index -- no PMID/PMCID/DOI/title, so no admitted call is
+attributable". This is a correct result, and it names a concrete, cheap, non-retrieval next step for
+whoever owns emc-ipd-survival.json: record a PMID or DOI per candidate_source. Ten of this index s
+fourteen surviving UNKNOWNs are blocked on a missing IDENTIFIER, not on a paywall and not on PMC.
+
+NOTE (secondary, NOT used to change any status): bishop2019 s discussion, read in check 03, says of
+meisKindblom1999 -- VERBATIM -- "One of the larger studies by Meis-Kindblom and colleagues was
+predominantly a pathologic characterization of 117 cases of EMC. They reported a 48% local relapse
+rate among the 83 cases with available data." That is a CITING paper describing a source, not the
+source. It is recorded on the row as a secondary corroboration and the row stays UNKNOWN.

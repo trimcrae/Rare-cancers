@@ -1,0 +1,78 @@
+[
+  {
+    "id": "BLK-INDUCED-COMPLEX",
+    "name": "An induced ternary/bivalent complex is still required (a second protein must be placed)",
+    "statement_about": "the same generation problem as the degrader, with a different second terminus",
+    "owner": {
+      "file": "research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md",
+      "anchor": "#1--the-route-stated-precisely--and-the-split-that-decides-it"
+    },
+    "kind": "requires_better_structure_prediction"
+  },
+  {
+    "id": "BLK-NO-WET-LAB",
+    "name": "No wet lab and no collaborator \u2014 an ask needs a self-interested taker before its size matters",
+    "statement_about": "the operating regime, not any route's science",
+    "owner": {
+      "file": "research/manuscripts/modality-census/what-a-civilian-can-buy.md",
+      "anchor": null
+    },
+    "kind": "requires_external_collaboration",
+    "evidence": [
+      "research/manuscripts/modality-census/what-a-civilian-can-buy.md",
+      "research/manuscripts/modality-census/wet-lab-contracting-costs.md",
+      "research/modalities/wetlab-contracting-costs.json"
+    ],
+    "retired_by_action": "A collaborator who holds an EMC line \u2014 unchanged, and NOT retired by money. \u2b50 WHAT CHANGED 2026-08-23 IS THAT THE ASK NOW HAS A SIZE. This blocker's own statement says 'an ask needs a self-interested taker before its size matters', and the size was genuinely unknown: what-a-civilian-can-buy.md \u00a74.4 found every CRO quote-only and recorded F1 as unevaluable. Academic core facilities publish rate cards, so it is evaluable at $0 \u2014 the portfolio's SMALLEST ask (route 1b) prices at roughly $18k, of which the catalogue compounds the route memo emphasises are about 2%. ART-WETLAB-CONTRACTING-COSTS owns the numbers. \u26d4 THIS DOES NOT WEAKEN THE BLOCKER AND MUST NOT BE READ AS PROGRESS TOWARDS RETIRING IT. The gate is eligibility, not price: the three EMC lines are institution-gated by policy and held under MTA by their originating groups, and every costed experiment except R4's binding half needs them. \u26a0 NOR DOES LAB AUTOMATION RETIRE IT \u2014 measured against the model, hourly labour is 60.9% of the total, and with hands entirely FREE no experiment falls below $2,000 while the cell-engineering ones do not move at all. method-watch.md's remote-robotic-wet-lab row already held the correct form of this: a cloud lab flips the EXECUTION gate, not the MATERIAL gate. What a number does buy is a better outreach ask \u2014 'this is ~$18k of your core's time and here is the preregistration' rather than 'would you run this?'"
+  },
+  {
+    "id": "BLK-NOT-FUSION-SELECTIVE",
+    "name": "The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)",
+    "statement_about": "what the molecule can and cannot tell apart",
+    "owner": {
+      "file": "research/manuscripts/program/target-route-options.md",
+      "anchor": "#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it"
+    },
+    "kind": "fundamental_biological_limit"
+  },
+  {
+    "id": "BLK-PARALOGUE-DDG",
+    "name": "The paralogue \u0394\u0394G margin \u2014 selectivity that reduces to exp(\u2212\u0394\u0394G/RT)",
+    "statement_about": "a free-energy difference between two similar pockets, which this program has failed to measure four separate ways",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged"
+    },
+    "kind": "requires_better_simulation_accuracy"
+  },
+  {
+    "id": "BLK-R4-BINDS",
+    "name": "R4 \u2014 nothing is known to bind the cryptic pocket at all",
+    "statement_about": "an unanswered requirement that needs a bench",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#32--the-rv-coverage-matrix--where-the-holes-are"
+    },
+    "kind": "requires_wet_lab"
+  },
+  {
+    "id": "BLK-TERNARY-GEOMETRY",
+    "name": "Ternary geometry \u2014 assembly, E3, exit vector, ubiquitin transfer",
+    "statement_about": "the DEGRADER ARCHITECTURE, not the target",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+    },
+    "kind": "requires_better_structure_prediction"
+  },
+  {
+    "id": "BLK-VECTOR-DELIVERY",
+    "name": "Vector delivery (gene-therapy payload into a solid tumour)",
+    "statement_about": "engineering, distinct from oligonucleotide delivery",
+    "owner": {
+      "file": "research/manuscripts/program/emc-post-degrader-options.md",
+      "anchor": "#routes-813--why-each-sits-in-tier-3"
+    },
+    "kind": "requires_future_technology"
+  }
+]

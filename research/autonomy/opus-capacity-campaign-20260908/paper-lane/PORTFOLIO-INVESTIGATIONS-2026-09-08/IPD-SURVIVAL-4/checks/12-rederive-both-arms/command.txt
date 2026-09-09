@@ -1,0 +1,8 @@
+python3 /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/rederive_proximity_all_arms.py /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/km-risk-row-detection.REGENERATED.json > /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/proximity-clause-rederivation-both-arms.json; echo RC=$?; python3 -c "
+import json;d=json.load(open('/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/proximity-clause-rederivation-both-arms.json'))
+for k in ('n_figures','n_proximity_rederivable','n_all_flags_agree','n_disagree','n_not_rederivable','n_verdict_disagreements'): print(k,d[k])
+for f in d['figures']:
+    if not f['proximity_rederivable']: print('BLOCKED',f['source_id'],'p'+str(f['page']),f['arm'],f['recorded_verdict'],'|',f['why'])
+r=[f for f in d['figures'] if f['arm']=='text'][0]
+print(json.dumps(r,indent=2,ensure_ascii=False))
+"

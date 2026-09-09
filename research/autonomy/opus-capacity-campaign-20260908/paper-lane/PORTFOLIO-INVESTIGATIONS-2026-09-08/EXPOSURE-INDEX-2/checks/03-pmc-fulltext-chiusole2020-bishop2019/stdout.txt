@@ -1,0 +1,43 @@
+RESULT: count=2.
+
+--- PMC7308468 | pmid 32612944 | doi 10.3389/fonc.2020.00828 ---
+Title: "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of
+Patients Treated at Two Institutions"
+Full text returned INCLUDING Table 1-4 cell content.
+
+VERBATIM, Methods:
+  "All consecutive patients with a confirmed diagnosis of EMC treated at Istituto Oncologico Veneto in
+   Padova and at Institut Gustave Roussy in Villejuif from January 1980 to December 2018 were
+   extracted from a prospectively maintained database."
+VERBATIM, Results / Patients Characteristics:
+  "A total of 59 patients were identified, 37 were male (62.7%) and 22 were female (37.3%) with a
+   male-to-female ratio of 1.7/1."
+VERBATIM, Table 1 cell: "Primary Location" / "(n. 59)"
+
+OUTCOME: n_emc RESOLVED = 59. EMC-only cohort; headline n (59) IS the EMC n.
+retrieval_completeness: unread -> complete (narrative plus all four tables as cell content).
+
+--- PMC7771031 | pmid 31436747 | doi 10.1097/COC.0000000000000590 ---
+Title: "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy with both Radiation and
+Surgery Improves Local Control"
+Full text returned: narrative complete. Table CONTENT not returned.
+
+VERBATIM, Material and Methods:
+  "We identified 41 consecutive patients with localized, non-metastatic histologically confirmed EMC
+   treated at the University of Texas MD Anderson Cancer Center (MDACC) during the period from 1990
+   through 2016."
+VERBATIM, Results / Treatment:
+  "The majority of patients (n=33, 80%) received combined modality local therapy with both surgery and
+   RT, whereas 8 patients received surgery alone (20%)."
+VERBATIM, Results / Patterns of Disease Recurrence:
+  "There were 5 patients (12%) with local relapse at a median time of 75 months (range 13-176). Four
+   of those patients underwent surgery alone."
+VERBATIM, same paragraph:
+  "The median time to local relapse occurred earlier in patients receiving surgery alone compared to
+   the one patient who received CMT (61 months vs. 143 months)."
+
+OUTCOME: n_emc RESOLVED = 41. EMC-only cohort; headline n (41) IS the EMC n.
+CONTROL SIDE EFFECT: LOCOREGIONAL-2 arm split 33 + 8 = 41 and events 1 + 4 = 5 are now VERIFIED
+against the primary. EXPOSURE-INDEX limitation 5 ("inherited transcription, NOT re-verified against
+the paper in this lane") is discharged for bishop2019 by this call.
+retrieval_completeness: unread -> partial (narrative read; tables not returned).

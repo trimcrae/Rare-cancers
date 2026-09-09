@@ -1,0 +1,3 @@
+for f in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md; do
+  diff -u --label "a/$f" --label "b/$f" "$f" "$SCRATCH/$f"
+done > <lane>/proposed-correction.diff

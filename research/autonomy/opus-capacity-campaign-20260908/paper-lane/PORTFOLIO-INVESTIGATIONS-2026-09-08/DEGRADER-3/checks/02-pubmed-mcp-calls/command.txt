@@ -1,0 +1,19 @@
+Admitted route only: PubMed/PMC MCP tools (mcp__PubMed__*). No direct HTTP, no curl, no proxy,
+no publisher fetch. Calls issued, in order, all in this session:
+
+1. mcp__PubMed__convert_article_ids  id_type=doi
+   ids=["10.1038/s41587-020-0778-7","10.1038/nature18002","10.1021/jacs.1c11053"]
+2. mcp__PubMed__search_articles  query="pan-cancer cysteine ligandability chemoproteomic Nature
+   Biotechnology 2021 covalent ligandable proteome"  max_results=10
+3. mcp__PubMed__search_articles  query="cysteine ligandability chemoproteomics cancer cell lines
+   Nat Biotechnol[Journal]"  max_results=10  date_from=2019 date_to=2022
+4. mcp__PubMed__search_articles  query="cysteine chemoproteomics ligandability atlas covalent
+   fragment screen human proteome"  max_results=20  date_from=2016
+5. mcp__PubMed__search_articles  query="CysDB cysteine chemoproteomics database"  max_results=10
+6. mcp__PubMed__get_article_metadata  pmids=["37119813"]
+7. mcp__PubMed__get_full_text_article  pmc_ids=["PMC10510411"]
+8. mcp__PubMed__search_articles  query="NR4A1 Nur77 covalent cysteine 551 celastrol" max_results=15
+9. mcp__PubMed__search_articles  query="celastrol Nur77 NR4A1 binding cysteine"  max_results=15
+10. mcp__PubMed__search_articles  query="celastrol Nur77"  max_results=20
+11. mcp__PubMed__get_article_metadata  pmids=["28388439","30272297"]
+12. mcp__PubMed__get_full_text_article  pmc_ids=["PMC5761061"]

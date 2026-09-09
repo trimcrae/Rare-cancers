@@ -1,0 +1,13 @@
+claim: open-cell count 40,42,37,42 -> [40, 42, 37, 42]
+claim: exp open ranges 37-38/41-42/37/42 -> {'2.0': [37, 38], '2.6': [41, 42], '3.0': [37, 37], '3.4': [42, 42]}
+claim: set identical in every frame -> {'2.0': False, '2.6': False, '3.0': True, '3.4': True}
+claim: committed tally per cutoff -> {'2.0': {'NR4A1 C505': 20, 'NR4A2 C505': 2, 'NR4A2 C534': 25, 'none': 13}, '2.6': {'NR4A1 C505': 13, 'NR4A2 C465': 1, 'NR4A2 C534': 29, 'none': 17}, '3.0': {'NR4A1 C505': 8, 'NR4A2 C534': 34, 'none': 18}, '3.4': {'NR4A1 C505': 3, 'NR4A2 C534': 39, 'none': 18}}
+claim: exp C534 closer-count range 15-36 -> grid (15, 36) per cutoff {'2.0': [25, 34], '2.6': [26, 31], '3.0': [20, 36], '3.4': [15, 36]}
+claim: 7 of 60 cells flip along the cutoff axis -> 7
+   of which the committed model itself flips: 5 ['vhl|M14@term_a_exemplar|aryl_direct', 'vhl|M14@term_a_exemplar|aryl_branch_residue', 'vhl|M14@term_a_exemplar|amide_direct', 'vhl|M14@term_a_exemplar|dap_branch', 'vhl|M14@term_a_exemplar|dab_branch']
+   cells flipping only under experimental geometry: ['vhl|M3@term_a_exemplar|dab_branch', 'vhl|M4@term_a_exemplar|dab_branch']
+claim: NR4A1 C551 closer in one experimental cell at 3.4 A -> {('vhl|M4@term_a_exemplar|amide_direct', '3.4'): 2, ('vhl|M4@term_a_exemplar|dap_branch', '3.4'): 3, ('vhl|M4@term_a_exemplar|dab_branch', '3.4'): 3}
+gate_b: True control field mismatches: 0 n_cells: 60
+invariant violations per frame: {'1OVL_A': [], '1OVL_B': [], '1OVL_C': [], '1OVL_D': [], '1OVL_E': [], '1OVL_F': [], '7WNH_A': [], '7WNH_B': [], '7WNH_C': [], '7WNH_D': []}
+alignment identities: {'1OVL_A': 1.0, '1OVL_B': 1.0, '1OVL_C': 1.0, '1OVL_D': 1.0, '1OVL_E': 1.0, '1OVL_F': 1.0, '7WNH_A': 1.0, '7WNH_B': 1.0, '7WNH_C': 1.0, '7WNH_D': 1.0}
+core rmsd range: 1.525 1.969

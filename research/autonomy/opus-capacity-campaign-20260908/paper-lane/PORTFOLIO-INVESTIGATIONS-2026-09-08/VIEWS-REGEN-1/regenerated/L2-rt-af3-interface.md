@@ -1,0 +1,135 @@
+---
+id: DOC-VIEW-RT-AF3-INTERFACE
+title: RT-AF3-INTERFACE — AF3 on a druggable interface
+level: L2
+kind: generated
+status: generated
+generator: systems/systems_check.py
+purpose: Can a modern co-folding model predict a druggable interface on the fusion directly?
+scope: Level 2 — one route.
+audience: ["maintainers", "autonomous research agents"]
+date: 2026-08-05
+last_verified: 2026-08-05
+---
+
+<!-- GENERATED FILE — DO NOT EDIT. Regenerate with:
+     python3 systems/systems_check.py --write-views
+     Source of truth: systems/graph/*.json -->
+
+# RT-AF3-INTERFACE — AF3 on a druggable interface
+
+**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
+
+**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): Deferred; method not strategy
+
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_AF3_INTERFACE["○ RT-AF3-INTERFACE"]:::fam
+  BLK_INDUCED_COMPLEX{{"BLK-INDUCED-COMPLEX — An induced ternary/bivalent complex…"}}:::blk
+  BLK_INDUCED_COMPLEX --> RT_AF3_INTERFACE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_INDUCED_COMPLEX
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_AF3_INTERFACE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_TERNARY_GEOMETRY
+  TECH_E3_RECRUITER_STRUCTURE(["TECH-E3-RECRUITER-STRUCTURE<br/>expected 2028"]):::tech
+  TECH_E3_RECRUITER_STRUCTURE -.-> BLK_TERNARY_GEOMETRY
+  TECH_OBSERVED_CRL(["TECH-OBSERVED-CRL<br/>expected 2028"]):::tech
+  TECH_OBSERVED_CRL -.-> BLK_TERNARY_GEOMETRY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+## Scientific rationale
+
+Rather than designing an induced complex, ask a structure predictor to find one. If a co-folder could propose a druggable interface on the fusion, it would replace several manual design steps at once.
+
+## Remaining unknowns
+
+- Whether any co-folder can assemble an induced complex from sequence and ligand alone — the one tested here failed badly.
+
+## Required validation
+
+| what | instrument | feasible today | blocked by |
+|---|---|---|---|
+| A co-folder benchmarked on assembly rather than per-chain accuracy | V12 | **no** | BLK-TERNARY-GEOMETRY |
+
+## Blockers
+
+| blocker | kind | what would retire it |
+|---|---|---|
+| **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+
+## Readiness — what this could become today
+
+**`internal_note`**
+
+This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.
+
+**Missing:**
+- a co-folder validated on assembly
+
+## Where this route ends — the paper
+
+**[PUB-PARKED-MODALITIES](L3-publications.md)** — *Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for* (unwritten)
+
+`contributing` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** A method waiting on a method, with the benchmark that would end the wait stated precisely: inter-chain accuracy on post-training-horizon structures.
+
+**The paper would claim:** For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.
+
+**It is not written because:** Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.
+
+## Strategic timing — the wait equation
+
+**Recommendation: `monitor`**
+
+This is a method rather than a strategy, and it is registered so that a co-folder landing has somewhere to attach. Structure prediction is the fastest-moving dependency in the register, so the wait is likely short.
+
+| horizon | effect |
+|---|---|
+| Six months | Plausibly material — this field iterates in months, not years. |
+| Two years | Likely decisive one way or the other. |
+| Cost trend | falling_fast |
+| Automation outlook | Entirely automatable once the model exists. |
+
+**Revisit when:**
+- **TECH-COFOLD-ASSEMBLY** — A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather *(expected 2027, basis `evidence_based`)*
+
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
+## Closure
+
+`instrument_limit` — A method, not a route — it is waiting on a co-folder that assembles ternaries.
+
+## Best next action
+
+Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.
+
+*Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V2](registers/instruments.md) — Ternary generator given both sites (assembly route) | **disclosed failing** | `passes` |
+| [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
+
+[← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

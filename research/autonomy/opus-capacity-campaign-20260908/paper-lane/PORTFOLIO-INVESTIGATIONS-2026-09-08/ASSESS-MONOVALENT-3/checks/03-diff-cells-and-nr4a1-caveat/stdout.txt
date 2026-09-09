@@ -1,0 +1,24 @@
+== (a) the disagreements ==
+2.0 A: 22 differences, 22 listed in JSON (truncated at 60)
+2.6 A: 2 differences, 2 listed in JSON (truncated at 60)
+3.0 A: 0 differences, 0 listed in JSON (truncated at 60)
+3.4 A: 0 differences, 0 listed in JSON (truncated at 60)
+total differences over the grid: 24
+all differences are committed-open -> experimental-closed: True (asserted above)
+committed width of the disagreeing cells (count by width): {1: 24}
+distinct (cell, cutoff) situations: 5
+   vhl|M14@term_a_exemplar|aryl_direct            2.0 A  committed width=1 closed_by=NR4A1 C505  frames disagreeing=1/10
+   vhl|M3@term_a_exemplar|dab_branch              2.0 A  committed width=1 closed_by=NR4A2 C534  frames disagreeing=10/10
+   vhl|M3@term_a_exemplar|dap_branch              2.0 A  committed width=1 closed_by=NR4A2 C534  frames disagreeing=1/10
+   vhl|M4@term_a_exemplar|dab_branch              2.0 A  committed width=1 closed_by=NR4A2 C534  frames disagreeing=10/10
+   vhl|M4@term_a_exemplar|dab_branch              2.6 A  committed width=1 closed_by=NR4A2 C534  frames disagreeing=2/10
+distinct cells involved: ['vhl|M14@term_a_exemplar|aryl_direct', 'vhl|M3@term_a_exemplar|dab_branch', 'vhl|M3@term_a_exemplar|dap_branch', 'vhl|M4@term_a_exemplar|dab_branch']
+
+== (b) NR4A1 caveat in the JSON ==
+top-level _nr4a1_caveat present: True
+_limits mentioning NR4A1: 1
+_scope mentions NR4A1 unchanged: True
+cell-level readings whose closer is an NR4A1 cysteine: 523; of those carrying a local un-error-barred flag: 0
+tally keys naming NR4A1 per cutoff: {'2.0': {'NR4A1 C505': 20}, '2.6': {'NR4A1 C505': 13}, '3.0': {'NR4A1 C505': 8}, '3.4': {'NR4A1 C505': 3}}
+any local flag inside tally_per_cutoff: False
+experimental NR4A1 closer classes (residue, cutoff) -> cell-frame count: {('NR4A1 C505', '2.0'): 155, ('NR4A1 C505', '3.0'): 89, ('NR4A1 C505', '3.4'): 87, ('NR4A1 C505', '2.6'): 140, ('NR4A1 C551', '3.4'): 8}

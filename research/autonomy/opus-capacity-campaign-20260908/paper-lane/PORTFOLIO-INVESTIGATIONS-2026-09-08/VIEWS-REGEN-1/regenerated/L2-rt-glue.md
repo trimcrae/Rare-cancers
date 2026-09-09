@@ -1,0 +1,151 @@
+---
+id: DOC-VIEW-RT-GLUE
+title: RT-GLUE — Molecular glue instead of a PROTAC
+level: L2
+kind: generated
+status: generated
+generator: systems/systems_check.py
+purpose: Could a molecular glue — no linker, no designed exit vector — degrade NR4A3 instead of a PROTAC?
+scope: Level 2 — one route.
+audience: ["maintainers", "autonomous research agents"]
+date: 2026-08-05
+last_verified: 2026-08-05
+---
+
+<!-- GENERATED FILE — DO NOT EDIT. Regenerate with:
+     python3 systems/systems_check.py --write-views
+     Source of truth: systems/graph/*.json -->
+
+# RT-GLUE — Molecular glue instead of a PROTAC
+
+**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
+
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-10--a-molecular-glue-instead-of-a-protac)): ⏸ watch, do not build — removes handles and keeps the same ~1 kcal/mol claim
+
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_GLUE["○ RT-GLUE"]:::fam
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_GLUE
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_GLUE
+  TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
+  TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_GLUE
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_GLUE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_TERNARY_GEOMETRY
+  TECH_E3_RECRUITER_STRUCTURE(["TECH-E3-RECRUITER-STRUCTURE<br/>expected 2028"]):::tech
+  TECH_E3_RECRUITER_STRUCTURE -.-> BLK_TERNARY_GEOMETRY
+  TECH_OBSERVED_CRL(["TECH-OBSERVED-CRL<br/>expected 2028"]):::tech
+  TECH_OBSERVED_CRL -.-> BLK_TERNARY_GEOMETRY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
+## Scientific rationale
+
+A glue stabilises a protein–protein interface rather than tethering two ligands. That removes the linker, the exit vector and the covalent axis in one step — three of this program's hardest sub-problems. The cost is that a glue interface cannot be designed from the target alone, and glues are typically found by screening rather than designed.
+
+## Remaining unknowns
+
+- Whether a glue interface exists for this target at all.
+- Whether prospective glue design works on an interface outside a method's training set — nobody has shown it.
+
+## Required validation
+
+| what | instrument | feasible today | blocked by |
+|---|---|---|---|
+| A prospective glue design method demonstrated out of training distribution | ⛔ none built | **no** | BLK-PARALOGUE-DDG |
+
+## Blockers
+
+| blocker | kind | what would retire it |
+|---|---|---|
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
+| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-DEGRADER](L2-rt-degrader.md) | how proximity is induced | `BLK-PARALOGUE-DDG`, `BLK-R4-BINDS` | a glue keeps the same ~1 kcal/mol paralogue claim with FEWER independent handles than a PROTAC — the registered reason it is watch-do-not-build rather than a cheaper degrader |
+
+## Readiness — what this could become today
+
+**`internal_note`**
+
+There is no design method to apply and no screen to run, so there is no computation whose result would mean anything.
+
+**Missing:**
+- a prospective glue design method
+
+## Where this route ends — the paper
+
+**[PUB-PARKED-MODALITIES](L3-publications.md)** — *Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for* (unwritten)
+
+`contributing` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** The capability it waits on: a glue design method with a prospective track record. Until one exists there is no computation whose result would mean anything.
+
+**The paper would claim:** For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.
+
+**It is not written because:** Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.
+
+## Strategic timing — the wait equation
+
+**Recommendation: `monitor`**
+
+This is the modality most likely to arrive from someone else's screen rather than from this program's design. Watching costs nothing; building a glue programme without a design method is not a real option for one person with no bench.
+
+| horizon | effect |
+|---|---|
+| Six months | None here; possibly a lot in the field. |
+| Two years | Generative interface design is moving fast enough that this could become buildable. |
+| Cost trend | flat |
+| Automation outlook | A prospective design method would make this largely automatable, which is exactly why it is worth watching. |
+
+**Revisit when:**
+- **TECH-GLUE-DESIGN** — A validated prospective molecular-glue design method or glue-interface selectivity predictor, demonstrated on a neosubstrate inter *(expected 2027H2, basis `extrapolated`)*
+- **TECH-FE-CRYPTIC-POCKET** — A binding free-energy method — alchemical or ML — with a published known-answer validation on cryptic or induced-fit pockets, repr *(expected 2028, basis `extrapolated`)*
+- **TECH-COFOLD-ASSEMBLY** — A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather *(expected 2027, basis `evidence_based`)*
+
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
+## Closure
+
+`instrument_limit` — ⚠ Graded ⏸ rather than ✕ because the block is a MISSING CAPABILITY — the modality most likely to arrive from someone else's screen.
+
+## Best next action
+
+Watch for a prospectively validated glue design method. Nothing to build until one exists.
+
+*Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+[← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

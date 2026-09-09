@@ -1,0 +1,45 @@
+PASS  input hash unchanged: care-delivery-element-coverage-v3.json
+PASS  input hash unchanged: CARE-DELIVERY-3/FINDING.md
+PASS  input hash unchanged: research/modalities/emc-ipd-survival.json
+PASS  input hash unchanged: research/modalities/emc-surgical-quality.json
+PASS  git status clean over shared paths
+PASS  no modification to the three parent lanes
+FAIL  part 1 has 17 checks
+PASS  part 1 every verdict is REPRODUCES
+PASS  part 1 all_reproduce flag true
+PASS  no MISMATCH or NOT-RE-DERIVABLE anywhere in the artifact
+PASS  margin buckets partition all 17 series
+PASS  margin buckets cover the matrix exactly
+PASS  margin bucket patients sum to candidate_patients_sum (1133)
+PASS  emc-surgical-quality counts.series == 2
+PASS  emc-surgical-quality operated_patients_with_a_margin_recorded == 196
+PASS  196 == 156 + 40, re-derived from the two series blocks
+PASS  196 is NOT the margin-REPORTED patient total (358) — its scope is the two-series artifact
+FAIL  the poolable margin denominator is 239 (156+40+43), which no committed artifact states
+PASS  design class assigned to all 17 candidate series
+PASS  every why_candidate string is copied verbatim from emc-ipd-survival.json
+PASS  no series is left DESIGN_NOT_STATED or MIXED_WORDING
+PASS  exactly 4 trial-design series
+PASS  stacchiotti2013anthracycline is NOT classified as a trial
+PASS  morioka2016trabectedin IS a trial-design series (randomised-trial sub-analysis)
+PASS  1 of 4 trial-design series examined for the margin element
+PASS  3 of 4 trial-design series NOT_EXAMINED for the margin element
+PASS  the examined trial series is martinbroto2020immunosarc1
+PASS  morioka margin cell in v3 is NOT_EXAMINED — v3's own artifact asserts no absence
+PASS  the phrase is present in CARE-DELIVERY-3/FINDING.md
+PASS  the phrase is ABSENT from the v3 machine-readable artifact
+PASS  verdict is the bounded-statement answer, not a claim about the papers
+FAIL  margin element_counts identical in v2 and v3 (this lane adds no new reading)
+PASS  v1 margin REPORTED was 2 series / 230 patients, so 4/358 came from v2's two readings
+FAIL  no clinical/pooling word 'efficacy' in the artifact
+PASS  no clinical/pooling word 'safe' in the artifact
+PASS  no clinical/pooling word 'survival benefit' in the artifact
+PASS  no clinical/pooling word 'should be referred' in the artifact
+PASS  no clinical/pooling word 'recommend' in the artifact
+PASS  no clinical/pooling word 'pooled rate' in the artifact
+PASS  no clinical/pooling word 'digitis' in the artifact
+PASS  no clinical/pooling word 'digitiz' in the artifact
+PASS  artifact carries the not-medical-advice banner
+PASS  artifact records that no retrieval was performed
+
+39/43 pass

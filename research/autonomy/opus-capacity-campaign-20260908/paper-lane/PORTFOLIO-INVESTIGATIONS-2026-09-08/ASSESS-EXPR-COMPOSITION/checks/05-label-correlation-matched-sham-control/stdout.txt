@@ -1,0 +1,14 @@
+sham candidate genes (primary frame, non-marker, complete on both platforms): 255 of 442
+REAL composition score C (no-LOO convention): label spearman -0.578 / -0.504  unadjusted 0.6521 -> adjusted 0.5668  (n=434)
+  [lane's published LOO figures: 0.6521 -> 0.5668]
+
+300 sham scores drawn (seed 4242)
+  |label spearman| GPL6244: median 0.293  p90 0.556  max 0.653
+  adjusted rate over ALL shams: mean 0.6253 sd 0.0251  min 0.5392  max 0.6797
+  n shams whose adjusted rate <= the real score's 0.5668 : 7 / 300
+  matched band +-0.10 on BOTH platforms: n=14  adjusted rate mean 0.6256 sd 0.0248 min 0.5829   n<=real 0  one-sided p=0.0667
+  matched band +-0.15 on BOTH platforms: n=26  adjusted rate mean 0.6197 sd 0.0234 min 0.5737   n<=real 0  one-sided p=0.0370
+  matched band +-0.20 on BOTH platforms: n=42  adjusted rate mean 0.6170 sd 0.0258 min 0.5461   n<=real 1  one-sided p=0.0465
+
+  adjusted_rate ~ mean|label spearman of the covariate|:  slope -0.0727  intercept 0.6470  r=-0.401
+  predicted adjusted rate at the real score's mean |label r| = 0.541 : 0.6077   (real: 0.5668)

@@ -1,0 +1,487 @@
+{
+ "_what": "Re-derivation of the margin element of the CARE-DELIVERY coverage matrix, and a scope test of the sentence 'no trial series prints a margin at all' written in CARE-DELIVERY-3/FINDING.md §7.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing here asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness. No association between treatment setting, referral or excision planning and any outcome is stated or implied. No patient was studied; no wet-lab work exists.",
+ "_lane": "CARE-DELIVERY-4",
+ "_generated_by": "build_margin_scope_audit.py",
+ "_reads_only": {
+  "care-delivery-element-coverage-v3.json": "65f968d3561a7f04c522688cb6f0979c40ac881f7ccb618f785e0812e8f97594",
+  "CARE-DELIVERY-3/FINDING.md": "88429005e8742f606c39bd40e3b9b96b7c1e77289a12b30819c338079dc514cf",
+  "research/modalities/emc-ipd-survival.json": "722ba1019a322bd52b6c71a739fa839228fc4c749e9378251c51219ee3be1c6c",
+  "research/modalities/emc-surgical-quality.json": "964fb3d97c71ccfc29a3f97ae2ee42e768d43a30f6a1fca3e2923e5fb2b236de"
+ },
+ "_no_retrieval": "This lane performed NO retrieval of any kind. Every value below is re-derived from artifacts already committed or already written by an earlier lane. Nothing here is a new reading of any paper.",
+ "part_1_re_derivation_of_the_margin_element": {
+  "rederived_from_the_matrix_rows": {
+   "REPORTED": {
+    "n_series": 4,
+    "series": [
+     "bishop2019",
+     "chiusole2020",
+     "drilon2008",
+     "masunaga2025"
+    ],
+    "patients": 358
+   },
+   "EXAMINED_NOT_PRINTED": {
+    "n_series": 2,
+    "series": [
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "patients": 79
+   },
+   "NOT_EXAMINED": {
+    "n_series": 11,
+    "series": [
+     "china2016",
+     "huang2023",
+     "immunosarc2emc2025",
+     "japan2003",
+     "meisKindblom1999",
+     "morioka2016trabectedin",
+     "seer270_2022",
+     "stacchiotti2014sunitinib",
+     "stacchiotti2019pazopanib",
+     "uMich2023",
+     "ussc2022"
+    ],
+    "patients": 696
+   }
+  },
+  "checks": [
+   {
+    "claim": "element_counts.surgical_margin_distribution.REPORTED.n_series",
+    "stated": 4,
+    "rederived": 4,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.REPORTED.patients",
+    "stated": 358,
+    "rederived": 358,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.REPORTED.series (as a set)",
+    "stated": [
+     "bishop2019",
+     "chiusole2020",
+     "drilon2008",
+     "masunaga2025"
+    ],
+    "rederived": [
+     "bishop2019",
+     "chiusole2020",
+     "drilon2008",
+     "masunaga2025"
+    ],
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.n_series",
+    "stated": 2,
+    "rederived": 2,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.patients",
+    "stated": 79,
+    "rederived": 79,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.series (as a set)",
+    "stated": [
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "rederived": [
+     "martinbroto2020immunosarc1",
+     "stacchiotti2013anthracycline"
+    ],
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.NOT_EXAMINED.n_series",
+    "stated": 11,
+    "rederived": 11,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.NOT_EXAMINED.patients",
+    "stated": 696,
+    "rederived": 696,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "element_counts.surgical_margin_distribution.NOT_EXAMINED.series (as a set)",
+    "stated": [
+     "china2016",
+     "huang2023",
+     "immunosarc2emc2025",
+     "japan2003",
+     "meisKindblom1999",
+     "morioka2016trabectedin",
+     "seer270_2022",
+     "stacchiotti2014sunitinib",
+     "stacchiotti2019pazopanib",
+     "uMich2023",
+     "ussc2022"
+    ],
+    "rederived": [
+     "china2016",
+     "huang2023",
+     "immunosarc2emc2025",
+     "japan2003",
+     "meisKindblom1999",
+     "morioka2016trabectedin",
+     "seer270_2022",
+     "stacchiotti2014sunitinib",
+     "stacchiotti2019pazopanib",
+     "uMich2023",
+     "ussc2022"
+    ],
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "poolable series set",
+    "stated": [
+     "chiusole2020",
+     "drilon2008",
+     "masunaga2025"
+    ],
+    "rederived": [
+     "chiusole2020",
+     "drilon2008",
+     "masunaga2025"
+    ],
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "masunaga2025 operated-with-a-margin = R0+R1+R2 of margin_all_registered",
+    "stated": 156,
+    "rederived": 156,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "chiusole2020 = emc-surgical-quality margin_field_available_for",
+    "stated": 40,
+    "rederived": 40,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "drilon2008 denominator = R0+R1+R2 of the quoted verbatim sentence",
+    "stated": 43,
+    "rederived": 43,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "emc-surgical-quality.counts.operated_patients_with_a_margin_recorded = masunaga operated + chiusole field-available (its own two-series scope)",
+    "stated": 196,
+    "rederived": 196,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "emc-surgical-quality.counts.series = len(series array)",
+    "stated": 2,
+    "rederived": 2,
+    "verdict": "REPRODUCES"
+   },
+   {
+    "claim": "margin examined set (REPORTED u EXAMINED_NOT_PRINTED) equals the six-series examined set the v3 absence audit uses",
+    "stated": [
+     "bishop2019",
+     "chiusole2020",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "masunaga2025",
+     "stacchiotti2013anthracycline"
+    ],
+    "rederived": [
+     "bishop2019",
+     "chiusole2020",
+     "drilon2008",
+     "martinbroto2020immunosarc1",
+     "masunaga2025",
+     "stacchiotti2013anthracycline"
+    ],
+    "verdict": "REPRODUCES"
+   }
+  ],
+  "all_reproduce": true
+ },
+ "part_2_design_class_of_all_17_candidate_series": {
+  "rule": "A series is TRIAL_DESIGN only where its own committed `why_candidate` string in research/modalities/emc-ipd-survival.json names a prospective phase study or a randomised trial, and names no retrospective/registry/institutional design. The rule is applied mechanically to the verbatim strings; nothing is inferred from a drug name or from a journal.",
+  "trial_markers": [
+   "prospective",
+   "phase 2",
+   "phase ib/ii",
+   "randomised trial",
+   "randomized trial"
+  ],
+  "non_trial_markers": [
+   "retrospective",
+   "registry",
+   "population",
+   "database",
+   "single-institution",
+   "multi-institution",
+   "two-institution",
+   "two-referral-centre",
+   "case series",
+   "pathology series",
+   "clinicopathologic",
+   "single-country"
+  ],
+  "by_series": {
+   "seer270_2022": {
+    "n": 270,
+    "why_candidate_verbatim": "SEER population series reporting overall survival; the largest single denominator available",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "population"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "masunaga2025": {
+    "n": 171,
+    "why_candidate_verbatim": "retrospective national registry study of radiotherapy and chemotherapy roles; survival endpoint implied by the question",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "retrospective",
+     "registry"
+    ],
+    "margin_status_in_v3": "REPORTED",
+    "retrieval_completeness_recorded": false
+   },
+   "meisKindblom1999": {
+    "n": 117,
+    "why_candidate_verbatim": "the classic long-term prognostic pathology series; prognosis is its stated subject",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "pathology series"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "drilon2008": {
+    "n": 87,
+    "why_candidate_verbatim": "two-referral-centre retrospective review emphasising outcome",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "retrospective",
+     "two-referral-centre"
+    ],
+    "margin_status_in_v3": "REPORTED",
+    "retrieval_completeness_recorded": false
+   },
+   "ussc2022": {
+    "n": 60,
+    "why_candidate_verbatim": "US Sarcoma Collaborative multi-institution database, outcomes reported",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "database",
+     "multi-institution"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "chiusole2020": {
+    "n": 59,
+    "why_candidate_verbatim": "two-institution retrospective, outcomes in the title",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "retrospective",
+     "two-institution"
+    ],
+    "margin_status_in_v3": "REPORTED",
+    "retrieval_completeness_recorded": false
+   },
+   "japan2003": {
+    "n": 42,
+    "why_candidate_verbatim": "multi-institution series of 42 cases",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "multi-institution"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "uMich2023": {
+    "n": 44,
+    "why_candidate_verbatim": "single-institution series explicitly examining prognostic factors",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "single-institution"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "bishop2019": {
+    "n": 41,
+    "why_candidate_verbatim": "single-institution combined-modality series; local control is the stated endpoint",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "single-institution"
+    ],
+    "margin_status_in_v3": "REPORTED",
+    "retrieval_completeness_recorded": false
+   },
+   "china2016": {
+    "n": 40,
+    "why_candidate_verbatim": "single-country clinicopathologic and radiologic series",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "clinicopathologic",
+     "single-country"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "huang2023": {
+    "n": 58,
+    "why_candidate_verbatim": "molecular case series; reports disease-specific survival by fusion partner, the TAF15 prognostic question",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "case series"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "stacchiotti2019pazopanib": {
+    "n": 26,
+    "why_candidate_verbatim": "the only prospective single-arm phase 2 in advanced EMC; PFS is the primary endpoint",
+    "design_class": "TRIAL_DESIGN",
+    "trial_markers_matched": [
+     "prospective",
+     "phase 2"
+    ],
+    "non_trial_markers_matched": [],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "immunosarc2emc2025": {
+    "n": 24,
+    "why_candidate_verbatim": "phase 2 histology-specific cohort, sunitinib plus nivolumab",
+    "design_class": "TRIAL_DESIGN",
+    "trial_markers_matched": [
+     "phase 2"
+    ],
+    "non_trial_markers_matched": [],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "martinbroto2020immunosarc1": {
+    "n": 68,
+    "why_candidate_verbatim": "single-arm phase Ib/II; EMC may appear only as a subgroup",
+    "design_class": "TRIAL_DESIGN",
+    "trial_markers_matched": [
+     "phase ib/ii"
+    ],
+    "non_trial_markers_matched": [],
+    "margin_status_in_v3": "EXAMINED_NOT_PRINTED",
+    "retrieval_completeness_recorded": true
+   },
+   "stacchiotti2013anthracycline": {
+    "n": 11,
+    "why_candidate_verbatim": "retrospective centrally-reviewed systemic-therapy series",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "retrospective"
+    ],
+    "margin_status_in_v3": "EXAMINED_NOT_PRINTED",
+    "retrieval_completeness_recorded": true
+   },
+   "stacchiotti2014sunitinib": {
+    "n": 10,
+    "why_candidate_verbatim": "retrospective consecutively-treated series, 6 of 10 RECIST partial responses",
+    "design_class": "NON_TRIAL_DESIGN",
+    "trial_markers_matched": [],
+    "non_trial_markers_matched": [
+     "retrospective"
+    ],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": false
+   },
+   "morioka2016trabectedin": {
+    "n": 5,
+    "why_candidate_verbatim": "sub-analysis of a randomised trial; EMC arm is tiny",
+    "design_class": "TRIAL_DESIGN",
+    "trial_markers_matched": [
+     "randomised trial"
+    ],
+    "non_trial_markers_matched": [],
+    "margin_status_in_v3": "NOT_EXAMINED",
+    "retrieval_completeness_recorded": true
+   }
+  },
+  "trial_design_series": [
+   "immunosarc2emc2025",
+   "martinbroto2020immunosarc1",
+   "morioka2016trabectedin",
+   "stacchiotti2019pazopanib"
+  ],
+  "n_trial_design_series": 4
+ },
+ "part_3_the_scope_test": {
+  "sentence_under_test": "no trial series prints a margin at all",
+  "where_it_appears": {
+   "CARE-DELIVERY-3/FINDING.md": true,
+   "care-delivery-element-coverage-v3.json": false,
+   "⭐": "The over-scoped universal lives in the PROSE ONLY. The machine-readable artifact does not contain it and does not depend on it: v3's own matrix leaves every unexamined trial series at NOT_EXAMINED. The correction is therefore a prose correction, and no value in any artifact changes."
+  },
+  "trial_design_series_by_margin_status_in_v3": {
+   "NOT_EXAMINED": [
+    "immunosarc2emc2025",
+    "morioka2016trabectedin",
+    "stacchiotti2019pazopanib"
+   ],
+   "EXAMINED_NOT_PRINTED": [
+    "martinbroto2020immunosarc1"
+   ]
+  },
+  "series_CARE_DELIVERY_3_prose_calls_the_three_trial_series": [
+   "martinbroto2020immunosarc1",
+   "morioka2016trabectedin",
+   "stacchiotti2013anthracycline"
+  ],
+  "⚠_one_of_those_three_is_not_a_trial": {
+   "series": "stacchiotti2013anthracycline",
+   "why_candidate_verbatim": "retrospective centrally-reviewed systemic-therapy series",
+   "note": "emc-ipd-survival.json calls it a retrospective centrally-reviewed systemic-therapy series, and CARE-DELIVERY-3's own §4 heading calls it an Italian Rare Cancer Network series. 'Trial series' is the wrong category label for it; 'systemic-therapy series' is the label its evidence supports."
+  },
+  "verdict": {
+   "answer": "BOUNDED STATEMENT ABOUT WHAT WAS RETRIEVED — NOT a claim about the papers.",
+   "arithmetic": {
+    "trial_design_series_among_the_17_candidates": 4,
+    "of_which_examined_for_the_margin_element": 1,
+    "of_which_NOT_EXAMINED_for_the_margin_element": 3,
+    "examined": [
+     "martinbroto2020immunosarc1"
+    ],
+    "not_examined": [
+     "immunosarc2emc2025",
+     "morioka2016trabectedin",
+     "stacchiotti2019pazopanib"
+    ]
+   },
+   "why": "Written as a universal ('no trial series ... at all') the sentence quantifies over every trial-design series. Exactly one of the four is examined for the margin element. Three are NOT_EXAMINED — including morioka2016trabectedin, which CARE-DELIVERY-3's own §3 and §4 record as narrative-only with all tables dropped, and whose margin cell v3 leaves at NOT_EXAMINED with the explicit note 'This lane therefore asserts NO absence for this element.' The prose sentence therefore contradicts the artifact the same lane wrote.",
+   "⭐_this_is_the_same_defect_the_lineage_was_created_to_fix": "PUB-CARE-DELIVERY's decisive finding was that emc-surgical-quality.json's `recorded_in_any_reachable_series: false` is a universal quantifier over an examined set of two. One lane later, the same shape reappeared in the prose that reports the fix. The defect is a habit of language, not a one-off error, which is why the correction below is a sentence and not a number.",
+   "the_supported_sentence": "Of the four trial-design series among the 17 candidates, one (martinbroto2020immunosarc1) was examined with its baseline table returned in full and prints no margin; the other three were not examined for this element. Together with stacchiotti2013anthracycline — a retrospective systemic-therapy series, not a trial — that is two systemic-therapy reports examined and no margin printed in either. Whether any trial series prints a margin is UNKNOWN.",
+   "what_does_NOT_change": "The margin element's counts. Four series REPORTED and three poolable on the R0/R1/R2 scale re-derive exactly (part 1). The examined set for the margin element is the same six series the absence audit uses. No count, distribution or measured value in any artifact is added, removed or altered by this lane."
+  }
+ }
+}

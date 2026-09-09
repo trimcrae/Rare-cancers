@@ -1,0 +1,42 @@
+RESULT: count=2.
+
+--- PMC12398172 | pmid 40885991 | doi 10.1186/s13018-025-06245-6 ---
+Title: "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma"
+Full text returned: narrative complete (30050 chars). Table CAPTIONS returned (Table 1-4); table CELL
+content NOT returned -- in-text references render as "(Table)".
+
+VERBATIM, Methods:
+  "After excluding 18 patients with unknown tumor size, 12 with unknown histological grade, and 22
+   with a follow-up period of less than 6 months after diagnosis, the remaining 171 patients were
+   retrospectively analyzed."
+VERBATIM, Results:
+  "A total of 102 (59.6%) males and 69 (40.4%) females with a median age of 62 years (interquartile
+   range [IQR], 48-72 years) were included in the study."
+VERBATIM, Results (the contrast subset):
+  "For the prognostic analysis, eight patients who did not undergo surgery were excluded, and the
+   remaining 134 patients were included. Local recurrence occurred in 16 patients (11.9%), and the
+   median time from surgery to local recurrence was 15 months (IQR, 4.5-63.5)."
+VERBATIM, Results (the RT arm):
+  "Of the 24 patients who received (neo)adjuvant radiotherapy, 10 (41.7%) had R1 or R2 surgical
+   margins"
+
+OUTCOME: n_emc RESOLVED = 171. EMC-only registry cohort; headline n (171) IS the EMC n.
+CONTROL SIDE EFFECT: LOCOREGIONAL-2 subset 134 with 16 local recurrences, and the 24-patient RT arm
+(so 134 - 24 = 110 no-RT), are now VERIFIED against the primary.
+retrieval_completeness: partial -> partial (unchanged; tables still not returned as content).
+
+--- PMC12428389 | pmid 40941020 | doi 10.3390/cancers17172924 ---
+Title (carfilzomib/POETIC, reference [22])
+Full text returned: narrative complete (21762 chars).
+MEASURED on the returned body text: occurrences of "Table" = 0; "histolog" = 0; "myxoid" = 0;
+"chondro" = 0. The per-histology enrolment table is NOT in the retrievable full text.
+
+VERBATIM, Results:
+  "A total of 42 patients were screened, and 38 were treated (stratum A, 14; stratum B, 24) ()."
+VERBATIM, the only histology sentence anywhere in the returned body:
+  "Of the twenty-four patients enrolled in stratum B, fifteen (63%) had a diagnosis of sarcoma,
+   highlighting the need for novel therapies in this patient population."
+
+OUTCOME: n_emc STAYS UNKNOWN. Reason: tables stripped from the returned body; the only histology
+statement resolves no finer than "sarcoma". This INDEPENDENTLY RE-CONFIRMS REPURPOSING-2 and
+EXPOSURE-INDEX: unread, not absent. NOT zero.

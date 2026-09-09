@@ -1,0 +1,21 @@
+===== mutation m1 =====
+KNOWN-ANSWER GATE vs ../KINASE-2/label-permutation-vs-gene-resampling-null.json
+  comparisons: 103   mismatches: 1
+  MISMATCH {"field": "primary.concordance_rate", "recomputed": 0.6519721577726219, "kinase2": 0.6531, "delta": -0.0011278422273781619, "tol": 5e-05}
+GATE FAILED - no adjustment computed. exit 2
+exit=2
+adjustment artifact written? NO
+===== mutation m2 =====
+KNOWN-ANSWER GATE vs ../KINASE-2/label-permutation-vs-gene-resampling-null.json
+  comparisons: 103   mismatches: 1
+  MISMATCH {"field": "leads.RET.min_abs_t", "recomputed": 2.613, "kinase2": 2.6229999999999998, "delta": -0.009999999999999787, "tol": 0.0005}
+GATE FAILED - no adjustment computed. exit 2
+exit=2
+adjustment artifact written? NO
+===== mutation m3 =====
+KNOWN-ANSWER GATE vs ../KINASE-2/label-permutation-vs-gene-resampling-null.json
+  comparisons: 103   mismatches: 1
+  MISMATCH {"field": "secondary.n_concordant", "recomputed": 262.0, "kinase2": 263.0, "delta": -1.0, "tol": 0}
+GATE FAILED - no adjustment computed. exit 2
+exit=2
+adjustment artifact written? NO

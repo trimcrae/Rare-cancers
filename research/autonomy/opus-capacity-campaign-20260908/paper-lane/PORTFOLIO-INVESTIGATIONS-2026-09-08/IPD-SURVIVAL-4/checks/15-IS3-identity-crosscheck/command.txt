@@ -1,0 +1,7 @@
+sha256sum /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-y0y1-only.json /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-mine-only.json /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/km-risk-row-detection.REGENERATED.committed-provenance.json; wc -c /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-y0y1-only.json /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-mine-only.json /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/km-risk-row-detection.REGENERATED.committed-provenance.json; echo '--- is IS-3 committed-provenance file my y0y1 run minus its trailing newline?'; python3 -c "
+import hashlib
+a=open('/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-y0y1-only.json','rb').read(); b=open('/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/km-risk-row-detection.REGENERATED.committed-provenance.json','rb').read()
+print('mine',len(a),hashlib.sha256(a).hexdigest())
+print('IS3 ',len(b),hashlib.sha256(b).hexdigest())
+print('mine[:-1]==IS3 :', a[:-1]==b, '| mine ends', repr(a[-2:]), '| IS3 ends', repr(b[-2:]))
+"

@@ -1,0 +1,9 @@
+No MCP call was issued for ten rows. This directory records WHY, as a preserved non-attempt.
+
+Rows: seer270_2022, meisKindblom1999, ussc2022, japan2003, uMich2023, china2016, huang2023,
+      stacchiotti2019pazopanib, immunosarc2emc2025, stacchiotti2014sunitinib
+
+Identifier check run against the committed index:
+  python3 -c "import json;d=json.load(open(\"../EXPOSURE-INDEX/emc-patient-exposure-index.json\"));
+  [print(r[\"row_id\"], r[\"identifier\"]) for r in d[\"rows\"] if r[\"n_emc_status\"]==\"UNKNOWN\"]"
+and against the upstream source research/modalities/emc-ipd-survival.json.

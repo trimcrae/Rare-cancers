@@ -1,0 +1,28 @@
+A. RE-DERIVATION OF SYNLETH-2
+   records=67 unique_genes=64 distinct_rest_fracs=49
+   admissible denominators: count=1126 min=943 max=2105 excluded_in_range=37  reproduces=True
+   >=0.80 at n=943: {'CLEAR_CERTAIN': 44, 'TRAP_CERTAIN': 23}  reproduces_23/44/0=True
+   >=0.20 at n=943: {'CLEAR_CERTAIN': 36, 'TRAP_CERTAIN': 29, 'FRAGILE': 2}  fragile=[('BAK1', 0.187), ('EGFR', 0.205)]  reproduces=True
+B. ANATOMY OF THE UNDECIDABILITY (cut 0.20)
+   BAK1  p=0.187 (below cut)  proximity=0.013000  rounding=0.000500 (0.038x prox)  sampling_hw@n=2105=0.016651 (1.28x prox)
+         descriptive interval from rounding alone [0.1865, 0.1875] -> CLEAR_CERTAIN
+   EGFR  p=0.205 (above cut)  proximity=0.005000  rounding=0.000500 (0.100x prox)  sampling_hw@n=2105=0.017238 (3.45x prox)
+         descriptive interval from rounding alone [0.2045, 0.2055] -> TRAP_CERTAIN
+C. WHAT WOULD DECIDE EACH
+   BAK1  dp needed for descriptive verdict = 2 (already stored: 3)
+         inferential @ n_max with EXACT fraction: FRAGILE
+         critical n (3dp rounding) = 3934 ; (exact fraction) = 3637 ; closed form = 3455.7
+         = 1.73x the whole 24Q4 release (2105 models), 1.73x n_max
+         Clopper-Pearson 95% at that n: (0.17441417966766176, 0.20002553214451785)
+   EGFR  dp needed for descriptive verdict = 3 (already stored: 3)
+         inferential @ n_max with EXACT fraction: FRAGILE
+         critical n (3dp rounding) = 30353 ; (exact fraction) = 24586 ; closed form = 25042.5
+         = 11.68x the whole 24Q4 release (2105 models), 11.68x n_max
+         Clopper-Pearson 95% at that n: (0.19996331329556521, 0.2100959352663186)
+D. AVAILABILITY IN THIS CHECKOUT
+   stored_fraction_at_more_than_3dp   exists=False  decides=False
+   the_exact_rest_arm_denominator     exists=False  decides=False
+   per_line_CRISPRGeneEffect_matrix   exists=False  decides=False
+   a_larger_CRISPR_panel              exists=False  decides=True
+   CRISPRGeneEffect filesystem probe hits: NONE
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SYNLETH-3/undecidability-anatomy.json

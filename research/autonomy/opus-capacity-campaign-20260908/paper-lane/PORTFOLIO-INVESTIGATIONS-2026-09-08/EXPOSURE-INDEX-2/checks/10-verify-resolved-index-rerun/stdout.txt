@@ -1,0 +1,39 @@
+A. inherited invariants (EXPOSURE-INDEX's own)
+  ok   28 rows preserved
+  ok   retrieval_completeness three-valued on every row
+  ok   overlap_unknown present on every row
+  ok   overlap_unknown=true still on 24 rows (NO flag changed by this lane)
+  ok   every reported n_emc names a source
+  ok   no zero without a measured-zero justification (zeros: 1)
+B. no total-shaped key anywhere in the file
+  ok   no total-shaped key outside the sanctioned control
+C. this lane's own invariants
+  ok   every surviving UNKNOWN row records WHY it is still unknown (14 rows)
+  ok   every surviving UNKNOWN carries an admitted reason code
+  ok   exactly 5 rows resolved by this lane
+  ok   every resolved row carries a verbatim quote AND a locator
+  ok   no resolved row changed an overlap_unknown flag
+  ok   chow2007 refusal UPHELD (not overturned to 0)
+  ok   maki2005 protected row UPHELD (UNKNOWN, never zero)
+  ok   boklan2025 unread-not-absent row UPHELD
+  ok   higuchi2023 remains the only measured zero
+D. LOCOREGIONAL-2 control -- re-derived FROM THIS INDEX'S ROWS
+  ok   ledger arm source 'bishop2019' is a row in this index
+       bishop2019     surgery_plus_RT              n=33   events=1
+       bishop2019     surgery_alone                n=8    events=4
+  ok   bishop2019 arm events sum to its printed total
+  ok   ledger arm source 'masunaga2025' is a row in this index
+       masunaga2025   neoadjuvant_or_adjuvant_RT   n=24   events=2
+       masunaga2025   no_perioperative_RT          n=110  events=14
+  ok   masunaga2025 arm events sum to its printed total
+  ok   control patients = 175 (got 175)
+  ok   control local recurrences = 21 (got 21)
+  ok   the sanctioned sum spans exactly TWO rows
+  FAIL bishop2019 is ruled non-overlapping for this contrast by a named source file
+  ok   masunaga2025 is ruled non-overlapping for this contrast by a named source file
+E. the control's inputs are now primary-verified, not only curated
+  ok   bishop2019 carries a primary control_verification block
+  ok   masunaga2025 carries a primary control_verification block
+
+FAILURES: 1
+  - bishop2019 is ruled non-overlapping for this contrast by a named source file

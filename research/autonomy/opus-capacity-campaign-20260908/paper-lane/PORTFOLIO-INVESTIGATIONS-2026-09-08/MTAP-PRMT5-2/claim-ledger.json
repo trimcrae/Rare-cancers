@@ -1,0 +1,375 @@
+{
+  "_what": "Claim-by-claim disposition of PUB-MTAP-PRMT5 after the FET-class transcript falsification recorded in PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-MTAP-PRMT5/",
+  "lane": "MTAP-PRMT5-2",
+  "date": "2026-09-09",
+  "target_documents": [
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md"
+  ],
+  "verdict_vocabulary": [
+    "STANDS",
+    "NARROWED-BY-THE-FALSIFICATION",
+    "FALSIFIED",
+    "NOT-CHECKABLE-LOCALLY"
+  ],
+  "the_falsification_as_re_derived": {
+    "proposition_actually_falsified": "FET-fusion driver status predicts elevated PRMT5 transcript, within GSE24369/GPL6244.",
+    "proposition_NOT_falsified": "PRMT5 is functionally required for fusion-driven transcription in an EWSR1-fusion sarcoma, and by transfer possibly in EMC. Transcript abundance is not the observable that premise is about; the paper's own reference [3] states that depleting EWSR1::FLI1 did not change PRMT transcript levels.",
+    "mirror_image_error_avoided": "Nothing here supports 'MTAP/PRMT5 biology is irrelevant in EMC'. EMC separates from every comparator class on PRMT5 (t = +5.98 against the FET class alone, exact p = 5.9e-05), the MTAP-locus question is untouched, and no dependency observation in EMC exists either way.",
+    "independent_re_derivation": {
+      "script": "rederive_fet_null.py (written for this lane; does not reuse PUB-MTAP-PRMT5/fet_class_transfer_test.py)",
+      "input": "research/modalities/emc-expression-panels.json, gene_reads.PRMT5['GSE24369_series_matrix.txt.gz'].per_sample[].z_vs_array and .class",
+      "comparison": "Welch t, FET comparator (LGFMS, FUS::CREB3L2, n = 17) minus pooled non-FET comparators (desmoid_fibromatosis n = 6 + fibrosarcoma n = 6, n = 12)",
+      "t_prior_lane": -0.16,
+      "t_this_lane": -0.1598,
+      "p_prior_lane": 0.87255,
+      "p_prior_mode": "Monte-Carlo, 200,000 draws, seed 20260908, SE 0.00075",
+      "p_this_lane": 0.87327,
+      "p_this_mode": "Monte-Carlo, 1,000,000 draws, seed 424245, SE 0.00033",
+      "delta_mean_z": -0.0075,
+      "labelings_C_29_17": 51895935,
+      "reproduces": true,
+      "reproduction_note": "t agrees to 4 significant figures (-0.1598 vs -0.160). The two p values differ by 0.00072, about 0.9 combined Monte-Carlo standard errors; both are independent random estimates of the same exact p, so this is sampling noise and not a discrepancy. Complete enumeration of 51,895,935 labelings was not attempted (cost), so no exact p exists for this contrast on either lane.",
+      "baselines_that_also_reproduce": {
+        "PRMT5_emc_vs_all_comparators_t": {
+          "published": 6.24,
+          "re_derived": 6.2356
+        },
+        "MTAP_emc_vs_all_comparators_t": {
+          "published": 0.69,
+          "re_derived": 0.6853
+        },
+        "CDKN2A_emc_vs_all_comparators_t": {
+          "published": -5.4,
+          "re_derived": -5.3982
+        },
+        "NR4A3_emc_vs_all_comparators_t": {
+          "published": 4.66,
+          "re_derived": 4.6625
+        }
+      }
+    }
+  },
+  "claims": [
+    {
+      "id": "C01",
+      "site": "title / §5",
+      "claim": "A fusion-class rationale survives; an MTAP-locus rationale does not.",
+      "verdict": "STANDS",
+      "basis": "The surviving rationale's stated support is reference [3] (peer-reviewed, fusion-dependent PRMT5 requirement in Ewing) and the §3.7 motif match. Neither is a transcript reading and neither is touched by the null.",
+      "artifact_key": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md §4.1, §5"
+    },
+    {
+      "id": "C02",
+      "site": "abstract; §3.5",
+      "claim": "PRMT5 reads higher in EMC than in the comparator arm on both platforms, t = 6.24 and 6.67, exact p = 0.000142 and 0.000125.",
+      "verdict": "STANDS",
+      "basis": "Re-derived t = 6.2356 on GPL6244 from the committed per-sample z. The null concerns a different contrast (within the comparator arm) and does not touch this one.",
+      "artifact_key": "emc-expression-panels.json gene_reads.PRMT5['GSE24369_series_matrix.txt.gz']; checks/01-rederive-fet-null"
+    },
+    {
+      "id": "C03",
+      "site": "abstract; §3.5; §4.4",
+      "claim": "Under a family-wise permutation correction the same contrast reaches 0.21 and 0.238, so it is a ranking rather than a significant result.",
+      "verdict": "STANDS",
+      "basis": "Independent of this result; unchanged. It remains the governing statement on how strong the transcript reading may be called.",
+      "artifact_key": "research/modalities/emc-prmt5-multiplicity.json"
+    },
+    {
+      "id": "C04",
+      "site": "§3.4 / figure 4 caption",
+      "claim": "LGFMS is FUS::CREB3L2 and therefore a FET-fusion control on whether the reading is simply what a fusion sarcoma looks like.",
+      "verdict": "NARROWED-BY-THE-FALSIFICATION",
+      "basis": "The control is two-directional and the caption tested only one direction. Direction 1 (specificity) passes: EMC separates from the FET class, t = +5.98, exact p = 5.9e-05 over 100,947 labelings. Direction 2 (class linkage) returns a null: t = -0.16, p = 0.873. The caption as written leaves a reader free to take direction 1 as class support. THIS IS THE PRIMARY SITE THAT MUST CHANGE.",
+      "artifact_key": "PUB-MTAP-PRMT5/fet-class-transfer-test.json genes.PRMT5; MTAP-PRMT5-2/rederivation-fet-null.json",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis.md §3.4"
+    },
+    {
+      "id": "C05",
+      "site": "§3.4",
+      "claim": "Pooled across the four methylosome genes EMC ranks second of four classes, below desmoid fibromatosis; PRMT5 alone separates, median +1.30 against +1.05, +1.04 and +0.94.",
+      "verdict": "STANDS",
+      "basis": "Re-derived exactly. Methylosome group = PRMT5, WDR77, RIOK1, CLNS1A; pooled medians EMC 0.9283 vs desmoid 0.9496 (EMC second). PRMT5 per-class medians EMC 1.3045, desmoid 1.0509, LGFMS 1.0427, fibrosarcoma 0.9370.",
+      "artifact_key": "checks/02-class-medians-fig4, checks/03-methylosome-pooled-rank"
+    },
+    {
+      "id": "C06",
+      "site": "abstract; §1.2; §4.1",
+      "claim": "The first rationale transfers from other EWSR1-fusion sarcomas, in which PRMT5 supports fusion-driven transcription.",
+      "verdict": "STANDS",
+      "basis": "A functional claim about other diseases, sourced to [2] (preprint) and [3] (peer-reviewed). No transcript reading in this paper was ever its evidence, and this result is not evidence against it. Its own recorded weaknesses (preprint status of [2], no EMC observation) are unchanged.",
+      "artifact_key": "research/literature/mtap-prmt5-emc-citations.json"
+    },
+    {
+      "id": "C07",
+      "site": "abstract juxtaposition of C06 and C02",
+      "claim": "Implicit: the EMC PRMT5 elevation is the EMC-side evidence consistent with the class transfer.",
+      "verdict": "NARROWED-BY-THE-FALSIFICATION",
+      "basis": "The elevation is orthogonal to FET status (t = -0.16, p = 0.873), so it is EMC-associated and class-uninformative. The abstract never asserts the link in words, but the sentence order invites it. MUST CHANGE (one clause).",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis.md abstract"
+    },
+    {
+      "id": "C08",
+      "site": "§4.1, 'Two limits sit on the surviving rationale'",
+      "claim": "Exactly two limits sit on the surviving rationale.",
+      "verdict": "NARROWED-BY-THE-FALSIFICATION",
+      "basis": "There is now a third: the transcript reading supplies no class-level support. MUST CHANGE (count plus one paragraph).",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis.md §4.1"
+    },
+    {
+      "id": "C09",
+      "site": "§4.4",
+      "claim": "The fusion-class transfer is argued rather than assumed, and an argument is not a result.",
+      "verdict": "STANDS, with an added limitation",
+      "basis": "True and unchanged. The new limitation states the orthogonality and, symmetrically, that the comparator is FUS-driven so an EWSR1-specific premise is untested here rather than refuted.",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis.md §4.4"
+    },
+    {
+      "id": "C10",
+      "site": "§3.1",
+      "claim": "The PRMT5 methylosome group reads higher in EMC on both platforms (t = 3.11 and 3.89); MAT2A sits at the 99th and 84th percentile, PRMT5 at the 91st and 59th.",
+      "verdict": "STANDS",
+      "basis": "Group-level and percentile statements, unrelated to the within-arm contrast. These are the values under pins 24/25/26 and are NOT changed by the diff.",
+      "artifact_key": "research/modalities/census-route-expression-grading.json pinned_figures_quoted_by_the_preprint.*"
+    },
+    {
+      "id": "C11",
+      "site": "§3.2; §4.1; F5",
+      "claim": "The MTAP-locus rationale is closed at transcript level; the locus signal is CDKN2A.",
+      "verdict": "STANDS",
+      "basis": "Independently confirmed within the FET cut: MTAP flat against the FET class (t = 0.219, exact p = 0.834) and against non-FET (t = 0.920); CDKN2A lower in EMC than every class including LGFMS (t = -5.99, exact p = 2.0e-05). Re-derived here.",
+      "artifact_key": "MTAP-PRMT5-2/rederivation-fet-null.json genes.MTAP, genes.CDKN2A"
+    },
+    {
+      "id": "C12",
+      "site": "§3.3",
+      "claim": "PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of 91 screened sarcoma lines; MTAP in none. No EMC line exists in any public dependency dataset.",
+      "verdict": "NOT-CHECKABLE-LOCALLY",
+      "basis": "Only the reduced summary depmap-sarcoma-dependency.json is held; the per-line CRISPRGeneEffect matrix is not, and fetching it is the parents' open gap and outside this lane's authority (proxy refuses CONNECT, 403 / curl 56). Not attempted. Unverified is not wrong.",
+      "artifact_key": "research/modalities/depmap-sarcoma-dependency.json"
+    },
+    {
+      "id": "C13",
+      "site": "§3.5 GPL3290 rows; §3.6 second control",
+      "claim": "PRMT5 t = 6.67 on GPL3290; proliferation adjustment takes it to 2.71 there and 5.23 on GPL6244; the platforms disagree.",
+      "verdict": "NOT-CHECKABLE-LOCALLY (by this lane's design) and STANDS as recorded",
+      "basis": "GPL3290's comparators are DFSP (COL1A1::PDGFB) and GIST (KIT), neither FET, so the class test cannot run there at all. The platform disagreement is untouched. Values owned by emc-prmt5-route-controls.json, not re-derived here.",
+      "artifact_key": "research/modalities/emc-prmt5-route-controls.json"
+    },
+    {
+      "id": "C14",
+      "site": "§3.6 first control",
+      "claim": "PRMT5 ranks first of the readable PRMT family on both platforms; as a group the family is flat.",
+      "verdict": "STANDS, and gains a supporting read",
+      "basis": "The FET/non-FET split carries real PRMT-family structure (PRMT1 t = +5.83, CARM1 t = -5.92 in the prior lane's run), which shows the PRMT5 null is not array insensitivity.",
+      "artifact_key": "PUB-MTAP-PRMT5/fet-class-transfer-test.json genes.PRMT1, genes.CARM1"
+    },
+    {
+      "id": "C15",
+      "site": "§3.7 and figure 5",
+      "claim": "EWSR1 carries eleven GRG sites, all beyond residue 300; EMC type 1 and the commonest EWSR1::ATF1 each retain four; EWSR1::FLI1 retains none.",
+      "verdict": "STANDS",
+      "basis": "A sequence computation on committed protein sequences. Entirely independent of expression, and untouched.",
+      "artifact_key": "research/modalities/emc-prmt5-substrate-motif-map.json"
+    },
+    {
+      "id": "C16",
+      "site": "§4.2 experiment 1",
+      "claim": "A clinical-stage PRMT5 inhibitor added to a running screen on published EMC models tests the surviving rationale directly.",
+      "verdict": "STANDS",
+      "basis": "It tests the functional claim, which is the one that survives. The result strengthens the case for testing it functionally, because the transcript route to the same question is now closed.",
+      "artifact_key": "emc-mtap-prmt5-hypothesis.md §4.2"
+    },
+    {
+      "id": "C17",
+      "site": "§4.2 experiment 2 (two constructs, type 1 vs type 2)",
+      "claim": "Comparing PRMT5 inhibition across type 1 (four GRG sites) and type 2 (none) separates the mechanisms.",
+      "verdict": "STANDS, and is now the only proposed test that could tie PRMT5 to the fusion in EMC",
+      "basis": "The transcript route to a fusion link is closed by the null, leaving this construct comparison as the sole remaining route among the proposals. Its own value is unchanged.",
+      "artifact_key": "emc-mtap-prmt5-hypothesis.md §4.2"
+    },
+    {
+      "id": "C18",
+      "site": "§4.2 MTAP IHC",
+      "claim": "MTAP immunohistochemistry on archival EMC tissue would settle the MTAP rationale.",
+      "verdict": "STANDS",
+      "basis": "Untouched. No wet lab here; this remains a proposal, not a result.",
+      "artifact_key": "emc-mtap-prmt5-hypothesis.md §4.2"
+    },
+    {
+      "id": "C19",
+      "site": "§4.3 F8",
+      "claim": "Specificity rests on fusion-driven transcription, not on growth; the near-universal sarcoma dependency makes this the likeliest way the fusion rationale fails.",
+      "verdict": "STANDS, sharpened",
+      "basis": "Unchanged in status, but the null removes the transcript reading as any partial answer to it. Only a functional experiment can settle F8. No falsifier row fires and none is edited by the diff.",
+      "artifact_key": "emc-mtap-prmt5-hypothesis.md §4.3"
+    },
+    {
+      "id": "C20",
+      "site": "§4.3 F9",
+      "claim": "The fusion-class transfer holds because the fusions are matched on PRMT5's motif.",
+      "verdict": "STANDS",
+      "basis": "A sequence claim with its own asserted-in-a-test falsifier. Untouched.",
+      "artifact_key": "research/modalities/emc-prmt5-substrate-motif-map.json"
+    },
+    {
+      "id": "C21",
+      "site": "SI §S5",
+      "claim": "Figure 4 plots the methylosome per comparator class because a pooled arm would hide whether the reading is simply what a FET-fusion sarcoma looks like.",
+      "verdict": "NARROWED-BY-THE-FALSIFICATION",
+      "basis": "Same one-directional framing as C04. MUST CHANGE.",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis-SI.md §S5"
+    },
+    {
+      "id": "C22",
+      "site": "SI §S7 item 3",
+      "claim": "Failure mode: the clear cell sarcoma transfer does not hold; the entry stays open until an EMC observation exists.",
+      "verdict": "NARROWED-BY-THE-FALSIFICATION",
+      "basis": "Stays open, correctly. What changes is that one thing that could be mistaken for evidence for the transfer, the transcript reading, is explicitly removed from that side of the ledger. MUST CHANGE.",
+      "diff_hunk": "emc-mtap-prmt5-hypothesis-SI.md §S7"
+    },
+    {
+      "id": "C23",
+      "site": "§4.4; references [2]",
+      "claim": "The preprint's peer-reviewed JBC counterpart is indicated by a search index rather than confirmed at the publisher.",
+      "verdict": "NOT-CHECKABLE-LOCALLY",
+      "basis": "A recorded pre-submission blocker requiring publisher-level confirmation. Direct HTTP egress is refused here (proxy CONNECT 403 / curl exit 56); not attempted. Unrelated to this result and untouched by the diff.",
+      "artifact_key": "research/literature/prmt5-ccs-preprint-publication-status-2026-08-10.json"
+    },
+    {
+      "id": "C24",
+      "site": "§1.3",
+      "claim": "Nothing indexed pairs the PRMT5 methylosome with extraskeletal myxoid chondrosarcoma.",
+      "verdict": "NOT-CHECKABLE-LOCALLY",
+      "basis": "A dated absence claim resting on a 2026-08-09 screen. Not re-run here; re-running it is a separate task and would not be changed by this result.",
+      "artifact_key": "research/literature/emc-prior-art-2026-08-09.json"
+    }
+  ],
+  "claims_falsified_outright": {
+    "count": 0,
+    "statement": "No sentence in the manuscript or SI is FALSIFIED by this result. The honest disposition is NARROWED at six sites (C04, C07, C08, C09, C21, C22). The paper never asserted in words that the transcript reading was class-level evidence for the transfer; what it did was juxtapose the two without stating their independence, and the correction states it."
+  },
+  "sole_claim_ever_supported_only_by_the_transferred_class_argument": {
+    "searched_for": "a conclusion, abstract sentence or roadmap entry whose ONLY support was the transferred class argument at transcript level",
+    "found": "none that rests on the transcript reading. The nearest candidates are C07 (an implication of abstract sentence order, not an assertion) and C04 (a one-directional control caption). Both are corrected by the diff.",
+    "roadmap_check": "research/manuscripts/nr4a3-program-map.md contains no PRMT5 or MTAP mention (checks/07). systems/graph/publications.json's PUB-MTAP-PRMT5 entry grounds the surviving rationale on reference [3] and the motif finding rather than on the transcript reading, so it needs no change. See downstream_sites_reported_not_changed."
+  },
+  "pinned_figure_exposure": {
+    "_rule": "Reported only. No pin is changed by the diff, and the diff touches no line carrying a pinned value.",
+    "file": "research/manuscripts/pinned-figures.json",
+    "sites": [
+      {
+        "path": "targets[21]",
+        "value": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+        "meaning": "The manuscript is a pin target, so any edit to it is inside the pinned-figure regime and must be validated by the pin checker before it is committed.",
+        "affected_by_diff": "the file is edited; no pinned value is."
+      },
+      {
+        "id": "emc_prmt5_mat2a_pct_gpl6244",
+        "path": "artifact_figures[24]",
+        "artifact": "research/modalities/census-route-expression-grading.json",
+        "key": "pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl6244",
+        "context": "99th percentile of its array on GPL6244",
+        "must_appear_in": [
+          "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md"
+        ],
+        "lives_in": "§3.1",
+        "affected_by_diff": false
+      },
+      {
+        "id": "emc_prmt5_mat2a_pct_gpl3290",
+        "path": "artifact_figures[25]",
+        "artifact": "research/modalities/census-route-expression-grading.json",
+        "key": "pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl3290",
+        "context": "the 84th on GPL3290",
+        "must_appear_in": [
+          "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md"
+        ],
+        "lives_in": "§3.1",
+        "affected_by_diff": false
+      },
+      {
+        "id": "emc_prmt5_pct_gpl6244",
+        "path": "artifact_figures[26]",
+        "artifact": "research/modalities/census-route-expression-grading.json",
+        "key": "pinned_figures_quoted_by_the_preprint.prmt5_percentile_gpl6244",
+        "context": "at the 91st and",
+        "must_appear_in": [
+          "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md"
+        ],
+        "lives_in": "§3.1",
+        "affected_by_diff": false
+      }
+    ],
+    "generated_artifacts_quoting_an_affected_figure": {
+      "checked": [
+        "research/manuscripts/pinned-figures.json",
+        "systems/views/ (generated)",
+        "systems/graph/publications.json",
+        "research/manuscripts/nr4a3-program-map.md",
+        "systems/graph/routes.json",
+        "systems/views/L2-rt-mtap-prmt5.md",
+        "systems/views/L3-publications.md"
+      ],
+      "result": "The falsification introduces one NEW number (t = -0.16 / p = 0.873) and changes NO existing one. No generated artifact quotes a value the diff alters, because the diff alters no value. The figure images themselves (mtap-prmt5-fig4-comparator-classes.png and its provenance hashes) are NOT regenerated by this diff; the added §3.4 text is prose beside the existing caption. If an owner prefers the second direction plotted, that is a figure-regeneration task with its own provenance hash update and is NOT proposed here."
+    }
+  },
+  "disposition_recommended": {
+    "retire_the_endpoint": false,
+    "reframe": true,
+    "statement": "Do not retire PUB-MTAP-PRMT5 and do not retire the fusion rationale. Retire ONE reading of it: the transcript contrast as class-level evidence. State the transcript reading as EMC-associated and FET-orthogonal, and let the fusion rationale rest explicitly and only on reference [3] plus the motif match, both of which are arguments about plausibility and neither of which is an EMC observation. The paper is unusual in that it can absorb this without losing a result, because it never printed the claim the null kills."
+  },
+  "fences_observed": {
+    "no_manuscript_edit_applied": true,
+    "no_pin_changed": true,
+    "no_git_add_commit_push": true,
+    "no_preflight_run": true,
+    "no_network": true,
+    "no_depmap_fetch_attempted": true,
+    "no_rescue_analysis_sought": "No subgroup, alternative statistic or reweighting was tried to make the FET contrast survive. One contrast was prespecified by the prior lane, re-derived once, and reported as it came out."
+  },
+  "downstream_sites_reported_not_changed": {
+    "_rule": "systems/graph/*.json is canonical model state and systems/views/ is generated from it. THIS LANE EDITS NEITHER, per the shared contract. These are reported to the coordinator as the places whose wording carries the same one-directional class framing the manuscript diff corrects.",
+    "sites": [
+      {
+        "path": "systems/graph/publications.json",
+        "entry": "PUB-MTAP-PRMT5.what_it_would_claim",
+        "quoted_wording": "\"the other survives and is argued rather than assumed - a peer-reviewed result in a second EWSR1-fusion sarcoma ... plus a sequence finding ...\"",
+        "disposition": "STANDS as written. It grounds the surviving rationale on [3] and the motif finding, NOT on the transcript reading, so the null does not contradict it. No change needed.",
+        "owner": "coordinator"
+      },
+      {
+        "path": "systems/graph/routes.json",
+        "line": 5820,
+        "entry": "the PUB-MTAP-PRMT5 route grade value string",
+        "quoted_wording": "\"PRMT5 itself reads t = 6.24 and 6.67 with an EXACT permutation p of 0.000142 and 0.000125 ...\" and \"depleting the fusion did NOT change PRMT transcript levels\"",
+        "disposition": "NARROWED. Every figure quoted re-derives unchanged (t = 6.2356 -> 6.24). The grade already carries the transcript-is-not-a-fusion-readout point on the AGAINST side, so it is closer to correct than the manuscript was. The optional addition, for the coordinator alone, is one clause on the FOR side recording that the t = 6.24 reading is orthogonal to FET status inside its own comparator arm (t = -0.16, p = 0.873). NOT PROPOSED AS A DIFF HERE - graph state is out of lane.",
+        "owner": "coordinator"
+      },
+      {
+        "path": "systems/views/L2-rt-mtap-prmt5.md",
+        "line": 23,
+        "entry": "generated copy of the routes.json grade string",
+        "disposition": "GENERATED. Regenerates from routes.json; must never be hand-edited. Listed for completeness.",
+        "owner": "generator"
+      },
+      {
+        "path": "systems/views/L3-publications.md",
+        "entry": "contains the phrase 'fusion-class rationale' (the manuscript title)",
+        "disposition": "GENERATED from publications.json. The title is unchanged by the diff, so this needs nothing.",
+        "owner": "generator"
+      },
+      {
+        "path": "research/modalities/emc-dkk1-lineage-controls.json",
+        "entry": "contains 'FET-fusion control'",
+        "disposition": "A different lane's control on a different question (DKK1). Inspected only for the phrase; not affected by this result.",
+        "owner": "none"
+      },
+      {
+        "path": "research/manuscripts/nr4a3-program-map.md",
+        "disposition": "NO PRMT5 or MTAP mention at all (grep returned nothing). The degrader roadmap carries no entry this result touches.",
+        "owner": "none"
+      }
+    ]
+  }
+}

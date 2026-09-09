@@ -1,0 +1,1675 @@
+{
+ "_schema": "endpoint-1-claim-rederivation-ledger/1",
+ "_generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/ENDPOINT-1/rederive_claims.py",
+ "lane": "ENDPOINT-1",
+ "endpoint": "PUB-ENDPOINT",
+ "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+ "manuscript": "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md",
+ "route": "RT-ENDPOINT-CHOICE",
+ "what_this_is": "one row per quantitative claim in the manuscript: the quoted value, the artifact and key it comes from, the value re-derived here, and a verdict. A MISMATCH is reported, never repaired.",
+ "what_this_is_not": "not a review, not a check of the artifacts against their raw registry payloads, and not any statement about efficacy, safety, selectivity or clinical readiness of any agent.",
+ "input_sha256": {
+  "response-endpoint-indolent-tumours.md": "bae48dbd23966cc247d428448ea81116fef7aeabf718e5f2da74103014f30408",
+  "endpoint-corpus.json": "1675e8d56707d331805b2ad6b8c664dd683fad6d97b5884197ec9ae66e75c634",
+  "orr-dcr-reread.json": "95ac62e88a18288acee3330ac93541c6f458d23831e3a1c2ee1055930345f6d9",
+  "endpoint-regime-map.json": "3e1e4489ac5fbf70d66939d9470cf749ed6009312ee3fbc272f1c19f62f278fe",
+  "placebo-arm-calibration.json": "3823ca7874906113748321ce9b8c9330d3301396f7e5be15713a41538f19b2c7",
+  "endpoint-prior-art-audit.json": "4bb09c6309cc6470e5c070e4f072e933373a2b0e6114e68a3330a68aef6103e5",
+  "emc-endpoint-discordance.json": "6538ab267530ce429d388713a73185be8ee888bb2ab81cd88199add3774ef2f0"
+ },
+ "known_answer_controls": [
+  {
+   "control": "wilson_closed_form_vs_score_root_find_6_of_47",
+   "expected": [
+    6.0,
+    25.2
+   ],
+   "got": [
+    6.0,
+    25.2
+   ],
+   "what_it_detects": "a wrong Wilson algebra would move both endpoints; the bisection solves the score equation directly",
+   "passed": true
+  },
+  {
+   "control": "binomial_known_answers",
+   "expected": [
+    0.5,
+    0.25,
+    1.0
+   ],
+   "got": [
+    0.5,
+    0.25,
+    1.0
+   ],
+   "what_it_detects": "a broken binomial tail would break every contour row",
+   "passed": true
+  },
+  {
+   "control": "quantile_type7_known_vector",
+   "expected": [
+    2.5,
+    1.75,
+    3.25
+   ],
+   "got": [
+    2.5,
+    1.75,
+    3.25
+   ],
+   "what_it_detects": "the IQR row depends on the quantile convention",
+   "passed": true
+  },
+  {
+   "control": "R2_rows_recompute_from_C2_cells",
+   "expected": 0,
+   "got": 0,
+   "what_it_detects": "cross-artifact known answer: the analysis file's 552 per-arm rows must equal what this harness computes from the corpus cells",
+   "passed": true
+  },
+  {
+   "control": "mutation_control_median_gap_moves_on_corrupted_input",
+   "expected": true,
+   "got": true,
+   "what_it_detects": "if a corrupted corpus still produced the published median, the comparison would be vacuous",
+   "passed": true
+  },
+  {
+   "control": "mutation_control_identity_breaks_on_corrupted_input",
+   "expected": false,
+   "got": false,
+   "what_it_detects": "the four-cell identity assertion must fail on a row whose cells no longer sum to its denominator",
+   "passed": true
+  }
+ ],
+ "summary": {
+  "REPRODUCES": 95,
+  "MISMATCH": 1,
+  "NOT-RE-DERIVABLE-LOCALLY": 3,
+  "rows": 99
+ },
+ "rows": [
+  {
+   "id": "M-ARMS",
+   "manuscript_section": "4.1/5",
+   "claim": "552 arms across 138 trials",
+   "quoted_value": [
+    552,
+    138
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms / C6_counts",
+   "rederived_value": [
+    552,
+    138
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-IDENTITY",
+   "manuscript_section": "2.3",
+   "claim": "CR+PR+SD+PD == the evaluable denominator, asserted for every row",
+   "quoted_value": true,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms[].cells",
+   "rederived_value": true,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-GAPID",
+   "manuscript_section": "2.3/4.1",
+   "claim": "disease control minus objective response is identically the stable-disease proportion",
+   "quoted_value": true,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms[].cells",
+   "rederived_value": true,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-MEDGAP",
+   "manuscript_section": "abstract/4.1",
+   "claim": "median gap 39.4 percentage points",
+   "quoted_value": 39.4,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": 39.4,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-IQR",
+   "manuscript_section": "abstract/4.1",
+   "claim": "interquartile range 20.0 to 54.3",
+   "quoted_value": [
+    20.0,
+    54.3
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    20.0,
+    54.3
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-RANGE",
+   "manuscript_section": "4.1",
+   "claim": "full range 0 to 100",
+   "quoted_value": [
+    0.0,
+    100.0
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    0.0,
+    100.0
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-GE50",
+   "manuscript_section": "abstract/4.1",
+   "claim": "194 of 552 arms at or above 50 points",
+   "quoted_value": 194,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": 194,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-GE25",
+   "manuscript_section": "artifact only",
+   "claim": "396 arms at or above 25 points (R3 key, not in prose)",
+   "quoted_value": 396,
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R3_distribution_summary.all_arms.arms_at_or_above.25",
+   "rederived_value": 396,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-GE75",
+   "manuscript_section": "artifact only",
+   "claim": "72 arms at or above 75 points (R3 key, not in prose)",
+   "quoted_value": 72,
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R3_distribution_summary.all_arms.arms_at_or_above.75",
+   "rederived_value": 72,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-CORNER",
+   "manuscript_section": "4.1",
+   "claim": "71 arms with objective response <= 10% and disease control >= 70%",
+   "quoted_value": 71,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": 71,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "M-WEIGHTED",
+   "manuscript_section": "2.3/artifact",
+   "claim": "patient-weighted gap 39.4 pp over 18,318 patients and 7,213 stable-disease events",
+   "quoted_value": [
+    18318,
+    7213,
+    39.4
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R3_distribution_summary.denominator_weighted_sensitivity",
+   "rederived_value": [
+    18318,
+    7213,
+    39.4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-N20",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'arms of at least 20 patients': arms and median gap",
+   "quoted_value": [
+    138,
+    41.5
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    138,
+    41.5
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P1ANY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 1, alone or combined': arms and median gap",
+   "quoted_value": [
+    370,
+    36.4
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    370,
+    36.4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P2ANY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 2, alone or combined': arms and median gap",
+   "quoted_value": [
+    355,
+    40.0
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    355,
+    40.0
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P3ANY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 3, alone or combined': arms and median gap",
+   "quoted_value": [
+    58,
+    43.6
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    58,
+    43.6
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P1ONLY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 1 only': arms and median gap",
+   "quoted_value": [
+    133,
+    35.9
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    133,
+    35.9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P2ONLY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 2 only': arms and median gap",
+   "quoted_value": [
+    114,
+    39.4
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    114,
+    39.4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-P3ONLY",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'phase 3 only': arms and median gap",
+   "quoted_value": [
+    54,
+    41.8
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    54,
+    41.8
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-NOPHASE",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'no phase recorded': arms and median gap",
+   "quoted_value": [
+    7,
+    27.2
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    7,
+    27.2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-CTRL",
+   "manuscript_section": "4.2",
+   "claim": "stratum 'control-arm candidates': arms and median gap",
+   "quoted_value": [
+    19,
+    37.5
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    19,
+    37.5
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "S-RANGE",
+   "manuscript_section": "4.2",
+   "claim": "the gap is present in every stratum, from 27.2 to 43.6 pp",
+   "quoted_value": [
+    27.2,
+    43.6
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    27.2,
+    43.6
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-1",
+   "manuscript_section": "4.3",
+   "claim": "arms of at least 1: arms, zero-response arms, share, and of those disease control >= 50%",
+   "quoted_value": [
+    552,
+    251,
+    45.5,
+    105
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    552,
+    251,
+    45.5,
+    105
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-10",
+   "manuscript_section": "4.3",
+   "claim": "arms of at least 10: arms, zero-response arms, share, and of those disease control >= 50%",
+   "quoted_value": [
+    231,
+    32,
+    13.9,
+    11
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    231,
+    32,
+    13.9,
+    11
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-20",
+   "manuscript_section": "4.3",
+   "claim": "arms of at least 20: arms, zero-response arms, share, and of those disease control >= 50%",
+   "quoted_value": [
+    138,
+    4,
+    2.9,
+    2
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": [
+    138,
+    4,
+    2.9,
+    2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-MEDORR",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "corpus median objective response rate 7.7%",
+   "quoted_value": 7.7,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed: median of the 552 per-arm objective-response percentages)",
+   "rederived_value": 7.2,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "MISMATCH",
+   "note": "the two middle order statistics of 552 values are 6.7 and 7.7; their mean is the median, 7.2. orr_dcr_reread.py line 107-108 takes orrs[len(orrs)//2], the UPPER of the two, which is 7.7. Reported as found; not repaired here, and no alternative reading was sought."
+  },
+  {
+   "id": "Z-MEDORR-SELECTOR",
+   "manuscript_section": "4.3 / Figure 3 (diagnostic)",
+   "claim": "diagnostic for Z-MEDORR: the upper of the two middle order statistics",
+   "quoted_value": 7.7,
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8..._corpus_median_objective_response_pct",
+   "rederived_value": 7.7,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "stated so the MISMATCH above is exactly located: the printed 7.7 is the 277th of 552 sorted values, not the median. This row is a diagnostic, not a claim of the manuscript."
+  },
+  {
+   "id": "Z-BAND-1-4",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "band 1-4: arms, median n, zero-response arms, observed %, expected % at the corpus median rate",
+   "quoted_value": [
+    174,
+    3.0,
+    134,
+    77.0,
+    81.0
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands[1-4]",
+   "rederived_value": [
+    174,
+    3.0,
+    134,
+    77.0,
+    81.0
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "expected % recomputed with p = the artifact's own stored corpus median (0.077), so this row tests the band arithmetic and not the choice of p; p itself is row Z-MEDORR. With the true median (7.2%) the expected share for this band is 82.1%."
+  },
+  {
+   "id": "Z-BAND-5-9",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "band 5-9: arms, median n, zero-response arms, observed %, expected % at the corpus median rate",
+   "quoted_value": [
+    147,
+    6.0,
+    85,
+    57.8,
+    61.0
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands[5-9]",
+   "rederived_value": [
+    147,
+    6.0,
+    85,
+    57.8,
+    61.0
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "expected % recomputed with p = the artifact's own stored corpus median (0.077), so this row tests the band arithmetic and not the choice of p; p itself is row Z-MEDORR. With the true median (7.2%) the expected share for this band is 63.1%."
+  },
+  {
+   "id": "Z-BAND-10-19",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "band 10-19: arms, median n, zero-response arms, observed %, expected % at the corpus median rate",
+   "quoted_value": [
+    93,
+    15.0,
+    28,
+    30.1,
+    32.8
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands[10-19]",
+   "rederived_value": [
+    93,
+    15.0,
+    28,
+    30.1,
+    32.8
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "expected % recomputed with p = the artifact's own stored corpus median (0.077), so this row tests the band arithmetic and not the choice of p; p itself is row Z-MEDORR. With the true median (7.2%) the expected share for this band is 35.3%."
+  },
+  {
+   "id": "Z-BAND-20-39",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "band 20-39: arms, median n, zero-response arms, observed %, expected % at the corpus median rate",
+   "quoted_value": [
+    48,
+    27.5,
+    4,
+    8.3,
+    11.5
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands[20-39]",
+   "rederived_value": [
+    48,
+    27.5,
+    4,
+    8.3,
+    11.5
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "expected % recomputed with p = the artifact's own stored corpus median (0.077), so this row tests the band arithmetic and not the choice of p; p itself is row Z-MEDORR. With the true median (7.2%) the expected share for this band is 13.3%."
+  },
+  {
+   "id": "Z-BAND-40+",
+   "manuscript_section": "4.3 / Figure 3",
+   "claim": "band 40+: arms, median n, zero-response arms, observed %, expected % at the corpus median rate",
+   "quoted_value": [
+    90,
+    128.5,
+    0,
+    0.0,
+    0.5
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands[40+]",
+   "rederived_value": [
+    90,
+    128.5,
+    0,
+    0.0,
+    0.5
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "expected % recomputed with p = the artifact's own stored corpus median (0.077), so this row tests the band arithmetic and not the choice of p; p itself is row Z-MEDORR. With the true median (7.2%) the expected share for this band is 0.7%."
+  },
+  {
+   "id": "Z-BANDRANGE",
+   "manuscript_section": "Figure 3",
+   "claim": "the two track each other across a range from 77.0% to 0.0%",
+   "quoted_value": [
+    77.0,
+    0.0
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands observed %",
+   "rederived_value": [
+    77.0,
+    0.0
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-DIRECTION",
+   "manuscript_section": "Figure 3",
+   "claim": "observed sits a little below expected in every band",
+   "quoted_value": true,
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R8...bands",
+   "rederived_value": true,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "Z-TOPBAND",
+   "manuscript_section": "Figure 3",
+   "claim": "the top band is open-ended and its arms have a median of 128.5 patients",
+   "quoted_value": 128.5,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed)",
+   "rederived_value": 128.5,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-BOR",
+   "manuscript_section": "abstract/5.1",
+   "claim": "2,851 trials naming best overall response, 2,715 (95.2%) without the four categories",
+   "quoted_value": [
+    2851,
+    2715,
+    95.2
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b...best_overall_response_family",
+   "rederived_value": [
+    2851,
+    2715,
+    95.2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-PLACEBO",
+   "manuscript_section": "5.1",
+   "claim": "placebo-comparator family: 1,563 screened, 1,561 without a block, 99.9%",
+   "quoted_value": [
+    1563,
+    1561,
+    99.9
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b...placebo_arm_family",
+   "rederived_value": [
+    1563,
+    1561,
+    99.9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-POOLED",
+   "manuscript_section": "5",
+   "claim": "4,414 records screened, 4,276 (96.9%) with no four-cell block",
+   "quoted_value": [
+    4414,
+    4276,
+    96.9
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b...records_versus_distinct_trials + R5",
+   "rederived_value": [
+    4414,
+    4276,
+    96.9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-DISTINCT",
+   "manuscript_section": "5.1",
+   "claim": "4,235 distinct trials, 4,097 without a block, 96.7%; 179 trials match both queries",
+   "quoted_value": [
+    4235,
+    4097,
+    96.7,
+    179
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b...records_versus_distinct_trials",
+   "rederived_value": [
+    4235,
+    4097,
+    96.7,
+    179
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-ADD",
+   "manuscript_section": "5.1",
+   "claim": "records exceed distinct trials by exactly the both-family overlap (4,414 - 4,235 = 179)",
+   "quoted_value": 179,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b...records_versus_distinct_trials",
+   "rederived_value": 179,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-DIFF",
+   "manuscript_section": "5.1",
+   "claim": "the difference between the strict and pooled shares is 1.7 percentage points",
+   "quoted_value": 1.7,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C3b (recomputed)",
+   "rederived_value": 1.7,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "C-ABSTRACTS",
+   "manuscript_section": "2.1/5",
+   "claim": "1,277 abstracts screened, 5 with all four labels, 1 with a denominator they sum to",
+   "quoted_value": [
+    1277,
+    5,
+    1
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "A2_why_not_abstracts",
+   "rederived_value": [
+    1277,
+    5,
+    1
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-PLACED",
+   "manuscript_section": "3.2/abstract",
+   "claim": "44 conditions had enough of both axes to be placed",
+   "quoted_value": 44,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3_disease_coordinates",
+   "rederived_value": 44,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-INCLUSION",
+   "manuscript_section": "3.2",
+   "claim": "a condition is placed only with at least 3 arms and 3 accrual records",
+   "quoted_value": true,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates",
+   "rederived_value": true,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-NULL16",
+   "manuscript_section": "3.2/abstract",
+   "claim": "16 conditions have a median objective response at or below the 5% null",
+   "quoted_value": 16,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates (recomputed)",
+   "rederived_value": 16,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-NULL0",
+   "manuscript_section": "3.2",
+   "claim": "every one of them has a median objective response of 0.0% except one at 4.2%",
+   "quoted_value": [
+    1,
+    4.2
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates (recomputed)",
+   "rederived_value": [
+    1,
+    4.2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-DEFINED",
+   "manuscript_section": "3.2",
+   "claim": "of the 28 conditions where the comparison is defined, 14 (50.0%) had a median trial below the design boundary",
+   "quoted_value": [
+    28,
+    14,
+    50.0
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4_what_the_map_reads",
+   "rederived_value": [
+    28,
+    14,
+    50.0
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-ZERO7",
+   "manuscript_section": "3.2",
+   "claim": "seven of 29 conditions (24.1%) sit below the zero-event boundary on pooled accrual",
+   "quoted_value": [
+    7,
+    29,
+    24.1
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4_what_the_map_reads",
+   "rederived_value": [
+    7,
+    29,
+    24.1
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-ZEROSPLIT",
+   "manuscript_section": "3.2",
+   "claim": "computed on completed trials the count is zero of 23; on terminated-for-accrual trials 11 of 23",
+   "quoted_value": [
+    0,
+    23,
+    11,
+    23
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants",
+   "rederived_value": [
+    0,
+    23,
+    11,
+    23
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-BOUND",
+   "manuscript_section": "abstract/3.2/3.4",
+   "claim": "the bound on the share below the design boundary is 31.8% to 73.9%",
+   "quoted_value": [
+    31.8,
+    73.9
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants",
+   "rederived_value": [
+    31.8,
+    73.9
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-BOUNDCALC",
+   "manuscript_section": "3.4",
+   "claim": "the two shares are the two variants' own counts over their own defined denominators",
+   "quoted_value": [
+    31.8,
+    73.9
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants (recomputed)",
+   "rederived_value": [
+    31.8,
+    73.9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-ZEROINTERVAL",
+   "manuscript_section": "3.4",
+   "claim": "the zero-event interval runs from 0.0% to 47.8%",
+   "quoted_value": [
+    0.0,
+    47.8
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants",
+   "rederived_value": [
+    0.0,
+    47.8
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-CANNOT",
+   "manuscript_section": "3.2",
+   "claim": "between 20 of 35 and 30 of 36 placed conditions cannot support a response-rate summary",
+   "quoted_value": [
+    20,
+    35,
+    30,
+    36
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants",
+   "rederived_value": [
+    20,
+    35,
+    30,
+    36
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "G-CANNOTSUM",
+   "manuscript_section": "3.2",
+   "claim": "'cannot support' is conditions below the design contour plus conditions past the null",
+   "quoted_value": [
+    20,
+    30
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G4b.variants (recomputed)",
+   "rederived_value": [
+    20,
+    30
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "A-RECORDS",
+   "manuscript_section": "3.4",
+   "claim": "accrual populations: 875 completed phase 2 records, 962 terminated records, 1,837 pooled",
+   "quoted_value": [
+    875,
+    962,
+    1837
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C7_accrual_records (recomputed)",
+   "rederived_value": [
+    875,
+    962,
+    1837
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "A-MEDIANS",
+   "manuscript_section": "3.4",
+   "claim": "median of the per-condition median enrolments: 54 completed, 8 terminated, 23 pooled",
+   "quoted_value": [
+    54,
+    8,
+    23
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C7_accrual_records (recomputed)",
+   "rederived_value": [
+    54,
+    8,
+    23
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "exact medians of the per-condition median enrolments are 54.50 / 8.75 / 23.75; endpoint_regime_map._median_int truncates a median to an integer, which is the convention the printed table uses. Recomputed over the conditions placed on the map that carry at least 3 accrual records in the population concerned."
+  },
+  {
+   "id": "A-CAPS",
+   "manuscript_section": "3.4",
+   "claim": "both queries were capped at 1,000 records against totals of 2,027 terminated and 16,035 completed phase 2 trials",
+   "quoted_value": [
+    2027,
+    16035
+   ],
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C5_retrieval_provenance / lit-targets protocol",
+   "rederived_value": null,
+   "derivation_level": "READ-BACK",
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "exact_missing_input": "the registry query-response headers recording the reported totals. C5_retrieval_provenance in the committed corpus does not retain a per-query 'reported total' field, and re-querying ClinicalTrials.gov is direct network egress, refused in this environment."
+  },
+  {
+   "id": "P-MIXLOW",
+   "manuscript_section": "3.3",
+   "claim": "arms at or below the null are phase-1 heavy: 197 phase 1 against 147 phase 2 and 9 phase 3",
+   "quoted_value": [
+    197,
+    147,
+    9
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates.phase_mix (recomputed)",
+   "rederived_value": [
+    197,
+    147,
+    9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "P-MIXREST",
+   "manuscript_section": "3.3",
+   "claim": "the remaining placed conditions run 133 phase 2, 96 phase 1 and 37 phase 3",
+   "quoted_value": [
+    133,
+    96,
+    37
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates.phase_mix (recomputed)",
+   "rederived_value": [
+    133,
+    96,
+    37
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "P-SENS",
+   "manuscript_section": "3.3",
+   "claim": "restricted to phase 2/3 arms the median stays 0.0% for thirteen of the fourteen such conditions; two have none; one rises to 21.4%",
+   "quoted_value": [
+    13,
+    14,
+    2,
+    21.4
+   ],
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates (recomputed)",
+   "rederived_value": [
+    13,
+    14,
+    2,
+    21.4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-EMC-ZERO",
+   "manuscript_section": "3.1/8",
+   "claim": "a 12.8% response rate requires 17 patients for a 90% chance of observing one response",
+   "quoted_value": 17,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G5 (recomputed from the binomial)",
+   "rederived_value": 17,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-EMC-DESIGN",
+   "manuscript_section": "3.1/8",
+   "claim": "a 12.8% response rate requires 79 patients for an exact single-stage design against a 5% null",
+   "quoted_value": 79,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G5 (recomputed: exact single-stage, alpha 0.05, power 0.80)",
+   "rederived_value": 79,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-GRID-2.0",
+   "manuscript_section": "3.1 / Figure 1",
+   "claim": "zero-event contour at 2.0% response",
+   "quoted_value": 114,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G2_contours.grid[2.0]",
+   "rederived_value": 114,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-GRID-5.0",
+   "manuscript_section": "3.1 / Figure 1",
+   "claim": "zero-event contour at 5.0% response",
+   "quoted_value": 45,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G2_contours.grid[5.0]",
+   "rederived_value": 45,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-GRID-10.0",
+   "manuscript_section": "3.1 / Figure 1",
+   "claim": "zero-event contour at 10.0% response",
+   "quoted_value": 22,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G2_contours.grid[10.0]",
+   "rederived_value": 22,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "K-GRID-20.0",
+   "manuscript_section": "3.1 / Figure 1",
+   "claim": "zero-event contour at 20.0% response",
+   "quoted_value": 11,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G2_contours.grid[20.0]",
+   "rederived_value": 11,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-19",
+   "manuscript_section": "6",
+   "claim": "nineteen arms carry a control token",
+   "quoted_value": 19,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P3_classification.control_arms_found",
+   "rederived_value": 19,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "also recomputed from the corpus: arms flagged control_arm_candidate"
+  },
+  {
+   "id": "V-19C",
+   "manuscript_section": "6",
+   "claim": "the 19 control-token arms are the corpus's control_arm_candidate flag",
+   "quoted_value": 19,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms[].control_arm_candidate",
+   "rederived_value": 19,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-TYPES",
+   "manuscript_section": "6",
+   "claim": "eight registered as placebo comparator or no-intervention, eight as experimental or active comparator, three unresolved",
+   "quoted_value": [
+    8,
+    8,
+    3
+   ],
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P3.composition_by_registered_arm_type",
+   "rederived_value": [
+    8,
+    8,
+    3
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-CLASS",
+   "manuscript_section": "6",
+   "claim": "of those 19, 16 carry an active agent, 2 cannot be matched, 1 is a genuine no-intervention arm",
+   "quoted_value": [
+    16,
+    2,
+    1
+   ],
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P3_classification.counts",
+   "rederived_value": [
+    16,
+    2,
+    1
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-SUM",
+   "manuscript_section": "6",
+   "claim": "the classification partitions all 552 arms",
+   "quoted_value": 552,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P3_classification.counts",
+   "rederived_value": 552,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-PROG",
+   "manuscript_section": "6",
+   "claim": "one trial of the 12 states a progression requirement, five mention it without requiring it, six do not mention it",
+   "quoted_value": [
+    12,
+    1,
+    5,
+    6
+   ],
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P4_progression_at_entry_strata",
+   "rederived_value": [
+    12,
+    1,
+    5,
+    6
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-484",
+   "manuscript_section": "6",
+   "claim": "the single no-intervention arm reports a 48.4% objective response",
+   "quoted_value": 48.4,
+   "source_artifact": "endpoint-corpus.json",
+   "source_key": "C2_arms (recomputed over the NO_INTERVENTION arm)",
+   "rederived_value": 48.4,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-CORNER",
+   "manuscript_section": "6.1",
+   "claim": "of the 44 conditions placed, 25 have a median objective response of 15% or less; 4 of those 25 have any control arm",
+   "quoted_value": [
+    25,
+    4
+   ],
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P6_the_corner_with_no_control_arms",
+   "rederived_value": [
+    25,
+    4
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-CORNER-R",
+   "manuscript_section": "6.1",
+   "claim": "the 25 low-response conditions are those with a median objective response <= 15% among the 44 placed",
+   "quoted_value": 25,
+   "source_artifact": "endpoint-regime-map.json",
+   "source_key": "G3.coordinates (recomputed)",
+   "rederived_value": 25,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-PMID37777684",
+   "manuscript_section": "6.1",
+   "claim": "a prospective observational trial placed 100 patients on active surveillance",
+   "quoted_value": 100,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P9...pmid 37777684",
+   "rederived_value": 100,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-PMID39620931",
+   "manuscript_section": "6.1",
+   "claim": "a pooled analysis of three prospective observational studies followed 282 patients",
+   "quoted_value": 282,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P9...pmid 39620931",
+   "rederived_value": 282,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-DESMOID-NUMS",
+   "manuscript_section": "6.1",
+   "claim": "3-year PFS 53.4% (95% CI 43.5-63.1), spontaneous regression 58%, partial responses 26%",
+   "quoted_value": true,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P9...pmid 37777684.why_it_matters",
+   "rederived_value": true,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-DESMOID-POOLED",
+   "manuscript_section": "6.1",
+   "claim": "3- and 5-year treatment-free survival 67% and 66%; progression 33% and 34%; regression 26% and 34%",
+   "quoted_value": true,
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P9...pmid 39620931.why_it_matters",
+   "rederived_value": true,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "V-OVERLAP",
+   "manuscript_section": "6.1",
+   "claim": "whether the French cohort's 282 patients overlap the 100 is stated in neither report and is unknown here",
+   "quoted_value": "UNKNOWN",
+   "source_artifact": "placebo-arm-calibration.json",
+   "source_key": "P9 (scope statement)",
+   "rederived_value": null,
+   "derivation_level": "READ-BACK",
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "exact_missing_input": "patient-level or centre-level enrolment rosters for PMID 37777684 and the French arm of PMID 39620931. Neither report states it; establishing disjointness would require the primary study records, which are not held here and were not retrieved (no HTTP egress; the PubMed MCP route returns metadata and full text, not enrolment rosters)."
+  },
+  {
+   "id": "V-PLACEBO20",
+   "manuscript_section": "6.1",
+   "claim": "the placebo arm of a controlled trial recorded a 20% objective response rate before crossover",
+   "quoted_value": 20,
+   "source_artifact": "emc-endpoint-alternatives.json",
+   "source_key": "E10 (companion file, \u00a76 of the companion note)",
+   "rederived_value": null,
+   "derivation_level": "READ-BACK",
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "exact_missing_input": "none for the number itself, but this lane did not open emc-endpoint-alternatives.json E10 (outside the six route artifacts); the value is carried by the companion note the manuscript delegates it to and is NOT re-derived here."
+  },
+  {
+   "id": "R-DOCS",
+   "manuscript_section": "7",
+   "claim": "18 retrieved documents falling into four families",
+   "quoted_value": [
+    18,
+    4
+   ],
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A1_endorsed_alternatives / A2_fix_families",
+   "rederived_value": [
+    18,
+    4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-FAMILIES",
+   "manuscript_section": "7",
+   "claim": "family document counts A=4, B=4, C=3, D=7",
+   "quoted_value": [
+    4,
+    4,
+    3,
+    7
+   ],
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A2_fix_families.documents_per_family",
+   "rederived_value": [
+    4,
+    4,
+    3,
+    7
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-FAMSUM",
+   "manuscript_section": "7",
+   "claim": "the four family counts sum to the 18 retrieved documents",
+   "quoted_value": 18,
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A2_fix_families (recomputed)",
+   "rederived_value": 18,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-IDS",
+   "manuscript_section": "7",
+   "claim": "the per-family identifier lists match the per-family counts",
+   "quoted_value": [
+    4,
+    4,
+    3,
+    7
+   ],
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A2_fix_families.identifiers_per_family (recomputed)",
+   "rederived_value": [
+    4,
+    4,
+    3,
+    7
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-DOMAINS",
+   "manuscript_section": "abstract/7",
+   "claim": "12 disease domains covered, 7 with a consensus guideline and 5 on a single trial precedent",
+   "quoted_value": [
+    12,
+    7,
+    5
+   ],
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A4 / A3_endorsement_grades",
+   "rederived_value": [
+    12,
+    7,
+    5
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES",
+   "note": "the '5 on a single trial precedent' in prose is the 12 domains minus the 7 guideline-backed domains; A3.counts counts DOCUMENTS (5 methodology, 6 single-trial, 7 guideline), a different denominator"
+  },
+  {
+   "id": "R-DOMAINS-N",
+   "manuscript_section": "7",
+   "claim": "A4 lists exactly 12 disease domains",
+   "quoted_value": 12,
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A4.disease_domains_covered (recomputed)",
+   "rederived_value": 12,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-GRADESUM",
+   "manuscript_section": "7",
+   "claim": "the endorsement-grade counts sum to the 18 documents",
+   "quoted_value": 18,
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A3.counts (recomputed)",
+   "rederived_value": 18,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-1998",
+   "manuscript_section": "7",
+   "claim": "the earliest retrieved document dates from 1998",
+   "quoted_value": 1998,
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A1_endorsed_alternatives (recomputed)",
+   "rederived_value": 1998,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "R-25",
+   "manuscript_section": "7 / 6.1",
+   "claim": "25 conditions in the low-response regime (A5 and P6 agree)",
+   "quoted_value": 25,
+   "source_artifact": "endpoint-prior-art-audit.json",
+   "source_key": "A5_the_gap.conditions_in_the_low_response_regime",
+   "rederived_value": 25,
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-ORR",
+   "manuscript_section": "8",
+   "claim": "objective response 12.8% (6 of 47, Wilson 95% CI 6.0 to 25.2)",
+   "quoted_value": [
+    6,
+    47,
+    12.8,
+    6.0,
+    25.2
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1.objective_response",
+   "rederived_value": [
+    6,
+    47,
+    12.8,
+    6.0,
+    25.2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-DCR",
+   "manuscript_section": "8",
+   "claim": "disease control 89.4% (42 of 47, 77.4 to 95.4)",
+   "quoted_value": [
+    42,
+    47,
+    89.4,
+    77.4,
+    95.4
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1.disease_control",
+   "rederived_value": [
+    42,
+    47,
+    89.4,
+    77.4,
+    95.4
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-GAP",
+   "manuscript_section": "8",
+   "claim": "a gap of 76.6 percentage points composed entirely of 36 patients with stable disease",
+   "quoted_value": [
+    76.6,
+    36
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1 (recomputed)",
+   "rederived_value": [
+    76.6,
+    36
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-FIXED",
+   "manuscript_section": "8",
+   "claim": "fixed-event sensitivity on 46: 13.0% objective response (6.1 to 25.7), 91.3% disease control (79.7 to 96.6), gap 78.3",
+   "quoted_value": [
+    13.0,
+    6.1,
+    25.7,
+    91.3,
+    79.7,
+    96.6,
+    78.3
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1 (recomputed on denom 46)",
+   "rederived_value": [
+    13.0,
+    6.1,
+    25.7,
+    91.3,
+    79.7,
+    96.6,
+    78.3
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-SHIFT",
+   "manuscript_section": "8",
+   "claim": "a shift of 1.7 points against the nominal 76.6",
+   "quoted_value": 1.7,
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1 (recomputed)",
+   "rederived_value": 1.7,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-IMMUNO",
+   "manuscript_section": "8",
+   "claim": "the IMMUNOSARC II abstract reports 23 response-evaluable patients whose categories sum to 22 (2 OR, 18 SD, 2 PD)",
+   "quoted_value": [
+    23,
+    22,
+    2,
+    18,
+    2
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1.per_cohort.sunitinib_nivolumab_immunosarc2",
+   "rederived_value": [
+    23,
+    22,
+    2,
+    18,
+    2
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-COHORTN",
+   "manuscript_section": "8",
+   "claim": "the two modern prospective cohorts accrued 22 and 23 response-evaluable patients",
+   "quoted_value": [
+    22,
+    23
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1.per_cohort",
+   "rederived_value": [
+    22,
+    23
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-PCTILE",
+   "manuscript_section": "8/abstract",
+   "claim": "76.6 points falls at the 88.9th percentile of the 552 arms",
+   "quoted_value": [
+    491,
+    552,
+    88.9
+   ],
+   "source_artifact": "orr-dcr-reread.json",
+   "source_key": "R7 (recomputed against the corpus gaps)",
+   "rederived_value": [
+    491,
+    552,
+    88.9
+   ],
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-3COHORTS",
+   "manuscript_section": "8",
+   "claim": "three cohorts, three different regimens, 47 response-evaluable patients",
+   "quoted_value": [
+    3,
+    47
+   ],
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1",
+   "rederived_value": [
+    3,
+    47
+   ],
+   "derivation_level": "READ-BACK",
+   "verdict": "REPRODUCES"
+  },
+  {
+   "id": "E-CELLSUM",
+   "manuscript_section": "8",
+   "claim": "the per-cohort response-evaluable counts sum to the nominal 47",
+   "quoted_value": 47,
+   "source_artifact": "emc-endpoint-discordance.json",
+   "source_key": "D1.per_cohort (recomputed)",
+   "rederived_value": 47,
+   "derivation_level": "RECOMPUTED",
+   "verdict": "REPRODUCES"
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+# cwd=/home/user/Rare-cancers -- every site where BAK1's or EGFR's rest_frac_dependent is PRINTED,
+# and whether any prose classifies either against a >=0.20 (or any) rest-arm cut.
+grep -rn --include=*.md -w -e BAK1 -e EGFR research/manuscripts/dependency/
+grep -rn --include=*.md -e 'rest_frac_dependent' research/manuscripts/
+grep -rln 'depmap-sarcoma-dependency' research/manuscripts/

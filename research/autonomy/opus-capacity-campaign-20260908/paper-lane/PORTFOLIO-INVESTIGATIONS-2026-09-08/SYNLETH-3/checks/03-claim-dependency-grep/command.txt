@@ -1,0 +1,5 @@
+# cwd=/home/user/Rare-cancers  -- does any published claim depend on BAK1's or EGFR's >=0.20 classification?
+grep -rn --include=*.md --include=*.json --include=*.py -w -e BAK1 research/manuscripts systems research/autonomy research/modalities
+grep -rn --include=*.md --include=*.json --include=*.py -w -e EGFR research/manuscripts systems research/modalities
+grep -rn -e '0\.187' -e '0\.205' research/manuscripts systems
+grep -rn -e '>= *0\.20' -e '0\.20 ' -e '29 of 64' -e '30 / 29' research/manuscripts systems

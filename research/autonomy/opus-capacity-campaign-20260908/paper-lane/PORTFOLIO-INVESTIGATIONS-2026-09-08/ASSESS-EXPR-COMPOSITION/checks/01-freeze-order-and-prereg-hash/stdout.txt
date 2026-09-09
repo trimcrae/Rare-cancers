@@ -1,0 +1,46 @@
+== mtime order ==
+2026-09-09T01:05:19.1100937690Z ./checks/01-locator-sha256/command.txt
+2026-09-09T01:05:19.1100937690Z ./checks/01-locator-sha256/stderr.txt
+2026-09-09T01:05:19.1239776800Z ./checks/01-locator-sha256/stdout.txt
+2026-09-09T01:05:19.1279776810Z ./checks/01-locator-sha256/exit_code.txt
+2026-09-09T01:06:45.7279828280Z ./PREREGISTRATION.md
+2026-09-09T01:09:01.0920410260Z ./checks/02-known-answer-gate/command.txt
+2026-09-09T01:09:01.3479908900Z ./checks/02-known-answer-gate/stderr.txt
+2026-09-09T01:09:01.3679908910Z ./checks/02-known-answer-gate/stdout.txt
+2026-09-09T01:09:01.3919908930Z ./checks/02-known-answer-gate/exit_code.txt
+2026-09-09T01:09:08.7497700280Z ./checks/03-composition-adjusted-contrast/command.txt
+2026-09-09T01:09:27.5599924480Z ./checks/03-composition-adjusted-contrast/stdout.txt
+2026-09-09T01:09:28.0759924790Z ./checks/03-composition-adjusted-contrast/stderr.txt
+2026-09-09T01:09:45.5239935160Z ./checks/03-composition-adjusted-contrast/exit_code.txt
+2026-09-09T01:09:48.5255139030Z ./checks/03-composition-adjusted-contrast/NOTE.txt
+2026-09-09T01:10:26.8412054500Z ./checks/03-composition-adjusted-contrast/script-as-run.py
+2026-09-09T01:12:00.8150540130Z ./composition_adjusted_contrast.py
+2026-09-09T01:12:08.3386809150Z ./checks/04-composition-adjusted-contrast-vectorised/command.txt
+2026-09-09T01:12:34.5477386960Z ./vectorised_equivalence_check.py
+2026-09-09T01:12:42.8454635650Z ./checks/04-composition-adjusted-contrast-vectorised/stdout.txt
+2026-09-09T01:12:42.8454635650Z ./composition-adjusted-contrast.json
+2026-09-09T01:12:42.8720040580Z ./checks/04-composition-adjusted-contrast-vectorised/exit_code.txt
+2026-09-09T01:12:42.8720040580Z ./checks/04-composition-adjusted-contrast-vectorised/stderr.txt
+2026-09-09T01:12:55.5157843240Z ./checks/05-vectorised-equivalence/command.txt
+2026-09-09T01:12:55.5157843240Z ./checks/05-vectorised-equivalence/stderr.txt
+2026-09-09T01:12:56.0400048410Z ./checks/05-vectorised-equivalence/stdout.txt
+2026-09-09T01:12:56.0680048420Z ./checks/05-vectorised-equivalence/exit_code.txt
+2026-09-09T01:14:22.0002485950Z ./FINDING.md
+
+== prereg hash ==
+6386ac165562140e7bfeb1eb83944a2f17b3f057943c21d9b843b021041ec8ad  PREREGISTRATION.md
+35:PREREG_SHA = "6386ac165562140e7bfeb1eb83944a2f17b3f057943c21d9b843b021041ec8ad"
+640:            "prereg_sha256": PREREG_SHA,
+
+== any numeric statistic in the pre-freeze check 01 stdout? ==
+(none: only hashes, HEAD and a UTC timestamp)
+
+== N_PERM_COMP declared in prereg vs used in code ==
+57:* `N_PERM = 2000` label permutations for the adjusted concordance null, arm sizes fixed within
+59:* `N_PERM_COMP = 2000` composition permutations for the negative control (the composition score is
+33:N_PERM = 2000
+34:N_PERM_COMP_NC = 500
+
+== frame size declared in prereg vs run ==
+75:* Frames: **primary** = genes present in both committed background draws (KINASE-2's 431-gene
+76:  frame, background `z`); **secondary** = curated `gene_reads` genes readable on both (413).

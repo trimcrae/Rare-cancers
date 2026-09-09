@@ -1,0 +1,108 @@
+--- a/research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md
++++ b/research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md
+@@ -91,7 +91,9 @@
+ PRMT5's reported substrate motif in the fusion protein. The first rationale transfers from other
+ EWSR1-fusion sarcomas, in which PRMT5 supports fusion-driven transcription. *PRMT5* reads higher in
+ EMC than in the comparator arm on both platforms (*t* = 6.24 and 6.67; exact permutation *p* = 0.000142
+-and 0.000125) and ranks first of the readable PRMT family members on both. Those *p* values are exact
++and 0.000125) and ranks first of the readable PRMT family members on both. That contrast is not
++class-level evidence: inside the 35-tumour arm, FET-fusion driver status carries no *PRMT5*
++elevation at all (FET against non-FET comparators, *t* = −0.16, permutation *p* = 0.873). Those *p* values are exact
+ for the labelling of one gene; under a family-wise permutation correction the same contrast reaches
+ 0.21 and 0.238, so it is a ranking rather than a significant result. Adjusting for a
+ twelve-gene proliferation score leaves that contrast nearly intact on the 35-tumour platform and
+@@ -362,6 +364,19 @@
+ +1.04 and +0.94. Left-panel points are gene-by-sample values pooled across four genes, so they are not
+ independent observations and no test is run on them.
+ 
++That control has a second direction, which figure 4 does not test and which is measured here. If
++*PRMT5* elevation were a property of FET-fusion-driven transcription, the FUS::CREB3L2 class should
++read above the non-fusion comparators. It does not: on this platform *PRMT5* reads *t* = −0.16 for the
++FET comparator against the pooled non-FET comparators (17 against 12 tumours, Δ = −0.008 SD, 95% CI
++−0.101 to +0.086; Monte-Carlo permutation *p* = 0.873, 200,000 draws, standard error 0.00075). The
++same split does carry real structure elsewhere in the PRMT family, *PRMT1* reading higher in the FET
++class (*t* = +5.83) and *CARM1* lower (*t* = −5.92), so the null is not an insensitivity of the array.
++The reading is therefore EMC-associated and orthogonal to FET status, which cuts both ways: it is not
++"what a fusion sarcoma looks like", and it is not evidence of a fusion-driven mechanism either.
++Nothing about the functional transfer is settled by it, and the transferred result was never a claim
++about transcript abundance — the Ewing report states that depleting EWSR1::FLI1 did not change PRMT
++transcript levels [3], which this reading independently corroborates in a second FET sarcoma.
++
+ The two figures illustrate the same methodological point in opposite directions. For the locus, a
+ group score reported a signal that its decisive gene did not have; for the methylosome, a group score
+ hid a signal that its decisive gene does have. Neither is visible without reading the constituent
+@@ -539,7 +554,7 @@
+ each of two diseases retains the same number of motif sites. Both are arguments about plausibility;
+ neither is an observation in EMC.
+ 
+-Two limits sit on the surviving rationale and are not resolved here. The transcript half survives its
++Three limits sit on the surviving rationale and are not resolved here. The transcript half survives its
+ proliferation control on the 35-tumour platform and does not on the 16-tumour one, and nothing
+ available decides between them. Elevated PRMT5 is also not specific to this disease on the comparison
+ that has been published, since PRMT5, PRMT1 and MEP50 read higher across multiple sarcoma types than
+@@ -547,6 +562,15 @@
+ contrast. But "higher than other sarcomas" in 16 tumours and "a sarcoma-wide feature" are not
+ mutually exclusive statements, and nothing here separates them.
+ 
++The third limit is what section 3.4 now measures. The transcript reading supplies no class-level
++support to the fusion rationale, because FET-fusion driver status carries no *PRMT5* elevation in the
++one comparator arm able to test it. The rationale therefore rests on exactly two things, the
++peer-reviewed fusion-dependent PRMT5 requirement in Ewing sarcoma [3] and the motif match of section
++3.7, and on no reading in this paper. This narrows the rationale rather than refuting it: PRMT5 may
++still be required for fusion-driven transcription in EMC, and the same Ewing report already states
++that an elevated PRMT5 transcript is not a read-out of the fusion. What it removes is any reading of
++the transcript contrast as evidence about the class.
++
+ ### 4.2 Two decisive experiments
+ 
+ For the fusion rationale, a PRMT5 inhibitor in a patient-derived EMC model. Two such models exist and
+@@ -635,6 +659,11 @@
+ The preprint is no longer the only support, since the Ewing result [3] is peer-reviewed and is the
+ one showing a fusion-dependent PRMT5 requirement.
+ 
++The transcript contrast is orthogonal to FET-fusion status within the comparator arm (section 3.4),
++so it bounds the fusion rationale without supporting it. Read the other way, the comparator is
++FUS::CREB3L2 rather than an EWSR1 fusion, and GSE24369 contains no second EWSR1-fusion class, so a
++narrower premise stated on EWSR1 fusions specifically is untested here rather than refuted.
++
+ The fusion-class transfer is argued rather than assumed, and an argument is not a result. EWSR1::ATF1
+ and EWSR1::NR4A3 still do not share a DNA-binding domain, a target repertoire or a disease biology,
+ and no result presented here is an observation in EMC.
+@@ -766,6 +795,7 @@
+ 
+ | superseded | current | where it lived | why it changed |
+ |---|---|---|---|
++| *"One comparator class, low-grade fibromyxoid sarcoma, is FUS::CREB3L2 and therefore a FET-fusion control on whether the reading is simply what a fusion sarcoma looks like."*, standing alone as figure 4's whole account of that comparator | The same sentence, followed by the control's second direction measured: FET against non-FET comparators reads *t* = −0.16, permutation *p* = 0.873 | §3.4, and consequentially the abstract, §4.1 and §4.4 | 2026-09-09. The caption tested only one direction of a two-directional control, and a reader could take EMC's separation from a FET sarcoma as support for the fusion-class transfer. The within-arm contrast was computed on the committed per-sample *z* already in [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json); no new data and no new series. Nothing measured is withdrawn and no *t* previously printed changes: §3.4's medians (+1.30 against +1.05, +1.04 and +0.94) and the headline *t* = 6.24 both re-derive unchanged. What changes is that the transcript reading is now stated as orthogonal to FET status rather than left ambiguous |
+ | *"The fusion-class transfer is an assumption."* | The transfer is argued rather than assumed, and an argument is not a result | §7 of the earlier draft, now §4.4 | Two things changed it and neither is an EMC measurement: a peer-reviewed fusion-dependent PRMT5 requirement in a second EWSR1-fusion sarcoma [3], and the finding that the commonest EMC fusion and the commonest clear cell fusion retain the same number of PRMT5-motif sites (§3.7). What did not change: EWSR1::ATF1 and EWSR1::NR4A3 still do not share a DNA-binding domain, a target repertoire or a disease biology |
+ | *PRMT5* EMC-minus-comparator of +0.266 and +0.744 SD | +0.263 and +0.816 SD | §3.5 | The values had drifted from [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json), which is their one home. Checked 2026-08-09 against the committed artifact; the second differs by 0.07 SD and the reading is unchanged in direction or size class |
+ | The methylosome **group** *t* (3.11, 3.89) quoted as the statistic the fusion rationale rests on | The gene's own *t* (6.24, 6.67), with the group figures retained in §3.1 as the group figures they are | §3.1 and §3.5 | The group score is not the unit the rationale depends on. The group figures are not withdrawn; they were the wrong ones to lead with |
+--- a/research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md
++++ b/research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md
+@@ -146,7 +146,14 @@
+ A FET-fusion comparator sits inside the comparator arm. GSE24369's comparators include low-grade
+ fibromyxoid sarcoma (FUS::CREB3L2), a fusion sarcoma of the same family as EMC's driver. Main text
+ figure 4 plots the methylosome against each comparator class separately for that reason, since a
+-pooled arm would hide whether the reading is simply what a FET-fusion sarcoma looks like.
++pooled arm would hide whether the reading is simply what a FET-fusion sarcoma looks like. Both
++directions of that control are now read. EMC separates from the FET class (*PRMT5*, *t* = +5.98,
++exact permutation *p* = 5.9 × 10⁻⁵ over 100,947 labelings), and the FET class does not separate from
++the non-FET comparators (*t* = −0.16, Δ = −0.008 SD, 95% CI −0.101 to +0.086, Monte-Carlo
++permutation *p* = 0.873). The control passes in the specificity direction and returns a null in the
++class direction, so the reading carries no information about FET-fusion status. The comparator is
++FUS-driven rather than EWSR1-driven, so this addresses the FET family and not EWSR1 fusions
++specifically.
+ 
+ The instrument-control read, covering housekeeping recovery and a marker expected high in the
+ comparator arm rather than in EMC, is carried in the source artifact's control block and is not
+@@ -187,7 +194,10 @@
+    this failure mode without removing it: a second EWSR1-fusion sarcoma with a fusion-dependent PRMT5
+    requirement, and the finding that the commonest fusion of each disease retains the same number of
+    PRMT5-motif sites (S9). Both are arguments about plausibility, neither is an observation in EMC,
+-   and this entry stays open until one is.
++   and this entry stays open until one is. One thing that could have been mistaken for an argument
++   for it has now been removed: the transcript reading. FET-fusion status carries no PRMT5 elevation
++   inside the comparator arm (S5; main text 3.4), so the reading is EMC-associated and
++   class-uninformative, and the transfer stands or falls on the functional evidence alone.
+ 4. The methylosome elevation is generic. Elevated PRMT5 is reported across many malignancies, and
+    abundance is not dependency.
+ 5. Every reading above is at transcript level. No claim in the manuscript has been tested in a cell

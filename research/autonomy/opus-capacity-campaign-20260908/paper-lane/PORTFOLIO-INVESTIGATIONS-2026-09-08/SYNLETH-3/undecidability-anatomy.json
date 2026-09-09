@@ -1,0 +1,149 @@
+{
+  "lane": "SYNLETH-3",
+  "input": "/home/user/Rare-cancers/research/modalities/depmap-sarcoma-dependency.json",
+  "data_source": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv",
+  "n_models_total": 2105,
+  "n_sarcoma_models": 176,
+  "dependent_threshold": -0.5,
+  "boundary_vs_BIOMARKER_DEP_3": "no per-quantity bound table is produced or reproduced here; this lane analyses the DECIDABILITY of two screen verdicts (BAK1, EGFR at the >=0.20 cut) and the critical n that would decide them",
+  "A_rederivation": {
+    "n_records": 67,
+    "n_unique_genes": 64,
+    "n_distinct_reported_rest_fracs": 49,
+    "n_admissible": 1126,
+    "n_min": 943,
+    "n_max": 2105,
+    "n_excluded_within_range": 37,
+    "SYNLETH_2_reported": {
+      "count": 1126,
+      "n_min": 943,
+      "n_max": 2105
+    },
+    "reproduces": true,
+    "worst_case_partition": {
+      "ge_0.80": {
+        "record_counts": {
+          "CLEAR_CERTAIN": 44,
+          "TRAP_CERTAIN": 23
+        },
+        "fragile": []
+      },
+      "ge_0.20": {
+        "record_counts": {
+          "CLEAR_CERTAIN": 36,
+          "TRAP_CERTAIN": 29,
+          "FRAGILE": 2
+        },
+        "fragile": [
+          [
+            "BAK1",
+            0.187
+          ],
+          [
+            "EGFR",
+            0.205
+          ]
+        ]
+      }
+    },
+    "reproduces_23_44_0": true,
+    "reproduces_two_undecidables": true
+  },
+  "B_anatomy": {
+    "cut": 0.2,
+    "components": {
+      "BAK1": {
+        "stored_rest_frac_dependent": 0.187,
+        "side_of_cut": "below",
+        "1_proximity_|p-cut|": 0.013,
+        "2_rounding_halfwidth": 0.0005,
+        "3_sampling_halfwidth_at_n_max_2105": 0.016651,
+        "3_sampling_halfwidth_at_n_min_943": 0.024868,
+        "rounding_over_proximity": 0.0385,
+        "sampling_at_n_max_over_proximity": 1.2809,
+        "descriptive_interval_from_rounding_alone": [
+          0.1865,
+          0.1875
+        ],
+        "descriptive_verdict": "CLEAR_CERTAIN",
+        "dominant_cause": "sampling interval width against proximity"
+      },
+      "EGFR": {
+        "stored_rest_frac_dependent": 0.205,
+        "side_of_cut": "above",
+        "1_proximity_|p-cut|": 0.005,
+        "2_rounding_halfwidth": 0.0005,
+        "3_sampling_halfwidth_at_n_max_2105": 0.017238,
+        "3_sampling_halfwidth_at_n_min_943": 0.025742,
+        "rounding_over_proximity": 0.1,
+        "sampling_at_n_max_over_proximity": 3.4477,
+        "descriptive_interval_from_rounding_alone": [
+          0.2045,
+          0.2055
+        ],
+        "descriptive_verdict": "TRAP_CERTAIN",
+        "dominant_cause": "sampling interval width against proximity"
+      }
+    },
+    "reading": "For both genes the rounding term (5e-4) is smaller than the proximity term, so the DESCRIPTIVE verdict -- 'of the non-sarcoma lines this panel screened, what fraction scored below -0.5' -- is already decided at 3 dp with margin. What is undecidable is the INFERENTIAL verdict, and there the sampling half-width at the LARGEST admissible denominator still exceeds the distance to the cut. So the cause is (1)+(3), not (2): neither more decimal places nor recovery of the denominator can decide these two."
+  },
+  "C_what_would_decide": {
+    "BAK1": {
+      "stored_rest_frac_dependent": 0.187,
+      "decimal_places_needed_for_DESCRIPTIVE_verdict": 2,
+      "decimal_places_already_stored": 3,
+      "more_decimal_places_decide_INFERENTIAL_verdict": false,
+      "inferential_verdict_at_n_max_with_EXACT_fraction": "FRAGILE",
+      "critical_n_inferential_with_3dp_rounding": 3934,
+      "critical_n_inferential_with_exact_fraction": 3637,
+      "critical_n_closed_form_z2p(1-p)/prox2": 3455.7,
+      "clopper_pearson95_at_critical_n": [
+        0.17441417966766176,
+        0.20002553214451785
+      ],
+      "multiple_of_release_model_count_2105": 1.73,
+      "multiple_of_largest_admissible_denominator": 1.73
+    },
+    "EGFR": {
+      "stored_rest_frac_dependent": 0.205,
+      "decimal_places_needed_for_DESCRIPTIVE_verdict": 3,
+      "decimal_places_already_stored": 3,
+      "more_decimal_places_decide_INFERENTIAL_verdict": false,
+      "inferential_verdict_at_n_max_with_EXACT_fraction": "FRAGILE",
+      "critical_n_inferential_with_3dp_rounding": 30353,
+      "critical_n_inferential_with_exact_fraction": 24586,
+      "critical_n_closed_form_z2p(1-p)/prox2": 25042.5,
+      "clopper_pearson95_at_critical_n": [
+        0.19996331329556521,
+        0.2100959352663186
+      ],
+      "multiple_of_release_model_count_2105": 11.68,
+      "multiple_of_largest_admissible_denominator": 11.68
+    }
+  },
+  "D_availability": {
+    "stored_fraction_at_more_than_3dp": {
+      "exists_in_checkout": false,
+      "why": "depmap-sarcoma-dependency.json stores rest_frac_dependent rounded to 3 dp and retains no count, no n_rest, no dispersion and no order statistic on the rest arm (DEP-THRESHOLD C1, re-checked here in A)",
+      "would_it_decide_either": false,
+      "note": "and it would not help even if it existed -- see C: the rounding term is not the binding constraint for either gene"
+    },
+    "the_exact_rest_arm_denominator": {
+      "exists_in_checkout": false,
+      "why": "recorded nowhere in the panel artifact; 1126 values remain admissible",
+      "would_it_decide_either": false,
+      "note": "even the LARGEST admissible denominator (2105) leaves both fragile"
+    },
+    "per_line_CRISPRGeneEffect_matrix": {
+      "exists_in_checkout": false,
+      "would_it_decide_either": false,
+      "note": "it would remove the rounding term and fix n exactly, but n is bounded by the release's own model count (2105) and both critical n exceed that, so the matrix would NOT decide either gene inferentially. It WOULD confirm the descriptive verdicts, which the stored 3-dp fractions already decide.",
+      "filesystem_probe_hits": []
+    },
+    "a_larger_CRISPR_panel": {
+      "exists_in_checkout": false,
+      "would_it_decide_either": true,
+      "note": "this is the only thing that would, and it is not a fetch of anything that exists -- it is more screened cell lines than DepMap 24Q4 contains"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+sha256sum research/modalities/km-risk-row-detection.json /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/km-risk-row-detection.REGENERATED.json /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/census-baseline-unpatched.json; wc -c research/modalities/km-risk-row-detection.json /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/km-risk-row-detection.REGENERATED.json; python3 -c "
+import json
+a=json.load(open('research/modalities/km-risk-row-detection.json'));b=json.load(open('/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/km-risk-row-detection.REGENERATED.json'))
+print('totals identical:', a['_totals']==b['_totals'], a['_totals'])
+print('verdicts identical:', [f['verdict'] for s in a['sources'] for f in s['figures']]==[f['verdict'] for s in b['sources'] for f in s['figures']])
+print('inputs identical:', a['inputs']==b['inputs'])
+print('control identical:', a['control']==b['control'])
+"; grep -c 'page_height_pt' /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-4/km-risk-row-detection.REGENERATED.json

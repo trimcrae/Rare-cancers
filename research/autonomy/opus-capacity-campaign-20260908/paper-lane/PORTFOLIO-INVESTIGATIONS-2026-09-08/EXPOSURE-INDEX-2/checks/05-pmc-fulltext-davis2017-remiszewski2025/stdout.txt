@@ -1,0 +1,38 @@
+RESULT: count=2 (delivered via the persisted file, not inline).
+
+--- PMC5400622 | pmid 28423517 | doi 10.18632/oncotarget.15568 --- (reference [5], davis2017)
+Title: "Next generation sequencing of extraskeletal myxoid chondrosarcoma"
+Full text returned: narrative complete (16593 chars). Table content not returned (caption
+"Patient, tumor, and treatment characteristics" only).
+
+VERBATIM, Results:
+  "Six patients with EMC were enrolled on MI-ONCOSEQ. The median age of the patients at diagnosis was
+   44 years old (range 33-65) with median follow-up of 10 years (2-23 years). All patients are male
+   and alive with disease."
+VERBATIM, Patients and Methods:
+  "Between January 31, 2012 and April 15, 2016, five patients with EMC underwent tumor biopsy of a
+   metastatic site and previously fresh-frozen metastatic tumor tissue from one patient was submitted
+   as part of an integrative clinical sequencing research study, MI-ONCOSEQ, at the University of
+   Michigan."
+
+OUTCOME: n_emc RESOLVED = 6. (5 prospectively biopsied + 1 archived = the 6 enrolled; both sentences
+quoted so the reader can see the composition.) The index carried NO headline n for this row, so
+headline_n_is_not_emc_n remains UNKNOWN -- there is no headline to compare.
+retrieval_completeness: partial -> partial (narrative read; table not returned).
+
+--- PMC12504171 | pmid 41055792 | doi 10.1007/s00432-025-06316-5 --- (reference [1], remiszewski2025)
+Title: "From pathogenesis to the patient s bedside: a comprehensive review of extraskeletal myxoid
+chondrosarcoma"
+Full text returned: narrative complete (55085 chars). MEASURED: "Table" occurrences = 4 (captions
+only); table CELL content NOT returned.
+
+Probes for an ORIGINAL cohort ("we present", "our patient/institution/cohort/series", "we report",
+"Methods", "search strategy", "systematic") returned NO original-accrual sentence. Every patient
+count in the returned body is attributed to another study, e.g. VERBATIM:
+  "A total of 172 patients diagnosed between 2004 and 2012 were included in the analysis."
+  (this is the Kemmerer SEER series being recounted, not a cohort of this review s own)
+
+OUTCOME: n_emc STAYS UNKNOWN. Reason: the article is a review and no original patient accrual appears
+in the returned body -- but its four tables were NOT returned as cell content, so an original-cohort
+table cannot be excluded from what was returned. This lane applies the SAME discipline EXPOSURE-INDEX
+applied to chow2007 and boklan2025: a table not returned is unread, and unread is not zero.

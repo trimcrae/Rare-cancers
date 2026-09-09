@@ -1,0 +1,546 @@
+[
+  {
+    "id": "RT-GLUE",
+    "display_name": "Molecular glue instead of a PROTAC",
+    "aliases": [
+      "target-route route 10",
+      "molecular glue"
+    ],
+    "grade": {
+      "value": "\u23f8 watch, do not build \u2014 removes handles and keeps the same ~1 kcal/mol claim",
+      "owner": {
+        "file": "research/manuscripts/program/target-route-options.md",
+        "anchor": "#route-10--a-molecular-glue-instead-of-a-protac"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/program/emc-post-degrader-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-DDG",
+      "BLK-R4-BINDS",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-DEGRADER",
+        "axis": "how proximity is induced",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a glue keeps the same ~1 kcal/mol paralogue claim with FEWER independent handles than a PROTAC \u2014 the registered reason it is watch-do-not-build rather than a cheaper degrader"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-GLUE-DESIGN-PREDICTOR",
+      "TR-FE-CRYPTIC-POCKET"
+    ],
+    "closure_note": "\u26a0 Graded \u23f8 rather than \u2715 because the block is a MISSING CAPABILITY \u2014 the modality most likely to arrive from someone else's screen.",
+    "strategy": "ST-PROXIMITY",
+    "publication": {
+      "endpoint": "PUB-PARKED-MODALITIES",
+      "role": "contributing",
+      "contribution": "The capability it waits on: a glue design method with a prospective track record. Until one exists there is no computation whose result would mean anything."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "Molecular glue instead of a PROTAC",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a molecular glue \u2014 no linker, no designed exit vector \u2014 degrade NR4A3 instead of a PROTAC?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A glue stabilises a protein\u2013protein interface rather than tethering two ligands. That removes the linker, the exit vector and the covalent axis in one step \u2014 three of this program's hardest sub-problems. The cost is that a glue interface cannot be designed from the target alone, and glues are typically found by screening rather than designed.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a glue interface exists for this target at all.",
+      "Whether prospective glue design works on an interface outside a method's training set \u2014 nobody has shown it."
+    ],
+    "required_validation": [
+      {
+        "what": "A prospective glue design method demonstrated out of training distribution",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-PARALOGUE-DDG"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "There is no design method to apply and no screen to run, so there is no computation whose result would mean anything.",
+      "missing": [
+        "a prospective glue design method"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "This is the modality most likely to arrive from someone else's screen rather than from this program's design. Watching costs nothing; building a glue programme without a design method is not a real option for one person with no bench.",
+      "six_month_delta": "None here; possibly a lot in the field.",
+      "two_year_delta": "Generative interface design is moving fast enough that this could become buildable.",
+      "cost_trend": "flat",
+      "automation_outlook": "A prospective design method would make this largely automatable, which is exactly why it is worth watching.",
+      "revisit_trigger": [
+        "TECH-GLUE-DESIGN",
+        "TECH-FE-CRYPTIC-POCKET",
+        "TECH-COFOLD-ASSEMBLY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Watch for a prospectively validated glue design method. Nothing to build until one exists.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RIPTAC",
+    "display_name": "RIPTAC \u2014 bind the tumour protein, poison an essential one",
+    "aliases": [
+      "post-degrader route 8"
+    ],
+    "grade": {
+      "value": "Tier 3 \u2014 needs paralogue selectivity AND a med-chem campaign; strictly worse than TCIP on both",
+      "owner": {
+        "file": "research/manuscripts/program/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route8"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-INDUCED-COMPLEX",
+      "BLK-NO-WET-LAB",
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-DDG",
+      "BLK-R4-BINDS"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TCIP",
+        "axis": "what the recruited partner does",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a RIPTAC poisons an essential protein and therefore needs the paralogue selectivity a TCIP's effector recruitment can partly avoid; it is strictly worse on both axes and is registered so it is not re-proposed as 'TCIP-like'"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ],
+    "closure_note": "It needs the paralogue selectivity the program cannot measure, plus a med-chem campaign.",
+    "strategy": "ST-PROXIMITY",
+    "publication": {
+      "endpoint": "PUB-PARKED-MODALITIES",
+      "role": "contributing",
+      "contribution": "The row that is dominated on both axes at once \u2014 it needs the selectivity the program cannot measure and a chemistry campaign it cannot run."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "RIPTAC \u2014 bind the tumour protein, poison an essential one",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage \u2014 a question the route cannot answer favourably while its only handle is the ligand-binding domain the paralogues share?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein. It converts a selectivity problem into a lethality problem rather than removing it \u2014 and on this target that conversion is unfavourable, because the bound protein is the NR4A3 ligand-binding domain, which wild-type NR4A3 and both paralogues also carry. Any engagement outside the tumour is cytotoxic by the same mechanism, so partial selectivity is a liability here rather than a tolerance. No efficacy, safety or therapeutic window is asserted.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the paralogue selectivity this needs is achievable \u2014 it needs the same margin the program cannot measure.",
+      "Whether a medicinal-chemistry campaign is even conceivable for one person with no bench."
+    ],
+    "required_validation": [
+      {
+        "what": "A measurable paralogue selectivity margin",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-PARALOGUE-DDG"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "It needs both the selectivity the program cannot measure and a chemistry campaign it cannot run. It is strictly harder than the proximity routes above it on both axes.",
+      "missing": [
+        "paralogue selectivity",
+        "a chemistry programme"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Strictly dominated by the induced-proximity routes: it needs everything they need plus a medicinal-chemistry campaign. There is no state of the world where this is the right next thing while they are still blocked.",
+      "six_month_delta": "None.",
+      "two_year_delta": "None. The free-energy advance alone does not reopen it \u2014 the induced complex and the unanswered binding question stand behind it.",
+      "cost_trend": "flat",
+      "automation_outlook": "The chemistry half is not automatable at this program's scale.",
+      "revisit_trigger": [
+        "TECH-FE-CRYPTIC-POCKET",
+        "TECH-COFOLD-ASSEMBLY",
+        "TECH-EMC-MODEL-ACCESS"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. Do not build while the routes it is dominated by are still blocked.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-CRISPR-CAS13",
+    "display_name": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+    "aliases": [
+      "post-degrader route 9",
+      "Cas13"
+    ],
+    "grade": {
+      "value": "Tier 3 \u2014 delivery, and Cas13 collateral activity",
+      "owner": {
+        "file": "research/manuscripts/program/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route9"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ASO",
+        "axis": "delivery class",
+        "fails_on": [
+          "BLK-VECTOR-DELIVERY"
+        ],
+        "why": "an oligonucleotide's delivery problem and a vector's delivery problem are different engineering problems with different precedents \u2014 BLK-DELIVERY vs BLK-VECTOR-DELIVERY"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-VECTOR-TUMOUR-DELIVERY"
+    ],
+    "closure_note": "Vector delivery, plus Cas13 collateral activity.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "publication": {
+      "endpoint": "PUB-PARKED-MODALITIES",
+      "role": "contributing",
+      "contribution": "The nuclease arms, whose gate is the vector rather than the nuclease \u2014 which is why watching the enzyme literature would be watching the wrong thing."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a nuclease disrupt the fusion gene, or a programmable RNA nuclease knock down the fusion transcript?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Sequence-programmable nucleases share the oligonucleotide route's sequence-level discrimination \u2014 reading sequence rather than shape and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "How to deliver a vector to a solid tumour at therapeutic coverage.",
+      "Whether collateral activity of the RNA-targeting nuclease is tolerable."
+    ],
+    "required_validation": [
+      {
+        "what": "Vector delivery at therapeutic coverage",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Gated on a delivery problem the field has not solved, so there is no computation whose result would change the route's standing.",
+      "missing": [
+        "a solid-tumour vector"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Strictly behind the oligonucleotide route on the same discrimination argument, with a harder delivery problem. There is no scenario where this is worth building while that route is still delivery-blocked.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via vector delivery, which is the slower of the two delivery problems.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable \u2014 the gap is delivery.",
+      "revisit_trigger": [
+        "TECH-VECTOR-DELIVERY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. Watch vector delivery, not the nuclease.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RIBOZYME",
+    "display_name": "Trans-splicing ribozyme \u2192 suicide gene, triggered by the fusion transcript",
+    "aliases": [
+      "post-degrader route 12"
+    ],
+    "grade": {
+      "value": "Tier 3 \u2014 vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
+      "owner": {
+        "file": "research/manuscripts/program/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route12"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-SYNPROMOTER",
+        "axis": "what the fusion is sensed BY",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding \u2014 and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element)"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-VECTOR-TUMOUR-DELIVERY"
+    ],
+    "closure_note": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "publication": {
+      "endpoint": "PUB-PARKED-MODALITIES",
+      "role": "contributing",
+      "contribution": "The one row gated twice over \u2014 delivery, and a technique with no modern clinical footing \u2014 and the reason two gates is a different situation from one."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "Trans-splicing ribozyme \u2192 suicide gene, triggered by the fusion transcript",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a trans-splicing ribozyme convert the fusion transcript into a suicide gene?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A trans-splicing ribozyme would sense the fusion transcript by base-pairing across the breakpoint junction \u2014 a sequence present in no healthy cell \u2014 and convert that sensing into expression of a suicide gene. \u26a0 The coupling is to the junction SEQUENCE, not to tumour identity: the vector delivers indiscriminately, so any cell it reaches in which the ribozyme trans-splices off-target is killed by the same mechanism, and no trans-splicing specificity has been computed anywhere in this repo. No efficacy, safety or therapeutic window is asserted.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Vector delivery, as above.",
+      "Whether the technique has any modern solid-tumour footing at all \u2014 it is largely a 2000s-era approach."
+    ],
+    "required_validation": [
+      {
+        "what": "Vector delivery, and a modern demonstration of the technique",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      },
+      {
+        "what": "Trans-splicing specificity: that the ribozyme's binding arm engages the breakpoint junction and not other transcripts",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Two independent gates \u2014 delivery and a technique with no modern clinical footing \u2014 and no computation addresses either.",
+      "missing": [
+        "a solid-tumour vector",
+        "a modern demonstration of trans-splicing ribozymes"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The weaker of the two suicide-gene routes: it carries the same delivery gate plus a technique the field has largely moved on from.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Unlikely to change.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable \u2014 the gap is delivery and a technique base.",
+      "revisit_trigger": [
+        "TECH-VECTOR-DELIVERY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered at low priority.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-AF3-INTERFACE",
+    "display_name": "AF3 on a druggable interface",
+    "aliases": [
+      "AF3 interface"
+    ],
+    "grade": {
+      "value": "Deferred; method not strategy",
+      "owner": {
+        "file": "research/IDEAS.md",
+        "anchor": "#emc-treatment-discovery--route-status-board|af3"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-INDUCED-COMPLEX",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "V2",
+        "V12"
+      ]
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_note": "A method, not a route \u2014 it is waiting on a co-folder that assembles ternaries.",
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-COFOLD-ASSEMBLY"
+    ],
+    "strategy": "ST-PROXIMITY",
+    "publication": {
+      "endpoint": "PUB-PARKED-MODALITIES",
+      "role": "contributing",
+      "contribution": "A method waiting on a method, with the benchmark that would end the wait stated precisely: inter-chain accuracy on post-training-horizon structures."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "AF3 on a druggable interface",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a modern co-folding model predict a druggable interface on the fusion directly?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Rather than designing an induced complex, ask a structure predictor to find one. If a co-folder could propose a druggable interface on the fusion, it would replace several manual design steps at once.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether any co-folder can assemble an induced complex from sequence and ligand alone \u2014 the one tested here failed badly."
+    ],
+    "required_validation": [
+      {
+        "what": "A co-folder benchmarked on assembly rather than per-chain accuracy",
+        "instrument": "V12",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-TERNARY-GEOMETRY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.",
+      "missing": [
+        "a co-folder validated on assembly"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "This is a method rather than a strategy, and it is registered so that a co-folder landing has somewhere to attach. Structure prediction is the fastest-moving dependency in the register, so the wait is likely short.",
+      "six_month_delta": "Plausibly material \u2014 this field iterates in months, not years.",
+      "two_year_delta": "Likely decisive one way or the other.",
+      "cost_trend": "falling_fast",
+      "automation_outlook": "Entirely automatable once the model exists.",
+      "revisit_trigger": [
+        "TECH-COFOLD-ASSEMBLY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.",
+      "cost": "$0"
+    }
+  }
+]

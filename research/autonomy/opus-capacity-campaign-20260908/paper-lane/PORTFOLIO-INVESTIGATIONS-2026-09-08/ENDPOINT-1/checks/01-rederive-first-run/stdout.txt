@@ -1,0 +1,31 @@
+{
+ "REPRODUCES": 82,
+ "MISMATCH": 12,
+ "NOT-RE-DERIVABLE-LOCALLY": 3,
+ "rows": 97
+}
+
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  FAIL R2_rows_recompute_from_C2_cells 0 vs 63
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  FAIL mutation_control_identity_breaks_on_corrupted_input False vs True
+
+non-REPRODUCES rows:
+  MISMATCH                   S-NOPHASE        §4.2          quoted=[7, 27.2] derived=[9, 27.6]
+  MISMATCH                   S-RANGE          §4.2          quoted=[27.2, 43.6] derived=[27.6, 43.6]
+  MISMATCH                   Z-MEDORR         §4.3 / Figure 3 quoted=7.7 derived=7.2
+  MISMATCH                   Z-BAND-1-4       §4.3 / Figure 3 quoted=[174, 3.0, 134, 77.0, 81.0] derived=[174, 3.0, 134, 77.0, 82.1]
+  MISMATCH                   Z-BAND-5-9       §4.3 / Figure 3 quoted=[147, 6.0, 85, 57.8, 61.0] derived=[147, 6.0, 85, 57.8, 63.1]
+  MISMATCH                   Z-BAND-10-19     §4.3 / Figure 3 quoted=[93, 15.0, 28, 30.1, 32.8] derived=[93, 15.0, 28, 30.1, 35.3]
+  MISMATCH                   Z-BAND-20-39     §4.3 / Figure 3 quoted=[48, 27.5, 4, 8.3, 11.5] derived=[48, 27.5, 4, 8.3, 13.3]
+  MISMATCH                   C-ABSTRACTS      §2.1/5        quoted=[1277, 5, 1] derived=[None, 5, 1]
+  MISMATCH                   A-MEDIANS        §3.4          quoted=[54, 8, 23] derived=[54.5, 8.75, 23.75]
+  NOT-RE-DERIVABLE-LOCALLY   A-CAPS           §3.4          quoted=[2027, 16035] derived=None
+  MISMATCH                   P-MIXLOW         §3.3          quoted=[197, 147, 9] derived=[405, 369, 9]
+  MISMATCH                   P-MIXREST        §3.3          quoted=[133, 96, 37] derived=[175, 171, 37]
+  NOT-RE-DERIVABLE-LOCALLY   V-OVERLAP        §6.1          quoted=UNKNOWN derived=None
+  NOT-RE-DERIVABLE-LOCALLY   V-PLACEBO20      §6.1          quoted=20 derived=None
+  MISMATCH                   R-1998           §7            quoted=1998 derived=None

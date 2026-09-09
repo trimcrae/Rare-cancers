@@ -1,0 +1,99 @@
+--- a/research/manuscripts/endpoint/response-endpoint-indolent-tumours.md
++++ b/research/manuscripts/endpoint/response-endpoint-indolent-tumours.md
+@@ -391,7 +391,7 @@
+ ![Figure 3. Arms recording no objective response, by arm size.](./endpoint-zero-response.svg)
+ 
+ **Figure 3.** Observed share of arms recording no objective response, by arm size, against the
+-binomial expectation at the corpus median response rate of 7.7%. The expectation is the mean of
++binomial expectation at the corpus median response rate of 7.2%. The expectation is the mean of
+ (1 − *p*)^*n* over the arms in each band rather than a value at a band midpoint, because the top band
+ is open-ended and its arms have a median of 128.5 patients. The two track each other across a range
+ from 77.0% to 0.0%, which is the substantive point: how often a trial returns an uninformative
+--- a/research/manuscripts/endpoint_result_figures.py
++++ b/research/manuscripts/endpoint_result_figures.py
+@@ -22,6 +22,7 @@
+ import json
+ import math
+ import os
++import statistics
+ import sys
+ 
+ HERE = os.path.dirname(os.path.abspath(__file__))
+@@ -183,8 +184,12 @@
+     rows = rr["R2_per_arm_rows"]
+     summary = rr["R3_distribution_summary"]["all_arms"]
+     by_size = rr["R8_zero_response_readouts"]["by_arm_size"]
++    # ⛔ Same correction as orr_dcr_reread._zero_response_bins: with an even number of arms the
++    # median is the mean of the two middle order statistics, not the upper one. This is a SECOND
++    # copy of that computation (the figure draws it, the artifact publishes it), which is why the
++    # test below now asserts the two agree with the artifact's own published key.
+     orrs = sorted(r["objective_response"]["pct"] for r in rows)
+-    median_orr = round(orrs[len(orrs) // 2], 1)
++    median_orr = round(statistics.median(orrs), 1)
+     return (figure_gap_distribution(rows, summary),
+             figure_zero_response(rows, by_size, median_orr))
+ 
+--- a/research/manuscripts/orr_dcr_reread.py
++++ b/research/manuscripts/orr_dcr_reread.py
+@@ -103,9 +103,15 @@
+     These numbers live here so figure 3's content is auditable as JSON rather than only as pixels;
+     the figure recomputes them from the same rows and its own --check would catch a divergence.
+     """
++    # ⛔ statistics.median, NOT orrs[len(orrs) // 2]. There are 552 arms -- an EVEN count -- so
++    # the list has two middle order statistics (6.7 and 7.7) and the median is their mean, 7.2.
++    # The index selector silently returned the UPPER of the two and labelled it the median. It is
++    # right for odd n, which is why it survived: every known-answer control anyone ran happened to
++    # use an odd-length vector, and each producer's --check re-derives its own selector.
+     orrs = sorted(r["objective_response"]["pct"] for r in rows)
+-    p = round(orrs[len(orrs) // 2], 1) / 100.0
+-    out = {"_corpus_median_objective_response_pct": round(orrs[len(orrs) // 2], 1), "bands": []}
++    median_orr = round(statistics.median(orrs), 1)
++    p = median_orr / 100.0
++    out = {"_corpus_median_objective_response_pct": median_orr, "bands": []}
+     for lo, hi in ZERO_RESPONSE_BINS:
+         sub = [r for r in rows if r["n"] >= lo and (hi is None or r["n"] <= hi)]
+         if not sub:
+--- a/research/manuscripts/tests/test_endpoint_logic.py
++++ b/research/manuscripts/tests/test_endpoint_logic.py
+@@ -514,8 +514,19 @@
+     rows = rr["R2_per_arm_rows"]
+     bands = rr["R8_zero_response_readouts"]["disjoint_bins_observed_against_binomial"]["bands"]
+ 
++    # This test previously re-implemented the producers' index selector -- a THIRD copy of the
++    # same expression -- so it agreed with both producers while all three were wrong. p is now
++    # computed from the DEFINITION of a median, and separately asserted to equal the value the
++    # artifact publishes, so the test can fail when the producers drift from the definition.
++    import statistics
+     orrs = sorted(r["objective_response"]["pct"] for r in rows)
+-    p = round(orrs[len(orrs) // 2], 1) / 100.0
++    p = round(statistics.median(orrs), 1) / 100.0
++    published = rr["R8_zero_response_readouts"]["disjoint_bins_observed_against_binomial"][
++        "_corpus_median_objective_response_pct"]
++    assert published == round(100 * p, 1), (
++        f"the artifact publishes a corpus median of {published}% where the median of its own 552 "
++        f"per-arm rates is {round(100 * p, 1)}%; with an even number of arms the median is the "
++        f"mean of the two middle order statistics, not the upper one")
+     for band, (lo, hi) in zip(bands, R.ZERO_RESPONSE_BINS):
+         sub = [r for r in rows if lo <= r["n"] <= (hi if hi is not None else 10 ** 9)]
+         assert band["arms"] == len(sub), band["band"]
+--- a/research/manuscripts/tests/test_endpoint_manuscript_figures.py
++++ b/research/manuscripts/tests/test_endpoint_manuscript_figures.py
+@@ -46,6 +46,7 @@
+     corner = rr["R3_distribution_summary"]["low_response_high_stability_corner"]
+     census = rr["R5_reporting_census"]
+     emc_row = rr["R7_emc_row_in_the_field_distribution"]
++    zero_bands = rr["R8_zero_response_readouts"]["disjoint_bins_observed_against_binomial"]
+     reads = rm["G4_what_the_map_reads"]
+     emc_map = rm["G5_emc_as_the_worked_extreme"]
+     cls = pc["P3_classification"]
+@@ -77,6 +78,10 @@
+             gap["of_those_with_any_control_arm_in_this_corpus"],
+         "prior-art documents": len(pa["A1_endorsed_alternatives"]),
+         "abstracts screened": co["A2_why_not_abstracts"]["unique_abstracts_screened"],
++        # Figure 3's caption quotes this rate, and until now NOTHING bound it: it was absent from
++        # this dict and from pinned-figures.json, and each producer's --check reproduced its own
++        # selector, so a wrong median was self-consistent everywhere it appeared.
++        "corpus median response rate": zero_bands["_corpus_median_objective_response_pct"],
+     }
+ 
+ 

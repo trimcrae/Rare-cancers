@@ -1,0 +1,386 @@
+{
+  "_what": "Derived inputs for the PARKED-MODALITIES-1 reason ledger. Machine-derived fields only; the human verdicts live in parked-modality-reason-ledger.json beside this.",
+  "generated": "2026-09-09",
+  "lane": "PARKED-MODALITIES-1",
+  "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+  "input_sha256": {
+    "systems/graph/routes.json": "17d208e48c7901eeb01c64a16a415bb1f56a6ce729dfd05846c3b5e0e25f3d3b",
+    "systems/graph/publications.json": "fc55087c5de17c4fd5044dc7b87b9718e33d2b1c99d72c21c55d95dc0855d526",
+    "systems/graph/technologies.json": "0e0c1ff584c6491f7ab4f6027699595fadd0a7b9895c4bc2816128cb7232f18a",
+    "systems/graph/instruments.json": "04b771cdaab5bd297dccb0b3eb4a68d7dc1229d728587c949ee172b1e14ea6c3",
+    "systems/graph/blockers.json": "e57be21f77cd78c17b99fcc1140c2a54b4ab849862e37b30a714351db5aed0fb",
+    "research/modalities/selcal-dockq-decoy-scale.json": "2c4942e049e33a95195e001eca7c246e772e1d3b5fa0802a26f5dde689a2f21c",
+    "research/modalities/instrument-census.json": "f484afe4bb5795283dab8131cf47d3fe2d4204b401c559a41ad406366228526a"
+  },
+  "endpoint": {
+    "id": "PUB-PARKED-MODALITIES",
+    "state": "unwritten",
+    "document_file": null,
+    "why_not_written": "Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.",
+    "outcome_potential_why": "Every route parked on a capability nobody has. No result to report.",
+    "blocked_by": [
+      "BLK-VECTOR-DELIVERY",
+      "BLK-INDUCED-COMPLEX"
+    ]
+  },
+  "n_parked_routes": 5,
+  "number_recheck_v12_32A": {
+    "asserted_in": "research/modalities/instrument-census.json ('DockQ 0.023-0.046 = true structure moved 32 A')",
+    "asserted_displacement_A": 32.0,
+    "cofold_DockQ_range": [
+      0.0228,
+      0.0459
+    ],
+    "ladder_requested_rmsd_A_vs_median_DockQ": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.5,
+        0.9482
+      ],
+      [
+        1.0,
+        0.8445
+      ],
+      [
+        2.0,
+        0.7168
+      ],
+      [
+        4.0,
+        0.401
+      ],
+      [
+        8.0,
+        0.2404
+      ],
+      [
+        16.0,
+        0.0848
+      ],
+      [
+        32.0,
+        0.0255
+      ]
+    ],
+    "rederived_first_rung_with_median_at_or_below_best_cofold_A": 32.0,
+    "reproduces": true,
+    "limitation": "The ladder is a doubling series (0/0.5/1/2/4/8/16/32 A). The rung at 16.0 A has median DockQ 0.0848 > best co-fold 0.0459, so the displacement that actually matches the co-folds lies in the OPEN INTERVAL (16.0, 32.0] A. '32 A' is the coarsest matching RUNG, not an estimated displacement, and no interpolation or uncertainty is published for it.",
+    "not_established": "Nothing here is an efficacy, safety, selectivity, therapeutic-window or clinical-readiness statement. It is one instrument's failure to rebuild one deposited ternary from sequence + ligand."
+  },
+  "routes": [
+    {
+      "route": "RT-AF3-INTERFACE",
+      "display_name": "AF3 on a druggable interface",
+      "state": "parked",
+      "state_last_verified": "2026-08-05",
+      "route_artifacts": [],
+      "route_evidence": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "V2",
+          "V12"
+        ]
+      },
+      "blockers_inherited": {
+        "BLK-INDUCED-COMPLEX": {
+          "kind": "requires_better_structure_prediction",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md",
+            "anchor": "#1--the-route-stated-precisely--and-the-split-that-decides-it"
+          }
+        },
+        "BLK-TERNARY-GEOMETRY": {
+          "kind": "requires_better_structure_prediction",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+          }
+        }
+      },
+      "owning_technology_records": {
+        "TECH-COFOLD-ASSEMBLY": {
+          "current_state": "partially_landed",
+          "confidence": "high",
+          "evidence": [
+            "Open tools now exist for induced-complex prediction and one reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN.",
+            "The arm that has NOT landed is assembly from sequence and ligand alone, which is the problem this program actually has."
+          ],
+          "ungraded_pending_signals": 3,
+          "newest_ungraded_signal_seen_on": "2026-09-04"
+        }
+      },
+      "global_absence_phrasing_found": [
+        {
+          "field": "readiness.why_not_higher",
+          "text": "This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.",
+          "marker": [
+            "nothing to report until"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "RT-CRISPR-CAS13",
+      "display_name": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+      "state": "parked",
+      "state_last_verified": "2026-08-05",
+      "route_artifacts": [],
+      "route_evidence": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "blockers_inherited": {
+        "BLK-VECTOR-DELIVERY": {
+          "kind": "requires_future_technology",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/program/emc-post-degrader-options.md",
+            "anchor": "#routes-813--why-each-sits-in-tier-3"
+          }
+        }
+      },
+      "owning_technology_records": {
+        "TECH-VECTOR-DELIVERY": {
+          "current_state": "absent",
+          "confidence": "moderate",
+          "evidence": [
+            "No solid-tumour vector delivery platform is established at the coverage these routes assume."
+          ],
+          "ungraded_pending_signals": 0,
+          "newest_ungraded_signal_seen_on": null
+        }
+      },
+      "global_absence_phrasing_found": [
+        {
+          "field": "readiness.why_not_higher",
+          "text": "Gated on a delivery problem the field has not solved, so there is no computation whose result would change the route's standing.",
+          "marker": [
+            "the field has not",
+            "has not solved"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "RT-GLUE",
+      "display_name": "Molecular glue instead of a PROTAC",
+      "state": "parked",
+      "state_last_verified": "2026-08-05",
+      "route_artifacts": [],
+      "route_evidence": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "blockers_inherited": {
+        "BLK-NOT-FUSION-SELECTIVE": {
+          "kind": "fundamental_biological_limit",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/program/target-route-options.md",
+            "anchor": "#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it"
+          }
+        },
+        "BLK-PARALOGUE-DDG": {
+          "kind": "requires_better_simulation_accuracy",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged"
+          }
+        },
+        "BLK-R4-BINDS": {
+          "kind": "requires_wet_lab",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#32--the-rv-coverage-matrix--where-the-holes-are"
+          }
+        },
+        "BLK-TERNARY-GEOMETRY": {
+          "kind": "requires_better_structure_prediction",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+          }
+        }
+      },
+      "owning_technology_records": {
+        "TECH-FE-CRYPTIC-POCKET": {
+          "current_state": "absent",
+          "confidence": "high",
+          "evidence": [
+            "No public benchmark validates an absolute free-energy engine on a cryptic or induced-fit pocket to the accuracy this margin requires."
+          ],
+          "ungraded_pending_signals": 0,
+          "newest_ungraded_signal_seen_on": null
+        },
+        "TECH-GLUE-DESIGN": {
+          "current_state": "early_signals",
+          "confidence": "moderate",
+          "evidence": [
+            "Generative interface-design methods are advancing; none is demonstrated prospectively on an out-of-training neosubstrate interface."
+          ],
+          "ungraded_pending_signals": 5,
+          "newest_ungraded_signal_seen_on": "2026-08-21"
+        }
+      },
+      "global_absence_phrasing_found": [
+        {
+          "field": "readiness.why_not_higher",
+          "text": "There is no design method to apply and no screen to run, so there is no computation whose result would mean anything.",
+          "marker": [
+            "no design method"
+          ]
+        },
+        {
+          "field": "remaining_unknowns[1]",
+          "text": "Whether prospective glue design works on an interface outside a method's training set \u2014 nobody has shown it.",
+          "marker": [
+            "nobody has"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "RT-RIBOZYME",
+      "display_name": "Trans-splicing ribozyme \u2192 suicide gene, triggered by the fusion transcript",
+      "state": "parked",
+      "state_last_verified": "2026-08-05",
+      "route_artifacts": [],
+      "route_evidence": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "blockers_inherited": {
+        "BLK-VECTOR-DELIVERY": {
+          "kind": "requires_future_technology",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/program/emc-post-degrader-options.md",
+            "anchor": "#routes-813--why-each-sits-in-tier-3"
+          }
+        }
+      },
+      "owning_technology_records": {
+        "TECH-VECTOR-DELIVERY": {
+          "current_state": "absent",
+          "confidence": "moderate",
+          "evidence": [
+            "No solid-tumour vector delivery platform is established at the coverage these routes assume."
+          ],
+          "ungraded_pending_signals": 0,
+          "newest_ungraded_signal_seen_on": null
+        }
+      },
+      "global_absence_phrasing_found": [
+        {
+          "field": "closure_note",
+          "text": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
+          "marker": [
+            "no modern"
+          ]
+        },
+        {
+          "field": "readiness.why_not_higher",
+          "text": "Two independent gates \u2014 delivery and a technique with no modern clinical footing \u2014 and no computation addresses either.",
+          "marker": [
+            "no modern"
+          ]
+        },
+        {
+          "field": "grade.value",
+          "text": "Tier 3 \u2014 vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
+          "marker": [
+            "no modern"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "RT-RIPTAC",
+      "display_name": "RIPTAC \u2014 bind the tumour protein, poison an essential one",
+      "state": "parked",
+      "state_last_verified": "2026-08-05",
+      "route_artifacts": [],
+      "route_evidence": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "blockers_inherited": {
+        "BLK-INDUCED-COMPLEX": {
+          "kind": "requires_better_structure_prediction",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md",
+            "anchor": "#1--the-route-stated-precisely--and-the-split-that-decides-it"
+          }
+        },
+        "BLK-NO-WET-LAB": {
+          "kind": "requires_external_collaboration",
+          "has_evidence_field": true,
+          "owner": {
+            "file": "research/manuscripts/modality-census/what-a-civilian-can-buy.md",
+            "anchor": null
+          }
+        },
+        "BLK-NOT-FUSION-SELECTIVE": {
+          "kind": "fundamental_biological_limit",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/program/target-route-options.md",
+            "anchor": "#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it"
+          }
+        },
+        "BLK-PARALOGUE-DDG": {
+          "kind": "requires_better_simulation_accuracy",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged"
+          }
+        },
+        "BLK-R4-BINDS": {
+          "kind": "requires_wet_lab",
+          "has_evidence_field": false,
+          "owner": {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "#32--the-rv-coverage-matrix--where-the-holes-are"
+          }
+        }
+      },
+      "owning_technology_records": {
+        "TECH-FE-CRYPTIC-POCKET": {
+          "current_state": "absent",
+          "confidence": "high",
+          "evidence": [
+            "No public benchmark validates an absolute free-energy engine on a cryptic or induced-fit pocket to the accuracy this margin requires."
+          ],
+          "ungraded_pending_signals": 0,
+          "newest_ungraded_signal_seen_on": null
+        },
+        "TECH-COFOLD-ASSEMBLY": {
+          "current_state": "partially_landed",
+          "confidence": "high",
+          "evidence": [
+            "Open tools now exist for induced-complex prediction and one reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN.",
+            "The arm that has NOT landed is assembly from sequence and ligand alone, which is the problem this program actually has."
+          ],
+          "ungraded_pending_signals": 3,
+          "newest_ungraded_signal_seen_on": "2026-09-04"
+        }
+      },
+      "global_absence_phrasing_found": []
+    }
+  ]
+}

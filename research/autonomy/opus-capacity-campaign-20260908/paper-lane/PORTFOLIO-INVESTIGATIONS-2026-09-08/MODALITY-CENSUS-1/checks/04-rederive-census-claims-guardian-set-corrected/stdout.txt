@@ -1,0 +1,42 @@
+CTRL-POS                     REPRODUCES                 control: row count of the registry equals itself
+CTRL-NEG                     MISMATCH                   control: a deliberately wrong quoted value (218) against the same re-d
+S2-TOTAL                     REPRODUCES                 217 modality classes
+S2-GROUPS                    REPRODUCES                 19 groups
+S2-BANDS                     REPRODUCES                 4 bands
+S2-VT-ON-BOARD               REPRODUCES                 verdict on_board: classes / of which never searched here
+S2-VT-IN-CLINICAL-USE        REPRODUCES                 verdict in_clinical_use: classes / of which never searched here
+S2-VT-ALREADY-REJECTED       REPRODUCES                 verdict already_rejected: classes / of which never searched here
+S2-VT-EXCLUDED               REPRODUCES                 verdict excluded: classes / of which never searched here
+S2-VT-CANDIDATE              REPRODUCES                 verdict candidate: classes / of which never searched here
+S2-VT-PARKED-CAPABILITY      REPRODUCES                 verdict parked_capability: classes / of which never searched here
+S2-VT-NOT-APPLICABLE         REPRODUCES                 verdict not_applicable: classes / of which never searched here
+S2-HEADLINE-111              REPRODUCES                 111 of 217 classes had never been pointed at by any prior sweep here
+S2-HEADLINE-14-LIVE          REPRODUCES                 and 14 of those are live
+S2-BAND-DRUG-MECHANISM       REPRODUCES                 band drug_mechanism: classes / never searched / share
+S2-BAND-DELIVERY-AND-CONJUGATE REPRODUCES                 band delivery_and_conjugate: classes / never searched / share
+S2-BAND-PHYSICAL-LOCOREGIONAL REPRODUCES                 band physical_locoregional: classes / never searched / share
+S2-BAND-STRATEGY-AND-ARCHITECTURE REPRODUCES                 band strategy_and_architecture: classes / never searched / share
+S21-FLAGGED-73               REPRODUCES                 the audit flagged 73 rows
+S21-ALL-UNREVIEWED           REPRODUCES                 every finding in the audit file is recorded UNREVIEWED
+S21-20-CANDIDATES-ADJUDICATED REPRODUCES                 Only the 20 candidate rows were adjudicated there [in modalities.json]
+S21-ARSENAL-8                REPRODUCES                 the incumbent arsenal is 8 classes
+S21-AUDIT-DENOM              REPRODUCES                 context: the audit's own never-searched denominator versus the registr
+S3-TWENTY-SURVIVE            REPRODUCES                 Twenty classes survive
+S3-ALL-CANDIDATES-ROUTED     REPRODUCES                 every one of them is registered as a route
+S4-NINETY-FIVE               REPRODUCES                 Ninety-five classes are closed here on first inspection
+S5-33-POINTERS               REPRODUCES                 Thirty-three rows carry already_rejected with a resolvable pointer
+S5-THREE-SWEEPS-REACHED      REPRODUCES                 each of the three prior searches is reached by at least one row
+S38-16-ROUTES                REPRODUCES                 Sixteen of the routes ... the 16 graded routes
+S38-479-GENES                REPRODUCES                 the repository's targeted expression panel -- 479 of them as it now st
+S38-TWO-PLATFORMS            REPRODUCES                 the two expression platforms every 'both platforms' statement refers t
+S38-NDRG1-98TH               REPRODUCES                 its canonical substrate NDRG1 is higher on both, at the 98th percentil
+S31-CDK-100PC                REPRODUCES                 across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 10
+S32A-BH3-FRACTIONS           REPRODUCES                 across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies 
+S32A-GUARDIANS-LOWER         MISMATCH                   all five druggable guardians are lower on both platforms
+S32A-GUARDIAN-MODULE-LOWER-BOTH REPRODUCES                 the guardian MODULE is lower in EMC on both platforms
+S21-15-WRONG-ROWS            NOT-RE-DERIVABLE-LOCALLY   The first version of this document said 127, and 15 of those rows were
+S1-FOUR-INVISIBLE            NOT-RE-DERIVABLE-LOCALLY   Four whole categories had been invisible to every previous search
+
+controls: CTRL-POS=REPRODUCES CTRL-NEG=MISMATCH trustworthy=True
+verdicts (excluding controls): {'REPRODUCES': 33, 'MISMATCH': 1, 'NOT-RE-DERIVABLE-LOCALLY': 2}
+ledger written: /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MODALITY-CENSUS-1/claim-rederivation-ledger.json

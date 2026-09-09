@@ -1,0 +1,111 @@
+[rederive] 225 frames
+[pdyn] construct NR4A3: 254 residues, local->UniProt +372, homologous pocket 10/10 (UniProt [406, 407, 410, 411, 412, 481, 484, 485, 531, 534])
+[pdyn] construct NR4A3: 254 residues, local->UniProt +372, homologous pocket 10/10 (UniProt [406, 407, 410, 411, 412, 481, 484, 485, 531, 534])
+[pdyn] construct NR4A3: 254 residues, local->UniProt +372, homologous pocket 10/10 (UniProt [406, 407, 410, 411, 412, 481, 484, 485, 531, 534])
+[pdyn] construct NR4A3: 254 residues, local->UniProt +372, homologous pocket 10/10 (UniProt [406, 407, 410, 411, 412, 481, 484, 485, 531, 534])
+[pdyn] construct NR4A1: 251 residues, local->UniProt +347, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A1: 251 residues, local->UniProt +347, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A1: 251 residues, local->UniProt +347, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A1: 251 residues, local->UniProt +347, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A2: 255 residues, local->UniProt +343, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A2: 255 residues, local->UniProt +343, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A2: 255 residues, local->UniProt +343, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+[pdyn] construct NR4A2: 255 residues, local->UniProt +343, homologous pocket 10/10 (UniProt [372, 373, 376, 377, 380, 450, 453, 454, 500, 503])
+{
+  "_what": "DEGRADER-3 independent re-derivation of DEGRADER-2's 72/75, 0.9993 and 0.88",
+  "_scope_ceiling": "RSA is geometric. Nothing here is an EMC efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim. No wet lab.",
+  "n_frames": 225,
+  "n_c397_frames": 75,
+  "n_paralogue_observations": 825,
+  "pooled_paralogue_ceiling": 0.2126,
+  "pooled_paralogue_ceiling_attribution": [
+    "NR4A1:C465@fp_74_release_rep2"
+  ],
+  "c397_frames_strictly_above_pooled_ceiling": {
+    "n_above": 72,
+    "n": 75,
+    "fraction": 0.96,
+    "exceptions": [
+      [
+        "release_rep0",
+        "fp_41_xmzapaw0",
+        0.1082
+      ],
+      [
+        "release_rep0",
+        "fp_37_h9k263rg",
+        0.1617
+      ],
+      [
+        "release_rep0",
+        "fp_99_az0_ci9r",
+        0.187
+      ]
+    ]
+  },
+  "c397_pairwise_dominance_vs_paralogue_observations": 0.9993,
+  "per_replica_paralogue_ceiling": {
+    "release_rep0": 0.1737,
+    "release_rep1": 0.194,
+    "release_rep2": 0.2126
+  },
+  "cross_replica_pairings": {
+    "C397@release_rep0_vs_ceiling@release_rep0": {
+      "n_above": 23,
+      "n": 25,
+      "fraction": 0.92
+    },
+    "C397@release_rep0_vs_ceiling@release_rep1": {
+      "n_above": 22,
+      "n": 25,
+      "fraction": 0.88
+    },
+    "C397@release_rep0_vs_ceiling@release_rep2": {
+      "n_above": 22,
+      "n": 25,
+      "fraction": 0.88
+    },
+    "C397@release_rep1_vs_ceiling@release_rep0": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    },
+    "C397@release_rep1_vs_ceiling@release_rep1": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    },
+    "C397@release_rep1_vs_ceiling@release_rep2": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    },
+    "C397@release_rep2_vs_ceiling@release_rep0": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    },
+    "C397@release_rep2_vs_ceiling@release_rep1": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    },
+    "C397@release_rep2_vs_ceiling@release_rep2": {
+      "n_above": 25,
+      "n": 25,
+      "fraction": 1.0
+    }
+  },
+  "worst_cross_replica_pairing": {
+    "pairing": "C397@release_rep0_vs_ceiling@release_rep1",
+    "n_above": 22,
+    "n": 25,
+    "fraction": 0.88
+  },
+  "degrader2_claims": {
+    "72/75": true,
+    "exceptions_all_release_rep0": true,
+    "dominance_0.9993": true,
+    "worst_cross_replica_0.88": true
+  }
+}

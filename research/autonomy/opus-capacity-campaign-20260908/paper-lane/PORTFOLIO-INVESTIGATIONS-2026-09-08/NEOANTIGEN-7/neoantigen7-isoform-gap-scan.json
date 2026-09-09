@@ -1,0 +1,95 @@
+{
+ "_what": "Repository-wide inventory of EWSR1 accessions NAMED versus EWSR1 sequences HELD.",
+ "n_files_scanned": 3830,
+ "accessions_named": {
+  "Q01844": [
+   "research/manuscripts/degrader/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md",
+   "research/manuscripts/dependency/degrader-vs-synthetic-lethal.md",
+   "research/manuscripts/modality-census/novel-modalities-factcheck.md",
+   "research/manuscripts/modality-census/novel-modalities.md",
+   "research/manuscripts/program/degrader-paper-schedule.json",
+   "research/modalities/emc-condensate-window-eligibility.json",
+   "research/modalities/emc-construct-inputs.json",
+   "research/modalities/emc_condensate_calvados.py"
+  ],
+  "Q01844-2": [
+   "research/modalities/junction-anchor-convention-sensitivity.json",
+   "research/modalities/junction-selfsimilarity.json",
+   "research/modalities/p1-anchor-convention.json"
+  ],
+  "Q01844-3": [
+   "research/modalities/junction-anchor-convention-sensitivity.json",
+   "research/modalities/junction-selfsimilarity.json",
+   "research/modalities/p1-anchor-convention.json"
+  ],
+  "Q01844-5": [
+   "research/modalities/junction-anchor-convention-sensitivity.json",
+   "research/modalities/junction-selfsimilarity.json",
+   "research/modalities/p1-anchor-convention.json"
+  ],
+  "Q01844-6": [
+   "research/modalities/junction-anchor-convention-sensitivity.json",
+   "research/modalities/junction-selfsimilarity.json",
+   "research/modalities/p1-anchor-convention.json"
+  ]
+ },
+ "isoform_accessions_named": [
+  "Q01844-2",
+  "Q01844-3",
+  "Q01844-5",
+  "Q01844-6"
+ ],
+ "n_isoform_accessions_named": 4,
+ "distinct_EWSR1_like_sequences_held": [
+  {
+   "sha256": "bef64104cdf12d5699479a7551b8e95ab6d96fd78d51eb4b20914076bb321492",
+   "length": 264,
+   "n_locations": 3,
+   "example_location": "research/modalities/emc-condensate-constructs.json/constructs[0]/sequence"
+  },
+  {
+   "sha256": "5f69a5f02933dbcbf92593fd065ad122f885a87f5071168bc93dd222fc6a04d5",
+   "length": 360,
+   "n_locations": 1,
+   "example_location": "research/modalities/emc-condensate-constructs.json/constructs[1]/sequence"
+  },
+  {
+   "sha256": "64658b0d0f949eeff212a8ebc38fa4813018c1ec891adb69e11ea0a725bcd005",
+   "length": 431,
+   "n_locations": 2,
+   "example_location": "research/modalities/fusion-cofold-constructs.json/gate/checks[10]/got"
+  },
+  {
+   "sha256": "8697979a74ed6de4853dbf519a3e6ccdc17e63ac18bb11e06fb5b61fd8b0fcad",
+   "length": 472,
+   "n_locations": 2,
+   "example_location": "research/modalities/fusion-cofold-constructs.json/gate/checks[22]/got"
+  },
+  {
+   "sha256": "50aceb523187df7b1de28f4831385e42ea889e02268107d81adcd59941fce8f9",
+   "length": 656,
+   "n_locations": 5,
+   "example_location": "research/modalities/emc-construct-inputs.json/genes/EWSR1/protein"
+  },
+  {
+   "sha256": "03a947c08034dd5ea88e48b3da74f20af8be0412cf484e1d1f361d67286de14d",
+   "length": 949,
+   "n_locations": 1,
+   "example_location": "research/modalities/emc-fet-construct-designs.json/constructs[1]/protein_sequence"
+  },
+  {
+   "sha256": "242a7b7805c708d350d7d670b506d1b752485384a2511d5a0c7a75adb6b2faf3",
+   "length": 1058,
+   "n_locations": 1,
+   "example_location": "research/modalities/emc-fet-construct-designs.json/constructs[0]/protein_sequence"
+  },
+  {
+   "sha256": "e265ffdeb38290f14fed6320208d4f929879494cf346d9694997f2a8b9027ac5",
+   "length": 1099,
+   "n_locations": 1,
+   "example_location": "research/modalities/emc-fet-construct-designs.json/constructs[2]/protein_sequence"
+  }
+ ],
+ "n_isoform_sequences_held": 0,
+ "⚠_note": "Exactly one held sequence is wild-type EWSR1: the 656-aa canonical Q01844. Every other sequence listed here begins with the canonical N-terminus but is a DESIGNED CONSTRUCT — truncated EWSR1 fragments, condensate constructs and EWSR1::NR4A3 fusion designs — not a wild-type isoform. No wild-type EWSR1 isoform sequence is present in this checkout."
+}

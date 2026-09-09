@@ -1,0 +1,8 @@
+git apply --check --verbose <lane>/scope-abstract-recompute.patch
+(patch regenerated with difflib, but the replacement was passed as ONE list element containing
+embedded newlines, so only its first line carried a '+' marker)
+⛔ RECONSTRUCTED FROM THE SESSION TRANSCRIPT — same overwrite caveat as attempt1.
+A third, earlier failure also occurred at patch-build time and never reached git: an
+AssertionError from an off-by-one line index (line 98 held "these defects. A retained object
+census..." rather than the target line 99). Exit code 1, stderr "AssertionError: these defects. A
+retained object census over two named storage prefixes finds no multi-frame coordinate".

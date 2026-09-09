@@ -1,0 +1,20 @@
+{
+ "REPRODUCES": 95,
+ "MISMATCH": 1,
+ "NOT-RE-DERIVABLE-LOCALLY": 3,
+ "rows": 99
+}
+
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+non-REPRODUCES rows:
+  MISMATCH                   Z-MEDORR         §4.3 / Figure 3 quoted=7.7 derived=7.2
+  NOT-RE-DERIVABLE-LOCALLY   A-CAPS           §3.4          quoted=[2027, 16035] derived=None
+  NOT-RE-DERIVABLE-LOCALLY   V-OVERLAP        §6.1          quoted=UNKNOWN derived=None
+  NOT-RE-DERIVABLE-LOCALLY   V-PLACEBO20      §6.1          quoted=20 derived=None

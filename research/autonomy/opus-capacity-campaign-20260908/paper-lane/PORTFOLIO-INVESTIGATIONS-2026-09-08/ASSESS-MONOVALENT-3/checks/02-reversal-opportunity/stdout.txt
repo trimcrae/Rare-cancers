@@ -1,0 +1,27 @@
+cell-frame decisions per cutoff: 60 cells x 10 frames = 600
+
+2.0 A: committed open 40 / closed 20  (closed by NR4A2  0, by NR4A1/NR4A3  7, target-unreachable 13)
+        cell-frame chances to CLOSE an open cell : 400   observed closings: 22
+        cell-frame chances to OPEN a closed cell :   0   observed openings: 0
+2.6 A: committed open 42 / closed 18  (closed by NR4A2  1, by NR4A1/NR4A3  0, target-unreachable 17)
+        cell-frame chances to CLOSE an open cell : 420   observed closings: 2
+        cell-frame chances to OPEN a closed cell :  10   observed openings: 0
+3.0 A: committed open 37 / closed 23  (closed by NR4A2  0, by NR4A1/NR4A3  5, target-unreachable 18)
+        cell-frame chances to CLOSE an open cell : 370   observed closings: 0
+        cell-frame chances to OPEN a closed cell :   0   observed openings: 0
+3.4 A: committed open 42 / closed 18  (closed by NR4A2  0, by NR4A1/NR4A3  0, target-unreachable 18)
+        cell-frame chances to CLOSE an open cell : 420   observed closings: 0
+        cell-frame chances to OPEN a closed cell :   0   observed openings: 0
+
+TOTAL over the grid: closing opportunities 1610, opening opportunities 10
+If opening opportunities were 0, 'never the reverse' would be a tautology.
+
+Closed-cell behaviour where opening IS structurally possible (NR4A2 blocker):
+  vhl|M3@representative|dab_branch               2.6 A  committed w=0 blocker=NR4A2 C465 at 18 | exp widths [0]
+  ... 1 such cell-cutoff situations in total
+
+Experimental minus committed NR4A2 C534 corridor atoms (negative = experimental reaches NEARER):
+  2.0 A: n= 600  mean -0.41  median +0.0  nearer(neg) 257  farther(pos) 33  equal 310
+  2.6 A: n= 600  mean -0.03  median +0.0  nearer(neg) 151  farther(pos) 139  equal 310
+  3.0 A: n= 600  mean +0.20  median +0.0  nearer(neg) 120  farther(pos) 195  equal 285
+  3.4 A: n= 600  mean +1.65  median +1.0  nearer(neg) 24  farther(pos) 471  equal 105

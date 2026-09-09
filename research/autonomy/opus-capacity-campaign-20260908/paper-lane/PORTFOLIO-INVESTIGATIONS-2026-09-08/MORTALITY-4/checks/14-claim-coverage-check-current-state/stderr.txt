@@ -1,0 +1,33 @@
+claim-coverage.json is stale — it is not what the live census computes:
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.sentences: committed 58, the census now reports 149
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.with_a_number: committed 22, the census now reports 80
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered: committed 58, the census now reports 149
+  papers.research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md.uncovered_with_a_number: committed 22, the census now reports 80
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.sentences: committed 435, the census now reports 465
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.with_a_number: committed 303, the census now reports 325
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered: committed 435, the census now reports 465
+  papers.research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md.uncovered_with_a_number: committed 303, the census now reports 325
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.sentences: committed 329, the census now reports 321
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.covered: committed 87, the census now reports 50
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number: committed 238, the census now reports 210
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.with_a_number_covered: committed 85, the census now reports 49
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered: committed 242, the census now reports 271
+  papers.research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.uncovered_with_a_number: committed 153, the census now reports 161
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.sentences: committed 124, the census now reports 214
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.with_a_number: committed 54, the census now reports 122
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered: committed 124, the census now reports 214
+  papers.research/manuscripts/methods-record/degrader-methods-failure-record.md.uncovered_with_a_number: committed 54, the census now reports 122
+  papers.research/manuscripts/modality-census/cancer-modality-census.md.sentences: committed 123, the census now reports 129
+  papers.research/manuscripts/modality-census/cancer-modality-census.md.with_a_number: committed 45, the census now reports 49
+  papers.research/manuscripts/modality-census/cancer-modality-census.md.uncovered: committed 123, the census now reports 129
+  papers.research/manuscripts/modality-census/cancer-modality-census.md.uncovered_with_a_number: committed 45, the census now reports 49
+  papers.research/manuscripts/surface-targets/emc-surface-target-landscape.md.sentences: committed 400, the census now reports 498
+  papers.research/manuscripts/surface-targets/emc-surface-target-landscape.md.with_a_number: committed 227, the census now reports 259
+  papers.research/manuscripts/surface-targets/emc-surface-target-landscape.md.uncovered: committed 400, the census now reports 498
+  papers.research/manuscripts/surface-targets/emc-surface-target-landscape.md.uncovered_with_a_number: committed 227, the census now reports 259
+  papers.research/manuscripts/tcip/tcip-induced-interface-preprint.md.sentences: committed 123, the census now reports 253
+  papers.research/manuscripts/tcip/tcip-induced-interface-preprint.md.with_a_number: committed 62, the census now reports 116
+  papers.research/manuscripts/tcip/tcip-induced-interface-preprint.md.uncovered: committed 123, the census now reports 253
+  papers.research/manuscripts/tcip/tcip-induced-interface-preprint.md.uncovered_with_a_number: committed 62, the census now reports 116
+Re-run `python3 research/manuscripts/claim_coverage.py --write` and commit the result in THIS change.
+⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the census harvests its patterns from that corpus, so widening a guard's regex moves `covered` with no manuscript byte touched. That edit and this artifact are a pair even though they live in different directories.

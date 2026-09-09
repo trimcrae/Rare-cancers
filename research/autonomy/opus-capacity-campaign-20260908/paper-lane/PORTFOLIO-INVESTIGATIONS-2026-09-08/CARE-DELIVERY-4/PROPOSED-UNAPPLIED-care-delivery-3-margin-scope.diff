@@ -1,0 +1,24 @@
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/FINDING.md
+@@ -153,10 +153,17 @@
+ 4. `⛔_scope`: the global "tables were not read" caveat becomes **per series**, because it is no
+    longer true globally.
+ 
+-**Unchanged:** both verdicts. The margin element — **still four series REPORTED, three poolable on
+-the R0/R1/R2 scale** — because *no trial series prints a margin at all*. `counts.series` (2) and
+-`counts.operated_patients_with_a_margin_recorded` (196) untouched; no count, distribution or measured
+-value added, removed or altered anywhere in the diff.
++**Unchanged:** both verdicts. The margin element — **still four series REPORTED, three poolable on
++the R0/R1/R2 scale** — because neither series read here prints one. ⛔ **Scope, corrected by
++CARE-DELIVERY-4:** of the four trial-design series among the 17 candidates (`stacchiotti2019pazopanib`,
++`immunosarc2emc2025`, `martinbroto2020immunosarc1`, `morioka2016trabectedin`, by their own
++`why_candidate` strings in `emc-ipd-survival.json`) exactly **one** was examined for the margin
++element; the other three are `NOT_EXAMINED`, `morioka2016trabectedin` explicitly so. And
++`stacchiotti2013anthracycline` is a **retrospective** systemic-therapy series, not a trial. Whether
++any trial series prints a margin is therefore **UNKNOWN**. `counts.series` (2) and
++`counts.operated_patients_with_a_margin_recorded` (196) untouched — and both re-derive exactly
++(2 = len(series); 196 = 156 + 40); no count, distribution or measured value added, removed or
++altered anywhere in the diff.
+ 
+ ## 8 · Artifact · validation · provenance · limitations · stop condition
+ 

@@ -1,0 +1,21 @@
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-4/margin-element-scope-audit.json
+part 1 all_reproduce: True
+  REPRODUCES   element_counts.surgical_margin_distribution.REPORTED.n_series  stated=4 rederived=4
+  REPRODUCES   element_counts.surgical_margin_distribution.REPORTED.patients  stated=358 rederived=358
+  REPRODUCES   element_counts.surgical_margin_distribution.REPORTED.series (as a set)  stated=['bishop2019', 'chiusole2020', 'drilon2008', 'masunaga2025'] rederived=['bishop2019', 'chiusole2020', 'drilon2008', 'masunaga2025']
+  REPRODUCES   element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.n_series  stated=2 rederived=2
+  REPRODUCES   element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.patients  stated=79 rederived=79
+  REPRODUCES   element_counts.surgical_margin_distribution.EXAMINED_NOT_PRINTED.series (as a set)  stated=['martinbroto2020immunosarc1', 'stacchiotti2013anthracycline'] rederived=['martinbroto2020immunosarc1', 'stacchiotti2013anthracycline']
+  REPRODUCES   element_counts.surgical_margin_distribution.NOT_EXAMINED.n_series  stated=11 rederived=11
+  REPRODUCES   element_counts.surgical_margin_distribution.NOT_EXAMINED.patients  stated=696 rederived=696
+  REPRODUCES   element_counts.surgical_margin_distribution.NOT_EXAMINED.series (as a set)  stated=['china2016', 'huang2023', 'immunosarc2emc2025', 'japan2003', 'meisKindblom1999', 'morioka2016trabectedin', 'seer270_2022', 'stacchiotti2014sunitinib', 'stacchiotti2019pazopanib', 'uMich2023', 'ussc2022'] rederived=['china2016', 'huang2023', 'immunosarc2emc2025', 'japan2003', 'meisKindblom1999', 'morioka2016trabectedin', 'seer270_2022', 'stacchiotti2014sunitinib', 'stacchiotti2019pazopanib', 'uMich2023', 'ussc2022']
+  REPRODUCES   poolable series set  stated=['chiusole2020', 'drilon2008', 'masunaga2025'] rederived=['chiusole2020', 'drilon2008', 'masunaga2025']
+  REPRODUCES   masunaga2025 operated-with-a-margin = R0+R1+R2 of margin_all_registered  stated=156 rederived=156
+  REPRODUCES   chiusole2020 = emc-surgical-quality margin_field_available_for  stated=40 rederived=40
+  REPRODUCES   drilon2008 denominator = R0+R1+R2 of the quoted verbatim sentence  stated=43 rederived=43
+  REPRODUCES   emc-surgical-quality.counts.operated_patients_with_a_margin_recorded = masunaga operated + chiusole field-available (its own two-series scope)  stated=196 rederived=196
+  REPRODUCES   emc-surgical-quality.counts.series = len(series array)  stated=2 rederived=2
+  REPRODUCES   margin examined set (REPORTED u EXAMINED_NOT_PRINTED) equals the six-series examined set the v3 absence audit uses  stated=['bishop2019', 'chiusole2020', 'drilon2008', 'martinbroto2020immunosarc1', 'masunaga2025', 'stacchiotti2013anthracycline'] rederived=['bishop2019', 'chiusole2020', 'drilon2008', 'martinbroto2020immunosarc1', 'masunaga2025', 'stacchiotti2013anthracycline']
+trial-design series: ['immunosarc2emc2025', 'martinbroto2020immunosarc1', 'morioka2016trabectedin', 'stacchiotti2019pazopanib']
+trial series by margin status: {"NOT_EXAMINED": ["immunosarc2emc2025", "morioka2016trabectedin", "stacchiotti2019pazopanib"], "EXAMINED_NOT_PRINTED": ["martinbroto2020immunosarc1"]}
+phrase in v3 FINDING.md: True | in v3 artifact: False

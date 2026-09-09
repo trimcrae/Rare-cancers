@@ -1,0 +1,20 @@
+| id | section | claim | manuscript value | re-derived / missing input | verdict |
+|---|---|---|---|---|---|
+| `B-SYGQ` | 3.5/Tab4 | N-terminal 250-aa [S,Y,G,Q]: EWSR1,TAF15,FUS,TCF12 | `(0.54, 0.62, 0.804, 0.368)` | `(0.54, 0.62, 0.804, 0.368)` | **REPRODUCES** |
+| `B-GRID` | 3.5 | grid prefix counts TCF12,EWSR1,TAF15,FUS | `(66, 61, 55, 48)` | `(66, 61, 55, 48)` | **REPRODUCES** |
+| `B-IDFET` | 3.5/Tab4 | FET-vs-FET identity range | `(26.1, 35.7)` | `(26.1, 35.7)` | **REPRODUCES** |
+| `B-IDTC` | 3.5/Tab4 | TCF12-vs-FET identity range | `(16.8, 20.5)` | `(16.8, 20.5)` | **REPRODUCES** |
+| `B-BOX` | 3.5/Tab4 | operational RGG boxes EWSR1,TAF15,FUS,TCF12 | `(2, 1, 2, 0)` | `('<not found>', '<not found>', '<not found>', '<not found>')` | **MISMATCH** |
+| `B-PA-N` | 1 | prior-art screen record count | `322` | `322` | **REPRODUCES** |
+| `B-PA-FT` | 1 | prior-art full-text count | `238` | `238` | **REPRODUCES** |
+| `B-PA-HIT` | 1 | prior-art ATR / replication-stress hits | `0` | `0` | **REPRODUCES** |
+| `B-S3-SHA` | S3 | cited sha256 of emc-fet-construct-designs.json | `726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b` | `726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b` | **REPRODUCES** |
+| `N-PAZO` | 1 | pazopanib ORR 18 per cent, median PFS 19 months, NCT02066285 | `18% / 19 mo` | `missing input: ref [2] (PMID 41055792) full text; no committed artifact in this repo holds the extracted trial numbers` | **NOT-RE-DERIVABLE-LOCALLY** |
+| `N-REF1` | 1,3.4,5 | reference 1 measured recruitment anchors 0.000 and 1.000, and the quoted methods paragraph | `measured in ref [1]` | `missing input: ref [1] (PMID 41811428) primary data; the axis artifact stores the placement, not the recruitment measurement` | **NOT-RE-DERIVABLE-LOCALLY** |
+| `N-CNT` | 3.1/Tab1 | counted series frequencies (10 tumours; 11 of 15; 3 of 15; 4 of 10; 1 of 26) | `quoted counts` | `missing input: refs [6,7,9,10] full text; frame-and-composition holds quotations for 3 series only, not the 1-of-26 TCF12 count` | **NOT-RE-DERIVABLE-LOCALLY** |
+| `N-GENOMIC` | S3 | genomic breakpoint coordinates for all four junctions | `UNRESOLVED` | `missing input: a sequenced breakpoint; the input cache carries transcript/cDNA coordinates only — the manuscript states this` | **NOT-RE-DERIVABLE-LOCALLY** |
+| `N-ANNOT` | 2.6/Lim3 | exon-rank-to-nucleotide correspondence verified against a second annotation source | `not claimed` | `missing input: a second, independent annotation retrieval; one offline cache only — the manuscript states this` | **NOT-RE-DERIVABLE-LOCALLY** |
+| `N-TCF12FUS` | 3.1/S3 | TCF12::NR4A3 and FUS::NR4A3 transcript-level junctions | `UNRESOLVED` | `missing input: an exon-level breakpoint statement in a published source; none retrieved — the manuscript states this` | **NOT-RE-DERIVABLE-LOCALLY** |
+
+{'REPRODUCES': 8, 'MISMATCH': 1, 'NOT-RE-DERIVABLE-LOCALLY': 6}
+  MISMATCH: B-BOX | manuscript (2, 1, 2, 0) | artifact ('<not found>', '<not found>', '<not found>', '<not found>')

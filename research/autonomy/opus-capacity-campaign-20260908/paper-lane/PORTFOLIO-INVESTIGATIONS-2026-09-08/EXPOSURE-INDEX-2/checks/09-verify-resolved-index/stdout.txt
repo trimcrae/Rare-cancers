@@ -1,0 +1,21 @@
+A. inherited invariants (EXPOSURE-INDEX's own)
+  ok   28 rows preserved
+  ok   retrieval_completeness three-valued on every row
+  ok   overlap_unknown present on every row
+  ok   overlap_unknown=true still on 24 rows (NO flag changed by this lane)
+  ok   every reported n_emc names a source
+  ok   no zero without a measured-zero justification (zeros: 1)
+B. no total-shaped key anywhere in the file
+  ok   no total-shaped key outside the sanctioned control
+C. this lane's own invariants
+  ok   every surviving UNKNOWN row records WHY it is still unknown (14 rows)
+  ok   every surviving UNKNOWN carries an admitted reason code
+  ok   exactly 5 rows resolved by this lane
+  ok   every resolved row carries a verbatim quote AND a locator
+  ok   no resolved row changed an overlap_unknown flag
+  ok   chow2007 refusal UPHELD (not overturned to 0)
+  ok   maki2005 protected row UPHELD (UNKNOWN, never zero)
+  ok   boklan2025 unread-not-absent row UPHELD
+  ok   higuchi2023 remains the only measured zero
+D. LOCOREGIONAL-2 control -- re-derived FROM THIS INDEX'S ROWS
+  ok   ledger arm source 'bishop2019' is a row in this index

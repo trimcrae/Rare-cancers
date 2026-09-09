@@ -1,0 +1,28 @@
+committed sufficiency: {"criterion": "PUB-VACCINE-PATH: 95% CI width <= 0.20 on sensitivity at the cut (Wilson)", "n_required": {"0.5": 93, "0.7": 78, "0.8": 60, "0.9": 37}, "preregistered_floor": 30, "n_available_benchmark_eligible": 15, "n_available_ms_eluted_only": 6, "shortfall_vs_sens_0.5": 78, "shortfall_vs_sens_0.8": 45, "shortfall_vs_prereg_floor": 15, "achieved_ci_width_at_sens_0.5_with_n_available": 0.4515, "verdict": "INSUFFICIENT"}
+patched   sufficiency: {"criterion": "PUB-VACCINE-PATH: 95% CI width <= 0.20 on sensitivity at the cut (Wilson)", "n_required": {"0.5": 93, "0.7": 78, "0.8": 60, "0.9": 34}, "preregistered_floor": 30, "n_available_benchmark_eligible": 15, "n_available_ms_eluted_only": 6, "shortfall_vs_sens_0.5": 78, "shortfall_vs_sens_0.8": 45, "shortfall_vs_prereg_floor": 15, "achieved_ci_width_at_sens_0.5_with_n_available": 0.4515, "verdict": "INSUFFICIENT"}
+
+field-by-field:
+  achieved_ci_width_at_sens_0.5_with_n_available       SAME   0.4515 -> 0.4515
+  criterion                                            SAME   'PUB-VACCINE-PATH: 95% CI width <= 0.20 on sensitivity at the cut (Wilson)' -> 'PUB-VACCINE-PATH: 95% CI width <= 0.20 on sensitivity at the cut (Wilson)'
+  n_available_benchmark_eligible                       SAME   15 -> 15
+  n_available_ms_eluted_only                           SAME   6 -> 6
+  n_required                                           CHANGED   {'0.5': 93, '0.7': 78, '0.8': 60, '0.9': 37} -> {'0.5': 93, '0.7': 78, '0.8': 60, '0.9': 34}
+  preregistered_floor                                  SAME   30 -> 30
+  shortfall_vs_prereg_floor                            SAME   15 -> 15
+  shortfall_vs_sens_0.5                                SAME   78 -> 78
+  shortfall_vs_sens_0.8                                SAME   45 -> 45
+  verdict                                              SAME   'INSUFFICIENT' -> 'INSUFFICIENT'
+
+strata ids identical: True
+all_records id count: 40 40
+all 40 ids identical : True
+benchmark_eligible_detail        identical: True
+distinct_fusions_in_benchmark    identical: True
+per_allele_depth                 identical: True
+quantitative_observations        identical: True
+_id                              identical: True
+_derived_from                    identical: True
+top-level keys identical: True
+
+EXHAUSTIVE leaf-value diff paths: ['/sufficiency/n_required/0.9']
+leaf count: 416 416

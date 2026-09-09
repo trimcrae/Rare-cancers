@@ -1,0 +1,39 @@
+RESULT: count=2.
+
+--- pmid 15739208 | doi 10.1002/cncr.20968 --- (reference [21], maki2005bortezomib)
+Title: "A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas."
+Returned: title, ABSTRACT IN FULL, MeSH, article types, authors, citation. NO body, NO tables.
+
+VERBATIM, abstract:
+  "Arm A included patients with osteogenic sarcoma, Ewing sarcoma, and rhabdomyosarcoma. Arm B accrued
+   patients with other types of soft tissue sarcomas."
+VERBATIM, abstract:
+  "Arm A had low accrual and was closed. One confirmed partial response among 21 evaluable patients
+   was observed on Arm B in a patient with leiomyosarcoma."
+VERBATIM, MeSH terms returned (complete list):
+  Adult; Aged; Antineoplastic Agents; Bone Neoplasms; Boronic Acids; Bortezomib; Drug Administration
+  Schedule; Fatigue; Female; Humans; Male; Middle Aged; Neoplasm Metastasis; Neoplasm Recurrence,
+  Local; Nervous System Diseases; Proteasome Inhibitors; Pyrazines; Sarcoma; Soft Tissue Neoplasms;
+  Treatment Outcome
+
+OUTCOME: n_emc STAYS UNKNOWN. The abstract prints no total enrolment and no per-histology table; the
+only denominator it prints is "21 evaluable patients ... on Arm B". Arm B is defined as "other types
+of soft tissue sarcomas", the stratum an EMC patient WOULD fall into, and the finest MeSH term is
+"Sarcoma". EXPOSURE-INDEX s protected row is CONFIRMED by direct retrieval: UNKNOWN, NEVER ZERO.
+"Not in the abstract" is not "not in the paper" -- there is no retrievable paper here to check.
+
+--- pmid 17545802 | doi 10.1097/CCO.0b013e32812143d9 --- (reference [9], chow2007)
+Title: "Update on chondrosarcomas."  article_types: ["Journal Article","Review"]
+Returned: title, ABSTRACT IN FULL, MeSH, article types. NO body, NO tables. No PMC record.
+
+VERBATIM, the only EMC-specific sentence in the abstract:
+  "Molecular studies have established that extraskeletal myxoid chondrosarcoma is a unique entity
+   defined by the presence of a fusion gene between the orphan nuclear receptor, CHN/NOR1, and a
+   promiscuous partner, most commonly EWSR1."
+VERBATIM, MeSH terms returned (complete list):
+  Biomarkers, Tumor; Bone Neoplasms; Chondrosarcoma; Evidence-Based Medicine; Humans; Mesoderm;
+  Molecular Diagnostic Techniques; Prognosis; Signal Transduction
+
+OUTCOME: n_emc STAYS UNKNOWN. The body is still unread by the admitted route. EXPOSURE-INDEX s
+chow2007 correction (0 -> UNKNOWN, forced by its own verifier at checks/02, exit 1) is UPHELD, not
+overturned: this lane reached exactly the same wall and did not step over it.

@@ -1,0 +1,16 @@
+python3 /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/rederive_proximity.py /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/census-y0y1-only.json > /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/is3-proximity-on-my-run.json; echo RC=$?; python3 -c "
+import json
+d=json.load(open('/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/is3-proximity-on-my-run.json'))
+print('n_figures',d['n_figures'])
+print('n_proximity_rederivable',d['n_proximity_rederivable'])
+print('n_all_flags_agree',d['n_all_flags_agree'])
+print('n_disagree',d['n_disagree'])
+print('n_not_rederivable',d['n_not_rederivable'])
+for f in d['figures']:
+    if not f['proximity_rederivable']:
+        print('BLOCKED:',f['source_id'],'p'+str(f['page']),f['arm'],f['recorded_verdict'],'|',f['caption_head'][:60] if f['caption_head'] else None,'|',f['why'])
+"; python3 -c "
+import json,sys
+a=json.load(open('/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/s4/is3-proximity-on-my-run.json'));b=json.load(open('/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/IPD-SURVIVAL-3/proximity-clause-rederivation.json'))
+print('IS3_ARTIFACT_IDENTICAL_TO_MY_RERUN', a==b)
+"

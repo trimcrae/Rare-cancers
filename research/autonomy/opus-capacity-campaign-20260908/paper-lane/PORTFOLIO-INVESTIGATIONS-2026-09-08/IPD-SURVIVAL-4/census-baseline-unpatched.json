@@ -1,0 +1,1829 @@
+{
+  "_generated_by": "research/modalities/km_risk_row_detect.py",
+  "_what": "Whether each reachable EMC Kaplan-Meier figure PRINTS a numbers-at-risk row -- the condition POLICY-evidence.md §2.7(a) makes mandatory before a curve may be reconstructed at all.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
+  "⛔_this_is_an_admissibility_reading_not_a_digitization": "A `present` verdict says a row is printed. The VALUES in it are read separately, by eye, through km_digitize.py, which is where digitization provenance lives.",
+  "method": {
+    "rule": "A band of marks below the axis is a numbers-at-risk row iff it carries at least MIN_MARKS marks, at least MIN_MATCHED_TICKS of them sit within TICK_TOL of a tick-label mark, and its median mark is no wider than MAX_MARK_WIDTH. The first band below the axis is taken as the tick labels.",
+    "arms": {
+      "pixel": "ink clusters from an embedded raster; positions readable, values not",
+      "text": "word boxes from the PDF text layer, for a vector figure"
+    },
+    "constants": {
+      "INK_LUMA_MAX": 170,
+      "AXIS_MIN_SPAN": 0.45,
+      "CLUSTER_GAP": 0.012,
+      "BAND_GAP": 3,
+      "MIN_MARKS": 3,
+      "MIN_MATCHED_TICKS": 3,
+      "TICK_TOL": 0.02,
+      "MAX_MARK_WIDTH": 0.055
+    }
+  },
+  "⛔_the_figures_are_not_committed": "Their licences do not permit it. What makes this re-derivable instead is the recipe: the branch and path every PDF was read from, and the sha256 of each file as read. A reading whose input digest does not match is a reading of a different document.",
+  "inputs": {
+    "cache_branch": "origin/literature-cache",
+    "cache_path": "literature/km-figures-2026-08-25/",
+    "cache_commit": "454df71144f677b1e84ed58f7a6c6951a4190f66",
+    "page_rasters": "pdftoppm -r 200 -png, produced by scripts/emc_km_figure_fetch.py in Actions run 32903796837 and published to the same cache directory"
+  },
+  "control": {
+    "_what": "Synthetic figures with a known answer, so the rule is shown to separate a risk row from the two things that would otherwise be mistaken for one.",
+    "⛔_scope": "Blocks, not glyphs: this bounds the STRUCTURAL rule and nothing else. It is structurally incapable of failing on a real figure that is hard to read, which is the same limit POLICY-evidence.md §2.7 records for the reconstruction's own known-answer control.",
+    "cases": [
+      {
+        "case": "plain_no_risk_row",
+        "expected": "absent",
+        "got": "absent",
+        "axis_row": 503,
+        "n_bands": 2,
+        "matched_ticks": 0,
+        "passed": true
+      },
+      {
+        "case": "risk_row_present",
+        "expected": "present",
+        "got": "present",
+        "axis_row": 503,
+        "n_bands": 3,
+        "matched_ticks": 6,
+        "passed": true
+      },
+      {
+        "case": "misaligned_band",
+        "expected": "absent",
+        "got": "absent",
+        "axis_row": 503,
+        "n_bands": 3,
+        "matched_ticks": 0,
+        "passed": true
+      },
+      {
+        "case": "wide_marks_band",
+        "expected": "absent",
+        "got": "absent",
+        "axis_row": 503,
+        "n_bands": 3,
+        "matched_ticks": 0,
+        "passed": true
+      },
+      {
+        "case": "tick_marks_no_risk_row",
+        "expected": "absent",
+        "got": "absent",
+        "axis_row": 503,
+        "n_bands": 3,
+        "matched_ticks": 0,
+        "passed": true
+      },
+      {
+        "case": "tick_marks_with_risk_row",
+        "expected": "present",
+        "got": "present",
+        "axis_row": 503,
+        "n_bands": 4,
+        "matched_ticks": 6,
+        "passed": true
+      },
+      {
+        "case": "tick_labels_far_below",
+        "expected": "undetermined",
+        "got": "undetermined",
+        "axis_row": 503,
+        "n_bands": 0,
+        "matched_ticks": 0,
+        "passed": true
+      },
+      {
+        "case": "aligned_band_far_below",
+        "expected": "absent",
+        "got": "absent",
+        "axis_row": 503,
+        "n_bands": 3,
+        "matched_ticks": 0,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "sources": [
+    {
+      "source_id": "chiusole2020",
+      "pdf": "chiusole2020.pdf",
+      "pdf_sha256": "6f0b024ddaa9c65700ea46f2c89c3120f8ecb1c10ef3a6ee820dc91dc7e0a788",
+      "pdf_bytes": 439160,
+      "figures": [
+        {
+          "page": 4,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "chiusole2020_page-4.png",
+          "image_px": [
+            658,
+            600
+          ],
+          "axis_row_px": 518,
+          "axis_span_px": [
+            79,
+            654
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "FIGURE 1 | Overall survival according to extention of primary resection.",
+          "n_tokens": 11,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0017,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 101.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 234.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 367.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 500.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 632.5,
+                  "cy": 524.0,
+                  "w": 1
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0261,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 100.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 233.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 367.5,
+                  "cy": 547.0,
+                  "w": 15
+                },
+                {
+                  "cx": 500.0,
+                  "cy": 547.0,
+                  "w": 16
+                },
+                {
+                  "cx": 632.5,
+                  "cy": 547.0,
+                  "w": 17
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1565,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 366.0,
+                  "cy": 588.5,
+                  "w": 90
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        },
+        {
+          "page": 4,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "chiusole2020_page-4.png",
+          "image_px": [
+            658,
+            601
+          ],
+          "axis_row_px": 519,
+          "axis_span_px": [
+            78,
+            655
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "FIGURE 2 | Overall survival according to sex.",
+          "n_tokens": 11,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0017,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 99.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 233.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 366.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 500.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 633.5,
+                  "cy": 524.5,
+                  "w": 1
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0277,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 98.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 232.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 367.0,
+                  "cy": 547.0,
+                  "w": 16
+                },
+                {
+                  "cx": 501.0,
+                  "cy": 547.0,
+                  "w": 16
+                },
+                {
+                  "cx": 633.5,
+                  "cy": 547.0,
+                  "w": 17
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.156,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 366.0,
+                  "cy": 589.5,
+                  "w": 90
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        },
+        {
+          "page": 5,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "chiusole2020_page-5.png",
+          "image_px": [
+            658,
+            601
+          ],
+          "axis_row_px": 519,
+          "axis_span_px": [
+            78,
+            654
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "FIGURE 3 | Overall survival according to location of primary tumor (T): central",
+          "n_tokens": 11,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0017,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 99.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 233.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 366.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 499.5,
+                  "cy": 524.5,
+                  "w": 1
+                },
+                {
+                  "cx": 632.5,
+                  "cy": 524.5,
+                  "w": 1
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.026,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 99.0,
+                  "cy": 547.0,
+                  "w": 8
+                },
+                {
+                  "cx": 232.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 366.5,
+                  "cy": 547.0,
+                  "w": 15
+                },
+                {
+                  "cx": 500.0,
+                  "cy": 547.0,
+                  "w": 16
+                },
+                {
+                  "cx": 632.5,
+                  "cy": 547.0,
+                  "w": 17
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1545,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 365.5,
+                  "cy": 589.5,
+                  "w": 89
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        },
+        {
+          "page": 5,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "chiusole2020_page-5.png",
+          "image_px": [
+            658,
+            600
+          ],
+          "axis_row_px": 518,
+          "axis_span_px": [
+            77,
+            655
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "FIGURE 4 | Overall survival according to location of metastases (M) in lung,",
+          "n_tokens": 11,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0017,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 99.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 233.0,
+                  "cy": 524.0,
+                  "w": 0
+                },
+                {
+                  "cx": 366.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 500.5,
+                  "cy": 524.0,
+                  "w": 1
+                },
+                {
+                  "cx": 633.5,
+                  "cy": 524.0,
+                  "w": 1
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.026,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 98.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 232.5,
+                  "cy": 547.0,
+                  "w": 7
+                },
+                {
+                  "cx": 366.5,
+                  "cy": 547.0,
+                  "w": 15
+                },
+                {
+                  "cx": 500.0,
+                  "cy": 547.0,
+                  "w": 16
+                },
+                {
+                  "cx": 632.5,
+                  "cy": 547.0,
+                  "w": 17
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1557,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 365.0,
+                  "cy": 589.0,
+                  "w": 90
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        }
+      ],
+      "n_figures": 4,
+      "n_with_risk_row": 0,
+      "n_without": 4,
+      "n_undetermined": 0
+    },
+    {
+      "source_id": "martinbroto2020immunosarc1",
+      "pdf": "martinbroto2020immunosarc1.pdf",
+      "pdf_sha256": "2869688dba5426516415a388457213e6c6fa87f46a58ee3cb7b432fe0635f40f",
+      "pdf_bytes": 529371,
+      "figures": [
+        {
+          "page": 6,
+          "image_index": 2,
+          "arm": "pixel",
+          "image_px": [
+            1033,
+            649
+          ],
+          "axis_row_px": 199,
+          "axis_span_px": [
+            36,
+            501
+          ],
+          "caption_head": "Figure 3  Progression- free survival to treatment by patient,",
+          "n_tokens": 28,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 4,
+              "matched_ticks": 4,
+              "median_mark_width_frac": 0.0086,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 37.0,
+                  "cy": 215.0,
+                  "w": 0
+                },
+                {
+                  "cx": 228.0,
+                  "cy": 215.0,
+                  "w": 0
+                },
+                {
+                  "cx": 252.0,
+                  "cy": 215.0,
+                  "w": 4
+                },
+                {
+                  "cx": 433.5,
+                  "cy": 215.0,
+                  "w": 51
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.6129,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 179.5,
+                  "cy": 240.0,
+                  "w": 285
+                },
+                {
+                  "cx": 404.5,
+                  "cy": 240.0,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 2,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.6,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 19.5,
+                  "cy": 313.0,
+                  "w": 9
+                },
+                {
+                  "cx": 175.5,
+                  "cy": 313.0,
+                  "w": 279
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 3,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.0022,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 253.5,
+                  "cy": 384.5,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 4,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.3032,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 106.5,
+                  "cy": 410.0,
+                  "w": 141
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 410.0,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 5,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.2882,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 103.0,
+                  "cy": 432.0,
+                  "w": 134
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 432.0,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 6,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.2667,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 99.0,
+                  "cy": 457.5,
+                  "w": 124
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 457.5,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 7,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.2323,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 90.0,
+                  "cy": 480.5,
+                  "w": 108
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 480.5,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 8,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1591,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 73.0,
+                  "cy": 505.5,
+                  "w": 74
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 505.5,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 9,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1484,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 70.5,
+                  "cy": 538.0,
+                  "w": 69
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 538.0,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 10,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.0968,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 58.5,
+                  "cy": 578.5,
+                  "w": 45
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 578.5,
+                  "w": 1
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            },
+            {
+              "index": 11,
+              "n_marks": 5,
+              "matched_ticks": 3,
+              "median_mark_width_frac": 0.0086,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 36.0,
+                  "cy": 618.0,
+                  "w": 4
+                },
+                {
+                  "cx": 228.5,
+                  "cy": 618.0,
+                  "w": 3
+                },
+                {
+                  "cx": 253.5,
+                  "cy": 618.0,
+                  "w": 1
+                },
+                {
+                  "cx": 421.0,
+                  "cy": 618.0,
+                  "w": 8
+                },
+                {
+                  "cx": 525.0,
+                  "cy": 618.0,
+                  "w": 6
+                }
+              ],
+              "near_enough_to_tick_labels": false
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 0
+        }
+      ],
+      "n_figures": 1,
+      "n_with_risk_row": 0,
+      "n_without": 1,
+      "n_undetermined": 0
+    },
+    {
+      "source_id": "masunaga2025",
+      "pdf": "masunaga2025.pdf",
+      "pdf_sha256": "4ae16c8e3b901398a2c881007d64d74ce94176f997f2b3d069ac17c2de00461a",
+      "pdf_bytes": 1763019,
+      "figures": [
+        {
+          "page": 5,
+          "image_index": 1,
+          "arm": "pixel",
+          "image_px": [
+            1488,
+            900
+          ],
+          "axis_row_px": 792,
+          "axis_span_px": [
+            111,
+            1095
+          ],
+          "caption_head": "Fig. 1  Disease-specific survival rates of patients with and without distant metastases at diagnosis. The shading around the curve",
+          "n_tokens": 7,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.0051,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 98.5,
+                  "cy": 796.0,
+                  "w": 5
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 4,
+              "matched_ticks": 4,
+              "median_mark_width_frac": 0.0325,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 116.5,
+                  "cy": 819.5,
+                  "w": 15
+                },
+                {
+                  "cx": 443.0,
+                  "cy": 819.5,
+                  "w": 14
+                },
+                {
+                  "cx": 770.0,
+                  "cy": 819.5,
+                  "w": 32
+                },
+                {
+                  "cx": 1084.5,
+                  "cy": 819.5,
+                  "w": 33
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.2246,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 487.5,
+                  "cy": 871.5,
+                  "w": 83
+                },
+                {
+                  "cx": 653.5,
+                  "cy": 871.5,
+                  "w": 221
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        },
+        {
+          "page": 7,
+          "image_index": 1,
+          "arm": "pixel",
+          "image_px": [
+            1489,
+            862
+          ],
+          "axis_row_px": 759,
+          "axis_span_px": [
+            113,
+            1054
+          ],
+          "caption_head": "Fig. 2  Local recurrence-free survival rates of patients with and without (neo)adjuvant radiotherapy. The shading around the curve",
+          "n_tokens": 5,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 3,
+              "matched_ticks": 3,
+              "median_mark_width_frac": 0.0149,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 118.0,
+                  "cy": 785.0,
+                  "w": 14
+                },
+                {
+                  "cx": 586.0,
+                  "cy": 785.0,
+                  "w": 14
+                },
+                {
+                  "cx": 1043.5,
+                  "cy": 785.0,
+                  "w": 31
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.1977,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 485.0,
+                  "cy": 834.5,
+                  "w": 80
+                },
+                {
+                  "cx": 631.0,
+                  "cy": 834.5,
+                  "w": 186
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 0
+        },
+        {
+          "page": 10,
+          "image_index": 1,
+          "arm": "pixel",
+          "image_px": [
+            1488,
+            984
+          ],
+          "axis_row_px": 871,
+          "axis_span_px": [
+            128,
+            1209
+          ],
+          "caption_head": "Fig. 3  Disease-specific survival rates of patients with and without advanced stage chemotherapy in patients with distant metastas",
+          "n_tokens": 9,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 3,
+              "matched_ticks": 3,
+              "median_mark_width_frac": 0.0,
+              "role": "above_tick_labels",
+              "marks": [
+                {
+                  "cx": 113.5,
+                  "cy": 875.5,
+                  "w": 5
+                },
+                {
+                  "cx": 492.0,
+                  "cy": 875.5,
+                  "w": 0
+                },
+                {
+                  "cx": 851.0,
+                  "cy": 875.5,
+                  "w": 0
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 4,
+              "matched_ticks": 4,
+              "median_mark_width_frac": 0.0324,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 133.5,
+                  "cy": 901.0,
+                  "w": 17
+                },
+                {
+                  "cx": 492.0,
+                  "cy": 901.0,
+                  "w": 16
+                },
+                {
+                  "cx": 851.5,
+                  "cy": 901.0,
+                  "w": 35
+                },
+                {
+                  "cx": 1197.5,
+                  "cy": 901.0,
+                  "w": 35
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.2248,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 541.0,
+                  "cy": 958.0,
+                  "w": 92
+                },
+                {
+                  "cx": 723.5,
+                  "cy": 958.0,
+                  "w": 243
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 1
+        },
+        {
+          "page": 11,
+          "image_index": null,
+          "arm": "pixel",
+          "caption_head": "Supplementary Information The online version contains supplementary material ava",
+          "verdict": "undetermined",
+          "bands": [],
+          "matched_ticks": 0,
+          "n_tokens": 0,
+          "image_px": [
+            1100,
+            90
+          ],
+          "encoding": [
+            "FlateDecode"
+          ],
+          "⛔": "embedded image encoding not decodable by this pure-stdlib reader (FlateDecode); the figure was NOT read, and this row is an unanswered question rather than a negative"
+        }
+      ],
+      "n_figures": 4,
+      "n_with_risk_row": 0,
+      "n_without": 3,
+      "n_undetermined": 1
+    },
+    {
+      "source_id": "morioka2016trabectedin",
+      "pdf": "morioka2016trabectedin.pdf",
+      "pdf_sha256": "03574d05d823ecaa4a460f772fb1fd8eec1028fd74da7a180ab2431b8402f292",
+      "pdf_bytes": 811863,
+      "figures": [
+        {
+          "page": 1,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "morioka2016trabectedin_page-1.png",
+          "image_px": [
+            64,
+            63
+          ],
+          "axis_row_px": 58,
+          "axis_span_px": [
+            18,
+            46
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "Morioka et al. BMC Cancer  (2016) 16:479  DOI 10.1186/s12885-016-2511-y  R E S E",
+          "n_tokens": 0,
+          "bands": [],
+          "label_phrase_found": false,
+          "verdict": "undetermined",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "⚠": "fewer marks below the axis than a tick-label row would carry: this figure's axis region was not recovered, so the question is unanswered rather than answered no"
+        },
+        {
+          "page": 4,
+          "image_index": null,
+          "arm": "text",
+          "tick_row_text": [
+            "0",
+            "3",
+            "6",
+            "9",
+            "12",
+            "15",
+            "18",
+            "21",
+            "24"
+          ],
+          "tick_row_span_pt": 255.8,
+          "caption_head": "Fig. 1 Kaplan-Meier plot of progression-free survival. Progression-free survival of five patients with EMCS and MCS",
+          "n_tokens": 50,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 9,
+              "matched_ticks": 9,
+              "median_mark_width_frac": 0.0318,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 206.4,
+                  "cy": 660.6,
+                  "w": 4.1,
+                  "text": "0"
+                },
+                {
+                  "cx": 238.4,
+                  "cy": 660.6,
+                  "w": 4.1,
+                  "text": "3"
+                },
+                {
+                  "cx": 270.4,
+                  "cy": 660.6,
+                  "w": 4.1,
+                  "text": "6"
+                },
+                {
+                  "cx": 302.5,
+                  "cy": 660.6,
+                  "w": 4.1,
+                  "text": "9"
+                },
+                {
+                  "cx": 334.3,
+                  "cy": 660.6,
+                  "w": 8.1,
+                  "text": "12"
+                },
+                {
+                  "cx": 366.2,
+                  "cy": 660.6,
+                  "w": 8.1,
+                  "text": "15"
+                },
+                {
+                  "cx": 398.4,
+                  "cy": 660.6,
+                  "w": 8.1,
+                  "text": "18"
+                },
+                {
+                  "cx": 430.3,
+                  "cy": 660.6,
+                  "w": 8.1,
+                  "text": "21"
+                },
+                {
+                  "cx": 462.2,
+                  "cy": 660.6,
+                  "w": 8.1,
+                  "text": "24"
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 2,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.1126,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 329.9,
+                  "cy": 671.9,
+                  "w": 16.0,
+                  "text": "Time"
+                },
+                {
+                  "cx": 354.2,
+                  "cy": 671.9,
+                  "w": 28.8,
+                  "text": "(months)"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 2,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.0379,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 181.2,
+                  "cy": 681.6,
+                  "w": 5.2,
+                  "text": "at"
+                },
+                {
+                  "cx": 190.3,
+                  "cy": 681.6,
+                  "w": 9.7,
+                  "text": "risk"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 3,
+              "n_marks": 9,
+              "matched_ticks": 8,
+              "median_mark_width_frac": 0.0159,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 182.2,
+                  "cy": 690.7,
+                  "w": 32.8,
+                  "text": "Trabectedin"
+                },
+                {
+                  "cx": 206.1,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "5"
+                },
+                {
+                  "cx": 238.6,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "5"
+                },
+                {
+                  "cx": 270.2,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "5"
+                },
+                {
+                  "cx": 302.3,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "3"
+                },
+                {
+                  "cx": 334.2,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "3"
+                },
+                {
+                  "cx": 366.1,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "1"
+                },
+                {
+                  "cx": 397.5,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "1"
+                },
+                {
+                  "cx": 430.7,
+                  "cy": 690.2,
+                  "w": 4.1,
+                  "text": "1"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 4,
+              "n_marks": 9,
+              "matched_ticks": 8,
+              "median_mark_width_frac": 0.0095,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 192.4,
+                  "cy": 699.9,
+                  "w": 12.2,
+                  "text": "care"
+                },
+                {
+                  "cx": 206.1,
+                  "cy": 699.3,
+                  "w": 4.1,
+                  "text": "3"
+                },
+                {
+                  "cx": 238.6,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 270.2,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 302.3,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 334.2,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 366.1,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 397.5,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                },
+                {
+                  "cx": 430.7,
+                  "cy": 699.3,
+                  "w": 2.4,
+                  "text": "-"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 5,
+              "n_marks": 13,
+              "matched_ticks": 2,
+              "median_mark_width_frac": 0.056,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 218.8,
+                  "cy": 712.7,
+                  "w": 24.8,
+                  "text": "survival."
+                },
+                {
+                  "cx": 259.3,
+                  "cy": 712.7,
+                  "w": 51.4,
+                  "text": "Progression-free"
+                },
+                {
+                  "cx": 299.0,
+                  "cy": 712.7,
+                  "w": 23.5,
+                  "text": "survival"
+                },
+                {
+                  "cx": 316.3,
+                  "cy": 712.7,
+                  "w": 6.3,
+                  "text": "of"
+                },
+                {
+                  "cx": 327.4,
+                  "cy": 712.7,
+                  "w": 11.2,
+                  "text": "five"
+                },
+                {
+                  "cx": 348.1,
+                  "cy": 712.7,
+                  "w": 25.4,
+                  "text": "patients"
+                },
+                {
+                  "cx": 370.2,
+                  "cy": 712.7,
+                  "w": 14.1,
+                  "text": "with"
+                },
+                {
+                  "cx": 388.6,
+                  "cy": 712.7,
+                  "w": 18.0,
+                  "text": "EMCS"
+                },
+                {
+                  "cx": 406.0,
+                  "cy": 712.7,
+                  "w": 12.2,
+                  "text": "and"
+                },
+                {
+                  "cx": 421.6,
+                  "cy": 712.7,
+                  "w": 14.3,
+                  "text": "MCS"
+                },
+                {
+                  "cx": 450.2,
+                  "cy": 712.7,
+                  "w": 38.1,
+                  "text": "randomized"
+                },
+                {
+                  "cx": 475.0,
+                  "cy": 712.7,
+                  "w": 6.7,
+                  "text": "to"
+                },
+                {
+                  "cx": 485.9,
+                  "cy": 712.7,
+                  "w": 10.5,
+                  "text": "the"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 6,
+              "n_marks": 6,
+              "matched_ticks": 3,
+              "median_mark_width_frac": 0.0718,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 209.2,
+                  "cy": 722.8,
+                  "w": 38.1,
+                  "text": "randomized"
+                },
+                {
+                  "cx": 234.0,
+                  "cy": 722.8,
+                  "w": 6.7,
+                  "text": "to"
+                },
+                {
+                  "cx": 244.9,
+                  "cy": 722.8,
+                  "w": 10.5,
+                  "text": "the"
+                },
+                {
+                  "cx": 258.6,
+                  "cy": 722.8,
+                  "w": 12.2,
+                  "text": "BSC"
+                },
+                {
+                  "cx": 276.8,
+                  "cy": 722.8,
+                  "w": 19.4,
+                  "text": "group"
+                },
+                {
+                  "cx": 298.0,
+                  "cy": 721.9,
+                  "w": 18.4,
+                  "text": "(−−−)"
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": true,
+          "verdict": "present",
+          "matched_ticks": 8,
+          "risk_row_band_index": 3,
+          "tick_label_band_index": 0,
+          "risk_row_text": [
+            "Trabectedin",
+            "5",
+            "5",
+            "5",
+            "3",
+            "3",
+            "1",
+            "1",
+            "1"
+          ]
+        },
+        {
+          "page": 5,
+          "image_index": null,
+          "arm": "pixel",
+          "caption_head": "Fig. 2 Clinical course of subject No.2. CT images of target lesions in lung at (a, b) enrollment in the study, (c, d) 4.0 months a",
+          "verdict": "undetermined",
+          "bands": [],
+          "matched_ticks": 0,
+          "n_tokens": 0,
+          "image_px": [
+            1644,
+            747
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "⛔": "embedded image encoding not decodable by this pure-stdlib reader (DCTDecode); the figure was NOT read, and this row is an unanswered question rather than a negative"
+        },
+        {
+          "page": 6,
+          "image_index": null,
+          "arm": "pixel",
+          "source": "page_raster",
+          "page_png": "morioka2016trabectedin_page-6.png",
+          "image_px": [
+            1248,
+            692
+          ],
+          "axis_row_px": 276,
+          "axis_span_px": [
+            40,
+            1217
+          ],
+          "encoding": [
+            "DCTDecode"
+          ],
+          "caption_head": "Fig. 3 Clinical course of subject No.3. CT images of target lesion in lung at (a) enrollment in the study, (b) 11.1 months after e",
+          "n_tokens": 5,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.2948,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 174.5,
+                  "cy": 485.0,
+                  "w": 347
+                },
+                {
+                  "cx": 386.5,
+                  "cy": 485.0,
+                  "w": 7
+                },
+                {
+                  "cx": 609.5,
+                  "cy": 485.0,
+                  "w": 355
+                },
+                {
+                  "cx": 827.0,
+                  "cy": 485.0,
+                  "w": 14
+                },
+                {
+                  "cx": 1058.0,
+                  "cy": 485.0,
+                  "w": 378
+                }
+              ]
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "absent",
+          "matched_ticks": 0,
+          "risk_row_band_index": null,
+          "tick_label_band_index": 0
+        },
+        {
+          "page": 8,
+          "image_index": null,
+          "arm": "pixel",
+          "caption_head": "Morioka et al. BMC Cancer  (2016) 16:479   Page 8 of 8  national analysis of the",
+          "verdict": "undetermined",
+          "bands": [],
+          "matched_ticks": 0,
+          "n_tokens": 0,
+          "image_px": [
+            1100,
+            90
+          ],
+          "encoding": [
+            "FlateDecode"
+          ],
+          "⛔": "embedded image encoding not decodable by this pure-stdlib reader (FlateDecode); the figure was NOT read, and this row is an unanswered question rather than a negative"
+        }
+      ],
+      "n_figures": 5,
+      "n_with_risk_row": 1,
+      "n_without": 1,
+      "n_undetermined": 3
+    },
+    {
+      "source_id": "stacchiotti2013anthracycline",
+      "pdf": "stacchiotti2013anthracycline.pdf",
+      "pdf_sha256": "1df76e6b01167c7737a34bd4ab93659b3d2a7b38797fad4783667e24f7ab774a",
+      "pdf_bytes": 2609773,
+      "figures": [
+        {
+          "page": 5,
+          "image_index": 1,
+          "arm": "pixel",
+          "image_px": [
+            896,
+            628
+          ],
+          "axis_row_px": 504,
+          "axis_span_px": [
+            104,
+            894
+          ],
+          "caption_head": "Figure 2 Overall progression free survival (PFS) of patients",
+          "n_tokens": 13,
+          "bands": [
+            {
+              "index": 0,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0139,
+              "role": "tick_labels",
+              "marks": [
+                {
+                  "cx": 121.5,
+                  "cy": 525.5,
+                  "w": 11
+                },
+                {
+                  "cx": 309.5,
+                  "cy": 525.5,
+                  "w": 13
+                },
+                {
+                  "cx": 498.5,
+                  "cy": 525.5,
+                  "w": 11
+                },
+                {
+                  "cx": 687.5,
+                  "cy": 525.5,
+                  "w": 11
+                },
+                {
+                  "cx": 877.0,
+                  "cy": 525.5,
+                  "w": 24
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "n_marks": 1,
+              "matched_ticks": 1,
+              "median_mark_width_frac": 0.0696,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 498.5,
+                  "cy": 562.5,
+                  "w": 55
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 2,
+              "n_marks": 2,
+              "matched_ticks": 0,
+              "median_mark_width_frac": 0.0823,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 88.5,
+                  "cy": 588.5,
+                  "w": 65
+                },
+                {
+                  "cx": 151.5,
+                  "cy": 588.5,
+                  "w": 41
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            },
+            {
+              "index": 3,
+              "n_marks": 5,
+              "matched_ticks": 5,
+              "median_mark_width_frac": 0.0139,
+              "role": "candidate",
+              "marks": [
+                {
+                  "cx": 122.0,
+                  "cy": 617.5,
+                  "w": 24
+                },
+                {
+                  "cx": 310.0,
+                  "cy": 617.5,
+                  "w": 12
+                },
+                {
+                  "cx": 498.5,
+                  "cy": 617.5,
+                  "w": 11
+                },
+                {
+                  "cx": 687.0,
+                  "cy": 617.5,
+                  "w": 8
+                },
+                {
+                  "cx": 876.5,
+                  "cy": 617.5,
+                  "w": 11
+                }
+              ],
+              "near_enough_to_tick_labels": true
+            }
+          ],
+          "label_phrase_found": false,
+          "verdict": "present",
+          "matched_ticks": 5,
+          "risk_row_band_index": 3,
+          "tick_label_band_index": 0
+        }
+      ],
+      "n_figures": 1,
+      "n_with_risk_row": 1,
+      "n_without": 0,
+      "n_undetermined": 0
+    }
+  ],
+  "_totals": {
+    "papers": 5,
+    "figures": 15,
+    "with_risk_row": 2,
+    "without": 9,
+    "undetermined": 4
+  }
+}

@@ -1,0 +1,26 @@
+z(0.975) derived by bisection on erf : 1.959963984540054
+scipy-free cross-check, lane's constant: 1.959963984540054
+
+p-exact   -> 93 / 78 / 60 / 37
+k=round   -> 93 / 78 / 60 / 34
+k=ceil    -> 93 / 76 / 58 / 34
+k=floor   -> 93 / 79 / 60 / 38
+k=halfup  -> 93 / 78 / 60 / 34
+
+ladders matching 93/78/60/37 : ['p-exact']
+ladders matching 93/78/60/34 : ['k=round', 'k=halfup']
+
+n=33  k=round(0.9n)=30  k/n=0.909091  width(k/n)=0.204322  >0.20   width(p=0.9)=0.210939  >0.20
+n=34  k=round(0.9n)=31  k/n=0.911765  width(k/n)=0.199139 <=0.20   width(p=0.9)=0.207703  >0.20
+n=35  k=round(0.9n)=32  k/n=0.914286  width(k/n)=0.194210 <=0.20   width(p=0.9)=0.204608  >0.20
+n=36  k=round(0.9n)=32  k/n=0.888889  width(k/n)=0.209082  >0.20   width(p=0.9)=0.201644  >0.20
+n=37  k=round(0.9n)=33  k/n=0.891892  width(k/n)=0.204233  >0.20   width(p=0.9)=0.198803 <=0.20
+n=38  k=round(0.9n)=34  k/n=0.894737  width(k/n)=0.199603 <=0.20   width(p=0.9)=0.196077 <=0.20
+n=39  k=round(0.9n)=35  k/n=0.897436  width(k/n)=0.195175 <=0.20   width(p=0.9)=0.193457 <=0.20
+n=40  k=round(0.9n)=36  k/n=0.900000  width(k/n)=0.190938 <=0.20   width(p=0.9)=0.190938 <=0.20
+
+k=round   at p=0.9: n in [34,400) that FAIL width<=0.20 -> [36, 37]
+p-exact   at p=0.9: n in [34,400) that FAIL width<=0.20 -> [34, 35, 36]
+k=round   at p=0.5: first=93, later failures in [93,393) -> none
+k=round   at p=0.7: first=78, later failures in [78,378) -> none
+k=round   at p=0.8: first=60, later failures in [60,360) -> none

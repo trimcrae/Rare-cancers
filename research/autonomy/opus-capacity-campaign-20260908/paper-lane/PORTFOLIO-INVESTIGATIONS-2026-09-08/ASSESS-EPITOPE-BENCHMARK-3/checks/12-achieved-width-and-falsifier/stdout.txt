@@ -1,0 +1,15 @@
+== achieved width at n = 15, sensitivity 0.5 ==
+p-exact  phat=0.5      width = 0.451534  -> round4 = 0.4515
+k=7      phat=7/15    width = 0.450735  -> round4 = 0.4507
+k=8      phat=8/15    width = 0.450735  -> round4 = 0.4507
+python round(0.5*15) = 8  (banker's)   math.floor(7.5+0.5) = 8
+=> 0.4515 is the p-exact route; 0.4507 is the integer-k route.
+   SAME convention question as 37 vs 34, at a different call site.
+
+== is the 0.9 requirement sensitive to HOW the attainable k is chosen? ==
+smallest n such that SOME integer k in [0,n] gives width <= 0.20 (no proximity to 0.9 required):
+   n = 16 (k = 0, phat = 0.0000, width = 0.193608)  <- a laxer 'attainable' rule
+smallest n such that the k NEAREST 0.9n gives width <= 0.20:
+   n = 34 (k = 31, width = 0.199139)
+smallest n such that ALL m >= n with k=round(0.9m) meet width <= 0.20 (a true threshold):
+   n = 38  <- note: NOT 34; 36 and 37 fail under k=round

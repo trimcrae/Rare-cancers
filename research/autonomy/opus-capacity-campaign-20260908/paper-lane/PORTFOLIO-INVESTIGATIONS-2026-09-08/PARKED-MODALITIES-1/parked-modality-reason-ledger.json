@@ -1,0 +1,156 @@
+{
+  "_what": "PARKED-MODALITIES-1 ledger. One row per modality parked on PUB-PARKED-MODALITIES. For each: the reason as recorded, its evidence locator, a verdict, and the exact artifact establishing that verdict.",
+  "_scope": "This ledger grades WORDING AND EVIDENCE SCOPE of parking reasons. It does NOT un-park anything, does not recommend pursuing any modality, and asserts no efficacy, safety, selectivity, therapeutic-window or clinical-readiness property. Every route below remains parked.",
+  "lane": "PARKED-MODALITIES-1",
+  "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+  "date": "2026-09-09",
+  "repo_head": "9a0ee12226deef23fabc72011c64bab9fee18763",
+  "endpoint": "PUB-PARKED-MODALITIES",
+  "verdict_vocabulary": {
+    "REASON-STANDS": "The recorded reason is true and scoped to what was actually checked.",
+    "REASON-NARROWED": "The reason is true of a bounded thing but is RECORDED as a global absence; the bounded form is what the evidence supports.",
+    "REASON-SUPERSEDED": "Campaign or graph evidence dated after the reason contradicts it as recorded.",
+    "REASON-UNEVIDENCED": "No locator exists anywhere in the repository for the load-bearing clause."
+  },
+  "endpoint_row": {
+    "id": "PUB-PARKED-MODALITIES",
+    "field": "why_not_written / outcome_potential_why",
+    "recorded_reason_verbatim": [
+      "Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan.",
+      "Every route parked on a capability nobody has. No result to report."
+    ],
+    "evidence_locator_as_recorded": "none in the endpoint record; blocked_by = [BLK-VECTOR-DELIVERY, BLK-INDUCED-COMPLEX]",
+    "verdict": "REASON-NARROWED",
+    "establishing_artifact": "systems/graph/technologies.json (sha256 0e0c1ff584c6491f7ab4f6027699595fadd0a7b9895c4bc2816128cb7232f18a)",
+    "why": "The universal quantifier 'EVERY route ... a technology NOBODY has' is falsified as literally written by the graph's own owning records. Of the four technologies that name these five routes in unblocks.routes, TECH-COFOLD-ASSEMBLY is current_state='partially_landed' (its own evidence: 'one reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN') and TECH-GLUE-DESIGN is current_state='early_signals' with FIVE ungraded pending_signals. Only TECH-VECTOR-DELIVERY and TECH-FE-CRYPTIC-POCKET are 'absent'. The bounded true statement is that the SPECIFIC ARM each route needs has not landed - not that the capability does not exist.",
+    "park_disposition": "UNCHANGED. Every route stays parked; the narrowing is to the register's wording, not to its decision. Nothing here says the paper should be written.",
+    "not_established": "That any capability HAS landed sufficiently for any route; 'partially_landed' names the arm that has NOT landed as exactly the arm this program needs."
+  },
+  "rows": [
+    {
+      "route": "RT-AF3-INTERFACE",
+      "display_name": "AF3 on a druggable interface",
+      "status": "parked",
+      "state_last_verified": "2026-08-05",
+      "recorded_reason_verbatim": {
+        "closure_note": "A method, not a route - it is waiting on a co-folder that assembles ternaries.",
+        "readiness.why_not_higher": "This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.",
+        "remaining_unknowns[0]": "Whether any co-folder can assemble an induced complex from sequence and ligand alone - the one tested here failed badly."
+      },
+      "evidence_locator": {
+        "in_route_record": "artifacts: [], evidence: [] - EMPTY. instruments.disclosed_failing: [V2, V12].",
+        "actual": [
+          "systems/graph/instruments.json V12.known_answer_control = {description: 'reproduce 9DTY/9DTX from sequence + ligand', state: 'fails', note: 'parked - the true structure moved 32 A'}",
+          "research/modalities/instrument-census.json line 168-170: known_answer_test 'reproduce 9DTY/9DTX from sequence + ligand'; result 'DockQ 0.023-0.046 = true structure moved 32 A'",
+          "research/modalities/selcal-dockq-decoy-scale.json - the displacement ladder that number is read off"
+        ]
+      },
+      "number_recheck": {
+        "quantity": "the 32 A displacement equivalent of the co-fold DockQ range",
+        "asserted": 32.0,
+        "rederived": 32.0,
+        "reproduces": true,
+        "how": "cofold_DockQ_range = [0.0228, 0.0459]; first ladder rung whose median DockQ <= 0.0459 is 32.0 A (median 0.0255). Recomputed in parked_reason_ledger.py, checks/02.",
+        "limitation_found": "The ladder is a doubling series; the 16.0 A rung has median 0.0848 > 0.0459, so the matching displacement lies in the OPEN INTERVAL (16, 32] A. '32 A' is the coarsest matching RUNG, not an estimated displacement, and no interpolation or uncertainty is published for it. The instrument-census sentence states it without that bracket."
+      },
+      "verdict": "REASON-NARROWED",
+      "establishing_artifact": "systems/graph/technologies.json TECH-COFOLD-ASSEMBLY.current_state = 'partially_landed', evidence[0]/[1]; and systems/graph/instruments.json V12 (which the route's own artifacts[] does not cite).",
+      "why": "The FAILURE half of the reason stands and reproduces digit for digit: one co-folder, on sequence + ligand alone, scores like the true structure displaced (16, 32] A. What does not stand as written is 'there is NOTHING TO REPORT until a co-folder that assembles is available': the owning technology record already grades the capability 'partially_landed', splits it into two arms, and carries three ungraded signals (newest seen_on 2026-09-04, one month after the route's last_verified 2026-08-05). The bounded reason is 'the SEQUENCE-AND-LIGAND-ONLY ASSEMBLY arm has not landed', which is what TECH-COFOLD-ASSEMBLY actually says.",
+      "park_disposition": "UNCHANGED - the arm this route needs is precisely the arm the owning record marks as not landed.",
+      "secondary_defect": "The route's artifacts[] and evidence[] are empty, so the only path from the parked reason to its evidence runs through instruments.disclosed_failing. The graph does not connect the reason to selcal-dockq-decoy-scale.json at all."
+    },
+    {
+      "route": "RT-GLUE",
+      "display_name": "Molecular glue instead of a PROTAC",
+      "status": "parked",
+      "state_last_verified": "2026-08-05",
+      "recorded_reason_verbatim": {
+        "readiness.why_not_higher": "There is no design method to apply and no screen to run, so there is no computation whose result would mean anything.",
+        "remaining_unknowns[1]": "Whether prospective glue design works on an interface outside a method's training set - nobody has shown it.",
+        "publication.contribution": "The capability it waits on: a glue design method with a prospective track record. Until one exists there is no computation whose result would mean anything."
+      },
+      "evidence_locator": {
+        "in_route_record": "artifacts: [], evidence: [] - EMPTY. instruments.support: [], disclosed_failing: [].",
+        "actual": "systems/graph/technologies.json TECH-GLUE-DESIGN.evidence[0] = 'Generative interface-design methods are advancing; none is demonstrated prospectively on an out-of-training neosubstrate interface.' - one sentence, confidence 'moderate', with NO query, NO date, NO index and NO hit count."
+      },
+      "verdict": "REASON-NARROWED",
+      "establishing_artifact": "systems/graph/technologies.json TECH-GLUE-DESIGN (current_state='early_signals', confidence='moderate', 5 pending_signals all graded:false, newest seen_on 2026-08-21); and the campaign precedent in systems/graph/publications.json PUB-TCIP (correction dated 2026-09-08/09): 'the two retained literature indexes have no query, page or total-hit closure and cannot establish an absence in the field.'",
+      "why": "'Nobody has shown it' is a FIELD-WIDE absence. The record that owns the capability does not support a field-wide absence: it is held at MODERATE confidence, its state is 'early_signals' rather than 'absent', and its own watch queue holds five signals - including 'Integrated proteomic screening reveals design principles of CRBN molecular glue degraders' and 'Discovery of CDK4-selective molecular glue degraders by high-throughput proteomics' - that have been seen and NOT graded. The repository has already ruled, in this campaign and for a different route, that an unclosed literature index cannot establish an absence in the field. The bounded reason is 'no prospectively validated out-of-training glue design method has been RECORDED BY THIS REPOSITORY'S SCAN as of 2026-08-21, with five signals ungraded'.",
+      "park_disposition": "UNCHANGED. Five ungraded signals are five UNKNOWNS, not five positives. Reading them as progress would be exactly the manufactured-positive this lane must not produce. Nothing here says a glue is buildable, and the route also inherits BLK-NOT-FUSION-SELECTIVE (kind: fundamental_biological_limit), which no design method retires.",
+      "residual_true_clause": "'no screen to run' and BLK-NOT-FUSION-SELECTIVE stand untouched."
+    },
+    {
+      "route": "RT-CRISPR-CAS13",
+      "display_name": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+      "status": "parked",
+      "state_last_verified": "2026-08-05",
+      "recorded_reason_verbatim": {
+        "closure_note": "Vector delivery, plus Cas13 collateral activity.",
+        "readiness.why_not_higher": "Gated on a delivery problem the field has not solved, so there is no computation whose result would change the route's standing.",
+        "remaining_unknowns": ["How to deliver a vector to a solid tumour at therapeutic coverage.", "Whether collateral activity of the RNA-targeting nuclease is tolerable."]
+      },
+      "evidence_locator": {
+        "in_route_record": "artifacts: [], evidence: [] - EMPTY.",
+        "blocker": "systems/graph/blockers.json BLK-VECTOR-DELIVERY - keys are exactly [id, kind, name, owner, statement_about]. It carries NO 'evidence' field (BLK-NO-WET-LAB, by contrast, carries three).",
+        "technology": "systems/graph/technologies.json TECH-VECTOR-DELIVERY.evidence[0] = 'No solid-tumour vector delivery platform is established at the coverage these routes assume.' confidence='moderate', no query/date/hit count, zero pending_signals."
+      },
+      "verdict": "REASON-NARROWED",
+      "establishing_artifact": "systems/graph/blockers.json (BLK-VECTOR-DELIVERY has no evidence field) and systems/graph/technologies.json TECH-VECTOR-DELIVERY (confidence 'moderate', unclosed one-sentence absence).",
+      "why": "The route escalates the owning record. TECH-VECTOR-DELIVERY states a bounded, correctly hedged claim - 'not ESTABLISHED at the coverage THESE ROUTES ASSUME', moderate confidence. The route restates it as 'a delivery problem THE FIELD HAS NOT SOLVED', which is a stronger, field-wide claim with no closure behind it and no scan record supporting it (zero pending_signals means the trigger TRG-VECTOR-DELIVERY-SOLID-TUMOUR has recorded no observations either way - that is an unexercised watch, not a negative result). The correctly scoped bounded form already exists one level down and should be quoted rather than escalated.",
+      "park_disposition": "UNCHANGED. The narrowing is about who is entitled to say 'the field'; the coverage assumption is genuinely unmet on the record held here, and the second unknown (collateral activity) is correctly recorded as an unknown rather than an absence.",
+      "correct_form_available_in_campaign": "ANDGATE-2 (this campaign) demonstrates the admissible wording for exactly this shape: 'C_E itself is not measured anywhere in the RETRIEVED public record', with the retrieval route named (PubMed/PMC MCP) and per-source provenance in CONCENTRATION-EVIDENCE.md."
+    },
+    {
+      "route": "RT-RIBOZYME",
+      "display_name": "Trans-splicing ribozyme -> suicide gene, triggered by the fusion transcript",
+      "status": "parked",
+      "state_last_verified": "2026-08-05",
+      "recorded_reason_verbatim": {
+        "closure_note": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
+        "readiness.why_not_higher": "Two independent gates - delivery and a technique with no modern clinical footing - and no computation addresses either.",
+        "readiness.missing[1]": "a modern demonstration of trans-splicing ribozymes",
+        "remaining_unknowns[1]": "Whether the technique has any modern solid-tumour footing at all - it is largely a 2000s-era approach.",
+        "grade.value": "Tier 3 - vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
+        "timing.two_year_delta": "Unlikely to change.",
+        "endpoint_contribution": "The one row gated twice over - delivery, and a technique with no modern clinical footing - and the reason two gates is a different situation from one."
+      },
+      "evidence_locator": {
+        "gate_1_delivery": "same as RT-CRISPR-CAS13: BLK-VECTOR-DELIVERY (no evidence field) / TECH-VECTOR-DELIVERY (moderate, unclosed).",
+        "gate_2_no_modern_footing": "NONE FOUND. artifacts: [], evidence: []. No blocker encodes it - blockers_inherited is [BLK-VECTOR-DELIVERY] only. No technologies.json record covers it (TECH-VECTOR-DELIVERY.unblocks names this route, but for delivery). The owner document research/manuscripts/program/emc-post-degrader-options.md states it at lines 959-961 as a bare assertion - 'has real literature behind it, but it is vector-delivered and has no modern solid-tumour clinical footing' - with NO citation, in a paragraph whose neighbouring route claims (route 11 HDAC/BET, route 14 synthetic promoter) DO carry links."
+      },
+      "verdict": "REASON-UNEVIDENCED",
+      "establishing_artifact": "research/manuscripts/program/emc-post-degrader-options.md lines 220-226 and 959-961 (the owner anchor named by grade.owner and by BLK-VECTOR-DELIVERY.owner); systems/graph/routes.json RT-RIBOZYME (artifacts [], evidence [], blockers_inherited [BLK-VECTOR-DELIVERY] only).",
+      "why": "This is the register's characteristic defect in its sharpest form. The route's DISTINGUISHING clause - the second gate, the whole basis on which the endpoint calls it 'the one row gated twice over' and on which timing records 'Unlikely to change' - is a claim about the state of a whole field's clinical literature since the 2000s, and it has no locator ANYWHERE: not in the route, not in a blocker, not in a technology record, not in a scan trigger, and not as a citation in the owner memo that first asserted it. It is also the only one of the five whose second gate has no watch: there is no TR-/TRG- trigger for trans-splicing-ribozyme footing, so if the claim became false the register would not notice.",
+      "park_disposition": "UNCHANGED, and note carefully: UNEVIDENCED IS NOT FALSE. Gate 1 (delivery) is independently sufficient to keep this route parked exactly where it is, and this lane makes no claim that trans-splicing ribozymes have modern footing. The finding is that the register cannot currently show its work for gate 2, and therefore may not lean on 'two gates' as a distinction.",
+      "what_would_settle_it": "A dated, closed literature retrieval - query, index, date, total hits - by the admitted PubMed/PMC MCP route, recorded with per-source provenance in the ANDGATE-2 form. NOT attempted here: out of this lane's bounded scope, and a null result would need the same closure discipline to be worth recording."
+    },
+    {
+      "route": "RT-RIPTAC",
+      "display_name": "RIPTAC - bind the tumour protein, poison an essential one",
+      "status": "parked",
+      "state_last_verified": "2026-08-05",
+      "recorded_reason_verbatim": {
+        "closure_note": "It needs the paralogue selectivity the program cannot measure, plus a med-chem campaign.",
+        "readiness.why_not_higher": "It needs both the selectivity the program cannot measure and a chemistry campaign it cannot run. It is strictly harder than the proximity routes above it on both axes.",
+        "timing.two_year_delta": "None. The free-energy advance alone does not reopen it - the induced complex and the unanswered binding question stand behind it."
+      },
+      "evidence_locator": {
+        "in_route_record": "artifacts: [], evidence: [] - EMPTY.",
+        "blockers": "BLK-PARALOGUE-DDG (kind requires_better_simulation_accuracy), BLK-INDUCED-COMPLEX (requires_better_structure_prediction), BLK-NOT-FUSION-SELECTIVE (fundamental_biological_limit), BLK-R4-BINDS (requires_wet_lab), BLK-NO-WET-LAB (requires_external_collaboration, the only one of the five carrying an evidence list)."
+      },
+      "verdict": "REASON-STANDS",
+      "establishing_artifact": "systems/graph/blockers.json (five inherited blockers, four of distinct kinds); systems/graph/routes.json RT-RIPTAC.timing.two_year_delta, which pre-emptively refuses the one supersession that could have applied.",
+      "why": "This row is the control, and it passes. It is the only one of the five whose prose contains NO field-wide-absence phrasing (0 marker hits against the same automated test that flagged 1, 2 and 3 hits on the others). Its reason is stated as a property OF THIS PROGRAM ('the program cannot measure', 'a chemistry campaign IT CANNOT RUN'), not of the world. Its two-year note already scopes out the near supersession: a free-energy advance alone does not reopen it. And its permanent clause - the only handle is the ligand-binding domain that wild-type NR4A3 and both paralogues carry, so any engagement outside the tumour is cytotoxic by the same mechanism - rests on BLK-NOT-FUSION-SELECTIVE, kind 'fundamental_biological_limit', a fact about the objects rather than about an instrument.",
+      "campaign_evidence_checked_and_not_applied": "DEGRADER-2 (per-frame RSA overlap over 225 committed conformers) and MONOVALENT-2/-3 (corridor closure over ten experimental NR4A2 chains, direction-robust across the committed 2.0/2.6/3.0/3.4 clash sweep) DO supply paralogue-discrimination measurements that do not run through a free-energy engine. They are NOT a supersession here: both are COVALENT/GEOMETRIC axes attached to a warhead-bearing architecture, and the RIPTAC as recorded has no such axis. Reading them across would be exactly the relabelling this lane is forbidden.",
+      "scope_defect_noted_without_changing_verdict": "readiness.missing[0] reads flatly 'paralogue selectivity', which is broader than the blocker the route actually inherits (BLK-PARALOGUE-DDG, a free-energy margin). No diff is proposed for it: the adjacent why_not_higher already scopes it correctly, and the independently sufficient clauses (BLK-NO-WET-LAB, BLK-NOT-FUSION-SELECTIVE) are untouched."
+    }
+  ],
+  "summary": {
+    "REASON-STANDS": ["RT-RIPTAC"],
+    "REASON-NARROWED": ["RT-AF3-INTERFACE", "RT-GLUE", "RT-CRISPR-CAS13", "PUB-PARKED-MODALITIES (endpoint)"],
+    "REASON-SUPERSEDED": [],
+    "REASON-UNEVIDENCED": ["RT-RIBOZYME (gate 2 only)"],
+    "note_on_empty_superseded": "No parked reason was found to be contradicted by campaign evidence dated after it. That is a real negative and is preserved as one: the campaign's sibling lanes (MONOVALENT-2/-3, DEGRADER-2, ANDGATE-2, SYNLETH-2, PUB-MTAP-PRMT5, SURFACE-2, MATRIX-ADDRESS-3) were read and NONE bears on a parked modality's blocker. Their subjects are the covalent corridor, per-frame RSA, condensate concentration, screen denominators, transcript class transfer, surface-flag consistency and probe labelling - all attached to routes that are NOT parked. What the campaign did supply is a PRECEDENT (PUB-TCIP, 2026-09-08/09: an unclosed literature index cannot establish a field-wide absence) and a TEMPLATE (ANDGATE-2's bounded 'not in the retrieved public record' with named retrieval route)."
+  },
+  "every_route_still_parked": true
+}

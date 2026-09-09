@@ -1,0 +1,60 @@
+diff --git a/systems/graph/publications.json b/systems/graph/publications.json
+index b39d477..b8cfa45 100644
+--- a/systems/graph/publications.json
++++ b/systems/graph/publications.json
+@@ -435,13 +435,13 @@
+     "target_venue": "preprint",
+     "working_title": "Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for",
+     "what_it_would_claim": "For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.",
+-    "why_not_written": "Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.",
++    "why_not_written": "⚠ NARROWED 2026-09-09 (PARKED-MODALITIES-1 reason audit, on systems/graph/technologies.json). SUPERSEDED, RETAINED: 'Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan.' That universal is not supported by this graph's own owning records. Of the four technologies naming these five routes in unblocks.routes, TECH-COFOLD-ASSEMBLY is current_state=partially_landed (its own evidence: one tool reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN; the arm that has not landed is assembly from sequence and ligand alone) and TECH-GLUE-DESIGN is current_state=early_signals with five ungraded pending_signals; only TECH-VECTOR-DELIVERY and TECH-FE-CRYPTIC-POCKET are current_state=absent. WHAT IS ACTUALLY TRUE: for each of the five routes the SPECIFIC ARM it needs has not landed, which is a per-route bounded statement rather than a claim that the capability does not exist. ⛔ THE PARK IS UNCHANGED BY THIS CORRECTION AND IT MUST NOT BE READ AS PROGRESS: no route is un-parked, none is recommended for pursuit, and an ungraded watch signal is an UNKNOWN, not a positive result. The paper still has no result to report and would still be a horizon scan; it is worth writing only once at least one of the watched capabilities lands on the arm the routes need, and until then the scan triggers carry the work.",
+     "blocked_by": [
+       "BLK-VECTOR-DELIVERY",
+       "BLK-INDUCED-COMPLEX"
+     ],
+     "outcome_potential": "horizon_scan",
+-    "outcome_potential_why": "Every route parked on a capability nobody has. No result to report.",
++    "outcome_potential_why": "⚠ NARROWED 2026-09-09 (PARKED-MODALITIES-1). SUPERSEDED, RETAINED: 'Every route parked on a capability nobody has.' Two of the four owning technology records are not absent (TECH-COFOLD-ASSEMBLY partially_landed, TECH-GLUE-DESIGN early_signals). Each route is parked on the specific ARM of a capability that has not landed. No result to report; every route remains parked.",
+     "patient_path": "none",
+     "unit": "full_paper"
+   },
+diff --git a/systems/graph/routes.json b/systems/graph/routes.json
+index 9e7938a..58885df 100644
+--- a/systems/graph/routes.json
++++ b/systems/graph/routes.json
+@@ -3809,7 +3809,7 @@
+     "supporting_evidence": [],
+     "remaining_unknowns": [
+       "Whether a glue interface exists for this target at all.",
+-      "Whether prospective glue design works on an interface outside a method's training set — nobody has shown it."
++      "Whether prospective glue design works on an interface outside a method's training set. ⚠ NARROWED 2026-09-09 (PARKED-MODALITIES-1). SUPERSEDED, RETAINED: '— nobody has shown it.' That is a field-wide absence; the owning record TECH-GLUE-DESIGN holds it at confidence=moderate with current_state=early_signals, its single evidence sentence has no query, index, date or hit count, and five pending_signals seen between 2026-03-10 and 2026-08-21 remain graded:false. What is supported: no prospectively validated out-of-training glue design method has been RECORDED BY THIS REPOSITORY'S SCAN, with five signals ungraded. ⛔ Ungraded signals are UNKNOWNS, not positives; the route stays parked and also inherits BLK-NOT-FUSION-SELECTIVE, which no design method retires."
+     ],
+     "required_validation": [
+       {
+@@ -4441,7 +4441,7 @@
+     ],
+     "readiness": {
+       "attainable_today": "internal_note",
+-      "why_not_higher": "Gated on a delivery problem the field has not solved, so there is no computation whose result would change the route's standing.",
++      "why_not_higher": "Gated on a delivery problem, so there is no computation whose result would change the route's standing. ⚠ NARROWED 2026-09-09 (PARKED-MODALITIES-1). SUPERSEDED, RETAINED: 'a delivery problem THE FIELD HAS NOT SOLVED'. That escalates the owning records: BLK-VECTOR-DELIVERY carries no evidence field at all, and TECH-VECTOR-DELIVERY states the bounded and correctly hedged form at confidence=moderate — 'No solid-tumour vector delivery platform is ESTABLISHED AT THE COVERAGE THESE ROUTES ASSUME' — with no query, date or hit count, and zero recorded observations on TRG-VECTOR-DELIVERY-SOLID-TUMOUR (an unexercised watch, not a negative result). Quote the bounded form. The route stays parked: the coverage assumption is unmet on the record held here.",
+       "missing": [
+         "a solid-tumour vector"
+       ]
+@@ -4622,7 +4622,7 @@
+     "supporting_evidence": [],
+     "remaining_unknowns": [
+       "Vector delivery, as above.",
+-      "Whether the technique has any modern solid-tumour footing at all — it is largely a 2000s-era approach."
++      "Whether the technique has any modern solid-tumour footing at all. ⚠ FLAGGED UNEVIDENCED 2026-09-09 (PARKED-MODALITIES-1). RETAINED VERBATIM AND NOT WITHDRAWN: '— it is largely a 2000s-era approach.' UNEVIDENCED IS NOT FALSE and this correction does not assert the technique has modern footing. What was checked: this route's artifacts[] and evidence[] are empty; blockers_inherited is [BLK-VECTOR-DELIVERY] only, which covers gate 1; no technologies.json record and no TR-/TRG- scan trigger covers ribozyme footing; and the owner memo research/manuscripts/program/emc-post-degrader-options.md states it at lines 959-961 with no citation, in a paragraph whose neighbouring route claims do carry links. So the SECOND GATE has no locator anywhere in this repository, and this route's 'gated twice over' distinction may not be leaned on until one exists. ⛔ The route stays parked regardless: gate 1 (vector delivery) is independently sufficient. Settling gate 2 needs a dated, closed literature retrieval — query, index, date, total hits — by the admitted PubMed/PMC route, recorded with per-source provenance."
+     ],
+     "required_validation": [
+       {
+@@ -5071,7 +5071,7 @@
+     ],
+     "readiness": {
+       "attainable_today": "internal_note",
+-      "why_not_higher": "This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.",
++      "why_not_higher": "This is a method waiting on a method. ⚠ NARROWED 2026-09-09 (PARKED-MODALITIES-1). SUPERSEDED, RETAINED: 'There is nothing to report until a co-folder that assembles is available.' The owning record TECH-COFOLD-ASSEMBLY grades the capability current_state=partially_landed and splits it into two arms, and carries three ungraded pending_signals (newest seen_on 2026-09-04, after this route's last_verified 2026-08-05). The bounded statement is that the SEQUENCE-AND-LIGAND-ONLY ASSEMBLY arm has not landed; the both-sites-given arm has. The route stays parked, because the arm it needs is the one that has not landed.",
+       "missing": [
+         "a co-folder validated on assembly"
+       ]

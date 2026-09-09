@@ -1,0 +1,4 @@
+cd <scratch>/diffbuild && git diff --no-index --unified=3 a b > UNAPPLIED-parked-reason-scope.patch
+
+# FAILED: the subshell `cd $S` made the lane-relative redirect targets unresolvable.
+# The patch itself was produced correctly; only the check capture failed. Re-run as 04 with absolute paths.

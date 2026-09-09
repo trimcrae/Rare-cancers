@@ -1,0 +1,27 @@
+diff --git a/research/modalities/km_risk_row_detect.py b/research/modalities/km_risk_row_detect.py
+index 84cb819da..18a20dd95 100644
+--- a/research/modalities/km_risk_row_detect.py
++++ b/research/modalities/km_risk_row_detect.py
+@@ -729,10 +729,21 @@ def read_pdf(source_id: str, pdf_path: str, dump_dir: str | None = None,
+                          max_risk_gap=MAX_RISK_GAP * page.bbox[3])
+             if not _looks_like_a_plot(res):
+                 continue
++            # ⛔ ADDITIVE ONLY -- APPENDED LAST, AND NO CLAUSE READS IT. The PIXEL arm
++            # records `image_px`, whose second element IS the height this arm divides by, so
++            # its proximity clause (`near_enough_to_tick_labels`, MAX_RISK_GAP) can be
++            # re-derived from the record. The TEXT arm divides by `page.bbox[3]` instead, and
++            # that number was preserved nowhere -- so the one clause supporting this arm's
++            # verdict was the only clause in the whole rule a reader could not check.
++            # `page_height_pt` is the denominator as passed, at the same 1 dp as
++            # `tick_row_span_pt`, written AFTER every existing key (including **res) so no
++            # existing field is removed, renamed, reordered or retyped, and no threshold,
++            # tolerance or clause changes.
+             rec["figures"].append({"page": pno, "image_index": None, "arm": "text",
+                                    "tick_row_text": [t.text for t in tick],
+                                    "tick_row_span_pt": round(span, 1),
+-                                   "caption_head": _caption_head(page_text), **res})
++                                   "caption_head": _caption_head(page_text), **res,
++                                   "page_height_pt": round(page.bbox[3], 1)})
+     rec["n_figures"] = len(rec["figures"])
+     rec["n_with_risk_row"] = sum(1 for f in rec["figures"] if f["verdict"] == "present")
+     rec["n_without"] = sum(1 for f in rec["figures"] if f["verdict"] == "absent")

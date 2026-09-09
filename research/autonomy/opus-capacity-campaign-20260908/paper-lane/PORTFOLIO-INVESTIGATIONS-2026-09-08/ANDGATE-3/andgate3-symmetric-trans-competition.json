@@ -1,0 +1,365 @@
+{
+ "_lane": "ANDGATE-3",
+ "_continues": "ANDGATE-2/andgate2-literature-placement.json (item 2 of its \u00a77)",
+ "_compute": "CPU, pure stdlib, no GPU, no network, no external data",
+ "_no_arm2_ligand_exists": true,
+ "_conditional_bounding_model": "Evaluates a design assuming an arm-2 ligand with the paper's illustrative Kd2 EXISTS; it does not. NOT an efficacy, safety, selectivity-as-therapeutic-property, therapeutic-window or clinical-readiness claim.",
+ "inputs": {
+  "Kd1_M": 9.999999999999999e-06,
+  "Kd2_M": 9.999999999999999e-05,
+  "EM_M": 0.001,
+  "free_ligand_M": 1e-06,
+  "provenance": "manuscript illustrative values, unchanged"
+ },
+ "identity_checks": {
+  "all_passed": true,
+  "pub_andgate_cis_only_window": 5.787,
+  "pub_andgate_committed": 5.79,
+  "andgate2_placement_reproduction": [
+   {
+    "point": "E1",
+    "C_E_uM": 0.2,
+    "committed_window": 5.776,
+    "recomputed_window": 5.776,
+    "committed_retained": 0.9982,
+    "recomputed_retained": 0.9982,
+    "reproduces": true
+   },
+   {
+    "point": "E2",
+    "C_E_uM": 5.0,
+    "committed_window": 5.536,
+    "recomputed_window": 5.536,
+    "committed_retained": 0.9567,
+    "recomputed_retained": 0.9567,
+    "reproduces": true
+   },
+   {
+    "point": "E2b",
+    "C_E_uM": 2.0,
+    "committed_window": 5.684,
+    "recomputed_window": 5.684,
+    "committed_retained": 0.9822,
+    "recomputed_retained": 0.9822,
+    "reproduces": true
+   },
+   {
+    "point": "E3",
+    "C_E_uM": 100.0,
+    "committed_window": 3.156,
+    "recomputed_window": 3.156,
+    "committed_retained": 0.5455,
+    "recomputed_retained": 0.5455,
+    "reproduces": true
+   }
+  ],
+  "andgate2_multiplicity_reproduction": [
+   {
+    "protein": "EWS/FLI1 anchor, 200 nM",
+    "n": 1,
+    "committed_window": 5.776,
+    "recomputed_window": 5.776,
+    "reproduces": true
+   },
+   {
+    "protein": "EWS/FLI1 anchor, 200 nM",
+    "n": 3,
+    "committed_window": 5.755,
+    "recomputed_window": 5.755,
+    "reproduces": true
+   },
+   {
+    "protein": "EWS/FLI1 anchor, 200 nM",
+    "n": 10,
+    "committed_window": 5.684,
+    "recomputed_window": 5.684,
+    "reproduces": true
+   },
+   {
+    "protein": "EWS/FLI1 anchor, 200 nM",
+    "n": 30,
+    "committed_window": 5.489,
+    "recomputed_window": 5.489,
+    "reproduces": true
+   },
+   {
+    "protein": "EWS/FLI1 anchor, 200 nM",
+    "n": 80,
+    "committed_window": 5.061,
+    "recomputed_window": 5.061,
+    "reproduces": true
+   },
+   {
+    "protein": "FUS-family HeLa ceiling, 5 uM",
+    "n": 1,
+    "committed_window": 5.536,
+    "recomputed_window": 5.536,
+    "reproduces": true
+   },
+   {
+    "protein": "FUS-family HeLa ceiling, 5 uM",
+    "n": 3,
+    "committed_window": 5.101,
+    "recomputed_window": 5.101,
+    "reproduces": true
+   },
+   {
+    "protein": "FUS-family HeLa ceiling, 5 uM",
+    "n": 10,
+    "committed_window": 4.033,
+    "recomputed_window": 4.033,
+    "reproduces": true
+   },
+   {
+    "protein": "FUS-family HeLa ceiling, 5 uM",
+    "n": 30,
+    "committed_window": 2.63,
+    "recomputed_window": 2.63,
+    "reproduces": true
+   },
+   {
+    "protein": "FUS-family HeLa ceiling, 5 uM",
+    "n": 80,
+    "committed_window": 1.578,
+    "recomputed_window": 1.578,
+    "reproduces": true
+   }
+  ],
+  "note": "Every ANDGATE-2 / PUB-ANDGATE number tested re-derives exactly from the same inputs. The finding below is NOT an arithmetic discrepancy; it is a structural asymmetry in the model those numbers come from."
+ },
+ "defect_A_missing_trans_term_on_fusion": {
+  "evidence": "PUB-ANDGATE's committed trans_competition_sweep reports fusion_fraction_bound = [0.5261] at every C_E from 0 to 3 mM \u2014 the fusion partition function has no C_E dependence at all.",
+  "why_it_is_wrong": "The Erratum establishes the fusion is EWSR1-LC::NR4A3-LBD, so a ligand anchored by arm 1 on the FUSION's LBD can bridge in trans to a free LC chain exactly as on wild-type NR4A3. The term (L/Kd1)(C_E/Kd2) belongs in both.",
+  "consequence": "With the term present in both, window = [1 + n*EM/Kd2 + C_E/Kd2 + n*Kd1/Kd2] / [1 + C_E/Kd2] > 1 for all C_E. The window decays MONOTONICALLY TO 1 and CANNOT invert. PUB-ANDGATE's reported inversion above C_E = EM ('the molecule prefers wild-type NR4A3 to the fusion', 0.70x/0.58x) is an artifact of the omission.",
+  "asymptote_symmetric_window_as_C_E_to_infinity": 1.0
+ },
+ "defect_B_one_sided_multiplicity": {
+  "why_it_is_wrong": "n is a property of the LC domain, which the fusion carries. Multiplying only C_E while leaving the cis term at one site makes the design look fragile to n when the same n also multiplies the cis avidity term."
+ },
+ "cost_curve_published_vs_symmetric_n1": [
+  {
+   "C_E_uM": 0.0,
+   "window_as_published": 5.787,
+   "retained_as_published": 1.0,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.787,
+   "retained_symmetric": 1.0,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0
+  },
+  {
+   "C_E_uM": 0.1,
+   "window_as_published": 5.781,
+   "retained_as_published": 0.9991,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.782,
+   "retained_symmetric": 0.9991,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0
+  },
+  {
+   "C_E_uM": 1.0,
+   "window_as_published": 5.735,
+   "retained_as_published": 0.991,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.737,
+   "retained_symmetric": 0.9914,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0004
+  },
+  {
+   "C_E_uM": 2.0,
+   "window_as_published": 5.684,
+   "retained_as_published": 0.9822,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.688,
+   "retained_symmetric": 0.983,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0009
+  },
+  {
+   "C_E_uM": 5.0,
+   "window_as_published": 5.536,
+   "retained_as_published": 0.9567,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.548,
+   "retained_symmetric": 0.9587,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0021
+  },
+  {
+   "C_E_uM": 10.0,
+   "window_as_published": 5.308,
+   "retained_as_published": 0.9174,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.331,
+   "retained_symmetric": 0.9213,
+   "regime_symmetric": "negligible",
+   "published_understates_window_by_factor": 1.0042
+  },
+  {
+   "C_E_uM": 30.0,
+   "window_as_published": 4.573,
+   "retained_as_published": 0.7902,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 4.63,
+   "retained_symmetric": 0.8002,
+   "regime_symmetric": "materially degraded",
+   "published_understates_window_by_factor": 1.0126
+  },
+  {
+   "C_E_uM": 100.0,
+   "window_as_published": 3.156,
+   "retained_as_published": 0.5455,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 3.285,
+   "retained_symmetric": 0.5677,
+   "regime_symmetric": "materially degraded",
+   "published_understates_window_by_factor": 1.0408
+  },
+  {
+   "C_E_uM": 300.0,
+   "window_as_published": 1.841,
+   "retained_as_published": 0.3182,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 2.048,
+   "retained_symmetric": 0.3539,
+   "regime_symmetric": "materially degraded",
+   "published_understates_window_by_factor": 1.1121
+  },
+  {
+   "C_E_uM": 1000.0,
+   "window_as_published": 1.004,
+   "retained_as_published": 0.1736,
+   "regime_as_published": "fatal",
+   "window_symmetric": 1.295,
+   "retained_symmetric": 0.2238,
+   "regime_symmetric": "materially degraded",
+   "published_understates_window_by_factor": 1.2897
+  },
+  {
+   "C_E_uM": 3000.0,
+   "window_as_published": 0.696,
+   "retained_as_published": 0.1202,
+   "regime_as_published": "fatal",
+   "window_symmetric": 1.064,
+   "retained_symmetric": 0.1838,
+   "regime_symmetric": "fatal",
+   "published_understates_window_by_factor": 1.5289
+  }
+ ],
+ "multiplicity_published_vs_symmetric": [
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 1,
+   "C_E_uM": 0.2,
+   "window_as_published_one_sided": 5.776,
+   "retained_as_published_one_sided": 0.9982,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.777,
+   "retained_symmetric_vs_n_matched_cis_only": 0.9983,
+   "regime_symmetric": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 3,
+   "C_E_uM": 0.6,
+   "window_as_published_one_sided": 5.755,
+   "retained_as_published_one_sided": 0.9946,
+   "regime_as_published": "negligible",
+   "window_symmetric": 8.292,
+   "retained_symmetric_vs_n_matched_cis_only": 0.9946,
+   "regime_symmetric": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 10,
+   "C_E_uM": 2.0,
+   "window_as_published_one_sided": 5.684,
+   "retained_as_published_one_sided": 0.9822,
+   "regime_as_published": "negligible",
+   "window_symmetric": 9.839,
+   "retained_symmetric_vs_n_matched_cis_only": 0.9822,
+   "regime_symmetric": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 30,
+   "C_E_uM": 6.0,
+   "window_as_published_one_sided": 5.489,
+   "retained_as_published_one_sided": 0.9485,
+   "regime_as_published": "negligible",
+   "window_symmetric": 10.102,
+   "retained_symmetric_vs_n_matched_cis_only": 0.9485,
+   "regime_symmetric": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 80,
+   "C_E_uM": 16.0,
+   "window_as_published_one_sided": 5.061,
+   "retained_as_published_one_sided": 0.8746,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 9.503,
+   "retained_symmetric_vs_n_matched_cis_only": 0.8746,
+   "regime_symmetric": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 1,
+   "C_E_uM": 5.0,
+   "window_as_published_one_sided": 5.536,
+   "retained_as_published_one_sided": 0.9567,
+   "regime_as_published": "negligible",
+   "window_symmetric": 5.548,
+   "retained_symmetric_vs_n_matched_cis_only": 0.9587,
+   "regime_symmetric": "negligible"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 3,
+   "C_E_uM": 15.0,
+   "window_as_published_one_sided": 5.101,
+   "retained_as_published_one_sided": 0.8814,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 7.357,
+   "retained_symmetric_vs_n_matched_cis_only": 0.8824,
+   "regime_symmetric": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 10,
+   "C_E_uM": 50.0,
+   "window_as_published_one_sided": 4.033,
+   "retained_as_published_one_sided": 0.697,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 6.985,
+   "retained_symmetric_vs_n_matched_cis_only": 0.6973,
+   "regime_symmetric": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 30,
+   "C_E_uM": 150.0,
+   "window_as_published_one_sided": 2.63,
+   "retained_as_published_one_sided": 0.4545,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 4.842,
+   "retained_symmetric_vs_n_matched_cis_only": 0.4546,
+   "regime_symmetric": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 80,
+   "C_E_uM": 400.0,
+   "window_as_published_one_sided": 1.578,
+   "retained_as_published_one_sided": 0.2727,
+   "regime_as_published": "materially degraded",
+   "window_symmetric": 2.964,
+   "retained_symmetric_vs_n_matched_cis_only": 0.2727,
+   "regime_symmetric": "materially degraded"
+  }
+ ],
+ "what_does_NOT_change": "The bulk-nucleoplasm verdict. At the literature anchors (0.2-5 uM) the correction moves the retained window by <1%; ANDGATE-2's 'negligible' bulk regime stands, and stands more strongly. The decisive intra-condensate quantity remains UNMEASURED \u2014 this changes the model, not the missing data.",
+ "stop_condition": "Complete when the committed numbers were re-derived, the asymmetry was localised to a named term, and the corrected curve was computed. Does not estimate C_E, does not adopt any n, does not edit the manuscript or any shared file, does not reopen the arm-2 ligand gate."
+}

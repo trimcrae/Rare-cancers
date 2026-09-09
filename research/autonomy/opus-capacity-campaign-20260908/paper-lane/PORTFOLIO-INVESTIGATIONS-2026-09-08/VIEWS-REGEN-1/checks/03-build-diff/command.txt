@@ -1,0 +1,5 @@
+for f in L2-rt-b7h3 L2-rt-cart-surface L2-rt-chaperone L2-rt-fap-rlt L2-rt-partner-strat \
+         L2-rt-prame-immtac L2-rt-sstr2 L2-rt-tcip L2-rt-tcrt-cta L2-rt-txn-cdk L3-publications; do
+  diff -u --label "a/systems/views/$f.md" --label "b/systems/views/$f.md" \
+    systems/views/$f.md <LANE>/regenerated/$f.md >> <LANE>/views-regen.patch
+done

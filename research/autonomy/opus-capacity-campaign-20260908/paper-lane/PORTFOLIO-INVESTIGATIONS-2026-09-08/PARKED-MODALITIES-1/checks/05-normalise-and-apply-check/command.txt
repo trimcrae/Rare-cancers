@@ -1,0 +1,2 @@
+sed -i -e 's|^diff --git a/a/|diff --git a/|' -e 's| b/b/| b/|' -e 's|^--- a/a/|--- a/|' -e 's|^+++ b/b/|+++ b/|' UNAPPLIED-parked-reason-scope.patch
+git -C /home/user/Rare-cancers apply --check --verbose UNAPPLIED-parked-reason-scope.patch   # exit code is the real one, no pipe

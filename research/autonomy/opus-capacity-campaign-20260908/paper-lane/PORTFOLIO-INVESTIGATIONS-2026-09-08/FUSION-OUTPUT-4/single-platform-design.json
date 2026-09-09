@@ -1,0 +1,455 @@
+{
+ "artifact": "design arithmetic for a GPL6244-only variant of the FUSION-OUTPUT-2 pre-registration",
+ "assumptions_every_one_biasing_the_mdes_optimistically": "What the FUSION-OUTPUT-2 pre-registration becomes if GPL3290/GSE4303 is DROPPED.\n\nDESIGN ARITHMETIC ONLY.  NO expression value is read.  No cohort matrix is opened.  No\ncontrast is computed.  The coordinator-owned frozen outcome protocol is neither opened\nnor pre-empted.  Nothing here is a biological claim, and nothing here can establish\nefficacy, safety, selectivity, a therapeutic window or clinical readiness.\n\nThree jobs, in order:\n\n  1. RE-DERIVE, independently of FUSION-OUTPUT-2's and FUSION-OUTPUT-3's stored JSON:\n       (a) the contrast A and contrast B set sizes, from the frozen membership TSV, by\n           re-implementing the subtraction from the TSV rows;\n       (b) GPL6244 readability of every member, against the source packet's own\n           gene-to-probes map, and the resulting coverage per cell.\n     A non-reproducing number is the finding: it is reported digit for digit.\n\n  2. RECOMPUTE the detectability arithmetic for a GPL6244-ONLY (single-cohort) design,\n     using FUSION-OUTPUT-2's own MDE formula and its own conventions, unchanged:\n\n       MDE(d) = (t_.975(df) + t_.80(df)) * sqrt(1/n1 + 1/n2) * sqrt((1 + (m-1) rho) / m)\n\n     and quantify exactly what dropping GSE4303 costs.\n\n  3. Evaluate the pre-registration's own stop conditions and clauses under the dropped\n     design, WITHOUT overturning any of its numeric no-goes.\n\nASSUMPTIONS behind every MDE below, restated in full and EACH LABELLED FOR THE DIRECTION\nOF ITS BIAS.  All five bias the numbers OPTIMISTICALLY: the true detectable effects are\nLARGER than printed, never smaller.\n\n  A1. Var(x_ig) = 1 across samples for every gene, where x_ig is the manuscript's\n      within-array z (PUB-FUSION-OUTPUT Sec 2.3).  OPTIMISTIC: in real data the\n      across-sample SD of a within-array z exceeds 1 for most genes, and every MDE\n      scales linearly with that SD.\n  A2. A single common average across-sample inter-gene correlation rho applies to all\n      pairs of set members, so Var(S) = (1 + (m-1) rho)/m.  OPTIMISTIC at any rho the\n      user chooses to believe: heterogeneous correlation with the same mean gives a\n      larger Var(S) whenever the correlation matrix is not exchangeable.\n  A3. The alternative is a COMMON per-gene elevation d shared by all m members.\n      OPTIMISTIC: a heterogeneous effect with the same mean is strictly harder to detect.\n  A4. df = n1 + n2 - 2 for the Welch t.  OPTIMISTIC: true Welch-Satterthwaite df is\n      <= n1+n2-2, so the true critical sum is larger.\n  A5. Every member counted readable is measured with no extra probe-level noise, i.e.\n      coverage 1.000 is treated as m = n.  OPTIMISTIC: probe-level noise on a single\n      array platform inflates the per-gene SD, which is A1 again.\n\n  A6 (single-platform-specific).  Dropping a cohort removes the pre-registration's\n      \"elevated on BOTH series\" conjunction.  Reporting a single-cohort test at\n      alpha = 0.05 while quoting the two-cohort design's MDE is OPTIMISTIC ABOUT THE\n      LEVEL, not about the effect size: the nominal joint false-positive rate rises from\n      alpha^2 to alpha.  This script prints the alpha-equivalent MDEs that hold the old\n      level, so the trade is visible instead of silent.\n\nInputs (all read in place, hashed, never copied, never modified).",
+ "date": "2026-09-09",
+ "fences": [
+  "no expression value read",
+  "no contrast computed",
+  "outcome protocol not opened and not pre-empted",
+  "no floor, guard, gate, matcher, pin or test weakened",
+  "no biological claim; no efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim",
+  "no network, no GPU, no paid API, no publication, no outreach",
+  "writes confined to the FUSION-OUTPUT-4 lane directory"
+ ],
+ "floors_used_verbatim_from_the_manuscript": {
+  "min_coverage": 0.4,
+  "min_readable_genes": 4,
+  "note": "no floor was lowered, softened or reinterpreted"
+ },
+ "inputs": {
+  "FUSION_OUTPUT_2_frozen_sets_crosscheck_only": {
+   "path": "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-2/fusion-program-testsets.json",
+   "sha256": "e1add70fc53fcc06017f9c214260c84501d7aea8d7f4b6225ad087b8b8128f24"
+  },
+  "FUSION_OUTPUT_3_coverage_crosscheck_only": {
+   "path": "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-3/platform-coverage.json",
+   "sha256": "681a40c8bc0600ff017d411d6d67f6708f03a9db5421c46761b5f8204f553f47"
+  },
+  "GPL6244_gene_to_probes": {
+   "n_symbols": 21407,
+   "path": "/tmp/claude-0/frozen-corpus/extracted/corpus/research/autonomy/nr4a3-program-source-2026-09-07/sources/GPL6244-gene-to-probes.json",
+   "sha256": "00754d6d3e43f83b9e1e7b59e84cc8e4609ef3cb86d21c15a0669c2d6c3d404e"
+  },
+  "frozen_membership_tsv": {
+   "path": "/tmp/claude-0/frozen-corpus/extracted/corpus/research/autonomy/nr4a3-program-source-2026-09-07/outputs/common-platform-membership.tsv",
+   "sha256": "b54b3eda97c0663e052cfe52ac4b8dbae3914bbffad73a905de98de8873c801b"
+  }
+ },
+ "lane": "FUSION-OUTPUT-4",
+ "resolution_limits_unchanged_by_the_drop": {
+  "note": "all three are combinatorial properties of the comparison, not of the cohort, so dropping a platform changes none of them",
+  "rank_among_28_alternative_programs_smallest_one_sided_p": 0.0345,
+  "rank_among_the_4_NR4A3_programs_smallest_one_sided_p": 0.25,
+  "size_matched_empirical_null_4000_sets_smallest_p": 0.00025
+ },
+ "status": "DESIGN ONLY \u2014 no expression value read, no contrast computed, no biological claim, coordinator gate neither opened nor pre-empted",
+ "step_1_crosscheck": {
+  "all_reproduce": true,
+  "coverage_mismatches_vs_FUSION_OUTPUT_3": [],
+  "expected_from_task_statement": {
+   "1000": {
+    "A": 23,
+    "B": 4
+   },
+   "2000": {
+    "A": 40,
+    "B": 7
+   },
+   "5000": {
+    "A": 57,
+    "B": 6
+   }
+  },
+  "membership_mismatches_vs_FUSION_OUTPUT_2": [],
+  "set_size_mismatches": []
+ },
+ "step_1_rederived_gpl6244_coverage": {
+  "1000": {
+   "A": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 23,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 19,
+    "readable_on_GPL6244": 23,
+    "unreadable_on_GPL6244": 0
+   },
+   "B": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 4,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 0,
+    "readable_on_GPL6244": 4,
+    "unreadable_on_GPL6244": 0
+   }
+  },
+  "2000": {
+   "A": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 40,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 36,
+    "readable_on_GPL6244": 40,
+    "unreadable_on_GPL6244": 0
+   },
+   "B": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 7,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 3,
+    "readable_on_GPL6244": 7,
+    "unreadable_on_GPL6244": 0
+   }
+  },
+  "5000": {
+   "A": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 57,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 53,
+    "readable_on_GPL6244": 57,
+    "unreadable_on_GPL6244": 0
+   },
+   "B": {
+    "clears_both_floors": true,
+    "clears_coverage_floor_0.4": true,
+    "clears_gene_floor_4": true,
+    "coverage": 1.0,
+    "missing_symbols": [],
+    "n": 6,
+    "probe_dropouts_tolerated_before_gene_floor_breach": 2,
+    "readable_on_GPL6244": 6,
+    "unreadable_on_GPL6244": 0
+   }
+  }
+ },
+ "step_1_rederived_set_sizes": {
+  "1000": {
+   "A": 23,
+   "B": 4
+  },
+  "2000": {
+   "A": 40,
+   "B": 7
+  },
+  "5000": {
+   "A": 57,
+   "B": 6
+  }
+ },
+ "step_2_level_trade": {
+  "caveat": "the conjunction's nominal level and joint power assume the two series are INDEPENDENT tests. They are not fully independent \u2014 both score the same gene set and GSE4303 is graded circular for exactly these claims \u2014 so 0.0025 OVERSTATES the protection the two-cohort rule actually bought, and 0.64 UNDERSTATES its joint power. Both directions of that error make the single-platform trade look worse than it is.",
+  "fold_increase_in_nominal_level": 20.0,
+  "joint_power_of_the_conjunction_if_independent_at_each_arms_own_mde": 0.64,
+  "nominal_false_positive_rate_single_platform": 0.05,
+  "nominal_joint_false_positive_rate_two_cohort_if_independent": 0.0025,
+  "power_of_the_single_platform_test_at_its_own_mde": 0.8,
+  "price_of_holding_the_old_level_on_one_cohort_contrast_A_primary_window_rho_0.2": {
+   "alpha_0.0025_matches_two_cohort_joint_level": 0.8679,
+   "alpha_0.05": 0.6074,
+   "alpha_0.05_over_28_multiplicity_for_the_alternative_programs": 0.8943
+  },
+  "so_dropping_raises_power_from_0.64_to_0.80_and_raises_level_from_0.0025_to_0.05": true,
+  "two_cohort_rule": "Sec 3.1 positive = elevated on BOTH series, each at alpha = 0.05"
+ },
+ "step_2_sample_accounting": {
+  "comparators_dropped": 6,
+  "emc_tumours_dropped": 10,
+  "emc_tumours_in_single_platform_design": 6,
+  "emc_tumours_in_two_cohort_design": 16,
+  "fraction_of_comparators_dropped": 0.1714,
+  "fraction_of_emc_material_dropped": 0.625,
+  "mde_cost_of_that_loss": 0.0,
+  "reading": "the dropped cohort holds the MAJORITY of the design's EMC tumours and costs zero detectable effect, because the pre-registration assigned it no inferential weight it could carry: Sec 6.2 makes it corroborative only and Sec 3.1 declares any positive existing on GSE4303 alone UNINTERPRETABLE. A cohort that cannot carry a positive contributes no power to a design that never pools."
+ },
+ "step_2_single_platform_mde": {
+  "1000": {
+   "A": {
+    "effective_independent_genes": {
+     "0.0": 23.0,
+     "0.1": 7.188,
+     "0.2": 4.259,
+     "0.3": 3.026,
+     "0.5": 1.917
+    },
+    "m_readable_on_GPL6244": 23,
+    "mde_GSE24369_only": {
+     "0.0": 0.27,
+     "0.1": 0.483,
+     "0.2": 0.6274,
+     "0.3": 0.7443,
+     "0.5": 0.9353
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.3244,
+     "0.1": 0.5803,
+     "0.2": 0.7539,
+     "0.3": 0.8943,
+     "0.5": 1.1238
+    }
+   },
+   "B": {
+    "effective_independent_genes": {
+     "0.0": 4.0,
+     "0.1": 3.077,
+     "0.2": 2.5,
+     "0.3": 2.105,
+     "0.5": 1.6
+    },
+    "m_readable_on_GPL6244": 4,
+    "mde_GSE24369_only": {
+     "0.0": 0.6474,
+     "0.1": 0.7382,
+     "0.2": 0.819,
+     "0.3": 0.8924,
+     "0.5": 1.0237
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.7779,
+     "0.1": 0.887,
+     "0.2": 0.984,
+     "0.3": 1.0723,
+     "0.5": 1.23
+    }
+   }
+  },
+  "2000": {
+   "A": {
+    "effective_independent_genes": {
+     "0.0": 40.0,
+     "0.1": 8.163,
+     "0.2": 4.545,
+     "0.3": 3.15,
+     "0.5": 1.951
+    },
+    "m_readable_on_GPL6244": 40,
+    "mde_GSE24369_only": {
+     "0.0": 0.2047,
+     "0.1": 0.4532,
+     "0.2": 0.6074,
+     "0.3": 0.7296,
+     "0.5": 0.927
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.246,
+     "0.1": 0.5445,
+     "0.2": 0.7297,
+     "0.3": 0.8767,
+     "0.5": 1.1138
+    }
+   },
+   "B": {
+    "effective_independent_genes": {
+     "0.0": 7.0,
+     "0.1": 4.375,
+     "0.2": 3.182,
+     "0.3": 2.5,
+     "0.5": 1.75
+    },
+    "m_readable_on_GPL6244": 7,
+    "mde_GSE24369_only": {
+     "0.0": 0.4894,
+     "0.1": 0.6191,
+     "0.2": 0.7259,
+     "0.3": 0.819,
+     "0.5": 0.9788
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.588,
+     "0.1": 0.7438,
+     "0.2": 0.8722,
+     "0.3": 0.984,
+     "0.5": 1.1761
+    }
+   }
+  },
+  "5000": {
+   "A": {
+    "effective_independent_genes": {
+     "0.0": 57.0,
+     "0.1": 8.636,
+     "0.2": 4.672,
+     "0.3": 3.202,
+     "0.5": 1.966
+    },
+    "m_readable_on_GPL6244": 57,
+    "mde_GSE24369_only": {
+     "0.0": 0.1715,
+     "0.1": 0.4406,
+     "0.2": 0.5991,
+     "0.3": 0.7236,
+     "0.5": 0.9236
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.2061,
+     "0.1": 0.5294,
+     "0.2": 0.7198,
+     "0.3": 0.8694,
+     "0.5": 1.1097
+    }
+   },
+   "B": {
+    "effective_independent_genes": {
+     "0.0": 6.0,
+     "0.1": 4.0,
+     "0.2": 3.0,
+     "0.3": 2.4,
+     "0.5": 1.714
+    },
+    "m_readable_on_GPL6244": 6,
+    "mde_GSE24369_only": {
+     "0.0": 0.5286,
+     "0.1": 0.6474,
+     "0.2": 0.7476,
+     "0.3": 0.8358,
+     "0.5": 0.989
+    },
+    "mde_GSE4303_if_it_had_been_kept": {
+     "0.0": 0.6352,
+     "0.1": 0.7779,
+     "0.2": 0.8983,
+     "0.3": 1.0043,
+     "0.5": 1.1883
+    }
+   }
+  }
+ },
+ "step_2_what_dropping_GSE4303_costs": {
+  "A": {
+   "COUNTERFACTUAL_pooled_mde_NOT_AN_AVAILABLE_DESIGN": 0.4046,
+   "counterfactual_note": "pooling is forbidden by the pre-registration (Sec 3.1, S5) and would in any case pool a cohort graded CIRCULAR for EMC-elevation claims into one graded non-circular. This number bounds what could in principle have been forgone; it is not a loss, because the design never had it.",
+   "counterfactual_pooled_gain_vs_single": 0.2027,
+   "dropped_cohort_own_mde_would_have_been": 0.7297,
+   "dropped_cohort_was_the_weaker_arm": true,
+   "m": 40,
+   "mde_change_from_dropping_GSE4303": 0.0,
+   "rho": 0.2,
+   "single_platform_design_mde": 0.6074,
+   "two_cohort_design_primary_arm_mde": 0.6074,
+   "why_zero": "the pre-registration never pools the two series; Sec 3.1 requires elevation on each series separately and S5 forbids pooling on disagreement, so each series' MDE is computed at its own n. Removing one series therefore leaves the other series' MDE unchanged, digit for digit.",
+   "window": "2000"
+  },
+  "B": {
+   "COUNTERFACTUAL_pooled_mde_NOT_AN_AVAILABLE_DESIGN": 0.4836,
+   "counterfactual_note": "pooling is forbidden by the pre-registration (Sec 3.1, S5) and would in any case pool a cohort graded CIRCULAR for EMC-elevation claims into one graded non-circular. This number bounds what could in principle have been forgone; it is not a loss, because the design never had it.",
+   "counterfactual_pooled_gain_vs_single": 0.2423,
+   "dropped_cohort_own_mde_would_have_been": 0.8722,
+   "dropped_cohort_was_the_weaker_arm": true,
+   "m": 7,
+   "mde_change_from_dropping_GSE4303": 0.0,
+   "rho": 0.2,
+   "single_platform_design_mde": 0.7259,
+   "two_cohort_design_primary_arm_mde": 0.7259,
+   "why_zero": "the pre-registration never pools the two series; Sec 3.1 requires elevation on each series separately and S5 forbids pooling on disagreement, so each series' MDE is computed at its own n. Removing one series therefore leaves the other series' MDE unchanged, digit for digit.",
+   "window": "2000"
+  }
+ },
+ "step_3_preregistration_clauses_under_the_drop": {
+  "S1_coordinator_gate": {
+   "status": "UNCHANGED AND BINDING",
+   "text": "the frozen outcome protocol is coordinator-owned; nothing here opens it"
+  },
+  "S2_GPL3290_floors": {
+   "GPL6244_half_verified_here": {
+    "1000": {
+     "A": true,
+     "B": true
+    },
+    "2000": {
+     "A": true,
+     "B": true
+    },
+    "5000": {
+     "A": true,
+     "B": true
+    }
+   },
+   "status": "DISSOLVED BY THE DROP, NOT SATISFIED",
+   "text": "S2 conditions the run on GPL3290 clearing the floors. Under a GPL6244-only design there is no GPL3290 arm, so S2 has no referent. FUSION-OUTPUT-3 left S2 UNDETERMINABLE OFFLINE in all six cells; dropping the platform removes the question rather than answering it. This is a design change with a cost recorded above, not a floor waiver."
+  },
+  "S3_do_not_run_contrast_B": {
+   "status": "UNCHANGED AND BINDING",
+   "text": "the no-go rests on a minimum attainable one-sided rank p of 1/4 = 0.25 against the other three NR4A3 programs, which cannot reach alpha = 0.05 at any effect size, and on a 3-gene window-invariant core below the manuscript's own 4-gene floor. Both facts are platform-independent. Dropping GPL3290 does not touch either, and this lane does not overturn them."
+  },
+  "S4_no_post_hoc_set_change": {
+   "status": "UNCHANGED AND BINDING",
+   "text": "the sets in Sec 2 stay frozen; this lane re-derived them and changed none"
+  },
+  "S5_direction_disagreement": {
+   "status": "VOID \u2014 NO SECOND SERIES TO DISAGREE",
+   "text": "S5 stops the analysis when the two series disagree in direction. With one series it can never fire. It must be REPLACED, not simply deleted: see required_replacement_rules."
+  },
+  "Sec_3.1_uninterpretable_both_series_clauses": {
+   "status": "TWO CLAUSES GO VOID",
+   "surviving": [
+    "effect not distinguishable from the exact global offset",
+    "coverage < 0.4 or readable members < 4 on the scored platform",
+    "alternative-fusion programs score comparably (generic oncofusion accessibility, not NR4A3 output)"
+   ],
+   "void": [
+    "the two series disagree in direction",
+    "the result is carried by GSE4303 alone"
+   ],
+   "warning": "the two void clauses were GUARDS. Removing them makes a positive EASIER to declare. A single-platform design must not inherit the two-cohort design's evidentiary language."
+  },
+  "Sec_6.1_coverage_prerequisite": {
+   "status": "SATISFIED EXACTLY, AND NOW VERIFIED",
+   "text": "GPL6244 coverage is 1.000 in all six cells, checked member by member against the source packet's own gene-to-probes map rather than assumed 'by construction'."
+  },
+  "Sec_6.2_circularity": {
+   "status": "MOOT \u2014 the circular cohort is the one dropped"
+  },
+  "Sec_6.3_comparator_composition": {
+   "status": "UNCHANGED, AND NOW THE ONLY COMPARATOR",
+   "text": "GSE24369's comparator arm is itself FET-rearranged (LGFMS, FUS::CREB3L2) and 23 of 29 comparators are myxoid. In the two-cohort design this was one of two comparator compositions; in the single-platform design it is the whole comparator basis, so this limitation gains weight rather than losing it. It is the surviving interpretive constraint."
+  }
+ },
+ "step_3_required_replacement_rules": [
+  "R-S5. Replace S5 with a within-series stability rule, since cross-series direction agreement is no longer available: pre-declare that the primary 2 kb result is reported alongside the 1 kb and 5 kb sets as DIFFERENT SETS (Sec 5, Jaccard 0.25-0.50 for A), and that disagreement among them is reported, never resolved by selection.",
+  "R-LEVEL. Either test contrast A at alpha = 0.0025 to hold the two-cohort design's nominal joint level (MDE rises as printed in level_trade), or test at alpha = 0.05 and state in the result that the finding is UNREPLICATED IN A SECOND SERIES. One of the two must be chosen in advance. Quoting the two-cohort MDE while testing at the single-cohort level is the failure mode this artifact exists to prevent.",
+  "R-LANG. Any positive from the single-platform design is 'elevated in one series of 6 EMC tumours against 29 FET-rearranged comparators', never 'replicated'. The replication the two-cohort design nominally offered was against a cohort graded CIRCULAR for these very claims, so it was never independent replication; dropping it removes a nominal guard, and the honest report says so rather than implying the evidence is unchanged.",
+  "R-B. Contrast B remains not-run under S3. Its GPL6244 floors are met exactly (4/4 readable at 1 kb, zero dropout tolerance), so the S2 readability blocker FUSION-OUTPUT-3 identified for B dissolves; the Sec 4.3 numeric no-go does not, and it is the binding one."
+ ],
+ "step_3_runnability": {
+  "contrast_A": {
+   "at_what_cost": [
+    "the Sec 3.1 two-series conjunction is gone, so a positive is unreplicated and the nominal level rises 20-fold unless R-LEVEL is adopted",
+    "62.5 percent of the design's EMC tumours are set aside",
+    "the FET-vs-FET, 23/29-myxoid comparator composition becomes the sole comparator basis"
+   ],
+   "mde_it_is_powered_for_primary_window_rho_0.2_alpha_0.05": 0.6074,
+   "qualification": "runnable in the design sense ONLY: every prerequisite that a design document can discharge is discharged. The run itself remains gated by S1, which this lane does not open.",
+   "runnable_under_a_single_platform_design": true,
+   "why": [
+    "GPL6244 coverage 1.000 and 40 readable members at the primary window, verified here against the map, so both floors clear with 36 dropouts of headroom",
+    "the rank statistic against 28 alternative programs reaches alpha = 0.05 (minimum one-sided p = 1/29 = 0.0345), unchanged by dropping a cohort",
+    "the pending prerequisite (Sec 6.1 GPL3290) and the circularity prerequisite (Sec 6.2) both disappear with the dropped arm"
+   ]
+  },
+  "contrast_B": {
+   "mde_primary_window_rho_0.2_alpha_0.05": 0.7259,
+   "not_this_lane_s_to_overturn": true,
+   "runnable_under_a_single_platform_design": false,
+   "what_did_change": "its readability is now settled rather than unknown \u2014 all three windows clear both GPL6244 floors exactly \u2014 which removes FUSION-OUTPUT-3's named dependency on BAZ2A, FAXC, FBXO21, FOXA1, HAP1, IDH1, TBX21 without making the contrast informative.",
+   "why_not": [
+    "minimum attainable one-sided rank p = 1/4 = 0.25 against the other three NR4A3 programs: cannot reach alpha = 0.05 at ANY effect size",
+    "window-invariant core is 3 genes, below the manuscript's own 4-gene floor, so no window-robust B result can be formed",
+    "at 1 kb the set is exactly 4 readable genes on GPL6244, so a single probe dropout drops it below the floor and it emits no number"
+   ]
+  }
+ }
+}
