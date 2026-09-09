@@ -181,27 +181,19 @@ transactivation, and transcriptional CDK dependency is the best-established vuln
 fusion-driven sarcomas as a class... What survives is narrower and still worth a route: the class was
 named as a tier, never assessed against any EMC data, and never given one."* The class's own cheapest
 observation — a pan-sarcoma DepMap dependency screen — arrived the same day it was registered and went
-against it: across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 100% of them — broad
-binary dependency across the screened non-EMC cancer lines. EMC's transcript-level elevation of the transcriptional CDK machinery
+against it: across 91 screened sarcoma lines, CDK7 and CDK9 are dependencies in 100% of them, which is
+the definition of pan-essential. EMC's transcript-level elevation of the transcriptional CDK machinery
 (⛔ **superlative withdrawn 2026-09-08.** This read *"the most concordant elevation the whole census
 found, on both readable platforms"*. Both halves are withdrawn: the census-wide superlative was never
 established, and the corroborating platform — GPL3290 — was withdrawn as corroboration under the TD1
 interpretation hold, so the elevation rests on GPL6244 alone. No replacement ranking is asserted and
-no new analysis was run.) is real. ⛔ **Corrected 2026-09-09 (TD1
-focused verification, root adjudication) R2.** Two further readings of this row are **withdrawn**.
-*Withdrawn:* that the elevation *"buys no window against normal tissue, because every sarcoma line
-needs these genes regardless of fusion status"*. The 91-line summary is a **binary** dependency call
-in a **cancer-versus-cancer** comparison: it supplies no normal-tissue observation, no graded
-drug-response analysis and no fusion-status-stratified result, so it does **not** show absence of a
-therapeutic window and does **not** show fusion independence. *Withdrawn:* that *"the cytotoxicity
-concern the first version of this row already raised turned out to be exactly the mechanism that
-closed it"*. No mechanism was measured here; broad binary dependency is not a demonstrated cytotoxic
-mechanism, and the class's toxicity record remains a stated prior concern, not a finding of this
-screen. What the evidence available here supports is a **de-prioritisation with a stated basis** —
-transcript-level and small, with an EMC dependency that is **unmeasured and therefore unknown, not
-absent** — and not a proof of impossibility
+no new analysis was run.) is real, but it buys
+no window against normal tissue, because every sarcoma line needs these genes regardless of fusion
+status. This closes the class on the evidence available here — transcript-level and small — as a
+de-prioritisation with a stated basis, not a proof of impossibility
 ([`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) →
-`routes.RT-TXN-CDK`).
+`routes.RT-TXN-CDK`). ⚠ **The cytotoxicity concern the first version of this row already raised turned
+out to be exactly the mechanism that closed it**, not a separate caveat sitting beside a surviving route.
 
 **Chaperone dependency.** A chimeric protein is a folding problem — two domains that never evolved to sit
 together — and chaperone dependence is the general consequence. That is a way to lower fusion protein

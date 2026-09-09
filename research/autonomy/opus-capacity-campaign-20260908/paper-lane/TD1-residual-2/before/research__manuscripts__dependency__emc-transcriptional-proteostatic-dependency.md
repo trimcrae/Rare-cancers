@@ -15,8 +15,7 @@ purpose: >
   can decide, and what would have to be measured instead.
 scope: >
   L3. Two public archival expression series, 16 EMC-labelled specimen records, transcript level only,
-  plus a public cancer cell-line CRISPR dependency release in which no EMC-labelled model
-  contributes CRISPR gene-effect data. Reports no new
+  plus a public cancer cell-line CRISPR dependency release containing no EMC line. Reports no new
   experiment, no drug exposure, and no new patient contact; the archival records analysed are
   patient-derived and were deposited publicly by others.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
@@ -39,8 +38,7 @@ patient-derived archival material deposited publicly by others.*
 
 > ⛔ **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent
 > in any disease.** This paper reads relative transcript scores from 16 archival EMC-labelled specimen
-> records and a public dependency release in which no EMC-labelled model contributes CRISPR
-> gene-effect data.
+> records and a public dependency release containing no cell line from this disease.
 
 ---
 
@@ -118,13 +116,6 @@ A group score for a specimen is the **unweighted** mean of those standardized va
 **readable** members of the list — every readable member counts equally; there are no weights. Group
 scores are then compared between arms by Welch's *t*, and the reported difference is
 EMC-mean minus comparator-mean in units of the array's own probe-distribution SD.
-
-⚠ **Aggregation and rounding boundary.** Where several probes map to one gene symbol, their values
-are **averaged** for that array *before* standardization. The implementation stores the per-array
-background mean and SD, and the per-gene averaged value, **rounded to four decimal places**; it then
-forms the standardized score from those rounded quantities and stores that score rounded in turn
-(`emc_expression_panels.py`). ⚠ Every statement about exact reproduction in §8 is bounded by that
-rounding: the original unrounded probe-level computation is not recoverable from the stored values.
 
 ⛔ **What this construct is not.** It is not absolute mRNA concentration, not a transcription rate,
 not protein abundance, and not a conventional pooled between-patient standardized effect size. A
@@ -336,30 +327,19 @@ attempted, published or unpublished. Its explicit limits:
 
 - Query **Q15 returned 25 hits that were not individually screened**. No inference is drawn here from
   what they might contain.
-- Query **Q13** located the one systematic human chaperone client screen (PMID 25036637). ⚠ The
-  original article and its deposited supplement were **not inspectable in this review**, so this
-  paper does not assert what that article's body does or does not name. The retained curated
-  extract records a reading made on the retrieval date and is preserved as dated provenance, not
-  as verified full-text absence. **Whether the FET proteins appear in its deposited supplementary
-  panel is unknown** and was not retrieved, so the available material does not establish FET
-  membership in either direction.
+- Query **Q13** located the one systematic human chaperone client screen (PMID 25036637),
+  whose full text names no FET protein; **whether the FET proteins appear in its deposited
+  supplementary panel is unknown** and was not retrieved.
 - Several records were **abstract-only or full-text inaccessible**, and **preprint servers and
   non-PubMed-indexed sources were not searched**. A title-only interactome query cannot establish that
   no physical interactome exists.
 
-**What the retained curated extracts report, with the distinctions kept.** ⚠ What follows is stated
-at the scope of the **retained curated extracts and abstracts**. Apart from PMID 25985210, whose
-PMC full text was read on the recorded retrieval date, the original articles were not inspectable
-in this review, so assay-level detail is reported as what the retained record says, not as an
-independent reading of the article. Those extracts report that *EWS::FLI1* protein levels fall
+**What the inspected records do contain, with the distinctions kept.** *EWS::FLI1* protein levels fall
 when the HSP90 machine is perturbed pharmacologically (PMID 24388362; PMID 36495678) and when the
 HSP90 co-chaperone SGT1/SUGT1 is depleted genetically (PMID 25985210). ⚠ **That is depletion, not
-binding.** ⚠ The retained extracts **do not establish whether those studies included a
-cycloheximide chase, a proteasome-block rescue or a parallel mRNA measurement**, and this paper
-does not assert that they did not. The mechanism of the depletion therefore remains unresolved
-here, and a route through the fusion's own autoregulated transcription is not excluded.
-
-Separately, engineered protein disaggregases acting on FET fusion proteins were reported
+binding.** None of those reports includes a cycloheximide chase, a proteasome-block rescue or a
+parallel mRNA measurement, so a route through the fusion's own autoregulated transcription is not
+excluded. Separately, engineered protein disaggregases acting on FET fusion proteins were reported
 **in yeast** (PMID 31171724); that is a different chaperone, organism and assay category from a human
 HSP90 clientship question, and it is not evidence for it. For *NR4A3* fusions specifically, the only
 chaperone-adjacent record retrieved is *HSPA8* appearing as a fusion **partner** in one EMC case
@@ -383,7 +363,7 @@ matter instead.
 | | Stream A says (16 EMC-labelled archival specimens) | Stream B says (91 non-EMC cancer lines) | what follows |
 |---|---|---|---|
 | transcriptional CDK | initiation and output-context lists read higher at nominal uncorrected significance on GPL6244; elongation and processivity lists do not; GPL3290 under interpretation hold | CDK7/CDK9 cross the dependency threshold in every screened line; small descriptive lineage-mean differences without precision | two unpaired descriptions. Neither measures an EMC dependency, and no relation between them is estimated |
-| chaperone | `hsp90_machine` reads higher on GPL6244; co-chaperones directionally higher but not distinguishable from zero; HSP70 arm not distinguishable from zero in either direction | HSP90AA1/AB1 cross the threshold in a minority of lines; CDC37 in 97.8 % | two unpaired descriptions. Compensation is not identified; clientship is not established by this evidence |
+| chaperone | `hsp90_machine` reads higher on GPL6244; co-chaperones directionally higher but not distinguishable from zero; HSP70 arm not distinguishable from zero in either direction | HSP90AA1/AB1 cross the threshold in a minority of lines; CDC37 in 97.8 % | two unpaired descriptions. Compensation is not identified; clientship is untested |
 
 **The contribution of this paper is the disease-specific accounting**: which archival records exist for
 EMC, what they were made to say under an explicit and reproducible scoring rule, what a public
@@ -409,8 +389,8 @@ specimens or lines actually analysed.
 | U1 | the `cdk7_initiation_module` score is higher in the EMC-labelled arm of GSE24369 | a comparably designed independent series with adequate precision showing a null or reversed contrast would lower confidence in **generalization** and may expose heterogeneity; it would not erase this recorded contrast, and non-significance in it would not establish a null population effect |
 | U2 | CDK7 and CDK9 cross the −0.5 threshold in all 91 screened lines of 24Q4, with small lineage-mean differences | a larger or better-powered panel updates **generalization** and could reveal subgroup selectivity; it cannot falsify a fixed historical description of these 91 lines, which already claims no proven absence of selectivity |
 | U3 | the `hsp90_machine` score is higher in the EMC-labelled arm of GSE24369 | a comparably designed independent series reversing it would lower confidence in generalization |
-| U4 | the HSP70-and-stress list gives negative estimates not distinguishable from zero | a positive contrast in a third series would update confidence in **generalization** and could reveal between-series heterogeneity. ⛔ It would **not** revise the fixed estimates recorded here for these two historical cohorts; a pooled or population estimate would be a separately defined analysis, and none is reported here. ⛔ It would **not** identify a standing proteostatic load or restore a causal interpretation, because this comparison never identified one in either direction |
-| U5 | no qualifying binding result for a FET fusion was identified among the items inspected in the 2026-08-27 search | two temporal cases must be kept apart. A binding assay **published after** 2026-08-27 would update the **present evidence inventory**; it would not change the historical fact of what was identified among the items inspected on that date. An **earlier** qualifying assay shown to have been inside the searched set would instead expose an **extraction or classification error** in that search, and the fixed record would need correcting on that ground. ⛔ In either case, a finding in any FET fusion would not establish EWSR1/TAF15::NR4A3 clientship in EMC, which is a separate molecular hypothesis; the search claim and that hypothesis must be updated separately |
+| U4 | the HSP70-and-stress list gives negative estimates not distinguishable from zero | a positive contrast in a third series would revise this exploratory estimate. ⛔ It would **not** identify a standing proteostatic load or restore a causal interpretation, because this comparison never identified one in either direction |
+| U5 | no qualifying binding result for a FET fusion was identified among the items inspected in the 2026-08-27 search | a published binding assay for a FET-family fusion would close the **search** question. ⛔ A finding in any FET fusion would not establish EWSR1/TAF15::NR4A3 clientship in EMC, which is a separate molecular hypothesis; the search claim and that hypothesis must be updated separately |
 | U6 | HSP90 paralogue single-knockout effects are low in these lines | an adequately controlled combined perturbation could challenge a proposed combined requirement under those conditions. ⛔ Redundancy is not currently demonstrated, so there is no redundancy result to falsify |
 | U7 | proliferation and other covariates are unresolved for both contrasts | a proliferation-matched or adjusted analysis would inform this. ⛔ Independence from proliferation is **not claimed** here, so a disappearing contrast would refine, not refute; changed precision and a changed sample population would need attention |
 | U8 | Stream B is an uncalibrated assumption if applied to EMC | a CRISPR screen in a fusion-positive EMC model departing from the screened panel would update the transfer hypothesis for the genes, direction and controls it actually tests; it would neither generally disprove the hypothesis's usefulness as an uncertain prior nor establish disease-wide dependency |
@@ -422,11 +402,9 @@ specimens or lines actually analysed.
   interpretation hold for its reference design (§1.1).
 - **A transcript score is not a protein, an activity or a dependency**, and the two streams here are
   measured in different material.
-- **No EMC-labelled model contributes CRISPR gene-effect data to the dependency release read
-  here.** One EMC-labelled model (ACH-001519) *is* present in that release's model metadata and
-  carries no gene-effect values (§1.2); that is a data-availability fact, not a determination of
-  its disease or fusion identity. Every dependency figure therefore describes other cancer lines
-  and cannot be transferred to EMC without an assumption this paper does not test.
+- **No EMC cell line carrying the fusion appears in the dependency release read here**, so every
+  dependency figure describes other cancer lines and cannot be transferred to EMC without an
+  assumption this paper does not test.
 - **No claim here decides a dependency in this disease.** An unmeasured EMC dependency is unknown,
   not absent.
 - **The comparator arms are other soft-tissue tumours**, so every Stream A statement is relative to
@@ -451,36 +429,6 @@ produced by `research/modalities/emc_expression_panels.py`; the per-route gradin
 `research/literature/txn-dependency-class-definitions-2026-08-09.json`; the chaperone-clientship
 search is `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json`.
 
-**Fixed identities.** ⚠ Those repository-relative paths are mutable; the identities below are not.
-Each is the Git blob SHA-1 of the exact object this paper was read against, and each is verifiable
-with `git cat-file -p <id>` in this repository without trusting a path:
-
-| object | Git blob SHA-1 |
-|---|---|
-| `research/modalities/emc-expression-panels.json` | `330c04cb9277c3900919d45b548c730ec1746849` |
-| `research/modalities/emc_expression_panels.py` | `d260a5d3f080f2ca1299609e199b5dce492efca1` |
-| `research/modalities/census-route-expression-grading.json` | `b45a35a4ee2636993e42e897c3be6d7705ccae8a` |
-| `research/modalities/census_route_expression_grading.py` | `18625608b378122adbe9dbcca16de370c357367b` |
-| `research/modalities/depmap-sarcoma-dependency.json` | `1f00ad1cf509c540985d2d4be2830bcbec9a94a8` |
-| `research/modalities/depmap_sarcoma_dependency.py` | `fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9` |
-| `research/modalities/emc_atr_vulnerability.py` (annotation extraction and sample classifier) | `177df6cfd72a787e316cfba07e71e4c4231026fb` |
-| `research/modalities/fet-ddr-axis-scan.json` | `41a575d2090457bc8e1eac15a56fab4c0f1bc0ac` |
-| `research/literature/txn-dependency-class-definitions-2026-08-09.json` | `a8fa744a1bcdabde4d60a1f56760b33070ff47c9` |
-| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `8728c34de793da848ccae012e808e668b69b24bd` |
-
-⚠ **Numerical inputs versus annotation-only corrections.** A blob identity is a content identity,
-not provenance for raw data. A dated annotation-only correction to one of these artifacts changes
-its blob identity while changing **no** number, membership, cohort, threshold or quotation; such
-corrections are recorded with their own changed-field maps and leaf-invariance receipts under
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/`. ⚠ Two of the objects above —
-`census-route-expression-grading.json` and `fet-fusion-chaperone-clientship-2026-08-27.json` — have a
-dated annotation-only correction prepared but not yet integrated at the time of writing; when it is
-applied their blob identities change and no reported number, membership or quotation does. ⛔ **No
-hash is claimed for the
-raw GEO series matrices or the DepMap CSV inputs.** Those files are not held here, no accessible
-public archive identity for them is asserted, and ⛔ **no producer was re-run to write this
-version** — the numbers reported are a reading of the committed outputs identified above.
-
 ⚠ **The producers were not re-run to write this paper, and that fact is not the method.** The numbers
 reported here originate from those producers under the inputs named above; this manuscript is a
 reading of their committed outputs. A producer that discovers "the newest available DepMap release"
@@ -496,26 +444,10 @@ and the cohort rule given in §1.2 are.
 | the five dependency rows: means, dependent fractions, difference, `n_sarcoma`, the threshold and the lineage rule | the per-line Chronos gene-effect distributions, the non-sarcoma non-missing counts, and the DepMap input files themselves |
 | the fifteen dated query strings, hit counts and curated per-record assay classifications | full texts and supplements for several cited records, and the 25 unscreened Q15 hits |
 
-**Three levels, stated separately, because they are not the same claim.**
-
-1. **Readable back exactly.** The seven memberships, the per-platform readability, the deposited
-   per-specimen annotation strings and their derived class assignments, the rounded per-sample
-   `z_vs_array` values with their raw-scale gene averages and array percentiles, the group means,
-   Δ, Welch *t* and df, and the five dependency rows can all be read back from the committed
-   artifacts exactly as this paper reports them.
-2. **Replayable, bounded by rounding.** The deterministic sample classifier **can** be re-run
-   offline on the retained annotations: every consumed string is retained in
-   `emc-expression-panels.json` under `platforms.<file>.sample_annotations_verbatim[].annotation`,
-   and the classifier is source-visible as `emc_atr_vulnerability._classify_sample`, which
-   `emc_expression_panels.py` imports and applies. The conditional *p*-values and intervals in §2
-   can likewise be recomputed — but from the **rounded** Δ, *t* and df the artifact prints, so they
-   are approximate conditional calculations and not a recovery of the original unrounded analysis.
-3. **Not reproducible from what is held.** ⛔ Replaying the classifier on the retained strings does
-   **not** verify those strings against the original deposit; that check needs the original GEO
-   series matrices, which are not held here. ⛔ The all-probe reference distributions cannot be
-   regenerated from the stored rounded summaries, so the standardized scores cannot be
-   independently reconstructed from original probe values. ⛔ The probe-to-symbol mapping cannot be
-   revalidated, and the per-line DepMap Chronos distributions cannot be reconstructed.
+Given the retained derived summaries, the group statistics, the dependency table, and the conditional
+arithmetic in §2 are reproducible exactly. ⛔ The underlying standardized scores, the classifier's
+behaviour on the raw annotation text, and the DepMap per-line distributions are **not** reproducible
+without the original inputs, which are not held here.
 
 **Display items.** No figure has been rendered for this paper; its display items are the tables in the
 running text.

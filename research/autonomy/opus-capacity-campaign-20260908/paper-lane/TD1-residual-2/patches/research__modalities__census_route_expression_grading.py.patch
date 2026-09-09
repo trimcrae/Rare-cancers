@@ -1,0 +1,42 @@
+--- a/research/modalities/census_route_expression_grading.py
++++ b/research/modalities/census_route_expression_grading.py
+@@ -435,10 +435,13 @@
+                                                                "comparison cannot supply one. No line here contributes a CRISPR observation for EMC, "
+                                                                "so nothing in it decides an EMC-specific dependency, and the expression and "
+                                                                "dependency readings are UNPAIRED: no relationship between them is estimated."),
+-        "route_action": ("hold: elevated on abundance in archival EMC-labelled specimens; broad non-selective "
+-                         "dependency in non-EMC cancer lines; unpaired, and unmeasured in EMC. ⚠ Corrected "
+-                         "2026-09-08 (TD1 final review, root adjudication) F1/F3: \"closed on the axis that "
+-                         "matters\" is withdrawn."),
++        "route_action": ("hold: elevated on abundance in archival EMC-labelled specimens; broad binary dependency "
++                         "in the screened non-EMC cancer lines, with selectivity UNRESOLVED; unpaired, and "
++                         "unmeasured in EMC. ⚠ Corrected 2026-09-08 (TD1 final review, root adjudication) F1/F3: "
++                         "\"closed on the axis that matters\" is withdrawn. ⚠ Corrected 2026-09-09 (TD1 focused "
++                         "verification, root adjudication) R2: \"non-selective\" is withdrawn — a "
++                         "cancer-versus-cancer screen measured no normal-tissue comparison and no graded "
++                         "response, so it does not show absence of selectivity."),
+     }
+     routes["RT-CHAPERONE"] = {
+         "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
+@@ -456,10 +459,19 @@
+                      "adjudication) F4: \"go the OTHER way on both, which is not what a general stress "
+                      "response looks like\" is withdrawn. This is no clear evidence of a positive contrast "
+                      "for this curated list — not absence of elevation, not an equivalence result, and not "
+-                     "contradictory biology."),
++                     "contradictory biology. ⚠ Corrected 2026-09-09 (TD1 focused verification, root "
++                     "adjudication) R2: GPL3290 is WITHHELD from biological corroboration under the TD1 "
++                     "interpretation hold on its reference design (10 EMC CRH-mRNA, 3 DFSP CRH, 3 GIST UHR "
++                     "references), so the biological expression support for this route rests on GPL6244 "
++                     "alone. All displayed numbers, requested and readable gene counts and cohort "
++                     "memberships are retained unchanged; what is withdrawn is GPL3290's status as "
++                     "corroboration."),
+         "verdict": ("PARTLY SUPPORTED, EXPLORATORY — the HSP90 arm only; the stress-response arm gives no "
+                     "clear evidence in either direction. ⚠ Corrected 2026-09-08 (TD1 final review, root "
+-                    "adjudication) F4: \"the stress-response arm contradicts it\" is withdrawn."),
++                    "adjudication) F4: \"the stress-response arm contradicts it\" is withdrawn. ⚠ Corrected "
++                    "2026-09-09 (TD1 focused verification, root adjudication) R2: this verdict rests on "
++                    "GPL6244 alone; the GPL3290 record is retained and displayed but is withheld from "
++                    "biological corroboration (see `observed`)."),
+         "what_this_does_not_settle": "An elevated chaperone machine is not evidence that the fusion is "
+                                      "its client, which is the route's actual premise and a "
+                                      "co-immunoprecipitation question. The split between the HSP90 and "
