@@ -1,0 +1,95 @@
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/DEP-THRESHOLD/threshold-sensitivity.json
+
+=== A. COMPUTABILITY AUDIT ===
+published cut: -0.5
+per-gene retained fields: ['gene', 'n_sarcoma', 'rest_frac_dependent', 'rest_mean', 'sarcoma_frac_dependent', 'sarcoma_mean', 'selectivity']
+dispersion/order-statistic fields on gene records: NONE
+fraction-integrality self-check: 64/64
+VERDICT: A THRESHOLD SWEEP OF frac_dependent IS NOT COMPUTABLE FROM THIS ARTIFACT. Exactly one threshold, the published -0.5, is evaluable for every record carrying the sarcoma/rest split — i.e. for the entire selectivity panel and every subtype block. The only records with additional exact points are the three NR4A paralogues (median and min retained), and those are pan-panel, so they cannot be turned into a selectivity sweep. Any other threshold would require a per-line distribution that the producer discards at depmap_sarcoma_dependency.py stats(); reconstructing one would be inventing data.
+
+=== B. THRESHOLD INVARIANCE ===
+invariant: ['sarcoma_mean', 'rest_mean', 'selectivity (= rest_mean - sarcoma_mean)']
+bound    : ['sarcoma_frac_dependent', 'rest_frac_dependent', 'delta_frac (= sarcoma_frac_dependent - rest_frac_dependent)', 'subtype frac_dependent', 'self_validation _pass_criterion', "'dependency in the large majority of lines'", "'near-universal dependency' / 'pan-essential' verdicts"]
+
+=== C. DISTRIBUTION-FREE BOUNDS (default support [-4.0, 1.5]) ===
+      t   sign-determined delta_frac   median frac bound width
+   -2.0                         0/64                     0.132
+   -1.5                         0/64                     0.132
+   -1.0                         0/64                     0.132
+  -0.75                         0/64                     0.132
+   -0.5                        56/64                       0.0
+  -0.25                         0/64                     0.772
+    0.0                         0/64                     0.793
+   0.25                         0/64                     0.604
+support sensitivity (n sign-determined at t=-1.0): {'default': 0, 'narrow': 0, 'wide': 0}
+
+=== D. CORRECTED READING — selectivity BESIDE rest_frac_dependent ===
+gene           sel   sar_f  rest_f   dfrac  rank_sel rank_df  trap
+EWSR1        0.373   0.967   0.915   0.052         1       7  PAN_ESSENTIAL_TRAP
+FLI1         0.242   0.220   0.019   0.201         2       1  
+PSMB5        0.169   0.978   0.944   0.034         3      11  PAN_ESSENTIAL_TRAP
+MCL1         0.139   0.835   0.696   0.139         4       2  MAJORITY_ESSENTIAL_OUTSIDE_SARCOMA
+HDAC2        0.108   0.088   0.023   0.065         5       6  
+XRCC5        0.107   1.000   0.996   0.004         6      19  PAN_ESSENTIAL_TRAP
+ATR          0.086   1.000   0.992   0.008         7      15  PAN_ESSENTIAL_TRAP
+CDK7         0.085   1.000   0.999   0.001         8      25  PAN_ESSENTIAL_TRAP
+WEE1         0.075   1.000   1.000   0.000         9      28  PAN_ESSENTIAL_TRAP
+NFE2L1       0.074   0.077   0.029   0.048        10       9  
+HSP90AB1     0.073   0.187   0.119   0.068        11       5  
+BRD3         0.058   0.000   0.000   0.000        12      29  
+BCL2L2       0.058   0.066   0.015   0.051        13       8  
+MDM2         0.049   0.396   0.320   0.076        14       4  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+EP300        0.041   0.264   0.286  -0.022        15      49  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+HDAC6        0.028   0.000   0.000   0.000        16      30  
+SMARCA4      0.022   0.319   0.240   0.079        17       3  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+BCL2         0.021   0.022   0.029  -0.007        18      42  
+CDK9         0.017   1.000   0.994   0.006        19      16  PAN_ESSENTIAL_TRAP
+BICRAL       0.015   0.011   0.006   0.005        20      17  
+PRMT5        0.013   0.945   0.941   0.004        21      20  PAN_ESSENTIAL_TRAP
+ASS1         0.012   0.055   0.023   0.032        22      12  
+SGK1         0.012   0.011   0.007   0.004        23      21  
+BRD2         0.007   0.429   0.384   0.045        24      10  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+MTAP         0.007   0.000   0.001  -0.001        25      36  
+XRCC6        0.005   1.000   0.999   0.001        26      26  PAN_ESSENTIAL_TRAP
+BAX          0.004   0.000   0.000   0.000        27      31  
+NR4A3        0.002   0.000   0.000   0.000        28      32  
+POLQ        -0.004   0.044   0.092  -0.048        29      58  
+HDAC1       -0.005   0.033   0.040  -0.007        30      43  
+SMARCC1     -0.006   0.099   0.086   0.013        31      14  
+ALK         -0.012   0.000   0.006  -0.006        32      41  
+BRD9        -0.016   0.022   0.017   0.005        33      18  
+CDK12       -0.016   0.802   0.843  -0.041        34      56  PAN_ESSENTIAL_TRAP
+EED         -0.017   0.176   0.150   0.026        35      13  
+BRD4        -0.018   0.956   0.952   0.004        36      22  PAN_ESSENTIAL_TRAP
+ROS1        -0.019   0.000   0.000   0.000        37      33  
+MDM4        -0.021   0.088   0.123  -0.035        38      53  
+HDAC3       -0.021   0.824   0.878  -0.054        39      60  PAN_ESSENTIAL_TRAP
+BICRA       -0.023   0.000   0.003  -0.003        40      38  
+SMARCA2     -0.023   0.000   0.040  -0.040        41      55  
+RET         -0.023   0.000   0.001  -0.001        42      37  
+PSMB1       -0.023   1.000   0.997   0.003        43      23  PAN_ESSENTIAL_TRAP
+SQSTM1      -0.025   0.000   0.011  -0.011        44      46  
+HSP90AA1    -0.026   0.055   0.052   0.003        45      24  
+EZH2        -0.031   0.066   0.070  -0.004        46      39  
+VCP         -0.034   1.000   1.000   0.000        47      34  PAN_ESSENTIAL_TRAP
+BAK1        -0.038   0.132   0.187  -0.055        48      61  
+ARID1A      -0.039   0.110   0.157  -0.047        49      57  
+ARID1B      -0.044   0.000   0.030  -0.030        50      51  
+SUZ12       -0.053   0.440   0.454  -0.014        51      47  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+PBRM1       -0.055   0.055   0.090  -0.035        52      54  
+CDC37       -0.067   0.978   0.987  -0.009        53      45  PAN_ESSENTIAL_TRAP
+PSMD14      -0.069   0.989   0.996  -0.007        54      44  PAN_ESSENTIAL_TRAP
+HSPA5       -0.085   0.978   0.994  -0.016        55      48  PAN_ESSENTIAL_TRAP
+CDK13       -0.087   0.011   0.060  -0.049        56      59  
+PSMC1       -0.092   1.000   1.000   0.000        57      35  PAN_ESSENTIAL_TRAP
+PSMD1       -0.103   1.000   0.999   0.001        58      27  PAN_ESSENTIAL_TRAP
+TP53        -0.136   0.000   0.004  -0.004        59      40  
+CREBBP      -0.142   0.044   0.078  -0.034        60      52  
+SMARCB1     -0.152   0.758   0.839  -0.081        61      62  PAN_ESSENTIAL_TRAP
+EGFR        -0.160   0.011   0.205  -0.194        62      64  SUBSTANTIAL_ESSENTIALITY_OUTSIDE_SARCOMA
+BCL2L1      -0.200   0.758   0.854  -0.096        63      63  PAN_ESSENTIAL_TRAP
+MAT2A       -0.285   0.967   0.989  -0.022        64      50  PAN_ESSENTIAL_TRAP
+
+trap-caught: 29/64   spearman(selectivity, delta_frac) = 0.7203
+top10 by selectivity: ['EWSR1', 'FLI1', 'PSMB5', 'MCL1', 'HDAC2', 'XRCC5', 'ATR', 'CDK7', 'WEE1', 'NFE2L1']
+top10 by delta_frac : ['FLI1', 'MCL1', 'SMARCA4', 'MDM2', 'HSP90AB1', 'HDAC2', 'EWSR1', 'BCL2L2', 'NFE2L1', 'BRD2']
