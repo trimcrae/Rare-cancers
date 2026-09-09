@@ -358,7 +358,7 @@ most common and defines type 2 without making any frequency claim about it, so i
 two junctions and not a ranking of the two; the counted series in the table above, and not this
 definition, carry the frequencies. The junctions are corroborated independently
 by RT-PCR primer design, an EWSR1 exon 12 forward primer paired with an NR4A3 exon 3 reverse for
-type 1 and an EWSR1 exon 7 forward paired with an NR4A3 exon 2 reverse for type 2 [6], and by the
+type 1 and an EWSR1 exon 7 forward paired with an NR4A3 exon 2 reverse for type 2 [6]. They are also corroborated by the
 counted series in which exon 12 to exon 3 was the most frequent transcript, in 10 tumours, and
 exon 13 to exon 3 the second most common, in two [7].
 The TAF15 junction is reported as exclusive: "exon 6 of TAF15 is fused exclusively to exon 3 of

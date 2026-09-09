@@ -51,6 +51,18 @@ def _git(*args):
     return subprocess.run(["git", "-C", REPO, *args], capture_output=True, text=True)
 
 
+def test_windows_style_paths_resolve_the_same_committed_git_objects():
+    sha = _git("rev-parse", "HEAD").stdout.strip()
+    expected = D._read("systems/graph/publications.json", sha)
+    assert expected
+    assert D._read(r"systems\graph\publications.json", sha) == expected
+    names = D._listing("systems/graph", sha)
+    assert "publications.json" in names
+    assert D._listing(r"systems\graph", sha) == names
+    assert D._read(r"systems\graph\does-not-exist.json", sha) is None
+    assert D._listing(r"does-not-exist\directory", sha) == []
+
+
 def test_the_set_is_derived_from_the_graph_and_never_hand_listed():
     """⛔ A HAND-LISTED SET ROTS THE MOMENT A DELIVERABLE IS ADDED, AND ROTS SILENTLY. The set is
     the publication's own `document.file` plus the files whose names extend its stem — the naming
