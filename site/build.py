@@ -41,6 +41,16 @@ def load_catalogue():
         ids.add(p["id"])
         urls.add(p["url"])
         public_url(p["url"])
+        for posting in p.get("other_postings", []):
+            for key in ("venue", "version", "posted_date", "url"):
+                if not isinstance(posting.get(key), str) or not posting[key].strip():
+                    raise ValueError(f"Missing additional posting metadata: {key}")
+            public_url(posting["url"])
+            if posting["url"] in urls:
+                raise ValueError("Duplicate posting URL")
+            urls.add(posting["url"])
+            if date.fromisoformat(posting["posted_date"]) > checked:
+                raise ValueError("A posting cannot be newer than its verification")
         if p.get("availability") not in ("available", "unverified"):
             raise ValueError("Record the live venue availability for each paper")
         if p["availability"] == "unverified" and not p.get("availability_note"):
@@ -68,6 +78,13 @@ def card(p, index):
     latest = '<span class="latest-label">Latest release</span>' if index == 0 else ''
     doi = (f'<a class="doi" href="{e("doi_url")}" aria-label="DOI for {e("title")}">DOI ↗</a>'
            if p.get("doi_url") else '')
+    other_postings = "".join(
+        f'<p class="author">Also posted on '
+        f'<a class="doi" href="{escape(posting["url"], quote=True)}">'
+        f'{escape(posting["venue"])} · v{escape(posting["version"])} ↗</a>'
+        f' ({nice_date(posting["posted_date"])})</p>'
+        for posting in p.get("other_postings", [])
+    )
     return f'''<article class="paper{' featured' if index == 0 else ''}" id="{e('id')}">
       <div class="paper-top"><span class="topic">{e('topic')}</span>{latest}</div>
       <div class="paper-meta"><span>{e('venue')} · {version_prefix}v{e('version')}</span><time datetime="{e('posted_date')}">{nice_date(p['posted_date'])}</time></div>
@@ -75,6 +92,7 @@ def card(p, index):
       {availability}
       <p class="summary">{e('summary')}</p>
       <p class="author">{e('author')}</p>
+      {other_postings}
       <div class="paper-links"><a class="read-link" href="{e('url')}" aria-label="{link_label}: {e('title')}">{link_label} <span aria-hidden="true">↗</span></a>{doi}</div>
     </article>'''
 
