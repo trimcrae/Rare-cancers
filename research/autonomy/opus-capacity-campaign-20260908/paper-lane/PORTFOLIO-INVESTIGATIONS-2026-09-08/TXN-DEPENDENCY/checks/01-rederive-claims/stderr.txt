@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/TXN-DEPENDENCY/rederive_claims.py", line 152, in <module>
+    b = [sum(v["z"]) / len(v["z"]) for v in per.values() if v["class"] != "EMC"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/TXN-DEPENDENCY/rederive_claims.py", line 152, in <listcomp>
+    b = [sum(v["z"]) / len(v["z"]) for v in per.values() if v["class"] != "EMC"
+         ^^^^^^^^^^^
+TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'

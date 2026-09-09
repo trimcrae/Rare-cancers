@@ -1,0 +1,1755 @@
+{
+ "id": "ART-TXN-DEPENDENCY-CLAIM-REDERIVATION-LEDGER",
+ "lane": "TXN-DEPENDENCY",
+ "campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+ "date": "2026-09-09",
+ "endpoint": "PUB-TXN-DEPENDENCY",
+ "manuscript": {
+  "path": "research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md",
+  "sha256_working_tree_at_use_time": "9523555483f00cfee00b6cd4cf64f5615f57c011f1640297bf952399e742b3ba",
+  "sha256_of_HEAD_blob": "9523555483f00cfee00b6cd4cf64f5615f57c011f1640297bf952399e742b3ba",
+  "git_status_porcelain": "",
+  "repo_head": "99672905a2aba86949d83e5c0ce077e75279562f",
+  "warning": "THE MANUSCRIPT IS MODIFIED AND UNCOMMITTED IN THE WORKING TREE. Every quoted value in this ledger is transcribed from the WORKING-TREE file, re-hashed at the moment of use. It was not edited, reverted or diffed by this lane."
+ },
+ "scope": "One pass over the quantitative claims of the manuscript. Verdicts are REPRODUCES, MISMATCH or NOT-RE-DERIVABLE-LOCALLY. A MISMATCH is reported, never repaired.",
+ "verdict_counts": {
+  "REPRODUCES": 75,
+  "NOT-RE-DERIVABLE-LOCALLY": 5,
+  "MISMATCH": 3
+ },
+ "claims": [
+  {
+   "claim_id": "A-GPL6244-01",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk7_initiation_module: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.2102,
+    "t": 3.688,
+    "df": 6.6,
+    "coverage": "3/3"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk7_initiation_module.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.2102,
+    "t": 3.688,
+    "df": 6.6,
+    "coverage": "3/3"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-01-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk7_initiation_module: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0086,
+    "ci_low": 0.074,
+    "ci_high": 0.347
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0086,
+    "ci_low": 0.074,
+    "ci_high": 0.347
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-02",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk9_elongation_module: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.045,
+    "t": 1.189,
+    "df": 5.7,
+    "coverage": "4/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk9_elongation_module.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.045,
+    "t": 1.189,
+    "df": 5.7,
+    "coverage": "4/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-02-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk9_elongation_module: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.282,
+    "ci_low": -0.049,
+    "ci_high": 0.139
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.282,
+    "ci_low": -0.049,
+    "ci_high": 0.139
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-03",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk12_13_processivity: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0418,
+    "t": -0.88,
+    "df": 6.8,
+    "coverage": "3/3"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk12_13_processivity.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0418,
+    "t": -0.88,
+    "df": 6.8,
+    "coverage": "3/3"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-03-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "cdk12_13_processivity: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.409,
+    "ci_low": -0.155,
+    "ci_high": 0.071
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.409,
+    "ci_low": -0.155,
+    "ci_high": 0.071
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-04",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "transcriptional_output_context: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.1983,
+    "t": 3.782,
+    "df": 7.5,
+    "coverage": "4/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.transcriptional_output_context.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.1983,
+    "t": 3.782,
+    "df": 7.5,
+    "coverage": "4/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-04-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "transcriptional_output_context: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0061,
+    "ci_low": 0.076,
+    "ci_high": 0.321
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0061,
+    "ci_low": 0.076,
+    "ci_high": 0.321
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-05",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "hsp90_machine: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.0899,
+    "t": 3.857,
+    "df": 15.0,
+    "coverage": "4/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.hsp90_machine.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.0899,
+    "t": 3.857,
+    "df": 15.0,
+    "coverage": "4/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-05-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "hsp90_machine: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0016,
+    "ci_low": 0.04,
+    "ci_high": 0.14
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0016,
+    "ci_low": 0.04,
+    "ci_high": 0.14
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-06",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "co_chaperones: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.0809,
+    "t": 1.636,
+    "df": 7.6,
+    "coverage": "5/5"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.co_chaperones.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.0809,
+    "t": 1.636,
+    "df": 7.6,
+    "coverage": "5/5"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-06-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "co_chaperones: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.142,
+    "ci_low": -0.034,
+    "ci_high": 0.196
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.142,
+    "ci_low": -0.034,
+    "ci_high": 0.196
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-07",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "hsp70_arm_and_stress_response: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0853,
+    "t": -1.056,
+    "df": 7.5,
+    "coverage": "4/5"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.hsp70_arm_and_stress_response.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0853,
+    "t": -1.056,
+    "df": 7.5,
+    "coverage": "4/5"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL6244-07-PCI",
+   "manuscript_section": "\u00a72 (GPL6244 table)",
+   "claim": "hsp70_arm_and_stress_response: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.324,
+    "ci_low": -0.274,
+    "ci_high": 0.103
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.324,
+    "ci_low": -0.274,
+    "ci_high": 0.103
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-01",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk7_initiation_module: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.4966,
+    "t": 4.113,
+    "df": 9.6,
+    "coverage": "3/3"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk7_initiation_module.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.4966,
+    "t": 4.113,
+    "df": 9.6,
+    "coverage": "3/3"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-01-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk7_initiation_module: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0023,
+    "ci_low": 0.226,
+    "ci_high": 0.767
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0023,
+    "ci_low": 0.226,
+    "ci_high": 0.767
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-02",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk9_elongation_module: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.1737,
+    "t": 2.258,
+    "df": 13.1,
+    "coverage": "4/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk9_elongation_module.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.1737,
+    "t": 2.258,
+    "df": 13.1,
+    "coverage": "4/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-02-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk9_elongation_module: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0416,
+    "ci_low": 0.008,
+    "ci_high": 0.34
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0416,
+    "ci_low": 0.008,
+    "ci_high": 0.34
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-03",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk12_13_processivity: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0751,
+    "t": -0.69,
+    "df": 13.5,
+    "coverage": "3/3"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.cdk12_13_processivity.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0751,
+    "t": -0.69,
+    "df": 13.5,
+    "coverage": "3/3"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-03-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "cdk12_13_processivity: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.502,
+    "ci_low": -0.309,
+    "ci_high": 0.159
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.502,
+    "ci_low": -0.309,
+    "ci_high": 0.159
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-04",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "transcriptional_output_context: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.4709,
+    "t": 4.811,
+    "df": 9.8,
+    "coverage": "4/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.transcriptional_cdk.groups.transcriptional_output_context.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.4709,
+    "t": 4.811,
+    "df": 9.8,
+    "coverage": "4/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-04-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "transcriptional_output_context: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.00075,
+    "ci_low": 0.252,
+    "ci_high": 0.69
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.00075,
+    "ci_low": 0.252,
+    "ci_high": 0.69
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-05",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "hsp90_machine: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.6075,
+    "t": 3.465,
+    "df": 11.0,
+    "coverage": "3/4"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.hsp90_machine.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.6075,
+    "t": 3.465,
+    "df": 11.0,
+    "coverage": "3/4"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-05-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "hsp90_machine: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0053,
+    "ci_low": 0.222,
+    "ci_high": 0.993
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0053,
+    "ci_low": 0.222,
+    "ci_high": 0.993
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-06",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "co_chaperones: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": 0.2511,
+    "t": 2.011,
+    "df": 12.0,
+    "coverage": "5/5"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.co_chaperones.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": 0.2511,
+    "t": 2.011,
+    "df": 12.0,
+    "coverage": "5/5"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-06-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "co_chaperones: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.0673,
+    "ci_low": -0.021,
+    "ci_high": 0.523
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.0673,
+    "ci_low": -0.021,
+    "ci_high": 0.523
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL3290-07",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "hsp70_arm_and_stress_response: \u0394, Welch t, df and coverage",
+   "quoted_value": {
+    "delta_a_minus_b": -0.1639,
+    "t": -0.959,
+    "df": 5.9,
+    "coverage": "4/5"
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.chaperone_dependency.groups.hsp70_arm_and_stress_response.per_platform.GSE4303-GPL3290_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "delta_a_minus_b": -0.1639,
+    "t": -0.959,
+    "df": 5.9,
+    "coverage": "4/5"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK from committed artifact",
+   "note": ""
+  },
+  {
+   "claim_id": "A-GPL3290-07-PCI",
+   "manuscript_section": "\u00a72 (GPL3290 table)",
+   "claim": "hsp70_arm_and_stress_response: approximate two-sided p and 95% interval",
+   "quoted_value": {
+    "approx_p": 0.375,
+    "ci_low": -0.584,
+    "ci_high": 0.256
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript-stated rule)",
+   "source_key": "recomputed from the artifact's rounded \u0394, t, df; SE = \u0394 \u00f7 t; t-quantile at df",
+   "rederived_value": {
+    "approx_p": 0.375,
+    "ci_low": -0.584,
+    "ci_high": 0.256
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED (conditional arithmetic on rounded inputs)",
+   "note": "Manuscript \u00a72 states these are conditional arithmetic on the rounded published \u0394/t/df, not new measurements."
+  },
+  {
+   "claim_id": "A-GPL6244-01-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk7_initiation_module \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.2102,
+    "t": 3.688,
+    "df": 6.6,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.2102,
+    "t": 3.688,
+    "df": 6.6,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-02-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk9_elongation_module \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.045,
+    "t": 1.189,
+    "df": 5.7,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.045,
+    "t": 1.189,
+    "df": 5.7,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-03-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk12_13_processivity \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0418,
+    "t": -0.88,
+    "df": 6.8,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0418,
+    "t": -0.88,
+    "df": 6.8,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-04-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "transcriptional_output_context \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.1983,
+    "t": 3.782,
+    "df": 7.5,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.1983,
+    "t": 3.782,
+    "df": 7.5,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-05-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "hsp90_machine \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.0899,
+    "t": 3.857,
+    "df": 15.0,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.0899,
+    "t": 3.857,
+    "df": 15.0,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-06-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "co_chaperones \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.0809,
+    "t": 1.636,
+    "df": 7.6,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.0809,
+    "t": 1.636,
+    "df": 7.6,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL6244-07-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "hsp70_arm_and_stress_response \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0853,
+    "t": -1.056,
+    "df": 7.5,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE24369_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0853,
+    "t": -1.056,
+    "df": 7.5,
+    "n_EMC": 6,
+    "n_comparator": 29
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-01-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk7_initiation_module \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.4966,
+    "t": 4.113,
+    "df": 9.6,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.4966,
+    "t": 4.113,
+    "df": 9.6,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-02-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk9_elongation_module \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.1737,
+    "t": 2.258,
+    "df": 13.1,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.1737,
+    "t": 2.258,
+    "df": 13.1,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-03-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "cdk12_13_processivity \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": -0.0751,
+    "t": -0.69,
+    "df": 13.5,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": -0.0751,
+    "t": -0.69,
+    "df": 13.5,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-04-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "transcriptional_output_context \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.4709,
+    "t": 4.811,
+    "df": 9.8,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.4709,
+    "t": 4.811,
+    "df": 9.8,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-05-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "hsp90_machine \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.6075,
+    "t": 3.465,
+    "df": 11.0,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.6075,
+    "t": 3.465,
+    "df": 11.0,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-06-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "co_chaperones \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": 0.2511,
+    "t": 2.011,
+    "df": 12.0,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": 0.2511,
+    "t": 2.011,
+    "df": 12.0,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-GPL3290-07-RECOMP",
+   "manuscript_section": "\u00a78 level 1/2 (replay claim)",
+   "claim": "hsp70_arm_and_stress_response \u0394/t/df recomputed from the retained rounded per-sample z values",
+   "quoted_value": {
+    "delta_a_minus_b": -0.1639,
+    "t": -0.959,
+    "df": 5.9,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.<readable member>.GSE4303-GPL3290_series_matrix.txt.gz.per_sample.z_vs_array",
+   "rederived_value": {
+    "delta_a_minus_b": -0.1639,
+    "t": -0.959,
+    "df": 5.9,
+    "n_EMC": 10,
+    "n_comparator": 6
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained per-sample z (unweighted gene mean, Welch)",
+   "note": "Manuscript \u00a71.1 and \u00a78 disclose that stored values are rounded to 4 dp and that the original unrounded probe-level computation is NOT recoverable; any deviation here is reported as found and is not repaired in this pass."
+  },
+  {
+   "claim_id": "A-COHORT-1",
+   "manuscript_section": "\u00a71.1 cohort table",
+   "claim": "GSE24369/GPL6244: 42 specimens, 6 EMC-labelled, comparator 17 LGFMS + 6 desmoid + 6 myxofibrosarcoma (binned as fibrosarcoma), 5 SFT + 2 pooled muscle excluded",
+   "quoted_value": {
+    "n_samples": 42,
+    "n_EMC": 6,
+    "n_comparator": 29,
+    "class_counts": {
+     "EMC": 6,
+     "LGFMS": 17,
+     "desmoid_fibromatosis": 6,
+     "fibrosarcoma": 6,
+     "unclassified": 7
+    }
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "platforms.GSE24369_series_matrix.txt.gz.{n_samples,n_EMC,n_comparator,class_counts}",
+   "rederived_value": {
+    "n_samples": 42,
+    "n_EMC": 6,
+    "n_comparator": 29,
+    "class_counts": {
+     "EMC": 6,
+     "LGFMS": 17,
+     "desmoid_fibromatosis": 6,
+     "fibrosarcoma": 6,
+     "unclassified": 7
+    }
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "The artifact stores 7 'unclassified'; the manuscript names them as 5 solitary fibrous tumour + 2 pooled skeletal-muscle RNA. The split 5+2 is NOT stored as counts in class_counts and is re-derived below from the verbatim annotations (A-COHORT-3)."
+  },
+  {
+   "claim_id": "A-COHORT-2",
+   "manuscript_section": "\u00a71.1 cohort table",
+   "claim": "GSE4303/GPL3290: 16 specimens, 10 EMC-labelled, 3 DFSP + 3 GIST comparator, none excluded",
+   "quoted_value": {
+    "n_samples": 16,
+    "n_EMC": 10,
+    "n_comparator": 6,
+    "class_counts": {
+     "DFSP": 3,
+     "EMC": 10,
+     "GIST": 3
+    }
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "platforms.GSE4303-GPL3290_series_matrix.txt.gz.{n_samples,n_EMC,n_comparator,class_counts}",
+   "rederived_value": {
+    "n_samples": 16,
+    "n_EMC": 10,
+    "n_comparator": 6,
+    "class_counts": {
+     "DFSP": 3,
+     "EMC": 10,
+     "GIST": 3
+    }
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-COHORT-3",
+   "manuscript_section": "\u00a71.1 cohort table",
+   "claim": "the 7 records outside both arms are 5 solitary fibrous tumour and 2 pooled skeletal-muscle RNA",
+   "quoted_value": {
+    "solitary_fibrous_tumour": 5,
+    "pooled_skeletal_muscle": 2
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "platforms.GSE24369_series_matrix.txt.gz.sample_annotations_verbatim[].annotation (string match on the unclassified records)",
+   "rederived_value": {
+    "solitary_fibrous_tumour": 5,
+    "pooled_skeletal_muscle": 2,
+    "n_unclassified": 7
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED from retained verbatim annotations",
+   "note": ""
+  },
+  {
+   "claim_id": "A-COHORT-4",
+   "manuscript_section": "title / abstract / \u00a77",
+   "claim": "16 archival EMC-labelled specimen records in total",
+   "quoted_value": 16,
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "platforms.GSE24369_series_matrix.txt.gz.n_EMC + platforms.GSE4303-GPL3290_series_matrix.txt.gz.n_EMC",
+   "rederived_value": 16,
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "A-READ-1",
+   "manuscript_section": "\u00a71.1 gene-list table",
+   "claim": "hsp90_machine on GPL3290 is 3/4 \u2014 HSP90AA1 unreadable",
+   "quoted_value": {
+    "readable": false
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.HSP90AA1.GSE4303-GPL3290_series_matrix.txt.gz.readable",
+   "rederived_value": {
+    "readable": false
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-READ-2",
+   "manuscript_section": "\u00a71.1 gene-list table",
+   "claim": "hsp70 list on GPL6244 is 4/5 \u2014 HSPA8 unreadable",
+   "quoted_value": {
+    "readable": false
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.HSPA8.GSE24369_series_matrix.txt.gz.readable",
+   "rederived_value": {
+    "readable": false
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-READ-3",
+   "manuscript_section": "\u00a71.1 gene-list table",
+   "claim": "hsp70 list on GPL3290 is 4/5 \u2014 HSF1 unreadable",
+   "quoted_value": {
+    "readable": false
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.HSF1.GSE4303-GPL3290_series_matrix.txt.gz.readable",
+   "rederived_value": {
+    "readable": false
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-MYC-1",
+   "manuscript_section": "\u00a72 'what the lists do and do not show internally'",
+   "claim": "MYC's own difference is +1.0625 on GPL6244 and +1.863 on GPL3290",
+   "quoted_value": {
+    "GPL6244": 1.0625,
+    "GPL3290": 1.863
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.MYC.<platform>.{EMC.mean_z, comparator.mean_z}",
+   "rederived_value": {
+    "GPL6244": 1.0625,
+    "GPL3290": 1.863
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "A-MYC-2",
+   "manuscript_section": "\u00a72 'simple algebra on those published summaries'",
+   "claim": "the other three members of transcriptional_output_context give approximately \u22120.090 (GPL6244) and +0.007 (GPL3290)",
+   "quoted_value": {
+    "GPL6244": -0.09,
+    "GPL3290": 0.007
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "(4 \u00d7 group \u0394 \u2212 MYC \u0394) \u00f7 3, on the published rounded summaries",
+   "rederived_value": {
+    "GPL6244": -0.09,
+    "GPL3290": 0.007
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "A-HSP90AA1",
+   "manuscript_section": "\u00a72",
+   "claim": "HSP90AA1's own difference is negative on GPL6244 and unreadable on GPL3290",
+   "quoted_value": {
+    "GPL6244_sign": "negative",
+    "GPL3290_readable": false
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "gene_reads.HSP90AA1.<platform>",
+   "rederived_value": {
+    "GPL6244_difference": -0.1588,
+    "GPL6244_sign": "negative",
+    "GPL3290_readable": false
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "A-PROLIF",
+   "manuscript_section": "\u00a72 'proliferation and other covariates'",
+   "claim": "the retained eleven-gene proliferation-control list gives t = 0.441 and 2.905 at df 6.7 and 14.0 with \u0394 = 0.0896 and 0.4459",
+   "quoted_value": {
+    "n_genes": 11,
+    "t": [
+     0.441,
+     2.905
+    ],
+    "df": [
+     6.7,
+     14.0
+    ],
+    "delta": [
+     0.0896,
+     0.4459
+    ]
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.mtap_prmt5.groups.proliferation_confound_control.per_platform.<platform>.score",
+   "rederived_value": {
+    "n_genes": 11,
+    "t": [
+     0.441,
+     2.905
+    ],
+    "df": [
+     6.7,
+     14.0
+    ],
+    "delta": [
+     0.0896,
+     0.4459
+    ]
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-MKI67",
+   "manuscript_section": "\u00a72",
+   "claim": "the single-gene MKI67 group is marked unscored by the panel-size rule",
+   "quoted_value": {
+    "score": null
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "panels.instrument_controls.groups.proliferation_reference.per_platform.GSE24369_series_matrix.txt.gz.score",
+   "rederived_value": {
+    "score": null,
+    "verdict": "\u26d4 UNDERPOWERED \u2014 1/1 genes readable on GPL6244 (coverage 1.0); the floor for a curated pan"
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "A-BONF",
+   "manuscript_section": "\u00a72 multiplicity",
+   "claim": "\u03b1 = 0.05/14 \u2248 0.0036 is cleared by exactly three readings \u2014 cdk7_initiation_module and transcriptional_output_context on GPL3290, hsp90_machine on GPL6244 \u2014 and no group clears it on both platforms",
+   "quoted_value": {
+    "threshold": 0.0036,
+    "n_clearing": 3,
+    "clearing": [
+     [
+      "cdk7_initiation_module",
+      "GPL3290"
+     ],
+     [
+      "hsp90_machine",
+      "GPL6244"
+     ],
+     [
+      "transcriptional_output_context",
+      "GPL3290"
+     ]
+    ]
+   },
+   "source_artifact": "research/modalities/emc-expression-panels.json (+ manuscript rule)",
+   "source_key": "conditional p from the artifact's rounded t/df, compared with 0.05/14",
+   "rederived_value": {
+    "threshold": 0.0036,
+    "n_clearing": 3,
+    "clearing": [
+     [
+      "cdk7_initiation_module",
+      "GPL3290"
+     ],
+     [
+      "hsp90_machine",
+      "GPL6244"
+     ],
+     [
+      "transcriptional_output_context",
+      "GPL3290"
+     ]
+    ]
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-CDK7",
+   "manuscript_section": "\u00a73 dependency table",
+   "claim": "CDK7 row: sarcoma mean, rest-of-panel mean, difference, dependent fractions",
+   "quoted_value": {
+    "sarcoma_mean": -1.847,
+    "rest_mean": -1.762,
+    "difference_rest_minus_sarcoma": 0.085,
+    "sarcoma_frac_dependent": 1.0,
+    "rest_frac_dependent": 0.999,
+    "n_sarcoma": 91
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.BET / transcriptional[gene=CDK7]",
+   "rederived_value": {
+    "sarcoma_mean": -1.847,
+    "rest_mean": -1.762,
+    "difference_rest_minus_sarcoma": 0.085,
+    "sarcoma_frac_dependent": 1.0,
+    "rest_frac_dependent": 0.999,
+    "n_sarcoma": 91
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "",
+   "known_answer_control": "Known-answer control required by the RANK 8 proposal: DEP-THRESHOLD row A3 (CLAIMS-AT-RISK.md \u00a7A) independently re-derived CDK7 = \u22121.847 with selectivity +0.085 and rest_frac_dependent 0.999, and CDK9 = \u22121.464 with selectivity +0.017 and rest_frac_dependent 0.994, from the same artifact. This lane's harness must reproduce those values; if it does not, THIS HARNESS is wrong and that is the reported result."
+  },
+  {
+   "claim_id": "B-CDK7-INT",
+   "manuscript_section": "\u00a73 preamble",
+   "claim": "CDK7: '91/91' is the unique integer compatible with the stored rounded fraction",
+   "quoted_value": {
+    "integer": 91,
+    "unique": true
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.BET / transcriptional[gene=CDK7].sarcoma_frac_dependent, n_sarcoma",
+   "rederived_value": {
+    "compatible_integers": [
+     91
+    ],
+    "unique": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-CDK9",
+   "manuscript_section": "\u00a73 dependency table",
+   "claim": "CDK9 row: sarcoma mean, rest-of-panel mean, difference, dependent fractions",
+   "quoted_value": {
+    "sarcoma_mean": -1.464,
+    "rest_mean": -1.447,
+    "difference_rest_minus_sarcoma": 0.017,
+    "sarcoma_frac_dependent": 1.0,
+    "rest_frac_dependent": 0.994,
+    "n_sarcoma": 91
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.BET / transcriptional[gene=CDK9]",
+   "rederived_value": {
+    "sarcoma_mean": -1.464,
+    "rest_mean": -1.447,
+    "difference_rest_minus_sarcoma": 0.017,
+    "sarcoma_frac_dependent": 1.0,
+    "rest_frac_dependent": 0.994,
+    "n_sarcoma": 91
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "",
+   "known_answer_control": "Known-answer control required by the RANK 8 proposal: DEP-THRESHOLD row A3 (CLAIMS-AT-RISK.md \u00a7A) independently re-derived CDK7 = \u22121.847 with selectivity +0.085 and rest_frac_dependent 0.999, and CDK9 = \u22121.464 with selectivity +0.017 and rest_frac_dependent 0.994, from the same artifact. This lane's harness must reproduce those values; if it does not, THIS HARNESS is wrong and that is the reported result."
+  },
+  {
+   "claim_id": "B-CDK9-INT",
+   "manuscript_section": "\u00a73 preamble",
+   "claim": "CDK9: '91/91' is the unique integer compatible with the stored rounded fraction",
+   "quoted_value": {
+    "integer": 91,
+    "unique": true
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.BET / transcriptional[gene=CDK9].sarcoma_frac_dependent, n_sarcoma",
+   "rederived_value": {
+    "compatible_integers": [
+     91
+    ],
+    "unique": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-HSP90AA1",
+   "manuscript_section": "\u00a73 dependency table",
+   "claim": "HSP90AA1 row: sarcoma mean, rest-of-panel mean, difference, dependent fractions",
+   "quoted_value": {
+    "sarcoma_mean": -0.23,
+    "rest_mean": -0.256,
+    "difference_rest_minus_sarcoma": -0.026,
+    "sarcoma_frac_dependent": 0.055,
+    "rest_frac_dependent": 0.052,
+    "n_sarcoma": 91
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=HSP90AA1]",
+   "rederived_value": {
+    "sarcoma_mean": -0.23,
+    "rest_mean": -0.256,
+    "difference_rest_minus_sarcoma": -0.026,
+    "sarcoma_frac_dependent": 0.055,
+    "rest_frac_dependent": 0.052,
+    "n_sarcoma": 91
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "Manuscript prints HSP90AA1 sarcoma mean as \u22120.230; the artifact stores \u22120.23 (same number, trailing zero)."
+  },
+  {
+   "claim_id": "B-HSP90AA1-INT",
+   "manuscript_section": "\u00a73 preamble",
+   "claim": "HSP90AA1: '5/91' is the unique integer compatible with the stored rounded fraction",
+   "quoted_value": {
+    "integer": 5,
+    "unique": true
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=HSP90AA1].sarcoma_frac_dependent, n_sarcoma",
+   "rederived_value": {
+    "compatible_integers": [
+     5
+    ],
+    "unique": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-HSP90AB1",
+   "manuscript_section": "\u00a73 dependency table",
+   "claim": "HSP90AB1 row: sarcoma mean, rest-of-panel mean, difference, dependent fractions",
+   "quoted_value": {
+    "sarcoma_mean": -0.348,
+    "rest_mean": -0.275,
+    "difference_rest_minus_sarcoma": 0.073,
+    "sarcoma_frac_dependent": 0.187,
+    "rest_frac_dependent": 0.119,
+    "n_sarcoma": 91
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=HSP90AB1]",
+   "rederived_value": {
+    "sarcoma_mean": -0.348,
+    "rest_mean": -0.275,
+    "difference_rest_minus_sarcoma": 0.073,
+    "sarcoma_frac_dependent": 0.187,
+    "rest_frac_dependent": 0.119,
+    "n_sarcoma": 91
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "B-HSP90AB1-INT",
+   "manuscript_section": "\u00a73 preamble",
+   "claim": "HSP90AB1: '17/91' is the unique integer compatible with the stored rounded fraction",
+   "quoted_value": {
+    "integer": 17,
+    "unique": true
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=HSP90AB1].sarcoma_frac_dependent, n_sarcoma",
+   "rederived_value": {
+    "compatible_integers": [
+     17
+    ],
+    "unique": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-CDC37",
+   "manuscript_section": "\u00a73 dependency table",
+   "claim": "CDC37 row: sarcoma mean, rest-of-panel mean, difference, dependent fractions",
+   "quoted_value": {
+    "sarcoma_mean": -1.093,
+    "rest_mean": -1.16,
+    "difference_rest_minus_sarcoma": -0.067,
+    "sarcoma_frac_dependent": 0.978,
+    "rest_frac_dependent": 0.987,
+    "n_sarcoma": 91
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=CDC37]",
+   "rederived_value": {
+    "sarcoma_mean": -1.093,
+    "rest_mean": -1.16,
+    "difference_rest_minus_sarcoma": -0.067,
+    "sarcoma_frac_dependent": 0.978,
+    "rest_frac_dependent": 0.987,
+    "n_sarcoma": 91
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "B-CDC37-INT",
+   "manuscript_section": "\u00a73 preamble",
+   "claim": "CDC37: '89/91' is the unique integer compatible with the stored rounded fraction",
+   "quoted_value": {
+    "integer": 89,
+    "unique": true
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "genes_by_group.Chaperone[gene=CDC37].sarcoma_frac_dependent, n_sarcoma",
+   "rederived_value": {
+    "compatible_integers": [
+     89
+    ],
+    "unique": true
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": ""
+  },
+  {
+   "claim_id": "B-DENOM",
+   "manuscript_section": "\u00a71.2 / \u00a73",
+   "claim": "the release catalogues 176 Soft Tissue/Bone models but every gene summarized has non-missing gene-effect values for 91 of them; 91 is the denominator of every percentage",
+   "quoted_value": {
+    "n_sarcoma_models": 176,
+    "n_sarcoma_per_gene": 91,
+    "all_genes_agree_on_91": true,
+    "dependent_threshold": -0.5
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "n_sarcoma_models, dependent_threshold, genes_by_group[*].n_sarcoma",
+   "rederived_value": {
+    "n_sarcoma_models": 176,
+    "n_sarcoma_per_gene": [
+     91
+    ],
+    "all_genes_agree_on_91": true,
+    "dependent_threshold": -0.5
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "",
+   "known_answer_control": "Known-answer control: SYNLETH-2 and DEP-THRESHOLD both re-derived 91 as the per-gene screened denominator against 176 catalogued models."
+  },
+  {
+   "claim_id": "B-SELFVAL",
+   "manuscript_section": "\u00a71.2 self_validation",
+   "claim": "BRD9 in 5 synovial models: mean \u22120.13, 20 % dependent. SMARCB1 in 13 rhabdoid models: mean \u22120.025, 7.7 % dependent, against a rest-of-panel mean of \u22120.832 and 83.9 % dependent",
+   "quoted_value": {
+    "BRD9_synovial": {
+     "n": 5,
+     "mean": -0.13,
+     "frac_dependent": 0.2
+    },
+    "SMARCB1_rhabdoid": {
+     "n": 13,
+     "mean": -0.025,
+     "frac_dependent": 0.077
+    },
+    "SMARCB1_rest_of_panel": {
+     "mean": -0.832,
+     "frac_dependent": 0.839
+    }
+   },
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "self_validation.*, genes_by_group['BAF / SWI-SNF core'][gene=SMARCB1]",
+   "rederived_value": {
+    "BRD9_synovial": {
+     "n": 5,
+     "mean": -0.13,
+     "frac_dependent": 0.2
+    },
+    "SMARCB1_rhabdoid": {
+     "n": 13,
+     "mean": -0.025,
+     "frac_dependent": 0.077
+    },
+    "SMARCB1_rest_of_panel": {
+     "mean": -0.832,
+     "frac_dependent": 0.839
+    }
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": "Manuscript prints 20 % / 7.7 % / 83.9 % for the stored 0.2 / 0.077 / 0.839."
+  },
+  {
+   "claim_id": "B-EMCLINE",
+   "manuscript_section": "\u00a71.2 / \u00a77",
+   "claim": "the single DepMap model carrying the EMC label (ACH-001519) contributes no CRISPR gene-effect data",
+   "quoted_value": {
+    "model_id": "ACH-001519",
+    "in_model_metadata": true,
+    "has_crispr_gene_effect": false
+   },
+   "source_artifact": "research/modalities/fet-ddr-axis-scan.json",
+   "source_key": "emc_line",
+   "rederived_value": {
+    "model_id": "ACH-001519",
+    "in_model_metadata": true,
+    "has_crispr_gene_effect": false
+   },
+   "verdict": "REPRODUCES",
+   "derivation_level": "READ-BACK",
+   "note": ""
+  },
+  {
+   "claim_id": "B-NRD-1",
+   "manuscript_section": "\u00a73 / \u00a71.2",
+   "claim": "the dependent fractions and mean differences describe per-line Chronos gene effects in the 91 screened sarcoma-lineage lines and the non-sarcoma remainder",
+   "quoted_value": "5/91, 17/91, 89/91, 91/91 and the five mean differences, as per-line observations",
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "no per-line values are retained anywhere in the artifact",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "PER-LINE",
+   "note": "",
+   "missing_input": "DepMap public release 24Q4 CRISPRGeneEffect.csv (per-line Chronos gene effects) and Model.csv (OncotreeLineage per model). Neither file is in this repository; the producer research/modalities/depmap_sarcoma_dependency.py retains only mean/fraction summaries per gene (DEP-THRESHOLD finding C1: no SD, no quantile, no order statistic, no per-line value). Fetching them is outside worker authority in this lane and was NOT attempted."
+  },
+  {
+   "claim_id": "B-NRD-2",
+   "manuscript_section": "\u00a71.2 / \u00a73",
+   "claim": "the non-sarcoma comparator arm's non-missing sample size (the denominator behind '99.9 %', '99.4 %', '5.2 %', '11.9 %', '98.7 %')",
+   "quoted_value": "not stated in the manuscript; the manuscript states it is unavailable",
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "no n_rest / n_rest_non_missing field exists in the artifact",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "PER-LINE",
+   "note": "",
+   "missing_input": "a retained non-sarcoma non-missing count per gene (n_rest). The producer emits only n_sarcoma. Recovering it requires CRISPRGeneEffect.csv + Model.csv. The manuscript's own \u00a71.2 states the artifact supplies none of these, so the manuscript makes NO claim that fails here \u2014 the input is simply absent."
+  },
+  {
+   "claim_id": "A-NRD-1",
+   "manuscript_section": "\u00a78 level 3",
+   "claim": "the within-array standardized scores were formed from the arrays' all-probe reference distributions (per-array mean and SD over all probes)",
+   "quoted_value": "the standardization construct itself",
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "background_reads / per-array mean & SD are stored rounded; the probe values are not",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "RAW-INPUT",
+   "note": "",
+   "missing_input": "the original GEO series matrices GSE24369_series_matrix.txt.gz (GPL6244) and GSE4303-GPL3290_series_matrix.txt.gz, plus the probe-to-symbol mapping tables. Not held in this repository, no hash is claimed for them (\u00a78), and no network retrieval was attempted in this lane."
+  },
+  {
+   "claim_id": "A-NRD-2",
+   "manuscript_section": "\u00a71.1 interpretation hold",
+   "claim": "whether the deposited GPL3290 values were harmonized upstream across the three reference labels CRH, CRH-mRNA and UHR",
+   "quoted_value": "explicitly stated as 'not established'",
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "platforms.GSE4303-GPL3290_series_matrix.txt.gz.sample_annotations_verbatim (labels present; harmonization status absent)",
+   "rederived_value": null,
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "RAW-INPUT",
+   "note": "",
+   "missing_input": "the authentic deposited processing and reference documentation for GSE4303 on GPL3290. The manuscript does not claim harmonization either way; the missing input is named here because the hold rests on it."
+  },
+  {
+   "claim_id": "L-NRD-1",
+   "manuscript_section": "\u00a74 literature assessment",
+   "claim": "fifteen dated PubMed queries run on 2026-08-27, with Q15 returning 25 unscreened hits",
+   "quoted_value": {
+    "n_queries": 15,
+    "Q15_hits": 25
+   },
+   "source_artifact": "research/literature/fet-fusion-chaperone-clientship-2026-08-27.json",
+   "source_key": "the committed clientship artifact",
+   "rederived_value": "artifact present; hit counts are a record of a dated network retrieval, not a locally recomputable quantity",
+   "verdict": "NOT-RE-DERIVABLE-LOCALLY",
+   "derivation_level": "DATED-RETRIEVAL",
+   "note": "",
+   "missing_input": "a live PubMed/E-utilities query at the same date. Re-running the queries today would be a different dated search, and direct HTTP egress is refused in this environment (proxy CONNECT 403). The counts can be READ BACK from the artifact but cannot be re-derived."
+  },
+  {
+   "claim_id": "ID-emc-expression-panels.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/emc-expression-panels.json as read against",
+   "quoted_value": "330c04cb9277c3900919d45b548c730ec1746849",
+   "source_artifact": "research/modalities/emc-expression-panels.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "330c04cb9277c3900919d45b548c730ec1746849",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-emc_expression_panels.py",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/emc_expression_panels.py as read against",
+   "quoted_value": "d260a5d3f080f2ca1299609e199b5dce492efca1",
+   "source_artifact": "research/modalities/emc_expression_panels.py",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "d260a5d3f080f2ca1299609e199b5dce492efca1",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-census-route-expression-grading.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/census-route-expression-grading.json as read against",
+   "quoted_value": "b45a35a4ee2636993e42e897c3be6d7705ccae8a",
+   "source_artifact": "research/modalities/census-route-expression-grading.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "ee552394935792ed2e76bce926146b77907c5694",
+   "verdict": "MISMATCH",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-census_route_expression_grading.py",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/census_route_expression_grading.py as read against",
+   "quoted_value": "18625608b378122adbe9dbcca16de370c357367b",
+   "source_artifact": "research/modalities/census_route_expression_grading.py",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "fe00fe381957bf248d774d0ed68cbf93c6674487",
+   "verdict": "MISMATCH",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-depmap-sarcoma-dependency.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/depmap-sarcoma-dependency.json as read against",
+   "quoted_value": "1f00ad1cf509c540985d2d4be2830bcbec9a94a8",
+   "source_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "1f00ad1cf509c540985d2d4be2830bcbec9a94a8",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-depmap_sarcoma_dependency.py",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/depmap_sarcoma_dependency.py as read against",
+   "quoted_value": "fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9",
+   "source_artifact": "research/modalities/depmap_sarcoma_dependency.py",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-emc_atr_vulnerability.py",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/emc_atr_vulnerability.py as read against",
+   "quoted_value": "177df6cfd72a787e316cfba07e71e4c4231026fb",
+   "source_artifact": "research/modalities/emc_atr_vulnerability.py",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "177df6cfd72a787e316cfba07e71e4c4231026fb",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-fet-ddr-axis-scan.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/modalities/fet-ddr-axis-scan.json as read against",
+   "quoted_value": "41a575d2090457bc8e1eac15a56fab4c0f1bc0ac",
+   "source_artifact": "research/modalities/fet-ddr-axis-scan.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "41a575d2090457bc8e1eac15a56fab4c0f1bc0ac",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-txn-dependency-class-definitions-2026-08-09.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/literature/txn-dependency-class-definitions-2026-08-09.json as read against",
+   "quoted_value": "a8fa744a1bcdabde4d60a1f56760b33070ff47c9",
+   "source_artifact": "research/literature/txn-dependency-class-definitions-2026-08-09.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "a8fa744a1bcdabde4d60a1f56760b33070ff47c9",
+   "verdict": "REPRODUCES",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  },
+  {
+   "claim_id": "ID-fet-fusion-chaperone-clientship-2026-08-27.json",
+   "manuscript_section": "\u00a78 fixed identities",
+   "claim": "Git blob SHA-1 of research/literature/fet-fusion-chaperone-clientship-2026-08-27.json as read against",
+   "quoted_value": "8728c34de793da848ccae012e808e668b69b24bd",
+   "source_artifact": "research/literature/fet-fusion-chaperone-clientship-2026-08-27.json",
+   "source_key": "git hash-object (working tree, re-hashed at use time)",
+   "rederived_value": "9328cecebdffdb53921f82805b47fd0943d30c1f",
+   "verdict": "MISMATCH",
+   "derivation_level": "RECOMPUTED",
+   "note": "Re-hashed from the working tree at run time rather than trusting a recorded hash."
+  }
+ ]
+}

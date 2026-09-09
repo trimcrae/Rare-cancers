@@ -1,0 +1,45 @@
+KNOWN-ANSWER GATE vs ../KINASE-2/label-permutation-vs-gene-resampling-null.json
+  comparisons: 103   mismatches: 0
+  gate PASSED (0 mismatches)
+
+COMPOSITION SCORE vs EMC LABEL
+  GPL6244  C: spearman -0.5780  mean z EMC 0.925 vs comparator 1.512 (n=35)
+  GPL3290  C: spearman -0.5041  mean z EMC 0.029 vs comparator 0.401 (n=16)
+
+NEGATIVE CONTROL (primary frame, 500 permuted composition scores, real labels)
+  adjusted rate, REAL score      = 0.5668
+  adjusted rate, PERMUTED score  = 0.6469 (sd 0.0135) 95% [0.6129, 0.6682]
+
+PRIMARY FRAME (442 genes in frame, 434 scored on both platforms both ways)
+  concordance  unadjusted 0.6521  ->  composition-adjusted 0.5668   (change -0.0853)
+  attenuation of the excess over 0.5 = 0.5606
+  cross-platform pearson r  unadjusted 0.4046 -> adjusted 0.2511
+  median per-gene attenuation: GPL6244 -0.0722  GPL3290 0.0832
+  label-permutation null on the ADJUSTED rate: mean 0.5000 sd 0.0332 max 0.6014  p=0.02249
+
+SECONDARY FRAME (414 genes in frame, 413 scored on both platforms both ways)
+  concordance  unadjusted 0.6368  ->  composition-adjusted 0.5981   (change -0.0387)
+  attenuation of the excess over 0.5 = 0.2832
+  cross-platform pearson r  unadjusted 0.4467 -> adjusted 0.2812
+  median per-gene attenuation: GPL6244 -0.0292  GPL3290 0.1184
+  label-permutation null on the ADJUSTED rate: mean 0.4999 sd 0.0387 max 0.6610  p=0.0085
+
+  negative-control verdict: PASS - a permuted composition score does not attenuate
+
+gene     GPL6244 r  unadj->adj    GPL3290 r  unadj->adj    conc u/a
+RET      +0.473 -> +0.316 (att +0.33) +0.700 -> +0.747 (att -0.07)  y/y
+SGK1     -0.090 -> +0.214 (att -1.37) +0.224 -> +0.368 (att -0.64)  N/y
+NDRG1    +0.398 -> +0.150 (att +0.62) +0.504 -> +0.324 (att +0.36)  y/y
+ALK      not scorable on both platforms - absent reading
+ROS1     +0.068 -> +0.081 (att -0.20) +0.063 -> -0.089 (att -0.42)  y/N
+PRKDC    -0.248 -> -0.195 (att +0.21) +0.252 -> +0.200 (att +0.21)  N/N
+XRCC5    -0.180 -> -0.119 (att +0.34) -0.196 -> -0.341 (att -0.74)  y/y
+XRCC6    +0.060 -> -0.165 (att -1.74) +0.112 -> -0.093 (att +0.17)  y/y
+NR4A3    +0.540 -> +0.610 (att -0.13) +0.373 -> +0.474 (att -0.27)  y/y
+EGFR     -0.480 -> -0.687 (att -0.43) -0.476 -> -0.455 (att +0.04)  y/y
+GFRA1    +0.030 -> +0.256 (att -7.52) -0.728 -> -0.621 (att +0.15)  N/N
+GFRA2    -0.405 -> -0.663 (att -0.64) -0.768 -> -0.743 (att +0.03)  y/y
+GDNF     -0.022 -> +0.404 (att -16.93) -0.507 -> -0.407 (att +0.20)  y/N
+HDAC3    -0.060 -> +0.369 (att -5.14) +0.280 -> +0.113 (att +0.60)  N/y
+
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/composition-adjusted-contrast.json | runtime 34.4s

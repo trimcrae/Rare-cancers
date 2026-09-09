@@ -1,0 +1,130 @@
+--- a/research/modalities/fusion_breakpoints.py
++++ b/research/modalities/fusion_breakpoints.py
+@@ -261,6 +261,51 @@
+     return translate(junction["_fusion"][ews["utr5_len"]:])
+ 
+ 
++def partner_residue_split(fusion_prot, j0, lengths, novel_residue=False):
++    """Residues each PARENT contributes to every junction peptide, over the same enumeration
++    `junction_peptides` uses. ONE definition of the peptide set, two readings of it (rule 1).
++
++    ⚠ WHY THIS EXISTS. "Novel" in this module means *contains the seam and occurs in neither
++    canonical parent*. That admits peptides drawing NO residue at all from one parent: the whole
++    peptide is the other parent's wild-type sequence plus the single hybrid seam residue. Measured
++    on the committed panel, 8 of the 174 peptides take zero residues from EWSR1 and 20 take zero
++    from NR4A3; 2 of the 11 ranked binders are zero-EWSR1, including the RANK-1 binder `DMPCVQAQY`,
++    which `junction-proteome-novelty.json` records verbatim at residue 11 of NR4A3 isoform Q92570-3.
++    Such a peptide is not junction-specific, so a screen should not rank it as a fusion neoantigen.
++
++    ⛔ THIS IS A SCREEN-CONFIGURATION READING AND NOTHING ELSE. It is not a statement about
++    presentation, immunogenicity, tolerance, safety, selectivity or clinical usability of any
++    peptide, retained or removed. A filtered prediction is still a prediction.
++
++    A peptide emitted at more than one offset keeps its MOST junction-specific placement, so the
++    discriminator can only ever drop a peptide that is zero-partner at EVERY placement.
++    """
++    best = {}
++    for L in lengths:
++        for start in range(max(0, j0 - L + 1), j0 + 1):
++            pep = fusion_prot[start:start + L]
++            if len(pep) != L:
++                continue
++            if not novel_residue and not (start < j0 < start + L):
++                continue                                   # classic straddle, same as above
++            n_seam = 1 if novel_residue else 0
++            n5 = j0 - start                                # residues 5' of the seam: the donor's
++            n3 = start + L - j0 - n_seam                   # residues 3' of the seam: the acceptor's
++            zero = None
++            if n5 == 0 and n3 == 0:
++                zero = "zero_from_both_partners"
++            elif n5 == 0:
++                zero = "zero_from_5p_partner"
++            elif n3 == 0:
++                zero = "zero_from_3p_partner"
++            row = {"n_from_5p_partner": n5, "n_seam_hybrid": n_seam,
++                   "n_from_3p_partner": n3, "zero_partner": zero}
++            prev = best.get(pep)
++            if prev is None or (prev["zero_partner"] and not zero):
++                best[pep] = row
++    return best
++
++
+ def emit_junction(ews, nr4, j):
+     """Peptide-level reading for ONE junction the grader passed. Self-checks, then peptides.
+ 
+@@ -289,6 +334,13 @@
+ 
+     peps = junction_peptides(prot, j0, LENGTHS, novel_residue=has_novel)
+     novel = sorted(k for k in peps if k not in ews_prot and k not in nr4_prot)
++    # ⚠ ZERO-PARTNER DISCRIMINATOR — ADDITIVE, EXPLICIT AND REPORTED, NEVER SILENT.
++    # `novel_peptides` below is DELIBERATELY LEFT AS IT WAS: the filter is reported alongside it,
++    # not applied to it in place, so every downstream reader and every committed comparison against
++    # the unfiltered set keeps its meaning and the filter can be audited peptide by peptide.
++    split = partner_residue_split(prot, j0, LENGTHS, novel_residue=has_novel)
++    zero_partner = {k: split[k]["zero_partner"] for k in novel if split[k]["zero_partner"]}
++    junction_specific = [k for k in novel if k not in zero_partner]
+     # ⚠ `chimeric_protein_length` already comes from the grading; do not add a second copy of it
+     # under another name (rule 1). `junction_context_mRNA` likewise is the mRNA seam and stays as-is;
+     # the two fields added here are the PROTEIN seam, which the mRNA one does not carry.
+@@ -310,7 +362,13 @@
+             prot[j0 + 1:j0 + 11]),
+         "n_novel_peptides": len(novel),
+         "novel_peptides": novel,
++        "n_zero_partner_peptides": len(zero_partner),
++        "zero_partner_peptides": {k: zero_partner[k] for k in sorted(zero_partner)},
++        "n_junction_specific_peptides": len(junction_specific),
++        "junction_specific_peptides": junction_specific,
++        "partner_residue_split": {k: split[k] for k in novel},
+     })
++    assert len(junction_specific) + len(zero_partner) == len(novel)
+     return row
+ 
+ 
+@@ -490,6 +548,47 @@
+                     key=lambda b: (-b["in_n_junctions"], b["presentation_percentile"]))
+     result["predicted_binders_ranked"] = robust
+     result["n_distinct_binders"] = len(robust)
++
++    # ---- the same discriminator, applied to the RANKED PANEL, with both ranks side by side ----
++    # ⛔ REMOVE-ONLY, AND ASSERTED AS SUCH. The post-filter panel is built by walking the
++    # pre-filter panel in order and dropping rows, so it cannot contain a candidate that was not
++    # already ranked and cannot move a retained candidate ahead of one it was behind. The asserts
++    # below fail the run rather than warn.
++    zero_partner_panel = {}
++    for jn in junctions:
++        for p, reason in jn["zero_partner_peptides"].items():
++            zero_partner_panel.setdefault(p, reason)
++    for p in {p for jn in junctions for p in jn["junction_specific_peptides"]}:
++        zero_partner_panel.pop(p, None)          # junction-specific somewhere = retained
++    side_by_side, post = [], 0
++    for i, b in enumerate(robust, start=1):
++        reason = zero_partner_panel.get(b["peptide"])
++        row = {**b, "pre_filter_rank": i,
++               "filter_verdict": "removed" if reason else "retained",
++               "removal_reason": reason, "post_filter_rank": None}
++        if not reason:
++            post += 1
++            row["post_filter_rank"] = post
++        side_by_side.append(row)
++    retained = [r for r in side_by_side if r["filter_verdict"] == "retained"]
++    assert [r["peptide"] for r in retained] == [b["peptide"] for b in robust
++                                                if b["peptide"] not in zero_partner_panel]
++    assert all(retained[i]["pre_filter_rank"] < retained[i + 1]["pre_filter_rank"]
++               for i in range(len(retained) - 1)), "the filter re-ordered the panel"
++    assert all(r["post_filter_rank"] <= r["pre_filter_rank"] for r in retained)
++    result["panel_zero_partner_filter"] = {
++        "_rule": "retain a candidate only if it draws >= 1 residue from EACH parent at some "
++                 "junction that emits it; the hybrid seam residue counts for neither",
++        "⛔": "a screen-configuration filter. It is NOT an immunogenicity, presentation, "
++             "tolerance, safety, selectivity or clinical statement about any peptide, removed "
++             "or retained. A filtered prediction is still a prediction.",
++        "n_pre_filter": len(robust), "n_post_filter": len(retained),
++        "n_removed": len(robust) - len(retained),
++        "removed": [{"peptide": r["peptide"], "pre_filter_rank": r["pre_filter_rank"],
++                     "removal_reason": r["removal_reason"]}
++                    for r in side_by_side if r["filter_verdict"] == "removed"],
++        "panel_side_by_side": side_by_side,
++    }
+     _write(result)
+ 
+ 
