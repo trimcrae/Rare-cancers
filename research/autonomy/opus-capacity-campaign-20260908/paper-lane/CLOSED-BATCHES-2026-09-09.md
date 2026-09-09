@@ -62,11 +62,38 @@ suite, which remains **107 failed / 75 passed**, with 20 failure bodies inspecte
 unadjudicated**; nor a preflight; nor publication readiness. The existing stronger-claim, source and
 release holds remain.
 
+## TCIP narrowed scientific correction — ACCEPTED / CLOSED
+
+Root accepts the exact final wording at `b42a5f23d44d33d84ad4be9ed9c73aaa22e13660`. All six
+replacements commissioned in `tcip-final-wording-20260909/ROOT-DISPOSITION.md` are applied exactly,
+closing the remaining scientific wording residuals in the narrowed toolchain-audit paper. Root memo
+SHA-256 `6ac3b1ab2893a9666197a447fa057610e0d10085c51d345cdceafd64af6ef802`. No further scientific
+reviewer, author cycle, sampler, census, source retrieval, statistical calculation or proof run is
+needed for this batch.
+
+Root compared the actual returned files to the exact proposed copies — an actual-file comparison,
+not reliance on the parent's completion label — and all three are byte-identical: main 55,373 B
+`997e822f…`; SI 37,788 B `ba569960…`; `publications.json` 70,230 B `1697b5ff…`. The main's 41 and
+the SI's 95 Markdown table lines are unchanged against the 301 before files. The graph remains 33
+entries and 416 leaves, one changed string at `[29].what_it_would_claim`, no changed non-string.
+
+⚠ The 88-error enforcing style failure is SEPARATE from this scientific closure and remains real and
+uncleared. Root records that the new count of 88 is correct — two mid-sentence bold diagnostics
+disappeared in the edited SI passages — and that preserving the original 90-error record never
+required forcing later runs to keep the number 90. The old failure remains historical; the current
+one remains open. The parent's new before-state style stdout was independently byte-compared to the
+previously read 20,593-byte original 90-error output and is identical.
+
+⚠ This acceptance establishes no physical interface-floor calibration, no EMC therapeutic claim, no
+public archive, and no passing style or whole-repository release gates. The stronger physical-floor
+claim stays parked under its existing reopening requirements.
+
 ## Still open, and not closed by any of the above
 
-* The whole-repository preflight failure set, `scripts/preflight.sh` exit 1 — inherited, under root
-  adjudication, unchanged in kind by any batch above.
+* The whole-repository preflight is reported as exit 1 and remains uncleared. Root has not
+  independently established that its complete failure set is unchanged from an earlier run.
 * The TCIP enforcing style failure, exit 1, now **88 errors** (see
   `TCIP-final-wording-2026-09-09/APPLIED-RECORD.md` for why it is 88 and not 90). Not waived.
-* The `~34×` root cause at §3.1 of `research/manuscripts/nr4a3-program-map.md`, 6 occurrences —
-  open and deliberately untaken, because changing that shared file is unadmitted.
+* Historical roadmap multiplier quotations: six preserved source occurrences remain unchanged. They
+  do not reopen the accepted MF1 batch or create a new source-edit task. The cause and required
+  uncertainty estimand remain unestablished under the paper's existing scope.

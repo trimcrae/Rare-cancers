@@ -1,0 +1,281 @@
+{
+ "_id": "DOC-EPITOPE-BENCHMARK-2-EWSR1-FLI1-RESOLUTION",
+ "_lane": "EPITOPE-BENCHMARK-2",
+ "_campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+ "_utc": "2026-09-09T01:08:23Z",
+ "_route": "PubMed/PMC MCP (mcp__PubMed__lookup_article_by_citation -> convert_article_ids -> get_article_metadata -> get_full_text_article). No direct HTTP attempted. According to PubMed.",
+ "_scope": "Bookkeeping only: fit of a RECORD to a benchmark inclusion rule. NO immunogenicity, presentation, tolerance, efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made in either direction.",
+ "citation_as_printed_in_manuscript": {
+  "source_file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+  "reference_number": 20,
+  "line": 1498,
+  "text": "Calukovic B, Benzler K, Zelba H, Seitz C, Kayser S, Feldhahn M, et al. Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma. npj Precision Oncology 2026;10(1):305. doi:10.1038/s41698-026-01642-4. PMID 42570981.",
+  "cited_at_lines": [
+   48,
+   156,
+   559,
+   689
+  ]
+ },
+ "citation_resolution_independent_of_printed_pmid": {
+  "method": "lookup_article_by_citation on bibliographic fields only (author/journal/year/volume/first_page); printed PMID deliberately NOT supplied",
+  "queries": [
+   {
+    "journal": "npj Precision Oncology",
+    "year": 2026,
+    "volume": "10",
+    "first_page": "305",
+    "author": "Calukovic",
+    "resolved_pmid": "42570981"
+   },
+   {
+    "journal": "npj Precis Oncol",
+    "year": 2026,
+    "volume": "10",
+    "first_page": "305",
+    "author": "Calukovic",
+    "resolved_pmid": "42570981"
+   }
+  ],
+  "doi_to_ids": {
+   "input_doi": "10.1038/s41698-026-01642-4",
+   "pmid": "42570981",
+   "pmcid": "PMC13452805"
+  },
+  "verdict": "The printed citation resolves to PMID 42570981 from bibliographic fields alone, and the printed DOI resolves to the same PMID and to PMC13452805. The printed PMID, DOI, journal, year, volume and first page are mutually consistent. This IS the manuscript's cited primary; it is not a different paper."
+ },
+ "record_as_retrieved": {
+  "pmid": "42570981",
+  "pmcid": "PMC13452805",
+  "doi": "10.1038/s41698-026-01642-4",
+  "journal": "NPJ Precis Oncol",
+  "pubmed_publication_date": "2026-08-08",
+  "pubmed_citation_fields": {
+   "volume": "10",
+   "issue": "1",
+   "note": "get_article_metadata returned no page/elocation field; first_page 305 confirmed only via citation matching"
+  },
+  "design": "single patient, individual therapeutic attempt, no control arm, no response rate",
+  "verbatim_from_methods": [
+   "The amino acid sequence spanning the type 1 EWSR1-FLI1 fusion breakpoint (EWSR1:Exon 7 - FLI1:Exon 6) was used to generate four overlapping 17-mer peptides by a sliding-window approach, limiting contiguous residues from either fusion partner to a maximum of ten.",
+   "To ensure broad applicability, the vaccine was designed without HLA restriction.",
+   "The sequences (E1-E4) are listed in Table.",
+   "This assay primarily detects functional, non-anergic memory T-cells in an HLA-independent manner."
+  ],
+  "verbatim_from_results": [
+   "By month 26, polyfunctional responses were observed against all four peptides (E1-E4), with the strongest response directed against peptide E4 (17.7% of CD4+ T-cells, SI 82.7).",
+   "Although a single CD8+ response was transiently detectable, the vaccine-induced immunity was dominated by durable CD4+ T-cell activity."
+  ],
+  "verbatim_from_discussion": [
+   "The dominance of CD4+ responses and the relative absence of CD8+ reactivity may reflect the class II binding properties of the selected peptides and limited class I presentation in Ewing sarcoma.",
+   "four overlapping soluble 17-mer peptides directly spanning the patient's EWSR1-FLI1 type 1 fusion breakpoint"
+  ],
+  "flow_panel_includes_CD8": true,
+  "named_class_I_allotype": null,
+  "peptide_sequences_in_pmc_body_text": false
+ },
+ "inclusion_rule": {
+  "source": "EPITOPE-BENCHMARK/tabulate_epitopes.py, copied verbatim",
+  "predicates": [
+   "measured (MS_ELUTION|TCELL|MULTIMER)",
+   "spans_junction == yes",
+   "natural (not anchor-modified/heteroclitic)",
+   "seq_known (20-AA alphabet)",
+   "classI_window 8 <= len <= 11",
+   "classI_restricted (HLA-[ABC]*d named)"
+  ],
+  "calibration": {
+   "applied_to": "../EPITOPE-BENCHMARK/epitope-records.json",
+   "sha256": "2ac4c8a1335ca5d2aee8ee5ced990b090344ded009348314c734213e5b295a4e",
+   "n_returned": 15,
+   "expected": 15,
+   "ids": [
+    "E01",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E18",
+    "E19",
+    "E20",
+    "E21",
+    "E25",
+    "E26"
+   ],
+   "passed": true
+  }
+ },
+ "candidates_from_cited_primary": [
+  {
+   "id": "C01",
+   "fusion": "EWSR1::FLI1 (type 1)",
+   "peptide": "UNKNOWN-17MER-E1",
+   "len": 17,
+   "hla": null,
+   "spans_junction": "yes",
+   "junction_note": "17-mer sliding window across EWSR1 ex7 / FLI1 ex6 breakpoint, max ten contiguous residues from either partner",
+   "evidence": [
+    "TCELL"
+   ],
+   "assay": "in vitro peptide stimulation + ICS, HLA-independent; polyfunctional CD4+ (>=2 of CD154/IFN-g/TNF-a/IL-2), SI>=2 positive",
+   "peak_pct_CD4": 0.4,
+   "peak_SI": 2.1,
+   "first_detected": "month 7",
+   "material": "patient PBMC",
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "year": 2026
+  },
+  {
+   "id": "C02",
+   "fusion": "EWSR1::FLI1 (type 1)",
+   "peptide": "UNKNOWN-17MER-E2",
+   "len": 17,
+   "hla": null,
+   "spans_junction": "yes",
+   "junction_note": "17-mer sliding window across EWSR1 ex7 / FLI1 ex6 breakpoint, max ten contiguous residues from either partner",
+   "evidence": [
+    "TCELL"
+   ],
+   "assay": "in vitro peptide stimulation + ICS, HLA-independent; polyfunctional CD4+ (>=2 of CD154/IFN-g/TNF-a/IL-2), SI>=2 positive",
+   "peak_pct_CD4": null,
+   "peak_SI": null,
+   "first_detected": "month 26",
+   "material": "patient PBMC",
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "year": 2026
+  },
+  {
+   "id": "C03",
+   "fusion": "EWSR1::FLI1 (type 1)",
+   "peptide": "UNKNOWN-17MER-E3",
+   "len": 17,
+   "hla": null,
+   "spans_junction": "yes",
+   "junction_note": "17-mer sliding window across EWSR1 ex7 / FLI1 ex6 breakpoint, max ten contiguous residues from either partner",
+   "evidence": [
+    "TCELL"
+   ],
+   "assay": "in vitro peptide stimulation + ICS, HLA-independent; polyfunctional CD4+ (>=2 of CD154/IFN-g/TNF-a/IL-2), SI>=2 positive",
+   "peak_pct_CD4": null,
+   "peak_SI": null,
+   "first_detected": "month 17",
+   "material": "patient PBMC",
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "year": 2026
+  },
+  {
+   "id": "C04",
+   "fusion": "EWSR1::FLI1 (type 1)",
+   "peptide": "UNKNOWN-17MER-E4",
+   "len": 17,
+   "hla": null,
+   "spans_junction": "yes",
+   "junction_note": "17-mer sliding window across EWSR1 ex7 / FLI1 ex6 breakpoint, max ten contiguous residues from either partner",
+   "evidence": [
+    "TCELL"
+   ],
+   "assay": "in vitro peptide stimulation + ICS, HLA-independent; polyfunctional CD4+ (>=2 of CD154/IFN-g/TNF-a/IL-2), SI>=2 positive",
+   "peak_pct_CD4": 17.7,
+   "peak_SI": 82.7,
+   "first_detected": "month 7",
+   "material": "patient PBMC",
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "year": 2026
+  }
+ ],
+ "verdicts": [
+  {
+   "id": "C01",
+   "eligible": false,
+   "failed_predicates": [
+    "seq_known",
+    "classI_window_8_11",
+    "classI_restricted"
+   ]
+  },
+  {
+   "id": "C02",
+   "eligible": false,
+   "failed_predicates": [
+    "seq_known",
+    "classI_window_8_11",
+    "classI_restricted"
+   ]
+  },
+  {
+   "id": "C03",
+   "eligible": false,
+   "failed_predicates": [
+    "seq_known",
+    "classI_window_8_11",
+    "classI_restricted"
+   ]
+  },
+  {
+   "id": "C04",
+   "eligible": false,
+   "failed_predicates": [
+    "seq_known",
+    "classI_window_8_11",
+    "classI_restricted"
+   ]
+  }
+ ],
+ "delta": {
+  "n_before": 15,
+  "n_admitted_from_ref20": 0,
+  "n_after": 15,
+  "delta": 0,
+  "statement": "NO DELTA. n = 15 stands."
+ },
+ "independent_verification_of_VACCINE_PATH_2": {
+  "confirmed": [
+   "four peptides are 17-mers (Methods, sliding window; restated in Discussion)",
+   "'To ensure broad applicability, the vaccine was designed without HLA restriction' - verbatim",
+   "immune monitoring is HLA-independent - verbatim",
+   "responses reported are polyfunctional CD4+ against all four peptides",
+   "peptide sequences E1-E4 are in a Table not carried in the PMC body text",
+   "n = 15 unchanged; the four peptides are inadmissible to a class I benchmark"
+  ],
+  "checked_that_VACCINE_PATH_2_did_not_check": [
+   "the printed citation was resolved from bibliographic fields ALONE (author/journal/year/volume/first_page), with the printed PMID withheld, and independently from the printed DOI in the reverse direction - establishing that PMID 42570981 IS reference [20] rather than assuming it; VACCINE-PATH-2 began from the PMID",
+   "the inclusion rule was re-applied in code to four constructed candidate records rather than judged in prose, and the rule was first calibrated to return exactly EPITOPE-BENCHMARK's 15",
+   "which individual predicates each candidate fails, enumerated per record",
+   "EPITOPE-BENCHMARK/check_consistency.py re-run UNMODIFIED, six negative-control rows intact"
+  ],
+  "corrections_to_VACCINE_PATH_2": [
+   {
+    "vaccine_path_2_wrote": "no class I measurement exists to admit",
+    "record_actually_says": "'Although a single CD8+ response was transiently detectable, the vaccine-induced immunity was dominated by durable CD4+ T-cell activity.' The ICS flow panel includes CD8 and both CD4+ and CD8+ subsets were gated.",
+    "effect_on_verdict": "NONE. The transient CD8+ observation is not tied to a named class I allotype, the assay is explicitly HLA-independent, no peptide is 8-11 residues, and no sequence is recoverable from the body text. The record remains inadmissible on three independent predicates. But 'no class I measurement exists' is over-strong as written: a transient CD8+ observation is reported and should be stated as such.",
+    "severity": "wording, not verdict"
+   },
+   {
+    "vaccine_path_2_wrote": "the Discussion attributes the absence of CD8+ reactivity to 'the class II binding properties of the selected peptides'",
+    "record_actually_says": "'The dominance of CD4+ responses and the RELATIVE absence of CD8+ reactivity MAY REFLECT the class II binding properties of the selected peptides AND LIMITED CLASS I PRESENTATION IN EWING SARCOMA.'",
+    "effect_on_verdict": "NONE. The authors hedge ('may reflect'), say 'relative' absence, and offer a second, independent explanation that VACCINE-PATH-2's paraphrase drops.",
+    "severity": "wording, not verdict"
+   }
+  ],
+  "overall": "VACCINE-PATH-2's verdict is CONFIRMED from the record itself. Two of its characterisations of the record are over-strong and are corrected above; neither changes the admissibility outcome or the count."
+ },
+ "coupling_note": "NEOANTIGEN-3 asserts len(VALIDATED) == 15. That assert is NOT tripped by this lane: the count does not move. NEOANTIGEN-3 was not edited and its assert was not removed.",
+ "carried_forward_arbitration": {
+  "wilson_n_at_sens_0.9": 34,
+  "note": "34, not 37, is the correct figure (k=round and k=ceil both give 34; k=floor gives 38). EPITOPE-BENCHMARK/check_consistency.py still asserts the pre-arbitration 37 and was run UNMODIFIED here; that pin is EPITOPE-BENCHMARK's to change, not this lane's."
+ },
+ "limitations": [
+  "E1-E4 sequences are UNKNOWN to this lane (Table not in PMC body text) - unknown, not zero. A 17-mer is outside the 8-11 window whatever it spells, so recovery cannot change the verdict.",
+  "Admissibility is judged AS REPORTED; no cited assay was re-verified.",
+  "n = 15 is a lower bound bounded by EPITOPE-BENCHMARK's search recall.",
+  "Supplementary information was not retrieved; no large download was attempted."
+ ]
+}

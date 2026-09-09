@@ -1,0 +1,8 @@
+census sha256: 2ac4c8a1335ca5d2aee8ee5ced990b090344ded009348314c734213e5b295a4e
+rule calibration on census: n = 15 -> PASS
+  C01 eligible=False fails=seq_known,classI_window_8_11,classI_restricted
+  C02 eligible=False fails=seq_known,classI_window_8_11,classI_restricted
+  C03 eligible=False fails=seq_known,classI_window_8_11,classI_restricted
+  C04 eligible=False fails=seq_known,classI_window_8_11,classI_restricted
+n_before=15  admitted_from_ref20=0  n_after=15  delta=0
+NO DELTA. n = 15 stands.

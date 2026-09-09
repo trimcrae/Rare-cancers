@@ -1,0 +1,13 @@
+negative-control rows (spans_junction == no): 6
+  E05 BCR::ABL1 alternative splice len=None hla=HLA-A2, HLA-A3 evidence=TCELL -> eligible=False
+  E28 SS18::SSX (SSX region, NOT t len=9    hla=HLA-A24        evidence=BINDING -> eligible=False
+  E35 ERG (not the junction)       len=None hla=HLA-A*02:01    evidence=BINDING/TCELL/MULTIMER -> eligible=False
+  E36 NPM1::ALK / ALK+ ALCL        len=None hla=HLA-A*02:01    evidence=TCELL -> eligible=False
+  E39 BRD4::NUTM1 (NUT carcinoma)  len=9    hla=HLA-A*02:01    evidence=MS_ELUTION/TCELL -> eligible=False
+  E40 BCR::ABL1 E255V (kinase-doma len=None hla=HLA-A2         evidence=TCELL -> eligible=False
+negative controls admitted by rule: 0 []
+anchor-modified rejected: True ['E27']
+binding-only rejected: True ['E03', 'E04', 'E17', 'E28', 'E30', 'E31', 'E32']
+prediction-only rejected: True ['E22', 'E37', 'E38']
+sequence-unknown rejected: True ['E02', 'E03', 'E04', 'E05', 'E06', 'E07', 'E08', 'E27', 'E28', 'E29', 'E30', 'E31', 'E32', 'E34', 'E35', 'E36', 'E38', 'E39', 'E40']
+DISCRIMINATION OK: 6 negative controls, none admitted; rule rejects every excluded stratum.
