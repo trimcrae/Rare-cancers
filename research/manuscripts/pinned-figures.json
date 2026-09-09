@@ -1321,38 +1321,47 @@
    "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
   },
   {
-   "id": "fusion_partner_dod_fisher_p",
-   "description": "⛔ THE PAPER'S HEADLINE STATISTIC, AND IT WAS UNBOUND. Found 2026-08-26 by two independent blind seats (research/autonomy/review-seats/): §4.8's Limitations guarded a p = 0.0672 that appears NOWHERE else in the document — the retired Agaram-only value — while the live headline p = 0.0034 carried no caveat at all. Nothing cross-checked this paper's prose against its artifact: pinned-figures had no entry for it, and the generator's --check closes only the generator↔artifact loop. Three of that review's four blockers walked through this one gap.",
+   "id": "fusion_partner_agaram2014_dod_taf15_percent",
+   "description": "The TAF15 arm's RECORDED disease-specific-death proportion in the §3.3 table's disease-specific-death row — 3/7. Bound 2026-09-09 as one of three distinctly named replacements for the retired pooled pins (see _artifact_figures_note): this is a DIFFERENT QUANTITY from the withdrawn 73-patient Agaram+Huang pool, not a new value for it. A typed value disagreeing with the artifact is the bug, not the artifact. ⛔ SCOPE: crude RECORDED disease-specific-death events in ONE consecutive surgical series (Agaram 2014, MSKCC, cohort `agaram-2014-outcome`, sourceId `agaram2014`, PMID 24746215), over unequal UNCENSORED observation windows. NOT a common-horizon survival probability, NOT adjusted, NOT a prognosis. One further EWSR1 patient died of unknown cause and is outside this numerator.",
    "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
-   "key": "analyses.B_outcome_by_partner.disease_specific_death.fisher_exact_two_sided_p",
-   "context": "Fisher p = 0\\.0034",
+   "key": "analyses.B_outcome_by_partner.source_verified_recorded_outcomes.disease_specific_death.taf15_arm.percent",
+   "format": "{:.1f} %",
+   "context": "disease-specific death \\| 3/7 = ([\\d.]+) ?%",
    "must_appear_in": [
     "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
    ],
-   "_context_note": "⚠ The regex binds the number to its SURROUNDING PROSE, not to bare digits. A loose `10\\.3` matched inside a DOI on the reference line and produced a false positive on first run — and a guard that cries wolf is a guard someone switches off.",
-   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+   "_context_note": "⚠ MATCHED FLATTENED AND CAPTURING, which is the strong form: the line-by-line branch of rule A compares against EVERY number on the line, so a line-mode pattern here would let this pin be vouched for by the comparator cell's digits. The capture binds THIS cell. Anchored to the disease-specific-death row label because the local-recurrence row beneath it prints the same 1/16 = 6.2 %.",
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)",
+   "match": "flattened"
   },
   {
-   "id": "fusion_partner_dod_taf15_percent",
-   "description": "The TAF15 arm's disease-specific death proportion, quoted in the abstract, §3.3 and the §3.3 table. A typed value disagreeing with the artifact is the bug, not the artifact.",
+   "id": "fusion_partner_agaram2014_dod_comparator_percent",
+   "description": "The EWSR1::NR4A3 comparator arm's RECORDED disease-specific-death proportion in the same §3.3 table row — 1/16. Pairs with the TAF15 figure. Bound 2026-09-09; a distinctly named Agaram-only replacement for the retired pooled 6/58 = 10.3 % pin, which guarded a different quantity. ⛔ SCOPE: crude RECORDED disease-specific-death events in ONE consecutive surgical series (Agaram 2014, MSKCC, cohort `agaram-2014-outcome`, sourceId `agaram2014`, PMID 24746215), over unequal UNCENSORED observation windows. NOT a common-horizon survival probability, NOT adjusted, NOT a prognosis. One further EWSR1 patient died of unknown cause and is outside this numerator.",
    "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
-   "key": "analyses.B_outcome_by_partner.disease_specific_death.taf15_arm.percent",
-   "context": "7/15 = 46\\.7 ?%",
+   "key": "analyses.B_outcome_by_partner.source_verified_recorded_outcomes.disease_specific_death.comparator_arm.percent",
+   "format": "{:.1f} %",
+   "context": "disease-specific death \\| 3/7 = [\\d.]+ ?% \\([^|]*\\) \\| 1/16 = ([\\d.]+) ?%",
    "must_appear_in": [
     "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
    ],
-   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write"
+   "_context_note": "⚠ MATCHED FLATTENED AND CAPTURING. The capture binds the comparator cell's own digits; the row label and the preceding TAF15 cell anchor it, because the local-recurrence row directly beneath prints an identical 1/16 = 6.2 % and an unanchored pattern would report a green check on the wrong row.",
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)",
+   "match": "flattened"
   },
   {
-   "id": "fusion_partner_dod_comparator_percent",
-   "description": "The EWSR1::NR4A3 comparator arm's disease-specific death proportion. Pairs with the TAF15 figure; the gap between them is the paper's central magnitude.",
+   "id": "fusion_partner_agaram2014_dod_fisher_p",
+   "description": "The POST-HOC DESCRIPTIVE two-sided Fisher p printed in the §3.3 table's disease-specific-death row. Bound 2026-09-09, replacing the retired `fusion_partner_dod_fisher_p`, whose 0.0034 belonged to the withdrawn pooled quantity and now survives only inside the §3.3 `Superseded, retained` quotation. ⚠ NOT prespecified, not performed in any source report, not corrected for the multiple endpoints on that page, and it licenses no claim. ⛔ SCOPE: crude RECORDED disease-specific-death events in ONE consecutive surgical series (Agaram 2014, MSKCC, cohort `agaram-2014-outcome`, sourceId `agaram2014`, PMID 24746215), over unequal UNCENSORED observation windows. NOT a common-horizon survival probability, NOT adjusted, NOT a prognosis. One further EWSR1 patient died of unknown cause and is outside this numerator.",
    "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
-   "key": "analyses.B_outcome_by_partner.disease_specific_death.comparator_arm.percent",
-   "context": "6/58 = 10\\.3 ?%",
+   "key": "analyses.B_outcome_by_partner.source_verified_recorded_outcomes.disease_specific_death.fisher_exact_two_sided_p",
+   "format": "{:.4f}",
+   "tolerance": 5e-05,
+   "context": "disease-specific death \\| 3/7 = [^|]*\\| 1/16 = [^|]*\\| [\\d.]+ pts \\| ([\\d.]+) \\|",
    "must_appear_in": [
     "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
    ],
-   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write"
+   "_context_note": "⚠ MATCHED FLATTENED AND CAPTURING. `[^|]` keeps each segment inside its own table cell, so the p is captured from its own column of the disease-specific-death row. Tolerance is tightened to 5e-05 because the default 0.005 is wider than the quantity itself and would pass a materially different p.",
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)",
+   "match": "flattened"
   },
   {
    "id": "biomarker_ass1_percentile_gpl6244",
@@ -2045,6 +2054,7 @@
   "report, and the deposit's §2.5 cut-ladder table binds the same arm cell by cell at every cut",
   "(`test_the_printed_cut_ladder_is_the_measured_one`, column `c[5]`). What is retired is the claim",
   "that the CONDENSED paper carries this arm — it no longer does, and a `must_appear_in` naming a",
-  "document that does not state the figure is a gate reporting on nothing."
+  "document that does not state the figure is a gate reporting on nothing.",
+  "⛔ THREE HOMES RETIRED, 2026-09-09 — `fusion_partner_dod_fisher_p`, `fusion_partner_dod_taf15_percent`, `fusion_partner_dod_comparator_percent`. They bound `analyses.B_outcome_by_partner.disease_specific_death`, the POOLED Agaram 2014 + Huang 2023 disease-specific-death object `dod_pooled_agaram2014_huang2023` (7/15 = 46.7 % vs 6/58 = 10.3 %, Fisher 0.0034) over 73 patients. §3.3 line 402 WITHDREW that pooled quantity — its Huang inputs were removed as source-unverified — and the object no longer exists in the artifact, so all three pins had been failing A-key-missing. THE FIGURES ARE NOT RESTATED ANYWHERE AS CURRENT: the 46.7 / 10.3 / 0.0034 text that remains in §3.3 sits inside an explicit `Superseded, retained` quotation, which is why the old context regexes still matched and made this look like a lost live headline. It was not. Replacing them are three DISTINCTLY NAMED entries — `fusion_partner_agaram2014_dod_*` — on the Agaram-only object `dod_agaram2014` under `source_verified_recorded_outcomes`. ★ THAT IS A DISCLOSED CHANGE OF GUARDED QUANTITY, NOT A PATH FIX: 3/7 vs 1/16 is not a corrected reading of 7/15 vs 6/58. The retired entries are preserved verbatim, with their provenance, in research/autonomy/opus-capacity-campaign-20260908/paper-lane/FP-three-pin-2026-09-09/RETIREMENT-RECORD-2026-09-09.md."
  ]
 }
