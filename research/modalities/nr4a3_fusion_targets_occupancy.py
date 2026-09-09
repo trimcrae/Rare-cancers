@@ -329,6 +329,22 @@ def derive():
     # gone into the paper as a POSITIVE occupancy finding on a coin flip. The right question is how
     # often chance alone gives at least this many, which is a binomial tail.
     p_excess = _binom_tail_ge(n_enr, n_tests, 0.05)
+
+    # ⛔ THE CAVEAT BELOW USED TO BE A HARDCODED SENTENCE AND IT WENT STALE. It read "Every
+    # informative experiment here is NR4A1 ... All 12 NR4A3-specific peak sets are UNINFORMATIVE" —
+    # true before the Haller deposit, false after it, while the SAME verdict's
+    # `informative_experiments` listed four NR4A3 cistromes. A caveat that contradicts its own
+    # object is worse than no caveat, so its counts are now read off the data they describe. The
+    # collision that made it hard to spot: there really are 12 uninformative ChIP-Atlas NR4A3 sets,
+    # and there are also 12 informative experiments; the same number, counting different things.
+    def _antigen_is(v, name):
+        return (v.get("antigen") or "").upper() == name
+
+    n_nr4a1_exp = len({_experiment(n) for n, v in informative.items() if _antigen_is(v, "NR4A1")})
+    n_nr4a3_exp = len({_experiment(n) for n, v in informative.items() if _antigen_is(v, "NR4A3")})
+    n_nr4a3_uninformative = sum(
+        1 for v in res["per_peakset"].values()
+        if _antigen_is(v, "NR4A3") and not v.get("informative"))
     res["verdict"] = {
         "n_peaksets_read": len(res["per_peakset"]),
         "n_informative_peaksets": len(informative),
@@ -358,12 +374,16 @@ def derive():
             f"{expected} expected, more than chance alone gives (binomial p = "
             f"{round(p_excess, 4)}); read the per-gene table before quoting this."),
         "⛔ what_this_is_not": (
-            "NOT a measurement of the fusion, and NOT evidence that these genes are unbound. Every "
-            "informative experiment here is NR4A1, a paralogue whose matched-cell-type peak sharing "
-            "with NR4A3 is 0.347. All 12 NR4A3-specific peak sets are UNINFORMATIVE by the rule "
-            "above — they recover no arbitrary gene either. So this is a bound on what the "
-            "available surrogates can show, and it is why the manuscript's discriminating "
-            "experiment remains a fusion cistrome rather than any re-analysis of existing data."),
+            "NOT a measurement of the fusion, and NOT evidence that these genes are unbound. "
+            f"{n_nr4a1_exp} of the {len(experiments)} informative experiments here are NR4A1, a "
+            "paralogue whose matched-cell-type peak sharing with NR4A3 is 0.347; the other "
+            f"{n_nr4a3_exp} are NR4A3 ChIP in acinic cell carcinoma and normal parotid gland, "
+            "which is WILD-TYPE NR4A3 in a salivary-gland lineage that is neither EMC nor the "
+            f"fusion. The {n_nr4a3_uninformative} shallow ChIP-Atlas NR4A3 peak sets are "
+            "UNINFORMATIVE by the rule above — they recover no arbitrary gene either. So this is a "
+            "bound on what the available surrogates can show, and it is why the manuscript's "
+            "discriminating experiment remains a fusion cistrome rather than any re-analysis of "
+            "existing data."),
     }
     return res
 

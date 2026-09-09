@@ -178,3 +178,225 @@ def test_check_mode_reports_ok_on_a_clean_tree():
         pytest.fail(f"the figure provenance stamp is missing at {F.STAMP}; it is committed, and "
                     "`--check` reporting OK on a clean tree is what this test measures.")
     assert F.check() == 0
+
+
+@pytest.fixture
+def isolated_build(monkeypatch, tmp_path):
+    """Exercise orchestration with byte-writing doubles, never another scientific factory."""
+    pytest.importorskip("matplotlib.pyplot")
+    import matplotlib.pyplot as plt
+    monkeypatch.setattr(plt, "close", lambda fig: None)
+    monkeypatch.setattr(F, "FIGDIR", str(tmp_path))
+    monkeypatch.setattr(F, "STAMP", str(tmp_path / "figure-provenance.json"))
+    for name in F.FIGURE_OUTPUTS:
+        (tmp_path / name).write_bytes(("original " + name).encode())
+    prior = {"sources": F._fingerprint(), "figures": list(F.FIGURE_OUTPUTS),
+             "_source_equivalence_2026_09_08": {"historical_draw_digest": "retain-exactly"}}
+    (tmp_path / "figure-provenance.json").write_text(json.dumps(prior), encoding="utf-8")
+    context = {"source_commit": "test-commit", "generator": {
+        "path": "research/modalities/nr4a3_fusion_targets_figures.py", **F._identity(F.__file__)}}
+    monkeypatch.setattr(F, "_committed_source_context", lambda: context)
+    called = []
+
+    class Double:
+        def __init__(self, name):
+            self.name = name
+
+        def savefig(self, path, **kwargs):
+            from pathlib import Path
+            Path(path).write_bytes(("new " + self.name + os.path.splitext(path)[1]).encode())
+
+    def factory(name):
+        def draw(plt, art):
+            called.append((name, set(art)))
+            return Double(name)
+        return draw
+
+    monkeypatch.setattr(F, "FIGURE_SPECS", {
+        n: {"needs": s["needs"], "draw": factory(n)} for n, s in F.FIGURE_SPECS.items()})
+    return {"dir": tmp_path, "prior": prior, "called": called, "context": context, "double": Double}
+
+
+def test_selective_build_is_lazy_preserves_outputs_and_history(isolated_build):
+    before = F._output_identities()
+    written = F.build(only="fig4-instrument-convergence")
+    assert isolated_build["called"] == [("fig4-instrument-convergence", {"robust", "seq3", "motif", "conf", "occ"})]
+    assert set(written) == {"fig4-instrument-convergence.png", "fig4-instrument-convergence.pdf"}
+    after = F._output_identities()
+    assert {f: v for f, v in after.items() if f not in written} == {f: v for f, v in before.items() if f not in written}
+    stamp = F._read_stamp()
+    assert stamp["_source_equivalence_2026_09_08"] == isolated_build["prior"]["_source_equivalence_2026_09_08"]
+    assert set(stamp["figures"]) == set(F.FIGURE_OUTPUTS)
+    record = stamp["builds"][-1]
+    assert record["prior_source_map"] == isolated_build["prior"]["sources"]
+    assert len(record["sources_actually_consumed"]) == 5
+    assert len(record["sources_verified"]) == 7
+    assert len(record["outputs_not_regenerated"]) == 8
+    assert record["source_commit"] == "test-commit"
+    assert all(len(v["sha256"]) == 64 for v in record["sources_actually_consumed"].values())
+
+
+def test_default_build_keeps_all_five_factories(isolated_build):
+    assert len(F.build()) == 10
+    assert [x[0] for x in isolated_build["called"]] == list(F.FIGURE_SPECS)
+
+
+@pytest.mark.parametrize("source", ["nr4a3-fusion-targets-inputs.json", "nr4a3-fusion-targets-robustness.json"])
+def test_selective_build_rejects_unexplained_drift_before_drawing(isolated_build, source):
+    stamp = F._read_stamp()
+    stamp["sources"][source] = "0" * 16
+    path = isolated_build["dir"] / "figure-provenance.json"
+    path.write_text(json.dumps(stamp), encoding="utf-8")
+    before = path.read_bytes(), F._output_identities()
+    with pytest.raises(ValueError, match="unexplained source drift"):
+        F.build(only="fig4-instrument-convergence")
+    assert not isolated_build["called"]
+    assert before == (path.read_bytes(), F._output_identities())
+
+
+def test_exact_audited_calibration_move_is_recorded(isolated_build):
+    stamp = F._read_stamp()
+    eq = F.CALIBRATION_EQUIVALENCE
+    stamp["sources"][eq["artifact"]] = eq["old"]["sha256"][:16]
+    (isolated_build["dir"] / "figure-provenance.json").write_text(json.dumps(stamp), encoding="utf-8")
+    F.build(only="fig4-instrument-convergence")
+    current = F._read_stamp()
+    assert current["builds"][-1]["source_equivalence"] == eq
+    assert current["builds"][-1]["prior_source_map"] == stamp["sources"]
+    assert current["sources"][eq["artifact"]] == eq["current"]["sha256"][:16]
+
+
+def test_incomplete_pair_leaves_provenance_untouched(isolated_build, monkeypatch):
+    path = isolated_build["dir"] / "figure-provenance.json"
+    before = path.read_bytes()
+    original = isolated_build["double"].savefig
+
+    def fail_pdf(self, path, **kwargs):
+        if path.endswith(".pdf"):
+            raise OSError("synthetic second-save failure")
+        return original(self, path, **kwargs)
+
+    monkeypatch.setattr(isolated_build["double"], "savefig", fail_pdf)
+    with pytest.raises(OSError, match="second-save failure"):
+        F.build(only="fig4-instrument-convergence")
+    assert path.read_bytes() == before
+    assert F._read_stamp().get("builds") is None
+
+
+def test_skipped_factory_does_not_create_generation_record(isolated_build, monkeypatch):
+    path = isolated_build["dir"] / "figure-provenance.json"
+    before = path.read_bytes()
+    monkeypatch.setitem(F.FIGURE_SPECS["fig4-instrument-convergence"], "draw", lambda plt, art: None)
+    assert F.build(only="fig4-instrument-convergence") == []
+    assert path.read_bytes() == before
+
+
+def test_missing_or_corrupt_provenance_is_not_replaced_by_selective_build(isolated_build):
+    path = isolated_build["dir"] / "figure-provenance.json"
+    path.write_text("{broken", encoding="utf-8")
+    with pytest.raises(ValueError):
+        F.build(only="fig4-instrument-convergence")
+    assert path.read_text(encoding="utf-8") == "{broken"
+    path.unlink()
+    with pytest.raises(ValueError, match="requires the existing provenance"):
+        F.build(only="fig4-instrument-convergence")
+    assert not path.exists()
+
+
+def test_repeated_build_checks_latest_output_and_source_generator_identities(isolated_build, monkeypatch):
+    from pathlib import Path
+    F.build(only="fig4-instrument-convergence")
+    first = F._read_stamp()["builds"][0]
+    original = isolated_build["double"].savefig
+
+    def second(self, path, **kwargs):
+        original(self, path, **kwargs)
+        with open(path, "ab") as fh:
+            fh.write(b" second build")
+
+    monkeypatch.setattr(isolated_build["double"], "savefig", second)
+    F.build(only="fig4-instrument-convergence")
+    assert F._read_stamp()["builds"][0] == first
+
+    def git_body(*args):
+        name = args[-1].split("/")[-1]
+        return (Path(F.HERE) / name).read_bytes()
+
+    monkeypatch.setattr(F, "_git_output", git_body)
+    assert F.check_builds() == 0
+    output = isolated_build["dir"] / "fig4-instrument-convergence.png"
+    original_bytes = output.read_bytes()
+    output.write_bytes(b"tampered")
+    assert F.check_builds() == 1
+    output.write_bytes(original_bytes)
+    snapshot = F._source_identities()
+    real_snapshot = F._source_identities()
+    snapshot[os.path.basename(F.SEQ3)]["sha256"] = "0" * 64
+    monkeypatch.setattr(F, "_source_identities", lambda: snapshot)
+    assert F.check_builds() == 1
+    monkeypatch.setattr(F, "_source_identities", lambda: real_snapshot)
+    stamp = F._read_stamp()
+    stamp["builds"][-1]["generator"]["sha256"] = "0" * 64
+    (isolated_build["dir"] / "figure-provenance.json").write_text(json.dumps(stamp), encoding="utf-8")
+    assert F.check_builds() == 1
+
+
+def test_generation_refuses_uncommitted_source(monkeypatch):
+    from pathlib import Path
+    root = Path(F.HERE).parents[1]
+
+    def git_output(*args):
+        if args == ("rev-parse", "--show-toplevel"):
+            return str(root).encode()
+        if args == ("rev-parse", "HEAD"):
+            return b"test-commit"
+        return b"different committed generator"
+
+    monkeypatch.setattr(F, "_git_output", git_output)
+    with pytest.raises(ValueError, match="uncommitted generation input"):
+        F._committed_source_context()
+
+
+def test_rank_labels_follow_distinct_artifact_populations_and_cells_keep_values(art):
+    rc = art["seq3"]["ratio_calibration"]
+    label = " ".join(F._matrix_row_labels(art["seq3"])[3])
+    for key in ["n_genes_with_a_normal_ratio", "n_genes_with_a_sarcoma_ratio"]:
+        assert f"{rc[key]:,}" in label
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
+    for gene, expected_state in [("ENO3", "supported"), ("PPARG", "supported"), ("SEMA3C", "weak")]:
+        text, state = cells[gene][3]
+        normal, sarcoma = text.splitlines()
+        expected = rc["per_gene"][gene]
+        assert str(expected["emc_over_normal"]) in normal
+        assert str(expected["emc_over_normal_percentile"]) in normal
+        assert str(expected["emc_over_sarcoma"]) in sarcoma
+        assert str(expected["emc_over_sarcoma_percentile"]) in sarcoma
+        assert state == expected_state
+
+
+def test_matrix_text_fits_cells_and_remains_legible_at_150mm(art):
+    plt = pytest.importorskip("matplotlib.pyplot")
+    import matplotlib
+    matplotlib.use("Agg")
+    fig = F.fig_matrix(plt, **art)
+    try:
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        ax = fig.axes[0]
+        assert len(ax.patches) == 18
+        inset = 1.5 * fig.dpi / 72  # A real margin, not merely a centre inside the cell.
+        for patch in ax.patches:
+            center = (patch.get_x() + patch.get_width() / 2,
+                      patch.get_y() + patch.get_height() / 2)
+            texts = [text for text in ax.texts if all(abs(a-b) < 1e-8
+                     for a, b in zip(text.get_position(), center))]
+            assert len(texts) == 1
+            tb = texts[0].get_window_extent(renderer)
+            pb = patch.get_window_extent(renderer)
+            assert tb.x0 >= pb.x0 + inset and tb.x1 <= pb.x1 - inset, texts[0].get_text()
+            assert tb.y0 >= pb.y0 + inset and tb.y1 <= pb.y1 - inset, texts[0].get_text()
+        saved_width_inches = fig.get_tightbbox(renderer).width + 0.2  # savefig default padding
+        scale_at_150mm = (150 / 25.4) / saved_width_inches
+        assert min(t.get_fontsize() for t in [*fig.texts, *ax.texts] if t.get_text()) * scale_at_150mm >= 7
+    finally:
+        plt.close(fig)

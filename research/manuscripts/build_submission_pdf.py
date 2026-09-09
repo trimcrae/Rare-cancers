@@ -51,6 +51,7 @@ import html as _html
 import json
 import hashlib
 import os
+from pathlib import Path
 import re
 import shutil
 import socket
@@ -75,6 +76,9 @@ LANDSCAPE_MIN_COLS = 8
 #: re-laid-out the preprint from 58 pages to 41, so the repository's PDF would no longer have been
 #: the artefact on bioRxiv. A paper opts in with `layout: {"tables_in_column": True}`.
 _TABLES_IN_COLUMN = False
+
+_FULL_WIDTH_TABLE_CAPTIONS = ()
+
 
 PAPERS = {
     #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
@@ -171,7 +175,17 @@ PAPERS = {
         "tables": None,
         "stamp_sources": (
             "fusion-output/nr4a3-fusion-transcriptional-output.md",
+            "figures/fig1-size-matched-null.png",
+            "figures/fig2-evidence-classes.png",
+            "figures/fig3-per-sample-class-a.png",
+            "figures/fig4-instrument-convergence.png",
+            "figures/fig5-muscle-admixture-control.png",
         ),
+        "inline_images": True,
+        "layout": {
+            "raster_full_width": True,
+            "full_width_tables": ("Table 3.", "Table 9."),
+        },
         "figures": {},
         "journal": {
             "article_type": "Original Research Article",
@@ -622,8 +636,65 @@ def _bracket_citations(body):
     return _SUP_CITE.sub(one, body)
 
 
+_IMAGE_LINE_RE = re.compile(r"^!\[([^\]]*)\]\(([^)\s]+)\)\s*$")
+
+_IMAGE_ANYWHERE_RE = re.compile(r"!\[[^\]]*\]\([^)\s]+\)")
+
+_RASTER_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
+
+def inline_raster_images(body, paper):
+    """Replace each standalone `![alt](path)` line with a `<figure>` carrying the file inline.
+
+    The alt text rides into the `<img alt>`, so the figure is never a bare image: a reader whose
+    viewer cannot draw it, and every text-extraction path over the PDF, still gets the caption
+    sentence. The printed legend is the `**Figure N.**` paragraph the manuscript already sets
+    directly under the image, and it is left exactly where it is.
+    """
+    if not paper.get("inline_images"):
+        return body
+    base = os.path.dirname(os.path.join(HERE, paper["manuscript"]))
+    out, seen = [], 0
+    for line in body.split("\n"):
+        match = _IMAGE_LINE_RE.match(line.strip())
+        if not match:
+            if _IMAGE_ANYWHERE_RE.search(line):
+                raise SystemExit(
+                    "inline_images: an image is embedded inside a line of prose:\n  "
+                    + line.strip()[:160]
+                    + "\nOnly an image alone on its own line is handled. `inline()` has no image "
+                      "rule and adding one would have to be stashed ahead of the link rule; until "
+                      "that is done deliberately this is a build failure rather than a stray '!' "
+                      "and a dead link in the deposit.")
+            out.append(line)
+            continue
+        alt, src = match.group(1), match.group(2)
+        path = os.path.normpath(os.path.join(base, src))
+        ext = os.path.splitext(path)[1].lower()
+        if ext not in _RASTER_MIME:
+            raise SystemExit(f"inline_images: {src!r} is not a raster this builder embeds "
+                             f"({', '.join(sorted(_RASTER_MIME))})")
+        if not os.path.exists(path):
+            raise SystemExit(f"inline_images: {src!r} does not exist at {path}")
+        if not alt.strip():
+            raise SystemExit(f"inline_images: {src!r} has empty alt text. The alt text is the "
+                             "caption the image carries into the PDF's text layer; an image "
+                             "without one is a bare picture.")
+        data = base64.b64encode(open(path, "rb").read()).decode("ascii")
+        #: ⚠ THE FIRST IMAGE IS `lead` FOR THE SAME REASON THE FIRST SPLICED FIGURE IS: manuscript
+        #: style sets `figure.figure { break-before: page }`, which would put this figure on a page
+        #: of its own and strand the legend paragraph that follows it.
+        klass = "figure lead" if seen == 0 else "figure"
+        seen += 1
+        out.append(f'<figure class="{klass}"><img class="raster" '
+                   f'src="data:{_RASTER_MIME[ext]};base64,{data}" '
+                   f'alt="{_html.escape(alt, quote=True)}"/></figure>')
+    return "\n".join(out)
+
+
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
+    global _FULL_WIDTH_TABLE_CAPTIONS
+    _FULL_WIDTH_TABLE_CAPTIONS = tuple((paper.get("layout") or {}).get("full_width_tables") or ())
     body = strip_frontmatter(read(paper["manuscript"]))
     # ⚠ FRONTMATTER IS STRIPPED FROM THE INCLUDES TOO, AND THAT IS NOT BELT-AND-BRACES.
     # strip_generated_banner only matches a leading HTML comment, so it cannot touch a leading
@@ -652,6 +723,11 @@ def assemble(paper, style="journal"):
     #: function — inherit it, and the markdown keeps the form its guards read.
     if paper.get("bracketed_citations"):
         body = _bracket_citations(body)
+
+    #: BOTH styles, and before either branch: the journal branch runs `split_figures`, which scans
+    #: for a `## Figure legends` section, and the manuscript branch splices SVGs against `**Figure`
+    #: anchors. Neither sees a markdown image, so this has to happen ahead of both.
+    body = inline_raster_images(body, paper)
 
     if style == "manuscript":
         if tables:
@@ -1210,6 +1286,35 @@ def _label_for_spliced_table(lines, table_end, rows):
     return None
 
 
+def _table_spans_both_columns(lines, table_start):
+    """True when the caption directly above this spliced table is one the paper declared wide.
+
+    ⛔ WHY THIS EXISTS. Supplementary Table S3 is five columns of long verbatim cells, and five is
+    under `LANDSCAPE_MIN_COLS`, so `render_table`'s `wide_body` rule never fired for it. It set at
+    full body width inside an 88 mm journal column and its fourth data column, TAF15_NR4A3, ran off
+    the right edge of the page: `TAF15:`, `ENST0`, `UNRES` printed truncated at the paper's edge
+    (blind screen of the built PDF, page 6, 2026-09-08). Column COUNT is the wrong predicate for it
+    — the table is wide because of what its cells CONTAIN, which no count can see — so the paper
+    names the caption instead.
+    ⚠ MATCHED ON THE CAPTION, NOT ON A COUNT OR AN INDEX, so "Supplementary Table S3." and
+    "Supplementary Table S3, continued." are both caught by the one declared prefix and stay
+    together at the same width. A renumbering that renames the caption stops matching and the table
+    goes back to the column — visibly, in the next build, rather than silently.
+    """
+    if not _FULL_WIDTH_TABLE_CAPTIONS:
+        return False
+    for k in range(table_start - 1, max(-1, table_start - 40), -1):
+        line = lines[k].strip()
+        if not line:
+            continue
+        if line.startswith("**"):
+            caption = line[2:]
+            return any(caption.startswith(prefix) for prefix in _FULL_WIDTH_TABLE_CAPTIONS)
+        if line.startswith(("#", "|", "<figure", "<svg")):
+            return False
+    return False
+
+
 def markdown_to_html(text, floats=None):
     floats = floats or {}
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)          # PMID markers: non-rendering
@@ -1283,6 +1388,7 @@ def markdown_to_html(text, floats=None):
 
         if stripped.startswith("|") and i + 1 < len(lines) and re.match(
                 r"^\|[\s:|-]+\|?\s*$", lines[i + 1].strip()):
+            table_start = i
             rows = []
             while i < len(lines) and lines[i].strip().startswith("|"):
                 rows.append(lines[i])
@@ -1301,7 +1407,13 @@ def markdown_to_html(text, floats=None):
             #: The same dead branch had already produced the caption-footnote defect earlier the same
             #: day; fixing that one and not auditing what else depended on it is what let this ship.
             label = _CURRENT_TABLE_LABEL or _label_for_spliced_table(lines, i, rows)
-            out.append('<div class="tablewrap">'
+            #: ⚠ THE CLASS RIDES ON THE WRAPPER, NOT ON THE <table>, and the type size is NOT
+            #: touched. `.wide-body-table` spans AND shrinks to 6.4 pt; this table is already the
+            #: smallest type in the paper and the whole point of the repair is that a reader can
+            #: read it. Width is the only thing that changes.
+            klass = ("tablewrap fullwidth" if _table_spans_both_columns(lines, table_start)
+                     else "tablewrap")
+            out.append(f'<div class="{klass}">'
                        + render_table(rows, label) + "</div>")
             continue
 
@@ -1331,18 +1443,48 @@ def markdown_to_html(text, floats=None):
             start = re.match(r"^\s*(\d+)\.", line)
             attr = f' start="{start.group(1)}"' if ordered and start else ""
             out.append(f"<{tag}{attr}>")
+            #: ⛔⛔ AN ITEM IS RENDERED ONCE, FROM ITS WHOLE TEXT — NOT LINE BY LINE (found
+            #: 2026-09-08 by rasterising the built fusion-output pages, invisible to every text
+            #: probe that had read the document). This loop used to call `inline()` on the marker
+            #: line and then AGAIN on each continuation line, splicing the second result into the
+            #: `<li>` that the first had already closed. `inline()` is a whole-string parser: its
+            #: emphasis rules carry `re.S` precisely so a span may cross a line break. Feeding it
+            #: one physical source line at a time makes every span that wraps unclosable, and the
+            #: markup then PRINTS. Measured in the shipped journal PDF: §2.2's
+            #: "**five solitary fibrous tumours … samples**", §2.4's "**198 genes on hg38 and 200
+            #: on hg19**" and "**raw count is never reported as a finding**", §3.11's
+            #: "***ENO3* carries 2–4 peaks … not any carcinoma.**" and §4.2's "**It is not
+            #: specific to EMC …**" and "**The surviving gene is the pre-designated positive
+            #: control**" all reached the reader as literal asterisks — nine leaked pairs across
+            #: the two formats. A wrapped link, code span or escaped character had the same
+            #: exposure; bold is only where it happened to be visible.
+            #: ⚠ THE PARAGRAPH AND BLOCKQUOTE BRANCHES ALREADY DO THIS — they join their lines with
+            #: " " and call `inline()` once, which is why an identically-wrapped bold span in body
+            #: prose or in a figure legend printed correctly on the same page. This branch is now
+            #: the same shape; the join is the same single space it used to splice with, so an item
+            #: with no wrapped markup renders exactly as before.
+            item_lines = None
+
+            def _flush_item(item_lines):
+                li = inline(" ".join(item_lines))
+                out.append(('<li data-seq="1">' if 'class="seq"' in li else "<li>")
+                           + li + "</li>")
+
             while i < len(lines):
                 m = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", lines[i])
                 if not m:
-                    if lines[i].strip() and lines[i].startswith((" ", "\t")):
-                        out[-1] = out[-1][:-5] + " " + inline(lines[i].strip()) + "</li>"
+                    if item_lines is not None and lines[i].strip() \
+                            and lines[i].startswith((" ", "\t")):
+                        item_lines.append(lines[i].strip())
                         i += 1
                         continue
                     break
-                li = inline(m.group(3))
-                out.append(("<li data-seq=\"1\">" if 'class="seq"' in li else "<li>")
-                           + li + "</li>")
+                if item_lines is not None:
+                    _flush_item(item_lines)
+                item_lines = [m.group(3)]
                 i += 1
+            if item_lines is not None:
+                _flush_item(item_lines)
             out.append(f"</{tag}>")
             continue
 
@@ -1779,10 +1921,44 @@ DEFAULT_GEOMETRY = {
     "font_pt": 9.0, "line_height": 1.40, "column_gap_mm": 6.0,
 }
 
+RASTER_IMAGE_CSS = """
+/* An embedded raster never exceeds its box and never distorts; the per-style width chooses the
+   printed measure, and `height: auto` keeps the aspect ratio the file was drawn at. */
+figure.figure img.raster { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+"""
+
+RASTER_IMAGE_CSS_MANUSCRIPT = """
+figure.figure img.raster { width: 86%; }
+"""
+
+RASTER_IMAGE_CSS_JOURNAL = """
+.cols figure.figure img.raster { width: 100%; }
+"""
+
+RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH = """
+.cols figure.figure { column-span: all; break-inside: avoid; margin: 2mm 0 3mm 0; }
+.cols figure.figure img.raster { width: 100%; }
+"""
+
+FULL_WIDTH_TABLE_CSS = """
+.cols .tablewrap.fullwidth, .backmatter .tablewrap.fullwidth {
+    column-span: all; break-inside: avoid; margin: 2mm 0 3mm 0; }
+.cols .tablewrap.fullwidth table, .backmatter .tablewrap.fullwidth table { width: 100%; }
+"""
+
+
 def journal_css(paper=None):
     g = dict(DEFAULT_GEOMETRY)
     g.update((paper or {}).get("geometry") or {})
-    return COMMON + f"""
+    raster = ""
+    if ((paper or {}).get("layout") or {}).get("full_width_tables"):
+        raster += FULL_WIDTH_TABLE_CSS
+    if (paper or {}).get("inline_images"):
+        raster += RASTER_IMAGE_CSS + (
+            RASTER_IMAGE_CSS_JOURNAL_FULLWIDTH
+            if ((paper or {}).get("layout") or {}).get("raster_full_width")
+            else RASTER_IMAGE_CSS_JOURNAL)
+    return COMMON + raster + f"""
 @page {{ size: {g["page_size"]}; margin: {g["margin"]}; }}
 @page landscape {{ size: {g["page_size"]} landscape; margin: {g["landscape_margin"]}; }}
 
@@ -2007,6 +2183,8 @@ def wrap_manuscript(front_title, body_html, front_block="", paper=None, house_st
     if front_block:
         body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
     css = MANUSCRIPT_CSS
+    if (paper or {}).get("inline_images"):
+        css = css + RASTER_IMAGE_CSS + RASTER_IMAGE_CSS_MANUSCRIPT
     if house_style and ((paper or {}).get("layout") or {}).get("nat_submission"):
         css = css + NAT_SUBMISSION_CSS
     return page_shell(front_title, css, body_html)
@@ -2494,7 +2672,8 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
          f"--user-data-dir={profile}", "--remote-debugging-port=0", "about:blank"],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
     try:
         portfile = os.path.join(profile, "DevToolsActivePort")
         deadline, port = time.time() + 45, None
@@ -2512,7 +2691,7 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
             targets = json.load(resp)
         ws = WS(next(t["webSocketDebuggerUrl"] for t in targets if t.get("type") == "page"))
         ws.call("Page.enable")
-        ws.call("Page.navigate", url="file://" + os.path.abspath(html_path))
+        ws.call("Page.navigate", url=Path(html_path).resolve().as_uri())
         time.sleep(2.5)
 
         def render(footer_text):

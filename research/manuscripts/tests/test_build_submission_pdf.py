@@ -710,3 +710,160 @@ def test_no_blockquote_marker_survives_into_a_deposited_pdf(pdf):
 #: ⚠ SO THE FEATURES ARE NOW UNGUARDED, WHICH IS THE COST AND IS RECORDED RATHER THAN HIDDEN.
 #: A paper that opts back into landscape tables, a split back matter or a `placement` map is
 #: opting into code nothing tests. Restore the guard in the same change, from git history.
+
+
+# ------------------------------------------------------- opt-in raster images (`inline_images`)
+#
+# ⛔ WHAT THESE ARE FOR. `markdown_to_html`/`inline()` have no image rule: measured 2026-09-08, a
+# manuscript's `![alt](fig.png)` reached the page as a stray `!` plus a hyperlink to a file that
+# does not travel with the deposit, and the rendered HTML carried zero `<img>` tags. The opt-in
+# `inline_images` flag embeds the raster as a data URI instead. The FIRST test below is the one
+# that matters most: the flag's absence must leave every other paper's bytes alone, and that is a
+# property of the whole registry rather than of the paper this module pins.
+
+
+def _pages_for(paper):
+    """Both styles' finished pages — stylesheet included, which is where a shared-CSS edit leaks."""
+    out = {}
+    for style in ("journal", "manuscript"):
+        body, floats = bsp.assemble(paper, style)
+        front = bsp.parse_front_matter(body)
+        out[style] = (bsp.wrap_journal(paper, front, bsp.markdown_to_html(front["body"], floats))
+                      if style == "journal"
+                      else bsp.wrap_manuscript(front["title"], bsp.markdown_to_html(body), "",
+                                               paper))
+    return out
+
+
+@pytest.mark.parametrize("key", sorted(k for k in bsp.PAPERS
+                                       if not bsp.PAPERS[k].get("inline_images")))
+def test_a_paper_without_inline_images_renders_byte_identically(key):
+    """No flag, no change — not "no visible change", no change to a single byte.
+
+    ⚠ THE STYLESHEET IS INSIDE THE ASSERTION ON PURPOSE. The first draft of this feature wrote its
+    rules into `COMMON` and `MANUSCRIPT_CSS`, where they were inert for every paper with no
+    `<img class="raster">` — and still moved three papers' rendered bytes by 586 each, in both
+    styles, because those sheets are shared. `NAT_SUBMISSION_CSS` records the same failure with a
+    worse outcome: it reformatted a DEPOSITED artifact. So the rules are appended only for a paper
+    that opted in, and this test reads the finished page, sheet and all.
+    """
+    paper = bsp.PAPERS[key]
+    for style, page in _pages_for(paper).items():
+        assert "<img" not in page, f"{key} ({style}) emitted an <img> without opting in"
+        assert "img.raster" not in page, (
+            f"{key} ({style}) carries the raster stylesheet without opting in — a shared sheet was "
+            "edited, and every unflagged paper's bytes moved with it")
+    #: And the transform itself is the identity on a body it is not enabled for, even one that
+    #: contains an image line, so the no-op does not depend on the paper happening to have none.
+    body = "text\n\n![Figure 9. A caption.](../figures/emc-fusion-frame-fig1.png)\n\nmore\n"
+    assert bsp.inline_raster_images(body, paper) == body
+
+
+def test_an_opted_in_paper_emits_an_img_carrying_its_caption():
+    """The figure must arrive WITH its caption, not as a bare picture and not silently dropped."""
+    #: ⛔ AN EMPTY OPT-IN IS A FINDING, NOT A REASON TO STAND DOWN (2026-09-08). This site read
+    #: `if key is None: pytest.skip("no paper currently opts into inline_images")`, a branch that
+    #: has never once fired: `build_submission_pdf.PAPERS["atr-panel-ask"]` sets
+    #: `"inline_images": True` and that registry is committed. The skip could therefore only ever
+    #: fire on the tree where the flag had been lost — and losing it puts the ATR deposit back to
+    #: printing a stray `!` and a hyperlink to a file that does not travel with it (measured
+    #: 2026-09-08, `IMG_TAGS: 0`), which is precisely when this guard has to speak rather than
+    #: evaporate with its input.
+    #: ⛔ EVERY OPTED-IN PAPER, NOT `next(...)` (2026-09-08). This read the FIRST paper carrying the
+    #: flag and checked only that one. `fusion-output` then opted in — five panels that had been
+    #: printing as `!Figure N` and a dead hyperlink in both shipped PDFs — and because it sorts
+    #: ahead of `atr-panel-ask` in the registry it silently BECAME the sole subject here, so the
+    #: ATR deposit this guard was written for stopped being checked at the moment a second paper
+    #: needed checking. A guard that follows dict order rather than the registry is a guard whose
+    #: coverage a later edit can move without touching it.
+    keys = [k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")]
+    assert keys, (
+        "no paper in the committed registry sets inline_images, so nothing exercises the "
+        "raster-embedding path and this guard has no deposit to read. If the flag was dropped "
+        "deliberately, that is a change to a deposit's figures and belongs in the same "
+        "commit as these two registry-side guards.")
+    for key in keys:
+        _assert_one_papers_images_carry_their_captions(key)
+
+
+def _assert_one_papers_images_carry_their_captions(key):
+    paper = bsp.PAPERS[key]
+    source = open(os.path.join(bsp.HERE, paper["manuscript"]), encoding="utf-8").read()
+    expected = len(re.findall(r"^!\[[^\]]*\]\([^)\s]+\)\s*$", source, re.M))
+    assert expected, f"{key} opts into inline_images and its manuscript names no image"
+    for style, page in _pages_for(paper).items():
+        assert page.count("<img") == expected, (
+            f"{key} ({style}) emitted {page.count('<img')} images for {expected} references")
+        assert 'class="raster"' in page and 'src="data:image/png;base64,' in page, (
+            f"{key} ({style}) did not embed the raster as a data URI — an external src does not "
+            "survive the print path and prints as a blank box")
+        alt = re.search(r'<img[^>]*\salt="([^"]*)"', page)
+        assert alt, f"{key} ({style}) emitted an <img> with no alt text — that is a bare image"
+        assert re.match(r"(Figure|Fig\.)\s*\d", alt.group(1)), (
+            f"{key} ({style}) alt text does not open with the figure's number: {alt.group(1)!r}")
+        assert len(alt.group(1).split()) >= 6, (
+            f"{key} ({style}) alt text is a label, not a caption: {alt.group(1)!r}")
+        #: The PRINTED legend is the `**Figure N.**` paragraph the manuscript sets under the image,
+        #: and it has to survive next to it rather than be replaced by the alt text.
+        assert re.search(r"<figure[^>]*>.{0,4000000}?</figure>\s*<p[^>]*>\s*<strong>Figure\s*1\.",
+                         page, re.S), (
+            f"{key} ({style}): the figure's legend paragraph no longer follows the figure")
+
+
+def test_an_image_embedded_in_prose_fails_the_build_instead_of_printing_a_stray_bang():
+    """`inline()` is not touched, so an image that is not alone on its line is a hard failure.
+
+    Adding an image rule to `inline()` means stashing it AHEAD of the link rule — the same ordering
+    that two documented deposit-corrupting bugs live in. Until that is done deliberately, an inline
+    image raises rather than reaching the deposit as `!` plus a dead link.
+    """
+    paper = dict(next(iter(bsp.PAPERS.values())), inline_images=True,
+                 manuscript="dependency/emc-atr-collaborator-package.md")
+    with pytest.raises(SystemExit) as excinfo:
+        bsp.inline_raster_images(
+            "see ![Figure 1. A caption of it.](../figures/emc-fusion-frame-fig1.png) here", paper)
+    assert "inside a line of prose" in str(excinfo.value)
+
+
+def test_the_embedded_bytes_are_the_figure_file_itself():
+    """A data URI that decodes to something else is a figure making a claim nothing supports."""
+    import base64 as _b64
+    #: ⛔ SAME UNREACHABLE SKIP AS ABOVE, SAME ANSWER (2026-09-08). An empty opt-in set means
+    #: the embedded bytes this test checks are not being produced at all; that is the failure, not
+    #: an excuse to decline.
+    #: ⛔ EVERY OPTED-IN PAPER AND EVERY PANEL, AND EACH PAYLOAD AGAINST THE FILE ITS OWN
+    #: MANUSCRIPT NAMES (2026-09-08). This checked the FIRST opted-in paper's FIRST payload against
+    #: one hard-coded filename, so a paper with five panels had four unchecked and a second
+    #: opted-in paper displaced the first entirely.
+    keys = [k for k in bsp.PAPERS if bsp.PAPERS[k].get("inline_images")]
+    assert keys, (
+        "no paper in the committed registry sets inline_images, so no data URI is emitted and "
+        "nothing checks that a deposited figure's bytes are the figure file on disk.")
+    for key in keys:
+        paper = bsp.PAPERS[key]
+        body, _ = bsp.assemble(paper, "manuscript")
+        payloads = re.findall(r'src="data:image/png;base64,([A-Za-z0-9+/=]+)"', body)
+        source = open(os.path.join(bsp.HERE, paper["manuscript"]), encoding="utf-8").read()
+        named = re.findall(r"^!\[[^\]]*\]\(([^)\s]+)\)\s*$", source, re.M)
+        assert payloads and len(payloads) == len(named), (
+            f"{key}: {len(payloads)} payloads for {len(named)} image references")
+        base = os.path.dirname(os.path.join(bsp.HERE, paper["manuscript"]))
+        for payload, ref in zip(payloads, named):
+            raw = _b64.b64decode(payload)
+            assert raw[:8] == b"\x89PNG\r\n\x1a\n", f"{key}: {ref} is not a PNG"
+            on_disk = os.path.normpath(os.path.join(base, ref))
+            assert raw == open(on_disk, "rb").read(), (
+                f"{key}: the embedded bytes differ from {ref} on disk")
+
+
+def test_an_absent_or_non_raster_image_fails_the_build():
+    """Absent means "the build is wrong", never "render the paper without its figure"."""
+    paper = dict(next(iter(bsp.PAPERS.values())), inline_images=True,
+                 manuscript="dependency/emc-atr-collaborator-package.md")
+    with pytest.raises(SystemExit):
+        bsp.inline_raster_images("![Figure 1. A caption.](../figures/does-not-exist.png)", paper)
+    with pytest.raises(SystemExit):
+        bsp.inline_raster_images("![Figure 1. A caption.](../figures/emc-fusion-frame-fig1.pdf)",
+                                 paper)
+    with pytest.raises(SystemExit):
+        bsp.inline_raster_images("![](../figures/emc-fusion-frame-fig1.png)", paper)
