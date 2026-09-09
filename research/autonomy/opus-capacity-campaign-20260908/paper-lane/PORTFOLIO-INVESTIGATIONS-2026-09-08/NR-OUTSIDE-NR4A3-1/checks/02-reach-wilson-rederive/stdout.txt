@@ -1,0 +1,48 @@
+recomputed n=58 k=0 -> 0.062117855787202914
+recomputed n=26 k=0 -> 0.1287289218592153
+recomputed n=84 k=0 -> 0.04373172841465988
+
+--- committed reach block ---
+{
+ "_asks": "What fraction of EMC patients could a hormonal route possibly serve?",
+ "_method": "Wilson 95% score interval on the PGR-partnered fraction, per the repository's fixed pooling method (systems/POLICY-evidence.md).",
+ "per_cohort": [
+  {
+   "cohort": "Modern Pathology 2023",
+   "pmid": "36948401",
+   "n": 58,
+   "n_pgr": 0,
+   "n_greb1": 0,
+   "owner": "research/manuscripts/degrader/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1",
+   "proportion": 0.0,
+   "wilson95_lo": 0.0,
+   "wilson95_hi": 0.062117855787202914
+  },
+  {
+   "cohort": "Agaram, Hum Pathol 2014",
+   "pmcid": "PMC4015728",
+   "n": 26,
+   "n_pgr": 0,
+   "n_greb1": 0,
+   "owner": "research/manuscripts/degrader/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1",
+   "proportion": 0.0,
+   "wilson95_lo": 0.0,
+   "wilson95_hi": 0.1287289218592153
+  }
+ ],
+ "pooled": {
+  "n": 84,
+  "k_pgr_partnered": 0,
+  "proportion": 0.0,
+  "wilson95_lo": 0.0,
+  "wilson95_hi": 0.04373172841465988,
+  "⚠_assumption": "the two cohorts are treated as NON-OVERLAPPING. That is required by POLICY-evidence and it is NOT VERIFIED here — neither report's accrual institutions were checked. If they overlap the denominator is smaller and the upper bound wider, so the pooled figure is the OPTIMISTIC end of the honest range."
+ },
+ "world_literature_emc_cases": 1,
+ "reading": "Zero events in 84 genotyped cases. The Wilson upper bound is the number that should travel with this route: the hormone-responsive-partner fraction of EMC is bounded above at roughly 4.4%, and the only observed EMC case is n = 1.",
+ "⛔_what_this_does_not_say": [
+  "It does not say the true fraction is zero. Zero events bound a rate; they do not measure one, and the bound is wide at n = 84.",
+  "⚠ It may UNDERCOUNT, and the source paper says why in its own words: the fusion 'would have not been captured by existing commercial vendors which use panel-based approaches that do not include PGR or N4A3' (PMC9489176). Both cited cohorts genotyped by targeted assays, so a PGR-partnered case could be invisible to them. ⛔ This cuts BOTH ways and is not a reason to inflate the estimate — it is a reason the honest statement is a bound with a stated blind spot, not a point estimate.",
+  "The index case was EWSR1-FISH-negative cellular-variant EMC, so an EWSR1 break-apart assay would not have called it fusion-positive at all."
+ ]
+}

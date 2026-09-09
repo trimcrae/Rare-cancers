@@ -1,0 +1,3 @@
+cd <scratchpad>/patch
+git diff --no-index a b | sed -e 's|^--- a/a/|--- a/|' -e 's|^+++ b/b/|+++ b/|' -e 's|^diff --git a/a/\(.*\) b/b/\(.*\)$|diff --git a/\1 b/\2|' > UNAPPLIED-pooled-dependency-propagation.diff
+# exit status recorded is that of git diff (PIPESTATUS[0]); 1 == differences found, which is the expected value
