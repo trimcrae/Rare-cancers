@@ -1,0 +1,118 @@
+=== git log -1 6466168d7 (full message) ===
+TD1 R1-R4 integrated: main edited in place, five shared patches applied, one identity deliberately different
+
+The TD1 residual-2 author's batch is complete and is integrated here. The six
+earlier source patches stay applied; only the newly admitted R1-R4 changes
+belong to this batch. No source, classifier, scientific producer or statistical
+rerun was commissioned, and no new author or reviewer.
+
+WHAT R1-R4 SAY, in the author's own scope.
+R1 withdraws two full-article negatives that the retained extracts cannot
+support: M4 turns the PMID 25036637 full-text-negative into dated provenance
+(supplement membership UNKNOWN, FET membership established in neither
+direction), and M5 reframes section 4 as what the retained curated extracts
+report, replacing "none of those reports includes a chase/rescue/mRNA
+measurement" with "the extracts do not establish whether they did, and this
+paper does not assert they did not". M6 turns "clientship is untested" into
+"not established by this evidence".
+R3 separates a post-2026-08-27 publication, which updates the present
+inventory, from an earlier in-set item, which exposes an extraction or
+classification error -- keeping the any-FET-is-not-NR4A3-clientship warning
+verbatim.
+R4 states precisely that NO EMC-LABELLED MODEL CONTRIBUTES CRISPR GENE-EFFECT
+DATA, and records that ACH-001519 IS present in model metadata with no values.
+It documents probe-averaging-before-standardization and the four-decimal
+rounding boundary, adds a Git-blob fixed-identity table for ten artifacts, and
+replaces the reproduction sentence with three honest levels: readable back
+exactly / classifier REPLAY possible against retained annotations, rounding-
+bounded / independent DEPOSIT VERIFICATION impossible without the absent matrix.
+It refuses to invent raw-input hashes or a public archive.
+Parent-owned: C1-C19 bind eight outcome claims to items actually inspected,
+withdraw "the whole literature is four papers", retire falsifier_F5's
+no-co-IP-exists and the_grade_should_not_move's absence claim, and mark
+retrieval.full_text_read and _supersedes as historical provenance without
+current authority. G/GP replace "non-selective" with broad binary dependency in
+screened non-EMC lines, selectivity unresolved, and propagate the GPL3290
+corroboration hold into RT-CHAPERONE. MC withdraws the no-normal-tissue-window
+inference and the "cytotoxicity was the mechanism that closed it" claim while
+keeping the de-prioritisation. PUB replaces a single-resolution shorthand with
+absent EMC perturbation evidence plus five separate questions.
+
+PARENT VERIFICATION, re-derived rather than accepted.
+Main, edited in place by its owner: 41,911 B 12c082b3... at HEAD ->
+48,268 B 9523555483f00cfee00b6cd4cf64f5615f57c011f1640297bf952399e742b3ba,
+git blob 0c6c57f63b89f41e8ef7722d87035fbfa440cb50 -- matching the author's
+declared identity exactly, byte for byte and blob for blob.
+Five shared patches, each applied by the parent with git apply exit 0:
+  research/literature/fet-fusion-chaperone-clientship-2026-08-27.json
+    32,858 -> 39,198 B, 7ba3ed7a -> ae44e6e0 (declared ae44e6e0)
+  research/manuscripts/modality-census/cancer-modality-census.md
+    41,391 -> 42,114 B, ea130364 -> d8fd8587 (declared d8fd8587)
+  research/modalities/census-route-expression-grading.json
+    94,931 -> 95,906 B, 2dbd21cc -> cbb9c9ac (declared cbb9c9ac)
+  research/modalities/census_route_expression_grading.py
+    54,778 -> 56,050 B, 42ffb5a9 -> 43447cd4 (declared 43447cd4)
+  systems/graph/publications.json
+    70,230 -> 71,006 B, 1697b5ff -> fc55087c (declared 7f923cc0)
+
+ONE IDENTITY IS DELIBERATELY DIFFERENT, AND IT IS THE RIGHT ONE. The author
+built the publications.json patch against 800e844f and declared 7f923cc0. The
+parent had since applied the root-supplied TCIP six-wording replacement to that
+same file, moving it 800e844f -> 1697b5ff. The patch applied cleanly on top,
+giving fc55087c instead. That is preservation of an unrelated intervening
+change, exactly as required -- not a mismatch. I verified it: the file still
+holds 33 entries, and the TCIP narrowed wording ("empirical cross-arm
+covariance cannot be estimated from the retained marginal counts") is still
+present after the TD1 patch. The other four identities match the author's
+declaration digit for digit.
+
+INVARIANCE, re-derived by the parent on all three JSON files:
+  fet-fusion-chaperone-clientship  230 -> 230 leaves, 0 added, 0 removed,
+    19 changed, 0 NON-STRING changed
+  census-route-expression-grading  1181 -> 1181, 0/0/3, 0 non-string
+  publications.json                416 -> 416, 0/0/1, 0 non-string, 33 entries
+All three round-trip byte-exactly at their own indent both before and after, so
+no silent reformat occurred. The changed-string counts are exactly the declared
+19 / 3 / 1. py_compile on the patched grading script: exit 0.
+HASHES.sha256: 59 entries, 58 verify OK; the single FAILED line is the
+manifest's own self-entry, a self-reference artefact rather than a corrupted
+file. Note the author's narration says 56 files; the manifest lists 59.
+
+FAILURES PRESERVED, NOT RELABELLED. lint_asymmetry and lint_submission_residue
+exit 2 -- real wrong-CLI failures, neither accepts a file argument, the same
+class the earlier lane recorded. lint_style exit 1 BEFORE and AFTER: 99 errors
+/ bold 20.6 per 1000 before, 121 / 20.7 after. The increase is entirely
+bold-midsentence 53 -> 63 and glyph 43 -> 55, from the repository's own warning
+and stop glyph convention. No guard, threshold or matcher was touched to
+accommodate it, and the failure stands. The author also reports honestly that
+check E finds five probe literals absent from the BEFORE file too, so it says
+nothing about them, and that the fifteen references remain NOT SWEPT --
+unknown, not clean.
+
+The author's static verification, which I did not re-run and am not presenting
+as mine: 110 C literals with 0 missing, fifteen hit counts identical, G-to-GP
+agreement by ast parse without executing, and 0 numeric tokens lost or reduced
+in the main (201 -> 208 distinct, 432 -> 460 total). That is annotation
+integrity, not biological validation, and the author says so.
+
+STILL OPEN for the owner, carried forward: systems/views/L3-publications.md and
+L2-rt-chaperone.md are generated and need regeneration after PUB1 and G1-G3.
+I did not regenerate them -- that is a separate act on generated state.
+
+Gate: scripts/preflight.sh EXIT=1, 459 errors, equal to the inherited baseline
+before any of today's work. No guard, floor, gate, matcher, pin or test was
+weakened, and no exit code was fabricated.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Eui7FVgatEXAwt2N35yHH6
+
+=== manuscript: every mention of producer / re-run / identity outside the table ===
+454:**Fixed identities.** ⚠ Those repository-relative paths are mutable; the identities below are not.
+471:⚠ **Numerical inputs versus annotation-only corrections.** A blob identity is a content identity,
+473:its blob identity while changing **no** number, membership, cohort, threshold or quotation; such
+478:applied their blob identities change and no reported number, membership or quotation does. ⛔ **No
+481:public archive identity for them is asserted, and ⛔ **no producer was re-run to write this
+484:⚠ **The producers were not re-run to write this paper, and that fact is not the method.** The numbers
+485:reported here originate from those producers under the inputs named above; this manuscript is a
+486:reading of their committed outputs. A producer that discovers "the newest available DepMap release"
+506:2. **Replayable, bounded by rounding.** The deterministic sample classifier **can** be re-run

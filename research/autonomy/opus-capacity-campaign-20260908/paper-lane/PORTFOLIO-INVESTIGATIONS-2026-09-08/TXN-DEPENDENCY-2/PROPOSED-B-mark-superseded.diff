@@ -1,0 +1,51 @@
+--- a/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
++++ b/research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+@@ -455,18 +455,18 @@
+ Each is the Git blob SHA-1 of the exact object this paper was read against, and each is verifiable
+ with `git cat-file -p <id>` in this repository without trusting a path:
+ 
+-| object | Git blob SHA-1 |
+-|---|---|
+-| `research/modalities/emc-expression-panels.json` | `330c04cb9277c3900919d45b548c730ec1746849` |
+-| `research/modalities/emc_expression_panels.py` | `d260a5d3f080f2ca1299609e199b5dce492efca1` |
+-| `research/modalities/census-route-expression-grading.json` | `b45a35a4ee2636993e42e897c3be6d7705ccae8a` |
+-| `research/modalities/census_route_expression_grading.py` | `18625608b378122adbe9dbcca16de370c357367b` |
+-| `research/modalities/depmap-sarcoma-dependency.json` | `1f00ad1cf509c540985d2d4be2830bcbec9a94a8` |
+-| `research/modalities/depmap_sarcoma_dependency.py` | `fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9` |
+-| `research/modalities/emc_atr_vulnerability.py` (annotation extraction and sample classifier) | `177df6cfd72a787e316cfba07e71e4c4231026fb` |
+-| `research/modalities/fet-ddr-axis-scan.json` | `41a575d2090457bc8e1eac15a56fab4c0f1bc0ac` |
+-| `research/literature/txn-dependency-class-definitions-2026-08-09.json` | `a8fa744a1bcdabde4d60a1f56760b33070ff47c9` |
+-| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `8728c34de793da848ccae012e808e668b69b24bd` |
++| object | Git blob SHA-1 read against | status |
++|---|---|---|
++| `research/modalities/emc-expression-panels.json` | `330c04cb9277c3900919d45b548c730ec1746849` | current |
++| `research/modalities/emc_expression_panels.py` | `d260a5d3f080f2ca1299609e199b5dce492efca1` | current |
++| `research/modalities/census-route-expression-grading.json` | `b45a35a4ee2636993e42e897c3be6d7705ccae8a` | superseded 2026-09-09 by `ee552394935792ed2e76bce926146b77907c5694` |
++| `research/modalities/census_route_expression_grading.py` | `18625608b378122adbe9dbcca16de370c357367b` | superseded 2026-09-09 by `fe00fe381957bf248d774d0ed68cbf93c6674487` |
++| `research/modalities/depmap-sarcoma-dependency.json` | `1f00ad1cf509c540985d2d4be2830bcbec9a94a8` | current |
++| `research/modalities/depmap_sarcoma_dependency.py` | `fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9` | current |
++| `research/modalities/emc_atr_vulnerability.py` (annotation extraction and sample classifier) | `177df6cfd72a787e316cfba07e71e4c4231026fb` | current |
++| `research/modalities/fet-ddr-axis-scan.json` | `41a575d2090457bc8e1eac15a56fab4c0f1bc0ac` | current |
++| `research/literature/txn-dependency-class-definitions-2026-08-09.json` | `a8fa744a1bcdabde4d60a1f56760b33070ff47c9` | current |
++| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `8728c34de793da848ccae012e808e668b69b24bd` | superseded 2026-09-09 by `9328cecebdffdb53921f82805b47fd0943d30c1f` |
+ 
+ ⚠ **Numerical inputs versus annotation-only corrections.** A blob identity is a content identity,
+ not provenance for raw data. A dated annotation-only correction to one of these artifacts changes
+@@ -481,6 +481,17 @@
+ public archive identity for them is asserted, and ⛔ **no producer was re-run to write this
+ version** — the numbers reported are a reading of the committed outputs identified above.
+ 
++⚠ **Superseded 2026-09-09 by the TD1 R1–R4 integration (commit `6466168d7`).** The three
++identities marked *superseded* above are the objects this paper was read against and remain
++retrievable by `git cat-file -p <id>`; the current working-tree objects at those paths are
++`ee552394935792ed2e76bce926146b77907c5694`, `fe00fe381957bf248d774d0ed68cbf93c6674487` and
++`9328cecebdffdb53921f82805b47fd0943d30c1f`. ⚠ Two of the three supersessions are the annotation-only
++correction forecast in the paragraph above. ⚠ The third, `census_route_expression_grading.py`, is a
++**producer script** and was **not** forecast: inspected 2026-09-09 its change edits only literal
++annotation strings inside `build()` and no computation, threshold, membership or numeric literal,
++⛔ but it is a code change and the forecast's annotation-only guarantee is not asserted for it.
++⛔ No producer was re-run, and no number in this paper changed.
++
+ ⚠ **The producers were not re-run to write this paper, and that fact is not the method.** The numbers
+ reported here originate from those producers under the inputs named above; this manuscript is a
+ reading of their committed outputs. A producer that discovers "the newest available DepMap release"
