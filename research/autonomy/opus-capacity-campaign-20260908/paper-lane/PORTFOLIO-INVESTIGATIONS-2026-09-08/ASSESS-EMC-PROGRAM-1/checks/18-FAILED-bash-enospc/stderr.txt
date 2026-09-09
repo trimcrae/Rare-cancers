@@ -1,0 +1,13 @@
+Exit code 1 / Exit code 2
+Command output was lost: the temp filesystem at
+/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/tasks
+is full (0MB free). The child process's stdout/stderr writes failed with ENOSPC.
+Free up space or set CLAUDE_CODE_TMPDIR to a directory on a filesystem with room.
+
+Reproduced on three successive invocations, the last being `echo ok`.
+No output file was produced, so no exit code of the intended python3 command exists.
+NOTHING WAS DELETED to free space: CLAUDE.md §8 forbids freeing disk by removing
+campaign evidence, and the exhausted filesystem is the harness scratch area, not
+this repository. The resource problem is reported instead, per that section.
+Checks 01-17 in this directory were written before the exhaustion and are intact.
+Checks 19+ were completed with the Read/Grep/Glob file tools instead.

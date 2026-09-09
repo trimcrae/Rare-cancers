@@ -1,0 +1,14 @@
+python3 - <<'EOF'
+import json
+d=json.load(open("research/modalities/aso-insilico-evaluation.json"))
+print("top keys:",list(d.keys()))
+print("ranking_key:",json.dumps(d.get("ranking_key")))
+for k,v in d.items():
+    if k.startswith("n_") or "transcript" in k: print(k,"=",v)
+td=d.get("top_designs") or d.get("designs")
+print("n designs:",len(td))
+for i,x in enumerate(td):
+    print(i, {kk:x.get(kk) for kk in ["design_id","name","site_accessibility","gc_percent","offtarget_exact","offtarget_le1mm","fusion_specific_sirna_seed","sirna_seed_spans_junction"]})
+acc=[x["site_accessibility"] for x in td]
+print("accessibility list:",acc,"max:",max(acc),"min:",min(acc))
+EOF

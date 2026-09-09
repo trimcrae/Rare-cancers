@@ -1,0 +1,5 @@
+BOTH calls returned total_count=272 and a PMID list byte-identical to the unfiltered anchor (check 01).
+query_translation of BOTH contains NO [Date - Publication] clause.
+DEFECT CHARACTERISED: date_from supplied WITHOUT date_to is silently dropped by this tool. The call
+does not error; it returns the UNFILTERED set while echoing the date_from argument in no visible way.
+These two calls are UNINFORMATIVE and no number from them is used. Preserved as required.

@@ -1,0 +1,33 @@
+SAME  _title
+SAME  ⛔_STATUS_OF_EVERYTHING_BELOW
+SAME  _assay_this_serves
+SAME  _method
+DRIFT gene_models
+DRIFT ensembl_vs_uniprot_sequences
+SAME  gene_model_self_checks_all_pass
+SAME  _self_check_keys_aggregated
+SAME  nr4a3_landmarks_read_from_the_audit
+SAME  constructs
+SAME  n_constructs_in_frame
+SAME  n_constructs_total
+SAME  partners_with_no_sourced_transcript_junction
+SAME  wild_type_controls
+SAME  rgg_dose_calibration_and_predictions
+SAME  tcf12_negative_control
+SKIPPED-BY-CHECK _limits
+
+TOTAL KEYS: 17  DRIFT KEYS: ['gene_models', 'ensembl_vs_uniprot_sequences']
+
+=== gene_models ===
+  ONLY-IN-RECOMPUTED   /PGR
+
+=== ensembl_vs_uniprot_sequences ===
+  ONLY-IN-RECOMPUTED   /PGR
+
+DRIFT AFTER REMOVING PGR FROM INPUTS: []
+EXACT EQUALITY (all keys except _limits): True
+_limits equal: True
+PGR keys in inputs['genes']: True | in uniprot_sequences: False
+inputs _fetched_utc: 2026-08-12T13:41:57Z
+genes in cache: ['EWSR1', 'TAF15', 'FUS', 'TCF12', 'TFG', 'NR4A3', 'PGR']
+efc.GENES: ['EWSR1', 'TAF15', 'FUS', 'TCF12', 'TFG', 'NR4A3']

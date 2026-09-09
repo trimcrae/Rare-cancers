@@ -1,0 +1,17 @@
+python3 - <<'EOF'
+import json
+d=json.load(open("research/modalities/nr4a-selectivity.json"))
+s=json.dumps(d)
+print("keys:",list(d.keys()))
+print("has engageable:", "engageable" in s.lower())
+import re
+# find pocket 5 divergent residues
+def walk(o,p=""):
+    if isinstance(o,dict):
+        for k,v in o.items(): walk(v,p+"/"+str(k))
+    elif isinstance(o,list):
+        for i,v in enumerate(o): walk(v,p+"/%d"%i)
+    else:
+        if "diverg" in p.lower() or "406" in str(o) or "531" in str(o): print(p,"=",o)
+walk(d)
+EOF

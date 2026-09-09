@@ -1,0 +1,5 @@
+total_count=13 returned_count=5 has_more=true
+query_translation ends: ... AND 2024/01/01:2026/12/31[Date - Publication]
+CONTROL PASSES: with BOTH date_from and date_to the date clause appears in query_translation and the
+count changes (13 vs 272). Confirms the check-04 defect is date_from-alone, not date filtering per se.
+Every subsequent dated call is validated by inspecting query_translation for the [Date - Publication] clause.

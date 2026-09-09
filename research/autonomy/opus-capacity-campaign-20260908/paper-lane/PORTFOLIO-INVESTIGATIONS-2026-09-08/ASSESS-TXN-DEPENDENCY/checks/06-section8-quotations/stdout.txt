@@ -1,0 +1,100 @@
+== $8 verbatim ==
+## 8 · Methods, data, code and reproduction limits
+
+**Fixed versions.** Stream A values are read from `research/modalities/emc-expression-panels.json`,
+produced by `research/modalities/emc_expression_panels.py`; the per-route grading is
+`research/modalities/census-route-expression-grading.json`, produced by
+`research/modalities/census_route_expression_grading.py`. Stream B values are read from
+`research/modalities/depmap-sarcoma-dependency.json`, produced by
+`research/modalities/depmap_sarcoma_dependency.py` against **DepMap public release 24Q4**
+(`CRISPRGeneEffect.csv`, `Model.csv`). The EMC-line CRISPR-availability record is
+`research/modalities/fet-ddr-axis-scan.json`. Class definitions and their citations are
+`research/literature/txn-dependency-class-definitions-2026-08-09.json`; the chaperone-clientship
+search is `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json`.
+
+**Fixed identities.** ⚠ Those repository-relative paths are mutable; the identities below are not.
+Each is the Git blob SHA-1 of the exact object this paper was read against, and each is verifiable
+with `git cat-file -p <id>` in this repository without trusting a path:
+
+| object | Git blob SHA-1 |
+|---|---|
+| `research/modalities/emc-expression-panels.json` | `330c04cb9277c3900919d45b548c730ec1746849` |
+| `research/modalities/emc_expression_panels.py` | `d260a5d3f080f2ca1299609e199b5dce492efca1` |
+| `research/modalities/census-route-expression-grading.json` | `b45a35a4ee2636993e42e897c3be6d7705ccae8a` |
+| `research/modalities/census_route_expression_grading.py` | `18625608b378122adbe9dbcca16de370c357367b` |
+| `research/modalities/depmap-sarcoma-dependency.json` | `1f00ad1cf509c540985d2d4be2830bcbec9a94a8` |
+| `research/modalities/depmap_sarcoma_dependency.py` | `fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9` |
+| `research/modalities/emc_atr_vulnerability.py` (annotation extraction and sample classifier) | `177df6cfd72a787e316cfba07e71e4c4231026fb` |
+| `research/modalities/fet-ddr-axis-scan.json` | `41a575d2090457bc8e1eac15a56fab4c0f1bc0ac` |
+| `research/literature/txn-dependency-class-definitions-2026-08-09.json` | `a8fa744a1bcdabde4d60a1f56760b33070ff47c9` |
+| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `8728c34de793da848ccae012e808e668b69b24bd` |
+
+⚠ **Numerical inputs versus annotation-only corrections.** A blob identity is a content identity,
+not provenance for raw data. A dated annotation-only correction to one of these artifacts changes
+its blob identity while changing **no** number, membership, cohort, threshold or quotation; such
+corrections are recorded with their own changed-field maps and leaf-invariance receipts under
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/`. ⚠ Two of the objects above —
+`census-route-expression-grading.json` and `fet-fusion-chaperone-clientship-2026-08-27.json` — have a
+dated annotation-only correction prepared but not yet integrated at the time of writing; when it is
+applied their blob identities change and no reported number, membership or quotation does. ⛔ **No
+hash is claimed for the
+raw GEO series matrices or the DepMap CSV inputs.** Those files are not held here, no accessible
+public archive identity for them is asserted, and ⛔ **no producer was re-run to write this
+version** — the numbers reported are a reading of the committed outputs identified above.
+
+⚠ **The producers were not re-run to write this paper, and that fact is not the method.** The numbers
+reported here originate from those producers under the inputs named above; this manuscript is a
+reading of their committed outputs. A producer that discovers "the newest available DepMap release"
+at run time is **not** a specification of the 24Q4 analysis; the release label, the two input files
+and the cohort rule given in §1.2 are.
+
+**What can and cannot be reproduced from what is retained.**
+
+| available in this repository | **not** available here |
+|---|---|
+| the seven curated memberships, per-platform readability, group means, Δ, Welch *t* and df | the original GEO series matrices and the probe-to-symbol mapping tables |
+| deposited per-specimen annotation strings and the derived class assignments | the raw per-probe intensities and log-ratios behind each standardized value |
+| the five dependency rows: means, dependent fractions, difference, `n_sarcoma`, the threshold and the lineage rule | the per-line Chronos gene-effect distributions, the non-sarcoma non-missing counts, and the DepMap input files themselves |
+| the fifteen dated query strings, hit counts and curated per-record assay classifications | full texts and supplements for several cited records, and the 25 unscreened Q15 hits |
+
+**Three levels, stated separately, because they are not the same claim.**
+
+1. **Readable back exactly.** The seven memberships, the per-platform readability, the deposited
+   per-specimen annotation strings and their derived class assignments, the rounded per-sample
+   `z_vs_array` values with their raw-scale gene averages and array percentiles, the group means,
+   Δ, Welch *t* and df, and the five dependency rows can all be read back from the committed
+   artifacts exactly as this paper reports them.
+2. **Replayable, bounded by rounding.** The deterministic sample classifier **can** be re-run
+   offline on the retained annotations: every consumed string is retained in
+   `emc-expression-panels.json` under `platforms.<file>.sample_annotations_verbatim[].annotation`,
+   and the classifier is source-visible as `emc_atr_vulnerability._classify_sample`, which
+   `emc_expression_panels.py` imports and applies. The conditional *p*-values and intervals in §2
+   can likewise be recomputed — but from the **rounded** Δ, *t* and df the artifact prints, so they
+   are approximate conditional calculations and not a recovery of the original unrounded analysis.
+3. **Not reproducible from what is held.** ⛔ Replaying the classifier on the retained strings does
+   **not** verify those strings against the original deposit; that check needs the original GEO
+   series matrices, which are not held here. ⛔ The all-probe reference distributions cannot be
+   regenerated from the stored rounded summaries, so the standardized scores cannot be
+   independently reconstructed from original probe values. ⛔ The probe-to-symbol mapping cannot be
+   revalidated, and the per-line DepMap Chronos distributions cannot be reconstructed.
+
+**Display items.** No figure has been rendered for this paper; its display items are the tables in the
+running text.
+
+**Artifact map.**
+
+| what it supplies | artifact |
+|---|---|
+| scored expression panels per platform: memberships, per-gene readability, group means, *t*, Welch df | [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) |
+| the per-route grading of the same panels | [`census-route-expression-grading.json`](../../modalities/census-route-expression-grading.json) |
+| the DepMap 24Q4 rows: mean gene effects, dependent fractions, difference, `n_sarcoma`, catalogued model count, threshold and the release's own control block | [`depmap-sarcoma-dependency.json`](../../modalities/depmap-sarcoma-dependency.json) |
+| the record that the one EMC-labelled DepMap model carries no CRISPR gene-effect data | [`fet-ddr-axis-scan.json`](../../modalities/fet-ddr-axis-scan.json) |
+| class definitions and the background citations in the summary and §3 | [`txn-dependency-class-definitions-2026-08-09.json`](../../literature/txn-dependency-class-definitions-2026-08-09.json) |
+| the chaperone-clientship search, its fifteen dated queries, their hit counts, and every record cited in §4 | [`fet-fusion-chaperone-clientship-2026-08-27.json`](../../literature/fet-fusion-chaperone-clientship-2026-08-27.json) |
+
+## 9 · References
+
+== do the superseded blobs still resolve? ==
+b45a35a4ee2636993e42e897c3be6d7705ccae8a -> blob
+18625608b378122adbe9dbcca16de370c357367b -> blob
+8728c34de793da848ccae012e808e668b69b24bd -> blob

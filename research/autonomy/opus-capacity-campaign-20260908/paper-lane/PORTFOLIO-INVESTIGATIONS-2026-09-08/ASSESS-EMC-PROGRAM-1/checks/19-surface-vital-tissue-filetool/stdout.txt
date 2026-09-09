@@ -1,0 +1,21 @@
+research/modalities/emc-surface-normal-window.json:45   ("vital_tissue": [])
+research/modalities/emc-surface-normal-window.json:45   ("vital_tissue")
+=> 45 of 45 vital_tissue values are the empty list. No row has a non-empty vital_tissue.
+
+CD276 record (line 233 ff):
+    "CD276": {
+      "ensembl": "ENSG00000103855",
+      "searched_as": "ENSG00000103855",
+      "hpa_returned_symbol": "CD276",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      ...
+      "vital_tissue": [],
+
+=> CD276 is inside the 45, and its vital_tissue is empty because
+   rna_tissue_specific_nTPM is null, exactly as EMC-PROGRAM-1 C19 states.
+
+Also present at line 4: "vital_tissues_flagged": ["heart","cerebral cortex",...] —
+a list of tissues the producer INTENDED to flag, which is not a screen result.

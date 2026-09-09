@@ -1,0 +1,1 @@
+grep -rn -i "internalis\|internaliz" research/ --include=*.md --include=*.json --include=*.py -l | head -20; echo "=== roadmap context ==="; sed -n "330,360p" research/manuscripts/program/emc-treatment-roadmap.md

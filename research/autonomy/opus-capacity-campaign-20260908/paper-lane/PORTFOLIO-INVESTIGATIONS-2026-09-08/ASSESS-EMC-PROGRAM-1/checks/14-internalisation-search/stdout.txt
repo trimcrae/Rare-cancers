@@ -1,0 +1,52 @@
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/AFTER-closed-routes-negative-record.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/BEFORE-closed-routes-negative-record.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/VIEWS-REGEN-1/regenerated/L2-rt-6mp.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EMC-PROGRAM-1/FINDING.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EMC-PROGRAM-1/work/emc-treatment-roadmap.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/STOPPED-closed-routes-held-paper/WORKING-COPY-AT-TERMINATION.md
+research/autonomy/sprint-2026-09-01/S37-ERROR-BODIES.md
+research/modalities/layer1-vhl-dossier.json
+research/modalities/emc-hypoxia-therapeutic-status.json
+research/modalities/alcam_precedent.py
+research/modalities/aso-delivery-antigen.json
+research/modalities/aso_delivery_antigen.py
+research/modalities/alcam-precedent.json
+research/manuscripts/emc-systems-map.json
+research/manuscripts/methods-record/closed-routes-negative-record.md
+research/manuscripts/program/emc-treatment-roadmap.md
+research/manuscripts/emc-systems-map.md
+research/manuscripts/aso/fusion-junction-aso-research-article.md
+research/manuscripts/aso/lit-targets-aso-delivery-routes.json
+=== roadmap context ===
+**Delivery (the route's real gate — a proposal, explicitly contingent).** No oligonucleotide is yet
+approved for *targeted systemic delivery to a solid tumour*: the solved cases are liver (GalNAc→ASGPR;
+inclisiran-class), local CNS (intrathecal; nusinersen), and local eye. EMC is none of these, so delivery
+— not sequence design — gates this route. EMC does have an unusually clean handle that falls out of our
+own surface-target analysis: **B7-H3 (CD276)** is near-universally expressed across sarcoma lines and
+internalises (§5), making an **anti-B7-H3 antibody–oligonucleotide conjugate (AOC)** — or a
+B7-H3-decorated lipid nanoparticle — a logical EMC delivery vector. **We flag this proposal as
+contingent:** it inherits the B7-H3 *surrogate* caveat (§5/§6) and is unproven for EMC; it is offered so
+a delivery lab gets a specific starting design rather than "good luck," not as a solved problem.
+Corollaries: prefer an **siRNA chassis** (RISC has the mature conjugate/LNP toolbox and approved
+precedents); expect EMC's **myxoid extracellular matrix** to be a penetration barrier (a
+stroma-normalising adjunct is a reasonable co-design). **The decisive biology gate comes first and is
+delivery-independent:** lipofected junction-knockdown must kill EMC cells before any delivery campaign is
+justified — the ASO's analogue of the degrader's dTAG gate, and another wet experiment we hand to others.
+
+## 5. Targeted-indirect routes that the framework promotes or kills (surrogate-graded)
+These are not driver-directed, but the framework's job is to grade them honestly on data we can compute.
+All expression reads are **pan-sarcoma surrogate priors** (no EMC line; see §2/§6), not EMC facts.
+- **B7-H3 (CD276) — promoted (confirm-gated).** Expressed in **99% of sarcoma lines** (DepMap mean 5.73
+  log2(TPM+1)); on top of 97% pan-STS by IHC. Expression is present across subtypes but **not uniformly
+  "high"** — the single `myxoid`-matched line reads 4.4, *below* the panel mean and the lowest of the
+  subtypes measured — so we state it as *near-universal positivity*, not *uniformly high*. ⭑ **2026-08-05:**
+  that 4.4 is **one line of disputed identity** (see the PRAME entry below), so it is a weak input to a
+  conclusion that rests on the 99 %; the *near-universal* framing is unchanged. *(Superseded, retained:
+  "the myxoid-liposarcoma subtype reads 4.4".)* This supports
+  the antibody-drug conjugate ifinatamab deruxtecan, a B7H3×CD3 bispecific, or B7-H3 CAR-T, and supplies
+  the internalising handle the §4.2 delivery proposal borrows. *Gate: EMC-tissue B7-H3 IHC.*
+- **PRAME — promoted as best-of-the-CTAs (confirm-gated), with a stated caveat.** Expressed in **53% of
+  sarcoma lines** overall. Its highest subtype reads are in synovial (7.2) and the single
+  `myxoid`-matched line (7.6) — and we do **not** treat that 7.6 as an EMC-proximal value; the
+  defensible claim is the *relative* one: PRAME ≫ MAGE-A4/NY-ESO-1.

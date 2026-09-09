@@ -1,0 +1,13 @@
+ls research/modalities/ | grep -i surf; python3 - <<'EOF'
+import json,glob
+for f in glob.glob("research/modalities/*surface*.json"):
+    d=json.load(open(f)); print("==",f, list(d.keys())[:15])
+    rows=None
+    for k,v in d.items():
+        if isinstance(v,list) and v and isinstance(v[0],dict) and any("vital" in kk for kk in v[0]): rows=(k,v)
+    if rows:
+        k,v=rows; print("rows key",k,"n",len(v))
+        empt=sum(1 for r in v if r.get("vital_tissue")==[])
+        print("vital_tissue == [] on", empt, "of", len(v))
+        print("sample:", json.dumps(v[0])[:600])
+EOF

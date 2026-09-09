@@ -1,0 +1,912 @@
+{
+  "rederivation": {
+    "rows": {
+      "histology_only@depth_A_index_only": {
+        "n": 4,
+        "true_positive": 0,
+        "false_positive": 0,
+        "true_negative": 2,
+        "false_negative": 2,
+        "precision": null,
+        "recall": 0.0
+      },
+      "histology_only@depth_B_index_plus_criterion": {
+        "n": 4,
+        "true_positive": 0,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "histology_only@depth_C_criterion_only": {
+        "n": 4,
+        "true_positive": 0,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "molecular_only@depth_A_index_only": {
+        "n": 4,
+        "true_positive": 2,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "molecular_only@depth_B_index_plus_criterion": {
+        "n": 4,
+        "true_positive": 2,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "molecular_only@depth_C_criterion_only": {
+        "n": 4,
+        "true_positive": 1,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 1,
+        "precision": 0.5,
+        "recall": 0.5
+      },
+      "union@depth_A_index_only": {
+        "n": 4,
+        "true_positive": 2,
+        "false_positive": 1,
+        "true_negative": 1,
+        "false_negative": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "union@depth_B_index_plus_criterion": {
+        "n": 4,
+        "true_positive": 2,
+        "false_positive": 2,
+        "true_negative": 0,
+        "false_negative": 0,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      "union@depth_C_criterion_only": {
+        "n": 4,
+        "true_positive": 1,
+        "false_positive": 2,
+        "true_negative": 0,
+        "false_negative": 1,
+        "precision": 0.3333333333333333,
+        "recall": 0.5
+      }
+    },
+    "mismatch_count": 0,
+    "mismatches": []
+  },
+  "fragility": {
+    "histology_only": [
+      {
+        "flips": [
+          "NCT04151342"
+        ],
+        "k": 1,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06094101"
+        ],
+        "k": 1,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06571734"
+        ],
+        "k": 1,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT07188532"
+        ],
+        "k": 1,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 3,
+        "precision_A": null,
+        "precision_B": 0.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 4,
+        "precision_A": null,
+        "precision_B": 1.0,
+        "outcome": "undefined"
+      }
+    ],
+    "molecular_only": [
+      {
+        "flips": [
+          "NCT04151342"
+        ],
+        "k": 1,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06094101"
+        ],
+        "k": 1,
+        "precision_A": 1.0,
+        "precision_B": 1.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06571734"
+        ],
+        "k": 1,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT07188532"
+        ],
+        "k": 1,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.6666666666666666,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101"
+        ],
+        "k": 2,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.6666666666666666,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": 0.0,
+        "precision_B": 0.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.6666666666666666,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 1.0,
+        "precision_B": 1.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 3,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.6666666666666666,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.0,
+        "precision_B": 0.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.6666666666666666,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 4,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.3333333333333333,
+        "outcome": "loss ERASED (equal)"
+      }
+    ],
+    "union": [
+      {
+        "flips": [
+          "NCT04151342"
+        ],
+        "k": 1,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.25,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT06094101"
+        ],
+        "k": 1,
+        "precision_A": 1.0,
+        "precision_B": 0.75,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT06571734"
+        ],
+        "k": 1,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.25,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT07188532"
+        ],
+        "k": 1,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.75,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101"
+        ],
+        "k": 2,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.5,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": 0.0,
+        "precision_B": 0.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.5,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 2,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.5,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 1.0,
+        "precision_B": 1.0,
+        "outcome": "loss ERASED (equal)"
+      },
+      {
+        "flips": [
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 2,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.5,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734"
+        ],
+        "k": 3,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.25,
+        "outcome": "loss preserved"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.75,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.0,
+        "precision_B": 0.25,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 3,
+        "precision_A": 0.6666666666666666,
+        "precision_B": 0.75,
+        "outcome": "loss REVERSED (B > A)"
+      },
+      {
+        "flips": [
+          "NCT04151342",
+          "NCT06094101",
+          "NCT06571734",
+          "NCT07188532"
+        ],
+        "k": 4,
+        "precision_A": 0.3333333333333333,
+        "precision_B": 0.5,
+        "outcome": "loss REVERSED (B > A)"
+      }
+    ]
+  },
+  "eligibility_text_search": {
+    "NCT06571734": {
+      "payload": "literature/ct-confirm-four-candidates-2026-08-09/ct_nct06571734_zanzalintinib.txt",
+      "status": "ok",
+      "chars": 14080,
+      "orphan_gt": 9,
+      "literal_lt": 0
+    },
+    "NCT04151342": {
+      "payload": "literature/ct-confirm-four-candidates-2026-08-09/ct_nct04151342_carma.txt",
+      "status": "ok",
+      "chars": 826,
+      "orphan_gt": 0,
+      "literal_lt": 0
+    },
+    "NCT06094101": {
+      "payload": "literature/ct-confirm-four-candidates-2026-08-09/ct_nct06094101_pervision.txt",
+      "status": "ok",
+      "chars": 5664,
+      "orphan_gt": 5,
+      "literal_lt": 6
+    },
+    "NCT07188532": {
+      "payload": "literature/ct-confirm-four-candidates-2026-08-09/ct_nct07188532_adaptive_rt.txt",
+      "status": "ok",
+      "chars": 1807,
+      "orphan_gt": 1,
+      "literal_lt": 0
+    },
+    "NCT05918640": {
+      "payload": "literature/ct-reverify-c3b-2026-08-07/ct_nct05918640_lurbi_fet.txt",
+      "status": "ok",
+      "chars": 5090,
+      "orphan_gt": 3,
+      "literal_lt": 0
+    },
+    "NCT05275426": {
+      "payload": "literature/ct-reverify-c3b-2026-08-07/ct_nct05275426_ly2880070.txt",
+      "status": "ok",
+      "chars": 4120,
+      "orphan_gt": 1,
+      "literal_lt": 1
+    },
+    "NCT07695311": {
+      "payload": null,
+      "status": "no per-record payload in ref"
+    },
+    "NCT07328425": {
+      "payload": "literature/ct-reverify-c3b-2026-08-07/ct_nct07328425_dsrct.txt",
+      "status": "ok",
+      "chars": 3470,
+      "orphan_gt": 0,
+      "literal_lt": 0
+    }
+  },
+  "enlarged": {
+    "records_scored": [
+      "NCT04151342",
+      "NCT05275426",
+      "NCT05918640",
+      "NCT06094101",
+      "NCT06571734",
+      "NCT07188532",
+      "NCT07328425"
+    ],
+    "excluded": [
+      [
+        "NCT07695311",
+        "no per-record payload in ref"
+      ]
+    ],
+    "rows": {
+      "histology_only@depth_A_index_only": {
+        "n": 7,
+        "true_positive": 0,
+        "false_positive": 0,
+        "true_negative": 3,
+        "false_negative": 4,
+        "precision": null,
+        "recall": 0.0
+      },
+      "histology_only@depth_B_index_plus_criterion": {
+        "n": 7,
+        "true_positive": 0,
+        "false_positive": 1,
+        "true_negative": 2,
+        "false_negative": 4,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "histology_only@depth_C_criterion_only": {
+        "n": 7,
+        "true_positive": 0,
+        "false_positive": 1,
+        "true_negative": 2,
+        "false_negative": 4,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "molecular_only@depth_A_index_only": {
+        "n": 7,
+        "true_positive": 3,
+        "false_positive": 1,
+        "true_negative": 2,
+        "false_negative": 1,
+        "precision": 0.75,
+        "recall": 0.75
+      },
+      "molecular_only@depth_B_index_plus_criterion": {
+        "n": 7,
+        "true_positive": 4,
+        "false_positive": 2,
+        "true_negative": 1,
+        "false_negative": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "molecular_only@depth_C_criterion_only": {
+        "n": 7,
+        "true_positive": 3,
+        "false_positive": 2,
+        "true_negative": 1,
+        "false_negative": 1,
+        "precision": 0.6,
+        "recall": 0.75
+      },
+      "union@depth_A_index_only": {
+        "n": 7,
+        "true_positive": 3,
+        "false_positive": 1,
+        "true_negative": 2,
+        "false_negative": 1,
+        "precision": 0.75,
+        "recall": 0.75
+      },
+      "union@depth_B_index_plus_criterion": {
+        "n": 7,
+        "true_positive": 4,
+        "false_positive": 3,
+        "true_negative": 0,
+        "false_negative": 0,
+        "precision": 0.5714285714285714,
+        "recall": 1.0
+      },
+      "union@depth_C_criterion_only": {
+        "n": 7,
+        "true_positive": 3,
+        "false_positive": 3,
+        "true_negative": 0,
+        "false_negative": 1,
+        "precision": 0.5,
+        "recall": 0.75
+      }
+    },
+    "criterion_source": "full eligibilityModule.eligibilityCriteria from the per-record ClinicalTrials.gov payload stored in the local git ref origin/literature-cache"
+  },
+  "enlarged_fragility": {
+    "histology_only": {
+      "min_flips": 1,
+      "flip_sets": [
+        {
+          "flips": [
+            "NCT04151342"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        },
+        {
+          "flips": [
+            "NCT05275426"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        },
+        {
+          "flips": [
+            "NCT05918640"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        },
+        {
+          "flips": [
+            "NCT06094101"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        },
+        {
+          "flips": [
+            "NCT06571734"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        },
+        {
+          "flips": [
+            "NCT07188532"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 1.0
+        },
+        {
+          "flips": [
+            "NCT07328425"
+          ],
+          "k": 1,
+          "precision_A": null,
+          "precision_B": 0.0
+        }
+      ]
+    },
+    "molecular_only": {
+      "min_flips": 1,
+      "flip_sets": [
+        {
+          "flips": [
+            "NCT04151342"
+          ],
+          "k": 1,
+          "precision_A": 0.5,
+          "precision_B": 0.5
+        },
+        {
+          "flips": [
+            "NCT05918640"
+          ],
+          "k": 1,
+          "precision_A": 0.5,
+          "precision_B": 0.5
+        },
+        {
+          "flips": [
+            "NCT06571734"
+          ],
+          "k": 1,
+          "precision_A": 0.5,
+          "precision_B": 0.5
+        },
+        {
+          "flips": [
+            "NCT07328425"
+          ],
+          "k": 1,
+          "precision_A": 0.75,
+          "precision_B": 0.8333333333333334
+        }
+      ]
+    },
+    "union": {
+      "min_flips": 2,
+      "flip_sets": [
+        {
+          "flips": [
+            "NCT04151342",
+            "NCT05918640"
+          ],
+          "k": 2,
+          "precision_A": 0.25,
+          "precision_B": 0.2857142857142857
+        },
+        {
+          "flips": [
+            "NCT04151342",
+            "NCT06571734"
+          ],
+          "k": 2,
+          "precision_A": 0.25,
+          "precision_B": 0.2857142857142857
+        },
+        {
+          "flips": [
+            "NCT04151342",
+            "NCT07188532"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT04151342",
+            "NCT07328425"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT05918640",
+            "NCT06571734"
+          ],
+          "k": 2,
+          "precision_A": 0.25,
+          "precision_B": 0.2857142857142857
+        },
+        {
+          "flips": [
+            "NCT05918640",
+            "NCT07188532"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT05918640",
+            "NCT07328425"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT06571734",
+            "NCT07188532"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT06571734",
+            "NCT07328425"
+          ],
+          "k": 2,
+          "precision_A": 0.5,
+          "precision_B": 0.5714285714285714
+        },
+        {
+          "flips": [
+            "NCT07188532",
+            "NCT07328425"
+          ],
+          "k": 2,
+          "precision_A": 0.75,
+          "precision_B": 0.8571428571428571
+        }
+      ]
+    }
+  },
+  "_not_medical_advice": "Not medical advice, not a trial-matching service. Labels are statements about registry text on the retrieval dates recorded in the source deposits. No patient, referral, enrolment, treatment or outcome is involved. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied. The cost of a false hit remains UNKNOWN, not zero.",
+  "generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-3/depth_fragility_and_extension.py",
+  "inputs": [
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-2/screen-depth-ablation.json",
+    "git ref origin/literature-cache (already in this clone; no network)"
+  ]
+}

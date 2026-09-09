@@ -1,0 +1,6 @@
+Attempt preserved as run. Harness defect in MY wrapper, not in the patches: the
+command block ended with `exit $((e1+e2))` inside `{ ... }`, which terminated the
+invoking shell before `echo $? > exit_code.txt` could run, so no exit code was
+recorded for this attempt. stdout.txt and stderr.txt are the real output of the real
+run and are retained unaltered. The attempt was re-run without the `exit` as
+checks/04-cumulative-apply-scratch-rerun/, which carries a genuine exit_code.txt.

@@ -1,0 +1,120 @@
+{
+    "_what": "Prespecified FET-fusion-class transfer test of the PRMT5 transcript reading",
+    "source_artifact": "research/modalities/emc-expression-panels.json",
+    "series": "GSE24369_series_matrix.txt.gz",
+    "platform": "GPL6244",
+    "fet_comparator": "LGFMS",
+    "nonfet_comparators": [
+        "desmoid_fibromatosis",
+        "fibrosarcoma"
+    ],
+    "genes": {
+        "PRMT5": {
+            "readable": true,
+            "n": {
+                "EMC": 6,
+                "LGFMS": 17,
+                "desmoid_fibromatosis": 6,
+                "fibrosarcoma": 6
+            },
+            "mean_z": {
+                "EMC": 1.2901,
+                "LGFMS": 1.0238,
+                "desmoid_fibromatosis": 1.0515,
+                "fibrosarcoma": 1.0111
+            },
+            "emc_vs_all_comparators": {
+                "t": 6.236,
+                "delta_mean_z": 0.2632,
+                "n_a": 6,
+                "n_b": 29,
+                "exact_two_sided_p": null,
+                "mc_two_sided_p": 0.0001,
+                "mc_standard_error": 2e-05,
+                "mc_draws": 200000,
+                "mc_seed": 20260908,
+                "ci95_delta_mean_z": [
+                    0.1788,
+                    0.3476
+                ],
+                "labelings": 1623160
+            },
+            "emc_vs_fet_comparator": {
+                "t": 5.979,
+                "delta_mean_z": 0.2662,
+                "n_a": 6,
+                "n_b": 17,
+                "exact_two_sided_p": 5.9e-05,
+                "mc_two_sided_p": null,
+                "mc_standard_error": null,
+                "mc_draws": null,
+                "mc_seed": null,
+                "ci95_delta_mean_z": [
+                    0.1772,
+                    0.3553
+                ],
+                "labelings": 100947
+            },
+            "fet_comparator_vs_nonfet": {
+                "t": -0.16,
+                "delta_mean_z": -0.0075,
+                "n_a": 17,
+                "n_b": 12,
+                "exact_two_sided_p": null,
+                "mc_two_sided_p": 0.87255,
+                "mc_standard_error": 0.00075,
+                "mc_draws": 200000,
+                "mc_seed": 20260908,
+                "ci95_delta_mean_z": [
+                    -0.1008,
+                    0.0859
+                ],
+                "labelings": 51895935
+            },
+            "emc_vs_nonfet": {
+                "t": 4.876,
+                "delta_mean_z": 0.2588,
+                "n_a": 6,
+                "n_b": 12,
+                "exact_two_sided_p": 0.001401,
+                "mc_two_sided_p": null,
+                "mc_standard_error": null,
+                "mc_draws": null,
+                "mc_seed": null,
+                "ci95_delta_mean_z": [
+                    0.1526,
+                    0.3649
+                ],
+                "labelings": 18564
+            }
+        },
+        "MAT2A": {
+            "readable": true,
+            "n": {
+                "EMC": 6,
+                "LGFMS": 17,
+                "desmoid_fibromatosis": 6,
+                "fibrosarcoma": 6
+            },
+            "mean_z": {
+                "EMC": 2.279,
+                "LGFMS": 1.9515,
+                "desmoid_fibromatosis": 1.7916,
+                "fibrosarcoma": 2.0498
+            },
+            "emc_vs_all_comparators": {
+                "t": 4.132,
+                "delta_mean_z": 0.3403,
+                "n_a": 6,
+                "n_b": 29,
+                "exact_two_sided_p": null,
+                "mc_two_sided_p": 0.00255,
+                "mc_standard_error": 0.00011,
+                "mc_draws": 200000,
+                "mc_seed": 20260908,
+                "ci95_delta_mean_z": [
+                    0.1756,
+                    0.505
+                ],
+                "labelings": 1623160
+            },

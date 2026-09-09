@@ -1,0 +1,28 @@
+diff --git a/research/manuscripts/dependency/emc-atr-collaborator-package.md b/research/manuscripts/dependency/emc-atr-collaborator-package.md
+--- a/research/manuscripts/dependency/emc-atr-collaborator-package.md
++++ b/research/manuscripts/dependency/emc-atr-collaborator-package.md
+@@ -294,10 +294,20 @@ python3 research/modalities/emc_fet_frame_and_composition.py --check
+ python3 research/manuscripts/figures/emc_fusion_frame_figure.py --check
+ ```
+ 
+-The first command re-derives the per-construct assembly coordinates, the reading frames and the
+-recruitment-axis rows offline from the committed input cache
+-([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`;
+-it does not produce the frame rule, the type-2 seam arithmetic or the composition results. The second
++The first command re-derives the per-construct assembly coordinates, the reading frames and the
++recruitment-axis rows offline from the committed input cache
++([`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json)); it does not produce the
++frame rule, the type-2 seam arithmetic or the composition results. ⚠ Run today it prints
++`DRIFT in: ['gene_models', 'ensembl_vs_uniprot_sequences']` and exits 1, and that report is correct
++rather than a fault: the shared input cache gained a `PGR` transcript model on 2026-08-15, added by
++[`pgr_transcript_fetch.py`](../../modalities/pgr_transcript_fetch.py) for the PGR::NR4A3 fusion of
++PMID 36103645, and the committed artifact predates it. `PGR` is the only difference. Every other
++key — `constructs`, `wild_type_controls`, `rgg_dose_calibration_and_predictions`,
++`tcf12_negative_control` and the rest — re-derives identically, so no construct, coordinate,
++reading frame or axis row in this report is affected. ⛔ CORRECTED 2026-09-09; superseded wording
++retained verbatim: "... offline from the committed input cache (`emc-construct-inputs.json`) and
++prints `REPRODUCES`; it does not produce the frame rule, the type-2 seam arithmetic or the
++composition results." The second
+ re-derives those into
+ [`emc-fet-frame-and-composition.json`](../../modalities/emc-fet-frame-and-composition.json), printing
+ `REPRODUCES` when a fresh derivation matches the committed artifact and `DRIFT`, with a non-zero

@@ -1,0 +1,32 @@
+threshold: -0.5 n_models_total: 2105 n_sarcoma_models: 176
+
+=== KNOWN-ANSWER CONTROL (independent re-read) ===
+CDK7 {'sarcoma_mean': -1.847, 'rest_mean': -1.762, 'selectivity': 0.085, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.999, 'n_sarcoma': 91}
+CDK9 {'sarcoma_mean': -1.464, 'rest_mean': -1.447, 'selectivity': 0.017, 'sarcoma_frac_dependent': 1.0, 'rest_frac_dependent': 0.994, 'n_sarcoma': 91}
+distinct n_sarcoma across all gene records: {91} ; n gene records: 67
+
+=== UNIQUE-INTEGER SENSITIVITY for the five printed genes ===
+For each gene: which integers k in 0..n satisfy round(k/n, p) == stored fraction,
+for p = the number of decimals actually stored, and for p-1 (a looser store).
+  CDK7      stored=1.0      n=91 printed=91/91  decimals=1: compatible k = [87, 88, 89, 90, 91]
+  CDK7      stored=1.0      n=91 printed=91/91  decimals=0: compatible k = [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+            +/-0.005 band -> k in [91]
+  CDK9      stored=1.0      n=91 printed=91/91  decimals=1: compatible k = [87, 88, 89, 90, 91]
+  CDK9      stored=1.0      n=91 printed=91/91  decimals=0: compatible k = [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+            +/-0.005 band -> k in [91]
+  HSP90AA1  stored=0.055    n=91 printed=5/91   decimals=3: compatible k = [5]
+  HSP90AA1  stored=0.055    n=91 printed=5/91   decimals=2: compatible k = []
+            +/-0.005 band -> k in [5]
+  HSP90AB1  stored=0.187    n=91 printed=17/91  decimals=3: compatible k = [17]
+  HSP90AB1  stored=0.187    n=91 printed=17/91  decimals=2: compatible k = [17]
+            +/-0.005 band -> k in [17]
+  CDC37     stored=0.978    n=91 printed=89/91  decimals=3: compatible k = [89]
+  CDC37     stored=0.978    n=91 printed=89/91  decimals=2: compatible k = [89]
+            +/-0.005 band -> k in [89]
+
+=== rest_frac_dependent: is a denominator recoverable? ===
+  CDK7      rest_frac=0.999  n_rest key present: False  keys=['gene', 'sarcoma_mean', 'rest_mean', 'selectivity', 'sarcoma_frac_dependent', 'rest_frac_dependent', 'n_sarcoma']
+  CDK9      rest_frac=0.994  n_rest key present: False  keys=['gene', 'sarcoma_mean', 'rest_mean', 'selectivity', 'sarcoma_frac_dependent', 'rest_frac_dependent', 'n_sarcoma']
+  HSP90AA1  rest_frac=0.052  n_rest key present: False  keys=['gene', 'sarcoma_mean', 'rest_mean', 'selectivity', 'sarcoma_frac_dependent', 'rest_frac_dependent', 'n_sarcoma']
+  HSP90AB1  rest_frac=0.119  n_rest key present: False  keys=['gene', 'sarcoma_mean', 'rest_mean', 'selectivity', 'sarcoma_frac_dependent', 'rest_frac_dependent', 'n_sarcoma']
+  CDC37     rest_frac=0.987  n_rest key present: False  keys=['gene', 'sarcoma_mean', 'rest_mean', 'selectivity', 'sarcoma_frac_dependent', 'rest_frac_dependent', 'n_sarcoma']

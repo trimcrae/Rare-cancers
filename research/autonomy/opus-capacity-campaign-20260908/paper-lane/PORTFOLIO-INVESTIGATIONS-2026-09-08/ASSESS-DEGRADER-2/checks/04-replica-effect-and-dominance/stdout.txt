@@ -1,0 +1,21 @@
+== NR4A3 C397 per-replica distribution ==
+  release_rep0: n=25 min=0.1082 p10=0.1988 median=0.3312 max=0.6725 mean=0.3510
+  release_rep1: n=25 min=0.2722 p10=0.3556 median=0.4542 max=0.5468 mean=0.4448
+  release_rep2: n=25 min=0.2993 p10=0.3225 median=0.4128 max=0.5332 mean=0.4188
+  3 lowest rep0: ['0.1082', '0.1617', '0.1870', '0.2165', '0.2736']
+== rep0 vs rep1+rep2 mean shift: obs=0.0808  two-sided permutation p=0.00039 (N=200000)
+== above pooled ceiling 0.2126: rep0 22/25, rep1+2 50/50, Fisher two-sided p=0.0341
+== Wilson95 72/75 = 0.9600  [0.8889, 0.9863]
+== Wilson95 23/25 = 0.9200  [0.7503, 0.9778]
+== Wilson95 25/25 = 1.0000  [0.8668, 1.0000]
+== Wilson95 22/25 = 0.8800  [0.7004, 0.9583]
+== pooled dominance: 75x825=61875 pairs, 44 NOT dominated -> dominance 0.9993
+   discordance carried by 3 distinct C397 frames ['0.1082', '0.1617', '0.1870']
+   against 33 distinct paralogue observations, top ['0.2126', '0.2002', '0.1940', '0.1750', '0.1737', '0.1701', '0.1599', '0.1516']
+== frame-max dominance (75 x 150 paralogue FRAMES): 0.9962
+== ceiling vs sample size (mean max over 200 random subsets of paralogue observations)
+   n=  75  mean max=0.1590
+   n= 150  mean max=0.1768
+   n= 275  mean max=0.1950
+   n= 550  mean max=0.2071
+   n= 825  mean max=0.2126

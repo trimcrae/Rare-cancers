@@ -1,0 +1,14 @@
+Command output was lost: the temp filesystem at
+/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/tasks is full (0MB free).
+The child process's stdout/stderr writes failed with ENOSPC. Free up space or set
+CLAUDE_CODE_TMPDIR to a directory on a filesystem with room.
+
+Four consecutive Bash calls failed this way, including `echo probe` and a `df -h`, so the failure
+was the harness's output-capture filesystem and not any command under test. 649 *.output capture
+files were present in that directory.
+
+NOTHING WAS DELETED. CLAUDE.md section 8 directs that a real disk-floor problem be reported through
+existing ownership rather than resolved by freeing space, so no file in that directory or anywhere
+else was removed. The condition cleared on its own; the affected read was completed with the Read
+tool instead (.github/workflows/depmap-dependency.yml lines 130-159), and every check in this
+directory that needed a shell was run after it cleared.

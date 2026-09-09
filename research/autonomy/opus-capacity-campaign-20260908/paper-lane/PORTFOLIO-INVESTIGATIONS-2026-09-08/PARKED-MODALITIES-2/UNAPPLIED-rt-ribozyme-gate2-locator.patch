@@ -1,0 +1,44 @@
+diff --git a/systems/graph/routes.json b/systems/graph/routes.json
+index 9e7938ad0..8b42696e3 100644
+--- a/systems/graph/routes.json
++++ b/systems/graph/routes.json
+@@ -4557,7 +4557,7 @@
+       "post-degrader route 12"
+     ],
+     "grade": {
+-      "value": "Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
++      "value": "Tier 3 — vector delivery; a technique whose only retrieved solid-tumour clinical record is a single 2018 phase I trial (PMID 30393375) that reported no meaningful clinical benefit, with no later clinical record in the retrieved public record  ⚠ CORRECTED 2026-09-09 (PARKED-MODALITIES-2, dated closed PubMed retrieval; SUPERSEDED, RETAINED VERBATIM: \"Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing\"). THE ROUTE REMAINS PARKED on BLK-VECTOR-DELIVERY (gate 1), which is untouched by this correction. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied.",
+       "owner": {
+         "file": "research/manuscripts/program/emc-post-degrader-options.md",
+         "anchor": "#routes-813--why-each-sits-in-tier-3|route12"
+@@ -4595,7 +4595,7 @@
+     "revival_trigger": [
+       "TR-VECTOR-TUMOUR-DELIVERY"
+     ],
+-    "closure_note": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
++    "closure_note": "Vector delivery; and a technique with one retrieved solid-tumour clinical record (2018 phase I, PMID 30393375) and none later in the retrieved public record.  ⚠ CORRECTED 2026-09-09 (PARKED-MODALITIES-2, dated closed PubMed retrieval; SUPERSEDED, RETAINED VERBATIM: \"Vector delivery, and a technique with no modern solid-tumour clinical footing.\"). THE ROUTE REMAINS PARKED on BLK-VECTOR-DELIVERY (gate 1), which is untouched by this correction. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied.",
+     "strategy": "ST-NUCLEIC-ACID",
+     "publication": {
+       "endpoint": "PUB-PARKED-MODALITIES",
+@@ -4622,7 +4622,7 @@
+     "supporting_evidence": [],
+     "remaining_unknowns": [
+       "Vector delivery, as above.",
+-      "Whether the technique has any modern solid-tumour footing at all — it is largely a 2000s-era approach."
++      "Modern solid-tumour footing: ONE published solid-tumour clinical record was retrieved — PubMed, retrieved 2026-09-09 via the PubMed MCP route: PMID 30393375, doi 10.1038/s41417-018-0055-9, \"Phase I trial of intravenous Ad5CRT in patients with liver metastasis of gastrointestinal cancers.\", Cancer Gene Ther 2018;26(5-6):174-178, article types \"Clinical Trial, Phase I\"/\"Journal Article\" — a trans-splicing ribozyme targeting hTERT RNAs, delivered by adenovirus, in a solid-tumour indication. That trial reported the treatment as feasible and well tolerated and reported no meaningful clinical benefit; this repository asserts nothing beyond quoting it. Under the closed query \"trans-splicing ribozyme AND Clinical Trial[Publication Type]\" on 2026-09-09 (total_count=1, fully enumerated) no OTHER clinical record is in the retrieved public record. The unknown that actually remains is whether any post-2018 solid-tumour clinical work exists at all: none is in the retrieved public record under these queries, on this date, with this closure. Publication activity is NOT extinct — anchor query total_count=272 all years, 97 for 2000-2009, 55 for 2015-2026 — so \"largely a 2000s-era approach\" overstates a distribution it never cited.  ⚠ CORRECTED 2026-09-09 (PARKED-MODALITIES-2, dated closed PubMed retrieval; SUPERSEDED, RETAINED VERBATIM: \"Whether the technique has any modern solid-tumour footing at all — it is largely a 2000s-era approach.\"). THE ROUTE REMAINS PARKED on BLK-VECTOR-DELIVERY (gate 1), which is untouched by this correction. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied."
+     ],
+     "required_validation": [
+       {
+@@ -4642,10 +4642,10 @@
+     ],
+     "readiness": {
+       "attainable_today": "internal_note",
+-      "why_not_higher": "Two independent gates — delivery and a technique with no modern clinical footing — and no computation addresses either.",
++      "why_not_higher": "Two independent gates — delivery, and a clinical base consisting of a single retrieved 2018 phase I solid-tumour trial with no later retrieved record — and no computation addresses either.  ⚠ CORRECTED 2026-09-09 (PARKED-MODALITIES-2, dated closed PubMed retrieval; SUPERSEDED, RETAINED VERBATIM: \"Two independent gates — delivery and a technique with no modern clinical footing — and no computation addresses either.\"). THE ROUTE REMAINS PARKED on BLK-VECTOR-DELIVERY (gate 1), which is untouched by this correction. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied.",
+       "missing": [
+         "a solid-tumour vector",
+-        "a modern demonstration of trans-splicing ribozymes"
++        "a solid-tumour clinical demonstration later than the single retrieved 2018 phase I trial (PMID 30393375)  ⚠ CORRECTED 2026-09-09 (PARKED-MODALITIES-2, dated closed PubMed retrieval; SUPERSEDED, RETAINED VERBATIM: \"a modern demonstration of trans-splicing ribozymes\"). THE ROUTE REMAINS PARKED on BLK-VECTOR-DELIVERY (gate 1), which is untouched by this correction. No efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim is made or implied."
+       ]
+     },
+     "timing": {

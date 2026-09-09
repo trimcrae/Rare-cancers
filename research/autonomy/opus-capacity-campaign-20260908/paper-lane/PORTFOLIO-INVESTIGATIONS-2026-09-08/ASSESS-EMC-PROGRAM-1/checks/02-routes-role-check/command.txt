@@ -1,0 +1,16 @@
+python3 - <<'EOF'
+import json
+r=json.load(open("systems/graph/routes.json"))
+routes = r if isinstance(r,list) else r.get("routes",r)
+print("total routes:",len(routes))
+hits=[x for x in routes if x.get("publication")=="PUB-EMC-PROGRAM" or "EMC-PROGRAM" in json.dumps(x)]
+print("routes referencing PUB-EMC-PROGRAM:",len(hits))
+for x in hits:
+    print(x.get("id"), "| role=",x.get("role"), "| publication=",x.get("publication"), "| status=",x.get("status"), "| title=",str(x.get("title",""))[:80])
+# role distribution across all routes for context
+from collections import Counter
+print("role counter all routes:",Counter(x.get("role") for x in routes))
+# any other pub with zero owned routes?
+owned=Counter(x.get("publication") for x in routes if x.get("role")!="context")
+print("PUB-EMC-PROGRAM owned(non-context) routes:", owned.get("PUB-EMC-PROGRAM",0))
+EOF

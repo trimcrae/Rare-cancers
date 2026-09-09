@@ -1,0 +1,27 @@
+--- a/research/manuscripts/care-delivery/emc-trial-reachability.md
++++ b/research/manuscripts/care-delivery/emc-trial-reachability.md
+@@ -286,6 +286,24 @@
+ 3. Anyone building a matching tool should read criteria rather than match strings. Section 4 is the
+    demonstration, with two worked examples that a string matcher gets wrong.
+ 
++**Correction, 2026-09-09 — items 2 and 3 are not independent.** Item 2 above read, in full:
++*"Registries could index eligibility text, not only conditions."* That wording is retained here
++because it was stated as a free-standing good, and it is not one. Over the adjudicated records,
++moving a string screen from the index (titles and listed conditions) onto the posted eligibility
++text moves precision the wrong way: 0.75 to 0.57 for a combined histology-and-molecular lexicon
++across the seven records whose full posted criteria are stored, and 0.67 to 0.50 across the four
++whose criterion this paper quotes. The histology-name screen is the sharper case. The adjective
++*extra-skeletal* appears nowhere in NCT07188532's title or listed conditions; it is in its posted
++criterion. On the index that screen never fires at all, and across the criterion it fires exactly
++once, on a refusal — precision 0.00 at either denominator. So the text item 2 asks registries to
++index is the text that carries item 3's trap, and it carries it for the one term a patient is
++most likely to type, the name of their own histology: indexing criteria helps a reader and hurts a
++matcher. This paper does not resolve which recommendation should give way. The measurement is
++small and it is stated as such — seven records at the wider denominator and four at the narrower,
++neither a sample of the registry — and at n = 4 the combined-lexicon direction is reversed by a
++single label flip, on NCT07188532 itself; at n = 7 two flips are required. What a false hit costs
++the person it reaches is not measured anywhere here and is not a quantity any registry holds.
++
+ ## 7 · Data availability
+ 
+ Every trial identifier, every verbatim criterion quoted, and every adjudication is in

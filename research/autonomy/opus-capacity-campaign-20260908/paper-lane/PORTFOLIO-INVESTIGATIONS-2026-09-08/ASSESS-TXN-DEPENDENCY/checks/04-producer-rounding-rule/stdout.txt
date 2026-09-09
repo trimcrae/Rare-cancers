@@ -1,0 +1,29 @@
+== git hash-object ==
+fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9
+== rounding / fraction code ==
+20:(~ -1 is the median common-essential gene; < -0.5 we call "dependent").
+97:DEPENDENT_THRESHOLD = -0.5
+154:                # around `r.read(1<<20)` is never reached while a peer dribbles — measured: the
+254:            "sarcoma_mean": round(float(s.mean()), 3),
+255:            "rest_mean": round(float(r.mean()), 3),
+256:            "selectivity": round(float(r.mean() - s.mean()), 3),  # >0 = more essential in sarcoma
+257:            "sarcoma_frac_dependent": round(float((s < DEPENDENT_THRESHOLD).mean()), 3),
+258:            "rest_frac_dependent": round(float((r < DEPENDENT_THRESHOLD).mean()), 3),
+259:            "n_sarcoma": int(len(s)),
+275:                "mean_gene_effect": round(float(vals.mean()), 3),
+276:                "frac_dependent": round(float((vals < DEPENDENT_THRESHOLD).mean()), 3)}
+282:                           "frac_dependent vs the gene's rest_mean above",
+326:            "mean_gene_effect": round(float(v.mean()), 3),
+327:            "median_gene_effect": round(float(v.median()), 3),
+328:            "min_gene_effect": round(float(v.min()), 3),      # most-dependent line
+329:            "frac_dependent": round(float((v < DEPENDENT_THRESHOLD).mean()), 3),
+330:            "n_dependent_lines": int((v < DEPENDENT_THRESHOLD).sum()),
+336:                 "prior). More negative = more essential; frac_dependent = fraction of lines below "
+337:                 f"{DEPENDENT_THRESHOLD}. The tolerability argument for a NR4A3-selective degrader is "
+347:            and nr4a[g].get("frac_dependent", 1) < 0.05 for g in NR4A_PARALOGUES),
+353:                 "< -0.5 = dependent; selectivity = rest_mean - sarcoma_mean (>0 = sarcoma-"
+358:        "n_sarcoma_models": len(sarcoma_ids),
+359:        "dependent_threshold": DEPENDENT_THRESHOLD,
+364:        "BRD9_by_fusion_sarcoma_subtype": analogues,
+371:        "n_sarcoma_models": len(sarcoma_ids),
+397:    ax.axvline(DEPENDENT_THRESHOLD, ls="--", c="gray", lw=1)

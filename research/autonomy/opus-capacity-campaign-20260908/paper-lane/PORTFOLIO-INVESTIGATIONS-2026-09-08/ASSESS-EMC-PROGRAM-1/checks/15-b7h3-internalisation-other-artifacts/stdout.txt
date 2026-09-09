@@ -1,0 +1,95 @@
+=== research/modalities/aso-delivery-antigen.json ===
+3- "_why": "readiness.md records RT-ASO's one missing item as 'a named delivery candidate', and fusion-junction-aso-working-record.md \u00a73c's AOC shortlist came from a DepMap surrogate with no EMC and no normal tissue in it. Three EMC tumour cohorts and 27 normal-organ libraries now exist. This re-asks the question on that basis.",
+4- "_execution_model": "$0. Pure stdlib, no network, no GPU. Every number is read or derived from a committed artifact named in `_inputs`.",
+5: "_language_discipline": "\u26d4 NOTHING HERE ASSERTS EFFICACY, SAFETY, SELECTIVITY, A THERAPEUTIC WINDOW, ANTIGEN DENSITY, INTERNALISATION OR CLINICAL READINESS, AND NO SUCH QUANTITY IS COMPUTED ANYWHERE IN THIS MODULE. Every reading is TRANSCRIPT. No EMC patient has received any agent named here, and naming an antigen is not naming a therapy.",
+6- "_not_preregistered": "\u26a0 STATED PLAINLY: this analysis was written AFTER its input artifacts were visible, so no threshold here may be described as pre-registered. Two things limit the freedom that gives: the array rule (|t| >= 2) is `emc_expression_panels._cross_platform_verdict`'s OWN rule and is not chosen here, and the 3SEQ rule is the 90th percentile of the deposit's own distribution of the same ratio over 13,708 genes \u2014 a yardstick that existed in the artifact before this module did. Neither was tuned to the answer.",
+7- "_inputs": {
+8-  "lineage_axis_arrays": "research/modalities/emc-expression-panels.json -> gene_reads",
+9-  "exposure_axis_and_3SEQ_lineage_arm": "research/modalities/gse28866-tumour-vs-normal.json -> per_gene.values and ratio_calibration.per_gene",
+--
+124-    "NR4A3": "NUCLEAR receptor / transcription factor",
+125-    "PPARG": "NUCLEAR receptor / transcription factor",
+126:    "PRAME": "INTRACELLULAR cancer-testis antigen; reachable only as an HLA-presented peptide, which is a TCR/ImmTAC address and not an antibody-internalisation address",
+127-    "SEMA3C": "SECRETED semaphorin",
+128-    "VCAN": "SECRETED large chondroitin-sulfate proteoglycan \u2014 matrix, not a cell-surface address"
+129-   },
+130-   "genes_on_the_exposure_axis_with_no_topology_call": [],
+--
+135-   "PROTEIN. Every reading is transcript; transcript-to-protein correlation for membrane proteins is modest and is not measured anywhere in this repository.",
+136-   "SURFACE LOCALISATION and ANTIGEN DENSITY \u2014 the two quantities an antibody arm actually sees.",
+137:   "INTERNALISATION. An AOC must be endocytosed to release its oligonucleotide; nothing in this repository measures endocytic rate for any antigen.",
+138-   "COMPARTMENT. Bulk archival tissue cannot say whether a transcript sits in the tumour cell, the stroma, the vasculature, the immune infiltrate or an entrapped nerve \u2014 and EMC is hypocellular and matrix-dominated, which is where this bites hardest. A single-cell or spatial EMC dataset would settle it; none is in hand.",
+139-   "THE REST OF DELIVERY. Blood -> tumour -> cell -> endosomal escape is unaddressed by an antigen name, and the myxoid matrix is itself a diffusion barrier."
+140-  ]
+141- },
+--
+1188-  ],
+1189-  "still_cannot_say": [
+1190:   "That any antigen is a delivery handle. Nothing here measures protein, surface density, internalisation or endosomal escape.",
+1191-   "That the local/intratumoural route in \u00a73c is displaced. It remains the only delivery hypothesis in \u00a73c that needs no antigen at all, and this analysis strengthens rather than weakens that ordering.",
+1192-   "That the readiness register's missing item is discharged. 'A named delivery candidate' is still missing, and this module makes the reason precise instead of open."
+1193-  ]
+1194- },
+--
+1225-  "That an antigen absent from the exposure deposit is low in EMC or absent from normal tissue. It was not measured. \u26d4 An absent reading is not a reading of absence.",
+1226-  "That the HPA prior's RESTRICTED verdicts are vital-tissue-checked \u2014 they are not; see `hpa_vital_tissue_override_is_inert`.",
+1227:  "That naming an antigen would solve delivery. Blood-to-tumour distribution, matrix penetration, internalisation and endosomal escape are all untouched by anything here."
+1228- ]
+1229-}
+--- CD276/B7-H3 mentions:
+9
+=== research/modalities/alcam-precedent.json ===
+66-      }
+67-    },
+68:    "internalisation_which_an_ADC_requires": {
+69:      "what": "Whether the antigen internalises, which is the property a drug conjugate depends on and which expression data cannot report.",
+70:      "title": "Internalization and recycling of ALCAM/CD166 detected by a fully human single-chain recombinant antibody.",
+71-      "journal": "J Cell Sci 2005",
+72-      "pmid": "15769845",
+73-      "pmcid": null,
+74-      "doi": "10.1242/jcs.02280",
+--- CD276/B7-H3 mentions:
+0
+=== research/manuscripts/aso/lit-targets-aso-delivery-routes.json ===
+352-      "clinical_stage_language_present": false,
+353-      "corpus": "literature/inhaled-oligonucleotide-delivery (branch literature-cache)",
+354:      "abstract_verbatim": "RNA therapeutics hold strong potential for treating genetic disease, yet progress is often limited by delivery, stability, and safety concerns. Here, we profile respiratory safety and cellular uptake of an inhaled siRNA targeting the cardiac RyR2 gene, which is responsible for catecholaminergic polymorphic ventricular tachycardia (CPVT), delivered via inhalation with calcium phosphate nanoparticles (CaP NPs). Barrier integrity, cytotoxicity, siRNA uptake, and immune activation, were assessed using a human 3D normal bronchial epithelial model (NHBE) under Air-Liquid Interphase (ALI) and dendritic cells (DCs), tested in monoculture and in co-culture. Barrier function, measured by transepithelial electrical resistance (TEER), remained stable after 48 h of exposure to 400 nM siRNA RyR2, scramble control, or CaP NPs, indicating preserved epithelial performance. Confocal imaging showed efficient internalization of Cy5-labeled siRNA in both mono- and co-cultures. Cytokine profiling revealed IL-8 release across all conditions in NHBE and NHBE + DC models, with IL-6 and TNF-\u03b1 limited to immune-competent co-cultures; IFN-\u03b3 was below the limit of detection. No cytotoxicity was observed. Together, these data demonstrate that CaP NP-mediated delivery achieves robust siRNA uptake without compromising airway barrier integrity, while eliciting only modest, context-dependent immune responses (primarily IL-8 and TNF-\u03b1 in the presence of DCs). This work supports the respiratory safety and translational potential of inhaled RyR2-targeting siRNA for CPVT."
+355-    },
+356-    {
+357-      "id": "PMID: 41265762",
+358-      "pmid": "41265762",
+--
+397-      "clinical_stage_language_present": false,
+398-      "corpus": "literature/inhaled-oligonucleotide-delivery (branch literature-cache)",
+399:      "abstract_verbatim": "Pneumonic plague, caused by Yersinia pestis, remains a deadly threat due to its high mortality and rapid progression. In our previous study, Yersinia pestis antigens formulated with CpG oligodeoxynucleotides show great potential against pneumonic plague, but these agonists display low TLR9 affinity, poor stability, limited cellular uptake, and weak induction of tissue-resident memory immunity. Here, we introduce AdjCRU, a cruciform DNA nano-adjuvant built on a four-way junction with each arm presenting looped CpG motifs (LoDNA) for TLR9 engagement. Guided by computational design and molecular dynamics simulations, the four-way junction is chosen over other nanostructures for superior TLR9 binding. AdjCRU is nuclease-resistant, prepared by one-step annealing of four single-stranded oligonucleotides. When administered via aerosolized intratracheal inoculation alongside Yersinia pestis recombinant antigen rV10, AdjCRU is effectively internalized into lysosomes of antigen-presenting cell (APC), inducing markedly enhanced APC maturation, germinal center reaction, systemic and mucosal antibody titers, and T/B cell activation. Notably, rV10+AdjCRU drives robust lung-resident memory T/B cell immunity, and significantly improves survival by 40 % over free LoDNA in a lethal pneumonic plague mouse model. By integrating programmability, biocompatibility, and enhanced TLR9 stimulation into a single, modular platform, AdjCRU offers a versatile strategy for next-generation mucosal adjuvants against respiratory pathogens."
+400-    },
+401-    {
+402-      "id": "PMID: 41878126",
+403-      "pmid": "41878126",
+--
+427-      "clinical_stage_language_present": false,
+428-      "corpus": "literature/inhaled-oligonucleotide-delivery (branch literature-cache)",
+429:      "abstract_verbatim": "Pulmonary delivery for idiopathic pulmonary fibrosis (IPF) remains limited by two major barriers: the mucus layer and macrophage-mediated drug sequestration. Here, we report an inhalable nanosystem that transforms these macrophages-from barriers-into active carriers for targeted delivery of interleukin-11 (IL-11) antisense oligonucleotides (ASO). The nanosystem is efficiently internalized by alveolar macrophages, allowing it to traverse the mucus barrier through macrophage migration. Once internalized, it facilitates lysosomal escape via the proton sponge effect and releases IL-11 ASOs in response to elevated reactive oxygen species. Incorporation of EV-sorting motifs enables nearly 80 % of ASOs to be packaged into macrophage-derived EVs, thereby promoting targeted offloading within fibrotic regions. This EV-mediated transcellular delivery enhances ASO accumulation in fibroblasts by fourfold and suppresses IL-11 expression by sixfold. Collectively, this macrophage-assisted delivery platform effectively overcomes both mucus and cellular barriers, offering a promising therapeutic strategy for IPF."
+430-    },
+431-    {
+432-      "id": "PMID: 41810470",
+433-      "pmid": "41810470",
+--
+472-      "clinical_stage_language_present": false,
+473-      "corpus": "literature/inhaled-oligonucleotide-delivery (branch literature-cache)",
+474:      "abstract_verbatim": "Aspergillus fumigatus is a world-wide saprophyte filamentous fungus which released conidia, its infectious morphotype, in the atmosphere. These conidia are inhaled daily by humans and can colonize the respiratory tract, where they may develop into hyphae, the invasive morphotype. We previously showed that bronchial epithelial cells (BECs) restrict A. fumigatus virulence by inhibiting conidial germination and filament formation through a process requiring PI3K signaling and the conidial fucose-specific lectin FleA. In the present study, we are looking to identify host factors and cellular partners involved in the BEC antifungal response and to define the molecular interactions underpinning FleA recognition. For this, we analyzed transcriptome of BECs infected with A. fumigatus in the presence or absence of the PI3K inhibitor LY294002. Functional involvement of candidate genes was assessed by siRNA knockdown and readouts of fungal filamentation (microscopic scoring and galactomannan release). FleA-interacting host proteins were identified by biotin-FleA affinity co-precipitation coupled to Tandem mass spectrometry, and validated by surface plasmon resonance and biolayer interferometry. The spatiotemporal dynamics of FleA and candidate partners were analyzed by confocal microscopy and proximity ligation assay We demonstrated that BEC antifungal activity involves at least two complementary pathways: a PI3K/laminin-332 axis promoting conidial adhesion, and a FleA-dependent pathway engaging ITGB1 and MRC2 consistent with lectin uptake and trafficking toward LAMP1-positive compartments. These findings nominate FleA-host receptor interactions as attractive targets for anti-adhesive strategies against A. fumigatus . Author summary Fungal pathogens are an increasing threat to public health, as they are becoming more common and harder to treat due to rising drug resistance. Among them, Aspergillus fumigatus has been classified as a critical pathogen by the World Health Organization (WHO). This filamentous fungus delivers spores in the air daily, which are constantly inhaled by humans. In people with weakened immunity, these spores can cause a range of lung diseases known as aspergillosis, with severity ranging from mild to life-threatening. Lung epithelial cells are the first cells of the respiratory tract to encounter inhaled spores. In a previous study, we showed that bronchial cells can prevent spore from developing into filaments, the invasive form of A. fumigatus that is responsible for tissue damage. This protective effect depends of on the recognition of a fungal protein called FleA. In the present study, we identified host cell proteins that bind to FleA and transport it into intracellular compartments. Our findings suggest that these proteins help bronchial epithelial cells to internalize fungal spores, thereby blocking their transformation into the invasive filamentous form."
+475-    },
+476-    {
+477-      "id": "PMID: 41950283",
+478-      "pmid": "41950283",
+--
+667-      "clinical_stage_language_present": false,
+668-      "corpus": "literature/inhaled-oligo-lung-metastasis (branch literature-cache)",
+669:      "abstract_verbatim": "The lung represents a promising yet underexploited target for RNA therapeutics due to its large surface area and accessibility via non-invasive inhalation delivery. Despite rapid advances in RNA-based modalities, including small interfering RNA (siRNA), microRNA (miRNA), messenger RNA (mRNA), and CRISPR-Cas systems, efficient pulmonary delivery remains a major challenge. Multiple biological barriers, such as mucus and surfactant layers, mucociliary clearance, immune surveillance, and limited cellular uptake of negatively charged nucleic acids, significantly restrict therapeutic efficacy. In addition, aerosolization processes may introduce mechanical stress, compromising RNA integrity. Nanoparticle-based delivery systems have emerged as a central strategy to address these limitations. By protecting RNA cargo, enhancing mucus penetration, and promoting cellular internalization, engineered nanoparticles enable more effective pulmonary delivery. In this review, we adopt a barrier-centered perspective to examine the key biological obstacles to lung-targeted RNA delivery and highlight recent advances in nanoparticle-mediated strategies, with a focus on lipid nanoparticles, polymeric systems, and inorganic nanomaterials. We further discuss design principles that govern RNA stability, transport, and intracellular release and critically compare the strengths, limitations, and translational potential of each platform, including considerations of toxicity, biodegradability, and clinical readiness. Finally, we outline emerging clinical applications of RNA-loaded nanoparticles, using lung cancer as a representative disease model, and discuss remaining challenges and future directions. Continued innovation in nanoparticle engineering and delivery strategies is expected to accelerate the clinical translation of RNA therapeutics for pulmonary diseases."
+670-    },
+671-    {
+672-      "id": "PMID: 41544794",
+673-      "pmid": "41544794",
+--
+--- CD276/B7-H3 mentions:
+0

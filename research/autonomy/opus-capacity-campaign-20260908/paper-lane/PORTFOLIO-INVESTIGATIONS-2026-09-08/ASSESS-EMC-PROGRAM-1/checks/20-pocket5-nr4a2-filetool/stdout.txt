@@ -1,0 +1,17 @@
+selectivity_handles list (lines 244-248): ... R412, I484, I531, L534   [7 handles total]
+
+  {
+    "nr4a3": "I531",
+    "nr4a1": "V",
+    "nr4a2": "I",
+    "divergent": true
+  }
+
+=> I531 differs from NR4A1 (I vs V) but is IDENTICAL in NR4A2 (I vs I).
+   The artifact's `divergent: true` flag is therefore NR4A1-referenced.
+   7 handles divergent vs NR4A1; 6 of 7 divergent vs NR4A2.
+   EMC-PROGRAM-1 C13's re-derivation is exact.
+
+From check 17: the string "engageable" does not occur anywhere in
+nr4a-selectivity.json. The manuscript's "only 4 of the 5 engageable ones
+distinguish NR4A2" therefore cannot be derived from the artifact it cites.

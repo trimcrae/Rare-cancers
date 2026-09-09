@@ -1,0 +1,21 @@
+[chk] n_points=512 frames=50 targets=['NR4A1:release_rep2', 'NR4A3:release_rep0']
+[chk] independently derived offsets: [('NR4A1', 347), ('NR4A3', 372)]
+[chk] NR4A1/release_rep2: 25 frames, cysteines ['C465', 'C475', 'C505', 'C534', 'C551', 'C566']
+  C465: max=0.2142 median=0.0406 MISMATCH min: mine=0.007 committed=0.0106; p10: mine=0.0172 committed=0.0192; median: mine=0.0406 committed=0.0454; p90: mine=0.1245 committed=0.1164; max: mine=0.2142 committed=0.2126; mean: mine=0.0631 committed=0.0625; sd: mine=0.0539 committed=0.0525
+  C475: max=0.0448 median=0.0278 MISMATCH p10: mine=0.0072 committed=0.0053; median: mine=0.0278 committed=0.0265; p90: mine=0.0376 committed=0.0326; max: mine=0.0448 committed=0.0465; mean: mine=0.0245 committed=0.0228; sd: mine=0.0119 committed=0.0118
+  C505: max=0.0091 median=0.0 MISMATCH max: mine=0.0091 committed=0.0053; sd: mine=0.0018 committed=0.0014
+  C534: max=0.0105 median=0.0 MISMATCH max: mine=0.0105 committed=0.008; mean: mine=0.0004 committed=0.0003; sd: mine=0.0021 committed=0.0016
+  C551: max=0.1337 median=0.0313 MISMATCH p10: mine=0.0015 committed=0.0; median: mine=0.0313 committed=0.0318; p90: mine=0.0998 committed=0.1016; max: mine=0.1337 committed=0.1201; mean: mine=0.0427 committed=0.0421; sd: mine=0.0389 committed=0.0384
+  C566: max=0.0895 median=0.0408 MISMATCH min: mine=0.001 committed=0.0; p10: mine=0.0137 committed=0.0181; median: mine=0.0408 committed=0.0424; p90: mine=0.0739 committed=0.075; max: mine=0.0895 committed=0.0933; mean: mine=0.0423 committed=0.0447; sd: mine=0.0224 committed=0.023
+  >> ensemble max = 0.2142 at NR4A1 C465 frame fp_74_release_rep2
+[chk] NR4A3/release_rep0: 25 frames, cysteines ['C397', 'C420', 'C496', 'C506', 'C536', 'C559', 'C594']
+  C397: max=0.6579 median=0.3378 MISMATCH min: mine=0.0982 committed=0.1082; p10: mine=0.2208 committed=0.1988; median: mine=0.3378 committed=0.3312; p90: mine=0.4641 committed=0.4835; max: mine=0.6579 committed=0.6725; mean: mine=0.349 committed=0.351; sd: mine=0.1164 committed=0.119
+  C420: max=0.4535 median=0.2883 MISMATCH min: mine=0.1262 committed=0.1325; p10: mine=0.193 committed=0.1924; median: mine=0.2883 committed=0.2879; p90: mine=0.3616 committed=0.3663; max: mine=0.4535 committed=0.451; mean: mine=0.2763 committed=0.2764; sd: mine=0.0733 committed=0.0744
+  C496: max=0.0363 median=0.0244 MISMATCH min: mine=0.006 committed=0.0053; p10: mine=0.0123 committed=0.0095; median: mine=0.0244 committed=0.0212; p90: mine=0.035 committed=0.0332; max: mine=0.0363 committed=0.0371; mean: mine=0.0235 committed=0.0219; sd: mine=0.0081 committed=0.0091
+  C506: max=0.0477 median=0.0248 MISMATCH min: mine=0.005 committed=0.0053; p10: mine=0.0143 committed=0.0127; median: mine=0.0248 committed=0.0265; p90: mine=0.0391 committed=0.0424; max: mine=0.0477 committed=0.0504; mean: mine=0.0258 committed=0.0276; sd: mine=0.0101 committed=0.0116
+  C536: max=0.004 median=0.0 MISMATCH p90: mine=0.003 committed=0.0; max: mine=0.004 committed=0.008; mean: mine=0.0008 committed=0.0006; sd: mine=0.0012 committed=0.0022
+  C559: max=0.2871 median=0.1406 MISMATCH min: mine=0.0377 committed=0.0398; p10: mine=0.0912 committed=0.0892; median: mine=0.1406 committed=0.1316; p90: mine=0.1829 committed=0.1826; max: mine=0.2871 committed=0.2896; mean: mine=0.1451 committed=0.1392; sd: mine=0.0516 committed=0.0534
+  C594: max=0.0465 median=0.0301 MISMATCH min: mine=0.0129 committed=0.0106; p10: mine=0.0161 committed=0.0127; median: mine=0.0301 committed=0.034; p90: mine=0.0412 committed=0.0424; max: mine=0.0465 committed=0.0552; mean: mine=0.0302 committed=0.0308; sd: mine=0.0097 committed=0.0115
+  >> ensemble max = 0.6579 at NR4A3 C397 frame fp_16_7d2_dg8o
+[chk] TOTAL 104 statistics compared, 77 mismatches
+[chk] NR4A3 C397 frames <= 0.2126: [(0.0982, 'release_rep0', 'fp_41_xmzapaw0'), (0.1606, 'release_rep0', 'fp_37_h9k263rg')]

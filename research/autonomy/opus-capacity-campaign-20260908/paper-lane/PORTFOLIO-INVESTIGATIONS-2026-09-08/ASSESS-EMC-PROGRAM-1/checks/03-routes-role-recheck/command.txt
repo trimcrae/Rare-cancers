@@ -1,0 +1,20 @@
+python3 - <<'EOF'
+import json
+routes=json.load(open("systems/graph/routes.json"))
+n_ctx=0;n_own=0
+for x in routes:
+    p=x.get("publication")
+    ps = p if isinstance(p,list) else ([p] if p else [])
+    for e in ps:
+        if isinstance(e,dict) and e.get("endpoint")=="PUB-EMC-PROGRAM":
+            print(x["id"], e.get("role"))
+            if e.get("role")=="context": n_ctx+=1
+            else: n_own+=1
+        elif e=="PUB-EMC-PROGRAM":
+            print(x["id"],"BARE-STRING"); n_own+=1
+print("context:",n_ctx,"owned:",n_own)
+# also claims.json / evidence.json mentions
+for f in ["claims.json","evidence.json","artifacts.json","lanes.json","plan.json","roadmap.json"]:
+    s=open("systems/graph/"+f).read()
+    print(f, "mentions PUB-EMC-PROGRAM:", s.count("PUB-EMC-PROGRAM"))
+EOF

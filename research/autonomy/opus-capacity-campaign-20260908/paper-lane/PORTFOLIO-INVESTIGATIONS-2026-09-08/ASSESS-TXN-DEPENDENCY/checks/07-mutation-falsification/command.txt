@@ -1,0 +1,9 @@
+BASELINE run of a COPY of rederive_claims.py against an unmutated sandbox copy of the four artifacts, then a single-leaf mutation (HSP90AB1 sarcoma_frac_dependent 0.187 -> 0.198) and a re-run. The subject lane's files are never written.
+
+Three invocations, in order; exit_code.txt carries one line each:
+ 1. baseline run of the copied harness against the unmutated sandbox   -> 0
+ 2. mutate one leaf, re-run (filtered)                                  -> 0
+ 3. baseline + mutated re-run captured in full and diffed               -> 0
+The "(diff exit 1)" printed inside stdout.txt is the shell's $? AFTER the
+echo, not the diff's own status; diff reported differences, which is the
+intended result of this test. No exit code was fabricated or suppressed.

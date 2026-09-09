@@ -1,0 +1,86 @@
+==============================================================================
+1 . RE-DERIVATION of STRATEGY-ARCH-2's nine-row ablation, independent code
+==============================================================================
+lexicon          depth                           n TP FP TN FN precision  recall     vs prior
+histology_only   depth_A_index_only              4  0  0  2  2 undefined  0.0000     reproduces
+histology_only   depth_B_index_plus_criterion    4  0  1  1  2 0.0000     0.0000     reproduces
+histology_only   depth_C_criterion_only          4  0  1  1  2 0.0000     0.0000     reproduces
+molecular_only   depth_A_index_only              4  2  1  1  0 0.6667     1.0000     reproduces
+molecular_only   depth_B_index_plus_criterion    4  2  1  1  0 0.6667     1.0000     reproduces
+molecular_only   depth_C_criterion_only          4  1  1  1  1 0.5000     0.5000     reproduces
+union            depth_A_index_only              4  2  1  1  0 0.6667     1.0000     reproduces
+union            depth_B_index_plus_criterion    4  2  2  0  0 0.5000     1.0000     reproduces
+union            depth_C_criterion_only          4  1  2  0  1 0.3333     0.5000     reproduces
+
+MISMATCHES: 0
+
+==============================================================================
+2 . FRAGILITY of the headline: union precision falls depth A -> depth B, n = 4
+==============================================================================
+as scored:  union A precision = 0.6667 , B = 0.5000 , delta = -0.1667
+direction as published: B < A  (deeper string reading LOSES precision)
+
+  lexicon histology_only
+     MINIMUM FLIPS that remove the published direction: 1
+        flip NCT04151342  -> A=undefined B=0.0000  undefined
+        flip NCT06094101  -> A=undefined B=0.0000  undefined
+        flip NCT06571734  -> A=undefined B=0.0000  undefined
+        flip NCT07188532  -> A=undefined B=1.0000  undefined
+  lexicon molecular_only
+     MINIMUM FLIPS that remove the published direction: 1
+        flip NCT04151342  -> A=0.3333 B=0.3333  loss ERASED (equal)
+        flip NCT06094101  -> A=1.0000 B=1.0000  loss ERASED (equal)
+        flip NCT06571734  -> A=0.3333 B=0.3333  loss ERASED (equal)
+        flip NCT07188532  -> A=0.6667 B=0.6667  loss ERASED (equal)
+  lexicon union
+     MINIMUM FLIPS that remove the published direction: 1
+        flip NCT07188532  -> A=0.6667 B=0.7500  loss REVERSED (B > A)
+
+==============================================================================
+3 . DOES THE ELIGIBILITY TEXT EXIST ANYWHERE IN THIS CHECKOUT?
+==============================================================================
+git ls-tree origin/literature-cache exit=0, 72207 paths
+  NCT06571734  payloads in ref: ['literature/ct-confirm-four-candidates-2026-08-09/ct_nct06571734_zanzalintinib.txt']
+  NCT04151342  payloads in ref: ['literature/ct-confirm-four-candidates-2026-08-09/ct_nct04151342_carma.txt']
+  NCT06094101  payloads in ref: ['literature/ct-confirm-four-candidates-2026-08-09/ct_nct06094101_pervision.txt']
+  NCT07188532  payloads in ref: ['literature/ct-confirm-four-candidates-2026-08-09/ct_nct07188532_adaptive_rt.txt']
+  NCT05918640  payloads in ref: ['literature/ct-reverify-c3b-2026-08-07/ct_nct05918640_lurbi_fet.txt', 'literature/emc-clinical-sweep-c3-2026-08-07/ct_nct05918640_lurbi_fet.txt', 'literature/nct-status-verification/ctgov_NCT05918640.txt']
+  NCT05275426  payloads in ref: ['literature/ct-reverify-c3b-2026-08-07/ct_nct05275426_ly2880070.txt', 'literature/emc-clinical-sweep-c3-2026-08-07/ct_nct05275426_ly2880070.txt']
+  NCT07695311  payloads in ref: NONE
+  NCT07328425  payloads in ref: ['literature/ct-reverify-c3b-2026-08-07/ct_nct07328425_dsrct.txt', 'literature/emc-clinical-sweep-c3-2026-08-07/ct_nct07328425_dsrct.txt']
+
+  extracting eligibilityModule.eligibilityCriteria:
+     NCT06571734  -> literature/ct-confirm-four-candidates-2026-08-09/ct_nct06571734_zanzalintinib.txt ok (14080 chars, 9 orphaned '>')
+     NCT04151342  -> literature/ct-confirm-four-candidates-2026-08-09/ct_nct04151342_carma.txt ok (826 chars, 0 orphaned '>')
+     NCT06094101  -> literature/ct-confirm-four-candidates-2026-08-09/ct_nct06094101_pervision.txt ok (5664 chars, 5 orphaned '>')
+     NCT07188532  -> literature/ct-confirm-four-candidates-2026-08-09/ct_nct07188532_adaptive_rt.txt ok (1807 chars, 1 orphaned '>')
+     NCT05918640  -> literature/ct-reverify-c3b-2026-08-07/ct_nct05918640_lurbi_fet.txt ok (5090 chars, 3 orphaned '>')
+     NCT05275426  -> literature/ct-reverify-c3b-2026-08-07/ct_nct05275426_ly2880070.txt ok (4120 chars, 1 orphaned '>')
+     NCT07695311  -> NO per-record payload
+     NCT07328425  -> literature/ct-reverify-c3b-2026-08-07/ct_nct07328425_dsrct.txt ok (3470 chars, 0 orphaned '>')
+
+  ENLARGED SET: 7 records scorable at depth B/C (NCT04151342, NCT05275426, NCT05918640, NCT06094101, NCT06571734, NCT07188532, NCT07328425)
+  excluded: [('NCT07695311', 'no per-record payload in ref')]
+
+lexicon          depth                           n TP FP TN FN precision  recall    
+histology_only   depth_A_index_only              7  0  0  3  4 undefined  0.0000    
+histology_only   depth_B_index_plus_criterion    7  0  1  2  4 0.0000     0.0000    
+histology_only   depth_C_criterion_only          7  0  1  2  4 0.0000     0.0000    
+molecular_only   depth_A_index_only              7  3  1  2  1 0.7500     0.7500    
+molecular_only   depth_B_index_plus_criterion    7  4  2  1  0 0.6667     1.0000    
+molecular_only   depth_C_criterion_only          7  3  2  1  1 0.6000     0.7500    
+union            depth_A_index_only              7  3  1  2  1 0.7500     0.7500    
+union            depth_B_index_plus_criterion    7  4  3  0  0 0.5714     1.0000    
+union            depth_C_criterion_only          7  3  3  0  1 0.5000     0.7500    
+
+-- enlarged-set criterion, same test: depth B precision >= depth A precision? --
+  histology_only   A=undefined B=0.0000 -> undefined
+  molecular_only   A=0.7500 B=0.6667 -> REFUTED
+  union            A=0.7500 B=0.5714 -> REFUTED
+
+-- enlarged-set fragility (minimum label flips that remove the loss) --
+  histology_only   min_flips=1  e.g. NCT04151342, NCT05275426, NCT05918640, NCT06094101
+  molecular_only   min_flips=1  e.g. NCT04151342, NCT05918640, NCT06571734, NCT07328425
+  union            min_flips=2  e.g. NCT04151342,NCT05918640, NCT04151342,NCT06571734, NCT04151342,NCT07188532, NCT04151342,NCT07328425
+
+wrote research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-3/depth-fragility-and-extension.json

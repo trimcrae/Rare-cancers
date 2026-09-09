@@ -1,0 +1,12 @@
+python3 - <<'EOF'
+import json
+d=json.load(open("systems/graph/publications.json"))
+pubs = d["publications"] if isinstance(d,dict) and "publications" in d else d
+print("top-level keys:", list(d.keys()) if isinstance(d,dict) else type(d))
+print("n publications:", len(pubs))
+for p in (pubs if isinstance(pubs,list) else pubs.values()):
+    pid = p.get("id","")
+    if "EMC-PROGRAM" in str(pid).upper() or "roadmap" in str(p.get("document",{}).get("file","")):
+        print(json.dumps(p, indent=2)[:4000])
+EOF
+# cwd: /home/user/Rare-cancers

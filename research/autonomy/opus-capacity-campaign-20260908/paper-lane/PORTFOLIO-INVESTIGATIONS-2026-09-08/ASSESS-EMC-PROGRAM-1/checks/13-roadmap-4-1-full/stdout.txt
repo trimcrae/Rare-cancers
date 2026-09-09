@@ -1,0 +1,46 @@
+apt: NOR-1 is constitutively active and its output scales with **expression level** (Zaienne 2022,
+PMID 35704774 — ⛔ *superseded attribution, retained: "Munck 2022", which names no paper;*
+[`nr4a3-druggability-reconciliation.md` §5b](../../modalities/nr4a3-druggability-reconciliation.md)), so
+lowering protein lowers oncogenic activity. The modality has precedent — an NR4A1 PROTAC works (though
+it does **not** cross-degrade NR4A3, so NR4A3 needs its own warhead), NR4A3-selective ligand starting
+points exist (inverse NOR-1 agonists), and the first FDA-approved PROTAC (vepdegestrant, 2025; *to
+verify against the primary approval record before submission*) degrades a nuclear receptor.
+
+**What we add, and its honest weight.** The route's make-or-break premise is that EMC is *addicted* to
+its fusion (degrading it kills the cell). We cannot test EMC, so we report a **class-level prior**, and
+we are explicit that it is only that: in Ewing sarcoma, where the homologous EWS-FLI1 is the driver,
+**FLI1 has gene effect −0.93 and 74% of lines are dependent** (DepMap; `depmap-sarcoma-dependency.json`,
+n=27 Ewing lines). This supports *FET-fusion sarcomas being fusion-addicted as a class*. It does **not**
+establish NR4A3-fusion-specific dependence: EWS-FLI1 and EWSR1::NR4A3 share only the EWSR1 moiety, and
+their DNA-binding partners differ (an ETS factor whose neomorphic GGAA-microsatellite binding drives
+much of Ewing's addiction, vs. a nuclear receptor), so the analogy raises the prior without proving the
+case. **The decisive experiment we hand to others is the dTAG acute-degradation viability test in EMC
+lines; if degrading the fusion does not kill EMC cells, the route dies.**
+
+*Selectivity/safety (design constraint, not a result):* a LBD warhead also degrades wild-type NR4A3
+and could hit the paralogues NR4A1/NR4A2 — but ⚠ **those two are not one constraint.** Sparing **NR4A1
+is the HARD half**: NR4A1+NR4A3 double-loss → leukaemia in mice is the named anti-target genotype a
+non-selective degrader reconstitutes. Sparing **NR4A2 is the SOFT half**, best-effort: Nurr1/dopamine-neuron
+loss is bounded only for germline, developmental loss, not for the adult transient loss a degrader
+delivers. So the design target is **NR4A3-selective — NR4A1-sparing mandatory, NR4A2-sparing best-effort**
+(7 divergent pocket residues identified as selectivity handles, of which only 4 of the 5 engageable ones
+distinguish NR4A2; `nr4a-selectivity.json`). Full statement and evidence:
+[`nr4a3-program-map.md` §2.4](../nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+⚠ *Superseded, retained: "the design target is **NR4A3-selective, NR4A1/2-sparing**", which stated one bar
+over both paralogues.* This is a specification for the warhead, not a demonstrated property.
+
+*What we are running (WIP, pipelines built, results pending — not claimed here).* (i) Molecular
+dynamics of the NR4A3 LBD tests whether a transient/cryptic druggable pocket opens that the static
+AlphaFold model misses; a positive result would directly challenge the "undruggable" prior of §1.
+(ii) De-novo selective-warhead/binder design is scored against NR4A1/2. (iii) An AF3-class
+ternary-complex model of NR4A3–PROTAC–E3 geometry is re-primed now that open AF3-class tools shipped.
+These are the substance of the **split-out lead result paper** ([`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md)),
+which reports the cryptic-pocket result (the orthosteric pocket opens to fpocket druggability 0.751,
+above the calibrated drug-bound NR band — preliminary, 30 ns in progress); this EMC-program paper claims
+the program and the structural rationale, and cites that paper for the degrader's in-silico outputs.
+
+### 4.2 The fusion-junction ASO/siRNA (the uniquely tumour-specific route)
+The fusion *mRNA* junction exists in no normal transcript, so an antisense oligonucleotide (or siRNA)
+spanning it silences **only** the fusion — sparing wild-type NR4A3 *and* EWSR1. This is the one truly
+tumour-specific route (the protein degrader cannot be, since the druggable LBD is shared); 5
+fusion-specific gapmers are designed (`junction_aso.py`). It is lower on near-term feasibility, not in

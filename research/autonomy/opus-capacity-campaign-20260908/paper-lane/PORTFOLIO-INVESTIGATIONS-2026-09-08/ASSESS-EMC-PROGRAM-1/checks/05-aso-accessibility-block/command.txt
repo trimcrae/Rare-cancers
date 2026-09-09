@@ -1,0 +1,4 @@
+python3 -c "
+import json;d=json.load(open(\"research/modalities/aso-insilico-evaluation.json\"))
+print(json.dumps({k:d[k] for k in [\"_note\",\"accessibility\",\"offtarget_screen\",\"sirna_note\"]},indent=2))
+print(json.dumps(d[\"top_designs\"][0],indent=2))"

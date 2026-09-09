@@ -1,0 +1,8 @@
+# REAL cumulative apply on a scratch copy (git apply --check is NOT cumulative).
+# Scratch git repo containing only the manuscript at its committed content; apply
+# STRATEGY-ARCH-2's section-4 diff first, then STRATEGY-ARCH-3's section-6 diff.
+rm -rf $S && mkdir -p $S/research/manuscripts/care-delivery
+cp research/manuscripts/care-delivery/emc-trial-reachability.md $S/research/manuscripts/care-delivery/
+git -C $S init -q && git -C $S add -A && git -C $S -c user.email=x -c user.name=x commit -qm base
+git -C $S apply --verbose <STRATEGY-ARCH-2 section-4 diff>   # step 1
+git -C $S apply --verbose <STRATEGY-ARCH-3 section-6 diff>   # step 2
