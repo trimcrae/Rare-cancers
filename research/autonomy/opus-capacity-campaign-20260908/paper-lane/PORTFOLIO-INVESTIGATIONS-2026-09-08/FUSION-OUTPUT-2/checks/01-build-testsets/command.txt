@@ -1,0 +1,4 @@
+python3 build_testsets.py /tmp/claude-0/frozen-corpus/extracted/corpus/research/autonomy/nr4a3-program-source-2026-09-07/outputs/common-platform-membership.tsv > fusion-program-testsets.json
+
+# NOTE: the command redirects stdout to the named artifact file, which IS the full stdout.
+# checks/01-build-testsets/stdout.txt holds only the first bytes of that stream, for identification.

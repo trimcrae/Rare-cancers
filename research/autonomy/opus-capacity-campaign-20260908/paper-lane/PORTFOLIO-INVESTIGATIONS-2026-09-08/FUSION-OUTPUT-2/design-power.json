@@ -1,0 +1,341 @@
+{
+ "alpha": 0.05,
+ "artifact": "pre-registered detectability arithmetic",
+ "assumptions": "Pre-registered detectability arithmetic for the two NR4A3-program contrasts.\n\nPRE-REGISTRATION ARTIFACT. Analytic power only. NO expression value is read; no cohort\nmatrix is opened; no contrast is computed. Every input is a declared assumption or a\ncount taken from a frozen membership table or from the manuscript's own methods.\n\nModel (stated in full, and every term is an assumption, not a measurement):\n  * Per sample i and gene g the manuscript scores a within-array z, x_ig (Sec 2.3).\n    Assume Var(x_ig) = 1 across samples for every gene (exact only if the within-array\n    z has unit across-sample variance; in real data it does not, so these MDEs are\n    optimistic by whatever factor the true per-gene SD exceeds 1).\n  * A set score is S_i = mean_g x_ig over the m readable members (Sec 2.3).\n  * Assume a common average across-sample correlation rho between set members, so\n    Var(S) = (1 + (m-1) rho) / m  and  m_eff = m / (1 + (m-1) rho).\n  * Assume the alternative is a COMMON per-gene elevation d (SD units) shared by all m\n    members. A heterogeneous effect over the same mean is strictly harder to detect.\n  * Test: two-sided Welch t on per-sample set scores, EMC vs comparator, at 80% power,\n    with the repository's own MDE convention (W17c): critical sum = t_.975(df)+t_.80(df),\n    df taken as n1+n2-2 (Welch df is <= that, so this is again optimistic).\n\n  MDE(d) = (t_.975 + t_.80) * sqrt(1/n1 + 1/n2) * sqrt((1 + (m-1) rho) / m)\n\nNothing here says the effect exists. It says what size of effect the design could see.",
+ "cohorts": [
+  {
+   "n_comparator": 29,
+   "n_emc": 6,
+   "note": "comparator arm is itself FET-rearranged (LGFMS = FUS::CREB3L2); GPL6244 is the platform the common-platform memberships were built on",
+   "platform": "GPL6244",
+   "series": "GSE24369"
+  },
+  {
+   "n_comparator": 6,
+   "n_emc": 10,
+   "note": "two-colour cDNA, EST-accession symbol bridge (14,932 symbols); graded CIRCULAR for PPARG/EMC-elevation claims (manuscript Sec 3.8)",
+   "platform": "GPL3290",
+   "series": "GSE4303"
+  }
+ ],
+ "effective_independent_genes": {
+  "1000": {
+   "A": {
+    "0.0": 23.0,
+    "0.1": 7.188,
+    "0.2": 4.259,
+    "0.3": 3.026,
+    "0.5": 1.917
+   },
+   "B": {
+    "0.0": 4.0,
+    "0.1": 3.077,
+    "0.2": 2.5,
+    "0.3": 2.105,
+    "0.5": 1.6
+   }
+  },
+  "2000": {
+   "A": {
+    "0.0": 40.0,
+    "0.1": 8.163,
+    "0.2": 4.545,
+    "0.3": 3.15,
+    "0.5": 1.951
+   },
+   "B": {
+    "0.0": 7.0,
+    "0.1": 4.375,
+    "0.2": 3.182,
+    "0.3": 2.5,
+    "0.5": 1.75
+   }
+  },
+  "5000": {
+   "A": {
+    "0.0": 57.0,
+    "0.1": 8.636,
+    "0.2": 4.672,
+    "0.3": 3.202,
+    "0.5": 1.966
+   },
+   "B": {
+    "0.0": 6.0,
+    "0.1": 4.0,
+    "0.2": 3.0,
+    "0.3": 2.4,
+    "0.5": 1.714
+   }
+  }
+ },
+ "floor_feasibility": {
+  "1000": {
+   "A": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.957,
+    "min_readable_required": 4,
+    "n": 23,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 19
+   },
+   "B": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.75,
+    "min_readable_required": 4,
+    "n": 4,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 0
+   }
+  },
+  "2000": {
+   "A": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.975,
+    "min_readable_required": 4,
+    "n": 40,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 36
+   },
+   "B": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.857,
+    "min_readable_required": 4,
+    "n": 7,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 3
+   }
+  },
+  "5000": {
+   "A": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.982,
+    "min_readable_required": 4,
+    "n": 57,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 53
+   },
+   "B": {
+    "coverage_floor_0.4_binding": false,
+    "coverage_if_one_gene_unreadable": 0.833,
+    "min_readable_required": 4,
+    "n": 6,
+    "probe_dropouts_tolerated_before_the_set_emits_no_number": 2
+   }
+  }
+ },
+ "gene_counts": {
+  "1000": {
+   "A": 23,
+   "B": 4
+  },
+  "2000": {
+   "A": 40,
+   "B": 7
+  },
+  "5000": {
+   "A": 57,
+   "B": 6
+  }
+ },
+ "gene_counts_from": {
+  "input_sha256": "b54b3eda97c0663e052cfe52ac4b8dbae3914bbffad73a905de98de8873c801b",
+  "path": "fusion-program-testsets.json"
+ },
+ "mde_per_gene_sd_units": {
+  "1000": {
+   "A": {
+    "GSE24369": {
+     "0.0": 0.27,
+     "0.1": 0.483,
+     "0.2": 0.6274,
+     "0.3": 0.7443,
+     "0.5": 0.9353
+    },
+    "GSE4303": {
+     "0.0": 0.3244,
+     "0.1": 0.5803,
+     "0.2": 0.7539,
+     "0.3": 0.8943,
+     "0.5": 1.1238
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "0.0": 0.6474,
+     "0.1": 0.7382,
+     "0.2": 0.819,
+     "0.3": 0.8924,
+     "0.5": 1.0237
+    },
+    "GSE4303": {
+     "0.0": 0.7779,
+     "0.1": 0.887,
+     "0.2": 0.984,
+     "0.3": 1.0723,
+     "0.5": 1.23
+    }
+   }
+  },
+  "2000": {
+   "A": {
+    "GSE24369": {
+     "0.0": 0.2047,
+     "0.1": 0.4532,
+     "0.2": 0.6074,
+     "0.3": 0.7296,
+     "0.5": 0.927
+    },
+    "GSE4303": {
+     "0.0": 0.246,
+     "0.1": 0.5445,
+     "0.2": 0.7297,
+     "0.3": 0.8767,
+     "0.5": 1.1138
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "0.0": 0.4894,
+     "0.1": 0.6191,
+     "0.2": 0.7259,
+     "0.3": 0.819,
+     "0.5": 0.9788
+    },
+    "GSE4303": {
+     "0.0": 0.588,
+     "0.1": 0.7438,
+     "0.2": 0.8722,
+     "0.3": 0.984,
+     "0.5": 1.1761
+    }
+   }
+  },
+  "5000": {
+   "A": {
+    "GSE24369": {
+     "0.0": 0.1715,
+     "0.1": 0.4406,
+     "0.2": 0.5991,
+     "0.3": 0.7236,
+     "0.5": 0.9236
+    },
+    "GSE4303": {
+     "0.0": 0.2061,
+     "0.1": 0.5294,
+     "0.2": 0.7198,
+     "0.3": 0.8694,
+     "0.5": 1.1097
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "0.0": 0.5286,
+     "0.1": 0.6474,
+     "0.2": 0.7476,
+     "0.3": 0.8358,
+     "0.5": 0.989
+    },
+    "GSE4303": {
+     "0.0": 0.6352,
+     "0.1": 0.7779,
+     "0.2": 0.8983,
+     "0.3": 1.0043,
+     "0.5": 1.1883
+    }
+   }
+  }
+ },
+ "multiplicity_adjusted_mde_rho_0.2_primary_window": {
+  "1000": {
+   "A": {
+    "GSE24369": {
+     "alpha_0.05": 0.6274,
+     "alpha_0.05_over_28": 0.9238,
+     "alpha_0.05_over_3": 0.7334
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.7539,
+     "alpha_0.05_over_28": 1.1792,
+     "alpha_0.05_over_3": 0.8972
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "alpha_0.05": 0.819,
+     "alpha_0.05_over_28": 1.2058,
+     "alpha_0.05_over_3": 0.9573
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.984,
+     "alpha_0.05_over_28": 1.5392,
+     "alpha_0.05_over_3": 1.1711
+    }
+   }
+  },
+  "2000": {
+   "A": {
+    "GSE24369": {
+     "alpha_0.05": 0.6074,
+     "alpha_0.05_over_28": 0.8943,
+     "alpha_0.05_over_3": 0.7099
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.7297,
+     "alpha_0.05_over_28": 1.1415,
+     "alpha_0.05_over_3": 0.8685
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "alpha_0.05": 0.7259,
+     "alpha_0.05_over_28": 1.0689,
+     "alpha_0.05_over_3": 0.8486
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.8722,
+     "alpha_0.05_over_28": 1.3644,
+     "alpha_0.05_over_3": 1.0381
+    }
+   }
+  },
+  "5000": {
+   "A": {
+    "GSE24369": {
+     "alpha_0.05": 0.5991,
+     "alpha_0.05_over_28": 0.8821,
+     "alpha_0.05_over_3": 0.7003
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.7198,
+     "alpha_0.05_over_28": 1.1259,
+     "alpha_0.05_over_3": 0.8567
+    }
+   },
+   "B": {
+    "GSE24369": {
+     "alpha_0.05": 0.7476,
+     "alpha_0.05_over_28": 1.1008,
+     "alpha_0.05_over_3": 0.8739
+    },
+    "GSE4303": {
+     "alpha_0.05": 0.8983,
+     "alpha_0.05_over_28": 1.4051,
+     "alpha_0.05_over_3": 1.0691
+    }
+   }
+  }
+ },
+ "normal_critical_sum_for_reference": 2.801585,
+ "power": 0.8,
+ "resolution_limits_of_the_specificity_comparison": {
+  "rank_of_EWSR1_program_among_the_4_NR4A3_programs": {
+   "can_reach_alpha_0.05": false,
+   "meaning": "a pure rank statement inside the NR4A3 family cannot reach 0.05 at any effect size; only a magnitude test can, and it carries the 4-7 gene count below",
+   "smallest_attainable_p_one_sided": 0.25
+  },
+  "rank_of_index_program_among_28_alternative_programs": {
+   "can_reach_alpha_0.05": true,
+   "smallest_attainable_p_one_sided": 0.0345
+  },
+  "size_matched_empirical_null_4000_sets": {
+   "meaning": "a set can be at most this extreme against the manuscript's own null",
+   "smallest_attainable_p": 0.00025
+  }
+ },
+ "status": "DESIGN ONLY - no expression value read, no contrast computed"
+}
