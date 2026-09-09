@@ -1,0 +1,43 @@
+SPLIT GOLD ROW: {
+ "pmid": "35775709",
+ "sentence_indices": [
+  0
+ ],
+ "n_patients": 3,
+ "label": "mixed_see_note",
+ "death_status": "documented_death",
+ "mechanism_tier": "split_see_split_mechanism_tiers",
+ "quote": "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.",
+ "note": "One sentence, three patients, three different stories: congestive heart disease in a patient with lung and skin metastases (attribution genuinely ambiguous), hepatic metastasis (EMC progression), and cerebral haemorrhage explicitly WITHOUT tumour recurrence at 9.5 years (a competing death). Split in the tally as 1 ambiguous, 1 visceral_metastasis_complication, 1 competing_non_cancer.",
+ "split": {
+  "ambiguous": 1,
+  "visceral_metastasis_complication": 1,
+  "competing_non_cancer": 1
+ },
+ "split_mechanism_tiers": {
+  "ambiguous": "attribution_ambiguous",
+  "visceral_metastasis_complication": "assigned_broad_cause_category",
+  "competing_non_cancer": "stated_terminal_mechanism"
+ },
+ "split_stated_types": {
+  "competing_non_cancer": "named_terminal_event"
+ }
+}
+
+=== EMC-TITLED
+41799218 [0] Endovascular Thrombectomy in a Patient with Acute Ischemic Stroke due to Tumor Emboli Associated with Cardiac Metastasis of Extraskeletal Myxoid Chondrosarcoma: A Case Report.
+    Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.
+35775709 [0] Primary extraskeletal myxoid chondrosarcoma of the breast: report of a case and literature review.
+    Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.
+35910216 [0] Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myxoid Chondrosarcoma Patient With Aggressive Transformation.
+    Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.
+35910216 [1] Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myxoid Chondrosarcoma Patient With Aggressive Transformation.
+    Eventually, the patient was reluctant to undergo palliative chemotherapy and died of respiratory failure.
+
+=== NOT EMC-TITLED
+35399302 [0] INI-1-Deficient Sinonasal Carcinoma: Case Report with Emphasis on Differential Diagnosis.
+    Unfortunately, the patient developed cardiac arrest and died six months after the surgery.
+38264746 [2] Primary pulmonary nuclear protein of the testis midline carcinoma: case report and systematic review with pooled analysis.
+    The patient died of respiratory failure on January 9, 2021, after an overall disease course of approximately 7 months.
+33946310 [1] Trastuzumab Deruxtecan: Changing the Destiny of HER2 Expressing Solid Tumors.
+    Fatal outcomes due to AEs occurred in 4.3% of patients, with ILD being the most frequent cause (2.6%), followed by acute hepatic failure and acute kidney injury, general physical health deterioration, pneumonia and hemorrhagic shock (0.4% each).

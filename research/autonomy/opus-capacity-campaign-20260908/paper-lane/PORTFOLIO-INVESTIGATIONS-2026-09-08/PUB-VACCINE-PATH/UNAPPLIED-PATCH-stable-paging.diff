@@ -1,0 +1,40 @@
+# UNAPPLIED. Prepared by the PUB-VACCINE-PATH portfolio lane, 2026-09-08.
+# This lane writes only under its own directory, so this diff is stated and NOT applied.
+# It is a proposal for the owner of research/modalities/vaccine_threshold_calibration.py.
+#
+# Defect: limit/offset paging is ordered by `linear_sequence`, which is not a row-unique key
+# (one peptide recurs across alleles, assays and references). PostgREST gives no total order
+# under a non-unique sort key, so rows can be SKIPPED as well as repeated across pages.
+# fetch_table's `seen` set hides repeats but cannot recover a skip, and arm F's probes are
+# declared exhaustive, so any skip lands on the preregistered min_n gate as an undercount.
+# Row-unique columns confirmed present in the live schema recorded by the 2026-09-01 run:
+#   mhc_search  -> elution_id, structure_id
+#   tcell_search -> tcell_id, structure_id
+#
+--- a/research/modalities/vaccine_threshold_calibration.py
++++ b/research/modalities/vaccine_threshold_calibration.py
+@@ ORDER_BY
+-ORDER_BY = "linear_sequence"
++#: Paging needs a TOTAL order, so the sort key must be row-unique; `linear_sequence` alone is
++#: not (one peptide recurs across alleles, assays and references) and offset paging over it can
++#: skip rows silently. Keep the sequence grouping, then break ties on the table's own row id.
++ORDER_BY_TIEBREAK = {"mhc_search": "elution_id", "tcell_search": "tcell_id"}
++ORDER_BY_FALLBACK = "structure_id"
++
++def order_by(table, table_columns):
++    tie = ORDER_BY_TIEBREAK.get(table, ORDER_BY_FALLBACK)
++    if tie not in set(table_columns):
++        tie = ORDER_BY_FALLBACK if ORDER_BY_FALLBACK in set(table_columns) else None
++    return "linear_sequence" if tie is None else f"linear_sequence,{tie}"
+@@ fetch_table (paged URL)
+-                   f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
++                   f"&order={order_by(table, table_columns)}&limit={PAGE}&offset={page * PAGE}")
+@@ fetch_general (paged URL)
+-               f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
++               f"&order={order_by(table, table_columns)}&limit={PAGE}&offset={page * PAGE}")
+#
+# NOTE: fetch_table does not currently receive the live column list; applying this needs
+# `table_columns` threaded into fetch_table exactly as fetch_general already receives it, and
+# the tie-break column added to the `select` list so PostgREST can order on it.
+# If the tie-break column is unavailable, the honest fallback is to record that paging was
+# ordered on a non-unique key and that the count is a LOWER BOUND, not an exhaustive fetch.

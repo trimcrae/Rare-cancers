@@ -1,0 +1,167 @@
+{
+ "_what": "Resolving-power calibration of the sarcoma-line dependency transfer used by PUB-BIOMARKER-DEP. Derived arithmetic only; no data fetched, no producer re-run.",
+ "input_artifact": "research/modalities/depmap-sarcoma-dependency.json",
+ "input_data_source": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv",
+ "dependent_threshold": -0.5,
+ "n_sarcoma_models_in_release": 176,
+ "integrality_check": {
+  "genes_checked": 61,
+  "n_screened_sarcoma_lines_implied": 91,
+  "all_fractions_imply_whole_line_counts": true,
+  "failures": [],
+  "_meaning": "sarcoma_frac_dependent x n_sarcoma is integral for every gene, so the denominator of every sarcoma-level dependency fraction in the panel is the same 91 SCREENED lines - not the 176 sarcoma models the release contains."
+ },
+ "stated_positive_controls": [
+  {
+   "control": "BRD9 in synovial (the panel's own stated expected-positive)",
+   "gene": "BRD9",
+   "n_lines": 5,
+   "k_dependent": 1,
+   "frac_dependent": 0.2,
+   "wilson95": [
+    0.0362,
+    0.6245
+   ],
+   "panel_background_frac_dependent_rest": 0.017,
+   "panel_background_frac_dependent_sarcoma": 0.022,
+   "fisher_p_vs_rest_panel": 0.0838
+  },
+  {
+   "control": "SMARCB1 in rhabdoid (the panel's other stated expected-positive)",
+   "gene": "SMARCB1",
+   "n_lines": 13,
+   "k_dependent": 1,
+   "frac_dependent": 0.077,
+   "wilson95": [
+    0.0137,
+    0.3331
+   ],
+   "panel_background_frac_dependent_rest": 0.839,
+   "panel_background_frac_dependent_sarcoma": 0.758,
+   "fisher_p_vs_rest_panel": 0.0
+  }
+ ],
+ "brd9_by_subtype_with_intervals": [
+  {
+   "subtype": "Ewing",
+   "present_in_release": true,
+   "gene": "BRD9",
+   "n_lines": 27,
+   "k_dependent": 0,
+   "frac_dependent": 0.0,
+   "wilson95": [
+    0.0,
+    0.1246
+   ]
+  },
+  {
+   "subtype": "Synovial",
+   "present_in_release": true,
+   "gene": "BRD9",
+   "n_lines": 5,
+   "k_dependent": 1,
+   "frac_dependent": 0.2,
+   "wilson95": [
+    0.0362,
+    0.6245
+   ]
+  },
+  {
+   "subtype": "Myxoid_liposarcoma",
+   "present_in_release": false
+  },
+  {
+   "subtype": "Alveolar_RMS",
+   "present_in_release": true,
+   "gene": "BRD9",
+   "n_lines": 8,
+   "k_dependent": 0,
+   "frac_dependent": 0.0,
+   "wilson95": [
+    0.0,
+    0.3244
+   ]
+  }
+ ],
+ "exact_power_subtype_vs_panel": {
+  "_method": "two-sided Fisher exact, full table enumeration weighted by independent binomials; valid at n=5 where a normal approximation is not.",
+  "rows": [
+   {
+    "subtype_n": 5,
+    "background_frac_dependent": 0.022,
+    "background_n": 91,
+    "alpha": 0.05,
+    "power_if_true_subtype_rate_0.4": 0.6577,
+    "power_if_true_subtype_rate_0.6": 0.9094,
+    "power_if_true_subtype_rate_0.8": 0.9925,
+    "power_if_true_subtype_rate_1.0": 1.0
+   },
+   {
+    "subtype_n": 8,
+    "background_frac_dependent": 0.022,
+    "background_n": 91,
+    "alpha": 0.05,
+    "power_if_true_subtype_rate_0.4": 0.8259,
+    "power_if_true_subtype_rate_0.6": 0.9781,
+    "power_if_true_subtype_rate_0.8": 0.9995,
+    "power_if_true_subtype_rate_1.0": 1.0
+   },
+   {
+    "subtype_n": 13,
+    "background_frac_dependent": 0.022,
+    "background_n": 91,
+    "alpha": 0.05,
+    "power_if_true_subtype_rate_0.4": 0.9547,
+    "power_if_true_subtype_rate_0.6": 0.9988,
+    "power_if_true_subtype_rate_0.8": 1.0,
+    "power_if_true_subtype_rate_1.0": 1.0
+   },
+   {
+    "subtype_n": 27,
+    "background_frac_dependent": 0.022,
+    "background_n": 91,
+    "alpha": 0.05,
+    "power_if_true_subtype_rate_0.4": 0.9985,
+    "power_if_true_subtype_rate_0.6": 1.0,
+    "power_if_true_subtype_rate_0.8": 1.0,
+    "power_if_true_subtype_rate_1.0": 1.0
+   },
+   {
+    "subtype_n": 91,
+    "background_frac_dependent": 0.022,
+    "background_n": 91,
+    "alpha": 0.05,
+    "power_if_true_subtype_rate_0.4": 1.0,
+    "power_if_true_subtype_rate_0.6": 1.0,
+    "power_if_true_subtype_rate_0.8": 1.0,
+    "power_if_true_subtype_rate_1.0": 1.0
+   }
+  ]
+ },
+ "resolving_threshold": {
+  "min_n_for_80pct_power_at_true_rate_0.8": 3,
+  "min_n_for_80pct_power_at_true_rate_1.0": 2,
+  "_meaning": "the smallest biomarker-defined subtype in which a dependency present in 80-100% of lines could be distinguished from the panel's 0.022 background at 80% power, alpha 0.05."
+ },
+ "dispersion_gap": {
+  "per_gene_fields_recorded": [
+   "gene",
+   "n_sarcoma",
+   "rest_frac_dependent",
+   "rest_mean",
+   "sarcoma_frac_dependent",
+   "sarcoma_mean",
+   "selectivity"
+  ],
+  "records_any_dispersion": false,
+  "records_per_line_values": false,
+  "_consequence": "the committed panel stores means and fractions only. A mean with no dispersion and no per-line values admits NO interval or power statement on the continuous gene-effect scale; every calibration above is therefore restricted to the binarised dependent/not readout, which discards information the producer had and did not keep."
+ },
+ "matched_evidence_check": {
+  "_question": "does any committed artifact hold a biomarker and a dependency measured in the SAME models, which is what a biomarker-selected class claim needs?",
+  "biomarker_axis_artifact": "research/modalities/emc-expression-panels.json - 16 EMC tumours + comparators, expression only, no dependency, no cell line.",
+  "dependency_axis_artifact": "research/modalities/depmap-sarcoma-dependency.json - sarcoma cell lines, dependency only, no expression field, no per-line values, no EMC line.",
+  "models_in_common": 0,
+  "verdict": "NO MATCHED EVIDENCE EXISTS IN THIS REPOSITORY for any of the five classes. The two axes share no model, and neither artifact carries the other's measurement. The only biomarker-stratified dependency contrast committed anywhere here is BRD9 by sarcoma subtype, and the calibration above shows it is unresolvable at the n it has."
+ }
+}

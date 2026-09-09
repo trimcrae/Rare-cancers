@@ -1,0 +1,503 @@
+{
+ "_what_this_is": "Is the mechanism-of-death silence measured in EMC's literature a property of THAT\nliterature, or the base rate of how death is written about in the same retrieval?\n\nTwo questions, in order, both about MEASUREMENT and neither about cause or survival:\n\n Q1 (instrument)  What are the operating characteristics, against the hand-read gold\n                  standard, of the only automatic mechanism detector this repository\n                  owns -- `has_mechanism_cue` in research/literature/emc-mortality-probe.json?\n                  The probe's own README calls it \"a retrieval hint, not a finding\" and\n                  the classified file says a regex must never assign a mechanism. Neither\n                  states what the hint actually scores.\n Q2 (comparator)  IF and ONLY IF Q1 supports it, does the cue-positive rate differ between\n                  the 34 EMC-titled papers and the 128 same-retrieval papers that are not\n                  about this disease?\n\nNo new retrieval. Reads two committed artifacts read-only. Writes one JSON.",
+ "_not_a_clinical_claim": "Nothing here says what any patient died of, and nothing here is a survival, causal or clinical statement. Every number is a property of TEXT: which sentences a regular expression matches, and how those matches line up with a hand-read tier. A flagged sentence is not a death and not a mechanism.",
+ "inputs": {
+  "probe": "research/literature/emc-mortality-probe.json",
+  "gold": "research/manuscripts/emc-terminal-events-classified.json",
+  "emc_title_regex": "myxoid chondrosarcoma|chordoid sarcoma|NR4A3"
+ },
+ "integrity_stored_flag_vs_rerun": {
+  "sentences_checked": 577,
+  "mismatches": 0,
+  "examples": []
+ },
+ "corpus": {
+  "papers_with_death_sentences": 162,
+  "emc_titled_papers": 34,
+  "emc_titled_sentences": 116,
+  "other_papers": 128,
+  "other_sentences": 461
+ },
+ "q1_instrument_vs_gold": {
+  "shipped_has_mechanism_cue": {
+   "by_tier": {
+    "stated_terminal_mechanism/named_terminal_event": {
+     "rows": 2,
+     "flagged_rows": 2,
+     "patients": 2,
+     "flagged_patients": 2
+    },
+    "assigned_broad_cause_category": {
+     "rows": 8,
+     "flagged_rows": 3,
+     "patients": 17,
+     "flagged_patients": 5
+    },
+    "not_applicable_death_not_documented": {
+     "rows": 2,
+     "flagged_rows": 1,
+     "patients": 2,
+     "flagged_patients": 1
+    },
+    "stated_terminal_mechanism/named_disease_entity": {
+     "rows": 1,
+     "flagged_rows": 0,
+     "patients": 1,
+     "flagged_patients": 0
+    },
+    "no_cause_or_mechanism_stated": {
+     "rows": 4,
+     "flagged_rows": 0,
+     "patients": 27,
+     "flagged_patients": 0
+    },
+    "split_see_split_mechanism_tiers": {
+     "rows": 1,
+     "flagged_rows": 1,
+     "patients": 3,
+     "flagged_patients": 3
+    }
+   },
+   "gold_rows_flagged": 7,
+   "gold_rows_total": 18,
+   "flagged_emc_sentences_no_gold_row_cites": 4,
+   "false_positive_examples": [
+    {
+     "pmid": "41799218",
+     "i": 2,
+     "sentence": "11 , 39 , 40 ) Table 1 shows that 4 of the 11 patients with available postoperative prognoses died in the short term despite technically successful endovascular therapy."
+    },
+    {
+     "pmid": "35494187",
+     "i": 4,
+     "sentence": "A previous case series of 17 patients, who received palliative EBRT for sarcoma using 39 Gy in 13 fractions showed durable pain control in 80% of cases, with less toxicity [ 17 ]."
+    },
+    {
+     "pmid": "27418251",
+     "i": 0,
+     "sentence": "No subjects withdrew from the study due to toxicity, and no deaths were assessed as drug-related."
+    },
+    {
+     "pmid": "22925697",
+     "i": 0,
+     "sentence": "Since EMC has a high rate of recurrence and metastases, and the death caused by tumor often occurs in a long postoperative period, sometimes more than 10 years after diagnosis, so we suggest that frequent and long-term follow up is needed for our patient."
+    }
+   ]
+  },
+  "strict_terminal_event": {
+   "by_tier": {
+    "stated_terminal_mechanism/named_terminal_event": {
+     "rows": 2,
+     "flagged_rows": 2,
+     "patients": 2,
+     "flagged_patients": 2
+    },
+    "assigned_broad_cause_category": {
+     "rows": 8,
+     "flagged_rows": 0,
+     "patients": 17,
+     "flagged_patients": 0
+    },
+    "not_applicable_death_not_documented": {
+     "rows": 2,
+     "flagged_rows": 0,
+     "patients": 2,
+     "flagged_patients": 0
+    },
+    "stated_terminal_mechanism/named_disease_entity": {
+     "rows": 1,
+     "flagged_rows": 0,
+     "patients": 1,
+     "flagged_patients": 0
+    },
+    "no_cause_or_mechanism_stated": {
+     "rows": 4,
+     "flagged_rows": 0,
+     "patients": 27,
+     "flagged_patients": 0
+    },
+    "split_see_split_mechanism_tiers": {
+     "rows": 1,
+     "flagged_rows": 1,
+     "patients": 3,
+     "flagged_patients": 3
+    }
+   },
+   "gold_rows_flagged": 3,
+   "gold_rows_total": 18,
+   "flagged_emc_sentences_no_gold_row_cites": 0,
+   "false_positive_examples": []
+  }
+ },
+ "q2_corpus_comparison": {
+  "shipped_has_mechanism_cue": {
+   "emc_titled": {
+    "sentences": 116,
+    "flagged": 12,
+    "rate": 0.1034,
+    "wilson95": [
+     0.0602,
+     0.1721
+    ],
+    "papers": 34,
+    "papers_with_ge1_flag": 9,
+    "paper_rate": 0.2647,
+    "paper_wilson95": [
+     0.146,
+     0.4312
+    ],
+    "flagged_sentences": [
+     "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
+     "11 , 39 , 40 ) Table 1 shows that 4 of the 11 patients with available postoperative prognoses died in the short term despite technically successful endovascular therapy.",
+     "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.",
+     "In our research of the 16 primary intracranial EMC cases available in the literature, 3 did not have any information on the prognosis of patients, and in 2 cases, the patients died from non-EMC-related factors after surgery.",
+     "Only 1 out of the 11 patients who underwent PR died from local recurrence and spinal metastasis of primary intracranial EMC at 36 mo after surgery[ 9 ].",
+     "A previous case series of 17 patients, who received palliative EBRT for sarcoma using 39 Gy in 13 fractions showed durable pain control in 80% of cases, with less toxicity [ 17 ].",
+     "No subjects withdrew from the study due to toxicity, and no deaths were assessed as drug-related.",
+     "Of the remaining five patients, two showed tumor recurrences and two died due to postoperative complications 2 , 14 , 15 , 17) .",
+     "Due to persistent anemia and gastrointestinal bleeding, the patient case was presented to the multidisciplinary tumor board, and it was recommended to proceed with palliative small bowel tumor resection.",
+     "Since EMC has a high rate of recurrence and metastases, and the death caused by tumor often occurs in a long postoperative period, sometimes more than 10 years after diagnosis, so we suggest that frequent and long-term follow up is needed for our patient.",
+     "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
+     "Eventually, the patient was reluctant to undergo palliative chemotherapy and died of respiratory failure."
+    ]
+   },
+   "not_emc_titled": {
+    "sentences": 461,
+    "flagged": 16,
+    "rate": 0.0347,
+    "wilson95": [
+     0.0215,
+     0.0556
+    ],
+    "papers": 128,
+    "papers_with_ge1_flag": 15,
+    "paper_rate": 0.1172,
+    "paper_wilson95": [
+     0.0723,
+     0.1844
+    ],
+    "flagged_sentences": [
+     "Thway et al. reported a case of postoperative mortality due to brain metastasis ( 8 ), highlighting the potential for aggressive behavior in certain instances.",
+     "Forty-two (10.3%) deaths of the disease were recorded, while 17 patients (4.2%) died of causes unrelated to their STS.",
+     "Excluding 44 cases for which functional scores could not be obtained due to death or other reasons, the remaining 167 patients had a postoperative MSTS score averaging (26.0 \u00b1 3.2) points, with scores ranging from 9 to 30 points.",
+     "Data extraction For each study, we extracted key details including the first author\u2019s name, publication year, patient count, study design information, clinicopathological characteristics (such as age, gender, histotype, objective response by RECIST, line of therapy, toxicity types, and treatment adherence), follow-up data, and hazard ratios (HRs) for progression and/or mortality, along with their 95% confidence intervals (CIs).",
+     "Overall, CCRT should not be considered standard of care for localized STS but may be considered in select clinical scenarios, such as in patients who are not surgical candidates or in cases where surgery would be associated with substantial morbidity and mortality (e.g., cardiac location).",
+     "From the data cutoff date of August 2023, 9 patients withdrew their informed consent, 3 withdrew due to AEs, 23 were discontinued due to PD, 1 visit exceeded the scheduled window due to COVID-19, 2 died for reasons unrelated to PD, and 2 withdrew based on the investigator\u2019s assessment.",
+     "Although the partial response was obtained in a CT scan one month after starting therapy, the patient was admitted to the hospital due to SARS-CoV2 pneumonia and died after two weeks.",
+     "A CT scan showed a partial response after two months of therapy, but less than one month later, the patient was admitted with a severe respiratory infection and died within one week.",
+     "Patient compliance was tracked by Study Diary and treatment continued until disease progression, intercurrent illness preventing agent administration, unacceptable toxicity, patient refusal, noncompliance with study requirements, pregnancy or breast feeding, or death.",
+     "Secondary endpoints were the distant LM-free interval from first SBRT to next relapse or last follow-up, other secondary end points were OS from first LM event to last follow-up or death, prognostic factors affecting multimodal treatments, and SBRT toxicity.",
+     "Unfortunately, the patient developed cardiac arrest and died six months after the surgery.",
+     "The patient received azithromycin and tocilizumab for COVID-19 infection, and after recovery, palliative chemotherapy was planned.",
+     "Subsequently, surgical intervention was performed to avert the risk of hemorrhage and fatality ( 7 ).",
+     "The patient died of respiratory failure on January 9, 2021, after an overall disease course of approximately 7 months.",
+     "Fatal toxicity has followed high-dose large volume radiotherapy after BuMel HDT [ 163 , 164 ].",
+     "Fatal outcomes due to AEs occurred in 4.3% of patients, with ILD being the most frequent cause (2.6%), followed by acute hepatic failure and acute kidney injury, general physical health deterioration, pneumonia and hemorrhagic shock (0.4% each)."
+    ]
+   },
+   "fisher_exact_two_sided_sentence_level": 0.005748,
+   "direction": "emc_higher"
+  },
+  "strict_terminal_event": {
+   "emc_titled": {
+    "sentences": 116,
+    "flagged": 4,
+    "rate": 0.0345,
+    "wilson95": [
+     0.0135,
+     0.0853
+    ],
+    "papers": 34,
+    "papers_with_ge1_flag": 3,
+    "paper_rate": 0.0882,
+    "paper_wilson95": [
+     0.0305,
+     0.2296
+    ],
+    "flagged_sentences": [
+     "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset.",
+     "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab.",
+     "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure.",
+     "Eventually, the patient was reluctant to undergo palliative chemotherapy and died of respiratory failure."
+    ]
+   },
+   "not_emc_titled": {
+    "sentences": 461,
+    "flagged": 3,
+    "rate": 0.0065,
+    "wilson95": [
+     0.0022,
+     0.019
+    ],
+    "papers": 128,
+    "papers_with_ge1_flag": 3,
+    "paper_rate": 0.0234,
+    "paper_wilson95": [
+     0.008,
+     0.0666
+    ],
+    "flagged_sentences": [
+     "Unfortunately, the patient developed cardiac arrest and died six months after the surgery.",
+     "The patient died of respiratory failure on January 9, 2021, after an overall disease course of approximately 7 months.",
+     "Fatal outcomes due to AEs occurred in 4.3% of patients, with ILD being the most frequent cause (2.6%), followed by acute hepatic failure and acute kidney injury, general physical health deterioration, pneumonia and hemorrhagic shock (0.4% each)."
+    ]
+   },
+   "fisher_exact_two_sided_sentence_level": 0.03304,
+   "direction": "emc_higher"
+  }
+ },
+ "gold_rows": [
+  {
+   "pmid": "35910216",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_terminal_event",
+   "has_stored_label": true,
+   "label": "respiratory_failure",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": true
+   },
+   "quote": "Here, we present a case which initially demonstrated a typical indolent course of EMC, but rapidly progressed after the marginal resection and eventually died of pulmonary failure."
+  },
+  {
+   "pmid": "29977924",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "respiratory_failure",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "One patient died due to lung metastases."
+  },
+  {
+   "pmid": "41799218",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_terminal_event",
+   "has_stored_label": true,
+   "label": "respiratory_failure",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": true
+   },
+   "quote": "Despite slight neurological recovery, the patient died of respiratory failure on the 15th day after onset."
+  },
+  {
+   "pmid": "28638563",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "locoregional_complication",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "The patient received adjuvant radiotherapy but died after 1 year of follow-up due to complications of locoregional tumor dissemination to the skull base."
+  },
+  {
+   "pmid": "35665108",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "locoregional_complication",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": false
+   },
+   "quote": "Only 1 out of the 11 patients who underwent PR died from local recurrence and spinal metastasis of primary intracranial EMC at 36 mo after surgery[ 9 ]."
+  },
+  {
+   "pmid": "35665108",
+   "n_patients": 2,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "competing_non_cancer",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": false
+   },
+   "quote": "In our research of the 16 primary intracranial EMC cases available in the literature, 3 did not have any information on the prognosis of patients, and in 2 cases, the patients died from non-EMC-related factors after surgery."
+  },
+  {
+   "pmid": "36097623",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "emc_progressive_disease",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "The patient subsequently underwent radiation to the brain and failed systemic treatment with chemotherapy and immunotherapy, with the development of further metastases ultimately resulting in death."
+  },
+  {
+   "pmid": "23213584",
+   "n_patients": 1,
+   "death_status": "death_not_documented_complication_recorded",
+   "mechanism_tier": "not_applicable_death_not_documented",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "visceral_metastasis_complication",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": false
+   },
+   "quote": "Due to persistent anemia and gastrointestinal bleeding, the patient case was presented to the multidisciplinary tumor board, and it was recommended to proceed with palliative small bowel tumor resection."
+  },
+  {
+   "pmid": "23115670",
+   "n_patients": 2,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "treatment_related",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": false
+   },
+   "quote": "Of the remaining five patients, two showed tumor recurrences and two died due to postoperative complications 2 , 14 , 15 , 17) ."
+  },
+  {
+   "pmid": "32963861",
+   "n_patients": 1,
+   "death_status": "documented_death",
+   "mechanism_tier": "stated_terminal_mechanism",
+   "stated_type": "named_disease_entity",
+   "has_stored_label": true,
+   "label": "second_malignancy",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "The patient was followed for 126 months, after which he died from complications of unresectable colon cancer."
+  },
+  {
+   "pmid": "35251555",
+   "n_patients": 2,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "second_malignancy",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "Two patients with EMC died during follow-up from concurrent malignancies ( Table 2 )."
+  },
+  {
+   "pmid": "35251555",
+   "n_patients": 2,
+   "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
+   "stated_type": null,
+   "has_stored_label": false,
+   "label": "mechanism_unstated",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "Both patients that presented with metastatic disease to the lungs died within 17 months ( Table 2 )."
+  },
+  {
+   "pmid": "35775709",
+   "n_patients": 3,
+   "death_status": "documented_death",
+   "mechanism_tier": "split_see_split_mechanism_tiers",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "mixed_see_note",
+   "flags": {
+    "shipped_has_mechanism_cue": true,
+    "strict_terminal_event": true
+   },
+   "quote": "Three patients died 9 months (the patient with lung and skin metastasis later developed congestive heart disease), 10 months (the patient with hepatic metastasis), and 9.5 years (cerebral hemorrhage but no tumor recurrence) following the primary diagnosis ( Tab."
+  },
+  {
+   "pmid": "22569967",
+   "n_patients": 2,
+   "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
+   "stated_type": null,
+   "has_stored_label": false,
+   "label": "mechanism_unstated",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "Two patients died of disease 8 months after the initial diagnosis."
+  },
+  {
+   "pmid": "25177237",
+   "n_patients": 3,
+   "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
+   "stated_type": null,
+   "has_stored_label": false,
+   "label": "mechanism_unstated",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "Three patients died during the time-frame of the study, 1 was lost to follow up, and 9 are still alive."
+  },
+  {
+   "pmid": "36326382",
+   "n_patients": 7,
+   "death_status": "documented_death",
+   "mechanism_tier": "assigned_broad_cause_category",
+   "stated_type": null,
+   "has_stored_label": true,
+   "label": "emc_progressive_disease",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "While recurrence developed in 5 (38.5%) of the patients during follow-up, lung metastasis (46.2%) was detected in 6 patients, and 7 patients (53.8%) died due to the disease and complications related to the disease."
+  },
+  {
+   "pmid": "32612944",
+   "n_patients": 20,
+   "death_status": "documented_death",
+   "mechanism_tier": "no_cause_or_mechanism_stated",
+   "stated_type": null,
+   "has_stored_label": false,
+   "label": "mechanism_unstated",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "With a median follow-up time of 72 months, 20 patients have died."
+  },
+  {
+   "pmid": "21941486",
+   "n_patients": 1,
+   "death_status": "death_not_documented_care_transition_recorded",
+   "mechanism_tier": "not_applicable_death_not_documented",
+   "stated_type": null,
+   "has_stored_label": false,
+   "label": "mechanism_unstated",
+   "flags": {
+    "shipped_has_mechanism_cue": false,
+    "strict_terminal_event": false
+   },
+   "quote": "The patient consequently deteriorated clinically and was referred for palliative radiation and transitioned to supportive care."
+  }
+ ]
+}

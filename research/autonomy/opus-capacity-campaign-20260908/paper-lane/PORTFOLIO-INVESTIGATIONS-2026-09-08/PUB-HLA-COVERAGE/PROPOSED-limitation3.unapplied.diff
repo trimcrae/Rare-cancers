@@ -1,0 +1,29 @@
+# UNAPPLIED. The manuscript is FROZEN for an independent review; nothing here was applied.
+--- a/research/manuscripts/neoantigen/hla-coverage-emc.md
++++ b/research/manuscripts/neoantigen/hla-coverage-emc.md
+@@ -514,11 +514,20 @@
+ 2. **Coverage is a modelled projection, not an observation.** No patient was HLA-typed for this
+    analysis. Coverage is arithmetic over pooled population allele frequencies; clinical
+    eligibility requires the *individual's* HLA type.
+-3. **Frequencies are a SECONDARY source and can go stale.** They come from an AFND *mirror*
+-   (section 2.2), not from AFND directly, and the artifact records only that they were "retrieved
+-   from MIT-licensed mirror", so mirror lag, AFND revisions and survey composition all propagate
+-   here unchecked. A refreshed retrieval would give a different model estimate on a later date; it is an
+-   optional distinct future version of this analysis, not a gate on reporting the frozen build.
++3. **Frequencies are a SECONDARY source, and the mirror is static rather than drifting.** They
++   come from an AFND *mirror* (section 2.2), not from AFND directly, and the artifact records no
++   retrieval date. The mirror's data file is nevertheless identifiable: `afnd.tsv` has exactly one
++   commit in the mirror's history, `af3f00bf8d05c25081634e5857ee536f520eefee` of 2023-03-15, and the
++   repository's last commit of any kind is 2024-04-22 (README only), so every retrieval since
++   2023-03-15 has returned the same blob, git blob `036b93ee314c9f58b70272b0198216602c3f1ef2`,
++   sha256 `2436932578b04ded18a06b11788557c7660ee893e5bd93f4bf8c79e898bbe80c`, 6,282,337 bytes.
++   Re-pooling that live file through this analysis's own producer functions on 2026-09-09 reproduces
++   every global per-allele figure of section 3.1 and every regional per-allele frequency of
++   section 3.2 exactly, including the three `null` (UNKNOWN) leaves. **A refreshed retrieval
++   therefore does not give a different estimate; it gives this one.** The residual risk runs the
++   other way: because the mirror is a frozen 2023-03-15 republication, it does not track later AFND
++   revisions, and mirror-versus-AFND fidelity is not verified anywhere in this analysis. Survey
++   composition still propagates unchecked (limitation 9).
+ 4. **Class-II coverage is bounded by a 23-allele panel, and that does not make it a guaranteed
+    floor on eligibility.** The class-I binders come from a broad allele scan; the class-II screen
+    tested the 23 alleles enumerated in `_class_ii_note` for one junction, and exactly one of them,

@@ -1,0 +1,20 @@
+Proposed, UNAPPLIED. Prepared by the PUB-MONOVALENT portfolio-investigation lane, 2026-09-09.
+Target file is owned outside this lane (research/modalities/), so it is NOT edited here.
+It narrows a scope statement; it weakens no guard, gate, floor or test, and changes no computed number.
+
+--- a/research/modalities/nr4a3_covalent_handle_ensemble.py
++++ b/research/modalities/nr4a3_covalent_handle_ensemble.py
+@@ -642,7 +642,14 @@
+     "absent_input": ("There is no experimental NR4A1 or NR4A2 LBD ensemble in this repo, so the like-for-"
+                      "like ensemble comparison the question really wants CANNOT be made from what is here. "
+-                     "That is a missing input, not a negative result."),
++                     "That is a missing input, not a negative result. "
++                     "⚠ SCOPE, added 2026-09-09: 'ensemble' is meant literally and this sentence must not "
++                     "be read as 'no experimental paralogue LBD coordinates exist here'. Ten experimental "
++                     "NR4A2 LBD protein chains ARE committed — research/modalities/_s4_lane_inputs/"
++                     "1OVL.pdb.gz (6 chains) and 7WNH.pdb.gz (4 chains), UniProt P43354, both resolving all "
++                     "five NR4A2 LBD cysteines including Cys534 — so a single-structure model-vs-experiment "
++                     "check of the NR4A2 competitor-cysteine geometry IS available offline at $0. What is "
++                     "still absent is a Boltzmann- or restraint-weighted experimental paralogue ENSEMBLE, "
++                     "and for NR4A1 no experimental LBD coordinates are committed at all."),
+ }

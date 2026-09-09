@@ -1,0 +1,218 @@
+{
+ "_question": "Is the frozen coverage build's upstream AFND snapshot identifiable, and does the live mirror still reproduce it?",
+ "_run_utc": "2026-09-09T00:03:47Z",
+ "mirror_history": {
+  "repo": "https://github.com/slowkow/allelefrequencies",
+  "afnd_tsv_commits": [
+   "af3f00bf8d05c25081634e5857ee536f520eefee 2023-03-15T16:03:08+00:00 concatenate into one file"
+  ],
+  "head": "9c0eaa94d034890b19d681f591d9bad202440cfc",
+  "head_date": "2024-04-22T21:02:53-04:00",
+  "afnd_tsv_blob_at_head": "036b93ee314c9f58b70272b0198216602c3f1ef2"
+ },
+ "live_file": {
+  "url": "https://raw.githubusercontent.com/slowkow/allelefrequencies/main/afnd.tsv",
+  "bytes": 6282337,
+  "sha256": "2436932578b04ded18a06b11788557c7660ee893e5bd93f4bf8c79e898bbe80c",
+  "git_blob_sha1": "036b93ee314c9f58b70272b0198216602c3f1ef2",
+  "matches_blob_at_head": true
+ },
+ "recomputed": {
+  "source_ok": true,
+  "unassigned": {
+   "populations": 0,
+   "individuals": 0
+  },
+  "global": {
+   "HLA-A*01:01": {
+    "allele_frequency": 0.0641,
+    "af_95ci": [
+     0.0622,
+     0.066
+    ],
+    "carrier_frequency": 0.124,
+    "n_populations": 210,
+    "total_individuals": 32777,
+    "af_range_across_populations": [
+     0.0,
+     0.333
+    ]
+   },
+   "HLA-B*07:02": {
+    "allele_frequency": 0.048,
+    "af_95ci": [
+     0.0464,
+     0.0498
+    ],
+    "carrier_frequency": 0.0938,
+    "n_populations": 175,
+    "total_individuals": 30647,
+    "af_range_across_populations": [
+     0.0,
+     0.19
+    ]
+   },
+   "HLA-B*15:01": {
+    "allele_frequency": 0.0435,
+    "af_95ci": [
+     0.0422,
+     0.0448
+    ],
+    "carrier_frequency": 0.085,
+    "n_populations": 265,
+    "total_individuals": 45574,
+    "af_range_across_populations": [
+     0.0,
+     0.4007
+    ]
+   },
+   "DRB1*14:01": {
+    "allele_frequency": 0.033,
+    "af_95ci": [
+     0.032,
+     0.0341
+    ],
+    "carrier_frequency": 0.065,
+    "n_populations": 365,
+    "total_individuals": 53005,
+    "af_range_across_populations": [
+     0.0,
+     0.34
+    ]
+   }
+  }
+ },
+ "comparison_global": {
+  "HLA-A*01:01": {
+   "frozen": {
+    "allele_frequency": 0.0641,
+    "af_95ci": [
+     0.0622,
+     0.066
+    ],
+    "carrier_frequency": 0.124,
+    "n_populations": 210,
+    "total_individuals": 32777,
+    "af_range_across_populations": [
+     0.0,
+     0.333
+    ]
+   },
+   "recomputed": {
+    "allele_frequency": 0.0641,
+    "af_95ci": [
+     0.0622,
+     0.066
+    ],
+    "carrier_frequency": 0.124,
+    "n_populations": 210,
+    "total_individuals": 32777,
+    "af_range_across_populations": [
+     0.0,
+     0.333
+    ]
+   },
+   "identical": true,
+   "fields_differing": []
+  },
+  "HLA-B*07:02": {
+   "frozen": {
+    "allele_frequency": 0.048,
+    "af_95ci": [
+     0.0464,
+     0.0498
+    ],
+    "carrier_frequency": 0.0938,
+    "n_populations": 175,
+    "total_individuals": 30647,
+    "af_range_across_populations": [
+     0.0,
+     0.19
+    ]
+   },
+   "recomputed": {
+    "allele_frequency": 0.048,
+    "af_95ci": [
+     0.0464,
+     0.0498
+    ],
+    "carrier_frequency": 0.0938,
+    "n_populations": 175,
+    "total_individuals": 30647,
+    "af_range_across_populations": [
+     0.0,
+     0.19
+    ]
+   },
+   "identical": true,
+   "fields_differing": []
+  },
+  "HLA-B*15:01": {
+   "frozen": {
+    "allele_frequency": 0.0435,
+    "af_95ci": [
+     0.0422,
+     0.0448
+    ],
+    "carrier_frequency": 0.085,
+    "n_populations": 265,
+    "total_individuals": 45574,
+    "af_range_across_populations": [
+     0.0,
+     0.4007
+    ]
+   },
+   "recomputed": {
+    "allele_frequency": 0.0435,
+    "af_95ci": [
+     0.0422,
+     0.0448
+    ],
+    "carrier_frequency": 0.085,
+    "n_populations": 265,
+    "total_individuals": 45574,
+    "af_range_across_populations": [
+     0.0,
+     0.4007
+    ]
+   },
+   "identical": true,
+   "fields_differing": []
+  },
+  "DRB1*14:01": {
+   "frozen": {
+    "allele_frequency": 0.033,
+    "af_95ci": [
+     0.032,
+     0.0341
+    ],
+    "carrier_frequency": 0.065,
+    "n_populations": 365,
+    "total_individuals": 53005,
+    "af_range_across_populations": [
+     0.0,
+     0.34
+    ]
+   },
+   "recomputed": {
+    "allele_frequency": 0.033,
+    "af_95ci": [
+     0.032,
+     0.0341
+    ],
+    "carrier_frequency": 0.065,
+    "n_populations": 365,
+    "total_individuals": 53005,
+    "af_range_across_populations": [
+     0.0,
+     0.34
+    ]
+   },
+   "identical": true,
+   "fields_differing": []
+  }
+ },
+ "all_global_identical": true,
+ "regional_mismatches": {},
+ "regional_all_match": true
+}

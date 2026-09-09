@@ -1,0 +1,234 @@
+{
+ "_utc": "2026-09-09T00:04:19Z",
+ "_cost": "$0 - CPU only, no network, no GPU, no paid API. Both inputs already committed.",
+ "_question": "Does any MEASURED epitope record in this repository correspond to an EWSR1::NR4A3 junction peptide, at exact correspondence, and could such a correspondence be attributed to the fusion rather than to a false match?",
+ "\u26d4_what_this_is_not": "Predicted binding is a prediction throughout. A miss is a statement about these records, not about any tumour. A hit would not establish presentation, because the cached records do not carry the assay method.",
+ "_inputs": {
+  "junction_artifact": {
+   "file": "research/modalities/fusion-breakpoint-neoantigens.json",
+   "utc": "2026-08-19T16:26:49Z",
+   "n_junctions": 5
+  },
+  "measured_records": {
+   "file": "research/modalities/iedb-validated-epitope-cache.json",
+   "utc": "2026-09-01T21:25:43Z",
+   "n_arm_F": 988,
+   "n_arm_N": 965,
+   "filters_already_applied": "positive assay outcome only; lengths 8-11; 4-digit HLA-A/B/C restriction"
+  }
+ },
+ "n_junction_peptides": 174,
+ "n_predicted_binders": 11,
+ "n_distinct_measured_peptides": 1224,
+ "T1_exact_correspondence": {
+  "n": 0,
+  "hits": []
+ },
+ "T2_substring_correspondence": {
+  "n": 0,
+  "hits": []
+ },
+ "T3_isobaric_IL_false_match_control": {
+  "n": 0,
+  "hits": [],
+  "note": "MS/MS does not separate Leu from Ile; a hit here is a sequence a spectrum could not separate."
+ },
+ "T4_armF_provenance_control": {
+  "n_armF_records": 988,
+  "n_human_gene_fusion_named": 8,
+  "n_fusion_word_only_or_viral": 931,
+  "n_unclassified": 49,
+  "distinct_source_antigen_strings": 44,
+  "human_gene_fusion_antigens": [
+   "PML-RARA-regulated adapter molecule 1 (UniProt:Q96QH2)"
+  ],
+  "armF_source_antigen_census": [
+   {
+    "antigen": "Entry-fusion complex associated protein OPG095 (UniProt:P07612)",
+    "n_records": 146
+   },
+   {
+    "antigen": "Ubiquitin-like FUBI-ribosomal protein eS30 fusion protein (UniProt:P62861)",
+    "n_records": 140
+   },
+   {
+    "antigen": "Vacuolar fusion protein CCZ1 homolog B (UniProt:P86790)",
+    "n_records": 137
+   },
+   {
+    "antigen": "PALM2-AKAP2 fusion protein (UniProt:Q9Y2D5)",
+    "n_records": 115
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62987)",
+    "n_records": 84
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62979)",
+    "n_records": 45
+   },
+   {
+    "antigen": "Fusion glycoprotein F0 (UniProt:O36634)",
+    "n_records": 38
+   },
+   {
+    "antigen": "Vacuolar fusion protein MON1 homolog B (UniProt:Q7L1V2)",
+    "n_records": 30
+   },
+   {
+    "antigen": "CNK3/IPCEF1 fusion protein (UniProt:G9CGD6)",
+    "n_records": 30
+   },
+   {
+    "antigen": "TCF3 fusion partner (UniProt:P0C1Z6)",
+    "n_records": 28
+   },
+   {
+    "antigen": "Entry-fusion complex protein OPG086 (UniProt:P68458)",
+    "n_records": 20
+   },
+   {
+    "antigen": "Fusion glycoprotein F0 (UniProt:Q786F3)",
+    "n_records": 17
+   },
+   {
+    "antigen": "Chimeric ERCC6-PGBD3 protein (UniProt:P0DP91)",
+    "n_records": 14
+   },
+   {
+    "antigen": "Entry-fusion complex protein OPG094 (UniProt:P68623)",
+    "n_records": 14
+   },
+   {
+    "antigen": "Entry-fusion complex protein OPG094 (UniProt:P07611)",
+    "n_records": 14
+   },
+   {
+    "antigen": "Fusion glycoprotein F0 (UniProt:Q91F55)",
+    "n_records": 13
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62987) ; Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62979)",
+    "n_records": 13
+   },
+   {
+    "antigen": "Vacuolar fusion protein MON1 homolog A (UniProt:Q86VX9)",
+    "n_records": 12
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62982)",
+    "n_records": 9
+   },
+   {
+    "antigen": "Entry-fusion complex associated protein OPG083 (UniProt:P24361)",
+    "n_records": 9
+   },
+   {
+    "antigen": "FAU ubiquitin like and ribosomal protein S30 fusion (UniProt:K7GK60) ; Ubiquitin-like FUBI-ribosomal protein eS30 fusion protein (UniProt:P62861)",
+    "n_records": 8
+   },
+   {
+    "antigen": "PML-RARA-regulated adapter molecule 1 (UniProt:Q96QH2)",
+    "n_records": 8
+   },
+   {
+    "antigen": "Izumo sperm-egg fusion protein 4 (UniProt:Q1ZYL8)",
+    "n_records": 7
+   },
+   {
+    "antigen": "Multifunctional fusion protein (UniProt:A0AAI8FTZ4)",
+    "n_records": 5
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62986) ; Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62987)",
+    "n_records": 4
+   },
+   {
+    "antigen": "FAU ubiquitin like and ribosomal protein S30 fusion (UniProt:K7GK60)",
+    "n_records": 4
+   },
+   {
+    "antigen": "POM121 and ZP3 fusion protein (UniProt:Q6PJE2)",
+    "n_records": 3
+   },
+   {
+    "antigen": "UBL fusion protein SDE2 (UniProt:Q5BJN8)",
+    "n_records": 2
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62986)",
+    "n_records": 2
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62979) ; Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62982)",
+    "n_records": 2
+   },
+   {
+    "antigen": "TCF3 fusion partner homolog (UniProt:Q9JMG6)",
+    "n_records": 2
+   },
+   {
+    "antigen": "Entry-fusion complex protein OPG086 (UniProt:P0DOM3) ; Entry-fusion complex protein OPG086 (UniProt:P68458)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Entry-fusion complex protein OPG086 (UniProt:Q9Q8Q0)",
+    "n_records": 1
+   },
+   {
+    "antigen": "ATP-binding/permease fusion ABC transporter (UniProt:Q87I14)",
+    "n_records": 1
+   },
+   {
+    "antigen": "RND efflux membrane fusion protein (UniProt:A0AAI8BGA4)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Sperm-egg fusion protein TMEM95 (UniProt:Q3KNT9)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Fusion glycoprotein F0 (UniProt:P11236)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P62987) ; Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P63053) ; Ubiquitin-ribosomal protein eS31 fusion protein (UniProt:P62979)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (UniProt:P63053)",
+    "n_records": 1
+   },
+   {
+    "antigen": "DAK2 domain fusion protein YloV (UniProt:Q8RHS1)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Ubiquitin-ribosomal protein eL40 fusion protein (Fragment) (UniProt:M0R2S1)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Multifunctional fusion protein (UniProt:A0A0N9HNN1)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Sperm-egg fusion protein Juno (UniProt:A6ND01)",
+    "n_records": 1
+   },
+   {
+    "antigen": "Vacuolar fusion protein MON1 homolog (UniProt:A0A8I6G3S1) ; Vacuolar fusion protein MON1 homolog B (UniProt:Q7L1V2)",
+    "n_records": 1
+   }
+  ],
+  "note": "arm F membership is a NAME pattern over source-antigen text, so a record can enter arm F without being a gene-fusion junction epitope. This split is the false-match control on that rule."
+ },
+ "T5_assay_kind_resolution": {
+  "tables_present": [
+   "mhc_search",
+   "tcell_search"
+  ],
+  "eluted_ligand_mass_spec_distinguishable": false,
+  "why": "The cache retains only which IEDB table a record came from (mhc_search = MHC-ligand assays, tcell_search = T-cell assays) and the qualitative outcome. mhc_search mixes eluted-ligand mass spectrometry with in-vitro binding assays, so measured PRESENTATION cannot be separated from measured BINDING in these records. Resolving it requires an IEDB re-fetch carrying the assay-method columns."
+ },
+ "_ewsr1_nr4a3_taf15_in_measured_records": []
+}

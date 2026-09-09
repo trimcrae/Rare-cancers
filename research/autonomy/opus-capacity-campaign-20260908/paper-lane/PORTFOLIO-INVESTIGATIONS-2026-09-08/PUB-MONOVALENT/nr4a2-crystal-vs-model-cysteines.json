@@ -1,0 +1,832 @@
+{
+ "_title": "NR4A2 LBD competitor cysteines: modelled opened structure vs two experimental crystals",
+ "_question": "The covalent reach lane's paralogue competitor readings come from one modelled NR4A2 structure. Two experimental NR4A2 LBD crystals are committed in this repo. Does the modelled thiol-exposure ordering of the five NR4A2 LBD cysteines reproduce in the experimental structures, and what is the experimental spread the single modelled reading has no error bar against?",
+ "_scope": "NR4A2 only; one measurement (heavy-atom Shrake-Rupley thiol exposure) recomputed by one code path on both sides. NOT a pocket-state validation, NOT a cross-paralogue claim, NOT evidence about NR4A3 C397, NOT any efficacy/selectivity/therapeutic claim.",
+ "_provenance": {
+  "sasa_implementation": "research/modalities/nr4a_differential_atlas.py (via nr4a3_covalent_handle_ensemble.atom_sasa), unmodified",
+  "numbering": "global BLOSUM62 alignment to UniProt P43354 (nr4a3_covalent_handle_ensemble.pdb_to_uniprot_map, identity >= 0.9)",
+  "sequences": "research/modalities/nr4a-sequences-cache.json (committed, offline)",
+  "model": "results/nr4a3-matrix/nr4a2-opened.pdb",
+  "crystals": {
+   "1OVL": "research/modalities/_s4_lane_inputs/1OVL.pdb.gz",
+   "7WNH": "research/modalities/_s4_lane_inputs/7WNH.pdb.gz"
+  }
+ },
+ "_limits": [
+  "1OVL and 7WNH are COLLAPSED APO crystals; nr4a2-opened.pdb is biased open along a pocket-opening CV. A systematic burial difference is EXPECTED and is not a refutation.",
+  "Crystal chains carry no hydrogens, so every number here is heavy-atom-only on BOTH sides. The committed artifact's all-atom columns are not comparable and are not compared.",
+  "Crystallographic packing and, in 7WNH, bound DNA and the DBD, are not present in the model; chains are measured in isolation (protein chain only) to keep the occluder set comparable.",
+  "Chains within one crystal are not independent measurements of the protein.",
+  "No thiol pKa, reaction rate, adduct or selectivity is computed. Exposure is not reactivity."
+ ],
+ "model": {
+  "path": "results/nr4a3-matrix/nr4a2-opened.pdb",
+  "alignment_identity": 1.0,
+  "n_residues": 255,
+  "cysteines": {
+   "465": {
+    "present": true,
+    "pdb_resnum": 122,
+    "resname": "CYS",
+    "residue_sasa_heavy_A2": 6.5,
+    "rsa_heavy": 0.0389,
+    "sg_present": true,
+    "sg_sasa_heavy_A2": 6.03,
+    "sg_sasa_isolated_A2": 78.55,
+    "sg_rel": 0.0768
+   },
+   "475": {
+    "present": true,
+    "pdb_resnum": 132,
+    "resname": "CYS",
+    "residue_sasa_heavy_A2": 1.26,
+    "rsa_heavy": 0.0075,
+    "sg_present": true,
+    "sg_sasa_heavy_A2": 0.0,
+    "sg_sasa_isolated_A2": 74.93,
+    "sg_rel": 0.0
+   },
+   "505": {
+    "present": true,
+    "pdb_resnum": 162,
+    "resname": "CYS",
+    "residue_sasa_heavy_A2": 1.34,
+    "rsa_heavy": 0.008,
+    "sg_present": true,
+    "sg_sasa_heavy_A2": 0.13,
+    "sg_sasa_isolated_A2": 74.12,
+    "sg_rel": 0.0018
+   },
+   "534": {
+    "present": true,
+    "pdb_resnum": 191,
+    "resname": "CYS",
+    "residue_sasa_heavy_A2": 24.16,
+    "rsa_heavy": 0.1447,
+    "sg_present": true,
+    "sg_sasa_heavy_A2": 9.79,
+    "sg_sasa_isolated_A2": 70.24,
+    "sg_rel": 0.1394
+   },
+   "566": {
+    "present": true,
+    "pdb_resnum": 223,
+    "resname": "CYS",
+    "residue_sasa_heavy_A2": 4.75,
+    "rsa_heavy": 0.0284,
+    "sg_present": true,
+    "sg_sasa_heavy_A2": 0.0,
+    "sg_sasa_isolated_A2": 73.32,
+    "sg_rel": 0.0
+   }
+  }
+ },
+ "crystals": {
+  "1OVL": {
+   "path": "research/modalities/_s4_lane_inputs/1OVL.pdb.gz",
+   "chains": {
+    "A": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 226,
+     "uniprot_span_resolved": [
+      363,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 11.41,
+       "rsa_heavy": 0.0683,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.67,
+       "sg_sasa_isolated_A2": 78.55,
+       "sg_rel": 0.0085
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 2.6,
+       "rsa_heavy": 0.0156,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.94,
+       "sg_sasa_isolated_A2": 75.73,
+       "sg_rel": 0.0124
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.13,
+       "sg_sasa_isolated_A2": 76.54,
+       "sg_rel": 0.0017
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 24.97,
+       "rsa_heavy": 0.1495,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 6.03,
+       "sg_sasa_isolated_A2": 68.09,
+       "sg_rel": 0.0886
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 6.29,
+       "rsa_heavy": 0.0377,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 76.14,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "B": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 233,
+     "uniprot_span_resolved": [
+      363,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 11.18,
+       "rsa_heavy": 0.067,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.54,
+       "sg_sasa_isolated_A2": 80.16,
+       "sg_rel": 0.0067
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 7.71,
+       "rsa_heavy": 0.0462,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 3.08,
+       "sg_sasa_isolated_A2": 75.6,
+       "sg_rel": 0.0407
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 76.94,
+       "sg_rel": 0.0
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 17.21,
+       "rsa_heavy": 0.103,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 4.56,
+       "sg_sasa_isolated_A2": 68.5,
+       "sg_rel": 0.0666
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 3.77,
+       "rsa_heavy": 0.0226,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.73,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "C": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 223,
+     "uniprot_span_resolved": [
+      363,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 7.81,
+       "rsa_heavy": 0.0468,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.8,
+       "sg_sasa_isolated_A2": 79.75,
+       "sg_rel": 0.01
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 3.63,
+       "rsa_heavy": 0.0217,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.54,
+       "sg_sasa_isolated_A2": 75.06,
+       "sg_rel": 0.0072
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 1.34,
+       "rsa_heavy": 0.008,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.13,
+       "sg_sasa_isolated_A2": 76.94,
+       "sg_rel": 0.0017
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 25.13,
+       "rsa_heavy": 0.1505,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 7.64,
+       "sg_sasa_isolated_A2": 71.18,
+       "sg_rel": 0.1073
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 2.52,
+       "rsa_heavy": 0.0151,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.2,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "D": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 228,
+     "uniprot_span_resolved": [
+      363,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 9.15,
+       "rsa_heavy": 0.0548,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.8,
+       "sg_sasa_isolated_A2": 77.74,
+       "sg_rel": 0.0103
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 3.94,
+       "rsa_heavy": 0.0236,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 1.88,
+       "sg_sasa_isolated_A2": 76.67,
+       "sg_rel": 0.0245
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 76.27,
+       "sg_rel": 0.0
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 21.29,
+       "rsa_heavy": 0.1275,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 5.76,
+       "sg_sasa_isolated_A2": 69.7,
+       "sg_rel": 0.0826
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 2.52,
+       "rsa_heavy": 0.0151,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 74.93,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "E": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 237,
+     "uniprot_span_resolved": [
+      344,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 14.78,
+       "rsa_heavy": 0.0885,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 1.21,
+       "sg_sasa_isolated_A2": 78.55,
+       "sg_rel": 0.0154
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 1.26,
+       "rsa_heavy": 0.0075,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.94,
+       "sg_sasa_isolated_A2": 75.73,
+       "sg_rel": 0.0124
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.13,
+       "sg_sasa_isolated_A2": 76.94,
+       "sg_rel": 0.0017
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 25.25,
+       "rsa_heavy": 0.1512,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 11.26,
+       "sg_sasa_isolated_A2": 69.3,
+       "sg_rel": 0.1625
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 5.03,
+       "rsa_heavy": 0.0301,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.33,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "F": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 220,
+     "uniprot_span_resolved": [
+      363,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 7.81,
+       "rsa_heavy": 0.0468,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.8,
+       "sg_sasa_isolated_A2": 77.61,
+       "sg_rel": 0.0103
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 3.86,
+       "rsa_heavy": 0.0231,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 2.28,
+       "sg_sasa_isolated_A2": 75.73,
+       "sg_rel": 0.0301
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.13,
+       "sg_sasa_isolated_A2": 77.21,
+       "sg_rel": 0.0017
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 22.51,
+       "rsa_heavy": 0.1348,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 9.92,
+       "sg_sasa_isolated_A2": 71.18,
+       "sg_rel": 0.1394
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 5.03,
+       "rsa_heavy": 0.0301,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.33,
+       "sg_rel": 0.0
+      }
+     }
+    }
+   }
+  },
+  "7WNH": {
+   "path": "research/modalities/_s4_lane_inputs/7WNH.pdb.gz",
+   "chains": {
+    "A": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 226,
+     "uniprot_span_resolved": [
+      344,
+      597
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 21.88,
+       "rsa_heavy": 0.131,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 6.7,
+       "sg_sasa_isolated_A2": 74.26,
+       "sg_rel": 0.0902
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 7.35,
+       "rsa_heavy": 0.044,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 1.47,
+       "sg_sasa_isolated_A2": 76.67,
+       "sg_rel": 0.0192
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 76.81,
+       "sg_rel": 0.0
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 19.94,
+       "rsa_heavy": 0.1194,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 9.25,
+       "sg_sasa_isolated_A2": 72.38,
+       "sg_rel": 0.1278
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 1.26,
+       "rsa_heavy": 0.0075,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.87,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "B": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 231,
+     "uniprot_span_resolved": [
+      344,
+      592
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 17.27,
+       "rsa_heavy": 0.1034,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.8,
+       "sg_sasa_isolated_A2": 74.53,
+       "sg_rel": 0.0107
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 9.86,
+       "rsa_heavy": 0.0591,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 1.07,
+       "sg_sasa_isolated_A2": 76.27,
+       "sg_rel": 0.014
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.27,
+       "sg_sasa_isolated_A2": 74.39,
+       "sg_rel": 0.0036
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 20.28,
+       "rsa_heavy": 0.1214,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 7.37,
+       "sg_sasa_isolated_A2": 72.11,
+       "sg_rel": 0.1022
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 8.81,
+       "rsa_heavy": 0.0527,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.87,
+       "sg_rel": 0.0
+      }
+     }
+    },
+    "C": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 231,
+     "uniprot_span_resolved": [
+      344,
+      598
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 24.18,
+       "rsa_heavy": 0.1448,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 6.97,
+       "sg_sasa_isolated_A2": 74.12,
+       "sg_rel": 0.094
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 7.49,
+       "rsa_heavy": 0.0448,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 1.34,
+       "sg_sasa_isolated_A2": 76.27,
+       "sg_rel": 0.0176
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.13,
+       "sg_sasa_isolated_A2": 75.2,
+       "sg_rel": 0.0017
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 19.94,
+       "rsa_heavy": 0.1194,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 9.11,
+       "sg_sasa_isolated_A2": 72.25,
+       "sg_rel": 0.1261
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.27,
+       "sg_sasa_isolated_A2": 76.27,
+       "sg_rel": 0.0035
+      }
+     }
+    },
+    "D": {
+     "alignment_identity": 1.0,
+     "n_residues_in_model_span": 235,
+     "uniprot_span_resolved": [
+      344,
+      596
+     ],
+     "cysteines": {
+      "465": {
+       "present": true,
+       "pdb_resnum": 465,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 14.21,
+       "rsa_heavy": 0.0851,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 2.14,
+       "sg_sasa_isolated_A2": 75.06,
+       "sg_rel": 0.0285
+      },
+      "475": {
+       "present": true,
+       "pdb_resnum": 475,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 9.94,
+       "rsa_heavy": 0.0595,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.67,
+       "sg_sasa_isolated_A2": 76.67,
+       "sg_rel": 0.0087
+      },
+      "505": {
+       "present": true,
+       "pdb_resnum": 505,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 0.0,
+       "rsa_heavy": 0.0,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.27,
+       "sg_sasa_isolated_A2": 75.2,
+       "sg_rel": 0.0036
+      },
+      "534": {
+       "present": true,
+       "pdb_resnum": 534,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 22.42,
+       "rsa_heavy": 0.1342,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 9.52,
+       "sg_sasa_isolated_A2": 71.85,
+       "sg_rel": 0.1325
+      },
+      "566": {
+       "present": true,
+       "pdb_resnum": 566,
+       "resname": "CYS",
+       "residue_sasa_heavy_A2": 8.81,
+       "rsa_heavy": 0.0527,
+       "sg_present": true,
+       "sg_sasa_heavy_A2": 0.0,
+       "sg_sasa_isolated_A2": 75.73,
+       "sg_rel": 0.0
+      }
+     }
+    }
+   }
+  }
+ },
+ "comparison": {
+  "per_cysteine": {
+   "465": {
+    "model_sg_rel": 0.0768,
+    "model_rsa_heavy": 0.0389,
+    "crystal_sg_rel": {
+     "n": 10,
+     "min": 0.0067,
+     "median": 0.0105,
+     "max": 0.094,
+     "mean": 0.0285
+    }
+   },
+   "475": {
+    "model_sg_rel": 0.0,
+    "model_rsa_heavy": 0.0075,
+    "crystal_sg_rel": {
+     "n": 10,
+     "min": 0.0072,
+     "median": 0.0158,
+     "max": 0.0407,
+     "mean": 0.0187
+    }
+   },
+   "505": {
+    "model_sg_rel": 0.0018,
+    "model_rsa_heavy": 0.008,
+    "crystal_sg_rel": {
+     "n": 10,
+     "min": 0.0,
+     "median": 0.0017,
+     "max": 0.0036,
+     "mean": 0.0016
+    }
+   },
+   "534": {
+    "model_sg_rel": 0.1394,
+    "model_rsa_heavy": 0.1447,
+    "crystal_sg_rel": {
+     "n": 10,
+     "min": 0.0666,
+     "median": 0.1167,
+     "max": 0.1625,
+     "mean": 0.1136
+    }
+   },
+   "566": {
+    "model_sg_rel": 0.0,
+    "model_rsa_heavy": 0.0284,
+    "crystal_sg_rel": {
+     "n": 10,
+     "min": 0.0,
+     "median": 0.0,
+     "max": 0.0035,
+     "mean": 0.0003
+    }
+   }
+  },
+  "rank_most_to_least_exposed_thiol": {
+   "model": [
+    534,
+    465,
+    505,
+    475,
+    566
+   ],
+   "crystal_median": [
+    534,
+    475,
+    465,
+    505,
+    566
+   ],
+   "identical": false
+  },
+  "n_crystal_chains": 10
+ },
+ "absent_input_statement_under_test": {
+  "artifact": "research/modalities/nr4a3-covalent-handle-ensemble.json",
+  "field": "comparison_validity.absent_input",
+  "verbatim": "There is no experimental NR4A1 or NR4A2 LBD ensemble in this repo, so the like-for-like ensemble comparison the question really wants CANNOT be made from what is here. That is a missing input, not a negative result.",
+  "checked_against": [
+   "research/modalities/_s4_lane_inputs/1OVL.pdb.gz",
+   "research/modalities/_s4_lane_inputs/7WNH.pdb.gz"
+  ]
+ }
+}

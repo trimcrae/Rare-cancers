@@ -1,0 +1,45 @@
+{
+ "n_junction_peptides": 174,
+ "n_predicted_binders": 11,
+ "n_distinct_measured_peptides": 1224,
+ "T1_exact_correspondence": {
+  "n": 0,
+  "hits": []
+ },
+ "T2_substring_correspondence": {
+  "n": 0,
+  "hits": []
+ },
+ "T3_isobaric_IL_false_match_control": {
+  "n": 0,
+  "hits": [],
+  "note": "MS/MS does not separate Leu from Ile; a hit here is a sequence a spectrum could not separate."
+ },
+ "T4_armF_provenance_control": {
+  "n_armF_records": 988,
+  "n_human_gene_fusion_named": 8,
+  "n_fusion_word_only_or_viral": 931,
+  "n_unclassified": 49,
+  "distinct_source_antigen_strings": 44,
+  "human_gene_fusion_antigens": [
+   "PML-RARA-regulated adapter molecule 1 (UniProt:Q96QH2)"
+  ],
+  "unclassified_antigens_sample": [
+   "ATP-binding/permease fusion ABC transporter (UniProt:Q87I14)",
+   "Chimeric ERCC6-PGBD3 protein (UniProt:P0DP91)",
+   "FAU ubiquitin like and ribosomal protein S30 fusion (UniProt:K7GK60)",
+   "TCF3 fusion partner (UniProt:P0C1Z6)",
+   "TCF3 fusion partner homolog (UniProt:Q9JMG6)"
+  ],
+  "note": "arm F membership is a NAME pattern over source-antigen text, so a record can enter arm F without being a gene-fusion junction epitope. This split is the false-match control on that rule."
+ },
+ "T5_assay_kind_resolution": {
+  "tables_present": [
+   "mhc_search",
+   "tcell_search"
+  ],
+  "eluted_ligand_mass_spec_distinguishable": false,
+  "why": "The cache retains only which IEDB table a record came from (mhc_search = MHC-ligand assays, tcell_search = T-cell assays) and the qualitative outcome. mhc_search mixes eluted-ligand mass spectrometry with in-vitro binding assays, so measured PRESENTATION cannot be separated from measured BINDING in these records. Resolving it requires an IEDB re-fetch carrying the assay-method columns."
+ },
+ "_ewsr1_nr4a3_taf15_in_measured_records": []
+}
