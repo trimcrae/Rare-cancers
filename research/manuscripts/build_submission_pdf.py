@@ -233,8 +233,8 @@ PAPERS = {
         "journal": {
             "article_type": "Research Article",
             "section": "",
-            "preprint_note": "Not posted as a preprint and not submitted to or accepted by a "
-                             "journal. A sequence-analysis report with a pre-specified prediction "
+            "preprint_note": "Preprint manuscript, not peer reviewed. "
+                             "A sequence-analysis report with a pre-specified prediction "
                              "set: no experiment was performed and no reagent was made.",
         },
         "out": "dependency/emc-atr-collaborator-package.pdf",

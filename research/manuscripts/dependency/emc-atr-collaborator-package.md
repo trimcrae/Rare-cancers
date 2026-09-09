@@ -160,13 +160,6 @@ repository for this author (the ASO author block and the 2026-08-20 submission-p
 it was read from the repository and not looked up externally.
 -->
 
-> **Declarations.** This report analyses public reference sequences and published exon-level breakpoint statements.
-> It involves no new human participants, identifiable data, patient-level records, animals or laboratory work.
-> No claim of ethics approval, exemption or a consent waiver is made. **Funding:** none. **Competing interests:** none. **Author contributions:** Tristan D. McRae
-> is the sole author and is responsible, in CRediT terms, for conceptualization, methodology,
-> software, formal analysis, investigation, data curation, visualization, writing of the original
-> draft, and writing of the review and editing. **Data and code:** section 7.
-
 ## Abstract
 
 
@@ -707,6 +700,13 @@ GFP-TCF12 leaves P5 untested.
 > inheritance is the limit of what is claimed here, and no result below is EMC-specific. Every
 > construct is a computed design for verification against a sequenced breakpoint before any reagent
 > is ordered.
+
+> **Declarations.** This report analyses public reference sequences and published exon-level breakpoint statements.
+> It involves no new human participants, identifiable data, patient-level records, animals or laboratory work.
+> No claim of ethics approval, exemption or a consent waiver is made. **Funding:** none. **Competing interests:** none. **Author contributions:** Tristan D. McRae
+> is the sole author and is responsible, in CRediT terms, for conceptualization, methodology,
+> software, formal analysis, investigation, data curation, visualization, writing of the original
+> draft, and writing of the review and editing. **Data and code:** section 7.
 
 ---
 
