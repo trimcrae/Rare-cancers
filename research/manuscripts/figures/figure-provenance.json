@@ -1,7 +1,492 @@
 {
  "_regenerate": "python3 research/modalities/nr4a3_fusion_targets_figures.py",
+ "_source_equivalence_2026_09_08": {
+  "artifact": "research/modalities/nr4a3-fusion-targets-occupancy.json",
+  "digest_now_recorded_in_sources": "b2a56d0cb648276f",
+  "digest_the_committed_figures_were_actually_drawn_from": "cc8e8b419ac013a5",
+  "leaf_comparison": {
+   "changed_leaves": 2,
+   "changed_paths": [
+    ".generated_utc",
+    ".verdict.\u26d4 what_this_is_not"
+   ],
+   "keys_added": 0,
+   "keys_removed": 0,
+   "leaves_child": 1379,
+   "leaves_parent": 1379,
+   "no_numeric_or_boolean_value_changed": true
+  },
+  "moved_at_commit": "143d7f3f6 -- 'Two artifact-truth repairs: the occupancy caveat, and a stale withheld-arm claim'",
+  "read_fields_the_generator_actually_touches": {
+   "fields": [
+    "per_gene_summary[gene].best_empirical_p_vs_panel",
+    "per_gene_summary[gene].n_informative_experiments"
+   ],
+   "genes_compared": 3,
+   "per_gene_summary_identical_across_the_move": true,
+   "where": "research/modalities/nr4a3_fusion_targets_figures.py:339-345"
+  },
+  "verified_by": "Parent re-derivation on 2026-09-08: the leaf comparison and the read-field comparison above were computed directly from the two committed blobs, not taken from a report.",
+  "\u26a0_scope_of_the_claim": "This establishes ONLY that the two source fields these figures read are unchanged across that commit. It is NOT proof that every current label, plotted value, uncertainty or source interpretation in these figures is correct, and it is not a scientific acceptance of the figures. One specific mismatch is open and is carried to the fusion-output candidate handoff for adjudication, not resolved here: the fig_matrix 3SEQ column label at line 354 still reads 'percentile of 14,120 genes', while the fusion-output manuscript distinguishes 13,708 ratio-computable and 13,247 sarcoma-comparator genes.",
+  "\u26d4_THIS_ENTRY_IS_A_VERIFICATION_AND_NOT_A_GENERATION": "No generator ran. No figure was redrawn. No output byte changed, and every filename in `figures` above is the file that was already committed. The occupancy digest below was updated because the artifact's bytes moved and the fields the figures read did not \u2014 that is a checked source equivalence, not a new build, and `--check` reading OK on this stamp means exactly that and nothing more.",
+  "\u26d4_not_done_here": "No figure redraw, no scientific producer run, no new generation date, no output identity from a different environment, no visual inspection of the rendered pages, and no global acceptance. The original stamp is preserved in Git history."
+ },
  "_what": "content hashes of every artifact these figures were drawn from",
  "_why": "nothing in CI regenerates the figures, so the only way a reader can tell a stale figure from a current one is to compare these hashes against the artifacts. `--check` does exactly that.",
+ "builds": [
+  {
+   "command_argv": [
+    "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "research/modalities/nr4a3_fusion_targets_figures.py",
+    "--figure",
+    "fig4-instrument-convergence"
+   ],
+   "generator": {
+    "bytes": 44365,
+    "path": "research/modalities/nr4a3_fusion_targets_figures.py",
+    "sha256": "c6d7de7e576ce3ed320d9a64f689ee19ed077054c9136379559c9a6c33573858"
+   },
+   "outputs_after": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 48789,
+     "sha256": "abec508c15b0ba3bba6ee75e999c360db6f1e198c3aba8a9695dbf1bb55ac174"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 383653,
+     "sha256": "962893dad84ea7bf3618eb9b0a41d5b76649ec5d6ba71d62c697660f30e25abb"
+    }
+   },
+   "outputs_before": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 46901,
+     "sha256": "703bbc2f69d645c4c970a9d9080a50ecf8d490359a0d5f1f59062aa5316ebf57"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 365067,
+     "sha256": "181efbc87e24a81e8ef76cb65d950aed9a8b2e5c48104dbdb3e0f4f5e58f999c"
+    }
+   },
+   "outputs_not_regenerated": {
+    "fig1-size-matched-null.pdf": {
+     "bytes": 40732,
+     "sha256": "30383d28be4494f35c16a1932b77309d8c7458a84c2155b881e03cbd6035979e"
+    },
+    "fig1-size-matched-null.png": {
+     "bytes": 415498,
+     "sha256": "227c427f758b48a8eae3fa9791774aea0ef2bd117b519ec03696b9f80b995fce"
+    },
+    "fig2-evidence-classes.pdf": {
+     "bytes": 34977,
+     "sha256": "1de67433e61debf8387ed9c0eb77bb39a97cd0e4cc9102e362439041a132dbf9"
+    },
+    "fig2-evidence-classes.png": {
+     "bytes": 203690,
+     "sha256": "e0420e09acb2b8705e225857dae0e5eef5e3426a9e2c7288210417f85917596e"
+    },
+    "fig3-per-sample-class-a.pdf": {
+     "bytes": 43965,
+     "sha256": "9ac692fcde3d4c54d5300e1f41f26e9f09b37759cc27c660d016ed120871269e"
+    },
+    "fig3-per-sample-class-a.png": {
+     "bytes": 269460,
+     "sha256": "9f9710cbe4784545b90b9854be7c183cc562acd0240696a89f0e441d90de4aa5"
+    },
+    "fig5-muscle-admixture-control.pdf": {
+     "bytes": 34788,
+     "sha256": "8aff7d7b912bc4ad6816cff618e14d9966e3e67fa4717b09682624348805c911"
+    },
+    "fig5-muscle-admixture-control.png": {
+     "bytes": 216807,
+     "sha256": "760537847643242b9f6fdb33f98a131b9a1344794cfc364b64ca7fe27ad0d65e"
+    }
+   },
+   "prior_source_map": {
+    "emc-ret-target-scan.json": "cc3c0548b6e7c77f",
+    "gse28866-tumour-vs-normal.json": "ac0a17bd81dd8bc2",
+    "nr4a3-fusion-targets-confounds.json": "fd8e60e7010d0922",
+    "nr4a3-fusion-targets-inputs.json": "427ae4c595b18cec",
+    "nr4a3-fusion-targets-occupancy.json": "b2a56d0cb648276f",
+    "nr4a3-fusion-targets-robustness.json": "f00ae47c8143c284",
+    "nr4a3-fusion-targets.json": "0c338c169678f475"
+   },
+   "regenerated_outputs": [
+    "fig4-instrument-convergence.pdf",
+    "fig4-instrument-convergence.png"
+   ],
+   "runtime": {
+    "executable": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "matplotlib": "3.11.1",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+   },
+   "scope": [
+    "fig4-instrument-convergence"
+   ],
+   "scope_note": "Only regenerated_outputs were drawn. The other outputs retain their previous bytes and generation history. No visual or scientific acceptance.",
+   "source_commit": "2534a09ea783bca24a560e1bf64dfc4f704bacc6",
+   "source_equivalence": {
+    "artifact": "gse28866-tumour-vs-normal.json",
+    "changed_paths": [
+     "per_gene._contrast",
+     "per_gene._contrast_superseded_2026-09-08",
+     "per_gene._annotation_correction_2026-09-08"
+    ],
+    "current": {
+     "bytes": 28606,
+     "git_blob": "9e1fd200b05aa2f716044b8f197ec7212878b625",
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "old": {
+     "bytes": 27256,
+     "git_blob": "526084a99b3a44af0eb1720abe0ec268bae2c47a",
+     "sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407"
+    },
+    "scope": "Source equivalence, not generation. The annotation corrects reduction order, score compression and library context. It does not establish scientific acceptance.",
+    "verification": "Complete resident-blob comparison by the coordinator on 2026-09-09: only the three contrast annotation keys differ; all other JSON values, including ratio_calibration and every consumed number, are identical."
+   },
+   "sources_actually_consumed": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    }
+   },
+   "sources_verified": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-inputs.json": {
+     "bytes": 5145992,
+     "sha256": "427ae4c595b18cece0503e113dd126b6c3aa9f49526c71cdef003b9b0c127db5"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    },
+    "nr4a3-fusion-targets.json": {
+     "bytes": 995098,
+     "sha256": "0c338c169678f47552df51d392a6b239e9c14cd5a7b734e8209b2218e8a901e3"
+    }
+   },
+   "utc": "2026-09-09T13:56:46+00:00"
+  },
+  {
+   "command_argv": [
+    "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "research/modalities/nr4a3_fusion_targets_figures.py",
+    "--figure",
+    "fig4-instrument-convergence"
+   ],
+   "generator": {
+    "bytes": 44570,
+    "path": "research/modalities/nr4a3_fusion_targets_figures.py",
+    "sha256": "4c75ac3e2d2286e869dc6b84d441369e80641b8a7bba638a02c6a144e3be19ed"
+   },
+   "outputs_after": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 49417,
+     "sha256": "8ba10366bcf18c9fcb69bd82890b520c4ab25a2da1b81833a7e69462a52693f3"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 376293,
+     "sha256": "f4b215f98986e6f46d330cd18da2dd9880e0de2cd3a4da142a20de1734aff744"
+    }
+   },
+   "outputs_before": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 48789,
+     "sha256": "abec508c15b0ba3bba6ee75e999c360db6f1e198c3aba8a9695dbf1bb55ac174"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 383653,
+     "sha256": "962893dad84ea7bf3618eb9b0a41d5b76649ec5d6ba71d62c697660f30e25abb"
+    }
+   },
+   "outputs_not_regenerated": {
+    "fig1-size-matched-null.pdf": {
+     "bytes": 40732,
+     "sha256": "30383d28be4494f35c16a1932b77309d8c7458a84c2155b881e03cbd6035979e"
+    },
+    "fig1-size-matched-null.png": {
+     "bytes": 415498,
+     "sha256": "227c427f758b48a8eae3fa9791774aea0ef2bd117b519ec03696b9f80b995fce"
+    },
+    "fig2-evidence-classes.pdf": {
+     "bytes": 34977,
+     "sha256": "1de67433e61debf8387ed9c0eb77bb39a97cd0e4cc9102e362439041a132dbf9"
+    },
+    "fig2-evidence-classes.png": {
+     "bytes": 203690,
+     "sha256": "e0420e09acb2b8705e225857dae0e5eef5e3426a9e2c7288210417f85917596e"
+    },
+    "fig3-per-sample-class-a.pdf": {
+     "bytes": 43965,
+     "sha256": "9ac692fcde3d4c54d5300e1f41f26e9f09b37759cc27c660d016ed120871269e"
+    },
+    "fig3-per-sample-class-a.png": {
+     "bytes": 269460,
+     "sha256": "9f9710cbe4784545b90b9854be7c183cc562acd0240696a89f0e441d90de4aa5"
+    },
+    "fig5-muscle-admixture-control.pdf": {
+     "bytes": 34788,
+     "sha256": "8aff7d7b912bc4ad6816cff618e14d9966e3e67fa4717b09682624348805c911"
+    },
+    "fig5-muscle-admixture-control.png": {
+     "bytes": 216807,
+     "sha256": "760537847643242b9f6fdb33f98a131b9a1344794cfc364b64ca7fe27ad0d65e"
+    }
+   },
+   "prior_source_map": {
+    "emc-ret-target-scan.json": "cc3c0548b6e7c77f",
+    "gse28866-tumour-vs-normal.json": "386a035175d94ef8",
+    "nr4a3-fusion-targets-confounds.json": "fd8e60e7010d0922",
+    "nr4a3-fusion-targets-inputs.json": "427ae4c595b18cec",
+    "nr4a3-fusion-targets-occupancy.json": "b2a56d0cb648276f",
+    "nr4a3-fusion-targets-robustness.json": "f00ae47c8143c284",
+    "nr4a3-fusion-targets.json": "0c338c169678f475"
+   },
+   "regenerated_outputs": [
+    "fig4-instrument-convergence.pdf",
+    "fig4-instrument-convergence.png"
+   ],
+   "runtime": {
+    "executable": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "matplotlib": "3.11.1",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+   },
+   "scope": [
+    "fig4-instrument-convergence"
+   ],
+   "scope_note": "Only regenerated_outputs were drawn. The other outputs retain their previous bytes and generation history. No visual or scientific acceptance.",
+   "source_commit": "626097a12bbf7ed9d681754c7544515c3e653fde",
+   "sources_actually_consumed": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    }
+   },
+   "sources_verified": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-inputs.json": {
+     "bytes": 5145992,
+     "sha256": "427ae4c595b18cece0503e113dd126b6c3aa9f49526c71cdef003b9b0c127db5"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    },
+    "nr4a3-fusion-targets.json": {
+     "bytes": 995098,
+     "sha256": "0c338c169678f47552df51d392a6b239e9c14cd5a7b734e8209b2218e8a901e3"
+    }
+   },
+   "utc": "2026-09-09T14:02:33+00:00"
+  },
+  {
+   "command_argv": [
+    "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "research/modalities/nr4a3_fusion_targets_figures.py",
+    "--figure",
+    "fig4-instrument-convergence"
+   ],
+   "generator": {
+    "bytes": 44570,
+    "path": "research/modalities/nr4a3_fusion_targets_figures.py",
+    "sha256": "4c75ac3e2d2286e869dc6b84d441369e80641b8a7bba638a02c6a144e3be19ed"
+   },
+   "outputs_after": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 49417,
+     "sha256": "1c1d53a0d266fa2bb654506b7294892af5193563d8c70aca01d6ec78537656d3"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 376293,
+     "sha256": "f4b215f98986e6f46d330cd18da2dd9880e0de2cd3a4da142a20de1734aff744"
+    }
+   },
+   "outputs_before": {
+    "fig4-instrument-convergence.pdf": {
+     "bytes": 49417,
+     "sha256": "8ba10366bcf18c9fcb69bd82890b520c4ab25a2da1b81833a7e69462a52693f3"
+    },
+    "fig4-instrument-convergence.png": {
+     "bytes": 376293,
+     "sha256": "f4b215f98986e6f46d330cd18da2dd9880e0de2cd3a4da142a20de1734aff744"
+    }
+   },
+   "outputs_not_regenerated": {
+    "fig1-size-matched-null.pdf": {
+     "bytes": 40732,
+     "sha256": "30383d28be4494f35c16a1932b77309d8c7458a84c2155b881e03cbd6035979e"
+    },
+    "fig1-size-matched-null.png": {
+     "bytes": 415498,
+     "sha256": "227c427f758b48a8eae3fa9791774aea0ef2bd117b519ec03696b9f80b995fce"
+    },
+    "fig2-evidence-classes.pdf": {
+     "bytes": 34977,
+     "sha256": "1de67433e61debf8387ed9c0eb77bb39a97cd0e4cc9102e362439041a132dbf9"
+    },
+    "fig2-evidence-classes.png": {
+     "bytes": 203690,
+     "sha256": "e0420e09acb2b8705e225857dae0e5eef5e3426a9e2c7288210417f85917596e"
+    },
+    "fig3-per-sample-class-a.pdf": {
+     "bytes": 43965,
+     "sha256": "9ac692fcde3d4c54d5300e1f41f26e9f09b37759cc27c660d016ed120871269e"
+    },
+    "fig3-per-sample-class-a.png": {
+     "bytes": 269460,
+     "sha256": "9f9710cbe4784545b90b9854be7c183cc562acd0240696a89f0e441d90de4aa5"
+    },
+    "fig5-muscle-admixture-control.pdf": {
+     "bytes": 34788,
+     "sha256": "8aff7d7b912bc4ad6816cff618e14d9966e3e67fa4717b09682624348805c911"
+    },
+    "fig5-muscle-admixture-control.png": {
+     "bytes": 216807,
+     "sha256": "760537847643242b9f6fdb33f98a131b9a1344794cfc364b64ca7fe27ad0d65e"
+    }
+   },
+   "prior_source_map": {
+    "emc-ret-target-scan.json": "cc3c0548b6e7c77f",
+    "gse28866-tumour-vs-normal.json": "386a035175d94ef8",
+    "nr4a3-fusion-targets-confounds.json": "fd8e60e7010d0922",
+    "nr4a3-fusion-targets-inputs.json": "427ae4c595b18cec",
+    "nr4a3-fusion-targets-occupancy.json": "b2a56d0cb648276f",
+    "nr4a3-fusion-targets-robustness.json": "f00ae47c8143c284",
+    "nr4a3-fusion-targets.json": "0c338c169678f475"
+   },
+   "regenerated_outputs": [
+    "fig4-instrument-convergence.pdf",
+    "fig4-instrument-convergence.png"
+   ],
+   "runtime": {
+    "executable": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "matplotlib": "3.11.1",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+   },
+   "scope": [
+    "fig4-instrument-convergence"
+   ],
+   "scope_note": "Only regenerated_outputs were drawn. The other outputs retain their previous bytes and generation history. No visual or scientific acceptance.",
+   "source_commit": "a9373358e51a40364ef62a97a1cc3263780c3dfc",
+   "sources_actually_consumed": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    }
+   },
+   "sources_verified": {
+    "emc-ret-target-scan.json": {
+     "bytes": 98639,
+     "sha256": "cc3c0548b6e7c77fe4b97074745277cea1a27c6c09c0699e395837cf046048dd"
+    },
+    "gse28866-tumour-vs-normal.json": {
+     "bytes": 28606,
+     "sha256": "386a035175d94ef8eccd3719d74ef39cff5e93461ed2470983777333a1962cee"
+    },
+    "nr4a3-fusion-targets-confounds.json": {
+     "bytes": 82564,
+     "sha256": "fd8e60e7010d0922fa603a81e1cbea608e0989a949fd4b7bf6c192d8074ebe29"
+    },
+    "nr4a3-fusion-targets-inputs.json": {
+     "bytes": 5145992,
+     "sha256": "427ae4c595b18cece0503e113dd126b6c3aa9f49526c71cdef003b9b0c127db5"
+    },
+    "nr4a3-fusion-targets-occupancy.json": {
+     "bytes": 82802,
+     "sha256": "b2a56d0cb648276fa99b69ef2aa40fc2aecff82013ae772f29b74e6d862b5290"
+    },
+    "nr4a3-fusion-targets-robustness.json": {
+     "bytes": 46771,
+     "sha256": "f00ae47c8143c284659bedaa68b48ab10d1d48d1f9909c91f1b54e3b6115c154"
+    },
+    "nr4a3-fusion-targets.json": {
+     "bytes": 995098,
+     "sha256": "0c338c169678f47552df51d392a6b239e9c14cd5a7b734e8209b2218e8a901e3"
+    }
+   },
+   "utc": "2026-09-09T15:09:27+00:00"
+  }
+ ],
  "figures": [
   "fig1-size-matched-null.pdf",
   "fig1-size-matched-null.png",
@@ -16,11 +501,12 @@
  ],
  "sources": {
   "emc-ret-target-scan.json": "cc3c0548b6e7c77f",
-  "gse28866-tumour-vs-normal.json": "ac0a17bd81dd8bc2",
+  "gse28866-tumour-vs-normal.json": "386a035175d94ef8",
   "nr4a3-fusion-targets-confounds.json": "fd8e60e7010d0922",
   "nr4a3-fusion-targets-inputs.json": "427ae4c595b18cec",
-  "nr4a3-fusion-targets-occupancy.json": "cc8e8b419ac013a5",
+  "nr4a3-fusion-targets-occupancy.json": "b2a56d0cb648276f",
   "nr4a3-fusion-targets-robustness.json": "f00ae47c8143c284",
   "nr4a3-fusion-targets.json": "0c338c169678f475"
- }
+ },
+ "sources_meaning": "Current source identities; prior draw identities and verified equivalences remain in the retained history and build records."
 }
