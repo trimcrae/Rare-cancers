@@ -98,3 +98,49 @@ the restructure — the live reading.
 ⛔ Still not settled here, and still not acted on. What those two printed figures now denote is a
 scientific question, `pinned-figures.json` remains untouched, and `lint_consistency` still exits 1
 with the same three errors.
+
+---
+
+## ⛔ CORRECTION, 2026-09-09 — my central claim here was WRONG
+
+**"The paper's central magnitude is asserted in prose with no artifact binding" is false, and the
+error was mine.** I matched each pin's `context` regex against the manuscript, found one hit each,
+and read those hits as live assertions. **I never checked what surrounded them.** They sit inside a
+dated withdrawal:
+
+```
+402  ⛔ **The two-cohort pooled prognostic magnitude previously reported in this section is withdrawn.**
+403  ⚠ *Superseded, retained: "Pooled over 73 patients, disease-specific death is 7/15 = 46.7 % (95 % CI
+404  24.8–69.9) with TAF15::NR4A3 against 6/58 = 10.3 % (95 % CI 4.8–20.8) — a 36.3-point gap, post-hoc
+405  Fisher p = 0.0034."*  Every figure in that sentence depended on cells transcribed from Huang 2023's
+     Table 1, and no [...]
+```
+
+**The prose does not assert those figures. It withdraws them and retains the old sentence as a
+quotation** — the same dated-supersession convention this campaign uses everywhere, including in my
+own records. A regex cannot tell an assertion from its withdrawal, and I drew a conclusion the
+method could not support.
+
+### What this changes
+
+* The three pins point at a removed key **because the quantity was deliberately withdrawn**, not
+  because a live claim lost its binding. That is coherent bookkeeping lag, **not the August
+  failure mode recurring** — and my framing of it as "the same failure, by a different route" is
+  withdrawn with it.
+* Of the three dispositions I recorded, **disposition 1** — the figures are retired and the pins
+  retire with them — is the reading the evidence actually supports. My earlier addendum naming
+  disposition 3 the live reading is superseded by this one.
+* ⛔ **Do not repoint the pins.** The old nodes are *pooled* quantities over 73 patients; the current
+  result is Agaram-only. Root's separate bounded mechanical comparison is distinguishing the two.
+  Pointing a retired pooled node at a different cohort's values and keeping its name would
+  manufacture continuity that does not exist.
+
+### What still stands
+
+The mechanical facts are unaffected and were measured, not inferred: the three paths **do not
+resolve** in the current artifact; `emc_fusion_partner_pooling.py --check` exits **0** while
+`lint_consistency.py` exits **1** with three `[A-key-missing]` errors; and the producer's own check
+closes only the generator↔artifact loop, so it cannot see a dangling pin. Those remain **unresolved
+maintenance evidence, not waived tests**, and guard maintenance remains **unadmitted**.
+
+I did not repoint, restore or edit any pin, and `pinned-figures.json` is still untouched.
