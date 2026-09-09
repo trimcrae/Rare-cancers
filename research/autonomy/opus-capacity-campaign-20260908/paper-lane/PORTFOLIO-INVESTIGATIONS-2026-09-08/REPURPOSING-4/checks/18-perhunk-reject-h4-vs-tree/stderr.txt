@@ -1,0 +1,79 @@
+Checking patch research/manuscripts/repurposing/repurposing-hypotheses.md...
+error: while searching for:
+a median progression-free survival of 19 months, against a low objective response rate for
+anthracycline-based chemotherapy [1]. Those trial figures are taken from the 2025 comprehensive
+review and from this project's registry record of that trial; the trial report itself was not
+retrieved for this manuscript. Clinical
+next-generation sequencing of advanced EMC characteristically reveals no recurrent, directly
+actionable driver mutation beyond the defining fusion [5]. An activating *KIT*
+mutation of a type that is imatinib-sensitive in other diseases is rare, reported in 1 of 20 EMCs in
+
+error: patch failed: research/manuscripts/repurposing/repurposing-hypotheses.md:158
+error: while searching for:
+defined"; the same patient had been treated with sunitinib, with a prolonged response [6].
+Sensitivity in EMC is therefore inferred from the mutation class, not observed in that patient. CD117/KIT protein, by contrast, is
+detectable by immunohistochemistry in a substantial but variable proportion of cases, approximately
+53% in one series and approximately 84% of 31 cases in another [2,8]. That distinction matters
+clinically, because imatinib acts on the activating mutation rather than on protein expression
+alone. EMC therefore sits in a difficult space: too rare for adequately powered de-novo trials, and
+without an obvious single druggable mutation to anchor a targeted-therapy programme.
+
+error: patch failed: research/manuscripts/repurposing/repurposing-hypotheses.md:168
+error: while searching for:
+|---|---|---|
+| Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
+| VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
+| Zaltoprofen (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
+| Pioglitazone (PPARγ, lineage) | Same in-vivo rationale as zaltoprofen [12], with the same unresolved direction (section 3.3). One patient in the six-patient sequencing cohort of [5] took pioglitazone for diabetes and had stable metastatic EMC for 13 months before unequivocal progression; that report states the contribution of pioglitazone to disease control is unknown | No, already given to an EMC patient, incidentally and without an efficacy assessment |
+| Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only compound of the 40 screened that the authors place in their high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+| Venetoclax (BCL-2, apoptosis) | Ex vivo: moderate sensitivity in the screen, carried into dose-response testing in both EMC models, with no monotherapy response [13] | Yes |
+| HDAC inhibitors: romidepsin, panobinostat (epigenetic) | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14]. Histone deacetylase is named in the parent histology [9] | Yes for EMC |
+| Brigatinib (kinome screen hit) | Ex vivo: same EMC-line screen, mechanism unexplained [14] | Yes |
+| CDK4/6 inhibitors: palbociclib (cell cycle) | Genomic and immunohistochemical: CDK4 positive in 100% of a 31-case series, with *CDKN2A*/*CDKN2B* loss, and no functional test [8,5] | Yes |
+| Pioglitazone (PPARγ agonist) | Mechanistic: direct agonism, riding the PPARγ axis whose direction is unresolved (section 3.3) | Yes |
+| NTRK inhibitors: larotrectinib, entrectinib | Mechanistic: pan-Trk expression rather than a fusion, which is weak [2] | Yes |
+| *NR4A3*-directed modulation (fusion transcription factor) | Mechanistic: no clinical-grade agent exists [1] | Yes |
+
+error: patch failed: research/manuscripts/repurposing/repurposing-hypotheses.md:340
+error: while searching for:
+
+| Lead | Why it qualifies as untried | EMC-specific functional evidence | A realistic test |
+|---|---|---|---|
+| PPARγ agonism with pioglitazone, motivated by zaltoprofen | not a deliberate trial in EMC, but not untried either: one EMC patient took it for diabetes [5]; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
+| Carfilzomib with doxorubicin, and with venetoclax | untried in EMC; a hit from an unbiased screen rather than a hypothesis. The class is not untried in sarcoma: bortezomib monotherapy was taken to phase II in recurrent or metastatic sarcoma [21] and carfilzomib to phase I in combination in relapsed or refractory solid tumours [22] (section 4.1) | Ex vivo: the only compound of a 40-drug screen placed in the authors' high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. Section 4.1 states what that screen did and did not cover | preclinical replication, then a combination arm on the existing anthracycline backbone |
+| HDAC inhibitors (panobinostat, romidepsin); brigatinib | untried in EMC; hits from a second, independent EMC screen; histone deacetylase is prior art in the parent histology [9] | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14] | replication across further EMC models; the brigatinib hit is mechanistically unexplained and worth dissecting |
+| CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
+| BET and CDK7 to CDK9 inhibition; direct *NR4A3* modulation | most on-target, addressing the transcriptional addiction of the fusion | mechanism and analogy only, with no EMC functional data | a research programme rather than a near-term trial |
+
+The entries in Table 3 converge on EMC-specific functional data. The PPARγ axis carries mechanism
+
+error: patch failed: research/manuscripts/repurposing/repurposing-hypotheses.md:368
+error: while searching for:
+
+One functional experiment has tested the direction, and it favours agonism [12]. Its in-vitro work
+used H-EMC-SS, a line that Cellosaurus annotates, citing a primary source, as not harbouring an
+*EWSR1* fusion. That paper is not open access and its full text has not been retrieved here, so
+whether the mouse experiment used the same line is unknown and cannot be stated in either
+direction. Separately, PPARγ transcriptional output has not been measured in EMC. Every EMC reading
+is of receptor abundance, and abundance does not imply an activated receptor.
+
+The PPARγ lead is not withdrawn, since it remains the only candidate here with an in-vivo signal,
+but its evidence line is narrower than the label "in vivo, animal EMC" conveys, and the sign of the
+axis is an open question. Nothing here asserts that agonism or antagonism is the useful direction,
+and nothing here asserts efficacy for pioglitazone, zaltoprofen or any thiazolidinedione in EMC.
+One further record belongs here, and it narrows the novelty of the pioglitazone arm rather than its
+evidence. Davis and colleagues, cited above for the quiet genome, report that one patient in their
+six-patient EMC sequencing cohort was taking pioglitazone for diabetes mellitus and had stable
+
+error: patch failed: research/manuscripts/repurposing/repurposing-hypotheses.md:408
+Hunk #7 succeeded at 745 (offset -39 lines).
+Hunk #8 succeeded at 765 (offset -39 lines).
+Applying patch research/manuscripts/repurposing/repurposing-hypotheses.md with 5 rejects...
+Hunk #1 applied cleanly.
+Rejected hunk #2.
+Rejected hunk #3.
+Rejected hunk #4.
+Rejected hunk #5.
+Rejected hunk #6.
+Hunk #7 applied cleanly.
+Hunk #8 applied cleanly.

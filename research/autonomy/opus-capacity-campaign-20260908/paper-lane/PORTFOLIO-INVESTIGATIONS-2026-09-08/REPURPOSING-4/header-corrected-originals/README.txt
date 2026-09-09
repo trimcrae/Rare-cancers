@@ -1,0 +1,1 @@
+These are the four ORIGINAL diffs with ONLY their two header lines rewritten to a/<repo path> and b/<repo path>. No hunk or content byte changed. They are the inputs to checks/05-10 and 18, kept for reproducibility. Do NOT apply these - apply the REBASED-* set per APPLY-ORDER.md. gendiff.py and cover.py are the generator and the substance-coverage checker.

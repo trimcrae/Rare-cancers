@@ -51,12 +51,25 @@ successor's own instruction.
 respectively. HLA-COVERAGE-3 measured that they coexist (its `checks/05`, exit 0), so both may go in;
 that is a measured result, not an assumption.
 
-**The REPURPOSING chain no longer applies at all.** All four of its diffs now return exit 1
-(`REPURPOSING-2/…-cited-reference-sweep`, and REPURPOSING-3's three). REPURPOSING-3 had already
-recorded that its two committed-baseline diffs lose hunks after REPURPOSING-2's sweep and supplied
-`PROPOSED-UNAPPLIED-rebased-onto-REPURPOSING-2.diff` as the resolved form — but the tree has moved
-since, and the rebased form fails too. **These need re-basing before anyone applies them**, and that
-is a real task, not a formality.
+**The REPURPOSING chain does not apply — and my first diagnosis of why was WRONG.** All four of its
+diffs return exit 1, and I wrote here that "the tree has moved since". ⛔ **THAT IS NOT WHAT THE TREE
+SAYS.** REPURPOSING-4 re-measured and found all four fail identically, *before a single hunk is
+examined*, with `No such file or directory` on a `/tmp/.../scratchpad/.../AFTER.md` path — because
+each was produced by `diff -u <real file> <scratchpad AFTER file>`, so the `+++` header names a
+scratchpad path that `git apply` then cannot find. I confirmed the headers myself. That is the same
+class of defect as HLA-COVERAGE-2's exit 128: a hand-assembled patch envelope, **not** tree drift.
+
+With only the two header lines rewritten — no hunk, no content byte — three of the four apply
+cleanly against today's tree (7, 6 and 4 hunks, all exit 0). The fourth,
+`PROPOSED-UNAPPLIED-rebased-onto-REPURPOSING-2.diff`, still exits 1, and that is **by design**: its
+base is the post-sweep file, so hunks 2–6 reject on context containing REPURPOSING-2's added
+sentences. A base mismatch, exactly as REPURPOSING-3 documented, not a conflict.
+
+**Use REPURPOSING-4's rebased set**, which is generated with `difflib` rather than hand-assembled:
+`REBASED-COMBINED-single-patch.diff` (10 hunks, +65 −20) checks exit 0 in tree and applies exit 0 on
+a scratch copy. The two-step route is `REBASED-01` then `REBASED-02`, and **`REBASED-02` checking
+exit 1 against the bare tree is EXPECTED** — its base is the post-`01` file. `APPLY-ORDER.md` in
+that lane records this so nobody "fixes" patch 02 by dropping the sweep.
 
 ## Cannot apply — target missing
 

@@ -1,0 +1,120 @@
+--- a/research/manuscripts/repurposing/repurposing-hypotheses.md
++++ b/research/manuscripts/repurposing/repurposing-hypotheses.md
+@@ -84,7 +84,12 @@
+ References 21 and 22 were retrieved from PubMed on 2026-08-28 and are likewise abstract-level only:
+ reference 21 carries no PMCID and no full text was reachable, and PMC12428389 was not fetched for
+ reference 22, so every statement attributed to either above is taken from its PubMed abstract
+-([`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json)). The
++([`carfilzomib-class-clinical-2026-08-28.json`](../../literature/carfilzomib-class-clinical-2026-08-28.json)).
++References 2, 8, 9, 12 and 14 are also abstract-level only, as checked against PubMed on 2026-09-09:
++references 2, 8, 9 and 14 have no PubMed Central record at all, by both the identifier converter and
++the PubMed-to-PMC link database, and reference 12's record, PMC10054153, returns an abstract and an
++empty body. Every statement attributed to any of those five above is taken from its PubMed abstract,
++and their methods, results, tables and figures are unread rather than absent. The
+ full text of reference 16 was retrieved and read. Crossref dates reference 10 to 2020 as an
+ online-first record; it is cited here to the 2021 Nucleic Acids Research database issue, and both
+ are standard.
+@@ -158,7 +163,14 @@
+ a median progression-free survival of 19 months, against a low objective response rate for
+ anthracycline-based chemotherapy [1]. Those trial figures are taken from the 2025 comprehensive
+ review and from this project's registry record of that trial; the trial report itself was not
+-retrieved for this manuscript. Clinical
++retrieved for this manuscript. A second cited series bears on the same point from a different
++direction: among 58 EMCs confirmed by fluorescence in situ hybridization, the administration of
++chemotherapy was one of the factors that portended shorter univariate disease-specific survival,
++and it did not remain prognostically independent alongside size greater than 10 cm and metastasis
++at presentation [2]. That series names no regimen and reports no response assessment, and an
++association of this shape is confounded by indication, because chemotherapy is given to the
++patients whose disease is already behaving worse. It is recorded here as a further absence of
++established systemic benefit, and not as evidence of harm. Clinical
+ next-generation sequencing of advanced EMC characteristically reveals no recurrent, directly
+ actionable driver mutation beyond the defining fusion [5]. An activating *KIT*
+ mutation of a type that is imatinib-sensitive in other diseases is rare, reported in 1 of 20 EMCs in
+@@ -168,7 +180,10 @@
+ defined"; the same patient had been treated with sunitinib, with a prolonged response [6].
+ Sensitivity in EMC is therefore inferred from the mutation class, not observed in that patient. CD117/KIT protein, by contrast, is
+ detectable by immunohistochemistry in a substantial but variable proportion of cases, approximately
+-53% in one series and approximately 84% of 31 cases in another [2,8]. That distinction matters
++53% in one series and approximately 84% of 31 cases in another [2,8]. Those two figures are not
++measured to the same threshold and should not be read as a single range: the first counts
++moderate-to-strong immunoreactivity among 48 assessed cases [2], the second counts positivity that
++its authors define as focal or diffuse [8]. That distinction matters
+ clinically, because imatinib acts on the activating mutation rather than on protein expression
+ alone. EMC therefore sits in a difficult space: too rare for adequately powered de-novo trials, and
+ without an obvious single druggable mutation to anchor a targeted-therapy programme.
+@@ -340,13 +355,13 @@
+ |---|---|---|
+ | Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
+ | VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
+-| Zaltoprofen (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
++| Zaltoprofen (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes for EMC; zaltoprofen itself is not clinically untried in the parent histology [23] |
+ | Pioglitazone (PPARγ, lineage) | Same in-vivo rationale as zaltoprofen [12], with the same unresolved direction (section 3.3). One patient in the six-patient sequencing cohort of [5] took pioglitazone for diabetes and had stable metastatic EMC for 13 months before unequivocal progression; that report states the contribution of pioglitazone to disease control is unknown | No, already given to an EMC patient, incidentally and without an efficacy assessment |
+ | Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only compound of the 40 screened that the authors place in their high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+ | Venetoclax (BCL-2, apoptosis) | Ex vivo: moderate sensitivity in the screen, carried into dose-response testing in both EMC models, with no monotherapy response [13] | Yes |
+ | HDAC inhibitors: romidepsin, panobinostat (epigenetic) | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14]. Histone deacetylase is named in the parent histology [9] | Yes for EMC |
+ | Brigatinib (kinome screen hit) | Ex vivo: same EMC-line screen, mechanism unexplained [14] | Yes |
+-| CDK4/6 inhibitors: palbociclib (cell cycle) | Genomic and immunohistochemical: CDK4 positive in 100% of a 31-case series, with *CDKN2A*/*CDKN2B* loss, and no functional test [8,5] | Yes |
++| CDK4/6 inhibitors: palbociclib (cell cycle) | Genomic and immunohistochemical: CDK4 positive, at a threshold its authors define as focal or diffuse staining, in 100% of a 31-case series, with *CDKN2A*/*CDKN2B* loss, and no functional test [8,5] | Yes |
+ | Pioglitazone (PPARγ agonist) | Mechanistic: direct agonism, riding the PPARγ axis whose direction is unresolved (section 3.3) | Yes |
+ | NTRK inhibitors: larotrectinib, entrectinib | Mechanistic: pan-Trk expression rather than a fusion, which is weak [2] | Yes |
+ | *NR4A3*-directed modulation (fusion transcription factor) | Mechanistic: no clinical-grade agent exists [1] | Yes |
+@@ -368,10 +383,10 @@
+ 
+ | Lead | Why it qualifies as untried | EMC-specific functional evidence | A realistic test |
+ |---|---|---|---|
+-| PPARγ agonism with pioglitazone, motivated by zaltoprofen | not a deliberate trial in EMC, but not untried either: one EMC patient took it for diabetes [5]; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
++| PPARγ agonism with pioglitazone, motivated by zaltoprofen | not a deliberate trial in EMC, but not untried either: one EMC patient took it for diabetes [5], and zaltoprofen itself has been given to one chondrosarcoma patient [23]; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
+ | Carfilzomib with doxorubicin, and with venetoclax | untried in EMC; a hit from an unbiased screen rather than a hypothesis. The class is not untried in sarcoma: bortezomib monotherapy was taken to phase II in recurrent or metastatic sarcoma [21] and carfilzomib to phase I in combination in relapsed or refractory solid tumours [22] (section 4.1) | Ex vivo: the only compound of a 40-drug screen placed in the authors' high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. Section 4.1 states what that screen did and did not cover | preclinical replication, then a combination arm on the existing anthracycline backbone |
+ | HDAC inhibitors (panobinostat, romidepsin); brigatinib | untried in EMC; hits from a second, independent EMC screen; histone deacetylase is prior art in the parent histology [9] | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14] | replication across further EMC models; the brigatinib hit is mechanistically unexplained and worth dissecting |
+-| CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
++| CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive, at a focal-or-diffuse staining threshold, in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
+ | BET and CDK7 to CDK9 inhibition; direct *NR4A3* modulation | most on-target, addressing the transcriptional addiction of the fusion | mechanism and analogy only, with no EMC functional data | a research programme rather than a near-term trial |
+ 
+ The entries in Table 3 converge on EMC-specific functional data. The PPARγ axis carries mechanism
+@@ -408,15 +423,26 @@
+ 
+ One functional experiment has tested the direction, and it favours agonism [12]. Its in-vitro work
+ used H-EMC-SS, a line that Cellosaurus annotates, citing a primary source, as not harbouring an
+-*EWSR1* fusion. That paper is not open access and its full text has not been retrieved here, so
+-whether the mouse experiment used the same line is unknown and cannot be stated in either
+-direction. Separately, PPARγ transcriptional output has not been measured in EMC. Every EMC reading
++*EWSR1* fusion. That paper has a PubMed Central record, PMC10054153, but the record returns an
++abstract and no machine-readable body, so its full text has not been retrieved here. The abstract
++names H-EMC-SS for the in-vitro work only and calls the animal work "a mouse model of extraskeletal
++myxoid chondrosarcoma" without naming a line, so whether the mouse experiment used the same line is
++unknown and cannot be stated in either direction. Separately, PPARγ transcriptional output has not been measured in EMC. Every EMC reading
+ is of receptor abundance, and abundance does not imply an activated receptor.
+ 
+ The PPARγ lead is not withdrawn, since it remains the only candidate here with an in-vivo signal,
+ but its evidence line is narrower than the label "in vivo, animal EMC" conveys, and the sign of the
+ axis is an open question. Nothing here asserts that agonism or antagonism is the useful direction,
+ and nothing here asserts efficacy for pioglitazone, zaltoprofen or any thiazolidinedione in EMC.
++One further record bounds the novelty of this axis in the parent histology, in the same way that
++reference [9] does for histone deacetylase. The group that ran the EMC animal experiment had
++earlier reported a single patient with a grade 2 cervical chondrosarcoma who was treated with
++zaltoprofen and was free from disease progression for more than two years, with enhanced PPARγ and
++reduced MMP2 expression on post-treatment histopathology [23]. That patient did not have EMC, the
++report is an uncontrolled single case within a laboratory paper, and no efficacy, safety or
++therapeutic-window conclusion is drawn from it in either histology. It means only that zaltoprofen,
++the agent that motivates this arm, has been given to a chondrosarcoma patient and is therefore not
++clinically untried in the parent histology, while remaining untried in EMC.
+ One further record belongs here, and it narrows the novelty of the pioglitazone arm rather than its
+ evidence. Davis and colleagues, cited above for the quiet genome, report that one patient in their
+ six-patient EMC sequencing cohort was taking pioglitazone for diabetes mellitus and had stable
+@@ -758,6 +784,7 @@
+ 20. CURE ID, the FDA and NCATS treatment registry. https://cure.ncats.io.
+ 21. Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, et al. A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas. *Cancer.* 2005;103(7):1431-8. doi 10.1002/cncr.20968. PMID 15739208.
+ 22. Boklan J, Langevin AM, Bielamowicz K, Neville K, Trippett T, Brown V, et al. A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors. *Cancers (Basel).* 2025;17(17):2924. doi 10.3390/cancers17172924. PMID 40941020. PMC12428389.
++23. Higuchi T, Takeuchi A, Munesue S, Yamamoto N, Hayashi K, Kimura H, et al. Anti-tumor effects of a nonsteroidal anti-inflammatory drug zaltoprofen on chondrosarcoma via activating peroxisome proliferator-activated receptor gamma and suppressing matrix metalloproteinase-2 expression. *Cancer Med.* 2018;7(5):1944-1954. doi 10.1002/cam4.1438. PMID 29573200. PMC5943440.
+ 
+ ---
+ 
+@@ -777,7 +804,7 @@
+ | The abstract's unattributed form of the same claim, which read as this work's own validation across two models | The abstract now names Bangerter and colleagues as the source of the ex-vivo screen and states that it was run on one patient-derived model | Abstract | The abstract carried the stronger, unattributed form for several weeks after §3 of the same document already carried the correction. An attribution that exists in one section and not in the abstract is not a correction |
+ | Two in-silico rationales this work advanced for the proteasome lead: a DepMap dependency-selectivity argument, and a proteostatic-load argument | Both returned **negative** on 2026-08-09 and are reported as negatives in §4.1. The candidate rests on the published ex-vivo observation for its EMC-specific support, and the case for selectivity does not survive at all. ⚠ "Survives on the published ex-vivo observation **alone**" was itself superseded on 2026-09-08; see the row below | §4.1 | Both tests were pre-specified and run. *PSMB1*, *PSMC1*, *PSMD1* and *VCP* are dependencies in 100% of the 91 sarcoma lines and *PSMB5* in 97.8%, with selectivity between −0.10 and +0.17; the secretory and matrix-load module, which carries the mechanistic argument, was flat |
+ | The PPARγ axis presented with an implied direction of intervention, and the zaltoprofen result labelled simply "in vivo, animal EMC" | The direction is **unresolved**: Subramanian et al. 2005 proposed PPARγ inhibitors and Filion et al. 2009 proposed agonists, from the same over-expression observation, and neither proposal is backed by an EMC functional experiment | §3.3, §5, and `pparg-direction-emc.md`; carried in the project's disputed-identity and correction registry under the marker `PPARγ DIRECTION — UNRESOLVED (2026-08-06)` | A dedicated literature adjudication, 2026-08-06, found the two primary sources in direct opposition |
+-| The zaltoprofen in-vivo result read as unqualified EMC evidence | The in-vitro half of that result used **H-EMC-SS**, a line that Cellosaurus annotates, citing a primary source, as not harbouring an *EWSR1* fusion. Whether the mouse experiment used the same line is **unread**, because the paper is not open access and its full text has not been retrieved here | §3.2, §3.3, §5 | An absent reading is not a reading of absence. The claim must not be written in either direction until the full text is read |
++| The zaltoprofen in-vivo result read as unqualified EMC evidence | The in-vitro half of that result used **H-EMC-SS**, a line that Cellosaurus annotates, citing a primary source, as not harbouring an *EWSR1* fusion. Whether the mouse experiment used the same line is **unread**, because the paper's PubMed Central record (PMC10054153) returns an abstract but no machine-readable body, so its full text has not been retrieved here; its abstract names H-EMC-SS for the in-vitro work only and names no line for the animal work | §3.2, §3.3, §5 | An absent reading is not a reading of absence. The claim must not be written in either direction until the full text is read |
+ | "EMC's sparse knowledge-graph neighbourhood explains the divergence of the graph foundation model" | Refuted by the pre-specified stress test: the same agents ranked no better, and slightly worse, for chondrosarcoma (17.7) and soft-tissue sarcoma (17.4) than for EMC (21.0), with the same implausible top hits. The divergence is a general property of the released checkpoint | Abstract, §2, §5, and the methodology and findings documents | The stress test was run to test the explanation and overturned it |
+ | Imatinib described as ranking in the "bottom quartile" of the model's 7,957 drugs | Imatinib sits at the 25.2nd percentile, just above the bottom quartile. "Bottom quartile" is reserved for pazopanib (19.3) and sunitinib (19.8) | §5 | Checked against `txgnn-emc-predictions.json` |
+ | "CD117 expressed in roughly half of cases (Huang SC 2023)", a single cherry-picked figure with the wrong attribution | A verified range: approximately 53% in one series and approximately 84% of 31 cases in another (Huang SC et al. 2023; Giner et al. 2023) | §1.1 | The single figure was mis-cited; the range is what the two sources jointly support |
