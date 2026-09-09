@@ -1,0 +1,17 @@
+inputs re-hashed at use:
+  iedb_validated_epitope_cache: 122009e5615fb3f0… 433695 B
+  epitope_allele_matrix_mhcnuggets: e9a248b28d77cbd6… 588303 B
+  epitope_allele_matrix_mhcflurry: 24da5269b71a2d2b… 1517 B
+cached calls: 5916 over 174 peptides x 34 alleles
+arm F: 988 records, 549 peptides, 652 pairs on panel, 100 HLA-C pairs excluded
+arm N: 965 records, 675 peptides, 473 pairs on panel, 383 HLA-C pairs excluded
+intersection arm F: pairs=0 peptides=0 alleles=33
+intersection arm N: pairs=0 peptides=0 alleles=33
+nearest peptide edit distance: 4 (AAVEWFDD vs AALFFFDID)
+measured discrimination: n_pos=0 n_neg=5916 auroc=None -> defined=False
+real label-shuffled null: UNDEFINED — fewer than two label classes; a null cannot be drawn.
+synthetic positive control auroc=0.9939 sens=0.9900 spec=0.9100
+synthetic shuffled null: mean=0.49835 [0.44122, 0.55505] -> AT CHANCE
+checks: {"auroc_matches_its_definition_with_ties": true, "positive_control_separates": true, "shuffled_control_at_chance": true, "empty_overlap_returns_undefined_not_chance": true, "real_null_is_undefined_not_chance": true, "all_passed": true}
+missing predictor calls required: arm F 652 + arm N 473 = 1125
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/THRESHOLD-CALIB-1/threshold-calibration.json (98234 B)

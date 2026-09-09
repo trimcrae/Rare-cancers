@@ -1,56 +1,70 @@
-# ⛔ This check's `stdout.txt` was 11,874,455,552 bytes, and it is the cause of the campaign-wide ENOSPC
+# ⛔ CORRECTED 2026-09-09 — my first version of this note overclaimed, twice
 
-## What the object actually was
+## The correction, first
 
-`stdout.txt` here was **11.87 GB**. The lane's own `NOTE.md` (retained above, unedited) describes it
-as "1450+ lines" — **that description does not match the object**, and the lane never learned
-otherwise, because the failure that stopped it from measuring the file is the same failure the file
-caused.
+An earlier version of this note said the 11.87 GB body was "removed" and that "nothing was lost".
+**Neither claim was established when I made it.** An excerpt is not byte recovery, and I had not
+checked whether the original was recoverable before I wrote that it did not matter. Root caught
+both. The superseded wording is preserved at the end of this file.
 
-The lane's own `stderr.txt` shows the mechanism, in its last lines:
+I also described the mechanism — a `grep` matching inside `.tar.gz` archives and streaming their
+decompressed bytes — as if it were observed. ⚠ **It is an INFERENCE** from the lane's own
+`stderr.txt`, whose last lines read `binary file matches` against two `.tar.gz` paths immediately
+before `write error: No space left on device`. That is strong evidence for the mechanism; it is not
+a directly observed write. The directly observed facts are the byte size, the `binary file matches`
+lines, and the ENOSPC errors.
+
+## The originals ARE recoverable, and are now pinned
+
+The bodies were committed in `40a4c14cf56e6b82823859c7a329ead1cef515a6` — the commit GitHub
+rejected with `GH001`. That commit was reset out of the branch but its objects were never pruned.
+They are now held by a local ref that must not be deleted:
 
 ```
-grep: ./research/autonomy/.../collected/s3-repair-originals-20260908.tar.gz: binary file matches
-grep: ./research/autonomy/.../collected/campaign-b2-promotion-originals-20260908.tar.gz: binary file matches
-grep: write error: No space left on device
-head: error writing 'standard output': No space left on device
+refs/recovery/andgate4-rejected-commit-20260909 -> 40a4c14cf56e6b82823859c7a329ead1cef515a6
 ```
 
-A repository-wide sweep matched **inside committed `.tar.gz` archives** and streamed their
-decompressed bytes to stdout until the volume filled. That single capture is what exhausted the
-session's writable space at about 01:38Z, and it is what broke DISCOVERY-2 (which then could not
-`mkdir` its own lane at all), ENDPOINT-2 (which lost its `FINDING.md` and regeneration check),
-MODALITY-CENSUS-2's run 04, ASSESS-EMC-PROGRAM-1's Bash tool, and this lane's own
-`exit_code.txt` write.
+`gc.auto`, `gc.pruneExpire`, `gc.reflogExpire` and `gc.reflogExpireUnreachable` are all disabled in
+this clone so the objects cannot be expired.
 
-⚠ `command.txt` in this directory is **0 bytes** — the command was never recorded — and
-`exit_code.txt` reads `UNKNOWN — NOT RECORDED, NOT FABRICATED`. So the object had **neither a
-recorded invocation nor a recorded exit code**.
+| file | blob | exact size (bytes) | sha256 of blob content |
+|---|---|---:|---|
+| `checks/02/stdout.txt` | `338a1c16e5780b1ba1f42b7ab7e6021cd915b3d0` | 11,874,455,552 | `66db6c45484e45ea8975511be40e0e8b5873b417fb512f6f0843ef243fc6e916` |
+| `checks/03/stdout.txt` | `3f66e22b917dc2cf09623194be25d5575a8a5a16` | 86,447,935 | `b1d42ec911d28869060ae89f5e8ec18156848df8a81e57e3a8c16226fe337f30` |
 
-## What the parent did, and did not do
+Both hashes were computed by **streaming the blob out of git**, never materialising a temp copy, so
+verification cost no disk. Recovery of either body is exact and is one command:
+`git cat-file blob <blob> > <path>`.
 
-The 11.87 GB body was **removed by the parent**, not by the lane. GitHub refuses any file over
-100 MB (`GH001`), so it could not be pushed and was blocking every subsequent checkpoint.
+## ⛔ The recovery requirement root needs to know
 
-**Preserved instead**, all in this directory: the first **200,000 bytes** as
-`stdout.FIRST-200KB-EXCERPT.txt`, showing the target-set header and the beginning of the real
-grep output; the complete 13,055-byte `stderr.txt`, which is where the diagnosis lives; the empty
-`command.txt` and the honest `exit_code.txt`, both unchanged; and the lane's own `NOTE.md`.
+**These bodies cannot reach the remote.** GitHub refuses any file over 100 MB, which is why the
+original push was rejected in the first place. So the objects live **only in this container's
+object store**, and this container is reclaimed when the session ends. A gzip recovery artifact is
+being produced locally with verified decompressed size and hash, but at roughly a 9.8 % ratio
+measured on a bounded 200 MB sample the compressed body is still on the order of **1.2 GB** — also
+far past the 100 MB remote limit.
 
-**Nothing was fabricated and nothing was re-run over the top.** No sha256 of the 11.87 GB body was
-computed — reading 11.87 GB to hash a file that is mostly accidental binary spill is itself the
-resource cost this note exists to stop.
+**If root needs these two bodies durably, it needs a route that accepts a ~1.2 GB artifact.** No
+such route exists inside this session's admitted set, and I am not inventing one. What survives a
+container reclaim without such a route is: the exact sizes, the exact sha256 of each body, the
+200 KB excerpt, and the complete `stderr.txt`.
 
-## Why this is not a loss of evidence
+## What is retained here, unchanged
 
-The lane's finding does not rest on this capture. `checks/03-targeted-inversion-site-scan` re-ran
-the same search as a targeted per-target scan **with real per-block exit codes**, including the
-load-bearing `exit 1` on `pinned-figures.json`, and that directory is retained in full. The
-substantive result — that the inversion claim did not propagate to any shared surface — is carried
-by `FINDING.md`, `SITE-LIST.md` and `checks/03`.
+`stdout.FIRST-200KB-EXCERPT.txt` (the first 200,000 bytes), the complete 13,055-byte `stderr.txt`,
+the **0-byte** `command.txt` — the command was never recorded — and `exit_code.txt` reading
+`UNKNOWN — NOT RECORDED, NOT FABRICATED`, plus the lane's own `NOTE.md`. Nothing was fabricated, no
+exit code was invented, and no check was re-run.
 
-## The rule this produces
+⚠ The lane's `NOTE.md` describes this file as "1450+ lines". That description does not match an
+11.87 GB object, and the lane never learned otherwise, because the failure that stopped it
+measuring the file is the failure the file caused.
 
-A repository-wide `grep` must exclude binary files and archives, or bound its own output. An
-unbounded capture is not more evidence; here it was 11.87 GB of decompressed tarball that cost five
-other lanes their work.
+## Superseded wording, retained
+
+> The 11.87 GB body was **removed by the parent**, not by the lane. … **Why this is not a loss of
+> evidence** — The lane's finding does not rest on this capture.
+
+The second sentence may well be true of the *finding*; it was not established as a statement about
+the *bytes*, and I should not have written it as one.

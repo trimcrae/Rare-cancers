@@ -1,0 +1,688 @@
+{
+ "_id": "PARALOGUE-SHAPE-1",
+ "_title": "Per-frame NR4A pocket geometry: lining-residue distance matrix and pocket Rg, decomposed into species against replica",
+ "_question": "Does NR4A3's pocket visit conformational states the paralogues never do?",
+ "_scope": "GEOMETRY ONLY. No selectivity, druggability, efficacy, safety, therapeutic-window or clinical-readiness claim is made or follows.",
+ "_generated_utc": "2026-09-09T02:02:05Z",
+ "inputs": {
+  "roots": {
+   "NR4A1": "results/nr4a1-pocket-ensemble",
+   "NR4A2": "results/nr4a2-pocket-ensemble",
+   "NR4A3": "results/nr4a3-pocket-reharmonize"
+  },
+  "ensembles": [
+   "release_rep0",
+   "release_rep1",
+   "release_rep2"
+  ],
+  "frames_per_replica": 25,
+  "n_frames_total": 225,
+  "biased_metad_subsets_excluded": true,
+  "lining": {
+   "NR4A1": {
+    "local_to_uniprot_offset": 347,
+    "uniprot_lining": [
+     372,
+     373,
+     376,
+     377,
+     380,
+     450,
+     453,
+     454,
+     500,
+     503
+    ],
+    "local_lining": [
+     25,
+     26,
+     29,
+     30,
+     33,
+     103,
+     106,
+     107,
+     153,
+     156
+    ]
+   },
+   "NR4A2": {
+    "local_to_uniprot_offset": 343,
+    "uniprot_lining": [
+     372,
+     373,
+     376,
+     377,
+     380,
+     450,
+     453,
+     454,
+     500,
+     503
+    ],
+    "local_lining": [
+     29,
+     30,
+     33,
+     34,
+     37,
+     107,
+     110,
+     111,
+     157,
+     160
+    ]
+   },
+   "NR4A3": {
+    "local_to_uniprot_offset": 372,
+    "uniprot_lining": [
+     406,
+     407,
+     410,
+     411,
+     412,
+     481,
+     484,
+     485,
+     531,
+     534
+    ],
+    "local_lining": [
+     34,
+     35,
+     38,
+     39,
+     40,
+     109,
+     112,
+     113,
+     159,
+     162
+    ]
+   }
+  },
+  "reference_lining_source": "research/modalities/nr4a3_metad.py REF_CV_RESIDUES (NR4A3 Pocket-5); paralogue ids from each release_summary.json cv_residues; offsets from research/modalities/nr4a-paralogue-dynamics.json construct",
+  "identity_check": "CA residue names at every mapped local id verified against the committed cv_identities / AF-Q92570 Pocket-5 identities"
+ },
+ "feature_definition": {
+  "distance_matrix": "45 pairwise CA-CA distances among the 10 homologous lining residues, Angstrom, superposition-free",
+  "pocket_rg": "radius of gyration of the same 10 CA atoms, Angstrom",
+  "standardisation": "each distance divided by the POOLED WITHIN-REPLICA sd (216 df), which is blind to species and replica means"
+ },
+ "variance_decomposition": {
+  "per_distance": [
+   {
+    "pair": "406-407",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 407,
+    "mean_A": 3.8673,
+    "eta2_species": 0.008,
+    "eta2_replica_within_species": 0.0676,
+    "eta2_residual": 0.9244,
+    "within_replica_sd_A": 0.0515
+   },
+   {
+    "pair": "406-410",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 410,
+    "mean_A": 6.7951,
+    "eta2_species": 0.7205,
+    "eta2_replica_within_species": 0.0545,
+    "eta2_residual": 0.2249,
+    "within_replica_sd_A": 0.4725
+   },
+   {
+    "pair": "406-411",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 411,
+    "mean_A": 9.9978,
+    "eta2_species": 0.8651,
+    "eta2_replica_within_species": 0.027,
+    "eta2_residual": 0.1078,
+    "within_replica_sd_A": 0.4659
+   },
+   {
+    "pair": "406-412",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 412,
+    "mean_A": 12.1415,
+    "eta2_species": 0.9622,
+    "eta2_replica_within_species": 0.01,
+    "eta2_residual": 0.0278,
+    "within_replica_sd_A": 0.5746
+   },
+   {
+    "pair": "406-481",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 481,
+    "mean_A": 10.5216,
+    "eta2_species": 0.6807,
+    "eta2_replica_within_species": 0.0448,
+    "eta2_residual": 0.2745,
+    "within_replica_sd_A": 0.4876
+   },
+   {
+    "pair": "406-484",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 12.6209,
+    "eta2_species": 0.5188,
+    "eta2_replica_within_species": 0.118,
+    "eta2_residual": 0.3631,
+    "within_replica_sd_A": 0.5584
+   },
+   {
+    "pair": "406-485",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 12.4629,
+    "eta2_species": 0.5804,
+    "eta2_replica_within_species": 0.1139,
+    "eta2_residual": 0.3056,
+    "within_replica_sd_A": 0.5826
+   },
+   {
+    "pair": "406-531",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 8.9863,
+    "eta2_species": 0.5645,
+    "eta2_replica_within_species": 0.132,
+    "eta2_residual": 0.3035,
+    "within_replica_sd_A": 0.5573
+   },
+   {
+    "pair": "406-534",
+    "nr4a3_uniprot_i": 406,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 9.6715,
+    "eta2_species": 0.2829,
+    "eta2_replica_within_species": 0.2229,
+    "eta2_residual": 0.4942,
+    "within_replica_sd_A": 0.5151
+   },
+   {
+    "pair": "407-410",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 410,
+    "mean_A": 5.7123,
+    "eta2_species": 0.2098,
+    "eta2_replica_within_species": 0.1246,
+    "eta2_residual": 0.6656,
+    "within_replica_sd_A": 0.4922
+   },
+   {
+    "pair": "407-411",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 411,
+    "mean_A": 7.9453,
+    "eta2_species": 0.7778,
+    "eta2_replica_within_species": 0.0521,
+    "eta2_residual": 0.1701,
+    "within_replica_sd_A": 0.5678
+   },
+   {
+    "pair": "407-412",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 412,
+    "mean_A": 9.7583,
+    "eta2_species": 0.9616,
+    "eta2_replica_within_species": 0.007,
+    "eta2_residual": 0.0314,
+    "within_replica_sd_A": 0.5896
+   },
+   {
+    "pair": "407-481",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 481,
+    "mean_A": 12.8287,
+    "eta2_species": 0.5771,
+    "eta2_replica_within_species": 0.0099,
+    "eta2_residual": 0.413,
+    "within_replica_sd_A": 0.5118
+   },
+   {
+    "pair": "407-484",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 14.337,
+    "eta2_species": 0.4604,
+    "eta2_replica_within_species": 0.0711,
+    "eta2_residual": 0.4685,
+    "within_replica_sd_A": 0.6084
+   },
+   {
+    "pair": "407-485",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 13.2784,
+    "eta2_species": 0.5439,
+    "eta2_replica_within_species": 0.0589,
+    "eta2_residual": 0.3972,
+    "within_replica_sd_A": 0.6646
+   },
+   {
+    "pair": "407-531",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 10.3008,
+    "eta2_species": 0.3754,
+    "eta2_replica_within_species": 0.2825,
+    "eta2_residual": 0.3421,
+    "within_replica_sd_A": 0.6857
+   },
+   {
+    "pair": "407-534",
+    "nr4a3_uniprot_i": 407,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 12.3916,
+    "eta2_species": 0.1963,
+    "eta2_replica_within_species": 0.3311,
+    "eta2_residual": 0.4726,
+    "within_replica_sd_A": 0.5575
+   },
+   {
+    "pair": "410-411",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 411,
+    "mean_A": 3.8759,
+    "eta2_species": 0.0071,
+    "eta2_replica_within_species": 0.0224,
+    "eta2_residual": 0.9705,
+    "within_replica_sd_A": 0.055
+   },
+   {
+    "pair": "410-412",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 412,
+    "mean_A": 8.6,
+    "eta2_species": 0.9317,
+    "eta2_replica_within_species": 0.0153,
+    "eta2_residual": 0.053,
+    "within_replica_sd_A": 0.5159
+   },
+   {
+    "pair": "410-481",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 481,
+    "mean_A": 11.5323,
+    "eta2_species": 0.7365,
+    "eta2_replica_within_species": 0.1145,
+    "eta2_residual": 0.149,
+    "within_replica_sd_A": 0.829
+   },
+   {
+    "pair": "410-484",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 13.0154,
+    "eta2_species": 0.2535,
+    "eta2_replica_within_species": 0.3852,
+    "eta2_residual": 0.3613,
+    "within_replica_sd_A": 1.1137
+   },
+   {
+    "pair": "410-485",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 11.2568,
+    "eta2_species": 0.3931,
+    "eta2_replica_within_species": 0.3012,
+    "eta2_residual": 0.3057,
+    "within_replica_sd_A": 1.0748
+   },
+   {
+    "pair": "410-531",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 11.7486,
+    "eta2_species": 0.7185,
+    "eta2_replica_within_species": 0.1607,
+    "eta2_residual": 0.1208,
+    "within_replica_sd_A": 0.8827
+   },
+   {
+    "pair": "410-534",
+    "nr4a3_uniprot_i": 410,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 13.5345,
+    "eta2_species": 0.2211,
+    "eta2_replica_within_species": 0.4446,
+    "eta2_residual": 0.3343,
+    "within_replica_sd_A": 0.7931
+   },
+   {
+    "pair": "411-412",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 412,
+    "mean_A": 6.7674,
+    "eta2_species": 0.9531,
+    "eta2_replica_within_species": 0.0097,
+    "eta2_residual": 0.0372,
+    "within_replica_sd_A": 0.4239
+   },
+   {
+    "pair": "411-481",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 481,
+    "mean_A": 13.7132,
+    "eta2_species": 0.706,
+    "eta2_replica_within_species": 0.1335,
+    "eta2_residual": 0.1605,
+    "within_replica_sd_A": 0.9708
+   },
+   {
+    "pair": "411-484",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 14.4476,
+    "eta2_species": 0.0963,
+    "eta2_replica_within_species": 0.4932,
+    "eta2_residual": 0.4104,
+    "within_replica_sd_A": 1.2573
+   },
+   {
+    "pair": "411-485",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 11.953,
+    "eta2_species": 0.2052,
+    "eta2_replica_within_species": 0.4177,
+    "eta2_residual": 0.377,
+    "within_replica_sd_A": 1.2468
+   },
+   {
+    "pair": "411-531",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 13.7707,
+    "eta2_species": 0.4386,
+    "eta2_replica_within_species": 0.2998,
+    "eta2_residual": 0.2615,
+    "within_replica_sd_A": 0.9579
+   },
+   {
+    "pair": "411-534",
+    "nr4a3_uniprot_i": 411,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 16.1191,
+    "eta2_species": 0.0708,
+    "eta2_replica_within_species": 0.5185,
+    "eta2_residual": 0.4107,
+    "within_replica_sd_A": 0.8597
+   },
+   {
+    "pair": "412-481",
+    "nr4a3_uniprot_i": 412,
+    "nr4a3_uniprot_j": 481,
+    "mean_A": 14.5941,
+    "eta2_species": 0.8988,
+    "eta2_replica_within_species": 0.0205,
+    "eta2_residual": 0.0807,
+    "within_replica_sd_A": 0.7236
+   },
+   {
+    "pair": "412-484",
+    "nr4a3_uniprot_i": 412,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 14.7174,
+    "eta2_species": 0.7298,
+    "eta2_replica_within_species": 0.0748,
+    "eta2_residual": 0.1954,
+    "within_replica_sd_A": 0.9864
+   },
+   {
+    "pair": "412-485",
+    "nr4a3_uniprot_i": 412,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 11.7102,
+    "eta2_species": 0.6155,
+    "eta2_replica_within_species": 0.133,
+    "eta2_residual": 0.2515,
+    "within_replica_sd_A": 0.89
+   },
+   {
+    "pair": "412-531",
+    "nr4a3_uniprot_i": 412,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 14.8809,
+    "eta2_species": 0.8344,
+    "eta2_replica_within_species": 0.0323,
+    "eta2_residual": 0.1333,
+    "within_replica_sd_A": 0.9753
+   },
+   {
+    "pair": "412-534",
+    "nr4a3_uniprot_i": 412,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 17.4091,
+    "eta2_species": 0.9007,
+    "eta2_replica_within_species": 0.0185,
+    "eta2_residual": 0.0808,
+    "within_replica_sd_A": 0.8867
+   },
+   {
+    "pair": "481-484",
+    "nr4a3_uniprot_i": 481,
+    "nr4a3_uniprot_j": 484,
+    "mean_A": 5.2656,
+    "eta2_species": 0.1712,
+    "eta2_replica_within_species": 0.0881,
+    "eta2_residual": 0.7407,
+    "within_replica_sd_A": 0.2008
+   },
+   {
+    "pair": "481-485",
+    "nr4a3_uniprot_i": 481,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 6.1781,
+    "eta2_species": 0.3866,
+    "eta2_replica_within_species": 0.0673,
+    "eta2_residual": 0.5461,
+    "within_replica_sd_A": 0.2681
+   },
+   {
+    "pair": "481-531",
+    "nr4a3_uniprot_i": 481,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 11.703,
+    "eta2_species": 0.7559,
+    "eta2_replica_within_species": 0.0175,
+    "eta2_residual": 0.2266,
+    "within_replica_sd_A": 0.4004
+   },
+   {
+    "pair": "481-534",
+    "nr4a3_uniprot_i": 481,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 9.3192,
+    "eta2_species": 0.6936,
+    "eta2_replica_within_species": 0.0219,
+    "eta2_residual": 0.2845,
+    "within_replica_sd_A": 0.3455
+   },
+   {
+    "pair": "484-485",
+    "nr4a3_uniprot_i": 484,
+    "nr4a3_uniprot_j": 485,
+    "mean_A": 3.8728,
+    "eta2_species": 0.0308,
+    "eta2_replica_within_species": 0.0383,
+    "eta2_residual": 0.9309,
+    "within_replica_sd_A": 0.0545
+   },
+   {
+    "pair": "484-531",
+    "nr4a3_uniprot_i": 484,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 9.9071,
+    "eta2_species": 0.6254,
+    "eta2_replica_within_species": 0.0411,
+    "eta2_residual": 0.3335,
+    "within_replica_sd_A": 0.4384
+   },
+   {
+    "pair": "484-534",
+    "nr4a3_uniprot_i": 484,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 8.4066,
+    "eta2_species": 0.5031,
+    "eta2_replica_within_species": 0.0504,
+    "eta2_residual": 0.4465,
+    "within_replica_sd_A": 0.3327
+   },
+   {
+    "pair": "485-531",
+    "nr4a3_uniprot_i": 485,
+    "nr4a3_uniprot_j": 531,
+    "mean_A": 11.1998,
+    "eta2_species": 0.6841,
+    "eta2_replica_within_species": 0.0533,
+    "eta2_residual": 0.2627,
+    "within_replica_sd_A": 0.4944
+   },
+   {
+    "pair": "485-534",
+    "nr4a3_uniprot_i": 485,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 11.0405,
+    "eta2_species": 0.4375,
+    "eta2_replica_within_species": 0.0725,
+    "eta2_residual": 0.49,
+    "within_replica_sd_A": 0.4056
+   },
+   {
+    "pair": "531-534",
+    "nr4a3_uniprot_i": 531,
+    "nr4a3_uniprot_j": 534,
+    "mean_A": 4.9863,
+    "eta2_species": 0.0402,
+    "eta2_replica_within_species": 0.063,
+    "eta2_residual": 0.8968,
+    "within_replica_sd_A": 0.1543
+   }
+  ],
+  "pocket_rg": {
+   "eta2_species": 0.305,
+   "eta2_replica_within_species": 0.2988,
+   "eta2_residual": 0.3962,
+   "within_replica_sd_A": 0.2188
+  },
+  "summary": {
+   "median_eta2_species": 0.5645,
+   "median_eta2_replica_within_species": 0.0676,
+   "n_distances_species_gt_replica": 35,
+   "n_distances": 45
+  }
+ },
+ "separation": {
+  "statistic": "T = mean between-group replica-centroid distance / mean within-group replica-centroid distance, in pooled-within-replica sd units",
+  "T_observed": 3.6163,
+  "between_species_centroid_distance": 24.0623,
+  "within_species_replica_centroid_distance": 6.6539,
+  "within_species_replica_spread_by_species": {
+   "NR4A1": 10.5161,
+   "NR4A2": 4.294,
+   "NR4A3": 5.1517
+  }
+ },
+ "checks_that_can_fail": {
+  "exact_replica_block_permutation": {
+   "n_assignments": 1680,
+   "n_distinct_partitions": 280,
+   "p_value": 0.00357,
+   "min_attainable_p": 0.00357,
+   "T_permutation_median": 0.5667,
+   "T_permutation_max": 3.6163,
+   "observed_rank_from_top": 1
+  },
+  "frame_label_permutation": {
+   "n": 2000,
+   "p_value": 0.0005,
+   "note": "anti-conservative: frames within a replica are correlated, so this test cannot by itself establish a species effect"
+  },
+  "replica_baseline": {
+   "note": "within-species replica-vs-replica centroid spread is the baseline; the species contrast must beat it",
+   "between_over_within": 3.6163
+  }
+ },
+ "occupancy": {
+  "question": "do NR4A3 frames occupy shape-space cells no paralogue frame reaches?",
+  "nn_nr4a3_to_paralogue": {
+   "min": 14.3433,
+   "median": 17.8262,
+   "max": 20.724
+  },
+  "nn_paralogue_cross_replica_baseline": {
+   "min": 3.603,
+   "median": 6.0031,
+   "p95": 13.3071,
+   "max": 15.9656
+  },
+  "frac_nr4a3_frames_beyond_paralogue_p95_nn": 1.0,
+  "pocket_rg_envelope": {
+   "nr4a3_mean_A": 7.4247,
+   "nr4a3_sd_A": 0.15,
+   "nr4a3_min_A": 7.154,
+   "nr4a3_max_A": 7.8112,
+   "paralogue_min_A": 6.7853,
+   "paralogue_max_A": 8.4905,
+   "nr4a3_frames_outside_paralogue_range": 0,
+   "per_species_mean_A": {
+    "NR4A1": 7.4371,
+    "NR4A2": 7.8298,
+    "NR4A3": 7.4247
+   },
+   "per_replica_mean_A": {
+    "NR4A1/release_rep0": 7.8162,
+    "NR4A1/release_rep1": 7.4265,
+    "NR4A1/release_rep2": 7.0685,
+    "NR4A2/release_rep0": 7.8266,
+    "NR4A2/release_rep1": 7.9225,
+    "NR4A2/release_rep2": 7.7402,
+    "NR4A3/release_rep0": 7.3996,
+    "NR4A3/release_rep1": 7.5229,
+    "NR4A3/release_rep2": 7.3516
+   }
+  }
+ },
+ "centred_fluctuation_control": {
+  "_why": "an absolute distance matrix separates three different proteins trivially; the dynamics question survives only on species-centred fluctuations",
+  "species_mean_removed_T": 0.0,
+  "species_mean_removed_p_block": 1.0,
+  "_species_mean_removed_is_degenerate": "T is 0 and p is 1 BY CONSTRUCTION once each species mean is subtracted; reported only to show the centring was applied, NOT as evidence. The informative fluctuation tests are the dispersion contrast and the fluctuation-space nearest-neighbour test below.",
+  "breathing_amplitude_sd_units_by_replica": {
+   "NR4A1/release_rep0": 9.299,
+   "NR4A1/release_rep1": 7.5571,
+   "NR4A1/release_rep2": 6.1546,
+   "NR4A2/release_rep0": 5.8117,
+   "NR4A2/release_rep1": 5.4166,
+   "NR4A2/release_rep2": 4.8497,
+   "NR4A3/release_rep0": 5.6359,
+   "NR4A3/release_rep1": 5.9913,
+   "NR4A3/release_rep2": 5.2096
+  },
+  "breathing_amplitude_by_species": {
+   "NR4A1": 7.6702,
+   "NR4A2": 5.3593,
+   "NR4A3": 5.6123
+  },
+  "dispersion_contrast_T": 1.4183,
+  "dispersion_contrast_p_block": 0.03929,
+  "fluctuation_space_nn": {
+   "nr4a3_to_paralogue_median": 5.6624,
+   "paralogue_cross_replica_median": 5.6858,
+   "paralogue_cross_replica_p95": 11.4647,
+   "frac_nr4a3_beyond_p95": 0.0
+  }
+ },
+ "convergence": {
+  "resolution_floor_note": "a per-frame geometric statistic is sampling-sensitive (cf. ASSESS-DEGRADER-2); values below the floor are not resolved",
+  "mean_replica_centroid_sem_sd_units": 0.2,
+  "T_at_full_sampling_25_frames": 3.6163,
+  "T_at_half_sampling_13_frames": 3.6995,
+  "p_block_at_half_sampling": 0.00357,
+  "n_ns_per_replica": 5.0
+ },
+ "runtime_s": 0.88
+}

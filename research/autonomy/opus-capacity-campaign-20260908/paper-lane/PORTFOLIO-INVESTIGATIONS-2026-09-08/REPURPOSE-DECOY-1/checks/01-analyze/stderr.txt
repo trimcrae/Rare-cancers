@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSE-DECOY-1/analyze.py", line 205, in <module>
+    "AUC": round(auc(pos, neg), 4), "AUC_95CI_boot": boot_ci(pos, neg),
+                 ^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSE-DECOY-1/analyze.py", line 49, in auc
+    n += 1.0 if a > b else (0.5 if a == b else 0.0)
+                ^^^^^
+TypeError: '>' not supported between instances of 'NoneType' and 'float'
