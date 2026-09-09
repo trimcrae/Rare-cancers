@@ -109,8 +109,17 @@ Re-running the retained checker after this batch gives **52 passed, 2 failed, ex
 `PACKET-MANIFEST.json` is a **dated historical identity record of the pre-correction bytes and was
 deliberately not rewritten**, so the check reports precisely the four files that changed and nothing
 else. That containment is itself confirmation. **No check, matcher, floor or manifest was weakened to
-obtain a pass.** `tableS6-sequencing-bindings` still **PASSES** — 6 genes, all match — which is the
-binding that would move if any measured value had moved.
+obtain a pass.** `tableS6-sequencing-bindings` still **PASSES** — 6 genes, all match.
+
+> ⛔ **CORRECTED 2026-09-08.** The sentence that stood here read: *"which is the binding that would
+> move if any measured value had moved."* **That overstated a six-gene spot check.** It samples six
+> genes; it is **not** a detector of *any* whole-payload measured-value change, and it would not
+> notice a change outside those six. The proof that no measured value moved is the **full JSON
+> leaf-by-leaf comparison** recorded in
+> `../P-ST-correction/annotation-correction/APPLIED-2026-09-08/APPLIED-RECORD.md`: 669 leaves before,
+> 671 after, 244 of them non-string, two keys added, one value changed, none removed, and **zero
+> leaves moved outside the three annotation keys, in both directions**. The spot check is
+> corroboration; the full comparison is the evidence.
 
 The second failure, `F11-sequencing-not-per-sample`, is a **limited hard-coded string check** and is
 discussed in `RESIDUAL-LIMITATIONS.md`.

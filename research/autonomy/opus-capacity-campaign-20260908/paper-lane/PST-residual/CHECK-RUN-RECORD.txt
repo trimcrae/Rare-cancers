@@ -67,7 +67,14 @@ RUN-08-pst-checker                                                       EXIT = 
          parent's F03 application changed, and the two manuscript paths R7 integration
          changed. PACKET-MANIFEST.json is a dated historical identity record and was
          deliberately NOT rewritten. tableS6-sequencing-bindings still PASSES (6 genes, all
-         match) — the binding that would move if any measured value had moved.
+         match).
+         CORRECTED 2026-09-08: this line read "— the binding that would move if any
+         measured value had moved." That overstates a SIX-GENE SPOT CHECK, which cannot
+         detect any whole-payload change and would miss one outside those six. The
+         whole-payload proof is the full JSON leaf-by-leaf comparison in
+         P-ST-correction/annotation-correction/APPLIED-2026-09-08/APPLIED-RECORD.md:
+         669 -> 671 leaves, zero moved outside the three annotation keys, both directions.
+         The run's own measured exit and output are unchanged above.
   Neither failure was made to pass. No guard, matcher, floor, pin or manifest was weakened.
 
 RUN-09-diffs-records                                                                 EXIT = 0

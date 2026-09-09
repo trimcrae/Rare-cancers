@@ -1,0 +1,5 @@
+pooled paralogue ceiling: 0.2126 NR4A1 C465
+release_rep0 paralogue ceiling 0.1737 (NR4A2 C534) | C397 min/p10/med [0.1082, 0.1988, 0.3312] | margin@p10 0.0251 | margin@min -0.0655
+release_rep1 paralogue ceiling 0.194 (NR4A2 C534) | C397 min/p10/med [0.2722, 0.3556, 0.4542] | margin@p10 0.1616 | margin@min 0.0782
+release_rep2 paralogue ceiling 0.2126 (NR4A1 C465) | C397 min/p10/med [0.2993, 0.3225, 0.4128] | margin@p10 0.1099 | margin@min 0.0867
+VERDICT {"C397_separated_in_every_replica_at_p10": true, "C397_separated_in_every_replica_at_min": false, "cross_replica_worst_case_p10_margin": -0.0138, "C420_median_above_ceiling_in_replicas": ["release_rep0"], "C559_median_above_ceiling_in_replicas": [], "control_max_rsa_per_replica": {"release_rep0": 0.0907, "release_rep1": 0.1333, "release_rep2": 0.1201}, "_control_reading": "A cutoff placed anywhere above the paralogue ceiling also excludes NR4A1 C551 in EVERY replica. Replicate structure does not repair V17's failed positive control; it shows the failure is reproducible rather than a pooling artifact."}

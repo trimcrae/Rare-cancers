@@ -72,8 +72,12 @@ invariance**, so the JSON was compared leaf by leaf in both directions rather th
 
 `check_pst_correction.py` reports **53 passed, 1 failed**:
 
-* ✅ `tableS6-sequencing-bindings` — **6 genes; all match.** This is the binding that would move if
-  any value had moved. It did not.
+* ✅ `tableS6-sequencing-bindings` — **6 genes; all match.**
+  ⛔ **CORRECTED 2026-09-08.** This read *"This is the binding that would move if any value had
+  moved. It did not."* **A six-gene spot check cannot detect any whole-payload change** and would
+  miss one outside those six. The whole-payload proof is the leaf-by-leaf comparison in the
+  *Invariance* section below — 669 → 671 leaves, zero moved outside the three annotation keys, both
+  directions. This row corroborates that result; it does not establish it.
 * ⛔ `packet-manifest-reproduces` — **25 entries**, naming exactly
   `research/modalities/gse28866_tumour_vs_normal.py CHANGED` and
   `research/modalities/gse28866-tumour-vs-normal.json CHANGED`.
