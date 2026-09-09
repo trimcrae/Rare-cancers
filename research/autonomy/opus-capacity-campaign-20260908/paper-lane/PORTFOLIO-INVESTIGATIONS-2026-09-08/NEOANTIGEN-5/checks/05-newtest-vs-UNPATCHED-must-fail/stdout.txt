@@ -1,0 +1,77 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+cachedir: .pytest_cache
+rootdir: /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests
+plugins: xdist-3.8.0
+collecting ... collected 5 items
+
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_wildtype_EWSR1_is_a_recognised_parent_accession FAILED [ 20%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_a_peptide_verbatim_in_wildtype_EWSR1_trips_the_broken_verdict FAILED [ 40%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_an_EWSR1_isoform_accession_is_flagged_as_the_same_parent FAILED [ 60%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_a_non_parent_hit_is_still_reported_consistent PASSED [ 80%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_the_existing_P56945_key_is_retained PASSED [100%]
+
+=================================== FAILURES ===================================
+_____________ test_wildtype_EWSR1_is_a_recognised_parent_accession _____________
+
+    def test_wildtype_EWSR1_is_a_recognised_parent_accession():
+        """Q01844 must be IN the map. Without it the EWSR1 arm of the guard cannot fire at all."""
+>       assert "Q01844" in n.PARENTS, (
+            "PARENTS omits Q01844, the accession under which the searched proteome names human "
+            "EWSR1; the upstream-filter check can then only ever flag NR4A3"
+        )
+E       AssertionError: PARENTS omits Q01844, the accession under which the searched proteome names human EWSR1; the upstream-filter check can then only ever flag NR4A3
+E       assert 'Q01844' in {'P56945': 'EWSR1', 'Q92570': 'NR4A3'}
+E        +  where {'P56945': 'EWSR1', 'Q92570': 'NR4A3'} = n.PARENTS
+
+/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py:73: AssertionError
+______ test_a_peptide_verbatim_in_wildtype_EWSR1_trips_the_broken_verdict ______
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-262/test_a_peptide_verbatim_in_wil0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f13406e8290>
+
+    def test_a_peptide_verbatim_in_wildtype_EWSR1_trips_the_broken_verdict(tmp_path, monkeypatch):
+        """The defect this file exists for: a parent-filtered peptide that IS wild-type EWSR1."""
+        res = _run_with_fasta(tmp_path, monkeypatch, FASTA_WITH_WILDTYPE_EWSR1, ["TDYSTYSQA"])
+        assert res["n_found_in_proteome"] == 1
+        hit = res["peptides_found_in_proteome"][0]
+        assert [h["accession"] for h in hit["proteome_hits"]] == ["Q01844"]
+        chk = res["⛔_upstream_filter_check"]
+>       assert chk["verdict"].startswith("BROKEN"), (
+            "a peptide occurring verbatim in wild-type EWSR1 was counted as found but did not "
+            "trip the upstream-filter check"
+        )
+E       AssertionError: a peptide occurring verbatim in wild-type EWSR1 was counted as found but did not trip the upstream-filter check
+E       assert False
+E        +  where False = <built-in method startswith of str object at 0x7f13406b13b0>('BROKEN')
+E        +    where <built-in method startswith of str object at 0x7f13406b13b0> = 'consistent — no parent-filtered peptide hit a parent'.startswith
+
+/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py:87: AssertionError
+----------------------------- Captured stderr call -----------------------------
+  1 distinct novel junction peptides to test
+  proteome: 3 reviewed sequences (isoforms included)
+  0/1 novel proteome-wide; 1 found in a human protein (0 of them predicted binders)
+________ test_an_EWSR1_isoform_accession_is_flagged_as_the_same_parent _________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-262/test_an_EWSR1_isoform_accessio0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f13406f8450>
+
+    def test_an_EWSR1_isoform_accession_is_flagged_as_the_same_parent(tmp_path, monkeypatch):
+        """Isoform accessions are `<base>-<n>`; the guard splits on '-', so Q01844-2 must flag too."""
+        res = _run_with_fasta(tmp_path, monkeypatch, FASTA_WITH_WILDTYPE_EWSR1, ["SYGTYGQPT"])
+        chk = res["⛔_upstream_filter_check"]
+>       assert chk["verdict"].startswith("BROKEN")
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x7f1340700030>('BROKEN')
+E        +    where <built-in method startswith of str object at 0x7f1340700030> = 'consistent — no parent-filtered peptide hit a parent'.startswith
+
+/tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py:100: AssertionError
+----------------------------- Captured stderr call -----------------------------
+  1 distinct novel junction peptides to test
+  proteome: 3 reviewed sequences (isoforms included)
+  0/1 novel proteome-wide; 1 found in a human protein (0 of them predicted binders)
+=========================== short test summary info ============================
+FAILED ../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_wildtype_EWSR1_is_a_recognised_parent_accession
+FAILED ../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_a_peptide_verbatim_in_wildtype_EWSR1_trips_the_broken_verdict
+FAILED ../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty_parent_accession.py::test_an_EWSR1_isoform_accession_is_flagged_as_the_same_parent
+========================= 3 failed, 2 passed in 0.05s ==========================

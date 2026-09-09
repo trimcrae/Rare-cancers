@@ -1,0 +1,35 @@
+90de330ba28dfe098159c4860a00fe03709dc3ea
+c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc  research/modalities/emc-fourth-cohort-probe-counts.tsv
+1769b3f0ee01f1a640dabc6c4f36ce86630ff62f87249400e070a4638fcf5165  research/modalities/emc-fourth-cohort-quant.json
+=== ROUTE A: MATRIX-ADDRESS-2 python, re-run ===
+python exit=0
+PY at_least_01 probes=213007 read_share=1.000000 assigned=906
+PY at_least_02 probes=50026 read_share=0.894098 assigned=906
+PY at_least_03 probes=32622 read_share=0.870832 assigned=906
+PY at_least_04 probes=24376 read_share=0.825168 assigned=906
+PY at_least_05 probes=20273 read_share=0.787598 assigned=906
+PY at_least_06 probes=16222 read_share=0.663989 assigned=906
+PY at_least_07 probes=13554 read_share=0.646425 assigned=906
+PY at_least_08 probes=10910 read_share=0.620012 assigned=906
+PY at_least_09 probes=8349 read_share=0.579203 assigned=906
+PY at_least_10 probes=5856 read_share=0.525211 assigned=906
+PY at_least_11 probes=3639 read_share=0.458360 assigned=906
+PY at_least_12 probes=1645 read_share=0.351112 assigned=906
+PY rows=213007 total_reads=67890929
+=== byte-identity of re-run output vs committed MATRIX-ADDRESS-2 artifact ===
+IDENTICAL
+=== ROUTE B: MATRIX-ADDRESS-2 awk, re-run verbatim ===
+n_run_columns_seen(check 12): 12
+AWK at_least_12 probes=1645 read_share=0.351112 assigned=906
+AWK at_least_11 probes=3639 read_share=0.458360 assigned=906
+AWK at_least_10 probes=5856 read_share=0.525211 assigned=906
+AWK at_least_09 probes=8349 read_share=0.579203 assigned=906
+AWK at_least_08 probes=10910 read_share=0.620012 assigned=906
+AWK at_least_07 probes=13554 read_share=0.646425 assigned=906
+AWK at_least_06 probes=16222 read_share=0.663989 assigned=906
+AWK at_least_05 probes=20273 read_share=0.787598 assigned=906
+AWK at_least_04 probes=24376 read_share=0.825168 assigned=906
+AWK at_least_03 probes=32622 read_share=0.870832 assigned=906
+AWK at_least_02 probes=50026 read_share=0.894098 assigned=906
+AWK at_least_01 probes=213007 read_share=1.000000 assigned=906
+AWK total_reads=67890929

@@ -1,0 +1,1 @@
+bash -c cd /home/user/Rare-cancers && grep -rn "STALE_HEADER\|is stale" research/manuscripts/claim_coverage.py | head -5; echo "--- tests referencing the census pair ---"; ls research/manuscripts/tests | grep -i "census\|coverage"

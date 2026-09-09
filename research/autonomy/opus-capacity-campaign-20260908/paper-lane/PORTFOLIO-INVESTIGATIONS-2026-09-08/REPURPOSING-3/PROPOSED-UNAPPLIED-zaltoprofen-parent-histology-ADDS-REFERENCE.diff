@@ -1,0 +1,44 @@
+--- research/manuscripts/repurposing/repurposing-hypotheses.md	2026-09-08 18:32:26.642576462 +0000
++++ /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/rep3/AFTER2.md	2026-09-09 00:35:47.366339842 +0000
+@@ -336,7 +336,7 @@
+ |---|---|---|
+ | Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
+ | VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
+-| Zaltoprofen, and by extension pioglitazone (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
++| Zaltoprofen, and by extension pioglitazone (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes for EMC; zaltoprofen itself is not clinically untried in the parent histology [23] |
+ | Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only compound of the 40 screened that the authors place in their high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+ | Venetoclax (BCL-2, apoptosis) | Ex vivo: moderate sensitivity in the screen, carried into dose-response testing in both EMC models, with no monotherapy response [13] | Yes |
+ | HDAC inhibitors: romidepsin, panobinostat (epigenetic) | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14]. Histone deacetylase is named in the parent histology [9] | Yes for EMC |
+@@ -363,7 +363,7 @@
+ 
+ | Lead | Why it qualifies as untried | EMC-specific functional evidence | A realistic test |
+ |---|---|---|---|
+-| PPARγ agonism with pioglitazone, motivated by zaltoprofen | untried; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
++| PPARγ agonism with pioglitazone, motivated by zaltoprofen | untried in EMC, although zaltoprofen itself has been given to one chondrosarcoma patient [23]; targets EMC lineage and differentiation biology; orally administered, and approved elsewhere for another indication, with regional status unchecked here | In vivo: zaltoprofen inhibited tumour growth in a mouse EMC model through PPARγ induction [12]. Read with section 3.3: the direction of the effect is unresolved and the in-vitro half of that result used H-EMC-SS | investigator-initiated window study or n-of-1; no biomarker required |
+ | Carfilzomib with doxorubicin, and with venetoclax | untried in EMC; a hit from an unbiased screen rather than a hypothesis. The class is not untried in sarcoma: bortezomib monotherapy was taken to phase II in recurrent or metastatic sarcoma [21] and carfilzomib to phase I in combination in relapsed or refractory solid tumours [22] (section 4.1) | Ex vivo: the only compound of a 40-drug screen placed in the authors' high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. Section 4.1 states what that screen did and did not cover | preclinical replication, then a combination arm on the existing anthracycline backbone |
+ | HDAC inhibitors (panobinostat, romidepsin); brigatinib | untried in EMC; hits from a second, independent EMC screen; histone deacetylase is prior art in the parent histology [9] | Ex vivo: top hits of a 221-drug screen in a patient-derived EMC line [14] | replication across further EMC models; the brigatinib hit is mechanistically unexplained and worth dissecting |
+ | CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
+@@ -412,6 +412,15 @@
+ but its evidence line is narrower than the label "in vivo, animal EMC" conveys, and the sign of the
+ axis is an open question. Nothing here asserts that agonism or antagonism is the useful direction,
+ and nothing here asserts efficacy for pioglitazone, zaltoprofen or any thiazolidinedione in EMC.
++One further record bounds the novelty of this axis in the parent histology, in the same way that
++reference [9] does for histone deacetylase. The group that ran the EMC animal experiment had
++earlier reported a single patient with a grade 2 cervical chondrosarcoma who was treated with
++zaltoprofen and was free from disease progression for more than two years, with enhanced PPARγ and
++reduced MMP2 expression on post-treatment histopathology [23]. That patient did not have EMC, the
++report is an uncontrolled single case within a laboratory paper, and no efficacy, safety or
++therapeutic-window conclusion is drawn from it in either histology. It means only that zaltoprofen,
++the agent that motivates this arm, has been given to a chondrosarcoma patient and is therefore not
++clinically untried in the parent histology, while remaining untried in EMC.
+ 
+ ### 3.4 The quiet genome, and the two weakest candidates
+ 
+@@ -740,6 +749,7 @@
+ 20. CURE ID, the FDA and NCATS treatment registry. https://cure.ncats.io.
+ 21. Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, et al. A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas. *Cancer.* 2005;103(7):1431-8. doi 10.1002/cncr.20968. PMID 15739208.
+ 22. Boklan J, Langevin AM, Bielamowicz K, Neville K, Trippett T, Brown V, et al. A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors. *Cancers (Basel).* 2025;17(17):2924. doi 10.3390/cancers17172924. PMID 40941020. PMC12428389.
++23. Higuchi T, Takeuchi A, Munesue S, Yamamoto N, Hayashi K, Kimura H, et al. Anti-tumor effects of a nonsteroidal anti-inflammatory drug zaltoprofen on chondrosarcoma via activating peroxisome proliferator-activated receptor gamma and suppressing matrix metalloproteinase-2 expression. *Cancer Med.* 2018;7(5):1944-1954. doi 10.1002/cam4.1438. PMID 29573200. PMC5943440.
+ 
+ ---
+ 

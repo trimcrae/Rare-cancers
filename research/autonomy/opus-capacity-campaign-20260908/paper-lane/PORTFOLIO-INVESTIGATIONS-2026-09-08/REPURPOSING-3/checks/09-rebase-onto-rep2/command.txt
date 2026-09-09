@@ -1,0 +1,7 @@
+Check 08 found this lane's two diffs do NOT apply after REPURPOSING-2's sweep diff. This check
+produces the rebased form: apply REPURPOSING-2's diff to a scratch copy, re-run all 11 edits
+(build3a.py = the 7 five-reference edits, build3b.py = the 4 zaltoprofen edits, with the Z3 anchor
+re-pointed at the cell text REPURPOSING-2 rewrote and its wording merged rather than overwritten),
+then diff. Same exactly-once anchor assertions; exit 3 on any near-miss.
+Output: PROPOSED-UNAPPLIED-rebased-onto-REPURPOSING-2.diff -- baseline is the manuscript WITH
+REPURPOSING-2's sweep diff already applied, NOT the committed manuscript.

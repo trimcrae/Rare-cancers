@@ -1,0 +1,6 @@
+# MATRIX-ADDRESS-3 step 3b, second attempt. checks/04 exited 127: /usr/bin/time is absent in
+# this image. Preserved. Resource accounting is taken from bash time + python resource module.
+set -u
+cd /home/user/Rare-cancers
+time python3 .../MATRIX-ADDRESS-3/relaxed_k_label_recovery.py > .../MATRIX-ADDRESS-3/relaxed-k-label-recovery.json
+python3 -c "import resource,..."  # peak RSS reported inside the same process

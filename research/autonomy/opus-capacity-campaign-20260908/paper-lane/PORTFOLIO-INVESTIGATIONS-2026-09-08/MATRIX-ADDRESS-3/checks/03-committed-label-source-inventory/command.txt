@@ -1,0 +1,18 @@
+# MATRIX-ADDRESS-3 step 3a: is there ANY committed probe-sequence -> gene label source in this
+# checkout other than the assigned_gene column of the probe table? Nothing here fetches.
+set -u
+cd /home/user/Rare-cancers
+echo "== does the quant record itself carry a probe_to_gene map? =="
+python3 -c "import json;q=json.load(open('research/modalities/emc-fourth-cohort-quant.json'));print(sorted(q['probe_map'].keys()))"
+echo "== does the matcher read any LOCAL reference, or only the network? =="
+grep -n "urlopen\|http_get\|open(" research/modalities/emc_fourth_cohort_quant.py | grep -i "fasta\|cdna\|ncrna\|urlopen\|http_get"
+echo "== any committed file, anywhere in the tree, containing three sampled assigned probe 50-mers? =="
+for s in $(awk -F'\t' 'NR>1 && $2!="unassigned"{print $1}' research/modalities/emc-fourth-cohort-probe-counts.tsv | head -3); do
+  echo "-- probe $s"
+  grep -rl --binary-files=without-match -F "$s" . 2>/dev/null | grep -v "^./.git/"
+done
+echo "== files in research/modalities that hold 50-nt sequence columns =="
+ls -la research/modalities/ | head -40
+echo "== any local FASTA / transcriptome in the checkout =="
+find . -path ./.git -prune -o \( -iname "*.fa" -o -iname "*.fa.gz" -o -iname "*.fasta*" -o -iname "*cdna*" -o -iname "*ncrna*" \) -print 2>/dev/null | head -20
+echo "(no output above means none)"

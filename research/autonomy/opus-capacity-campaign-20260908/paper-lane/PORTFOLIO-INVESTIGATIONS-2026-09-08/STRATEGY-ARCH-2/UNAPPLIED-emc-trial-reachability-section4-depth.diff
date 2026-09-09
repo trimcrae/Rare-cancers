@@ -1,0 +1,35 @@
+--- a/research/manuscripts/care-delivery/emc-trial-reachability.md
++++ b/research/manuscripts/care-delivery/emc-trial-reachability.md
+@@ -174,8 +174,18 @@
+ - one is titled for fusion-positive sarcoma and then restricts eligibility to three named
+   histologies: fusion-framed and histology-limited, the exact inverse of the mechanism above;
+ - the other contains the literal adjective *extra-skeletal* while meaning extraskeletal Ewing
+   sarcoma, a different disease that shares an adjective.
++
++**Where the trap lives, measured.** The adjective *extra-skeletal* is in that trial's posted
++eligibility criterion, not in its title or its listed conditions, so the two screens separate by
++reading depth. Over the four adjudicated records, a histology-name screen restricted to titles and
++listed conditions never fires at all; extended across the posted criterion it fires exactly once,
++on the refusal, for a precision of 0.00. A combined histology-and-molecular lexicon loses precision
++the same way, 0.67 to 0.50, when the criterion text is added. Reading eligibility criteria protects
++a reader, not a string matcher: for the one term a patient is most likely to type -- the name of
++their own histology -- deeper string reading creates the false hit rather than preventing it.
++Denominator four records; not a sample of the registry.
+ 
+ ### 4.1 · Exclusion in the one non-US registry that answered
+ 
+ This section was drafted the other way, and the full text inverted it. The sweep was written up as
+@@ -281,9 +291,12 @@
+    judgment, is not something the registry record settles (§5). Where the criterion instead names a
+    gene family, no such list exists to transcribe: enumerating every histology an EWSR1, FUS or TAF15
+    criterion admits is an editorial act, not a transcription. NCT07188532 shows the cost, listing
+    *round cell sarcoma with EWSR1-non-ETS fusion* while §4 adjudicates it as refusing this disease.
+-2. Registries could index eligibility text, not only conditions.
++2. Registries could index eligibility text, not only conditions -- with the caveat §4 now
++   measures: indexing that text helps a reader and hurts a string matcher, because the
++   histology-name screen's only hit across the adjudicated records appears there, and it is a
++   refusal.
+ 3. Anyone building a matching tool should read criteria rather than match strings. Section 4 is the
+    demonstration, with two worked examples that a string matcher gets wrong.
+ 
+ ## 7 · Data availability

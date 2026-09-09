@@ -1,0 +1,261 @@
+{
+  "_what": "Screen-depth ablation: keyword screens scored against eligibility-read adjudications at three reading depths, EMC trial reachability.",
+  "_not_medical_advice": "Not medical advice, not a trial-matching service. Labels are statements about registry text on the retrieval date in the source deposit. No patient, referral, enrolment or outcome is involved. No efficacy, safety, selectivity or therapeutic-window claim is made or implied.",
+  "generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-2/screen_depth_ablation.py",
+  "inputs": [
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json"
+  ],
+  "ground_truth_definition": "admit/refuse on the record's POSTED eligibility text, as adjudicated in adjudications[].verdict; each label is re-checked against the deposit's own verdict wording at run time and the script exits 2 on any mismatch.",
+  "depth_definitions": {
+    "depth_A_index_only": "brief_title + official_title + listed_conditions",
+    "depth_B_index_plus_criterion": "depth A plus the verbatim posted criterion",
+    "depth_C_criterion_only": "the verbatim posted criterion alone"
+  },
+  "falsifiable_criterion": "If reading criteria is protective for a STRING screen, depth B precision must be >= depth A precision for every lexicon.",
+  "criterion_outcome_lexicons_not_improved": [
+    "histology_only",
+    "union"
+  ],
+  "truncation_direction": "The committed criterion text is ONE quoted criterion per record, not the full eligibility section, so depths B and C are a LOWER BOUND on what a real matcher would read. The bound is directional: more criterion text can only ADD hits, so on a refusing record it can only add false positives and on an admitting record it can only add true positives. The histology false positive reported here is therefore robust to truncation -- more text cannot remove it -- while the depth-C molecular recall of 0.50 is an upper bound on how bad recall gets, not a measurement of it.",
+  "denominator": "Four records -- every adjudicated record whose posted criterion text is committed verbatim. Not a sample of the registry.",
+  "results": {
+    "histology_only@depth_A_index_only": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma"
+      ],
+      "depth": "depth_A_index_only",
+      "n": 4,
+      "true_positive": 0,
+      "false_positive": 0,
+      "true_negative": 2,
+      "false_negative": 2,
+      "precision": null,
+      "recall": 0.0
+    },
+    "histology_only@depth_B_index_plus_criterion": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma"
+      ],
+      "depth": "depth_B_index_plus_criterion",
+      "n": 4,
+      "true_positive": 0,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 2,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "histology_only@depth_C_criterion_only": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma"
+      ],
+      "depth": "depth_C_criterion_only",
+      "n": 4,
+      "true_positive": 0,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 2,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "molecular_only@depth_A_index_only": {
+      "lexicon": [
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_A_index_only",
+      "n": 4,
+      "true_positive": 2,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    "molecular_only@depth_B_index_plus_criterion": {
+      "lexicon": [
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_B_index_plus_criterion",
+      "n": 4,
+      "true_positive": 2,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    "molecular_only@depth_C_criterion_only": {
+      "lexicon": [
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_C_criterion_only",
+      "n": 4,
+      "true_positive": 1,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 1,
+      "precision": 0.5,
+      "recall": 0.5
+    },
+    "union@depth_A_index_only": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma",
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_A_index_only",
+      "n": 4,
+      "true_positive": 2,
+      "false_positive": 1,
+      "true_negative": 1,
+      "false_negative": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    "union@depth_B_index_plus_criterion": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma",
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_B_index_plus_criterion",
+      "n": 4,
+      "true_positive": 2,
+      "false_positive": 2,
+      "true_negative": 0,
+      "false_negative": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    "union@depth_C_criterion_only": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma",
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "depth": "depth_C_criterion_only",
+      "n": 4,
+      "true_positive": 1,
+      "false_positive": 2,
+      "true_negative": 0,
+      "false_negative": 1,
+      "precision": 0.3333333333333333,
+      "recall": 0.5
+    }
+  },
+  "records": {
+    "NCT04151342": {
+      "verdict": "admits",
+      "criterion_field": "the_admitting_criterion_verbatim",
+      "histology_only@depth_A_index_only": [],
+      "histology_only@depth_B_index_plus_criterion": [],
+      "histology_only@depth_C_criterion_only": [],
+      "molecular_only@depth_A_index_only": [
+        "fusion"
+      ],
+      "molecular_only@depth_B_index_plus_criterion": [
+        "fusion"
+      ],
+      "molecular_only@depth_C_criterion_only": [],
+      "depth_C_criterion_only_text": "diagnosed with malignant tumour(s) with molecular testing completed that identified rare molecular alterations",
+      "depth_A_index_only_text": "canadian cancers with rare molecular alterations (carma) - basket real world evidence trial |  | cancer | malignancies multiple | malignant solid tumor | cancer, therapy-related | molecular sequence variation | genetic alteration | gene fusion | receptor tyrosine kinase gene mutation"
+    },
+    "NCT06094101": {
+      "verdict": "refuses",
+      "criterion_field": "the_restricting_criterion_verbatim",
+      "histology_only@depth_A_index_only": [],
+      "histology_only@depth_B_index_plus_criterion": [],
+      "histology_only@depth_C_criterion_only": [],
+      "molecular_only@depth_A_index_only": [
+        "fusion"
+      ],
+      "molecular_only@depth_B_index_plus_criterion": [
+        "fusion"
+      ],
+      "molecular_only@depth_C_criterion_only": [
+        "fusion"
+      ],
+      "depth_C_criterion_only_text": "confirmed metastatic fusion-driven rhabdomyosarcoma, ewing- and synovial sarcoma in first or second complete remission (cr) or partial response (pr) after local therapy and intensive standard chemotherapy protocols.",
+      "depth_A_index_only_text": "personalized vaccination in fusion+ sarcoma patients (pervision) | "
+    },
+    "NCT06571734": {
+      "verdict": "admits",
+      "criterion_field": "the_admitting_criterion_verbatim",
+      "histology_only@depth_A_index_only": [],
+      "histology_only@depth_B_index_plus_criterion": [],
+      "histology_only@depth_C_criterion_only": [],
+      "molecular_only@depth_A_index_only": [
+        "translocation"
+      ],
+      "molecular_only@depth_B_index_plus_criterion": [
+        "translocation"
+      ],
+      "molecular_only@depth_C_criterion_only": [
+        "translocation"
+      ],
+      "depth_C_criterion_only_text": "inclusion criteria for cohort 3 - translocation-associated soft tissue sarcoma:\n\n* patients must have histologically confirmed diagnosis of metastatic or unresectable translocation-associated soft tissue sarcoma (tas). pathology must have been reviewed at a national comprehensive cancer network (nccn) designated centre.",
+      "depth_A_index_only_text": " | a non-randomized, open-label phase ii trial testing the activity of xl092 (zanzalintinib) in patients with advanced leiomyosarcoma, bone sarcoma or translocation-associated soft tissue sarcoma | metastatic leiomyosarcoma | unresectable leiomyosarcoma | bone sarcoma | translocation-associated soft tissue sarcoma | synovial sarcomas | osteosarcoma metastatic | ewing sarcoma"
+    },
+    "NCT07188532": {
+      "verdict": "refuses",
+      "criterion_field": "the_restricting_criterion_verbatim",
+      "histology_only@depth_A_index_only": [],
+      "histology_only@depth_B_index_plus_criterion": [
+        "extra-skeletal"
+      ],
+      "histology_only@depth_C_criterion_only": [
+        "extra-skeletal"
+      ],
+      "molecular_only@depth_A_index_only": [],
+      "molecular_only@depth_B_index_plus_criterion": [],
+      "molecular_only@depth_C_criterion_only": [],
+      "depth_C_criterion_only_text": "histological confirmation of ewing sarcoma, including both skeletal and extra-skeletal primary tumors. patients with \"ewing-like\" sarcoma may be eligible if patients are planned to be treated per ewing sarcoma protocols.",
+      "depth_A_index_only_text": "biologically-adapted, dose-escalated radiotherapy for the treatment of ewing sarcoma | "
+    }
+  }
+}

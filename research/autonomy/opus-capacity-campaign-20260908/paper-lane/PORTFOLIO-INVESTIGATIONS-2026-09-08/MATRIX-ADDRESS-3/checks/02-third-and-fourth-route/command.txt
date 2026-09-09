@@ -1,0 +1,34 @@
+# MATRIX-ADDRESS-3 step 1b: two FURTHER routes, sharing no code with the python or the awk.
+# ROUTE C (set-union, no arithmetic per row): for each of the 12 run columns, extract the probe
+#   ids whose count in THAT column is non-zero, using cut+grep only; concatenate the 12 lists;
+#   sort|uniq -c then gives, per probe, the number of runs it is persisted in. Cumulative
+#   totals are formed by a final sort|uniq -c over those multiplicities.
+# ROUTE D (perl, streaming): an independent reimplementation of both the probe counts and the
+#   persisted-read shares.
+set -u
+cd /home/user/Rare-cancers
+F=research/modalities/emc-fourth-cohort-probe-counts.tsv
+T=/tmp/ma3_routeC_ids.txt
+: > $T
+for i in $(seq 3 14); do
+  tail -n +2 $F | cut -f1,$i | grep -v "	0$" | cut -f1 >> $T
+done
+echo "ROUTE C: total (probe,run) persisted pairs = $(wc -l < $T)"
+sort $T | uniq -c | sed 's/^ *//' | cut -d' ' -f1 | sort -n | uniq -c | sed 's/^ *//' > /tmp/ma3_routeC_hist.txt
+echo "ROUTE C exact-k histogram (count_of_probes k):"
+cat /tmp/ma3_routeC_hist.txt
+perl -ne 'chomp; my($n,$k)=split /\s+/; $h{$k}=$n; END{ my $c=0; for my $k (reverse 1..12){ $c+=$h{$k}||0; printf "ROUTE_C at_least_%02d probes=%d\n",$k,$c } }' /tmp/ma3_routeC_hist.txt
+rm -f $T
+echo "=== ROUTE D: perl streaming ==="
+perl -F'\t' -lane '
+  next if $. == 1;
+  my $k=0; my $s=0;
+  for my $i (2..$#F){ my $v = $F[$i]+0; $k++ if $v>0; $s+=$v }
+  $cnt{$k}++; $rd{$k}+=$s; $tot+=$s; $rows++;
+  $asg{$k}++ if $F[1] ne "unassigned";
+  END{
+    my ($c,$r,$a)=(0,0,0);
+    for my $k (reverse 1..12){ $c+=$cnt{$k}||0; $r+=$rd{$k}||0; $a+=$asg{$k}||0;
+      printf "ROUTE_D at_least_%02d probes=%d read_share=%.6f assigned=%d\n",$k,$c,$r/$tot,$a }
+    printf "ROUTE_D rows=%d total_reads=%d\n",$rows,$tot;
+  }' research/modalities/emc-fourth-cohort-probe-counts.tsv

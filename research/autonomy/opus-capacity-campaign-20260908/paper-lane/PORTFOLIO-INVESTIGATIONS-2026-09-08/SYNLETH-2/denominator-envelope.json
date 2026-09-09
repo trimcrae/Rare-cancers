@@ -1,0 +1,637 @@
+{
+  "input": "/home/user/Rare-cancers/research/modalities/depmap-sarcoma-dependency.json",
+  "data_source": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv",
+  "n_models_total": 2105,
+  "n_sarcoma_models": 176,
+  "dependent_threshold": -0.5,
+  "A_rederivation": {
+    "n_records": 67,
+    "n_unique_genes": 64,
+    "n_sarcoma_values_seen": [
+      91
+    ],
+    "record_field_names": [
+      "gene",
+      "n_sarcoma",
+      "rest_frac_dependent",
+      "rest_mean",
+      "sarcoma_frac_dependent",
+      "sarcoma_mean",
+      "selectivity"
+    ],
+    "dispersion_field_present": false,
+    "EWSR1_selectivity": [
+      0.373
+    ],
+    "EWSR1_rest_frac_dependent": [
+      0.915
+    ],
+    "EWSR1_sarcoma_frac_dependent": [
+      0.967
+    ],
+    "sarcoma_frac_x_91_integral_all_records": true,
+    "duplicated_gene_records": [
+      "EWSR1",
+      "FLI1",
+      "NR4A3"
+    ],
+    "trap_set_ge_0.80_unique_genes": [
+      "ATR",
+      "BCL2L1",
+      "BRD4",
+      "CDC37",
+      "CDK12",
+      "CDK7",
+      "CDK9",
+      "EWSR1",
+      "HDAC3",
+      "HSPA5",
+      "MAT2A",
+      "PRMT5",
+      "PSMB1",
+      "PSMB5",
+      "PSMC1",
+      "PSMD1",
+      "PSMD14",
+      "SMARCB1",
+      "VCP",
+      "WEE1",
+      "XRCC5",
+      "XRCC6"
+    ],
+    "n_trap_ge_0.80_unique": 22,
+    "n_trap_ge_0.80_records": 23,
+    "n_trap_ge_0.20_unique": 29,
+    "n_trap_ge_0.20_records": 30
+  },
+  "B_admissible_denominators": {
+    "rule": "for every record, exists integer k in [0,n] with round(k/n,3)==reported rest_frac_dependent; n<=n_models_total",
+    "n_distinct_reported_rest_fracs": 49,
+    "n_admissible": 1126,
+    "n_min": 943,
+    "n_max": 2105,
+    "n_excluded_within_range": 37,
+    "BIOMARKER_DEP_2_reported": {
+      "count": 1126,
+      "span_low": 943,
+      "span_high": 2105
+    },
+    "reproduces_BIOMARKER_DEP_2": true
+  },
+  "C_envelope": {
+    "n_min": 943,
+    "n_max": 2105,
+    "sqrt_n_max_over_n_min": 1.4940674481986087,
+    "per_p_demonstration": {
+      "0.915": {
+        "width_at_n_min": 0.03568630863314293,
+        "width_at_n_max": 0.023853399713823054,
+        "width_monotone_decreasing_over_admissible_set": true,
+        "union_over_admissible_equals_interval_at_n_min": true,
+        "inflation_factor_vs_n_max": 1.4960680264148132
+      },
+      "0.696": {
+        "width_at_n_min": 0.05861931824676192,
+        "width_at_n_max": 0.0392707629985396,
+        "width_monotone_decreasing_over_admissible_set": true,
+        "union_over_admissible_equals_interval_at_n_min": true,
+        "inflation_factor_vs_n_max": 1.4926961884835763
+      },
+      "0.854": {
+        "width_at_n_min": 0.04507424663567583,
+        "width_at_n_max": 0.030168844784454474,
+        "width_monotone_decreasing_over_admissible_set": true,
+        "union_over_admissible_equals_interval_at_n_min": true,
+        "inflation_factor_vs_n_max": 1.49406604587332
+      },
+      "0.8": {
+        "width_at_n_min": 0.05101459461564084,
+        "width_at_n_max": 0.03416162319784144,
+        "width_monotone_decreasing_over_admissible_set": true,
+        "union_over_admissible_equals_interval_at_n_min": true,
+        "inflation_factor_vs_n_max": 1.493330522387598
+      }
+    },
+    "claim": "an interval CAN be placed without knowing the denominator: the envelope over the admissible set is exactly the interval evaluated at n_min, and it is at most sqrt(n_max/n_min) times wider than the unknown true one"
+  },
+  "D_decision_stability": {
+    "cut_primary": 0.8,
+    "cut_secondary": 0.2,
+    "evaluated_at_n": 943,
+    "methods": [
+      "wilson95",
+      "clopper_pearson95"
+    ],
+    "per_gene": {
+      "BRD9": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.017,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BICRA": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.003,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BICRAL": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.006,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "SMARCA4": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.24,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "SMARCA2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.04,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "SMARCB1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.839,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "ARID1A": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.157,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "ARID1B": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.03,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "SMARCC1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.086,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "PBRM1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.09,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BRD4": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.952,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "BRD2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.384,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "BRD3": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.0,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "CDK9": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.994,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "CDK7": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.999,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "EP300": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.286,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "CREBBP": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.078,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "MCL1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.696,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "BCL2L1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.854,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "BCL2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.029,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BCL2L2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.015,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BAX": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.0,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "BAK1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.187,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "FRAGILE",
+        "ge_0.20_clopper_pearson95": "FRAGILE"
+      },
+      "PRMT5": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.941,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "MAT2A": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.989,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "MTAP": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.001,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "ASS1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.023,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "MDM2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.32,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "MDM4": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.123,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "TP53": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.004,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "POLQ": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.092,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "ATR": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.992,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "WEE1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 1.0,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "EZH2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.07,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "EED": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.15,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "SUZ12": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.454,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "HSP90AA1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.052,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "HSP90AB1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.119,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "CDC37": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.987,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "SGK1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.007,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "RET": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.001,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "CDK12": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.843,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "CDK13": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.06,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "XRCC5": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.996,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "XRCC6": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.999,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "ALK": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.006,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "ROS1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.0,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "EGFR": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.205,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "FRAGILE",
+        "ge_0.20_clopper_pearson95": "FRAGILE"
+      },
+      "HDAC1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.04,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "HDAC2": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.023,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "HDAC3": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.878,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "HDAC6": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.0,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "PSMB5": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.944,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "PSMB1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.997,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "PSMD1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.999,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "PSMD14": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.996,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "PSMC1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 1.0,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "VCP": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 1.0,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "NFE2L1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.029,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "HSPA5": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.994,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "SQSTM1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.011,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "NR4A3": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.0,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      },
+      "EWSR1": {
+        "ge_0.80_wilson95": "TRAP_CERTAIN",
+        "rest_frac_dependent": 0.915,
+        "ge_0.80_clopper_pearson95": "TRAP_CERTAIN",
+        "ge_0.20_wilson95": "TRAP_CERTAIN",
+        "ge_0.20_clopper_pearson95": "TRAP_CERTAIN"
+      },
+      "FLI1": {
+        "ge_0.80_wilson95": "CLEAR_CERTAIN",
+        "rest_frac_dependent": 0.019,
+        "ge_0.80_clopper_pearson95": "CLEAR_CERTAIN",
+        "ge_0.20_wilson95": "CLEAR_CERTAIN",
+        "ge_0.20_clopper_pearson95": "CLEAR_CERTAIN"
+      }
+    },
+    "ge_0.80": {
+      "record_counts": {
+        "wilson95": {
+          "CLEAR_CERTAIN": 44,
+          "TRAP_CERTAIN": 23
+        },
+        "clopper_pearson95": {
+          "CLEAR_CERTAIN": 44,
+          "TRAP_CERTAIN": 23
+        }
+      },
+      "fragile_genes": {
+        "wilson95": [],
+        "clopper_pearson95": []
+      }
+    },
+    "ge_0.20": {
+      "record_counts": {
+        "wilson95": {
+          "CLEAR_CERTAIN": 36,
+          "TRAP_CERTAIN": 29,
+          "FRAGILE": 2
+        },
+        "clopper_pearson95": {
+          "CLEAR_CERTAIN": 36,
+          "TRAP_CERTAIN": 29,
+          "FRAGILE": 2
+        }
+      },
+      "fragile_genes": {
+        "wilson95": [
+          "BAK1",
+          "EGFR"
+        ],
+        "clopper_pearson95": [
+          "BAK1",
+          "EGFR"
+        ]
+      }
+    },
+    "EWSR1_headline": {
+      "rest_frac_dependent": 0.915,
+      "wilson95_at_n_min": [
+        0.8954731367628521,
+        0.931159445395995
+      ],
+      "wilson95_at_n_max": [
+        0.9023173374774647,
+        0.9261707371912877
+      ],
+      "clopper_pearson95_at_n_min": [
+        0.8955257328631937,
+        0.9321595796619373
+      ],
+      "trap_verdict_at_worst_case": "TRAP_CERTAIN"
+    }
+  },
+  "E_descriptive_vs_inferential": {
+    "descriptive_point_value_uncertainty": "+/- 0.0005, from 3-dp rounding ALONE, independent of n",
+    "note": "the fraction of screened non-sarcoma lines that were dependent is pinned to +/-0.0005 by the rounding, whatever the denominator; the denominator is needed only to generalise from the screened lines to a population",
+    "coverage_caveat": "DepMap's non-sarcoma arm is a convenience cohort, not an iid draw from a defined population, so these are NOMINAL sampling intervals and their coverage is not guaranteed by the design"
+  }
+}

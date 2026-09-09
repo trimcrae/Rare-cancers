@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/user/Rare-cancers
+plugins: xdist-3.8.0
+collecting ... collected 9 items
+
+research/modalities/tests/test_junction_proteome_novelty.py::test_fasta_parse_keeps_accession_name_and_joins_wrapped_lines PASSED [ 11%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_a_peptide_present_in_a_human_protein_is_reported_as_found PASSED [ 22%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_a_peptide_absent_everywhere_is_reported_as_novel PASSED [ 33%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_no_match_may_straddle_two_proteins PASSED [ 44%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_an_isoform_hit_counts_and_is_flagged_as_a_parent PASSED [ 55%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_clean_input_reports_the_filter_as_consistent PASSED [ 66%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_predicted_binder_status_is_carried_through PASSED [ 77%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_the_result_records_what_was_searched PASSED [ 88%]
+research/modalities/tests/test_junction_proteome_novelty.py::test_missing_input_artifact_is_a_nonzero_exit_not_an_empty_result PASSED [100%]

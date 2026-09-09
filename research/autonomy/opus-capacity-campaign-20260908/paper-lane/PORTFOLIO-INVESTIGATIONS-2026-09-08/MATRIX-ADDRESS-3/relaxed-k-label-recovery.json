@@ -1,0 +1,165 @@
+{
+ "_title": "What a k>=6 / k>=10 re-run would and would not recover — fourth EMC cohort",
+ "_generated_by": "MATRIX-ADDRESS-3/relaxed_k_label_recovery.py",
+ "_no_network": "No HTTP of any kind. The Ensembl cDNA/ncRNA route (B1/B2) is closed and was not attempted, retried, proxied around or substituted.",
+ "_inputs": {
+  "probe_counts_tsv": "research/modalities/emc-fourth-cohort-probe-counts.tsv",
+  "probe_counts_sha256_measured": "c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc",
+  "probe_counts_sha256_recorded": "c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc",
+  "quant_inputs_checkpoint": "research/modalities/emc-fourth-cohort-quant-inputs.json",
+  "quant_record": "research/modalities/emc-fourth-cohort-quant.json"
+ },
+ "committed_label_inventory": {
+  "probe_to_gene_one_gene": 906,
+  "probe_to_several_genes_ambiguous": 77,
+  "tsv_assigned_gene_rows": 906,
+  "distinct_probes_with_any_committed_label": 983,
+  "⛔ every_one_of_them_sits_at_k": [
+   12
+  ]
+ },
+ "matcher_rule_applied": {
+  "read_length_nt": 50,
+  "core_trims": [
+   0,
+   4,
+   8
+  ],
+  "core_lengths_nt": [
+   50,
+   42,
+   34
+  ],
+  "best_core_length_nt": 34,
+  "both_strands": true,
+  "⚠ note": "emc_fourth_cohort_quant.py builds its core dict with d.setdefault(core, p), so if two probes shared a core the matcher would credit only the first; the GENE is still determined, but the assigned-probe count would not double."
+ },
+ "n_runs": 12,
+ "n_probe_rows": 213007,
+ "total_persisted_reads": 67890929,
+ "⛔ unknown_is_not_zero": "A probe with no committed core match is UNKNOWN, not unassigned and not absent from the panel. Only the closed reference route can decide it.",
+ "by_threshold": [
+  {
+   "min_runs_present": 12,
+   "n_probes": 1645,
+   "persisted_read_share": 0.351112,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 662,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 67,
+   "core_length_that_propagated": {
+    "34": 67
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 595,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": "not computed at this threshold"
+  },
+  {
+   "min_runs_present": 11,
+   "n_probes": 3639,
+   "persisted_read_share": 0.45836,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 2656,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 117,
+   "core_length_that_propagated": {
+    "34": 117
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 2539,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": "not computed at this threshold"
+  },
+  {
+   "min_runs_present": 10,
+   "n_probes": 5856,
+   "persisted_read_share": 0.525211,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 4873,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 172,
+   "core_length_that_propagated": {
+    "34": 172
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 4701,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": {
+    "n_unlabelled_probes_examined": 4873,
+    "n_within_hamming_1_of_a_k12_probe": 596,
+    "n_at_hamming_2_of_a_k12_probe": 14,
+    "fraction_within_hamming_2": 0.12518
+   }
+  },
+  {
+   "min_runs_present": 9,
+   "n_probes": 8349,
+   "persisted_read_share": 0.579203,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 7366,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 228,
+   "core_length_that_propagated": {
+    "34": 228
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 7138,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": "not computed at this threshold"
+  },
+  {
+   "min_runs_present": 8,
+   "n_probes": 10910,
+   "persisted_read_share": 0.620012,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 9927,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 284,
+   "core_length_that_propagated": {
+    "34": 284
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 9643,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": "not computed at this threshold"
+  },
+  {
+   "min_runs_present": 7,
+   "n_probes": 13554,
+   "persisted_read_share": 0.646425,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 12571,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 333,
+   "core_length_that_propagated": {
+    "34": 333
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 12238,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": "not computed at this threshold"
+  },
+  {
+   "min_runs_present": 6,
+   "n_probes": 16222,
+   "persisted_read_share": 0.663989,
+   "n_probes_with_a_committed_gene_label": 983,
+   "n_probes_with_NO_committed_gene_label": 15239,
+   "n_of_those_labelled_by_core_identity_without_any_reference": 402,
+   "core_length_that_propagated": {
+    "34": 402
+   },
+   "n_probes_still_UNKNOWN_without_the_closed_Ensembl_route": 14837,
+   "distinct_single_genes_from_committed_labels": 862,
+   "distinct_single_genes_added_by_core_identity": 0,
+   "best_case_gene_count_from_held_data_alone": 862,
+   "hamming_diagnostic_vs_k12_set": {
+    "n_unlabelled_probes_examined": 15239,
+    "n_within_hamming_1_of_a_k12_probe": 1720,
+    "n_at_hamming_2_of_a_k12_probe": 41,
+    "fraction_within_hamming_2": 0.115559
+   }
+  }
+ ]
+}

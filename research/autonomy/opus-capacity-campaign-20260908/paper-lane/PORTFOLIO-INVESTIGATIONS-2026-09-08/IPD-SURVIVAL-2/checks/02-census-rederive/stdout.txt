@@ -1,0 +1,1014 @@
+{
+ "_what": "Re-derivation of the PUB-IPD-SURVIVAL reporting census from the band geometry km-risk-row-detection.json preserved, under the constants km_risk_row_detect.py holds. No PDF was read; no figure was re-detected; no network call was made.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing asserts efficacy, safety, selectivity or clinical readiness.",
+ "_inputs": {
+  "artifact": "research/modalities/km-risk-row-detection.json",
+  "rule_source": "research/modalities/km_risk_row_detect.py",
+  "value_cross_check": "research/modalities/emc_ipd_survival.py"
+ },
+ "constants_read_from_source": {
+  "MIN_MARKS": 3.0,
+  "MIN_MATCHED_TICKS": 3.0,
+  "TICK_TOL": 0.02,
+  "MAX_MARK_WIDTH": 0.055,
+  "MIN_GLYPH_WIDTH": 0.004,
+  "MAX_TICK_GAP": 0.1,
+  "MAX_RISK_GAP": 0.25
+ },
+ "constants_advertised_vs_source_drift": {},
+ "totals_re_derived": {
+  "papers": 5,
+  "figures": 15,
+  "with_risk_row": 2,
+  "without": 9,
+  "undetermined": 4
+ },
+ "totals_recorded": {
+  "papers": 5,
+  "figures": 15,
+  "with_risk_row": 2,
+  "without": 9,
+  "undetermined": 4
+ },
+ "figures": [
+  {
+   "source_id": "chiusole2020",
+   "page": 4,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "FIGURE 1 | Overall survival according to extention of primary resection.",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 575,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1565,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.1015
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 1,
+    "matched_ticks": 1,
+    "median_mark_width_frac": 0.1565,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 2,
+    "matched_short_by": 2,
+    "width_over_by": 0.1015
+   }
+  },
+  {
+   "source_id": "chiusole2020",
+   "page": 4,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "FIGURE 2 | Overall survival according to sex.",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 577,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.156,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.101
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 1,
+    "matched_ticks": 1,
+    "median_mark_width_frac": 0.156,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 2,
+    "matched_short_by": 2,
+    "width_over_by": 0.101
+   }
+  },
+  {
+   "source_id": "chiusole2020",
+   "page": 5,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "FIGURE 3 | Overall survival according to location of primary tumor (T): central",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 576,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1545,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.0995
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 1,
+    "matched_ticks": 1,
+    "median_mark_width_frac": 0.1545,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 2,
+    "matched_short_by": 2,
+    "width_over_by": 0.0995
+   }
+  },
+  {
+   "source_id": "chiusole2020",
+   "page": 5,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "FIGURE 4 | Overall survival according to location of metastases (M) in lung,",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 578,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1557,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.1007
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 1,
+    "matched_ticks": 1,
+    "median_mark_width_frac": 0.1557,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 2,
+    "matched_short_by": 2,
+    "width_over_by": 0.1007
+   }
+  },
+  {
+   "source_id": "martinbroto2020immunosarc1",
+   "page": 6,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Figure 3  Progression- free survival to treatment by patient,",
+   "recorded_verdict": "absent",
+   "n_bands": 12,
+   "width_scale": 465,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 0,
+   "recorded_tick_label_band_index": 0,
+   "candidate_bands": [
+    {
+     "band": 1,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.6129,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.5579
+    },
+    {
+     "band": 2,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.6,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.545
+    },
+    {
+     "band": 3,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.0022,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.0
+    },
+    {
+     "band": 4,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.3032,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.2482
+    },
+    {
+     "band": 5,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.2882,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.2332
+    },
+    {
+     "band": 6,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.2667,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.2117
+    },
+    {
+     "band": 7,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.2323,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.1773
+    },
+    {
+     "band": 8,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1591,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.1041
+    },
+    {
+     "band": 9,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1484,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.0934
+    },
+    {
+     "band": 10,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.0968,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055",
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.0418
+    },
+    {
+     "band": 11,
+     "n_marks": 5,
+     "matched_ticks": 3,
+     "median_mark_width_frac": 0.0086,
+     "near_enough_recorded": false,
+     "qualifies": false,
+     "failed_clauses": [
+      "near_enough(RECORDED, not re-derived)"
+     ],
+     "marks_short_by": 0,
+     "matched_short_by": 0,
+     "width_over_by": 0.0
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 11,
+    "n_marks": 5,
+    "matched_ticks": 3,
+    "median_mark_width_frac": 0.0086,
+    "near_enough_recorded": false,
+    "qualifies": false,
+    "failed_clauses": [
+     "near_enough(RECORDED, not re-derived)"
+    ],
+    "marks_short_by": 0,
+    "matched_short_by": 0,
+    "width_over_by": 0.0
+   }
+  },
+  {
+   "source_id": "masunaga2025",
+   "page": 5,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Fig. 1  Disease-specific survival rates of patients with and without distant metastases at",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 984,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.2246,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.1696
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 2,
+    "matched_ticks": 0,
+    "median_mark_width_frac": 0.2246,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 1,
+    "matched_short_by": 3,
+    "width_over_by": 0.1696
+   }
+  },
+  {
+   "source_id": "masunaga2025",
+   "page": 7,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Fig. 2  Local recurrence-free survival rates of patients with and without (neo)adjuvant ra",
+   "recorded_verdict": "absent",
+   "n_bands": 2,
+   "width_scale": 941,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 0,
+   "recorded_tick_label_band_index": 0,
+   "candidate_bands": [
+    {
+     "band": 1,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.1977,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.1427
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 1,
+    "n_marks": 2,
+    "matched_ticks": 0,
+    "median_mark_width_frac": 0.1977,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 1,
+    "matched_short_by": 3,
+    "width_over_by": 0.1427
+   }
+  },
+  {
+   "source_id": "masunaga2025",
+   "page": 10,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Fig. 3  Disease-specific survival rates of patients with and without advanced stage chemot",
+   "recorded_verdict": "absent",
+   "n_bands": 3,
+   "width_scale": 1081,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 1,
+   "recorded_tick_label_band_index": 1,
+   "candidate_bands": [
+    {
+     "band": 2,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.2248,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.1698
+    }
+   ],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": {
+    "band": 2,
+    "n_marks": 2,
+    "matched_ticks": 0,
+    "median_mark_width_frac": 0.2248,
+    "near_enough_recorded": true,
+    "qualifies": false,
+    "failed_clauses": [
+     "n_marks>=3",
+     "matched>=3",
+     "med_width<=0.055"
+    ],
+    "marks_short_by": 1,
+    "matched_short_by": 3,
+    "width_over_by": 0.1698
+   }
+  },
+  {
+   "source_id": "masunaga2025",
+   "page": 11,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Supplementary Information The online version contains supplementary material ava",
+   "recorded_verdict": "undetermined",
+   "n_bands": 0,
+   "re_derived_verdict": null,
+   "agrees": null,
+   "why_not_re_derivable": "no band geometry preserved (early-exit path: undecodable encoding, too few tokens, no glyph band, or tick-gap refusal)"
+  },
+  {
+   "source_id": "morioka2016trabectedin",
+   "page": 1,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "Morioka et al. BMC Cancer  (2016) 16:479  DOI 10.1186/s12885-016-2511-y  R E S E",
+   "recorded_verdict": "undetermined",
+   "n_bands": 0,
+   "re_derived_verdict": null,
+   "agrees": null,
+   "why_not_re_derivable": "no band geometry preserved (early-exit path: undecodable encoding, too few tokens, no glyph band, or tick-gap refusal)"
+  },
+  {
+   "source_id": "morioka2016trabectedin",
+   "page": 4,
+   "arm": "text",
+   "input": "embedded_image",
+   "caption_head": "Fig. 1 Kaplan-Meier plot of progression-free survival. Progression-free survival of five p",
+   "recorded_verdict": "present",
+   "n_bands": 7,
+   "width_scale": 255.8,
+   "width_scale_from": "tick_row_span_pt",
+   "re_derived_tick_label_band_index": 0,
+   "recorded_tick_label_band_index": 0,
+   "candidate_bands": [
+    {
+     "band": 1,
+     "n_marks": 2,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.1126,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 2,
+     "width_over_by": 0.0576
+    },
+    {
+     "band": 2,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.0379,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.0
+    },
+    {
+     "band": 3,
+     "n_marks": 9,
+     "matched_ticks": 8,
+     "median_mark_width_frac": 0.016,
+     "near_enough_recorded": true,
+     "qualifies": true,
+     "failed_clauses": [],
+     "marks_short_by": 0,
+     "matched_short_by": 0,
+     "width_over_by": 0.0
+    },
+    {
+     "band": 4,
+     "n_marks": 9,
+     "matched_ticks": 8,
+     "median_mark_width_frac": 0.0094,
+     "near_enough_recorded": true,
+     "qualifies": true,
+     "failed_clauses": [],
+     "marks_short_by": 0,
+     "matched_short_by": 0,
+     "width_over_by": 0.0
+    },
+    {
+     "band": 5,
+     "n_marks": 13,
+     "matched_ticks": 2,
+     "median_mark_width_frac": 0.0559,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 0,
+     "matched_short_by": 1,
+     "width_over_by": 0.0009
+    },
+    {
+     "band": 6,
+     "n_marks": 6,
+     "matched_ticks": 3,
+     "median_mark_width_frac": 0.0719,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 0,
+     "matched_short_by": 0,
+     "width_over_by": 0.0169
+    }
+   ],
+   "re_derived_verdict": "present",
+   "re_derived_risk_row_band_index": 3,
+   "recorded_risk_row_band_index": 3,
+   "re_derived_matched_ticks": 8,
+   "recorded_matched_ticks": 8,
+   "agrees": true
+  },
+  {
+   "source_id": "morioka2016trabectedin",
+   "page": 5,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Fig. 2 Clinical course of subject No.2. CT images of target lesions in lung at (a, b) enro",
+   "recorded_verdict": "undetermined",
+   "n_bands": 0,
+   "re_derived_verdict": null,
+   "agrees": null,
+   "why_not_re_derivable": "no band geometry preserved (early-exit path: undecodable encoding, too few tokens, no glyph band, or tick-gap refusal)"
+  },
+  {
+   "source_id": "morioka2016trabectedin",
+   "page": 6,
+   "arm": "pixel",
+   "input": "page_raster",
+   "caption_head": "Fig. 3 Clinical course of subject No.3. CT images of target lesion in lung at (a) enrollme",
+   "recorded_verdict": "absent",
+   "n_bands": 1,
+   "width_scale": 1177,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 0,
+   "recorded_tick_label_band_index": 0,
+   "candidate_bands": [],
+   "re_derived_verdict": "absent",
+   "re_derived_risk_row_band_index": null,
+   "recorded_risk_row_band_index": null,
+   "re_derived_matched_ticks": 0,
+   "recorded_matched_ticks": 0,
+   "agrees": true,
+   "closest_candidate_to_qualifying": null
+  },
+  {
+   "source_id": "morioka2016trabectedin",
+   "page": 8,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Morioka et al. BMC Cancer  (2016) 16:479   Page 8 of 8  national analysis of the",
+   "recorded_verdict": "undetermined",
+   "n_bands": 0,
+   "re_derived_verdict": null,
+   "agrees": null,
+   "why_not_re_derivable": "no band geometry preserved (early-exit path: undecodable encoding, too few tokens, no glyph band, or tick-gap refusal)"
+  },
+  {
+   "source_id": "stacchiotti2013anthracycline",
+   "page": 5,
+   "arm": "pixel",
+   "input": "embedded_image",
+   "caption_head": "Figure 2 Overall progression free survival (PFS) of patients",
+   "recorded_verdict": "present",
+   "n_bands": 4,
+   "width_scale": 790,
+   "width_scale_from": "axis_span_px",
+   "re_derived_tick_label_band_index": 0,
+   "recorded_tick_label_band_index": 0,
+   "candidate_bands": [
+    {
+     "band": 1,
+     "n_marks": 1,
+     "matched_ticks": 1,
+     "median_mark_width_frac": 0.0696,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 2,
+     "matched_short_by": 2,
+     "width_over_by": 0.0146
+    },
+    {
+     "band": 2,
+     "n_marks": 2,
+     "matched_ticks": 0,
+     "median_mark_width_frac": 0.0823,
+     "near_enough_recorded": true,
+     "qualifies": false,
+     "failed_clauses": [
+      "n_marks>=3",
+      "matched>=3",
+      "med_width<=0.055"
+     ],
+     "marks_short_by": 1,
+     "matched_short_by": 3,
+     "width_over_by": 0.0273
+    },
+    {
+     "band": 3,
+     "n_marks": 5,
+     "matched_ticks": 5,
+     "median_mark_width_frac": 0.0139,
+     "near_enough_recorded": true,
+     "qualifies": true,
+     "failed_clauses": [],
+     "marks_short_by": 0,
+     "matched_short_by": 0,
+     "width_over_by": 0.0
+    }
+   ],
+   "re_derived_verdict": "present",
+   "re_derived_risk_row_band_index": 3,
+   "recorded_risk_row_band_index": 3,
+   "re_derived_matched_ticks": 5,
+   "recorded_matched_ticks": 5,
+   "agrees": true
+  }
+ ],
+ "risk_row_value_cross_check": {
+  "eye_reading_in_emc_ipd_survival_py": [
+   [
+    0,
+    5
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    6,
+    5
+   ],
+   [
+    9,
+    3
+   ],
+   [
+    12,
+    3
+   ],
+   [
+    15,
+    1
+   ],
+   [
+    18,
+    1
+   ],
+   [
+    21,
+    1
+   ]
+  ],
+  "instrument_text_arm": {
+   "source_id": "morioka2016trabectedin",
+   "page": 4,
+   "risk_row_text": [
+    "Trabectedin",
+    "5",
+    "5",
+    "5",
+    "3",
+    "3",
+    "1",
+    "1",
+    "1"
+   ],
+   "tick_row_text": [
+    "0",
+    "3",
+    "6",
+    "9",
+    "12",
+    "15",
+    "18",
+    "21",
+    "24"
+   ]
+  },
+  "instrument_pairs": [
+   [
+    0,
+    5
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    6,
+    5
+   ],
+   [
+    9,
+    3
+   ],
+   [
+    12,
+    3
+   ],
+   [
+    15,
+    1
+   ],
+   [
+    18,
+    1
+   ],
+   [
+    21,
+    1
+   ]
+  ],
+  "identical_to_eye_reading": true,
+  "⚠": ""
+ },
+ "input_provenance_at_this_HEAD": {
+  "recorded_inputs": {
+   "cache_branch": "origin/literature-cache",
+   "cache_path": "literature/km-figures-2026-08-25/",
+   "cache_commit": "454df71144f677b1e84ed58f7a6c6951a4190f66",
+   "page_rasters": "pdftoppm -r 200 -png, produced by scripts/emc_km_figure_fetch.py in Actions run 32903796837 and published to the same cache directory"
+  },
+  "cache_commit_in_local_object_store": {
+   "cmd": "git cat-file -t 454df71144f677b1e84ed58f7a6c6951a4190f66",
+   "exit": 0,
+   "out": "commit",
+   "err": ""
+  },
+  "cache_branch_ref_present": {
+   "cmd": "git rev-parse --verify origin/literature-cache",
+   "exit": 0,
+   "out": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+   "err": ""
+  },
+  "any_pdf_committed": {
+   "cmd": "git ls-files | grep -c -i '\\.pdf$' || true",
+   "exit": 0,
+   "out": "55",
+   "err": ""
+  },
+  "verdict": "INPUTS_RESOLVE",
+  "consequence": "The five recorded pdf_sha256 digests cannot be matched against any file reachable from this checkout, so the ORIGINAL RUN is not repeatable here. That is exactly why the band-geometry re-derivation above is the only falsifiability this artifact currently has, and it is a re-derivation of RULE APPLICATION, not of perception."
+ },
+ "mismatches": [
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[0].median_mark_width_frac",
+   "recorded": 0.0318,
+   "re_derived": 0.0317
+  },
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[5].median_mark_width_frac",
+   "recorded": 0.056,
+   "re_derived": 0.0559
+  },
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[6].median_mark_width_frac",
+   "recorded": 0.0718,
+   "re_derived": 0.0719
+  }
+ ],
+ "summary": {
+  "figures_total": 15,
+  "figures_with_preserved_geometry": 11,
+  "figures_re_derived_verdict_agrees": 11,
+  "figures_not_re_derivable": 4,
+  "mismatch_count": 3,
+  "verdict": "3 DISCREPANCY(IES) -- see 'mismatches'"
+ }
+}

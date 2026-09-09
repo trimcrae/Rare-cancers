@@ -1,0 +1,126 @@
+{
+ "_what": "Independent re-derivation of every load-bearing number the first-round PUB-IPD-SURVIVAL lane reported, from the committed reading and the committed reconstruction module.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing asserts efficacy, safety, selectivity or clinical readiness.",
+ "_inputs": {
+  "reading": "research/modalities/km-figure-readings.json",
+  "module": "research/modalities/emc_ipd_survival.py",
+  "MAX_KM_DEVIATION": 0.05
+ },
+ "mismatches": [],
+ "baseline": {
+  "printed": {
+   "re_derived": {
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "admissible": false,
+    "max_abs_km_deviation": 0.0903,
+    "median_LOCAL": 4.987643,
+    "median_MODULE": 4.987643,
+    "S6_LOCAL": 0.5,
+    "S6_MODULE": 0.5
+   },
+   "reported": {
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "dev": 0.0903,
+    "adm": false,
+    "median": 4.987643,
+    "S6": 0.5
+   }
+  },
+  "anchored": {
+   "re_derived": {
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "admissible": true,
+    "max_abs_km_deviation": 0.0454,
+    "median_LOCAL": 7.984996,
+    "median_MODULE": 7.984996,
+    "S6_LOCAL": 0.5113636363636364,
+    "S6_MODULE": 0.511364
+   },
+   "reported": {
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "dev": 0.0454,
+    "adm": true,
+    "median": 7.984996,
+    "S6": 0.511364
+   }
+  }
+ },
+ "E2_heldout": [
+  {
+   "held_out_time": 4,
+   "printed_n_at_risk": 7,
+   "predicted_n_at_risk": 7,
+   "delta": 0,
+   "max_abs_km_deviation": 0.0454,
+   "median_LOCAL": 7.984996,
+   "events": 9,
+   "censored": 2,
+   "admissible": true
+  },
+  {
+   "held_out_time": 6,
+   "printed_n_at_risk": 5,
+   "predicted_n_at_risk": 4,
+   "delta": -1,
+   "max_abs_km_deviation": 0.0454,
+   "median_LOCAL": 7.984996,
+   "events": 9,
+   "censored": 2,
+   "admissible": true
+  },
+  {
+   "held_out_time": 8,
+   "printed_n_at_risk": 1,
+   "predicted_n_at_risk": 2,
+   "delta": 1,
+   "max_abs_km_deviation": 0.0324,
+   "median_LOCAL": 7.984996,
+   "events": 10,
+   "censored": 1,
+   "admissible": true
+  },
+  {
+   "held_out_time": 10,
+   "printed_n_at_risk": 0,
+   "predicted_n_at_risk": 0,
+   "delta": 0,
+   "max_abs_km_deviation": 0.0454,
+   "median_LOCAL": 7.984996,
+   "events": 9,
+   "censored": 2,
+   "admissible": true
+  }
+ ],
+ "E1_scan": {
+  "n_offsets": 123,
+  "anchored_medians_over_all_offsets": [
+   7.984996
+  ],
+  "anchored_events_censored_over_all_offsets": [
+   [
+    8,
+    3
+   ],
+   [
+    9,
+    2
+   ],
+   [
+    10,
+    1
+   ]
+  ],
+  "smallest_positive_offset_inadmissible": 0.005,
+  "printed_ever_admissible": false,
+  "printed_min_dev_over_scan": 0.0604
+ },
+ "verdict": "ALL REPORTED NUMBERS REPRODUCE"
+}

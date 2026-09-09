@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+cachedir: .pytest_cache
+rootdir: /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests
+plugins: xdist-3.8.0
+collecting ... collected 9 items
+
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_fasta_parse_keeps_accession_name_and_joins_wrapped_lines PASSED [ 11%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_a_peptide_present_in_a_human_protein_is_reported_as_found PASSED [ 22%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_a_peptide_absent_everywhere_is_reported_as_novel PASSED [ 33%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_no_match_may_straddle_two_proteins PASSED [ 44%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_an_isoform_hit_counts_and_is_flagged_as_a_parent PASSED [ 55%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_clean_input_reports_the_filter_as_consistent PASSED [ 66%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_predicted_binder_status_is_carried_through PASSED [ 77%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_the_result_records_what_was_searched PASSED [ 88%]
+../../../tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/sb/unpatched/tests/test_junction_proteome_novelty.py::test_missing_input_artifact_is_a_nonzero_exit_not_an_empty_result PASSED [100%]
+
+============================== 9 passed in 0.05s ===============================

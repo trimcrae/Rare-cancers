@@ -1,0 +1,66 @@
+== does the quant record itself carry a probe_to_gene map? ==
+['best_core_length_nt', 'n_probes_assigned_to_one_gene', 'n_probes_in_every_read_run', 'n_probes_matching_several_genes', 'n_probes_offered', 'n_probes_unassigned', 'n_runs_intersected', 'per_core_length', 'read_length_nt', 'sources', 'state', 'wall_s', '⚠ unassigned_means']
+== does the matcher read any LOCAL reference, or only the network? ==
+171:def http_get(url: str, timeout: int = 120) -> dict:
+173:    with urllib.request.urlopen(req, timeout=timeout) as r:
+191:    rec = http_get(url, timeout=timeout)
+263:    with urllib.request.urlopen(req, timeout=300) as r:
+359:    listing = http_get(f"{ENSEMBL_FASTA}/{kind}/", timeout=timeout)
+469:    with urllib.request.urlopen(req, timeout=timeout) as r:
+== any committed file, anywhere in the tree, containing three sampled assigned probe 50-mers? ==
+-- probe AAAACACCTTGAGCACCCCGCGAGTCTCCTCGTAGATCAGACCAGAGATC
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/checks/03-committed-label-source-inventory/stdout.txt
+./research/modalities/emc-fourth-cohort-quant-inputs.json
+./research/modalities/emc-fourth-cohort-probe-counts.tsv
+-- probe AAACCTGCCTGTGACCTTGTCAACCTCGGCCACGTTCATCTGGATGGATG
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/checks/03-committed-label-source-inventory/stdout.txt
+./research/modalities/emc-fourth-cohort-quant-inputs.json
+./research/modalities/emc-fourth-cohort-probe-counts.tsv
+-- probe AAAGTGAATTCTGGACCATCCTTCCCACCTTCATCTGTGTATGCTGCCAT
+./research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-3/checks/03-committed-label-source-inventory/stdout.txt
+./research/modalities/emc-fourth-cohort-quant-inputs.json
+./research/modalities/emc-fourth-cohort-probe-counts.tsv
+== files in research/modalities that hold 50-nt sequence columns ==
+total 319100
+drwxr-xr-x 17 root root    90112 Sep  8 23:23 .
+drwxr-xr-x 12 root root     4096 Sep  8 01:45 ..
+-rw-r--r--  5 root root       97 Sep  4 12:16 .abfe-diagnostics-trigger
+-rw-r--r--  5 root root      130 Sep  4 12:16 .archive-trigger
+-rw-r--r--  5 root root       22 Sep  4 12:16 .fm-report-trigger
+-rw-r--r--  5 root root     4011 Sep  4 12:16 5aks-market-hold.json
+drwxr-xr-x  4 root root     4096 Sep  4 12:16 5aks_fep_inputs
+-rw-r--r--  5 root root     5901 Sep  4 12:16 ASSUMPTIONS.md
+-rw-r--r--  5 root root    14575 Sep  4 12:16 FEP-STATUS.md
+-rw-r--r--  5 root root     7325 Sep  4 12:16 TESTING.md
+drwxr-xr-x  2 root root    32768 Sep  8 22:51 __pycache__
+-rw-r--r--  5 root root    13943 Sep  4 12:16 _atr_part_d_control_compute.py
+drwxr-xr-x  2 root root     4096 Sep  4 12:16 _pose_convergence_inputs
+drwxr-xr-x  2 root root     4096 Sep  4 12:16 _pose_second_method_poses
+drwxr-xr-x  2 root root     4096 Sep  4 12:16 _reports
+-rw-r--r--  5 root root     1543 Sep  4 12:16 _reports_abfe_diag.txt
+drwxr-xr-x  2 root root     4096 Sep  4 12:16 _s4_lane_inputs
+-rw-r--r--  5 root root     5860 Sep  4 12:16 abfe-selectivity-benchmark-cost.json
+-rw-r--r--  5 root root    19753 Sep  4 12:16 abfe_audit.py
+-rw-r--r--  5 root root   242635 Sep  4 12:16 abfe_convergence.png
+-rw-r--r--  5 root root     2535 Sep  4 12:16 abfe_eta.py
+-rw-r--r--  5 root root     6762 Sep  4 12:16 abfe_independent_reduce.py
+-rw-r--r--  5 root root    10144 Sep  4 12:16 abfe_manifest.py
+-rw-r--r--  5 root root    51303 Sep  4 12:16 abfe_progress_nr4a2rep_r1.png
+-rw-r--r--  5 root root    28621 Sep  4 12:16 abfe_repair_gate.py
+-rw-r--r--  5 root root    42953 Sep  4 12:16 abfe_sel_forensic.py
+-rw-r--r--  5 root root    11904 Sep  4 12:16 abfe_sel_leg.py
+-rw-r--r--  5 root root    12880 Sep  4 12:16 abfe_sel_reduce.py
+-rw-r--r--  5 root root    38239 Sep  4 12:16 abfe_sel_vast_launch.py
+-rw-r--r--  5 root root    19432 Sep  4 12:16 abfe_selectivity_cost.py
+-rw-r--r--  5 root root    70129 Sep  4 12:16 abfe_traces.json
+-rw-r--r--  5 root root    13830 Sep  4 12:16 abfe_xtag_guard.py
+-rw-r--r--  5 root root  2098842 Sep  4 12:16 accession-symbol-cache.json
+-rw-r--r--  5 root root     1206 Sep  8 01:45 account-orphan-alarm.json
+-rw-r--r--  5 root root    64758 Sep  4 12:16 account_orphan_alarm.py
+-rw-r--r--  5 root root    16622 Sep  4 12:16 adaptive_allocator.py
+-rw-r--r--  5 root root    16298 Sep  4 12:16 adaptive_certify.py
+-rw-r--r--  5 root root     9034 Sep  8 01:45 alarm-state.json
+-rw-r--r--  5 root root    19363 Sep  4 12:16 alarm_state.py
+== any local FASTA / transcriptome in the checkout ==
+./research/manuscripts/aso/fusion-junction-aso-sequences.fasta
+(no output above means none)

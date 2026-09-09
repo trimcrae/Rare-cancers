@@ -1,0 +1,19 @@
+lookup_article_by_citation ->
+{"citations":[{"journal":"Curr Opin Oncol","year":"2007","volume":"19","first_page":"371","author":"Chow","pmid":"chow2007","key":"17545802"}]}
+# NOTE, recorded as observed: the tool returned the `pmid` and `key` VALUES transposed — the caller's
+# tracking key "chow2007" came back in the `pmid` field and the PMID 17545802 in the `key` field.
+# The PMID was therefore confirmed independently by the metadata call below, whose returned
+# identifiers.doi matches the DOI actually cited in prose.
+
+get_article_metadata(pmids=["17545802"]) ->
+"identifiers":{"pmid":"17545802","doi":"10.1097/CCO.0b013e32812143d9","pii":"00001622-200707000-00015"}
+"title":"Update on chondrosarcomas."
+"doi":"10.1097/CCO.0b013e32812143d9"
+"journal":{"title":"Current opinion in oncology","iso_abbreviation":"Curr Opin Oncol"}
+"publication_date":{"year":"2007","month":"Jul"}
+"article_types":["Journal Article","Review"]
+"language":"eng"
+"citation":{"volume":"19","issue":"4","pages":"371-6"}
+"count":1
+authors: [{"last_name":"Chow","fore_name":"Warren A","initials":"WA","affiliations":["City of Hope Medical Center, Division of Medical Oncology & Therapeutics Research, Duarte, CA 91010, USA. wchow@coh.org"]}]
+# No "pmc" key is present in identifiers: PubMed returned no PMC identifier for this record.

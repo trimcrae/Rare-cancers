@@ -1,0 +1,1 @@
+bash -c cd /home/user/Rare-cancers && grep -rn -E "3\.45|5\.3-fold|p ?= ?0\.033|0\.03304|4/116|3/461" --include=*.md --include=*.json --include=*.py --include=*.txt . | grep -v "PORTFOLIO-INVESTIGATIONS-2026-09-08/MORTALITY-[23]/" | grep -v "^\./\.git/"

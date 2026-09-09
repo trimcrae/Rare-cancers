@@ -1,0 +1,12 @@
+bash -c cd /home/user/Rare-cancers
+echo "### A. manuscript emc-mortality-mechanisms-paper.md"
+grep -n -E "3\.45|0\.65|5\.3|0\.033|4/116|3/461|10\.34|3\.47|comparator|Europe PMC|577|461" research/manuscripts/emc-mortality-mechanisms-paper.md || echo "(no match)"
+echo
+echo "### B. pinned-figures.json entries mentioning this paper or these numbers"
+grep -n -E "mortality|terminal|3\.45|0\.65|0\.033|5\.3" research/manuscripts/pinned-figures.json || echo "(no match)"
+echo
+echo "### C. any file referencing emc-mortality-probe.json"
+grep -rln "emc-mortality-probe" --include=*.py --include=*.json --include=*.md . | grep -v "^./.git"
+echo
+echo "### D. campaign/report files quoting the crude contrast (exact tokens)"
+grep -rn -E "4/116|3/461|3\.45 ?%|0\.65 ?%|5\.3-fold" --include=*.md . | grep -v "^./.git"

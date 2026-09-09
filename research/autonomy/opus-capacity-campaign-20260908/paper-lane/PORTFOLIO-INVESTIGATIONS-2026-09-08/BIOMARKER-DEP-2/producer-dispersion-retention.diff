@@ -1,0 +1,73 @@
+--- a/research/modalities/depmap_sarcoma_dependency.py
++++ b/research/modalities/depmap_sarcoma_dependency.py
+@@ -243,6 +243,38 @@
+     sar = ge[ge.index.isin(sarcoma_ids)]
+     rest = ge[~ge.index.isin(sarcoma_ids)]
+ 
++    def _dispersion(v, prefix):
++        """Dispersion + five-number summary for one arm, retained alongside the fraction.
++
++        ⭐ WHY THIS IS RETAINED (added 2026-09-09). Without it this artifact supports the dependent
++        fraction at EXACTLY ONE threshold — the -0.5 cut hard-coded above — and no interval on any
++        recorded quantity. The fraction at any other cut is a functional of a per-line distribution
++        that `stats()` previously discarded, so a reader who wants to know whether a route decision
++        survives a stricter or looser cut has to re-fetch the whole CRISPRGeneEffect matrix. Two
++        route arguments in this repository rest on that unavailable quantity: "MCL1 and BCL2L1 are
++        dependencies in the large majority of sarcoma lines" (biomarker paper) and the BRD9 synovial
++        self-validation failure, whose value away from -0.5 is not computable from what was kept.
++        The five-number summary pins P(X < t) exactly at four interior points and to within 0.25
++        elsewhere, which is enough to answer those questions offline.
++
++        `n_dependent_*` is retained for the same reason `nr4a_paralogue_comparison` already retains
++        it: the fractions here are rounded to 3 dp, so a count back-computed from a rounded fraction
++        is not exact, and the REST arm's denominator is not recorded anywhere in the output at all.
++
++        Note `pandas.Series.std()` is the SAMPLE sd (ddof=1). Nothing above is changed: every field
++        this function emitted before is emitted with the same name, the same definition and the same
++        rounding, so previously published values are unaffected by this addition.
++        """
++        return {
++            f"{prefix}_sd": round(float(v.std()), 3),
++            f"{prefix}_min": round(float(v.min()), 3),
++            f"{prefix}_q25": round(float(v.quantile(0.25)), 3),
++            f"{prefix}_median": round(float(v.median()), 3),
++            f"{prefix}_q75": round(float(v.quantile(0.75)), 3),
++            f"{prefix}_max": round(float(v.max()), 3),
++            f"n_dependent_{prefix}": int((v < DEPENDENT_THRESHOLD).sum()),
++        }
++
+     def stats(gene):
+         if gene not in ge.columns:
+             return None
+@@ -257,6 +289,9 @@
+             "sarcoma_frac_dependent": round(float((s < DEPENDENT_THRESHOLD).mean()), 3),
+             "rest_frac_dependent": round(float((r < DEPENDENT_THRESHOLD).mean()), 3),
+             "n_sarcoma": int(len(s)),
++            "n_rest": int(len(r)),
++            **_dispersion(s, "sarcoma"),
++            **_dispersion(r, "rest"),
+         }
+ 
+     genes_out = {grp: [x for g in gl if (x := stats(g))] for grp, gl in GENE_GROUPS.items()}
+@@ -271,9 +306,20 @@
+         vals = ge[gene].reindex([i for i in ge.index if i in ids]).dropna()
+         if len(vals) == 0:
+             return None
++        # ⭐ Same retention as stats() above, and for the sharper reason: the subtype blocks are the
++        # only biomarker-defined contrasts in this artifact, they are the panel's own stated
++        # self-validation, and at n = 5 (synovial) a single fraction at one cut carries no
++        # information about where the distribution actually sits relative to that cut.
+         return {"subtype_match": predicate, "n": int(len(vals)),
+                 "mean_gene_effect": round(float(vals.mean()), 3),
+-                "frac_dependent": round(float((vals < DEPENDENT_THRESHOLD).mean()), 3)}
++                "frac_dependent": round(float((vals < DEPENDENT_THRESHOLD).mean()), 3),
++                "n_dependent": int((vals < DEPENDENT_THRESHOLD).sum()),
++                "sd_gene_effect": round(float(vals.std()), 3),
++                "min_gene_effect": round(float(vals.min()), 3),
++                "q25_gene_effect": round(float(vals.quantile(0.25)), 3),
++                "median_gene_effect": round(float(vals.median()), 3),
++                "q75_gene_effect": round(float(vals.quantile(0.75)), 3),
++                "max_gene_effect": round(float(vals.max()), 3)}
+ 
+     validation = {
+         "BRD9_in_synovial": subtype_mean("BRD9", "synovial"),

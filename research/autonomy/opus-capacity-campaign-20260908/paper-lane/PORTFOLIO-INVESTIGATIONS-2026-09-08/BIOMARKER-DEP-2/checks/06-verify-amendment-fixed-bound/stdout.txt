@@ -1,0 +1,93 @@
+{
+  "Q1_backward_compatibility": {
+    "trials": 200,
+    "distribution_shapes": [
+      "bimodal",
+      "null",
+      "pan_essential",
+      "selective"
+    ],
+    "published_fields_checked": [
+      "gene",
+      "sarcoma_mean",
+      "rest_mean",
+      "selectivity",
+      "sarcoma_frac_dependent",
+      "rest_frac_dependent",
+      "n_sarcoma"
+    ],
+    "mismatches": [],
+    "verdict": "IDENTICAL \u2014 no published field changes"
+  },
+  "Q2_new_field_correctness": {
+    "new_fields": [
+      "n_rest",
+      "sarcoma_sd",
+      "sarcoma_min",
+      "sarcoma_q25",
+      "sarcoma_median",
+      "sarcoma_q75",
+      "sarcoma_max",
+      "n_dependent_sarcoma",
+      "rest_sd",
+      "rest_min",
+      "rest_q25",
+      "rest_median",
+      "rest_q75",
+      "rest_max",
+      "n_dependent_rest"
+    ],
+    "mismatches": [],
+    "verdict": "all new fields equal an independent computation"
+  },
+  "Q3_threshold_indeterminacy": {
+    "_note": "P(X<t) bound width from what the producer keeps now (mean + one fraction at -0.5 + assumed support [-4.0,1.5]) vs. from the retained five-number summary. Width 0 = the value is exactly recoverable. Both bounds were asserted to contain the true value.",
+    "rows": [
+      {
+        "t": -2.0,
+        "median_width_committed_fields": 0.549,
+        "median_width_with_five_number": 0.261,
+        "max_width_with_five_number": 0.261,
+        "n_exactly_determined_committed": 0,
+        "n_exactly_determined_amended": 54,
+        "n_arms": 200
+      },
+      {
+        "t": -1.0,
+        "median_width_committed_fields": 0.78,
+        "median_width_with_five_number": 0.272,
+        "max_width_with_five_number": 0.522,
+        "n_exactly_determined_committed": 0,
+        "n_exactly_determined_amended": 0,
+        "n_arms": 200
+      },
+      {
+        "t": -0.75,
+        "median_width_committed_fields": 0.727,
+        "median_width_with_five_number": 0.272,
+        "max_width_with_five_number": 0.272,
+        "n_exactly_determined_committed": 0,
+        "n_exactly_determined_amended": 0,
+        "n_arms": 200
+      },
+      {
+        "t": -0.25,
+        "median_width_committed_fields": 0.209,
+        "median_width_with_five_number": 0.261,
+        "max_width_with_five_number": 0.261,
+        "n_exactly_determined_committed": 0,
+        "n_exactly_determined_amended": 0,
+        "n_arms": 200
+      },
+      {
+        "t": 0.0,
+        "median_width_committed_fields": 0.209,
+        "median_width_with_five_number": 0.261,
+        "max_width_with_five_number": 0.261,
+        "n_exactly_determined_committed": 0,
+        "n_exactly_determined_amended": 3,
+        "n_arms": 200
+      }
+    ]
+  }
+}

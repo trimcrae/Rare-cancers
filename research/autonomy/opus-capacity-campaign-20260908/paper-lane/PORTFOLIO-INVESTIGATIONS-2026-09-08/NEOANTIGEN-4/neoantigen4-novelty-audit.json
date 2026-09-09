@@ -1,0 +1,1616 @@
+{
+ "_what": "Defect audit of the EWSR1::NR4A3 junction screen's NOVELTY FILTER: how many of the 174 junction peptides and 11 ranked binders occur VERBATIM in wild-type human protein sequence. Two strata, reported separately and never merged: (A) recomputed here against the wild-type sequences actually committed in this checkout (CANONICAL ONLY, no isoforms); (B) read, not recomputed, from the committed reviewed-proteome-with-isoforms result.",
+ "⛔_what_this_is_not": "Not an immunogenicity, presentation, tolerance, TCR-cross-reactivity, safety, selectivity or clinical-usability claim, in either direction. A verbatim wild-type match shows only that a peptide is not fusion-specific AT THE SEQUENCE LEVEL. A miss shows only that it is absent from the searched sequences.",
+ "_utc": "2026-09-09T00:46:05Z",
+ "_cost": "$0 — offline, CPU only, no network, no GPU, no paid API.",
+ "_inputs": {
+  "fusion-breakpoint-neoantigens.json": {
+   "_utc": "2026-08-19T16:26:49Z",
+   "n_junctions": 5
+  },
+  "junction-proteome-novelty.json": {
+   "n_peptides_tested": 174,
+   "proteome": {
+    "source": "UniProtKB REST stream",
+    "url": "https://rest.uniprot.org/uniprotkb/stream?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29&format=fasta&includeIsoform=true&compressed=true",
+    "proteome_id": "UP000005640",
+    "reviewed_only": true,
+    "isoforms_included": true,
+    "trembl_included": false,
+    "n_sequences": 42547,
+    "n_residues": 24513032
+   }
+  },
+  "junction-selfsimilarity.json": {
+   "generated_utc": "2026-08-23T17:32:49Z",
+   "n_queries": 11
+  },
+  "sequence caches": [
+   "research/modalities/nr4a-sequences-cache.json",
+   "research/modalities/fet-sequences-cache.json"
+  ],
+  "committed_novelty_artifact_tests_the_same_174_peptides": true,
+  "sequence_caches_agree_where_they_overlap": {
+   "EWSR1": true,
+   "NR4A3": true,
+   "NR4A1": true,
+   "NR4A2": true
+  }
+ },
+ "_denominators": {
+  "junction_peptides": 174,
+  "ranked_binders": 11,
+  "ranked_binders_are_a_subset_of_the_174": true
+ },
+ "⛔_wild_type_corpus_limitation": "THE WILD-TYPE SEQUENCE SET IN THIS CHECKOUT IS SMALLER THAN THE ONE junction-proteome-novelty.json USED. That artifact searched 42,547 reviewed UniProt sequences WITH isoforms, fetched over the network in CI. This checkout contains NO proteome FASTA and NO isoform sequence of any protein — only the canonical sequences listed in _wild_type_corpus. Stratum A is therefore scoped to 6 canonical human proteins and CANNOT reproduce or contradict the wider result; the wider numbers are quoted from the committed artifact in stratum B, not recomputed. No network fetch was attempted: routes B1/B2/B4 are closed.",
+ "_wild_type_corpus": [
+  {
+   "gene": "NR4A3",
+   "accession": "Q92570",
+   "isoform": "canonical",
+   "source_file": "research/modalities/nr4a-sequences-cache.json",
+   "length": 626,
+   "sha256_16": "6c45c8cdd5966fba",
+   "is_fusion_parent": true
+  },
+  {
+   "gene": "EWSR1",
+   "accession": "Q01844",
+   "isoform": "canonical",
+   "source_file": "research/modalities/nr4a-sequences-cache.json",
+   "length": 656,
+   "sha256_16": "50aceb523187df7b",
+   "is_fusion_parent": true
+  },
+  {
+   "gene": "NR4A1",
+   "accession": "P22736",
+   "isoform": "canonical",
+   "source_file": "research/modalities/nr4a-sequences-cache.json",
+   "length": 598,
+   "sha256_16": "97bc21cd2f2917ad",
+   "is_fusion_parent": false
+  },
+  {
+   "gene": "NR4A2",
+   "accession": "P43354",
+   "isoform": "canonical",
+   "source_file": "research/modalities/nr4a-sequences-cache.json",
+   "length": 598,
+   "sha256_16": "de68a13a881a695b",
+   "is_fusion_parent": false
+  },
+  {
+   "gene": "TAF15",
+   "accession": "Q92804",
+   "isoform": "canonical",
+   "source_file": "research/modalities/fet-sequences-cache.json",
+   "length": 592,
+   "sha256_16": "637a7e6f751b0314",
+   "is_fusion_parent": false
+  },
+  {
+   "gene": "FUS",
+   "accession": "P35637",
+   "isoform": "canonical",
+   "source_file": "research/modalities/fet-sequences-cache.json",
+   "length": 526,
+   "sha256_16": "4a254ab17fd6e25c",
+   "is_fusion_parent": false
+  }
+ ],
+ "controls": {
+  "positive_planted": {
+   "peptide": "MPCVQAQYS",
+   "planted_from": "NR4A3 canonical residues 1-9",
+   "uniqueness": "occurs exactly once in the whole local corpus",
+   "expected_offset_1based": 1,
+   "expected_n_hits": 1,
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "accession": "Q92570",
+     "isoform": "canonical",
+     "offset_1based": 1,
+     "is_fusion_parent": true
+    }
+   ],
+   "pass": true
+  },
+  "negative_scrambled": {
+   "peptide": "PAQCDVQYM",
+   "scrambled_from": "DMPCVQAQY",
+   "seed": 20260909,
+   "hits": [],
+   "pass": true
+  },
+  "positive_known_hit_must_miss_locally": {
+   "peptide": "DMPCVQAQY",
+   "expectation": "hits Q92570-3 in the committed wider result; MUST miss here, because no isoform sequence is present in this checkout — this is the control that demonstrates the local corpus's stated blind spot",
+   "hits_locally": [],
+   "pass": true
+  },
+  "all_pass": true
+ },
+ "A_local_canonical_corpus": {
+  "_scope": "6 canonical human proteins committed in this checkout; NO isoforms.",
+  "arm_174_junction_peptides": {
+   "n_tested": 174,
+   "n_non_novel": 0,
+   "n_novel_vs_this_corpus": 174,
+   "proportion_non_novel": "0/174",
+   "non_novel": []
+  },
+  "arm_11_ranked_binders": {
+   "n_tested": 11,
+   "n_non_novel": 0,
+   "n_novel_vs_this_corpus": 11,
+   "proportion_non_novel": "0/11",
+   "non_novel": []
+  },
+  "reading": "Zero is the EXPECTED result and is not reassurance: fusion_breakpoints.py already filters every candidate against canonical EWSR1 and canonical NR4A3, so a hit against those two would mean the upstream filter had failed outright. The informative content of stratum A is (i) that the canonical two-protein filter is confirmed to have been applied, (ii) that no peptide is a verbatim NR4A1/NR4A2/TAF15/FUS wild-type peptide either, and (iii) that the ONLY recorded non-novelty comes from an ISOFORM, which is exactly the sequence class this checkout cannot search."
+ },
+ "B_committed_reviewed_proteome_with_isoforms": {
+  "_scope": {
+   "source": "UniProtKB REST stream",
+   "url": "https://rest.uniprot.org/uniprotkb/stream?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29&format=fasta&includeIsoform=true&compressed=true",
+   "proteome_id": "UP000005640",
+   "reviewed_only": true,
+   "isoforms_included": true,
+   "trembl_included": false,
+   "n_sequences": 42547,
+   "n_residues": 24513032
+  },
+  "_this_is_read_not_recomputed": true,
+  "arm_174_junction_peptides": {
+   "n_tested": 174,
+   "n_non_novel": 4,
+   "n_novel": 170,
+   "proportion_non_novel": "4/174",
+   "non_novel": [
+    {
+     "peptide": "DMPCVQAQ",
+     "junctions": [
+      "EWSR1_e9__NR4A3_e3",
+      "EWSR1_e10__NR4A3_e3",
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "is_ranked_binder": false,
+     "proteome_hits": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+      }
+     ],
+     "offsets": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+       "offset_1based": 11
+      }
+     ],
+     "offset_provenance": "DERIVED, not stated: every hit peptide shares the prefix DMPCVQAQ with DMPCVQAQY, whose exact offset in Q92570-3 IS stated, so all four start at the same residue; the isoform sequence is not in this checkout, so this offset is not independently verified here"
+    },
+    {
+     "peptide": "DMPCVQAQY",
+     "junctions": [
+      "EWSR1_e9__NR4A3_e3",
+      "EWSR1_e10__NR4A3_e3",
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "is_ranked_binder": true,
+     "proteome_hits": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+      }
+     ],
+     "offsets": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+       "offset_1based": 11,
+       "source": "junction-selfsimilarity.json"
+      }
+     ],
+     "offset_provenance": "stated by junction-selfsimilarity.json (exact, 0 mismatches)"
+    },
+    {
+     "peptide": "DMPCVQAQYS",
+     "junctions": [
+      "EWSR1_e9__NR4A3_e3",
+      "EWSR1_e10__NR4A3_e3",
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "is_ranked_binder": false,
+     "proteome_hits": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+      }
+     ],
+     "offsets": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+       "offset_1based": 11
+      }
+     ],
+     "offset_provenance": "DERIVED, not stated: every hit peptide shares the prefix DMPCVQAQ with DMPCVQAQY, whose exact offset in Q92570-3 IS stated, so all four start at the same residue; the isoform sequence is not in this checkout, so this offset is not independently verified here"
+    },
+    {
+     "peptide": "DMPCVQAQYSP",
+     "junctions": [
+      "EWSR1_e9__NR4A3_e3",
+      "EWSR1_e10__NR4A3_e3",
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "is_ranked_binder": false,
+     "proteome_hits": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+      }
+     ],
+     "offsets": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+       "offset_1based": 11
+      }
+     ],
+     "offset_provenance": "DERIVED, not stated: every hit peptide shares the prefix DMPCVQAQ with DMPCVQAQY, whose exact offset in Q92570-3 IS stated, so all four start at the same residue; the isoform sequence is not in this checkout, so this offset is not independently verified here"
+    }
+   ]
+  },
+  "arm_11_ranked_binders": {
+   "n_tested": 11,
+   "n_non_novel": 1,
+   "n_novel": 10,
+   "proportion_non_novel": "1/11",
+   "non_novel": [
+    {
+     "peptide": "DMPCVQAQY",
+     "junctions": [
+      "EWSR1_e9__NR4A3_e3",
+      "EWSR1_e10__NR4A3_e3",
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "is_ranked_binder": true,
+     "proteome_hits": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+      }
+     ],
+     "offsets": [
+      {
+       "accession": "Q92570-3",
+       "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+       "offset_1based": 11,
+       "source": "junction-selfsimilarity.json"
+      }
+     ],
+     "offset_provenance": "stated by junction-selfsimilarity.json (exact, 0 mismatches)"
+    }
+   ],
+   "note": "the one non-novel ranked binder is the TOP-RANKED peptide by presentation percentile, not a marginal entry"
+  },
+  "⛔_what_it_still_does_not_cover": "reviewed (Swiss-Prot) entries only — TrEMBL was deliberately not searched, so 'novel' here means 'absent from reviewed human protein sequence', not 'absent from every human protein'; and the fetch is a 2026-08-22 snapshot."
+ },
+ "C_partner_residue_split_all_174": {
+  "_what": "For every one of the 174 peptides, how many residues come from EWSR1, from the hybrid seam codon, and from NR4A3, at the junction offset that minimises the EWSR1 contribution. NEOANTIGEN-3 computed this for the 11 ranked binders only; this extends it to the full set.",
+  "_why_it_matters": "A peptide contributing ZERO EWSR1 residues is seam + wild-type NR4A3 sequence. Its novelty rests entirely on one hybrid residue, and it is precisely the class that an isoform with an N-terminal extension can reproduce verbatim — which is what happened to all four recorded hits.",
+  "n_with_zero_EWSR1_residues": 8,
+  "proportion_with_zero_EWSR1_residues": "8/174",
+  "n_ranked_binders_with_zero_EWSR1_residues": 2,
+  "zero_EWSR1_peptides": [
+   {
+    "peptide": "DMPCVQAQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "DMPCVQAQY",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "DMPCVQAQYS",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "DMPCVQAQYSP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 10
+   },
+   {
+    "peptide": "NMPCVQAQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "NMPCVQAQY",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "NMPCVQAQYS",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "NMPCVQAQYSP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 10
+   }
+  ],
+  "all_rows": [
+   {
+    "peptide": "AAVEWFDD",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "AAVEWFDDM",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "AAVEWFDDMP",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "AAVEWFDDMPC",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "AKAAVEWFDD",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "AKAAVEWFDDM",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "AVEWFDDM",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "AVEWFDDMP",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "AVEWFDDMPC",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "AVEWFDDMPCV",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "DDMPCVQA",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "DDMPCVQAQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "DDMPCVQAQY",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "DDMPCVQAQYS",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "DEGPDLDLD",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "DEGPDLDLDM",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "DEGPDLDLDMP",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "DLDLDMPC",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "DLDLDMPCV",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "DLDLDMPCVQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "DLDLDMPCVQA",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "DLDMPCVQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "DLDMPCVQA",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "DLDMPCVQAQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "DLDMPCVQAQY",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "DMPCVQAQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "DMPCVQAQY",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "DMPCVQAQYS",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "DMPCVQAQYSP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 10
+   },
+   {
+    "peptide": "EGPDLDLD",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "EGPDLDLDM",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "EGPDLDLDMP",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "EGPDLDLDMPC",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "ERGGFNKPGD",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "ERGGFNKPGDM",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "EWFDDMPC",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "EWFDDMPCV",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "EWFDDMPCVQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "EWFDDMPCVQA",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "FDDMPCVQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "FDDMPCVQA",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "FDDMPCVQAQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "FDDMPCVQAQY",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "FNKPGDMP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "FNKPGDMPC",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "FNKPGDMPCV",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "FNKPGDMPCVQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "GDMPCVQA",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "GDMPCVQAQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "GDMPCVQAQY",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "GDMPCVQAQYS",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "GERGGFNKPGD",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 10,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "GFNKPGDM",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "GFNKPGDMP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "GFNKPGDMPC",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "GFNKPGDMPCV",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "GGFNKPGD",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "GGFNKPGDM",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "GGFNKPGDMP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "GGFNKPGDMPC",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "GMPPPLRGD",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "GMPPPLRGDM",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "GMPPPLRGDMP",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "GPDLDLDM",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "GPDLDLDMP",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "GPDLDLDMPC",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "GPDLDLDMPCV",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "GQQNMPCV",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "GQQNMPCVQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "GQQNMPCVQA",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "GQQNMPCVQAQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "GRGMPPPLRGD",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 10,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "KAAVEWFDD",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "KAAVEWFDDM",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "KAAVEWFDDMP",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "KPGDMPCV",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "KPGDMPCVQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "KPGDMPCVQA",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "KPGDMPCVQAQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "LDLDMPCV",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "LDLDMPCVQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "LDLDMPCVQA",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "LDLDMPCVQAQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "LDMPCVQA",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "LDMPCVQAQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "LDMPCVQAQY",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "LDMPCVQAQYS",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "LRGDMPCV",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "LRGDMPCVQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "LRGDMPCVQA",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "LRGDMPCVQAQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "MDEGPDLDLD",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "MDEGPDLDLDM",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "MPPPLRGD",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "MPPPLRGDM",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "MPPPLRGDMP",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "MPPPLRGDMPC",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "NKPGDMPC",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "NKPGDMPCV",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "NKPGDMPCVQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "NKPGDMPCVQA",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "NMPCVQAQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "NMPCVQAQY",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "NMPCVQAQYS",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "NMPCVQAQYSP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 0,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 10
+   },
+   {
+    "peptide": "PDLDLDMP",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "PDLDLDMPC",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "PDLDLDMPCV",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "PDLDLDMPCVQ",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "PGDMPCVQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "PGDMPCVQA",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "PGDMPCVQAQ",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "PGDMPCVQAQY",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "PLRGDMPC",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "PLRGDMPCV",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "PLRGDMPCVQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "PLRGDMPCVQA",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "PMDEGPDLDLD",
+    "junction": "EWSR1_e10__NR4A3_e3",
+    "n_from_EWSR1": 10,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "PPLRGDMP",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "PPLRGDMPC",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "PPLRGDMPCV",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "PPLRGDMPCVQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "PPPLRGDM",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "PPPLRGDMP",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "PPPLRGDMPC",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "PPPLRGDMPCV",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "QNMPCVQA",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "QNMPCVQAQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "QNMPCVQAQY",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "QNMPCVQAQYS",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 1,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 9
+   },
+   {
+    "peptide": "QQNMPCVQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "QQNMPCVQA",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "QQNMPCVQAQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "QQNMPCVQAQY",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "QQSSSYGQQN",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "QQSSSYGQQNM",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "QSSSYGQQN",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "QSSSYGQQNM",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "QSSSYGQQNMP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "RGDMPCVQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "RGDMPCVQA",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "RGDMPCVQAQ",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "RGDMPCVQAQY",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 2,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 8
+   },
+   {
+    "peptide": "RGGFNKPGD",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "RGGFNKPGDM",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "RGGFNKPGDMP",
+    "junction": "EWSR1_e9__NR4A3_e3",
+    "n_from_EWSR1": 8,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "RGMPPPLRGD",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "RGMPPPLRGDM",
+    "junction": "EWSR1_e13__NR4A3_e3",
+    "n_from_EWSR1": 9,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "SQQSSSYGQQN",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 10,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "SSSYGQQN",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "SSSYGQQNM",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "SSSYGQQNMP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "SSSYGQQNMPC",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 7,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "SSYGQQNM",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 1
+   },
+   {
+    "peptide": "SSYGQQNMP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "SSYGQQNMPC",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "SSYGQQNMPCV",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 6,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "SYGQQNMP",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "SYGQQNMPC",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "SYGQQNMPCV",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "SYGQQNMPCVQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "TAKAAVEWFDD",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 10,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 0
+   },
+   {
+    "peptide": "VEWFDDMP",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 2
+   },
+   {
+    "peptide": "VEWFDDMPC",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "VEWFDDMPCV",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "VEWFDDMPCVQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 5,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "WFDDMPCV",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "WFDDMPCVQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "WFDDMPCVQA",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   },
+   {
+    "peptide": "WFDDMPCVQAQ",
+    "junction": "EWSR1_e12__NR4A3_e3",
+    "n_from_EWSR1": 3,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 7
+   },
+   {
+    "peptide": "YGQQNMPC",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 3
+   },
+   {
+    "peptide": "YGQQNMPCV",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 4
+   },
+   {
+    "peptide": "YGQQNMPCVQ",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 5
+   },
+   {
+    "peptide": "YGQQNMPCVQA",
+    "junction": "EWSR1_e7__NR4A3_e3",
+    "n_from_EWSR1": 4,
+    "n_seam_hybrid": 1,
+    "n_from_NR4A3": 6
+   }
+  ]
+ },
+ "D_defect_found_in_the_novelty_script_itself": {
+  "file": "research/modalities/junction_proteome_novelty.py",
+  "line": 85,
+  "code": "PARENTS = {\"P56945\": \"EWSR1\", \"Q92570\": \"NR4A3\"}",
+  "problem": "P56945 is NOT the UniProt accession this repository uses for human EWSR1. Every other module here uses Q01844 (nr4a_paralogue_unique_residues.py:54, emc_fet_construct_designs.py:113, fusion_neoantigen.py:78, emc-construct-inputs.json, nr4a-paralogue-unique-residues.json), and junction-selfsimilarity.json's own proteome hits name EWSR1 as Q01844 / Q01844-2 / -3 / -5 / -6.",
+  "consequence": "The ⛔_upstream_filter_check arm can only ever flag NR4A3 hits. A junction peptide occurring verbatim in wild-type EWSR1 OR ANY EWSR1 ISOFORM would still be counted in n_found_in_proteome, but would NOT appear in parent_protein_hits and would NOT trip the BROKEN verdict — the guard silently covers one parent instead of two.",
+  "impact_on_the_committed_result": "NONE on the headline counts. All four recorded hits are Q92570-3, so the verdict is BROKEN either way. The defect is in the GUARD's coverage, not in the 4/174 number.",
+  "status": "REPORTED ONLY. No shared file was edited; an UNAPPLIED unified diff is in this lane directory. Fixing the accession can only make the guard catch MORE, never less — it does not weaken it."
+ },
+ "_headline": {
+  "question": "of 174 junction peptides and 11 ranked binders, how many are NOT verbatim wild-type human sequence?",
+  "best_available_answer": {
+   "scope": "reviewed human proteome WITH isoforms, 42,547 sequences (committed, CI-fetched 2026-08-22)",
+   "junction_peptides_novel": "170/174 (97.7%)",
+   "junction_peptides_non_novel": "4/174 (2.3%)",
+   "ranked_binders_novel": "10/11 (90.9%)",
+   "ranked_binders_non_novel": "1/11 (9.1%) — DMPCVQAQY, the TOP-RANKED binder, verbatim in NR4A3 isoform Q92570-3 at residue 11"
+  },
+  "recomputable_here": {
+   "scope": "6 canonical human proteins committed in this checkout, no isoforms",
+   "junction_peptides_non_novel": "0/174",
+   "ranked_binders_non_novel": "0/11"
+  },
+  "the_number_that_is_not_reassuring": "8/174 junction peptides and 2/11 ranked binders contribute ZERO residues from EWSR1 — they are one hybrid seam residue away from being wild-type NR4A3 peptides, and the four that a real isoform happened to reproduce are drawn entirely from that class."
+ }
+}

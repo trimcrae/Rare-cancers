@@ -1,0 +1,673 @@
+{
+ "artifact": "platform-readability determination for the FUSION-OUTPUT-2 pre-registered sets",
+ "floors_applied_verbatim": {
+  "min_coverage": 0.4,
+  "min_readable_genes": 4,
+  "source": "manuscript PUB-FUSION-OUTPUT Sec 2.3, restated in FUSION-OUTPUT-2 PRE-REGISTRATION.md Sec 3 and Sec 6.1; NOT modified here"
+ },
+ "gpl3290_frame_coverage_estimate_from_the_seeded_random_draw": {
+  "_what_this_is": "A STATISTICAL ESTIMATE, NOT A DETERMINATION. It does not open a floor, does not change any verdict above, and cannot substitute for the platform table.",
+  "cells": {
+   "1000/A": {
+    "expected_k_if_coverage_were_1.0": 4.42,
+    "expected_k_if_coverage_were_the_0.4_floor": 1.77,
+    "k_in_the_seeded_draw": 6,
+    "n_eligible_for_the_estimator": 22,
+    "n_excluded_as_non_randomly_recorded": 1,
+    "p_one_sided_against_H0_coverage_equals_0.4": 0.00652,
+    "point_estimate_of_frame_coverage": 1.0,
+    "point_estimate_uncapped": 1.357
+   },
+   "1000/B": {
+    "expected_k_if_coverage_were_1.0": 0.8,
+    "expected_k_if_coverage_were_the_0.4_floor": 0.32,
+    "k_in_the_seeded_draw": 0,
+    "n_eligible_for_the_estimator": 4,
+    "n_excluded_as_non_randomly_recorded": 0,
+    "p_one_sided_against_H0_coverage_equals_0.4": 1.0,
+    "point_estimate_of_frame_coverage": 0.0,
+    "point_estimate_uncapped": 0.0
+   },
+   "2000/A": {
+    "expected_k_if_coverage_were_1.0": 7.84,
+    "expected_k_if_coverage_were_the_0.4_floor": 3.14,
+    "k_in_the_seeded_draw": 9,
+    "n_eligible_for_the_estimator": 39,
+    "n_excluded_as_non_randomly_recorded": 1,
+    "p_one_sided_against_H0_coverage_equals_0.4": 0.00322,
+    "point_estimate_of_frame_coverage": 1.0,
+    "point_estimate_uncapped": 1.148
+   },
+   "2000/B": {
+    "expected_k_if_coverage_were_1.0": 1.41,
+    "expected_k_if_coverage_were_the_0.4_floor": 0.56,
+    "k_in_the_seeded_draw": 1,
+    "n_eligible_for_the_estimator": 7,
+    "n_excluded_as_non_randomly_recorded": 0,
+    "p_one_sided_against_H0_coverage_equals_0.4": 0.44379,
+    "point_estimate_of_frame_coverage": 0.711,
+    "point_estimate_uncapped": 0.711
+   },
+   "5000/A": {
+    "expected_k_if_coverage_were_1.0": 11.45,
+    "expected_k_if_coverage_were_the_0.4_floor": 4.58,
+    "k_in_the_seeded_draw": 17,
+    "n_eligible_for_the_estimator": 57,
+    "n_excluded_as_non_randomly_recorded": 0,
+    "p_one_sided_against_H0_coverage_equals_0.4": 0.0,
+    "point_estimate_of_frame_coverage": 1.0,
+    "point_estimate_uncapped": 1.484
+   },
+   "5000/B": {
+    "expected_k_if_coverage_were_1.0": 1.21,
+    "expected_k_if_coverage_were_the_0.4_floor": 0.48,
+    "k_in_the_seeded_draw": 1,
+    "n_eligible_for_the_estimator": 6,
+    "n_excluded_as_non_randomly_recorded": 0,
+    "p_one_sided_against_H0_coverage_equals_0.4": 0.39517,
+    "point_estimate_of_frame_coverage": 0.829,
+    "point_estimate_uncapped": 0.829
+   }
+  },
+  "n_drawn": 3000,
+  "n_frame": 14928,
+  "p_detect_if_in_frame": 0.20096
+ },
+ "inputs": [
+  {
+   "bytes": 26856,
+   "exists": true,
+   "note": "FUSION-OUTPUT-2 frozen gene sets (the object under test)",
+   "path": "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-2/fusion-program-testsets.json",
+   "sha256": "e1add70fc53fcc06017f9c214260c84501d7aea8d7f4b6225ad087b8b8128f24"
+  },
+  {
+   "bytes": 783402,
+   "exists": true,
+   "note": "frozen source packet symbol->probe map for GPL6244 (authoritative)",
+   "path": "/tmp/claude-0/frozen-corpus/extracted/corpus/research/autonomy/nr4a3-program-source-2026-09-07/sources/GPL6244-gene-to-probes.json",
+   "sha256": "00754d6d3e43f83b9e1e7b59e84cc8e4609ef3cb86d21c15a0669c2d6c3d404e"
+  },
+  {
+   "bytes": 13254759,
+   "exists": true,
+   "note": "committed run of the GPL3290 EST-accession bridge: per-gene readability flags, and the seeded background draw whose members are by definition probe-carrying",
+   "path": "/home/user/Rare-cancers/research/modalities/emc-expression-panels.json",
+   "sha256": "59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d"
+  },
+  {
+   "bytes": 995098,
+   "exists": true,
+   "note": "committed run of the same bridge: per-gene readability for the fusion target panel",
+   "path": "/home/user/Rare-cancers/research/modalities/nr4a3-fusion-targets.json",
+   "sha256": "0c338c169678f47552df51d392a6b239e9c14cd5a7b734e8209b2218e8a901e3"
+  },
+  {
+   "bytes": 94931,
+   "exists": true,
+   "note": "committed run of the same bridge: per-route gene readability",
+   "path": "/home/user/Rare-cancers/research/modalities/census-route-expression-grading.json",
+   "sha256": "2dbd21cc811c150cffd3b59bf7211078756b82da0b3640bd3e13ece0a33d3610"
+  }
+ ],
+ "platforms": {
+  "GPL3290": {
+   "cells": {
+    "1000/A": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.3043,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 23,
+     "n_known_readable": 7,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 16,
+     "readable_genes": [
+      "CENPI",
+      "OAS1",
+      "RNF130",
+      "SEMG2",
+      "SH3D19",
+      "SLC2A13",
+      "TMEM67"
+     ],
+     "unknown_genes": [
+      "AAGAB",
+      "AFP",
+      "CCL28",
+      "EMC10",
+      "EYA4",
+      "FAM13C",
+      "FAXC",
+      "FOXA1",
+      "GUCY2C",
+      "HAP1",
+      "IQCH",
+      "KDM4C",
+      "NELL2",
+      "SIDT1",
+      "SLC25A16",
+      "TBX21"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    },
+    "1000/B": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "UNSETTLED OFFLINE",
+     "n": 4,
+     "n_known_readable": 0,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 4,
+     "readable_genes": [],
+     "unknown_genes": [
+      "FAXC",
+      "FOXA1",
+      "HAP1",
+      "TBX21"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    },
+    "2000/A": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.25,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 40,
+     "n_known_readable": 10,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 30,
+     "readable_genes": [
+      "CDC14A",
+      "CENPI",
+      "OAS1",
+      "PIKFYVE",
+      "RNF130",
+      "RNF220",
+      "SEMG2",
+      "SLC2A13",
+      "ST3GAL6",
+      "TMEM67"
+     ],
+     "unknown_genes": [
+      "AAGAB",
+      "AFP",
+      "AGL",
+      "AIMP1",
+      "ARHGAP17",
+      "BAZ2A",
+      "CCL28",
+      "EMC10",
+      "FAM13C",
+      "FAM20A",
+      "FAXC",
+      "FBXO21",
+      "FOXA1",
+      "GALNT3",
+      "GUCY2C",
+      "HAP1",
+      "IQCH",
+      "ITLN2",
+      "KDM4C",
+      "KRCC1",
+      "LAMA1",
+      "MFSD2A",
+      "NELL2",
+      "PLCXD2",
+      "RFX3",
+      "SDK1",
+      "SGPP2",
+      "SIDT1",
+      "SLC25A16",
+      "TBX21"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    },
+    "2000/B": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.1429,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "UNSETTLED OFFLINE",
+     "n": 7,
+     "n_known_readable": 1,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 6,
+     "readable_genes": [
+      "PIKFYVE"
+     ],
+     "unknown_genes": [
+      "BAZ2A",
+      "FAXC",
+      "FBXO21",
+      "FOXA1",
+      "HAP1",
+      "TBX21"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    },
+    "5000/A": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.2982,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 57,
+     "n_known_readable": 17,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 40,
+     "readable_genes": [
+      "ANKRA2",
+      "AXIN1",
+      "CDC14A",
+      "CENPI",
+      "CPNE3",
+      "FBXO38",
+      "NDUFAF4",
+      "NUP210L",
+      "OAS1",
+      "PIKFYVE",
+      "PPTC7",
+      "RARRES1",
+      "RNF220",
+      "RPN2",
+      "SEMG2",
+      "ST3GAL6",
+      "TMEM67"
+     ],
+     "unknown_genes": [
+      "AAGAB",
+      "AFP",
+      "AGL",
+      "AIMP1",
+      "BAZ1B",
+      "BAZ2A",
+      "BBS7",
+      "BPTF",
+      "C5AR1",
+      "CCL28",
+      "CHRNA6",
+      "COPZ1",
+      "EMC10",
+      "EVA1A",
+      "FAM20A",
+      "FAXC",
+      "FOXA1",
+      "FREM3",
+      "GALNT3",
+      "GUCY2C",
+      "IDH1",
+      "IQCH",
+      "ITLN2",
+      "KDM4C",
+      "KLHL31",
+      "KRCC1",
+      "LAMA1",
+      "MAS1",
+      "MFSD2A",
+      "NNT",
+      "OLAH",
+      "RFX3",
+      "SDK1",
+      "SGPP2",
+      "SIDT1",
+      "SLC25A16",
+      "SLC9B2",
+      "TBX21",
+      "WDR11",
+      "WDR17"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    },
+    "5000/B": {
+     "coverage_exact": null,
+     "coverage_floor_status": "UNSETTLED OFFLINE",
+     "coverage_lower_bound": 0.1667,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "UNSETTLED OFFLINE",
+     "n": 6,
+     "n_known_readable": 1,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 5,
+     "readable_genes": [
+      "PIKFYVE"
+     ],
+     "unknown_genes": [
+      "BAZ2A",
+      "FAXC",
+      "FOXA1",
+      "IDH1",
+      "TBX21"
+     ],
+     "unreadable_genes": [],
+     "verdict": "UNDETERMINABLE OFFLINE"
+    }
+   },
+   "determination_kind": "BOUNDED - no offline platform table or EST-accession bridge exists",
+   "offline_evidence_scale": {
+    "bridged_symbol_frame_size_recorded_by_the_committed_run": 14928,
+    "conflicting_records_resolved_as_readable": [],
+    "distinct_symbols_with_an_offline_readability_record": 3437,
+    "n_recorded_readable": 3367,
+    "n_recorded_unreadable": 70,
+    "symbols_of_that_frame_named_in_the_committed_seeded_draw": 3000
+   },
+   "series": "GSE4303",
+   "why_not_exact": "The GPL3290 probe->symbol bridge is built at run time by _gpl_symbols() in research/modalities/emc_atr_vulnerability.py from GEO (acc.cgi view=full, then the .annot.gz, then the family SOFT), plus an accession->symbol resolution step. No copy of the GPL3290 platform table, no accession->symbol dictionary and no list of the ~14,9xx bridged symbols is committed anywhere in this checkout or in the frozen corpus. Only per-symbol readability recorded by earlier committed runs survives offline."
+  },
+  "GPL6244": {
+   "basis": "membership in the frozen source packet's own GPL6244 symbol->probe map (21407 symbols); this is the universe the memberships were built on",
+   "cells": {
+    "1000/A": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 23,
+     "n_known_readable": 23,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "AAGAB",
+      "AFP",
+      "CCL28",
+      "CENPI",
+      "EMC10",
+      "EYA4",
+      "FAM13C",
+      "FAXC",
+      "FOXA1",
+      "GUCY2C",
+      "HAP1",
+      "IQCH",
+      "KDM4C",
+      "NELL2",
+      "OAS1",
+      "RNF130",
+      "SEMG2",
+      "SH3D19",
+      "SIDT1",
+      "SLC25A16",
+      "SLC2A13",
+      "TBX21",
+      "TMEM67"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    },
+    "1000/B": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 4,
+     "n_known_readable": 4,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "FAXC",
+      "FOXA1",
+      "HAP1",
+      "TBX21"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    },
+    "2000/A": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 40,
+     "n_known_readable": 40,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "AAGAB",
+      "AFP",
+      "AGL",
+      "AIMP1",
+      "ARHGAP17",
+      "BAZ2A",
+      "CCL28",
+      "CDC14A",
+      "CENPI",
+      "EMC10",
+      "FAM13C",
+      "FAM20A",
+      "FAXC",
+      "FBXO21",
+      "FOXA1",
+      "GALNT3",
+      "GUCY2C",
+      "HAP1",
+      "IQCH",
+      "ITLN2",
+      "KDM4C",
+      "KRCC1",
+      "LAMA1",
+      "MFSD2A",
+      "NELL2",
+      "OAS1",
+      "PIKFYVE",
+      "PLCXD2",
+      "RFX3",
+      "RNF130",
+      "RNF220",
+      "SDK1",
+      "SEMG2",
+      "SGPP2",
+      "SIDT1",
+      "SLC25A16",
+      "SLC2A13",
+      "ST3GAL6",
+      "TBX21",
+      "TMEM67"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    },
+    "2000/B": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 7,
+     "n_known_readable": 7,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "BAZ2A",
+      "FAXC",
+      "FBXO21",
+      "FOXA1",
+      "HAP1",
+      "PIKFYVE",
+      "TBX21"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    },
+    "5000/A": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 57,
+     "n_known_readable": 57,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "AAGAB",
+      "AFP",
+      "AGL",
+      "AIMP1",
+      "ANKRA2",
+      "AXIN1",
+      "BAZ1B",
+      "BAZ2A",
+      "BBS7",
+      "BPTF",
+      "C5AR1",
+      "CCL28",
+      "CDC14A",
+      "CENPI",
+      "CHRNA6",
+      "COPZ1",
+      "CPNE3",
+      "EMC10",
+      "EVA1A",
+      "FAM20A",
+      "FAXC",
+      "FBXO38",
+      "FOXA1",
+      "FREM3",
+      "GALNT3",
+      "GUCY2C",
+      "IDH1",
+      "IQCH",
+      "ITLN2",
+      "KDM4C",
+      "KLHL31",
+      "KRCC1",
+      "LAMA1",
+      "MAS1",
+      "MFSD2A",
+      "NDUFAF4",
+      "NNT",
+      "NUP210L",
+      "OAS1",
+      "OLAH",
+      "PIKFYVE",
+      "PPTC7",
+      "RARRES1",
+      "RFX3",
+      "RNF220",
+      "RPN2",
+      "SDK1",
+      "SEMG2",
+      "SGPP2",
+      "SIDT1",
+      "SLC25A16",
+      "SLC9B2",
+      "ST3GAL6",
+      "TBX21",
+      "TMEM67",
+      "WDR11",
+      "WDR17"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    },
+    "5000/B": {
+     "coverage_exact": 1.0,
+     "coverage_floor_status": "MET - settled",
+     "coverage_lower_bound": 1.0,
+     "coverage_upper_bound": 1.0,
+     "gene_count_floor_status": "MET - settled by named readable genes",
+     "n": 6,
+     "n_known_readable": 6,
+     "n_known_unreadable": 0,
+     "n_unknown_offline": 0,
+     "readable_genes": [
+      "BAZ2A",
+      "FAXC",
+      "FOXA1",
+      "IDH1",
+      "PIKFYVE",
+      "TBX21"
+     ],
+     "unknown_genes": [],
+     "unreadable_genes": [],
+     "verdict": "PASSES BOTH FLOORS"
+    }
+   },
+   "determination_kind": "EXACT",
+   "n_symbols_in_map": 21407,
+   "series": "GSE24369"
+  }
+ },
+ "provenance_of_each_gpl3290_call": {
+  "ANKRA2": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "AXIN1": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "CDC14A": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "CENPI": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "CPNE3": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "FBXO38": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "NDUFAF4": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "NUP210L": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "OAS1": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "PIKFYVE": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "PPTC7": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "RARRES1": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "RNF130": [
+   "nr4a3-fusion-targets.json#gene_reads"
+  ],
+  "RNF220": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "RPN2": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "SEMG2": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "SH3D19": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "SLC2A13": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "ST3GAL6": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ],
+  "TMEM67": [
+   "emc-expression-panels.json#background_reads(seeded draw)"
+  ]
+ },
+ "provenance_of_each_gpl3290_negative": {},
+ "status": "COVERAGE / FEASIBILITY ONLY - no expression value read, no contrast computed, no biological claim"
+}

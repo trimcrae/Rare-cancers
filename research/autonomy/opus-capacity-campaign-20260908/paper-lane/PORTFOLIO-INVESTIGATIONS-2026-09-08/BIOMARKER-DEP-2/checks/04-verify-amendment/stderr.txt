@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/verify_amendment.py", line 103, in <module>
+    o = build(ORIG, False); o.update(env);   a = build(PATCHED, True); a.update(env)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/verify_amendment.py", line 77, in build
+    exec(extract(path, "stats"), ns)
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/BIOMARKER-DEP-2/verify_amendment.py", line 68, in extract
+    src = open(path).read()
+          ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/Rare-cancers/research/research/modalities/depmap_sarcoma_dependency.py'

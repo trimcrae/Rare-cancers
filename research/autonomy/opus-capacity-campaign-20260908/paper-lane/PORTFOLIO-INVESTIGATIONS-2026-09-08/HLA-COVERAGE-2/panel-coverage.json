@@ -1,0 +1,665 @@
+{
+ "_id": "HLA-COVERAGE-2-panel-coverage",
+ "_lane": "HLA-COVERAGE-2",
+ "_what": "What the neoantigen screen's 10-allele MHCflurry panel covers, against the validated fusion-junction epitope set and against the allele-frequency table already present in this checkout.",
+ "⛔_what_this_is_not": "Allele carriage under a stated arithmetic model. NOT presentation, immunogenicity, efficacy, safety, selectivity, therapeutic window, clinical readiness or patient eligibility. A pair 'the screen could not return' is a statement about the screen's configuration only.",
+ "⛔_route_B8": "HLA-C is a CLOSED route. No HLA-C frequency was fetched, proxied or substituted. Every HLA-C population quantity below is UNKNOWN, not zero.",
+ "_provenance": {
+  "screen": {
+   "path": "research/modalities/fusion-breakpoint-neoantigens.json",
+   "bytes": 46191,
+   "sha256": "ae1ba4f7216a11a956ed978035557c9226826dd93c09a5bcec3421a39d3eec0c"
+  },
+  "frequency_table": {
+   "path": "research/modalities/coverage-threshold-curve.json",
+   "bytes": 138647,
+   "sha256": "b2b80247bf377a05d8a38c3a5823e3d0e330424248d9369ca317f8ef9b78673b"
+  },
+  "hla_coverage": {
+   "path": "research/modalities/hla-coverage.json",
+   "bytes": 22890,
+   "sha256": "3b40a86392404800f6a0a5d5a701ecff49a168823ab067192ce2c5826d4acf9f"
+  },
+  "expanded_matrix": {
+   "path": "research/modalities/epitope-allele-matrix.json",
+   "bytes": 1517,
+   "sha256": "24da5269b71a2d2b7427ae2a85f90cfc71f70d3546d3d71af16b40de4138e435"
+  },
+  "expanded_curve": {
+   "path": "research/modalities/coverage-curve.json",
+   "bytes": 12725,
+   "sha256": "eb04c77ad5945083ab9ad2b98e654367d9c3a6a0864234e96983701681545acb"
+  },
+  "epitope_records": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/epitope-records.json",
+   "bytes": 24773,
+   "sha256": "2ac4c8a1335ca5d2aee8ee5ced990b090344ded009348314c734213e5b295a4e"
+  }
+ },
+ "_offline": true,
+ "_cost_usd": 0.0,
+ "a_panel": {
+  "source_field": "research/modalities/fusion-breakpoint-neoantigens.json :: _predictor.alleles",
+  "tool": "MHCflurry",
+  "version": "2.1.4",
+  "models_release": "2.2.0",
+  "peptide_lengths": [
+   8,
+   9,
+   10,
+   11
+  ],
+  "thresholds": {
+   "strong_presentation_percentile": 0.5,
+   "weak_presentation_percentile": 2.0
+  },
+  "alleles": [
+   "HLA-A*01:01",
+   "HLA-A*02:01",
+   "HLA-A*03:01",
+   "HLA-A*11:01",
+   "HLA-A*24:02",
+   "HLA-B*07:02",
+   "HLA-B*08:01",
+   "HLA-B*15:01",
+   "HLA-B*35:01",
+   "HLA-B*44:02"
+  ],
+  "n": 10,
+  "loci_present": [
+   "A",
+   "B"
+  ],
+  "n_HLA_C_in_panel": 0
+ },
+ "b_validated_pairs": {
+  "n_validated_epitopes": 15,
+  "inclusion_rule": "measured (MS_ELUTION|TCELL|MULTIMER) AND spans_junction=yes AND natural (not anchor-modified/heteroclitic) AND sequenced AND 8<=len<=11 AND class-I restricted",
+  "restriction_parsing": "two-field HLA-[ABC]*NN:NN taken from the restriction field with any parenthesised '(also bound X)' in-vitro clause dropped; one-field labels (e.g. HLA-A24) reported separately, never silently promoted to a two-field allotype",
+  "per_epitope": [
+   {
+    "id": "E01",
+    "fusion": "BCR::ABL1 (b3a2)",
+    "peptide": "SSKALQRPV",
+    "len": 9,
+    "hla_field": "HLA-A*02:01",
+    "evidence": [
+     "BINDING",
+     "TCELL"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*02:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E09",
+    "fusion": "ETV6::RUNX1 (TEL-AML1)",
+    "peptide": "RIAECILGM",
+    "len": 9,
+    "hla_field": "HLA-A*02:01",
+    "evidence": [
+     "BINDING",
+     "TCELL",
+     "MS_ELUTION"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*02:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E10",
+    "fusion": "ETV6::RUNX1 (E5_3)",
+    "peptide": "MPIGRIAECIL",
+    "len": 11,
+    "hla_field": "HLA-B*07:02 (also bound B*08:01, B*35:01, B*53:01)",
+    "evidence": [
+     "BINDING",
+     "MS_ELUTION"
+    ],
+    "two_field_restrictions": [
+     "HLA-B*07:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E11",
+    "fusion": "ETV6::RUNX1 (E5_3)",
+    "peptide": "MPIGRIAEC",
+    "len": 9,
+    "hla_field": "HLA-B*07:02",
+    "evidence": [
+     "MS_ELUTION"
+    ],
+    "two_field_restrictions": [
+     "HLA-B*07:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E12",
+    "fusion": "ETV6::RUNX1 (E5_4)",
+    "peptide": "MPIGRIADA",
+    "len": 9,
+    "hla_field": "HLA-B*07:02",
+    "evidence": [
+     "MS_ELUTION"
+    ],
+    "two_field_restrictions": [
+     "HLA-B*07:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E13",
+    "fusion": "CBFB::MYH11",
+    "peptide": "REEMEVHEL",
+    "len": 9,
+    "hla_field": "HLA-B*40:01 (also bound B*44:02 in vitro)",
+    "evidence": [
+     "TCELL",
+     "MULTIMER"
+    ],
+    "two_field_restrictions": [
+     "HLA-B*40:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E14",
+    "fusion": "MYB::NFIB (ACC_M9 Fusion 2)",
+    "peptide": "QFIDSSWYL",
+    "len": 9,
+    "hla_field": "HLA-A*02:01",
+    "evidence": [
+     "BINDING",
+     "TCELL",
+     "MULTIMER"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*02:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E15",
+    "fusion": "MYBL1::NFIB (ACC panel)",
+    "peptide": "MMYSPICLTQT",
+    "len": 11,
+    "hla_field": "HLA-A*02:01",
+    "evidence": [
+     "BINDING",
+     "TCELL"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*02:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E16",
+    "fusion": "NFIB::MYB (reciprocal, ACC panel)",
+    "peptide": "SLASPLQPT",
+    "len": 9,
+    "hla_field": "HLA-A*02:01",
+    "evidence": [
+     "BINDING",
+     "TCELL"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*02:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E18",
+    "fusion": "DEK::AFF2",
+    "peptide": "DKESEEEVS",
+    "len": 9,
+    "hla_field": "HLA-C*04:01 and HLA-C*12:03",
+    "evidence": [
+     "BINDING",
+     "TCELL"
+    ],
+    "two_field_restrictions": [
+     "HLA-C*04:01",
+     "HLA-C*12:03"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E19",
+    "fusion": "DNAJB1::PRKACA",
+    "peptide": "EIFDRYGEEV",
+    "len": 10,
+    "hla_field": "HLA-A*68:02",
+    "evidence": [
+     "MS_ELUTION",
+     "TCELL",
+     "MULTIMER"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*68:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E20",
+    "fusion": "DNAJB1::PRKACA",
+    "peptide": "IFDRYGEEV",
+    "len": 9,
+    "hla_field": "HLA-C*04:01",
+    "evidence": [
+     "MS_ELUTION"
+    ],
+    "two_field_restrictions": [
+     "HLA-C*04:01"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E21",
+    "fusion": "DNAJB1::PRKACA",
+    "peptide": "RYGEEVKEF",
+    "len": 9,
+    "hla_field": "HLA-A*24:02",
+    "evidence": [
+     "TCELL",
+     "MULTIMER"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*24:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E25",
+    "fusion": "SS18::SSX (SYT-SSX)",
+    "peptide": "GYDQIMPKK",
+    "len": 9,
+    "hla_field": "HLA-A*24:02",
+    "evidence": [
+     "TCELL",
+     "MULTIMER"
+    ],
+    "two_field_restrictions": [
+     "HLA-A*24:02"
+    ],
+    "low_resolution_only": []
+   },
+   {
+    "id": "E26",
+    "fusion": "SS18::SSX (SYT-SSX)",
+    "peptide": "PYGYDQIMPK",
+    "len": 10,
+    "hla_field": "HLA-A24",
+    "evidence": [
+     "TCELL"
+    ],
+    "two_field_restrictions": [],
+    "low_resolution_only": [
+     "HLA-A24"
+    ]
+   }
+  ],
+  "distinct_two_field_allotypes": [
+   "A*02:01",
+   "A*24:02",
+   "A*68:02",
+   "B*07:02",
+   "B*40:01",
+   "C*04:01",
+   "C*12:03"
+  ],
+  "n_distinct_two_field_allotypes": 7,
+  "n_two_field_pairs": 15,
+  "pairs_in_panel": [
+   [
+    "E01",
+    "HLA-A*02:01"
+   ],
+   [
+    "E09",
+    "HLA-A*02:01"
+   ],
+   [
+    "E10",
+    "HLA-B*07:02"
+   ],
+   [
+    "E11",
+    "HLA-B*07:02"
+   ],
+   [
+    "E12",
+    "HLA-B*07:02"
+   ],
+   [
+    "E14",
+    "HLA-A*02:01"
+   ],
+   [
+    "E15",
+    "HLA-A*02:01"
+   ],
+   [
+    "E16",
+    "HLA-A*02:01"
+   ],
+   [
+    "E21",
+    "HLA-A*24:02"
+   ],
+   [
+    "E25",
+    "HLA-A*24:02"
+   ]
+  ],
+  "n_in_panel": 10,
+  "pairs_out_of_panel": [
+   [
+    "E13",
+    "HLA-B*40:01"
+   ],
+   [
+    "E18",
+    "HLA-C*04:01"
+   ],
+   [
+    "E18",
+    "HLA-C*12:03"
+   ],
+   [
+    "E19",
+    "HLA-A*68:02"
+   ],
+   [
+    "E20",
+    "HLA-C*04:01"
+   ]
+  ],
+  "n_out_of_panel": 5,
+  "fraction_screen_could_not_return": 0.3333,
+  "HLA_C_pairs": [
+   [
+    "E18",
+    "HLA-C*04:01"
+   ],
+   [
+    "E18",
+    "HLA-C*12:03"
+   ],
+   [
+    "E20",
+    "HLA-C*04:01"
+   ]
+  ],
+  "n_HLA_C_pairs": 3,
+  "n_HLA_C_epitopes": 2,
+  "low_resolution_only_pairs": [
+   [
+    "E26",
+    "HLA-A24",
+    true
+   ]
+  ],
+  "n_low_resolution_only": 1
+ },
+ "c_population_coverage": {
+  "frequency_source": {
+   "path": "research/modalities/coverage-threshold-curve.json",
+   "bytes": 138647,
+   "sha256": "b2b80247bf377a05d8a38c3a5823e3d0e330424248d9369ca317f8ef9b78673b"
+  },
+  "frequency_source_field": "allele_frequencies",
+  "n_alleles_in_frequency_table": 28,
+  "loci_in_frequency_table": [
+   "A",
+   "B"
+  ],
+  "HLA_C_frequencies_present_anywhere_local": [],
+  "upstream": [
+   "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
+   "Region mapping: ISO 3166 / UN M49 sub-regions via github.com/lukes/ISO-3166-Countries-with-Regional-Codes."
+  ],
+  "model": "carrier = 1-(1-af)^2 (Hardy-Weinberg, >=1 copy); coverage of a set = 1-prod(1-af)^2. This is the manuscript's own formula, and the manuscript itself (§2.3) records it as an UNJUSTIFIED approximation: the product runs over same-locus alleles that are not independent draws, and A/B linkage disequilibrium is not modelled.",
+  "⚠_intervals": "Wilson 95% CIs exist in the upstream artifacts but the manuscript's §2.3 withdraws them (a single-urn binomial refuted by its own between-population spread). None is quoted here.",
+  "blocks": [
+   {
+    "label": "the screen's 10-allele MHCflurry panel",
+    "alleles_requested": [
+     "HLA-A*01:01",
+     "HLA-A*02:01",
+     "HLA-A*03:01",
+     "HLA-A*11:01",
+     "HLA-A*24:02",
+     "HLA-B*07:02",
+     "HLA-B*08:01",
+     "HLA-B*15:01",
+     "HLA-B*35:01",
+     "HLA-B*44:02"
+    ],
+    "n_requested": 10,
+    "alleles_with_local_frequency": [
+     "HLA-A*01:01",
+     "HLA-A*02:01",
+     "HLA-A*03:01",
+     "HLA-B*07:02",
+     "HLA-B*08:01",
+     "HLA-B*15:01",
+     "HLA-B*35:01",
+     "HLA-B*44:02"
+    ],
+    "n_with_frequency": 8,
+    "alleles_without_local_frequency_UNKNOWN": [
+     "HLA-A*11:01",
+     "HLA-A*24:02"
+    ],
+    "n_unknown": 2,
+    "independence_model_coverage_over_known_alleles": 0.641309,
+    "is_exact": false,
+    "reading": "LOWER BOUND under the model; the missing alleles' frequencies are UNKNOWN in this checkout, not zero",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.280557,
+     "upper_min_1_sum_carrier": 0.94157,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-A*01:01": 0.124091,
+     "HLA-A*02:01": 0.280557,
+     "HLA-A*03:01": 0.105841,
+     "HLA-B*07:02": 0.093696,
+     "HLA-B*08:01": 0.078592,
+     "HLA-B*15:01": 0.085108,
+     "HLA-B*35:01": 0.112259,
+     "HLA-B*44:02": 0.061427
+    }
+   },
+   {
+    "label": "validated allotypes INSIDE the panel",
+    "alleles_requested": [
+     "HLA-A*02:01",
+     "HLA-A*24:02",
+     "HLA-B*07:02"
+    ],
+    "n_requested": 3,
+    "alleles_with_local_frequency": [
+     "HLA-A*02:01",
+     "HLA-B*07:02"
+    ],
+    "n_with_frequency": 2,
+    "alleles_without_local_frequency_UNKNOWN": [
+     "HLA-A*24:02"
+    ],
+    "n_unknown": 1,
+    "independence_model_coverage_over_known_alleles": 0.347966,
+    "is_exact": false,
+    "reading": "LOWER BOUND under the model; the missing alleles' frequencies are UNKNOWN in this checkout, not zero",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.280557,
+     "upper_min_1_sum_carrier": 0.374253,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-A*02:01": 0.280557,
+     "HLA-B*07:02": 0.093696
+    }
+   },
+   {
+    "label": "validated allotypes OUTSIDE the panel (the screen could not return these)",
+    "alleles_requested": [
+     "HLA-A*68:02",
+     "HLA-B*40:01",
+     "HLA-C*04:01",
+     "HLA-C*12:03"
+    ],
+    "n_requested": 4,
+    "alleles_with_local_frequency": [
+     "HLA-A*68:02",
+     "HLA-B*40:01"
+    ],
+    "n_with_frequency": 2,
+    "alleles_without_local_frequency_UNKNOWN": [
+     "HLA-C*04:01",
+     "HLA-C*12:03"
+    ],
+    "n_unknown": 2,
+    "independence_model_coverage_over_known_alleles": 0.125664,
+    "is_exact": false,
+    "reading": "LOWER BOUND under the model; the missing alleles' frequencies are UNKNOWN in this checkout, not zero",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.086446,
+     "upper_min_1_sum_carrier": 0.129375,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-A*68:02": 0.042929,
+     "HLA-B*40:01": 0.086446
+    }
+   },
+   {
+    "label": "all validated allotypes",
+    "alleles_requested": [
+     "HLA-A*02:01",
+     "HLA-A*24:02",
+     "HLA-A*68:02",
+     "HLA-B*07:02",
+     "HLA-B*40:01",
+     "HLA-C*04:01",
+     "HLA-C*12:03"
+    ],
+    "n_requested": 7,
+    "alleles_with_local_frequency": [
+     "HLA-A*02:01",
+     "HLA-A*68:02",
+     "HLA-B*07:02",
+     "HLA-B*40:01"
+    ],
+    "n_with_frequency": 4,
+    "alleles_without_local_frequency_UNKNOWN": [
+     "HLA-A*24:02",
+     "HLA-C*04:01",
+     "HLA-C*12:03"
+    ],
+    "n_unknown": 3,
+    "independence_model_coverage_over_known_alleles": 0.429903,
+    "is_exact": false,
+    "reading": "LOWER BOUND under the model; the missing alleles' frequencies are UNKNOWN in this checkout, not zero",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.280557,
+     "upper_min_1_sum_carrier": 0.503628,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-A*02:01": 0.280557,
+     "HLA-A*68:02": 0.042929,
+     "HLA-B*07:02": 0.093696,
+     "HLA-B*40:01": 0.086446
+    }
+   },
+   {
+    "label": "manuscript's all-strong base set (re-derivation target)",
+    "alleles_requested": [
+     "HLA-A*01:01",
+     "HLA-B*07:02",
+     "HLA-B*15:01"
+    ],
+    "n_requested": 3,
+    "alleles_with_local_frequency": [
+     "HLA-A*01:01",
+     "HLA-B*07:02",
+     "HLA-B*15:01"
+    ],
+    "n_with_frequency": 3,
+    "alleles_without_local_frequency_UNKNOWN": [],
+    "n_unknown": 0,
+    "independence_model_coverage_over_known_alleles": 0.273722,
+    "is_exact": true,
+    "reading": "exact under the model",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.124091,
+     "upper_min_1_sum_carrier": 0.302895,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-A*01:01": 0.124091,
+     "HLA-B*07:02": 0.093696,
+     "HLA-B*15:01": 0.085108
+    }
+   },
+   {
+    "label": "manuscript's e7::e3 public set (re-derivation target)",
+    "alleles_requested": [
+     "HLA-B*15:01"
+    ],
+    "n_requested": 1,
+    "alleles_with_local_frequency": [
+     "HLA-B*15:01"
+    ],
+    "n_with_frequency": 1,
+    "alleles_without_local_frequency_UNKNOWN": [],
+    "n_unknown": 0,
+    "independence_model_coverage_over_known_alleles": 0.085108,
+    "is_exact": true,
+    "reading": "exact under the model",
+    "distribution_free_bounds_over_known_alleles": {
+     "lower_max_single_carrier": 0.085108,
+     "upper_min_1_sum_carrier": 0.085108,
+     "note": "Frechet/Bonferroni bounds, assuming nothing about linkage or same-locus exclusivity; the independence figure need not lie inside them if the independence assumption is wrong."
+    },
+    "per_allele_carrier_frequency": {
+     "HLA-B*15:01": 0.085108
+    }
+   }
+  ],
+  "re_derivation_of_committed_headline_numbers": [
+   {
+    "committed_field": "coverage_any_strong_binder_allele",
+    "committed_value": 0.2737,
+    "re_derived_here": 0.2737,
+    "reproduces_to_4dp": true,
+    "absolute_difference": 2.2e-05
+   },
+   {
+    "committed_field": "coverage_e7e3_public",
+    "committed_value": 0.0851,
+    "re_derived_here": 0.0851,
+    "reproduces_to_4dp": true,
+    "absolute_difference": 8e-06
+   }
+  ]
+ },
+ "d_expanded_scan_code_vs_artifact": {
+  "committed_artifact_panel_n": 34,
+  "committed_artifact_loci": [
+   "A",
+   "B"
+  ],
+  "committed_curve_panel_size": 34,
+  "producer_PANEL_AB_n": 34,
+  "producer_PANEL_C_n": 18,
+  "producer_PANEL_total_n": 52,
+  "artifact_matches_producer": false
+ }
+}

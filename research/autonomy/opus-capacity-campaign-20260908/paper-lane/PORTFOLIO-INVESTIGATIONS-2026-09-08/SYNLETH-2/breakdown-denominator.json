@@ -1,0 +1,20 @@
+{
+  "input": "/home/user/Rare-cancers/research/modalities/depmap-sarcoma-dependency.json",
+  "n_records": 67,
+  "method": "scan n downward; a cut is FULLY DECIDED at n iff no record's 95% interval straddles it, under BOTH Wilson (widened by the +/-5e-4 rounding on the point value) and Clopper-Pearson",
+  "cut_0.80": {
+    "largest_n_at_which_screen_is_NOT_fully_decided": 438,
+    "first_genes_to_go_fragile": [
+      "SMARCB1"
+    ],
+    "screen_fully_decided_for_all_n_greater_than": 438
+  },
+  "cut_0.20": {
+    "largest_n_at_which_screen_is_NOT_fully_decided": 2105,
+    "first_genes_to_go_fragile": [
+      "BAK1",
+      "EGFR"
+    ],
+    "screen_fully_decided_for_all_n_greater_than": 2105
+  }
+}

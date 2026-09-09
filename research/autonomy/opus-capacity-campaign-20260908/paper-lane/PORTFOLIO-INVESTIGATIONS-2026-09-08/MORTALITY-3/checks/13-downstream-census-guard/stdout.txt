@@ -1,0 +1,11 @@
+937:STALE_HEADER = "claim-coverage.json is stale — it is not what the live census computes:"
+975:            print(STALE_HEADER + "\n  " + "\n  ".join(bad) + STALE_REMEDY, file=sys.stderr)
+--- tests referencing the census pair ---
+test_aso_coverage_ladder.py
+test_every_censused_sentence_can_be_found_in_its_own_file.py
+test_the_census_artifact_and_the_guard_corpus_are_a_pair.py
+test_the_census_bound_names_the_sentences_it_counts.py
+test_the_census_credits_only_executable_references.py
+test_the_census_reads_every_publication_endpoint.py
+test_the_census_word_covered_survives_ablation.py
+test_the_unbound_claims_the_coverage_census_found.py

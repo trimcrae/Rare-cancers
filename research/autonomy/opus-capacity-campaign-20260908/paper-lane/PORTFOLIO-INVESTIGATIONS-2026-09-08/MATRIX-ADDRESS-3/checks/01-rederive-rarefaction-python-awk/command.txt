@@ -1,0 +1,9 @@
+# MATRIX-ADDRESS-3 step 1a: re-run BOTH of MATRIX-ADDRESS-2's routes unchanged and confirm they agree.
+set -u
+cd /home/user/Rare-cancers
+git rev-parse HEAD
+sha256sum research/modalities/emc-fourth-cohort-probe-counts.tsv
+python3 research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MATRIX-ADDRESS-2/probe_intersection_rarefaction.py > /tmp/ma3_py.json
+python3 -c "import json,sys;d=json.load(open('/tmp/ma3_py.json'));[print('PY at_least_%02d probes=%d read_share=%.6f assigned=%d'%(r['min_runs_present'],r['n_probes'],r['fraction_of_all_persisted_reads'],r['n_of_those_probes_the_matcher_assigned_to_one_gene'])) for r in d['rarefaction_at_least_k_runs']];print('PY total_reads=%d rows=%d'%(d['total_persisted_reads'],d['n_probe_rows']))"
+diff <(python3 -c "...MATRIX-ADDRESS-2 json...") - # see stdout: byte-compare against committed MATRIX-ADDRESS-2 artifact
+awk -F'\t' '...MATRIX-ADDRESS-2 checks/03 awk program, verbatim...' research/modalities/emc-fourth-cohort-probe-counts.tsv

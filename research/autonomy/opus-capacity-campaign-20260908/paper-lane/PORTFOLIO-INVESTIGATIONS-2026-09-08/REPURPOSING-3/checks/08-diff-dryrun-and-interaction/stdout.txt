@@ -1,0 +1,28 @@
+== A. my diff 1 alone, --dry-run, against the committed manuscript
+checking file dry/m.md
+exit=0
+
+== B. my diff 2 alone, --dry-run, against the committed manuscript
+checking file dry/m.md
+exit=0
+
+== C. INTERACTION: REPURPOSING-2 sweep diff applied first, then my diff 1 --dry-run
+patching file dry/m2.md
+rep2-apply exit=0
+checking file dry/m2.md
+Hunk #2 FAILED at 163.
+Hunk #3 succeeded at 351 (offset 5 lines).
+Hunk #4 succeeded at 376 with fuzz 1 (offset 5 lines).
+Hunk #5 succeeded at 413 (offset 5 lines).
+Hunk #6 succeeded at 784 (offset 18 lines).
+1 out of 6 hunks FAILED
+mine-after-rep2 exit=1
+
+== D. INTERACTION: REPURPOSING-2 first, then my diff 2 --dry-run
+checking file dry/m2.md
+Hunk #1 FAILED at 336.
+Hunk #2 FAILED at 363.
+Hunk #3 FAILED at 412.
+Hunk #4 succeeded at 758 (offset 18 lines).
+3 out of 4 hunks FAILED
+mine2-after-rep2 exit=1

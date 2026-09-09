@@ -3131,6 +3131,94 @@
    "verified_pmid": "32940710",
    "verified_pmcid": "PMC7727361",
    "verified_journal": "J Am Med Inform Assoc"
+  },
+  {
+   "files": [
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+   ],
+   "id": "10.1002/cam4.1438",
+   "key": "DOI:10.1002/cam4.1438",
+   "kind": "DOI",
+   "note": "Retrieved 2026-09-08 by the PubMed MCP connector for REPURPOSING-3, which cites this paper as the adjacent zaltoprofen record found while reading reference [12]. PubMed article_types, verbatim: ['Case Reports', 'Journal Article', 'Research Support, Non-U.S. Gov't']; citation, verbatim: volume 7, issue 5, pages 1944-1954. ⚠ WHAT THIS ROW DOES NOT SAY: the record was read, its identifiers agree with the prose and its type is Case Reports as the prose states — nothing here evaluates the n=1 report's clinical meaning, and the citing prose explicitly draws no efficacy, safety, selectivity or therapeutic-window conclusion from it. The patient in it has grade 2 cervical chondrosarcoma, NOT extraskeletal myxoid chondrosarcoma.",
+   "status": "verified",
+   "checked_on": "2026-09-08",
+   "checked_by": "REPURPOSING-3-LEDGER lane, campaign OPUS-CAPACITY-CAMPAIGN-20260908. Retrieval transcripts retained at research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/checks/.",
+   "verified_on": "2026-09-08",
+   "verified_by": "PubMed MCP connector, tool response-date 2026-09-08 20:42:25 UTC (the session clock had rolled to 2026-09-09; the stamp here is the one the tool returned). Two independent calls, both recorded in full: convert_article_ids(id_type=doi, ids=['10.1002/cam4.1438']) returned {pmcid: PMC5943440, pmid: 29573200, doi: 10.1002/cam4.1438}, and convert_article_ids(id_type=pmcid, ids=['PMC5943440']) returned the same triple from the other direction; get_article_metadata(pmids=['29573200']) then returned the record whose title, journal.iso_abbreviation, publication_date.year and article_types are copied into this row. The DOI, PMID and PMCID cited in prose all appear in that one record, so the three rows added for this paper are three forms of ONE retrieval, not three checks.",
+   "verified_source": "PubMed",
+   "verified_title": "Anti-tumor effects of a nonsteroidal anti-inflammatory drug zaltoprofen on chondrosarcoma via activating peroxisome proliferator-activated receptor gamma and suppressing matrix metalloproteinase-2 expression.",
+   "verified_journal": "Cancer Med",
+   "verified_year": "2018",
+   "verified_pmid": "29573200",
+   "verified_pmcid": "PMC5943440"
+  },
+  {
+   "files": [
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+   ],
+   "id": "10.1097/CCO.0b013e32812143d9",
+   "key": "DOI:10.1097/CCO.0b013e32812143d9",
+   "kind": "DOI",
+   "note": "Reference [9] of research/manuscripts/repurposing/repurposing-hypotheses.md, quoted by REPURPOSING-3. PubMed article_types, verbatim: ['Journal Article', 'Review'] — which is what the citing prose calls it (a 2007 narrative review). PubMed returned no PMC identifier for it, consistent with REPURPOSING-3's recorded 'no PMC record' finding. citation, verbatim: volume 19, issue 4, pages 371-6.",
+   "status": "verified",
+   "checked_on": "2026-09-08",
+   "checked_by": "REPURPOSING-3-LEDGER lane, campaign OPUS-CAPACITY-CAMPAIGN-20260908. Retrieval transcripts retained at research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/checks/.",
+   "verified_on": "2026-09-08",
+   "verified_by": "PubMed MCP connector, tool response-date 2026-09-08 (session clock 2026-09-09). ⚠ THE CONVERTER DID NOT RESOLVE IT: convert_article_ids(id_type=doi) returned the bare echo {doi: 10.1097/CCO.0b013e32812143d9} with no pmid and no pmcid — which looks identical to a DOI that does not exist, and is the same shape recorded for DOI:10.1016/j.jclinepi.2017.08.010 on 2026-08-27. It was resolved instead by lookup_article_by_citation(journal='Curr Opin Oncol', year=2007, volume='19', first_page='371', author='Chow'), which returned PMID 17545802; get_article_metadata(pmids=['17545802']) then returned a record whose identifiers.doi is 10.1097/CCO.0b013e32812143d9 — matching the cited DOI exactly. That match, not the converter, is what anchors this row.",
+   "verified_source": "PubMed",
+   "verified_title": "Update on chondrosarcomas.",
+   "verified_journal": "Curr Opin Oncol",
+   "verified_year": "2007",
+   "verified_pmid": "17545802",
+   "verified_pmcid": null
+  },
+  {
+   "files": [
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+   ],
+   "id": "PMC5943440",
+   "key": "PMCID:PMC5943440",
+   "kind": "PMCID",
+   "note": "The PMCID form of DOI:10.1002/cam4.1438, added in this same change. ONE retrieval, three identifier forms: the PubMed record returned for PMID 29573200 carries all three, and convert_article_ids was additionally run in the pmcid direction on PMC5943440 itself and returned the same triple. This row is NOT an independent second check. PubMed article_types, verbatim: ['Case Reports', 'Journal Article', 'Research Support, Non-U.S. Gov't']; citation, verbatim: volume 7, issue 5, pages 1944-1954. ⚠ WHAT THIS ROW DOES NOT SAY: the record was read, its identifiers agree with the prose and its type is Case Reports as the prose states — nothing here evaluates the n=1 report's clinical meaning, and the citing prose explicitly draws no efficacy, safety, selectivity or therapeutic-window conclusion from it. The patient in it has grade 2 cervical chondrosarcoma, NOT extraskeletal myxoid chondrosarcoma.",
+   "status": "verified",
+   "checked_on": "2026-09-08",
+   "checked_by": "REPURPOSING-3-LEDGER lane, campaign OPUS-CAPACITY-CAMPAIGN-20260908. Retrieval transcripts retained at research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/checks/.",
+   "verified_on": "2026-09-08",
+   "verified_by": "PubMed MCP connector, tool response-date 2026-09-08 20:42:25 UTC (the session clock had rolled to 2026-09-09; the stamp here is the one the tool returned). Two independent calls, both recorded in full: convert_article_ids(id_type=doi, ids=['10.1002/cam4.1438']) returned {pmcid: PMC5943440, pmid: 29573200, doi: 10.1002/cam4.1438}, and convert_article_ids(id_type=pmcid, ids=['PMC5943440']) returned the same triple from the other direction; get_article_metadata(pmids=['29573200']) then returned the record whose title, journal.iso_abbreviation, publication_date.year and article_types are copied into this row. The DOI, PMID and PMCID cited in prose all appear in that one record, so the three rows added for this paper are three forms of ONE retrieval, not three checks.",
+   "verified_source": "PubMed",
+   "verified_title": "Anti-tumor effects of a nonsteroidal anti-inflammatory drug zaltoprofen on chondrosarcoma via activating peroxisome proliferator-activated receptor gamma and suppressing matrix metalloproteinase-2 expression.",
+   "verified_journal": "Cancer Med",
+   "verified_year": "2018",
+   "verified_pmid": "29573200",
+   "verified_pmcid": "PMC5943440"
+  },
+  {
+   "files": [
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FINDING.md",
+    "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md"
+   ],
+   "id": "29573200",
+   "key": "PMID:29573200",
+   "kind": "PMID",
+   "note": "The PMID form of DOI:10.1002/cam4.1438, added in this same change. It is the identifier get_article_metadata was actually called with, so of the three forms it is the one the record was fetched by. PubMed article_types, verbatim: ['Case Reports', 'Journal Article', 'Research Support, Non-U.S. Gov't']; citation, verbatim: volume 7, issue 5, pages 1944-1954. ⚠ WHAT THIS ROW DOES NOT SAY: the record was read, its identifiers agree with the prose and its type is Case Reports as the prose states — nothing here evaluates the n=1 report's clinical meaning, and the citing prose explicitly draws no efficacy, safety, selectivity or therapeutic-window conclusion from it. The patient in it has grade 2 cervical chondrosarcoma, NOT extraskeletal myxoid chondrosarcoma.",
+   "status": "verified",
+   "checked_on": "2026-09-08",
+   "checked_by": "REPURPOSING-3-LEDGER lane, campaign OPUS-CAPACITY-CAMPAIGN-20260908. Retrieval transcripts retained at research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3-LEDGER/checks/.",
+   "verified_on": "2026-09-08",
+   "verified_by": "PubMed MCP connector, tool response-date 2026-09-08 20:42:25 UTC (the session clock had rolled to 2026-09-09; the stamp here is the one the tool returned). Two independent calls, both recorded in full: convert_article_ids(id_type=doi, ids=['10.1002/cam4.1438']) returned {pmcid: PMC5943440, pmid: 29573200, doi: 10.1002/cam4.1438}, and convert_article_ids(id_type=pmcid, ids=['PMC5943440']) returned the same triple from the other direction; get_article_metadata(pmids=['29573200']) then returned the record whose title, journal.iso_abbreviation, publication_date.year and article_types are copied into this row. The DOI, PMID and PMCID cited in prose all appear in that one record, so the three rows added for this paper are three forms of ONE retrieval, not three checks.",
+   "verified_source": "PubMed",
+   "verified_title": "Anti-tumor effects of a nonsteroidal anti-inflammatory drug zaltoprofen on chondrosarcoma via activating peroxisome proliferator-activated receptor gamma and suppressing matrix metalloproteinase-2 expression.",
+   "verified_journal": "Cancer Med",
+   "verified_year": "2018",
+   "verified_pmid": "29573200",
+   "verified_pmcid": "PMC5943440"
   }
  ],
  "statuses": [
@@ -3141,5 +3229,6 @@
  ],
  "_defects_found": "2026-08-08, nr4a3-degrader-paper.md: all 74 of its unanchored identifiers RESOLVE — none is fabricated. FIVE defects across four references were found and enumerated in research/manuscripts/degrader/degrader-citation-audit-2026-08-08.md. ✅ THREE ARE NOW CLOSED IN THE MANUSCRIPT (commit 4cfa7b12b): the mis-transcribed PMID on reference 15 (37444483 -> 37444484, it pointed at a pineoblastoma review), the byline on reference 57 (Hurvitz SA -> Campone M et al., Hurvitz is not an author), and the year on reference 33 (2020 -> 2019). ⚠ TWO REMAIN OPEN and cannot be closed by a fetch: references 61 and 63 are filed under 'alchemical PROTAC' prior art while their titles say MOLECULAR GLUE and END-POINT respectively. Those need a human to read the papers. Each affected row keeps its `defect` field, closed rows included, because a correction with no record of what it corrected is not auditable. `status: verified` means the identifier was fetched and answered — READ THE `defect` FIELD.",
  "_arxiv_class_added_2026_08_28": "⛔ THESE 13 `kind: ARXIV` ROWS ARE NOT PART OF THE 2026-08-07 BASELINE. They were added by AUT-PD-057 on 2026-08-28, the day `lint_citations.py` first learned to see arXiv identifiers at all: before that the extractor had patterns for PMID/PMCID/DOI/NCT/GEO and none for arXiv, so every arXiv citation in this repository's prose was outside the provenance gate entirely — not anchored, not baselined, not counted, simply invisible, and a fabricated or mistyped arXiv id would have passed every gate. 67 arXiv identifiers were then found in prose, 54 of them already anchored by real fetch products (method-watch-trigger-hits.json, systems/graph/technologies.json, literature/arxiv-aso-route.json and four others); these are the 13 that were not. ⛔ THEY ARE NOT AN AMNESTY AND THEY WERE NOT WAVED THROUGH: each was checked by WebSearch on 2026-08-28, all 13 resolve, and every one's title matches what the prose says it is. That check is recorded per row in `checked_by`/`note` and it is WEAKER THAN A FETCH — arxiv.org and export.arxiv.org are both egress-blocked from this sandbox, so the status stays `unverified_at_baseline`, whose defined meaning ('nothing in this repository corroborates it') is exactly true of them. ⭐ THE COUNT FALLS THE HONEST WAY when a CI job with real egress fetches the arXiv API and writes a committed record; two rows carry a characterization flag a fetch will not resolve (ARXIV:2508.15126, a mid-list author named as the author; ARXIV:2605.04375, whose prose already says the attribution is unconfirmed and must keep saying so).",
- "_pmcid_crossform_class_added_2026_09_08": "⛔ THESE 7 `kind: PMCID` ROWS ARE NOT PART OF THE 2026-08-07 BASELINE AND ARE NOT A NEW VERIFICATION. They are the PMCID form of seven papers whose DOI is already a `verified` row in this same file: on 2026-08-27 the PubMed/PMC connector was asked about each DOI and returned a PMCID, which was stored in that row's `verified_pmcid` field. On 2026-09-08 the campaign report W67-ledger-field-cross-check.md audited that field and quoted the seven PMCIDs back into prose — so the gate saw seven PMCIDs that appear in no fetch product and had no ledger key of their own, and reported them as NEW unanchored identifiers. The origin of each is a recorded network read; only the KEY was missing. ⚠ WHAT THESE ROWS DO NOT SAY: nobody re-checked these papers on 2026-09-08, and no fetch product in this repository carries these PMCIDs — W67's finding that `verified_pmcid` is the one ledger field with no corroboration anywhere else in the tree stands unchanged. Each row names in `checked_by` the DOI row it was read from, so a reader can tell a bound identifier from an independently verified one."
+ "_pmcid_crossform_class_added_2026_09_08": "⛔ THESE 7 `kind: PMCID` ROWS ARE NOT PART OF THE 2026-08-07 BASELINE AND ARE NOT A NEW VERIFICATION. They are the PMCID form of seven papers whose DOI is already a `verified` row in this same file: on 2026-08-27 the PubMed/PMC connector was asked about each DOI and returned a PMCID, which was stored in that row's `verified_pmcid` field. On 2026-09-08 the campaign report W67-ledger-field-cross-check.md audited that field and quoted the seven PMCIDs back into prose — so the gate saw seven PMCIDs that appear in no fetch product and had no ledger key of their own, and reported them as NEW unanchored identifiers. The origin of each is a recorded network read; only the KEY was missing. ⚠ WHAT THESE ROWS DO NOT SAY: nobody re-checked these papers on 2026-09-08, and no fetch product in this repository carries these PMCIDs — W67's finding that `verified_pmcid` is the one ledger field with no corroboration anywhere else in the tree stands unchanged. Each row names in `checked_by` the DOI row it was read from, so a reader can tell a bound identifier from an independently verified one.",
+ "_repurposing3_class_added_2026_09_08": "⛔ THESE 4 ROWS ARE NOT PART OF THE 2026-08-07 BASELINE AND ARE NOT AN AMNESTY. They are the four identifiers that REPURPOSING-3's prose (FINDING.md and FIVE-REFERENCE-TABLE.md, campaign OPUS-CAPACITY-CAMPAIGN-20260908) introduced into the gate on 2026-09-08 — DOI 10.1002/cam4.1438, DOI 10.1097/CCO.0b013e32812143d9, PMCID PMC5943440 and PMID 29573200 — measured by re-running lint_citations.py and filtering its 463 ::error:: lines to that path (checks/01). ⭐ EACH WAS RETRIEVED BEFORE IT WAS RECORDED, by the PubMed MCP connector, and every title, journal abbreviation, year and article-type string in these rows is copied verbatim from the returned record; no citation was typed from recollection, which is the failure the gate exists for. ⚠ THEY ARE THREE FORMS OF TWO PAPERS, NOT FOUR CHECKS: 10.1002/cam4.1438, PMC5943440 and 29573200 are one Cancer Med 2018 record, and each row says so. ⚠ AND `verified` HERE MEANS WHAT IT MEANS ELSEWHERE IN THIS FILE — the identifier was fetched and PubMed answered. No fetch product in this repository carries these four; the count falls the honest way when a CI job with real egress writes a committed record for them. Nothing in lint_citations.py, its matcher, its baseline or any allowlist was changed to accommodate them."
 }

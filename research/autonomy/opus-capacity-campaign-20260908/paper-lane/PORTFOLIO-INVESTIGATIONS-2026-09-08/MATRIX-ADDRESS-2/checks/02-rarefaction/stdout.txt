@@ -1,0 +1,129 @@
+{
+ "_title": "Probe-persistence rarefaction, fourth EMC cohort (PRJNA1357027 / SRP640302)",
+ "_generated_by": "MATRIX-ADDRESS-2/probe_intersection_rarefaction.py",
+ "_question": "How much of the 1,645-probe ceiling on this cohort's gene table is imposed by the 'present in every one of the 12 read runs' rule, rather than by the assay panel or by the gene matcher?",
+ "_inputs": {
+  "probe_counts_tsv": "research/modalities/emc-fourth-cohort-probe-counts.tsv",
+  "probe_counts_sha256_recorded": "c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc",
+  "probe_counts_sha256_measured": "c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc",
+  "quant_record": "research/modalities/emc-fourth-cohort-quant.json"
+ },
+ "⛔ a_zero_in_the_probe_table": "means the sequence was not among the counts PERSISTED for that run — it may have been observed below the persistence cap. It is not a measurement of zero reads.",
+ "_what_this_cannot_settle": [
+  "Nothing about EMC biology. No gene is assigned here, no expression value is compared.",
+  "Presence-in-k-runs is a persistence statement under lossy counting, not a zero measurement.",
+  "No delivery, accessibility, efficacy, selectivity, safety or therapeutic-window claim.",
+  "It does NOT show that a relaxed intersection would recover any named marker: assigning the extra probes to genes needs a reference transcriptome, which is a closed route here."
+ ],
+ "n_runs": 12,
+ "run_columns": [
+  "SRR35940646:SRR35940646",
+  "SRR35940647:SRR35940647",
+  "SRR35940648:SRR35940648",
+  "SRR35940649:SRR35940649",
+  "SRR35940650:SRR35940650",
+  "SRR35940651:SRR35940651",
+  "SRR35940652:SRR35940652",
+  "SRR35940653:SRR35940653",
+  "SRR35940654:SRR35940654",
+  "SRR35940655:SRR35940655",
+  "SRR35940656:SRR35940656",
+  "SRR35940657:SRR35940657"
+ ],
+ "n_probe_rows": 213007,
+ "total_persisted_reads": 67890929,
+ "producer_recorded": {
+  "n_probes_common_to_every_read_run": 1645,
+  "n_probes_offered_to_matcher": 1645,
+  "n_probes_assigned_to_one_gene": 906,
+  "n_probes_matching_several_genes": 77,
+  "n_probes_unassigned": 662,
+  "n_genes_with_at_least_one_assigned_probe": 862
+ },
+ "rarefaction_at_least_k_runs": [
+  {
+   "min_runs_present": 1,
+   "n_probes": 213007,
+   "persisted_reads_on_those_probes": 67890929,
+   "fraction_of_all_persisted_reads": 1.0,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 2,
+   "n_probes": 50026,
+   "persisted_reads_on_those_probes": 60701135,
+   "fraction_of_all_persisted_reads": 0.894098,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 3,
+   "n_probes": 32622,
+   "persisted_reads_on_those_probes": 59121579,
+   "fraction_of_all_persisted_reads": 0.870832,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 4,
+   "n_probes": 24376,
+   "persisted_reads_on_those_probes": 56021425,
+   "fraction_of_all_persisted_reads": 0.825168,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 5,
+   "n_probes": 20273,
+   "persisted_reads_on_those_probes": 53470767,
+   "fraction_of_all_persisted_reads": 0.787598,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 6,
+   "n_probes": 16222,
+   "persisted_reads_on_those_probes": 45078852,
+   "fraction_of_all_persisted_reads": 0.663989,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 7,
+   "n_probes": 13554,
+   "persisted_reads_on_those_probes": 43886383,
+   "fraction_of_all_persisted_reads": 0.646425,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 8,
+   "n_probes": 10910,
+   "persisted_reads_on_those_probes": 42093212,
+   "fraction_of_all_persisted_reads": 0.620012,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 9,
+   "n_probes": 8349,
+   "persisted_reads_on_those_probes": 39322612,
+   "fraction_of_all_persisted_reads": 0.579203,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 10,
+   "n_probes": 5856,
+   "persisted_reads_on_those_probes": 35657041,
+   "fraction_of_all_persisted_reads": 0.525211,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 11,
+   "n_probes": 3639,
+   "persisted_reads_on_those_probes": 31118487,
+   "fraction_of_all_persisted_reads": 0.45836,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  },
+  {
+   "min_runs_present": 12,
+   "n_probes": 1645,
+   "persisted_reads_on_those_probes": 23837288,
+   "fraction_of_all_persisted_reads": 0.351112,
+   "n_of_those_probes_the_matcher_assigned_to_one_gene": 906
+  }
+ ]
+}

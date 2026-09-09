@@ -1,0 +1,65 @@
+(a) PANEL, verbatim from research/modalities/fusion-breakpoint-neoantigens.json
+    MHCflurry 2.1.4 / models 2.2.0, lengths [8, 9, 10, 11]
+      HLA-A*01:01
+      HLA-A*02:01
+      HLA-A*03:01
+      HLA-A*11:01
+      HLA-A*24:02
+      HLA-B*07:02
+      HLA-B*08:01
+      HLA-B*15:01
+      HLA-B*35:01
+      HLA-B*44:02
+    n = 10 ; loci = ['A', 'B'] ; HLA-C in panel = 0
+
+(b) VALIDATED EPITOPE-ALLELE PAIRS
+    validated epitopes re-derived here: 15
+    distinct two-field allotypes: 7  ['A*02:01', 'A*24:02', 'A*68:02', 'B*07:02', 'B*40:01', 'C*04:01', 'C*12:03']
+    two-field epitope-allele pairs: 15
+    in panel      : 10  ['A*02:01', 'A*24:02', 'B*07:02']
+    OUT of panel  : 5  ['A*68:02', 'B*40:01', 'C*04:01', 'C*12:03']
+    fraction the screen was structurally unable to return: 5/15 = 0.3333
+    HLA-C pairs   : 3 across 2 epitopes  ['E18:C*04:01', 'E18:C*12:03', 'E20:C*04:01']
+    one-field-only restrictions NOT counted as two-field pairs: [('E26', 'HLA-A24', True)]
+
+(c) POPULATION COVERAGE  (frequency source: research/modalities/coverage-threshold-curve.json, sha256 b2b80247bf377a05d8a38c3a5823e3d0e330424248d9369ca317f8ef9b78673b)
+    table holds 28 alleles at loci ['A', 'B'] ; HLA-C frequencies present locally: NONE
+    cross-check against hla-coverage.json on shared alleles:
+      HLA-A*01:01    identical=True
+      HLA-B*07:02    identical=True
+      HLA-B*15:01    identical=True
+    -- the screen's 10-allele MHCflurry panel
+       requested 10; frequency known for 8; UNKNOWN for 2 ['HLA-A*11:01', 'HLA-A*24:02']
+       independence-model coverage = 0.641309  (LOWER BOUND)
+       distribution-free bounds  = [0.280557, 0.94157]
+    -- validated allotypes INSIDE the panel
+       requested 3; frequency known for 2; UNKNOWN for 1 ['HLA-A*24:02']
+       independence-model coverage = 0.347966  (LOWER BOUND)
+       distribution-free bounds  = [0.280557, 0.374253]
+    -- validated allotypes OUTSIDE the panel (the screen could not return these)
+       requested 4; frequency known for 2; UNKNOWN for 2 ['HLA-C*04:01', 'HLA-C*12:03']
+       independence-model coverage = 0.125664  (LOWER BOUND)
+       distribution-free bounds  = [0.086446, 0.129375]
+    -- all validated allotypes
+       requested 7; frequency known for 4; UNKNOWN for 3 ['HLA-A*24:02', 'HLA-C*04:01', 'HLA-C*12:03']
+       independence-model coverage = 0.429903  (LOWER BOUND)
+       distribution-free bounds  = [0.280557, 0.503628]
+    -- manuscript's all-strong base set (re-derivation target)
+       requested 3; frequency known for 3; UNKNOWN for 0 
+       independence-model coverage = 0.273722  (EXACT under the model)
+       distribution-free bounds  = [0.124091, 0.302895]
+    -- manuscript's e7::e3 public set (re-derivation target)
+       requested 1; frequency known for 1; UNKNOWN for 0 
+       independence-model coverage = 0.085108  (EXACT under the model)
+       distribution-free bounds  = [0.085108, 0.085108]
+    re-derivation of committed headline numbers:
+      coverage_any_strong_binder_allele    committed 0.2737  re-derived 0.2737  reproduces=True
+      coverage_e7e3_public                 committed 0.0851  re-derived 0.0851  reproduces=True
+
+(d) EXPANDED SCAN — producer code vs committed artifact
+    producer coverage_scan.py PANEL = 34 A/B + 18 C = 52
+    committed epitope-allele-matrix.json panel = 34, loci ['A', 'B']
+    committed coverage-curve.json panel_size  = 34
+    artifact matches producer: False
+
+OK  cross-check passed; artifact written to panel-coverage.json

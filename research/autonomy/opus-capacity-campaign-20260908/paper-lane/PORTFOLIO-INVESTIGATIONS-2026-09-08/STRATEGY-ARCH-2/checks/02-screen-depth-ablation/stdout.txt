@@ -1,0 +1,25 @@
+lexicon          depth                          n  TP FP TN FN precision  recall    
+histology_only   depth_A_index_only             4  0  0  2  2  undefined  0.00      
+histology_only   depth_B_index_plus_criterion   4  0  1  1  2  0.00       0.00      
+histology_only   depth_C_criterion_only         4  0  1  1  2  0.00       0.00      
+molecular_only   depth_A_index_only             4  2  1  1  0  0.67       1.00      
+molecular_only   depth_B_index_plus_criterion   4  2  1  1  0  0.67       1.00      
+molecular_only   depth_C_criterion_only         4  1  1  1  1  0.50       0.50      
+union            depth_A_index_only             4  2  1  1  0  0.67       1.00      
+union            depth_B_index_plus_criterion   4  2  2  0  0  0.50       1.00      
+union            depth_C_criterion_only         4  1  2  0  1  0.33       0.50      
+
+-- falsifiable criterion: depth B precision >= depth A precision, every lexicon --
+  histology_only   depth A never fires; depth B fires and is 0.00 precise -> reading criteria CREATED this screen's only hit and that hit is wrong
+  molecular_only   A=0.67 B=0.67 -> held
+  union            A=0.67 B=0.50 -> REFUTED
+
+lexicons where deeper string reading did NOT improve precision: ['histology_only', 'union']
+
+-- per-record hits --
+  NCT04151342 admits   hist A=[] B=[] | mol A=['fusion'] B=['fusion']
+  NCT06094101 refuses  hist A=[] B=[] | mol A=['fusion'] B=['fusion']
+  NCT06571734 admits   hist A=[] B=[] | mol A=['translocation'] B=['translocation']
+  NCT07188532 refuses  hist A=[] B=['extra-skeletal'] | mol A=[] B=[]
+
+wrote research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/STRATEGY-ARCH-2/screen-depth-ablation.json

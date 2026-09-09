@@ -1,0 +1,31 @@
+STEP 1 — accession facts from source
+  research/modalities/junction_proteome_novelty.py:85  PARENTS = {'P56945': 'EWSR1', 'Q92570': 'NR4A3'}
+  PARENTS referenced on lines: [85, 281, 283]
+  test fixture records: [{'accession': 'P00001', 'name': 'AAAA_HUMAN'}, {'accession': 'P00002', 'name': 'BBBB_HUMAN'}, {'accession': 'P56945-2', 'name': 'EWS_HUMAN'}]
+  junction-selfsimilarity.json EWSR1 hits:
+    Q01844  EWS_HUMAN RNA-binding protein EWS
+    Q01844-2  EWS_HUMAN Isoform EWS-B of RNA-binding protein EWS
+    Q01844-3  EWS_HUMAN Isoform 3 of RNA-binding protein EWS
+    Q01844-5  EWS_HUMAN Isoform 5 of RNA-binding protein EWS
+    Q01844-6  EWS_HUMAN Isoform 6 of RNA-binding protein EWS
+  defect reproduces as described: True
+
+STEP 2 — replay over committed junction-proteome-novelty.json
+  unpatched replay reproduces the committed verdict block: True
+  BEFORE (unpatched PARENTS)
+    n_peptides_tested=174 n_found_in_proteome=4 n_novel_proteome_wide=170 n_predicted_binders_found_in_proteome=1
+    verdict: BROKEN — a parent-filtered peptide matched a parent protein
+      parent hit: DMPCVQAQ     Q92570-3   NR4A3
+      parent hit: DMPCVQAQY    Q92570-3   NR4A3
+      parent hit: DMPCVQAQYS   Q92570-3   NR4A3
+      parent hit: DMPCVQAQYSP  Q92570-3   NR4A3
+  AFTER  (patched PARENTS)
+    n_peptides_tested=174 n_found_in_proteome=4 n_novel_proteome_wide=170 n_predicted_binders_found_in_proteome=1
+    verdict: BROKEN — a parent-filtered peptide matched a parent protein
+      parent hit: DMPCVQAQ     Q92570-3   NR4A3
+      parent hit: DMPCVQAQY    Q92570-3   NR4A3
+      parent hit: DMPCVQAQYS   Q92570-3   NR4A3
+      parent hit: DMPCVQAQYSP  Q92570-3   NR4A3
+  IDENTICAL: True
+  any Q01844* accession among committed hits: False
+  wrote research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-5/neoantigen5-guard-replay.json

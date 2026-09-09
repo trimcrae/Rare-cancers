@@ -1,0 +1,25 @@
+set -u
+cd /home/user/Rare-cancers
+echo "== HEAD =="; git rev-parse HEAD; git status --porcelain | head
+echo "== sha256 gene counts (recorded 8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc) =="
+sha256sum research/modalities/emc-fourth-cohort-gene-counts.tsv
+echo "== sha256 probe counts (recorded c689e0fd4f5c8cda0f132cd8ce42f039f691bf94cb8d81d3f622886e2bdd26fc) =="
+sha256sum research/modalities/emc-fourth-cohort-probe-counts.tsv
+echo "== gene table rows (recorded 862) =="
+awk -F'\t' 'NR>1{n++} END{print n}' research/modalities/emc-fourth-cohort-gene-counts.tsv
+echo "== probe table rows (recorded 213007), assigned rows (recorded 906), distinct genes (recorded 862) =="
+awk -F'\t' 'NR>1{n++; if($2!="unassigned"){a++;g[$2]=1}} END{print "rows="n, "assigned="a, "genes="length(g)}' research/modalities/emc-fourth-cohort-probe-counts.tsv
+echo "== round-1 claim: 0/11 endothelial, 0/5 transport, 1/10 immune, 1/9 fibroblast in gene table =="
+for panel in "endothelial:PECAM1 CDH5 VWF KDR TEK ENG ESAM CLDN5 FLT1 ROBO4 EMCN" \
+             "mural:RGS5 ACTA2 PDGFRB MCAM NOTCH3 CSPG4 MYH11" \
+             "immune:PTPRC CD68 CD163 CD3E CD2 ITGAM AIF1 CSF1R LYZ MS4A1" \
+             "fibro:COL1A1 COL1A2 COL3A1 FAP THY1 PDGFRA LUM DCN POSTN" \
+             "hyal:HAS1 HAS2 HAS3 HYAL1 HYAL2 CD44 VCAN ACAN HAPLN1 HAPLN3 TNFAIP6" \
+             "transport:AQP1 AQP4 CAV1 CAV2 SLC2A1"; do
+  name=${panel%%:*}; genes=${panel#*:}; hit=0; tot=0; found=""
+  for g in $genes; do tot=$((tot+1)); if cut -f1 research/modalities/emc-fourth-cohort-gene-counts.tsv | grep -qx "$g"; then hit=$((hit+1)); found="$found $g"; fi; done
+  echo "$name $hit/$tot present:$found"
+done
+echo "== positive control: ACTB present? GAPDH present? =="
+cut -f1 research/modalities/emc-fourth-cohort-gene-counts.tsv | grep -cx ACTB
+cut -f1 research/modalities/emc-fourth-cohort-gene-counts.tsv | grep -cx GAPDH

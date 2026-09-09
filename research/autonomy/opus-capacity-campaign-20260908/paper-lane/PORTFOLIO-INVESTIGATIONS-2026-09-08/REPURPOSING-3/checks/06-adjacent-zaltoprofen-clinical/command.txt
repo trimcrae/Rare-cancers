@@ -1,0 +1,6 @@
+MCP tool call: mcp__PubMed__search_articles  query="zaltoprofen AND (chondrosarcoma OR sarcoma)"
+  max_results=20
+then mcp__PubMed__get_article_metadata  pmids=["29573200"]
+ADJACENT check, prompted by reading [12] for what it CONTAINS: [12]'s abstract is a preclinical
+report, so the question "has zaltoprofen ever been given to a human with this tumour" is not
+answerable from [12] itself. Two records exist in the whole of PubMed for this drug in this disease.

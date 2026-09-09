@@ -1,0 +1,64 @@
+{
+ "_what": "Whether the three 1-in-10000 differences between recorded and re-derived median_mark_width_frac change any clause outcome of the detection rule.",
+ "_why_they_exist": "The artifact records median_mark_width_frac rounded to 4 dp and the text arm's width scale (tick_row_span_pt) rounded to 1 dp; the original run divided unrounded values. Re-deriving from the rounded record therefore reproduces the ratio to within one unit in the last recorded place.",
+ "constants": {
+  "MAX_MARK_WIDTH": 0.055,
+  "MIN_GLYPH_WIDTH": 0.004
+ },
+ "differences": [
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[0].median_mark_width_frac",
+   "recorded": 0.0318,
+   "re_derived": 0.0317,
+   "abs_difference": 0.0001,
+   "clause_med_width<=MAX_MARK_WIDTH": {
+    "recorded": true,
+    "re_derived": true,
+    "flips": false
+   },
+   "clause_med_width>=MIN_GLYPH_WIDTH": {
+    "recorded": true,
+    "re_derived": true,
+    "flips": false
+   }
+  },
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[5].median_mark_width_frac",
+   "recorded": 0.056,
+   "re_derived": 0.0559,
+   "abs_difference": 0.0001,
+   "clause_med_width<=MAX_MARK_WIDTH": {
+    "recorded": false,
+    "re_derived": false,
+    "flips": false
+   },
+   "clause_med_width>=MIN_GLYPH_WIDTH": {
+    "recorded": true,
+    "re_derived": true,
+    "flips": false
+   }
+  },
+  {
+   "figure": "morioka2016trabectedin p4",
+   "quantity": "band[6].median_mark_width_frac",
+   "recorded": 0.0718,
+   "re_derived": 0.0719,
+   "abs_difference": 0.0001,
+   "clause_med_width<=MAX_MARK_WIDTH": {
+    "recorded": false,
+    "re_derived": false,
+    "flips": false
+   },
+   "clause_med_width>=MIN_GLYPH_WIDTH": {
+    "recorded": true,
+    "re_derived": true,
+    "flips": false
+   }
+  }
+ ],
+ "any_clause_flips": false,
+ "max_abs_difference": 0.0001,
+ "verdict": "ROUNDING ONLY -- no clause outcome changes, so no verdict depends on them"
+}

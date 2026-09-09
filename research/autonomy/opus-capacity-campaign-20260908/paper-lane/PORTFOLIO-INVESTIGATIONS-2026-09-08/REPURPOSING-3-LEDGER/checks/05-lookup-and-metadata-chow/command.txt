@@ -1,0 +1,4 @@
+mcp__PubMed__lookup_article_by_citation(citations=[{key:"chow2007", journal:"Curr Opin Oncol", year:2007, volume:"19", first_page:"371", author:"Chow"}])
+mcp__PubMed__get_article_metadata(pmids=["17545802"])
+# Two MCP tool calls, not shell commands. Needed because the DOI converter (check 02) returned a
+# bare echo for 10.1097/CCO.0b013e32812143d9 with no pmid and no pmcid.

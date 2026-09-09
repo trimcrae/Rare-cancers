@@ -1,0 +1,23 @@
+A. RE-DERIVATION
+   records=67 unique_genes=64 n_sarcoma=[91]
+   fields=gene,n_sarcoma,rest_frac_dependent,rest_mean,sarcoma_frac_dependent,sarcoma_mean,selectivity
+   EWSR1 selectivity=[0.373] rest_frac=[0.915] sarcoma_frac=[0.967]
+   trap>=0.80: 23 records / 22 unique | >=0.20: 30 records / 29 unique
+   duplicated gene records: ['EWSR1', 'FLI1', 'NR4A3']
+B. ADMISSIBLE DENOMINATORS  count=1126  min=943  max=2105  excluded_in_range=37  reproduces_BIOMARKER_DEP_2=True
+C. ENVELOPE  sqrt(n_max/n_min)=1.4941
+   p=0.915  width n_min=0.0357  n_max=0.0239  inflation=1.4961  monotone=True  union==n_min=True
+   p=0.696  width n_min=0.0586  n_max=0.0393  inflation=1.4927  monotone=True  union==n_min=True
+   p=0.854  width n_min=0.0451  n_max=0.0302  inflation=1.4941  monotone=True  union==n_min=True
+   p=0.8    width n_min=0.0510  n_max=0.0342  inflation=1.4933  monotone=True  union==n_min=True
+D. TRAP-SCREEN DECISION STABILITY at worst-case n=943
+   cut ge_0.80  wilson={'CLEAR_CERTAIN': 44, 'TRAP_CERTAIN': 23}
+   cut ge_0.80  CP    ={'CLEAR_CERTAIN': 44, 'TRAP_CERTAIN': 23}
+   cut ge_0.80  fragile(wilson)=[]
+   cut ge_0.80  fragile(CP)    =[]
+   cut ge_0.20  wilson={'CLEAR_CERTAIN': 36, 'TRAP_CERTAIN': 29, 'FRAGILE': 2}
+   cut ge_0.20  CP    ={'CLEAR_CERTAIN': 36, 'TRAP_CERTAIN': 29, 'FRAGILE': 2}
+   cut ge_0.20  fragile(wilson)=['BAK1', 'EGFR']
+   cut ge_0.20  fragile(CP)    =['BAK1', 'EGFR']
+   EWSR1 0.915: wilson@n_min=[0.8955,0.9312] wilson@n_max=[0.9023,0.9262] CP@n_min=[0.8955,0.9322] verdict=TRAP_CERTAIN
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/SYNLETH-2/denominator-envelope.json

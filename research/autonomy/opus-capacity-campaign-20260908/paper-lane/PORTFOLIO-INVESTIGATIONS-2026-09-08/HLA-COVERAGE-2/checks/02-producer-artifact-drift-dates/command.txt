@@ -1,0 +1,10 @@
+set -o pipefail
+cd /home/user/Rare-cancers
+for f in research/modalities/coverage_scan.py research/modalities/epitope-allele-matrix.json research/modalities/epitope-allele-loose-matrix.json research/modalities/coverage-curve.json research/modalities/coverage-threshold-curve.json research/modalities/fusion-breakpoint-neoantigens.json; do
+  printf '%-58s ' "$f"
+  git log -1 --format='%h %cI %s' -- "$f"
+done
+echo "--- AUT-079 first appearance in coverage_scan.py"
+git log --format='%h %cI %s' -S 'AUT-079' -- research/modalities/coverage_scan.py
+echo "--- PANEL_C first appearance"
+git log --format='%h %cI %s' -S 'PANEL_C' -- research/modalities/coverage_scan.py

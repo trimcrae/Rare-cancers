@@ -1,0 +1,132 @@
+{
+  "_what": "NEOANTIGEN-5: source-level confirmation of the PARENTS accession defect and a before/after equivalence replay of the UNAPPLIED NEOANTIGEN-4 diff on the committed inputs.",
+  "⛔_not_a_claim": "Nothing here is an immunogenicity, presentation, efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim.",
+  "_inputs": {
+    "module": "research/modalities/junction_proteome_novelty.py",
+    "test": "research/modalities/tests/test_junction_proteome_novelty.py",
+    "artifact": "research/modalities/junction-proteome-novelty.json",
+    "selfsimilarity": "research/modalities/junction-selfsimilarity.json"
+  },
+  "step1_accession_facts": {
+    "module_PARENTS_line": 85,
+    "module_PARENTS": {
+      "P56945": "EWSR1",
+      "Q92570": "NR4A3"
+    },
+    "module_lines_referencing_PARENTS": [
+      85,
+      281,
+      283
+    ],
+    "test_fixture_records": [
+      {
+        "accession": "P00001",
+        "name": "AAAA_HUMAN"
+      },
+      {
+        "accession": "P00002",
+        "name": "BBBB_HUMAN"
+      },
+      {
+        "accession": "P56945-2",
+        "name": "EWS_HUMAN"
+      }
+    ],
+    "selfsimilarity_EWSR1_accessions": {
+      "Q01844": "EWS_HUMAN RNA-binding protein EWS",
+      "Q01844-2": "EWS_HUMAN Isoform EWS-B of RNA-binding protein EWS",
+      "Q01844-3": "EWS_HUMAN Isoform 3 of RNA-binding protein EWS",
+      "Q01844-5": "EWS_HUMAN Isoform 5 of RNA-binding protein EWS",
+      "Q01844-6": "EWS_HUMAN Isoform 6 of RNA-binding protein EWS"
+    },
+    "other_modules_recording_EWSR1": [
+      "research/modalities/emc-condensate-window-eligibility.json",
+      "research/modalities/emc-construct-inputs.json",
+      "research/modalities/emc_condensate_calvados.py",
+      "research/modalities/emc_fet_construct_designs.py",
+      "research/modalities/emc_fet_idr_census.py",
+      "research/modalities/fusion-idr-features.json",
+      "research/modalities/fusion-neoantigen-predictions.json",
+      "research/modalities/fusion_cofold.py",
+      "research/modalities/fusion_idr_features.py",
+      "research/modalities/fusion_neoantigen.py",
+      "research/modalities/junction-anchor-convention-sensitivity.json",
+      "research/modalities/junction-selfsimilarity.json",
+      "research/modalities/nr4a-paralogue-unique-residues.json",
+      "research/modalities/nr4a3-nuccore-sweep.json",
+      "research/modalities/nr4a3-structure-assessment.json",
+      "research/modalities/nr4a3_structure.py",
+      "research/modalities/nr4a_paralogue_unique_residues.py",
+      "research/modalities/p1-anchor-convention.json",
+      "research/modalities/target-route-census.json",
+      "research/modalities/target_route_census.py"
+    ]
+  },
+  "step1_defect_reproduces": true,
+  "step2_replay_fidelity_unpatched_reproduces_committed_verdict": true,
+  "step2_before_unpatched": {
+    "n_peptides_tested": 174,
+    "n_found_in_proteome": 4,
+    "n_novel_proteome_wide": 170,
+    "n_predicted_binders_found_in_proteome": 1,
+    "upstream_filter_check": {
+      "parent_protein_hits": [
+        {
+          "peptide": "DMPCVQAQ",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQY",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQYS",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQYSP",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        }
+      ],
+      "verdict": "BROKEN — a parent-filtered peptide matched a parent protein"
+    }
+  },
+  "step2_after_patched": {
+    "n_peptides_tested": 174,
+    "n_found_in_proteome": 4,
+    "n_novel_proteome_wide": 170,
+    "n_predicted_binders_found_in_proteome": 1,
+    "upstream_filter_check": {
+      "parent_protein_hits": [
+        {
+          "peptide": "DMPCVQAQ",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQY",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQYS",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        },
+        {
+          "peptide": "DMPCVQAQYSP",
+          "accession": "Q92570-3",
+          "parent": "NR4A3"
+        }
+      ],
+      "verdict": "BROKEN — a parent-filtered peptide matched a parent protein"
+    }
+  },
+  "step2_identical": true,
+  "step2_note": "On the committed inputs no recorded proteome hit carries an EWSR1 accession at all (Q01844 present among hits: False), so the added key is unreachable here and every count and verdict is unchanged. The change therefore ADDS detection capability without altering any published result.",
+  "step2_q01844_among_committed_hits": false
+}
