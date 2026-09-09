@@ -1,0 +1,1143 @@
+{
+ "_id": "EXPOSURE-INDEX-EMC-PATIENT-EXPOSURE-INDEX-2026-09-09",
+ "_question": "How many distinct EMC patients does this portfolio's cited evidence actually rest on, and how much of that is UNREAD rather than absent?",
+ "_what_this_answers_and_what_it_refuses": "It answers the SECOND half and deliberately refuses the first. Every row carries its own n, its provenance and its retrieval state. NO TOTAL IS COMPUTED, because 24 of 28 rows carry overlap_unknown = true and a sum across them would be exactly the error this artifact exists to prevent.",
+ "_not_medical_advice": "This is a PROVENANCE INDEX, not evidence synthesis. Nothing here asserts or implies efficacy, safety, selectivity, a therapeutic window, prognosis, or any treatment recommendation, and nothing here is patient-specific advice. Counting who has been counted is not a statement about what happened to them.",
+ "_lane": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPOSURE-INDEX",
+ "_generated_by": "build_exposure_index.py (this lane)",
+ "_proposal": "FOLLOWTHROUGH-DISCOVERY PROPOSALS.md P10 (rank 10), proposed by REPURPOSING-2, refined by REPURPOSING-3 §6.4",
+ "_reads_only": {
+  "ipd": {
+   "path": "research/modalities/emc-ipd-survival.json",
+   "sha256": "722ba1019a322bd52b6c71a739fa839228fc4c749e9378251c51219ee3be1c6c"
+  },
+  "cd3": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json",
+   "sha256": "65f968d3561a7f04c522688cb6f0979c40ac881f7ccb618f785e0812e8f97594"
+  },
+  "cd2": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json",
+   "sha256": "f10b296d2df973b277e490f15ec6c2615b3ec513fbab5460c11f7edd1f588edc"
+  },
+  "loco": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json",
+   "sha256": "042795dd7a14893f02b4c967f406fabfe436ea7f7781d9f4de4eaf1def8bce82"
+  },
+  "rep2": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md",
+   "sha256": "024e16c5bdcda9719520d4e17949929fdbc2157598fb4dcafddaa304f24e1b9f"
+  },
+  "rep3": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md",
+   "sha256": "411e2e41f098b11925f43cafbbdd3a295ff58cc5c931e1687b84adfd3ec5c8e8"
+  },
+  "cabo": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md",
+   "sha256": "ef07143fc888e57d72b4f781b8896916760213b14a08c8917c8db641d463cc29"
+  },
+  "ms_rep": {
+   "path": "research/manuscripts/repurposing/repurposing-hypotheses.md",
+   "sha256": "e318ea6402eded22cc087284d73e50c74ae3a8da52bfe7d32db927e8314a4db3"
+  }
+ },
+ "_no_new_retrieval": "No PubMed/PMC call and no HTTP request was made by this lane. Every quoted figure is copied from a named file already in the repository; the retrieval attribution belongs to the lane that made the call, recorded per row in retrieval_completeness_quoted_from.",
+ "_provenance_rule": "CLAUDE.md §4. Every row's n names the file and pointer it was quoted from. A row whose n could not be traced is recorded UNKNOWN. Untraceable rows recorded as zero: 0 ([]). The only 0 in the index is higuchi2023zaltoprofen, and it is a MEASURED zero (preclinical by design), not an untraced one.",
+ "_three_valued_retrieval_completeness": {
+  "complete": "a lane recorded narrative PLUS all tables returned",
+  "partial": "body text returned, but tables, figures or the specific table carrying the EMC denominator were not",
+  "unread": "no body text of any kind was retrieved by any lane -- abstract, MeSH and curated fields only. ⛔ UNREAD IS NOT ABSENT.",
+  "_field_origin": "CARE-DELIVERY-3 invented retrieval_completeness independently for its own coverage rows; REPURPOSING-3 established the unread-vs-absent distinction. This index unifies both."
+ },
+ "⛔_stop_condition_enforced_in_code": {
+  "no_pooling": true,
+  "no_denominator_arithmetic_across_overlap_unknown_rows": true,
+  "the_only_addition_performed": "the two-row LOCOREGIONAL-2 control, justified in control.⛔_why...",
+  "⛔_do_not_add_these_rows": "Do not sum n_headline_as_reported or n_emc_patients_as_reported across rows. The series overlap (Milan, US institutional/SEER, Japanese registry/trial clusters) AND two independent denominators are not EMC. A portfolio-wide patient total computed from this file would be wrong in both directions at once."
+ },
+ "counts_of_rows_not_of_patients": {
+  "n_rows": 28,
+  "by_retrieval_completeness": {
+   "unread": 18,
+   "partial": 7,
+   "complete": 3
+  },
+  "by_n_emc_status": {
+   "UNKNOWN": 19,
+   "reported": 9
+  },
+  "rows_with_overlap_unknown_true": 24,
+  "rows_with_overlap_unknown_false": 4,
+  "rows_where_headline_n_is_not_emc_n": [
+   "martinbroto2020immunosarc1",
+   "morioka2016trabectedin",
+   "osullivanCoyne2022"
+  ],
+  "rows_where_headline_vs_emc_relation_is_unknown": [
+   "seer270_2022",
+   "masunaga2025",
+   "meisKindblom1999",
+   "drilon2008",
+   "ussc2022",
+   "chiusole2020",
+   "japan2003",
+   "uMich2023",
+   "bishop2019",
+   "china2016",
+   "huang2023",
+   "stacchiotti2019pazopanib",
+   "immunosarc2emc2025",
+   "stacchiotti2014sunitinib",
+   "davis2017",
+   "urbini2018",
+   "chow2007",
+   "remiszewski2025",
+   "maki2005bortezomib",
+   "boklan2025carfilzomib"
+  ]
+ },
+ "control_locoregional2": {
+  "_what": "LOCOREGIONAL-2's 21 local recurrences among 175 patients in two series, reproduced FROM THIS INDEX's rows.",
+  "⛔_why_this_arithmetic_is_permitted_when_the_index_forbids_totals": "It sums exactly two rows that a named source file rules non-overlapping FOR THIS CONTRAST: \"met FOR THIS CONTRAST\" -- \"This ruling is scoped to the surgery+RT vs surgery-alone contrast ONLY. bishop2019 must still NEVER be summed into any total that also contains ussc2022, remiszewski2025, seer270_2022 or uMich2023, and this ledger does not change the registry's pool flags, which remain as committed.\" It is a control on the index, not a portfolio patient count, and it is the ONLY addition performed anywhere in this artifact.",
+  "rows_used": [
+   "bishop2019",
+   "masunaga2025"
+  ],
+  "per_row": {
+   "bishop2019": {
+    "arm_sizes": {
+     "surgery_plus_RT": 33,
+     "surgery_alone": 8
+    },
+    "arm_events": {
+     "surgery_plus_RT": 1,
+     "surgery_alone": 4
+    },
+    "n_in_contrast": 41,
+    "events_in_contrast": 5,
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger"
+   },
+   "masunaga2025": {
+    "arm_sizes": {
+     "neoadjuvant_or_adjuvant_RT": 24,
+     "no_perioperative_RT": 110
+    },
+    "arm_events": {
+     "neoadjuvant_or_adjuvant_RT": 2,
+     "no_perioperative_RT": 14
+    },
+    "n_in_contrast": 134,
+    "events_in_contrast": 16,
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger"
+   }
+  },
+  "reproduced_patients": 175,
+  "reproduced_events": 21,
+  "target_patients": 175,
+  "target_events": 21,
+  "patients_match": true,
+  "events_match": true,
+  "PASS": true,
+  "⚠_note": "bishop2019's contrast n (41) equals its headline n; masunaga2025's contrast n (134) does NOT equal its headline n (171). The control reproduces because the index stores the contrast subset separately from the headline denominator."
+ },
+ "rows": [
+  {
+   "row_id": "seer270_2022",
+   "identifier": {
+    "source_id": "seer270_2022",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 270,
+   "n_headline_quote": "\"n\": 270",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[seer270_2022].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[seer270_2022].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "null (no overlap_risk field value)",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[seer270_2022].overlap_risk"
+  },
+  {
+   "row_id": "masunaga2025",
+   "identifier": {
+    "source_id": "masunaga2025",
+    "pmcid": "PMC12398172",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 171,
+   "n_headline_quote": "\"n\": 171",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[masunaga2025].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": {
+    "n": 134,
+    "quote": "\"Of the 24 patients who received (neo)adjuvant radiotherapy, two (8.3%) experienced local recurrence, and of the 110 patients who did not receive (neo)adjuvant radiotherapy, 14 (12.7%) experienced local recurrence.\"",
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger[1].how_the_split_is_known",
+    "scope": "PMC12398172 Results body text, read by LOCOREGIONAL-2 (this is the 134-patient non-metastatic analysed subset, NOT the 171 headline)"
+   },
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    },
+    {
+     "paper": "PUB-LOCOREGIONAL",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger[1]"
+    },
+    {
+     "paper": "PUB-REPURPOSING (reference [4])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [4]"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "LOCOREGIONAL-2 read the PMC12398172 full text and quotes its Results body text; \"Figure 2 was not read for numbers and carries no numbers-at-risk table in the retrieved text.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> _forbidden_move_not_made / _retrieval_provenance",
+   "read_by_lane": "LOCOREGIONAL-2",
+   "overlap_unknown": false,
+   "overlap_quote": "\"none with institutional series\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[masunaga2025].overlap_risk",
+   "locoregional_contrast_subset": {
+    "arm_sizes": {
+     "neoadjuvant_or_adjuvant_RT": 24,
+     "no_perioperative_RT": 110
+    },
+    "arm_events": {
+     "neoadjuvant_or_adjuvant_RT": 2,
+     "no_perioperative_RT": 14
+    },
+    "n_in_contrast": 134,
+    "events_in_contrast": 16,
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger"
+   }
+  },
+  {
+   "row_id": "meisKindblom1999",
+   "identifier": {
+    "source_id": "meisKindblom1999",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 117,
+   "n_headline_quote": "\"n\": 117",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[meisKindblom1999].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[meisKindblom1999].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"may be subsumed by later referral-centre series\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[meisKindblom1999].overlap_risk"
+  },
+  {
+   "row_id": "drilon2008",
+   "identifier": {
+    "source_id": "drilon2008",
+    "pmcid": "PMC2779719",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 87,
+   "n_headline_quote": "\"n\": 87",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[drilon2008].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": \"PMC2779719\" -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[drilon2008].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"shares referral centres with later US series\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[drilon2008].overlap_risk"
+  },
+  {
+   "row_id": "ussc2022",
+   "identifier": {
+    "source_id": "ussc2022",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 60,
+   "n_headline_quote": "\"n\": 60",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[ussc2022].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[ussc2022].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ US institutions overlap drilon2008 and uMich2023\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[ussc2022].overlap_risk"
+  },
+  {
+   "row_id": "chiusole2020",
+   "identifier": {
+    "source_id": "chiusole2020",
+    "pmcid": "PMC7308468",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 59,
+   "n_headline_quote": "\"n\": 59",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[chiusole2020].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": \"PMC7308468\" -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[chiusole2020].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ likely shares Milan/INT patients with the Stacchiotti series\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[chiusole2020].overlap_risk"
+  },
+  {
+   "row_id": "japan2003",
+   "identifier": {
+    "source_id": "japan2003",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 42,
+   "n_headline_quote": "\"n\": 42",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[japan2003].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[japan2003].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ may overlap morioka2016 (Japanese trial population)\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[japan2003].overlap_risk"
+  },
+  {
+   "row_id": "uMich2023",
+   "identifier": {
+    "source_id": "uMich2023",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 44,
+   "n_headline_quote": "\"n\": 44",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[uMich2023].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[uMich2023].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ US institution, may overlap ussc2022\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[uMich2023].overlap_risk"
+  },
+  {
+   "row_id": "bishop2019",
+   "identifier": {
+    "source_id": "bishop2019",
+    "pmcid": "PMC7771031",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 41,
+   "n_headline_quote": "\"n\": 41",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[bishop2019].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    },
+    {
+     "paper": "PUB-LOCOREGIONAL",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger[0]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"NOT re-verified against the paper in this lane; transcription fidelity is inherited.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger[0].how_the_split_is_known",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ US institution, may overlap ussc2022\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[bishop2019].overlap_risk",
+   "locoregional_contrast_subset": {
+    "arm_sizes": {
+     "surgery_plus_RT": 33,
+     "surgery_alone": 8
+    },
+    "arm_events": {
+     "surgery_plus_RT": 1,
+     "surgery_alone": 4
+    },
+    "n_in_contrast": 41,
+    "events_in_contrast": 5,
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/LOCOREGIONAL-2/rt-local-control-contrast-ledger-k2.json -> arm_level_event_ledger"
+   }
+  },
+  {
+   "row_id": "china2016",
+   "identifier": {
+    "source_id": "china2016",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 40,
+   "n_headline_quote": "\"n\": 40",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[china2016].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[china2016].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": false,
+   "overlap_quote": "\"none known\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[china2016].overlap_risk"
+  },
+  {
+   "row_id": "huang2023",
+   "identifier": {
+    "source_id": "huang2023",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 58,
+   "n_headline_quote": "\"n\": 58",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[huang2023].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": {
+    "n": 58,
+    "quote": "\"fluorescence in situ hybridization was performed to confirm 58 EMCs, with 48 available for pan-Trk immunostaining and KIT sequencing.\"",
+    "quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [2], quoting the PubMed abstract of PMID 36948401",
+    "scope": "abstract of the primary (no PMC body text exists)"
+   },
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    },
+    {
+     "paper": "PUB-REPURPOSING (reference [2])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [2]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[huang2023].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": false,
+   "overlap_quote": "\"none known\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[huang2023].overlap_risk"
+  },
+  {
+   "row_id": "stacchiotti2019pazopanib",
+   "identifier": {
+    "source_id": "stacchiotti2019pazopanib",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 26,
+   "n_headline_quote": "\"n\": 26",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2019pazopanib].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2019pazopanib].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ may share patients with earlier Milan series\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2019pazopanib].overlap_risk"
+  },
+  {
+   "row_id": "immunosarc2emc2025",
+   "identifier": {
+    "source_id": "immunosarc2emc2025",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 24,
+   "n_headline_quote": "\"n\": 24",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[immunosarc2emc2025].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[immunosarc2emc2025].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ conference abstract; may be an expansion of martinbroto2020immunosarc1\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[immunosarc2emc2025].overlap_risk"
+  },
+  {
+   "row_id": "martinbroto2020immunosarc1",
+   "identifier": {
+    "source_id": "martinbroto2020immunosarc1",
+    "pmcid": "PMC7674086",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 68,
+   "n_headline_quote": "\"n\": 68",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[martinbroto2020immunosarc1].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": 4,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"n = 68 in this matrix is the whole all-histology STS trial; 4 patients have EMC (Table 1, 'Diagnosis (central)').\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> ⭐_what_the_trial_series_can_and_cannot_contribute.denominators.martinbroto2020immunosarc1",
+   "headline_n_is_not_emc_n": true,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "complete",
+   "retrieval_completeness_quote": "\"NARRATIVE + ALL TABLES + ALL FIGURE LEGENDS\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix.martinbroto2020immunosarc1.retrieval_completeness.verdict",
+   "read_by_lane": "CARE-DELIVERY-3",
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ likely the parent trial of immunosarc2emc2025\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[martinbroto2020immunosarc1].overlap_risk"
+  },
+  {
+   "row_id": "stacchiotti2013anthracycline",
+   "identifier": {
+    "source_id": "stacchiotti2013anthracycline",
+    "pmcid": "PMC3879193",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 11,
+   "n_headline_quote": "\"n\": 11",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2013anthracycline].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": 11,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"n = 11 is entirely EMC, all NR4A3-confirmed -- the only one of the three with a pure EMC denominator.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> ⭐_what_the_trial_series_can_and_cannot_contribute.denominators.stacchiotti2013anthracycline",
+   "headline_n_is_not_emc_n": false,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "complete",
+   "retrieval_completeness_quote": "\"NARRATIVE + ALL THREE TABLES + FIGURE LEGENDS (the most complete of the three)\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix.stacchiotti2013anthracycline.retrieval_completeness.verdict",
+   "read_by_lane": "CARE-DELIVERY-3",
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2013anthracycline].overlap_risk"
+  },
+  {
+   "row_id": "stacchiotti2014sunitinib",
+   "identifier": {
+    "source_id": "stacchiotti2014sunitinib",
+    "pmcid": null,
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 10,
+   "n_headline_quote": "\"n\": 10",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2014sunitinib].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": null,
+   "n_emc_quoted_from": null,
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"full_text_reachable\": null -- no lane in this campaign recorded reading its body text",
+   "retrieval_completeness_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2014sunitinib].full_text_reachable",
+   "read_by_lane": null,
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ Milan series, overlaps stacchiotti2013anthracycline and stacchiotti2019pazopanib\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[stacchiotti2014sunitinib].overlap_risk"
+  },
+  {
+   "row_id": "morioka2016trabectedin",
+   "identifier": {
+    "source_id": "morioka2016trabectedin",
+    "pmcid": "PMC4946242",
+    "kind": "EMC clinical series (portfolio candidate source)"
+   },
+   "n_headline_as_reported": 5,
+   "n_headline_quote": "\"n\": 5",
+   "n_headline_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[morioka2016trabectedin].n",
+   "n_headline_provenance_depth": "curated field in a repository artifact; NOT re-quoted from the primary in this index",
+   "n_emc_patients_as_reported": 2,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"n = 5 is the trabectedin EMCS+MCS arm; 2 have EMC, 3 have mesenchymal chondrosarcoma.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> ⭐_what_the_trial_series_can_and_cannot_contribute.denominators.morioka2016trabectedin",
+   "headline_n_is_not_emc_n": true,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-IPD-SURVIVAL",
+     "evidence": "research/modalities/emc-ipd-survival.json -> candidate_sources[]"
+    },
+    {
+     "paper": "PUB-CARE-DELIVERY",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix (17 keys)"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"⚠ NARRATIVE ONLY -- NO TABLES, NO FIGURE LEGENDS (INCOMPLETE)\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json -> coverage_matrix.morioka2016trabectedin.retrieval_completeness.verdict",
+   "read_by_lane": "CARE-DELIVERY-3",
+   "overlap_unknown": true,
+   "overlap_quote": "\"⚠ may overlap japan2003 institutions\"",
+   "overlap_quoted_from": "research/modalities/emc-ipd-survival.json -> candidate_sources[morioka2016trabectedin].overlap_risk"
+  },
+  {
+   "row_id": "osullivanCoyne2022",
+   "identifier": {
+    "source_id": "osullivanCoyne2022",
+    "pmcid": "PMC8776602",
+    "kind": "cited reference of the repurposing manuscript (reference [19])"
+   },
+   "n_headline_as_reported": 55,
+   "n_headline_quote": "\"Extraskeletal myxoid chondrosarcoma  3\" (of 54 evaluable, 55 enrolled)",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md -> §3, quoting PMC8776602 Table 1",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 3,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"Extraskeletal myxoid chondrosarcoma  3\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md -> §3, quoting PMC8776602 Table 1 Diagnosis",
+   "headline_n_is_not_emc_n": true,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [19])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md -> §3"
+    }
+   ],
+   "retrieval_completeness": "complete",
+   "retrieval_completeness_quote": "Table 1 and Results both returned and quoted verbatim from the PMC full text (PMC8776602).",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md -> §3",
+   "read_by_lane": "PUB-REPURPOSING",
+   "overlap_unknown": true,
+   "overlap_quote": "phase II refractory soft-tissue sarcoma trial; whether its 3 EMC patients also appear in any other row of this index is not stated in any source file read here",
+   "overlap_quoted_from": "not stated in any named source file",
+   "note": null
+  },
+  {
+   "row_id": "davis2017",
+   "identifier": {
+    "source_id": "davis2017",
+    "pmcid": "PMC5400622",
+    "kind": "cited reference of the repurposing manuscript (reference [5])"
+   },
+   "n_headline_as_reported": null,
+   "n_headline_quote": "UNKNOWN -- no cohort size is quoted in any source file read here",
+   "n_headline_quoted_from": "n/a",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": "the only patient-level figure quoted is n=1: \"In our EMC cohort, one patient with diabetes mellitus was treated with an antidiabetic agent, pioglitazone...\"; separately \"Of 10 patients treated, 8 patients who showed clinical benefit ... harbored the [EWSR1-NR4A3] translocation\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H1 and §2 H3",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [5])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H1"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"[5] Davis 2017, NGS of EMC | **yes**, PMC5400622\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [5]",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "the \"10 patients treated\" sunitinib figure is quoted from [4], [5] and [6] alike in REPURPOSING-2 §2 H3 -- the same 10 patients may be the stacchiotti2014sunitinib row",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H3",
+   "note": null
+  },
+  {
+   "row_id": "urbini2018",
+   "identifier": {
+    "source_id": "urbini2018",
+    "pmcid": "PMC6073125",
+    "kind": "cited reference of the repurposing manuscript (reference [6])"
+   },
+   "n_headline_as_reported": null,
+   "n_headline_quote": "the citing manuscript characterises it as \"1 of 20 EMCs in one series\"; that 20 is the CITING paper's wording, not a figure quoted from the primary in any source file read here",
+   "n_headline_quoted_from": "research/manuscripts/repurposing/repurposing-hypotheses.md §1.1 line 163, as quoted in research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H2",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 1,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"The EMC patient with a [KIT] exon 11 mutation described here never received imatinib. ... Interestingly the same patient had been treated with sunitinib with a prolonged response.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H2, quoting PMC6073125",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [6])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H2"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"[6] Urbini 2018 ... | **yes**, PMC6073125\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [6]",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "\"we reported the therapeutic activity of sunitinib in a cohort of 10 EMC patients with 6 partial responses, 2 stable disease, and 2 showed progression.\" -- the same 10-patient sunitinib cohort is quoted from [4], [5] and [6]",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H3",
+   "note": null
+  },
+  {
+   "row_id": "giner2023",
+   "identifier": {
+    "source_id": "giner2023",
+    "pmcid": null,
+    "kind": "cited reference of the repurposing manuscript (reference [8])"
+   },
+   "n_headline_as_reported": 31,
+   "n_headline_quote": "\"We studied 31 cases confirmed as EMC. Clinical and follow-up data were recorded.\"",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [8], quoting the PubMed abstract of PMID 36376703",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 31,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"We studied 31 cases confirmed as EMC.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [8]",
+   "headline_n_is_not_emc_n": false,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [8])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [8]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"Abstract only. No PMC record by either mode. The per-case clinicopathological table ... is unread.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [8], retrieval completeness column",
+   "read_by_lane": "REPURPOSING-3",
+   "overlap_unknown": true,
+   "overlap_quote": "a 31-case Spanish EMC series; no source file read here states whether its cases are distinct from any other row",
+   "overlap_quoted_from": "not stated in any named source file",
+   "note": "REPURPOSING-3 §1: this reference has NO PubMed Central record at all, so its per-patient table is UNREAD, not absent. Its EMC n is known from the abstract; everything below the abstract is not."
+  },
+  {
+   "row_id": "iwata2025",
+   "identifier": {
+    "source_id": "iwata2025",
+    "pmcid": null,
+    "kind": "cited reference of the repurposing manuscript (reference [14])"
+   },
+   "n_headline_as_reported": 1,
+   "n_headline_quote": "\"We successfully developed the NCC-EMC1-C1 cell line using surgically resected tumor tissue from a patient with EMC.\"",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [14], quoting the PubMed abstract of PMID 40580361",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 1,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"...tumor tissue from a patient with EMC.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [14]",
+   "headline_n_is_not_emc_n": false,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [14])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [14]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"Abstract only. No PMC record by either mode. All IC50 values, the drug roster and the donor patient's clinical record are in tables/figures and are unread.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [14]",
+   "read_by_lane": "REPURPOSING-3",
+   "overlap_unknown": true,
+   "overlap_quote": "one tissue donor; no source file read here states whether that donor is also counted in another series",
+   "overlap_quoted_from": "not stated in any named source file",
+   "note": "One EMC patient, as a tissue donor. Enters the index as a patient the evidence rests on, with UNKNOWN body text."
+  },
+  {
+   "row_id": "bangerter2023",
+   "identifier": {
+    "source_id": "bangerter2023",
+    "pmcid": null,
+    "kind": "cited reference of the repurposing manuscript (reference [13])"
+   },
+   "n_headline_as_reported": 2,
+   "n_headline_quote": "\"[13] Bangerter 2023, two ex-vivo EMC models\"",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [13]",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 2,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"Donors of both ex-vivo EMC models received surgery, radiotherapy and cryoablation only -- no systemic candidate agent\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §3, adjacent-records table",
+   "headline_n_is_not_emc_n": false,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [13])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [13]"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"**yes**, PMC9813045\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [13]",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "two model donors; no source file read here states whether either donor appears in another series",
+   "overlap_quoted_from": "not stated in any named source file",
+   "note": null
+  },
+  {
+   "row_id": "higuchi2023zaltoprofen",
+   "identifier": {
+    "source_id": "higuchi2023zaltoprofen",
+    "pmcid": "PMC10054153",
+    "kind": "cited reference of the repurposing manuscript (reference [12])"
+   },
+   "n_headline_as_reported": 0,
+   "n_headline_quote": "\"No human patient of any kind. Preclinical throughout.\"",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [12]",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": 0,
+   "n_emc_status": "reported",
+   "n_emc_quote": "\"No human patient of any kind. Preclinical throughout.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [12]",
+   "headline_n_is_not_emc_n": false,
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [12])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [12]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"Abstract only, despite a PMC record existing. full_text: \\\"\\\" reproducibly, in two id forms.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [12]",
+   "read_by_lane": "REPURPOSING-3",
+   "overlap_unknown": false,
+   "overlap_quote": "no patients, so no patient can overlap",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [12]",
+   "note": "A ZERO that is a MEASURED zero: the source is preclinical by design. This is the only zero in the index and it is not an untraceable row recorded as zero."
+  },
+  {
+   "row_id": "chow2007",
+   "identifier": {
+    "source_id": "chow2007",
+    "pmcid": null,
+    "kind": "cited reference of the repurposing manuscript (reference [9])"
+   },
+   "n_headline_as_reported": null,
+   "n_headline_quote": "UNKNOWN. The abstract carries no cohort: \"No EMC patient, no EMC treatment, no EMC outcome in the abstract. As a 2007 narrative review its body would carry no primary EMC patient data of its own in any case.\" ⛔ That is an expectation about a review, not a reading of its body, which is unread -- so this row is UNKNOWN, not zero.",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [9]",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": "narrative review; carries no primary cohort of its own. Its body was not retrieved, so a primary cohort is not affirmatively excluded by reading.",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [9]",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [9])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [9]"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"Abstract only. No PMC record by either mode.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [9]",
+   "read_by_lane": "REPURPOSING-3",
+   "overlap_unknown": true,
+   "overlap_quote": "a review; any EMC patient it describes is another row's patient",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/FIVE-REFERENCE-TABLE.md -> §2, row [9]",
+   "note": "Review article. Contributes no independent patients; if its body recounts EMC cases they are secondary reports of other rows."
+  },
+  {
+   "row_id": "remiszewski2025",
+   "identifier": {
+    "source_id": "remiszewski2025",
+    "pmcid": "PMC12504171",
+    "kind": "cited reference of the repurposing manuscript (reference [1])"
+   },
+   "n_headline_as_reported": null,
+   "n_headline_quote": "UNKNOWN -- a review; no cohort of its own is quoted anywhere read here",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [1]",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": "the pazopanib figures it carries are its own recount: \"26 patients, 23 of whom met modified intention-to-treat criteria... Four patients (18% ...)\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H6",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [1])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table, row [1]"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"**yes**, PMC12504171\"; but \"that extraction demonstrably drops table contents and italic-marked gene tokens\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §1 sweep table and §2 H3",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "a review recounting stacchiotti2019pazopanib (26/23) and the 10-patient sunitinib series -- those are other rows' patients",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H3 and H6",
+   "note": "Review. Its quoted 26/23 pazopanib denominator is the stacchiotti2019pazopanib row (n=26) seen second-hand; it must not be counted as additional patients."
+  },
+  {
+   "row_id": "maki2005bortezomib",
+   "identifier": {
+    "source_id": "maki2005bortezomib",
+    "pmcid": null,
+    "kind": "cited reference of the repurposing manuscript (reference [21])"
+   },
+   "n_headline_as_reported": null,
+   "n_headline_quote": "UNKNOWN -- no enrolment figure is quoted in any source file read here",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H5",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": "\"Whether it enrolled an EMC patient stays unread\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H5",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [21])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H5"
+    }
+   ],
+   "retrieval_completeness": "unread",
+   "retrieval_completeness_quote": "\"[21] Maki 2005 (PMID 15739208) has no PMCID. Its MeSH indexing goes no finer than 'Sarcoma' / 'Soft Tissue Neoplasms'.\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H5",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "unknown enrolment, so overlap is unknowable",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H5",
+   "note": "⛔ THE ARCHETYPAL UNREAD ROW. n is UNKNOWN, never zero. CLAUDE.md §4."
+  },
+  {
+   "row_id": "boklan2025carfilzomib",
+   "identifier": {
+    "source_id": "boklan2025carfilzomib",
+    "pmcid": "PMC12428389",
+    "kind": "cited reference of the repurposing manuscript (reference [22])"
+   },
+   "n_headline_as_reported": 38,
+   "n_headline_quote": "\"A total of 42 patients were screened, and 38 were treated (stratum A, 14; stratum B, 24)\"",
+   "n_headline_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H4, quoting PMC12428389",
+   "n_headline_provenance_depth": "verbatim quote in a named lane artifact",
+   "n_emc_patients_as_reported": null,
+   "n_emc_status": "UNKNOWN",
+   "n_emc_quote": "\"No occurrence of 'extraskeletal', 'myxoid', 'chondrosarcoma' or 'EMC' anywhere in the retrieved text.\" BUT: \"the per-histology enrolment table is not carried in the retrievable full text, so this is a reading of the narrative, not of the diagnosis table.\"",
+   "n_emc_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H4",
+   "headline_n_is_not_emc_n": "UNKNOWN",
+   "n_verbatim_primary_quote": null,
+   "citing_papers": [
+    {
+     "paper": "PUB-REPURPOSING (reference [22])",
+     "evidence": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H4"
+    }
+   ],
+   "retrieval_completeness": "partial",
+   "retrieval_completeness_quote": "\"[22] full text retrieved\" but \"the per-histology enrolment table is not carried in the retrievable full text\"",
+   "retrieval_completeness_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H4",
+   "read_by_lane": "REPURPOSING-2",
+   "overlap_unknown": true,
+   "overlap_quote": "its per-histology table is unread, so whether any of its 38 treated patients has EMC -- and whether such a patient appears elsewhere -- is unknown",
+   "overlap_quoted_from": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-2/CITED-REFERENCE-SWEEP.md -> §2 H4",
+   "note": "⭐ The clearest UNREAD-not-absent row in the index: the narrative names no EMC patient, but the table that would say so was not returned. n_emc is UNKNOWN, not 0."
+  }
+ ]
+}

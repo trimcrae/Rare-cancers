@@ -1,0 +1,41 @@
+gate A passed: True 300 / 300
+gate B passed: True {'none': 18, 'NR4A2 C534': 34, 'NR4A1 C505': 8}
+
+cutoff 2.0 A: 22 cell-frame open/closed differences vs the committed modelled competitor
+   frames: {'1OVL_A': 2, '1OVL_B': 2, '1OVL_C': 2, '1OVL_D': 2, '1OVL_E': 3, '1OVL_F': 2, '7WNH_A': 2, '7WNH_B': 2, '7WNH_C': 3, '7WNH_D': 2}
+   cells : {'vhl|M3@term_a_exemplar|dab_branch': 10, 'vhl|M4@term_a_exemplar|dab_branch': 10, 'vhl|M3@term_a_exemplar|dap_branch': 1, 'vhl|M14@term_a_exemplar|aryl_direct': 1}
+   direction: {'experimental CLOSES a cell the model opens': 22}
+cutoff 2.6 A: 2 cell-frame open/closed differences vs the committed modelled competitor
+   frames: {'1OVL_E': 1, '7WNH_C': 1}
+   cells : {'vhl|M4@term_a_exemplar|dab_branch': 2}
+   direction: {'experimental CLOSES a cell the model opens': 2}
+cutoff 3.0 A: 0 cell-frame open/closed differences vs the committed modelled competitor
+cutoff 3.4 A: 0 cell-frame open/closed differences vs the committed modelled competitor
+
+=== per-cutoff tallies ===
+2.0 A  committed: {"NR4A1 C505": 20, "NR4A2 C505": 2, "NR4A2 C534": 25, "none": 13}  n_open(committed): 40  exp n_open range: [37, 38]  identical-set-in-every-frame: False
+     per-frame n_open: {'1OVL_A': 38, '1OVL_B': 38, '1OVL_C': 38, '1OVL_D': 38, '1OVL_E': 37, '1OVL_F': 38, '7WNH_A': 38, '7WNH_B': 38, '7WNH_C': 37, '7WNH_D': 38}
+     per-frame C534-closer count: {'1OVL_A': 33, '1OVL_B': 33, '1OVL_C': 32, '1OVL_D': 25, '1OVL_E': 29, '1OVL_F': 30, '7WNH_A': 32, '7WNH_B': 27, '7WNH_C': 34, '7WNH_D': 28}
+2.6 A  committed: {"NR4A1 C505": 13, "NR4A2 C465": 1, "NR4A2 C534": 29, "none": 17}  n_open(committed): 42  exp n_open range: [41, 42]  identical-set-in-every-frame: False
+     per-frame n_open: {'1OVL_A': 42, '1OVL_B': 42, '1OVL_C': 42, '1OVL_D': 42, '1OVL_E': 41, '1OVL_F': 42, '7WNH_A': 42, '7WNH_B': 42, '7WNH_C': 41, '7WNH_D': 42}
+     per-frame C534-closer count: {'1OVL_A': 29, '1OVL_B': 28, '1OVL_C': 27, '1OVL_D': 27, '1OVL_E': 26, '1OVL_F': 31, '7WNH_A': 29, '7WNH_B': 28, '7WNH_C': 30, '7WNH_D': 28}
+3.0 A  committed: {"NR4A1 C505": 8, "NR4A2 C534": 34, "none": 18}  n_open(committed): 37  exp n_open range: [37, 37]  identical-set-in-every-frame: True
+     per-frame n_open: {'1OVL_A': 37, '1OVL_B': 37, '1OVL_C': 37, '1OVL_D': 37, '1OVL_E': 37, '1OVL_F': 37, '7WNH_A': 37, '7WNH_B': 37, '7WNH_C': 37, '7WNH_D': 37}
+     per-frame C534-closer count: {'1OVL_A': 35, '1OVL_B': 34, '1OVL_C': 35, '1OVL_D': 20, '1OVL_E': 32, '1OVL_F': 35, '7WNH_A': 36, '7WNH_B': 33, '7WNH_C': 36, '7WNH_D': 33}
+3.4 A  committed: {"NR4A1 C505": 3, "NR4A2 C534": 39, "none": 18}  n_open(committed): 42  exp n_open range: [42, 42]  identical-set-in-every-frame: True
+     per-frame n_open: {'1OVL_A': 42, '1OVL_B': 42, '1OVL_C': 42, '1OVL_D': 42, '1OVL_E': 42, '1OVL_F': 42, '7WNH_A': 42, '7WNH_B': 42, '7WNH_C': 42, '7WNH_D': 42}
+     per-frame C534-closer count: {'1OVL_A': 36, '1OVL_B': 34, '1OVL_C': 36, '1OVL_D': 15, '1OVL_E': 20, '1OVL_F': 36, '7WNH_A': 36, '7WNH_B': 36, '7WNH_C': 36, '7WNH_D': 36}
+
+=== cells whose OPEN/CLOSED decision flips along the cutoff axis ===
+  vhl|M14@term_a_exemplar|aryl_direct committed flips at ['3.0', '3.4'] | experimental(any-frame) flips at ['3.0', '3.4']
+  vhl|M14@term_a_exemplar|aryl_branch_residue committed flips at ['3.0', '3.4'] | experimental(any-frame) flips at ['3.0', '3.4']
+  vhl|M14@term_a_exemplar|amide_direct committed flips at ['3.0', '3.4'] | experimental(any-frame) flips at ['3.0', '3.4']
+  vhl|M14@term_a_exemplar|dap_branch committed flips at ['2.6', '3.0', '3.4'] | experimental(any-frame) flips at ['2.6', '3.0', '3.4']
+  vhl|M14@term_a_exemplar|dab_branch committed flips at ['2.6', '3.0', '3.4'] | experimental(any-frame) flips at ['2.6', '3.0', '3.4']
+  vhl|M3@term_a_exemplar|dab_branch committed flips at [] | experimental(any-frame) flips at ['2.6']
+  vhl|M4@term_a_exemplar|dab_branch committed flips at [] | experimental(any-frame) flips at ['2.6']
+
+n cells whose closer identity changes along the cutoff axis: 22
+
+=== is the open-cell count monotone in the cutoff? ===
+[40, 42, 37, 42]

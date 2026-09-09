@@ -1,0 +1,27 @@
+GATE A: 300/300 modelled-NR4A2 competitor atom counts reproduce (expected 300/300)
+supplementary: committed NR4A2-opened rows reproduce per cutoff: 2.0 A 300/300, 2.6 A 300/300, 3.0 A 300/300, 3.4 A 300/300
+GATE B: observed {"NR4A1 C505": 8, "NR4A2 C534": 34, "none": 18} over 60 cells; expected {"NR4A1 C505": 8, "NR4A2 C534": 34, "none": 18} over 60
+control: recomputed primary cells vs committed corridor cells — 0 field mismatches
+frame 1OVL_A: 226 res, ident 1.000, core_rmsd 1.64 A, cys C465,C475,C505,C534,C566  [6s]
+frame 1OVL_B: 233 res, ident 1.000, core_rmsd 1.72 A, cys C465,C475,C505,C534,C566  [9s]
+frame 1OVL_C: 223 res, ident 1.000, core_rmsd 1.58 A, cys C465,C475,C505,C534,C566  [12s]
+frame 1OVL_D: 228 res, ident 1.000, core_rmsd 1.55 A, cys C465,C475,C505,C534,C566  [14s]
+frame 1OVL_E: 247 res, ident 1.000, core_rmsd 1.57 A, cys C465,C475,C505,C534,C566  [17s]
+frame 1OVL_F: 220 res, ident 1.000, core_rmsd 1.52 A, cys C465,C475,C505,C534,C566  [20s]
+frame 7WNH_A: 309 res, ident 1.000, core_rmsd 1.77 A, cys C263,C266,C272,C280,C283,C299,C305,C315,C318,C323,C465,C475,C505,C534,C566  [30s]
+frame 7WNH_B: 313 res, ident 1.000, core_rmsd 1.69 A, cys C263,C266,C272,C280,C283,C299,C305,C315,C318,C323,C465,C475,C505,C534,C566  [39s]
+frame 7WNH_C: 313 res, ident 1.000, core_rmsd 1.97 A, cys C263,C266,C272,C280,C283,C299,C305,C315,C318,C323,C465,C475,C505,C534,C566  [48s]
+frame 7WNH_D: 316 res, ident 1.000, core_rmsd 1.78 A, cys C263,C266,C272,C280,C283,C299,C305,C315,C318,C323,C465,C475,C505,C534,C566  [57s]
+
+TALLY PER CUTOFF
+ 2.0 A: committed {"NR4A1 C505": 20, "NR4A2 C505": 2, "NR4A2 C534": 25, "none": 13} | n_open 40 | exp n_open range [37, 38] | exp C534-closer range [25, 34]
+       cell-frame open/closed differences vs committed: 22
+ 2.6 A: committed {"NR4A1 C505": 13, "NR4A2 C465": 1, "NR4A2 C534": 29, "none": 17} | n_open 42 | exp n_open range [41, 42] | exp C534-closer range [26, 31]
+       cell-frame open/closed differences vs committed: 2
+ 3.0 A: committed {"NR4A1 C505": 8, "NR4A2 C534": 34, "none": 18} | n_open 37 | exp n_open range [37, 37] | exp C534-closer range [20, 36]
+       cell-frame open/closed differences vs committed: 0
+ 3.4 A: committed {"NR4A1 C505": 3, "NR4A2 C534": 39, "none": 18} | n_open 42 | exp n_open range [42, 42] | exp C534-closer range [15, 36]
+       cell-frame open/closed differences vs committed: 0
+
+FLIPS along the cutoff axis: open/closed in 7 cells; closer identity in 22 cells
+runtime 57.1 s
