@@ -1,0 +1,118 @@
+{
+ "validation": {
+  "uniform_dp_vs_analytic_L16": {
+   "dp": 2.628657966852188e-07,
+   "analytic": 2.628657966852188e-07,
+   "rel_err": 0.0
+  },
+  "uniform_dp_vs_analytic_L18": {
+   "dp": 2.0838342607021332e-08,
+   "analytic": 2.0838342607021332e-08,
+   "rel_err": 0.0
+  },
+  "uniform_dp_vs_analytic_L20": {
+   "dp": 1.610715116839856e-09,
+   "analytic": 1.610715116839856e-09,
+   "rel_err": 0.0
+  }
+ },
+ "rows": {
+  "n_oligo_rows": 160,
+  "n_screened": 157,
+  "n_screen_failed": 3,
+  "n_unique_sequences": 145,
+  "duplicate_sequence_count_conflicts": [],
+  "screen_failed_sequences": [
+   "GGCATATCGGAGTCATGACG",
+   "CGCAGGGCATATCATCAA",
+   "AGGGCATATCTTCATC"
+  ]
+ },
+ "censoring": {
+  "max_observed": 374,
+  "n_at_or_above_450_hitlist_rows": 0,
+  "max_hitlist_rows": 374
+ },
+ "summary": {
+  "observed_near_matches": {
+   "min": 0,
+   "median": 105,
+   "mean": 117.63,
+   "max": 374
+  },
+  "design_vs_shuffle_expectation_ratio": {
+   "_meaning": "chance expectation of the real design divided by the mean chance expectation of its own dinucleotide-preserving shuffles. 1.0 means the design's ORDER buys nothing at all against composition.",
+   "min": 0.963721957152095,
+   "median": 1.003884387770354,
+   "max": 1.0662414620415743
+  },
+  "observed_over_shuffle_baseline": {
+   "_meaning": ">1 means MORE off-target near-matches than a composition-matched random-order oligo would be expected to have; <1 means fewer.",
+   "min": 0.0,
+   "median": 0.4880987133857114,
+   "mean": 0.554,
+   "max": 2.7241161022698854,
+   "n_below_1": 126,
+   "n_at_or_above_1": 19,
+   "n": 145
+  }
+ },
+ "denominator_free_composition_test": {
+  "all_lengths": {
+   "n": 145,
+   "spearman_observed_vs_composition_expectation": 0.5703952561705554,
+   "spearman_observed_vs_gc_percent": -0.5059933917653465,
+   "r2_log_observed_on_log_composition_expectation": 0.8761416432067702,
+   "_reading": "r2 is the share of the spread in log(observed+1) that a composition-only chance model already accounts for."
+  },
+  "len16_only": {
+   "n": 122,
+   "spearman_observed_vs_composition_expectation": 0.3000806314361665,
+   "spearman_observed_vs_gc_percent": -0.48055076256198775,
+   "r2_log_observed_on_log_composition_expectation": 0.2650790014415074,
+   "_reading": "r2 is the share of the spread in log(observed+1) that a composition-only chance model already accounts for."
+  }
+ }
+}
+{
+ "_what": "The committed dinucleotide scramble controls must land AT the shuffled-oligo baseline built from their own reagent. If a control sits outside the central 95% of its reagent's shuffle ensemble, the baseline is mis-specified.",
+ "controls": [
+  {
+   "label": "control-1",
+   "reagent": "GGGCATATCATCAAAC",
+   "control": "GGGCATCAACATAATC",
+   "reagent_screened_in_deep500": true,
+   "control_screened_in_deep500": false,
+   "control_p_per_position": 3.404926071461806e-07,
+   "reagent_shuffle_ensemble_p_ci95": [
+    3.3863878765323135e-07,
+    3.450800999856113e-07
+   ],
+   "reagent_shuffle_ensemble_p_mean": 3.419462677646273e-07,
+   "control_percentile_in_reagent_shuffle_ensemble": 26.25,
+   "inside_central_95pc": true,
+   "reagent_observed_near_matches": 189,
+   "control_observed_near_matches": null
+  },
+  {
+   "label": "control-2",
+   "reagent": "GGGCATATCTTGTGTG",
+   "control": "GTATGTCATTGGCTGG",
+   "reagent_screened_in_deep500": true,
+   "control_screened_in_deep500": false,
+   "control_p_per_position": 2.8453265999391024e-07,
+   "reagent_shuffle_ensemble_p_ci95": [
+    2.750814987211103e-07,
+    2.879796891923512e-07
+   ],
+   "reagent_shuffle_ensemble_p_mean": 2.8135579805528476e-07,
+   "control_percentile_in_reagent_shuffle_ensemble": 86.75,
+   "inside_central_95pc": true,
+   "reagent_observed_near_matches": 62,
+   "control_observed_near_matches": null
+  }
+ ],
+ "verdict": "PASS_EXPECTATION_ARM",
+ "_observed_arm_status": "NOT RUNNABLE \u2014 the committed scramble controls were never screened transcriptome-wide. They carry only a local mature-parent duplex screen, so there is no observed off-target count for them to land at. The strong form of this check (observed control counts at the baseline) requires a screen that does not exist in this checkout and cannot be produced here: the deep500 screens are remote NCBI BLAST runs (blast_rid recorded per oligo) and this lane has no network and no local RefSeq RNA corpus."
+}
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/ASO-CHANCE-1/aso-offtarget-chance-baseline.json 203758 bytes
