@@ -1,0 +1,39 @@
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-SHARED-PATCHES-2026-09-08/SETTLED-IDENTITIES-2026-09-08.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-SHARED-PATCHES-2026-09-08/SETTLED-IDENTITIES-2026-09-08.md
+@@ -42,8 +42,34 @@
+ ## What the rebinding did and did not touch
+ 
+ **The MF1 main and SI carry no sha256 references at all** (measured: 0 occurrences of `sha256` or
+-`SHA256` in either file), so there was no stale identity embedded in the prose to rebind. Their bytes
+-are unchanged by the extraction — the extractor writes only the three `MF1-repair/` outputs.
++`SHA256` in either file), so there was no stale identity embedded in the prose to rebind.
++
++⛔ **CORRECTED 2026-09-09 (MF1 residual-2 R3) — the sentence that followed was false.** It read:
++*"Their bytes are unchanged by the extraction — the extractor writes only the three `MF1-repair/`
++outputs."* **The extractor writes FOUR outputs**, and the fourth is the SI itself:
++`MF1-quantitative-results.md`, `MF1-instrument-inventory.md`, `MF1-dependency-manifest.json` and
++`research/manuscripts/methods-record/degrader-methods-failure-record-SI.md`. All four are written by
++`main()` in `extract_mf1_inventory.py`; the SI write is the third `write_text` call in that function.
++The SI's bytes are therefore **not** unchanged by an extraction: it is generated output, and it
++carries a `DO-NOT-HAND-EDIT` banner for that reason.
++
++⭐ **What the retained bytes actually show, measured from the two commits themselves:** the SI moved
++40,004 B (`36fcdc3b…1cbf819`) at `f6107376c` to 41,072 B (`c4e2f1e9…02de18c` ) at `806ab2ecd`. The
++difference is **exactly four census-derived cells across three instrument rows** — `V11.result`,
++`V16.result`, `V16.scope_limit` and `V20.scope_limit` — the same four cells the parent's own
++four-cell source repair changed. The recorded values inside those cells are unchanged (*p* = 0.393
++and 0.747; **S = −0.1297 ± 0.3264 kcal/mol**); what was added is dated correction prose.
++
++⭐ **So the attribution is:** **parent RUN10**, the pre-settlement extraction, changed **both the
++inventory and the SI**. **Parent RUN13**, the settled extraction, **rebound the manifest** — the
++binding commit and the `bytes_match_head_blob` flags, 1-of-18-unbound to 0-of-18. The earlier
++correction on this page was right that RUN13 did not move the inventory, and wrong only in saying
++the SI was untouched.
++
++⛔ **Three real, separate, original executions are preserved and none is relabelled or merged:**
++author **RUN05**, parent **RUN10** and parent **RUN13**, each with its own original command, stdout,
++stderr and measured exit under `checks/`. No extraction was rerun to establish any of the above; it
++is read from the retained bytes of the two commits.
+ 
+ The only references to the **pre-settlement** inventory and manifest hashes live inside the MF1
+ residual author's own `IDENTITIES.md` and its `checks/05-…/identities-after.txt`. Those are

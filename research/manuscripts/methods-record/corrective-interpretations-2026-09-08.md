@@ -315,11 +315,14 @@ PRT3789 body was performed or is authorised.
   for the integrator to apply.
   ⭐ **Status update, 2026-09-08 (residual batch).** Those thirteen edits **were applied** by the parent
   integrator at commit `a6a21fc591d2451038cdf53449b91e3990d59cfb`, which changed seven files and
-  regenerated the instrument census and three views. ⛔ **Four current rows still carry the superseded
-  readings and are not closed by that commit** — the census `V16.scope_limit` and `V20.scope_limit`, the
-  census `V11.result` (*"NULL, adequately powered"*), and the roadmap dependency row that still says
-  *"with a quantified bound"* immediately before its withdrawal. A second, exact, **unapplied** patch set
-  for those four is filed at
-  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/` for the same
-  integrator. Until it is applied, **this file and the manuscript are the current reading** and those
-  four cells are the stale copies.
+  regenerated the instrument census and three views.
+  ⭐ **Further status update, 2026-09-09 (residual-2 batch).** The sentence that stood here — *"Four
+  current rows still carry the superseded readings and are not closed by that commit"* — is superseded.
+  The remaining four were applied by the same integrator at commit
+  `91609d30fdc672f4dbc9eb191e6342a7ddd4f61d`: census `V11.result` (which had read *"NULL, adequately
+  powered"*), census `V16.result`, census `V16.scope_limit`, census `V20.scope_limit`, together with the
+  removal of the roadmap dependency row's *"with a quantified bound"* clause, and the census was
+  regenerated from the corrected roadmap. Those cells now carry their own dated 2026-09-08 corrections at
+  source. ⛔ The second patch set filed at
+  `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/` is retained as the
+  historical proposal and **must not be reapplied**.

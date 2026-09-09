@@ -36,11 +36,40 @@ objects in either.**
 | record | what it said | status |
 |---|---|---|
 | the original independent final scientific review | **17** for the combined two-prefix census | ⛔ **wrong, and it is the origin of the error.** Its 17 is the first-prefix count generalised to both surveys. Left immutable. |
-| the focused post-repair verification (`FOCUSED-SCIENTIFIC-VERIFICATION-MF1.md`, R4) | identified the split and stated *"the SI's 18 is correct for the combined prefixes"* | ⭐ **correct** — this is the finding being implemented. |
-| the root adjudication memo (`MF1-focused-residual-root-adjudication-20260908.md`) | carried the correction, and separately transposed several reference/result pairs (see `BENCHMARK-FACTS.md`) | left **immutable**; the transposition is recorded, not edited. |
+| the **first** root adjudication of that review (**6,673 B**, in the final-review capsule) | carried the review's **17** forward as the combined count | ⛔ **also wrong, and it is a root error, not the focused report's.** Left immutable. |
+| the focused post-repair verification (`FOCUSED-SCIENTIFIC-VERIFICATION-MF1.md`, R4) | identified the split and stated *"the SI's 18 is correct for the combined prefixes"* | ⭐ **correct, and it is where the correction originates: 17 + 1.** ⛔ The focused report did **not** originate the 17-count error and must not be blamed for it. |
+| the **later** root residual memo `MF1-focused-residual-root-adjudication-20260908.md` (**6,819 B**, sha256 `ecb01e1c…23d677ce2`) | states the combined total as **18** | ⭐ **correct.** Left immutable. |
 | the manuscript, §9.4 (`M:702` in the pinned text) | *"finds **17** final per-leg readout records"* for the combined census | ⭐ **corrected in this batch.** |
 | corrective interpretation **C7** | *"17 `leg_result` records"* for the combined census | ⭐ **corrected in this batch**, with the original mistaken sentence quoted inside the erratum block so the supersession is visible at the record. |
 | the generated supplement, S1 covalent row | **18** | ⭐ **it was right all along** — the extraction sums the two survey counts (`n_leg = sum(...)`). The supplement is now also explicit about the split. |
+
+## ⭐ CORRECTED 2026-09-09 — the transposition is NOT the root memo's
+
+An earlier row of the table above said the root adjudication memo *"carried the correction, and
+separately transposed several reference/result pairs"*. ⛔ **That attribution was wrong and is
+withdrawn.** The measured position, which `BENCHMARK-FACTS.md` now states and which this file
+adopts:
+
+- The **6,819 B root residual memo** (sha256 `ecb01e1c…23d677ce2`) gives all five benchmark pairs
+  **in source order — reference first, then result** — and is **correct**.
+- The transposition was introduced **downstream**, in the derived **9,259 B**
+  `CONTRACT-MF1-R1-R5-residual-author.md` (sha256
+  `4f93302c8e335415e48ddf8b92ed0a4dab01d38306c313888233193e5d9e37e4`), which swapped the
+  "reference" and "result" column headings while copying the memo's values. That contract was
+  written by the integrating parent.
+- The corrected `BENCHMARK-FACTS.md` (8,278 B, sha256
+  `5c717270cfe1de723d5fa3faf044885a472b079cad544dd273abdbba3fbef4d8`) already carries this
+  repair, together with the withdrawal of the invalid symmetric-absolute-error argument and of the
+  invented quotations. ⭐ **That correction is accepted and is not redone here.**
+
+⛔ Three separate things, kept separate: (1) the **count-17 mistake**, which originates in the
+independent final review and was carried by the **first 6,673 B** root adjudication; (2) the
+**focused report's 17 + 1**, which is the correction; (3) the **later 6,819 B** root residual
+memo's **18**, which is right. None of these is the transposition, and the transposition is not any
+of these.
+
+⛔ No original record is edited by this correction. The review, both root memos, the focused report
+and the contract stay **immutable**; this dated note stands beside them.
 
 ## What the corrected count does and does not mean
 

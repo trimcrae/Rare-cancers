@@ -4,20 +4,45 @@
 WHAT THIS IS. New author extraction for the MF1 repair commissioned by the 2026-09-08 root
 adjudication of the independent final scientific review (report SHA-256
 f4a0aceec8fdea6a1da62de2dc36ef88637c6288c05f1cc7fc318b3c971b32be). It reads already-retained
-committed records and writes three derived displays plus a hash manifest. It is NOT a science
-producer: it runs no simulation, no docking, no co-fold, no fetch and no statistical re-analysis.
-Every number it prints is copied out of a named field of a named committed file, or is a count of
-records in one. Where the manuscript needs a classification that no single retained field supplies
+committed records and writes FOUR outputs — three derived displays and a hash manifest — one of
+which, the supplement, is written into the manuscript tree (see the output list below and the
+`main()` calls that write them). It is NOT a science producer: it runs no simulation, no docking,
+no co-fold, no fetch and no statistical re-analysis.
+
+⭐ NARROWED 2026-09-09 (residual-2 R5). An earlier version of this docstring claimed that *every*
+number printed is copied from a named field or counted at runtime. That overstated what the script
+implements. The accurate statement is:
+
+  • Most printed numbers ARE read at runtime from a named field of a named committed input, or are
+    a count of records in one (`sel[...]`, `census["instruments"][...]`, `len(...)`).
+  • THREE groups of printed numbers are AUTHORED CONSTANTS transcribed from retained evidence and
+    NOT parsed at runtime: (a) the E1 leg accounting literals `24` declared legs and `2` legs
+    excluded before execution, transcribed from `selectivity-sensitivity-control-prereg.md`
+    AMENDMENT 1 (`:26–31`) — only the admitted count `22` is read from `selcal-verdict.json`
+    (`n_legs_admitted`); (b) the benchmark values quoted inside the `CURRENT_SCOPE` prose for `V5`
+    (`+0.944`, `−0.599`, `1.543`, three replicates), transcribed from the census fields that the
+    same row also prints verbatim; (c) the `1/462` discreteness figure quoted in `CURRENT_SCOPE`
+    for `V11`, whose parsed twin is printed from `sel['design_floor']` in the results table.
+  • The binding that makes those transcriptions checkable is unchanged and is NOT weakened: every
+    source file named above is in `INPUTS`, so each is hashed into `MF1-dependency-manifest.json`
+    with its working-tree SHA-256, its git blob id and a `bytes_match_head_blob` comparison. A
+    reader checks an authored constant against the hashed source; the script does not check it.
+  • No new parser was added for R5. The existing author classification table stays labelled an
+    author classification.
+
+Where the manuscript needs a classification that no single retained field supplies
 (the four separated audit axes of finding F05), the classification table is written out in full
 below with the field it is read from, so a reader can check the mapping rather than trust it.
 
 Run:  python3 research/autonomy/.../MF1-repair/extract_mf1_inventory.py
-Outputs (into this script's own directory):
+FOUR outputs. Three into this script's own directory:
   MF1-quantitative-results.md     — the compact main results table
   MF1-instrument-inventory.md     — the per-instrument supplementary inventory (four axes)
   MF1-dependency-manifest.json    — path, bytes, SHA-256 and git blob id of every input read
-and, in the manuscript tree:
+and a FOURTH, in the manuscript tree:
   research/manuscripts/methods-record/degrader-methods-failure-record-SI.md
+⛔ The SI is a real output of this script, written by `main()` alongside the other three. Any
+statement that this extractor "writes only the three MF1-repair/ outputs" is false.
 """
 
 from __future__ import annotations
@@ -488,16 +513,25 @@ AXES: dict[str, dict[str, str]] = {
 # 2b · the AUTHOR-CURRENT claim scope (residual R1, added 2026-09-08)
 # ---------------------------------------------------------------------------
 # ⛔ WHY THIS EXISTS. The census `scope_limit` field was previously rendered as the supplement's
-# FINAL, reader-facing CLAIM-SCOPE column. For V5, V11, V16 and V20 that field still carries
-# statements the main text explicitly withdraws, so the generated supplement was republishing
-# withdrawn claims as current limits. The dependency is roadmap -> instrument-census.json ->
-# this extraction -> the inventory/SI, and the roadmap and census are shared, parent-owned
-# files: exact unapplied patches for them are filed under MF1-residual/patches/.
+# FINAL, reader-facing CLAIM-SCOPE column. When this table was written, that field for V5, V11,
+# V16 and V20 carried statements the main text explicitly withdraws, so the generated supplement
+# was republishing withdrawn claims as current limits. The dependency is roadmap ->
+# instrument-census.json -> this extraction -> the inventory/SI, and the roadmap and census are
+# shared, parent-owned files.
 #
-# ⭐ The fix that is inside this lane's control: the census string is retained but demoted to an
-# explicitly labelled SUPERSEDED HISTORICAL ANNOTATION column, and the operative claim-scope
-# column is this author-current table, each entry naming the source that governs it. Where no
-# override exists the census string IS the current scope and is carried unchanged.
+# ⭐ STATUS CORRECTED 2026-09-09 (residual-2 R2). The patches are no longer unapplied. The parent
+# integrator applied the four-cell repair at commit 91609d30fdc672f4dbc9eb191e6342a7ddd4f61d
+# (census V11.result, V16.result, V16.scope_limit, V20.scope_limit) after regenerating the census
+# from the corrected roadmap, and the earlier "exact unapplied patches are filed under
+# MF1-residual/patches/" note here is withdrawn as stale. Those filed patches are retained as the
+# historical record of what was proposed; they are NOT to be reapplied.
+#
+# ⭐ What this table now is: the AUTHOR-CURRENT claim-scope column, each entry naming the source
+# that governs it, printed beside the census `scope_limit` AS IT READS AT THE BOUND REVISION. The
+# adjacent column is no longer labelled a "superseded historical annotation" — at this revision
+# those census cells carry their own dated corrections, and the mere existence of an override
+# here does not make a census cell superseded. Where no override exists the census string IS the
+# current scope and is carried unchanged.
 # ⛔ No census, roadmap or original artifact byte is edited here.
 CURRENT_SCOPE: dict[str, str] = {
     "V5": "⛔ nothing is supported for the selectivity axis. The retained result is a **repeated "
@@ -547,6 +581,50 @@ def delink(text: str) -> str:
     return _LINK.sub(r"\1", text)
 
 
+# ---------------------------------------------------------------------------
+# 2c · the RESULT-DISPLAY EXCERPT (residual-2 R1, added 2026-09-09)
+# ---------------------------------------------------------------------------
+# ⛔ WHY THIS EXISTS. The census `result` field for `V5` ends with the fragment
+# ", ~34× the statistical uncertainty". The main text (§4.2), the author-current scope column and
+# the SI footer all state that this ratio is NOT carried forward, because the record does not
+# supply the estimand such a ratio would need. Printing the field verbatim in the result column
+# therefore republished, as a current result, the one quantity the same page says is omitted.
+#
+# ⭐ THE FIX, and its exact limits:
+#   • The displayed result cell for `V5` becomes an EXPLICITLY LABELLED SOURCE EXCERPT with that
+#     one fragment omitted. The label travels with the cell, so no reader can mistake the excerpt
+#     for the whole field.
+#   • The omitted fragment is disclosed verbatim, in the inventory header and in SI footer item 6,
+#     as a withdrawn quantity rather than a current one.
+#   • ⛔ NOTHING is edited at the source. `research/modalities/instrument-census.json` and the
+#     roadmap it is generated from keep the original string byte-for-byte, and that file is hashed
+#     into the manifest, so the full original remains retrievable from the named, bound source.
+#   • ⛔ NO replacement multiplier is computed, adopted or implied, and the scientific result is
+#     unchanged: reference **+0.944**, result **−0.599**, absolute error **1.543**, wrong sign in
+#     all three replicates all remain displayed exactly as recorded.
+RESULT_OMISSION: dict[str, str] = {
+    "V5": ", ~34× the statistical uncertainty",
+}
+
+#: How many omissions were actually applied in this run, reported on stdout so the run record shows
+#: whether the source still carried the fragment. This is a disclosure counter, not a guard.
+_OMISSIONS_APPLIED: list[str] = []
+_OMISSIONS_NOT_FOUND: list[str] = []
+
+
+def result_display(vid: str, raw: str) -> tuple[str, bool]:
+    """Return (cell text, is_excerpt) for the result column."""
+    frag = RESULT_OMISSION.get(vid)
+    if frag is None:
+        return raw, False
+    if frag not in raw:
+        _OMISSIONS_NOT_FOUND.append(vid)
+        return raw, False
+    _OMISSIONS_APPLIED.append(vid)
+    trimmed = raw.replace(frag, "")
+    return ("⭐ **SOURCE EXCERPT — one fragment omitted, see the header note:** " + trimmed), True
+
+
 def inventory_rows():
     census = load("research/modalities/instrument-census.json")
     routes = load("systems/graph/routes.json")
@@ -566,15 +644,17 @@ def inventory_rows():
         census_scope = delink(inst["scope_limit"])
         override = CURRENT_SCOPE.get(vid)
         note = GOVERNING_NOTE.get(vid)
+        result_cell, result_is_excerpt = result_display(vid, delink(inst["result"]))
         rows.append(dict(
             id=vid, instrument=delink(inst["instrument"]), member=member,
             census_class=inst["verdict_class"], **ax,
             known_answer=delink(inst["known_answer_test"]),
-            result=delink(inst["result"]),
+            result=result_cell,
+            result_is_excerpt=result_is_excerpt,
             current_scope=(override if override else census_scope),
             scope_is_override=bool(override),
-            historical_scope=(census_scope if override
-                              else "— (the census string is carried unchanged as the current scope)"),
+            census_scope_verbatim=(census_scope if override
+                                   else "— (the census string IS the current scope, above)"),
             source=(f"`instrument-census.json` → `instruments[id={vid}]`"
                     + (f"; corrective interpretation **{note}**" if note else "")),
         ))
@@ -600,32 +680,51 @@ def write_inventory(rows, n_support, n_failing, n_census) -> str:
            "⭐ **Two further columns are new on 2026-09-08 (residual R1).** *Known answer* and "
            "*result as recorded* are copied from the census's own `known_answer_test` and `result` "
            "fields, so the numbers behind each grade are visible instead of only its verdict word. "
-           "⛔ **And the CLAIM SCOPE column is now the author-current scope**, not the census "
-           "string: for `V5`, `V11`, `V16` and `V20` the census `scope_limit` still carries "
-           "readings the main text withdraws, so those strings are retained in a separate, "
-           "explicitly labelled **superseded historical annotation** column and the operative "
-           "column states the current limit. Rows with no override carry the census string "
-           "unchanged as their current scope. The governing dated corrective interpretation and "
-           "the exact source field are in the last column.", "",
+           "⛔ **And the CLAIM SCOPE column is the author-current scope**, not the census "
+           "string: for `V5`, `V11`, `V16` and `V20` the author-current reading is stated in the "
+           "operative column and the census `scope_limit` is carried verbatim beside it. Rows "
+           "with no override carry the census string unchanged as their current scope. The "
+           "governing dated corrective interpretation and the exact source field are in the last "
+           "column.", "",
+           "⭐ **CORRECTED 2026-09-09 (residual-2 R2) — the shared source cells WERE applied.** An "
+           "earlier version of this header said the four shared cells were still unapplied and "
+           "called the adjacent census column a *superseded historical annotation*. That is no "
+           "longer true and the label was wrong. The parent integrator applied the four-cell "
+           "repair at commit `91609d30fdc672f4dbc9eb191e6342a7ddd4f61d` — census `V11.result`, "
+           "`V16.result`, `V16.scope_limit` and `V20.scope_limit` — and regenerated the census "
+           "from the corrected roadmap. ⛔ The adjacent column is therefore **the census "
+           "annotation as it actually reads at the bound census revision**, not a withdrawn "
+           "quotation: at this revision `V16.scope_limit` and `V20.scope_limit` carry their own "
+           "dated 2026-09-08 corrections at source, and `V5.scope_limit` carries its dated F03 "
+           "correction. An author-current override existing for a row does **not** by itself make "
+           "the census cell superseded. Where the two differ the difference is one of scope and "
+           "detail, and both are shown so a reader can compare them.", "",
            "⚠ **Reading the locators.** A bare `:NNNN` inside a quoted cell is a line range in "
            "`research/manuscripts/nr4a3-program-map.md`, the document the census is generated "
-           "from. ⛔ Exact **unapplied** patches for the four shared cells named above are filed at "
-           "`research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`; "
-           "until the parent integrator applies them those census cells remain the stale copies "
-           "and this column is the current reading.", "",
+           "from.", "",
+           "⛔ **RESULT-COLUMN EXCERPT, 2026-09-09 (residual-2 R1).** The `V5` result cell is an "
+           "**explicitly labelled source excerpt**: the single fragment "
+           "*\u201c, ~34\u00d7 the statistical uncertainty\u201d* is omitted from the display "
+           "because the record does not supply the estimand such a ratio needs (corrective "
+           "interpretation **C5**). Everything else in that field is shown verbatim \u2014 "
+           "reference **+0.944**, result **\u22120.599**, absolute error **1.543**, wrong sign in "
+           "all three replicates. ⛔ No replacement multiplier is computed or adopted, and the "
+           "original field is **unedited at its source**: the full string remains in "
+           "`research/modalities/instrument-census.json`, which is hashed into "
+           "`MF1-dependency-manifest.json` and can be read there.", "",
            "| id | instrument | route list | census class | control type / availability | "
            "execution / eligibility | inferential outcome | known answer (census) | result as "
            "recorded (census) | reading note | ⛔ claim scope — AUTHOR-CURRENT 2026-09-08 | ⚠ "
-           "superseded historical annotation (verbatim census `scope_limit`) | source / governing "
+           "census `scope_limit` at the bound revision (verbatim) | source / governing "
            "correction |",
            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         scope = r["current_scope"]
         if r["scope_is_override"]:
-            scope = "⭐ **AUTHOR-CURRENT, supersedes the census cell:** " + scope
+            scope = "⭐ **AUTHOR-CURRENT reading:** " + scope
         cells = [f"**{r['id']}**", r["instrument"], r["member"], f"`{r['census_class']}`",
                  r["control"], r["execution"], r["outcome"], r["known_answer"], r["result"],
-                 r["note"], scope, r["historical_scope"], r["source"]]
+                 r["note"], scope, r["census_scope_verbatim"], r["source"]]
         out.append("| " + " | ".join(str(c).replace("\n", " ") for c in cells) + " |")
     out.append("")
     return "\n".join(out)
@@ -704,17 +803,27 @@ SI_FOOTER = """
 4. ⚠ **The first three axis columns are an author classification** of retained records, not fields of
    any single artifact. The mapping table is written out in the generating script so it can be checked.
 5. ⛔ **The claim-scope column is the author-current scope as of 2026-09-08, not a census quotation.**
-   For `V5`, `V11`, `V16` and `V20` the shared census `scope_limit` field still carries readings the main
-   text withdraws; those strings are retained verbatim in the adjacent **superseded historical
-   annotation** column so nothing is deleted, and exact unapplied patches for the shared census and
-   roadmap cells are filed at
-   `research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/patches/`. Rows without an
-   override carry the census string unchanged.
+   For `V5`, `V11`, `V16` and `V20` the author-current reading is stated in the operative column and the
+   census `scope_limit` is carried verbatim beside it. Rows without an override carry the census string
+   unchanged. ⭐ **CORRECTED 2026-09-09 (residual-2 R2):** the four shared source cells — census
+   `V11.result`, `V16.result`, `V16.scope_limit` and `V20.scope_limit` — **were applied** by the parent
+   integrator at commit `91609d30fdc672f4dbc9eb191e6342a7ddd4f61d` and the census was regenerated from
+   the corrected roadmap. The adjacent column is therefore the census annotation **as it reads at the
+   bound revision**, not a superseded historical quotation; an earlier footer said those cells were still
+   unapplied and labelled the column "superseded historical annotation", and both statements are
+   withdrawn here. An author-current override existing for a row does not by itself make the census cell
+   superseded.
 6. ⚠ **A `known answer` and a `result` cell are the register's own values, not a new verification.**
    They are copied from the census so a reader can judge each grade; no benchmark was rerun, no primary
    benchmark source was retrieved, and where the kind of a ± term is not established in the record it is
-   not named. The `V5` register phrase *"~34× the statistical uncertainty"* is not carried forward as a
-   quantity — see corrective interpretation C5.
+   not named. ⛔ **ONE LABELLED OMISSION, 2026-09-09 (residual-2 R1).** The `V5` result cell is an
+   explicitly labelled **source excerpt**: the fragment *", ~34× the statistical uncertainty"* is omitted
+   from the display, because the record does not supply the estimand such a ratio would need — see
+   corrective interpretation **C5**. The rest of the field is shown verbatim (reference **+0.944**,
+   result **−0.599**, absolute error **1.543**, wrong sign in all three replicates), **no replacement
+   multiplier is computed or adopted**, and the original field is **not edited at its source**: the full
+   string stands in `research/modalities/instrument-census.json`, which is hashed into
+   `MF1-dependency-manifest.json`. This is the only cell in the table from which anything is omitted.
 7. ⛔ **This supplement is not a gate result, an all-green report or a scientific clearance.** The
    retained check streams for this manuscript include failing runs, and none of them establishes closure.
 """
@@ -779,6 +888,11 @@ def main() -> int:
     print(f"inputs NOT bound to their HEAD blob: {n_unbound} of {len(manifest['inputs'])}")
     print(f"author-current scope overrides: {len(CURRENT_SCOPE)} "
           f"({', '.join(sorted(CURRENT_SCOPE))})")
+    print(f"result-display omissions applied: {len(_OMISSIONS_APPLIED)} of "
+          f"{len(RESULT_OMISSION)} declared"
+          + (f" ({', '.join(_OMISSIONS_APPLIED)})" if _OMISSIONS_APPLIED else "")
+          + (f"; declared but fragment NOT PRESENT in source: "
+             f"{', '.join(_OMISSIONS_NOT_FOUND)}" if _OMISSIONS_NOT_FOUND else ""))
     return 0
 
 
