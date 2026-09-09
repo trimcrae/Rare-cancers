@@ -1,0 +1,6 @@
+MCP tool call (PubMed server):
+
+  mcp__PubMed__get_full_text_article  {"pmc_ids": ["PMC4946242"]}
+
+Route: NCBI PMC full-text API via the PubMed MCP server. No direct HTTP fetch (proxy-refused here:
+CONNECT 403 / curl exit 56). No denied route reopened, reworded or proxied around.

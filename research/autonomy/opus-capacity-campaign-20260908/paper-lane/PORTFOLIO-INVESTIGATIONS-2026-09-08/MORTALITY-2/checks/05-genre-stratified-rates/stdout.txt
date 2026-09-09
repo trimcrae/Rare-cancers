@@ -1,0 +1,84 @@
+classifier_sha256_at_analysis_time: 9f00b7243bfb43fd4cba126144da712d93e143a62a7fba6ab3ad82cceb5be3a3
+
+== COMPOSITION (papers / death-cue sentences) ==
+case_report_or_series      EMC  18p (53%)   56s | OTH  26p (20%)   60s
+review_or_synthesis        EMC   2p (6%)    8s | OTH  23p (18%)   66s
+clinical_study             EMC   4p (12%)   12s | OTH  33p (26%)  169s
+laboratory_or_methods      EMC   5p (15%)   16s | OTH  19p (15%)   83s
+unclassified               EMC   5p (15%)   24s | OTH  27p (21%)   83s
+
+== strict_terminal_event ==
+  crude: EMC 4/116=0.0345 vs OTH 3/461=0.0065  Fisher p=0.03304
+  case_report_or_series      EMC   4/  56 (0.0714) | OTH   2/  60 (0.0333)  Fisher p=0.427227  emc_higher
+  review_or_synthesis        EMC   0/   8 (0.0000) | OTH   0/  66 (0.0000)  Fisher p=None  equal
+  clinical_study             EMC   0/  12 (0.0000) | OTH   0/ 169 (0.0000)  Fisher p=None  equal
+  laboratory_or_methods      EMC   0/  16 (0.0000) | OTH   0/  83 (0.0000)  Fisher p=None  equal
+  unclassified               EMC   0/  24 (0.0000) | OTH   1/  83 (0.0120)  Fisher p=1.0  emc_lower
+  exact stratified (5 strata): {"strata_used": 2, "T_observed": 4, "E_T_under_null": 3.1209, "p_one_sided_emc_higher": 0.378985, "p_two_sided_point_prob": 0.695251, "mantel_haenszel_odds_ratio": 1.7844, "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."}
+  case vs non-case:
+    case_report_or_series    EMC   4/  56 | OTH   2/  60  Fisher p=0.427227  emc_higher
+    all_other_genres         EMC   0/  60 | OTH   1/ 401  Fisher p=1.0  emc_lower
+  exact stratified (case vs non-case): {"strata_used": 2, "T_observed": 4, "E_T_under_null": 3.0267, "p_one_sided_emc_higher": 0.348887, "p_two_sided_point_prob": 0.455419, "mantel_haenszel_odds_ratio": 1.948, "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."}
+  standardisation: {"emc_rate_standardised_to_comparator_genre_mix": 0.00929, "weight_coverage": 1.0, "comparator_rate_standardised_to_emc_genre_mix": 0.01856, "weight_coverage_2": 1.0, "crude_emc_rate": 0.0345, "crude_other_rate": 0.0065}
+
+== shipped_has_mechanism_cue ==
+  crude: EMC 12/116=0.1034 vs OTH 16/461=0.0347  Fisher p=0.005748
+  case_report_or_series      EMC  10/  56 (0.1786) | OTH   4/  60 (0.0667)  Fisher p=0.087761  emc_higher
+  review_or_synthesis        EMC   0/   8 (0.0000) | OTH   2/  66 (0.0303)  Fisher p=1.0  emc_lower
+  clinical_study             EMC   1/  12 (0.0833) | OTH   6/ 169 (0.0355)  Fisher p=0.386538  emc_higher
+  laboratory_or_methods      EMC   0/  16 (0.0000) | OTH   2/  83 (0.0241)  Fisher p=1.0  emc_lower
+  unclassified               EMC   1/  24 (0.0417) | OTH   2/  83 (0.0241)  Fisher p=0.537088  emc_higher
+  exact stratified (5 strata): {"strata_used": 5, "T_observed": 12, "E_T_under_null": 8.4351, "p_one_sided_emc_higher": 0.075198, "p_two_sided_point_prob": 0.102132, "mantel_haenszel_odds_ratio": 2.2208, "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."}
+  case vs non-case:
+    case_report_or_series    EMC  10/  56 | OTH   4/  60  Fisher p=0.087761  emc_higher
+    all_other_genres         EMC   2/  60 | OTH  12/ 401  Fisher p=0.701769  emc_higher
+  exact stratified (case vs non-case): {"strata_used": 2, "T_observed": 12, "E_T_under_null": 8.5807, "p_one_sided_emc_higher": 0.088735, "p_two_sided_point_prob": 0.160461, "mantel_haenszel_odds_ratio": 2.1044, "note": "Exact conditional test; strata with an empty row or zero flagged sentences carry no information and are dropped (they contribute a degenerate distribution)."}
+  standardisation: {"emc_rate_standardised_to_comparator_genre_mix": 0.06129, "weight_coverage": 1.0, "comparator_rate_standardised_to_emc_genre_mix": 0.04627, "weight_coverage_2": 1.0, "crude_emc_rate": 0.1034, "crude_other_rate": 0.0347}
+
+== MISCLASSIFICATION SIMULATION ==
+{
+ "strict_terminal_event e=0.10 (measured case-report recall miss)": {
+  "n_sims": 2000,
+  "median_p_two_sided": 0.207401,
+  "p_2.5pct": 0.049763,
+  "p_97.5pct": 0.458371,
+  "frac_p_below_0.05": 0.0255,
+  "direction_counts": {
+   "emc_higher": 2000,
+   "emc_lower_or_equal": 0
+  }
+ },
+ "strict_terminal_event e=0.30 (measured overall disagreement rate)": {
+  "n_sims": 2000,
+  "median_p_two_sided": 0.04423,
+  "p_2.5pct": 0.019503,
+  "p_97.5pct": 0.207495,
+  "frac_p_below_0.05": 0.602,
+  "direction_counts": {
+   "emc_higher": 2000,
+   "emc_lower_or_equal": 0
+  }
+ },
+ "shipped_has_mechanism_cue e=0.10 (measured case-report recall miss)": {
+  "n_sims": 2000,
+  "median_p_two_sided": 0.034458,
+  "p_2.5pct": 0.007836,
+  "p_97.5pct": 0.165524,
+  "frac_p_below_0.05": 0.634,
+  "direction_counts": {
+   "emc_higher": 2000,
+   "emc_lower_or_equal": 0
+  }
+ },
+ "shipped_has_mechanism_cue e=0.30 (measured overall disagreement rate)": {
+  "n_sims": 2000,
+  "median_p_two_sided": 0.006637,
+  "p_2.5pct": 0.002166,
+  "p_97.5pct": 0.037111,
+  "frac_p_below_0.05": 0.9855,
+  "direction_counts": {
+   "emc_higher": 2000,
+   "emc_lower_or_equal": 0
+  }
+ }
+}

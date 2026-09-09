@@ -1,0 +1,86 @@
+RETURNED: count=1, one article object.
+
+identifiers: {"pmcid":"PMC4946242","pmid":"27418251","doi":"10.1186/s12885-016-2511-y"}
+title: "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraskeletal myxoid
+        chondrosarcoma and mesenchymal chondrosarcoma"
+source attribution: retrieved from PubMed / PubMed Central. DOI https://doi.org/10.1186/s12885-016-2511-y
+
+=============================================================================
+RETRIEVAL COMPLETENESS FOR THIS SERIES:  NARRATIVE ONLY -- NO TABLES, NO FIGURE LEGENDS
+=============================================================================
+*** THIS IS THE INCOMPLETE ONE OF THE THREE. ***
+RETURNED, and read:
+  - abstract (Background / Methods / Results / Conclusions / Trial registration)
+  - full narrative: Background; Methods (Patients; Treatment and assessments); Results; Discussion;
+    Conclusions; Abbreviations
+NOT RETURNED, and NOT read:
+  - ALL TABLES. Their in-text citations come through stripped to bare punctuation, exactly the
+    signature CARE-DELIVERY-2 recorded for bishop2019 and drilon2008:
+       "Clinical information of these subjects is presented in Table."
+       "The median PFS of the subjects with EMCS and MCS was 12.5 months ... (Table, Fig.)."
+       "Adverse drug reactions in the trabectedin group are shown in Table."
+  - ALL FIGURES AND ALL FIGURE LEGENDS. "Representative clinical course of both EMCS (subject No. 2)
+    and MCS (subject No. 3) cases with trabectedin treatment are shown in Figs.and." -- the figure
+    numbers and every legend are gone.
+  ==> The un-returned "Clinical information of these subjects" table is precisely the table that
+      would carry primary site, stage, prior treatment and any prior-surgery field for these five
+      subjects. IT WAS NOT RETRIEVED. THEREFORE THIS LANE ASSERTS NO ABSENCE FOR THIS SERIES for any
+      element that could live in that table. Those elements stay NOT_EXAMINED / UNKNOWN.
+  ==> Independent corroboration that this table is real and content-bearing: the repository's own
+      records (research/autonomy/receipts/CYC-0028-moriokat.json) show this paper's Table 2
+      "Summary of efficacy" was previously read from the PDF page raster and carries per-subject
+      PFS/OS with censoring flags. A "not printed" verdict from the narrative alone would have been
+      demonstrably wrong.
+
+-----------------------------------------------------------------------------
+VERBATIM PASSAGES RELIED ON (narrative only)
+-----------------------------------------------------------------------------
+
+[Methods / Patients -- what the 5 subjects are]
+"As the subjects of this sub-analysis, we adopted two EMCS subjects and three MCS subjects who had
+been allocated to the trabectedin group and three MCS subjects who had been allocated to the BSC
+group in the randomized phase 2 study."
+"eligible patients were pathologically diagnosed as a subtype of TRS ...; unresponsive or intolerable
+to the standard chemotherapy regimens; receiving no more than four prior chemotherapy regimens;
+disease progression according to [RECIST] version 1.1 confirmed by imaging during the 14 days before
+the enrollment"
+"The randomized phase 2 study was approved by the institutional review board at each institution."
+
+[Results -- denominators]
+"Between July 11, 2012 and Jan 20, 2014, 76 patients with TRS were enrolled in the randomized phase 2
+study, and the full analysis set consisted of 73 subjects. The number of subjects with EMCS and MCS
+was 2 (2.7 %) and 6 (8.2 %), respectively. Five subjects with EMCS and MCS were allocated to the
+trabectedin group, and 3 subjects with MCS were allocated to the BSC group."
+  ==> ONLY 2 OF THE 5 TRABECTEDIN SUBJECTS HAVE EMC. The other 3 have mesenchymal chondrosarcoma,
+      a different disease. Every value below mixes the two.
+
+[Results -- follow-up]
+"Median follow-up time of the randomized phase 2 study was 22.7 months, and 1 subject with MCS was
+still receiving treatment at the final data cutoff."
+  ==> This median follow-up is stated for THE WHOLE 73-SUBJECT PHASE 2 STUDY, not for the 5-subject
+      EMCS+MCS subset and not for the 2 EMC subjects. No subset-specific follow-up is printed in the
+      narrative.
+
+[Results -- time-to-event]
+"The median PFS of the subjects with EMCS and MCS was 12.5 months (95 % CI: 7.4-not reached) in the
+trabectedin group, while 1.0 months (95 % CI: 0.3-1.0 months) in MCS subjects of the BSC group
+(Table, Fig.). The six-month progression-free rate (PFR) was 100 % in the trabectedin group."
+"Median overall survival (OS) of EMCS and MCS subjects in the trabectedin group was 26.4 months
+(range, 10.4-26.4 months), and at the final data cutoff, two subjects were still alive."
+
+[Discussion -- the only surgical statement in the paper]
+"The basic treatment of EMCS is wide resection, and the benefit of chemotherapy or radiotherapy has
+never been established."
+  ==> A general statement about the disease. It is not a report of what was done to these subjects,
+      it names no margin and it counts nothing.
+
+-----------------------------------------------------------------------------
+TERM SCAN (a reading of the returned NARRATIVE, not an automated grep, and NOT a scan of the paper)
+-----------------------------------------------------------------------------
+"unplanned" / "inadvertent" / "whoops"  -- not present in the narrative.
+"margin" / "R0" / "R1" / "R2"           -- not present in the narrative.
+"referral" / "referred"                 -- not present. Institutions are referenced only as
+                                           "the institutional review board at each institution";
+                                           no institution is named and none is attributed to a
+                                           subject in the narrative.
+⛔ NONE OF THE ABOVE IS AN ABSENCE CLAIM ABOUT THIS PAPER. The tables were not retrieved.

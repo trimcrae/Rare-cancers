@@ -1,0 +1,5 @@
+# Check 07's grep matched one line -- inside the module docstring, i.e. the sentence saying the
+# rule never reads those fields, not code that reads them. This re-runs the audit against the
+# module's CODE only (docstrings and comments stripped by the tokenizer), so the pass condition
+# is unambiguous: zero matches in executable source.
+python3 - <<'PY'  (strip docstrings/comments, then grep)

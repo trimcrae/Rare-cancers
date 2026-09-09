@@ -1,0 +1,133 @@
+PASS  git reports NO change under CARE-DELIVERY-2, PUB-CARE-DELIVERY or emc-surgical-quality.json
+PASS  v2 input hash recorded in v3 matches the v2 file on disk
+PASS  same 17 series
+PASS  candidate_series still 17
+PASS  candidate_patients_sum still 1133
+PASS  per-series n untouched
+PASS  patients sum to 1133
+PASS  same 10 elements on every series
+PASS  exactly 20 status changes
+PASS  every status change is on one of the three trial series
+PASS  bishop2019 and drilon2008 rows carried through byte-identical
+PASS  no status change goes BACKWARD to NOT_EXAMINED
+PASS  _status_changes_made_by_v3 matches the recomputed diff
+PASS  morioka retrieval_completeness records NARRATIVE ONLY
+PASS  morioka has ZERO EXAMINED_NOT_PRINTED cells (tables were not returned)
+PASS  morioka moved only the two elements printed in its narrative
+PASS  martinbroto2020immunosarc1 retrieval_completeness records that tables came back
+PASS  martinbroto2020immunosarc1: every EXAMINED_NOT_PRINTED cell names the section read
+PASS  stacchiotti2013anthracycline retrieval_completeness records that tables came back
+PASS  stacchiotti2013anthracycline: every EXAMINED_NOT_PRINTED cell names the section read
+PASS  every series row now carries a retrieval_completeness field, for the five read series
+PASS  every changed cell records its v2_status and its reader
+PASS  surgical_margin_distribution/REPORTED n_series matches its list
+PASS  surgical_margin_distribution/REPORTED patients match its list
+PASS  surgical_margin_distribution/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  surgical_margin_distribution/EXAMINED_NOT_PRINTED patients match its list
+PASS  surgical_margin_distribution/NOT_EXAMINED n_series matches its list
+PASS  surgical_margin_distribution/NOT_EXAMINED patients match its list
+PASS  surgical_margin_distribution: buckets partition all 17 series
+PASS  surgical_margin_distribution: buckets partition all 1133 patients
+PASS  surgical_margin_distribution: every status is one of the three
+PASS  margin_definition_printed/REPORTED n_series matches its list
+PASS  margin_definition_printed/REPORTED patients match its list
+PASS  margin_definition_printed/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  margin_definition_printed/EXAMINED_NOT_PRINTED patients match its list
+PASS  margin_definition_printed/NOT_EXAMINED n_series matches its list
+PASS  margin_definition_printed/NOT_EXAMINED patients match its list
+PASS  margin_definition_printed: buckets partition all 17 series
+PASS  margin_definition_printed: buckets partition all 1133 patients
+PASS  margin_definition_printed: every status is one of the three
+PASS  stage_at_diagnosis_split/REPORTED n_series matches its list
+PASS  stage_at_diagnosis_split/REPORTED patients match its list
+PASS  stage_at_diagnosis_split/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  stage_at_diagnosis_split/EXAMINED_NOT_PRINTED patients match its list
+PASS  stage_at_diagnosis_split/NOT_EXAMINED n_series matches its list
+PASS  stage_at_diagnosis_split/NOT_EXAMINED patients match its list
+PASS  stage_at_diagnosis_split: buckets partition all 17 series
+PASS  stage_at_diagnosis_split: buckets partition all 1133 patients
+PASS  stage_at_diagnosis_split: every status is one of the three
+PASS  primary_site_distribution/REPORTED n_series matches its list
+PASS  primary_site_distribution/REPORTED patients match its list
+PASS  primary_site_distribution/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  primary_site_distribution/EXAMINED_NOT_PRINTED patients match its list
+PASS  primary_site_distribution/NOT_EXAMINED n_series matches its list
+PASS  primary_site_distribution/NOT_EXAMINED patients match its list
+PASS  primary_site_distribution: buckets partition all 17 series
+PASS  primary_site_distribution: buckets partition all 1133 patients
+PASS  primary_site_distribution: every status is one of the three
+PASS  median_follow_up/REPORTED n_series matches its list
+PASS  median_follow_up/REPORTED patients match its list
+PASS  median_follow_up/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  median_follow_up/EXAMINED_NOT_PRINTED patients match its list
+PASS  median_follow_up/NOT_EXAMINED n_series matches its list
+PASS  median_follow_up/NOT_EXAMINED patients match its list
+PASS  median_follow_up: buckets partition all 17 series
+PASS  median_follow_up: buckets partition all 1133 patients
+PASS  median_follow_up: every status is one of the three
+PASS  time_to_event_median/REPORTED n_series matches its list
+PASS  time_to_event_median/REPORTED patients match its list
+PASS  time_to_event_median/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  time_to_event_median/EXAMINED_NOT_PRINTED patients match its list
+PASS  time_to_event_median/NOT_EXAMINED n_series matches its list
+PASS  time_to_event_median/NOT_EXAMINED patients match its list
+PASS  time_to_event_median: buckets partition all 17 series
+PASS  time_to_event_median: buckets partition all 1133 patients
+PASS  time_to_event_median: every status is one of the three
+PASS  fitted_cox_coefficients/REPORTED n_series matches its list
+PASS  fitted_cox_coefficients/REPORTED patients match its list
+PASS  fitted_cox_coefficients/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  fitted_cox_coefficients/EXAMINED_NOT_PRINTED patients match its list
+PASS  fitted_cox_coefficients/NOT_EXAMINED n_series matches its list
+PASS  fitted_cox_coefficients/NOT_EXAMINED patients match its list
+PASS  fitted_cox_coefficients: buckets partition all 17 series
+PASS  fitted_cox_coefficients: buckets partition all 1133 patients
+PASS  fitted_cox_coefficients: every status is one of the three
+PASS  numbers_at_risk_row/REPORTED n_series matches its list
+PASS  numbers_at_risk_row/REPORTED patients match its list
+PASS  numbers_at_risk_row/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  numbers_at_risk_row/EXAMINED_NOT_PRINTED patients match its list
+PASS  numbers_at_risk_row/NOT_EXAMINED n_series matches its list
+PASS  numbers_at_risk_row/NOT_EXAMINED patients match its list
+PASS  numbers_at_risk_row: buckets partition all 17 series
+PASS  numbers_at_risk_row: buckets partition all 1133 patients
+PASS  numbers_at_risk_row: every status is one of the three
+PASS  treatment_setting_or_referral/REPORTED n_series matches its list
+PASS  treatment_setting_or_referral/REPORTED patients match its list
+PASS  treatment_setting_or_referral/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  treatment_setting_or_referral/EXAMINED_NOT_PRINTED patients match its list
+PASS  treatment_setting_or_referral/NOT_EXAMINED n_series matches its list
+PASS  treatment_setting_or_referral/NOT_EXAMINED patients match its list
+PASS  treatment_setting_or_referral: buckets partition all 17 series
+PASS  treatment_setting_or_referral: buckets partition all 1133 patients
+PASS  treatment_setting_or_referral: every status is one of the three
+PASS  unplanned_excision_defined/REPORTED n_series matches its list
+PASS  unplanned_excision_defined/REPORTED patients match its list
+PASS  unplanned_excision_defined/EXAMINED_NOT_PRINTED n_series matches its list
+PASS  unplanned_excision_defined/EXAMINED_NOT_PRINTED patients match its list
+PASS  unplanned_excision_defined/NOT_EXAMINED n_series matches its list
+PASS  unplanned_excision_defined/NOT_EXAMINED patients match its list
+PASS  unplanned_excision_defined: buckets partition all 17 series
+PASS  unplanned_excision_defined: buckets partition all 1133 patients
+PASS  unplanned_excision_defined: every status is one of the three
+PASS  surgical_margin_distribution REPORTED set unchanged from v2 (still the same 4 series)
+PASS  margin_definition_printed REPORTED set unchanged from v2
+PASS  the margin-scale split is carried through from v2 untouched
+PASS  no margin value or count anywhere in the three new rows
+PASS  treatment_setting examined set is the six with a real reading
+PASS  unplanned_excision examined set is the same six
+PASS  morioka is NOT in either examined set
+PASS  morioka is named in the residue
+PASS  treatment_setting verdict is still FALSE/refuted
+PASS  unplanned_excision verdict is still CONFIRMED and still bounded to an examined set
+PASS  v2's audit is carried through unmodified alongside v3's
+PASS  stacchiotti site counts sum to 11 in the recorded evidence
+PASS  stacchiotti stage counts sum to 11 in the recorded evidence
+PASS  martinbroto EMC dilution recorded (4 of 68)
+PASS  morioka EMC dilution recorded (2 of 5)
+PASS  no pooled EMC rate is computed anywhere in v3
+PASS  no digitisation or KM reconstruction is claimed
+PASS  the KM/IPD pilot is referenced only as closed/not reopened
+PASS  no efficacy, safety or clinical claim asserted
+
+131 passed, 0 failed

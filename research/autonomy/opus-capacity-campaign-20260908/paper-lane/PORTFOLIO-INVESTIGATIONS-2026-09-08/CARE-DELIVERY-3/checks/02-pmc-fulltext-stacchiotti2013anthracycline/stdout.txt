@@ -1,0 +1,102 @@
+RETURNED: count=1, one article object.
+
+identifiers: {"pmcid":"PMC3879193","pmid":"24345066","doi":"10.1186/2045-3329-3-16"}
+title: "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study"
+source attribution: retrieved from PubMed / PubMed Central. DOI https://doi.org/10.1186/2045-3329-3-16
+
+=============================================================================
+RETRIEVAL COMPLETENESS FOR THIS SERIES:  NARRATIVE + ALL THREE TABLES + FIGURE LEGENDS
+(the most complete of the three retrievals in this lane)
+=============================================================================
+RETURNED, and read:
+  - abstract (Background / Methods / Results / Conclusions)
+  - full narrative: Background; Methods (Patients selection; Pathology and molecular analysis;
+    Treatment; Clinical assessment; Statistical analysis); Results (Treatment; Pathology and
+    molecular analysis; Response); Discussion; Conclusions; Competing interests; Authors'
+    contributions
+  - TABLE 1 "Immunohistochemistry conditions" -- IN FULL
+  - TABLE 2 "Patient clinical characteristics and response evaluation" -- IN FULL, all 11 rows,
+    ALL COLUMNS, INCLUDING ITS FOOTNOTE
+  - TABLE 3 "Immunohistochemistry and FISH results" -- IN FULL
+  - FIGURE LEGENDS for Figures 1 and 2 -- returned (Figure 2's legend is only "Median PFS 8 months")
+NOT RETURNED, and NOT read:
+  - figure IMAGES. Figure 2 is the Kaplan-Meier PFS curve; its IMAGE and therefore any
+    numbers-at-risk row printed under it did NOT come through this route.
+  - no supplementary file is referenced by this paper.
+Absence statements for this series are scoped to: abstract + full narrative + Tables 1-3 + figure
+legends. This is a per-patient table for the whole cohort, so the scope is close to the whole paper.
+
+-----------------------------------------------------------------------------
+VERBATIM PASSAGES RELIED ON
+-----------------------------------------------------------------------------
+
+[Methods / Patients selection -- the setting]
+"We retrospectively identified 11 patients with progressive, metastatic, molecularly confirmed EMC
+treated with anthracycline-based chemotherapy at Fondazione IRCCS Istituto Nazionale Tumori, Milano
+and those included in the data-base of the Italian Rare Cancer Network, registered by other Italian
+institutions, from January 2001 to June 2013."
+"Pathological diagnosis was centrally reviewed in all cases by 2 expert pathologists (SP and APDT)
+and confirmed by the evidence of [NR4A3] rearrangement."
+
+[Results, opening -- cohort characteristics as printed in the narrative]
+"Eleven patients with measurable disease were treated with an anthracycline-based chemotherapy.
+Five patients with a previous diagnosis of EMC were not included in this series since diagnosis was
+not confirmed by the presence of [NR4A3] rearrangement. Ten patients were evaluable for response
+(in one case treatment was interrupted early due to toxicity). Main patient characteristics were:
+male/female 9/2, mean age 52 years, primary arising from soft tissue/bone 10/1, locally
+advanced/metastatic 1/10 (lung metastases in 10 cases), ECOG PS <=2: 11, anthracycline-based
+chemotherapy as front-line/further line: 10/1. Three patients underwent macroscopic complete surgery
+after treatment."
+
+[Results / Response -- follow-up and time-to-event]
+"Median OS was 30 months (range 10 mos-13 years). At a median follow-up of 30 months, the estimated
+OS at 10-year was 50%, with 2 patients dead at the time of the present analysis and one lost to
+follow-up. The median PFS for the entire group was 8 months (range 2-10), with 50% patients
+progression-free at 6 months (Figure)."
+"Three patients (patient 1/7/10, Table) underwent complete surgical resection after chemotherapy,
+with evidence of a new distant relapse after 24/12/24 months from surgery, respectively."
+
+[TABLE 2 "Patient clinical characteristics and response evaluation" -- ALL 11 ROWS, transcribed
+ from the returned flattened cells. Columns as printed: Patient ID | Gender | Age at time of
+ chemotherapy | Diagnosis | NR4A3 rearrangement | Site of primary tumor | Staging at time of initial
+ diagnosis | Site of relapse at the time of chemotherapy | RECIST evaluation | PFS]
+   1  F 48 EMC yes thigh   localized disease  abdomen, LN                     PR  7*
+   2  M 56 EMC yes thigh   localized disease  lung, LN                        PD  4
+   3  M 46 EMC yes thigh   local + lung       lung, LN                        PR  8
+   4  M 38 EMC yes leg     localized disease  lung, bone, liver, soft tissue  NV  2
+   5  M 55 EMC yes leg     localized disease  lung, LN, soft tissue           PR  8
+   6  F 64 EMC yes thigh   localized disease  lung                            SD  10
+   7  M 69 EMC yes buttock local + lung       buttock, lung                   PR  5*
+   8  M 55 EMC yes arm     local + lung       lung, LN                        SD  7
+   9  M 51 EMC yes thigh   localized disease  lung                            PD  4
+  10  M 52 EMC yes leg     localized disease  lung                            SD  5*
+  11  M 48 EMC yes sacrum  local + lung       lung                            PD  3
+  footnote: "*Patient treated with surgery after chemotherapy, censored at the time of surgical
+             resection"
+
+  Derived from Table 2 by counting the printed cells (arithmetic only, no modelling):
+    Site of primary tumor: thigh 5 (pts 1,2,3,6,9) | leg 3 (4,5,10) | buttock 1 (7) | arm 1 (8) |
+                           sacrum 1 (11).  Sum 5+3+1+1+1 = 11.
+    Staging at time of initial diagnosis: localized disease 7 (1,2,4,5,6,9,10) |
+                           local + lung 4 (3,7,8,11).  Sum 7+4 = 11.
+  Cross-check against the abstract's own summary ("site of primary: lower limb/other = 9/2"):
+    thigh 5 + leg 3 + buttock 1 = 9 lower limb; arm 1 + sacrum 1 = 2 other. Consistent.
+
+  ==> TABLE 2 IS THIS PAPER'S PER-PATIENT BASELINE TABLE AND IT WAS RETURNED IN FULL. It carries
+      NO margin status column, NO margin definition, NO prior/unplanned-excision column and NO
+      treating-institution column. It goes directly from "Staging at time of initial diagnosis" to
+      "Site of relapse at the time of chemotherapy": the primary surgical episode that every one of
+      the 7 patients staged "localized disease" must have had is not described anywhere.
+
+-----------------------------------------------------------------------------
+TERM SCAN (a reading of the returned text, not an automated grep)
+-----------------------------------------------------------------------------
+"unplanned" / "inadvertent" / "whoops"  -- none present.
+"margin"    -- not present. The only resection-quality wording in the paper is "macroscopic complete
+               surgery" / "complete surgical resection", used for the POST-chemotherapy resection of
+               3 patients, not for the primary operation and not on any R0/R1/R2 scale.
+"R0" / "R1" / "R2"  -- not present.
+"referral" / "referred"  -- not present as a patient attribute. The network wording ("Italian Rare
+               Cancer Network, registered by other Italian institutions"; Discussion: "rare cancer
+               networks represent a valuable tool in order to collect case series") is cohort-level;
+               no patient in Table 2 is attributed to an institution.

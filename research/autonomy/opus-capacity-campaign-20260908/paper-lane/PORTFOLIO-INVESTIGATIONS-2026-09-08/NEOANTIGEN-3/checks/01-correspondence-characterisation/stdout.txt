@@ -1,0 +1,42 @@
+NEOANTIGEN-3  correspondence + characterisation
+==============================================================================
+reference: 15 validated junction epitopes, 5 sequenced non-junction negative controls, 12 other sequenced records
+query:     174 distinct junction peptides, 11 ranked predicted binders
+
+PART A - correspondence (each arm reported separately)
+------------------------------------------------------------------------------
+junction_peptides_174__vs__validated_junction_epitopes_15      exact=0 substring=0 isobaric_exact=0 isobaric_substring=0
+junction_peptides_174__vs__non_junction_negative_controls      exact=0 substring=0 isobaric_exact=0 isobaric_substring=0
+junction_peptides_174__vs__other_sequenced_records             exact=0 substring=1 isobaric_exact=0 isobaric_substring=0
+      substring          SQQSSSYGQQN ~ SQQSSSYGQQ (E38 EWSR1::FLI1 / EWSR1::ERG / E)
+predicted_binders_11__vs__validated_junction_epitopes_15       exact=0 substring=0 isobaric_exact=0 isobaric_substring=0
+predicted_binders_11__vs__non_junction_negative_controls       exact=0 substring=0 isobaric_exact=0 isobaric_substring=0
+predicted_binders_11__vs__other_sequenced_records              exact=0 substring=0 isobaric_exact=0 isobaric_substring=0
+
+PART B - characterisation
+------------------------------------------------------------------------------
+VALIDATED n=15  lengths {9: 11, 10: 2, 11: 2}
+  alleles {'HLA-A*02:01': 5, 'HLA-B*07:02': 3, 'HLA-C*04:01': 2, 'HLA-A*24:02': 2, 'HLA-B*40:01': 1, 'HLA-C*12:03': 1, 'HLA-A*68:02': 1}
+  loci {'A': 8, 'B': 4, 'C': 3}
+  C-terminal residues {'V': 3, 'L': 3, 'T': 2, 'K': 2, 'M': 1, 'C': 1, 'A': 1, 'S': 1, 'F': 1}
+  breakpoint position stated/derivable for 4 of 15:
+    E01  SSKALQRPV   3|6  (stated)
+    E19  EIFDRYGEEV  9|1  (derived)
+    E20  IFDRYGEEV   8|1  (derived)
+    E21  RYGEEVKEF   5|4  (stated)
+    UNKNOWN: E09, E10, E11, E12, E13, E14, E15, E16, E18, E25, E26
+REPO predicted: 174 distinct peptides (190 instances over 5 junctions)
+  lengths {8: 40, 9: 45, 10: 50, 11: 55}
+  donor residues {0: 20, 1: 20, 2: 20, 3: 20, 4: 20, 5: 20, 6: 20, 7: 20, 8: 15, 9: 10, 10: 5}
+  acceptor residues {0: 20, 1: 20, 2: 20, 3: 20, 4: 20, 5: 20, 6: 20, 7: 20, 8: 15, 9: 10, 10: 5}
+  instances containing the hybrid seam residue: 190/190
+  C-terminal source {'acceptor': 170, 'seam': 20}
+  ranked binders: lengths {9: 3, 10: 3, 11: 5} alleles {'HLA-A*01:01': 4, 'HLA-B*07:02': 3, 'HLA-B*15:01': 2, 'HLA-B*35:01': 1, 'HLA-B*44:02': 1}
+ALLELE PANEL
+  validated allotypes in the predictor panel: ['HLA-A*02:01', 'HLA-A*24:02', 'HLA-B*07:02']
+  validated allotypes NOT in the panel:       ['HLA-A*68:02', 'HLA-B*40:01', 'HLA-C*04:01', 'HLA-C*12:03']
+  validated epitope-allele pairs on-panel 10 / off-panel 5
+  HLA-C in panel [] ; HLA-C in validated set ['HLA-C*04:01', 'HLA-C*12:03']
+  panel allotypes with ZERO ranked binders: ['HLA-A*02:01', 'HLA-A*03:01', 'HLA-A*11:01', 'HLA-A*24:02', 'HLA-B*08:01']
+
+wrote neoantigen3-correspondence.json

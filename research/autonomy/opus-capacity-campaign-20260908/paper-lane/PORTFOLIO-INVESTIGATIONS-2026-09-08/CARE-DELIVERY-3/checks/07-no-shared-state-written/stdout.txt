@@ -1,0 +1,41 @@
+=== git status --porcelain (whole tree) ===
+ M research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-2/
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MORTALITY-2/
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-3/
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/
+?? research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/
+
+=== this lane wrote ONLY under CARE-DELIVERY-3/ ? ===
+research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/FUSION-OUTPUT-2/
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MORTALITY-2/
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/NEOANTIGEN-3/
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/REPURPOSING-3/
+research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/
+(any path listed above was NOT written by this lane -- see note)
+
+=== shared artifacts: must be unmodified ===
+(empty above = untouched)
+
+=== HEAD (no commit, add or push by this lane) ===
+91798e2e8 FP three-pin maintenance: three dead pooled pins retired, three Agaram-only pins bound
+
+NOTE ON PRE-EXISTING WORKING-TREE STATE: ' M research/manuscripts/pinned-figures.json' and
+the untracked paper-lane/FP-three-pin-2026-09-09/ directory were ALREADY PRESENT when this
+lane started (observed in this lane's first command) and belong to another worker. This lane
+did not create, modify, stage or revert either.
+
+CORRECTION AND CLARIFICATION (this file is appended, not rewritten):
+The tree moved underneath this lane while it ran -- other campaign workers are active concurrently.
+At this lane's FIRST command the tree showed ' M research/manuscripts/pinned-figures.json' and an
+untracked paper-lane/FP-three-pin-2026-09-09/; by the time of this check that work had been
+COMMITTED by its own owner (HEAD 91798e2e8 "FP three-pin maintenance"), and five other lane
+directories plus one modified manuscript had appeared.
+
+OF THE PATHS LISTED, THIS LANE CREATED EXACTLY ONE: .../CARE-DELIVERY-3/. Every other path belongs
+to a concurrent worker; this lane did not create, modify, stage, revert or read-lock any of them.
+The load-bearing line is the "shared artifacts" section above, which is EMPTY: research/modalities
+(the emc-surgical-quality.json this lane's diff targets), systems/, research/literature, and both
+predecessor lane directories are untouched. No git add, commit, push or preflight was run.

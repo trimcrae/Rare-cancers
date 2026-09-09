@@ -1,0 +1,117 @@
+UNAPPLIED. Prepared by lane CARE-DELIVERY-3, 2026-09-09. NOT applied by this worker:
+research/modalities/emc-surgical-quality.json is another paper's curation artifact and outside this
+lane's write scope (SHARED-CONTRACT.md, Ownership and storage).
+
+THIS SUPERSEDES AND SUBSUMES the diff prepared by lane CARE-DELIVERY-2, which itself superseded
+PUB-CARE-DELIVERY's. It is written against the CURRENT UNPATCHED working tree, so it is the only
+diff that needs applying; do not apply CARE-DELIVERY-2's first. Everything CARE-DELIVERY-2 proposed
+is carried through here unchanged except where noted below.
+
+WHAT IS NEW AT v3. CARE-DELIVERY-2 left three systemic-therapy trial series UNKNOWN for both
+fields. All three were retrieved this session through the PubMed MCP server. TWO came back with
+their COMPLETE BASELINE TABLES and are now examined; the THIRD came back narrative-only and is
+deliberately NOT counted.
+
+  martinbroto2020immunosarc1  PMC7674086  DOI 10.1136/jitc-2020-001561
+      returned: narrative + Tables 1-3 in full + all three figure legends.
+      not returned: the supplementary appendix; figure images.           -> EXAMINED
+  stacchiotti2013anthracycline PMC3879193 DOI 10.1186/2045-3329-3-16
+      returned: narrative + Tables 1-3 in full, including the per-patient Table 2 (all 11 rows)
+      + figure legends.  not returned: figure images.                    -> EXAMINED
+  morioka2016trabectedin      PMC4946242  DOI 10.1186/s12885-016-2511-y
+      returned: narrative ONLY. ALL tables and ALL figure legends were dropped by the route; the
+      in-text pointer to the table that would carry these fields comes through as bare punctuation
+      ("Clinical information of these subjects is presented in Table.").
+      -> STAYS UNKNOWN. NOT counted in either examined set. A retrieval limit is not a reporting
+         absence, and this one is demonstrably not: the repository's own receipt
+         research/autonomy/receipts/CYC-0028-moriokat.json records that this paper's Table 2 was
+         previously read from the PDF page raster and is content-bearing.
+
+NET EFFECT ON THE TWO CLAIMS:
+  treatment_setting  -- UNCHANGED in verdict. Still FALSE (refuted by bishop2019 at v2). What
+      changes is the examined set (4 -> 6) and a sharpened structural statement: of six examined
+      series, five hold the setting constant or omit it and exactly one resolves it per patient.
+  unplanned_excision -- SURVIVES at six examined series instead of four, and the diff now records
+      that the reason for the absence DIFFERS by series type: design-inherent in a second-line
+      systemic-therapy trial, a reporting choice in a retrospective series. No new proxy was found;
+      bishop2019's remains the best available and is still only a proxy.
+
+It changes NO count, NO margin distribution and NO measured value. `counts.series` (2) and
+`counts.operated_patients_with_a_margin_recorded` (196) are untouched: none of the three trial
+series is curated into this artifact's `series` array, and none of them prints a margin at all.
+No line below adds, removes or alters a number in this file.
+
+⛔ It asserts no clinical, efficacy or safety claim, and no association between treatment setting,
+referral, excision planning and any EMC outcome. Recording a field is not measuring an effect.
+⛔ It does NOT make PUB-CARE-DELIVERY writable. That endpoint's publish decision is recorded "no"
+and BLK-NO-FIELD-ATTENTION-MEASUREMENT is unresolved; neither is touched or reopened here.
+⛔ No KM curve was digitised and the closed KM/IPD admissibility pilot is not reopened.
+
+Evidence: .../CARE-DELIVERY-3/checks/01-, 02-, 03- (the three retrievals, verbatim passages and
+per-series completeness) and care-delivery-element-coverage-v3.json (element-by-element record,
+131/131 validator assertions passing).
+
+Verified: the patched file parses as JSON and `git apply --check` returns 0 against the current
+working tree (checks/06-dryrun-diff/).
+
+--- a/research/modalities/emc-surgical-quality.json
++++ b/research/modalities/emc-surgical-quality.json
+@@ -174,20 +174,53 @@
+     "⛔_no_intervals_at_R2": "n = 2, and the paper prints NA rather than a rate. Not computed."
+   },
+   "treatment_setting": {
+-    "recorded_in_any_reachable_series": false,
+-    "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator. One does not report the exposure and the other holds it constant, so neither can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
+-    "what_would_answer_it": "A series that reports where each patient was first operated, or a registry linkage carrying centre volume. Neither exists among the reachable open-access EMC literature (emc-km-reachability-census-2026-08-25.json)."
++    "recorded_in_the_series_examined_for_this_field": true,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020", "bishop2019", "drilon2008", "martinbroto2020immunosarc1", "stacchiotti2013anthracycline"],
++    "⚠_examined_set_widened_2026-09-09": "CARE-DELIVERY-3 read the three systemic-therapy trial series that CARE-DELIVERY-2 left UNKNOWN. TWO of them are now examined: martinbroto2020immunosarc1 (PMC7674086, the IMMUNOSARC STS cohort, DOI 10.1136/jitc-2020-001561) and stacchiotti2013anthracycline (PMC3879193, DOI 10.1186/2045-3329-3-16), each retrieved WITH ITS COMPLETE BASELINE TABLE. The third, morioka2016trabectedin (PMC4946242, DOI 10.1186/s12885-016-2511-y), came back NARRATIVE ONLY -- its tables were dropped by the route -- so it stays UNKNOWN and is deliberately NOT counted in this examined set. Audit: research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json",
++    "⚠_scope_correction_and_refutation_2026-09-08": "This field previously read `recorded_in_any_reachable_series: false`. That universal claim is now FALSE, not merely over-scoped. bishop2019 (n = 41, PMC7771031, MD Anderson, 1990-2016) prints a per-patient record of where each patient was first operated: 'Twenty-seven patients (66%) presented to MDACC with gross disease, whereas 14 patients (34%) presented after an outside excision had already been performed, of which 12 patients had a positive/uncertain margins and 2 had negative margins' (RESULTS / Treatment). That is exactly what the previous `what_would_answer_it` asked for. Read from the PMC full text through the NCBI PMC full-text API on 2026-09-08/09. Audit: research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json",
++    "series_that_report_it": {
++      "bishop2019": {
++        "granularity": "per patient",
++        "first_operation_inside_the_specialist_centre": 27,
++        "first_operation_outside_before_referral": 14,
++        "of": 41,
++        "margin_at_referral_for_the_14": {"positive_or_uncertain": 12, "negative": 2},
++        "cohort_setting": "A single specialist sarcoma centre throughout -- 'All diagnoses were confirmed at the time of presentation by sarcoma pathologists at MDACC' and 'Patients are typically presented at a multidisciplinary tumor board' (MATERIAL AND METHODS).",
++        "⛔_it_still_does_not_answer_the_route_question": "The exposure is a two-level in/out-of-centre split inside one centre's referred population, with no comparator arm and no centre-volume variable. It records the field; it cannot show that referral-centre care changes EMC outcomes, and no such association is asserted anywhere in this artifact."
++      }
++    },
++    "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator; drilon2008 is the same shape as Chiusole -- 'a retrospective series of patients from 2 large referral centers' (Memorial Sloan-Kettering and the Royal Marsden), a cohort-level constant with no per-patient referral status in the narrative text. One does not report the exposure and three hold it constant, so none of those four can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
++    "what_would_answer_it": "A series that reports where each patient was first operated AND follows both groups to outcome, or a registry linkage carrying centre volume. bishop2019 supplies the first half in a reachable series; no reachable series supplies the second. Of the six series now examined for this field, FIVE hold the setting constant or omit it and exactly ONE (bishop2019) resolves it per patient. One further reachable series (morioka2016trabectedin) carries no usable reading and is UNKNOWN, not absent.",
++    "⭐_how_the_field_is_reported_where_it_is_reported": "Per patient in exactly one series. In the other five it is a COHORT-LEVEL CONSTANT: chiusole2020 (referral-centre care throughout); drilon2008 ('a retrospective series of patients from 2 large referral centers', Memorial Sloan-Kettering and the Royal Marsden); martinbroto2020immunosarc1 ('enrolled in eight centers in Spain and Italy with expertise in sarcoma care', with mandatory central pathology review before accrual); stacchiotti2013anthracycline ('at Fondazione IRCCS Istituto Nazionale Tumori, Milano and those included in the data-base of the Italian Rare Cancer Network, registered by other Italian institutions' -- two strata named, but its per-patient Table 2 carries no institution column, so no patient is attributable to either); and masunaga2025, which prints no centre at all. A constant exposure cannot be an exposure, so none of those five can answer the referral question however carefully it is curated.",
++    "⛔_scope_of_the_absence_half_of_this_entry": "RETRIEVAL COMPLETENESS IS NOT UNIFORM ACROSS THE EXAMINED SERIES AND IS RECORDED PER SERIES in the v3 audit. bishop2019 and drilon2008: abstract and narrative sections only -- TABLES, FIGURES AND LEGENDS WERE NOT READ. martinbroto2020immunosarc1: narrative plus Tables 1-3 in full plus all three figure legends; supplementary appendix NOT read. stacchiotti2013anthracycline: narrative plus Tables 1-3 in full (including the per-patient Table 2, all 11 rows) plus figure legends; figure IMAGES not read. Statements that a field is not printed are scoped to exactly what that series' own retrieval returned, and to nothing more."
+   },
+   "unplanned_excision": {
+-    "recorded_in_any_reachable_series": false,
++    "recorded_in_the_series_examined_for_this_field": false,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020", "bishop2019", "drilon2008", "martinbroto2020immunosarc1", "stacchiotti2013anthracycline"],
++    "⚠_examined_set_widened_2026-09-09": "CARE-DELIVERY-3 read the three systemic-therapy trial series that CARE-DELIVERY-2 left UNKNOWN. TWO of them are now examined: martinbroto2020immunosarc1 (PMC7674086, the IMMUNOSARC STS cohort, DOI 10.1136/jitc-2020-001561) and stacchiotti2013anthracycline (PMC3879193, DOI 10.1186/2045-3329-3-16), each retrieved WITH ITS COMPLETE BASELINE TABLE. The third, morioka2016trabectedin (PMC4946242, DOI 10.1186/s12885-016-2511-y), came back NARRATIVE ONLY -- its tables were dropped by the route -- so it stays UNKNOWN and is deliberately NOT counted in this examined set. Audit: research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-3/care-delivery-element-coverage-v3.json",
++    "⚠_scope_correction_2026-09-08": "This field previously read `recorded_in_any_reachable_series: false`. The finding SURVIVES but at a denominator of SIX examined series, not two, and it remains a claim about the examined set rather than about every reachable series. No examined series defines, names or counts an unplanned or inadvertent excision; the words 'unplanned', 'inadvertent' and 'whoops' appear in none of them. One further reachable series (morioka2016trabectedin) carries no usable reading and is UNKNOWN, not absent.",
++    "⭐_and_the_reason_for_the_absence_differs_by_series_type_2026-09-09": "For martinbroto2020immunosarc1 the absence is DESIGN-INHERENT, not a curation gap, and the reading shows it against the paper's complete Table 1 rather than inferring it from silence: eligibility is advanced STS progressing within 6 months, and the baseline set records prior SYSTEMIC exposure ('Median previous lines', 'Previous antiangiogenic lines') and resectability at diagnosis. The quality of a prior local excision is not a variable a second-line systemic-therapy trial collects, so no amount of further curation of trial reports of this shape will produce one. For stacchiotti2013anthracycline the absence is closer to a REPORTING CHOICE: it is a retrospective institutional and rare-cancer-network series whose per-patient Table 2 runs straight from 'Staging at time of initial diagnosis' to 'Site of relapse at the time of chemotherapy', so the primary operation that each of its 7 patients staged 'localized disease' must have had is never described -- not its margin, not its planning, not where it happened. ⛔ That is an absence in the paper only; nothing is claimed about what its source records hold.",
+     "candidate_proxies": {
+       "previous_surgery_yes": 18,
+       "previous_surgery_no": 153,
+       "excisional_biopsy": 10,
+       "biopsy_none": 19,
+       "is_the_thing": false,
++      "_source": "masunaga2025",
+       "⛔_why_not": "The paper lists 'previous surgery' among the fields extracted from the database and never defines it, while it DOES define R0/R1/R2 in the same sentence -- so the omission is visible rather than assumed. An excisional biopsy is a deliberate diagnostic act. Either could be an unplanned excision and neither is stated to be, so no unplanned-excision rate is computed from them."
+-    }
++    },
++    "⭐_the_best_available_proxy_is_now_bishop2019_not_masunaga2025": {
++      "field_as_printed": "presented after an outside excision had already been performed",
++      "n": 14,
++      "of": 41,
++      "margin_at_referral": {"positive_or_uncertain": 12, "negative": 2},
++      "section": "RESULTS / Treatment",
++      "is_the_thing": false,
++      "⭐_why_it_is_stronger": "It is anchored to a named institution rather than left undefined, and it carries an outcome-relevant covariate -- the margin found at referral -- which masunaga2025's 'previous surgery' field does not.",
++      "⛔_why_it_is_still_not_the_thing": "An outside excision may have been a correctly planned oncological resection performed elsewhere. The paper never states that any of the 14 was unplanned. No unplanned-excision rate is computed from it."
++    },
++    "what_would_answer_it": "A series that states, per patient, whether the first resection was performed without a preoperative sarcoma diagnosis or plan. None of the six series examined so far does, and no better proxy than bishop2019's was found in the two series added on 2026-09-09.",
++    "⛔_scope": "Same per-series reading scope as treatment_setting above. In particular: for martinbroto2020immunosarc1 and stacchiotti2013anthracycline this absence rests on having READ THEIR BASELINE TABLES IN FULL, which is stronger than the bishop2019/drilon2008 narrative-only absences; and morioka2016trabectedin is excluded from the examined set entirely because its tables were not returned. ⛔ A retrieval limit is never recorded here as a reporting absence."
+   },
+   "⛔_nothing_is_pooled": "The two series share neither era (1980-2018 against 2002-2022), setting (two referral centres against a national registry) nor denominator convention (Chiusole's is the 40 with the field recorded, not its 49 treated with curative intent). POLICY-evidence 2.1 requires comparable denominators and 2.3 refuses populations that may overlap. Each rate stands alone with its own Wilson interval and no combined figure is computed.",
+   "counts": {
