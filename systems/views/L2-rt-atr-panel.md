@@ -89,13 +89,13 @@ a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. W
 
 ## Where this route ends — the paper
 
-**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/dependency/emc-atr-collaborator-package.md)
+**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma](../../research/manuscripts/dependency/emc-atr-collaborator-package.md)
 
-`primary` · ◐ `drafted` · aimed at `experimental_proposal`
+`primary` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The costed panel design, its controls and its kill criteria — the half of the ATR question that no computation can supply.
 
-**The paper would claim:** Everything a group already running the FET-fusion DSB-recruitment assay would have to derive in order to add EMC as a fourth partner class is pre-built — constructs, controls, predicted outcomes and kill criteria fixed in advance — so the marginal cost of testing the assessment's prediction is the bench time and nothing else.
+**The paper would claim:** Reference-transcript models of sourced NR4A3 exon junctions yield auditable reading-frame and retained-RG descriptions, conditional on the assumed transcript-exon mapping, and specify five untested DSB-recruitment predictions; they do not establish an EMC DNA-repair defect or ATR-inhibitor response.
 
 ## Strategic timing — the wait equation
 

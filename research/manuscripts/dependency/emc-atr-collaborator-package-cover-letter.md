@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-ATR-COLLABORATOR-PACKAGE-COVER-LETTER
-title: "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions"
+title: "Cover letter — reading-frame constraints and retained RG content in NR4A3 fusion models of EMC"
 level: L3
 kind: memo
 status: live
@@ -32,7 +32,7 @@ article-processing charge is incurred.*
 
 **Date:** [DATE]
 
-**Re:** Submission of a Research Article — *"Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"*
+**Re:** Submission of a Research Article — *"Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma"*
 
 Dear Editor,
 
@@ -42,17 +42,22 @@ using accumulation of a GFP-tagged fusion protein at laser-induced double-strand
 the readout, and reports that recruitment tracks the dose of RGG-rich sequence retained from the FET
 partner. Extraskeletal myxoid chondrosarcoma, whose *NR4A3* fusions were not examined in that work,
 is the untested fourth transcription-factor-partner class in the argument. The manuscript compiles
-the reported EMC junctions from primary sources, translates them at the transcript rather than the
+the reported EMC junctions from published sources, primary reports and reviews alike, translates them
+at the transcript rather than the
 coding-sequence level, places EMC on the published dose axis, classifies the one non-FET 5' partner,
 and fixes five predictions with explicit falsifiers before any experiment is run.
 
 The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and the primary
 junction literature the paper compiles includes the counted EMC series published in this journal.
 Two results should interest the readership independently of the proposed assay. Retained EWSR1 RG
-dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two
-fusions in which the mechanism has been measured; and the type-2 junction carries 176 nucleotides of *NR4A3* 5'
-untranslated sequence in the EWSR1 reading frame, encoding 59 residues that the protein-level model
-in general use does not contain. The manuscript also documents, and corrects, an exon-numbering
+dipeptide counts place EMC's type 1 fusion at 8 of 30 and its type 2 fusion at 0 of 30. Type 1 is
+the commonest EWSR1::NR4A3 type in both series that typed EWSR1 subtypes. Type 2 is 1 of 15
+fusion-positive cases in Okamoto [9]; the retrieved Panagopoulos abstract [7] does not state a type-2
+count, so no count across the two series is available. The three reported EWSR1::ATF1 breakpoints span 0.000 to 0.267 of retained RG,
+which describes reported breakpoints rather than a measured range: recruitment was measured on a
+construct whose breakpoint the source does not state. And the type-2 junction places 177 nucleotides
+in the EWSR1 reading frame between the two moieties, one donated by EWSR1 across the seam and 176
+supplied by *NR4A3*, encoding 59 residues. The manuscript also documents, and corrects, an exon-numbering
 error in this programme's own earlier work that silently deleted the AF-1 domain and the first zinc
 finger from every emitted junction, because the correction is the reason every boundary here carries
 its provenance and its self-check.
@@ -60,7 +65,7 @@ its provenance and its self-check.
 The study is entirely computational. No experiment was performed, no reagent was made, no plasmid
 was built, and no patient, cell or animal was studied; there was no wet-laboratory work of any kind.
 Every sequence is computed from public reference transcripts and every breakpoint is quoted from a
-primary source, so no ethics approval was required. The manuscript asserts no efficacy, potency,
+published source. No claim of ethics approval, exemption or a consent waiver is made. The manuscript asserts no efficacy, potency,
 dose, safety, therapeutic window or clinical readiness for any agent in any disease.
 
 The honest principal limitation is the one section 6 puts at the centre: the class inheritance is
@@ -71,7 +76,7 @@ ordered.
 
 I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
 policy, and will link the preprint to the published version. I am the sole author, an unaffiliated
-independent researcher with no institutional address; no ORCID accompanies this submission. An AI
+independent researcher with no institutional address. My ORCID iD is 0000-0002-1823-1451. An AI
 research assistant was used in the analysis and drafting, which is disclosed in the manuscript; no
 AI tool is an author, and I take full responsibility for the content.
 
@@ -81,9 +86,9 @@ competing interests and received no funding.
 Should it help the editors, appropriate reviewer expertise would include fusion-gene structure and
 breakpoint annotation in sarcoma, FET-family fusion biology, and DNA damage response imaging.
 
-Thank you for considering this manuscript.
+With thanks for the editors' consideration of this manuscript.
 
-Yours sincerely,
+Sincerely,
 
 Tristan D. McRae
 Independent Researcher

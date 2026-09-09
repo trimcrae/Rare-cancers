@@ -216,6 +216,29 @@ PAPERS = {
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
+    "atr-panel-ask": {
+        "manuscript": "dependency/emc-atr-collaborator-package.md",
+        "references": None,
+        "tables": None,
+        "stamp_sources": (
+            "dependency/emc-atr-collaborator-package.md",
+            "figures/emc-atr-figure-provenance.json",
+            "figures/emc-fusion-frame-fig1.png",
+        ),
+        "figures": {},
+        "inline_images": True,
+        "layout": {"is_outgoing_file": True,
+                   "raster_full_width": True,
+                   "full_width_tables": ("Supplementary Table S3",)},
+        "journal": {
+            "article_type": "Research Article",
+            "section": "",
+            "preprint_note": "Not posted as a preprint and not submitted to or accepted by a "
+                             "journal. A sequence-analysis report with a pre-specified prediction "
+                             "set: no experiment was performed and no reagent was made.",
+        },
+        "out": "dependency/emc-atr-collaborator-package.pdf",
+    },
     #: ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS BUILDER ON 2026-08-25 (trimcrae: "The
     #: extended report is not a thing… Remove any checks requiring it from the gate"). It was
     #: `"aso"`, the 36,000-word research article, and it is no longer built, graded, hashed or
@@ -550,6 +573,9 @@ def provenance_line(paper, style):
     commit, dirty, date = build_provenance()
     what = {"journal": "typeset preview", "manuscript": "submission format",
             "preprint": "preprint", "supplementary": "supplementary information"}[style]
+    # A journal render used as the outgoing manuscript is labelled as a preprint.
+    if style == "journal" and (paper or {}).get("layout", {}).get("is_outgoing_file"):
+        what = "preprint"
     #: ⛔ A SUBMITTED PAPER DOES NOT CARRY ITS BUILD METADATA (reviewer read, 2026-08-20). The line
     #: is right for a document under internal review, where which commit rendered it is the
     #: question. On a manuscript going to an editor it is noise, and "tree not clean at build time"
@@ -1060,9 +1086,24 @@ def render_table(rows, label=None):
         line = line.strip()
         if line.startswith("|"):
             line = line[1:]
-        if line.endswith("|"):
+        if line.endswith("|") and not line.endswith("\\|"):
             line = line[:-1]
-        return [c.strip() for c in line.split("|")]
+        parts, buf, i = [], [], 0
+        while i < len(line):
+            if line[i] == "\\" and i + 1 < len(line) and line[i + 1] == "|":
+                buf.append("|")
+                i += 2
+                continue
+            if line[i] == "|":
+                parts.append("".join(buf))
+                buf = []
+                i += 1
+                continue
+            buf.append(line[i])
+            i += 1
+        parts.append("".join(buf))
+        return [c.strip() for c in parts]
+
 
     head, body = cells(rows[0]), [cells(r) for r in rows[2:]]
     # ⛔ A WIDE TABLE IN THE BODY OVERPRINTS THE COLUMN BESIDE IT (blind PDF screen, 2026-08-19,
@@ -2971,9 +3012,14 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     suffix, subject = FORMATS[style]
     other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
                              if style in ("journal", "preprint") else paper["out"])
+    # Keep the title and metadata consistent with a single outgoing PDF.
+    if (paper.get("layout") or {}).get("is_outgoing_file"):
+        suffix = ""
+        subject = ("Preprint manuscript, not peer reviewed. This file is the outgoing version "
+                   "of this text and the only rendering of it that is circulated.")
     plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
     meta = {
-        "/Title": f"{plain_title} {suffix}",
+        "/Title": f"{plain_title} {suffix}".strip(),
         "/Subject": subject.format(other=other),
         #: ⛔ THE DOCUMENT PROPERTIES ARE PART OF THE BLIND. A reviewer's PDF viewer shows /Author
         #: in a properties panel, so a redacted body under an /Author field naming the author is

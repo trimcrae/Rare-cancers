@@ -867,3 +867,17 @@ def test_an_absent_or_non_raster_image_fails_the_build():
                                  paper)
     with pytest.raises(SystemExit):
         bsp.inline_raster_images("![](../figures/emc-fusion-frame-fig1.png)", paper)
+
+
+def test_escaped_pipes_stay_in_their_table_cells():
+    rows = [
+        '| label | first | second | third | fourth |',
+        '| --- | --- | --- | --- | --- |',
+        r'| seam | LEFT\|RIGHT | A\|B | unchanged | C\|D |',
+    ]
+    rendered = bsp.render_table(rows)
+    cells = re.findall(r'<td[^>]*>(.*?)</td>', rendered, re.S)
+    assert len(cells) == 5
+    assert [re.sub(r'<[^>]+>', '', cell) for cell in cells] == [
+        'seam', 'LEFT|RIGHT', 'A|B', 'unchanged', 'C|D',
+    ]
