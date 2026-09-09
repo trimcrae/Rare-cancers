@@ -1,0 +1,24 @@
+== 1. seed stability, primary frame, 500 permutations each ==
+  seed 20260909   permuted concordance mean 0.4957 sd 0.0380 max 0.6143 | observed 0.6520 | p 0.002
+  seed 1          permuted concordance mean 0.5009 sd 0.0368 max 0.6196 | observed 0.6520 | p 0.002
+  seed 42         permuted concordance mean 0.4993 sd 0.0362 max 0.5889 | observed 0.6520 | p 0.002
+  seed 987654321  permuted concordance mean 0.5011 sd 0.0369 max 0.6290 | observed 0.6520 | p 0.002
+  seed 20260908   permuted concordance mean 0.5013 sd 0.0391 max 0.6136 | observed 0.6520 | p 0.002
+
+== 2. crowding: how many genes are as concordant and as strong as each lead ==
+  genome_wide_null keys: ['_the_statistic_is_the_panel_s_own', '_what', 'n_EMC', 'n_comparator', 'n_symbols_scored', 'n_symbols_with_a_probe', 'self_check', 't_distribution', '⚠_symbols_are_not_independent', '⚠_the_null_contains_real_signal', '⛔_this_is_not_a_multiplicity_correction']
+  per-platform scored frame sizes: 18697 14403
+  GFRA2   joint p(gene-resampling) 0.0394 -> approx   568 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  RET     joint p(gene-resampling) 0.0742 -> approx  1069 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  NDRG1   joint p(gene-resampling) 0.0882 -> approx  1270 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  EGFR    joint p(gene-resampling) 0.1114 -> approx  1604 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  NR4A3   joint p(gene-resampling) 0.1555 -> approx  2239 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  PRKDC   joint p(gene-resampling) 0.2483 -> approx  3576 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  SGK1    joint p(gene-resampling) 0.3828 -> approx  5514 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  XRCC5   joint p(gene-resampling) 0.3921 -> approx  5648 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  XRCC6   joint p(gene-resampling) 0.4408 -> approx  6349 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  ROS1    joint p(gene-resampling) 0.5197 -> approx  7486 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  GDNF    joint p(gene-resampling) 0.5452 -> approx  7853 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  HDAC3   joint p(gene-resampling) 0.5870 -> approx  8455 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  GFRA1   joint p(gene-resampling) 0.5986 -> approx  8622 of the 14403 genes readable on the smaller platform are at least this concordant and this strong
+  ALK     not readable on both platforms

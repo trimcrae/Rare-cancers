@@ -1,0 +1,174 @@
+{
+ "_lane": "ANDGATE-2",
+ "_continues": "PUB-ANDGATE/fusion-andgate-trans-competition.json",
+ "_compute": "CPU, pure stdlib, no GPU, no network, no external data",
+ "_no_arm2_ligand_exists": true,
+ "_conditional_bounding_model": "Evaluates the design assuming an arm-2 ligand with the paper's illustrative Kd2 EXISTS; it does not. No efficacy, selectivity, safety or window claim.",
+ "_no_value_guessed": "Every C_E is either a cited published measurement with its exact measured quantity named, or an explicitly labelled swept sensitivity point.",
+ "inputs": {
+  "Kd1_M": 9.999999999999999e-06,
+  "Kd2_M": 9.999999999999999e-05,
+  "EM_M": 0.001,
+  "free_ligand_M": 1e-06
+ },
+ "cis_only_window": 5.787,
+ "parent_lane_cis_only_window": 5.79,
+ "half_window_C_E_M": 9.999999999999999e-05,
+ "regime_bands": {
+  "negligible": "window retained >= 0.90",
+  "materially degraded": "0.20 < window retained < 0.90",
+  "fatal": "window retained <= 0.20 (includes window -> 1.0, selectivity gone)"
+ },
+ "literature_placement": [
+  {
+   "label": "E1 bulk nucleoplasm \u2014 endogenous EWS/FLI1, A673 Ewing sarcoma",
+   "C_E_M": 2e-07,
+   "source": "Chong et al. 2018, Science 361:eaar2555 (PMID 29930090, PMC6961784, doi:10.1126/science.aar2555)",
+   "measured_quantity": "intranuclear concentration of endogenously Halo-tagged EWS/FLI1 in A673 cells, ~200 nM, by fluorescence correlation spectroscopy and fluorescence-intensity calibration against purified fluorophore standards in live cells",
+   "conversion_assumptions": [
+    "NONE for concentration: this is a direct in-cell concentration, not a copy number, so no nuclear volume and no copy-number-to-molarity conversion is applied.",
+    "One EWSR1-LC arm-2 site per protein chain (n_sites = 1); the multiplicity sensitivity is swept separately below.",
+    "All of it free and engageable \u2014 an upper bound, since chromatin-bound, RNA-bound, complexed and self-associated LC is not engageable."
+   ],
+   "caveat": "This is the FUSION protein EWS/FLI1, which carries the EWSR1 LC, NOT wild-type EWSR1. Wild-type EWSR1 is a different species at an unmeasured (plausibly higher) abundance. Used as an order-of-magnitude ANCHOR for a FET-LC-bearing protein in the disease-relevant cell line, not as a measurement of C_E.",
+   "is_measurement_of_C_E": false,
+   "C_E_uM": 0.2,
+   "window": 5.776,
+   "window_retained_vs_cis_only": 0.9982,
+   "regime": "negligible"
+  },
+  {
+   "label": "E2 bulk nucleoplasm \u2014 FUS-family upper statement, HeLa",
+   "C_E_M": 4.9999999999999996e-06,
+   "source": "Wang et al. 2018, Cell 174:688 (PMID 29961577, PMC6063760, doi:10.1016/j.cell.2018.06.006)",
+   "measured_quantity": "the authors state that 5 uM 'in most cases ... lies above the physiological concentration in HeLa cells' of the 22 FUS-family proteins they assayed (a cited-literature statement in that paper, not a new measurement in it)",
+   "conversion_assumptions": [
+    "Read as a cellular-concentration UPPER BOUND for most FUS-family members including the FET proteins; the paper does not give a per-protein EWSR1 value.",
+    "Cellular concentration taken as nucleoplasmic concentration \u2014 assumes EWSR1 is predominantly nuclear and uniformly distributed within the nucleus. The second half of that assumption is exactly what condensate formation violates.",
+    "One arm-2 site per chain; all free and engageable."
+   ],
+   "caveat": "A family-level statement, not an EWSR1 number, and HeLa is not a fusion-bearing cell. Used as a bulk-regime CEILING.",
+   "is_measurement_of_C_E": false,
+   "C_E_uM": 5.0,
+   "window": 5.536,
+   "window_retained_vs_cis_only": 0.9567,
+   "regime": "negligible"
+  },
+  {
+   "label": "E2b scale check \u2014 FUS full-length saturation concentration in vitro",
+   "C_E_M": 2e-06,
+   "source": "Wang et al. 2018, Cell 174:688 (PMID 29961577, PMC6063760, doi:10.1016/j.cell.2018.06.006)",
+   "measured_quantity": "'The measured saturation concentration of full-length FUS is ~2 uM in 75 mM KCl' (in vitro, purified, tagged protein)",
+   "conversion_assumptions": [
+    "Used ONLY as a scale check on the physical argument that in a two-phase system the dilute-phase (free) concentration is pinned near c_sat, so a bulk free FET-LC concentration far above the low-micromolar scale is not self-consistent with these proteins' measured phase behaviour.",
+    "In vitro at 75 mM KCl with a purified tagged protein; the nucleus is not that buffer (RNA, crowding, PTMs, partners all shift c_sat).",
+    "FUS, not EWSR1."
+   ],
+   "caveat": "An in-vitro thermodynamic scale, not a cellular measurement. Chong 2018 separately report NO detectable phase separation of EWS/FLI1 at endogenous levels, i.e. that system sits BELOW its c_sat, which is consistent with a sub-micromolar to low-micromolar free pool.",
+   "is_measurement_of_C_E": false,
+   "C_E_uM": 2.0,
+   "window": 5.684,
+   "window_retained_vs_cis_only": 0.9822,
+   "regime": "negligible"
+  },
+  {
+   "label": "E3 intra-condensate \u2014 upper end of Chong's stated hub operating range",
+   "C_E_M": 9.999999999999999e-05,
+   "source": "Chong et al. 2018, Science 361:eaar2555 (PMID 29930090, PMC6961784, doi:10.1126/science.aar2555)",
+   "measured_quantity": "the paper's stated range of transcription-factor concentrations over which LCD-dependent transactivation hubs operate, '100 nM to 100 uM' (graphical abstract). NOTE: the retrieved PMC body text prints '100 nM to 100 mM' at the corresponding sentence \u2014 an internal inconsistency in the source as retrieved. The uM figure is used and the discrepancy is reported, not silently resolved.",
+   "conversion_assumptions": [
+    "Treats the upper end of a hub TF concentration range as a stand-in for local engageable EWSR1-LC site concentration inside a FET hub. That is a substitution across species and quantity, flagged as such.",
+    "One arm-2 site per chain."
+   ],
+   "caveat": "Not a measurement of wild-type EWSR1 inside a condensate. The lane's decisive intra-condensate quantity remains unmeasured; this point shows only WHERE on the curve a plausible hub concentration lands.",
+   "is_measurement_of_C_E": false,
+   "C_E_uM": 100.0,
+   "window": 3.156,
+   "window_retained_vs_cis_only": 0.5455,
+   "regime": "materially degraded"
+  }
+ ],
+ "arm2_site_multiplicity_sensitivity": [
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 1,
+   "C_E_uM": 0.2,
+   "window": 5.776,
+   "window_retained_vs_cis_only": 0.9982,
+   "regime": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 3,
+   "C_E_uM": 0.6,
+   "window": 5.755,
+   "window_retained_vs_cis_only": 0.9946,
+   "regime": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 10,
+   "C_E_uM": 2.0,
+   "window": 5.684,
+   "window_retained_vs_cis_only": 0.9822,
+   "regime": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 30,
+   "C_E_uM": 6.0,
+   "window": 5.489,
+   "window_retained_vs_cis_only": 0.9485,
+   "regime": "negligible"
+  },
+  {
+   "protein_concentration": "EWS/FLI1 anchor, 200 nM",
+   "n_arm2_sites_per_chain": 80,
+   "C_E_uM": 16.0,
+   "window": 5.061,
+   "window_retained_vs_cis_only": 0.8746,
+   "regime": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 1,
+   "C_E_uM": 5.0,
+   "window": 5.536,
+   "window_retained_vs_cis_only": 0.9567,
+   "regime": "negligible"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 3,
+   "C_E_uM": 15.0,
+   "window": 5.101,
+   "window_retained_vs_cis_only": 0.8814,
+   "regime": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 10,
+   "C_E_uM": 50.0,
+   "window": 4.033,
+   "window_retained_vs_cis_only": 0.697,
+   "regime": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 30,
+   "C_E_uM": 150.0,
+   "window": 2.63,
+   "window_retained_vs_cis_only": 0.4545,
+   "regime": "materially degraded"
+  },
+  {
+   "protein_concentration": "FUS-family HeLa ceiling, 5 uM",
+   "n_arm2_sites_per_chain": 80,
+   "C_E_uM": 400.0,
+   "window": 1.578,
+   "window_retained_vs_cis_only": 0.2727,
+   "regime": "materially degraded"
+  }
+ ],
+ "decisive_quantity_still_unmeasured": "No source retrieved measures the free engageable wild-type EWSR1-LC arm-2 site concentration, in bulk nucleoplasm or inside a condensate. No published small-molecule partition coefficient for a FET-family condensate was found. The bulk-regime placement rests on anchors from a related species (EWS/FLI1) and a protein family statement (HeLa FUS family)."
+}

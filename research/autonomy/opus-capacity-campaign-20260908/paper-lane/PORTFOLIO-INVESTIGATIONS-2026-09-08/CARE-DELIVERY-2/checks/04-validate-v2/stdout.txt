@@ -1,0 +1,80 @@
+PASS  v1 artifact untouched in the working tree (git diff clean)  git diff rc=0
+PASS  same series set as v1  
+PASS  same n per series as v1  
+PASS  17 candidate series  
+PASS  patient sum 1133  
+PASS  [surgical_margin_distribution] buckets partition 17 series  
+PASS  [surgical_margin_distribution] buckets partition 1133 patients  
+PASS  [margin_definition_printed] buckets partition 17 series  
+PASS  [margin_definition_printed] buckets partition 1133 patients  
+PASS  [stage_at_diagnosis_split] buckets partition 17 series  
+PASS  [stage_at_diagnosis_split] buckets partition 1133 patients  
+PASS  [primary_site_distribution] buckets partition 17 series  
+PASS  [primary_site_distribution] buckets partition 1133 patients  
+PASS  [median_follow_up] buckets partition 17 series  
+PASS  [median_follow_up] buckets partition 1133 patients  
+PASS  [time_to_event_median] buckets partition 17 series  
+PASS  [time_to_event_median] buckets partition 1133 patients  
+PASS  [fitted_cox_coefficients] buckets partition 17 series  
+PASS  [fitted_cox_coefficients] buckets partition 1133 patients  
+PASS  [numbers_at_risk_row] buckets partition 17 series  
+PASS  [numbers_at_risk_row] buckets partition 1133 patients  
+PASS  [treatment_setting_or_referral] buckets partition 17 series  
+PASS  [treatment_setting_or_referral] buckets partition 1133 patients  
+PASS  [unplanned_excision_defined] buckets partition 17 series  
+PASS  [unplanned_excision_defined] buckets partition 1133 patients  
+PASS  only bishop2019 and drilon2008 changed status  changed=['bishop2019', 'drilon2008']
+PASS  series_newly_read matches  
+PASS  [bishop2019.surgical_margin_distribution] has _was_in_v1  
+PASS  [bishop2019.surgical_margin_distribution] cites a section  
+PASS  [bishop2019.margin_definition_printed] has _was_in_v1  
+PASS  [bishop2019.margin_definition_printed] cites a section  
+PASS  [bishop2019.stage_at_diagnosis_split] has _was_in_v1  
+PASS  [bishop2019.stage_at_diagnosis_split] cites a section  
+PASS  [bishop2019.primary_site_distribution] has _was_in_v1  
+PASS  [bishop2019.primary_site_distribution] cites a section  
+PASS  [bishop2019.median_follow_up] has _was_in_v1  
+PASS  [bishop2019.median_follow_up] cites a section  
+PASS  [bishop2019.time_to_event_median] has _was_in_v1  
+PASS  [bishop2019.time_to_event_median] cites a section  
+PASS  [bishop2019.fitted_cox_coefficients] has _was_in_v1  
+PASS  [bishop2019.fitted_cox_coefficients] cites a section  
+PASS  [bishop2019.numbers_at_risk_row] has _was_in_v1  
+PASS  [bishop2019.treatment_setting_or_referral] has _was_in_v1  
+PASS  [bishop2019.treatment_setting_or_referral] cites a section  
+PASS  [bishop2019.unplanned_excision_defined] has _was_in_v1  
+PASS  [bishop2019.unplanned_excision_defined] cites a section  
+PASS  [bishop2019] every v1 status was NOT_EXAMINED except a known site row  
+PASS  [drilon2008.surgical_margin_distribution] has _was_in_v1  
+PASS  [drilon2008.surgical_margin_distribution] cites a section  
+PASS  [drilon2008.margin_definition_printed] has _was_in_v1  
+PASS  [drilon2008.margin_definition_printed] cites a section  
+PASS  [drilon2008.stage_at_diagnosis_split] has _was_in_v1  
+PASS  [drilon2008.stage_at_diagnosis_split] cites a section  
+PASS  [drilon2008.primary_site_distribution] has _was_in_v1  
+PASS  [drilon2008.primary_site_distribution] cites a section  
+PASS  [drilon2008.median_follow_up] has _was_in_v1  
+PASS  [drilon2008.median_follow_up] cites a section  
+PASS  [drilon2008.time_to_event_median] has _was_in_v1  
+PASS  [drilon2008.time_to_event_median] cites a section  
+PASS  [drilon2008.fitted_cox_coefficients] has _was_in_v1  
+PASS  [drilon2008.fitted_cox_coefficients] cites a section  
+PASS  [drilon2008.numbers_at_risk_row] has _was_in_v1  
+PASS  [drilon2008.treatment_setting_or_referral] has _was_in_v1  
+PASS  [drilon2008.treatment_setting_or_referral] cites a section  
+PASS  [drilon2008.unplanned_excision_defined] has _was_in_v1  
+PASS  [drilon2008.unplanned_excision_defined] cites a section  
+PASS  [drilon2008] every v1 status was NOT_EXAMINED except a known site row  
+PASS  bishop2019 margin 35+6 == 41  
+PASS  bishop2019 outside-excision 14 of 41, 27+14==41  
+PASS  bishop2019 referral-margin split 12+2==14  
+PASS  drilon2008 margin 24+12+7 == 43  
+PASS  treatment_setting verdict is FALSE  
+PASS  unplanned_excision verdict is CONFIRMED-at-wider-denominator  
+PASS  examined set is now 4  
+PASS  residue is the 3 systemic-therapy trial reports  
+PASS  treatment_setting REPORTED count is exactly 1 (bishop2019)  
+PASS  unplanned_excision REPORTED count is 0  
+PASS  margin scale split covers exactly the 4 REPORTED series  
+
+78/78 checks pass

@@ -1,0 +1,78 @@
+UNAPPLIED. Prepared by lane CARE-DELIVERY-2, 2026-09-08/09. NOT applied by this worker:
+research/modalities/emc-surgical-quality.json is another paper's curation artifact and outside this
+lane's write scope (SHARED-CONTRACT.md, Ownership and storage). This SUPERSEDES the diff prepared by
+lane PUB-CARE-DELIVERY, which narrowed both claims to the two examined series on the assumption that
+the wider set was UNKNOWN. Two of those series have since been READ, so the treatment_setting claim
+is not merely over-scoped -- it is FALSE -- and the unplanned_excision claim survives at a
+denominator of four rather than two.
+
+Evidence: PMC7771031 (bishop2019, DOI 10.1097/COC.0000000000000590) and PMC2779719 (drilon2008,
+DOI 10.1002/cncr.23978), full texts retrieved from PubMed Central through the PubMed MCP server on
+2026-09-08/09; see .../CARE-DELIVERY-2/checks/01- and 02-, and the element-by-element record in
+care-delivery-element-coverage-v2.json.
+
+It changes no count, no margin distribution and no measured value: `counts.series` (2) and
+`counts.operated_patients_with_a_margin_recorded` (196) are untouched, because bishop2019 and
+drilon2008 are read here for field coverage and are NOT curated into this artifact's `series` array.
+⛔ It asserts no clinical effect of treatment setting on any EMC outcome.
+
+Verified: the patched file parses as JSON, and `git apply --check` succeeds against the current
+working tree (checks/05-build-and-dryrun-diff/).
+
+--- a/research/modalities/emc-surgical-quality.json
++++ b/research/modalities/emc-surgical-quality.json
+@@ -174,20 +174,49 @@
+     "⛔_no_intervals_at_R2": "n = 2, and the paper prints NA rather than a rate. Not computed."
+   },
+   "treatment_setting": {
+-    "recorded_in_any_reachable_series": false,
+-    "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator. One does not report the exposure and the other holds it constant, so neither can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
+-    "what_would_answer_it": "A series that reports where each patient was first operated, or a registry linkage carrying centre volume. Neither exists among the reachable open-access EMC literature (emc-km-reachability-census-2026-08-25.json)."
++    "recorded_in_the_series_examined_for_this_field": true,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020", "bishop2019", "drilon2008"],
++    "⚠_scope_correction_and_refutation_2026-09-08": "This field previously read `recorded_in_any_reachable_series: false`. That universal claim is now FALSE, not merely over-scoped. bishop2019 (n = 41, PMC7771031, MD Anderson, 1990-2016) prints a per-patient record of where each patient was first operated: 'Twenty-seven patients (66%) presented to MDACC with gross disease, whereas 14 patients (34%) presented after an outside excision had already been performed, of which 12 patients had a positive/uncertain margins and 2 had negative margins' (RESULTS / Treatment). That is exactly what the previous `what_would_answer_it` asked for. Read from the PMC full text through the NCBI PMC full-text API on 2026-09-08/09. Audit: research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/CARE-DELIVERY-2/care-delivery-element-coverage-v2.json",
++    "series_that_report_it": {
++      "bishop2019": {
++        "granularity": "per patient",
++        "first_operation_inside_the_specialist_centre": 27,
++        "first_operation_outside_before_referral": 14,
++        "of": 41,
++        "margin_at_referral_for_the_14": {"positive_or_uncertain": 12, "negative": 2},
++        "cohort_setting": "A single specialist sarcoma centre throughout -- 'All diagnoses were confirmed at the time of presentation by sarcoma pathologists at MDACC' and 'Patients are typically presented at a multidisciplinary tumor board' (MATERIAL AND METHODS).",
++        "⛔_it_still_does_not_answer_the_route_question": "The exposure is a two-level in/out-of-centre split inside one centre's referred population, with no comparator arm and no centre-volume variable. It records the field; it cannot show that referral-centre care changes EMC outcomes, and no such association is asserted anywhere in this artifact."
++      }
++    },
++    "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator; drilon2008 is the same shape as Chiusole -- 'a retrospective series of patients from 2 large referral centers' (Memorial Sloan-Kettering and the Royal Marsden), a cohort-level constant with no per-patient referral status in the narrative text. One does not report the exposure and three hold it constant, so none of those four can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
++    "what_would_answer_it": "A series that reports where each patient was first operated AND follows both groups to outcome, or a registry linkage carrying centre volume. bishop2019 supplies the first half in a reachable series; no reachable series supplies the second. Three further reachable series (martinbroto2020immunosarc1, morioka2016trabectedin, stacchiotti2013anthracycline) carry no reading of this field and are UNKNOWN, not absent -- they are systemic-therapy trial reports of advanced disease in which the field is close to inapplicable.",
++    "⛔_scope_of_the_absence_half_of_this_entry": "The PMC full-text API returned the abstract and narrative sections only for bishop2019 and drilon2008; TABLES, FIGURES AND LEGENDS WERE NOT READ. Statements that a field is not printed are scoped to those narrative sections."
+   },
+   "unplanned_excision": {
+-    "recorded_in_any_reachable_series": false,
++    "recorded_in_the_series_examined_for_this_field": false,
++    "series_examined_for_this_field": ["masunaga2025", "chiusole2020", "bishop2019", "drilon2008"],
++    "⚠_scope_correction_2026-09-08": "This field previously read `recorded_in_any_reachable_series: false`. The finding SURVIVES but at a denominator of four examined series, not two, and it remains a claim about the examined set rather than about every reachable series. Neither bishop2019 nor drilon2008 defines, names or counts an unplanned or inadvertent excision anywhere in the narrative sections read; the words 'unplanned', 'inadvertent' and 'whoops' appear in neither. Three further reachable series (martinbroto2020immunosarc1, morioka2016trabectedin, stacchiotti2013anthracycline) carry no reading of this field and are UNKNOWN, not absent.",
+     "candidate_proxies": {
+       "previous_surgery_yes": 18,
+       "previous_surgery_no": 153,
+       "excisional_biopsy": 10,
+       "biopsy_none": 19,
+       "is_the_thing": false,
++      "_source": "masunaga2025",
+       "⛔_why_not": "The paper lists 'previous surgery' among the fields extracted from the database and never defines it, while it DOES define R0/R1/R2 in the same sentence -- so the omission is visible rather than assumed. An excisional biopsy is a deliberate diagnostic act. Either could be an unplanned excision and neither is stated to be, so no unplanned-excision rate is computed from them."
+-    }
++    },
++    "⭐_the_best_available_proxy_is_now_bishop2019_not_masunaga2025": {
++      "field_as_printed": "presented after an outside excision had already been performed",
++      "n": 14,
++      "of": 41,
++      "margin_at_referral": {"positive_or_uncertain": 12, "negative": 2},
++      "section": "RESULTS / Treatment",
++      "is_the_thing": false,
++      "⭐_why_it_is_stronger": "It is anchored to a named institution rather than left undefined, and it carries an outcome-relevant covariate -- the margin found at referral -- which masunaga2025's 'previous surgery' field does not.",
++      "⛔_why_it_is_still_not_the_thing": "An outside excision may have been a correctly planned oncological resection performed elsewhere. The paper never states that any of the 14 was unplanned. No unplanned-excision rate is computed from it."
++    },
++    "what_would_answer_it": "A series that states, per patient, whether the first resection was performed without a preoperative sarcoma diagnosis or plan. No series examined so far does.",
++    "⛔_scope": "Same reading scope as treatment_setting above: narrative sections only for bishop2019 and drilon2008; tables and figures were not read."
+   },
+   "⛔_nothing_is_pooled": "The two series share neither era (1980-2018 against 2002-2022), setting (two referral centres against a national registry) nor denominator convention (Chiusole's is the 40 with the field recorded, not its 49 treated with curative intent). POLICY-evidence 2.1 requires comparable denominators and 2.3 refuses populations that may overlap. Each rate stands alone with its own Wilson interval and no combined figure is computed.",
+   "counts": {

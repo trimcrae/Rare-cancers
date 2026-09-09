@@ -1,0 +1,12 @@
+Repository reads and greps (read-only; no git write, no preflight, no shared-path write).
+  date -u ; git rev-parse HEAD ; git status --porcelain
+  grep -n "T3|T2|T1|T0" research/manuscripts/repurposing/repurposing-hypotheses.md
+  sed -n '215,235p;280,300p;430,455p;495,525p;555,570p;615,630p' <same file>
+  grep -n "basket|subgroup|unselected|substantial" <same file>
+  grep -n "sunitinib|Sunitinib" <same file>
+  sed -n '/^## 9. References/,$p' <same file>
+  cat research/autonomy/.../PUB-REPURPOSING/{FINDING.md,EVIDENCE-cabozantinib-emc.md,*.diff}
+  cat research/autonomy/.../paper-lane/CONTRACT-V1-repurposing-t2-candidate.md
+  cat research/autonomy/.../paper-lane/INTEGRATION-repurposing-t2.md
+  sed -n '1,120p' research/autonomy/.../paper-lane/V1-executed-artifacts/MEMO-V1-t2-candidate.md
+  sed -n '1,90p'  .../V1-executed-artifacts/R2-original-proposal/MEMO-R2-tier-decision.md

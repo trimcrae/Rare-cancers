@@ -1,0 +1,105 @@
+RETURNED: count=1, one article object.
+
+identifiers: {"pmcid":"PMC2779719","pmid":"18951519","doi":"10.1002/cncr.23978"}
+title: "Extraskeletal Myxoid Chondrosarcoma"
+source attribution: retrieved from PubMed / PubMed Central. DOI https://doi.org/10.1002/cncr.23978
+
+WHAT THE RESPONSE CONTAINED: an `abstract` field and a `full_text` field. The full_text carried the
+untitled introduction, MATERIALS AND METHODS (sub-heads "Patient Selection", "Demographics and
+Statistical Methods"), RESULTS (sub-heads "Clinical Features of Local and Metastatic EMC",
+"Treatment Outcomes for Localized Disease", "Follow-up and OS", "Chemotherapy Outcomes") and
+DISCUSSION.
+⛔ NO TABLES, FIGURES OR LEGENDS. In-text citations to them are stripped, e.g. "Recurrence rates for
+surgery with and without radiation are detailed in." and "Treatments were highly heterogeneous; 25
+different regimens were administered, with doxorubicin-containing regimens comprising the largest
+subgroup ()." Every absence statement recorded by this lane is scoped to the narrative text above,
+NOT to the paper's tables.
+
+------------------------------------------------------------------------------
+VERBATIM PASSAGES RELIED ON (copied from the returned full_text / abstract)
+------------------------------------------------------------------------------
+
+[Introduction, final paragraph]
+"We therefore assembled a retrospective series of patients from 2 large referral centers to examine
+treatment outcomes and progression-free survival (PFS) with systemic therapy."
+
+[MATERIALS AND METHODS, "Patient Selection"]
+"After obtaining Institutional Review Board permission, 86 patients of EMC were retrieved from the
+databases of the Memorial Sloan-Kettering Cancer Center in New York City and the Royal Marsden
+Hospital in London. Patients were seen and treated at each institution between 1975 and 2006;
+approximately two-thirds of patients examined were diagnosed after 1995. Patients with a definite
+diagnosis of EMC by expert pathologic review of the primary tumor were included in the study."
+
+[MATERIALS AND METHODS, "Demographics and Statistical Methods"]
+"Demographic data examined as part of this retrospective study included patient age at diagnosis,
+patient sex, tumor location, and primary tumor size. Pathology and surgical reports were used to
+determine the completeness of resection (R0: complete resection, negative margins; R1, complete
+macroscopic resection, positive microscopic margins; and R2, incomplete resection). Estimates of
+survival with the endpoints of local, distant, and any recurrence; metastasis, and overall survival
+(OS) were determined by Kaplan-Meier analysis using the date of wide local excision (WLE) as Time 0,
+irrespective of previous procedures."
+
+[RESULTS, "Treatment Outcomes for Localized Disease"]
+"Seventy-six patients presented with primarily localized disease, 73 of whom received subsequent
+treatment with curative intent. Of these patients, 70% (n = 51) had wide local excision only as
+primary therapy, whereas 30% (n = 22 patients) underwent both wide excision and radiotherapy in the
+form of neoadjuvant, intraoperative, or adjuvant therapy."
+
+"Local disease recurrence was noted in 37% of patients (n = 27) who received primary therapy with
+curative intent (surgery with or without radiation), with a median time to disease recurrence of 3.3
+years. The median local PFS was 7.0 years (95% confidence interval [95% CI], 4.4 years-9.6 years)."
+
+"In a subset of 43 patients in whom there were data regarding quality of the resection (R0, R1, and
+R2), only 2 of 24 patients who underwent an R0 resection developed local disease recurrence, whereas
+3 of 12 patients with an R1 resection and 5 of 7 with an R2 resection experienced local disease
+recurrence (< .01, Fisher exact test)."
+
+"Distant disease recurrence was observed in 26% of patients (n = 19), with a median time of 3.2
+years."
+"The median time to any disease recurrence was 4.7 years (95% CI, 4.4 years-5.0 years)."
+
+[RESULTS, "Clinical Features of Local and Metastatic EMC"]
+"Approximately 87% (76 of 86 patients) of patients presented with primary localized disease. The
+median follow-up from the initial date of diagnosis was 3.6 years."
+"The median survival time from the diagnosis of metastatic disease was 1.7 years."
+
+[RESULTS, "Follow-up and OS"]
+"Follow-up data were available for all 86 patients studied, with a median follow-up time of 3.6
+years (range, 0.2 years-24.6 years)."
+
+[DISCUSSION]
+"Our follow-up was relatively short compared with other series, perhaps because of our difficulty in
+confirming diagnoses and finding complete records in patients treated before 1985, and patients lost
+to follow-up after successful surgery or death after the development of metastatic disease."
+"In a recent multi-institutional study by Kawaguchi et al, the role of WLE despite previous
+procedures or disease recurrence was emphasized as a means of reducing rates of local disease
+recurrence and improving OS."
+
+------------------------------------------------------------------------------
+TERM SCAN OVER THE RETURNED NARRATIVE TEXT
+⛔ HOW THIS WAS DONE: by the reading agent reading the returned full_text in session, NOT by an
+automated grep, and not by hand-transcribing the response to disk (see the companion note in
+checks/01). Reported as a reading, not as a machine count.
+------------------------------------------------------------------------------
+"unplanned"                 -> not found in the narrative text read
+"inadvertent"               -> not found in the narrative text read
+"whoops"                    -> not found in the narrative text read
+"outside" (as in outside excision / outside hospital) -> not found in the narrative text read
+"previous procedures"       -> found twice: Methods ("using the date of wide local excision (WLE) as
+                               Time 0, irrespective of previous procedures") and Discussion (the
+                               Kawaguchi sentence). ⛔ Neither counts them, defines them, or says
+                               how many patients had one.
+"referral center(s)"        -> found twice (Introduction final paragraph; and the two named
+                               institutions in Patient Selection). Both are COHORT-LEVEL: the whole
+                               series is referral-centre care. No per-patient referral status,
+                               no first-operating-hospital field, no centre-volume field.
+"R0"/"R1"/"R2"              -> found; defined in Methods and distributed in Results (24/12/7 of 43)
+
+------------------------------------------------------------------------------
+DISCREPANCY RECORDED, NOT RESOLVED
+------------------------------------------------------------------------------
+The abstract says "87 patients with EMC who were seen at 2 institutions between 1975 and 2008"; the
+Methods say "86 patients of EMC were retrieved" and the Results say "Of the 86 evaluable patients".
+The repository's candidate list carries n=87 for this series. This lane does not resolve which is
+right; no value here depends on it, since the margin subset denominator is stated independently
+as 43 and the curative-intent denominator as 73.

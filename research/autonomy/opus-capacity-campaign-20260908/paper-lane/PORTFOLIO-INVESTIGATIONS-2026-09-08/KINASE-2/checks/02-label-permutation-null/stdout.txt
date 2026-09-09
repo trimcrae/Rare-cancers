@@ -1,0 +1,27 @@
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/label-permutation-vs-gene-resampling-null.json | runtime 3.1s
+
+PRIMARY FRAME (n=431 genes on both platforms)
+  gene-resampling concordance   = 0.6520   pearson r(t1,t2) = 0.3869
+  label-permutation concordance = 0.4990  sd 0.0374  95% [0.4226, 0.5724]  max 0.6328
+  permuted pearson r(t1,t2) mean = -0.0011 ; p(observed concordance) = 0.0005 ; perms 2000 (distinct GPL6244 1997 / GPL3290 1768 of 8008)
+
+SECONDARY FRAME (n=413 genes on both platforms)
+  gene-resampling concordance   = 0.6344   pearson r(t1,t2) = 0.4248
+  label-permutation concordance = 0.5022  sd 0.0426  95% [0.4213, 0.5884]  max 0.6320
+  permuted pearson r(t1,t2) mean = 0.0027 ; p(observed concordance) = 0.0005 ; perms 2000 (distinct GPL6244 1999 / GPL3290 1762 of 8008)
+
+gene    conc   t GPL6244 t GPL3290 p_gene-res  p_label-perm ratio
+GFRA2   yes    -4.106    -3.264    0.0394      0.00006     663.667
+RET     yes    2.613     4.077     0.0742      0.00044     168.998
+NDRG1   yes    2.391     2.366     0.0882      0.00099     88.905
+EGFR    yes    -3.413    -2.019    0.1114      0.00306     36.365
+NR4A3   yes    4.662     1.702     0.1555      0.00829     18.762
+PRKDC   NO     -1.354    1.246     0.2483      0.03215     7.722
+SGK1    NO     -0.733    1.316     0.3828      0.12179     3.143
+XRCC5   yes    -0.704    -0.906    0.3921      0.13032     3.009
+XRCC6   yes    0.744     0.556     0.4408      0.18154     2.428
+ROS1    NO     -0.602    0.324     0.5197      0.28915     1.797
+GDNF    NO     0.250     -2.007    0.5452      0.33062     1.649
+HDAC3   yes    0.165     0.292     0.5870      0.38377     1.53
+GFRA1   yes    -0.145    -3.634    0.5986      0.39699     1.508
+ALK     NOT READABLE ON BOTH PLATFORMS - absent reading, not a reading of absence

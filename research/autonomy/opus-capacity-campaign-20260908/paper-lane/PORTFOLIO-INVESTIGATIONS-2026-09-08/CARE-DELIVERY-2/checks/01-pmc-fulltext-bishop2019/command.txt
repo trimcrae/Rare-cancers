@@ -1,0 +1,8 @@
+MCP tool call (PubMed server, verified working in this session):
+
+  mcp__PubMed__get_full_text_article  {"pmc_ids": ["PMC7771031"]}
+
+Route: NCBI PMC full-text API via the PubMed MCP server. This is the ordinary permitted
+public-source route already used by this repository for this same article's site counts
+(research/modalities/emc-site-curation.json, verified_against "the PMC full-text record
+PMC7771031 ... retrieved through the NCBI PMC full-text API"). No direct HTTP fetch was made.

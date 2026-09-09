@@ -1,0 +1,91 @@
+RETURNED: count=1, one article object.
+
+identifiers: {"pmcid":"PMC7771031","pmid":"31436747","doi":"10.1097/COC.0000000000000590"}
+title: "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy with both Radiation and
+        Surgery Improves Local Control"
+source attribution: retrieved from PubMed / PubMed Central. DOI https://doi.org/10.1097/COC.0000000000000590
+
+WHAT THE RESPONSE CONTAINED, exactly: an `abstract` field and a `full_text` field. The full_text
+carried the narrative sections INTRODUCTION, MATERIAL AND METHODS (incl. sub-head "Follow-up and
+Statistical Analysis"), RESULTS (sub-heads "Patient and Tumor Characteristics", "Treatment",
+"Survival", "Patterns of Disease Recurrence", "Outcomes After Relapse") and DISCUSSION.
+⛔ IT DID NOT CARRY TABLES, FIGURES OR THEIR LEGENDS. Their in-text citations are present but
+stripped to bare punctuation, e.g. "Patient and tumor characteristics are listed in." and
+"The actuarial 5-year and 10-year LC rates were 94% and 90% ()." Every absence statement recorded
+by this lane is therefore scoped to the narrative text above, NOT to the paper's tables.
+
+------------------------------------------------------------------------------
+VERBATIM PASSAGES RELIED ON (copied from the returned full_text / abstract)
+------------------------------------------------------------------------------
+
+[MATERIAL AND METHODS, opening paragraph]
+"We identified 41 consecutive patients with localized, non-metastatic histologically confirmed EMC
+treated at the University of Texas MD Anderson Cancer Center (MDACC) during the period from 1990
+through 2016. The medical charts were then retrospectively reviewed after institutional review board
+approval. Patients underwent a complete history, physical examination, and staging before treatment.
+All diagnoses were confirmed at the time of presentation by sarcoma pathologists at MDACC."
+
+[MATERIAL AND METHODS, second paragraph]
+"Classically, EMC arise in soft tissue and thus are commonly treated using the STS sarcoma treatment
+paradigm at our institution. Patients are typically presented at a multidisciplinary tumor board for
+treatment discussion. For patients presenting with gross disease, they commonly underwent
+preoperative RT and resection. If patients presented after an outside excision, the decision for
+re-resection was made by the surgeon and multidisciplinary team based on margin status, tumor
+location, and impact of additional surgery on function. In cases where re-excision was not
+recommended, postoperative RT was performed."
+
+[MATERIAL AND METHODS, "Follow-up and Statistical Analysis"]
+"Follow-up with a history and physical and restaging imaging studies of the primary site and lungs
+were performed typically every 3-4 months for the first two years, every 6 months for years 3-5 and
+then at least annually. Given the potential for late relapses, long-term follow up for patients with
+EMC is required."
+
+[RESULTS, "Treatment", first paragraph]
+"Twenty-seven patients (66%) presented to MDACC with gross disease, whereas 14 patients (34%)
+presented after an outside excision had already been performed, of which 12 patients had a
+positive/uncertain margins and 2 had negative margins. Final margin status was negative in 35
+patients (85%) and positive/uncertain in 6 patients (15%)."
+
+[RESULTS, "Treatment", second paragraph]
+"All but 4 patients (90%) were recommended to undergo either initial or repeat surgical resection at
+MDACC, and the 4 patients that did not undergo additional surgery received postoperative RT. The
+only patient or treatment factor that was associated with use of surgery alone was tumor location in
+the lower extremity (n=7,=0.03; age=0.42; sex=0.58; tumor size=0.23; margins=0.71)."
+
+[RESULTS, "Survival", first line]
+"The median follow-up time from the completion of local therapy for patients alive at last follow-up
+was 94 months (range, 8-316 months)."
+
+[ABSTRACT, Results]
+"Median follow-up time was 94 months (range, 8-316)."
+
+[RESULTS, "Patterns of Disease Recurrence"]
+"The median time to any failure was 15 months (range, 3-176 months)."
+"There were 5 patients (12%) with local relapse at a median time of 75 months (range 13-176 months).
+Four of those patients underwent surgery alone."
+"Thirteen patients (32%) developed distant metastases ... at a median time of 28 months (range 3-154
+months)."
+"Margin status, tumor size, prior treatment, nor tumor location were associated with local failure
+()."
+"A multivariate model was constructed to assess for local recurrence adjusting for margin status,
+tumor size, prior treatment, and use of surgery alone. The only factor that emerged as significantly
+associated with poorer LC was use of surgery alone (=0.02, HR 12.7, 95% CI 1.4 -115.3) compared to
+combined modality therapy."
+
+------------------------------------------------------------------------------
+TERM SCAN OVER THE RETURNED NARRATIVE TEXT
+⛔ HOW THIS WAS DONE: by the reading agent reading the returned full_text in session, NOT by an
+automated grep. The MCP response was deliberately NOT hand-transcribed to disk, because a
+hand-copied 20 KB "primary source" file could silently drop a passage and manufacture a false
+absence. The short passages above were copied verbatim; the scan below is a human-style reading
+of the same narrative text and is reported as such, not as a machine count.
+------------------------------------------------------------------------------
+"unplanned"            -> not found in the narrative text read
+"inadvertent"          -> not found in the narrative text read
+"whoops"               -> not found in the narrative text read
+"outside excision"     -> found twice (Methods para 2; Results/Treatment para 1, quoted above)
+"referral" / "referred"-> not found in the narrative text read
+"R0" / "R1" / "R2"     -> not found in the narrative text read (margin is reported as negative vs positive/uncertain,
+                          NOT on the R0/R1/R2 scale, and no margin definition is printed in the
+                          narrative text)
+"specialist" / "centre volume" / "high-volume" -> not found in the narrative text read

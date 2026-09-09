@@ -1,0 +1,11 @@
+/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/label_permutation_null.py:93: RuntimeWarning: Mean of empty slice
+  ma = np.nanmean(np.where(np.isnan(A), np.nan, A), axis=1)
+/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/label_permutation_null.py:94: RuntimeWarning: Mean of empty slice
+  mb = np.nanmean(np.where(np.isnan(B), np.nan, B), axis=1)
+/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/label_permutation_null.py:95: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  va = np.nanvar(A, axis=1, ddof=1); vb = np.nanvar(B, axis=1, ddof=1)
+Traceback (most recent call last):
+  File "/home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/KINASE-2/seed_stability_and_crowding.py", line 43, in <module>
+    smaller = min(x for x in (frame1, frame2) if x)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: min() arg is an empty sequence
