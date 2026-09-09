@@ -1,0 +1,46 @@
+Retrieved: Bishop AJ, Bird JE, Conley AP, et al., "Extraskeletal Myxoid Chondrosarcomas:
+Combined Modality Therapy with both Radiation and Surgery Improves Local Control",
+Am J Clin Oncol 2019;42(10):744-748. PMCID PMC7771031, PMID 31436747,
+DOI 10.1097/COC.0000000000000590. Full text returned (Introduction .. Conclusion).
+
+--- VERBATIM (RESULTS / Treatment) -------------------------------------------------
+"The majority of patients (n=33, 80%) received combined modality local therapy with both
+surgery and RT, whereas 8 patients received surgery alone (20%)."
+------------------------------------------------------------------------------------
+
+--- VERBATIM (RESULTS / Patterns of Disease Recurrence) ----------------------------
+"There were 5 patients (12%) with local relapse at a median time of 75 months (range
+13-176 months). Four of those patients underwent surgery alone. The median time to local
+relapse occurred earlier in patients receiving surgery alone compared to the one patient
+who received CMT (61 months vs. 143 months)."
+------------------------------------------------------------------------------------
+
+--- VERBATIM (MATERIAL AND METHODS) ------------------------------------------------
+"We identified 41 consecutive patients with localized, non-metastatic histologically
+confirmed EMC treated at the University of Texas MD Anderson Cancer Center (MDACC) during
+the period from 1990 through 2016."
+------------------------------------------------------------------------------------
+
+--- VERBATIM (RESULTS, the actuarial headline, for contrast) -----------------------
+"The only factor that was associated with a lower 10-year LC rate was receipt of surgery
+alone (63% vs. 100% in patients receiving combined modality therapy,=0.004)"
+(the '=0.004' is how the extraction renders 'P=0.004'; the P is stripped by the tool.)
+------------------------------------------------------------------------------------
+
+VERDICT: bishop2019's arm sizes and arm events HOLD AT SOURCE.
+  surgery + RT (CMT): n = 33 (printed integer); events = 1
+      -- printed twice: as 5 total local relapses minus the "Four of those patients
+         [who] underwent surgery alone", and independently as the words "the one patient
+         who received CMT".
+  surgery alone:      n = 8 (printed integer); events = 4 (printed as the word "Four").
+  total local relapses = 5 (printed integer); cohort n = 41 (printed integer).
+Arithmetic used: 5 - 4 = 1 on printed integers, cross-confirmed by an independently
+printed statement of the same integer. No count is reconstructed from a hazard ratio,
+a percentage, a p-value, a confidence interval or a Kaplan-Meier curve.
+
+NOT FOUND in this article: any molecular-confirmation statement (the cohort is
+"histologically confirmed"); any per-patient data; any 1/10 or 7/17 split.
+
+NOTE on the 100% actuarial figure: the same paper counts one local relapse in the CMT arm
+at 143 months. "100% 10-year LC" is a statement about a censored horizon, not about zero
+relapses. This confirms at source the caveat LOCOREGIONAL-2 already recorded.
