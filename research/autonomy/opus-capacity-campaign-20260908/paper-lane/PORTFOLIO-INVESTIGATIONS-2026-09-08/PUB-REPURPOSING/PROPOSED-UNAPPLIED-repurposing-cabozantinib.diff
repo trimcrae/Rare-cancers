@@ -1,0 +1,72 @@
+--- research/manuscripts/repurposing/repurposing-hypotheses.md	2026-09-08 18:32:26.642576462 +0000
++++ /tmp/claude-0/-home-user-Rare-cancers/8ecd0f49-96ba-5dcf-b11a-af5e48bdec71/scratchpad/pubrep/AFTER.md	2026-09-09 00:03:16.445818590 +0000
+@@ -116,9 +116,10 @@
+ DGIdb; and zero-shot prediction from a pretrained graph foundation model. Every hypothesis carries an explicit evidence
+ tier from T0 to T3. Curation and enumeration converged on 14 candidates across seven vulnerability
+ axes. Across that menu, evidence strength and novelty are anti-correlated.
+-The single candidate with EMC clinical evidence, imatinib in the *KIT*-mutant minority, is also the
+-only one already reported; every untried candidate rests on preclinical or model-screen data, and
+-the cell combining novelty with clinical evidence is empty. The graph model
++Two candidates carry EMC-specific clinical evidence and both are already reported in the disease:
++imatinib in the *KIT*-mutant minority, and cabozantinib, which three EMC patients received inside a
++single-arm phase II trial open to all soft-tissue-sarcoma subtypes. Every untried candidate rests on
++preclinical or model-screen data, and the cell combining novelty with clinical evidence is empty. The graph model
+ diverged from both other methods, and a pre-specified stress test on two commoner sarcomas showed
+ the divergence is not attributable to EMC's rarity. The ex-vivo screen placing
+ carfilzomib among the leads is the published result of Bangerter and colleagues, run on one
+@@ -318,8 +319,8 @@
+ 
+ | EMC evidence (down) / Novelty (across) | Known (tried) | Partly novel | Novel (untried) |
+ |---|---|---|---|
+-| Clinical, EMC patient | Imatinib (*KIT*-mutant) | — | — |
+-| Clinical, class level | — | VEGFR multikinase inhibitors | — |
++| Clinical, EMC patient | Imatinib (*KIT*-mutant); cabozantinib | — | — |
++| Clinical, class level | — | VEGFR multikinase inhibitors other than cabozantinib | — |
+ | In vivo, animal EMC model | — | — | Zaltoprofen (PPARγ) |
+ | Ex vivo, EMC models | — | Anthracycline with carfilzomib or venetoclax | Carfilzomib (untried in EMC; the class is not untried in sarcoma, section 4.1); venetoclax; HDAC inhibitors; brigatinib |
+ | Genomic or immunohistochemical | — | — | CDK4/6 inhibition (palbociclib) |
+@@ -335,7 +336,8 @@
+ | Candidate (axis) | Evidence in EMC | Novel |
+ |---|---|---|
+ | Imatinib, *KIT*-mutant subset (KIT) | Clinical: one patient, 3 years of stable disease [7] | No, already reported |
+-| VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
++| Cabozantinib (angiogenesis) | Clinical, EMC patients: three of the 54 evaluable patients in a single-arm phase II trial open to all soft-tissue-sarcoma subtypes carried an EMC diagnosis, and the trial reports one confirmed partial response in an EMC patient, which was its longest response [19]. The trial's adverse events are reported only against the whole 54-patient cohort, and it did not meet either primary endpoint | No, already reported in EMC |
++| VEGFR multikinase inhibitors: regorafenib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
+ | Zaltoprofen, and by extension pioglitazone (PPARγ, lineage) | In vivo: tumour-growth inhibition in a mouse EMC model through PPARγ induction [12]. The direction of the PPARγ effect in EMC is unresolved, and the in-vitro half of that result used a line whose EMC identity the curated record does not support (section 3.3) | Yes |
+ | Carfilzomib, with doxorubicin or venetoclax (proteostasis) | Ex vivo: the only compound of the 40 screened that the authors place in their high-sensitivity band, with carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax scored synergistic in the *EWSR1*-fusion model and additive in the other [13]. The 40-drug screen ran on one model; see section 4.1. The inspected abstracts report no EMC-specific clinical result, and the proteasome-inhibitor class has been tested clinically in sarcoma [21,22] | Untried in EMC; the class is not untried in sarcoma |
+ | Venetoclax (BCL-2, apoptosis) | Ex vivo: moderate sensitivity in the screen, carried into dose-response testing in both EMC models, with no monotherapy response [13] | Yes |
+@@ -451,11 +453,15 @@
+ review or authorised exception is asserted, and registry conformance is unresolved. The clinical route set out above and the conformance of the existing
+ registry entry with the stated criterion remain unresolved.
+ 
+-*Tranche 2, shelf-ready class extension.* The VEGFR multikinase extension, comprising regorafenib,
+-cabozantinib and lenvatinib together with the enumeration-surfaced nintedanib, sorafenib,
+-axitinib, vandetanib and tivozanib, builds on the established active class in EMC and needs no new
+-biomarker; activity of the class in unselected soft-tissue sarcoma is exemplified by cabozantinib
+-[19]. These are candidates for histology-inclusive basket trials of anti-angiogenic agents in
++*Tranche 2, shelf-ready class extension.* The VEGFR multikinase extension, comprising regorafenib
++and lenvatinib together with the enumeration-surfaced nintedanib, sorafenib, axitinib, vandetanib
++and tivozanib, builds on the established active class in EMC and needs no new biomarker.
++Cabozantinib is not part of that extension and is not a hypothesis here: it has already been given
++to EMC patients. The phase II soft-tissue-sarcoma trial cited here as [19] enrolled three patients
++with EMC among 54 evaluable, reports one confirmed partial response in an EMC patient after ten
++cycles, and describes that as the longest response on the trial; the trial did not meet either of
++its primary endpoints, and its safety data are reported only for the whole mixed cohort. No efficacy
++conclusion for EMC is drawn here from a three-patient subgroup of a trial not powered for it. These are candidates for histology-inclusive basket trials of anti-angiogenic agents in
+ sarcoma, or for prospective registry-embedded cohorts, with the caveat that they probably share the
+ eventual resistance seen with pazopanib. Regional approval status varies by agent and would need
+ checking before any such design.
+@@ -606,7 +612,12 @@
+ testing rather than as a direction that can be stated (section 3.3).
+ 
+ Sixth, the assessment that an agent is untried in EMC rests on a screen of titles and abstracts and
+-on a curated corpus. An absence there means that nothing is indexed on that pairing, not that no
++on a curated corpus. That assessment failed once inside this menu and the failure is recorded rather
++than smoothed over: cabozantinib was carried as an untested class extension until a per-agent,
++EMC-scoped database search run on 2026-09-08 returned the very trial this manuscript already cited,
++whose full text names three EMC patients and one EMC responder. The defect was not a missing source
++but an unread one, and the agent-by-agent EMC-scoped search that caught it was run for all fourteen
++rows only at that date. An absence there means that nothing is indexed on that pairing, not that no
+ such work exists, and a result buried in the supplementary material of a larger paper would be
+ invisible to it. Those screens were framed around EMC pairings, and the two class-level sarcoma
+ reports of proteasome inhibition [21,22] were not in the preceding draft; they were returned by a

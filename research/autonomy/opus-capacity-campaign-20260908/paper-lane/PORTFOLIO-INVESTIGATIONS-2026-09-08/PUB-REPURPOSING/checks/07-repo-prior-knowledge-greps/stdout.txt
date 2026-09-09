@@ -1,0 +1,20 @@
+research/literature/emc-host-factor-probe.json:509:     "pmid": "34716194",
+research/literature/emc-mortality-probe.json:1335:     "pmid": "34716194",
+research/literature/emc-mortality-probe.json:8680:   "pmid": "34716194",
+research/literature/emc-mortality-probe.json:14733:   "pmid": "34716194",
+research/literature/rt-lung-mets-probe.json:193:          "pmid": "34716194",
+research/literature/rt-lung-mets-probe.json:1647:          "pmid": "34716194",
+research/manuscripts/citation-retraction-sweep.json:2578:      "pmid": "34716194",
+research/manuscripts/citation-retraction-sweep.json:3868:      "pmid": "34716194",
+--- repurposing manuscript, cabozantinib:
+338:| VEGFR multikinase inhibitors: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | Clinical at class level: pazopanib and sunitinib are the active class in EMC [1]; these specific agents are untested extensions | Partly |
+455:cabozantinib and lenvatinib together with the enumeration-surfaced nintedanib, sorafenib,
+457:biomarker; activity of the class in unselected soft-tissue sarcoma is exemplified by cabozantinib
+739:19. O'Sullivan Coyne G, et al. Clinical activity of single-agent cabozantinib (XL184), a multi-receptor tyrosine kinase inhibitor, in patients with refractory soft-tissue sarcomas. *Clin Cancer Res.* 2022. doi 10.1158/1078-0432.CCR-21-2480. PMC8776602.
+--- repurposing manuscript, apatinib:
+588:and three (doxorubicin, apatinib and ifosfamide) were misresolved by the original substring matcher,
+773:| Table 4 reported by substring matching: medians 21.0, 17.7 and 17.4, with "doxorubicin" as the best-ranked agent at the 74.7th, 80.0th and 71.5th percentiles | Exact-name medians **20.9** (EMC), **17.6** (chondrosarcoma) and **17.0** (soft-tissue sarcoma), with **masitinib** the best exactly matched agent at 52.4, 69.9 and 61.2. The three "doxorubicin" entries were **13-deoxydoxorubicin** (EMC and soft-tissue sarcoma) and **Zoptarelin doxorubicin** (chondrosarcoma), which are not doxorubicin; the true ranks of doxorubicin, apatinib and ifosfamide are **unknown** and are not estimated | §5 Table 4 and its surrounding paragraph | The original matcher tested a query as a substring against a descending ranking and returned the highest-scoring compound whose name contained it, so each published percentile was an upper bound. Re-derived from the committed outputs in [`txgnn-exact-match-reanalysis.json`](../../hypotheses/txgnn-exact-match-reanalysis.json) with no model re-run, and guarded by `research/manuscripts/tests/test_txgnn_exact_match.py`. The stress test's conclusion is unchanged: the relatives rank no better than EMC. Corrected 2026-09-08 |
+--- CROSS-PAPER-ADVANCE mentions of cabozantinib/34716194:
+0
+--- clinical registry mentions:
+0

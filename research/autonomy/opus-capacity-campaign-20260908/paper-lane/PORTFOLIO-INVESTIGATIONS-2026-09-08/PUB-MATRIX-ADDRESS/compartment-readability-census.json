@@ -1,0 +1,458 @@
+{
+  "_title": "Compartment-readability census across the committed EMC expression instruments",
+  "_what_this_measures": "Per instrument, which pre-specified compartment markers are measurable, and whether a compartment FRACTION is derivable from that instrument's value kind. No expression value is read; no arm contrast is computed.",
+  "_what_this_cannot_settle": "Nothing about vessel density, perfusion, interstitial pressure, matrix volume fraction, or what any agent can reach in EMC tissue. Marker readability bounds what a dataset could in principle be asked; it is not a measurement of the tumour.",
+  "panels": {
+    "endothelial": {
+      "question": "is there vasculature, and how much of the tissue is vessel",
+      "n_genes": 11,
+      "genes": [
+        "PECAM1",
+        "CDH5",
+        "VWF",
+        "KDR",
+        "TEK",
+        "ENG",
+        "ESAM",
+        "CLDN5",
+        "FLT1",
+        "ROBO4",
+        "EMCN"
+      ]
+    },
+    "mural_pericyte": {
+      "question": "are the vessels invested (a determinant of what leaves them)",
+      "n_genes": 7,
+      "genes": [
+        "RGS5",
+        "ACTA2",
+        "PDGFRB",
+        "MCAM",
+        "NOTCH3",
+        "CSPG4",
+        "MYH11"
+      ]
+    },
+    "immune": {
+      "question": "is there an immune compartment inside the matrix at all",
+      "n_genes": 10,
+      "genes": [
+        "PTPRC",
+        "CD68",
+        "CD163",
+        "CD3E",
+        "CD2",
+        "ITGAM",
+        "AIF1",
+        "CSF1R",
+        "LYZ",
+        "MS4A1"
+      ]
+    },
+    "fibroblast_stromal": {
+      "question": "how much of the signal is non-tumour stromal cell",
+      "n_genes": 9,
+      "genes": [
+        "COL1A1",
+        "COL1A2",
+        "COL3A1",
+        "FAP",
+        "THY1",
+        "PDGFRA",
+        "LUM",
+        "DCN",
+        "POSTN"
+      ]
+    },
+    "hyaluronan_matrix_turnover": {
+      "question": "the myxoid matrix's own synthesis and degradation",
+      "n_genes": 11,
+      "genes": [
+        "HAS1",
+        "HAS2",
+        "HAS3",
+        "HYAL1",
+        "HYAL2",
+        "CD44",
+        "VCAN",
+        "ACAN",
+        "HAPLN1",
+        "HAPLN3",
+        "TNFAIP6"
+      ]
+    },
+    "transport_barrier": {
+      "question": "water/solute handling and caveolar transcytosis",
+      "n_genes": 5,
+      "genes": [
+        "AQP1",
+        "AQP4",
+        "CAV1",
+        "CAV2",
+        "SLC2A1"
+      ]
+    }
+  },
+  "instruments": {
+    "GSE24369_series_matrix.txt.gz": {
+      "source_file": "research/modalities/emc-expression-panels-inputs.json",
+      "accession": "GSE24369",
+      "platform": "GPL6244",
+      "n_samples": 42,
+      "n_probes_on_platform": 28459,
+      "value_kind_verbatim": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "coverage_universe": "RETAINED EXTRACT ONLY. The platform is genome-wide; this repository holds values for the 2415 genes a prior panel asked for, of which 2284 resolved here. A marker absent below is absent FROM THE RETAINED EXTRACT, which is not a statement that the platform cannot measure it.",
+      "panels": {
+        "endothelial": {
+          "n_readable": 8,
+          "n_in_panel": 11,
+          "readable": [
+            "PECAM1",
+            "CDH5",
+            "VWF",
+            "KDR",
+            "TEK",
+            "ENG",
+            "CLDN5",
+            "FLT1"
+          ],
+          "not_in_retained_extract": [
+            "ESAM",
+            "ROBO4",
+            "EMCN"
+          ]
+        },
+        "mural_pericyte": {
+          "n_readable": 5,
+          "n_in_panel": 7,
+          "readable": [
+            "ACTA2",
+            "PDGFRB",
+            "MCAM",
+            "NOTCH3",
+            "CSPG4"
+          ],
+          "not_in_retained_extract": [
+            "RGS5",
+            "MYH11"
+          ]
+        },
+        "immune": {
+          "n_readable": 9,
+          "n_in_panel": 10,
+          "readable": [
+            "PTPRC",
+            "CD68",
+            "CD163",
+            "CD3E",
+            "CD2",
+            "ITGAM",
+            "AIF1",
+            "CSF1R",
+            "MS4A1"
+          ],
+          "not_in_retained_extract": [
+            "LYZ"
+          ]
+        },
+        "fibroblast_stromal": {
+          "n_readable": 9,
+          "n_in_panel": 9,
+          "readable": [
+            "COL1A1",
+            "COL1A2",
+            "COL3A1",
+            "FAP",
+            "THY1",
+            "PDGFRA",
+            "LUM",
+            "DCN",
+            "POSTN"
+          ],
+          "not_in_retained_extract": []
+        },
+        "hyaluronan_matrix_turnover": {
+          "n_readable": 9,
+          "n_in_panel": 11,
+          "readable": [
+            "HAS1",
+            "HAS2",
+            "HAS3",
+            "HYAL1",
+            "HYAL2",
+            "CD44",
+            "VCAN",
+            "ACAN",
+            "TNFAIP6"
+          ],
+          "not_in_retained_extract": [
+            "HAPLN1",
+            "HAPLN3"
+          ]
+        },
+        "transport_barrier": {
+          "n_readable": 5,
+          "n_in_panel": 5,
+          "readable": [
+            "AQP1",
+            "AQP4",
+            "CAV1",
+            "CAV2",
+            "SLC2A1"
+          ],
+          "not_in_retained_extract": []
+        }
+      }
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "source_file": "research/modalities/emc-expression-panels-inputs.json",
+      "accession": "GSE4303",
+      "platform": "GPL3290",
+      "n_samples": 16,
+      "n_probes_on_platform": 43008,
+      "value_kind_verbatim": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "coverage_universe": "RETAINED EXTRACT ONLY. The platform is genome-wide; this repository holds values for the 2415 genes a prior panel asked for, of which 2035 resolved here. A marker absent below is absent FROM THE RETAINED EXTRACT, which is not a statement that the platform cannot measure it.",
+      "panels": {
+        "endothelial": {
+          "n_readable": 8,
+          "n_in_panel": 11,
+          "readable": [
+            "PECAM1",
+            "CDH5",
+            "VWF",
+            "KDR",
+            "TEK",
+            "ENG",
+            "CLDN5",
+            "FLT1"
+          ],
+          "not_in_retained_extract": [
+            "ESAM",
+            "ROBO4",
+            "EMCN"
+          ]
+        },
+        "mural_pericyte": {
+          "n_readable": 5,
+          "n_in_panel": 7,
+          "readable": [
+            "ACTA2",
+            "PDGFRB",
+            "MCAM",
+            "NOTCH3",
+            "CSPG4"
+          ],
+          "not_in_retained_extract": [
+            "RGS5",
+            "MYH11"
+          ]
+        },
+        "immune": {
+          "n_readable": 9,
+          "n_in_panel": 10,
+          "readable": [
+            "PTPRC",
+            "CD68",
+            "CD163",
+            "CD3E",
+            "CD2",
+            "ITGAM",
+            "AIF1",
+            "CSF1R",
+            "MS4A1"
+          ],
+          "not_in_retained_extract": [
+            "LYZ"
+          ]
+        },
+        "fibroblast_stromal": {
+          "n_readable": 9,
+          "n_in_panel": 9,
+          "readable": [
+            "COL1A1",
+            "COL1A2",
+            "COL3A1",
+            "FAP",
+            "THY1",
+            "PDGFRA",
+            "LUM",
+            "DCN",
+            "POSTN"
+          ],
+          "not_in_retained_extract": []
+        },
+        "hyaluronan_matrix_turnover": {
+          "n_readable": 8,
+          "n_in_panel": 11,
+          "readable": [
+            "HAS2",
+            "HAS3",
+            "HYAL1",
+            "HYAL2",
+            "CD44",
+            "VCAN",
+            "ACAN",
+            "TNFAIP6"
+          ],
+          "not_in_retained_extract": [
+            "HAS1",
+            "HAPLN1",
+            "HAPLN3"
+          ]
+        },
+        "transport_barrier": {
+          "n_readable": 5,
+          "n_in_panel": 5,
+          "readable": [
+            "AQP1",
+            "AQP4",
+            "CAV1",
+            "CAV2",
+            "SLC2A1"
+          ],
+          "not_in_retained_extract": []
+        }
+      }
+    },
+    "PRJNA1357027_TempO-Seq": {
+      "source_file": "research/modalities/emc-fourth-cohort-gene-counts.tsv",
+      "accession": "PRJNA1357027 / SRP640302",
+      "platform": [
+        "TempO-Seq whole human transcriptome assay using BioSpyder reagents"
+      ],
+      "n_samples": 12,
+      "n_genes_on_instrument": 862,
+      "gene_counts_sha256_recorded": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+      "gene_counts_sha256_measured": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+      "units_verbatim": "RAW READS PER GENE, summed over the probes assigned to that gene, per run. Not normalised, not length-corrected, not library-size corrected, and understated by at most `support_floor_reads` per probe — the lossy-counting guarantee, per run. A gene with no assigned probe is ABSENT FROM THIS TABLE, which is a statement about the panel and the matcher, never about the tumour.",
+      "coverage_universe": "WHOLE INSTRUMENT. This is a targeted panel: the 862 gene rows are everything the assay can report. A marker absent below is absent FROM THE ASSAY -- an instrument fact, not a retention artefact.",
+      "panels": {
+        "endothelial": {
+          "n_readable": 0,
+          "n_in_panel": 11,
+          "readable": [],
+          "absent_from_instrument": [
+            "PECAM1",
+            "CDH5",
+            "VWF",
+            "KDR",
+            "TEK",
+            "ENG",
+            "ESAM",
+            "CLDN5",
+            "FLT1",
+            "ROBO4",
+            "EMCN"
+          ]
+        },
+        "mural_pericyte": {
+          "n_readable": 2,
+          "n_in_panel": 7,
+          "readable": [
+            "NOTCH3",
+            "CSPG4"
+          ],
+          "absent_from_instrument": [
+            "RGS5",
+            "ACTA2",
+            "PDGFRB",
+            "MCAM",
+            "MYH11"
+          ]
+        },
+        "immune": {
+          "n_readable": 1,
+          "n_in_panel": 10,
+          "readable": [
+            "CSF1R"
+          ],
+          "absent_from_instrument": [
+            "PTPRC",
+            "CD68",
+            "CD163",
+            "CD3E",
+            "CD2",
+            "ITGAM",
+            "AIF1",
+            "LYZ",
+            "MS4A1"
+          ]
+        },
+        "fibroblast_stromal": {
+          "n_readable": 1,
+          "n_in_panel": 9,
+          "readable": [
+            "COL1A1"
+          ],
+          "absent_from_instrument": [
+            "COL1A2",
+            "COL3A1",
+            "FAP",
+            "THY1",
+            "PDGFRA",
+            "LUM",
+            "DCN",
+            "POSTN"
+          ]
+        },
+        "hyaluronan_matrix_turnover": {
+          "n_readable": 2,
+          "n_in_panel": 11,
+          "readable": [
+            "CD44",
+            "VCAN"
+          ],
+          "absent_from_instrument": [
+            "HAS1",
+            "HAS2",
+            "HAS3",
+            "HYAL1",
+            "HYAL2",
+            "ACAN",
+            "HAPLN1",
+            "HAPLN3",
+            "TNFAIP6"
+          ]
+        },
+        "transport_barrier": {
+          "n_readable": 0,
+          "n_in_panel": 5,
+          "readable": [],
+          "absent_from_instrument": [
+            "AQP1",
+            "AQP4",
+            "CAV1",
+            "CAV2",
+            "SLC2A1"
+          ]
+        }
+      }
+    }
+  },
+  "summary": {
+    "n_markers_prespecified": 53,
+    "per_instrument_total_readable": {
+      "GSE24369_series_matrix.txt.gz": 45,
+      "GSE4303-GPL3290_series_matrix.txt.gz": 44,
+      "PRJNA1357027_TempO-Seq": 6
+    },
+    "readable_on_every_instrument": [
+      "CD44",
+      "COL1A1",
+      "CSF1R",
+      "CSPG4",
+      "NOTCH3",
+      "VCAN"
+    ],
+    "readable_on_no_instrument": [
+      "EMCN",
+      "ESAM",
+      "HAPLN1",
+      "HAPLN3",
+      "LYZ",
+      "MYH11",
+      "RGS5",
+      "ROBO4"
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+cut -f1 research/modalities/emc-fourth-cohort-gene-counts.tsv | grep -xE 'PECAM1|CDH5|VWF|PTPRC|AQP1|CAV1|ACTA2|CSPG4|NOTCH3|CD44|VCAN|COL1A1|CSF1R|GAPDH|ACTB' | sort
+python3 -c "hash check recorded vs measured"
