@@ -416,6 +416,35 @@
    "perm_p": 0.82521
   }
  },
+ "decoy_bar_scheme_sensitivity": {
+  "single_snapshot": {
+   "source": "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json",
+   "n": 38,
+   "scheme": "1-trajectory single-snapshot; minimize complex then slice components",
+   "p95_mm_min_margin": 13.1165,
+   "max": 16.46
+  },
+  "multi_snapshot": {
+   "source": "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json",
+   "n": 38,
+   "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+   "p95_mm_min_margin": 6.6865,
+   "max": 7.1
+  },
+  "multi_snapshot_metad": {
+   "source": "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json",
+   "n": 38,
+   "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+   "p95_mm_min_margin": 17.7025,
+   "max": 24.74
+  },
+  "committed_bar_in_use": {
+   "value": 13.1165,
+   "matches": "single_snapshot",
+   "applied_to": "the generation-matched scramble set and the de-novo rescoring, which are scored with the MULTI-snapshot 10-frame scheme, whose own decoy p95 is 6.69",
+   "spread_across_committed_decoy_runs": "6.69 to 17.70 kcal/mol (2.6x) depending on which committed decoy MM-GBSA run the 95th percentile is taken from"
+  }
+ },
  "shortlist_rows": [
   {
    "label": "cytosporone B",

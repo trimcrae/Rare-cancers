@@ -210,6 +210,50 @@ for dname, dset, note in [("decoy_multisnapshot", dms, "10-frame MD average, sam
             "AUC": round(auc(pos, neg), 4), "AUC_95CI_boot": boot_ci(pos, neg),
             "perm_p": round(perm_p(pos, neg), 5)}
 
+# ---------- 6. how much does the committed decoy bar depend on which committed decoy run it is read from ----------
+import math
+def pct(v, q):
+    v = sorted(v); k = (len(v) - 1) * q / 100.0
+    f, c = math.floor(k), math.ceil(k)
+    return v[int(k)] if f == c else v[f] + (v[c] - v[f]) * (k - f)
+
+bar = {}
+for tag, path in [("single_snapshot", "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json"),
+                  ("multi_snapshot", "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json"),
+                  ("multi_snapshot_metad", "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json")]:
+    dd = json.load(open(R(path)))
+    v = [c["mm_min_margin"] for c in dd["candidates"] if c.get("mm_min_margin") is not None]
+    bar[tag] = {"source": path, "n": len(v), "scheme": dd["method"]["scheme"],
+                "p95_mm_min_margin": round(pct(v, 95), 4), "max": round(max(v), 2)}
+bar["committed_bar_in_use"] = {
+    "value": json.load(open(R("results/nr4a3-generation-matched-null/nr4a3-generation-matched-null.json")))["params"]["decoy_threshold"],
+    "matches": "single_snapshot",
+    "applied_to": ("the generation-matched scramble set and the de-novo rescoring, which are scored with the "
+                   "MULTI-snapshot 10-frame scheme, whose own decoy p95 is 6.69"),
+    "spread_across_committed_decoy_runs": "6.69 to 17.70 kcal/mol (2.6x) depending on which committed decoy MM-GBSA run the 95th percentile is taken from"}
+
+# ---------- 6. how much does the committed decoy bar depend on which committed decoy run it is read from ----------
+import math
+def pct(v, q):
+    v = sorted(v); k = (len(v) - 1) * q / 100.0
+    f, c = math.floor(k), math.ceil(k)
+    return v[int(k)] if f == c else v[f] + (v[c] - v[f]) * (k - f)
+
+bar = {}
+for tag, path in [("single_snapshot", "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json"),
+                  ("multi_snapshot", "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json"),
+                  ("multi_snapshot_metad", "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json")]:
+    dd = json.load(open(R(path)))
+    v = [c["mm_min_margin"] for c in dd["candidates"] if c.get("mm_min_margin") is not None]
+    bar[tag] = {"source": path, "n": len(v), "scheme": dd["method"]["scheme"],
+                "p95_mm_min_margin": round(pct(v, 95), 4), "max": round(max(v), 2)}
+bar["committed_bar_in_use"] = {
+    "value": json.load(open(R("results/nr4a3-generation-matched-null/nr4a3-generation-matched-null.json")))["params"]["decoy_threshold"],
+    "matches": "single_snapshot",
+    "applied_to": ("the generation-matched scramble set and the de-novo rescoring, which are scored with the "
+                   "MULTI-snapshot 10-frame scheme, whose own decoy p95 is 6.69"),
+    "spread_across_committed_decoy_runs": "6.69 to 17.70 kcal/mol (2.6x) depending on which committed decoy MM-GBSA run the 95th percentile is taken from"}
+
 out = {
     "_note": ("REPURPOSE-DECOY-1. Separability of the committed NR4A3 shortlist from the committed "
               "decoy negative-control set, scored only on already-computed committed docking and "
@@ -237,6 +281,7 @@ out = {
     "property_only_null_scorers": prop_auc,
     "separability_property_matched_subset": matched,
     "required_check_scramble_at_chance": chance,
+    "decoy_bar_scheme_sensitivity": bar,
     "shortlist_rows": S,
     "decoy_rows": D,
 }
@@ -245,4 +290,5 @@ json.dump(out, open(os.path.join(os.path.dirname(__file__), "repurpose-decoy-enr
 print(json.dumps({k: out[k] for k in ["property_match_audit", "separability_full_decoy_set",
                                       "property_only_null_scorers",
                                       "separability_property_matched_subset",
-                                      "required_check_scramble_at_chance"]}, indent=1))
+                                      "required_check_scramble_at_chance",
+                                      "decoy_bar_scheme_sensitivity"]}, indent=1))
