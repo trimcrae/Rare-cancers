@@ -1,0 +1,3058 @@
+{
+ "_what": "Decision-level reconstruction uncertainty on the real stacchiotti2013 Fig. 2 reading, and held-out validation against printed numbers-at-risk.",
+ "_not_medical_advice": "Nothing here is medical advice and nothing asserts efficacy, safety or clinical readiness. Every number is a re-expression of an already-published figure.",
+ "_source": {
+  "image": "stacchiotti2013-csr-3-16-fig2.png",
+  "figure": "Figure 2",
+  "source_id": "stacchiotti2013anthracycline",
+  "external_check": {
+   "quantity": "median progression-free survival",
+   "printed_value": 8.0,
+   "printed_where": "Figure 2 caption: 'Median PFS 8 months.'",
+   "tolerance": 0.5,
+   "⭐": "This is the ONLY check in this program that tests the READING rather than the arithmetic: the paper states a number the reconstruction must land on, and the reconstruction never sees it."
+  }
+ },
+ "floor": {
+  "MAX_KM_DEVIATION": 0.05
+ },
+ "baseline": {
+  "printed": {
+   "id": "base::printed",
+   "error": null,
+   "admissible": false,
+   "failures": [
+    "km_deviation 0.0903 exceeds floor 0.05"
+   ],
+   "max_abs_km_deviation": 0.0903,
+   "n": 10,
+   "events": 9,
+   "censored": 1,
+   "median": 4.987643,
+   "median_matches_printed_8mo": false,
+   "pfs_rate_6mo": 0.5,
+   "pfs_rate_3mo": 0.8,
+   "risk_table_overridden": [],
+   "ipd": [
+    {
+     "time": 2.980583,
+     "event": 1
+    },
+    {
+     "time": 2.985878,
+     "event": 1
+    },
+    {
+     "time": 3.986761,
+     "event": 1
+    },
+    {
+     "time": 4.987643,
+     "event": 1
+    },
+    {
+     "time": 4.987643,
+     "event": 1
+    },
+    {
+     "time": 7.9797,
+     "event": 0
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 9.986761,
+     "event": 1
+    }
+   ]
+  },
+  "anchored": {
+   "id": "base::anchored",
+   "error": null,
+   "admissible": true,
+   "failures": [],
+   "max_abs_km_deviation": 0.0454,
+   "n": 11,
+   "events": 9,
+   "censored": 2,
+   "median": 7.984996,
+   "median_matches_printed_8mo": true,
+   "pfs_rate_6mo": 0.511364,
+   "pfs_rate_3mo": 0.818182,
+   "risk_table_overridden": [],
+   "ipd": [
+    {
+     "time": 2.000883,
+     "event": 1
+    },
+    {
+     "time": 2.985878,
+     "event": 1
+    },
+    {
+     "time": 2.985878,
+     "event": 0
+    },
+    {
+     "time": 3.986761,
+     "event": 1
+    },
+    {
+     "time": 4.987643,
+     "event": 1
+    },
+    {
+     "time": 4.987643,
+     "event": 1
+    },
+    {
+     "time": 7.9797,
+     "event": 0
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 7.984996,
+     "event": 1
+    },
+    {
+     "time": 9.986761,
+     "event": 1
+    }
+   ]
+  }
+ },
+ "E1_survival_offset_scan": [
+  {
+   "survival_offset": -0.03,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1203,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.041,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0295,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1198,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0415,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.029,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1193,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.042,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0285,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1188,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0425,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.028,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1183,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.043,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0275,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1178,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0435,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.027,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1173,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.044,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0265,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1168,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0445,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.026,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1163,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.045,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0255,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1158,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0455,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.025,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1153,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.046,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0245,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1148,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 10,
+    "censored": 0,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0465,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 10,
+    "censored": 1,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.024,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1143,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0288,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0235,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1138,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0283,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.023,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1133,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0278,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0225,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1128,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0273,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.022,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1123,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0268,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0215,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1118,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0263,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.021,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1113,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0258,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0205,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1108,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0253,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.02,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1103,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0254,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0195,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1098,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0259,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.019,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1093,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0264,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0185,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1088,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0269,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.018,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1083,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0274,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0175,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1078,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0279,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.017,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1073,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0284,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0165,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1068,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0289,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.016,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1063,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0294,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0155,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1058,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0299,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.015,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1053,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0304,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0145,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1048,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0309,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.014,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1043,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0314,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0135,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1038,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0319,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.013,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1033,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0324,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0125,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1028,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0329,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.012,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1023,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0334,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0115,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1018,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0339,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.011,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1013,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0344,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0105,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1008,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0349,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.01,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.1003,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0354,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0095,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0998,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0359,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.009,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0993,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0364,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0085,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0988,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0369,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.008,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0983,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0374,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0075,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0978,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0379,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.007,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0973,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0384,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0065,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0968,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0389,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.006,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0963,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0394,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0055,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0958,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0399,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.005,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0953,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0404,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0045,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0948,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0409,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.004,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0943,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0414,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0035,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0938,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0419,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.003,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0933,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0424,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0025,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0928,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0429,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.002,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0923,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0434,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0016,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0919,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0438,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0015,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0918,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0439,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.001,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0913,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0444,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": -0.0005,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0908,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0449,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0903,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0454,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0005,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0898,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0459,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.001,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0893,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0464,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0015,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0888,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0469,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0016,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0887,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.047,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.002,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0883,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0474,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0025,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0878,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0479,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.003,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0873,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0484,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0035,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0868,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0489,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.004,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0863,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0494,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0045,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0858,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0499,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.005,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0853,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0504,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0055,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0848,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0509,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.006,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0843,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0514,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0065,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0838,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0519,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.007,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0833,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0524,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0075,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0828,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0529,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.008,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0823,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0534,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0085,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0818,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0539,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.009,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0813,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0544,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0095,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0808,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0549,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.01,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0803,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0554,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0105,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0798,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0559,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.011,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0793,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0564,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0115,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0788,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0569,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.012,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0783,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0574,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0125,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0778,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0579,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.013,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0773,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0584,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0135,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0768,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0589,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.014,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0763,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 9,
+    "censored": 1,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0594,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0145,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0758,
+    "median": 4.987643,
+    "median_matches_printed_8mo": false,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0599,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.015,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0753,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0604,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0155,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0748,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0609,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.016,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0743,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0614,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0165,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0738,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0619,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.017,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0733,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0624,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0175,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0728,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0629,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.018,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0723,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0634,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0185,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0718,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0639,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 9,
+    "censored": 2,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.019,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0713,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0311,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0195,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0708,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0316,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.02,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0703,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0321,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0205,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0698,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0326,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.021,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0693,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0331,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0215,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0688,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0336,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.022,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0683,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0341,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0225,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0678,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0346,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.023,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0673,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0351,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0235,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0668,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0356,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.024,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0663,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0361,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0245,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0658,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0366,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.025,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0653,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0371,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0255,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0648,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0376,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.026,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0643,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0381,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0265,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0638,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0386,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.027,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0633,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0391,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0275,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0628,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0396,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.028,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0623,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0401,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0285,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0618,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0406,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.029,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0613,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0411,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.0295,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0608,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0416,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  },
+  {
+   "survival_offset": 0.03,
+   "printed": {
+    "admissible": false,
+    "max_abs_km_deviation": 0.0604,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 10,
+    "events": 8,
+    "censored": 2,
+    "error": null
+   },
+   "anchored": {
+    "admissible": true,
+    "max_abs_km_deviation": 0.0421,
+    "median": 7.984996,
+    "median_matches_printed_8mo": true,
+    "n": 11,
+    "events": 8,
+    "censored": 3,
+    "error": null
+   }
+  }
+ ],
+ "E1_summary": {
+  "measured_reading_error_envelope": {
+   "pixel_uncertainty_survival_shift": 0.001603249251817016,
+   "worst_measured_off_step_error_synthetic_control": 0.0035
+  },
+  "smallest_offset_at_which_anchored_becomes_INADMISSIBLE": 0.005,
+  "smallest_offset_at_which_printed_becomes_ADMISSIBLE": null,
+  "smallest_offset_at_which_anchored_median_leaves_8mo_window": null
+ },
+ "E2_heldout_risk_row": [
+  {
+   "held_out_time": 4,
+   "printed_n_at_risk": 7,
+   "predicted_n_at_risk": 7,
+   "delta": 0,
+   "admissible": true,
+   "failures": [],
+   "max_abs_km_deviation": 0.0454,
+   "median": 7.984996,
+   "pfs_rate_6mo": 0.511364,
+   "n": 11,
+   "events": 9,
+   "censored": 2,
+   "error": null
+  },
+  {
+   "held_out_time": 6,
+   "printed_n_at_risk": 5,
+   "predicted_n_at_risk": 4,
+   "delta": -1,
+   "admissible": true,
+   "failures": [],
+   "max_abs_km_deviation": 0.0454,
+   "median": 7.984996,
+   "pfs_rate_6mo": 0.511364,
+   "n": 11,
+   "events": 9,
+   "censored": 2,
+   "error": null
+  },
+  {
+   "held_out_time": 8,
+   "printed_n_at_risk": 1,
+   "predicted_n_at_risk": 2,
+   "delta": 1,
+   "admissible": true,
+   "failures": [],
+   "max_abs_km_deviation": 0.0324,
+   "median": 7.984996,
+   "pfs_rate_6mo": 0.511364,
+   "n": 11,
+   "events": 10,
+   "censored": 1,
+   "error": null
+  },
+  {
+   "held_out_time": 10,
+   "printed_n_at_risk": 0,
+   "predicted_n_at_risk": 0,
+   "delta": 0,
+   "admissible": true,
+   "failures": [],
+   "max_abs_km_deviation": 0.0454,
+   "median": 7.984996,
+   "pfs_rate_6mo": 0.511364,
+   "n": 11,
+   "events": 9,
+   "censored": 2,
+   "error": null
+  }
+ ],
+ "decision_band": {
+  "median_pfs_months_across_admissible_and_heldout_variants": [
+   7.984996,
+   7.984996
+  ],
+  "median_pfs_months_including_the_printed_table_branch": [
+   4.987643,
+   7.984996
+  ],
+  "pfs_rate_6mo_range": [
+   0.511364,
+   0.511364
+  ],
+  "⚠": "A range over variants of one reading of one figure of one 11-patient series. It is not a confidence interval and it is not a cohort statistic."
+ }
+}

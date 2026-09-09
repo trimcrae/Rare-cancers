@@ -1,0 +1,483 @@
+{
+  "_what": "Prespecified FET-fusion-class transfer test of the PRMT5 transcript reading",
+  "source_artifact": "research/modalities/emc-expression-panels.json",
+  "series": "GSE24369_series_matrix.txt.gz",
+  "platform": "GPL6244",
+  "fet_comparator": "LGFMS",
+  "nonfet_comparators": [
+    "desmoid_fibromatosis",
+    "fibrosarcoma"
+  ],
+  "genes": {
+    "PRMT5": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 1.2901,
+        "LGFMS": 1.0238,
+        "desmoid_fibromatosis": 1.0515,
+        "fibrosarcoma": 1.0111
+      },
+      "emc_vs_all_comparators": {
+        "t": 6.236,
+        "delta_mean_z": 0.2632,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 5.979,
+        "delta_mean_z": 0.2662,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 5.9e-05,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": -0.16,
+        "delta_mean_z": -0.0075,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 4.876,
+        "delta_mean_z": 0.2588,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.001401,
+        "labelings": 18564
+      }
+    },
+    "MAT2A": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 2.279,
+        "LGFMS": 1.9515,
+        "desmoid_fibromatosis": 1.7916,
+        "fibrosarcoma": 2.0498
+      },
+      "emc_vs_all_comparators": {
+        "t": 4.132,
+        "delta_mean_z": 0.3403,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 3.944,
+        "delta_mean_z": 0.3275,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.001862,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": 0.541,
+        "delta_mean_z": 0.0308,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 3.871,
+        "delta_mean_z": 0.3583,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.002963,
+        "labelings": 18564
+      }
+    },
+    "WDR77": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.8851,
+        "LGFMS": 0.7713,
+        "desmoid_fibromatosis": 0.8427,
+        "fibrosarcoma": 0.7768
+      },
+      "emc_vs_all_comparators": {
+        "t": 2.82,
+        "delta_mean_z": 0.0979,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 2.852,
+        "delta_mean_z": 0.1138,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.016553,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": -1.09,
+        "delta_mean_z": -0.0385,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 2.026,
+        "delta_mean_z": 0.0754,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.065072,
+        "labelings": 18564
+      }
+    },
+    "MTAP": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.587,
+        "LGFMS": 0.571,
+        "desmoid_fibromatosis": 0.4903,
+        "fibrosarcoma": 0.4728
+      },
+      "emc_vs_all_comparators": {
+        "t": 0.685,
+        "delta_mean_z": 0.053,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 0.219,
+        "delta_mean_z": 0.0159,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.833556,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": 0.875,
+        "delta_mean_z": 0.0895,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 0.92,
+        "delta_mean_z": 0.1054,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.393557,
+        "labelings": 18564
+      }
+    },
+    "CDKN2A": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.1077,
+        "LGFMS": 0.5719,
+        "desmoid_fibromatosis": 0.5091,
+        "fibrosarcoma": 0.7134
+      },
+      "emc_vs_all_comparators": {
+        "t": -5.398,
+        "delta_mean_z": -0.4805,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": -5.986,
+        "delta_mean_z": -0.4642,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 2e-05,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": -0.283,
+        "delta_mean_z": -0.0393,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": -3.371,
+        "delta_mean_z": -0.5035,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.001508,
+        "labelings": 18564
+      }
+    },
+    "PRMT1": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 1.1286,
+        "LGFMS": 1.2205,
+        "desmoid_fibromatosis": 0.9241,
+        "fibrosarcoma": 1.0256
+      },
+      "emc_vs_all_comparators": {
+        "t": 0.175,
+        "delta_mean_z": 0.0098,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": -1.712,
+        "delta_mean_z": -0.0919,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.107492,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": 5.831,
+        "delta_mean_z": 0.2457,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 2.7,
+        "delta_mean_z": 0.1538,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.027149,
+        "labelings": 18564
+      }
+    },
+    "CARM1": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.8293,
+        "LGFMS": 0.7067,
+        "desmoid_fibromatosis": 0.9897,
+        "fibrosarcoma": 0.9268
+      },
+      "emc_vs_all_comparators": {
+        "t": 0.283,
+        "delta_mean_z": 0.0185,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 1.965,
+        "delta_mean_z": 0.1226,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.095634,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": -5.916,
+        "delta_mean_z": -0.2515,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": -1.901,
+        "delta_mean_z": -0.129,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.088397,
+        "labelings": 18564
+      }
+    },
+    "PRMT3": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.357,
+        "LGFMS": 0.3216,
+        "desmoid_fibromatosis": 0.2446,
+        "fibrosarcoma": 0.2618
+      },
+      "emc_vs_all_comparators": {
+        "t": 1.615,
+        "delta_mean_z": 0.0636,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 0.883,
+        "delta_mean_z": 0.0353,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.429017,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": 1.177,
+        "delta_mean_z": 0.0684,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 1.768,
+        "delta_mean_z": 0.1037,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.108436,
+        "labelings": 18564
+      }
+    },
+    "NR4A3": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.7222,
+        "LGFMS": -0.1167,
+        "desmoid_fibromatosis": -0.1147,
+        "fibrosarcoma": 0.3522
+      },
+      "emc_vs_all_comparators": {
+        "t": 4.662,
+        "delta_mean_z": 0.7415,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 5.079,
+        "delta_mean_z": 0.839,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 6.9e-05,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": -1.834,
+        "delta_mean_z": -0.2355,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 3.41,
+        "delta_mean_z": 0.6034,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.00668,
+        "labelings": 18564
+      }
+    },
+    "ENO3": {
+      "readable": true,
+      "n": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "mean_z": {
+        "EMC": 0.4613,
+        "LGFMS": -0.3434,
+        "desmoid_fibromatosis": -0.3455,
+        "fibrosarcoma": -0.3545
+      },
+      "emc_vs_all_comparators": {
+        "t": 3.607,
+        "delta_mean_z": 0.8075,
+        "n_a": 6,
+        "n_b": 29,
+        "exact_two_sided_p": null,
+        "labelings": 1623160
+      },
+      "emc_vs_fet_comparator": {
+        "t": 3.598,
+        "delta_mean_z": 0.8047,
+        "n_a": 6,
+        "n_b": 17,
+        "exact_two_sided_p": 0.001664,
+        "labelings": 100947
+      },
+      "fet_comparator_vs_nonfet": {
+        "t": 0.063,
+        "delta_mean_z": 0.0067,
+        "n_a": 17,
+        "n_b": 12,
+        "exact_two_sided_p": null,
+        "labelings": 51895935
+      },
+      "emc_vs_nonfet": {
+        "t": 3.398,
+        "delta_mean_z": 0.8114,
+        "n_a": 6,
+        "n_b": 12,
+        "exact_two_sided_p": 0.014706,
+        "labelings": 18564
+      }
+    }
+  }
+}

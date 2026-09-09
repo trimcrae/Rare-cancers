@@ -1,0 +1,1 @@
+curl -sS --max-time 90 -o /dev/stdout -w "\nHTTP:%{http_code} bytes:%{size_download}\n" "https://snaptron.cs.jhu.edu/gtexv2/snaptron?regions=ALCAM&rfilter=samples_count>:100" | head -c 800

@@ -1,0 +1,246 @@
+{
+  "_what": "Keyword-screen precision/recall against eligibility-read adjudications, EMC.",
+  "_not_medical_advice": "Not medical advice, not a trial-matching service. Every label is a statement about registry text on the retrieval dates in the source deposit. No patient, enrolment, referral or outcome is involved.",
+  "generated_by": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-STRATEGY-ARCH/keyword_screen_benchmark.py",
+  "inputs": [
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json"
+  ],
+  "ground_truth_definition": "admit/refuse on the record's POSTED eligibility text as adjudicated in the cited deposit field; records without such a verdict are excluded from scoring rather than assumed negative.",
+  "screen_definition": "case-insensitive substring match over brief_title + official_title + listed_conditions only -- the fields a string matcher sees. Eligibility text is deliberately NOT given to the screen.",
+  "denominator_is_a_floor": "The candidate pool came from screens one of which returned at its page limit, so the eight scored records are not a sample of the registry and these rates are not registry-wide rates.",
+  "results": {
+    "histology_only": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma"
+      ],
+      "stratum": "all_adjudicated",
+      "n": 8,
+      "true_positive": 0,
+      "false_positive": 0,
+      "true_negative": 4,
+      "false_negative": 4,
+      "precision": null,
+      "recall": 0.0
+    },
+    "molecular_only": {
+      "lexicon": [
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "stratum": "all_adjudicated",
+      "n": 8,
+      "true_positive": 3,
+      "false_positive": 3,
+      "true_negative": 1,
+      "false_negative": 1,
+      "precision": 0.5,
+      "recall": 0.75
+    },
+    "union": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma",
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "stratum": "all_adjudicated",
+      "n": 8,
+      "true_positive": 3,
+      "false_positive": 3,
+      "true_negative": 1,
+      "false_negative": 1,
+      "precision": 0.5,
+      "recall": 0.75
+    },
+    "histology_only__recruiting_interventional": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma"
+      ],
+      "stratum": "recruiting_interventional",
+      "n": 5,
+      "true_positive": 0,
+      "false_positive": 0,
+      "true_negative": 3,
+      "false_negative": 2,
+      "precision": null,
+      "recall": 0.0
+    },
+    "molecular_only__recruiting_interventional": {
+      "lexicon": [
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "stratum": "recruiting_interventional",
+      "n": 5,
+      "true_positive": 2,
+      "false_positive": 2,
+      "true_negative": 1,
+      "false_negative": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    "union__recruiting_interventional": {
+      "lexicon": [
+        "extraskeletal",
+        "extra-skeletal",
+        "extra skeletal",
+        "myxoid",
+        "chondrosarcoma",
+        "nr4a3",
+        "ewsr1",
+        "fet fusion",
+        "fusion",
+        "translocation"
+      ],
+      "stratum": "recruiting_interventional",
+      "n": 5,
+      "true_positive": 2,
+      "false_positive": 2,
+      "true_negative": 1,
+      "false_negative": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    }
+  },
+  "records": [
+    {
+      "nct": "NCT05918640",
+      "truth": "admits",
+      "basis": "fusion-family-defined (FET: EWSR1 / FUS / TAF15)",
+      "interventional": true,
+      "recruiting": true,
+      "visible_fields": "lurbinectedin in fet-fused tumors | lurbinectedin in fet-fusion tumors (lifft) | ewing sarcoma | desmoplastic small round cell tumor | pediatric cancer | undifferentiated sarcoma",
+      "hits_union": [
+        "fusion"
+      ],
+      "source_field": [
+        "fet-fusion-trial-eligibility-2026-08-07.json",
+        "task_2_widened_search.confirmed_fusion_family_defined[0].eligibility_basis"
+      ]
+    },
+    {
+      "nct": "NCT06571734",
+      "truth": "admits",
+      "basis": "cohort for translocation-associated soft tissue sarcoma",
+      "interventional": true,
+      "recruiting": true,
+      "visible_fields": "xl092 (zanzalintinib) for the treatment of patients with metastatic or unresectable leiomyosarcoma, bone sarcoma or translocation-associated soft tissue sarcoma | a non-randomized, open-label phase ii trial testing the activity of xl092 (zanzalintinib) in patients with advanced leiomyosarcoma, bone sarcoma or translocation-associated soft tissue sarcoma | metastatic leiomyosarcoma | unresectable leiomyosarcoma | bone sarcoma | translocation-associated soft tissue sarcoma | synovial sarcomas | osteosarcoma metastatic | ewing sarcoma",
+      "hits_union": [
+        "translocation"
+      ],
+      "source_field": [
+        "emc-trial-reachability-adjudication-2026-08-09.json",
+        "adjudications[].verdict"
+      ]
+    },
+    {
+      "nct": "NCT04151342",
+      "truth": "admits",
+      "basis": "observational basket, rare molecular alterations",
+      "interventional": false,
+      "recruiting": true,
+      "visible_fields": "canadian cancers with rare molecular alterations (carma) - basket real-world observational study (bros) |  | cancer | malignancies multiple | malignant solid tumor | cancer, therapy-related | molecular sequence variation | genetic alteration | gene fusion | receptor tyrosine kinase gene mutation",
+      "hits_union": [
+        "fusion"
+      ],
+      "source_field": [
+        "emc-trial-reachability-adjudication-2026-08-09.json",
+        "adjudications[].verdict"
+      ]
+    },
+    {
+      "nct": "NCT06094101",
+      "truth": "refuses",
+      "basis": "fusion-framed title, histology-restricted criteria",
+      "interventional": true,
+      "recruiting": true,
+      "visible_fields": "personalized vaccination in fusion+ sarcoma patients (pervision) |  | ewing sarcoma | rhabdomyosarcoma | synovial sarcoma",
+      "hits_union": [
+        "fusion"
+      ],
+      "source_field": [
+        "emc-trial-reachability-adjudication-2026-08-09.json",
+        "adjudications[].verdict"
+      ]
+    },
+    {
+      "nct": "NCT07188532",
+      "truth": "refuses",
+      "basis": "'extra-skeletal' means extraskeletal Ewing sarcoma",
+      "interventional": true,
+      "recruiting": true,
+      "visible_fields": "biologically-adapted, dose-escalated radiotherapy for the treatment of ewing sarcoma, bear trial |  | ewing sarcoma | round cell sarcoma with ewsr1-non-ets fusion",
+      "hits_union": [
+        "ewsr1",
+        "fusion"
+      ],
+      "source_field": [
+        "emc-trial-reachability-adjudication-2026-08-09.json",
+        "adjudications[].verdict"
+      ]
+    },
+    {
+      "nct": "NCT07695311",
+      "truth": "refuses",
+      "basis": "partner-restricted (EWSR1-FLI1 / EWSR1-ERG / EWSR1-WT1)",
+      "interventional": true,
+      "recruiting": false,
+      "visible_fields": "ewsr1 immunotherapy in ewing sarcoma and dsrct | precision analysis of fusion genes in ewing sarcoma (es) and desmoplastic small round cell tumor (dsrct), then ewsr1 (ewing sarcoma gene breakpoint region 1 gene) immunotherapy without or with anti-ctla-4 (botensilimab) and anti-pd1 (balstilimab) | ewing sarcoma | desmoplastic small round cell tumor",
+      "hits_union": [
+        "ewsr1",
+        "fusion"
+      ],
+      "source_field": [
+        "fet-fusion-trial-eligibility-2026-08-07.json",
+        "task_2_widened_search.screened_and_excluded[].assessment"
+      ]
+    },
+    {
+      "nct": "NCT07328425",
+      "truth": "refuses",
+      "basis": "partner-restricted (EWSR1-WT1)",
+      "interventional": true,
+      "recruiting": true,
+      "visible_fields": "clinical study in adult and young adult patients with advanced desmoplastic small round cell tumor (dsrct) isg-tulips | phase ii study of lurbinectedin and irinotecan in adult and young adult patients with advanced desmoplastic small round cell tumor (dsrct) | desmoplastic small round cell tumor",
+      "hits_union": [],
+      "source_field": [
+        "fet-fusion-trial-eligibility-2026-08-07.json",
+        "task_2_widened_search.screened_and_excluded[].assessment"
+      ]
+    },
+    {
+      "nct": "NCT05275426",
+      "truth": "admits",
+      "basis": "'rearrangement between EWSR1 and a non-ETS family gene'",
+      "interventional": true,
+      "recruiting": false,
+      "visible_fields": "a study of ly2880070 and gemcitabine in people with ewing sarcoma,ewing-like sarcoma, and desmoplastic small round cell tumor | a phase ii study of oral chk1 inhibitor ly2880070 in combination with low-dose gemcitabine in patients with relapsed or refractory ewing sarcoma, ewing-like sarcoma, and desmoplastic small round cell tumor | ewing sarcoma | ewing-like sarcoma",
+      "hits_union": [],
+      "source_field": [
+        "fet-fusion-trial-eligibility-2026-08-07.json",
+        "task_2_widened_search.screened_and_excluded[].eligibility_basis"
+      ]
+    }
+  ]
+}
