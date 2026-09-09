@@ -1,0 +1,162 @@
+{
+  "_lane": "MODALITY-CENSUS-2",
+  "_what": "Independent re-derivation of the two defects reported by MODALITY-CENSUS-1.",
+  "provenance": {
+    "research/modalities/emc-expression-panels.json": {
+      "sha256": "59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d",
+      "bytes": 13254759
+    },
+    "research/modalities/census-novelty-audit.json": {
+      "sha256": "7ebf72497ff5012375f00e43c8c3fcd8663f36f498aadf87c6022b6102bae78e",
+      "bytes": 72747
+    },
+    "systems/graph/modalities.json": {
+      "sha256": "5694cdf758c6b77fb6c614c41bf8c4f674592783c3e6a3025beb2b4781bf72a5",
+      "bytes": 187400
+    },
+    "research/manuscripts/modality-census/cancer-modality-census.md": {
+      "sha256": "d8fd8587bd3306e04ad41309c84efe5f32540f6242397b7c9f1d30a5f4039389",
+      "bytes": 42114
+    },
+    "_head": "65328136ec847a2ae4192cc8274cb6d5a12a6de2"
+  },
+  "A_guardian_quantifier": {
+    "stored_group": "panels.apoptotic_dependency.groups.anti_apoptotic_the_druggable_ones",
+    "genes_requested": [
+      "BCL2",
+      "MCL1",
+      "BCL2L1",
+      "BCL2L2",
+      "BCL2A1"
+    ],
+    "per_gene_delta_EMC_minus_comparator_mean_z": {
+      "BCL2": {
+        "GPL6244": {
+          "EMC_mean_z": 0.3069,
+          "comparator_mean_z": 1.1153,
+          "delta": -0.8084,
+          "platform_field": "GPL6244"
+        },
+        "GPL3290": {
+          "EMC_mean_z": 0.5458,
+          "comparator_mean_z": 0.7807,
+          "delta": -0.2349,
+          "platform_field": "GPL3290"
+        }
+      },
+      "MCL1": {
+        "GPL6244": {
+          "EMC_mean_z": 1.9806,
+          "comparator_mean_z": 2.247,
+          "delta": -0.2664,
+          "platform_field": "GPL6244"
+        },
+        "GPL3290": {
+          "EMC_mean_z": -0.4846,
+          "comparator_mean_z": 0.0717,
+          "delta": -0.5563,
+          "platform_field": "GPL3290"
+        }
+      },
+      "BCL2L1": {
+        "GPL6244": {
+          "EMC_mean_z": 0.9336,
+          "comparator_mean_z": 1.3137,
+          "delta": -0.3801,
+          "platform_field": "GPL6244"
+        },
+        "GPL3290": {
+          "EMC_mean_z": -0.6397,
+          "comparator_mean_z": -0.1642,
+          "delta": -0.4755,
+          "platform_field": "GPL3290"
+        }
+      },
+      "BCL2L2": {
+        "GPL6244": {
+          "EMC_mean_z": 0.4786,
+          "comparator_mean_z": 0.3555,
+          "delta": 0.1231,
+          "platform_field": "GPL6244"
+        },
+        "GPL3290": {
+          "EMC_mean_z": 0.6767,
+          "comparator_mean_z": 0.7224,
+          "delta": -0.0457,
+          "platform_field": "GPL3290"
+        }
+      },
+      "BCL2A1": {
+        "GPL6244": {
+          "EMC_mean_z": -0.7988,
+          "comparator_mean_z": -0.8359,
+          "delta": 0.0371,
+          "platform_field": "GPL6244"
+        },
+        "GPL3290": {
+          "EMC_mean_z": -1.791,
+          "comparator_mean_z": -1.2611,
+          "delta": -0.5299,
+          "platform_field": "GPL3290"
+        }
+      }
+    },
+    "n_lower_on_both": 3,
+    "lower_on_both": [
+      "BCL2",
+      "MCL1",
+      "BCL2L1"
+    ],
+    "not_lower_on_both": [
+      "BCL2L2",
+      "BCL2A1"
+    ],
+    "module": {
+      "GPL6244": {
+        "delta_a_minus_b": -0.259,
+        "t": -4.568,
+        "df": 14.0,
+        "EMC_mean_score": 0.5802,
+        "comparator_mean_score": 0.8391,
+        "n_genes_readable": 5,
+        "n_genes_requested": 5,
+        "recomputed_delta": -0.2589
+      },
+      "GPL3290": {
+        "delta_a_minus_b": -0.4097,
+        "t": -2.538,
+        "df": 9.8,
+        "EMC_mean_score": -0.3385,
+        "comparator_mean_score": 0.0711,
+        "n_genes_readable": 5,
+        "n_genes_requested": 5,
+        "recomputed_delta": -0.4096
+      }
+    },
+    "module_lower_on_both_platforms": true
+  },
+  "B_never_searched_denominator": {
+    "registry_rows_total": 217,
+    "registry_never_searched": 111,
+    "audit_n_never_searched_rows": 127,
+    "audit_n_rows_with_a_candidate_collision": 73,
+    "audit_findings_len": 73,
+    "discrepancy": 16,
+    "audit_finding_ids_no_longer_never_searched": [
+      "MOD-SEQUENCING",
+      "MOD-N-OF-1",
+      "MOD-ILP",
+      "MOD-CS-BIOSYNTHESIS",
+      "MOD-TRANSCRIPTIONAL-CDK",
+      "MOD-EZH2",
+      "MOD-THERMAL-ABLATION",
+      "MOD-HYPOXIA-PRODRUG",
+      "MOD-HSP90",
+      "MOD-ARGININE-DEPRIVATION",
+      "MOD-BRACHYTHERAPY",
+      "MOD-DNMT",
+      "MOD-RADIOSENSITIZER",
+      "MOD-METRONOMIC"
+    ]
+  }
+}

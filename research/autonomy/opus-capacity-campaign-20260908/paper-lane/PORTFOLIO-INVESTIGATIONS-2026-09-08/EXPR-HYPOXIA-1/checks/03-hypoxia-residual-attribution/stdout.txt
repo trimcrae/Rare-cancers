@@ -1,0 +1,42 @@
+GATE primary.n_genes                            recomputed=434      published=434      OK
+GATE primary.rate_unadjusted                    recomputed=0.6521   published=0.6521   OK
+GATE primary.rate_composition_adjusted          recomputed=0.5668   published=0.5668   OK
+GATE secondary.n_genes                          recomputed=413      published=413      OK
+GATE secondary.rate_unadjusted                  recomputed=0.6368   published=0.6368   OK
+GATE secondary.rate_composition_adjusted        recomputed=0.5981   published=0.5981   OK
+GATE PASSED: 6/6, 0 mismatches
+
+H: 16/22 genes survive complete-case: ['ADPGK', 'ALDOA', 'EGLN3', 'ENO1', 'GPI', 'LDHA', 'PDK1', 'PFKFB3', 'PFKFB4', 'PFKL', 'PFKP', 'PGAM1', 'PGK1', 'SLC2A1', 'TPI1', 'VEGFA']
+H dropped: {
+ "CA9": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+ ],
+ "HK2": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+ ],
+ "PKM": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: symbol not measured in the hypoxia file"
+ ],
+ "SLC16A1": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+ ],
+ "SLC16A3": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: symbol not measured in the hypoxia file"
+ ],
+ "SLC2A3": [
+  "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+ ]
+}
+V: 10/13 survive: ['PECAM1', 'VWF', 'KDR', 'FLT1', 'CDH5', 'ESAM', 'EMCN', 'ROBO4', 'ANGPT2', 'PGF']
+
+Spearman(H, EMC label): {'GSE24369_series_matrix.txt.gz': 0.4128, 'GSE4303-GPL3290_series_matrix.txt.gz': 0.8402}
+Spearman(V, EMC label): {'GSE24369_series_matrix.txt.gz': -0.5179, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.224}
+Spearman(C, EMC label): {'GSE24369_series_matrix.txt.gz': -0.578, 'GSE4303-GPL3290_series_matrix.txt.gz': -0.5041}
+
+[primary] paired n=434
+   unadjusted             rate=0.6567  atten=None
+   C_composition_noLOO    rate=0.5691  atten=0.559
+   H_hypoxia              rate=0.5184  atten=0.882
+   V_vascular             rate=0.6336  atten=0.147
+   C_plus_H               rate=0.4885  atten=1.074
+   C_plus_V               rate=0.5829  atten=0.471

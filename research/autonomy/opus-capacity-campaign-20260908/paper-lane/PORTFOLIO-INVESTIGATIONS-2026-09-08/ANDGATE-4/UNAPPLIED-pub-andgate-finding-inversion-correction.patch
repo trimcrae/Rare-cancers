@@ -1,0 +1,37 @@
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-ANDGATE/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-ANDGATE/FINDING.md
+@@ -83,10 +83,31 @@
+    EWSR1-LC sites. That converts an unevaluated qualitative caveat into a comparison against a
+    measurable cell-biological number.
+ 3. **The cost curve.** Window retained vs the cis-only value: 0.999 at C_E = 0.1 µM, 0.991 at 1 µM,
+-   0.917 at 10 µM, 0.545 at 100 µM, 0.318 at 300 µM, **1.00× (selectivity entirely gone) at
+-   C_E = 1 mM = EM**, and **inverted (0.70×, 0.58×) above EM** — where the molecule prefers
+-   wild-type NR4A3 to the fusion. The half-window point is analytic, `C_E* = Kd2·(1/f − 1)`, i.e.
++   0.917 at 10 µM, 0.545 at 100 µM, 0.318 at 300 µM, and **1.00× — selectivity entirely gone — at
++   C_E = 1 mM = EM**, beyond which the window **asymptotes to unity from above and never falls below
++   it**. The half-window point is analytic, `C_E* = Kd2·(1/f − 1)`, i.e.
+    **C_E* = Kd2 = 100 µM**, set by arm-2 affinity **alone** and not by the linker.
++
++   > **Correction, 2026-09-09 (ANDGATE-3, re-derived independently by ANDGATE-4).** This item
++   > previously read "and **inverted (0.70×, 0.58×) above EM** — where the molecule prefers
++   > wild-type NR4A3 to the fusion." **That inversion was a modelling artifact and is withdrawn.**
++   > `f_fusion` in `andgate_trans_competition_model.py` takes no `C_E` argument, so the
++   > `(L/Kd1)(C_E/Kd2)` in-trans term entered the wild-type partition function only. The Erratum
++   > establishes the fusion is `EWSR1-LC :: NR4A3-LBD`, so a ligand anchored by arm 1 on the
++   > fusion's own LBD bridges in trans to a free LC chain exactly as it does on wild-type NR4A3:
++   > the term belongs in **both**. With it symmetric,
++   > `window = (1 + n·EM/Kd2 + C_E/Kd2 + n·Kd1/Kd2)/(1 + C_E/Kd2)`, whose numerator exceeds its
++   > denominator by `n·(EM + Kd1)/Kd2 > 0` for every `C_E` — so the window is **> 1 everywhere** and
++   > decays **monotonically to 1**. The two superseded figures become **1.064** (C_E = 3 mM) and
++   > **1.008** (C_E = 10 mM). A bivalent ligand cannot prefer a chain carrying one of its two
++   > epitopes over a chain carrying both. **The gate stops working; it does not run backwards.**
++   >
++   > Two further precision notes, from ANDGATE-4's independent re-derivation. (i) The superseded
++   > "0.70×, 0.58×" were the **2-dp rounded** values committed in
++   > `fusion-andgate-trans-competition.json`; the underlying asymmetric quantities are **0.6958**
++   > and **0.5782**, and they should not be re-quoted at 3 dp as "0.700 / 0.580". (ii) The
++   > superseded sweep rows at `C_E` = 3 mM and 10 mM in that JSON are retained as the record of
++   > what was computed, and are **not** to be read as current results.
+ 4. **A non-obvious consequence that supports the design.** The published design rule ("make both
+    arms weak") is *also* what suppresses the trans pathway, because a weak Kd2 raises C_E*. The two
+    requirements point the same way. The arm-2 sensitivity table makes the tradeoff explicit: at

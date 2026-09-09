@@ -1,0 +1,105 @@
+### A-CAPS row source in the harness
+352:rec("A-CAPS", "3.4", "both queries were capped at 1,000 records against totals of 2,027 terminated and 16,035 completed phase 2 trials",
+353-    [2027, 16035], "endpoint-corpus.json", "C5_retrieval_provenance / lit-targets protocol",
+354-    None, "READ-BACK",
+355-    missing="the registry query-response headers recording the reported totals. C5_retrieval_provenance in the committed corpus does not retain a per-query 'reported total' field, and re-querying ClinicalTrials.gov is direct network egress, refused in this environment.")
+356-
+357-# 3.3 phase composition
+358-low_conds = {c["condition"] for c in below_null}
+359-def phase_mix(conds):
+360-    """Distinct contributing ARMS, not a sum over conditions: an arm listing two placed conditions
+361-    contributes once. Summing G3's per-condition phase_mix double-counts such arms."""
+362-    cnt = Counter()
+
+### rows labelled RECOMPUTED whose source_key names a summary key -- harness source
+--- M-GE25
+152:rec("M-GE25", "artifact only", "396 arms at or above 25 points (R3 key, not in prose)",
+153-    396, "orr-dcr-reread.json", "R3_distribution_summary.all_arms.arms_at_or_above.25",
+154-    sum(1 for g in gaps if g >= 25), "RECOMPUTED")
+155-rec("M-GE75", "artifact only", "72 arms at or above 75 points (R3 key, not in prose)",
+156-    72, "orr-dcr-reread.json", "R3_distribution_summary.all_arms.arms_at_or_above.75",
+157-    sum(1 for g in gaps if g >= 75), "RECOMPUTED")
+158-rec("M-CORNER", "4.1", "71 arms with objective response <= 10% and disease control >= 70%",
+159-    71, "endpoint-corpus.json", "C2_arms (recomputed)",
+160-    sum(1 for a in arms if 100*arm_stats(a)[1] <= 10 and 100*arm_stats(a)[2] >= 70), "RECOMPUTED")
+--- M-GE75
+155:rec("M-GE75", "artifact only", "72 arms at or above 75 points (R3 key, not in prose)",
+156-    72, "orr-dcr-reread.json", "R3_distribution_summary.all_arms.arms_at_or_above.75",
+157-    sum(1 for g in gaps if g >= 75), "RECOMPUTED")
+158-rec("M-CORNER", "4.1", "71 arms with objective response <= 10% and disease control >= 70%",
+159-    71, "endpoint-corpus.json", "C2_arms (recomputed)",
+160-    sum(1 for a in arms if 100*arm_stats(a)[1] <= 10 and 100*arm_stats(a)[2] >= 70), "RECOMPUTED")
+161-rec("M-WEIGHTED", "2.3/artifact", "patient-weighted gap 39.4 pp over 18,318 patients and 7,213 stable-disease events",
+162-    [18318, 7213, 39.4], "orr-dcr-reread.json", "R3_distribution_summary.denominator_weighted_sensitivity",
+163-    [sum(a["evaluable_n"] for a in arms), sum(a["cells"]["SD"] for a in arms),
+--- M-WEIGHTED
+161:rec("M-WEIGHTED", "2.3/artifact", "patient-weighted gap 39.4 pp over 18,318 patients and 7,213 stable-disease events",
+162-    [18318, 7213, 39.4], "orr-dcr-reread.json", "R3_distribution_summary.denominator_weighted_sensitivity",
+163-    [sum(a["evaluable_n"] for a in arms), sum(a["cells"]["SD"] for a in arms),
+164-     round(100*sum(a["cells"]["SD"] for a in arms)/sum(a["evaluable_n"] for a in arms), 1)], "RECOMPUTED")
+165-
+166-# 4.2 strata
+167-def stratum(pred):
+168-    sub = [round(100*arm_stats(a)[3], 1) for a in arms if pred(a)]
+169-    return [len(sub), round(median(sub), 1)] if sub else [0, None]
+--- P-MIXLOW
+368:rec("P-MIXLOW", "3.3", "arms at or below the null are phase-1 heavy: 197 phase 1 against 147 phase 2 and 9 phase 3",
+369-    [197, 147, 9], "endpoint-regime-map.json", "G3.coordinates.phase_mix (recomputed)",
+370-    [lowmix["PHASE1"], lowmix["PHASE2"], lowmix["PHASE3"]], "RECOMPUTED")
+371-rec("P-MIXREST", "3.3", "the remaining placed conditions run 133 phase 2, 96 phase 1 and 37 phase 3",
+372-    [133, 96, 37], "endpoint-regime-map.json", "G3.coordinates.phase_mix (recomputed)",
+373-    [restmix["PHASE2"], restmix["PHASE1"], restmix["PHASE3"]], "RECOMPUTED")
+374-p23 = [c for c in below_null if c.get("phase_2_3_arms", 0) > 0]
+375-still0 = [c for c in p23 if c["median_objective_response_pct_phase_2_3_arms_only"] == 0.0]
+376-risen = [c for c in p23 if c["median_objective_response_pct_phase_2_3_arms_only"] > 0.0]
+--- G-BOUNDCALC
+311:rec("G-BOUNDCALC", "3.4", "the two shares are the two variants' own counts over their own defined denominators",
+312-    [31.8, 73.9], "endpoint-regime-map.json", "G4b.variants (recomputed)",
+313-    [round(100*comp["conditions_below_the_design_contour"]/comp["conditions_where_the_design_comparison_is_defined"], 1),
+314-     round(100*term["conditions_below_the_design_contour"]/term["conditions_where_the_design_comparison_is_defined"], 1)], "RECOMPUTED")
+315-rec("G-ZEROINTERVAL", "3.4", "the zero-event interval runs from 0.0% to 47.8%",
+316-    [0.0, 47.8], "endpoint-regime-map.json", "G4b.variants",
+317-    [comp["share_below_the_zero_event_contour_pct"], term["share_below_the_zero_event_contour_pct"]], "READ-BACK")
+318-rec("G-CANNOT", "3.2", "between 20 of 35 and 30 of 36 placed conditions cannot support a response-rate summary",
+319-    [20, 35, 30, 36], "endpoint-regime-map.json", "G4b.variants",
+--- V-19
+398:rec("V-19", "6", "nineteen arms carry a control token", 19, "placebo-arm-calibration.json",
+399-    "P3_classification.control_arms_found", p3["control_arms_found"], "RECOMPUTED",
+400-    note="also recomputed from the corpus: arms flagged control_arm_candidate")
+401-rec("V-19C", "6", "the 19 control-token arms are the corpus's control_arm_candidate flag",
+402-    19, "endpoint-corpus.json", "C2_arms[].control_arm_candidate",
+403-    sum(1 for a in arms if a["control_arm_candidate"]), "RECOMPUTED")
+404-comp_types = p3["composition_by_registered_arm_type"]
+405-rec("V-TYPES", "6", "eight registered as placebo comparator or no-intervention, eight as experimental or active comparator, three unresolved",
+406-    [8, 8, 3], "placebo-arm-calibration.json", "P3.composition_by_registered_arm_type",
+--- C-ABSTRACTS
+272:rec("C-ABSTRACTS", "2.1/5", "1,277 abstracts screened, 5 with all four labels, 1 with a denominator they sum to",
+273-    [1277, 5, 1], "endpoint-corpus.json", "A2_why_not_abstracts",
+274-    [a2.get("unique_abstracts_screened"), a2.get("abstracts_with_all_four_category_labels"),
+275-     a2.get("abstracts_with_four_labels_and_a_denominator_they_sum_to")], "READ-BACK")
+276-
+277-# Section 3 regime map
+278-g3 = MAP["G3_disease_coordinates"]; g4 = MAP["G4_what_the_map_reads"]; g4b = MAP["G4b_the_accrual_axis_is_two_populations"]
+279-coords = g3["coordinates"]
+280-rec("G-PLACED", "3.2/abstract", "44 conditions had enough of both axes to be placed",
+--- R-FAMILIES
+463:rec("R-FAMILIES", "7", "family document counts A=4, B=4, C=3, D=7",
+464-    [4, 4, 3, 7], "endpoint-prior-art-audit.json", "A2_fix_families.documents_per_family",
+465-    [a2f["documents_per_family"]["A_switch_to_time_to_event"], a2f["documents_per_family"]["B_redefine_response"],
+466-     a2f["documents_per_family"]["C_add_categories"], a2f["documents_per_family"]["D_patient_as_own_control"]], "READ-BACK")
+467-rec("R-FAMSUM", "7", "the four family counts sum to the 18 retrieved documents",
+468-    18, "endpoint-prior-art-audit.json", "A2_fix_families (recomputed)",
+469-    sum(a2f["documents_per_family"].values()), "RECOMPUTED")
+470-rec("R-IDS", "7", "the per-family identifier lists match the per-family counts",
+471-    [4, 4, 3, 7], "endpoint-prior-art-audit.json", "A2_fix_families.identifiers_per_family (recomputed)",
+
+### V-OVERLAP: any enrolment roster for PMID 37777684 / 39620931 in the repo?
+/home/user/Rare-cancers/research/manuscripts/citation-retraction-sweep.json
+/home/user/Rare-cancers/research/manuscripts/placebo_arm_calibration.py
+/home/user/Rare-cancers/research/manuscripts/tests/test_endpoint_manuscript_figures.py
+/home/user/Rare-cancers/research/manuscripts/tests/__pycache__/test_endpoint_manuscript_figures.cpython-311-pytest-9.1.1.pyc
+/home/user/Rare-cancers/research/manuscripts/endpoint/natural-history-inputs.json
+/home/user/Rare-cancers/research/manuscripts/endpoint/lit-targets-cross-disease-endpoints.json
+/home/user/Rare-cancers/research/manuscripts/endpoint/placebo-arm-calibration.json
+/home/user/Rare-cancers/research/manuscripts/endpoint/response-endpoint-indolent-tumours.md
+/home/user/Rare-cancers/research/manuscripts/__pycache__/placebo_arm_calibration.cpython-311.pyc

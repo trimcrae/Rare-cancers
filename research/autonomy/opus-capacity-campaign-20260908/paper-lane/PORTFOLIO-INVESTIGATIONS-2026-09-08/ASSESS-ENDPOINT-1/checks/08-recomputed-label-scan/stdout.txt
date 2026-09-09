@@ -1,0 +1,58 @@
+rows labelled RECOMPUTED whose derived expression contains NO computation (pure key lookup):
+  SUSPECT M-IDENTITY :: sums_ok
+  SUSPECT Z-MEDORR :: median_orr
+  SUSPECT P-MIXLOW :: [lowmix['PHASE1'], lowmix['PHASE2'], lowmix['PHASE3']]
+  SUSPECT P-MIXREST :: [restmix['PHASE2'], restmix['PHASE1'], restmix['PHASE3']]
+  SUSPECT V-19 :: p3['control_arms_found']
+  SUSPECT V-PROG :: [p4['trials_with_the_field_read'], p4['verdicts_across_those_trials']['REQUIRED'], p4['verdicts_across_those_trials']['MENTIONED_NOT_AS_A_REQUIREMENT'
+  SUSPECT V-484 :: None
+
+RECOMPUTED rows with genuine computation: 56  suspect: 7
+### V-PROG
+412-     p3["counts"]["observation_no_active_agent"]], "READ-BACK")
+413-rec("V-SUM", "6", "the classification partitions all 552 arms", 552, "placebo-arm-calibration.json",
+414-    "P3_classification.counts", sum(p3["counts"].values()), "RECOMPUTED")
+415-p4 = PLACEBO["P4_progression_at_entry_strata"]
+416:rec("V-PROG", "6", "one trial of the 12 states a progression requirement, five mention it without requiring it, six do not mention it",
+417-    [12, 1, 5, 6], "placebo-arm-calibration.json", "P4_progression_at_entry_strata",
+418-    [p4["trials_with_the_field_read"], p4["verdicts_across_those_trials"]["REQUIRED"],
+419-     p4["verdicts_across_those_trials"]["MENTIONED_NOT_AS_A_REQUIREMENT"],
+420-     p4["verdicts_across_those_trials"]["NOT_MENTIONED"]], "RECOMPUTED")
+421-p7 = PLACEBO["P7_traps"]
+422-rec("V-484", "6", "the single no-intervention arm reports a 48.4% objective response",
+423-    48.4, "endpoint-corpus.json", "C2_arms (recomputed over the NO_INTERVENTION arm)",
+424-    None, "RECOMPUTED",
+### V-484
+418-    [p4["trials_with_the_field_read"], p4["verdicts_across_those_trials"]["REQUIRED"],
+419-     p4["verdicts_across_those_trials"]["MENTIONED_NOT_AS_A_REQUIREMENT"],
+420-     p4["verdicts_across_those_trials"]["NOT_MENTIONED"]], "RECOMPUTED")
+421-p7 = PLACEBO["P7_traps"]
+422:rec("V-484", "6", "the single no-intervention arm reports a 48.4% objective response",
+423-    48.4, "endpoint-corpus.json", "C2_arms (recomputed over the NO_INTERVENTION arm)",
+424-    None, "RECOMPUTED",
+425-    missing=None if False else None)
+426-# recompute 48.4 directly
+427-noint = [a for a in arms if a["control_arm_candidate"] and a.get("arm_group_type") == "NO_INTERVENTION"]
+428-ROWS.pop()
+429:rec("V-484", "6", "the single no-intervention arm reports a 48.4% objective response",
+430-    48.4, "endpoint-corpus.json", "C2_arms (recomputed over the NO_INTERVENTION arm)",
+431-    round(100*arm_stats(noint[0])[1], 1) if len(noint) == 1 else None, "RECOMPUTED")
+432-p6 = PLACEBO["P6_the_corner_with_no_control_arms"]
+433-rec("V-CORNER", "6.1", "of the 44 conditions placed, 25 have a median objective response of 15% or less; 4 of those 25 have any control arm",
+434-    [25, 4], "placebo-arm-calibration.json", "P6_the_corner_with_no_control_arms",
+435-    [p6["conditions_in_the_low_response_regime"], p6["of_those_with_any_control_arm_in_this_corpus"]], "READ-BACK")
+### lowmix/restmix/sums_ok/median_orr definitions
+130:sums_ok = all(arm_stats(a)[4] == a["evaluable_n"] for a in arms)
+131-gaps = [round(100*arm_stats(a)[3], 1) for a in arms]
+132-orrs = [100*arm_stats(a)[1] for a in arms]
+133-dcrs = [100*arm_stats(a)[2] for a in arms]
+--
+197:median_orr = round(median(orrs), 1)
+198-orrs_sorted = sorted(round(x, 1) for x in orrs)
+199-upper_midpoint = orrs_sorted[len(orrs_sorted) // 2]
+200-rec("Z-MEDORR", "4.3 / Figure 3", "corpus median objective response rate 7.7%",
+--
+367:lowmix = phase_mix(low_conds); restmix = phase_mix({c["condition"] for c in coords} - low_conds)
+368-rec("P-MIXLOW", "3.3", "arms at or below the null are phase-1 heavy: 197 phase 1 against 147 phase 2 and 9 phase 3",
+369-    [197, 147, 9], "endpoint-regime-map.json", "G3.coordinates.phase_mix (recomputed)",
+370-    [lowmix["PHASE1"], lowmix["PHASE2"], lowmix["PHASE3"]], "RECOMPUTED")

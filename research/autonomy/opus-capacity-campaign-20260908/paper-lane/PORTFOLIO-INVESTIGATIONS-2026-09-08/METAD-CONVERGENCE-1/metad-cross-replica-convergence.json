@@ -1,0 +1,502 @@
+{
+  "id": "METAD-CONVERGENCE-1",
+  "generated_utc": "2026-09-09T01:48:38+00:00",
+  "question": "Is the pocket-opening free energy resolved beyond replica noise across the three committed NR4A3-LBD metadynamics replicas?",
+  "definition": {
+    "observable": "dF_open = min F over sampled Rg > 0.9 nm  minus  min F over sampled Rg <= 0.9 nm, within the metadynamics wall region [0.45, 2.2] nm.",
+    "boundary_rg_nm": 0.9,
+    "wall_region_rg_nm": [
+      0.45,
+      2.2
+    ],
+    "unsampled_handling": "Grid points sitting at the per-block ceiling value are treated as UNSAMPLED and excluded from basin minima. Where the whole open side is unsampled, dF_open is a lower bound, flagged as such.",
+    "within_replica_error": "|dF_open(20.0 ns block) - dF_open(30.2 ns block)| \u2014 the half-block estimate.",
+    "resolution_floor": "max(between-replica range of dF_open, worst within-replica half-block error)."
+  },
+  "inputs": {
+    "r1": {
+      "fes_blocks": {
+        "path": "results/nr4a3-metad-analysis-r1/fes_blocks.json",
+        "sha256": "6cc3a657a85f68a46b3463892327d134d57dc1a126059f0a365f365e14ad97e3",
+        "bytes": 32859
+      },
+      "fes2d_rg_gate": {
+        "path": "results/nr4a3-metad-analysis-r1/fes2d_rg_gate.json",
+        "sha256": "7b91ff5b8281e36413f7885d1fa07afde44e245476e3615d73663b159c351919",
+        "bytes": 10784
+      },
+      "metad_analysis_summary": {
+        "path": "results/nr4a3-metad-analysis-r1/metad_analysis_summary.json",
+        "sha256": "39a1dc48aa8cc690bf5d3d49e9b878da385ef02f7ee102481240745e903ba04c",
+        "bytes": 2881
+      },
+      "MANIFEST": {
+        "path": "results/nr4a3-metad-analysis-r1/MANIFEST.json",
+        "sha256": "206bda1e28894f38534e6bb1cd61ece03cb671d1cd116b9e7918c344392e1a2e",
+        "bytes": 1811
+      }
+    },
+    "r2": {
+      "fes_blocks": {
+        "path": "results/nr4a3-metad-analysis-r2/fes_blocks.json",
+        "sha256": "88513ff8f709d16beaf33b88d983c9e135a6669ea4ffc79960a703a835a13302",
+        "bytes": 32666
+      },
+      "fes2d_rg_gate": {
+        "path": "results/nr4a3-metad-analysis-r2/fes2d_rg_gate.json",
+        "sha256": "c1fc87760e5f716d005511926b24603eb6956318f24bc59c44a8f6f92d9d7c15",
+        "bytes": 10591
+      },
+      "metad_analysis_summary": {
+        "path": "results/nr4a3-metad-analysis-r2/metad_analysis_summary.json",
+        "sha256": "623e3c57cab7b787d7978f7041d971ea2080904ac172c5d060e5b29576f9ccae",
+        "bytes": 2863
+      },
+      "MANIFEST": {
+        "path": "results/nr4a3-metad-analysis-r2/MANIFEST.json",
+        "sha256": "8e052e87f7c8db3621d1af726b37206327f9d1277eb5d0d27c8f969d027a42de",
+        "bytes": 1811
+      }
+    },
+    "r3": {
+      "fes_blocks": {
+        "path": "results/nr4a3-metad-analysis-r3/fes_blocks.json",
+        "sha256": "1ac0046abe14eb1903917aeddd0980f9f55f6e11dad05df757d4a71969a3a84f",
+        "bytes": 32683
+      },
+      "fes2d_rg_gate": {
+        "path": "results/nr4a3-metad-analysis-r3/fes2d_rg_gate.json",
+        "sha256": "c162bc9e5aef4f0ab9be17fe78b561d0d31d34d5093e1dd45626f935446ab624",
+        "bytes": 10789
+      },
+      "metad_analysis_summary": {
+        "path": "results/nr4a3-metad-analysis-r3/metad_analysis_summary.json",
+        "sha256": "20194b72b5aa4ea50188f2338a478bcfc53c952e48fee38ee8c86ffea42835b5",
+        "bytes": 2882
+      },
+      "MANIFEST": {
+        "path": "results/nr4a3-metad-analysis-r3/MANIFEST.json",
+        "sha256": "7e07c5c9a3867fede796c95a5d7f759aaccd1b59fa3e5e65497ceadd88d85a0b",
+        "bytes": 1811
+      }
+    }
+  },
+  "blinding": {
+    "seed": 20260908,
+    "pseudonym_to_replica": {
+      "A": "r2",
+      "B": "r3",
+      "C": "r1"
+    },
+    "blinded_record": {
+      "pseudonyms": [
+        "A",
+        "B",
+        "C"
+      ],
+      "per_pseudonym": {
+        "A": {
+          "per_block": {
+            "10.0": {
+              "dF_kJ_mol": 58.914,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.13
+              ]
+            },
+            "20.0": {
+              "dF_kJ_mol": 63.436,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.13
+              ]
+            },
+            "30.0": {
+              "dF_kJ_mol": 78.624,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.13
+              ]
+            },
+            "30.2": {
+              "dF_kJ_mol": 78.591,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.13
+              ]
+            }
+          },
+          "final_dF_kJ_mol": 78.591,
+          "final_status": "measured",
+          "within_replica_half_block_error_kJ_mol": 15.155,
+          "published_per_replica_error_kJ_mol": 1.65,
+          "half_block_bounds_published": true
+        },
+        "B": {
+          "per_block": {
+            "10.0": {
+              "dF_kJ_mol": 139.873,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.02
+              ]
+            },
+            "20.0": {
+              "dF_kJ_mol": 154.778,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.02
+              ]
+            },
+            "30.0": {
+              "dF_kJ_mol": 172.342,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.02
+              ]
+            },
+            "30.2": {
+              "dF_kJ_mol": 172.598,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.45,
+                1.02
+              ]
+            }
+          },
+          "final_dF_kJ_mol": 172.598,
+          "final_status": "measured",
+          "within_replica_half_block_error_kJ_mol": 17.82,
+          "published_per_replica_error_kJ_mol": 0.256,
+          "half_block_bounds_published": true
+        },
+        "C": {
+          "per_block": {
+            "10.0": {
+              "dF_kJ_mol": -2.872,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.53,
+                1.2200000000000002
+              ]
+            },
+            "20.0": {
+              "dF_kJ_mol": 0.006,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.53,
+                1.2200000000000002
+              ]
+            },
+            "30.0": {
+              "dF_kJ_mol": 5.108,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.53,
+                1.2200000000000002
+              ]
+            },
+            "30.2": {
+              "dF_kJ_mol": 5.321,
+              "status": "measured",
+              "sampled_rg_extent_nm": [
+                0.53,
+                1.2200000000000002
+              ]
+            }
+          },
+          "final_dF_kJ_mol": 5.321,
+          "final_status": "measured",
+          "within_replica_half_block_error_kJ_mol": 5.315,
+          "published_per_replica_error_kJ_mol": 0.281,
+          "half_block_bounds_published": true
+        }
+      },
+      "between_replica_spread": {
+        "values_kJ_mol": [
+          78.591,
+          172.598,
+          5.321
+        ],
+        "mean_kJ_mol": 85.503,
+        "sd_kJ_mol": 83.852,
+        "range_kJ_mol": 167.277,
+        "half_range_kJ_mol": 83.639
+      },
+      "max_within_replica_half_block_error_kJ_mol": 17.82,
+      "signal_kJ_mol": 85.503,
+      "resolution_floor_kJ_mol": 167.277,
+      "resolved": false
+    }
+  },
+  "per_replica": {
+    "r2": {
+      "per_block": {
+        "10.0": {
+          "dF_kJ_mol": 58.914,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.13
+          ]
+        },
+        "20.0": {
+          "dF_kJ_mol": 63.436,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.13
+          ]
+        },
+        "30.0": {
+          "dF_kJ_mol": 78.624,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.13
+          ]
+        },
+        "30.2": {
+          "dF_kJ_mol": 78.591,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.13
+          ]
+        }
+      },
+      "final_dF_kJ_mol": 78.591,
+      "final_status": "measured",
+      "within_replica_half_block_error_kJ_mol": 15.155,
+      "published_per_replica_error_kJ_mol": 1.65,
+      "half_block_bounds_published": true
+    },
+    "r3": {
+      "per_block": {
+        "10.0": {
+          "dF_kJ_mol": 139.873,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.02
+          ]
+        },
+        "20.0": {
+          "dF_kJ_mol": 154.778,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.02
+          ]
+        },
+        "30.0": {
+          "dF_kJ_mol": 172.342,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.02
+          ]
+        },
+        "30.2": {
+          "dF_kJ_mol": 172.598,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.45,
+            1.02
+          ]
+        }
+      },
+      "final_dF_kJ_mol": 172.598,
+      "final_status": "measured",
+      "within_replica_half_block_error_kJ_mol": 17.82,
+      "published_per_replica_error_kJ_mol": 0.256,
+      "half_block_bounds_published": true
+    },
+    "r1": {
+      "per_block": {
+        "10.0": {
+          "dF_kJ_mol": -2.872,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.53,
+            1.2200000000000002
+          ]
+        },
+        "20.0": {
+          "dF_kJ_mol": 0.006,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.53,
+            1.2200000000000002
+          ]
+        },
+        "30.0": {
+          "dF_kJ_mol": 5.108,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.53,
+            1.2200000000000002
+          ]
+        },
+        "30.2": {
+          "dF_kJ_mol": 5.321,
+          "status": "measured",
+          "sampled_rg_extent_nm": [
+            0.53,
+            1.2200000000000002
+          ]
+        }
+      },
+      "final_dF_kJ_mol": 5.321,
+      "final_status": "measured",
+      "within_replica_half_block_error_kJ_mol": 5.315,
+      "published_per_replica_error_kJ_mol": 0.281,
+      "half_block_bounds_published": true
+    }
+  },
+  "between_replica_spread": {
+    "values_kJ_mol": [
+      78.591,
+      172.598,
+      5.321
+    ],
+    "mean_kJ_mol": 85.503,
+    "sd_kJ_mol": 83.852,
+    "range_kJ_mol": 167.277,
+    "half_range_kJ_mol": 83.639
+  },
+  "max_within_replica_half_block_error_kJ_mol": 17.82,
+  "signal_kJ_mol": 85.503,
+  "resolution_floor_kJ_mol": 167.277,
+  "resolved_beyond_replica_noise": false,
+  "checks": [
+    {
+      "name": "half_block_error_bounds_published_per_replica_error",
+      "statement": "For every replica the within-replica half-block error must be >= the published final block-to-block max |dF|; a smaller value would mean the published error understates the block-level uncertainty of dF_open.",
+      "per_replica": {
+        "r2": {
+          "half_block_kJ_mol": 15.155,
+          "published_kJ_mol": 1.65,
+          "pass": true
+        },
+        "r3": {
+          "half_block_kJ_mol": 17.82,
+          "published_kJ_mol": 0.256,
+          "pass": true
+        },
+        "r1": {
+          "half_block_kJ_mol": 5.315,
+          "published_kJ_mol": 0.281,
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "name": "between_replica_comparison_run_blind",
+      "statement": "Replica labels were permuted under a recorded seed before any spread or floor was computed; the mapping was applied only afterwards.",
+      "seed": 20260908,
+      "permutation_pseudonym_to_replica": {
+        "A": "r2",
+        "B": "r3",
+        "C": "r1"
+      },
+      "pass": true
+    },
+    {
+      "name": "signal_exceeds_resolution_floor",
+      "statement": "The mean opening free-energy difference must exceed the resolution floor (the larger of the between-replica range and the worst within-replica half-block error) for the difference to be resolved beyond replica noise.",
+      "signal_kJ_mol": 85.503,
+      "floor_kJ_mol": 167.277,
+      "pass": false
+    }
+  ],
+  "scope_limit": "A free-energy difference computed here is a property of this simulation ensemble only. It is NOT evidence of druggability, selectivity, efficacy, safety or a therapeutic window, and no such claim is made.",
+  "boundary_sensitivity": {
+    "purpose": "Confirms the negative is not an artifact of the 0.9 nm closed/open boundary. Every boundary tried is reported; none is selected as preferred.",
+    "rows": [
+      {
+        "boundary_rg_nm": 0.8,
+        "status": "measured",
+        "per_replica_dF_kJ_mol": [
+          -27.911,
+          24.283,
+          54.366
+        ],
+        "signal_kJ_mol": 16.912,
+        "between_replica_range_kJ_mol": 82.277,
+        "max_within_replica_half_block_error_kJ_mol": 16.876,
+        "resolution_floor_kJ_mol": 82.277,
+        "resolved": false
+      },
+      {
+        "boundary_rg_nm": 0.85,
+        "status": "measured",
+        "per_replica_dF_kJ_mol": [
+          -3.936,
+          49.979,
+          99.216
+        ],
+        "signal_kJ_mol": 48.42,
+        "between_replica_range_kJ_mol": 103.152,
+        "max_within_replica_half_block_error_kJ_mol": 17.79,
+        "resolution_floor_kJ_mol": 103.152,
+        "resolved": false
+      },
+      {
+        "boundary_rg_nm": 0.9,
+        "status": "measured",
+        "per_replica_dF_kJ_mol": [
+          5.321,
+          78.591,
+          172.598
+        ],
+        "signal_kJ_mol": 85.504,
+        "between_replica_range_kJ_mol": 167.277,
+        "max_within_replica_half_block_error_kJ_mol": 17.82,
+        "resolution_floor_kJ_mol": 167.277,
+        "resolved": false
+      },
+      {
+        "boundary_rg_nm": 0.95,
+        "status": "measured",
+        "per_replica_dF_kJ_mol": [
+          17.122,
+          99.851,
+          192.282
+        ],
+        "signal_kJ_mol": 103.085,
+        "between_replica_range_kJ_mol": 175.16,
+        "max_within_replica_half_block_error_kJ_mol": 17.82,
+        "resolution_floor_kJ_mol": 175.16,
+        "resolved": false
+      },
+      {
+        "boundary_rg_nm": 1.0,
+        "status": "measured",
+        "per_replica_dF_kJ_mol": [
+          52.794,
+          153.372,
+          194.004
+        ],
+        "signal_kJ_mol": 133.39,
+        "between_replica_range_kJ_mol": 141.21,
+        "max_within_replica_half_block_error_kJ_mol": 17.82,
+        "resolution_floor_kJ_mol": 141.21,
+        "resolved": false
+      },
+      {
+        "boundary_rg_nm": 1.05,
+        "status": "undefined_one_side_unsampled"
+      }
+    ],
+    "resolved_at_any_boundary": false
+  }
+}

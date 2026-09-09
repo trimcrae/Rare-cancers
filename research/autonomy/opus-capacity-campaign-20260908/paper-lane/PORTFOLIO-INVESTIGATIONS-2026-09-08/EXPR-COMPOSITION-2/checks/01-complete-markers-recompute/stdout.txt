@@ -1,0 +1,78 @@
+==============================================================================
+A. PER-MARKER MISSINGNESS OF z_vs_array ON THE LABELLED SAMPLES
+==============================================================================
+
+GPL6244 : 35 labelled samples (EMC 6 / comparator 29); prereg sec.2 claims all 22 markers complete
+   all 22 markers complete on all samples -- claim HOLDS here
+   markers entering the NaN-skipping score C per sample: min 20 max 20 (EMC arm mean 20.00, comparator arm mean 20.00)
+   spearman(marker count entering C, EMC label) = undefined (count is constant)
+
+GPL3290 : 16 labelled samples (EMC 10 / comparator 6); prereg sec.2 claims all 22 markers complete
+   DCN      missing on  8 of 16 samples (4 of them in the EMC arm)
+   CD3E     missing on  4 of 16 samples (2 of them in the EMC arm)
+   MS4A1    missing on  3 of 16 samples (2 of them in the EMC arm)
+   PTPRC    missing on  2 of 16 samples (2 of them in the EMC arm)
+   CD8A     missing on  1 of 16 samples (0 of them in the EMC arm)
+   HLA-DRA  missing on  1 of 16 samples (0 of them in the EMC arm)
+   MKI67    missing on  1 of 16 samples (1 of them in the EMC arm)
+   markers entering the NaN-skipping score C per sample: min 16 max 20 (EMC arm mean 19.00, comparator arm mean 18.50)
+   spearman(marker count entering C, EMC label) = +0.2105
+
+==============================================================================
+B. COMPLETE-MARKERS-ONLY COMPOSITION SCORE
+==============================================================================
+GPL6244: 20 of 20 primary markers complete
+GPL3290: 14 of 20 primary markers complete
+
+FIXED marker set complete on EVERY labelled sample of BOTH platforms: 14 markers
+  kept:    COL1A1, COL1A2, COL3A1, LUM, FN1, POSTN, THY1, FAP, PDGFRB, ACTA2, PECAM1, VWF, CD68, B2M
+  dropped: DCN, PTPRC, CD3E, CD8A, MS4A1, HLA-DRA
+
+GPL6244  spearman with EMC label:
+   published NaN-skipping C (20 markers, 20-20 per sample) = -0.5780
+   platform-complete-markers-only C (20 markers)        = -0.5780   (corr with C +1.0000)
+   FIXED-both-platforms C (14 markers)                  = -0.4579   (corr with C +0.9611)
+
+GPL3290  spearman with EMC label:
+   published NaN-skipping C (20 markers, 16-20 per sample) = -0.5041
+   platform-complete-markers-only C (14 markers)        = -0.4761   (corr with C +0.9176)
+   FIXED-both-platforms C (14 markers)                  = -0.4761   (corr with C +0.9176)
+
+==============================================================================
+C. HEADLINE RECOMPUTED WITH A FIXED MARKER SET ON EVERY SAMPLE
+==============================================================================
+Convention: no leave-one-out, applied identically to every covariate (this convention
+reproduces the lane's published 0.6521 -> 0.5668 exactly, so it is not doing the work).
+
+--- frame: primary (442 genes in frame, source=background)
+   covariate C                    n=434  unadjusted 0.6521 -> adjusted 0.5668  drop 0.0853  attenuation of excess 0.5606
+   covariate C_platform_complete  n=434  unadjusted 0.6521 -> adjusted 0.5945  drop 0.0576  attenuation of excess 0.3788
+   covariate C_fixed              n=434  unadjusted 0.6521 -> adjusted 0.6129  drop 0.0392  attenuation of excess 0.2576
+
+--- frame: secondary (414 genes in frame, source=curated)
+   covariate C                    n=413  unadjusted 0.6368 -> adjusted 0.5956  drop 0.0412  attenuation of excess 0.3009
+   covariate C_platform_complete  n=413  unadjusted 0.6368 -> adjusted 0.5981  drop 0.0387  attenuation of excess 0.2832
+   covariate C_fixed              n=413  unadjusted 0.6368 -> adjusted 0.6199  drop 0.0169  attenuation of excess 0.1239
+
+--- label-permutation null with the FIXED marker set (2000 permutations, seed 20260909)
+   primary   adjusted rate 0.6129   permuted mean 0.5001 sd 0.0343   p = 0.0010  (1/2000 >= observed)
+   secondary adjusted rate 0.6199   permuted mean 0.4990 sd 0.0401   p = 0.0015  (2/2000 >= observed)
+
+==============================================================================
+D. LABEL-CORRELATION-MATCHED SHAM COVARIATES (independent re-run)
+==============================================================================
+sham candidate genes (primary frame, non-marker, complete on both platforms): 255 of 442
+REAL C: label spearman -0.578 / -0.504   unadjusted 0.6521 -> adjusted 0.5668 (n=434)
+300 shams (seed 4242): adjusted rate mean 0.6253 sd 0.0251 min 0.5392 max 0.6797; 7/300 <= real 0.5668
+   band +-0.10 : n=14  mean 0.6256  min 0.5829  n<=real 0  one-sided p=0.0667
+   band +-0.15 : n=26  mean 0.6197  min 0.5737  n<=real 0  one-sided p=0.0370
+   band +-0.20 : n=42  mean 0.6170  min 0.5461  n<=real 1  one-sided p=0.0465
+
+   regression adjusted_rate ~ mean|label r|: slope -0.0727 intercept 0.6470 r=-0.401
+   generic prediction at the real score's mean|label r|=0.541 : 0.6077 (observed 0.5668)
+   total drop 0.0853 = generic 0.0444 + composition-specific 0.0408
+   attenuation of the excess over 0.5: total 0.5606 | generic 0.2920 | specific 0.2686
+
+   FIXED-marker score: label r -0.458 / -0.476 (mean |r| 0.467); generic prediction 0.6130
+   FIXED-marker: total drop 0.0392 = generic 0.0390 + specific 0.0001
+   FIXED-marker attenuation of excess: total 0.2576 | generic 0.2566 | specific 0.0009

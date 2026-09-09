@@ -1,0 +1,3 @@
+# first attempt: relative output paths were resolved against the lane directory, not the repo root,
+# so the redirections failed before git ran. Preserved as an attempt. exit 1 is the shell's.
+cd .../EXPR-COMPOSITION-2 && git apply --check --verbose research/.../CORRECTIONS.diff > research/.../stdout.txt 2> ...

@@ -1,0 +1,26 @@
+research/modalities/emc-expression-panels.json bytes=13254759 mtime=1788909833.883616 sha256=59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d
+research/modalities/emc-hypoxia-null-background.json bytes=7975969 mtime=1788524216.9906507 sha256=e6b583e578cbc75525517f625ed0bdbe26747bc1dd36132766945995d213947a
+git status: (clean)
+git log -1 for hypoxia: 14a3f172d6b494d872f6d2678c7d0caa7ef26ccc 2026-09-04 00:34:12 +0000
+git log -1 for panels: f22e5bb7e84f271f01b615e5d94ea6a8b6c2a7e9 2026-09-08 23:28:08 +0000
+ dict[6] keys=['_confound_genes_requested_by_name', '_generated_utc', '_sample_seed', '_what', '_why_two_want_sets', 'targets']
+/_confound_genes_requested_by_name list[118] first='ACAN'
+/_generated_utc str = '2026-08-07T17:01:43+00:00'
+/_sample_seed int = 20260807
+/_what str = 'a seeded random background of mapped gene symbols per platform (so the random-gene-set null can be drawn from the transcriptome rather than from a want list assembled for these reads), plus the named
+/_why_two_want_sets str = "the random draw is the null's universe and the named genes are not; they are recorded apart so a reader cannot conflate them and the null cannot draw from a chosen list."
+/targets dict[2] keys=['GSE24369_series_matrix.txt.gz', 'GSE4303-GPL3290_series_matrix.txt.gz']
+/targets/GSE24369_series_matrix.txt.gz dict[28] keys=['_n_random_background_symbols', '_n_symbols_on_platform', '_random_background_symbols', '_sample_seed', '_sampling_rule', '_status', 'background_per_sample', 'compressed_bytes', 'frac_negative_values', 'genes', 'gse', 'matrix_file']...
+/targets/GSE24369_series_matrix.txt.gz/_n_random_background_symbols int = 3978
+/targets/GSE24369_series_matrix.txt.gz/_n_symbols_on_platform int = 18724
+/targets/GSE24369_series_matrix.txt.gz/_random_background_symbols list[3978] first='A2ML1'
+/targets/GSE24369_series_matrix.txt.gz/_sample_seed int = 20260807
+/targets/GSE24369_series_matrix.txt.gz/_sampling_rule str = "random.Random(20260807).sample of 4000 from the platform's sorted mapped-symbol universe, minus any symbol also requested by name as a confound proxy — seeded and sorted, so it is reproducible"
+/targets/GSE24369_series_matrix.txt.gz/_status str = 'read'
+/targets/GSE4303-GPL3290_series_matrix.txt.gz dict[28] keys=['_n_random_background_symbols', '_n_symbols_on_platform', '_random_background_symbols', '_sample_seed', '_sampling_rule', '_status', 'background_per_sample', 'compressed_bytes', 'frac_negative_values', 'genes', 'gse', 'matrix_file']...
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_n_random_background_symbols int = 3971
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_n_symbols_on_platform int = 14932
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_random_background_symbols list[3971] first='A2M'
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_sample_seed int = 20260807
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_sampling_rule str = "random.Random(20260807).sample of 4000 from the platform's sorted mapped-symbol universe, minus any symbol also requested by name as a confound proxy — seeded and sorted, so it is reproducible"
+/targets/GSE4303-GPL3290_series_matrix.txt.gz/_status str = 'read'

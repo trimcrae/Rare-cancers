@@ -1,0 +1,56 @@
+{
+  "per_replica_final_dF_kJ_mol": {
+    "r2": 78.591,
+    "r3": 172.598,
+    "r1": 5.321
+  },
+  "final_status": {
+    "r2": "measured",
+    "r3": "measured",
+    "r1": "measured"
+  },
+  "sampled_rg_extent_nm": {
+    "r2": [
+      0.45,
+      1.13
+    ],
+    "r3": [
+      0.45,
+      1.02
+    ],
+    "r1": [
+      0.53,
+      1.2200000000000002
+    ]
+  },
+  "between_replica_spread": {
+    "values_kJ_mol": [
+      78.591,
+      172.598,
+      5.321
+    ],
+    "mean_kJ_mol": 85.503,
+    "sd_kJ_mol": 83.852,
+    "range_kJ_mol": 167.277,
+    "half_range_kJ_mol": 83.639
+  },
+  "max_within_replica_half_block_error_kJ_mol": 17.82,
+  "signal_kJ_mol": 85.503,
+  "resolution_floor_kJ_mol": 167.277,
+  "resolved_beyond_replica_noise": false,
+  "checks": [
+    {
+      "name": "half_block_error_bounds_published_per_replica_error",
+      "pass": true
+    },
+    {
+      "name": "between_replica_comparison_run_blind",
+      "pass": true
+    },
+    {
+      "name": "signal_exceeds_resolution_floor",
+      "pass": false
+    }
+  ]
+}
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/METAD-CONVERGENCE-1/metad-cross-replica-convergence.json

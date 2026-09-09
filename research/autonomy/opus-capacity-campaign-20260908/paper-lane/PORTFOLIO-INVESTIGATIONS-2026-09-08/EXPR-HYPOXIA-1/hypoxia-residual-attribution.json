@@ -1,0 +1,450 @@
+{
+ "_what": "Is the residual EMC cross-platform expression contrast that survives EXPR-COMPOSITION's tumour/stroma adjustment a hypoxia programme?",
+ "_lane": "EXPR-HYPOXIA-1",
+ "_campaign": "OPUS-CAPACITY-CAMPAIGN-20260908",
+ "_prereg_sha256": "39827cc80171b247194ddc8bbfad7ee549b5701d383d254857b26437528c5836",
+ "_generated_utc": "2026-09-09T01:51:24+00:00",
+ "_not_a_claim": "Any attenuation reported here is an association in owned expression data. It establishes no efficacy, safety, selectivity, therapeutic window, target attribution or clinical readiness, and no biological conclusion.",
+ "inputs": {
+  "emc-expression-panels.json": {
+   "path": "research/modalities/emc-expression-panels.json",
+   "bytes": 13254759,
+   "sha256": "59bccb553148c7100172456835957434b1349d701d4e0504e632a367c62a7f8d",
+   "_version_note": "Re-hashed at use. sha256 is byte-identical to the value EXPR-COMPOSITION recorded (59bccb55...), so despite a 2026-09-08 23:23 working-tree mtime the CONTENT read here is the same version that produced the 0.6521 -> 0.5668 result. Working tree clean for this file at read time."
+  },
+  "emc-hypoxia-null-background.json": {
+   "path": "research/modalities/emc-hypoxia-null-background.json",
+   "bytes": 7975969,
+   "sha256": "e6b583e578cbc75525517f625ed0bdbe26747bc1dd36132766945995d213947a"
+  },
+  "EXPR-COMPOSITION/composition-adjusted-contrast.json": {
+   "path": "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/composition-adjusted-contrast.json",
+   "bytes": 21001,
+   "sha256": "10dc331491aff5eb427d84374c81a6eb1093c8412bbe0c268042272b7423dd7d"
+  }
+ },
+ "gate_reproduce_expr_composition": {
+  "_what": "Reproduce EXPR-COMPOSITION's published attenuation with its own committed machinery BEFORE any hypoxia statistic is computed. exit 3 on mismatch.",
+  "tolerance": 1e-09,
+  "comparisons": [
+   {
+    "field": "primary.n_genes",
+    "recomputed": 434,
+    "expr_composition": 434,
+    "match": true
+   },
+   {
+    "field": "primary.rate_unadjusted",
+    "recomputed": 0.6521,
+    "expr_composition": 0.6521,
+    "match": true
+   },
+   {
+    "field": "primary.rate_composition_adjusted",
+    "recomputed": 0.5668,
+    "expr_composition": 0.5668,
+    "match": true
+   },
+   {
+    "field": "secondary.n_genes",
+    "recomputed": 413,
+    "expr_composition": 413,
+    "match": true
+   },
+   {
+    "field": "secondary.rate_unadjusted",
+    "recomputed": 0.6368,
+    "expr_composition": 0.6368,
+    "match": true
+   },
+   {
+    "field": "secondary.rate_composition_adjusted",
+    "recomputed": 0.5981,
+    "expr_composition": 0.5981,
+    "match": true
+   }
+  ],
+  "n_mismatch": 0,
+  "n_compared": 6
+ },
+ "covariates": {
+  "_value_used": "targets[series].genes[symbol].array_percentile (rank within that array)",
+  "_missingness_rule": "complete-case GENE selection: a gene enters a score only if it is present on EVERY labelled sample of BOTH platforms. No NaN-skipping, so the score is one fixed definition on both platforms.",
+  "hypoxia_H": {
+   "requested": [
+    "ADPGK",
+    "ALDOA",
+    "CA9",
+    "EGLN3",
+    "ENO1",
+    "GPI",
+    "HK2",
+    "LDHA",
+    "PDK1",
+    "PFKFB3",
+    "PFKFB4",
+    "PFKL",
+    "PFKP",
+    "PGAM1",
+    "PGK1",
+    "PKM",
+    "SLC16A1",
+    "SLC16A3",
+    "SLC2A1",
+    "SLC2A3",
+    "TPI1",
+    "VEGFA"
+   ],
+   "n_requested": 22,
+   "kept": [
+    "ADPGK",
+    "ALDOA",
+    "EGLN3",
+    "ENO1",
+    "GPI",
+    "LDHA",
+    "PDK1",
+    "PFKFB3",
+    "PFKFB4",
+    "PFKL",
+    "PFKP",
+    "PGAM1",
+    "PGK1",
+    "SLC2A1",
+    "TPI1",
+    "VEGFA"
+   ],
+   "n_kept": 16,
+   "dropped": {
+    "CA9": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+    ],
+    "HK2": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+    ],
+    "PKM": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: symbol not measured in the hypoxia file"
+    ],
+    "SLC16A1": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+    ],
+    "SLC16A3": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: symbol not measured in the hypoxia file"
+    ],
+    "SLC2A3": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 1 of 16 labelled samples"
+    ]
+   }
+  },
+  "vascular_V": {
+   "requested": [
+    "PECAM1",
+    "VWF",
+    "KDR",
+    "FLT1",
+    "TEK",
+    "CDH5",
+    "ESAM",
+    "EMCN",
+    "ROBO4",
+    "CLDN5",
+    "ANGPT1",
+    "ANGPT2",
+    "PGF"
+   ],
+   "kept": [
+    "PECAM1",
+    "VWF",
+    "KDR",
+    "FLT1",
+    "CDH5",
+    "ESAM",
+    "EMCN",
+    "ROBO4",
+    "ANGPT2",
+    "PGF"
+   ],
+   "n_kept": 10,
+   "dropped": {
+    "TEK": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 3 of 16 labelled samples"
+    ],
+    "CLDN5": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 2 of 16 labelled samples"
+    ],
+    "ANGPT1": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: missing on 5 of 16 labelled samples"
+    ]
+   }
+  },
+  "regulators_reported_not_scored": {
+   "requested": [
+    "HIF1A",
+    "EPAS1",
+    "ARNT",
+    "VHL",
+    "HIF1AN",
+    "EGLN1",
+    "EGLN2"
+   ],
+   "kept": [
+    "HIF1A",
+    "EPAS1",
+    "ARNT",
+    "VHL",
+    "HIF1AN",
+    "EGLN2"
+   ],
+   "dropped": {
+    "EGLN1": [
+     "GSE4303-GPL3290_series_matrix.txt.gz: symbol not measured in the hypoxia file"
+    ]
+   }
+  },
+  "association_with_EMC_label": {
+   "_spearman_cov_vs_EMC_indicator": true,
+   "H": {
+    "GSE24369_series_matrix.txt.gz": 0.4128,
+    "GSE4303-GPL3290_series_matrix.txt.gz": 0.8402
+   },
+   "V": {
+    "GSE24369_series_matrix.txt.gz": -0.5179,
+    "GSE4303-GPL3290_series_matrix.txt.gz": -0.224
+   },
+   "C_composition_from_EXPR_COMPOSITION": {
+    "GSE24369_series_matrix.txt.gz": -0.578,
+    "GSE4303-GPL3290_series_matrix.txt.gz": -0.5041
+   },
+   "H_vs_C_spearman": {
+    "GSE24369_series_matrix.txt.gz": -0.3961,
+    "GSE4303-GPL3290_series_matrix.txt.gz": -0.6147
+   },
+   "H_mean_by_arm": {
+    "GSE24369_series_matrix.txt.gz": {
+     "EMC": 0.8762,
+     "comparator": 0.8239
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "EMC": 0.5331,
+     "comparator": 0.2556
+    }
+   },
+   "V_mean_by_arm": {
+    "GSE24369_series_matrix.txt.gz": {
+     "EMC": 0.4585,
+     "comparator": 0.6751
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "EMC": 0.6974,
+     "comparator": 0.7426
+    }
+   }
+  }
+ },
+ "frames": {
+  "primary": {
+   "n_genes_paired_on_identical_set_across_all_variants": 434,
+   "unadjusted": {
+    "concordance_rate": 0.6567,
+    "absolute_change_vs_unadjusted": 0.0,
+    "attenuation_of_excess_over_0.5": null,
+    "cross_platform_pearson_r": 0.4046
+   },
+   "C_composition_noLOO": {
+    "concordance_rate": 0.5691,
+    "absolute_change_vs_unadjusted": -0.0876,
+    "attenuation_of_excess_over_0.5": 0.559,
+    "cross_platform_pearson_r": 0.2511
+   },
+   "H_hypoxia": {
+    "concordance_rate": 0.5184,
+    "absolute_change_vs_unadjusted": -0.1382,
+    "attenuation_of_excess_over_0.5": 0.882,
+    "cross_platform_pearson_r": 0.1049
+   },
+   "V_vascular": {
+    "concordance_rate": 0.6336,
+    "absolute_change_vs_unadjusted": -0.023,
+    "attenuation_of_excess_over_0.5": 0.147,
+    "cross_platform_pearson_r": 0.3434
+   },
+   "C_plus_H": {
+    "concordance_rate": 0.4885,
+    "absolute_change_vs_unadjusted": -0.1682,
+    "attenuation_of_excess_over_0.5": 1.074,
+    "cross_platform_pearson_r": 0.0812
+   },
+   "C_plus_V": {
+    "concordance_rate": 0.5829,
+    "absolute_change_vs_unadjusted": -0.0737,
+    "attenuation_of_excess_over_0.5": 0.471,
+    "cross_platform_pearson_r": 0.2405
+   },
+   "_baseline_note": "The unadjusted rate in THIS table (0.6567) is computed on the gene set paired across all six variants with the residualisation implementation used for the multi-covariate adjustments; EXPR-COMPOSITION's gated value on the same frame is 0.6521. The difference is 2 gene(s) of 434 whose near-zero rank correlation falls on the other side of zero under the two arithmetics - the same one-borderline-gene sensitivity ASSESS-EXPR-COMPOSITION reported. All rows of this table use one implementation, so the comparisons within it are like with like."
+  },
+  "secondary": {
+   "n_genes_paired_on_identical_set_across_all_variants": 413,
+   "unadjusted": {
+    "concordance_rate": 0.6368,
+    "absolute_change_vs_unadjusted": 0.0,
+    "attenuation_of_excess_over_0.5": null,
+    "cross_platform_pearson_r": 0.4467
+   },
+   "C_composition_noLOO": {
+    "concordance_rate": 0.5956,
+    "absolute_change_vs_unadjusted": -0.0412,
+    "attenuation_of_excess_over_0.5": 0.301,
+    "cross_platform_pearson_r": 0.2811
+   },
+   "H_hypoxia": {
+    "concordance_rate": 0.5182,
+    "absolute_change_vs_unadjusted": -0.1186,
+    "attenuation_of_excess_over_0.5": 0.867,
+    "cross_platform_pearson_r": 0.0835
+   },
+   "V_vascular": {
+    "concordance_rate": 0.6174,
+    "absolute_change_vs_unadjusted": -0.0194,
+    "attenuation_of_excess_over_0.5": 0.142,
+    "cross_platform_pearson_r": 0.3737
+   },
+   "C_plus_H": {
+    "concordance_rate": 0.5133,
+    "absolute_change_vs_unadjusted": -0.1235,
+    "attenuation_of_excess_over_0.5": 0.903,
+    "cross_platform_pearson_r": 0.0927
+   },
+   "C_plus_V": {
+    "concordance_rate": 0.6005,
+    "absolute_change_vs_unadjusted": -0.0363,
+    "attenuation_of_excess_over_0.5": 0.265,
+    "cross_platform_pearson_r": 0.264
+   },
+   "_baseline_note": "The unadjusted rate in THIS table (0.6368) is computed on the gene set paired across all six variants with the residualisation implementation used for the multi-covariate adjustments; EXPR-COMPOSITION's gated value on the same frame is 0.6368. The difference is 0 gene(s) of 413 whose near-zero rank correlation falls on the other side of zero under the two arithmetics - the same one-borderline-gene sensitivity ASSESS-EXPR-COMPOSITION reported. All rows of this table use one implementation, so the comparisons within it are like with like."
+  }
+ },
+ "seeded_random_background_control": {
+  "_what": "Control demanded by the lane brief: the SEEDED random background of emc-hypoxia-null-background.json (_sample_seed 20260807, a universe that EXCLUDES all 118 named confound genes) must NOT attenuate. Each sham is the per-sample mean array_percentile of k=16 randomly drawn background symbols per platform, complete-case, through the identical machinery.",
+  "n_sham": 300,
+  "genes_per_sham": 16,
+  "draw_seed": 20260909,
+  "background_universe_size_after_complete_case_filter": {
+   "GSE24369_series_matrix.txt.gz": 3973,
+   "GSE4303-GPL3290_series_matrix.txt.gz": 2316
+  },
+  "background_universe_size_before_filter": {
+   "GSE24369_series_matrix.txt.gz": 3978,
+   "GSE4303-GPL3290_series_matrix.txt.gz": 3971
+  },
+  "unadjusted_rate": 0.6567,
+  "sham_adjusted_rate": {
+   "mean": 0.6166,
+   "sd": 0.0285,
+   "min": 0.5276,
+   "max": 0.6705,
+   "p2.5": 0.5483,
+   "p97.5": 0.659
+  },
+  "sham_mean_abs_label_r": {
+   "mean": 0.3157,
+   "max": 0.7016
+  },
+  "does_the_random_background_attenuate": "NO \u2014 mean sham adjusted rate 0.6166 vs unadjusted 0.6567 (change -0.0401)",
+  "generic_label_correlation_matched_baseline": {
+   "_method": "ASSESS-EXPR-COMPOSITION's decomposition: OLS of the sham adjusted rate on the sham covariate's mean |Spearman(cov,label)|, evaluated at the real covariate's own label correlation. A covariate that does not beat this prediction is a NULL.",
+   "slope": -0.1313,
+   "intercept": 0.658,
+   "pearson_r_rate_vs_abs_label_r": -0.6961,
+   "H_mean_abs_label_r": 0.6265,
+   "generic_prediction_at_H": 0.5758,
+   "observed_H_adjusted_rate": 0.5184,
+   "H_beats_generic_baseline_by": 0.0574,
+   "C_mean_abs_label_r": 0.5411,
+   "generic_prediction_at_C": 0.587,
+   "observed_C_adjusted_rate": 0.5691,
+   "_assess_expr_composition_reported_0.6077_for_C": true
+  },
+  "matched_bands_around_H_label_r": {
+   "pm0.05": {
+    "n": 14,
+    "mean_adjusted_rate": 0.5775,
+    "min_adjusted_rate": 0.5346,
+    "n_at_or_below_H": 0,
+    "one_sided_p": 0.0667
+   },
+   "pm0.10": {
+    "n": 28,
+    "mean_adjusted_rate": 0.58,
+    "min_adjusted_rate": 0.5276,
+    "n_at_or_below_H": 0,
+    "one_sided_p": 0.0345
+   },
+   "pm0.15": {
+    "n": 47,
+    "mean_adjusted_rate": 0.5832,
+    "min_adjusted_rate": 0.5276,
+    "n_at_or_below_H": 0,
+    "one_sided_p": 0.0208
+   }
+  }
+ },
+ "_runtime_seconds": 5.3,
+ "abundance_matched_sham_control": {
+  "_what": "Sensitivity control: shams drawn from the seeded random background but MATCHED, gene by gene, to the mean array_percentile of the hypoxia gene they replace, on each platform separately. Removes the disanalogy that the frozen hypoxia set is glycolytic and therefore high-abundance while uniform shams are mid-range.",
+  "n_sham": 300,
+  "draw_seed": 20260909,
+  "neighbourhood_half_width_in_ranks": 25,
+  "mean_abundance_H": {
+   "GSE24369_series_matrix.txt.gz": 0.8329,
+   "GSE4303-GPL3290_series_matrix.txt.gz": 0.4291
+  },
+  "mean_abundance_sham": 0.6313,
+  "mean_abundance_uniform_pool": {
+   "GSE24369_series_matrix.txt.gz": 0.584,
+   "GSE4303-GPL3290_series_matrix.txt.gz": 0.5324
+  },
+  "unadjusted_rate": 0.6567,
+  "observed_H_adjusted_rate": 0.5184,
+  "sham_adjusted_rate": {
+   "mean": 0.6134,
+   "sd": 0.0302,
+   "min": 0.5115,
+   "max": 0.6774
+  },
+  "sham_mean_abs_label_r": {
+   "mean": 0.3536,
+   "max": 0.7391
+  },
+  "generic_label_correlation_matched_baseline": {
+   "slope": -0.1472,
+   "intercept": 0.6655,
+   "H_mean_abs_label_r": 0.6265,
+   "generic_prediction_at_H": 0.5732,
+   "H_beats_generic_baseline_by": 0.0548
+  },
+  "matched_bands_around_H_label_r": {
+   "pm0.05": {
+    "n": 17,
+    "mean_adjusted_rate": 0.5676,
+    "min_adjusted_rate": 0.5115,
+    "n_at_or_below_H": 1,
+    "one_sided_p": 0.1111
+   },
+   "pm0.10": {
+    "n": 41,
+    "mean_adjusted_rate": 0.5767,
+    "min_adjusted_rate": 0.5115,
+    "n_at_or_below_H": 1,
+    "one_sided_p": 0.0476
+   },
+   "pm0.15": {
+    "n": 65,
+    "mean_adjusted_rate": 0.5815,
+    "min_adjusted_rate": 0.5115,
+    "n_at_or_below_H": 1,
+    "one_sided_p": 0.0303
+   }
+  },
+  "n_sham_at_or_below_H_overall": 1
+ }
+}

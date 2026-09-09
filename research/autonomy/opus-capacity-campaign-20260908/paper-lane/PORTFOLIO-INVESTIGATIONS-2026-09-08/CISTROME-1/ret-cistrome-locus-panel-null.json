@@ -1,0 +1,4499 @@
+{
+ "_what": "Per locus x peakset occupancy of the emc-ret-cistrome scored panel against that file's OWN background null, restricted to peaksets that recover a known positive, with RET's rank in the panel.",
+ "_lane": "CISTROME-1, OPUS-CAPACITY-CAMPAIGN-20260908",
+ "_question": "Is NR4A occupancy at RET distinguishable from background at all, and which loci in the scored panel actually pass?",
+ "\u26d4 what_this_is_not": [
+  "not an efficacy, safety, selectivity, therapeutic-window or clinical-readiness claim",
+  "occupancy is not target validation; a peak in a window is not regulation",
+  "no new intersection was computed: every count here is READ from the source file",
+  "the null is the file's own 198-200 gene panel, not composition-matched for accessibility, mappability or GC"
+ ],
+ "source": {
+  "path": "research/modalities/emc-ret-cistrome.json",
+  "sha256_at_use": "08b249ebb3d4f2d7ba468d0a482c63fa2f4968b620b0b923311c2cd210015da1",
+  "bytes": 1469536,
+  "generated_utc": "2026-08-08T20:35:41+00:00"
+ },
+ "windows": {
+  "promoter": "-10000 / +15000 around the TSS, strand-aware. \u26d4 Imported from emc_ret_target_scan, not re-typed: the asymmetry exists because RET's only validated distal element (HOXB5 MCS+9.7, PMID 24794774) is in the first intron.",
+  "genebody": "gene body +/- 10 kb \u2014 reported ALONGSIDE the promoter window so a reading cannot be an artefact of one window choice.",
+  "\u26a0_still_bounded": "a window is a scope choice; an element outside it is untested by construction, and a null here is a null WITHIN this window."
+ },
+ "background_null_definition": {
+  "_status": "read",
+  "source": "emc-atr-vulnerability-inputs.json:part_b.platforms.GSE24369_series_matrix.txt.gz.geneset_gene_values",
+  "n_available": 1297,
+  "n_sampled": 200,
+  "seed": 20260807
+ },
+ "p_convention": "(ge+1)/(n+1), never ge/n \u2014 it can never print a 0 the panel size does not support.",
+ "\u26a0 resolution_limit_of_the_stored_null": "The file stores only two points of each panel's count distribution: the number of panel genes with >=1 promoter-window peak, and the number with >= RET's own count. An empirical p is therefore EXACT only for a locus whose count is 0, 1, or equal to RET's count in that peakset; every other count is reported as an interval bounded by the monotone survival function. No interpolated point value is invented.",
+ "peakset_census": {
+  "n_peaksets_total": 110,
+  "n_with_a_positive_control_verdict": 103,
+  "n_recovering_a_known_positive": 25,
+  "n_no_known_positive_recovered": 78,
+  "n_with_no_loci_on_build": 7,
+  "n_recovering_positive_that_are_actually_an_NR4A_chip": 11,
+  "\u26a0 positive_control_filter_is_not_assay_specific": "Most peaksets that clear the positive-control filter are H3K4me3, H3K27ac, CTCF or super-enhancer tracks, which mark active promoters generically. Only 11 of 25 are an NR4A ChIP."
+ },
+ "panel_table": [
+  {
+   "peakset": "REMAP2022_NR4A1",
+   "antigen": "NR4A1",
+   "genome": "hg38",
+   "species": "human",
+   "cell_type": "ReMap 2022 merged catalogue",
+   "n_peaks_total": 83773,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 198,
+    "n_panel_with_ge_1_peak": 164,
+    "n_panel_with_ge_RET_count": 88,
+    "RET_count": 3
+   },
+   "RET_rank_of_13_loci": 4,
+   "RET_n_loci_strictly_greater": 3,
+   "RET_n_loci_tied": 3,
+   "RET_stored_empirical_p": 0.4472,
+   "loci": {
+    "RET": {
+     "p_exact": 0.447236,
+     "p_lower_bound": 0.447236,
+     "p_upper_bound": 0.447236,
+     "determinacy": "exact",
+     "n_panel_ge_count": 88,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 14,
+     "nearest_peak_distance_to_tss_bp": 5841,
+     "rank_in_panel_competition": 4
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.005025,
+     "p_upper_bound": 0.447236,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 1666,
+     "rank_in_panel_competition": 3
+    },
+    "SEMA3C": {
+     "p_exact": 0.829146,
+     "p_lower_bound": 0.829146,
+     "p_upper_bound": 0.829146,
+     "determinacy": "exact",
+     "n_panel_ge_count": 164,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 1593,
+     "rank_in_panel_competition": 9
+    },
+    "PPARG": {
+     "p_exact": 0.829146,
+     "p_lower_bound": 0.829146,
+     "p_upper_bound": 0.829146,
+     "determinacy": "exact",
+     "n_panel_ge_count": 164,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 14,
+     "nearest_peak_distance_to_tss_bp": 12818,
+     "rank_in_panel_competition": 9
+    },
+    "NR4A1": {
+     "p_exact": 0.447236,
+     "p_lower_bound": 0.447236,
+     "p_upper_bound": 0.447236,
+     "determinacy": "exact",
+     "n_panel_ge_count": 88,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 11,
+     "nearest_peak_distance_to_tss_bp": -1784,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.005025,
+     "p_upper_bound": 0.447236,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 8,
+     "n_peaks_genebody_window": 9,
+     "nearest_peak_distance_to_tss_bp": 146,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.447236,
+     "p_upper_bound": 0.829146,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -2237,
+     "rank_in_panel_competition": 7
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.005025,
+     "p_upper_bound": 0.447236,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 10,
+     "n_peaks_genebody_window": 12,
+     "nearest_peak_distance_to_tss_bp": -172,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": null,
+     "p_lower_bound": 0.447236,
+     "p_upper_bound": 0.829146,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 1956,
+     "rank_in_panel_competition": 7
+    },
+    "GDNF": {
+     "p_exact": 0.829146,
+     "p_lower_bound": 0.829146,
+     "p_upper_bound": 0.829146,
+     "determinacy": "exact",
+     "n_panel_ge_count": 164,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 7967,
+     "rank_in_panel_competition": 9
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 561654,
+     "rank_in_panel_competition": 12
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": -20870,
+     "rank_in_panel_competition": 12
+    },
+    "NRTN": {
+     "p_exact": 0.447236,
+     "p_lower_bound": 0.447236,
+     "p_upper_bound": 0.447236,
+     "determinacy": "exact",
+     "n_panel_ge_count": 88,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": -845,
+     "rank_in_panel_competition": 4
+    }
+   }
+  },
+  {
+   "peakset": "SRX1653203@hg19",
+   "antigen": "NR4A1",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Kasumi-1",
+   "n_peaks_total": 22674,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 58,
+    "n_panel_with_ge_RET_count": 0,
+    "RET_count": 3
+   },
+   "RET_rank_of_13_loci": 1,
+   "RET_n_loci_strictly_greater": 0,
+   "RET_n_loci_tied": 1,
+   "RET_stored_empirical_p": 0.005,
+   "loci": {
+    "RET": {
+     "p_exact": 0.004975,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.004975,
+     "determinacy": "exact",
+     "n_panel_ge_count": 0,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 5892,
+     "rank_in_panel_competition": 1
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.293532,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 2575,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 0.293532,
+     "p_lower_bound": 0.293532,
+     "p_upper_bound": 0.293532,
+     "determinacy": "exact",
+     "n_panel_ge_count": 58,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 1702,
+     "rank_in_panel_competition": 4
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 38626,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -29484,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A2": {
+     "p_exact": 0.293532,
+     "p_lower_bound": 0.293532,
+     "p_upper_bound": 0.293532,
+     "determinacy": "exact",
+     "n_panel_ge_count": 58,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -6532,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -38559,
+     "rank_in_panel_competition": 7
+    },
+    "VEGFA": {
+     "p_exact": 0.293532,
+     "p_lower_bound": 0.293532,
+     "p_upper_bound": 0.293532,
+     "determinacy": "exact",
+     "n_panel_ge_count": 58,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 3651,
+     "rank_in_panel_competition": 4
+    },
+    "KDR": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.293532,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 1995,
+     "rank_in_panel_competition": 2
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -23621,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 570001,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 101244,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 40310,
+     "rank_in_panel_competition": 7
+    }
+   }
+  },
+  {
+   "peakset": "SRX1653203@hg38",
+   "antigen": "NR4A1",
+   "genome": "hg38",
+   "species": "human",
+   "cell_type": "Kasumi-1",
+   "n_peaks_total": 22717,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 198,
+    "n_panel_with_ge_1_peak": 62,
+    "n_panel_with_ge_RET_count": 9,
+    "RET_count": 2
+   },
+   "RET_rank_of_13_loci": 1,
+   "RET_n_loci_strictly_greater": 0,
+   "RET_n_loci_tied": 4,
+   "RET_stored_empirical_p": 0.0503,
+   "loci": {
+    "RET": {
+     "p_exact": 0.050251,
+     "p_lower_bound": 0.050251,
+     "p_upper_bound": 0.050251,
+     "determinacy": "exact",
+     "n_panel_ge_count": 9,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 6768,
+     "rank_in_panel_competition": 1
+    },
+    "ENO3": {
+     "p_exact": 0.050251,
+     "p_lower_bound": 0.050251,
+     "p_upper_bound": 0.050251,
+     "determinacy": "exact",
+     "n_panel_ge_count": 9,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 2629,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 0.316583,
+     "p_lower_bound": 0.316583,
+     "p_upper_bound": 0.316583,
+     "determinacy": "exact",
+     "n_panel_ge_count": 62,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 1666,
+     "rank_in_panel_competition": 5
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 38625,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -29482,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A2": {
+     "p_exact": 0.050251,
+     "p_lower_bound": 0.050251,
+     "p_upper_bound": 0.050251,
+     "determinacy": "exact",
+     "n_panel_ge_count": 9,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -611,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -38547,
+     "rank_in_panel_competition": 7
+    },
+    "VEGFA": {
+     "p_exact": 0.316583,
+     "p_lower_bound": 0.316583,
+     "p_upper_bound": 0.316583,
+     "determinacy": "exact",
+     "n_panel_ge_count": 62,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 3648,
+     "rank_in_panel_competition": 5
+    },
+    "KDR": {
+     "p_exact": 0.050251,
+     "p_lower_bound": 0.050251,
+     "p_upper_bound": 0.050251,
+     "determinacy": "exact",
+     "n_panel_ge_count": 9,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 1960,
+     "rank_in_panel_competition": 1
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -23988,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 566662,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 101241,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 59057,
+     "rank_in_panel_competition": 7
+    }
+   }
+  },
+  {
+   "peakset": "SRX1653204@hg19",
+   "antigen": "NR4A1",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Kasumi-1",
+   "n_peaks_total": 26549,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 93,
+    "n_panel_with_ge_RET_count": 3,
+    "RET_count": 3
+   },
+   "RET_rank_of_13_loci": 1,
+   "RET_n_loci_strictly_greater": 0,
+   "RET_n_loci_tied": 1,
+   "RET_stored_empirical_p": 0.0199,
+   "loci": {
+    "RET": {
+     "p_exact": 0.0199,
+     "p_lower_bound": 0.0199,
+     "p_upper_bound": 0.0199,
+     "determinacy": "exact",
+     "n_panel_ge_count": 3,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 5866,
+     "rank_in_panel_competition": 1
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.0199,
+     "p_upper_bound": 0.467662,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 2609,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 0.467662,
+     "p_lower_bound": 0.467662,
+     "p_upper_bound": 0.467662,
+     "determinacy": "exact",
+     "n_panel_ge_count": 93,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 1706,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 38628,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 46752,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.0199,
+     "p_upper_bound": 0.467662,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 159,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -38584,
+     "rank_in_panel_competition": 7
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.0199,
+     "p_upper_bound": 0.467662,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 3212,
+     "rank_in_panel_competition": 2
+    },
+    "KDR": {
+     "p_exact": null,
+     "p_lower_bound": 0.0199,
+     "p_upper_bound": 0.467662,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 2063,
+     "rank_in_panel_competition": 2
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 38359,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 943260,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -47283,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -19574,
+     "rank_in_panel_competition": 7
+    }
+   }
+  },
+  {
+   "peakset": "SRX1653204@hg38",
+   "antigen": "NR4A1",
+   "genome": "hg38",
+   "species": "human",
+   "cell_type": "Kasumi-1",
+   "n_peaks_total": 26660,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 198,
+    "n_panel_with_ge_1_peak": 90,
+    "n_panel_with_ge_RET_count": 2,
+    "RET_count": 3
+   },
+   "RET_rank_of_13_loci": 1,
+   "RET_n_loci_strictly_greater": 0,
+   "RET_n_loci_tied": 2,
+   "RET_stored_empirical_p": 0.0151,
+   "loci": {
+    "RET": {
+     "p_exact": 0.015075,
+     "p_lower_bound": 0.015075,
+     "p_upper_bound": 0.015075,
+     "determinacy": "exact",
+     "n_panel_ge_count": 2,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 5864,
+     "rank_in_panel_competition": 1
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.015075,
+     "p_upper_bound": 0.457286,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 2672,
+     "rank_in_panel_competition": 3
+    },
+    "SEMA3C": {
+     "p_exact": 0.457286,
+     "p_lower_bound": 0.457286,
+     "p_upper_bound": 0.457286,
+     "determinacy": "exact",
+     "n_panel_ge_count": 90,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 1672,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 38628,
+     "rank_in_panel_competition": 8
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 46750,
+     "rank_in_panel_competition": 8
+    },
+    "NR4A2": {
+     "p_exact": 0.015075,
+     "p_lower_bound": 0.015075,
+     "p_upper_bound": 0.015075,
+     "determinacy": "exact",
+     "n_panel_ge_count": 2,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 159,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -38576,
+     "rank_in_panel_competition": 8
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.015075,
+     "p_upper_bound": 0.457286,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 3211,
+     "rank_in_panel_competition": 3
+    },
+    "KDR": {
+     "p_exact": null,
+     "p_lower_bound": 0.015075,
+     "p_upper_bound": 0.457286,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 2019,
+     "rank_in_panel_competition": 3
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 37982,
+     "rank_in_panel_competition": 8
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -909763,
+     "rank_in_panel_competition": 8
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -47296,
+     "rank_in_panel_competition": 8
+    },
+    "NRTN": {
+     "p_exact": 0.457286,
+     "p_lower_bound": 0.457286,
+     "p_upper_bound": 0.457286,
+     "determinacy": "exact",
+     "n_panel_ge_count": 90,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -825,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "SRX2423525@hg19",
+   "antigen": "NR4A1",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "K-562",
+   "n_peaks_total": 6823,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 52,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 3,
+   "RET_n_loci_strictly_greater": 2,
+   "RET_n_loci_tied": 11,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -294067,
+     "rank_in_panel_competition": 3
+    },
+    "ENO3": {
+     "p_exact": 0.263682,
+     "p_lower_bound": 0.263682,
+     "p_upper_bound": 0.263682,
+     "determinacy": "exact",
+     "n_panel_ge_count": 52,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -7934,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -2931886,
+     "rank_in_panel_competition": 3
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 197104,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -29304,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 58579,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 211984,
+     "rank_in_panel_competition": 3
+    },
+    "VEGFA": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -44601,
+     "rank_in_panel_competition": 3
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220581,
+     "rank_in_panel_competition": 3
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -467980,
+     "rank_in_panel_competition": 3
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 2221979,
+     "rank_in_panel_competition": 3
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -302744,
+     "rank_in_panel_competition": 3
+    },
+    "NRTN": {
+     "p_exact": 0.263682,
+     "p_lower_bound": 0.263682,
+     "p_upper_bound": 0.263682,
+     "determinacy": "exact",
+     "n_panel_ge_count": 52,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 4114,
+     "rank_in_panel_competition": 1
+    }
+   }
+  },
+  {
+   "peakset": "SRX2423525@hg38",
+   "antigen": "NR4A1",
+   "genome": "hg38",
+   "species": "human",
+   "cell_type": "K-562",
+   "n_peaks_total": 7958,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 198,
+    "n_panel_with_ge_1_peak": 54,
+    "n_panel_with_ge_RET_count": 198,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 3,
+   "RET_n_loci_strictly_greater": 2,
+   "RET_n_loci_tied": 11,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -294062,
+     "rank_in_panel_competition": 3
+    },
+    "ENO3": {
+     "p_exact": 0.276382,
+     "p_lower_bound": 0.276382,
+     "p_upper_bound": 0.276382,
+     "determinacy": "exact",
+     "n_panel_ge_count": 54,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -7879,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -2931921,
+     "rank_in_panel_competition": 3
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 197102,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -29308,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 58583,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 211991,
+     "rank_in_panel_competition": 3
+    },
+    "VEGFA": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -44603,
+     "rank_in_panel_competition": 3
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220547,
+     "rank_in_panel_competition": 3
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 259453,
+     "rank_in_panel_competition": 3
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 2218647,
+     "rank_in_panel_competition": 3
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 198,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -302755,
+     "rank_in_panel_competition": 3
+    },
+    "NRTN": {
+     "p_exact": 0.276382,
+     "p_lower_bound": 0.276382,
+     "p_upper_bound": 0.276382,
+     "determinacy": "exact",
+     "n_panel_ge_count": 54,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -5415,
+     "rank_in_panel_competition": 1
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC1_CTCF_peaks_2167aeb49f637ea6a124e3679ce1722d.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 47663,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 175,
+    "n_panel_with_ge_RET_count": 115,
+    "RET_count": 2
+   },
+   "RET_rank_of_13_loci": 7,
+   "RET_n_loci_strictly_greater": 6,
+   "RET_n_loci_tied": 1,
+   "RET_stored_empirical_p": 0.5771,
+   "loci": {
+    "RET": {
+     "p_exact": 0.577114,
+     "p_lower_bound": 0.577114,
+     "p_upper_bound": 0.577114,
+     "determinacy": "exact",
+     "n_panel_ge_count": 115,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": -369,
+     "rank_in_panel_competition": 7
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 5,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -222847,
+     "rank_in_panel_competition": 10
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -111035,
+     "rank_in_panel_competition": 10
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 13,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -64,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 41,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -153673,
+     "rank_in_panel_competition": 10
+    },
+    "GDNF": {
+     "p_exact": 0.875622,
+     "p_lower_bound": 0.875622,
+     "p_upper_bound": 0.875622,
+     "determinacy": "exact",
+     "n_panel_ge_count": 175,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -1325,
+     "rank_in_panel_competition": 8
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 14431,
+     "rank_in_panel_competition": 10
+    },
+    "GFRA2": {
+     "p_exact": 0.875622,
+     "p_lower_bound": 0.875622,
+     "p_upper_bound": 0.875622,
+     "determinacy": "exact",
+     "n_panel_ge_count": 175,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 8
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.577114,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 2758,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC1_H3K27Ac_peaks_8e63eed24d0cc6cb362aa8c8da6f74ed.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 46159,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 179,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 7,
+   "RET_n_loci_strictly_greater": 6,
+   "RET_n_loci_tied": 7,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 60174,
+     "rank_in_panel_competition": 7
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.895522,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 267943,
+     "rank_in_panel_competition": 7
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 196255,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.895522,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 15,
+     "nearest_peak_distance_to_tss_bp": 130,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.895522,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.895522,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.895522,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220764,
+     "rank_in_panel_competition": 7
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 295921,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 467557,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 97136,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 0.895522,
+     "p_lower_bound": 0.895522,
+     "p_upper_bound": 0.895522,
+     "determinacy": "exact",
+     "n_panel_ge_count": 179,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 4390,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC1_H3K4me3_peaks_88cdce01aeededcdae869c5a68657d89.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 30660,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 183,
+    "n_panel_with_ge_RET_count": 117,
+    "RET_count": 2
+   },
+   "RET_rank_of_13_loci": 6,
+   "RET_n_loci_strictly_greater": 5,
+   "RET_n_loci_tied": 3,
+   "RET_stored_empirical_p": 0.5871,
+   "loci": {
+    "RET": {
+     "p_exact": 0.587065,
+     "p_lower_bound": 0.587065,
+     "p_upper_bound": 0.587065,
+     "determinacy": "exact",
+     "n_panel_ge_count": 117,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": -240,
+     "rank_in_panel_competition": 6
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.587065,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "SEMA3C": {
+     "p_exact": 0.587065,
+     "p_lower_bound": 0.587065,
+     "p_upper_bound": 0.587065,
+     "determinacy": "exact",
+     "n_panel_ge_count": 117,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -2799,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.587065,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 100,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.587065,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 9,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.587065,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.587065,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "VEGFA": {
+     "p_exact": 0.915423,
+     "p_lower_bound": 0.915423,
+     "p_upper_bound": 0.915423,
+     "determinacy": "exact",
+     "n_panel_ge_count": 183,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 9
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220276,
+     "rank_in_panel_competition": 11
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -459761,
+     "rank_in_panel_competition": 11
+    },
+    "GFRA1": {
+     "p_exact": 0.915423,
+     "p_lower_bound": 0.915423,
+     "p_upper_bound": 0.915423,
+     "determinacy": "exact",
+     "n_panel_ge_count": 183,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -599,
+     "rank_in_panel_competition": 9
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 98531,
+     "rank_in_panel_competition": 11
+    },
+    "NRTN": {
+     "p_exact": 0.587065,
+     "p_lower_bound": 0.587065,
+     "p_upper_bound": 0.587065,
+     "determinacy": "exact",
+     "n_panel_ge_count": 117,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 3511,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed",
+   "antigen": "NR4A3",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 18666,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 135,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 7,
+   "RET_n_loci_strictly_greater": 6,
+   "RET_n_loci_tied": 7,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 28461,
+     "rank_in_panel_competition": 7
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.676617,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "SEMA3C": {
+     "p_exact": 0.676617,
+     "p_lower_bound": 0.676617,
+     "p_upper_bound": 0.676617,
+     "determinacy": "exact",
+     "n_panel_ge_count": 135,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -3267,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 196958,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.676617,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 9,
+     "nearest_peak_distance_to_tss_bp": 10070,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.676617,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": -114,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.676617,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 5,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.676617,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 269985,
+     "rank_in_panel_competition": 7
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 307985,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 469361,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 106952,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -19437,
+     "rank_in_panel_competition": 7
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC1_super_enhancer_peaks_3c3622d06160797a049f1e5b35efb068.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 853,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 22,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 4,
+   "RET_n_loci_strictly_greater": 3,
+   "RET_n_loci_tied": 10,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 318116,
+     "rank_in_panel_competition": 4
+    },
+    "ENO3": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -4602706,
+     "rank_in_panel_competition": 4
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 706212,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A1": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 130,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -1700922,
+     "rank_in_panel_competition": 4
+    },
+    "VEGFA": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -44225,
+     "rank_in_panel_competition": 4
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -3239661,
+     "rank_in_panel_competition": 4
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 1324640,
+     "rank_in_panel_competition": 4
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -3878313,
+     "rank_in_panel_competition": 4
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 725755,
+     "rank_in_panel_competition": 4
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 897881,
+     "rank_in_panel_competition": 4
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC2_CTCF_peaks_3b0fde69ad4c01f71d4a5ef07f1a8daf.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 46716,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 170,
+    "n_panel_with_ge_RET_count": 170,
+    "RET_count": 1
+   },
+   "RET_rank_of_13_loci": 7,
+   "RET_n_loci_strictly_greater": 6,
+   "RET_n_loci_tied": 3,
+   "RET_stored_empirical_p": 0.8507,
+   "loci": {
+    "RET": {
+     "p_exact": 0.850746,
+     "p_lower_bound": 0.850746,
+     "p_upper_bound": 0.850746,
+     "determinacy": "exact",
+     "n_panel_ge_count": 170,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 1946,
+     "rank_in_panel_competition": 7
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -222959,
+     "rank_in_panel_competition": 10
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -110840,
+     "rank_in_panel_competition": 10
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 25,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -124,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 14,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 59066,
+     "rank_in_panel_competition": 10
+    },
+    "GDNF": {
+     "p_exact": 0.850746,
+     "p_lower_bound": 0.850746,
+     "p_upper_bound": 0.850746,
+     "determinacy": "exact",
+     "n_panel_ge_count": 170,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -1709,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 14479,
+     "rank_in_panel_competition": 10
+    },
+    "GFRA2": {
+     "p_exact": 0.850746,
+     "p_lower_bound": 0.850746,
+     "p_upper_bound": 0.850746,
+     "determinacy": "exact",
+     "n_panel_ge_count": 170,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.850746,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC2_H3K27Ac_peaks_36d1d3116fa41220ea57494961972245.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 46773,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 178,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 8,
+   "RET_n_loci_strictly_greater": 7,
+   "RET_n_loci_tied": 6,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 60469,
+     "rank_in_panel_competition": 8
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -786867,
+     "rank_in_panel_competition": 8
+    },
+    "PPARG": {
+     "p_exact": 0.890547,
+     "p_lower_bound": 0.890547,
+     "p_upper_bound": 0.890547,
+     "determinacy": "exact",
+     "n_panel_ge_count": 178,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 716,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 14,
+     "nearest_peak_distance_to_tss_bp": 70,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -91457,
+     "rank_in_panel_competition": 8
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -467781,
+     "rank_in_panel_competition": 8
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 467980,
+     "rank_in_panel_competition": 8
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 97143,
+     "rank_in_panel_competition": 8
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 4550,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC2_H3K4me3_peaks_838e68c7c58e69ff02c6a9cea9bdfda9.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 30532,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 185,
+    "n_panel_with_ge_RET_count": 185,
+    "RET_count": 1
+   },
+   "RET_rank_of_13_loci": 10,
+   "RET_n_loci_strictly_greater": 9,
+   "RET_n_loci_tied": 3,
+   "RET_stored_empirical_p": 0.9254,
+   "loci": {
+    "RET": {
+     "p_exact": 0.925373,
+     "p_lower_bound": 0.925373,
+     "p_upper_bound": 0.925373,
+     "determinacy": "exact",
+     "n_panel_ge_count": 185,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -321,
+     "rank_in_panel_competition": 10
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 8,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -2588,
+     "rank_in_panel_competition": 7
+    },
+    "PPARG": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 12,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 7
+    },
+    "KDR": {
+     "p_exact": 0.925373,
+     "p_lower_bound": 0.925373,
+     "p_upper_bound": 0.925373,
+     "determinacy": "exact",
+     "n_panel_ge_count": 185,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 10
+    },
+    "GDNF": {
+     "p_exact": 0.925373,
+     "p_lower_bound": 0.925373,
+     "p_upper_bound": 0.925373,
+     "determinacy": "exact",
+     "n_panel_ge_count": 185,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -2144,
+     "rank_in_panel_competition": 10
+    },
+    "GFRA1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 98761,
+     "rank_in_panel_competition": 13
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.925373,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 4479,
+     "rank_in_panel_competition": 7
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed",
+   "antigen": "NR4A3",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 9810,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 112,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 6,
+   "RET_n_loci_strictly_greater": 5,
+   "RET_n_loci_tied": 8,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 148700,
+     "rank_in_panel_competition": 6
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.562189,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -787231,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 197058,
+     "rank_in_panel_competition": 6
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.562189,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 10,
+     "nearest_peak_distance_to_tss_bp": 320,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.562189,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -78,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.562189,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": -21,
+     "rank_in_panel_competition": 4
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.562189,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220793,
+     "rank_in_panel_competition": 6
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 308576,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 469312,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 106974,
+     "rank_in_panel_competition": 6
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 79910,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC2_super_enhancer_peaks_5714ac0f2fd6ef3cf59d69d5114356e4.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 850,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 23,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 5,
+   "RET_n_loci_strictly_greater": 4,
+   "RET_n_loci_tied": 9,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 318393,
+     "rank_in_panel_competition": 5
+    },
+    "ENO3": {
+     "p_exact": 0.119403,
+     "p_lower_bound": 0.119403,
+     "p_upper_bound": 0.119403,
+     "determinacy": "exact",
+     "n_panel_ge_count": 23,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -4602539,
+     "rank_in_panel_competition": 5
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 706257,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A1": {
+     "p_exact": 0.119403,
+     "p_lower_bound": 0.119403,
+     "p_upper_bound": 0.119403,
+     "determinacy": "exact",
+     "n_panel_ge_count": 23,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 70,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": 0.119403,
+     "p_lower_bound": 0.119403,
+     "p_upper_bound": 0.119403,
+     "determinacy": "exact",
+     "n_panel_ge_count": 23,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -6574200,
+     "rank_in_panel_competition": 5
+    },
+    "VEGFA": {
+     "p_exact": 0.119403,
+     "p_lower_bound": 0.119403,
+     "p_upper_bound": 0.119403,
+     "determinacy": "exact",
+     "n_panel_ge_count": 23,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -45955397,
+     "rank_in_panel_competition": 5
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 5151148,
+     "rank_in_panel_competition": 5
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -1728008,
+     "rank_in_panel_competition": 5
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 729403,
+     "rank_in_panel_competition": 5
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 896612,
+     "rank_in_panel_competition": 5
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC3_CTCF_peaks_c611c1d548f65c802f4f88aedba9f768.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 34230,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 154,
+    "n_panel_with_ge_RET_count": 36,
+    "RET_count": 3
+   },
+   "RET_rank_of_13_loci": 4,
+   "RET_n_loci_strictly_greater": 3,
+   "RET_n_loci_tied": 3,
+   "RET_stored_empirical_p": 0.1841,
+   "loci": {
+    "RET": {
+     "p_exact": 0.18408,
+     "p_lower_bound": 0.18408,
+     "p_upper_bound": 0.18408,
+     "determinacy": "exact",
+     "n_panel_ge_count": 36,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": -281,
+     "rank_in_panel_competition": 4
+    },
+    "ENO3": {
+     "p_exact": 0.771144,
+     "p_lower_bound": 0.771144,
+     "p_upper_bound": 0.771144,
+     "determinacy": "exact",
+     "n_panel_ge_count": 154,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 7
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 547778,
+     "rank_in_panel_competition": 9
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -110955,
+     "rank_in_panel_competition": 9
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.18408,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 8,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A2": {
+     "p_exact": 0.18408,
+     "p_lower_bound": 0.18408,
+     "p_upper_bound": 0.18408,
+     "determinacy": "exact",
+     "n_panel_ge_count": 36,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": -124,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.18408,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "VEGFA": {
+     "p_exact": 0.18408,
+     "p_lower_bound": 0.18408,
+     "p_upper_bound": 0.18408,
+     "determinacy": "exact",
+     "n_panel_ge_count": 36,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": -72,
+     "rank_in_panel_competition": 4
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -153723,
+     "rank_in_panel_competition": 9
+    },
+    "GDNF": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.18408,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -75,
+     "rank_in_panel_competition": 2
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 353626,
+     "rank_in_panel_competition": 9
+    },
+    "GFRA2": {
+     "p_exact": 0.771144,
+     "p_lower_bound": 0.771144,
+     "p_upper_bound": 0.771144,
+     "determinacy": "exact",
+     "n_panel_ge_count": 154,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -16124,
+     "rank_in_panel_competition": 9
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC3_H3K27Ac_peaks_97e804349bba944e7d5d1b8ede631466.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 49150,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 164,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 6,
+   "RET_n_loci_strictly_greater": 5,
+   "RET_n_loci_tied": 8,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -32660,
+     "rank_in_panel_competition": 6
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.820896,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 8,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 268323,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 197153,
+     "rank_in_panel_competition": 6
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.820896,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 13,
+     "nearest_peak_distance_to_tss_bp": 2491,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.820896,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": -33,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.820896,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 9,
+     "n_peaks_genebody_window": 15,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.820896,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -213202,
+     "rank_in_panel_competition": 6
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 188880,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 396343,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 100404,
+     "rank_in_panel_competition": 6
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -32269,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC3_H3K4me3_peaks_f783774d435cce4e7b412c68ec40939d.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 29494,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 186,
+    "n_panel_with_ge_RET_count": 22,
+    "RET_count": 4
+   },
+   "RET_rank_of_13_loci": 2,
+   "RET_n_loci_strictly_greater": 1,
+   "RET_n_loci_tied": 6,
+   "RET_stored_empirical_p": 0.1144,
+   "loci": {
+    "RET": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 8,
+     "nearest_peak_distance_to_tss_bp": 143,
+     "rank_in_panel_competition": 2
+    },
+    "ENO3": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": null,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.930348,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -2434,
+     "rank_in_panel_competition": 9
+    },
+    "PPARG": {
+     "p_exact": null,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.930348,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 76,
+     "rank_in_panel_competition": 9
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.930348,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 10,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 8
+    },
+    "NR4A2": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A3": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.114428,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 220323,
+     "rank_in_panel_competition": 12
+    },
+    "GDNF": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "GFRA1": {
+     "p_exact": 0.114428,
+     "p_lower_bound": 0.114428,
+     "p_upper_bound": 0.114428,
+     "determinacy": "exact",
+     "n_panel_ge_count": 22,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 99139,
+     "rank_in_panel_competition": 12
+    },
+    "NRTN": {
+     "p_exact": 0.930348,
+     "p_lower_bound": 0.930348,
+     "p_upper_bound": 0.930348,
+     "determinacy": "exact",
+     "n_panel_ge_count": 186,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 4471,
+     "rank_in_panel_competition": 11
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed",
+   "antigen": "NR4A3",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 9263,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 98,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 5,
+   "RET_n_loci_strictly_greater": 4,
+   "RET_n_loci_tied": 9,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 28502,
+     "rank_in_panel_competition": 5
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.492537,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -3123381,
+     "rank_in_panel_competition": 5
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 269766,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 27793,
+     "rank_in_panel_competition": 5
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.492537,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -208,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.492537,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.492537,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": -118,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 270196,
+     "rank_in_panel_competition": 5
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 308629,
+     "rank_in_panel_competition": 5
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 418141,
+     "rank_in_panel_competition": 5
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 107012,
+     "rank_in_panel_competition": 5
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 80467,
+     "rank_in_panel_competition": 5
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:Parotid_Gland3_CTCF_peaks_651723dd871e8a81ca6890e05137880b.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 46777,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 178,
+    "n_panel_with_ge_RET_count": 178,
+    "RET_count": 1
+   },
+   "RET_rank_of_13_loci": 7,
+   "RET_n_loci_strictly_greater": 6,
+   "RET_n_loci_tied": 4,
+   "RET_stored_empirical_p": 0.8905,
+   "loci": {
+    "RET": {
+     "p_exact": 0.890547,
+     "p_lower_bound": 0.890547,
+     "p_upper_bound": 0.890547,
+     "determinacy": "exact",
+     "n_panel_ge_count": 178,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 1579,
+     "rank_in_panel_competition": 7
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 0.890547,
+     "p_lower_bound": 0.890547,
+     "p_upper_bound": 0.890547,
+     "determinacy": "exact",
+     "n_panel_ge_count": 178,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -1962,
+     "rank_in_panel_competition": 7
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -111030,
+     "rank_in_panel_competition": 11
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 21,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": -57,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 5
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 59024,
+     "rank_in_panel_competition": 11
+    },
+    "GDNF": {
+     "p_exact": 0.890547,
+     "p_lower_bound": 0.890547,
+     "p_upper_bound": 0.890547,
+     "determinacy": "exact",
+     "n_panel_ge_count": 178,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -1822,
+     "rank_in_panel_competition": 7
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 14453,
+     "rank_in_panel_competition": 11
+    },
+    "GFRA2": {
+     "p_exact": 0.890547,
+     "p_lower_bound": 0.890547,
+     "p_upper_bound": 0.890547,
+     "determinacy": "exact",
+     "n_panel_ge_count": 178,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 7
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.890547,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 5
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:Parotid_Gland3_H3K27Ac_peaks_126438a74560e776bcf8ec776cdd4640.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 43530,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 174,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 9,
+   "RET_n_loci_strictly_greater": 8,
+   "RET_n_loci_tied": 5,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -49885,
+     "rank_in_panel_competition": 9
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 7,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 0.870647,
+     "p_lower_bound": 0.870647,
+     "p_upper_bound": 0.870647,
+     "determinacy": "exact",
+     "n_panel_ge_count": 174,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -3348,
+     "rank_in_panel_competition": 7
+    },
+    "PPARG": {
+     "p_exact": 0.870647,
+     "p_lower_bound": 0.870647,
+     "p_upper_bound": 0.870647,
+     "determinacy": "exact",
+     "n_panel_ge_count": 174,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 781,
+     "rank_in_panel_competition": 7
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 7,
+     "n_peaks_genebody_window": 10,
+     "nearest_peak_distance_to_tss_bp": 475,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 6,
+     "n_peaks_genebody_window": 6,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -45904,
+     "rank_in_panel_competition": 9
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -467903,
+     "rank_in_panel_competition": 9
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 469354,
+     "rank_in_panel_competition": 9
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 73768,
+     "rank_in_panel_competition": 9
+    },
+    "NRTN": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.870647,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -4518,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:Parotid_Gland3_H3K4me3_peaks_186fc855845537c54dc14bd16821f812.bed",
+   "antigen": null,
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 28407,
+   "assay_is_an_NR4A_chip": false,
+   "positive_control_recovered": [
+    "ENO3",
+    "SEMA3C"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 188,
+    "n_panel_with_ge_RET_count": 105,
+    "RET_count": 2
+   },
+   "RET_rank_of_13_loci": 6,
+   "RET_n_loci_strictly_greater": 5,
+   "RET_n_loci_tied": 4,
+   "RET_stored_empirical_p": 0.5274,
+   "loci": {
+    "RET": {
+     "p_exact": 0.527363,
+     "p_lower_bound": 0.527363,
+     "p_upper_bound": 0.527363,
+     "determinacy": "exact",
+     "n_panel_ge_count": 105,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": -227,
+     "rank_in_panel_competition": 6
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.527363,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "SEMA3C": {
+     "p_exact": 0.527363,
+     "p_lower_bound": 0.527363,
+     "p_upper_bound": 0.527363,
+     "determinacy": "exact",
+     "n_panel_ge_count": 105,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": -2358,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 0.527363,
+     "p_lower_bound": 0.527363,
+     "p_upper_bound": 0.527363,
+     "determinacy": "exact",
+     "n_panel_ge_count": 105,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 6
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.527363,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 5,
+     "n_peaks_genebody_window": 9,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.527363,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "NR4A3": {
+     "p_exact": 0.940299,
+     "p_lower_bound": 0.940299,
+     "p_upper_bound": 0.940299,
+     "determinacy": "exact",
+     "n_panel_ge_count": 188,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 10
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.527363,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "KDR": {
+     "p_exact": 0.940299,
+     "p_lower_bound": 0.940299,
+     "p_upper_bound": 0.940299,
+     "determinacy": "exact",
+     "n_panel_ge_count": 188,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 10
+    },
+    "GDNF": {
+     "p_exact": 0.940299,
+     "p_lower_bound": 0.940299,
+     "p_upper_bound": 0.940299,
+     "determinacy": "exact",
+     "n_panel_ge_count": 188,
+     "n_peaks_promoter_window": 1,
+     "n_peaks_genebody_window": 1,
+     "nearest_peak_distance_to_tss_bp": -2185,
+     "rank_in_panel_competition": 10
+    },
+    "GFRA1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.527363,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 3
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 99284,
+     "rank_in_panel_competition": 13
+    },
+    "NRTN": {
+     "p_exact": 0.527363,
+     "p_lower_bound": 0.527363,
+     "p_upper_bound": 0.527363,
+     "determinacy": "exact",
+     "n_panel_ge_count": 105,
+     "n_peaks_promoter_window": 2,
+     "n_peaks_genebody_window": 2,
+     "nearest_peak_distance_to_tss_bp": 4515,
+     "rank_in_panel_competition": 6
+    }
+   }
+  },
+  {
+   "peakset": "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed",
+   "antigen": "NR4A3",
+   "genome": "hg19",
+   "species": "human",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "n_peaks_total": 8501,
+   "assay_is_an_NR4A_chip": true,
+   "positive_control_recovered": [
+    "ENO3"
+   ],
+   "background_panel": {
+    "n_panel_resolved": 200,
+    "n_panel_with_ge_1_peak": 101,
+    "n_panel_with_ge_RET_count": 200,
+    "RET_count": 0
+   },
+   "RET_rank_of_13_loci": 6,
+   "RET_n_loci_strictly_greater": 5,
+   "RET_n_loci_tied": 8,
+   "RET_stored_empirical_p": 1.0,
+   "loci": {
+    "RET": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 319225,
+     "rank_in_panel_competition": 6
+    },
+    "ENO3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.507463,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "SEMA3C": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -786985,
+     "rank_in_panel_competition": 6
+    },
+    "PPARG": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 269806,
+     "rank_in_panel_competition": 6
+    },
+    "NR4A1": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.507463,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 10,
+     "nearest_peak_distance_to_tss_bp": 10134,
+     "rank_in_panel_competition": 4
+    },
+    "NR4A2": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.507463,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 5,
+     "n_peaks_genebody_window": 5,
+     "nearest_peak_distance_to_tss_bp": -28,
+     "rank_in_panel_competition": 1
+    },
+    "NR4A3": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.507463,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 4,
+     "n_peaks_genebody_window": 4,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 2
+    },
+    "VEGFA": {
+     "p_exact": null,
+     "p_lower_bound": 0.004975,
+     "p_upper_bound": 0.507463,
+     "determinacy": "bounded",
+     "n_panel_ge_count": null,
+     "n_peaks_promoter_window": 3,
+     "n_peaks_genebody_window": 3,
+     "nearest_peak_distance_to_tss_bp": 0,
+     "rank_in_panel_competition": 4
+    },
+    "KDR": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 420179,
+     "rank_in_panel_competition": 6
+    },
+    "GDNF": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 717196,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA1": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 731301,
+     "rank_in_panel_competition": 6
+    },
+    "GFRA2": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": 318622,
+     "rank_in_panel_competition": 6
+    },
+    "NRTN": {
+     "p_exact": 1.0,
+     "p_lower_bound": 1.0,
+     "p_upper_bound": 1.0,
+     "determinacy": "exact",
+     "n_panel_ge_count": 200,
+     "n_peaks_promoter_window": 0,
+     "n_peaks_genebody_window": 0,
+     "nearest_peak_distance_to_tss_bp": -32831,
+     "rank_in_panel_competition": 6
+    }
+   }
+  }
+ ],
+ "ret_position": {
+  "loci_in_panel": [
+   "ENO3",
+   "GDNF",
+   "GFRA1",
+   "GFRA2",
+   "KDR",
+   "NR4A1",
+   "NR4A2",
+   "NR4A3",
+   "NRTN",
+   "PPARG",
+   "RET",
+   "SEMA3C",
+   "VEGFA"
+  ],
+  "RET_rank_by_peakset": {
+   "REMAP2022_NR4A1": 4,
+   "SRX1653203@hg19": 1,
+   "SRX1653203@hg38": 1,
+   "SRX1653204@hg19": 1,
+   "SRX1653204@hg38": 1,
+   "SRX2423525@hg19": 3,
+   "SRX2423525@hg38": 3,
+   "ZENODO1483691:AciCC1_CTCF_peaks_2167aeb49f637ea6a124e3679ce1722d.bed": 7,
+   "ZENODO1483691:AciCC1_H3K27Ac_peaks_8e63eed24d0cc6cb362aa8c8da6f74ed.bed": 7,
+   "ZENODO1483691:AciCC1_H3K4me3_peaks_88cdce01aeededcdae869c5a68657d89.bed": 6,
+   "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 7,
+   "ZENODO1483691:AciCC1_super_enhancer_peaks_3c3622d06160797a049f1e5b35efb068.bed": 4,
+   "ZENODO1483691:AciCC2_CTCF_peaks_3b0fde69ad4c01f71d4a5ef07f1a8daf.bed": 7,
+   "ZENODO1483691:AciCC2_H3K27Ac_peaks_36d1d3116fa41220ea57494961972245.bed": 8,
+   "ZENODO1483691:AciCC2_H3K4me3_peaks_838e68c7c58e69ff02c6a9cea9bdfda9.bed": 10,
+   "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 6,
+   "ZENODO1483691:AciCC2_super_enhancer_peaks_5714ac0f2fd6ef3cf59d69d5114356e4.bed": 5,
+   "ZENODO1483691:AciCC3_CTCF_peaks_c611c1d548f65c802f4f88aedba9f768.bed": 4,
+   "ZENODO1483691:AciCC3_H3K27Ac_peaks_97e804349bba944e7d5d1b8ede631466.bed": 6,
+   "ZENODO1483691:AciCC3_H3K4me3_peaks_f783774d435cce4e7b412c68ec40939d.bed": 2,
+   "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 5,
+   "ZENODO1483691:Parotid_Gland3_CTCF_peaks_651723dd871e8a81ca6890e05137880b.bed": 7,
+   "ZENODO1483691:Parotid_Gland3_H3K27Ac_peaks_126438a74560e776bcf8ec776cdd4640.bed": 9,
+   "ZENODO1483691:Parotid_Gland3_H3K4me3_peaks_186fc855845537c54dc14bd16821f812.bed": 6,
+   "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 6
+  },
+  "RET_mean_rank": 5.04,
+  "RET_median_rank": 6,
+  "n_positive_peaksets_with_zero_RET_promoter_peaks": 12,
+  "n_NR4A_chip_peaksets_with_zero_RET_promoter_peaks": 6,
+  "RET_stored_p_range": [
+   0.005,
+   1.0
+  ],
+  "n_positive_peaksets_with_RET_stored_p_below_0.05": 3
+ },
+ "locus_mean_rank_ordering": [
+  [
+   "ENO3",
+   2.52
+  ],
+  [
+   "NR4A2",
+   2.56
+  ],
+  [
+   "VEGFA",
+   2.64
+  ],
+  [
+   "NR4A1",
+   3.4
+  ],
+  [
+   "NR4A3",
+   3.96
+  ],
+  [
+   "RET",
+   5.04
+  ],
+  [
+   "NRTN",
+   5.84
+  ],
+  [
+   "SEMA3C",
+   6.4
+  ],
+  [
+   "GDNF",
+   6.56
+  ],
+  [
+   "KDR",
+   6.68
+  ],
+  [
+   "PPARG",
+   6.68
+  ],
+  [
+   "GFRA1",
+   6.72
+  ],
+  [
+   "GFRA2",
+   7.52
+  ]
+ ],
+ "checks": {
+  "check_1_ret_stored_p_reproduces": {
+   "convention": "(n_panel_genes_with_at_least_RETs_count + 1) / (n_panel_resolved_on_this_build + 1)",
+   "n_peaksets_with_background": 103,
+   "n_reproduced": 103,
+   "mismatches": [],
+   "all_reproduced": true,
+   "named_values": {
+    "REMAP2022_NR4A1": {
+     "stored": 0.4472,
+     "expected_by_task": 0.4472,
+     "recomputed": 0.4472,
+     "matches": true
+    },
+    "SRX092299@hg19": {
+     "stored": 1.0,
+     "expected_by_task": 1.0,
+     "recomputed": 1.0,
+     "matches": true
+    }
+   }
+  },
+  "check_2_no_positive_peaksets_show_no_enrichment": {
+   "n_negative_control_peaksets": 78,
+   "violations": [
+    {
+     "peakset": "ZENODO1483691:AciCC1_H3K27me3_peaks_7ba6a30bdabbf46f6e67deab447f5f98.bed",
+     "RET_promoter_count": 2,
+     "stored_p": 0.1393
+    },
+    {
+     "peakset": "ZENODO1483691:AciCC2_H3K27me3_peaks_7f8f1745a20638c9db7f24c101556d12.bed",
+     "RET_promoter_count": 3,
+     "stored_p": 0.0846
+    },
+    {
+     "peakset": "ZENODO1483691:AciCC3_H3K27me3_peaks_fb2e726ae020cdbe2aa9512e31ea0d41.bed",
+     "RET_promoter_count": 4,
+     "stored_p": 0.0398
+    },
+    {
+     "peakset": "ZENODO1483691:Parotid_Gland3_H3K27me3_peaks_a3930e0c6493f6297169e80148ae8fef.bed",
+     "RET_promoter_count": 4,
+     "stored_p": 0.0448
+    }
+   ],
+   "max_locus_count_seen": {
+    "NRTN": 3,
+    "GDNF": 3,
+    "RET": 4,
+    "PPARG": 2,
+    "NR4A1": 1,
+    "NR4A2": 1,
+    "NR4A3": 2,
+    "VEGFA": 3,
+    "KDR": 2,
+    "GFRA1": 3,
+    "GFRA2": 4
+   },
+   "passes": false,
+   "violation_diagnostic": {
+    "assay_of_each_violating_peakset": {
+     "ZENODO1483691:AciCC1_H3K27me3_peaks_7ba6a30bdabbf46f6e67deab447f5f98.bed": "H3K27me3",
+     "ZENODO1483691:AciCC2_H3K27me3_peaks_7f8f1745a20638c9db7f24c101556d12.bed": "H3K27me3",
+     "ZENODO1483691:AciCC3_H3K27me3_peaks_fb2e726ae020cdbe2aa9512e31ea0d41.bed": "H3K27me3",
+     "ZENODO1483691:Parotid_Gland3_H3K27me3_peaks_a3930e0c6493f6297169e80148ae8fef.bed": "H3K27me3"
+    },
+    "reading": "every violating peakset is an H3K27me3 track -- a REPRESSIVE histone mark, not an NR4A ChIP. The file's own panel null therefore assigns RET a nominally significant p (as low as 0.0398) under a silencing mark in a peakset that recovered no known positive. This is direct evidence that a low p against this panel is not evidence of NR4A occupancy."
+   },
+   "reading": "AT LEAST ONE no-positive peakset shows a RET promoter-window peak; see violations"
+  },
+  "check_3_locus_label_permutation": {
+   "n_permutations": 20000,
+   "seed": 20260908,
+   "statistic": "mean competition rank of a locus across the positive-recovering peaksets (rank 1 = most peaks; lower mean rank = more occupied)",
+   "per_locus": {
+    "ENO3": {
+     "observed_mean_rank": 2.52,
+     "permutation_null_mean": 5.1236,
+     "permutation_null_sd": 0.537,
+     "p_one_sided_better_than_null": 5e-05
+    },
+    "GDNF": {
+     "observed_mean_rank": 6.56,
+     "permutation_null_mean": 5.1195,
+     "permutation_null_sd": 0.5389,
+     "p_one_sided_better_than_null": 0.9972
+    },
+    "GFRA1": {
+     "observed_mean_rank": 6.72,
+     "permutation_null_mean": 5.1103,
+     "permutation_null_sd": 0.5414,
+     "p_one_sided_better_than_null": 0.9991
+    },
+    "GFRA2": {
+     "observed_mean_rank": 7.52,
+     "permutation_null_mean": 5.1169,
+     "permutation_null_sd": 0.5412,
+     "p_one_sided_better_than_null": 1.0
+    },
+    "KDR": {
+     "observed_mean_rank": 6.68,
+     "permutation_null_mean": 5.1178,
+     "permutation_null_sd": 0.5367,
+     "p_one_sided_better_than_null": 0.99845
+    },
+    "NR4A1": {
+     "observed_mean_rank": 3.4,
+     "permutation_null_mean": 5.1205,
+     "permutation_null_sd": 0.539,
+     "p_one_sided_better_than_null": 0.00105
+    },
+    "NR4A2": {
+     "observed_mean_rank": 2.56,
+     "permutation_null_mean": 5.1126,
+     "permutation_null_sd": 0.5372,
+     "p_one_sided_better_than_null": 5e-05
+    },
+    "NR4A3": {
+     "observed_mean_rank": 3.96,
+     "permutation_null_mean": 5.1152,
+     "permutation_null_sd": 0.5376,
+     "p_one_sided_better_than_null": 0.0167
+    },
+    "NRTN": {
+     "observed_mean_rank": 5.84,
+     "permutation_null_mean": 5.1185,
+     "permutation_null_sd": 0.5353,
+     "p_one_sided_better_than_null": 0.91905
+    },
+    "PPARG": {
+     "observed_mean_rank": 6.68,
+     "permutation_null_mean": 5.1202,
+     "permutation_null_sd": 0.5312,
+     "p_one_sided_better_than_null": 0.99905
+    },
+    "RET": {
+     "observed_mean_rank": 5.04,
+     "permutation_null_mean": 5.1173,
+     "permutation_null_sd": 0.536,
+     "p_one_sided_better_than_null": 0.45248
+    },
+    "SEMA3C": {
+     "observed_mean_rank": 6.4,
+     "permutation_null_mean": 5.1188,
+     "permutation_null_sd": 0.5429,
+     "p_one_sided_better_than_null": 0.9921
+    },
+    "VEGFA": {
+     "observed_mean_rank": 2.64,
+     "permutation_null_mean": 5.109,
+     "permutation_null_sd": 0.5371,
+     "p_one_sided_better_than_null": 5e-05
+    }
+   },
+   "null_mean_spread_across_labels": 0.0146,
+   "mean_null_sd": 0.5378,
+   "ranking_is_flattened_by_permutation": true,
+   "observed_mean_rank_spread_across_labels": 5.0,
+   "RET_distinguishable_from_a_permuted_label": false,
+   "positive_control_ENO3_distinguishable": true
+  }
+ }
+}

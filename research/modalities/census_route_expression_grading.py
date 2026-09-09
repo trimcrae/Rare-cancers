@@ -42,13 +42,15 @@ def load():
 def depmap():
     """The sarcoma-line dependency prior, keyed by gene.
 
-    ⛔ IT CONTAINS NO EMC LINE. The one line on the curated record does not carry the fusion and has
-    no CRISPR data, so every figure here is a TRANSFER from other sarcomas and inherits
-    BLK-CLASS-INHERITANCE. The honest bound is not a small sample; it is no EMC observation at all.
+    No EMC-labelled model contributes CRISPR gene-effect data to this release. ACH-001519 is
+    present in the model metadata but has no gene-effect values; that availability record does
+    not establish its disease or fusion identity. Every dependency figure here describes other
+    cancer lines. Applying it to EMC is an uncalibrated transfer under BLK-CLASS-INHERITANCE.
 
-    ⚠ AND A DEPENDENCY IS NOT A WINDOW. `frac_dependent` near 1.0 means the gene is required in
-    almost every sarcoma line -- which is evidence AGAINST a therapeutic window, not for one, unless
-    the class exploits a state the normal cell does not share.
+    `frac_dependent` near 1.0 describes broad binary dependency in the screened cancer lines.
+    This cancer-versus-cancer summary measures neither normal-tissue response nor a graded
+    response to partial inhibition, and supplies no fusion-status-stratified result. It does
+    not establish the presence or absence of a therapeutic window or EMC selectivity.
     """
     with open(DEPMAP, encoding="utf-8") as fh:
         d = json.load(fh)

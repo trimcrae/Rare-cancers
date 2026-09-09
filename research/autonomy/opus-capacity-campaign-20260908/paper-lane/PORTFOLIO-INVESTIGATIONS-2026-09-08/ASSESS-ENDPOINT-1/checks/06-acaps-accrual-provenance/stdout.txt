@@ -1,0 +1,22 @@
+C5 top-level sections: ['arms', 'accrual', 'raw_payloads']
+
+ACCRUAL provenance: {
+ "ctg_accrual_terminated_onc": {
+  "status": "read",
+  "ref": "origin/literature-cache",
+  "total_count_reported_by_the_api": 2027,
+  "records_returned": 1000
+ },
+ "ctg_accrual_completed_onc_phase2": {
+  "status": "read",
+  "ref": "origin/literature-cache",
+  "total_count_reported_by_the_api": 16035,
+  "records_returned": 1000
+ }
+}
+
+OTHER raw_payloads "literature-cache branch, literature/xdisease-ctg-results/ -- approximately 156 MB, deliberately not committed to this branch."
+
+### does 2027 / 16035 appear in endpoint-corpus.json or -inputs.json?
+endpoint-corpus.json 2027: 1  16035: 1
+endpoint-corpus-inputs.json 2027: 1  16035: 1

@@ -1,0 +1,7 @@
+572:bad[0]["cells"]["SD"] += 40  # denominator deliberately left alone so the four-cell identity breaks
+106:def binom_sf_atleast(k, n, p):
+107-    """P(X >= k) exactly."""
+108-    tot = 0.0
+109-    for i in range(k, n+1):
+110-        tot += math.comb(n, i) * p**i * (1-p)**(n-i)
+111-    return tot

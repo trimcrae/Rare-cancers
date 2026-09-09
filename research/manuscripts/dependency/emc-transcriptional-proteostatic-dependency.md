@@ -459,25 +459,27 @@ with `git cat-file -p <id>` in this repository without trusting a path:
 |---|---|
 | `research/modalities/emc-expression-panels.json` | `330c04cb9277c3900919d45b548c730ec1746849` |
 | `research/modalities/emc_expression_panels.py` | `d260a5d3f080f2ca1299609e199b5dce492efca1` |
-| `research/modalities/census-route-expression-grading.json` | `b45a35a4ee2636993e42e897c3be6d7705ccae8a` |
-| `research/modalities/census_route_expression_grading.py` | `18625608b378122adbe9dbcca16de370c357367b` |
+| `research/modalities/census-route-expression-grading.json` | `ee552394935792ed2e76bce926146b77907c5694` |
+| `research/modalities/census_route_expression_grading.py` | `0df23bc25e63d2e64a3eb9442706824cd60f6bb6` |
 | `research/modalities/depmap-sarcoma-dependency.json` | `1f00ad1cf509c540985d2d4be2830bcbec9a94a8` |
 | `research/modalities/depmap_sarcoma_dependency.py` | `fc0a0cc0316e562b03e2ad9eda36477d0c1c88d9` |
 | `research/modalities/emc_atr_vulnerability.py` (annotation extraction and sample classifier) | `177df6cfd72a787e316cfba07e71e4c4231026fb` |
 | `research/modalities/fet-ddr-axis-scan.json` | `41a575d2090457bc8e1eac15a56fab4c0f1bc0ac` |
 | `research/literature/txn-dependency-class-definitions-2026-08-09.json` | `a8fa744a1bcdabde4d60a1f56760b33070ff47c9` |
-| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `8728c34de793da848ccae012e808e668b69b24bd` |
+| `research/literature/fet-fusion-chaperone-clientship-2026-08-27.json` | `9328cecebdffdb53921f82805b47fd0943d30c1f` |
 
 ⚠ **Numerical inputs versus annotation-only corrections.** A blob identity is a content identity,
 not provenance for raw data. A dated annotation-only correction to one of these artifacts changes
 its blob identity while changing **no** number, membership, cohort, threshold or quotation; such
 corrections are recorded with their own changed-field maps and leaf-invariance receipts under
-`research/autonomy/opus-capacity-campaign-20260908/paper-lane/`. ⚠ Two of the objects above —
-`census-route-expression-grading.json` and `fet-fusion-chaperone-clientship-2026-08-27.json` — have a
-dated annotation-only correction prepared but not yet integrated at the time of writing; when it is
-applied their blob identities change and no reported number, membership or quotation does. ⛔ **No
-hash is claimed for the
-raw GEO series matrices or the DepMap CSV inputs.** Those files are not held here, no accessible
+`research/autonomy/opus-capacity-campaign-20260908/paper-lane/`. The table includes the integrated
+annotation-only versions of `census-route-expression-grading.json`, its producer
+`census_route_expression_grading.py`, and `fet-fusion-chaperone-clientship-2026-08-27.json`, including
+the corrected dependency docstring. Their dated corrections supersede earlier interpretation
+strings; the original before/after records retain the numerical-invariance evidence. These are
+identities of the corrected artifacts, not evidence of a new producer execution. No reported
+number, membership or source quotation was changed. ⛔ **No hash is claimed for the raw GEO series
+matrices or the DepMap CSV inputs.** Those files are not held here, no accessible
 public archive identity for them is asserted, and ⛔ **no producer was re-run to write this
 version** — the numbers reported are a reading of the committed outputs identified above.
 

@@ -1,0 +1,27 @@
+A. STORED PANEL GROUP anti_apoptotic_the_druggable_ones
+   genes_requested = ['BCL2', 'MCL1', 'BCL2L1', 'BCL2L2', 'BCL2A1']
+
+A1. PER-GENE EMC-minus-comparator mean_z delta
+   gene        GPL6244    GPL3290  lower on both?
+   BCL2        -0.8084    -0.2349  yes
+   MCL1        -0.2664    -0.5563  yes
+   BCL2L1      -0.3801    -0.4755  yes
+   BCL2L2      +0.1231    -0.0457  NO
+   BCL2A1      +0.0371    -0.5299  NO
+   -> lower on both: 3/5 ['BCL2', 'MCL1', 'BCL2L1']
+   -> NOT lower on both: ['BCL2L2', 'BCL2A1']
+
+A2. MODULE (group-mean score) result, read back from the stored group
+   GPL6244: delta=-0.259  t=-4.568  df=14.0  (5/5 readable)
+           recomputed EMC_mean_score - comparator_mean_score = -0.2589  CONSISTENT
+   GPL3290: delta=-0.4097  t=-2.538  df=9.8  (5/5 readable)
+           recomputed EMC_mean_score - comparator_mean_score = -0.4096  CONSISTENT
+   -> module lower in EMC on both platforms: True
+
+B. NEVER-SEARCHED DENOMINATOR
+   registry systems/graph/modalities.json: 217 class rows, 111 with prior_coverage == 'never_searched'
+   audit  research/modalities/census-novelty-audit.json: n_never_searched_rows = 127, n_rows_with_a_candidate_collision = 73, len(findings) = 73
+   discrepancy = 127 - 111 = 16
+   audit finding ids no longer never_searched (or absent from registry): 14 ['MOD-SEQUENCING', 'MOD-N-OF-1', 'MOD-ILP', 'MOD-CS-BIOSYNTHESIS', 'MOD-TRANSCRIPTIONAL-CDK', 'MOD-EZH2', 'MOD-THERMAL-ABLATION', 'MOD-HYPOXIA-PRODRUG', 'MOD-HSP90', 'MOD-ARGININE-DEPRIVATION', 'MOD-BRACHYTHERAPY', 'MOD-DNMT', 'MOD-RADIOSENSITIZER', 'MOD-METRONOMIC']
+
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MODALITY-CENSUS-2/rederivation-2026-09-09.json

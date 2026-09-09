@@ -1,0 +1,65 @@
+sha256 5793da5db4914c2917bea20ae522124a682e9ee3f0c62023372635cc6b4dc01a
+controls PASS {"BCR::ABL1": {"present_in_universe": true, "verdict": "attempted", "non_orphan": true, "fully_screened": true, "short_symbol_le3": true, "denominator": 11891, "modality": 1828, "junction_directed": 863}, "EWSR1::FLI1": {"present_in_universe": true, "verdict": "attempted", "non_orphan": true, "fully_screened": true, "short_symbol_le3": false, "denominator": 1599, "modality": 386, "junction_directed": 250}, "PAX3::FOXO1": {"present_in_universe": true, "verdict": "attempted", "non_orphan": true, "fully_screened": true, "short_symbol_le3": false, "denominator": 1355, "modality": 460, "junction_directed": 231}}
+strata {
+ "short_symbol_le3": {
+  "n_pairs": 50,
+  "n_fully_screened": 44,
+  "verdict_counts": {
+   "attempted": 41,
+   "orphan": 3,
+   "screen_failed": 6
+  },
+  "orphan_rate_among_fully_screened": 0.0682,
+  "median_denominator_hits": 215.0,
+  "median_junction_directed_hits": 17.5,
+  "examples_of_stratum": [
+   "ACT::FOSB",
+   "AGK::BRAF",
+   "APP::NRG1",
+   "BCR::ABL1",
+   "BCR::FGFR1",
+   "BCR::JAK2",
+   "BCR::NTRK2",
+   "BCR::PDGFRA",
+   "CAD::ALK",
+   "CCDC6::RET"
+  ]
+ },
+ "long_symbol_ge4": {
+  "n_pairs": 148,
+  "n_fully_screened": 131,
+  "verdict_counts": {
+   "attempted": 98,
+   "orphan": 30,
+   "modality_touched": 3,
+   "screen_failed": 17
+  },
+  "orphan_rate_among_fully_screened": 0.229,
+  "median_denominator_hits": 66,
+  "median_junction_directed_hits": 5,
+  "examples_of_stratum": [
+   "ACTB::GLI1",
+   "ADAD2-AS1::ABL1",
+   "AFAP1::NTRK2",
+   "AGGF1::PDGFRB",
+   "AKAP9::BRAF",
+   "ANO10::RAF1",
+   "ASPSCR1::TFE3",
+   "ATF7IP::JAK2",
+   "ATP1B1::NRG1",
+   "BCOR::CCNB3"
+  ]
+ }
+}
+focus {"denominator_loose_fulltext": 409, "denominator": 207, "modality": 23, "junction_directed": 19, "junction_directed_share_of_denominator": 0.0918} attempted long_symbol_ge4
+ALL198 denominator_hits 207 rank 59 / 176 median 86.5
+ALL198 modality_hits 23 rank 64 / 176 median 11.0
+ALL198 junction_directed_hits 19 rank 56 / 176 median 7.5
+ALL198 junction_directed_share_of_denominator 0.09178743961352658 rank 64 / 171 median 0.07692307692307693
+CMP denominator_hits 207 rank 37 / 131 median 66
+CMP modality_hits 23 rank 42 / 131 median 7
+CMP junction_directed_hits 19 rank 35 / 131 median 5
+CMP junction_directed_share_of_denominator 0.09178743961352658 rank 44 / 128 median 0.07692307692307693
+peers [{"fusion": "EWSR1::ATF1", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 769, "modality": 72, "junction_directed": 53, "junction_share": 0.0689}, {"fusion": "EWSR1::CREB1", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 391, "modality": 21, "junction_directed": 18, "junction_share": 0.046}, {"fusion": "EWSR1::CREB3L1", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 151, "modality": 13, "junction_directed": 10, "junction_share": 0.0662}, {"fusion": "EWSR1::DDIT3", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 220, "modality": 22, "junction_directed": 13, "junction_share": 0.0591}, {"fusion": "EWSR1::ERG", "verdict": "attempted", "stratum": "short_symbol_le3", "denominator": 469, "modality": 91, "junction_directed": 73, "junction_share": 0.1557}, {"fusion": "EWSR1::FLI1", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 1599, "modality": 386, "junction_directed": 250, "junction_share": 0.1563}, {"fusion": "EWSR1::KLF15", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 22, "modality": 3, "junction_directed": 2, "junction_share": 0.0909}, {"fusion": "EWSR1::NFATC2", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 176, "modality": 21, "junction_directed": 15, "junction_share": 0.0852}, {"fusion": "EWSR1::NR4A3", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 207, "modality": 23, "junction_directed": 19, "junction_share": 0.0918}, {"fusion": "EWSR1::PATZ1", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 155, "modality": 12, "junction_directed": 11, "junction_share": 0.071}, {"fusion": "EWSR1::TFCP2", "verdict": "attempted", "stratum": "long_symbol_ge4", "denominator": 55, "modality": 5, "junction_directed": 4, "junction_share": 0.0727}, {"fusion": "EWSR1::WT1", "verdict": "attempted", "stratum": "short_symbol_le3", "denominator": 388, "modality": 77, "junction_directed": 64, "junction_share": 0.1649}]
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/ORPHAN-CENSUS-1/junction-modality-coverage-benchmark.json 21294
+appendix written 24662

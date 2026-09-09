@@ -1,0 +1,24 @@
+PUB-ANDGATE committed sweep, the two disputed rows:
+  C_E=    3000 uM  window=0.7  (dp printed: 1)
+  C_E=   10000 uM  window=0.58  (dp printed: 2)
+
+Full-precision asymmetric recomputation:
+  C_E=0.0030 M  exact=0.695765  round2=0.70  round3=0.696
+  C_E=0.0100 M  exact=0.578152  round2=0.58  round3=0.578
+
+ANDGATE-3's OWN artifact, cost_curve_published_vs_symmetric_n1 tail:
+  C_E=   300.0 uM  window_as_published=1.841  window_symmetric=2.048
+  C_E=  1000.0 uM  window_as_published=1.004  window_symmetric=1.295
+  C_E=  3000.0 uM  window_as_published=0.696  window_symmetric=1.064
+  max C_E in ANDGATE-3 artifact: 3000.0 uM  (10 mM = 10000 uM present? False)
+
+RECONCILIATION
+  0.700 -> PUB-ANDGATE committed 0.7 at 2 dp; exact 0.695765. ANDGATE-3's own artifact
+           prints 0.696. The "0.700" appears only in ANDGATE-3's PROSE, which re-quoted a
+           2-dp value with a spurious third digit. Arithmetic agrees; the precision does not.
+  0.580 -> PUB-ANDGATE committed 0.58 at 2 dp; exact 0.578152. ANDGATE-3's sweep STOPS at
+           3 mM, so neither 0.580 nor its symmetric partner 1.008 is backed by ANDGATE-3's
+           own artifact. ANDGATE-4 computes 1.008258 independently, so 1.008 is arithmetically
+           CORRECT but was, in ANDGATE-3, an unevidenced prose figure.
+  1.064 -> present in ANDGATE-3's artifact AND independently reproduced. Sound.
+

@@ -1,0 +1,3 @@
+git grep -n -i -E "all five (druggable )?guardians?|five druggable guardian|all five .{0,30}anti-?apoptotic|guardians are lower|all five are lower|all 5 (druggable )?guardian" -- ':!research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/MODALITY-CENSUS-2'
+# plus a broader sweep for the phrase fragments, tracked + untracked
+grep -rn -i -E "all five (druggable )?guardian|guardians are lower|five druggable guardians" . --include=*.md --include=*.json --include=*.py

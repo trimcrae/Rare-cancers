@@ -1,0 +1,17 @@
+PUB-ANDGATE fusion_fraction_bound @C_E=0 == 0.5261                     got=0.526066     want=0.5261   PASS
+PUB-ANDGATE wildtype_fraction_bound @C_E=0 == 0.0909                   got=0.090909     want=0.0909   PASS
+PUB-ANDGATE cis-only window == 5.79                                    got=5.78673      want=5.79     PASS
+ASYMMETRIC window @C_E=3 mM == 0.700                                   got=0.695765     want=0.7      FAIL
+ASYMMETRIC window @C_E=10 mM == 0.580                                  got=0.578152     want=0.58     FAIL
+SYMMETRIC window @C_E=3 mM == 1.064                                    got=1.063759     want=1.064    PASS
+SYMMETRIC window @C_E=10 mM == 1.008                                   got=1.008258     want=1.008    PASS
+SYMMETRIC window monotonically non-increasing in C_E                   got=True         want=True     PASS
+SYMMETRIC window > 1 at every swept C_E (no inversion)                 got=True         want=True     PASS
+SYMMETRIC window -> 1 as C_E -> inf                                    got=1.0          want=1.0      PASS
+retained fraction asymmetric (n=10 anchor) == 0.9822                   got=0.982175     want=0.9822   PASS
+retained fraction symmetric  (n=10 anchor) == 0.9822                   got=0.982192     want=0.9822   PASS
+
+asymmetric window C_E->inf : 0.526066  (drives the spurious 'inversion')
+symmetric  window C_E->inf : 1.000000  (asymptotes to unity)
+
+wrote /home/user/Rare-cancers/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/ANDGATE-4/andgate4-independent-rederivation.json

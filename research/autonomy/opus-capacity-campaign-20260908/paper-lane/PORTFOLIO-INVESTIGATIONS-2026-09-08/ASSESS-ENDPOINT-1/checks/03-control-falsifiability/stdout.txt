@@ -1,0 +1,63 @@
+=== M0 baseline (no mutation) -> harness exit 0
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M1 break wilson() closed form (z=1.0) -> harness exit 2
+controls:
+  FAIL wilson_closed_form_vs_score_root_find_6_of_47 [8.7, 18.4] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M2 break binomial tail (drop last term) -> harness exit 0
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M3 break quantile_type7 (lower order stat) -> harness exit 2
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  FAIL quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.0, 1.0, 3.0]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M4 corrupt one R2_per_arm_rows gap value -> harness exit 2
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  FAIL R2_rows_recompute_from_C2_cells 0 vs 1
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M5 vacuous mutation control (SD += 0) -> harness exit 0
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+
+=== M6 identity-preserving mutation (SD and denom both +40) -> harness exit 0
+controls:
+  PASS wilson_closed_form_vs_score_root_find_6_of_47 [6.0, 25.2] vs [6.0, 25.2]
+  PASS binomial_known_answers [0.5, 0.25, 1.0] vs [0.5, 0.25, 1.0]
+  PASS quantile_type7_known_vector [2.5, 1.75, 3.25] vs [2.5, 1.75, 3.25]
+  PASS R2_rows_recompute_from_C2_cells 0 vs 0
+  PASS mutation_control_median_gap_moves_on_corrupted_input True vs True
+  PASS mutation_control_identity_breaks_on_corrupted_input False vs False
+

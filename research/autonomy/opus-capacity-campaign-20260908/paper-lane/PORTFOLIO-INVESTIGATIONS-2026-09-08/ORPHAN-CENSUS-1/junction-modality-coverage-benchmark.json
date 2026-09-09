@@ -1,0 +1,1062 @@
+{
+ "_id": "ORPHAN-CENSUS-1-junction-modality-coverage-benchmark",
+ "_what": "Coverage benchmark over the 198 fusion pairs already fetched in fusion-junction-orphan-census.json: where EWSR1::NR4A3 sits in the retrieved literature, with orphan status stratified by gene-symbol length.",
+ "_utc_built": "2026-09-09T01:49:32Z",
+ "_no_network": "This benchmark makes no HTTP call. It re-reads rows fetched by the census on 2026-08-13T20:44:47Z and recomputes over them.",
+ "⚠_not_a_field_absence_claim": "Every count is a retrieval count from ONE index (Europe PMC) on ONE date under ONE query string. A rank or a zero here CANNOT establish that the field has not done something; an unclosed literature index cannot demonstrate absence. Read every 'orphan' as 'these queries retrieved nothing on that date'.",
+ "⚠_no_clinical_claim": "Nothing here bears on EMC efficacy, safety, selectivity, therapeutic window or clinical readiness, and no row is a recommendation.",
+ "provenance": {
+  "source_file": "/home/user/Rare-cancers/research/modalities/fusion-junction-orphan-census.json",
+  "source_sha256_recomputed_at_use": "5793da5db4914c2917bea20ae522124a682e9ee3f0c62023372635cc6b4dc01a",
+  "source_bytes": 705801,
+  "source_census_utc": "2026-08-13T20:44:47Z",
+  "source_status": "ok",
+  "source_epmc_endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+  "source_modality_terms": "antisense OR gapmer OR siRNA OR shRNA OR morpholino OR \"antisense oligonucleotide\" OR \"splice-switching\" OR oligonucleotide",
+  "source_junction_terms": "junction OR breakpoint OR \"fusion-specific\" OR \"fusion specific\" OR chimeric",
+  "source_carried_no_hashes": "DISCOVERY-2 computed no hashes; the sha256 above was computed here at use.",
+  "n_universe_pairs": 198,
+  "census_summary_as_published": {
+   "n_fusion_pairs": 198,
+   "verdict_counts": {
+    "attempted": 139,
+    "orphan": 33,
+    "modality_touched": 3,
+    "screen_failed": 23
+   },
+   "n_with_recorded_existing_therapy": 98,
+   "n_without_recorded_existing_therapy": 100,
+   "n_needing_human_read": 40
+  }
+ },
+ "positive_controls": {
+  "requirement": "BCR::ABL1, EWSR1::FLI1 and PAX3::FOXO1 must be NON-orphan. If any reads as orphan, the instrument is measuring retrieval, not the literature.",
+  "result": "PASS",
+  "detail": {
+   "BCR::ABL1": {
+    "present_in_universe": true,
+    "verdict": "attempted",
+    "non_orphan": true,
+    "fully_screened": true,
+    "short_symbol_le3": true,
+    "denominator": 11891,
+    "modality": 1828,
+    "junction_directed": 863
+   },
+   "EWSR1::FLI1": {
+    "present_in_universe": true,
+    "verdict": "attempted",
+    "non_orphan": true,
+    "fully_screened": true,
+    "short_symbol_le3": false,
+    "denominator": 1599,
+    "modality": 386,
+    "junction_directed": 250
+   },
+   "PAX3::FOXO1": {
+    "present_in_universe": true,
+    "verdict": "attempted",
+    "non_orphan": true,
+    "fully_screened": true,
+    "short_symbol_le3": false,
+    "denominator": 1355,
+    "modality": 460,
+    "junction_directed": 231
+   }
+  }
+ },
+ "verdict_coverage": {
+  "overall": {
+   "attempted": 139,
+   "orphan": 33,
+   "modality_touched": 3,
+   "screen_failed": 23
+  },
+  "n_fully_screened": 175,
+  "n_not_fully_screened": 23,
+  "by_symbol_length_stratum": {
+   "short_symbol_le3": {
+    "n_pairs": 50,
+    "n_fully_screened": 44,
+    "verdict_counts": {
+     "attempted": 41,
+     "orphan": 3,
+     "screen_failed": 6
+    },
+    "orphan_rate_among_fully_screened": 0.0682,
+    "median_denominator_hits": 215.0,
+    "median_junction_directed_hits": 17.5,
+    "examples_of_stratum": [
+     "ACT::FOSB",
+     "AGK::BRAF",
+     "APP::NRG1",
+     "BCR::ABL1",
+     "BCR::FGFR1",
+     "BCR::JAK2",
+     "BCR::NTRK2",
+     "BCR::PDGFRA",
+     "CAD::ALK",
+     "CCDC6::RET"
+    ]
+   },
+   "long_symbol_ge4": {
+    "n_pairs": 148,
+    "n_fully_screened": 131,
+    "verdict_counts": {
+     "attempted": 98,
+     "orphan": 30,
+     "modality_touched": 3,
+     "screen_failed": 17
+    },
+    "orphan_rate_among_fully_screened": 0.229,
+    "median_denominator_hits": 66,
+    "median_junction_directed_hits": 5,
+    "examples_of_stratum": [
+     "ACTB::GLI1",
+     "ADAD2-AS1::ABL1",
+     "AFAP1::NTRK2",
+     "AGGF1::PDGFRB",
+     "AKAP9::BRAF",
+     "ANO10::RAF1",
+     "ASPSCR1::TFE3",
+     "ATF7IP::JAK2",
+     "ATP1B1::NRG1",
+     "BCOR::CCNB3"
+    ]
+   }
+  },
+  "stratum_definition": "min(len(donor_symbol), len(acceptor_symbol)) <= 3 -> short_symbol_le3; the census's own caveat says such symbols are English words too (ACT, FUS, MET), so their hit counts are inflated by unrelated text."
+ },
+ "focus_fusion": {
+  "fusion": "EWSR1::NR4A3",
+  "verdict": "attempted",
+  "is_orphan_by_this_census": false,
+  "stratum": "long_symbol_ge4",
+  "fully_screened": true,
+  "diseases": [
+   "Extraskeletal Myxoid Chondrosarcoma"
+  ],
+  "existing_therapies": [
+   "Trabectedin"
+  ],
+  "hit_counts": {
+   "denominator_loose_fulltext": 409,
+   "denominator": 207,
+   "modality": 23,
+   "junction_directed": 19,
+   "junction_directed_share_of_denominator": 0.0918
+  },
+  "rank_within_all_198": [
+   {
+    "metric": "denominator_hits",
+    "n_ranked": 176,
+    "focus_value": 207,
+    "focus_rank_desc": 59,
+    "focus_percentile_from_top": 33.5,
+    "median": 86.5,
+    "top5": [
+     [
+      "BCR::ABL1",
+      11891
+     ],
+     [
+      "EML4::ALK",
+      6429
+     ],
+     [
+      "TMPRSS2::ERG",
+      4261
+     ],
+     [
+      "PML::RARA",
+      3824
+     ],
+     [
+      "ACT::FOSB",
+      3646
+     ]
+    ]
+   },
+   {
+    "metric": "modality_hits",
+    "n_ranked": 176,
+    "focus_value": 23,
+    "focus_rank_desc": 64,
+    "focus_percentile_from_top": 36.4,
+    "median": 11.0,
+    "top5": [
+     [
+      "BCR::ABL1",
+      1828
+     ],
+     [
+      "ACT::FOSB",
+      1334
+     ],
+     [
+      "EML4::ALK",
+      1157
+     ],
+     [
+      "TMPRSS2::ERG",
+      1146
+     ],
+     [
+      "PML::RARA",
+      813
+     ]
+    ]
+   },
+   {
+    "metric": "junction_directed_hits",
+    "n_ranked": 176,
+    "focus_value": 19,
+    "focus_rank_desc": 56,
+    "focus_percentile_from_top": 31.8,
+    "median": 7.5,
+    "top5": [
+     [
+      "BCR::ABL1",
+      863
+     ],
+     [
+      "EML4::ALK",
+      493
+     ],
+     [
+      "TMPRSS2::ERG",
+      409
+     ],
+     [
+      "PML::RARA",
+      353
+     ],
+     [
+      "ACT::FOSB",
+      322
+     ]
+    ]
+   },
+   {
+    "metric": "junction_directed_share_of_denominator",
+    "n_ranked": 171,
+    "focus_value": 0.09178743961352658,
+    "focus_rank_desc": 64,
+    "focus_percentile_from_top": 37.4,
+    "median": 0.07692307692307693,
+    "top5": [
+     [
+      "PAX5::AUTS2",
+      0.3
+     ],
+     [
+      "STRN3::JAK2",
+      0.2631578947368421
+     ],
+     [
+      "VOPP1::EGFR",
+      0.23076923076923078
+     ],
+     [
+      "FGFR1OP2::FGFR1",
+      0.21568627450980393
+     ],
+     [
+      "ATP1B1::NRG1",
+      0.21428571428571427
+     ]
+    ]
+   }
+  ],
+  "rank_within_long_symbol_fully_screened_comparator": {
+   "n_comparator_pairs": 131,
+   "ranks": [
+    {
+     "metric": "denominator_hits",
+     "n_ranked": 131,
+     "focus_value": 207,
+     "focus_rank_desc": 37,
+     "focus_percentile_from_top": 28.2,
+     "median": 66,
+     "top5": [
+      [
+       "ETV6::RUNX1",
+       3166
+      ],
+      [
+       "ETV6::NTRK3",
+       2076
+      ],
+      [
+       "CBFB::MYH11",
+       2034
+      ],
+      [
+       "EWSR1::FLI1",
+       1599
+      ],
+      [
+       "KIAA1549::BRAF",
+       1485
+      ]
+     ]
+    },
+    {
+     "metric": "modality_hits",
+     "n_ranked": 131,
+     "focus_value": 23,
+     "focus_rank_desc": 42,
+     "focus_percentile_from_top": 32.1,
+     "median": 7,
+     "top5": [
+      [
+       "ETV6::RUNX1",
+       553
+      ],
+      [
+       "PAX3::FOXO1",
+       460
+      ],
+      [
+       "EWSR1::FLI1",
+       386
+      ],
+      [
+       "CBFB::MYH11",
+       378
+      ],
+      [
+       "ACTB::GLI1",
+       257
+      ]
+     ]
+    },
+    {
+     "metric": "junction_directed_hits",
+     "n_ranked": 131,
+     "focus_value": 19,
+     "focus_rank_desc": 35,
+     "focus_percentile_from_top": 26.7,
+     "median": 5,
+     "top5": [
+      [
+       "ETV6::RUNX1",
+       264
+      ],
+      [
+       "EWSR1::FLI1",
+       250
+      ],
+      [
+       "PAX3::FOXO1",
+       231
+      ],
+      [
+       "CBFB::MYH11",
+       192
+      ],
+      [
+       "ETV6::NTRK3",
+       144
+      ]
+     ]
+    },
+    {
+     "metric": "junction_directed_share_of_denominator",
+     "n_ranked": 128,
+     "focus_value": 0.09178743961352658,
+     "focus_rank_desc": 44,
+     "focus_percentile_from_top": 34.4,
+     "median": 0.07692307692307693,
+     "top5": [
+      [
+       "PAX5::AUTS2",
+       0.3
+      ],
+      [
+       "STRN3::JAK2",
+       0.2631578947368421
+      ],
+      [
+       "VOPP1::EGFR",
+       0.23076923076923078
+      ],
+      [
+       "FGFR1OP2::FGFR1",
+       0.21568627450980393
+      ],
+      [
+       "ATP1B1::NRG1",
+       0.21428571428571427
+      ]
+     ]
+    }
+   ]
+  },
+  "retrieved_identifiers_for_hand_check": {
+   "_why": "The census verdict 'attempted' is keyword CO-OCCURRENCE in one retrieved record, not a read confirmation that an oligonucleotide was aimed at this junction. These are the identifiers the junction-directed query returned (the census stores at most 25 per query); reading them by hand is the only way to convert a co-occurrence into a claim.",
+   "junction_directed_query": "((\"EWSR1::NR4A3\" OR \"EWSR1-NR4A3\" OR \"EWSR1/NR4A3\" OR \"EWSR1 NR4A3 fusion\") OR (TITLE_ABS:\"EWSR1\" AND TITLE_ABS:\"NR4A3\")) AND (antisense OR gapmer OR siRNA OR shRNA OR morpholino OR \"antisense oligonucleotide\" OR \"splice-switching\" OR oligonucleotide) AND (junction OR breakpoint OR \"fusion-specific\" OR \"fusion specific\" OR chimeric)",
+   "identifiers": [
+    "40762284",
+    "29937513",
+    "39048711",
+    "36338518",
+    "42055626",
+    "40188496",
+    "36875767",
+    "23329308",
+    "32825119",
+    "27218413",
+    "22742646",
+    "34188019",
+    "22420726",
+    "19555393",
+    "22112491",
+    "35972647",
+    "27553392"
+   ],
+   "modality_identifiers": [
+    "40762284",
+    "29937513",
+    "18855877",
+    "39048711",
+    "36338518",
+    "36875767",
+    "24585572",
+    "40188496",
+    "42055626",
+    "32825119",
+    "35390276",
+    "23329308",
+    "27218413",
+    "34188019",
+    "22742646",
+    "19555393",
+    "22420726",
+    "22112491",
+    "35972647",
+    "27553392"
+   ]
+  }
+ },
+ "ewsr1_family_peers": [
+  {
+   "fusion": "EWSR1::ATF1",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 769,
+   "modality": 72,
+   "junction_directed": 53,
+   "junction_share": 0.0689
+  },
+  {
+   "fusion": "EWSR1::CREB1",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 391,
+   "modality": 21,
+   "junction_directed": 18,
+   "junction_share": 0.046
+  },
+  {
+   "fusion": "EWSR1::CREB3L1",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 151,
+   "modality": 13,
+   "junction_directed": 10,
+   "junction_share": 0.0662
+  },
+  {
+   "fusion": "EWSR1::DDIT3",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 220,
+   "modality": 22,
+   "junction_directed": 13,
+   "junction_share": 0.0591
+  },
+  {
+   "fusion": "EWSR1::ERG",
+   "verdict": "attempted",
+   "stratum": "short_symbol_le3",
+   "denominator": 469,
+   "modality": 91,
+   "junction_directed": 73,
+   "junction_share": 0.1557
+  },
+  {
+   "fusion": "EWSR1::FLI1",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 1599,
+   "modality": 386,
+   "junction_directed": 250,
+   "junction_share": 0.1563
+  },
+  {
+   "fusion": "EWSR1::KLF15",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 22,
+   "modality": 3,
+   "junction_directed": 2,
+   "junction_share": 0.0909
+  },
+  {
+   "fusion": "EWSR1::NFATC2",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 176,
+   "modality": 21,
+   "junction_directed": 15,
+   "junction_share": 0.0852
+  },
+  {
+   "fusion": "EWSR1::NR4A3",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 207,
+   "modality": 23,
+   "junction_directed": 19,
+   "junction_share": 0.0918
+  },
+  {
+   "fusion": "EWSR1::PATZ1",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 155,
+   "modality": 12,
+   "junction_directed": 11,
+   "junction_share": 0.071
+  },
+  {
+   "fusion": "EWSR1::TFCP2",
+   "verdict": "attempted",
+   "stratum": "long_symbol_ge4",
+   "denominator": 55,
+   "modality": 5,
+   "junction_directed": 4,
+   "junction_share": 0.0727
+  },
+  {
+   "fusion": "EWSR1::WT1",
+   "verdict": "attempted",
+   "stratum": "short_symbol_le3",
+   "denominator": 388,
+   "modality": 77,
+   "junction_directed": 64,
+   "junction_share": 0.1649
+  }
+ ],
+ "not_fully_screened_rows": [
+  {
+   "fusion": "MEF2D::CSF1R",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "junction_directed": {
+     "http_status": 502,
+     "error": "HTTPError 502"
+    }
+   }
+  },
+  {
+   "fusion": "MET::ATXN7L1",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 504,
+     "error": "HTTPError 504"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "MN1::BEND2",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "MN1::ZFTA",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "MNX1::ETV6",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "MYB::QKI",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "MYB::TYK2",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RANBP2::ABL1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator": {
+     "http_status": 502,
+     "error": "HTTPError 502"
+    },
+    "modality": {
+     "http_status": 502,
+     "error": "HTTPError 502"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RANBP2::ALK",
+   "stratum": "short_symbol_le3",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RBM15::MRTFA",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RCSD1::ABL1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RCSD1::ABL2",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RFX3::JAK2",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "RUNX1::RUNX1T1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SCP2::NTRK1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SDC4::NRG1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SDC4::ROS1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SERPINE1::FOSB",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SLC3A2::NRG1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SLC4A4::ROS1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SMU1::JAK2",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SNX29::JAK2",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  },
+  {
+   "fusion": "SNX2::ABL1",
+   "stratum": "long_symbol_ge4",
+   "failed_queries": {
+    "denominator_loose_fulltext": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "denominator": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "modality": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    },
+    "junction_directed": {
+     "http_status": 503,
+     "error": "HTTPError 503"
+    }
+   }
+  }
+ ],
+ "stop_condition": "Stops at this benchmark table. No new retrieval, no re-query, no absence claim.",
+ "portfolio_arguments_leaning_on_neglect": [
+  {
+   "file": "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md",
+   "line": 371,
+   "quote": "EMC / EWSR1::NR4A3 has never been attempted. No junction-directed oligonucleotide against any NR4A3 fusion appears in 5,385 records. Genuinely first — an indication-level first.",
+   "status_against_this_benchmark": "QUALIFIED, not refuted. This census classifies EWSR1::NR4A3 as 'attempted', not 'orphan', and its junction-directed retrieval (19 records) sits ABOVE the median of the 198-pair universe and of the long-symbol comparator. That does not show an ASO was aimed at this junction — the verdict is co-occurrence — but it does mean a second, independently-fetched index does NOT return zero, so a flat 'never been attempted' rests on one sweep's negative and should carry the sweep's bound. The 19 identifiers above are the check."
+  },
+  {
+   "file": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+   "line": 87,
+   "quote": "usually EWSR1::NR4A3, for which no targeted agent exists.",
+   "status_against_this_benchmark": "NOT REACHED. 'No approved targeted agent' is a therapeutics-availability statement, not a literature-coverage one; this benchmark measures retrieval only. Noted because the paper's own peer review (item 36, 2026-08-10) already asked for that phrase to be bounded."
+  },
+  {
+   "file": "research/manuscripts/dependency/emc-biomarker-selected-classes.md",
+   "line": 46,
+   "quote": "It has no targeted agent, and its systemic options are few.",
+   "status_against_this_benchmark": "NOT REACHED — same reason as above."
+  }
+ ],
+ "portfolio_scan_bound": "The scan was a grep over research/manuscripts for neglect-shaped phrasings tied to the fusion or the modality; it is not an exhaustive audit of the portfolio, and 'orphan nuclear receptor' / 'orphan disease' uses were excluded as a different sense of the word."
+}

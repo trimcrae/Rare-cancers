@@ -1,0 +1,244 @@
+{
+  "_model": "andgate4_independent_rederivation.py",
+  "_lane": "ANDGATE-4",
+  "_purpose": "Independent re-derivation of ANDGATE-3's asymmetric vs symmetric in-trans window values, from the algebra, without importing the parent scripts.",
+  "_compute": "CPU, pure stdlib, no GPU, no network, no external data",
+  "_no_arm2_ligand_exists": true,
+  "_not_an_efficacy_safety_or_therapeutic_claim": true,
+  "inputs": {
+    "Kd1_M": 9.999999999999999e-06,
+    "Kd2_M": 9.999999999999999e-05,
+    "EM_M": 0.001,
+    "free_ligand_M": 1e-06
+  },
+  "asymmetric_fusion_fraction_is_C_E_independent": {
+    "distinct_values_over_13_sweep_points": [
+      0.5261
+    ],
+    "note": "z_fus_asym takes no C_E argument, so the fusion occupancy is constant at 0.5261 across the whole sweep \u2014 the defect, reproduced."
+  },
+  "sweep": [
+    {
+      "C_E_M": 0.0,
+      "C_E_uM": 0.0,
+      "window_asymmetric": 5.7867,
+      "window_symmetric": 5.7867
+    },
+    {
+      "C_E_M": 1e-09,
+      "C_E_uM": 0.001,
+      "window_asymmetric": 5.7867,
+      "window_symmetric": 5.7867
+    },
+    {
+      "C_E_M": 1e-08,
+      "C_E_uM": 0.01,
+      "window_asymmetric": 5.7862,
+      "window_symmetric": 5.7862
+    },
+    {
+      "C_E_M": 1e-07,
+      "C_E_uM": 0.1,
+      "window_asymmetric": 5.7815,
+      "window_symmetric": 5.7817
+    },
+    {
+      "C_E_M": 1e-06,
+      "C_E_uM": 1.0,
+      "window_asymmetric": 5.7346,
+      "window_symmetric": 5.7371
+    },
+    {
+      "C_E_M": 3e-06,
+      "C_E_uM": 3.0,
+      "window_asymmetric": 5.6335,
+      "window_symmetric": 5.6407
+    },
+    {
+      "C_E_M": 1e-05,
+      "C_E_uM": 10.000000000000002,
+      "window_asymmetric": 5.3085,
+      "window_symmetric": 5.331
+    },
+    {
+      "C_E_M": 3e-05,
+      "C_E_uM": 30.000000000000004,
+      "window_asymmetric": 4.5727,
+      "window_symmetric": 4.6305
+    },
+    {
+      "C_E_M": 0.0001,
+      "C_E_uM": 100.00000000000001,
+      "window_asymmetric": 3.1564,
+      "window_symmetric": 3.2851
+    },
+    {
+      "C_E_M": 0.0003,
+      "C_E_uM": 300.0,
+      "window_asymmetric": 1.8412,
+      "window_symmetric": 2.0477
+    },
+    {
+      "C_E_M": 0.001,
+      "C_E_uM": 1000.0000000000001,
+      "window_asymmetric": 1.0043,
+      "window_symmetric": 1.2952
+    },
+    {
+      "C_E_M": 0.003,
+      "C_E_uM": 3000.0,
+      "window_asymmetric": 0.6958,
+      "window_symmetric": 1.0638
+    },
+    {
+      "C_E_M": 0.01,
+      "C_E_uM": 10000.0,
+      "window_asymmetric": 0.5782,
+      "window_symmetric": 1.0083
+    },
+    {
+      "C_E_M": 0.03,
+      "C_E_uM": 30000.0,
+      "window_asymmetric": 0.5435,
+      "window_symmetric": 1.001
+    },
+    {
+      "C_E_M": 0.1,
+      "C_E_uM": 100000.00000000001,
+      "window_asymmetric": 0.5313,
+      "window_symmetric": 1.0001
+    },
+    {
+      "C_E_M": 1.0,
+      "C_E_uM": 1000000.0,
+      "window_asymmetric": 0.5266,
+      "window_symmetric": 1.0
+    },
+    {
+      "C_E_M": 10.0,
+      "C_E_uM": 10000000.0,
+      "window_asymmetric": 0.5261,
+      "window_symmetric": 1.0
+    }
+  ],
+  "asymmetric_limit_C_E_to_inf": 0.526066,
+  "low_occupancy_form_check": [
+    {
+      "C_E_M": 1e-06,
+      "exact": 5.7371,
+      "low_occupancy": 11.0
+    },
+    {
+      "C_E_M": 0.0001,
+      "exact": 3.2851,
+      "low_occupancy": 6.05
+    },
+    {
+      "C_E_M": 0.01,
+      "exact": 1.0083,
+      "low_occupancy": 1.1
+    }
+  ],
+  "why_no_inversion_is_possible": "Symmetric low-occupancy window = (1 + n*EM/Kd2 + C_E/Kd2 + n*Kd1/Kd2)/(1 + C_E/Kd2). The numerator exceeds the denominator by n*(EM+Kd1)/Kd2 > 0 for every C_E, so the window is > 1 everywhere and decays monotonically to 1. The C_E/Kd2 trans term is common to both chains; omitting it from the fusion alone is what drove the ratio below 1.",
+  "multiplicity_negative_n10_200nM_anchor": {
+    "n": 10,
+    "C_E_M": 2e-06,
+    "window_asymmetric": 9.8393,
+    "window_symmetric": 9.8395,
+    "retained_fraction_asymmetric_vs_n_matched_baseline": 0.9822,
+    "retained_fraction_symmetric_vs_n_matched_baseline": 0.9822,
+    "verdict": "Against an n-matched cis-only baseline the retained fraction is unchanged to 4 dp. Symmetric n does NOT rescue the multiplicity fragility ANDGATE-2 found; it changes the absolute window, not the shape of the decay. Carried forward UNSOFTENED."
+  },
+  "checks": [
+    {
+      "check": "PUB-ANDGATE fusion_fraction_bound @C_E=0 == 0.5261",
+      "got": 0.526066,
+      "expected": 0.5261,
+      "tol": 5e-05,
+      "pass": true
+    },
+    {
+      "check": "PUB-ANDGATE wildtype_fraction_bound @C_E=0 == 0.0909",
+      "got": 0.090909,
+      "expected": 0.0909,
+      "tol": 5e-05,
+      "pass": true
+    },
+    {
+      "check": "PUB-ANDGATE cis-only window == 5.79",
+      "got": 5.78673,
+      "expected": 5.79,
+      "tol": 0.005,
+      "pass": true
+    },
+    {
+      "check": "ASYMMETRIC window @C_E=3 mM == 0.700",
+      "got": 0.695765,
+      "expected": 0.7,
+      "tol": 0.0005,
+      "pass": false
+    },
+    {
+      "check": "ASYMMETRIC window @C_E=10 mM == 0.580",
+      "got": 0.578152,
+      "expected": 0.58,
+      "tol": 0.0005,
+      "pass": false
+    },
+    {
+      "check": "SYMMETRIC window @C_E=3 mM == 1.064",
+      "got": 1.063759,
+      "expected": 1.064,
+      "tol": 0.0005,
+      "pass": true
+    },
+    {
+      "check": "SYMMETRIC window @C_E=10 mM == 1.008",
+      "got": 1.008258,
+      "expected": 1.008,
+      "tol": 0.0005,
+      "pass": true
+    },
+    {
+      "check": "SYMMETRIC window monotonically non-increasing in C_E",
+      "got": true,
+      "expected": true,
+      "tol": 0,
+      "pass": true
+    },
+    {
+      "check": "SYMMETRIC window > 1 at every swept C_E (no inversion)",
+      "got": true,
+      "expected": true,
+      "tol": 0,
+      "pass": true
+    },
+    {
+      "check": "SYMMETRIC window -> 1 as C_E -> inf",
+      "got": 1.0,
+      "expected": 1.0,
+      "tol": 0.001,
+      "pass": true
+    },
+    {
+      "check": "retained fraction asymmetric (n=10 anchor) == 0.9822",
+      "got": 0.982175,
+      "expected": 0.9822,
+      "tol": 0.0005,
+      "pass": true
+    },
+    {
+      "check": "retained fraction symmetric  (n=10 anchor) == 0.9822",
+      "got": 0.982192,
+      "expected": 0.9822,
+      "tol": 0.0005,
+      "pass": true
+    }
+  ],
+  "all_checks_passed": false,
+  "failed_checks": [
+    "ASYMMETRIC window @C_E=3 mM == 0.700",
+    "ASYMMETRIC window @C_E=10 mM == 0.580"
+  ],
+  "bulk_verdict_carried_forward": "UNCHANGED. At the bulk-nucleoplasmic literature anchors the correction moves the retained window by well under 1%. The verdict still rests entirely on in-hub C_E, the free concentration of engageable wild-type EWSR1-LC arm-2 sites, which remains UNKNOWN in this repository \u2014 not zero."
+}

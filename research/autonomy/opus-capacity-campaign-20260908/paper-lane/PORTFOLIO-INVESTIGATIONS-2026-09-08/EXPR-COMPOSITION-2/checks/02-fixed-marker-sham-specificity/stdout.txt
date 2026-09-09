@@ -1,0 +1,14 @@
+
+published NaN-skipping C : label r -0.5780 / -0.5041 ; unadjusted 0.6521 -> adjusted 0.5668 (attenuation of excess 0.5606)
+   band +-0.10 : n=14 matched shams, adjusted rate mean 0.6256 min 0.5829 ; 0 attenuate at least as much as the real score ; one-sided p=0.0667
+   band +-0.15 : n=26 matched shams, adjusted rate mean 0.6197 min 0.5737 ; 0 attenuate at least as much as the real score ; one-sided p=0.0370
+   band +-0.20 : n=42 matched shams, adjusted rate mean 0.6170 min 0.5461 ; 1 attenuate at least as much as the real score ; one-sided p=0.0465
+
+FIXED 14-marker C : label r -0.4579 / -0.4761 ; unadjusted 0.6521 -> adjusted 0.6129 (attenuation of excess 0.2576)
+   band +-0.10 : n=14 matched shams, adjusted rate mean 0.6201 min 0.5922 ; 4 attenuate at least as much as the real score ; one-sided p=0.3333
+   band +-0.15 : n=39 matched shams, adjusted rate mean 0.6190 min 0.5737 ; 14 attenuate at least as much as the real score ; one-sided p=0.3750
+   band +-0.20 : n=76 matched shams, adjusted rate mean 0.6175 min 0.5599 ; 30 attenuate at least as much as the real score ; one-sided p=0.4026
+
+regression adjusted_rate ~ mean|label r| : slope -0.0727 intercept 0.6470  residual sd 0.0230  n=300
+   published C        x=0.541  generic fit 0.6077 (95% CI for the mean 0.6024-0.6129)  observed 0.5668  gap -0.0408  = -1.8 residual sd
+   FIXED 14-marker C  x=0.467  generic fit 0.6130 (95% CI for the mean 0.6089-0.6171)  observed 0.6129  gap -0.0001  = -0.0 residual sd

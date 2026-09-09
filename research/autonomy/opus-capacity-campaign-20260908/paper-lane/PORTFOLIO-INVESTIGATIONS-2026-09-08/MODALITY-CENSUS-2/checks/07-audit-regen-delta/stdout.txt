@@ -1,0 +1,84 @@
+SCALAR KEYS
+  _what: SAME
+  _why: SAME
+  _this_decides_nothing: SAME
+  _bar: SAME
+  n_never_searched_rows: 127  ->  111
+  n_rows_with_a_candidate_collision: 73  ->  72
+
+FINDINGS: 73 -> 72
+  dropped (14): ['MOD-ARGININE-DEPRIVATION', 'MOD-BRACHYTHERAPY', 'MOD-CS-BIOSYNTHESIS', 'MOD-DNMT', 'MOD-EZH2', 'MOD-HSP90', 'MOD-HYPOXIA-PRODRUG', 'MOD-ILP', 'MOD-METRONOMIC', 'MOD-N-OF-1', 'MOD-RADIOSENSITIZER', 'MOD-SEQUENCING', 'MOD-THERMAL-ABLATION', 'MOD-TRANSCRIPTIONAL-CDK']
+  added   (13): ['MOD-ANTICOAGULANT', 'MOD-BONE-TARGETED', 'MOD-COSTIM-AGONIST', 'MOD-DIETARY-RESTRICTION', 'MOD-GLUCOCORTICOID', 'MOD-HIPEC', 'MOD-IAP-SMAC', 'MOD-INTRATUMOURAL-DEPOT', 'MOD-NEXTGEN-CHECKPOINT', 'MOD-RADIOIMMUNOCONJUGATE', 'MOD-REPURPOSED-NONONC', 'MOD-USP1-KAT6', 'MOD-VDR']
+  present in both: 59; of those CHANGED: 52; byte-identical: 7
+
+  n_files movement for every retained id:
+    MOD-TF-PROTAC                  n_files  141 ->  414
+    MOD-MRNA-THERAPEUTIC           n_files   75 ->  282
+    MOD-SPLICE-SWITCH-ASO          n_files   16 ->  157
+    MOD-EXPANDED-ACCESS            n_files   36 ->  154
+    MOD-BASE-PRIME-EDITING         n_files   31 ->  143
+    MOD-ISOLATED-LUNG-PERFUSION    n_files   22 ->  117
+    MOD-PRMT5-MAT2A                n_files   31 ->  117
+    MOD-LNP                        n_files   22 ->   79
+    MOD-MYELOID-REPROGRAM          n_files   23 ->   60
+    MOD-VEGF-MAB                   n_files   22 ->   49
+    MOD-EPIGENOME-EDITING          n_files   18 ->   47
+    MOD-NANOPARTICLE               n_files   11 ->   42
+    MOD-SARNA-CIRCRNA              n_files   11 ->   40
+    MOD-TREG-DEPLETION             n_files   11 ->   39
+    MOD-SYSTEMIC-CYTOKINE          n_files   10 ->   30
+    MOD-AURORA-PLK                 n_files   20 ->   29
+    MOD-MASKED-ANTIBODY            n_files   12 ->   29
+    MOD-CD47-SIRPA                 n_files    6 ->   23
+    MOD-PI3K-AKT-MTOR              n_files   12 ->   23
+    MOD-IMMUNOCYTOKINE             n_files    3 ->   22
+    MOD-TF-DECOY                   n_files    8 ->   22
+    MOD-CDK46                      n_files    5 ->   21
+    MOD-NTRK                       n_files    5 ->   21
+    MOD-CHEMOEMBOLIZATION          n_files    6 ->   20
+    MOD-IN-SITU-VACCINATION        n_files    1 ->   19
+    MOD-STING-TLR                  n_files    5 ->   19
+    MOD-ALT-SCAFFOLD               n_files   10 ->   18
+    MOD-ALK-ROS1                   n_files    3 ->   16
+    MOD-CAR-T-ALLOGENEIC           n_files    9 ->   11
+    MOD-WHOLE-LYSATE               n_files    1 ->   11
+    MOD-AAV-GENE-THERAPY           n_files    1 ->   10
+    MOD-NAKED-MAB                  n_files    5 ->   10
+    MOD-COX2-ASPIRIN               n_files    7 ->    9
+    MOD-PRODRUG-ACTIVATED          n_files    4 ->    9
+    MOD-ALLO-HSCT                  n_files    3 ->    8
+    MOD-INHALED-CHEMO              n_files    3 ->    8
+    MOD-MACROCYCLE                 n_files    5 ->    8
+    MOD-PLATINUM                   n_files    1 ->    8
+    MOD-EXOSOME                    n_files    3 ->    7
+    MOD-JAK-STAT                   n_files    2 ->    7
+    MOD-NAMPT-DHODH                n_files    3 ->    7
+    MOD-MDM2-P53                   n_files    1 ->    6
+    MOD-MIRNA                      n_files    1 ->    6
+    MOD-CTLA4                      n_files    3 ->    5
+    MOD-MCL1-BCLXL                 n_files    1 ->    5
+    MOD-AR-ANTAGONIST              n_files    2 ->    4
+    MOD-MICROBIOME                 n_files    1 ->    4
+    MOD-PHOSPHATASE-RECRUIT        n_files    2 ->    4
+    MOD-WNT-BETA-CATENIN           n_files    3 ->    4
+    MOD-FGFR                       n_files    2 ->    3
+    MOD-RADIOEMBOLIZATION          n_files    1 ->    3
+    MOD-EGFR                       n_files    1 ->    2
+
+  retained ids whose n_files did NOT move: ['MOD-AROMATASE', 'MOD-CSF1R', 'MOD-GNRH', 'MOD-HIF2A', 'MOD-INTEGRIN-MMP', 'MOD-LYTAC', 'MOD-ODC']
+
+  reason each dropped id left:
+    MOD-ARGININE-DEPRIVATION       prior_coverage=searched_before
+    MOD-BRACHYTHERAPY              prior_coverage=searched_before
+    MOD-CS-BIOSYNTHESIS            prior_coverage=searched_before
+    MOD-DNMT                       prior_coverage=searched_before
+    MOD-EZH2                       prior_coverage=searched_before
+    MOD-HSP90                      prior_coverage=searched_before
+    MOD-HYPOXIA-PRODRUG            prior_coverage=searched_before
+    MOD-ILP                        prior_coverage=searched_before
+    MOD-METRONOMIC                 prior_coverage=searched_before
+    MOD-N-OF-1                     prior_coverage=searched_before
+    MOD-RADIOSENSITIZER            prior_coverage=searched_before
+    MOD-SEQUENCING                 prior_coverage=searched_before
+    MOD-THERMAL-ABLATION           prior_coverage=searched_before
+    MOD-TRANSCRIPTIONAL-CDK        prior_coverage=searched_before

@@ -1,0 +1,16 @@
+Attempt 03 — FAILED, exit 1, preserved unedited.
+
+The gate PASSED in this run (6/6, 0 mismatches) and every frame statistic for the primary frame was
+produced and is in stdout.txt; they are identical to the rerun's. The run then died with
+  TypeError: expected non-empty vector for x   (np.polyfit)
+because the seeded-background shams were filtered for the complete-case rule AFTER being drawn, so
+0 of 300 draws survived on GPL3290 and the regression had no data.
+
+No 'script-as-run.py' is kept here: the only copy taken was made after the fix and would have
+misrepresented what ran. The exact difference between what ran here and
+../../hypoxia_residual_attribution.py is confined to the sham-drawing block, and is this: attempt 03
+drew `pyr.sample(univ[p], k)` from the unfiltered background universe and discarded the draw if any
+value was non-finite; the rerun pre-filters the universe to background symbols readable on every
+labelled sample of that platform and draws from the filtered pool. Two disclosure fields
+(background_universe_size_before_filter, frames[*]._baseline_note) were added at the same time.
+No statistic, gate, tolerance or threshold was changed to make the rerun pass.

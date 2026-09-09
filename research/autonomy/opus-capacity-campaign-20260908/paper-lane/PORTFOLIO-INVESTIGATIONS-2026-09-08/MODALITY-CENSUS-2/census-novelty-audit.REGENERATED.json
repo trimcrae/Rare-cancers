@@ -1,0 +1,2836 @@
+{
+  "_what": "Candidate false-novelty collisions: census rows filed `never_searched` whose class terms already co-occur in a repository document.",
+  "_why": "`prior_coverage` is checkable in one direction only. Claiming a prior search requires a resolvable document, so a false POSITIVE cannot survive; nothing catches a false NEGATIVE, and one was found the day the census landed.",
+  "_this_decides_nothing": "Every entry is a question for a human or agent to adjudicate. A term match is not coverage: the same word appears in documents about something else, and the census's own files are excluded because matching itself would be circular.",
+  "_bar": "two distinct class terms co-occurring in one tracked .md or .json outside the census itself and outside archive/",
+  "n_never_searched_rows": 111,
+  "n_rows_with_a_candidate_collision": 72,
+  "findings": {
+    "MOD-TF-PROTAC": {
+      "name": "TF-PROTAC (oligonucleotide-directed degradation of a transcription factor)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "tf-protacs",
+        "tf-protac",
+        "oligonucleotide-directed",
+        "degradation",
+        "transcription",
+        "factor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/data/lit-targets-proximity-sweep.json": [
+          "tf-protac",
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "STRATEGY.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/IDEAS.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/AFTER-closed-routes-negative-record.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/BEFORE-closed-routes-negative-record.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/BEFORE-20260908/nr4a3-program-map.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ]
+      },
+      "n_files": 414,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MRNA-THERAPEUTIC": {
+      "name": "mRNA therapeutics (non-vaccine)",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "therapeutic",
+        "mrna",
+        "therapeutics",
+        "non-vaccine"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.BEFORE.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/AFTER.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/BEFORE.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/AFTER.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/BEFORE.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/BASELINE-repurposing-hypotheses.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ]
+      },
+      "n_files": 282,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SPLICE-SWITCH-ASO": {
+      "name": "Splice-switching antisense oligonucleotides",
+      "verdict": "excluded",
+      "terms_searched": [
+        "splice-switching",
+        "asos",
+        "antisense",
+        "oligonucleotides"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "splice-switching",
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-working-record.md": [
+          "splice-switching",
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "splice-switching",
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "splice-switching",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "splice-switching",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/aso/aso-delivery-evidence-2026-08.json": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ]
+      },
+      "n_files": 157,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EXPANDED-ACCESS": {
+      "name": "Expanded access, compassionate use and off-label registries",
+      "verdict": "candidate",
+      "terms_searched": [
+        "single-patient",
+        "expanded",
+        "access",
+        "compassionate",
+        "off-label",
+        "registries"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/BASELINE-emc-clinical-registry.json": [
+          "single-patient",
+          "expanded",
+          "access",
+          "compassionate",
+          "off-label",
+          "registries"
+        ],
+        "research/data/emc-clinical-registry.json": [
+          "single-patient",
+          "expanded",
+          "access",
+          "compassionate",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.BEFORE.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/AFTER.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/BEFORE.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/AFTER.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/BEFORE.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ]
+      },
+      "n_files": 154,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-BASE-PRIME-EDITING": {
+      "name": "Base and prime editing",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "cytosine",
+        "base",
+        "editors",
+        "prime"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "cytosine",
+          "base",
+          "prime"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "base",
+          "editors",
+          "prime"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-paper-redteam-round5.md": [
+          "cytosine",
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-paper-redteam-round7.md": [
+          "cytosine",
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "cytosine",
+          "base",
+          "prime"
+        ],
+        "research/IDEAS.md": [
+          "base",
+          "prime"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/AB1-executed-artifacts/AFTER-manuscript-245w-abstract.md": [
+          "base",
+          "prime"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/AB1-executed-artifacts/BEFORE-manuscript-341w-abstract.md": [
+          "base",
+          "prime"
+        ]
+      },
+      "n_files": 143,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PRMT5-MAT2A": {
+      "name": "PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "mat2a",
+        "prmt5",
+        "mtap-deletion",
+        "synthetic",
+        "lethality"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/mtap-prmt5-discovery-and-chronos-2026-08-10.json": [
+          "mat2a",
+          "prmt5",
+          "mtap-deletion",
+          "synthetic",
+          "lethality"
+        ],
+        "research/literature/mtap-prmt5-emc-citations.json": [
+          "mat2a",
+          "prmt5",
+          "mtap-deletion",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/AFTER-F1-PRE-PARENT-QUALIFICATION.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/AFTER-PARENT-QUALIFIED.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/AFTER.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/BEFORE.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/GIT-HEAD-BASELINE.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/P1-executed-artifacts/AFTER.md": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ]
+      },
+      "n_files": 117,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ISOLATED-LUNG-PERFUSION": {
+      "name": "Isolated lung perfusion and regional pulmonary delivery",
+      "verdict": "candidate",
+      "terms_searched": [
+        "isolated",
+        "lung",
+        "perfusion",
+        "pulmonary"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/L3-publications.md": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/baseline/L3-publications.md": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/autonomy/research-ledger.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/literature/emc-lung-probe.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/literature/physical-modality-targets.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ]
+      },
+      "n_files": 117,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-LNP": {
+      "name": "Lipid nanoparticles for oligonucleotide delivery",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "lipid",
+        "nanoparticles",
+        "oligonucleotide"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-mortality-probe.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/literature/news-match-queue.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/atu027-systemic-sirna-solid-tumour-evidence.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/atu027-systemic-sirna-solid-tumour-evidence.md": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-references.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-references.md": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-working-record.md": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ]
+      },
+      "n_files": 79,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MYELOID-REPROGRAM": {
+      "name": "Myeloid reprogramming (TREM2, MARCO and related)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-trem2",
+        "myeloid",
+        "reprogramming",
+        "trem2",
+        "marco",
+        "related"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "myeloid",
+          "reprogramming",
+          "trem2",
+          "marco",
+          "related"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "myeloid",
+          "reprogramming",
+          "marco",
+          "related"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/emc-expression-panels.json": [
+          "myeloid",
+          "marco",
+          "related"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ]
+      },
+      "n_files": 60,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-VEGF-MAB": {
+      "name": "Anti-VEGF antibodies and ligand traps",
+      "verdict": "excluded",
+      "terms_searched": [
+        "bevacizumab",
+        "anti-vegf",
+        "antibodies",
+        "ligand",
+        "traps"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-mortality-probe.json": [
+          "bevacizumab",
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/COMMON-BRIEF.md": [
+          "ligand",
+          "traps"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/G1-executed-artifacts/AFTER.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/G1-executed-artifacts/BEFORE.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/AFTER.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/BEFORE.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/J1-executed-artifacts/HEAD-baseline.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/K1-executed-artifacts/post/emc-surface-target-landscape.md": [
+          "antibodies",
+          "ligand"
+        ]
+      },
+      "n_files": 49,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EPIGENOME-EDITING": {
+      "name": "Epigenome editing (targeted transcriptional silencing)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "dcas9-krab",
+        "epigenome",
+        "transcriptional",
+        "silencing"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "epigenome",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "epigenome",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "systems/graph/technologies.json": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/IDEAS.md": [
+          "transcriptional",
+          "silencing"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/AFTER-F1-PRE-PARENT-QUALIFICATION.md": [
+          "transcriptional",
+          "silencing"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/F1-executed-artifacts/AFTER-PARENT-QUALIFIED.md": [
+          "transcriptional",
+          "silencing"
+        ]
+      },
+      "n_files": 47,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NANOPARTICLE": {
+      "name": "Nanoparticle, liposomal and albumin-bound formulations",
+      "verdict": "excluded",
+      "terms_searched": [
+        "liposomal",
+        "doxorubicin",
+        "nanoparticle",
+        "albumin-bound",
+        "formulations"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle",
+          "formulations"
+        ],
+        "research/literature/emc-host-factor-probe.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-verify.json": [
+          "liposomal",
+          "nanoparticle",
+          "formulations"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/IDEAS.md": [
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md": [
+          "doxorubicin",
+          "nanoparticle"
+        ]
+      },
+      "n_files": 42,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SARNA-CIRCRNA": {
+      "name": "Small activating RNA and circular RNA therapeutics",
+      "verdict": "excluded",
+      "terms_searched": [
+        "sarna",
+        "activating",
+        "circular",
+        "therapeutics"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-submission-references.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ]
+      },
+      "n_files": 40,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TREG-DEPLETION": {
+      "name": "Regulatory T-cell depletion",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-ccr8",
+        "regulatory",
+        "t-cell",
+        "depletion"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/AFTER-emc-vaccine-development-path.md": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/BEFORE-emc-vaccine-development-path.md": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "regulatory",
+          "t-cell",
+          "depletion"
+        ]
+      },
+      "n_files": 39,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SYSTEMIC-CYTOKINE": {
+      "name": "Systemic cytokine therapy (IL-2, IL-12, IL-15)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "high-dose",
+        "il-2",
+        "systemic",
+        "cytokine",
+        "il-12",
+        "il-15"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "high-dose",
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus-inputs.json": [
+          "high-dose",
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus.json": [
+          "high-dose",
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "high-dose",
+          "il-2",
+          "systemic",
+          "cytokine"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "systemic",
+          "cytokine",
+          "il-12",
+          "il-15"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/literature/emc-lung-probe.json": [
+          "high-dose",
+          "systemic",
+          "cytokine"
+        ]
+      },
+      "n_files": 30,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AURORA-PLK": {
+      "name": "Aurora kinase and PLK1 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "alisertib",
+        "aurora",
+        "kinase",
+        "plk1"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "alisertib",
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "alisertib",
+          "aurora",
+          "kinase"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-00.json": [
+          "alisertib",
+          "aurora",
+          "kinase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-01.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-04.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-06.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ]
+      },
+      "n_files": 29,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MASKED-ANTIBODY": {
+      "name": "Masked / conditionally activated antibodies",
+      "verdict": "excluded",
+      "terms_searched": [
+        "probodies",
+        "masked",
+        "conditionally",
+        "activated",
+        "antibodies"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/rt-lung-mets-probe.json": [
+          "masked",
+          "conditionally",
+          "activated",
+          "antibodies"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "conditionally",
+          "activated",
+          "antibodies"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/autonomy/research-ledger.json": [
+          "masked",
+          "conditionally",
+          "activated"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        ".claude/skills/repo-gates/references/legacy-2026-09-04.md": [
+          "masked",
+          "conditionally"
+        ]
+      },
+      "n_files": 29,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PI3K-AKT-MTOR": {
+      "name": "PI3K / AKT / mTOR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "everolimus",
+        "pi3k",
+        "mtor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QB-group1.md": [
+          "everolimus",
+          "pi3k"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/literature/emc-clinical-sweep-targets.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/literature/emc-host-factor-probe.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/literature/emc-tsc-mtor-findings-2026-08-24.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/literature/emc-tsc-mtor-round3-targets.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/literature/emc-tsc-mtor-targets.json": [
+          "everolimus",
+          "mtor"
+        ]
+      },
+      "n_files": 23,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CD47-SIRPA": {
+      "name": "CD47-SIRPα and myeloid checkpoint inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-cd47",
+        "cd47-sirp",
+        "myeloid",
+        "checkpoint"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/P5-PUB-MATRIX-ADDRESS-paper-step.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/emc-expression-panels.json": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/AFTER-emc-vaccine-development-path.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/BEFORE-emc-vaccine-development-path.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "myeloid",
+          "checkpoint"
+        ]
+      },
+      "n_files": 23,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TF-DECOY": {
+      "name": "Transcription-factor decoy oligonucleotides",
+      "verdict": "excluded",
+      "terms_searched": [
+        "nbre",
+        "decoy",
+        "oligonucleotides",
+        "transcription-factor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/research-ledger.json": [
+          "nbre",
+          "decoy",
+          "transcription-factor"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "nbre",
+          "decoy",
+          "oligonucleotides"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/AFTER-closed-routes-negative-record.md": [
+          "nbre",
+          "transcription-factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/CR1-executed-artifacts/BEFORE-closed-routes-negative-record.md": [
+          "nbre",
+          "transcription-factor"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/MF1-residual/BEFORE-20260908/nr4a3-program-map.md": [
+          "nbre",
+          "decoy"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-SHARED-PATCHES-2026-09-08/BEFORE/nr4a3-program-map.md": [
+          "nbre",
+          "decoy"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "decoy",
+          "oligonucleotides"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/STOPPED-closed-routes-held-paper/WORKING-COPY-AT-TERMINATION.md": [
+          "nbre",
+          "transcription-factor"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-IMMUNOCYTOKINE": {
+      "name": "Immunocytokines (tumour-targeted cytokine fusions)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "antibody-cytokine",
+        "fusions",
+        "immunocytokines",
+        "tumour-targeted",
+        "cytokine"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/L3-publications.md": [
+          "fusions",
+          "immunocytokines",
+          "cytokine"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/baseline/L3-publications.md": [
+          "fusions",
+          "immunocytokines",
+          "cytokine"
+        ],
+        "systems/graph/routes.json": [
+          "fusions",
+          "immunocytokines",
+          "cytokine"
+        ],
+        "research/IDEAS.md": [
+          "fusions",
+          "tumour-targeted"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QB-group1.md": [
+          "fusions",
+          "cytokine"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/P5-PUB-MATRIX-ADDRESS-paper-step.md": [
+          "immunocytokines",
+          "cytokine"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "immunocytokines",
+          "cytokine"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/census-route-expression-grading.json": [
+          "immunocytokines",
+          "cytokine"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NTRK": {
+      "name": "NTRK inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "larotrectinib",
+        "ntrk"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.BEFORE.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/AFTER.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/BEFORE.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/AFTER.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/BEFORE.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/BASELINE-repurposing-hypotheses.md": [
+          "larotrectinib",
+          "ntrk"
+        ]
+      },
+      "n_files": 21,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CDK46": {
+      "name": "CDK4/6 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "palbociclib",
+        "cdk4"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.AFTER.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/E1-executed-artifacts/repurposing-hypotheses.BEFORE.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/AFTER.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/N1-executed-artifacts/BEFORE.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/AFTER.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/O1-executed-artifacts/BEFORE.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/PUB-REPURPOSING/EVIDENCE-cabozantinib-emc.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/R2-executed-artifacts/BASELINE-repurposing-hypotheses.md": [
+          "palbociclib",
+          "cdk4"
+        ]
+      },
+      "n_files": 21,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CHEMOEMBOLIZATION": {
+      "name": "Transarterial chemoembolization and hepatic arterial infusion",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "transarterial",
+        "chemoembolization",
+        "hepatic",
+        "arterial",
+        "infusion"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/rt-lung-mets-probe.json": [
+          "transarterial",
+          "chemoembolization",
+          "hepatic",
+          "arterial",
+          "infusion"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "transarterial",
+          "chemoembolization",
+          "hepatic",
+          "arterial"
+        ],
+        "research/literature/emc-lung-probe.json": [
+          "transarterial",
+          "chemoembolization",
+          "arterial"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "hepatic",
+          "arterial",
+          "infusion"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "hepatic",
+          "arterial",
+          "infusion"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "hepatic",
+          "infusion"
+        ],
+        "research/field-scan-log.md": [
+          "hepatic",
+          "infusion"
+        ],
+        "research/literature/emc-attribution-probe.json": [
+          "hepatic",
+          "arterial"
+        ]
+      },
+      "n_files": 20,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-IN-SITU-VACCINATION": {
+      "name": "In-situ vaccination (intratumoural priming)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "intratumoural",
+        "adjuvants",
+        "in-situ",
+        "vaccination",
+        "priming"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/AFTER-emc-vaccine-development-path.md": [
+          "adjuvants",
+          "in-situ",
+          "vaccination",
+          "priming"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/BEFORE-emc-vaccine-development-path.md": [
+          "adjuvants",
+          "in-situ",
+          "vaccination",
+          "priming"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "intratumoural",
+          "adjuvants",
+          "vaccination",
+          "priming"
+        ],
+        "research/manuscripts/neoantigen/emc-vaccine-development-path.md": [
+          "adjuvants",
+          "in-situ",
+          "vaccination",
+          "priming"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "intratumoural",
+          "in-situ",
+          "priming"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/VALIDATED-EPITOPE-TABLE.md": [
+          "vaccination",
+          "priming"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/_table_body.md": [
+          "vaccination",
+          "priming"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/epitope-records.json": [
+          "vaccination",
+          "priming"
+        ]
+      },
+      "n_files": 19,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-STING-TLR": {
+      "name": "Innate agonists (STING, TLR, RIG-I)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "sting",
+        "innate",
+        "rig-i"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/AFTER-emc-vaccine-development-path.md": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/VP1-executed-artifacts/BEFORE-emc-vaccine-development-path.md": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/hypotheses/candidates.json": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/manuscripts/neoantigen/emc-vaccine-development-path.md": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "sting",
+          "innate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/emc-expression-panels.json": [
+          "sting",
+          "innate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "sting",
+          "innate"
+        ]
+      },
+      "n_files": 19,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALT-SCAFFOLD": {
+      "name": "Non-immunoglobulin binding scaffolds",
+      "verdict": "excluded",
+      "terms_searched": [
+        "nanobodies",
+        "non-immunoglobulin",
+        "binding",
+        "scaffolds"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/ANDGATE-2/CONCENTRATION-EVIDENCE.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "binding",
+          "scaffolds"
+        ]
+      },
+      "n_files": 18,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALK-ROS1": {
+      "name": "ALK / ROS1 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "brigatinib",
+        "ros1"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/COMMON-BRIEF.md": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/A1-executed-artifacts/candidate-adjudication.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/P4-PUB-KINASE-LEADS-paper-step.md": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/census-route-expression-grading.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/emc-expression-panels.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__modalities__census-route-expression-grading.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/receipts/CYC-0087-1c9f0963.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/autonomy/research-ledger.json": [
+          "brigatinib",
+          "ros1"
+        ]
+      },
+      "n_files": 16,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CAR-T-ALLOGENEIC": {
+      "name": "Allogeneic / off-the-shelf CAR-T",
+      "verdict": "excluded",
+      "terms_searched": [
+        "allogeneic",
+        "car-t",
+        "off-the-shelf"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/degrader/nr4a3-degrader-carT-and-family-druggability-framing.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/surface-targets/car-t-strategies-emc.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "allogeneic",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/modality-census/emerging-modalities-scan-emc.md": [
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/program/emc-post-degrader-options.md": [
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/program/emc-treatment-strategy.md": [
+          "allogeneic",
+          "car-t"
+        ]
+      },
+      "n_files": 11,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-WHOLE-LYSATE": {
+      "name": "Whole-tumour-lysate and autologous cell vaccines",
+      "verdict": "excluded",
+      "terms_searched": [
+        "autologous",
+        "lysate",
+        "whole-tumour-lysate"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/VALIDATED-EPITOPE-TABLE.md": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/_table_body.md": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox-pinonly/epitope-records.json": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox/EPITOPE-BENCHMARK/VALIDATED-EPITOPE-TABLE.md": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox/EPITOPE-BENCHMARK/_table_body.md": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK-3/sandbox/EPITOPE-BENCHMARK/epitope-records.json": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/VALIDATED-EPITOPE-TABLE.md": [
+          "autologous",
+          "lysate"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EPITOPE-BENCHMARK/_table_body.md": [
+          "autologous",
+          "lysate"
+        ]
+      },
+      "n_files": 11,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AAV-GENE-THERAPY": {
+      "name": "AAV and lentiviral gene therapy",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "vectors",
+        "lentiviral"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-journal-references.md": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-references.json": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-references.md": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-submission-references.json": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-submission-references.md": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "vectors",
+          "lentiviral"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-round7-precedents.json": [
+          "vectors",
+          "lentiviral"
+        ]
+      },
+      "n_files": 10,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NAKED-MAB": {
+      "name": "Unconjugated monoclonal antibodies",
+      "verdict": "excluded",
+      "terms_searched": [
+        "rituximab-class",
+        "antibodies",
+        "unconjugated",
+        "monoclonal"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-host-factor-probe.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-verify.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "antibodies",
+          "monoclonal"
+        ]
+      },
+      "n_files": 10,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-COX2-ASPIRIN": {
+      "name": "COX-2 inhibitors and aspirin",
+      "verdict": "excluded",
+      "terms_searched": [
+        "celecoxib",
+        "cox-2",
+        "aspirin"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "cox-2",
+          "aspirin"
+        ],
+        "research/hypotheses/target-drug-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "cox-2",
+          "aspirin"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-matrix-metad/nr4a3-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-matrix/nr4a3-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json": [
+          "celecoxib",
+          "aspirin"
+        ]
+      },
+      "n_files": 9,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PRODRUG-ACTIVATED": {
+      "name": "Tumour-activated prodrugs (enzyme- and pH-triggered)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "enzyme-activated",
+        "prodrugs",
+        "tumour-activated",
+        "enzyme",
+        "ph-triggered"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/P5-PUB-MATRIX-ADDRESS-paper-step.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/L3-publications.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/baseline/L3-publications.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/manuscripts/microenv/emc-hypoxia-reading.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "prodrugs",
+          "enzyme"
+        ]
+      },
+      "n_files": 9,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PLATINUM": {
+      "name": "Platinum agents",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cisplatin",
+        "platinum"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QB-group3.md": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QD-group2.md": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus-inputs.json": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus.json": [
+          "cisplatin",
+          "platinum"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "cisplatin",
+          "platinum"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MACROCYCLE": {
+      "name": "Macrocyclic small molecules for protein-protein interfaces",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "macrocyclic",
+        "protein-protein",
+        "interfaces"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "macrocyclic",
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "macrocyclic",
+          "protein-protein"
+        ],
+        "research/literature/tcip-interface-floor-targets.json": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/manuscripts/fusion-direct/fusion-coactivator-ppi-paper.md": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-triggers.json": [
+          "protein-protein",
+          "interfaces"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALLO-HSCT": {
+      "name": "Allogeneic haematopoietic stem-cell transplant",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "allogeneic",
+        "hsct",
+        "haematopoietic",
+        "stem-cell",
+        "transplant"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "haematopoietic",
+          "stem-cell",
+          "transplant"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "allogeneic",
+          "haematopoietic",
+          "transplant"
+        ],
+        "research/modalities/alcam-precedent.json": [
+          "allogeneic",
+          "stem-cell",
+          "transplant"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-research-article.md": [
+          "haematopoietic",
+          "stem-cell"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus-inputs.json": [
+          "allogeneic",
+          "transplant"
+        ],
+        "research/manuscripts/endpoint/endpoint-corpus.json": [
+          "allogeneic",
+          "transplant"
+        ],
+        "research/manuscripts/endpoint/placebo-arm-detail-inputs.json": [
+          "allogeneic",
+          "hsct"
+        ],
+        "research/manuscripts/surface-targets/emc-surface-antigen-map-edits.json": [
+          "haematopoietic",
+          "stem-cell"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-INHALED-CHEMO": {
+      "name": "Inhaled and aerosolised cytotoxic therapy",
+      "verdict": "candidate",
+      "terms_searched": [
+        "inhaled",
+        "cytotoxics",
+        "aerosolised",
+        "cytotoxic"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "inhaled",
+          "cytotoxics",
+          "cytotoxic"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "inhaled",
+          "cytotoxics",
+          "cytotoxic"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "inhaled",
+          "aerosolised",
+          "cytotoxic"
+        ],
+        "research/literature/emc-lung-probe.json": [
+          "inhaled",
+          "aerosolised"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-research-article.md": [
+          "inhaled",
+          "cytotoxic"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-working-record.md": [
+          "inhaled",
+          "aerosolised"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "inhaled",
+          "cytotoxic"
+        ],
+        "systems/graph/routes.json": [
+          "inhaled",
+          "cytotoxic"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-JAK-STAT": {
+      "name": "JAK / STAT inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "ruxolitinib",
+        "stat"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/CORRECTED-C-arm-attribution/CONTRACT-CORRECTED-C-arm-attribution.md": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QB-group3.md": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QC-group1.md": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/modalities/fusion-junction-orphan-census.json": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-08.json": [
+          "ruxolitinib",
+          "stat"
+        ]
+      },
+      "n_files": 7,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NAMPT-DHODH": {
+      "name": "NAMPT and DHODH inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "dhodh",
+        "nampt"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/emc-expression-panels.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/accession-symbol-cache.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/emc-expression-panels-inputs.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/emc-expression-panels.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-07.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-09.json": [
+          "dhodh",
+          "nampt"
+        ]
+      },
+      "n_files": 7,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EXOSOME": {
+      "name": "Extracellular-vesicle delivery",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "engineered",
+        "exosomes",
+        "extracellular-vesicle"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-round7-precedents.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-verify.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/modalities/nr4a3-nuccore-sweep.json": [
+          "engineered",
+          "exosomes"
+        ]
+      },
+      "n_files": 7,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MDM2-P53": {
+      "name": "MDM2 / MDMX antagonists (p53 reactivation)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "mdm2",
+        "mdmx",
+        "reactivation"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "mdm2",
+          "reactivation"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/after/L3-publications.md": [
+          "mdm2",
+          "reactivation"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/X1-INTEGRATION-executed-artifacts/baseline/L3-publications.md": [
+          "mdm2",
+          "reactivation"
+        ],
+        "research/autonomy/sprint-2026-09-01/S55-proposed-route-evidence.json": [
+          "mdm2",
+          "reactivation"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "mdm2",
+          "reactivation"
+        ],
+        "systems/graph/routes.json": [
+          "mdm2",
+          "reactivation"
+        ]
+      },
+      "n_files": 6,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MIRNA": {
+      "name": "miRNA mimics and antagomirs",
+      "verdict": "excluded",
+      "terms_searched": [
+        "mirna",
+        "mimics",
+        "antagomirs"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "mirna",
+          "mimics",
+          "antagomirs"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "mirna",
+          "mimics"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "mirna",
+          "mimics"
+        ],
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "mirna",
+          "antagomirs"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "mirna",
+          "mimics"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "mirna",
+          "mimics"
+        ]
+      },
+      "n_files": 6,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-REPURPOSED-NONONC": {
+      "name": "Repurposed non-oncology agents (metformin, statins, propranolol, antiparasitics, disulfiram)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "metformin",
+        "repurposed",
+        "non-oncology",
+        "statins",
+        "propranolol",
+        "antiparasitics"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "metformin",
+          "repurposed",
+          "statins"
+        ],
+        "research/autonomy/research-ledger.json": [
+          "metformin",
+          "statins"
+        ],
+        "research/literature/emc-host-factor-probe.json": [
+          "metformin",
+          "statins"
+        ],
+        "research/literature/no-wet-lab-archetypes-2026-08-12.json": [
+          "repurposed",
+          "non-oncology"
+        ],
+        "research/manuscripts/aso/aso-design-only-census.json": [
+          "repurposed",
+          "statins"
+        ],
+        "research/manuscripts/no-wet-lab-publication-archetypes.md": [
+          "repurposed",
+          "non-oncology"
+        ]
+      },
+      "n_files": 6,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MCL1-BCLXL": {
+      "name": "MCL-1 and BCL-xL inhibitors",
+      "verdict": "candidate",
+      "terms_searched": [
+        "mcl-1",
+        "bcl-xl"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "mcl-1",
+          "bcl-xl"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "mcl-1",
+          "bcl-xl"
+        ],
+        "research/autonomy/research-ledger.json": [
+          "mcl-1",
+          "bcl-xl"
+        ],
+        "research/autonomy/sprint-2026-09-01/S2-ESCALATION.md": [
+          "mcl-1",
+          "bcl-xl"
+        ],
+        "systems/graph/routes.json": [
+          "mcl-1",
+          "bcl-xl"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CTLA4": {
+      "name": "CTLA-4 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "ipilimumab",
+        "ctla-4"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-mortality-probe.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/literature/fet-fusion-trial-eligibility-2026-08-07.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-verify.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "ipilimumab",
+          "ctla-4"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AR-ANTAGONIST": {
+      "name": "Androgen-receptor antagonists and degraders",
+      "verdict": "excluded",
+      "terms_searched": [
+        "enzalutamide",
+        "androgen-receptor",
+        "degraders"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/AFTER-nr4a3-degrader-paper.md": [
+          "androgen-receptor",
+          "degraders"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/DG1-executed-artifacts/BEFORE-nr4a3-degrader-paper.md": [
+          "androgen-receptor",
+          "degraders"
+        ],
+        "research/manuscripts/degrader/nr4a3-degrader-paper.md": [
+          "androgen-receptor",
+          "degraders"
+        ],
+        "research/modalities/layer1-vhl-dossier.json": [
+          "enzalutamide",
+          "degraders"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-WNT-BETA-CATENIN": {
+      "name": "Wnt / β-catenin pathway inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "porcupine",
+        "catenin"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/rt-lung-mets-probe.json": [
+          "porcupine",
+          "catenin"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "porcupine",
+          "catenin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "porcupine",
+          "catenin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "porcupine",
+          "catenin"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PHOSPHATASE-RECRUIT": {
+      "name": "Phosphatase- and enzyme-recruiting chimeras",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "phosphorylation-directed",
+        "chimeras",
+        "phosphatase",
+        "enzyme-recruiting"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-interface-vs-output-2026-08-07___index.json": [
+          "chimeras",
+          "phosphatase"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-reviewer-source-copies/induced-proximity-transcription-2026-08-07___index.json": [
+          "chimeras",
+          "phosphatase"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-verify.json": [
+          "chimeras",
+          "phosphatase"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "chimeras",
+          "phosphatase"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MICROBIOME": {
+      "name": "Microbiome modulation",
+      "verdict": "excluded",
+      "terms_searched": [
+        "faecal",
+        "microbiota",
+        "transplant",
+        "microbiome"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-host-factor-probe.json": [
+          "microbiota",
+          "transplant",
+          "microbiome"
+        ],
+        "research/literature/emc-mortality-probe.json": [
+          "microbiota",
+          "transplant"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "microbiota",
+          "transplant"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "microbiota",
+          "transplant"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-FGFR": {
+      "name": "FGFR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "erdafitinib",
+        "fgfr"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/fusion-junction-orphan-census.json": [
+          "erdafitinib",
+          "fgfr"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "erdafitinib",
+          "fgfr"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "erdafitinib",
+          "fgfr"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-HIF2A": {
+      "name": "HIF-2α inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "belzutifan",
+        "hif-2"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/microenv/emc-hypoxia-reading.md": [
+          "belzutifan",
+          "hif-2"
+        ],
+        "research/modalities/emc-hypoxia-confounds.json": [
+          "belzutifan",
+          "hif-2"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "belzutifan",
+          "hif-2"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-RADIOEMBOLIZATION": {
+      "name": "Radioembolization and arterial radionuclide delivery",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "yttrium-90",
+        "microspheres",
+        "radioembolization",
+        "arterial",
+        "radionuclide"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "microspheres",
+          "arterial",
+          "radionuclide"
+        ],
+        "research/literature/emc-lung-probe.json": [
+          "microspheres",
+          "arterial"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "microspheres",
+          "arterial"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ANTICOAGULANT": {
+      "name": "Anticoagulants and antiplatelet agents",
+      "verdict": "on_board",
+      "terms_searched": [
+        "low-molecular-weight",
+        "heparin",
+        "anticoagulants",
+        "antiplatelet"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-mortality-probe.json": [
+          "low-molecular-weight",
+          "heparin",
+          "anticoagulants"
+        ],
+        "research/literature/emc-host-factor-probe.json": [
+          "anticoagulants",
+          "antiplatelet"
+        ],
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "low-molecular-weight",
+          "heparin"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-INTRATUMOURAL-DEPOT": {
+      "name": "Intratumoural depots and sustained-release implants",
+      "verdict": "excluded",
+      "terms_searched": [
+        "hydrogel",
+        "depots",
+        "intratumoural",
+        "sustained-release",
+        "implants"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "hydrogel",
+          "depots",
+          "intratumoural",
+          "sustained-release"
+        ],
+        "research/literature/rt-lung-mets-probe.json": [
+          "hydrogel",
+          "intratumoural",
+          "implants"
+        ],
+        "research/manuscripts/aso/fusion-junction-aso-working-record.md": [
+          "depots",
+          "intratumoural"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AROMATASE": {
+      "name": "Aromatase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "letrozole",
+        "aromatase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "letrozole",
+          "aromatase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "letrozole",
+          "aromatase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EGFR": {
+      "name": "EGFR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cetuximab",
+        "egfr"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/LEAF-OUT/LEAF-QB-group1.md": [
+          "cetuximab",
+          "egfr"
+        ],
+        "research/hypotheses/target-drug-matrix.json": [
+          "cetuximab",
+          "egfr"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CSF1R": {
+      "name": "CSF1R inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "pexidartinib",
+        "csf1r"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "pexidartinib",
+          "csf1r"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-07.json": [
+          "pexidartinib",
+          "csf1r"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-USP1-KAT6": {
+      "name": "USP1 and KAT6 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "usp1",
+        "kat6"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/accession-symbol-cache.json": [
+          "usp1",
+          "kat6"
+        ],
+        "research/modalities/aso-genome-offtarget.json": [
+          "usp1",
+          "kat6"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ODC": {
+      "name": "Ornithine decarboxylase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "eflornithine",
+        "ornithine",
+        "decarboxylase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "eflornithine",
+          "ornithine",
+          "decarboxylase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "eflornithine",
+          "ornithine",
+          "decarboxylase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-RADIOIMMUNOCONJUGATE": {
+      "name": "Radioimmunoconjugates",
+      "verdict": "excluded",
+      "terms_searched": [
+        "radiolabelled",
+        "antibodies",
+        "radioimmunoconjugates"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/PARENT-TD1-PATCHES-2026-09-08/BEFORE/cancer-modality-census.md": [
+          "antibodies",
+          "radioimmunoconjugates"
+        ],
+        "research/autonomy/opus-capacity-campaign-20260908/paper-lane/TD1-residual-2/before/research__manuscripts__modality-census__cancer-modality-census.md": [
+          "antibodies",
+          "radioimmunoconjugates"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-INTEGRIN-MMP": {
+      "name": "Integrin and matrix-metalloproteinase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cilengitide",
+        "integrin",
+        "matrix-metalloproteinase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "cilengitide",
+          "integrin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-02.json": [
+          "cilengitide",
+          "integrin"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-GNRH": {
+      "name": "GnRH analogues",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "leuprolide",
+        "gnrh",
+        "analogues"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "leuprolide",
+          "analogues"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-GLUCOCORTICOID": {
+      "name": "Glucocorticoids",
+      "verdict": "excluded",
+      "terms_searched": [
+        "dexamethasone",
+        "glucocorticoids"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "dexamethasone",
+          "glucocorticoids"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-VDR": {
+      "name": "Vitamin-D receptor agonists",
+      "verdict": "excluded",
+      "terms_searched": [
+        "calcitriol",
+        "vitamin-d"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "calcitriol",
+          "vitamin-d"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-IAP-SMAC": {
+      "name": "IAP antagonists / SMAC mimetics",
+      "verdict": "excluded",
+      "terms_searched": [
+        "smac",
+        "mimetics"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "smac",
+          "mimetics"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-LYTAC": {
+      "name": "LYTAC / lysosome-targeting chimeras",
+      "verdict": "excluded",
+      "terms_searched": [
+        "lytacs",
+        "lytac",
+        "lysosome-targeting",
+        "chimeras"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/v18-lysine-reference-precheck.json": [
+          "lytacs",
+          "lytac"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NEXTGEN-CHECKPOINT": {
+      "name": "LAG-3, TIGIT and TIM-3 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "relatlimab",
+        "lag-3",
+        "tigit",
+        "tim-3"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/rt-lung-mets-probe.json": [
+          "lag-3",
+          "tigit",
+          "tim-3"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-COSTIM-AGONIST": {
+      "name": "Costimulatory agonists (OX40, 4-1BB, GITR, CD40)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "costimulatory",
+        "ox40",
+        "gitr",
+        "cd40"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "costimulatory",
+          "cd40"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-DIETARY-RESTRICTION": {
+      "name": "Fasting-mimicking, ketogenic and amino-acid-restriction diets",
+      "verdict": "excluded",
+      "terms_searched": [
+        "fasting-mimicking",
+        "diet",
+        "ketogenic",
+        "amino-acid-restriction",
+        "diets"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/preprint-host-eligibility.json": [
+          "diet",
+          "diets"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-HIPEC": {
+      "name": "Intraperitoneal and intrathecal regional chemotherapy",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "hipec",
+        "intraperitoneal",
+        "intrathecal"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json": [
+          "intraperitoneal",
+          "intrathecal"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-BONE-TARGETED": {
+      "name": "Bisphosphonates and RANKL inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "denosumab",
+        "bisphosphonates",
+        "rankl"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/rt-lung-mets-probe.json": [
+          "denosumab",
+          "rankl"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    }
+  }
+}

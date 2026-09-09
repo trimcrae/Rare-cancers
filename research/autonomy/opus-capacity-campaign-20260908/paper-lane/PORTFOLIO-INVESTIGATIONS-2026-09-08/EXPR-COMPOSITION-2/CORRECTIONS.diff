@@ -1,0 +1,96 @@
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/PREREGISTRATION.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/PREREGISTRATION.md
+@@ -101,3 +101,51 @@
+ Stop when the adjusted statistic and its null are computed on the primary and secondary frames, or
+ **immediately** on a known-answer reproduction failure — whichever comes first. No wet lab, no
+ network, no GPU, no paid API, no publication, no shared-file write.
++
++---
++
++## APPENDED CORRECTION — 2026-09-09 (EXPR-COMPOSITION-2)
++
++**Nothing above this line has been altered.** A preregistration is not silently editable: §1–§7 are
++the text frozen at 2026-09-09T01:06:45Z, and the sha256
++`6386ac165562140e7bfeb1eb83944a2f17b3f057943c21d9b843b021041ec8ad` pinned in
++`composition_adjusted_contrast.py` refers to that frozen state. This appendix records, after the
++fact, two respects in which the frozen document does not match what the data or the run actually
++contained. It corrects the record; it revises no preregistered rule.
++
++### C1 · The §2 presence claim is FALSE on GPL3290
++
++§2 states that all 22 markers are readable "with per-sample `z_vs_array` for all 35 GPL6244 and all
++16 GPL3290 labelled samples". **On GPL6244 this holds (22/22 complete on all 35 samples). On
++GPL3290 it does not.** Re-derived independently twice — `../ASSESS-EXPR-COMPOSITION/checks/06`,
++`checks/07` and `../EXPR-COMPOSITION-2/checks/01` — the per-sample `z_vs_array` is missing as
++follows:
++
++| marker | GPL3290 samples missing (of 16) | of which in the EMC arm |
++|---|---|---|
++| DCN | 8 | 4 |
++| CD3E | 4 | 2 |
++| MS4A1 | 3 | 2 |
++| PTPRC | 2 | 2 |
++| CD8A | 1 | 0 |
++| HLA-DRA | 1 | 0 |
++| MKI67 (sensitivity covariate, not in `C`) | 1 | 1 |
++
++Because §2 defines `C` as a **NaN-skipping** mean, the consequence is that on GPL3290 `C` is not one
++fixed score but a mean over a **sample-dependent set of 16–20 of the 20 markers** (EMC arm mean
++19.00 markers, comparator arm 18.50), and the number of markers entering `C` itself correlates
++**+0.2105** with the EMC label. Fourteen of the 20 primary markers are complete on every labelled
++sample of both platforms; six — DCN, PTPRC, CD3E, CD8A, MS4A1, HLA-DRA — are not.
++
++For the record: a score built from only the 14 complete markers correlates **−0.4761** with the
++label on GPL3290 (published `C`: −0.5041) and **+0.9176** with published `C`. Its consequences for
++the headline are **not** small, and are recorded in `../EXPR-COMPOSITION-2/FINDING.md`.
++
++### C2 · Undisclosed deviation from a frozen permutation count
++
++§3 freezes `N_PERM_COMP = 2000` composition permutations for the negative control. **The published
++run used 500** (`composition_adjusted_contrast.py`, `N_PERM_COMP_NC = 500`; an earlier aborted run
++used 200). `FINDING.md` reports "500 permuted composition scores" but nowhere records that the
++frozen count was 2000. That is a **deviation from this preregistration and is recorded here as
++one**. It lowers the resolution of the negative control only; the seed (20260909) and `N_PERM =
++2000` for the adjusted label-permutation null were not changed.
+--- a/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/FINDING.md
++++ b/research/autonomy/opus-capacity-campaign-20260908/paper-lane/PORTFOLIO-INVESTIGATIONS-2026-09-08/EXPR-COMPOSITION/FINDING.md
+@@ -202,3 +202,39 @@
+    reference is identified as available at $0 in this repository, and no download is authorised.
+ 3. A **third series**, as KINASE-2 already said, still does more for this arm than any further
+    reanalysis of these two.
++
++---
++
++## APPENDED CORRECTION — 2026-09-09 (EXPR-COMPOSITION-2)
++
++The text above is preserved verbatim. Three statements in it are corrected here.
++
++**1 · §3 and §4 are wrong about marker completeness.** §3 says the 22 markers are "readable on
++**both** platforms for **all** 35 GPL6244 and 16 GPL3290 labelled samples", repeating
++`PREREGISTRATION.md` §2. That is true on GPL6244 and **false on GPL3290**, where per-sample
++`z_vs_array` is missing for DCN (8 of 16 samples), CD3E (4), MS4A1 (3), PTPRC (2), and CD8A,
++HLA-DRA and MKI67 (1 each). Because `C` is a NaN-skipping mean, `C` on GPL3290 is a mean over a
++**sample-dependent 16–20 marker set** whose count correlates **+0.2105** with the EMC label — not
++the single fixed score §4 describes. See `PREREGISTRATION.md`, appended correction C1.
++
++**2 · The headline attenuation depends on that defect.** Recomputing the whole analysis with a
++**fixed 14-marker score** (the markers complete on every labelled sample of both platforms; no
++NaN-skipping) gives, on the same frames and machinery:
++
++| frame | unadjusted | adjusted, fixed 14-marker score | attenuation of the excess over 0.5 | published figure |
++|---|---|---|---|---|
++| primary | 0.6521 | **0.6129** | **0.2576** | 0.561 |
++| secondary | 0.6368 | **0.6199** | **0.1239** | 0.283 |
++
++Against 2000 label permutations with the adjustment in place the residual is **stronger**, not
++weaker, than reported: p = 0.0010 (primary) and 0.0015 (secondary). Further, matched sham
++covariates show the fixed-score attenuation is **not** distinguishable from the generic shrinkage
++any label-correlated covariate produces (4/14, 14/39 and 30/76 matched shams attenuate at least as
++much; one-sided p = 0.33–0.40). §5's "roughly half of the excess concordance", §6's "0.561 is an
++upper bound on the composition share", and §7's "roughly half … and about 28 %" should therefore
++not be quoted. Derivation and limits: `../EXPR-COMPOSITION-2/FINDING.md` and its `checks/`.
++
++**3 · A frozen parameter was changed without disclosure.** `PREREGISTRATION.md` §3 froze
++`N_PERM_COMP = 2000` composition permutations for the negative control; the published run used
++**500** (`N_PERM_COMP_NC = 500`). §5 reports the 500 but never as a departure from the freeze. It
++is one, and is recorded as one here and in the preregistration's appended correction C2.

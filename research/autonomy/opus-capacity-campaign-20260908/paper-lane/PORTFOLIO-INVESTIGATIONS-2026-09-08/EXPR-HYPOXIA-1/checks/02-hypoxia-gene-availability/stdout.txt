@@ -1,0 +1,65 @@
+118 confound genes: ['ACAN', 'ADPGK', 'AIF1', 'ALDOA', 'ALDOB', 'ALDOC', 'ANGPT1', 'ANGPT2', 'ARNT', 'AURKA', 'B3GALT6', 'B3GAT3', 'B4GALT7', 'BCAN', 'BGN', 'BIRC5', 'BPGM', 'BPNT1', 'CA9', 'CCNB1', 'CD14', 'CD44', 'CD68', 'CDH5', 'CHPF', 'CHPF2', 'CHST11', 'CHST12', 'CHST13', 'CHST14', 'CHST15', 'CHST3', 'CHST7', 'CHSY1', 'CHSY3', 'CLDN5', 'CSF1R', 'CSGALNACT1', 'CSGALNACT2', 'CSPG4', 'CSPG5', 'DCN', 'EGLN1', 'EGLN2', 'EGLN3', 'EMCN', 'ENO1', 'ENO2', 'ENO3', 'EPAS1', 'ESAM', 'FCGR3A', 'FLT1', 'GAPDH', 'GAPDHS', 'GPI', 'HAS1', 'HAS2', 'HAS3', 'HIF1A', 'HIF1AN', 'HK1', 'HK2', 'HK3', 'HKDC1', 'ITGAM', 'KDR', 'LDHA', 'LDHB', 'LDHC', 'MKI67', 'MRC1', 'NCAN', 'NR4A3', 'PAPSS1', 'PAPSS2', 'PCNA', 'PDK1', 'PDK3', 'PECAM1', 'PFKFB1', 'PFKFB2', 'PFKFB3', 'PFKFB4', 'PFKL', 'PFKM', 'PFKP', 'PGAM1', 'PGAM2', 'PGF', 'PGK1', 'PKLR', 'PKM', 'PTPRC', 'ROBO4', 'RRM2', 'S100A8', 'S100A9', 'SLC16A1', 'SLC16A3', 'SLC2A1', 'SLC2A3', 'SLC35B2', 'SLC35B3', 'SRGN', 'TEK', 'TIE1', 'TOP2A', 'TPI1', 'TYMS', 'TYROBP', 'UST', 'VCAN', 'VEGFA', 'VHL', 'VWF', 'XYLT1', 'XYLT2']
+
+===  GSE24369_series_matrix.txt.gz
+keys: ['_n_random_background_symbols', '_n_symbols_on_platform', '_random_background_symbols', '_sample_seed', '_sampling_rule', '_status', 'background_per_sample', 'compressed_bytes', 'frac_negative_values', 'genes', 'gse', 'matrix_file', 'measured_probe_mapping_rate', 'n_probes', 'n_probes_mapped_to_a_symbol', 'n_samples', 'n_wanted_genes_measured', 'n_wanted_genes_requested', 'platform', 'platform_expected', 'platform_matches_expected', 'prior_probe_mapping_rate', 'prior_source', 'probe_symbol_mapping', 'samples', 'url', 'value_kind', 'why']
+   _n_random_background_symbols = 3978
+   _n_symbols_on_platform = 18724
+   _random_background_symbols list[3978] ['A2ML1', 'AAK1', 'AAMDC', 'ABCA3', 'ABCA5']
+   _sample_seed = 20260807
+   _sampling_rule = "random.Random(20260807).sample of 4000 from the platform's sorted mapped-symbol universe, minus any symbol also requested by name as a confound proxy — seeded and sorted, so it is reproducible"
+   _status = 'read'
+   background_per_sample list[42] [{'mean': 6.5364, 'n': 28459, 'sd': 1.8372}, {'mean': 6.5093, 'n': 28459, 'sd': 1.9202}, {'mean': 6.5018, 'n': 28459, 'sd': 1.9373}, {'mean': 6.5053, 'n': 28459, 'sd': 1.8923}, {'mean': 6.5094, 'n': 2
+   compressed_bytes = 4778076
+   frac_negative_values = 0.0
+   genes dict[4089] ['A2ML1', 'AAK1', 'AAMDC', 'ABCA3', 'ABCA5', 'ABCB9', 'ABCD1', 'ABCD4']
+   gse = 'GSE24369'
+   matrix_file = 'GSE24369_series_matrix.txt.gz'
+   measured_probe_mapping_rate = 0.711
+   n_probes = 28459
+   n_probes_mapped_to_a_symbol = 20235
+   n_samples = 42
+   n_wanted_genes_measured = 4089
+   n_wanted_genes_requested = 4096
+   platform = 'GPL6244'
+   platform_expected = 'GPL6244'
+   platform_matches_expected = True
+   prior_probe_mapping_rate = 0.932
+   prior_source = 'emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE24369.probe_mapping_rate_per_platform.GPL6244'
+   probe_symbol_mapping dict[14] ['accession_column_used', 'accession_resolution_rate', 'attempts', 'example_probe_accessions', 'n_accessions_from_cross_platform_cache', 'n_accessions_newly_queried', 'n_accessions_resolved_by_curated_dictionary', 'n_accessions_resolved_by_unigene_archive']
+   samples list[42] [{'annotation_verbatim': 'Desmoid fibromatosis 1 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor', 'gsm': 'GSM600928', 'title': 'Desmoid fibromatosis 1'}, {'annotation_v
+   url = 'https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/matrix/GSE24369_series_matrix.txt.gz'
+   value_kind = "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)"
+   why = '6 EMC tumours against 29 comparator sarcomas on one Affymetrix Gene ST array, and the comparator arm is itself FET-rearranged (LGFMS is FUS::CREB3L2).'
+  genes[A2ML1] = {'array_percentile': [0.2245, 0.2338, 0.1556, 0.2581, 0.2489, 0.2379, 0.2716, 0.2374, 0.2382, 0.2301, 0.2338, 0.2514, 0.2531, 0.223, 0.2339, 0.2499, 0.2429, 0.2521, 0.2384, 0.2337, 0.2179, 0.2385, 0.2461, 0.278, 0.2486, 0.2627, 0.2804, 0.2733, 0.2396, 0.2302, 0.2657, 0.2088, 0.2183, 0.2223, 0.2101, 0.2154, 0.2717, 0.2065, 0.2817, 0.2297, 0.2613, 0.2654], 'n_probes_mapping': 1, 'probe_ids': ['79537
+
+===  GSE4303-GPL3290_series_matrix.txt.gz
+keys: ['_n_random_background_symbols', '_n_symbols_on_platform', '_random_background_symbols', '_sample_seed', '_sampling_rule', '_status', 'background_per_sample', 'compressed_bytes', 'frac_negative_values', 'genes', 'gse', 'matrix_file', 'measured_probe_mapping_rate', 'n_probes', 'n_probes_mapped_to_a_symbol', 'n_samples', 'n_wanted_genes_measured', 'n_wanted_genes_requested', 'platform', 'platform_expected', 'platform_matches_expected', 'prior_probe_mapping_rate', 'prior_source', 'probe_symbol_mapping', 'samples', 'url', 'value_kind', 'why']
+   _n_random_background_symbols = 3971
+   _n_symbols_on_platform = 14932
+   _random_background_symbols list[3971] ['A2M', 'AADAT', 'AAED1', 'AATF', 'ABCA2']
+   _sample_seed = 20260807
+   _sampling_rule = "random.Random(20260807).sample of 4000 from the platform's sorted mapped-symbol universe, minus any symbol also requested by name as a confound proxy — seeded and sorted, so it is reproducible"
+   _status = 'read'
+   background_per_sample list[16] [{'mean': -0.3972, 'n': 30552, 'sd': 1.5989}, {'mean': -0.1331, 'n': 41510, 'sd': 1.3943}, {'mean': -0.2467, 'n': 38458, 'sd': 1.6725}, {'mean': -0.4265, 'n': 32032, 'sd': 1.8238}, {'mean': -0.4262, '
+   compressed_bytes = 1440804
+   frac_negative_values = 0.619
+   genes dict[4080] ['A2M', 'AADAT', 'AAED1', 'AATF', 'ABCA2', 'ABCA9', 'ABCB1', 'ABCB8']
+   gse = 'GSE4303'
+   matrix_file = 'GSE4303-GPL3290_series_matrix.txt.gz'
+   measured_probe_mapping_rate = 0.6325
+   n_probes = 43008
+   n_probes_mapped_to_a_symbol = 27203
+   n_samples = 16
+   n_wanted_genes_measured = 4080
+   n_wanted_genes_requested = 4089
+   platform = 'GPL3290'
+   platform_expected = 'GPL3290'
+   platform_matches_expected = True
+   prior_probe_mapping_rate = 0.582
+   prior_source = 'emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE4303.probe_mapping_rate_per_platform.GPL3290'
+   probe_symbol_mapping dict[14] ['accession_column_used', 'accession_resolution_rate', 'attempts', 'example_probe_accessions', 'n_accessions_from_cross_platform_cache', 'n_accessions_newly_queried', 'n_accessions_resolved_by_curated_dictionary', 'n_accessions_resolved_by_unigene_archive']
+   samples list[16] [{'annotation_verbatim': 'STT3126-DFSP | CRH | STT3126-DFSP mRNA | CRH | STT3126-DFSP mRNA', 'gsm': 'GSM89883', 'title': 'STT3126-DFSP'}, {'annotation_verbatim': 'STT3068-DFSP | CRH | STT3068-DFSP mRN
+   url = 'https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4303/matrix/GSE4303-GPL3290_series_matrix.txt.gz'
+   value_kind = 'two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)'
+   why = '10 EMC tumours against 3 DFSP and 3 GIST on the same two-colour cDNA print run. Probes carry EST accessions only, so the read depends on the accession->symbol bridge.'
+  genes[A2M] = {'array_percentile': [0.995, 0.9885, 0.986, 0.9631, 0.9499, 0.1828, 0.9784, 0.7198, 0.6637, 0.9901, 0.8891, 0.6525, 0.7598, 0.9325, 0.7429, 0.972], 'n_probes_mapping': 1, 'probe_ids': ['39627'], 'values': [4.399, 3.46, 3.704, 2.949, 2.259, -1.51, 2.692, 0.332, 0.148, 3.305, 1.57, -0.011, 0.458, 1.796, 0.383, 2.36]}

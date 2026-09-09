@@ -1,0 +1,451 @@
+{
+ "_what": "Benchmark: does the NBRE motif scan predict MEASURED NR4A ChIP occupancy? One row per locus; predictor = motif score from the frozen window sequence, outcome = measured promoter-window peak presence across NR4A peaksets.",
+ "_lane": "CISTROME-MOTIF-1 (OPUS-CAPACITY-CAMPAIGN-20260908)",
+ "_boundary_vs_sibling_lane": "CISTROME-1's unit is occupancy-versus-background per locus (is this locus bound more than chance?). THIS lane's unit is motif-score-versus-measured-occupancy concordance across loci (does the sequence predictor rank the measured outcome?). No background null is computed here; no occupancy call is made.",
+ "_input_sha256": {
+  "research/modalities/emc-ret-target-scan-inputs.json": "dcaa23a6be0bd4d53e04b16096e5be7ecdbd4e9a8829ed998f53a72314ac68b9",
+  "research/modalities/emc-ret-cistrome.json": "08b249ebb3d4f2d7ba468d0a482c63fa2f4968b620b0b923311c2cd210015da1",
+  "research/modalities/emc_ret_target_scan.py": "c8fd3032db5e713925e5c32eaa69fedd80ebe9f619b4391514babecf9416338e"
+ },
+ "_prespecification": {
+  "primary_score": "motif_score_exact_nbre",
+  "secondary_score": "motif_score_1mm_nbre",
+  "label": "occupancy_fraction >= 0.5",
+  "discrimination_statistic": "Mann-Whitney AUC with permutation p",
+  "declared_fallback_label": "median split of occupancy_fraction, added only because the primary label proved degenerate (see check_0); reported whatever it gives, with no further threshold search",
+  "concordance_figure": "concordant_pair_fraction and Spearman rho",
+  "positive_controls": [
+   "ENO3",
+   "PPARG",
+   "SEMA3C"
+  ],
+  "positive_control_source": "emc_ret_target_scan.py FOCUS_GENES \u2014 published class-A direct EWSR1::NR4A3 targets, PMID 26310886 and PMID 31020999",
+  "n_shuffles": 20000,
+  "seed": 20260908
+ },
+ "_scope": {
+  "n_loci": 8,
+  "loci": [
+   "ENO3",
+   "KDR",
+   "NR4A1",
+   "NR4A3",
+   "PPARG",
+   "RET",
+   "SEMA3C",
+   "VEGFA"
+  ],
+  "n_peaksets_read": 103,
+  "n_peaksets_total": 110,
+  "window": "promoter window as frozen in the scan inputs, -10 kb / +15 kb strand-aware",
+  "window_agreement_between_inputs": [
+   {
+    "locus": "ENO3",
+    "scan_window": [
+     4938034,
+     4963034
+    ],
+    "cistrome_windows": [
+     [
+      4841386,
+      4866387
+     ],
+     [
+      4938033,
+      4963034
+     ]
+    ]
+   },
+   {
+    "locus": "KDR",
+    "scan_window": [
+     55110623,
+     55135623
+    ],
+    "cistrome_windows": [
+     [
+      55110622,
+      55135623
+     ],
+     [
+      55976755,
+      56001756
+     ]
+    ]
+   },
+   {
+    "locus": "NR4A1",
+    "scan_window": [
+     52012832,
+     52037832
+    ],
+    "cistrome_windows": [
+     [
+      52012831,
+      52037832
+     ],
+     [
+      52406615,
+      52431616
+     ]
+    ]
+   },
+   {
+    "locus": "NR4A3",
+    "scan_window": [
+     99811847,
+     99836847
+    ],
+    "cistrome_windows": [
+     [
+      99811846,
+      99836847
+     ],
+     [
+      102574136,
+      102599137
+     ]
+    ]
+   },
+   {
+    "locus": "PPARG",
+    "scan_window": [
+     12277368,
+     12302368
+    ],
+    "cistrome_windows": [
+     [
+      12277367,
+      12302368
+     ],
+     [
+      12318866,
+      12343867
+     ]
+    ]
+   },
+   {
+    "locus": "RET",
+    "scan_window": [
+     43067026,
+     43092026
+    ],
+    "cistrome_windows": [
+     [
+      43067025,
+      43092026
+     ],
+     [
+      43562474,
+      43587475
+     ]
+    ]
+   },
+   {
+    "locus": "SEMA3C",
+    "scan_window": [
+     80907393,
+     80932393
+    ],
+    "cistrome_windows": [
+     [
+      80536674,
+      80561675
+     ],
+     [
+      80907392,
+      80932393
+     ]
+    ]
+   },
+   {
+    "locus": "VEGFA",
+    "scan_window": [
+     43760184,
+     43785184
+    ],
+    "cistrome_windows": [
+     [
+      43727920,
+      43752921
+     ],
+     [
+      43760183,
+      43785184
+     ]
+    ]
+   }
+  ]
+ },
+ "per_locus": {
+  "ENO3": {
+   "motif_score_exact_nbre": 4,
+   "motif_score_1mm_nbre": 28,
+   "n_nurre": 0,
+   "gc": 0.5486,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 25,
+   "occupancy_fraction": 0.24271844660194175,
+   "mean_n_peaks_promoter_window": 0.8349514563106796,
+   "max_peak_score_over_peaksets": 315.0,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": true,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": true
+  },
+  "KDR": {
+   "motif_score_exact_nbre": 2,
+   "motif_score_1mm_nbre": 34,
+   "n_nurre": 0,
+   "gc": 0.3985,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 11,
+   "occupancy_fraction": 0.10679611650485436,
+   "mean_n_peaks_promoter_window": 0.1650485436893204,
+   "max_peak_score_over_peaksets": 917.0,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": false,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": false
+  },
+  "NR4A1": {
+   "motif_score_exact_nbre": 0,
+   "motif_score_1mm_nbre": 15,
+   "n_nurre": 0,
+   "gc": 0.5538,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 22,
+   "occupancy_fraction": 0.21359223300970873,
+   "mean_n_peaks_promoter_window": 0.7961165048543689,
+   "max_peak_score_over_peaksets": 6.89995,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": false,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": true
+  },
+  "NR4A3": {
+   "motif_score_exact_nbre": 0,
+   "motif_score_1mm_nbre": 26,
+   "n_nurre": 0,
+   "gc": 0.4502,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 22,
+   "occupancy_fraction": 0.21359223300970873,
+   "mean_n_peaks_promoter_window": 0.7864077669902912,
+   "max_peak_score_over_peaksets": 4.64124,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": false,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": true
+  },
+  "PPARG": {
+   "motif_score_exact_nbre": 3,
+   "motif_score_1mm_nbre": 32,
+   "n_nurre": 0,
+   "gc": 0.3992,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 11,
+   "occupancy_fraction": 0.10679611650485436,
+   "mean_n_peaks_promoter_window": 0.20388349514563106,
+   "max_peak_score_over_peaksets": 8.00749,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": true,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": false
+  },
+  "RET": {
+   "motif_score_exact_nbre": 1,
+   "motif_score_1mm_nbre": 22,
+   "n_nurre": 0,
+   "gc": 0.5776,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 17,
+   "occupancy_fraction": 0.1650485436893204,
+   "mean_n_peaks_promoter_window": 0.4174757281553398,
+   "max_peak_score_over_peaksets": 556.0,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": false,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": false
+  },
+  "SEMA3C": {
+   "motif_score_exact_nbre": 0,
+   "motif_score_1mm_nbre": 39,
+   "n_nurre": 0,
+   "gc": 0.3706,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 12,
+   "occupancy_fraction": 0.11650485436893204,
+   "mean_n_peaks_promoter_window": 0.1553398058252427,
+   "max_peak_score_over_peaksets": 274.0,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": true,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": false
+  },
+  "VEGFA": {
+   "motif_score_exact_nbre": 2,
+   "motif_score_1mm_nbre": 28,
+   "n_nurre": 0,
+   "gc": 0.5637,
+   "n_peaksets_scored": 103,
+   "n_peaksets_with_promoter_peak": 27,
+   "occupancy_fraction": 0.2621359223300971,
+   "mean_n_peaks_promoter_window": 1,
+   "max_peak_score_over_peaksets": 168.0,
+   "window_agrees_with_cistrome": false,
+   "is_prespecified_positive_control": false,
+   "label_occupied_primary": false,
+   "label_occupied_median_split_fallback": true
+  }
+ },
+ "results": {
+  "motif_score_exact_nbre": {
+   "auc_vs_primary_label": null,
+   "auc_vs_primary_label_note": "UNDEFINED \u2014 the prespecified label has only one class on this panel",
+   "auc_vs_median_split_fallback_label": 0.46875,
+   "auc_permutation_p_one_sided": 0.592270386480676,
+   "spearman_rho_vs_occupancy_fraction": 0.0186,
+   "concordant_pair_fraction": 0.48214285714285715,
+   "shuffle_null_auc_mean": 0.5022671875,
+   "shuffle_null_auc_sd": 0.2106066537296836,
+   "shuffle_null_concordance_mean": 0.5015669642857142,
+   "median_score_across_loci": 1.5,
+   "positive_controls": {
+    "ENO3": {
+     "score": 4,
+     "above_median": true
+    },
+    "PPARG": {
+     "score": 3,
+     "above_median": true
+    },
+    "SEMA3C": {
+     "score": 0,
+     "above_median": false
+    }
+   },
+   "positive_controls_all_above_median": false
+  },
+  "motif_score_1mm_nbre": {
+   "auc_vs_primary_label": null,
+   "auc_vs_primary_label_note": "UNDEFINED \u2014 the prespecified label has only one class on this panel",
+   "auc_vs_median_split_fallback_label": 0.1875,
+   "auc_permutation_p_one_sided": 0.9463026848657567,
+   "spearman_rho_vs_occupancy_fraction": -0.5091,
+   "concordant_pair_fraction": 0.375,
+   "shuffle_null_auc_mean": 0.5014921875,
+   "shuffle_null_auc_sd": 0.21357670683993105,
+   "shuffle_null_concordance_mean": 0.4994357142857143,
+   "median_score_across_loci": 28.0,
+   "positive_controls": {
+    "ENO3": {
+     "score": 28,
+     "above_median": false
+    },
+    "PPARG": {
+     "score": 32,
+     "above_median": true
+    },
+    "SEMA3C": {
+     "score": 39,
+     "above_median": true
+    }
+   },
+   "positive_controls_all_above_median": false
+  },
+  "n_nurre": {
+   "auc_vs_primary_label": null,
+   "auc_vs_primary_label_note": "UNDEFINED \u2014 the prespecified label has only one class on this panel",
+   "auc_vs_median_split_fallback_label": 0.5,
+   "auc_permutation_p_one_sided": 1.0,
+   "spearman_rho_vs_occupancy_fraction": null,
+   "concordant_pair_fraction": 0.5,
+   "shuffle_null_auc_mean": 0.5,
+   "shuffle_null_auc_sd": 0.0,
+   "shuffle_null_concordance_mean": 0.5,
+   "median_score_across_loci": 0.0,
+   "positive_controls": {
+    "ENO3": {
+     "score": 0,
+     "above_median": false
+    },
+    "PPARG": {
+     "score": 0,
+     "above_median": false
+    },
+    "SEMA3C": {
+     "score": 0,
+     "above_median": false
+    }
+   },
+   "positive_controls_all_above_median": false
+  }
+ },
+ "checks": {
+  "check_1_score_label_shuffle_gives_chance": {
+   "_must_be_able_to_fail": true,
+   "criterion": "mean shuffled AUC within 0.05 of 0.50 and mean shuffled concordance within 0.05 of 0.50",
+   "_against_label": "median-split fallback label (the primary label is degenerate)",
+   "observed_mean_auc": 0.5022671875,
+   "observed_mean_concordance": 0.5015669642857142,
+   "passed": true
+  },
+  "check_2_positive_controls_above_median": {
+   "_must_be_able_to_fail": true,
+   "criterion": "ENO3, PPARG and SEMA3C each strictly above the median motif score",
+   "exact_nbre": {
+    "ENO3": {
+     "score": 4,
+     "above_median": true
+    },
+    "PPARG": {
+     "score": 3,
+     "above_median": true
+    },
+    "SEMA3C": {
+     "score": 0,
+     "above_median": false
+    }
+   },
+   "one_mismatch_nbre": {
+    "ENO3": {
+     "score": 28,
+     "above_median": false
+    },
+    "PPARG": {
+     "score": 32,
+     "above_median": true
+    },
+    "SEMA3C": {
+     "score": 39,
+     "above_median": true
+    }
+   },
+   "passed_exact": false,
+   "passed_1mm": false
+  },
+  "check_0_primary_label_is_non_degenerate": {
+   "_must_be_able_to_fail": true,
+   "criterion": "the prespecified label (occupancy_fraction >= 0.5) has both classes present",
+   "passed": false,
+   "occupancy_fraction_range": [
+    0.10679611650485436,
+    0.2621359223300971
+   ],
+   "occupancy_fraction_median": 0.18932038834951456
+  }
+ },
+ "benchmark_verdict": {
+  "passes": false,
+  "_reading": "PASS means the motif scan discriminated measured occupancy on this panel AND the prespecified positive controls ranked above median. FAIL is a real result about the substitution of motif scans for occupancy, not an error."
+ },
+ "_what_this_cannot_conclude": [
+  "Nothing about EMC efficacy, safety, selectivity, therapeutic window or clinical readiness.",
+  "A motif is not a binding site and a peak is not a function.",
+  "n = 8 loci. This is a very small panel; absence of discrimination here does not prove absence genome-wide, and presence would not establish it either.",
+  "Occupancy is measured in the cell types those peaksets were generated in, not in EMC tumour cells, and not with the EWSR1::NR4A3 chimera.",
+  "Peaksets are wild-type NR4A1/2/3 ChIP; the fusion protein's cistrome is not measured here.",
+  "Only loci already intersected in emc-ret-cistrome.json can enter; the 200-gene background panel has sequence but NO measured occupancy, so it cannot be benchmarked."
+ ]
+}

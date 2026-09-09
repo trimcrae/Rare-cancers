@@ -1,0 +1,16 @@
+n_loci=8  n_peaksets_read=103
+  ENO3     exact=4  1mm=28   occ=0.243  primary_label=0  median_split=1  pc=True
+  KDR      exact=2  1mm=34   occ=0.107  primary_label=0  median_split=0  pc=False
+  NR4A1    exact=0  1mm=15   occ=0.214  primary_label=0  median_split=1  pc=False
+  NR4A3    exact=0  1mm=26   occ=0.214  primary_label=0  median_split=1  pc=False
+  PPARG    exact=3  1mm=32   occ=0.107  primary_label=0  median_split=0  pc=True
+  RET      exact=1  1mm=22   occ=0.165  primary_label=0  median_split=0  pc=False
+  SEMA3C   exact=0  1mm=39   occ=0.117  primary_label=0  median_split=0  pc=True
+  VEGFA    exact=2  1mm=28   occ=0.262  primary_label=0  median_split=1  pc=False
+primary label degenerate: True
+motif_score_exact_nbre: AUC_primary=None AUC_fallback=0.46875 p=0.592270386480676 rho=0.0186 conc=0.48214285714285715 nullAUCmean=0.5022671875 PCabove=False
+motif_score_1mm_nbre: AUC_primary=None AUC_fallback=0.1875 p=0.9463026848657567 rho=-0.5091 conc=0.375 nullAUCmean=0.5014921875 PCabove=False
+n_nurre: AUC_primary=None AUC_fallback=0.5 p=1.0 rho=None conc=0.5 nullAUCmean=0.5 PCabove=False
+CHECK 1 shuffle-gives-chance passed: True
+CHECK 2 positive-controls-above-median passed(exact): False  (1mm): False
+BENCHMARK VERDICT: FAIL
