@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>EMC Research — Latest preprints</title>
+  <meta name="description" content="The latest publicly posted preprints from EMC Research: computational research on extraskeletal myxoid chondrosarcoma, NR4A3 fusions and therapeutic hypotheses.">
+  <meta property="og:title" content="EMC Research — Latest preprints">
+  <meta property="og:description" content="Open research on extraskeletal myxoid chondrosarcoma. Read the latest posted versions, with direct links to the original preprints.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{SITE_URL}}">
+  <link rel="canonical" href="{{SITE_URL}}">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">{{STRUCTURED_DATA}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#preprints">Skip to preprints</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="EMC Research home"><span class="brand-mark" aria-hidden="true">e<span>·</span></span><span>EMC <strong>Research</strong></span></a>
+    <nav aria-label="Main navigation"><a href="#preprints">Preprints <span>{{COUNT}}</span></a><a href="#about">About</a></nav>
+  </header>
+  <main>
+    <section class="hero wrap" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span aria-hidden="true"></span> Independent research · Openly shared</p>
+        <h1 id="page-title">A rare cancer.<br>A shared body<br>of <em>research.</em></h1>
+        <p class="intro">Computational research on <strong>extraskeletal myxoid chondrosarcoma (EMC)</strong>—its fusion biology, therapeutic hypotheses and the evidence needed to test them.</p>
+        <a class="browse-link" href="#preprints">Explore the preprints <span aria-hidden="true">↓</span></a>
+      </div>
+      <aside class="collection-note" aria-label="Collection overview">
+        <div class="orbit" aria-hidden="true"><span class="orbit-label">NR4A3</span><i></i><i></i><i></i></div>
+        <div class="collection-stats"><strong>{{COUNT_PADDED}}</strong><span>publicly posted<br>preprints</span></div>
+        <p>Posted versions in one place,<br>with current availability notes.</p>
+        <div class="latest-date"><span>Most recent posting</span><strong>{{LATEST_DATE}}</strong></div>
+      </aside>
+    </section>
+    <section class="publications wrap" id="preprints" aria-labelledby="preprints-title">
+      <div class="section-heading"><div><p class="eyebrow">The collection</p><h2 id="preprints-title">Posted preprints<span>.</span></h2></div><p>Newest posting first<br><span>Links checked <time datetime="{{UPDATED_ISO}}">{{UPDATED}}</time></span></p></div>
+      <div class="paper-grid">{{PAPERS}}</div>
+      <p class="version-note"><span aria-hidden="true">↗</span> Links point to the original venue. We show the latest verified posting, flag any current availability uncertainty, and add ongoing revisions once they are posted and verified.</p>
+    </section>
+    <section class="about wrap" id="about" aria-labelledby="about-title">
+      <div><p class="eyebrow">About the project</p><h2 id="about-title">Better questions.<br>Evidence in the open.</h2></div>
+      <div class="about-copy"><p>EMC Research is an independent computational research project focused on extraskeletal myxoid chondrosarcoma, a rare soft-tissue cancer.</p><p>These papers share analyses, hypotheses and their limits to support further research and collaboration. Computational predictions require experimental validation.</p><p class="byline">Research by <strong>Tristan D. McRae</strong></p></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><span>EMC Research</span><p>Preprints may not yet have been peer reviewed.<br>This collection is for research information, not medical advice.</p><a href="publications.json">Publication data <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>
