@@ -1,0 +1,113 @@
+diff --git a/research/manuscripts/tcip/tcip-induced-interface-preprint.md b/research/manuscripts/tcip/tcip-induced-interface-preprint.md
+index 39ee3a41c..82f9c0c35 100644
+--- a/research/manuscripts/tcip/tcip-induced-interface-preprint.md
++++ b/research/manuscripts/tcip/tcip-induced-interface-preprint.md
+@@ -67,9 +67,11 @@ here is a property of one toolchain and not a measured feature of any field.
+ 
+ We report three things that the retained records support. First, the parameter is named for residues
+ but is compared against a count of scoring probes: the query set holds up to two probes per residue,
+-the CA and the side-chain centroid, and the placement loop increments per probe. A threshold of 12
+-probes can therefore be satisfied by between six and twelve distinct residues, and no single
+-residue-count conversion exists. Second, in a paired enumeration from fixed anchors, changing only
++the CA and the side-chain centroid, and the placement loop increments per probe. Exactly twelve
++contacting probes can therefore come from between six and twelve distinct residues; acceptance at a
++threshold of at least 12 probes requires at least six contributing residues, a condition that is
++necessary but not sufficient, is not an equivalent residue-count rule, and imposes no upper bound of
++twelve residues. No single residue-count conversion exists. Second, in a paired enumeration from fixed anchors, changing only
+ this filter reverses the pooled acceptance ordering of four staged bodies: single-domain bodies
+ accept 583 of 720,000 proposals against 651 of 720,000 for multi-subunit bodies at the committed
+ floor of 12, a ratio of 0.896, while at floor 6 the counts are 6,315 against 5,632 (ratio 1.121) and
+@@ -227,10 +229,14 @@ This is a common-random-number design: the arms share proposals and are not inde
+ The artifact stores marginal Wilson intervals formed from pooled accepted/drawn counts — at floor 12
+ approximately [0.0007466, 0.0008781] for the single-domain pool and [0.0008374, 0.0009763] for the
+ multi-subunit pool — and these overlap. **Neither the overlap nor the intervals test the ratio.** A
+-paired ratio interval requires the joint acceptance counts, and no cross-arm joint counts are
+-retained, so the joint covariance is missing and no design-aware interval can be computed from what
+-exists. The counts are also conditional on heterogeneous fixed anchor strata rather than on
+-biologically sampled units, so a pooled-binomial interval would not quantify uncertainty across
++paired ratio interval for this ablation requires its cross-arm joint acceptance counts; those counts
++were not retained, so the shared-stream covariance cannot be estimated from the held marginals and no
++design-aware interval for the ablation ratio can be computed from what exists. That limitation is a
++property of this shared-proposal ablation. It is not a statement about the separate eight-rung
++enumeration of §4a, which is a different object: its four pooled arms use distinct random streams and
++its marginal cell counts are retained, and for it this paper reports no ratio interval and no
++significance test (SI §S5). The counts are also conditional on heterogeneous fixed anchor strata
++rather than on biologically sampled units, so a pooled-binomial interval would not quantify uncertainty across
+ proteins, target conformations or source structures in any case. The rounded sign change is reported
+ as an observed point-estimate ordering and is not offered as a significance claim.
+ 
+@@ -399,13 +405,27 @@ the CA reused for glycine — and increments per probe. It is also a three-band
+ probe scores as a contact only in the shell between the soft-clash and contact radii; closer than
+ that it is a clash.
+ 
+-The committed value of 12 is therefore **12 probes, which between six and twelve distinct residues
+-could supply**. Six is the minimum number of residues that could supply exactly 12 probes; it is not
+-a maximum, and a threshold on probes does not impose any threshold on residues. The earlier version's
+-reading — "12 points, as few as 6 residues" combined with "a floor of at most 6 residues' worth of
+-probes" and "roughly half either way" — reversed that inequality and is withdrawn. For completeness:
+-the retained 4 distinct residues per side divided by six is 2/3, and divided by twelve is 1/3; there
+-is no single residue conversion, and the paper does not attempt one. A probe count is also not a
++The committed value of 12 is therefore **12 probes**, and **exactly twelve** probes could be
++supplied by between six and twelve distinct residues. Three statements follow, and they are
++distinct.
++
++1. **The residue condition is necessary.** A residue supplies at most two probes, so a placement
++   accepted at a threshold of at least 12 probes must draw those probes from **at least six**
++   contributing residues.
++2. **It is not sufficient, and it is not an equivalent rule.** Six or more contributing residues do
++   not imply 12 scoring probes: a residue scores only for those of its two query points that fall in
++   the contact band, so it may contribute two, one or none. No residue-count threshold reproduces the
++   probe threshold, and the probe rule may not be restated as one.
++3. **There is no upper bound of twelve residues.** Six to twelve is the range of residues that could
++   supply *exactly* twelve probes. Acceptance requires twelve **or more**, so an accepted placement
++   may draw its probes from arbitrarily many residues.
++
++The earlier version's reading — "12 points, as few as 6 residues" combined with "a floor of at most 6
++residues' worth of probes" and "roughly half either way" — reversed that inequality and is withdrawn,
++and so is the assertion that a threshold on probes imposes no threshold at all on residues: it
++imposes the necessary lower bound in statement 1. For completeness: the retained 4 distinct residues
++per side divided by six is 2/3, and divided by twelve is 1/3; there is no single residue conversion,
++and the paper does not attempt one. A probe count is also not a
+ count of interatomic contacts, since a side-chain centroid is a geometric proxy and the same CA
+ position contributes twice for glycine.
+ 
+@@ -496,8 +516,11 @@ requirements.
+    proposal, twelve fixed anchors, one target model and one distance field (§3). They are not
+    volumes, probabilities of binding, or linker-feasibility estimates.
+ 4. **The four-body design identifies no controlling variable** and neither establishes nor refutes an
+-   effect of body size (§4a). Arms share random streams; joint acceptance counts are not retained, so
+-   no design-aware uncertainty for the ratio can be computed.
++   effect of body size (§4a). No ratio interval and no significance test are reported for the
++   eight-rung enumeration, whose four pooled arms use distinct random streams. Separately, in the
++   shared-proposal floor ablation the arms share proposals and no cross-arm joint acceptance counts
++   were retained, so that ablation's shared-stream covariance cannot be estimated and no design-aware
++   interval for its ratio can be computed.
+ 5. **The census is a selected-structure description.** Its entry list was selected, a zero-score
+    filter is applied before induced-pair selection, repeated copies and related complexes are
+    dependent, and the 6-of-15 result is not a population rate.
+@@ -677,6 +700,25 @@ values.
+    evidence, so the table is removed rather than carried into a submitted artifact. The numbers those
+    specifications pointed at are in §4, §5 and the SI tables. The specification table itself remains
+    in repository history at the frozen revision named in item 3.
++5. **2026-09-09 · Four interpretation corrections from the root adjudication of the focused
++   verification (dated 2026-09-08).** No number, table, status or measured result changes.
++   (a) §1, §6 and SI §S2 now state the probe/residue relation as three distinct propositions: at
++   least 12 probes *requires* at least six contributing residues; that condition is *not sufficient*
++   and is not an equivalent residue-count rule; and there is *no upper bound* of twelve residues, the
++   six-to-twelve range being the residues that could supply *exactly* twelve probes. The previous
++   sentence "a threshold on probes does not impose any threshold on residues" was false and is
++   withdrawn. (b) §4, §9 item 4, SI §S1 and SI §S5 now scope the unavailable cross-arm joint
++   acceptance counts, and the shared-stream covariance they would be needed for, to the
++   shared-proposal floor ablation. The eight-rung enumeration is a separate object with distinct
++   streams for its four pooled arms and retained marginal cell counts; for it, this paper reports no
++   ratio interval and no significance test. The former universal phrasing is withdrawn. (c) SI §S1
++   now separates the nominal expected count 24 × 0.05 = 1.20, which follows from linearity of
++   expectation and assumes 5 % noncoverage per comparison against an exact reference, from the
++   separate at-most-two-exclusions rule that labels the family, which was never calibrated as a
++   family-level replication test. The `DISAGREES` status, the 19 inside / 5 outside counts, the draw
++   counts and the illustrative five-to-three diagnostic are unchanged. (d) The publication-graph
++   `PUB-TCIP` current-claim field retires its unqualified modality-general opening; that field is
++   parent-owned and is delivered as an unapplied patch, not edited here.
+ 
+ ## Appendix B · Citation and source provenance for 9MZA
+ 

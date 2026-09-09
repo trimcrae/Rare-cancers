@@ -71,21 +71,16 @@ pooled class at each floor therefore aggregates 720,000 draws over two arms and 
 
 **Random streams, and what they permit.** The ablation reuses `random.Random(777 + pose_index)`
 across arms and across floors: a common-random-number design in which the arms share proposals and
-are **not** independent observations. No cross-arm joint acceptance counts are retained for this
-ablation, so its shared-stream covariance cannot be estimated from the held marginals and **no paired
-interval for the ablation ratio can be computed from the retained records**. That unavailable
-covariance is a property of the shared-proposal ablation, and it is not carried over to the main
-enumeration, which is a different object with its own streams and its own retained counts (below). The stored class Wilson intervals are marginal, formed from pooled accepted/drawn counts,
+are **not** independent observations. No cross-arm joint acceptance counts are retained, so the joint
+covariance is unavailable and **no paired interval for the ratio can be computed from the retained
+records**. The stored class Wilson intervals are marginal, formed from pooled accepted/drawn counts,
 and they quantify neither ratio precision nor uncertainty across proteins, target conformations,
 anchors drawn from a biological population, or source structures; the anchor strata are fixed and
 heterogeneous rather than sampled biological units. The main enumeration uses a different per-cell
 seed, `20260725 + 1000×rung + crc32(arm) % 997 + anchor index`; its truncated salts collide for
 `bcl6` and `vhl`, which share seven anchor streams per rung and 56 across the eight rungs. The four
-pooled arms have distinct streams, so the four-body pooled comparison is unaffected, and the
-enumeration retains its marginal per-cell counts; what this paper reports for that enumeration is no
-ratio interval and no significance test, which is a separate matter from the ablation's unavailable
-shared-stream covariance above. The collisions do mean the 576 cells are not all mutually
-independent. They are a design property, not evidence that
+pooled arms have distinct streams, so the four-body pooled comparison is unaffected; the collisions
+do mean the 576 cells are not all mutually independent. They are a design property, not evidence that
 a retained count is wrong.
 
 **Pooling.** The size contrast pools `single_domain = [birc2, mdm2]` against
@@ -99,24 +94,12 @@ comparability range (§S4).
 per-cell acceptance rates against the previously committed E3 run in
 `nr4a3-orientation-basins.json`. Its `status` field reads **`DISAGREES`**: over 24 compared cells,
 **19** committed rates fall inside the recomputed 95 % interval and **5** fall outside. The artifact
-records **1.20** as the number expected outside by chance at a 95 % level. Two separate things are
-involved, and neither stands in for the other.
-
-*The nominal expected count.* 1.20 is 24 × 0.05. It follows from linearity of expectation, which
-requires neither independent comparisons nor a calibrated family test. What it does assume is that
-each of the 24 comparisons has exactly 5 % noncoverage against an **exact** reference value. That
-assumption does not hold here: the committed rates are themselves Monte Carlo estimates, at 1,000,000
-draws per compared cell against 300,000 for the recomputed ones, so the reference is not exact and
-the per-comparison noncoverage is not 5 %.
-
-*The verdict rule.* Separately, the rule that turns the observed count into a label reads `AGREES`
-when at most `max(1, ceil(1.20)) = 2` of the 24 comparisons fall outside and `DISAGREES` otherwise;
-five fell outside. That at-most-two-exclusions threshold was **not calibrated as a family-level
-replication test**. Its being uncalibrated is a statement about the verdict rule, not about the
-expected count above.
-
-**The status stays `DISAGREES` under its original rule**, and it is reported here verbatim rather
-than under any softer reading.
+records 1.20 as the number expected outside by chance at a 95 % level. That expectation assumes the
+committed rate is an exact reference and treats the 24 pointwise comparisons as one calibrated
+family. Neither holds: the old values are themselves Monte Carlo estimates at 1,000,000 draws per
+compared cell against 300,000 for the new ones, and the comparison was not calibrated as a
+family-level replication test. **The status stays `DISAGREES` under its original rule**, and it is
+reported here verbatim rather than under any softer reading.
 
 The earlier version of this SI added that a level offset between the two runs cancels in every
 within-run ratio reported. **That assurance is withdrawn.** A common additive offset does not cancel
@@ -195,11 +178,9 @@ about how the sampler would score or admit any deposited complex is made anywher
 `load_arm_from_registry` builds them (`query = ca_list + cb_list`, where the second list holds the
 centroid of every non-backbone atom and falls back to CA for glycine).
 
-`min_contact_residues` is compared against a **probe** count despite its name, so **exactly twelve**
-contacting probes can come from between **six and twelve** distinct residues. Acceptance at **at
-least** 12 probes requires at least six contributing residues: that condition is necessary but not
-sufficient, it is not an equivalent residue-count rule, and it imposes no upper bound of twelve
-residues, since an accepted placement scores twelve or more probes. Every row below reports probes and distinct residues separately, and no residue conversion
+`min_contact_residues` is compared against a **probe** count despite its name, so a threshold of 12
+probes can be satisfied by between **six and twelve** distinct residues. Six is the minimum, not a
+maximum. Every row below reports probes and distinct residues separately, and no residue conversion
 is used in any claim.
 
 **The census is one-sided per direction** — one chain's probes are scored against the other chain's
@@ -323,11 +304,8 @@ with `brd4_bd1`; it does not invalidate the arm.
 
 The within-class spread exceeds the between-class contrast at 8 of 8 rungs — up to **1.421×** within
 a class against at most **1.165×** between them — so the pooled contrast is confounded and may not be
-reported as a size law. The CI column reports **marginal** intervals on the class rates and is not a
-test of the ratio: for this enumeration no ratio interval and no significance test are reported. Its
-four pooled arms use distinct random streams and its marginal cell counts are retained; the
-unavailable cross-arm joint acceptance counts, and the shared-stream covariance they would be needed
-for, belong to the separate shared-proposal floor ablation below (§S1). **This design identifies no
+reported as a size law. The CI column reports **marginal** intervals on the class rates; it is not a
+test of the ratio, for which the joint counts are not retained. **This design identifies no
 controlling variable.** With two bodies per class differing in shape, multimeric extent, ligand pivot
 and exit geometry as well as residue count, the observation neither establishes nor refutes a
 contribution of body size, and it does not identify shape or exit-vector geometry as a cause.

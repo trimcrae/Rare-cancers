@@ -1,0 +1,54 @@
+TCIP residual repair (four accepted P2 residues) — ordered execution record
+Worktree: /home/user/Rare-cancers   Branch: claude/confident-bardeen-ji76cd
+Edits made 2026-09-09 UTC (memo dated 2026-09-08; the clock rolled during the batch).
+
+Every command this lane ran is listed. Exit codes are the real $? values, no pipes. Rows 01-03 were
+run after the edits to both manuscripts had settled; rows 04-05 measure the unapplied graph patch.
+Each directory under checks/ holds command.txt, stdout.txt, stderr.txt and exit_code.txt.
+
+01  checks/01-lint_claims-AFTER            exit 0
+    python3 research/manuscripts/lint_claims.py <main> <si>
+    "lint_claims: 0 ERROR, 2 WARN across 2 file(s)". Both WARN are the same pre-existing R4-confirms
+    advisories on "establishes" that the first batch recorded (main lines 116 and 469); this
+    batch introduced no new claim finding.
+
+02  checks/02-lint_style-report-AFTER      exit 0
+    python3 research/manuscripts/lint_style.py --report <main> <si>
+    Report mode, exits 0 by design. Measured now: main 6,224 words, bold 9.6/1000, em-dash 4.0/1000;
+    SI 5,126 words, bold 23.6/1000, em-dash 6.0/1000. First batch measured main 5,943 / 8.9 / 4.2 and
+    SI 4,873 / 24.0 / 6.4.
+
+03  checks/03-lint_style-check-AFTER       exit 1
+    python3 research/manuscripts/lint_style.py <main> <si>
+    FAILS, exactly as it failed on the BEFORE bytes and on the first batch's output: 90 ERROR, all in
+    the repository house register (bold-midsentence, glyph, heading-style, and the SI bold/em-dash
+    density limits). Neither TCIP file is in this linter's TARGETS list, so it is not enforced on them
+    by preflight or CI. First batch AFTER was 82; the added prose in this batch raises it to 90, of
+    which the new findings are bold-midsentence rows on the corrected sentences. NOTHING was weakened
+    to obtain a pass, the TARGETS list was not touched, and this is reported as a failure, not a pass.
+
+04  checks/04-json-parse-patched-graph     exit 0
+    python3 -c "json.load(<patched copy of systems/graph/publications.json>)" -> "parsed OK"
+
+05  checks/05-git-apply-check              exit 0
+    git apply --check patches/0001-PUB-TCIP-retire-modality-general-opening.patch
+    (run through a python subprocess wrapper so the real return code is captured; exit 0)
+
+NOT RUN, deliberately
+    scripts/preflight.sh                  — forbidden by this batch's contract; the parent integrates.
+    git add / git commit / git push        — forbidden by this batch's contract.
+    any sampler, census, geometry, uncertainty, figure or source-retrieval run — forbidden.
+    repo-wide lint_citations.py / lint_consistency.py — the first batch already recorded their real
+      repo-wide failures (exit 1 each, both pre-existing and unattributable to TCIP). This batch
+      changes no identifier, citation or pinned figure, so they were not re-run and are therefore NOT
+      reported as passing.
+    lint_readability.py, lint_asymmetry.py, the repository test suite — outside the finite relevant
+      set for this change; not run, and not reported as passing.
+
+FILES TOUCHED BY THIS LANE
+    research/manuscripts/tcip/tcip-induced-interface-preprint.md      (edited)
+    research/manuscripts/tcip/tcip-induced-interface-preprint-si.md   (edited)
+    research/autonomy/opus-capacity-campaign-20260908/paper-lane/TCIP-repair-2/**  (new)
+    systems/graph/publications.json — NOT edited; unapplied patch only.
+    (Two research/manuscripts/methods-record/* files show as modified in the worktree. They belong to
+    another running lane and were not read or written by this lane.)
