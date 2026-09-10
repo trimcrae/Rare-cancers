@@ -1,0 +1,82 @@
+{
+  "paper": "PUB-SURFACE-TARGETS",
+  "commit": "4d636d489e6480de1650b4f3ae725a1b0cd14751",
+  "venue": "research_square",
+  "act": "submit",
+  "clauses": [
+    {
+      "clause": "hardening_converged",
+      "label": "hardening converged (no blockers on this commit; P1s reported)",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "round 2 on 4d636d489e64: 0 blockers across 1 blind seat(s), 0 open P1s, and no earlier round on record fielded more (2 earlier round(s) with seat records, widest 1)"
+    },
+    {
+      "clause": "preflight_full_green",
+      "label": "PREFLIGHT_FULL=1 green on the posted commit",
+      "verdict": "UNVERIFIABLE",
+      "ok": false,
+      "evidence": "absent: research\\autonomy\\preflight-receipts\\4d636d489e6480de1650b4f3ae725a1b0cd14751.json \u2014 run PREFLIGHT_FULL=1 and record its exit code"
+    },
+    {
+      "clause": "claim_ceiling_honoured",
+      "label": "claim strength within the endpoint's ceiling",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "lint_claims clean over research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md at 4d636d489e64"
+    },
+    {
+      "clause": "identifiers_resolvable",
+      "label": "every identifier traces to a fetch or the ledger",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "lint_citations clean corpus-wide at 4d636d489e64, covering research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    },
+    {
+      "clause": "endpoint_declared",
+      "label": "the endpoint is a declared falsifiable claim",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "PUB-SURFACE-TARGETS claims: A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-m..."
+    },
+    {
+      "clause": "independent_adversarial_seat",
+      "label": "a blind adversarial seat finds the claim supported",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "blind seat on 4d636d489e64: supported, bound to research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    },
+    {
+      "clause": "readable_enough_to_review",
+      "label": "the outgoing text is readable and keeps its caution",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md: no sentence over 60w (longest 46w, mean 14.6w, FKGL 14.4), caution 12.0/1000w (no baseline pinned). \u26a0 This says nothing about whether the prose is CLEAR."
+    },
+    {
+      "clause": "deliverable_is_buildable",
+      "label": "the deliverable has a registered renderer",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "build_submission_pdf.PAPERS builds 'surface-targets/emc-tissue-rna-prioritization.md' at 4d636d489e64"
+    }
+  ],
+  "authority": {
+    "ok": false,
+    "why": "venue 'research_square' was never granted \u2014 the grant is aiXiv only"
+  },
+  "may_post": false,
+  "n_passed": 7,
+  "n_clauses": 8,
+  "_fail_closed": "UNVERIFIABLE and FAIL both block. They differ only in what to do next: go get the evidence, or stop. Neither is ever treated as a pass.",
+  "measured_utc": "2026-09-10T02:16:34.575373+00:00",
+  "publish_bar_sha256": "66eba69ddcd5436bf0a76dcdbfbb7eaff83f43ace6cf8a870a83accc24805c23",
+  "deliverable_digest_code_sha256": "f9c6413d40b232baa6c9be3fd72acb0415c1198730035de9e92f35b62e7c772e",
+  "locally_decidable_clauses_pass": true,
+  "authority_scope_note": "The code has only a historic aiXiv grant. Its Research Square authority result is retained unmodified; the coordinator holds a separate explicit user Research Square release contract. This record alone never authorizes submission.",
+  "binding": {
+    "actual_reviewed_commit": "ad89e6cdfc048a4476cee44a217984df312cbe95",
+    "reviewed_digest": "1dc146d1b08fc89682284ca57ebcad44707ed39a7146d84aa68ab24ca4abeea1",
+    "candidate_digest": "1dc146d1b08fc89682284ca57ebcad44707ed39a7146d84aa68ab24ca4abeea1"
+  }
+}
