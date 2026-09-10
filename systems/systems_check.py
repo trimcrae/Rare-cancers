@@ -1502,7 +1502,7 @@ def _effective_frontmatter(text, rel):
     if err:
         return source, err
     full = os.path.join(REPO, rel)
-    sidecar = full + ".metadata.json"
+    sidecar = os.path.join(REPO, "systems", "document-metadata", rel + ".json")
     if not os.path.exists(sidecar):
         return source, None
     try:
