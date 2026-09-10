@@ -40,7 +40,7 @@ last_verified: 2026-08-06
 | **PUB-SURFACE-TARGETS**<br/>[CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depe…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◉ `posted_preprint` | `journal_submission` | 6 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ATR-PANEL-ASK**<br/>[Reading-frame constraints and retained RG content in NR4A3 fusion model…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-ATR-PANEL-ASK**<br/>[Reading-frame constraints and retained RG content in NR4A3 fusion model…](../../research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
@@ -135,7 +135,7 @@ A replication-stress vulnerability can be assessed for EMC by inheritance from i
 
 ### PUB-ATR-PANEL-ASK — Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/dependency/emc-atr-collaborator-package.md`](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) · ships with **PUB-ATR****
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md`](../../research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md) · ships with **PUB-ATR****
 
 Reference-transcript models of sourced NR4A3 exon junctions yield auditable reading-frame and retained-RG descriptions, conditional on the assumed transcript-exon mapping, and specify five untested DSB-recruitment predictions; they do not establish an EMC DNA-repair defect or ATR-inhibitor response.
 

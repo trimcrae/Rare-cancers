@@ -1,0 +1,13 @@
+{
+  "actual_invocation": "python research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/verify_study_scope.py",
+  "repository": "C:/Users/mcrae/.codex/worktrees/emc-atr-cancer-genetics-20260910/EMC-Research",
+  "python": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+  "exit_code": 0,
+  "stdout": ["ORIGINAL STUDY SCOPE REPRODUCES; all artifact fields compared; excluded models: ['PGR']", "REPRODUCES", "PROVENANCE MATCHES"],
+  "negative_control": "Changed first EWSR1 cDNA nucleotide in memory; scoped input validation raised Study input drift: EWSR1. No on-disk input changed.",
+  "scope": ["EWSR1", "TAF15", "FUS", "TCF12", "TFG", "NR4A3"],
+  "original_code_modified": false,
+  "original_inputs_modified": false,
+  "scientific_artifacts_modified": false,
+  "important_distinction": "This is an explicit original-model-scope wrapper, not a claim that the original unscoped construct --check succeeds. The original reviewer observed that command exit1 for PGR-only metadata drift. Figure checker is explicitly directed to this package's frozen provenance record."
+}

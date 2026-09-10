@@ -1,0 +1,227 @@
+1 
+Supplementary information  
+Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid 
+chondrosarcoma 
+These tables retain the submitted Research Square v3 scientific content. References use the numbering in the 
+main article. 
+Supplementary tables 
+Three supplementary tables are proposed. S1 and S2 carry content moved from the main text without change. 
+S3 is new to this revision and is assembled from one committed artifact; it introduces no construct that the 
+artifact does not already hold. 
+Supplementary Table S1. Reference gene models, from the UniProt and Ensembl records retrieved into the 
+input cache [8]. Transcript accessions are the ones the cache holds; the cache records its retrieval as 2026-08-
+12. No assembly, release or version suffix is given, because none is recorded. 
+gene transcript protein transcript / coding 
+exons 
+Ensembl matches 
+UniProt 
+EWSR1 ENST00000397938 656 aa 17 / 17 yes 
+TAF15 ENST00000605844 592 aa 16 / 16 yes 
+FUS ENST00000254108 526 aa 15 / 15 yes 
+NR4A3 ENST00000395097 626 aa 8 / 6, exons 1-2 non-
+coding 
+yes 
+TCF12 ENST00000333725 706 aa 21 / 19 no; UniProt Q99081 is 
+682 aa 
+ 
+Supplementary Table S2. Wild-type controls and their predictions. Full-length sequences are in the artifact 
+under wild_type_controls. 
+control role prediction 
+GFP-EWSR1, full length fast-recruitment anchor, already held by 
+any laboratory running the assay 
+rapid recruitment, as published. Failure to 
+reproduce it makes nothing else in the run 
+interpretable 
+GFP-TAF15, full length wild-type anchor for the TAF15::NR4A3 
+arm 
+rapid recruitment, as TAF15 carries its 
+own C-terminal RGG region. Not 
+previously reported in this assay, so a 
+prediction rather than a reproduction 
+2 
+control role prediction 
+GFP-NR4A3, full length partner-alone control, the EMC analogue 
+of reference 1's GFP-FLI1 control 
+no accumulation. Recruitment of NR4A3 
+alone would show that the partner reaches 
+breaks on its own; it would not by itself 
+remove a FET contribution in the fusion, 
+which a partner-alone control cannot 
+isolate 
+GFP-TCF12, full length non-FET partner-alone control no accumulation, TCF12 being non-FET 
+by section 3.5. It is not a TCF12::NR4A3 
+construct and does not test P5, which 
+stays untested without one 
+ 
+Supplementary Table S3. Per-junction assembly coordinates for each reported junction with a sourced 
+transcript-level breakpoint. Every cell is a verbatim copy of a recorded leaf of emc-fet-construct-designs.json 
+(sha256 726aae02ae38b41c34d4398363e3581cfc9e4602d0fe9d65906a4fba79c2048b), a fixed column label, or 
+UNRESOLVED. No value in this table was derived, inferred, rounded or interpolated, and no new construct is 
+proposed by it. 
+Field EWSR1_NR4A3_type
+1 
+EWSR1_NR4A3_type
+2 
+EWSR1_NR4A3_type
+5 
+TAF15_NR4A3 
+Junction (label) EWSR1::NR4A3 type 1 
+— EWSR1 exon 12 :: 
+NR4A3 exon 3 
+EWSR1::NR4A3 type 2 
+— EWSR1 exon 7 :: 
+NR4A3 exon 2 
+EWSR1::NR4A3 type 5 
+— EWSR1 exon 13 :: 
+NR4A3 exon 3 
+TAF15::NR4A3 — 
+TAF15 exon 6 :: 
+NR4A3 exon 3 
+Reported rank — 
+LEGACY SOURCE 
+DESCRIPTION, not a 
+counted frequency (see 
+note) 
+the commonest reported 
+EWSR1::NR4A3 
+transcript type 
+the second reported 
+EWSR1::NR4A3 
+transcript type 
+a minority reported 
+type 
+the only reported 
+TAF15::NR4A3 coding 
+junction 
+5' transcript ENST00000397938 ENST00000397938 ENST00000397938 ENST00000605844 
+5' last exon retained 
+(transcript rank) 
+12 7 13 6 
+3' transcript ENST00000395097 ENST00000395097 ENST00000395097 ENST00000395097 
+3' first exon retained 
+(transcript rank) 
+3 2 3 3 
+CUT — 5' cDNA nt 
+retained 
+1363 862 1486 570 
+CUT — 5' coding nt 
+retained 
+1294 793 1417 484 
+5' UTR length (nt) 69 69 69 86 
+CUT — 3' cDNA 
+resume offset (0-based) 
+697 523 697 697 
+3' UTR nt read through 2 176 2 2 
+Assembled cDNA 
+length (nt) 
+6270 5943 6393 5477 
+ORF length (nt) 3174 2847 3297 2364 
+3 
+Field EWSR1_NR4A3_type
+1 
+EWSR1_NR4A3_type
+2 
+EWSR1_NR4A3_type
+5 
+TAF15_NR4A3 
+ORF length (aa) 1058 949 1099 788 
+5' residues fully 
+encoded 
+431 264 472 161 
+Codon split across 
+junction 
+yes yes yes yes 
+Seam residue index (1-
+based) 
+432 265 473 162 
+Junction context (aa) TAKAAVEWFD|DMP
+CVQAQYS 
+SQQSSSYGQQ|KPTA
+EEGSPA 
+GRGMPPPLRG|DMP
+CVQAQYS 
+QRENYSHHTQ|DMP
+CVQAQYS 
+Junction context (nt) AATGGTTTGATG|AT
+ATGCCCTGCG 
+ACGGGCAGCAGA|A
+GCCCACTGCGG 
+CACTCCGTGGAG|A
+TATGCCCTGCG 
+ACCACACACAAG|A
+TATGCCCTGCG 
+Extra junction-encoded 
+residues 
+1 59 1 1 
+In frame (self-check) yes yes yes yes 
+5' start matches partner 
+(self-check) 
+yes yes yes yes 
+3' C-terminus intact 
+(self-check) 
+yes yes yes yes 
+CUT — genomic 
+breakpoint coordinates 
+UNRESOLVED UNRESOLVED UNRESOLVED UNRESOLVED 
+ 
+Supplementary Table S3, continued. Reported fusions with no sourced transcript-level junction. 
+Fusion Every assembly field Recorded status 
+FUS::NR4A3 UNRESOLVED NO transcript-level junction sourced in 
+this repo's literature cache 
+TCF12::NR4A3 UNRESOLVED GENOMIC breakpoint only — reported 
+as TCF12 intron 5, not as an mRNA exon 
+junction, and TCF12 has several 
+alternatively-spliced isoforms 
+ 
+Note on the "Reported rank" row. Its four cells are verbatim leaves of the artifact and are retained unchanged, 
+with their provenance, but they are a legacy source description of how each junction was characterised, not a 
+frequency counted in this work. Table 1 carries the corrected frequency evidence, with each count attached to 
+the series it comes from; where the two differ, Table 1 governs. No artifact value was modified to add this 
+label. 
+Genomic breakpoint coordinates are UNRESOLVED for all four junctions because the input carries transcript and 
+cDNA coordinates only; they are not back-derived from exon ranks. FUS::NR4A3 and TCF12::NR4A3 appear 
+in no column because the input records no transcript-level junction for either — TCF12 is reported at genomic 
+4 
+resolution only, in intron 5, and TCF12 has several alternatively spliced isoforms. That is a limit of the 
+sourcing and not evidence about the fusions. 
+References 
+1. Gracilla DE, Menon S, Breese MR, Lin YP, Dela Cruz FS, Feinberg TY, et al. FET Fusion Oncoproteins 
+Disrupt Physiologic DNA Repair and Create a Targetable Opportunity for ATR Inhibitor Therapy. Cancer 
+Research 2026;86:2660-2677. PMID 41811428. PMC13223543. doi 10.1158/0008-5472.can-25-2166. 
+2. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From 
+pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. J 
+Cancer Res Clin Oncol 2025;151(11):283. PMID 41055792. PMC12504171. doi 10.1007/s00432-025-06316-
+5. 
+3. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins 
+trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated 
+extraskeletal myxoid chondrosarcomas. J Pathol 2019;249(1):90-101. PMID 31020999. PMC6766969. doi 
+10.1002/path.5284. 
+4. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue 
+sarcomas. Genet Res Int 2011;2011:497148. PMID 22567356. PMC3335514. doi 10.4061/2011/497148. 
+Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted 
+in section 3.1. 
+5. Cerrone M, Cantile M, Collina F, Marra L, Liguori G, Franco R, et al. Molecular strategies for detecting 
+chromosomal translocations in soft tissue tumors (review). Int J Mol Med 2014;33(6):1379-1391. PMID 
+24714847. PMC4055444. doi 10.3892/ijmm.2014.1726. Source of the type 5 definition, the second TAF15 
+exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1. 
+6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-
+EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. Hum Pathol 
+2014;45(5):1084-1091. PMID 24746215. PMC4015728. doi 10.1016/j.humpath.2014.01.007. 
+7. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, et al. Molecular genetic 
+characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma. 
+Genes Chromosomes Cancer 2002;35(4):340-352. PMID 12378528. doi 10.1002/gcc.10127. Counted series. 
+The quotation retained in the frame-and-composition artifact gives counts without a denominator: type 1 in 10 
+tumours, the most frequent transcript, and type 5 in two cases, the second most common. The denominator of 
+15 EWS/NR4A3 cases is recorded in this repository's editorial note on this reference, not in that quotation. 
+5 
+8. UniProt and Ensembl reference records for EWSR1 (ENST00000397938), NR4A3 (ENST00000395097), 
+TAF15, FUS and TCF12 (UniProt Q99081), as retrieved into the input cache in section 7. 
+9. Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto H. Extraskeletal myxoid 
+chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular analysis of 18 cases. Hum Pathol 
+2001;32(10):1116-1124. PMID 11679947. doi 10.1053/hupa.2001.28226. Counted series: fusion transcripts 
+detected in 15 of 18 cases, EWS-CHN type 1 in 11, type 2 in 1 and TAF2N-CHN in 3. 
+10. Sjögren H, Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, Kindblom LG, Stenman G. 
+Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma - cytogenetic, molecular 
+genetic, and cDNA microarray analyses. Am J Pathol 2003;162(3):781-792. PMID 12598313. PMC1868116. 
+Counted series, by partner gene rather than by EWSR1 subtype: EWS-TEC five cases, TAF2N-TEC four, 
+TCF12-TEC one, of ten tumours. 
