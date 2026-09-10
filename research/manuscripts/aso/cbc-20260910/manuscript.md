@@ -12,17 +12,17 @@ audience: [external reviewers, maintainers]
 
 # Computational design and parent transcript liabilities of NR4A3 fusion junction gapmers in extraskeletal myxoid chondrosarcoma
 
-Author. Tristan D. McRae
+**Author.** Tristan D. McRae
 
 Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com ORCID: 0000-0002-1823-1451
 
-Running title. Parent pairing in NR4A3 junction gapmer designs
+**Running title.** Parent pairing in NR4A3 junction gapmer designs
 
 ## Abstract
 
 Fusion-junction antisense gapmers could discriminate oncogenic transcripts from their normal parents, but partial parent pairing may escape conventional near-match screens. We computationally designed and screened 190 junction-spanning 16-mers across 38 in-frame NR4A3 fusion junctions in extraskeletal myxoid chondrosarcoma. Five sequence screens examined mature transcripts, exhaustive transcript substitutions, unspliced parents, contiguous mature-parent pairing through the DNA gap, and the genome. At an adopted ten-base-pair full-gap criterion, 87 of 190 designs (45.8%) paired a mature wild-type parent; the longest duplex involved NR4A3 for 61 designs. Exon-terminus chimeras met the same criterion at 40.6%, leaving a disease-specific excess unresolved. Within-junction selection found a parent-clear design for 35 of 38 junctions at this criterion, with substantial sensitivity to the chosen cutoff. Two designs at reported junctions had longest full-gap parent duplexes of eight and nine base pairs. The ten-base-pair criterion is a convention, not a measured cleavage threshold. Patient-derived cell-model junctions remain unresolved relative to these designs. The released sequence records and screening outputs support reproducible computational prioritization and expose parent-transcript liabilities, but establish no cleavage, potency, delivery, safety or therapeutic window. No laboratory work was performed.
 
-Keywords. antisense oligonucleotide; gapmer; RNase-H1; fusion transcript; NR4A3; extraskeletal myxoid chondrosarcoma; off-target screening
+**Keywords.** antisense oligonucleotide; gapmer; RNase-H1; fusion transcript; NR4A3; extraskeletal myxoid chondrosarcoma; off-target screening
 
 ## 1 Introduction
 
